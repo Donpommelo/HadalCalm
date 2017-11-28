@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -17,6 +19,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class HadalGame extends ApplicationAdapter {
 	
 	private boolean DEBUG = true;
+	private final float SCALE = 2.0f;
 	
 	private OrthographicCamera camera;
 	
@@ -24,42 +27,52 @@ public class HadalGame extends ApplicationAdapter {
 	private World world;
 	private Body player, platform;
 	
+	private SpriteBatch batch;
+	private Texture tex;
+	
 	@Override
-	public void create () {
+	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, w / 2, h / 2);
+		camera.setToOrtho(false, w / SCALE, h / SCALE);
 		
 		world = new World(new Vector2(0, -9.81f), false);
 		b2dr = new Box2DDebugRenderer();
 		
-		player = createBox(0, 10, 32, 32, false);
-		
+		player = createBox(8, 10, 32, 32, false);
 		platform = createBox(0, 0, 64, 32, true);
+		
+		batch = new SpriteBatch();
+		tex = new Texture("test/dummy_side_mirror.gif");
 		
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		update(Gdx.graphics.getDeltaTime());
 		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		batch.begin();
+		batch.draw(tex, player.getPosition().x * PPM - (tex.getWidth() / 2) , player.getPosition().y * PPM - (tex.getHeight() / 2));
+		batch.end();
+		
 		b2dr.render(world, camera.combined.scl(PPM));
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { Gdx.app.exit(); }
 	}
 	
 	@Override
-	public void resize(int width, int height) {
-		camera.setToOrtho(false, width / 2, height / 2);
-	}
+	public void resize (int width, int height) {	camera.setToOrtho(false, width / SCALE, height / SCALE); }
 	
 	@Override
 	public void dispose () {
 		world.dispose();
 		b2dr.dispose();
+		tex.dispose();
 	}
 	
 	private void update(float deltaTime) {
@@ -68,6 +81,8 @@ public class HadalGame extends ApplicationAdapter {
 		inputUpdate(deltaTime);
 		
 		cameraUpdate(deltaTime);
+		
+		batch.setProjectionMatrix(camera.combined);
 	}
 	
 	public void inputUpdate(float deltaTime) {
