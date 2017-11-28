@@ -13,6 +13,7 @@ public class HadalGame extends ApplicationAdapter {
 	
 	public static int CONFIG_WIDTH;
 	public static int CONFIG_HEIGHT;
+	//testestestests
 	
 	Texture img;
 	
