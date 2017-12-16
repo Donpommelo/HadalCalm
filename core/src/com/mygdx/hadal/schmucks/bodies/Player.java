@@ -2,34 +2,34 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.MoveStates;
-import com.mygdx.hadal.schmucks.userdata.PlayerSchmuck;
-import com.mygdx.hadal.schmucks.userdata.FeetSchmuck;
-import com.mygdx.hadal.schmucks.userdata.HadalSchmuck;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.schmucks.userdata.FeetData;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
-import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 
-public class Player{
+public class Player extends Schmuck {
 
-	private Body body;
-	private PointLight light;
 	private MoveStates moveState;
 	
+	//Fixtures and user data
 	private Fixture arm, feet;
-	private HadalSchmuck armData, feetData;
-	private PlayerSchmuck bodyData;
+	private HadalData armData, feetData;
 	
 	private PolygonShape pShape;
 	private FixtureDef fixtureDef;
@@ -43,10 +43,18 @@ public class Player{
 	
 	private int fastFallCd = 15;
 	private int fastFallCdCount = 0;
+	
+	private int airblastCd = 15;
+	private int airblastCdCount = 0;
+	
+	private int shootCdCount = 0;
 		
-	public Player(World world, RayHandler rays) {
+	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays) {
+		super(state, world, camera, rays);
+		
 		this.body = BodyBuilder.createBox(world, 300, 300, playerWidth, playerHeight, false, true, Constants.BIT_PLAYER, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) 0.1f);
+				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
+				Constants.PLAYER_HITBOX);
 				
 		this.fixtureDef = new FixtureDef();
 		PolygonShape pShape = new PolygonShape();
@@ -55,15 +63,19 @@ public class Player{
 		fixtureDef.isSensor = true;
 		fixtureDef.filter.categoryBits = Constants.BIT_SENSOR;
         fixtureDef.filter.maskBits = Constants.BIT_WALL;
+        fixtureDef.filter.groupIndex = Constants.PLAYER_HITBOX;
         
 		this.feet = this.body.createFixture(fixtureDef);
 		
-		
-		this.bodyData = new PlayerSchmuck(world);
-		this.feetData = new FeetSchmuck(world);
+		this.bodyData = new BodyData(world, this);
+		this.feetData = new FeetData(world);
 		
 		feet.setUserData(feetData);
-		body.setUserData(bodyData);
+		body.getFixtureList().get(0).setUserData(bodyData);
+	}
+	
+	public void create() {
+		
 	}
 	
 	public void controller(float delta) {
@@ -131,7 +143,25 @@ public class Player{
 		
 		if(Gdx.input.isKeyJustPressed((Input.Keys.SPACE))) {
 			//save momentum
-		}		
+		}
+		
+		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+			if (shootCdCount < 0) {
+				shootCdCount = bodyData.currentTool.useCd;
+				bodyData.currentTool.mouseClicked(state, bodyData, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), world, camera, rays);
+			}
+
+		}
+		
+		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+			if (airblastCdCount < 0) {
+				if (bodyData.currentFuel >= bodyData.airblastCost) {
+					bodyData.currentFuel -= bodyData.airblastCost;
+					airblastCdCount = airblastCd;
+					airblast(Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
+				}
+			}
+		}
 		
 		Vector2 currentVel = body.getLinearVelocity();
 		float desiredXVel = 0.0f;
@@ -162,16 +192,31 @@ public class Player{
 //		float impulse = body.getMass() * velChange;
 //		body.applyLinearImpulse(new Vector2(impulse, 0), body.getWorldCenter(), true);
 		
-		jumpCdCount--;
-		fastFallCdCount--;
-		
 		if (bodyData.currentFuel + bodyData.fuelRegen > bodyData.maxFuel) {
 			bodyData.currentFuel = bodyData.maxFuel;
 		} else {
 			bodyData.currentFuel += bodyData.fuelRegen;
 		}
+		
+		jumpCdCount--;
+		fastFallCdCount--;
+		airblastCdCount--;
+		shootCdCount--;
 	}
 	
+	private void airblast(int x, int y) {
+		
+		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
+		camera.project(bodyScreenPosition);
+		
+		float powerDiv = bodyScreenPosition.dst(x, y, 0) / bodyData.airblastPow;
+		
+		float xImpulse = (bodyScreenPosition.x - x) / powerDiv;
+		float yImpulse = (bodyScreenPosition.y - y) / powerDiv;
+		
+		body.applyLinearImpulse(new Vector2(xImpulse, yImpulse), body.getWorldCenter(), true);
+	}
+
 	public void jump(float impulse) {
 		body.applyLinearImpulse(new Vector2(0, impulse), body.getWorldCenter(), true);
 	}
@@ -185,14 +230,8 @@ public class Player{
 	}
 	
 	public void dispose() {
-		
+		super.dispose();
 	}
 	
-	public Vector2 getPosition() {
-        return body.getPosition();
-    }
 	
-	public PlayerSchmuck getPlayerData() {
-		return bodyData;
-	}
 }

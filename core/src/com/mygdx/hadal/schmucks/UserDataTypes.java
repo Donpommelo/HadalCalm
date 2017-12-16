@@ -2,5 +2,8 @@ package com.mygdx.hadal.schmucks;
 
 public enum UserDataTypes {
 	FEET,
-	BODY
+	BODY,
+	PROJECTILE,
+	PICKUP,
+	EVENT
 }

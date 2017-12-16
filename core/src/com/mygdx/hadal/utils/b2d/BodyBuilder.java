@@ -24,7 +24,6 @@ public class BodyBuilder {
         def.position.set(x / PPM, y / PPM);
         def.fixedRotation = fixedRotation;
         pBody = world.createBody(def);
-        pBody.setUserData("wall");
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / PPM, height / 2 / PPM);
@@ -33,7 +32,7 @@ public class BodyBuilder {
         fd.shape = shape;
         fd.density = 1.0f;
         fd.filter.categoryBits = Constants.BIT_WALL;
-        fd.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR;
+        fd.filter.maskBits = Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE;
         fd.filter.groupIndex = 0;
         pBody.createFixture(fd);
         shape.dispose();

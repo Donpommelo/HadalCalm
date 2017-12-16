@@ -3,9 +3,9 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 
-public class FeetSchmuck extends HadalSchmuck{
+public class FeetData extends HadalData{
 
-	public FeetSchmuck(World world) {
+	public FeetData(World world) {
 		super(world, UserDataTypes.BODY);
 	}
 
