@@ -13,4 +13,5 @@ public class Constants {
 
     public static final short PLAYER_HITBOX = -1;
     public static final short ENEMY_HITBOX = -2;
+    
 }

@@ -6,7 +6,7 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Projectile;
 import com.mygdx.hadal.states.PlayState;
 
-public class ProjectileData extends HadalData{
+public class ProjectileData extends HadalData {
 
 	public PlayState state;
 	public Projectile proj;
@@ -24,7 +24,7 @@ public class ProjectileData extends HadalData{
 	}
 	
 	public void onHit(HadalData fixB) {
-		state.destroy(proj);
+		proj.queueDeletion();
 	}
 
 }

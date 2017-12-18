@@ -28,7 +28,6 @@ import box2dLight.RayHandler;
 public class PlayState extends GameState{
 	
 	private Player player;
-	private Enemy enemy;
 	
 	private TiledMap map;
 	OrthogonalTiledMapRenderer tmr;
@@ -59,19 +58,17 @@ public class PlayState extends GameState{
         
 		b2dr = new Box2DDebugRenderer();
 		
-		player = new Player(this, world, camera, rays);
-		enemy = new Enemy(this, world, camera, rays, 64, 64);
-		
-		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
-		tmr = new OrthogonalTiledMapRenderer(map);
-		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
-		
 		removeList = new HashSet<Schmuck>();
 		createList = new HashSet<Schmuck>();
 		schmucks = new HashSet<Schmuck>();
 		
-		schmucks.add(player);
-		schmucks.add(enemy);
+		player = new Player(this, world, camera, rays);
+		
+		new Enemy(this, world, camera, rays, 64, 64);
+		
+		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
+		tmr = new OrthogonalTiledMapRenderer(map);
+		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
 	}
 
 	@Override
@@ -79,11 +76,13 @@ public class PlayState extends GameState{
 		world.step(1 / 60f, 6, 2);
 		
 		for (Schmuck schmuck : removeList) {
+			schmucks.remove(schmuck);
 			schmuck.dispose();
 		}
 		removeList.clear();
 		
 		for (Schmuck schmuck : createList) {
+			schmucks.add(schmuck);
 			schmuck.create();
 		}
 		createList.clear();
@@ -122,7 +121,12 @@ public class PlayState extends GameState{
 		
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
-		font.draw(batch, "Fuel: " + player.getPlayerData().currentFuel, 100, 150);
+		
+		if (player.getPlayerData() != null) {
+			font.draw(batch, "Fuel: " + player.getPlayerData().currentFuel, 100, 150);
+			font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 120);
+		}
+		
 		batch.end();
 		
 	}	
@@ -143,6 +147,10 @@ public class PlayState extends GameState{
 		world.dispose();
 		tmr.dispose();
 		map.dispose();
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 	
 }
