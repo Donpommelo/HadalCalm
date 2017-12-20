@@ -15,11 +15,14 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.event.AirBubble;
+import com.mygdx.hadal.event.Currents;
+import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -39,10 +42,10 @@ public class PlayState extends GameState{
 	private Box2DDebugRenderer b2dr;
 	private World world;
 	
-	private Set<Schmuck> removeList;
-	private Set<Schmuck> createList;
+	private Set<HadalEntity> removeList;
+	private Set<HadalEntity> createList;
 		
-	private Set<Schmuck> schmucks;
+	private Set<HadalEntity> schmucks;
 	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -58,13 +61,17 @@ public class PlayState extends GameState{
         
 		b2dr = new Box2DDebugRenderer();
 		
-		removeList = new HashSet<Schmuck>();
-		createList = new HashSet<Schmuck>();
-		schmucks = new HashSet<Schmuck>();
+		removeList = new HashSet<HadalEntity>();
+		createList = new HashSet<HadalEntity>();
+		schmucks = new HashSet<HadalEntity>();
 		
-		player = new Player(this, world, camera, rays);
+		player = new Player(this, world, camera, rays, 300, 300);
 		
-		new Enemy(this, world, camera, rays, 64, 64);
+		new Enemy(this, world, camera, rays, 16, 32, 500, 300);
+		
+		new AirBubble(this, world, camera, rays, 500, 300);
+		new Spring(this, world, camera, rays,  64, 16, 540, 125, new Vector2(0, 500));
+		new Currents(this, world, camera, rays,  200, 400, 700, 200, new Vector2(30, 10));
 		
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);
@@ -75,19 +82,19 @@ public class PlayState extends GameState{
 	public void update(float delta) {
 		world.step(1 / 60f, 6, 2);
 		
-		for (Schmuck schmuck : removeList) {
+		for (HadalEntity schmuck : removeList) {
 			schmucks.remove(schmuck);
 			schmuck.dispose();
 		}
 		removeList.clear();
 		
-		for (Schmuck schmuck : createList) {
+		for (HadalEntity schmuck : createList) {
 			schmucks.add(schmuck);
 			schmuck.create();
 		}
 		createList.clear();
 		
-		for (Schmuck schmuck : schmucks) {
+		for (HadalEntity schmuck : schmucks) {
 			schmuck.controller(delta);
 		}
 		
@@ -97,11 +104,11 @@ public class PlayState extends GameState{
 //		rays.setCombinedMatrix(camera.combined.cpy().scl(PPM));
 	}
 	
-	public void destroy(Schmuck body) {
+	public void destroy(HadalEntity body) {
 		removeList.add(body);
 	}
 	
-	public void create(Schmuck body) {
+	public void create(HadalEntity body) {
 		createList.add(body);
 	}
 
@@ -115,7 +122,7 @@ public class PlayState extends GameState{
 		b2dr.render(world, camera.combined.scl(PPM));
 
 		rays.updateAndRender();
-		for (Schmuck schmuck : schmucks) {
+		for (HadalEntity schmuck : schmucks) {
 			schmuck.render(batch);
 		}
 		
@@ -140,7 +147,7 @@ public class PlayState extends GameState{
 	public void dispose() {
 		b2dr.dispose();
 		
-		for (Schmuck schmuck : schmucks) {
+		for (HadalEntity schmuck : schmucks) {
 			schmuck.dispose();
 		}
 		

@@ -2,14 +2,18 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 
 public class HadalData {
 
 	private int numContacts;
 	private UserDataTypes type;
 	
-	public HadalData(World world, UserDataTypes type) {
+	private HadalEntity entity;
+	
+	public HadalData(World world, UserDataTypes type, HadalEntity entity) {
 		this.type = type;
+		this.entity = entity;
 		this.numContacts = 0;
 	}
 
@@ -23,6 +27,10 @@ public class HadalData {
 
 	public UserDataTypes getType() {
 		return type;
+	}
+	
+	public HadalEntity getEntity() {
+		return entity;
 	}
 	
 }

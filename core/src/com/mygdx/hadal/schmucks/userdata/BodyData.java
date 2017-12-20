@@ -1,12 +1,14 @@
 package com.mygdx.hadal.schmucks.userdata;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
 public class BodyData extends HadalData {
 
-	private Schmuck body;
+	public Schmuck schmuck;
 	
 	//Speed on ground
 	public float maxGroundXSpeed = 15.0f;
@@ -31,23 +33,24 @@ public class BodyData extends HadalData {
 	public float currentHp = 100;
 	public float hpRegen = 0.0f;
 	
-	public BodyData(World world, Schmuck body) {
-		super(world, UserDataTypes.BODY);
-		this.body = body;		
+	public BodyData(World world, Schmuck schmuck) {
+		super(world, UserDataTypes.BODY, schmuck);
+		this.schmuck = schmuck;		
 	}	
 	
-	public void receiveDamage(float basedamage) {
+	public void receiveDamage(float basedamage, Vector2 knockback) {
 		currentHp -= basedamage;
+		schmuck.body.applyLinearImpulse(knockback, schmuck.body.getLocalCenter(), true);
 		if (currentHp <= 0) {
 			die();
 		}
 	}
 	
 	public void die() {
-		body.queueDeletion();
+		schmuck.queueDeletion();
 	}
 
-	public Schmuck getBody() {
-		return body;
+	public HadalEntity getBody() {
+		return schmuck;
 	}
 }

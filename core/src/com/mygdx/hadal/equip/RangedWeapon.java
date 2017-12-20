@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.ProjectileFactory;
+import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -18,22 +18,22 @@ public class RangedWeapon extends Equipable{
 	public int clipLeft;
 	public float reloadTime;
 	public int reloadAmount;
-	public float baseDamage;
 	public float recoil;
-	public float weaponSwitchTimeMod;
 	public float projectileSpeed;
-	public ProjectileFactory onShoot;
+	public HitboxFactory onShoot;
 	
-	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float baseDamage, float recoil, 
-			float weaponSwitchTimeMod, float projectileSpeed, int shootCd, int reloadAmount, ProjectileFactory onShoot) {
-		super(user, name, shootCd);
+	public Vector2 velo;
+	public int x, y;
+	public short faction;
+
+	public RangedWeapon(HadalEntity user, String name, int clipSize, float reloadTime, float recoil, 
+			float projectileSpeed, int shootCd, int shootDelay, int reloadAmount, HitboxFactory onShoot) {
+		super(user, name, shootCd, shootDelay);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.reloadTime = reloadTime;
 		this.reloadAmount = reloadAmount;
-		this.baseDamage = baseDamage;
 		this.recoil = recoil;
-		this.weaponSwitchTimeMod = weaponSwitchTimeMod;
 		this.projectileSpeed = projectileSpeed;
 		this.onShoot = onShoot;
 	}
@@ -50,16 +50,10 @@ public class RangedWeapon extends Equipable{
 			float xImpulse = -(bodyScreenPosition.x - x) / powerDiv;
 			float yImpulse = -(bodyScreenPosition.y - y) / powerDiv;
 			
-			onShoot.makeProjectile(state, new Vector2(xImpulse, yImpulse), shooter.getBody().getPosition().x * PPM, shooter.getBody().getPosition().y * PPM, 
-					faction, world, camera, rays);
-			
-			clipLeft--;
-			
-			//If player fires in the middle of reloading, reset reload progress
-			reloading = false;
-			reloadCd = reloadTime;
-			
-			user.recoil(x, y, recoil);
+			this.velo = new Vector2(xImpulse, yImpulse);
+			this.faction = faction;
+			this.x = x;
+			this.y = y;
 			
 		} else {
 			if (!reloading) {
@@ -69,8 +63,25 @@ public class RangedWeapon extends Equipable{
 		}
 	}
 	
-	public void recoil() {
-		
+	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
+		if (clipLeft > 0) {
+			onShoot.makeHitbox(state, velo, shooter.getBody().getPosition().x * PPM, shooter.getBody().getPosition().y * PPM, 
+					faction, world, camera, rays);
+			
+			clipLeft--;
+			
+			//If player fires in the middle of reloading, reset reload progress
+			reloading = false;
+			reloadCd = reloadTime;
+			
+			user.recoil(x, y, recoil);
+		} 
+		if (clipLeft <= 0) {
+			if (!reloading) {
+				reloading = true;
+				reloadCd = reloadTime;
+			}
+		}
 	}
 
 	public void reload() {

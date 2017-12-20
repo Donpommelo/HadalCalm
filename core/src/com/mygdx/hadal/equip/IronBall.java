@@ -14,24 +14,24 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
-public class Speargun extends RangedWeapon {
+public class IronBall extends RangedWeapon {
 
-	private final static String name = "Harpoon Gun";
-	private final static int clipSize = 6;
-	private final static int shootCd = 25;
-	private final static int shootDelay = 0;
-	private final static float reloadTime = 55.0f;
-	private final static int reloadAmount = 6;
-	private final static float baseDamage = 25.0f;
-	private final static float recoil = 1.5f;
-	private final static float knockback = 3.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 10;
-	private final static int lifespan = 40;
-	private final static float gravity = 1;
+	private final static String name = "Iron Ball Launcher";
+	private final static int clipSize = 1;
+	private final static int shootCd = 15;
+	private final static int shootDelay = 10;
+	private final static float reloadTime = 45.0f;
+	private final static int reloadAmount = 1;
+	private final static float baseDamage = 100.0f;
+	private final static float recoil = 3.0f;
+	private final static float knockback = 15.0f;
+	private final static float projectileSpeed = 30.0f;
+	private final static int projectileWidth = 25;
+	private final static int projectileHeight = 25;
+	private final static int lifespan = 70;
+	private final static float gravity = 10;
 	
-	private final static int projDura = 1;
+	private final static int projDura = 5;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -41,7 +41,7 @@ public class Speargun extends RangedWeapon {
 				RayHandler rays) {
 			
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, startVelocity,
-					filter, true, world, camera, rays);
+					filter, false, world, camera, rays);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -51,7 +51,6 @@ public class Speargun extends RangedWeapon {
 							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.body.getLinearVelocity().nor().scl(knockback));
 						}
 					}
-					super.onHit(fixB);
 				}
 			});		
 			
@@ -60,7 +59,7 @@ public class Speargun extends RangedWeapon {
 		
 	};
 	
-	public Speargun(HadalEntity user) {
+	public IronBall(HadalEntity user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 

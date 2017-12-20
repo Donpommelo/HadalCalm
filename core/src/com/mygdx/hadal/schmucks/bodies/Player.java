@@ -5,29 +5,21 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.schmucks.userdata.FeetData;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
 
 public class Player extends Schmuck {
-
-	private MoveStates moveState;
 	
 	//Fixtures and user data
-	private Fixture feet;
-	private HadalData feetData;
 	
-	private int playerWidth = 16;
-	private int playerHeight = 32;
+	private final static int playerWidth = 16;
+	private final static int playerHeight = 32;
 	
 	private int hoverCd = 5;
 	private int jumpCd = 15;
@@ -39,34 +31,31 @@ public class Player extends Schmuck {
 	private int airblastCd = 15;
 	private int airblastCdCount = 0;
 	
-	private int shootCdCount = 0;
+	private boolean charging = false;
 	
 	public PlayerBodyData playerData;
 	
-	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays) {
-		super(state, world, camera, rays);
+	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
+		super(state, world, camera, rays, playerWidth, playerHeight, x, y);
 		state.create(this);
 	}
 	
 	public void create() {
 		this.playerData = new PlayerBodyData(world, this);
-		this.feetData = new FeetData(world);
+		this.bodyData = playerData;
 		
-		this.body = BodyBuilder.createBox(world, 300, 300, playerWidth, playerHeight, 1, false, true, Constants.BIT_PLAYER, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				Constants.PLAYER_HITBOX, playerData);
+				Constants.PLAYER_HITBOX, false, playerData);
         
-		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(playerWidth, playerHeight / 8, new Vector2(0, -0.5f), true, 0,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, Constants.PLAYER_HITBOX));
-		
-		feet.setUserData(feetData);
+		super.create();
 	}
 	
 	public void controller(float delta) {
 		
 		moveState = MoveStates.STAND;
 		
-		boolean grounded = feetData.getNumContacts() > 0;
+		grounded = feetData.getNumContacts() > 0;
 		
 		if (grounded) {
 			playerData.extraJumpsUsed = 0;
@@ -75,9 +64,8 @@ public class Player extends Schmuck {
 		if(Gdx.input.isKeyPressed((Input.Keys.W))) {
 			if (!grounded && playerData.extraJumpsUsed == playerData.numExtraJumps) {
 				if (jumpCdCount < 0) {
-//					moveState = MoveStates.HOVER;
 					if (playerData.currentFuel >= playerData.hoverCost) {
-						playerData.currentFuel -= playerData.hoverCost;
+						playerData.fuelSpend(playerData.hoverCost);
 						jumpCdCount = hoverCd;
 						jump(playerData.hoverPow);
 					}
@@ -125,8 +113,12 @@ public class Player extends Schmuck {
 			moveState = MoveStates.MOVE_RIGHT;
 		}
 		
+		if(Gdx.input.isKeyPressed((Input.Keys.E))) {
+			//TODO: interact with object
+		}
+		
 		if(Gdx.input.isKeyJustPressed((Input.Keys.SPACE))) {
-			//save momentum
+			//TODO: save momentum
 		}
 		
 		if(Gdx.input.isKeyJustPressed((Input.Keys.R))) {
@@ -163,64 +155,28 @@ public class Player extends Schmuck {
 		
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-			if (shootCdCount < 0) {
-				shootCdCount = playerData.currentTool.useCd;
-				playerData.currentTool.mouseClicked(state, playerData, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), world, camera, rays);
+			charging = true;
+			useToolStart(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
+		} else {
+			if (charging) {
+				useToolRelease(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
 			}
+			charging = false;
 		}
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
 			if (airblastCdCount < 0) {
 				if (playerData.currentFuel >= playerData.airblastCost) {
-					playerData.currentFuel -= playerData.airblastCost;
+					playerData.fuelSpend(playerData.airblastCost);
 					airblastCdCount = airblastCd;
+					
 					recoil(Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), playerData.airblastPow);
 				}
 			}
 		}
 		
-		Vector2 currentVel = body.getLinearVelocity();
-		float desiredXVel = 0.0f;
-		float desiredYVel = 0.0f;
-		switch(moveState) {
-		case MOVE_LEFT:
-			desiredXVel = grounded ? -playerData.maxGroundXSpeed : -playerData.maxAirXSpeed;
-			break;
-		case MOVE_RIGHT:
-			desiredXVel = grounded ? playerData.maxGroundXSpeed : playerData.maxAirXSpeed;
-			break;
-		default:
-			break;
-		}
 		
-		float accelX = 0.0f;
-		float accelY = 0.0f;
-		
-		if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
-			accelX = grounded ? playerData.groundXAccel : playerData.airXAccel;
-		} else {
-			accelX = grounded ? playerData.groundXDeaccel : playerData.airXDeaccel;
-		}
-		
-		float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
-		
-		if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
-			accelY = grounded ? playerData.groundYAccel : playerData.airYAccel;
-		} else {
-			accelY = grounded ? playerData.groundYDeaccel : playerData.airYDeaccel;
-		}
-		
-		float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
-		
-		body.setLinearVelocity(newX, newY);
-		
-
-		
-		if (playerData.currentFuel + playerData.fuelRegen > playerData.maxFuel) {
-			playerData.currentFuel = playerData.maxFuel;
-		} else {
-			playerData.currentFuel += playerData.fuelRegen;
-		}
+		playerData.fuelGain(playerData.fuelRegen);
 		
 		if (playerData.currentTool.reloading) {
 			playerData.currentTool.reload();
@@ -229,12 +185,11 @@ public class Player extends Schmuck {
 		jumpCdCount--;
 		fastFallCdCount--;
 		airblastCdCount--;
-		shootCdCount--;
+		
+		super.controller(delta);		
 		
 	}
 	
-	
-
 	public void jump(float impulse) {
 		body.applyLinearImpulse(new Vector2(0, impulse), body.getWorldCenter(), true);
 	}

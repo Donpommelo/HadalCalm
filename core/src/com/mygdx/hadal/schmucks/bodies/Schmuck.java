@@ -3,59 +3,124 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
 
-public abstract class Schmuck {
+public class Schmuck extends HadalEntity {
 
-	public PlayState state;
-	public World world;
-	public OrthographicCamera camera;
-	public RayHandler rays;
+	protected MoveStates moveState;
 	
-	public Body body;
+	//Fixtures and user data
+	protected Fixture feet;
+	protected HadalData feetData;
 	
+	protected BodyData bodyData;
+	protected boolean grounded;
 	
-	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays) {
-		this.state = state;
-		this.world = world;
-		this.camera = camera;
-		this.rays = rays;
+	public int shootCdCount = 0;
+	public int shootDelayCount = 0;
+	public Equipable usedTool;
+	
+	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
+			float startX, float startY) {
+		super(state, world, camera, rays, w, h, startX, startY);
+		this.grounded = false;
+		state.create(this);
 	}
-		
-	public abstract void create();
 
-	public abstract void controller(float delta);
-	
-	public abstract void render(SpriteBatch batch);
-	
-	public void dispose() {
-		world.destroyBody(body);
+	@Override
+	public void create() {
+		this.feetData = new HadalData(world, UserDataTypes.FEET, this);        
+		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width, height / 8, new Vector2(0, -0.5f), true, 0,
+				Constants.BIT_SENSOR, Constants.BIT_WALL, Constants.PLAYER_HITBOX));
+		
+		feet.setUserData(feetData);
+		
+		this.hadalData = bodyData;
+	}
+
+	@Override
+	public void controller(float delta) {
+
+		Vector2 currentVel = body.getLinearVelocity();
+		float desiredXVel = 0.0f;
+		float desiredYVel = 0.0f;
+		switch(moveState) {
+		case MOVE_LEFT:
+			desiredXVel = grounded ? -bodyData.maxGroundXSpeed : -bodyData.maxAirXSpeed;
+			break;
+		case MOVE_RIGHT:
+			desiredXVel = grounded ? bodyData.maxGroundXSpeed : bodyData.maxAirXSpeed;
+			break;
+		default:
+			break;
+		}
+		
+		float accelX = 0.0f;
+		float accelY = 0.0f;
+		
+		if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
+			accelX = grounded ? bodyData.groundXAccel : bodyData.airXAccel;
+		} else {
+			accelX = grounded ? bodyData.groundXDeaccel : bodyData.airXDeaccel;
+		}
+		
+		float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
+		
+		if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
+			accelY = grounded ? bodyData.groundYAccel : bodyData.airYAccel;
+		} else {
+			accelY = grounded ? bodyData.groundYDeaccel : bodyData.airYDeaccel;
+		}
+		
+		float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
+		
+		body.setLinearVelocity(newX, newY);
+		
+		if (shootDelayCount == 0) {
+			useToolEnd();
+		}
+		
+		shootCdCount--;
+		shootDelayCount--;
+	}
+
+	@Override
+	public void render(SpriteBatch batch) {
+		
+	}
+
+	public void useToolStart(Equipable tool, short hitbox, int x, int y) {
+		if (shootCdCount < 0 && shootDelayCount < 0) {
+			if (!tool.charging()) {
+				shootDelayCount = tool.useDelay;	
+			}
+			usedTool = tool;
+			tool.mouseClicked(state, bodyData, hitbox, x, y, world, camera, rays);
+		}
 	}
 	
-	public void queueDeletion() {
-		state.destroy(this);
+	public void useToolEnd() {
+		if (usedTool != null) {
+			shootCdCount = usedTool.useCd;
+			usedTool.execute(state, bodyData, world, camera, rays);
+			usedTool = null;
+		}
 	}
 	
-	public Vector2 getPosition() {
-        return body.getPosition();
-    }
-	
-	public void recoil(int x, int y, float power) {
-		
-		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-		camera.project(bodyScreenPosition);
-		
-		float powerDiv = bodyScreenPosition.dst(x, y, 0) / power;
-		
-		float xImpulse = (bodyScreenPosition.x - x) / powerDiv;
-		float yImpulse = (bodyScreenPosition.y - y) / powerDiv;
-		
-		body.applyLinearImpulse(new Vector2(xImpulse, yImpulse), body.getWorldCenter(), true);
+	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
+		tool.release(state, bodyData, world, camera, rays);
 	}
+	
 	
 }

@@ -11,8 +11,8 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class BodyBuilder {
 
-    public static Body createBox(final World world, float x, float y, float w, float h, float grav,
-    		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, HadalData userData) {
+    public static Body createBox(final World world, float x, float y, float w, float h, float grav, float density,
+    		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = canRotate;
         bodyDef.position.set(x / PPM, y / PPM);
@@ -28,15 +28,19 @@ public class BodyBuilder {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1.0f;
+        fixtureDef.density = density;
         fixtureDef.filter.categoryBits = cBits;
         fixtureDef.filter.maskBits = mBits;
         fixtureDef.filter.groupIndex = gIndex;
         
         Body body = world.createBody(bodyDef);
+        if (sensor) {
+        	fixtureDef.isSensor = true;
+        } else {
+        	fixtureDef.isSensor = false;
+        }
         body.createFixture(fixtureDef).setUserData(userData);
         body.setGravityScale(grav);
-        
         shape.dispose();
         
         return body;
