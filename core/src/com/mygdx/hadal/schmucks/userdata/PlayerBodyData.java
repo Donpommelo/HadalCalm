@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.ChargeBeam;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.IronBall;
 import com.mygdx.hadal.equip.Scattergun;
 import com.mygdx.hadal.equip.Scrapripper;
 import com.mygdx.hadal.equip.Speargun;
@@ -28,25 +27,27 @@ public class PlayerBodyData extends BodyData {
 	public int airblastCost = 20;
 	public float airblastPow = 7.5f;
 	
-	public int itemSlots = 6;
+	public int itemSlots = 4;
 	public Equipable[] multitools;
 	public int currentSlot = 0;
 	public int lastSlot = 0;
 	public Equipable currentTool;
 	
+	public Player player;
+	
 	public PlayerBodyData(World world, Player body) {
 		super(world, body);
+		this.player = body;
 		multitools = new Equipable[itemSlots];
 		multitools[0] = new Scattergun(body);
 		multitools[1] = new Speargun(body);
 		multitools[2] = new ChargeBeam(body);
-		multitools[3] = new IronBall(body);
-		multitools[4] = new Scrapripper(body);
+		multitools[3] = new Scrapripper(body);
 		this.currentTool = multitools[currentSlot];
 	}
 	
 	public void switchWeapon(int slot) {
-		if (multitools.length > slot && schmuck.shootDelayCount <= 0) {
+		if (multitools.length >= slot && schmuck.shootDelayCount <= 0) {
 			if (multitools[slot - 1] != null) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
@@ -62,7 +63,12 @@ public class PlayerBodyData extends BodyData {
 			currentSlot = tempSlot;
 			currentTool = multitools[currentSlot];
 		}
-		
+	}
+	
+	public void pickup(Equipable equip) {
+		multitools[currentSlot] = equip;
+		multitools[currentSlot].user = player;
+		currentTool = multitools[currentSlot];
 	}
 	
 	public void fuelSpend(float cost) {

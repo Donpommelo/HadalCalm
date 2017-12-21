@@ -7,11 +7,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 
 public class EventData extends HadalData {
 
-	private Event event;
+	protected Event event;
 	
 	public Set<HadalEntity> schmucks;
 
@@ -33,7 +34,7 @@ public class EventData extends HadalData {
 		}
 	}
 
-	public void onInteract() {
+	public void onInteract(Player p) {
 		
 	}
 	

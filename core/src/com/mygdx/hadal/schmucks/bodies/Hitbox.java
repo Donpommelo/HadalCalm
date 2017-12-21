@@ -43,7 +43,7 @@ public class Hitbox extends HadalEntity {
 
 	public void create() {
 		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, false, false, Constants.BIT_PROJECTILE, 
-				(short) (Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR), filter, sensor, data);
+				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR), filter, sensor, data);
 		this.body.setLinearVelocity(startVelo);
 		this.body.setTransform(startX / PPM, startY / PPM, (float) Math.atan(startVelo.y / startVelo.x));
 	}

@@ -15,8 +15,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.IronBall;
 import com.mygdx.hadal.event.AirBubble;
 import com.mygdx.hadal.event.Currents;
+import com.mygdx.hadal.event.EquipPickup;
 import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -72,6 +74,7 @@ public class PlayState extends GameState{
 		new AirBubble(this, world, camera, rays, 500, 300);
 		new Spring(this, world, camera, rays,  64, 16, 540, 125, new Vector2(0, 500));
 		new Currents(this, world, camera, rays,  200, 400, 700, 200, new Vector2(30, 10));
+		new EquipPickup(this, world, camera, rays,  64, 64, 230, 725, new IronBall(null));
 		
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);
@@ -130,8 +133,14 @@ public class PlayState extends GameState{
 		batch.begin();
 		
 		if (player.getPlayerData() != null) {
-			font.draw(batch, "Fuel: " + player.getPlayerData().currentFuel, 100, 150);
-			font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 120);
+			font.draw(batch, "Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 100, 150);
+			font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 90);
+			if (player.momentums.size != 0) {
+				font.draw(batch, "Saved Momentum: " + player.momentums.first(), 100, 60);
+			}
+			if (player.currentEvent != null) {
+				font.draw(batch, player.currentEvent.getText(), 100, 30);
+			}
 		}
 		
 		batch.end();

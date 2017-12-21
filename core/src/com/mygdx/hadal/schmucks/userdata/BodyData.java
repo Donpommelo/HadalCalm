@@ -42,7 +42,15 @@ public class BodyData extends HadalData {
 		currentHp -= basedamage;
 		schmuck.body.applyLinearImpulse(knockback, schmuck.body.getLocalCenter(), true);
 		if (currentHp <= 0) {
+			currentHp = 0;
 			die();
+		}
+	}
+	
+	public void regainHp(float heal) {
+		currentHp += heal;
+		if (currentHp >= maxHp) {
+			currentHp = maxHp;
 		}
 	}
 	

@@ -12,10 +12,9 @@ import box2dLight.RayHandler;
 public class Event extends HadalEntity {
 	
 	public EventData eventData;
-		
-	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, int width, int height) {
+	
+	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y) {
 		super(state, world, camera, rays, width, height, x, y);
-
 	}
 	
 	@Override
@@ -31,5 +30,9 @@ public class Event extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-	}	
+	}
+	
+	public String getText() {
+		return "";
+	}
 }

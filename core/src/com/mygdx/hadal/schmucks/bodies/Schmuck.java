@@ -91,6 +91,8 @@ public class Schmuck extends HadalEntity {
 			useToolEnd();
 		}
 		
+		bodyData.regainHp(bodyData.hpRegen);
+		
 		shootCdCount--;
 		shootDelayCount--;
 	}
@@ -100,8 +102,8 @@ public class Schmuck extends HadalEntity {
 		
 	}
 
-	public void useToolStart(Equipable tool, short hitbox, int x, int y) {
-		if (shootCdCount < 0 && shootDelayCount < 0) {
+	public void useToolStart(Equipable tool, short hitbox, int x, int y, boolean wait) {
+		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
 			if (!tool.charging()) {
 				shootDelayCount = tool.useDelay;	
 			}

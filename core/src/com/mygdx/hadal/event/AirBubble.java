@@ -21,7 +21,7 @@ public class AirBubble extends Event{
 	private static final int fuelRegained = 20;
 
 	public AirBubble(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
-		super(state, world, camera, rays, x, y, width, height);
+		super(state, world, camera, rays, width, height, x, y);
 		state.create(this);
 	}
 	

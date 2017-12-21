@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Queue;
+import com.mygdx.hadal.equip.MomentumStopper;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -31,13 +34,26 @@ public class Player extends Schmuck {
 	private int airblastCd = 15;
 	private int airblastCdCount = 0;
 	
+	protected int interactCd = 10;
+	protected int interactCdCount = 0;
+	
+	protected int momentumCd = 1000;
+	protected int momentumCdCount = 0;
+	
 	private boolean charging = false;
 	
 	public PlayerBodyData playerData;
 	
+	public Event currentEvent;
+	
+	public MomentumStopper mStop;
+	public Queue<Vector2> momentums;
+	
 	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, playerWidth, playerHeight, x, y);
 		state.create(this);
+		mStop = new MomentumStopper(this);
+		momentums = new Queue<Vector2>();
 	}
 	
 	public void create() {
@@ -114,11 +130,21 @@ public class Player extends Schmuck {
 		}
 		
 		if(Gdx.input.isKeyPressed((Input.Keys.E))) {
-			//TODO: interact with object
+			if (currentEvent != null && interactCdCount < 0) {
+				interactCdCount = interactCd;
+				currentEvent.eventData.onInteract(this);
+			}
 		}
 		
 		if(Gdx.input.isKeyJustPressed((Input.Keys.SPACE))) {
-			//TODO: save momentum
+			if (momentums.size == 0) {
+				if (momentumCdCount < 0) {
+					momentumCdCount = momentumCd;
+					useToolStart(mStop, (short) 0, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+				}
+			} else {
+				body.setLinearVelocity(momentums.removeFirst());
+			}
 		}
 		
 		if(Gdx.input.isKeyJustPressed((Input.Keys.R))) {
@@ -156,7 +182,7 @@ public class Player extends Schmuck {
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			charging = true;
-			useToolStart(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
+			useToolStart(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), true);
 		} else {
 			if (charging) {
 				useToolRelease(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
@@ -185,6 +211,8 @@ public class Player extends Schmuck {
 		jumpCdCount--;
 		fastFallCdCount--;
 		airblastCdCount--;
+		interactCdCount--;
+		momentumCdCount--;
 		
 		super.controller(delta);		
 		

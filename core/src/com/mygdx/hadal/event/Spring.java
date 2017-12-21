@@ -18,7 +18,7 @@ public class Spring extends Event {
 	private Vector2 vec;
 
 	public Spring(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, Vector2 vec) {
-		super(state, world, camera, rays, x, y, width, height);
+		super(state, world, camera, rays, width, height, x, y);
 		this.vec = vec;
 		state.create(this);
 	}
