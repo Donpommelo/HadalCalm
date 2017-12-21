@@ -32,5 +32,7 @@ public class HitboxData extends HadalData {
 			hbox.queueDeletion();
 		}
 	}
+	
+	
 
 }

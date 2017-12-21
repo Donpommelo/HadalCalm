@@ -15,14 +15,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.equip.IronBallLauncher;
-import com.mygdx.hadal.event.AirBubble;
-import com.mygdx.hadal.event.Currents;
-import com.mygdx.hadal.event.EquipPickup;
-import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.bodies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -69,16 +63,10 @@ public class PlayState extends GameState{
 		
 		player = new Player(this, world, camera, rays, 300, 300);
 		
-//		new Enemy(this, world, camera, rays, 16, 32, 500, 300);
-		
-		new AirBubble(this, world, camera, rays, 500, 300);
-		new Spring(this, world, camera, rays,  64, 16, 540, 125, new Vector2(0, 500));
-		new Currents(this, world, camera, rays,  200, 400, 700, 200, new Vector2(30, 10));
-		new EquipPickup(this, world, camera, rays,  64, 64, 230, 725, new IronBallLauncher(null));
-		
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
+		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
 	}
 
 	@Override
