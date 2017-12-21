@@ -27,8 +27,8 @@ public class Schmuck extends HadalEntity {
 	protected BodyData bodyData;
 	protected boolean grounded;
 	
-	public int shootCdCount = 0;
-	public int shootDelayCount = 0;
+	public float shootCdCount = 0;
+	public float shootDelayCount = 0;
 	public Equipable usedTool;
 	
 	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
@@ -87,14 +87,14 @@ public class Schmuck extends HadalEntity {
 		
 		body.setLinearVelocity(newX, newY);
 		
-		if (shootDelayCount == 0) {
+		if (shootDelayCount <= 0) {
 			useToolEnd();
 		}
 		
-		bodyData.regainHp(bodyData.hpRegen);
+		bodyData.regainHp(bodyData.hpRegen * delta);
 		
-		shootCdCount--;
-		shootDelayCount--;
+		shootCdCount-=delta;
+		shootDelayCount-=delta;
 	}
 
 	@Override

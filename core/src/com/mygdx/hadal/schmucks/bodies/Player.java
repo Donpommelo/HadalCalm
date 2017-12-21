@@ -24,21 +24,21 @@ public class Player extends Schmuck {
 	private final static int playerWidth = 16;
 	private final static int playerHeight = 32;
 	
-	private int hoverCd = 5;
-	private int jumpCd = 15;
-	private int jumpCdCount = 0;
+	private float hoverCd = 0.08f;
+	private float jumpCd = 0.25f;
+	private float jumpCdCount = 0;
 	
-	private int fastFallCd = 15;
-	private int fastFallCdCount = 0;
+	private float fastFallCd = 0.25f;
+	private float fastFallCdCount = 0;
 	
-	private int airblastCd = 15;
-	private int airblastCdCount = 0;
+	private float airblastCd = 0.25f;
+	private float airblastCdCount = 0;
 	
-	protected int interactCd = 10;
-	protected int interactCdCount = 0;
+	protected float interactCd = 0.15f;
+	protected float interactCdCount = 0;
 	
-	protected int momentumCd = 1000;
-	protected int momentumCdCount = 0;
+	protected float momentumCd = 1000;
+	protected float momentumCdCount = 0;
 	
 	private boolean charging = false;
 	
@@ -60,7 +60,7 @@ public class Player extends Schmuck {
 		this.playerData = new PlayerBodyData(world, this);
 		this.bodyData = playerData;
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, false, true, Constants.BIT_PLAYER, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				Constants.PLAYER_HITBOX, false, playerData);
         
@@ -202,17 +202,17 @@ public class Player extends Schmuck {
 		}
 		
 		
-		playerData.fuelGain(playerData.fuelRegen);
+		playerData.fuelGain(playerData.fuelRegen * delta);
 		
 		if (playerData.currentTool.reloading) {
-			playerData.currentTool.reload();
+			playerData.currentTool.reload(delta);
 		}
 		
-		jumpCdCount--;
-		fastFallCdCount--;
-		airblastCdCount--;
-		interactCdCount--;
-		momentumCdCount--;
+		jumpCdCount-=delta;
+		fastFallCdCount-=delta;
+		airblastCdCount-=delta;
+		interactCdCount-=delta;
+		momentumCdCount-=delta;
 		
 		super.controller(delta);		
 		

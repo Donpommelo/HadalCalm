@@ -12,18 +12,18 @@ public abstract class Equipable {
 	
 	public HadalEntity user;
 	public String name;
-	public int useCd;
-	public int useDelay;
+	public float useCd;
+	public float useDelay;
 
 	public boolean reloading;
 	public float reloadCd;
 	
 	
-	public Equipable(HadalEntity user, String name, int useCd, int useDelay) {
+	public Equipable(HadalEntity user, String name, float swingcd, float shootDelay) {
 		this.user = user;
 		this.name = name;
-		this.useCd = useCd;
-		this.useDelay = useDelay;
+		this.useCd = swingcd;
+		this.useDelay = shootDelay;
 		this.reloading = false;
 		this.reloadCd = 0;
 	}
@@ -32,7 +32,7 @@ public abstract class Equipable {
 	
 	public abstract void execute(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays);
 	
-	public abstract void reload();
+	public abstract void reload(float delta);
 	
 	public abstract String getText();
 	

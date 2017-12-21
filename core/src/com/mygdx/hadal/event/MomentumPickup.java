@@ -22,8 +22,8 @@ public class MomentumPickup extends Event {
 	private static final int width = 16;
 	private static final int height = 16;
 	
-	private static final int lifespan = 500;
-	private int lifeLeft;
+	private static final float lifespan = 8.0f;
+	private float lifeLeft;
 	
 	public MomentumPickup(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, 
 			Vector2 momentum) {
@@ -41,7 +41,7 @@ public class MomentumPickup extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, false, false, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER| Constants.BIT_SENSOR),
 				(short) 0, true, eventData);
 		
@@ -67,7 +67,7 @@ public class MomentumPickup extends Event {
 	
 	@Override
 	public void controller(float delta) {
-		lifeLeft--;
+		lifeLeft -= delta;
 		if (lifeLeft <= 0) {
 			queueDeletion();
 		}

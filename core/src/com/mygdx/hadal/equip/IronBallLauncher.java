@@ -14,25 +14,27 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
-public class Speargun extends RangedWeapon {
+public class IronBallLauncher extends RangedWeapon {
 
-	private final static String name = "Harpoon Gun";
-	private final static int clipSize = 6;
-	private final static float shootCd = 0.4f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 6;
-	private final static float baseDamage = 25.0f;
-	private final static float recoil = 1.5f;
-	private final static float knockback = 3.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 10;
-	private final static float lifespan = 0.6f;
-	private final static float gravity = 1;
+	private final static String name = "Iron Ball Launcher";
+	private final static int clipSize = 1;
+	private final static float shootCd = 0.25f;
+	private final static float shootDelay = 0.15f;
+	private final static float reloadTime = 0.60f;
+	private final static int reloadAmount = 1;
+	private final static float baseDamage = 75.0f;
+	private final static float recoil = 3.0f;
+	private final static float knockback = 15.0f;
+	private final static float projectileSpeed = 30.0f;
+	private final static int projectileWidth = 50;
+	private final static int projectileHeight = 50;
+	private final static float lifespan = 2.5f;
+	private final static float gravity = 10;
 	
-	private final static int projDura = 1;
+	private final static int projDura = 5;
 	
+	private final static float restitution = 0.5f;
+
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -40,8 +42,8 @@ public class Speargun extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays);
+			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
+					filter, false, world, camera, rays);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -51,7 +53,6 @@ public class Speargun extends RangedWeapon {
 							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.body.getLinearVelocity().nor().scl(knockback));
 						}
 					}
-					super.onHit(fixB);
 				}
 			});		
 			
@@ -60,7 +61,7 @@ public class Speargun extends RangedWeapon {
 		
 	};
 	
-	public Speargun(HadalEntity user) {
+	public IronBallLauncher(HadalEntity user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 

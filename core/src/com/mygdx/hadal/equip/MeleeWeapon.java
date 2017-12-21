@@ -24,9 +24,9 @@ public class MeleeWeapon extends Equipable {
 	public Vector2 velo;
 	public short faction;
 	
-	public MeleeWeapon(HadalEntity user, String name, int useCd, int windup, float momentum,
+	public MeleeWeapon(HadalEntity user, String name, float swingcd, float windup, float momentum,
 			HitboxFactory onSwing) {
-		super(user, name, useCd, windup);
+		super(user, name, swingcd, windup);
 		this.momentum = momentum;
 		this.onSwing = onSwing;
 	}
@@ -58,7 +58,7 @@ public class MeleeWeapon extends Equipable {
 	}
 
 	@Override
-	public void reload() {
+	public void reload(float delta) {
 		
 	}
 

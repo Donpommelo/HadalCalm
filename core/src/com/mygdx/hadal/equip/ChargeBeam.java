@@ -18,17 +18,17 @@ public class ChargeBeam extends RangedWeapon {
 
 	private final static String name = "Charge Beam";
 	private final static int clipSize = 4;
-	private final static int shootCd = 10;
-	private final static int shootDelay = 0;
-	private final static float reloadTime = 60.0f;
+	private final static float shootCd = 0.15f;
+	private final static float shootDelay = 0.0f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 4;
 	private final static float baseDamage = 8.0f;
-	private final static float recoil = 0.5f;
+	private final static float recoil = 1.5f;
 	private final static float knockback = 1.0f;
 	private final static float projectileSpeed = 7.5f;
 	private final static int projectileWidth = 25;
 	private final static int projectileHeight = 25;
-	private final static int lifespan = 150;
+	private final static float lifespan = 3.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 5;
@@ -36,7 +36,6 @@ public class ChargeBeam extends RangedWeapon {
 	private static int chargeDura = 1;
 	private static final int maxCharge = 100;
 	private static final float chargeMag = 0.025f;
-	
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -47,7 +46,7 @@ public class ChargeBeam extends RangedWeapon {
 			
 			final float chargePow = 1 + chargeDura * chargeMag;
 
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, startVelocity.scl(chargePow),
+			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.scl(chargePow),
 					filter, true, world, camera, rays);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {

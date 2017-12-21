@@ -20,9 +20,9 @@ public class Scattergun extends RangedWeapon {
 
 	private final static String name = "CR4P Cannon";
 	private final static int clipSize = 2;
-	private final static int shootCd = 15;
-	private final static int shootDelay = 0;
-	private final static float reloadTime = 50.0f;
+	private final static float shootCd = 0.25f;
+	private final static float shootDelay = 0.0f;
+	private final static float reloadTime = 0.8f;
 	private final static int reloadAmount = 2;
 	private final static float baseDamage = 9.0f;
 	private final static float recoil = 3.0f;
@@ -30,7 +30,7 @@ public class Scattergun extends RangedWeapon {
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 10;
 	private final static int projectileHeight = 10;
-	private final static int lifespan = 25;
+	private final static float lifespan = 0.5f;
 	private final static float gravity = 0.5f;
 	
 	private final static int projDura = 2;
@@ -49,7 +49,7 @@ public class Scattergun extends RangedWeapon {
 				
 				float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 				
-				Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, startVelocity.setAngle(newDegrees),
+				Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
 						filter, true, world, camera, rays);
 				proj.setUserData(new HitboxData(state, world, proj) {
 					

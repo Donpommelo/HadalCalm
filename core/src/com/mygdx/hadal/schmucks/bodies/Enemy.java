@@ -30,7 +30,7 @@ public class Enemy extends Schmuck {
 	
 	public void create() {
 		this.bodyData = new BodyData(world, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, false, true, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER),
 				Constants.ENEMY_HITBOX, false, bodyData);
 	}
@@ -53,9 +53,9 @@ public class Enemy extends Schmuck {
 		useToolStart(weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 
 		if (weapon.reloading) {
-			weapon.reload();
+			weapon.reload(delta);
 		}
-		shootCdCount--;
+		shootCdCount-=delta;
 
 		super.controller(delta);
 	}

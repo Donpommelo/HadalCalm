@@ -27,7 +27,7 @@ public class RangedWeapon extends Equipable{
 	public short faction;
 
 	public RangedWeapon(HadalEntity user, String name, int clipSize, float reloadTime, float recoil, 
-			float projectileSpeed, int shootCd, int shootDelay, int reloadAmount, HitboxFactory onShoot) {
+			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot) {
 		super(user, name, shootCd, shootDelay);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
@@ -84,9 +84,9 @@ public class RangedWeapon extends Equipable{
 		}
 	}
 
-	public void reload() {
+	public void reload(float delta) {
 		if (reloadCd > 0) {
-			reloadCd--;
+			reloadCd -= delta;
 		} else {
 			clipLeft += reloadAmount;
 			reloadCd = reloadTime;

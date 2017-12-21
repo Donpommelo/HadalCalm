@@ -14,24 +14,26 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
-public class IronBall extends RangedWeapon {
+public class BouncingBlade extends RangedWeapon {
 
-	private final static String name = "Iron Ball Launcher";
-	private final static int clipSize = 1;
-	private final static int shootCd = 15;
-	private final static int shootDelay = 10;
-	private final static float reloadTime = 45.0f;
-	private final static int reloadAmount = 1;
-	private final static float baseDamage = 100.0f;
-	private final static float recoil = 3.0f;
-	private final static float knockback = 15.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 25;
-	private final static int projectileHeight = 25;
-	private final static int lifespan = 70;
-	private final static float gravity = 10;
+	private final static String name = "Bouncing Blades";
+	private final static int clipSize = 3;
+	private final static float shootCd = 0.25f;
+	private final static float shootDelay = 0;
+	private final static float reloadTime = 0.5f;
+	private final static int reloadAmount = 3;
+	private final static float baseDamage = 30.0f;
+	private final static float recoil = 1.5f;
+	private final static float knockback = 2.0f;
+	private final static float projectileSpeed = 18.0f;
+	private final static int projectileWidth = 30;
+	private final static int projectileHeight = 30;
+	private final static float lifespan = 4.0f;
+	private final static float gravity = 0;
 	
-	private final static int projDura = 5;
+	private final static int projDura = 3;
+	
+	private final static float restitution = 1.0f;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -40,7 +42,7 @@ public class IronBall extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, startVelocity,
+			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
 					filter, false, world, camera, rays);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
@@ -59,7 +61,7 @@ public class IronBall extends RangedWeapon {
 		
 	};
 	
-	public IronBall(HadalEntity user) {
+	public BouncingBlade(HadalEntity user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 

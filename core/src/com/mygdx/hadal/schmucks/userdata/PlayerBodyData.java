@@ -1,8 +1,11 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.BouncingBlade;
 import com.mygdx.hadal.equip.ChargeBeam;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.GrenadeLauncher;
+import com.mygdx.hadal.equip.IronBallLauncher;
 import com.mygdx.hadal.equip.Scattergun;
 import com.mygdx.hadal.equip.Scrapripper;
 import com.mygdx.hadal.equip.Speargun;
@@ -12,7 +15,7 @@ public class PlayerBodyData extends BodyData {
 
 	public int maxFuel = 100;
 	public float currentFuel = 100;
-	public float fuelRegen = 0.10f;
+	public float fuelRegen = 8.0f;
 	
 	public int numExtraJumps = 1;
 	public int extraJumpsUsed = 0;
@@ -27,7 +30,7 @@ public class PlayerBodyData extends BodyData {
 	public int airblastCost = 20;
 	public float airblastPow = 7.5f;
 	
-	public int itemSlots = 4;
+	public int itemSlots = 7;
 	public Equipable[] multitools;
 	public int currentSlot = 0;
 	public int lastSlot = 0;
@@ -42,7 +45,10 @@ public class PlayerBodyData extends BodyData {
 		multitools[0] = new Scattergun(body);
 		multitools[1] = new Speargun(body);
 		multitools[2] = new ChargeBeam(body);
-		multitools[3] = new Scrapripper(body);
+		multitools[3] = new IronBallLauncher(body);
+		multitools[4] = new BouncingBlade(body);
+		multitools[5] = new GrenadeLauncher(body);
+		multitools[6] = new Scrapripper(body);
 		this.currentTool = multitools[currentSlot];
 	}
 	

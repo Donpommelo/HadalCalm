@@ -14,20 +14,21 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class MomentumStopper extends RangedWeapon {
 
 	private final static String name = "Momentum Stopper";
 	private final static int clipSize = 1;
-	private final static int shootCd = 0;
-	private final static int shootDelay = 0;
+	private final static float shootCd = 0.0f;
+	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.0f;
 	private final static int reloadAmount = 1;
 	private final static float recoil = 0.0f;
-	private final static float projectileSpeed = 0.01f;
+	private final static float projectileSpeed = 0.0f;
 	private final static int projectileWidth = 800;
 	private final static int projectileHeight = 800;
-	private final static int lifespan = 10;
+	private final static float lifespan = 0.15f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
@@ -38,7 +39,7 @@ public class MomentumStopper extends RangedWeapon {
 		public Hitbox makeHitbox(PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, startVelocity,
+			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, true, world, camera, rays);
 
 			final World world2 = world;
@@ -53,8 +54,8 @@ public class MomentumStopper extends RangedWeapon {
 							
 							Vector2 velo = new Vector2(fixB.getEntity().body.getLinearVelocity().x, fixB.getEntity().body.getLinearVelocity().y);
 							new MomentumPickup(state, world2, camera2, rays2, 
-									(int)fixB.getEntity().body.getPosition().x * 32, 
-									(int)fixB.getEntity().body.getPosition().y * 32 + 32, 
+									(int)(fixB.getEntity().body.getPosition().x * PPM), 
+									(int)(fixB.getEntity().body.getPosition().y * PPM) + 32, 
 									velo);
 							fixB.getEntity().body.setLinearVelocity(new Vector2(0, 0));
 						}

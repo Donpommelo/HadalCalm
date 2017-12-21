@@ -16,9 +16,9 @@ public class MeleeHitbox extends Hitbox {
 	public RevoluteJointDef jdef;
 	public float angle;
 
-	public MeleeHitbox(PlayState state, float x, float y, int width, int height, int lifespan,
+	public MeleeHitbox(PlayState state, float x, float y, int width, int height, float lifespan,
 			Vector2 startAngle, short filter, World world, OrthographicCamera camera, RayHandler rays) {
-		super(state, x, y, width, height, 0, lifespan, 0, startAngle, filter, true, world, camera, rays);
+		super(state, x, y, width, height, 0, lifespan, 0, 0, startAngle, filter, true, world, camera, rays);
 	}
 	
 	public void create() {

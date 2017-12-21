@@ -18,9 +18,9 @@ import box2dLight.RayHandler;
 public class Scrapripper extends MeleeWeapon {
 
 	private final static String name = "Scrap-Ripper";
-	private final static int swingCd = 35;
-	private final static int windup = 12;
-	private final static int backSwing = 10;
+	private final static float swingCd = 0.02f;
+	private final static float windup = 0.2f;
+	private final static float backSwing = 0.5f;
 	private final static float baseDamage = 40.0f;
 	private final static int hitboxSize = 240;
 	private final static int swingArc = 120;

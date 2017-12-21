@@ -15,7 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.equip.IronBall;
+import com.mygdx.hadal.equip.IronBallLauncher;
 import com.mygdx.hadal.event.AirBubble;
 import com.mygdx.hadal.event.Currents;
 import com.mygdx.hadal.event.EquipPickup;
@@ -69,12 +69,12 @@ public class PlayState extends GameState{
 		
 		player = new Player(this, world, camera, rays, 300, 300);
 		
-		new Enemy(this, world, camera, rays, 16, 32, 500, 300);
+//		new Enemy(this, world, camera, rays, 16, 32, 500, 300);
 		
 		new AirBubble(this, world, camera, rays, 500, 300);
 		new Spring(this, world, camera, rays,  64, 16, 540, 125, new Vector2(0, 500));
 		new Currents(this, world, camera, rays,  200, 400, 700, 200, new Vector2(30, 10));
-		new EquipPickup(this, world, camera, rays,  64, 64, 230, 725, new IronBall(null));
+		new EquipPickup(this, world, camera, rays,  64, 64, 230, 725, new IronBallLauncher(null));
 		
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);
@@ -83,7 +83,7 @@ public class PlayState extends GameState{
 
 	@Override
 	public void update(float delta) {
-		world.step(1 / 60f, 6, 2);
+		world.step(delta, 6, 2);
 		
 		for (HadalEntity schmuck : removeList) {
 			schmucks.remove(schmuck);

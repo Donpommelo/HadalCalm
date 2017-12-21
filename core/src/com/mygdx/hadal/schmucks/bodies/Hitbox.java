@@ -19,15 +19,16 @@ public class Hitbox extends HadalEntity {
 	public Vector2 startVelo;
 	public float gravityEffect;
 	public int durability;
-	public int lifeSpan;
+	public float lifeSpan;
 	public short filter;
 	
 	public int dura;
+	public float rest;
 	public boolean sensor;
 	
 	public HitboxData data;
 	
-	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, int lifespan, int dura,
+	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
 			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays) {
 		super(state, world, camera, rays, width, height, x, y);
 		this.grav = grav;
@@ -35,17 +36,20 @@ public class Hitbox extends HadalEntity {
 		this.filter = filter;
 		this.sensor = sensor;
 		this.dura = dura;		
-		
+		this.rest = rest;
 		this.startVelo = new Vector2(startVelo);
 
 		state.create(this);
 	}
 
 	public void create() {
-		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, false, false, Constants.BIT_PROJECTILE, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, rest, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR), filter, sensor, data);
 		this.body.setLinearVelocity(startVelo);
-		this.body.setTransform(startX / PPM, startY / PPM, (float) Math.atan(startVelo.y / startVelo.x));
+		
+		if (startVelo.x != 0) {
+			this.body.setTransform(startX / PPM, startY / PPM, (float) Math.atan(startVelo.y / startVelo.x));
+		}
 	}
 	
 	public void setUserData(HitboxData userData) {
@@ -53,7 +57,7 @@ public class Hitbox extends HadalEntity {
 	}
 	
 	public void controller(float delta) {
-		lifeSpan--;
+		lifeSpan -= delta;
 		if (lifeSpan <= 0) {
 			state.destroy(this);
 		}
