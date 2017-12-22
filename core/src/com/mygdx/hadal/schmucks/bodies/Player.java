@@ -140,7 +140,7 @@ public class Player extends Schmuck {
 			if (momentums.size == 0) {
 				if (momentumCdCount < 0) {
 					momentumCdCount = momentumCd;
-					useToolStart(mStop, (short) 0, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+					useToolStart(delta, mStop, (short) 0, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
 				}
 			} else {
 				body.setLinearVelocity(momentums.removeFirst());
@@ -182,7 +182,7 @@ public class Player extends Schmuck {
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			charging = true;
-			useToolStart(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), true);
+			useToolStart(delta, playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), true);
 		} else {
 			if (charging) {
 				useToolRelease(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());

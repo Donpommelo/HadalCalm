@@ -25,17 +25,17 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 1.5f;
 	private final static float knockback = 1.0f;
-	private final static float projectileSpeed = 7.5f;
-	private final static int projectileWidth = 25;
-	private final static int projectileHeight = 25;
+	private final static float projectileSpeed = 6.0f;
+	private final static int projectileWidth = 15;
+	private final static int projectileHeight = 15;
 	private final static float lifespan = 3.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 5;
 	
-	private static int chargeDura = 1;
-	private static final int maxCharge = 100;
-	private static final float chargeMag = 0.025f;
+	private static float chargeDura = 0.0f;
+	private static final float maxCharge = 2.0f;
+	private static final float chargeMag = 1.0f;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -45,8 +45,8 @@ public class ChargeBeam extends RangedWeapon {
 				RayHandler rays) {			
 			
 			final float chargePow = 1 + chargeDura * chargeMag;
-
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.scl(chargePow),
+			
+			Hitbox proj = new Hitbox(state, x, y, (int)(projectileWidth * chargePow), (int)(projectileHeight * chargePow), gravity, lifespan, projDura, 0, startVelocity.scl(chargePow),
 					filter, true, world, camera, rays);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
@@ -70,11 +70,10 @@ public class ChargeBeam extends RangedWeapon {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 	
-	public void mouseClicked(PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
+	public void charge(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
 		if (chargeDura < maxCharge) {
-			chargeDura++;
+			chargeDura+=delta;
 		}
-		super.mouseClicked(state, shooter, faction, x, y, world, camera, rays);
 	}
 	
 	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {

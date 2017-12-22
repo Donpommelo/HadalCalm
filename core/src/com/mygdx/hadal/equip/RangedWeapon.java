@@ -41,26 +41,18 @@ public class RangedWeapon extends Equipable{
 	@Override
 	public void mouseClicked(PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
 		
-		if (clipLeft > 0) {
-			Vector3 bodyScreenPosition = new Vector3(shooter.getBody().getPosition().x, shooter.getBody().getPosition().y, 0);
-			camera.project(bodyScreenPosition);
-			
-			float powerDiv = bodyScreenPosition.dst(x, y, 0) / projectileSpeed;
-			
-			float xImpulse = -(bodyScreenPosition.x - x) / powerDiv;
-			float yImpulse = -(bodyScreenPosition.y - y) / powerDiv;
-			
-			this.velo = new Vector2(xImpulse, yImpulse);
-			this.faction = faction;
-			this.x = x;
-			this.y = y;
-			
-		} else {
-			if (!reloading) {
-				reloading = true;
-				reloadCd = reloadTime;
-			}
-		}
+		Vector3 bodyScreenPosition = new Vector3(shooter.getBody().getPosition().x, shooter.getBody().getPosition().y, 0);
+		camera.project(bodyScreenPosition);
+		
+		float powerDiv = bodyScreenPosition.dst(x, y, 0) / projectileSpeed;
+		
+		float xImpulse = -(bodyScreenPosition.x - x) / powerDiv;
+		float yImpulse = -(bodyScreenPosition.y - y) / powerDiv;
+		this.velo = new Vector2(xImpulse, yImpulse);
+		this.faction = faction;
+		this.x = x;
+		this.y = y;
+
 	}
 	
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {

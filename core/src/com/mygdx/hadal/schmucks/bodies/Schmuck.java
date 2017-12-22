@@ -53,7 +53,6 @@ public class Schmuck extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-
 		accelCounter += delta;
 		if (accelCounter > 1 / 60.0f) {
 			accelCounter = 0;
@@ -110,13 +109,15 @@ public class Schmuck extends HadalEntity {
 		
 	}
 
-	public void useToolStart(Equipable tool, short hitbox, int x, int y, boolean wait) {
+	public void useToolStart(float delta, Equipable tool, short hitbox, int x, int y, boolean wait) {
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
 			if (!tool.charging()) {
-				shootDelayCount = tool.useDelay;	
+				shootDelayCount = tool.useDelay;
+			} else {
+				tool.charge(delta, state, bodyData, hitbox, y, y, world, camera, rays);
 			}
-			usedTool = tool;
 			tool.mouseClicked(state, bodyData, hitbox, x, y, world, camera, rays);
+			usedTool = tool;
 		}
 	}
 	

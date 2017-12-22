@@ -36,7 +36,7 @@ public abstract class Equipable {
 	
 	public abstract String getText();
 	
-	public void charge(float delta) {
+	public void charge(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
 		
 	}
 	

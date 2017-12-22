@@ -50,7 +50,7 @@ public class Enemy extends Schmuck {
 		Vector3 target = new Vector3(state.getPlayer().getPosition().x, state.getPlayer().getPosition().y, 0);
 		camera.project(target);
 		
-		useToolStart(weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
+		useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 
 		if (weapon.reloading) {
 			weapon.reload(delta);
