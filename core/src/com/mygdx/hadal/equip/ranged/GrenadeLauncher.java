@@ -30,7 +30,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static float projectileSpeed = 10.0f;
 	private final static int projectileWidth = 15;
 	private final static int projectileHeight = 15;
-	private final static float lifespan = 8.0f;
+	private final static float lifespan = 3.0f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
@@ -49,7 +49,15 @@ public class GrenadeLauncher extends RangedWeapon {
 			final HadalEntity user2 = user;
 
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user);
+					filter, false, world, camera, rays, user) {
+				public void controller(float delta) {
+					super.controller(delta);
+					if (lifeSpan <= 0) {
+						explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
+								world, camera, rays, user2);
+					}
+				}
+			};
 			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;
@@ -58,50 +66,41 @@ public class GrenadeLauncher extends RangedWeapon {
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
 				public void onHit(HadalData fixB) {
-					boolean explode = false;
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
 							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.body.getLinearVelocity().nor().scl(knockback));
-							explode = true;
+							explode(state, this.hbox.body.getPosition().x * PPM , this.hbox.body.getPosition().y * PPM, 
+									world2, camera2, rays2, user2);
 						}
-					} else {
-						explode = true;
 					}
-
-					if (explode) {
-						Hitbox explosion = new Hitbox(state, 
-						this.hbox.body.getPosition().x * PPM , this.hbox.body.getPosition().y * PPM,
-						explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-						(short) 0, true, world2, camera2, rays2, user2);
-
-						explosion.setUserData(new HitboxData(state, world2, explosion){
-							public void onHit(HadalData fixB) {
-								if (fixB != null) {
-									if (fixB.getType().equals(UserDataTypes.BODY)) {
-										((BodyData) fixB).receiveDamage(explosionDamage, 
-												new Vector2(fixB.getEntity().body.getPosition().x - this.hbox.body.getPosition().x, 
-														fixB.getEntity().body.getPosition().y - this.hbox.body.getPosition().y).nor().scl(explosionKnockback));
-											
-									}
-								}
-							}
-						});
-					}
-					
-					super.onHit(fixB);
-					
-					
-					
 				}
 			});		
 			
 			return null;
 		}
 		
+		public void explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
+				HadalEntity user) {
+			Hitbox explosion = new Hitbox(state, 
+					x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
+					(short) 0, true, world, camera, rays, user);
+
+				explosion.setUserData(new HitboxData(state, world, explosion){
+					public void onHit(HadalData fixB) {
+						if (fixB != null) {
+							if (fixB.getType().equals(UserDataTypes.BODY)) {
+								((BodyData) fixB).receiveDamage(explosionDamage, 
+										new Vector2(fixB.getEntity().body.getPosition().x - this.hbox.body.getPosition().x, 
+												fixB.getEntity().body.getPosition().y - this.hbox.body.getPosition().y).nor().scl(explosionKnockback));
+									
+							}
+						}
+					}
+				});
+		}
 	};
 	
 	public GrenadeLauncher(HadalEntity user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
-
 }
