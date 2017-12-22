@@ -1,8 +1,9 @@
-package com.mygdx.hadal.equip;
+package com.mygdx.hadal.equip.melee;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.MeleeHitbox;
@@ -18,9 +19,9 @@ import box2dLight.RayHandler;
 public class Scrapripper extends MeleeWeapon {
 
 	private final static String name = "Scrap-Ripper";
-	private final static float swingCd = 0.02f;
+	private final static float swingCd = 0.5f;
 	private final static float windup = 0.2f;
-	private final static float backSwing = 0.5f;
+	private final static float backSwing = 0.2f;
 	private final static float baseDamage = 40.0f;
 	private final static int hitboxSize = 240;
 	private final static int swingArc = 120;

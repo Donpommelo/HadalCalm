@@ -15,7 +15,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Hitbox extends HadalEntity {
 
 	public float grav;
-	public int lifespan;
 	public Vector2 startVelo;
 	public float gravityEffect;
 	public int durability;

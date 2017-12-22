@@ -43,6 +43,8 @@ public class PlayState extends GameState{
 		
 	private Set<HadalEntity> schmucks;
 	
+	private float controllerCounter = 0;
+	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 		
@@ -85,9 +87,15 @@ public class PlayState extends GameState{
 		}
 		createList.clear();
 		
-		for (HadalEntity schmuck : schmucks) {
-			schmuck.controller(delta);
+		controllerCounter += delta;
+		
+		if (controllerCounter >= 1/60f) {
+			controllerCounter = 0;
+			for (HadalEntity schmuck : schmucks) {
+				schmuck.controller(1 / 60f);
+			}
 		}
+		
 		
 		cameraUpdate();
 		tmr.setView(camera);

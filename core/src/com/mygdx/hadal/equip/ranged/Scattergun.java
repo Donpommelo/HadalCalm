@@ -1,10 +1,11 @@
-package com.mygdx.hadal.equip;
+package com.mygdx.hadal.equip.ranged;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -20,9 +21,9 @@ public class Scattergun extends RangedWeapon {
 
 	private final static String name = "CR4P Cannon";
 	private final static int clipSize = 2;
-	private final static float shootCd = 0.25f;
+	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.8f;
+	private final static float reloadTime = 0.6f;
 	private final static int reloadAmount = 2;
 	private final static float baseDamage = 9.0f;
 	private final static float recoil = 3.0f;

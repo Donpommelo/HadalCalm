@@ -179,6 +179,21 @@ public class Player extends Schmuck {
 			playerData.switchWeapon(6);
 		}
 		
+		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_7))) {
+			playerData.switchWeapon(7);
+		}
+		
+		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_8))) {
+			playerData.switchWeapon(8);
+		}
+		
+		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_9))) {
+			playerData.switchWeapon(9);
+		}
+		
+		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_0))) {
+			playerData.switchWeapon(10);
+		}
 		
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			charging = true;

@@ -100,5 +100,12 @@ public class RangedWeapon extends Equipable{
 		}
 	}
 	
+	public void gainAmmo(int gained) {
+		clipLeft += gained;
+		if (clipLeft >= clipSize) {
+			clipLeft = clipSize;
+		}
+	}
+	
 	
 }
