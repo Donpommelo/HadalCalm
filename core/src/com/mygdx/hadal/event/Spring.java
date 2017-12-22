@@ -28,7 +28,7 @@ public class Spring extends Event {
 		this.eventData = new EventData(world, this) {
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
-					fixB.getEntity().body.applyForceToCenter(vec, true);
+					fixB.getEntity().body.applyLinearImpulse(vec, fixB.getEntity().body.getWorldCenter(), true);
 				}
 			}
 		};

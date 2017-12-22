@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" nextobjectid="13">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" nextobjectid="39">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="100" height="80">
   <data encoding="base64" compression="zlib">
@@ -42,6 +42,62 @@
   </object>
   <object id="12" x="2656" y="1632">
    <polyline points="0,0 160,0 160,96 0,96 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="event-layer">
+  <object id="19" name="Current" type="Current" x="1568" y="1888" width="512" height="256">
+   <properties>
+    <property name="currentX" type="float" value="0.25"/>
+    <property name="currentY" type="float" value="0.25"/>
+   </properties>
+  </object>
+  <object id="23" name="Current" type="Current" x="928" y="1632" width="512" height="256">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="0.5"/>
+   </properties>
+  </object>
+  <object id="24" name="Current" type="Current" x="1632" y="192" width="544" height="352">
+   <properties>
+    <property name="currentX" type="float" value="0.30000000000000004"/>
+    <property name="currentY" type="float" value="0.15"/>
+   </properties>
+  </object>
+  <object id="25" name="Current" type="Current" x="2368" y="192" width="512" height="352">
+   <properties>
+    <property name="currentX" type="float" value="-0.3"/>
+    <property name="currentY" type="float" value="0.15"/>
+   </properties>
+  </object>
+  <object id="26" name="Current" type="Current" x="544" y="2144" width="192" height="416">
+   <properties>
+    <property name="currentX" type="float" value="0.30000000000000004"/>
+    <property name="currentY" type="float" value="0.1"/>
+   </properties>
+  </object>
+  <object id="28" name="Spring" type="Spring" x="1152" y="2496" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="36" name="Spring" type="Spring" x="352" y="2400" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="37" name="Spring" type="Spring" x="2112" y="1472" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="38" name="Spring" type="Spring" x="2528" y="2112" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
   </object>
  </objectgroup>
 </map>

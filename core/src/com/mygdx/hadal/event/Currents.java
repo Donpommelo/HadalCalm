@@ -33,7 +33,7 @@ public class Currents extends Event {
 	
 	public void controller(float delta) {
 		for (HadalEntity entity : eventData.schmucks) {
-			entity.body.applyForceToCenter(vec, true);
+			entity.body.applyLinearImpulse(vec, entity.body.getWorldCenter(), true);
 		}
 	}
 	

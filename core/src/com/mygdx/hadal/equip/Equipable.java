@@ -36,6 +36,10 @@ public abstract class Equipable {
 	
 	public abstract String getText();
 	
+	public void charge(float delta) {
+		
+	}
+	
 	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {
 		
 	}

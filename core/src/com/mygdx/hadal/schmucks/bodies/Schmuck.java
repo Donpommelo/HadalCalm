@@ -31,6 +31,8 @@ public class Schmuck extends HadalEntity {
 	public float shootDelayCount = 0;
 	public Equipable usedTool;
 	
+	public float accelCounter = 0;
+	
 	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
 			float startX, float startY) {
 		super(state, world, camera, rays, w, h, startX, startY);
@@ -52,49 +54,55 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void controller(float delta) {
 
-		Vector2 currentVel = body.getLinearVelocity();
-		float desiredXVel = 0.0f;
-		float desiredYVel = 0.0f;
-		switch(moveState) {
-		case MOVE_LEFT:
-			desiredXVel = grounded ? -bodyData.maxGroundXSpeed : -bodyData.maxAirXSpeed;
-			break;
-		case MOVE_RIGHT:
-			desiredXVel = grounded ? bodyData.maxGroundXSpeed : bodyData.maxAirXSpeed;
-			break;
-		default:
-			break;
+		accelCounter += delta;
+		if (accelCounter > 1 / 60.0f) {
+			accelCounter = 0;
+			Vector2 currentVel = body.getLinearVelocity();
+			float desiredXVel = 0.0f;
+			float desiredYVel = 0.0f;
+			switch(moveState) {
+			case MOVE_LEFT:
+				desiredXVel = grounded ? -bodyData.maxGroundXSpeed : -bodyData.maxAirXSpeed;
+				break;
+			case MOVE_RIGHT:
+				desiredXVel = grounded ? bodyData.maxGroundXSpeed : bodyData.maxAirXSpeed;
+				break;
+			default:
+				break;
+			}
+			
+			float accelX = 0.0f;
+			float accelY = 0.0f;
+			
+			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
+				accelX = grounded ? bodyData.groundXAccel : bodyData.airXAccel;
+			} else {
+				accelX = grounded ? bodyData.groundXDeaccel : bodyData.airXDeaccel;
+			}
+			
+			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
+			
+			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
+				accelY = grounded ? bodyData.groundYAccel : bodyData.airYAccel;
+			} else {
+				accelY = grounded ? bodyData.groundYDeaccel : bodyData.airYDeaccel;
+			}
+			
+			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
+			
+			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(body.getMass());
+			body.applyLinearImpulse(force, body.getWorldCenter(), true);
 		}
-		
-		float accelX = 0.0f;
-		float accelY = 0.0f;
-		
-		if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
-			accelX = grounded ? bodyData.groundXAccel : bodyData.airXAccel;
-		} else {
-			accelX = grounded ? bodyData.groundXDeaccel : bodyData.airXDeaccel;
-		}
-		
-		float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
-		
-		if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
-			accelY = grounded ? bodyData.groundYAccel : bodyData.airYAccel;
-		} else {
-			accelY = grounded ? bodyData.groundYDeaccel : bodyData.airYDeaccel;
-		}
-		
-		float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
-		
-		body.setLinearVelocity(newX, newY);
-		
-		if (shootDelayCount <= 0) {
-			useToolEnd();
-		}
-		
+
 		bodyData.regainHp(bodyData.hpRegen * delta);
 		
 		shootCdCount-=delta;
 		shootDelayCount-=delta;
+		
+		if (shootDelayCount <= 0 && usedTool != null) {
+			useToolEnd();
+		}
+		
 	}
 
 	@Override
@@ -113,7 +121,7 @@ public class Schmuck extends HadalEntity {
 	}
 	
 	public void useToolEnd() {
-		if (usedTool != null) {
+		if (!usedTool.charging()) {
 			shootCdCount = usedTool.useCd;
 			usedTool.execute(state, bodyData, world, camera, rays);
 			usedTool = null;
