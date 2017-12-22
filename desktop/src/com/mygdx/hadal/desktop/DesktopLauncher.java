@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 720;
 		config.height = 480;
-		config.fullscreen = true;
+//		config.fullscreen = true;
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 60;
 		new LwjglApplication(new HadalGame(), config);

@@ -27,8 +27,10 @@ public class Hitbox extends HadalEntity {
 	
 	public HitboxData data;
 	
+	public HadalEntity creator;
+	
 	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays) {
+			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays, HadalEntity creator) {
 		super(state, world, camera, rays, width, height, x, y);
 		this.grav = grav;
 		this.lifeSpan = lifespan;
@@ -36,6 +38,7 @@ public class Hitbox extends HadalEntity {
 		this.sensor = sensor;
 		this.dura = dura;		
 		this.rest = rest;
+		this.creator = creator;
 		this.startVelo = new Vector2(startVelo);
 
 		state.create(this);

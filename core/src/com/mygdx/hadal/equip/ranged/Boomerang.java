@@ -38,17 +38,19 @@ public class Boomerang extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
+			final HadalEntity user2 = user;
+			
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					filter, true, world, camera, rays) {
+					filter, true, world, camera, rays, user) {
 				
 				public void controller(float delta) {
 					super.controller(delta);
-					Vector2 diff = new Vector2(state.getPlayer().getPosition().x * PPM - body.getPosition().x * PPM, 
-							state.getPlayer().getPosition().y * PPM - body.getPosition().y * PPM);
+					Vector2 diff = new Vector2(user2.getPosition().x * PPM - body.getPosition().x * PPM, 
+							user2.getPosition().y * PPM - body.getPosition().y * PPM);
 					body.applyForceToCenter(diff.nor().scl(projectileSpeed * body.getMass()), true);
 				}
 			};
@@ -60,8 +62,9 @@ public class Boomerang extends RangedWeapon {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
 							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.body.getLinearVelocity().nor().scl(knockback));
 						}
+					} else {
+						hbox.queueDeletion();
 					}
-					super.onHit(fixB);
 				}
 			});		
 			

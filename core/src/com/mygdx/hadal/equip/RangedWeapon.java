@@ -57,7 +57,7 @@ public class RangedWeapon extends Equipable{
 	
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
 		if (clipLeft > 0) {
-			onShoot.makeHitbox(state, velo, shooter.getBody().getPosition().x * PPM, shooter.getBody().getPosition().y * PPM, 
+			onShoot.makeHitbox(user, state, velo, shooter.getBody().getPosition().x * PPM, shooter.getBody().getPosition().y * PPM, 
 					faction, world, camera, rays);
 			
 			clipLeft--;

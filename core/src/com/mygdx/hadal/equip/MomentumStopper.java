@@ -36,11 +36,11 @@ public class MomentumStopper extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays);
+					filter, true, world, camera, rays, user);
 
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;

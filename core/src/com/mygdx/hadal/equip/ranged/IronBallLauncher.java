@@ -21,7 +21,7 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static int clipSize = 1;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.15f;
-	private final static float reloadTime = 1.0f;
+	private final static float reloadTime = 1.25f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 75.0f;
 	private final static float recoil = 3.0f;
@@ -39,12 +39,12 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-					filter, false, world, camera, rays);
+					filter, false, world, camera, rays, user);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				

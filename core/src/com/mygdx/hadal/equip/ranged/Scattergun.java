@@ -42,7 +42,7 @@ public class Scattergun extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
@@ -51,7 +51,7 @@ public class Scattergun extends RangedWeapon {
 				float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 				
 				Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
-						filter, true, world, camera, rays);
+						filter, true, world, camera, rays, user);
 				proj.setUserData(new HitboxData(state, world, proj) {
 					
 					public void onHit(HadalData fixB) {

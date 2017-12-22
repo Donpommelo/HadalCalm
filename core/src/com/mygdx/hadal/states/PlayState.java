@@ -135,13 +135,13 @@ public class PlayState extends GameState{
 		
 		if (player != null) {
 			if (player.getPlayerData() != null) {
-				font.draw(batch, "Score: " + score+ " Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 100, 120);
-				font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 100);
+				font.draw(batch, "Score: " + score+ " Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 20, 80);
+				font.draw(batch, player.getPlayerData().currentTool.getText(), 20, 60);
 				if (player.momentums.size != 0) {
-					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 100, 80);
+					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 20, 40);
 				}
 				if (player.currentEvent != null) {
-					font.draw(batch, player.currentEvent.getText(), 100, 60);
+					font.draw(batch, player.currentEvent.getText(), 20, 20);
 				}
 			}
 		}

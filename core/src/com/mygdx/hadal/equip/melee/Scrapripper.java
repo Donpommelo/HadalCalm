@@ -1,5 +1,7 @@
 package com.mygdx.hadal.equip.melee;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,20 +25,20 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float windup = 0.2f;
 	private final static float backSwing = 0.2f;
 	private final static float baseDamage = 40.0f;
-	private final static int hitboxSize = 240;
-	private final static int swingArc = 120;
+	private final static int hitboxSize = 300;
+	private final static int swingArc = 200;
 	private final static float knockback = 50.0f;
-	private final static float momentum = 5.0f;
+	private final static float momentum = 2.5f;
 	
 	
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(PlayState state, Vector2 startAngle, float x, float y, short filter, World world,
+		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startAngle, float x, float y, short filter, World world,
 				OrthographicCamera camera, RayHandler rays) {
-			
-			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle,
-					filter, world, camera, rays);
+						
+			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
+					startAngle.nor().scl(hitboxSize / 4 / PPM), filter, world, camera, rays, user);
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 				
@@ -49,12 +51,9 @@ public class Scrapripper extends MeleeWeapon {
 				}
 				
 			});
-
 			return hbox;
-			
 		}
 
-		
 	};
 	
 	public Scrapripper(HadalEntity user) {

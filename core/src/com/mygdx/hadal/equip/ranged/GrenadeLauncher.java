@@ -42,12 +42,14 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
+			final HadalEntity user2 = user;
+
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays);
+					filter, true, world, camera, rays, user);
 			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;
@@ -70,7 +72,7 @@ public class GrenadeLauncher extends RangedWeapon {
 						Hitbox explosion = new Hitbox(state, 
 						this.hbox.body.getPosition().x * PPM , this.hbox.body.getPosition().y * PPM,
 						explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-						(short) 0, true, world2, camera2, rays2);
+						(short) 0, true, world2, camera2, rays2, user2);
 
 						explosion.setUserData(new HitboxData(state, world2, explosion){
 							public void onHit(HadalData fixB) {
