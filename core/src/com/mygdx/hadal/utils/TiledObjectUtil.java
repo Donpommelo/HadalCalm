@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.event.Currents;
+import com.mygdx.hadal.event.EntitySpawner;
 import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.states.PlayState;
 
@@ -49,6 +50,13 @@ public class TiledObjectUtil {
     			Vector2 power = new Vector2(object.getProperties().get("springX", float.class), object.getProperties().get("springY", float.class));
     			new Spring(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
+    		}
+    		if (object.getName().equals("Spawn")) {
+    			RectangleMapObject current = (RectangleMapObject)object;
+    			Rectangle rect = current.getRectangle();
+    			new EntitySpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
+    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class));
     		}
     	}
     }

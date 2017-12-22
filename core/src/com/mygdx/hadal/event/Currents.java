@@ -16,6 +16,8 @@ public class Currents extends Event {
 	
 	private Vector2 vec;
 
+	private float controllerCount = 0;
+	
 	public Currents(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, Vector2 vec) {
 		super(state, world, camera, rays, width, height, x, y);
 		this.vec = vec;
@@ -32,9 +34,15 @@ public class Currents extends Event {
 	}
 	
 	public void controller(float delta) {
-		for (HadalEntity entity : eventData.schmucks) {
-			entity.body.applyLinearImpulse(vec, entity.body.getWorldCenter(), true);
+		controllerCount+=delta;
+		if (controllerCount >= 1/60f) {
+			controllerCount = 0;
+			
+			for (HadalEntity entity : eventData.schmucks) {
+				entity.body.applyLinearImpulse(vec, entity.body.getWorldCenter(), true);
+			}
 		}
+		
 	}
 	
 	public void render(SpriteBatch batch) {

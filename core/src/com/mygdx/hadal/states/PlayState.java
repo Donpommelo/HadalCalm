@@ -26,7 +26,7 @@ import box2dLight.RayHandler;
 
 public class PlayState extends GameState{
 	
-	private Player player;
+	public Player player;
 	
 	private TiledMap map;
 	OrthogonalTiledMapRenderer tmr;
@@ -43,7 +43,7 @@ public class PlayState extends GameState{
 		
 	private Set<HadalEntity> schmucks;
 	
-	private float controllerCounter = 0;
+//	private float controllerCounter = 0;
 	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -64,7 +64,7 @@ public class PlayState extends GameState{
 		schmucks = new HashSet<HadalEntity>();
 		
 		player = new Player(this, world, camera, rays, 300, 300);
-		
+	
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
@@ -87,15 +87,18 @@ public class PlayState extends GameState{
 		}
 		createList.clear();
 		
-		controllerCounter += delta;
+/*		controllerCounter += delta;
 		
 		if (controllerCounter >= 1/60f) {
 			controllerCounter = 0;
 			for (HadalEntity schmuck : schmucks) {
 				schmuck.controller(1 / 60f);
 			}
-		}
+		}*/
 		
+		for (HadalEntity schmuck : schmucks) {
+			schmuck.controller(delta);
+		}
 		
 		cameraUpdate();
 		tmr.setView(camera);
@@ -128,14 +131,16 @@ public class PlayState extends GameState{
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
 		
-		if (player.getPlayerData() != null) {
-			font.draw(batch, "Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 100, 150);
-			font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 90);
-			if (player.momentums.size != 0) {
-				font.draw(batch, "Saved Momentum: " + player.momentums.first(), 100, 60);
-			}
-			if (player.currentEvent != null) {
-				font.draw(batch, player.currentEvent.getText(), 100, 30);
+		if (player != null) {
+			if (player.getPlayerData() != null) {
+				font.draw(batch, "Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 100, 150);
+				font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 90);
+				if (player.momentums.size != 0) {
+					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 100, 60);
+				}
+				if (player.currentEvent != null) {
+					font.draw(batch, player.currentEvent.getText(), 100, 30);
+				}
 			}
 		}
 		
@@ -145,7 +150,11 @@ public class PlayState extends GameState{
 	
 	private void cameraUpdate() {
 		camera.zoom = 1;
-		CameraStyles.lerpToTarget(camera, player.getPosition().scl(PPM));
+		if (player != null) {
+			if (player.body != null) {
+				CameraStyles.lerpToTarget(camera, player.getPosition().scl(PPM));
+			}
+		}
 	}
 	
 	@Override

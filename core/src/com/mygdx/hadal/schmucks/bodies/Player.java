@@ -88,7 +88,6 @@ public class Player extends Schmuck {
 				}
 			}
 		}
-		
 		if(Gdx.input.isKeyJustPressed((Input.Keys.W))) {
 			if (grounded) {
 				if (jumpCdCount < 0) {
