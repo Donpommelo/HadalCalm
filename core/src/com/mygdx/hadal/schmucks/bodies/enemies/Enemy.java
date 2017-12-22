@@ -32,7 +32,7 @@ public class Enemy extends Schmuck {
 	public void create() {
 		this.bodyData = new BodyData(world, this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER),
+				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);
 	}
 
@@ -66,6 +66,7 @@ public class Enemy extends Schmuck {
 	}
 	
 	public void dispose() {
+		state.incrementScore(1);
 		super.dispose();
 	}
 }

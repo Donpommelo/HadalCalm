@@ -43,6 +43,8 @@ public class PlayState extends GameState{
 		
 	private Set<HadalEntity> schmucks;
 	
+	public int score = 0;
+	
 //	private float controllerCounter = 0;
 	
 	public PlayState(GameStateManager gsm) {
@@ -90,7 +92,7 @@ public class PlayState extends GameState{
 /*		controllerCounter += delta;
 		
 		if (controllerCounter >= 1/60f) {
-			controllerCounter = 0;
+			controllerCounter  -= 1/60f;
 			for (HadalEntity schmuck : schmucks) {
 				schmuck.controller(1 / 60f);
 			}
@@ -133,13 +135,13 @@ public class PlayState extends GameState{
 		
 		if (player != null) {
 			if (player.getPlayerData() != null) {
-				font.draw(batch, "Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 100, 150);
-				font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 90);
+				font.draw(batch, "Score: " + score+ " Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 100, 120);
+				font.draw(batch, player.getPlayerData().currentTool.getText(), 100, 100);
 				if (player.momentums.size != 0) {
-					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 100, 60);
+					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 100, 80);
 				}
 				if (player.currentEvent != null) {
-					font.draw(batch, player.currentEvent.getText(), 100, 30);
+					font.draw(batch, player.currentEvent.getText(), 100, 60);
 				}
 			}
 		}
@@ -172,6 +174,10 @@ public class PlayState extends GameState{
 	
 	public Player getPlayer() {
 		return player;
+	}
+
+	public void incrementScore(int i) {
+		score += i;
 	}
 	
 }
