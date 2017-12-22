@@ -63,7 +63,7 @@ public class PlayState extends GameState{
 		createList = new HashSet<HadalEntity>();
 		schmucks = new HashSet<HadalEntity>();
 		
-		player = new Player(this, world, camera, rays, 300, 300);
+//		player = new Player(this, world, camera, rays, 300, 300);
 	
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);

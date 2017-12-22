@@ -3,8 +3,8 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.bodies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -50,10 +50,10 @@ public class EntitySpawner extends Event {
 			amountCount++;
 			switch(id) {
 			case 0:
-//				state.player = new Player(state, world, camera, rays, spawnX, spawnY);
+				state.player = new Player(state, world, camera, rays, spawnX, spawnY);
 				break;
 			case 1:
-				new Enemy(state, world, camera, rays, 64, 64, spawnX, spawnY);
+				new Enemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
 				break;
 				
 			}
