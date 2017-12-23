@@ -15,24 +15,24 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
-public class Speargun extends RangedWeapon {
+public class MachineGun extends RangedWeapon {
 
-	private final static String name = "Harpoon Gun";
-	private final static int clipSize = 6;
-	private final static float shootCd = 0.25f;
+	private final static String name = "Machine Gun";
+	private final static int clipSize = 20;
+	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 0.75f;
-	private final static int reloadAmount = 6;
-	private final static float baseDamage = 40.0f;
-	private final static float recoil = 1.5f;
-	private final static float knockback = 3.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 10;
-	private final static float lifespan = 0.6f;
+	private final static float reloadTime = 1.5f;
+	private final static int reloadAmount = 20;
+	private final static float baseDamage = 15.0f;
+	private final static float recoil = 0.25f;
+	private final static float knockback = .05f;
+	private final static float projectileSpeed = 30.0f;
+	private final static int projectileWidth = 15;
+	private final static int projectileHeight = 15;
+	private final static float lifespan = 0.5f;
 	private final static float gravity = 1;
 	
-	private final static int projDura = 2;
+	private final static int projDura = 1;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -61,7 +61,7 @@ public class Speargun extends RangedWeapon {
 		
 	};
 	
-	public Speargun(HadalEntity user) {
+	public MachineGun(HadalEntity user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 

@@ -16,22 +16,22 @@ import com.mygdx.hadal.utils.HitboxFactory;
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-public class GrenadeLauncher extends RangedWeapon {
+public class TorpedoLauncher extends RangedWeapon {
 
-	private final static String name = "Grenade Launcher";
+	private final static String name = "Torpedo Launcher";
 	private final static int clipSize = 3;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.15f;
 	private final static float reloadTime = 0.5f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 8.0f;
-	private final static float recoil = 5.0f;
+	private final static float recoil = 6.0f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 10.0f;
-	private final static int projectileWidth = 15;
-	private final static int projectileHeight = 15;
+	private final static float projectileSpeed = 12.0f;
+	private final static int projectileWidth = 40;
+	private final static int projectileHeight = 20;
 	private final static float lifespan = 3.0f;
-	private final static float gravity = 1;
+	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
 		
@@ -47,15 +47,14 @@ public class GrenadeLauncher extends RangedWeapon {
 				RayHandler rays) {
 			
 			final HadalEntity user2 = user;
-
+			final Vector2 initialVelocity = startVelocity;
+			
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, world, camera, rays, user) {
+					filter, false, world, camera, rays, user){
+				
 				public void controller(float delta) {
 					super.controller(delta);
-					if (lifeSpan <= 0) {
-						explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								world, camera, rays, user2);
-					}
+					body.applyForceToCenter(initialVelocity.nor().scl(projectileSpeed * body.getMass()), true);
 				}
 			};
 			
@@ -66,14 +65,21 @@ public class GrenadeLauncher extends RangedWeapon {
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
 				public void onHit(HadalData fixB) {
+					boolean explode = false;
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
 							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.body.getLinearVelocity().nor().scl(knockback));
-							explode(state, this.hbox.body.getPosition().x * PPM , this.hbox.body.getPosition().y * PPM, 
-									world2, camera2, rays2, user2);
-							hbox.queueDeletion();
+							explode = true;
 						}
+					} else {
+						explode = true;
 					}
+					if (explode) {
+						explode(state, this.hbox.body.getPosition().x * PPM , this.hbox.body.getPosition().y * PPM, 
+								world2, camera2, rays2, user2);
+						hbox.queueDeletion();
+					}
+					
 				}
 			});		
 			
@@ -101,7 +107,7 @@ public class GrenadeLauncher extends RangedWeapon {
 		}
 	};
 	
-	public GrenadeLauncher(HadalEntity user) {
+	public TorpedoLauncher(HadalEntity user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 }

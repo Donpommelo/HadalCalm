@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
+import com.mygdx.hadal.equip.Airblaster;
 import com.mygdx.hadal.equip.MomentumStopper;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.MoveStates;
@@ -47,12 +48,14 @@ public class Player extends Schmuck {
 	public Event currentEvent;
 	
 	public MomentumStopper mStop;
+	public Airblaster airblast;
 	public Queue<Vector2> momentums;
 	
 	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, playerWidth, playerHeight, x, y);
 		state.create(this);
 		mStop = new MomentumStopper(this);
+		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
 	}
 	
@@ -210,7 +213,8 @@ public class Player extends Schmuck {
 					playerData.fuelSpend(playerData.airblastCost);
 					airblastCdCount = airblastCd;
 					
-					recoil(Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), playerData.airblastPow);
+					useToolStart(delta, airblast, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+
 				}
 			}
 		}

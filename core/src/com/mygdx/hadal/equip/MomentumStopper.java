@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.MeleeHitbox;
 import com.mygdx.hadal.event.MomentumPickup;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -16,37 +16,31 @@ import com.mygdx.hadal.utils.HitboxFactory;
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-public class MomentumStopper extends RangedWeapon {
-
+public class MomentumStopper extends MeleeWeapon {
+	
 	private final static String name = "Momentum Stopper";
-	private final static int clipSize = 1;
-	private final static float shootCd = 0.0f;
-	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.0f;
-	private final static int reloadAmount = 1;
-	private final static float recoil = 0.0f;
-	private final static float projectileSpeed = 0.0f;
-	private final static int projectileWidth = 800;
-	private final static int projectileHeight = 800;
-	private final static float lifespan = 0.15f;
-	private final static float gravity = 0;
+	private final static float swingCd = 0.0f;
+	private final static float windup = 0.0f;
+	private final static float backSwing = 0.20f;
+	private final static int hitboxSize = 800;
+	private final static int swingArc = 800;
+	private final static float momentum = 0.0f;
 	
-	private final static int projDura = 1;
-	
-	private final static HitboxFactory onShoot = new HitboxFactory() {
+	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startAngle, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user);
 
+			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
+					new Vector2(0, 0), filter, world, camera, rays, user);
+			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;
 			final RayHandler rays2 = rays;
 			
-			proj.setUserData(new HitboxData(state, world, proj) {
+			hbox.setUserData(new HitboxData(state, world, hbox) {
 								
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
@@ -69,12 +63,6 @@ public class MomentumStopper extends RangedWeapon {
 	};
 	
 	public MomentumStopper(HadalEntity user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, swingCd, windup, momentum, onSwing);
 	}
-	
-	public void mouseClicked(PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
-		clipLeft = 1;
-		super.mouseClicked(state, shooter, faction, x, y, world, camera, rays);
-	}
-
 }

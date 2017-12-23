@@ -8,8 +8,10 @@ import com.mygdx.hadal.equip.ranged.BouncingBlade;
 import com.mygdx.hadal.equip.ranged.ChargeBeam;
 import com.mygdx.hadal.equip.ranged.GrenadeLauncher;
 import com.mygdx.hadal.equip.ranged.IronBallLauncher;
+import com.mygdx.hadal.equip.ranged.MachineGun;
 import com.mygdx.hadal.equip.ranged.Scattergun;
 import com.mygdx.hadal.equip.ranged.Speargun;
+import com.mygdx.hadal.equip.ranged.TorpedoLauncher;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
 public class PlayerBodyData extends BodyData {
@@ -50,7 +52,9 @@ public class PlayerBodyData extends BodyData {
 		multitools[4] = new BouncingBlade(body);
 		multitools[5] = new GrenadeLauncher(body);
 		multitools[6] = new Boomerang(body);
-		multitools[7] = new Scrapripper(body);
+		multitools[7] = new TorpedoLauncher(body);
+		multitools[8] = new MachineGun(body);
+		multitools[9] = new Scrapripper(body);
 		this.currentTool = multitools[currentSlot];
 	}
 	

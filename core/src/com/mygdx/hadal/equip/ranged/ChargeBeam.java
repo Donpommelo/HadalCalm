@@ -35,8 +35,8 @@ public class ChargeBeam extends RangedWeapon {
 	private final static int projDura = 5;
 	
 	private static float chargeDura = 0.0f;
-	private static final float maxCharge = 2.0f;
-	private static final float chargeMag = 1.0f;
+	private static int chargeStage = 0;
+	private static final float maxCharge = 2.5f;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -45,9 +45,46 @@ public class ChargeBeam extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {			
 			
-			final float chargePow = 1 + chargeDura * chargeMag;
+			if (chargeDura >= maxCharge) {
+				chargeStage = 3;
+			} else if (chargeDura >= 1.5f) {
+				chargeStage = 2;
+			} else if (chargeDura >= 0.75f) {
+				chargeStage = 1;
+			} else {
+				chargeStage = 0;
+			}
 			
-			Hitbox proj = new Hitbox(state, x, y, (int)(projectileWidth * chargePow), (int)(projectileHeight * chargePow), gravity, lifespan, projDura, 0, startVelocity.scl(chargePow),
+			float sizeMultiplier = 1;
+			float speedMultiplier = 1;
+			float damageMultiplier = 1;
+			float kbMultiplier = 1;
+
+			switch(chargeStage) {
+			case 3:
+				sizeMultiplier = 6.0f;
+				speedMultiplier = 4.5f;
+				damageMultiplier = 10.0f;
+				kbMultiplier = 8.0f;
+				break;
+			case 2:
+				sizeMultiplier = 2.5f;
+				speedMultiplier = 3.0f;
+				damageMultiplier = 6.0f;
+				kbMultiplier = 5.0f;
+				break;
+			case 1:
+				sizeMultiplier = 1.5f;
+				speedMultiplier = 1.5f;
+				damageMultiplier = 2.0f;
+				kbMultiplier = 1.5f;
+				break;
+			}
+			
+			final float damageMultiplier2 = damageMultiplier;
+			final float kbMultiplier2 = kbMultiplier;
+			
+			Hitbox proj = new Hitbox(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
 					filter, true, world, camera, rays, user);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
@@ -55,10 +92,12 @@ public class ChargeBeam extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							((BodyData) fixB).receiveDamage(baseDamage * chargePow, this.hbox.body.getLinearVelocity().nor().scl(knockback * chargePow));
+							((BodyData) fixB).receiveDamage(baseDamage * damageMultiplier2, this.hbox.body.getLinearVelocity().nor().scl(knockback * kbMultiplier2));
 						}
 					}
-					super.onHit(fixB);
+					if (chargeStage != 3) {
+						super.onHit(fixB);
+					}
 				}
 			});		
 			
