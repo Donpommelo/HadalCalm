@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -33,11 +34,10 @@ public class Event extends HadalEntity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-//		batch.setProjectionMatrix(state.textCamera.combined);
-//		batch.begin();
-//		state.font.getData().setScale(1/16f);
-//		state.font.draw(batch, name, body.getPosition().x * 32 - width, body.getPosition().y * 32 - height);
-//		batch.end();
+		batch.setProjectionMatrix(state.hud.combined);
+		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
+		camera.project(bodyScreenPosition);
+		state.font.draw(batch, name, bodyScreenPosition.x - width, bodyScreenPosition.y - height);
 	}
 	
 	public String getText() {

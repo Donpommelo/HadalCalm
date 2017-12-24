@@ -52,7 +52,6 @@ public class RangedWeapon extends Equipable{
 		this.faction = faction;
 		this.x = x;
 		this.y = y;
-
 	}
 	
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {

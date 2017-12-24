@@ -32,7 +32,7 @@ public class PlayState extends GameState {
 	OrthogonalTiledMapRenderer tmr;
 	
     public BitmapFont font;
-    private OrthographicCamera hud;
+    public OrthographicCamera hud;
     
 	private RayHandler rays;
 	private Box2DDebugRenderer b2dr;

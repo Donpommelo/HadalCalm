@@ -11,7 +11,7 @@ public class PlayerBodyData extends BodyData {
 
 	public int maxFuel = 100;
 	public float currentFuel = 100;
-	public float fuelRegen = 8.0f;
+	public float fuelRegen = 5.0f;
 	
 	public int numExtraJumps = 1;
 	public int extraJumpsUsed = 0;
@@ -23,7 +23,7 @@ public class PlayerBodyData extends BodyData {
 	public int hoverCost = 5;
 	public float hoverPow = 0.8f;
 	
-	public int airblastCost = 20;
+	public int airblastCost = 30;
 	public float airblastPow = 7.5f;
 	
 	public int itemSlots = 4;
