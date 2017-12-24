@@ -19,13 +19,13 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class TorpedoLauncher extends RangedWeapon {
 
 	private final static String name = "Torpedo Launcher";
-	private final static int clipSize = 3;
+	private final static int clipSize = 4;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.15f;
-	private final static float reloadTime = 0.5f;
+	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 8.0f;
-	private final static float recoil = 6.0f;
+	private final static float recoil = 0.5f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 12.0f;
 	private final static int projectileWidth = 40;

@@ -22,9 +22,11 @@ public class EntitySpawner extends Event {
 	
 	public int spawnX, spawnY;
 	
+	private static final String name = "Schmuck Spawner";
+
 	public EntitySpawner(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, int schmuckId, float interval, int limit) {
-		super(state, world, camera, rays, width, height, x, y);
+		super(state, world, camera, rays, name, width, height, x, y);
 		this.id = schmuckId;
 		this.interval = interval;
 		this.limit = limit;

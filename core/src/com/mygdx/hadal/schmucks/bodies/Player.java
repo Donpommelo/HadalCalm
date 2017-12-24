@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
-import com.mygdx.hadal.equip.Airblaster;
-import com.mygdx.hadal.equip.MomentumStopper;
+import com.mygdx.hadal.equip.misc.Airblaster;
+import com.mygdx.hadal.equip.misc.MomentumStopper;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
@@ -38,7 +38,7 @@ public class Player extends Schmuck {
 	protected float interactCd = 0.15f;
 	protected float interactCdCount = 0;
 	
-	protected float momentumCd = 1000;
+	protected float momentumCd = 10.0f;
 	protected float momentumCdCount = 0;
 	
 	private boolean charging = false;

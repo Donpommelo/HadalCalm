@@ -8,8 +8,12 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.hadal.event.AirBubbleSpawner;
 import com.mygdx.hadal.event.Currents;
 import com.mygdx.hadal.event.EntitySpawner;
+import com.mygdx.hadal.event.EquipPickup;
+import com.mygdx.hadal.event.EquipPickupRandom;
+import com.mygdx.hadal.event.MedpakSpawner;
 import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.states.PlayState;
 
@@ -37,26 +41,41 @@ public class TiledObjectUtil {
     
     public static void parseTiledEventLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObjects objects) {
     	for(MapObject object : objects) {
+    		RectangleMapObject current = (RectangleMapObject)object;
+			Rectangle rect = current.getRectangle();
     		if (object.getName().equals("Current")) {
-    			RectangleMapObject current = (RectangleMapObject)object;
-    			Rectangle rect = current.getRectangle();
     			Vector2 power = new Vector2(object.getProperties().get("currentX", float.class), object.getProperties().get("currentY", float.class));
     			new Currents(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
     		}
     		if (object.getName().equals("Spring")) {
-    			RectangleMapObject current = (RectangleMapObject)object;
-    			Rectangle rect = current.getRectangle();
     			Vector2 power = new Vector2(object.getProperties().get("springX", float.class), object.getProperties().get("springY", float.class));
     			new Spring(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
     		}
     		if (object.getName().equals("Spawn")) {
-    			RectangleMapObject current = (RectangleMapObject)object;
-    			Rectangle rect = current.getRectangle();
     			new EntitySpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class));
+    		}
+    		if (object.getName().equals("Equip")) {
+    			new EquipPickup(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("equipId", int.class));
+    		}
+    		if (object.getName().equals("EquipRand")) {
+    			new EquipPickupRandom(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
+    		if (object.getName().equals("AirBubble")) {
+    			new AirBubbleSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+    					object.getProperties().get("interval", float.class));
+    		}
+    		if (object.getName().equals("Medpak")) {
+    			new MedpakSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+    					object.getProperties().get("interval", float.class));
     		}
     	}
     }

@@ -13,8 +13,12 @@ public class Event extends HadalEntity {
 	
 	public EventData eventData;
 	
-	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y) {
+	public String name;
+	
+	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
+			int width, int height, int x, int y) {
 		super(state, world, camera, rays, width, height, x, y);
+		this.name = name;
 	}
 	
 	@Override
@@ -29,7 +33,11 @@ public class Event extends HadalEntity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		
+//		batch.setProjectionMatrix(state.textCamera.combined);
+//		batch.begin();
+//		state.font.getData().setScale(1/16f);
+//		state.font.draw(batch, name, body.getPosition().x * 32 - width, body.getPosition().y * 32 - height);
+//		batch.end();
 	}
 	
 	public String getText() {

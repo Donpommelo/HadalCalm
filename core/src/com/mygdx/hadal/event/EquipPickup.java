@@ -1,9 +1,9 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.ranged.*;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -16,19 +16,54 @@ public class EquipPickup extends Event {
 
 	private Equipable equip;
 	
+	public static final int numWeapons = 8;
+	
+	private static final String name = "Equip Pickup";
+
 	public EquipPickup(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, Equipable equip) {
-		super(state, world, camera, rays, width, height, x, y);
-		this.equip = equip;
+			int x, int y, int equipId) {
+		super(state, world, camera, rays, name, width, height, x, y);
+		switch(equipId) {
+		case 0:
+			this.equip = new Speargun(null);
+			break;
+		case 1:
+			this.equip = new Scattergun(null);
+			break;
+		case 2:
+			this.equip = new MachineGun(null);
+			break;
+		case 3:
+			this.equip = new IronBallLauncher(null);
+			break;
+		case 4:
+			this.equip = new ChargeBeam(null);
+			break;
+		case 5:
+			this.equip = new Boomerang(null);
+			break;
+		case 6:
+			this.equip = new GrenadeLauncher(null);
+			break;
+		case 7:
+			this.equip = new TorpedoLauncher(null);
+			break;
+		default:
+			this.equip = new Speargun(null);
+			break;
+		}
 		state.create(this);
 	}
 	
 	public void create() {
 		this.eventData = new InteractableEventData(world, this) {
 			public void onInteract(Player p) {
-				Equipable temp = p.playerData.currentTool;
-				p.playerData.pickup(equip);
-				equip = temp;
+				Equipable temp = p.playerData.pickup(equip);
+				if (temp == null) {
+					queueDeletion();
+				} else {
+					equip = temp;
+				}
 			}
 		};
 		
@@ -37,12 +72,8 @@ public class EquipPickup extends Event {
 				(short) 0, true, eventData);
 	}
 	
-	public void render(SpriteBatch batch) {
-		
-	}
-	
 	public String getText() {
-		return equip.name + " (PRESS E TO SWAP)";
+		return equip.name + " (PRESS E TO TAKE)";
 	}
 
 }

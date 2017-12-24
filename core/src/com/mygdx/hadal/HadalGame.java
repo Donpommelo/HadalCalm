@@ -15,8 +15,8 @@ public class HadalGame extends ApplicationAdapter {
 	
 	//Game Info
 	public static final String TITLE = "";
-	public static final int V_WIDTH = 720;
-	public static final int V_HEIGHT = 480;
+//	public static final int V_WIDTH = 720;
+//	public static final int V_HEIGHT = 480;
 	private final float SCALE = 2.0f;
 	
 	private OrthographicCamera camera;
@@ -28,7 +28,6 @@ public class HadalGame extends ApplicationAdapter {
 	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		
 		batch = new SpriteBatch();
 
 		camera = new OrthographicCamera();

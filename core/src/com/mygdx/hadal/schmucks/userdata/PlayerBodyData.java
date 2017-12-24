@@ -3,15 +3,8 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.melee.Scrapripper;
-import com.mygdx.hadal.equip.ranged.Boomerang;
-import com.mygdx.hadal.equip.ranged.BouncingBlade;
-import com.mygdx.hadal.equip.ranged.ChargeBeam;
-import com.mygdx.hadal.equip.ranged.GrenadeLauncher;
-import com.mygdx.hadal.equip.ranged.IronBallLauncher;
-import com.mygdx.hadal.equip.ranged.MachineGun;
-import com.mygdx.hadal.equip.ranged.Scattergun;
+import com.mygdx.hadal.equip.misc.MomentumShooter;
 import com.mygdx.hadal.equip.ranged.Speargun;
-import com.mygdx.hadal.equip.ranged.TorpedoLauncher;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
 public class PlayerBodyData extends BodyData {
@@ -33,7 +26,7 @@ public class PlayerBodyData extends BodyData {
 	public int airblastCost = 20;
 	public float airblastPow = 7.5f;
 	
-	public int itemSlots = 10;
+	public int itemSlots = 4;
 	public Equipable[] multitools;
 	public int currentSlot = 0;
 	public int lastSlot = 0;
@@ -45,16 +38,9 @@ public class PlayerBodyData extends BodyData {
 		super(world, body);
 		this.player = body;
 		multitools = new Equipable[itemSlots];
-		multitools[0] = new Scattergun(body);
-		multitools[1] = new Speargun(body);
-		multitools[2] = new ChargeBeam(body);
-		multitools[3] = new IronBallLauncher(body);
-		multitools[4] = new BouncingBlade(body);
-		multitools[5] = new GrenadeLauncher(body);
-		multitools[6] = new Boomerang(body);
-		multitools[7] = new TorpedoLauncher(body);
-		multitools[8] = new MachineGun(body);
-		multitools[9] = new Scrapripper(body);
+		multitools[0] = new Speargun(body);
+		multitools[1] = new Scrapripper(body);
+		multitools[2] = new MomentumShooter(body);
 		this.currentTool = multitools[currentSlot];
 	}
 	
@@ -77,10 +63,25 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	public void pickup(Equipable equip) {
+	public Equipable pickup(Equipable equip) {
+		
+		for (int i = 0; i < itemSlots; i++) {
+			if (multitools[i] == null) {
+				multitools[i] = equip;
+				multitools[i].user = player;
+				currentSlot = i;
+				currentTool = multitools[currentSlot];
+				return null;
+			}
+		}
+		
+		Equipable old = multitools[currentSlot];
+		
 		multitools[currentSlot] = equip;
 		multitools[currentSlot].user = player;
 		currentTool = multitools[currentSlot];
+		
+		return old;
 	}
 	
 	public void fuelSpend(float cost) {

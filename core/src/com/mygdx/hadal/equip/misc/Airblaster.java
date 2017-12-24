@@ -1,4 +1,4 @@
-package com.mygdx.hadal.equip;
+package com.mygdx.hadal.equip.misc;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 

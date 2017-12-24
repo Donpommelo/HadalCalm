@@ -12,21 +12,21 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
-public class AirBubble extends Event{
+public class Medpak extends Event{
 
 	private static final int width = 16;
 	private static final int height = 16;
 	
-	private static final int fuelRegained = 25;
+	private static final int hpRegained = 25;
 
-	private AirBubbleSpawner spawner;
+	private MedpakSpawner spawner;
 	
-	private static final String name = "Air Bubble";
-	
-	public AirBubble(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y,
-			AirBubbleSpawner spawner) {
+	private static final String name = "Medpak";
+
+	public Medpak(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y,
+			MedpakSpawner medpakSpawner) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.spawner = spawner;
+		this.spawner = medpakSpawner;
 		state.create(this);
 	}
 	
@@ -36,8 +36,8 @@ public class AirBubble extends Event{
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
-						if (((PlayerBodyData)fixB).currentFuel < ((PlayerBodyData)fixB).maxFuel) {
-							((PlayerBodyData)fixB).fuelGain(fuelRegained);
+						if (((PlayerBodyData)fixB).currentHp < ((PlayerBodyData)fixB).currentHp) {
+							((PlayerBodyData)fixB).regainHp(hpRegained);
 							if (spawner != null) {
 								spawner.readyToSpawn = true;
 							}
@@ -52,5 +52,4 @@ public class AirBubble extends Event{
 				(short) (Constants.BIT_PLAYER),
 				Constants.ENEMY_HITBOX, true, eventData);
 	}
-	
 }

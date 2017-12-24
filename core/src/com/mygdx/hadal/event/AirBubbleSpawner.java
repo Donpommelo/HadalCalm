@@ -1,28 +1,33 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
-public class Currents extends Event {
+public class AirBubbleSpawner extends Event {
 	
-	private Vector2 vec;
-
-	private float controllerCount = 0;
+	public float interval;
 	
-	private static final String name = "Current";
+	public float spawnCount = 0;
+	
+	public int spawnX, spawnY;
+	
+	public boolean readyToSpawn = true;
+	
+	private static final String name = "Air Bubble Spawner";
 
-	public Currents(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, Vector2 vec) {
+	public AirBubbleSpawner(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+			int x, int y, float interval) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.vec = vec;
+		this.interval = interval;
+		this.spawnX = x;
+		this.spawnY = y;
+		
 		state.create(this);
 	}
 	
@@ -36,19 +41,14 @@ public class Currents extends Event {
 	}
 	
 	public void controller(float delta) {
-		controllerCount+=delta;
-		if (controllerCount >= 1/60f) {
-			controllerCount = 0;
+		spawnCount += delta;
+		if (spawnCount >= interval) {
+			spawnCount = 0;
 			
-			for (HadalEntity entity : eventData.schmucks) {
-				entity.body.applyLinearImpulse(vec, entity.body.getWorldCenter(), true);
+			if (readyToSpawn) {
+				readyToSpawn = false;
+				new AirBubble(state, world, camera, rays, spawnX, spawnY, this);
 			}
 		}
-		
 	}
-	
-	public void render(SpriteBatch batch) {
-		
-	}
-	
 }

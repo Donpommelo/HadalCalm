@@ -24,14 +24,14 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import box2dLight.RayHandler;
 
-public class PlayState extends GameState{
+public class PlayState extends GameState {
 	
 	public Player player;
 	
 	private TiledMap map;
 	OrthogonalTiledMapRenderer tmr;
 	
-    private BitmapFont font;
+    public BitmapFont font;
     private OrthographicCamera hud;
     
 	private RayHandler rays;
@@ -52,7 +52,7 @@ public class PlayState extends GameState{
 		
         font = new BitmapFont();
         hud = new OrthographicCamera();
-        hud.setToOrtho(false, 720, 480);
+        hud.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
 		world = new World(new Vector2(0, -9.81f), false);
 		world.setContactListener(new WorldContactListener());
@@ -126,15 +126,20 @@ public class PlayState extends GameState{
 		b2dr.render(world, camera.combined.scl(PPM));
 
 		rays.updateAndRender();
+		
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+
+		
 		for (HadalEntity schmuck : schmucks) {
 			schmuck.render(batch);
 		}
 		
 		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
 		
 		if (player != null) {
 			if (player.getPlayerData() != null) {
+				font.getData().setScale(1);
 				font.draw(batch, "Score: " + score+ " Hp: " + player.getPlayerData().currentHp + " Fuel: " + player.getPlayerData().currentFuel, 20, 80);
 				font.draw(batch, player.getPlayerData().currentTool.getText(), 20, 60);
 				if (player.momentums.size != 0) {

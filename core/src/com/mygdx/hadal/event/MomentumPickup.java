@@ -25,9 +25,11 @@ public class MomentumPickup extends Event {
 	private static final float lifespan = 8.0f;
 	private float lifeLeft;
 	
+	private static final String name = "Momentum Bubble";
+
 	public MomentumPickup(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, 
 			Vector2 momentum) {
-		super(state, world, camera, rays, width, height, x, y);
+		super(state, world, camera, rays, name, width, height, x, y);
 		this.momentum = momentum;
 		this.lifeLeft = lifespan; 
 		state.create(this);
