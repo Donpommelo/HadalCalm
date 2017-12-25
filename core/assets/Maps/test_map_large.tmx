@@ -142,17 +142,17 @@
   </object>
   <object id="53" name="AirBubble" type="AirBubble" x="2368" y="960" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="20"/>
+    <property name="interval" type="float" value="30"/>
    </properties>
   </object>
   <object id="54" name="Medpak" type="Medpak" x="1792" y="1056" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="20"/>
+    <property name="interval" type="float" value="30"/>
    </properties>
   </object>
   <object id="55" name="Medpak" type="Medpak" x="1280" y="2304" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="20"/>
+    <property name="interval" type="float" value="30"/>
    </properties>
   </object>
  </objectgroup>

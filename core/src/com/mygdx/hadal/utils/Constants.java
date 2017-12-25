@@ -1,7 +1,13 @@
 package com.mygdx.hadal.utils;
 
+/**
+ * Constants used throughout the game.
+ * @author Zachary Tu
+ *
+ */
 public class Constants {
 	
+	//Pixels per Meter. Transitioning between Box2d coordinates and libgdx ones.
 	public static final float PPM = 32;
 	
 	// Filters

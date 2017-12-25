@@ -24,7 +24,6 @@ public class Currents extends Event {
 	public Currents(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, Vector2 vec) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.vec = vec;
-		state.create(this);
 	}
 	
 	public void create() {
@@ -42,7 +41,7 @@ public class Currents extends Event {
 			controllerCount = 0;
 			
 			for (HadalEntity entity : eventData.schmucks) {
-				entity.body.applyLinearImpulse(vec, entity.body.getWorldCenter(), true);
+				entity.getBody().applyLinearImpulse(vec, entity.getBody().getWorldCenter(), true);
 			}
 		}
 		

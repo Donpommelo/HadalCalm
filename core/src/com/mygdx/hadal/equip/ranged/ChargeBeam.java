@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -19,7 +19,7 @@ public class ChargeBeam extends RangedWeapon {
 
 	private final static String name = "Charge Beam";
 	private final static int clipSize = 4;
-	private final static float shootCd = 0.15f;
+	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 4;
@@ -41,7 +41,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {			
 			
@@ -92,7 +92,7 @@ public class ChargeBeam extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							((BodyData) fixB).receiveDamage(baseDamage * damageMultiplier2, this.hbox.body.getLinearVelocity().nor().scl(knockback * kbMultiplier2));
+							((BodyData) fixB).receiveDamage(baseDamage * damageMultiplier2, this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2));
 						}
 					}
 					if (chargeStage != 3) {
@@ -106,23 +106,23 @@ public class ChargeBeam extends RangedWeapon {
 		
 	};
 	
-	public ChargeBeam(HadalEntity user) {
+	public ChargeBeam(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 	
-	public void charge(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
 		if (chargeDura < maxCharge) {
 			chargeDura+=delta;
 		}
+		super.mouseClicked(delta, state, shooter, faction, x, y, world, camera, rays);
+	}
+	
+	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
+
 	}
 	
 	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {
 		super.execute(state, bodyData, world, camera, rays);
 		chargeDura = 1;
 	}
-	
-	public boolean charging() {
-		return true;
-	}
-
 }

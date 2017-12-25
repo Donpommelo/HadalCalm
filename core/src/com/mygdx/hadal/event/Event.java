@@ -10,10 +10,18 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.
+ * Events include hp/fuel/weapon pickups, currents, schmuck spawners, springs, literally anything else.
+ * @author Zachary Tu
+ *
+ */
 public class Event extends HadalEntity {
 	
+	//The event's data
 	public EventData eventData;
 	
+	//The event's name
 	public String name;
 	
 	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
@@ -32,6 +40,9 @@ public class Event extends HadalEntity {
 		
 	}
 
+	/**
+	 * Tentatively, we want to display the event's name information next to the event
+	 */
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.hud.combined);

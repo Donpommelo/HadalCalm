@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -42,11 +42,11 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			final HadalEntity user2 = user;
+			final Schmuck user2 = user;
 			final Vector2 initialVelocity = startVelocity;
 			
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
@@ -68,14 +68,14 @@ public class TorpedoLauncher extends RangedWeapon {
 					boolean explode = false;
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.body.getLinearVelocity().nor().scl(knockback));
+							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback));
 							explode = true;
 						}
 					} else {
 						explode = true;
 					}
 					if (explode) {
-						explode(state, this.hbox.body.getPosition().x * PPM , this.hbox.body.getPosition().y * PPM, 
+						explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
 								world2, camera2, rays2, user2);
 						hbox.queueDeletion();
 					}
@@ -87,7 +87,7 @@ public class TorpedoLauncher extends RangedWeapon {
 		}
 		
 		public void explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
-				HadalEntity user) {
+				Schmuck user) {
 			Hitbox explosion = new Hitbox(state, 
 					x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
 					(short) 0, true, world, camera, rays, user);
@@ -97,8 +97,8 @@ public class TorpedoLauncher extends RangedWeapon {
 						if (fixB != null) {
 							if (fixB.getType().equals(UserDataTypes.BODY)) {
 								((BodyData) fixB).receiveDamage(explosionDamage, 
-										new Vector2(fixB.getEntity().body.getPosition().x - this.hbox.body.getPosition().x, 
-												fixB.getEntity().body.getPosition().y - this.hbox.body.getPosition().y).nor().scl(explosionKnockback));
+										new Vector2(fixB.getEntity().getBody().getPosition().x - this.hbox.getBody().getPosition().x, 
+												fixB.getEntity().getBody().getPosition().y - this.hbox.getBody().getPosition().y).nor().scl(explosionKnockback));
 									
 							}
 						}
@@ -107,7 +107,7 @@ public class TorpedoLauncher extends RangedWeapon {
 		}
 	};
 	
-	public TorpedoLauncher(HadalEntity user) {
+	public TorpedoLauncher(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 }

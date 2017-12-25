@@ -27,8 +27,6 @@ public class AirBubbleSpawner extends Event {
 		this.interval = interval;
 		this.spawnX = x;
 		this.spawnY = y;
-		
-		state.create(this);
 	}
 	
 	public void create() {

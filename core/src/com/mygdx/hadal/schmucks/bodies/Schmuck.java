@@ -16,30 +16,59 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Schmuck is an entity that can use equipment like the player or an enemy.
+ * They also have some innate stats.
+ * @author Zachary Tu
+ *
+ */
 public class Schmuck extends HadalEntity {
 
+	//The current movestate of this schmuck
 	protected MoveStates moveState;
 	
 	//Fixtures and user data
 	protected Fixture feet;
 	protected HadalData feetData;
 	
+	//user data.
 	protected BodyData bodyData;
+	
+	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;
 	
+	//Counters that keep track of delay between action initiation + action execution and action execution + next action
 	public float shootCdCount = 0;
 	public float shootDelayCount = 0;
+	
+	//The last used tool. This is used to process equipment with a delay between using and executing.
 	public Equipable usedTool;
 	
+	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	public float controllerCount = 0;
 	
+	/**
+	 * This constructor is called when a Schmuck is made.
+	 * @param state: Current playState
+	 * @param world: Box2d world
+	 * @param camera: Game camera
+	 * @param rays: game rayhandler
+	 * @param w: width
+	 * @param h: height
+	 * @param startX: starting x position
+	 * @param startY: starting y position
+	 */
 	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
 			float startX, float startY) {
 		super(state, world, camera, rays, w, h, startX, startY);
 		this.grounded = false;
-		state.create(this);
 	}
 
+	/**
+	 * When this schmuck is added to the world, give it a foot to keep track of whether it is grounded or not.
+	 * IMPORTANT: this method does not create the entity's body! 
+	 * Subclasses must create the schmuck's body before calling super.create()! Otherwise body + bodyData will be null.
+	 */
 	@Override
 	public void create() {
 		this.feetData = new HadalData(world, UserDataTypes.FEET, this);        
@@ -51,15 +80,23 @@ public class Schmuck extends HadalEntity {
 		this.hadalData = bodyData;
 	}
 
+	/**
+	 * The basic behaviour of a schmuck depends on its moveState.
+	 * This method contains some physics that constrains schmucks in addition to box2d stuff.
+	 */
 	@Override
 	public void controller(float delta) {
 		
+		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		controllerCount+=delta;
 		if (controllerCount >= 1/60f) {
-			controllerCount = 0;
+			controllerCount -= 1/60f;
+			
 			Vector2 currentVel = body.getLinearVelocity();
 			float desiredXVel = 0.0f;
 			float desiredYVel = 0.0f;
+			
+			//set desired velocity depending on move states. TODO: add movestates for schmucks not affected by gravity.
 			switch(moveState) {
 			case MOVE_LEFT:
 				desiredXVel = grounded ? -bodyData.maxGroundXSpeed : -bodyData.maxAirXSpeed;
@@ -74,6 +111,7 @@ public class Schmuck extends HadalEntity {
 			float accelX = 0.0f;
 			float accelY = 0.0f;
 			
+			//Process acceleration based on bodyData stats.
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
 				accelX = grounded ? bodyData.groundXAccel : bodyData.airXAccel;
 			} else {
@@ -94,44 +132,76 @@ public class Schmuck extends HadalEntity {
 			body.applyLinearImpulse(force, body.getWorldCenter(), true);
 		}
 		
-		
-
+		//Apply base hp regen
 		bodyData.regainHp(bodyData.hpRegen * delta);
 		
+		//process cooldowns
 		shootCdCount-=delta;
 		shootDelayCount-=delta;
 		
+		//If the delay on using a tool just ended, use thte tool.
 		if (shootDelayCount <= 0 && usedTool != null) {
 			useToolEnd();
 		}
 		
 	}
 
+	/**
+	 * Draw the schmuck
+	 */
 	@Override
 	public void render(SpriteBatch batch) {
 		
 	}
 
+	/**
+	 * This method is called when a schmuck wants to use a tool.
+	 * @param delta: Time passed since last usage. This is used for Charge tools that keep track of time charged.
+	 * @param tool: Equipment that the schmuck wants to use
+	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
+	 * @param x: x screen coordinate that represents where the tool is being directed.
+	 * @param y: y screen coordinate that represents where the tool is being directed.
+	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast/momentum freezing/some enemy attacks
+	 */
 	public void useToolStart(float delta, Equipable tool, short hitbox, int x, int y, boolean wait) {
+		
+		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
-			if (!tool.charging()) {
-				shootDelayCount = tool.useDelay;
-			} else {
-				tool.charge(delta, state, bodyData, hitbox, y, y, world, camera, rays);
-			}
-			tool.mouseClicked(state, bodyData, hitbox, x, y, world, camera, rays);
+
+			//account for the tool's use delay.
+			shootDelayCount = tool.useDelay;
+			
+			//Register the tool targeting the input coordinates.
+			tool.mouseClicked(delta, state, bodyData, hitbox, x, y, world, camera, rays);
+			
+			//set the tool that will be executed after delay to input tool.
 			usedTool = tool;
 		}
 	}
 	
+	/**
+	 * This method is called after a tool is used following the tool's delay.
+	 */
 	public void useToolEnd() {
-		if (!usedTool.charging()) {
-			shootCdCount = usedTool.useCd;
-			usedTool.execute(state, bodyData, world, camera, rays);
-			usedTool = null;
-		}
+			
+		//the schmuck will not register another tool usage for the tool's cd
+		shootCdCount = usedTool.useCd;
+		
+		//execute the tool.
+		usedTool.execute(state, bodyData, world, camera, rays);
+		
+		//clear the used tool field.
+		usedTool = null;
 	}
 	
+	/**
+	 * This method is called after the user releases the button for a tool. Mostly used by charge weapons that execute when releasing
+	 * instead of after pressing.
+	 * @param tool: tool to release
+	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
+	 * @param x: x screen coordinate that represents where the tool is being directed.
+	 * @param y: y screen coordinate that represents where the tool is being directed.
+	 */
 	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
 		tool.release(state, bodyData, world, camera, rays);
 	}

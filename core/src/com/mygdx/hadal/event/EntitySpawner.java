@@ -32,8 +32,6 @@ public class EntitySpawner extends Event {
 		this.limit = limit;
 		this.spawnX = x;
 		this.spawnY = y;
-		
-		state.create(this);
 	}
 	
 	public void create() {

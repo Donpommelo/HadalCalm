@@ -54,7 +54,6 @@ public class EquipPickup extends Event {
 			this.equip = new Speargun(null);
 			break;
 		}
-		state.create(this);
 	}
 	
 	public void create() {

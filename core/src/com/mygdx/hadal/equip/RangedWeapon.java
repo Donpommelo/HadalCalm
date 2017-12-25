@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -26,7 +26,7 @@ public class RangedWeapon extends Equipable{
 	public int x, y;
 	public short faction;
 
-	public RangedWeapon(HadalEntity user, String name, int clipSize, float reloadTime, float recoil, 
+	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
 			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot) {
 		super(user, name, shootCd, shootDelay);
 		this.clipSize = clipSize;
@@ -39,9 +39,11 @@ public class RangedWeapon extends Equipable{
 	}
 
 	@Override
-	public void mouseClicked(PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
 		
-		Vector3 bodyScreenPosition = new Vector3(shooter.getBody().getPosition().x, shooter.getBody().getPosition().y, 0);
+		Vector3 bodyScreenPosition = new Vector3(
+				shooter.getSchmuck().getBody().getPosition().x,
+				shooter.getSchmuck().getBody().getPosition().y, 0);
 		camera.project(bodyScreenPosition);
 		
 		float powerDiv = bodyScreenPosition.dst(x, y, 0) / projectileSpeed;
@@ -56,7 +58,9 @@ public class RangedWeapon extends Equipable{
 	
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
 		if (clipLeft > 0) {
-			onShoot.makeHitbox(user, state, velo, shooter.getBody().getPosition().x * PPM, shooter.getBody().getPosition().y * PPM, 
+			onShoot.makeHitbox(user, state, velo, 
+					shooter.getSchmuck().getBody().getPosition().x * PPM, 
+					shooter.getSchmuck().getBody().getPosition().y * PPM, 
 					faction, world, camera, rays);
 			
 			clipLeft--;
@@ -75,6 +79,9 @@ public class RangedWeapon extends Equipable{
 		}
 	}
 
+	@Override
+	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {}
+	
 	public void reload(float delta) {
 		if (reloadCd > 0) {
 			reloadCd -= delta;
@@ -105,6 +112,4 @@ public class RangedWeapon extends Equipable{
 			clipLeft = clipSize;
 		}
 	}
-	
-	
 }

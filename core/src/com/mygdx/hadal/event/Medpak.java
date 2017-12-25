@@ -27,7 +27,6 @@ public class Medpak extends Event{
 			MedpakSpawner medpakSpawner) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.spawner = medpakSpawner;
-		state.create(this);
 	}
 	
 	public void create() {

@@ -6,9 +6,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.MeleeHitbox;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -29,14 +29,14 @@ public class MomentumStopper extends MeleeWeapon {
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startAngle, float x, float y, short filter,
+		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
 					new Vector2(0, 0), filter, world, camera, rays, user);
 			
-			final HadalEntity user2 = user;
+			final Schmuck user2 = user;
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 								
@@ -44,9 +44,11 @@ public class MomentumStopper extends MeleeWeapon {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.HITBOX)) {
 							
-							Vector2 velo = new Vector2(fixB.getEntity().body.getLinearVelocity().x, fixB.getEntity().body.getLinearVelocity().y);
+							Vector2 velo = new Vector2(
+									fixB.getEntity().getBody().getLinearVelocity().x, 
+									fixB.getEntity().getBody().getLinearVelocity().y);
 							((Player) user2).momentums.addLast(velo);
-							fixB.getEntity().body.setLinearVelocity(new Vector2(0, 0));
+							fixB.getEntity().getBody().setLinearVelocity(new Vector2(0, 0));
 						}
 					}
 				}
@@ -57,7 +59,7 @@ public class MomentumStopper extends MeleeWeapon {
 		
 	};
 	
-	public MomentumStopper(HadalEntity user) {
+	public MomentumStopper(Schmuck user) {
 		super(user, name, swingCd, windup, momentum, onSwing);
 	}
 }

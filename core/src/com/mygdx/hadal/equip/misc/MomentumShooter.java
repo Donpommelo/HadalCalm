@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -35,7 +35,7 @@ public class MomentumShooter extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
@@ -48,7 +48,7 @@ public class MomentumShooter extends RangedWeapon {
 					if (fixB != null) {
 						if (state.getPlayer().momentums.size > 0) {
 							Vector2 velo = state.getPlayer().momentums.first();
-							fixB.getEntity().body.setLinearVelocity(velo);
+							fixB.getEntity().getBody().setLinearVelocity(velo);
 							
 							if (fixB instanceof HitboxData) {
 								((HitboxData)fixB).hbox.filter = (short)0;
@@ -64,7 +64,7 @@ public class MomentumShooter extends RangedWeapon {
 		
 	};
 	
-	public MomentumShooter(HadalEntity user) {
+	public MomentumShooter(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 

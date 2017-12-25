@@ -9,6 +9,11 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 
+/**
+ * This listener keeps track of whenever 2 fixtures in the box2d world collide.
+ * @author Zachary Tu
+ *
+ */
 public class WorldContactListener implements ContactListener {
 
 	@Override
@@ -16,6 +21,8 @@ public class WorldContactListener implements ContactListener {
 		HadalData fixA = (HadalData) contact.getFixtureA().getUserData();
 		HadalData fixB = (HadalData) contact.getFixtureB().getUserData();
 
+		//When 2 fixtures collide, increment their number of contacts.
+		//Projectiles and events should register hits.
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
 			if (fixA.getType().equals(UserDataTypes.HITBOX)) {

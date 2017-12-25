@@ -32,7 +32,6 @@ public class MomentumPickup extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.momentum = momentum;
 		this.lifeLeft = lifespan; 
-		state.create(this);
 	}
 	
 	public void create() {

@@ -5,14 +5,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * A GameState is any state of the game like a menu or the game screen. The game will keep track of each GameState is currently active
+ * to receive input and display information to the player.
+ * @author Zachary Tu
+ *
+ */
 public abstract class GameState {
 	
-	//References
+	//References to the Game, StateManager and their relevant fields.
 	protected GameStateManager gsm;
 	protected HadalGame app;
 	protected SpriteBatch batch;
 	protected OrthographicCamera camera;
 	
+	/**
+	 * This constructor is run when the player switches GameState to a new State.
+	 * @param gsm: Reference to GameStateManager.
+	 */
 	public GameState(GameStateManager gsm) {
 		this.gsm = gsm;
 		this.app = gsm.application();
@@ -20,11 +30,28 @@ public abstract class GameState {
 		this.camera = app.getCamera();
 	}
 	
+	/**
+	 * Default behaviour for resizing screen includes resetting the main camera.
+	 * @param w: Width of new screen
+	 * @param h: height of the new screen
+	 */
 	public void resize(int w, int h) {
 		camera.setToOrtho(false, w, h);
 	}
 	
+	/**
+	 * This will be run every engine tick and will process game logic.
+	 * @param delta: elapsed time in seconds since last engine tick.
+	 */
 	public abstract void update(float delta);
+	
+	/**
+	 * This will be run every engine tick after updating and will display information to the player.
+	 */
 	public abstract void render();
+	
+	/**
+	 * This will be run upon deleting the state and will dispose of any unneeded object in the state. 
+	 */
 	public abstract void dispose();
 }

@@ -27,7 +27,6 @@ public class AirBubble extends Event{
 			AirBubbleSpawner spawner) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.spawner = spawner;
-		state.create(this);
 	}
 	
 	public void create() {

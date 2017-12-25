@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * These utils describe various tools for moving the camera.
+ */
 public class CameraStyles {
 
     public static void lockOnTarget(Camera camera, Vector2 target) {

@@ -20,7 +20,6 @@ public class Spring extends Event {
 	public Spring(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, Vector2 vec) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.vec = vec;
-		state.create(this);
 	}
 	
 	public void create() {
@@ -28,7 +27,7 @@ public class Spring extends Event {
 		this.eventData = new EventData(world, this) {
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
-					fixB.getEntity().body.applyLinearImpulse(vec, fixB.getEntity().body.getWorldCenter(), true);
+					fixB.getEntity().getBody().applyLinearImpulse(vec, fixB.getEntity().getBody().getWorldCenter(), true);
 				}
 			}
 		};

@@ -18,13 +18,19 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * The player is the entity that the player controls.
+ * @author Zachary Tu
+ *
+ */
 public class Player extends Schmuck {
 	
-	//Fixtures and user data
-	
+
+	//player stats
 	private final static int playerWidth = 16;
 	private final static int playerHeight = 32;
 	
+	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
 	private float jumpCd = 0.25f;
 	private float jumpCdCount = 0;
@@ -41,24 +47,41 @@ public class Player extends Schmuck {
 	protected float momentumCd = 10.0f;
 	protected float momentumCdCount = 0;
 	
+	//is the player currently in the process of holding their currently used tool?
 	private boolean charging = false;
 	
+	//user data
 	public PlayerBodyData playerData;
 	
+	//The event that the player last collided with. Used for active events that the player interacts with by pressing 'E'
 	public Event currentEvent;
 	
+	//Equipment that the player has built in to their toolset.
 	public MomentumStopper mStop;
 	public Airblaster airblast;
+	
+	//Queue of velocities that the player can manipulate
 	public Queue<Vector2> momentums;
 	
+	/**
+	 * This constructor is called by the player spawn event that must be located in each map
+	 * @param state: current gameState
+	 * @param world: box2d world
+	 * @param camera: game camera
+	 * @param rays: game rayhandler
+	 * @param x: player starting x position.
+	 * @param y: player starting x position.
+	 */
 	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, playerWidth, playerHeight, x, y);
-		state.create(this);
 		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
 	}
 	
+	/**
+	 * Create the player's body and initialize player's user data.
+	 */
 	public void create() {
 		this.playerData = new PlayerBodyData(world, this);
 		this.bodyData = playerData;
@@ -70,19 +93,28 @@ public class Player extends Schmuck {
 		super.create();
 	}
 	
+	/**
+	 * The player's controller currently polls for input.
+	 */
 	public void controller(float delta) {
 		
+		//players default position is standing
 		moveState = MoveStates.STAND;
 		
+		//Determine if the player is in the air or on ground.
 		grounded = feetData.getNumContacts() > 0;
 		
+		//player's jumps are refreshed on the ground
 		if (grounded) {
 			playerData.extraJumpsUsed = 0;
 		}
 		
+		//Holding 'W' = use jetpack if the player is off ground and lacks extra jumps
 		if(Gdx.input.isKeyPressed((Input.Keys.W))) {
 			if (!grounded && playerData.extraJumpsUsed == playerData.numExtraJumps) {
 				if (jumpCdCount < 0) {
+					
+					//Player will continuously do small upwards bursts that cost fuel.
 					if (playerData.currentFuel >= playerData.hoverCost) {
 						playerData.fuelSpend(playerData.hoverCost);
 						jumpCdCount = hoverCd;
@@ -91,6 +123,8 @@ public class Player extends Schmuck {
 				}
 			}
 		}
+		
+		//Pressing 'W' = jump.
 		if(Gdx.input.isKeyJustPressed((Input.Keys.W))) {
 			if (grounded) {
 				if (jumpCdCount < 0) {
@@ -108,12 +142,14 @@ public class Player extends Schmuck {
 			}
         }		
 		
+		//Holding 'S' = crouch. Currently does nothing but TODO: later should reduce knockback.
 		if(Gdx.input.isKeyPressed((Input.Keys.S))) {
 			if (grounded) {
 				moveState = MoveStates.CROUCH;
 			}
 		}
 		
+		//Pressing 'S' in the air does a fastfall
 		if(Gdx.input.isKeyJustPressed((Input.Keys.S))) {
 			if (!grounded) {
 				if (fastFallCdCount < 0) {
@@ -123,6 +159,7 @@ public class Player extends Schmuck {
 			}
 		}
 		
+		//Holding 'A', 'D' = move left/right. Schmuck.controller(delta) will handle the physics for these.
 		if(Gdx.input.isKeyPressed((Input.Keys.A))) {
 			moveState = MoveStates.MOVE_LEFT;
         }
@@ -131,13 +168,15 @@ public class Player extends Schmuck {
 			moveState = MoveStates.MOVE_RIGHT;
 		}
 		
-		if(Gdx.input.isKeyPressed((Input.Keys.E))) {
+		//Pressing 'E' = interact with an event
+		if(Gdx.input.isKeyJustPressed((Input.Keys.E))) {
 			if (currentEvent != null && interactCdCount < 0) {
 				interactCdCount = interactCd;
 				currentEvent.eventData.onInteract(this);
 			}
 		}
 		
+		//Pressing 'Space' = use momentum.
 		if(Gdx.input.isKeyJustPressed((Input.Keys.SPACE))) {
 			if (momentums.size == 0) {
 				if (momentumCdCount < 0) {
@@ -149,14 +188,17 @@ public class Player extends Schmuck {
 			}
 		}
 		
+		//Pressing 'R' = reload current weapon.
 		if(Gdx.input.isKeyJustPressed((Input.Keys.R))) {
 			playerData.currentTool.reloading = true;
 		}
 		
+		//Pressing 'Q' = switch to last weapon.
 		if(Gdx.input.isKeyJustPressed((Input.Keys.Q))) {
 			playerData.switchToLast();
 		}
 		
+		//Pressing '1' ... '0' = switch to weapon slot.
 		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_1))) {
 			playerData.switchWeapon(1);
 		}
@@ -197,6 +239,7 @@ public class Player extends Schmuck {
 			playerData.switchWeapon(10);
 		}
 		
+		//Clicking left mouse = use tool. charging keeps track of whether button is held.
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			charging = true;
 			useToolStart(delta, playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), true);
@@ -207,6 +250,7 @@ public class Player extends Schmuck {
 			charging = false;
 		}
 		
+		//Clicking right mouse = airblast
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
 			if (airblastCdCount < 0) {
 				if (playerData.currentFuel >= playerData.airblastCost) {
@@ -219,13 +263,17 @@ public class Player extends Schmuck {
 			}
 		}
 		
+		//TODO: mouse wheel to scroll through equip?
 		
+		//process fuel regen
 		playerData.fuelGain(playerData.fuelRegen * delta);
 		
+		//If player is reloading, run the reload method of the current equipment.
 		if (playerData.currentTool.reloading) {
 			playerData.currentTool.reload(delta);
 		}
 		
+		//process cds
 		jumpCdCount-=delta;
 		fastFallCdCount-=delta;
 		airblastCdCount-=delta;
@@ -236,6 +284,7 @@ public class Player extends Schmuck {
 		
 	}
 	
+	//TODO: turn jump/fastfall into general helper methods for all entities
 	public void jump(float impulse) {
 		body.applyLinearImpulse(new Vector2(0, impulse), body.getWorldCenter(), true);
 	}

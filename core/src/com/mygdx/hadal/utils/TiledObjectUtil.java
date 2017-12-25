@@ -19,11 +19,23 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * This util parses a Tiled file into an in-game map.
+ * @author Zachary Tu
+ *
+ */
 public class TiledObjectUtil {
+	
+	/**
+	 * Parses objects to create walls and stuff.
+	 * @param world: The Box2d world to add the created walls to.
+	 * @param objects: The list of Tiled objects to parse through
+	 */
     public static void parseTiledObjectLayer(World world, MapObjects objects) {
         for(MapObject object : objects) {
             Shape shape;
 
+            //Atm, we only parse PolyLines into solid walls
             if(object instanceof PolylineMapObject) {
                 shape = createPolyline((PolylineMapObject) object);
             } else {
@@ -39,10 +51,22 @@ public class TiledObjectUtil {
         }
     }
     
+    /**
+     * Parses Tiled objects into in game events
+     * @param state: Current GameState
+	 * @param world: The Box2d world to add the created events to.
+     * @param camera: The camera to pass to the created events.
+     * @param rays: The rayhandler to pass to the created events.
+     * @param objects: The list of Tiled objects to parse into events.
+     */
     public static void parseTiledEventLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObjects objects) {
     	for(MapObject object : objects) {
+    		
+    		//atm, all events are just rectangles.
     		RectangleMapObject current = (RectangleMapObject)object;
 			Rectangle rect = current.getRectangle();
+			
+			//Go through every event type to create events
     		if (object.getName().equals("Current")) {
     			Vector2 power = new Vector2(object.getProperties().get("currentX", float.class), object.getProperties().get("currentY", float.class));
     			new Currents(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -80,6 +104,11 @@ public class TiledObjectUtil {
     	}
     }
 
+    /**
+     * Helper function for parseTiledObjectLayer that creates line bodies
+     * @param polyline: Tiled map object
+     * @return: Box2d body
+     */
     private static ChainShape createPolyline(PolylineMapObject polyline) {
         float[] vertices = polyline.getPolyline().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];

@@ -9,7 +9,7 @@ import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.MeleeHitbox;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -34,7 +34,7 @@ public class Scrapripper extends MeleeWeapon {
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(HadalEntity user, PlayState state, Vector2 startAngle, float x, float y, short filter, World world,
+		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, float x, float y, short filter, World world,
 				OrthographicCamera camera, RayHandler rays) {
 						
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
@@ -45,7 +45,7 @@ public class Scrapripper extends MeleeWeapon {
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.body.getLinearVelocity().nor().scl(knockback));
+							((BodyData) fixB).receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback));
 						}
 					}
 				}
@@ -56,7 +56,7 @@ public class Scrapripper extends MeleeWeapon {
 
 	};
 	
-	public Scrapripper(HadalEntity user) {
+	public Scrapripper(Schmuck user) {
 		super(user, name, swingCd, windup, momentum, onSwing);
 	}
 
