@@ -4,11 +4,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.StandardRanged;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -25,6 +28,16 @@ public class RunningEnemy extends Enemy {
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
 
+	public static final float aiCd = 1.0f;
+    public float aiCdCount = 0;
+    
+  	private runningState aiState;
+
+  	private final float jumpPow = 5.0f;
+  	
+  	float shortestFraction;
+  	Fixture closestFixture;
+  	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
 	 * @param state: current gameState
@@ -40,7 +53,9 @@ public class RunningEnemy extends Enemy {
 		super(state, world, camera, rays, width, height, x, y);
 		
 		//default enemy weapon is a slow ranged projectile
-		this.weapon = new StandardRanged(this);		
+		this.weapon = new StandardRanged(this);	
+		
+		this.aiState = runningState.ROAMING;
 	}
 	
 	/**
@@ -62,22 +77,76 @@ public class RunningEnemy extends Enemy {
 		
 		moveState = MoveStates.STAND;
 		
-		Vector2 player = state.getPlayer().getBody().getPosition();
-		
-		if (player.x > body.getPosition().x) {
-			moveState = MoveStates.MOVE_RIGHT;
-		} else {
-			moveState = MoveStates.MOVE_LEFT;
+		switch(aiState) {
+		case ROAMING:
+			if (Math.random() > 0.5f) {
+				moveState = MoveStates.MOVE_RIGHT;
+			} else {
+				moveState = MoveStates.MOVE_LEFT;
+			}
+			break;
+		case CHASING:
+			Vector2 player = state.getPlayer().getBody().getPosition();
+			
+			if (player.x > body.getPosition().x) {
+				moveState = MoveStates.MOVE_RIGHT;
+			} else {
+				moveState = MoveStates.MOVE_LEFT;
+			}
+			
+			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
+			camera.project(target);
+			
+			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
+			break;
 		}
 		
-		Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
-		camera.project(target);
-		
-		useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
+		if (aiCdCount < 0) {
+			
+			if (Math.random() > 0.5f) {
+				push(0, jumpPow);
+			}
+			
+			aiCdCount += aiCd;
+			aiState = runningState.ROAMING;
+			
+			shortestFraction = 1.0f;
+			
+			world.rayCast(new RayCastCallback() {
+
+				@Override
+				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+					if (fixture.getUserData() == null) {
+						if (fraction < shortestFraction) {
+							shortestFraction = fraction;
+							closestFixture = fixture;
+							return fraction;
+						}
+					} else if (fixture.getUserData() instanceof PlayerBodyData) {
+						if (fraction < shortestFraction) {
+							shortestFraction = fraction;
+							closestFixture = fixture;
+							return fraction;
+						}
+						
+					} 
+					return -1.0f;
+				}
+				
+			}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+			
+			if (closestFixture != null) {
+				if (closestFixture.getUserData() instanceof PlayerBodyData ) {
+					aiState = runningState.CHASING;
+				}
+			}			
+		}
 
 		if (weapon.reloading) {
 			weapon.reload(delta);
 		}
+
+		aiCdCount -= delta;
 
 		super.controller(delta);
 	}
@@ -87,6 +156,11 @@ public class RunningEnemy extends Enemy {
 	 */
 	public void render(SpriteBatch batch) {
 		
+	}
+	
+	public enum runningState {
+		CHASING,
+		ROAMING
 	}
 	
 }

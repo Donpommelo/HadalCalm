@@ -21,14 +21,14 @@ import box2dLight.RayHandler;
 public class StandardMelee extends MeleeWeapon {
 
 	private final static String name = "Standard Melee Attack";
-	private final static float swingCd = 1.0f;
-	private final static float windup = 0.0f;
-	private final static float backSwing = 0.5f;
+	private final static float swingCd = 0.5f;
+	private final static float windup = 0.5f;
+	private final static float backSwing = 0.0f;
 	private final static float baseDamage = 8.0f;
 	private final static int hitboxSize = 100;
 	private final static int swingArc = 100;
 	private final static float knockback = 7.5f;
-	private final static float momentum = 0.0f;
+	private final static float momentum = 3.0f;
 	
 	
 	private final static HitboxFactory onSwing = new HitboxFactory() {

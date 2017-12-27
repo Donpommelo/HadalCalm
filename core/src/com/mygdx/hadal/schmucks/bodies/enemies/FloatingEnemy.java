@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.StandardMelee;
@@ -13,6 +14,7 @@ import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -40,13 +42,13 @@ public class FloatingEnemy extends Enemy {
     
     public Vector2 direction;
     
-    public static final float moveCd = 0.5f;
+    public static final float moveCd = 0.75f;
     public float moveCdCount = 0;
     
-    public static final float aiCd = 0.5f;
+    public static final float aiCd = 0.75f;
     public float aiCdCount = 0;
     
-    public static final float moveMag = 7.0f;
+    public static final float moveMag = 7.5f;
     
     //Fixtures and user data
   	protected FixtureDef sensorDef;
@@ -55,6 +57,9 @@ public class FloatingEnemy extends Enemy {
     
   	private floatingState aiState;
   	private Vector2 wallhug;
+  	
+  	float shortestFraction;
+  	Fixture closestFixture;
   	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -74,7 +79,7 @@ public class FloatingEnemy extends Enemy {
 		this.weapon = new StandardMelee(this);	
 		
 //		pathFinder = new IndexedAStarPathFinder<Node>(LevelManager.airGraph, false);
-		this.aiState = floatingState.CHASING;
+		this.aiState = floatingState.ROAMING;
 	}
 	
 	/**
@@ -89,7 +94,7 @@ public class FloatingEnemy extends Enemy {
 		this.sensorData = new HitboxData(state, world, null) {
 			public void onHit(HadalData fixB) {
 				if (fixB == null) {
-					if (aiState.equals(floatingState.CHASING)) {
+					if (aiState.equals(floatingState.ROAMING)) {
 						aiState = floatingState.WALLHUGGING;
 						aiCdCount = aiCd;
 						wallhug = getBody().getLinearVelocity().nor().scl(moveMag / 2).rotate(45);
@@ -114,7 +119,7 @@ public class FloatingEnemy extends Enemy {
 		moveState = MoveStates.STAND;
 		
 		switch (aiState) {
-		case CHASING:
+		case ROAMING:
 			
 			if (sensorData.getNumContacts() > 0) {
 				aiState = floatingState.WALLHUGGING;
@@ -124,10 +129,20 @@ public class FloatingEnemy extends Enemy {
 			
 			direction = new Vector2(
 					state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
-					state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag);
+					state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag);			
 			break;
 		case WALLHUGGING:
 			direction = wallhug;
+			break;
+		case CHASING:
+			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
+			camera.project(target);
+			
+			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
+			
+			direction = new Vector2(
+					state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
+					state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag / 8);			
 			break;
 		default:
 			break;
@@ -143,13 +158,39 @@ public class FloatingEnemy extends Enemy {
 		
 		if (aiCdCount < 0) {
 			aiCdCount += aiCd;
-			aiState = floatingState.CHASING;
+			aiState = floatingState.ROAMING;
+			
+			shortestFraction = 1.0f;
+			
+			world.rayCast(new RayCastCallback() {
+
+				@Override
+				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+					if (fixture.getUserData() == null) {
+						if (fraction < shortestFraction) {
+							shortestFraction = fraction;
+							closestFixture = fixture;
+							return fraction;
+						}
+					} else if (fixture.getUserData() instanceof PlayerBodyData) {
+						if (fraction < shortestFraction) {
+							shortestFraction = fraction;
+							closestFixture = fixture;
+							return fraction;
+						}
+						
+					} 
+					return -1.0f;
+				}
+				
+			}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+			
+			if (closestFixture != null) {
+				if (closestFixture.getUserData() instanceof PlayerBodyData ) {
+					aiState = floatingState.CHASING;
+				}
+			}			
 		}
-		
-		Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
-		camera.project(target);
-		
-		useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 
 		shootCdCount-=delta;
 		shootDelayCount-=delta;
@@ -170,8 +211,8 @@ public class FloatingEnemy extends Enemy {
 		
 	}
 	
-	public enum floatingState {
-		CHASING,
+	public enum floatingState {		CHASING,
+		ROAMING,
 		WALLHUGGING
 	}
 }

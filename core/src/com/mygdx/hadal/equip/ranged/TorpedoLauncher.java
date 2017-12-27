@@ -27,7 +27,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 0.5f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 12.0f;
+	private final static float projectileSpeed = 15.0f;
 	private final static int projectileWidth = 40;
 	private final static int projectileHeight = 20;
 	private final static float lifespan = 3.0f;

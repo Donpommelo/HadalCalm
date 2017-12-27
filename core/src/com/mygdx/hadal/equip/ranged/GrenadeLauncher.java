@@ -27,7 +27,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 0.5f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 10.0f;
+	private final static float projectileSpeed = 12.5f;
 	private final static int projectileWidth = 15;
 	private final static int projectileHeight = 15;
 	private final static float lifespan = 3.0f;
