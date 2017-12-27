@@ -31,7 +31,7 @@ public abstract class HadalEntity {
 	//Fields common to all entities.
 	protected Body body;
 	protected HadalData hadalData;
-	protected float height, width;
+	public float height, width;
 	protected float startX, startY;
 	
 	/**
@@ -112,6 +112,10 @@ public abstract class HadalEntity {
 		float yImpulse = (bodyScreenPosition.y - y) / powerDiv;
 		
 		body.applyLinearImpulse(new Vector2(xImpulse, yImpulse), body.getWorldCenter(), true);
+	}
+	
+	public void push(float impulseX, float impulseY) {
+		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
 	}
 
 	/**

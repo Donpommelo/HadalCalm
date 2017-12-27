@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
+import com.mygdx.hadal.schmucks.bodies.enemies.FloatingEnemy;
+import com.mygdx.hadal.schmucks.bodies.enemies.RunningEnemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -53,7 +54,13 @@ public class EntitySpawner extends Event {
 				state.player = new Player(state, world, camera, rays, spawnX, spawnY);
 				break;
 			case 1:
-				new Enemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
+				if (Math.random() > 0.5f) {
+					new FloatingEnemy(state, world, camera, rays, 32, 16, spawnX, spawnY);
+				} else {
+					new RunningEnemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
+				}
+				break;
+			case 2:
 				break;
 				
 			}

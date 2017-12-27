@@ -7,16 +7,29 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * A MeleeHitbox is a hitbox used by melee weapons.
+ * The only distinction between this and a regular hitbox is that this is affixed to the user's body
+ * @author Zachary Tu
+ *
+ */
 public class MeleeHitbox extends Hitbox {
 
+	//This is the point on the hitbox body that will be attached to the user.
 	public Vector2 center;
 	
+	/**
+	 * Same as normal hitbox man
+	 */
 	public MeleeHitbox(PlayState state, float x, float y, int width, int height, float lifespan,
 			Vector2 startAngle, Vector2 center, short filter, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator) {
 		super(state, x, y, width, height, 0, lifespan, 0, 0, startAngle, filter, true, world, camera, rays, creator);
 		this.center = center;
 	}
 	
+	/**
+	 * This just makes sure the melee hitbox tracks the position of the user.
+	 */
 	public void controller(float delta) {
 		Vector2 hbLocation = creator.getBody().getPosition().add(center);
 		this.body.setTransform(hbLocation, startVelo.angleRad());

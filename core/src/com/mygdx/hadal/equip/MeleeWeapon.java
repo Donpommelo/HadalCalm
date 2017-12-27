@@ -14,15 +14,30 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import box2dLight.RayHandler;
 
+/**
+ * Melee weapons are weapons that create MeleeHitboxes that are attached to the user.
+ * @author Zachary Tu
+ *
+ */
 public class MeleeWeapon extends Equipable {
 
 	public float momentum;
+	
 	public HitboxFactory onSwing;
 
 	public Vector2 velo;
 	public int x, y;
 	public short faction;
 	
+	/**
+	 * 
+	 * @param user: Schmuck that is using this tool.
+	 * @param name: Name of the weapon
+	 * @param swingcd: The delay after using this tool before you can use a tool again.
+	 * @param windup: The delay between pressing the button for this tool and it activating. 
+	 * @param momentum: reverse recoil. Using a melee wepon will inch the user forwards by a force of this magnitude.
+	 * @param onSwing: This is a factory that creates a melee hitbox.
+	 */
 	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum,
 			HitboxFactory onSwing) {
 		super(user, name, swingcd, windup);
@@ -30,6 +45,10 @@ public class MeleeWeapon extends Equipable {
 		this.onSwing = onSwing;
 	}
 
+	/**
+	 * This method is called when a schmuck targets a point with this weapon.
+	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
+	 */
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world,
 			OrthographicCamera camera, RayHandler rays) {
@@ -50,6 +69,10 @@ public class MeleeWeapon extends Equipable {
 		this.y = y;
 	}
 	
+	/**
+	 * This is run after the weapon's swingDelay to actually swing.
+	 * Here, the stored velo, recoil, filter are used to generate a melee hitbox
+	 */
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
 		onSwing.makeHitbox(user, state, velo, 
 				shooter.getSchmuck().getBody().getPosition().x * PPM, 
@@ -60,12 +83,23 @@ public class MeleeWeapon extends Equipable {
 
 	}
 	
+	/**
+	 * Default behaviour for releasing mouse is nothing.
+	 * Override this in charge weapons or other weapons that care about mouse release.
+	 */
 	@Override
 	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {}
 
+	/**
+	 * Default behaviour for reloading is nothing.
+	 * Override this for special weapon arts or whatever.
+	 */
 	@Override
 	public void reload(float delta) {}
 
+	/**
+	 * returns the weapon name
+	 */
 	@Override
 	public String getText() {
 		return name;

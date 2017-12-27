@@ -16,7 +16,6 @@ public class PlayerBodyData extends BodyData {
 	public int numExtraJumps = 1;
 	public int extraJumpsUsed = 0;
 	public float jumpPow = 5.0f;
-	public float extraJumpPow = 5.0f;
 	
 	public float fastFallPow = 6.0f;
 

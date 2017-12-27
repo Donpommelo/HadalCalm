@@ -19,7 +19,7 @@ public class StandardRanged extends RangedWeapon {
 
 	private final static String name = "Standard Ranged Attack";
 	private final static int clipSize = 6;
-	private final static float shootCd = 2.5f;
+	private final static float shootCd = 2.0f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 6;

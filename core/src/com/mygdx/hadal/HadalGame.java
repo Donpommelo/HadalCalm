@@ -20,6 +20,7 @@ public class HadalGame extends ApplicationAdapter {
 	//The main camera scales to the viewport size scaled to this for some reason.
 	//TODO: replace this with a constant aspect ratio?
 	private final float SCALE = 2.0f;
+//	private final float SCALE = 0.4f;
 	
 	//Camera and Spritebatch. This is pretty standard stuff.
 	private OrthographicCamera camera;

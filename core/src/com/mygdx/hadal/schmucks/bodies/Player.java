@@ -118,7 +118,7 @@ public class Player extends Schmuck {
 					if (playerData.currentFuel >= playerData.hoverCost) {
 						playerData.fuelSpend(playerData.hoverCost);
 						jumpCdCount = hoverCd;
-						jump(playerData.hoverPow);
+						push(0, playerData.hoverPow);
 					}
 				}
 			}
@@ -129,14 +129,14 @@ public class Player extends Schmuck {
 			if (grounded) {
 				if (jumpCdCount < 0) {
 					jumpCdCount = jumpCd;
-					jump(playerData.jumpPow);
+					push(0, playerData.jumpPow);
 				}
 			} else {
 				if (playerData.extraJumpsUsed < playerData.numExtraJumps) {
 					if (jumpCdCount < 0) {
 						jumpCdCount = jumpCd;
 						playerData.extraJumpsUsed++;
-						jump(playerData.extraJumpPow);
+						push(0, playerData.jumpPow);
 					}
 				}
 			}
@@ -154,7 +154,7 @@ public class Player extends Schmuck {
 			if (!grounded) {
 				if (fastFallCdCount < 0) {
 					fastFallCdCount = fastFallCd;
-					fastFall(playerData.fastFallPow);
+					push(0, -playerData.fastFallPow);
 				}
 			}
 		}
@@ -282,15 +282,6 @@ public class Player extends Schmuck {
 		
 		super.controller(delta);		
 		
-	}
-	
-	//TODO: turn jump/fastfall into general helper methods for all entities
-	public void jump(float impulse) {
-		body.applyLinearImpulse(new Vector2(0, impulse), body.getWorldCenter(), true);
-	}
-	
-	public void fastFall(float impulse) {
-		body.applyLinearImpulse(new Vector2(0, -impulse), body.getWorldCenter(), true);
 	}
 	
 	public void render(SpriteBatch batch) {

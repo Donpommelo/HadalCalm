@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.LevelManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -50,7 +50,7 @@ public class PlayState extends GameState {
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
 	private Box2DDebugRenderer b2dr;
 	private World world;
-	
+		
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private Set<HadalEntity> removeList;
 	private Set<HadalEntity> createList;
@@ -88,10 +88,16 @@ public class PlayState extends GameState {
 		entities = new HashSet<HadalEntity>();
 		
 		//TODO: Load a map from Tiled file. Eventually, this will take an input map that the player chooses.
-		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
+		
+		LevelManager.loadLevel("Maps/test_map_large.tmx");
+//		LevelManager.loadLevel("Maps/test_map.tmx");
+				
+		map = LevelManager.tiledMap;
 		tmr = new OrthogonalTiledMapRenderer(map);
+		
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
-		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
+		
+		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());		
 	}
 
 	/**
@@ -102,7 +108,7 @@ public class PlayState extends GameState {
 		
 		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
 		world.step(delta, 6, 2);
-		
+
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity : removeList) {
 			entities.remove(entity);
