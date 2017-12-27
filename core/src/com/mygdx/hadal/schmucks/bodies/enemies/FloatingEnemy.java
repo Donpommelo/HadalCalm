@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -48,8 +47,6 @@ public class FloatingEnemy extends Enemy {
     public float aiCdCount = 0;
     
     public static final float moveMag = 7.0f;
-    
-    protected Steerable<Vector2> target;
     
     //Fixtures and user data
   	protected FixtureDef sensorDef;
