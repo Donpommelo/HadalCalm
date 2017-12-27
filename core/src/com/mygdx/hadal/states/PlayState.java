@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.LevelManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -89,10 +89,8 @@ public class PlayState extends GameState {
 		
 		//TODO: Load a map from Tiled file. Eventually, this will take an input map that the player chooses.
 		
-		LevelManager.loadLevel("Maps/test_map_large.tmx");
-//		LevelManager.loadLevel("Maps/test_map.tmx");
-				
-		map = LevelManager.tiledMap;
+		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
+		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
