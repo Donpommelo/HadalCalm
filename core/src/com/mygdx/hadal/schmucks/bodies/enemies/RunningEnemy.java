@@ -112,28 +112,31 @@ public class RunningEnemy extends Enemy {
 			
 			shortestFraction = 1.0f;
 			
-			world.rayCast(new RayCastCallback() {
+			if (getBody().getPosition().x != state.getPlayer().getBody().getPosition().x || 
+					getBody().getPosition().y != state.getPlayer().getBody().getPosition().y) {
+				world.rayCast(new RayCastCallback() {
 
-				@Override
-				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-					if (fixture.getUserData() == null) {
-						if (fraction < shortestFraction) {
-							shortestFraction = fraction;
-							closestFixture = fixture;
-							return fraction;
-						}
-					} else if (fixture.getUserData() instanceof PlayerBodyData) {
-						if (fraction < shortestFraction) {
-							shortestFraction = fraction;
-							closestFixture = fixture;
-							return fraction;
-						}
-						
-					} 
-					return -1.0f;
-				}
-				
-			}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+					@Override
+					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+						if (fixture.getUserData() == null) {
+							if (fraction < shortestFraction) {
+								shortestFraction = fraction;
+								closestFixture = fixture;
+								return fraction;
+							}
+						} else if (fixture.getUserData() instanceof PlayerBodyData) {
+							if (fraction < shortestFraction) {
+								shortestFraction = fraction;
+								closestFixture = fixture;
+								return fraction;
+							}
+							
+						} 
+						return -1.0f;
+					}
+					
+				}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+			}
 			
 			if (closestFixture != null) {
 				if (closestFixture.getUserData() instanceof PlayerBodyData ) {
