@@ -22,7 +22,8 @@ public class GameStateManager {
 	public enum State {
 		SPLASH,
 		TITLE,
-		PLAY
+		PLAY, 
+		MENU
 	}
 	
 	/**
@@ -82,7 +83,7 @@ public class GameStateManager {
 	/**
 	 * This is run when we change the current state.
 	 * TODO: At the moment, we only have one state active. Maybe change later?
-	 * This code adds the new input state, replacing and disposing the previous state if existant.
+	 * This code adds the new input state, replacing and disposing the previous state if existent.
 	 * @param state: The new state
 	 */
 	public void setState(State state) {
@@ -90,6 +91,16 @@ public class GameStateManager {
 			states.pop().dispose();
 		}
 		states.push(getState(state));
+	}
+	
+	public void addState(State state) {
+		states.push(getState(state));
+	}
+	
+	public void removeState() {
+		if (states.size() >= 1) {
+			states.pop().dispose();
+		}
 	}
 	
 	/**
@@ -102,6 +113,9 @@ public class GameStateManager {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return null;
 		case PLAY: return new PlayState(this);
+		case MENU: return new MenuState(this);
+		default:
+			break;
 		}
 		return null;
 	}

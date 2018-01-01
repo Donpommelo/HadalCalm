@@ -2,7 +2,6 @@ package com.mygdx.hadal;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
@@ -96,9 +95,6 @@ public class HadalGame extends ApplicationAdapter {
 	public void render() {
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.render();
-		
-		//TODO: Tentatively pressing esc exits the game. Will replace later with an actual menu.
-		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { Gdx.app.exit(); }
 	}
 	
 	/**

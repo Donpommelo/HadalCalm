@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 public enum AssetList {
 
 	TITLE_CARD("HADAL_PANIC_3.jpg", Texture.class),
+	MENU_CARD("MENU_CARD.png", Texture.class),
 	BUTLER_FONT("fonts/butler.fnt", null),
 	LEARNING_FONT("fonts/learning_curve.fnt", null);
 	

@@ -7,43 +7,41 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.MenuBackdrop;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.State;
 
 /**
- * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
- * TODO: Eventually, this might be where we initialize game data + assets + player change settings.
+ * The MenuState is pulled up by pausing in game.
  * @author Zachary Tu
  *
  */
-public class TitleState extends GameState{
+public class MenuState extends GameState {
 
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor playOption, exitOption;
+	private Actor resumeOption, exitOption;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
 	 */
-	public TitleState(final GameStateManager gsm) {
+	public MenuState(final GameStateManager gsm) {
 		super(gsm);
 		
 		stage = new Stage() {
 			{
-				addActor(new TitleBackdrop(HadalGame.assetManager));
-				playOption = new Text(HadalGame.assetManager, "PLAY?", 150, HadalGame.CONFIG_HEIGHT - 180);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 220);
+				addActor(new MenuBackdrop(HadalGame.assetManager));
+				resumeOption = new Text(HadalGame.assetManager, "RESUME?", 150, HadalGame.CONFIG_HEIGHT - 300);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 340);
 				
-				playOption.addListener(new ClickListener() {
+				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.addState(State.PLAY);
+			        	gsm.removeState();
 			        }
 			    });
-				playOption.setScale(0.5f);
+				resumeOption.setScale(0.5f);
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
@@ -52,7 +50,7 @@ public class TitleState extends GameState{
 			    });
 				exitOption.setScale(0.5f);
 				
-				addActor(playOption);
+				addActor(resumeOption);
 				addActor(exitOption);
 			}
 		};
