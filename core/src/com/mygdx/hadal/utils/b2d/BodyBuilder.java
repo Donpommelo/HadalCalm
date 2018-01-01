@@ -57,7 +57,7 @@ public class BodyBuilder {
         fixtureDef.shape = shape;
         fixtureDef.density = density;
         fixtureDef.restitution = resti;
- //       fixtureDef.friction = 0;
+        //fixtureDef.friction = 0;
         fixtureDef.filter.categoryBits = cBits;
         fixtureDef.filter.maskBits = mBits;
         fixtureDef.filter.groupIndex = gIndex;

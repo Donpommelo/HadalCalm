@@ -48,10 +48,10 @@ public class Event extends HadalEntity {
 		batch.setProjectionMatrix(state.hud.combined);
 		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
 		camera.project(bodyScreenPosition);
-		state.font.draw(batch, name, bodyScreenPosition.x - width, bodyScreenPosition.y - height);
+		state.font.draw(batch, getText(), bodyScreenPosition.x, bodyScreenPosition.y);
 	}
 	
 	public String getText() {
-		return "";
+		return name;
 	}
 }

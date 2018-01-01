@@ -6,6 +6,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.FloatingEnemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.RunningEnemy;
+import com.mygdx.hadal.schmucks.bodies.enemies.TrailingEnemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -61,11 +62,10 @@ public class EntitySpawner extends Event {
 				}
 				break;
 			case 2:
+				new TrailingEnemy(state, world, camera, rays, 32, 16, spawnX, spawnY);
 				break;
 				
 			}
 		}
 	}
-	
-
 }

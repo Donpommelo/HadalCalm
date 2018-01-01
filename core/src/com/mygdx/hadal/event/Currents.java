@@ -1,9 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -47,12 +45,8 @@ public class Currents extends Event {
 		
 	}
 	
-	@Override
-	public void render(SpriteBatch batch) {
-		batch.setProjectionMatrix(state.hud.combined);
-		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-		camera.project(bodyScreenPosition);
-		state.font.draw(batch, name + " " + vec, bodyScreenPosition.x - width, bodyScreenPosition.y - height);
+	public String getText() {
+		return  name + " " + vec;
 	}
 	
 }

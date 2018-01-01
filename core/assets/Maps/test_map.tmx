@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="32" tileheight="32" nextobjectid="18">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="32" tileheight="32" nextobjectid="19">
  <tileset firstgid="1" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="../Images/tileset.png" width="192" height="128"/>
  </tileset>
@@ -18,7 +18,7 @@
    <properties>
     <property name="id" type="int" value="1"/>
     <property name="interval" type="float" value="10"/>
-    <property name="limit" type="int" value="0"/>
+    <property name="limit" type="int" value="1"/>
    </properties>
   </object>
   <object id="16" name="Spawn" type="Spawn" x="64" y="320" width="32" height="32">

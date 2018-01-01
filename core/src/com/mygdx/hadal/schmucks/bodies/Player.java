@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.equip.misc.MomentumStopper;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.ai.PlayerTrail;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -46,6 +47,10 @@ public class Player extends Schmuck {
 	
 	protected float momentumCd = 10.0f;
 	protected float momentumCdCount = 0;
+	
+	protected float trailCd = 0.25f;
+	protected float trailCdCount = 0;
+	protected PlayerTrail lastTrail;
 	
 	//is the player currently in the process of holding their currently used tool?
 	private boolean charging = false;
@@ -146,6 +151,9 @@ public class Player extends Schmuck {
 		if(Gdx.input.isKeyPressed((Input.Keys.S))) {
 			if (grounded) {
 				moveState = MoveStates.CROUCH;
+			}
+			if (feetData.terrain != null) {
+				feetData.terrain.eventData.onInteract(this);
 			}
 		}
 		
@@ -273,12 +281,22 @@ public class Player extends Schmuck {
 			playerData.currentTool.reload(delta);
 		}
 		
+		if (trailCdCount < 0) {
+			/*trailCdCount += trailCd;
+			PlayerTrail newTrail = new PlayerTrail(state, world, camera, rays, (int)(getBody().getPosition().x * PPM), (int)(getBody().getPosition().y * PPM));
+			if (lastTrail != null) {
+				lastTrail.setTrail(newTrail);
+			}
+			lastTrail = newTrail;*/
+		}
+		
 		//process cds
 		jumpCdCount-=delta;
 		fastFallCdCount-=delta;
 		airblastCdCount-=delta;
 		interactCdCount-=delta;
 		momentumCdCount-=delta;
+		trailCdCount-=delta;
 		
 		super.controller(delta);		
 		

@@ -33,8 +33,8 @@ public class GameStateManager {
 		this.app = hadalGame;
 		this.states = new Stack<GameState>();
 		
-		//Default state is the splash state currently.
-		this.setState(State.SPLASH);
+		//Default state is the title state currently.
+		this.setState(State.TITLE);
 	}
 	
 	/**
@@ -99,8 +99,8 @@ public class GameStateManager {
 	 */
 	public GameState getState(State state) {
 		switch(state) {
-		case SPLASH: return new SplashState(this);
-		case TITLE: return null;
+		case TITLE: return new TitleState(this);
+		case SPLASH: return null;
 		case PLAY: return new PlayState(this);
 		}
 		return null;

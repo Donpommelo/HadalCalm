@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -42,7 +41,7 @@ public class PlayState extends GameState {
     public BitmapFont font;
     
     //The hud is an alternate camera that does not move with the player and will draw ui elements.
-    public OrthographicCamera hud;
+ //   public OrthographicCamera hud;
     
     //TODO: rays will eventually implement lighting.
 	private RayHandler rays;
@@ -61,6 +60,8 @@ public class PlayState extends GameState {
 	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
 	public int score = 0;
 	
+//	public Set<Zone> zones;
+	
 //	private float controllerCounter = 0;
 	
 	/**
@@ -72,8 +73,8 @@ public class PlayState extends GameState {
 		
 		//Initialize font and text camera for ui purposes.
         font = new BitmapFont();
-        hud = new OrthographicCamera();
-        hud.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        hud = new OrthographicCamera();
+//        hud.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), false);
@@ -90,6 +91,7 @@ public class PlayState extends GameState {
 		//TODO: Load a map from Tiled file. Eventually, this will take an input map that the player chooses.
 		
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
+//		map = new TmxMapLoader().load("Maps/test_map.tmx");
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
@@ -195,7 +197,7 @@ public class PlayState extends GameState {
 	 * This is called every update. This resets the camera zoom and makes it move towards the player.
 	 */
 	private void cameraUpdate() {
-		camera.zoom = 1;
+		camera.zoom = 1.0f;
 		if (player != null) {
 			if (player.getBody() != null) {
 				CameraStyles.lerpToTarget(camera, player.getBody().getPosition().scl(PPM));

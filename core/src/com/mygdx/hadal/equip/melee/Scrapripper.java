@@ -25,8 +25,8 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float windup = 0.2f;
 	private final static float backSwing = 0.2f;
 	private final static float baseDamage = 50.0f;
-	private final static int hitboxSize = 300;
-	private final static int swingArc = 200;
+	private final static int hitboxSize = 180;
+	private final static int swingArc = 100;
 	private final static float knockback = 15.0f;
 	private final static float momentum = 2.5f;
 	

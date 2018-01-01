@@ -9,7 +9,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -29,7 +29,7 @@ public class Schmuck extends HadalEntity {
 	
 	//Fixtures and user data
 	protected Fixture feet;
-	protected HadalData feetData;
+	protected FeetData feetData;
 	
 	//user data.
 	protected BodyData bodyData;
@@ -71,7 +71,7 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void create() {
-		this.feetData = new HadalData(world, UserDataTypes.FEET, this);        
+		this.feetData = new FeetData(world, UserDataTypes.FEET, this);        
 		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width, height / 8, new Vector2(0, -0.5f), true, 0,
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), Constants.PLAYER_HITBOX));
 		

@@ -101,6 +101,7 @@ public class TiledObjectUtil {
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
     					object.getProperties().get("interval", float.class));
     		}
+    		
     	}
     }
 

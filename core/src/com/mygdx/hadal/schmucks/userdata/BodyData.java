@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.event.ai.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
@@ -38,6 +39,8 @@ public class BodyData extends HadalData {
 	public int maxHp = 100;
 	public float currentHp = 100;
 	public float hpRegen = 0.0f;
+	
+	public Zone currentZone;
 	
 	/**
 	 * This is created upon the create() method of any schmuck.
