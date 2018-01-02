@@ -93,5 +93,4 @@ public abstract class Equipable {
 	 * @return
 	 */
 	public abstract String getText();
-
 }

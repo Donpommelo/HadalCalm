@@ -16,7 +16,7 @@ public class EquipPickup extends Event {
 
 	private Equipable equip;
 	
-	public static final int numWeapons = 8;
+	public static final int numWeapons = 9;
 	
 	private static final String name = "Equip Pickup";
 
@@ -31,7 +31,7 @@ public class EquipPickup extends Event {
 			this.equip = new Scattergun(null);
 			break;
 		case 2:
-			this.equip = new MachineGun(null);
+			this.equip = new Machinegun(null);
 			break;
 		case 3:
 			this.equip = new IronBallLauncher(null);
@@ -47,6 +47,9 @@ public class EquipPickup extends Event {
 			break;
 		case 7:
 			this.equip = new TorpedoLauncher(null);
+			break;
+		case 8:
+			this.equip = new BouncingBlade(null);
 			break;
 		default:
 			this.equip = new Speargun(null);

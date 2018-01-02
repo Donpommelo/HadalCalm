@@ -36,7 +36,7 @@ public class ChargeBeam extends RangedWeapon {
 	
 	private static float chargeDura = 0.0f;
 	private static int chargeStage = 0;
-	private static final float maxCharge = 2.5f;
+	private static final float maxCharge = 1.5f;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -47,9 +47,9 @@ public class ChargeBeam extends RangedWeapon {
 			
 			if (chargeDura >= maxCharge) {
 				chargeStage = 3;
-			} else if (chargeDura >= 1.5f) {
+			} else if (chargeDura >= 1.0f) {
 				chargeStage = 2;
-			} else if (chargeDura >= 0.75f) {
+			} else if (chargeDura >= 0.5f) {
 				chargeStage = 1;
 			} else {
 				chargeStage = 0;

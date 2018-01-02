@@ -31,6 +31,10 @@ public abstract class GameState {
 		this.hud = app.getHud();		
 	}
 	
+	public void show() {
+		
+	}
+	
 	/**
 	 * Default behaviour for resizing screen includes resetting the main camera.
 	 * @param w: Width of new screen

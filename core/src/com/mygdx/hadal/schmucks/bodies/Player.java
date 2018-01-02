@@ -88,7 +88,7 @@ public class Player extends Schmuck {
 	 * Create the player's body and initialize player's user data.
 	 */
 	public void create() {
-		this.playerData = new PlayerBodyData(world, this);
+		this.playerData = new PlayerBodyData(world, this, state.loadout);
 		this.bodyData = playerData;
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_PLAYER, 

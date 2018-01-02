@@ -15,7 +15,7 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
-public class MachineGun extends RangedWeapon {
+public class Machinegun extends RangedWeapon {
 
 	private final static String name = "Machine Gun";
 	private final static int clipSize = 20;
@@ -29,7 +29,7 @@ public class MachineGun extends RangedWeapon {
 	private final static float projectileSpeed = 30.0f;
 	private final static int projectileWidth = 15;
 	private final static int projectileHeight = 15;
-	private final static float lifespan = 0.5f;
+	private final static float lifespan = 0.75f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
@@ -61,7 +61,7 @@ public class MachineGun extends RangedWeapon {
 		
 	};
 	
-	public MachineGun(Schmuck user) {
+	public Machinegun(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 

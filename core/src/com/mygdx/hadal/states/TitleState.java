@@ -23,7 +23,7 @@ public class TitleState extends GameState{
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor playOption, exitOption;
+	private Actor playOption, exitOption, quickPlayOption;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -31,19 +31,31 @@ public class TitleState extends GameState{
 	 */
 	public TitleState(final GameStateManager gsm) {
 		super(gsm);
-		
+	}
+	
+	@Override
+	public void show() {
 		stage = new Stage() {
 			{
 				addActor(new TitleBackdrop(HadalGame.assetManager));
+				
 				playOption = new Text(HadalGame.assetManager, "PLAY?", 150, HadalGame.CONFIG_HEIGHT - 180);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 220);
+				quickPlayOption = new Text(HadalGame.assetManager, "QUICK PLAY?", 150, HadalGame.CONFIG_HEIGHT - 220);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 260);
 				
 				playOption.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	gsm.addState(State.LOADOUT);
+			        }
+			    });
+				playOption.setScale(0.5f);
+				
+				quickPlayOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	gsm.addState(State.PLAY);
 			        }
 			    });
-				playOption.setScale(0.5f);
+				quickPlayOption.setScale(0.5f);
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
@@ -53,6 +65,7 @@ public class TitleState extends GameState{
 				exitOption.setScale(0.5f);
 				
 				addActor(playOption);
+				addActor(quickPlayOption);
 				addActor(exitOption);
 			}
 		};

@@ -29,7 +29,10 @@ public class MenuState extends GameState {
 	 */
 	public MenuState(final GameStateManager gsm) {
 		super(gsm);
-		
+	}
+
+	@Override
+	public void show() {
 		stage = new Stage() {
 			{
 				addActor(new MenuBackdrop(HadalGame.assetManager));
@@ -45,7 +48,8 @@ public class MenuState extends GameState {
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	Gdx.app.exit();
+			        	gsm.removeState();
+			        	gsm.removeState();
 			        }
 			    });
 				exitOption.setScale(0.5f);
@@ -56,7 +60,7 @@ public class MenuState extends GameState {
 		};
 		app.newMenu(stage);
 	}
-
+	
 	/**
 	 * 
 	 */

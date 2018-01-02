@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
@@ -35,15 +36,14 @@ public class PlayState extends GameState {
 	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
 	public Player player;
 	
+	public Loadout loadout;
+	
 	//These process and store the map parsed from the Tiled file.
 	private TiledMap map;
 	OrthogonalTiledMapRenderer tmr;
 	
 	//The font is for writing text.
     public BitmapFont font;
-    
-    //The hud is an alternate camera that does not move with the player and will draw ui elements.
- //   public OrthographicCamera hud;
     
     //TODO: rays will eventually implement lighting.
 	private RayHandler rays;
@@ -70,13 +70,12 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm) {
+	public PlayState(GameStateManager gsm, Loadout loadout) {
 		super(gsm);
+		this.loadout = loadout;
 		
 		//Initialize font and text camera for ui purposes.
         font = new BitmapFont();
-//        hud = new OrthographicCamera();
-//        hud.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), false);

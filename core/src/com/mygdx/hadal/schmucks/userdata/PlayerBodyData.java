@@ -1,11 +1,12 @@
 package com.mygdx.hadal.schmucks.userdata;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.melee.Scrapripper;
-import com.mygdx.hadal.equip.misc.MomentumShooter;
-import com.mygdx.hadal.equip.ranged.Speargun;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
 public class PlayerBodyData extends BodyData {
 
@@ -33,13 +34,28 @@ public class PlayerBodyData extends BodyData {
 	
 	public Player player;
 	
-	public PlayerBodyData(World world, Player body) {
+	public PlayerBodyData(World world, Player body, Loadout loadout) {
 		super(world, body);
 		this.player = body;
 		multitools = new Equipable[itemSlots];
-		multitools[0] = new Speargun(body);
-		multitools[1] = new Scrapripper(body);
-		multitools[2] = new MomentumShooter(body);
+		try {
+			multitools[0] = loadout.slot1.getConstructor(Schmuck.class).newInstance(body);
+			multitools[1] = loadout.slot2.getConstructor(Schmuck.class).newInstance(body);
+			multitools[2] = loadout.slot3.getConstructor(Schmuck.class).newInstance(body);
+			multitools[3] = loadout.slot4.getConstructor(Schmuck.class).newInstance(body);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
 		this.currentTool = multitools[currentSlot];
 	}
 	

@@ -29,7 +29,7 @@ public class Speargun extends RangedWeapon {
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 40;
 	private final static int projectileHeight = 10;
-	private final static float lifespan = 0.6f;
+	private final static float lifespan = 0.75f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 2;

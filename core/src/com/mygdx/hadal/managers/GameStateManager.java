@@ -2,7 +2,12 @@ package com.mygdx.hadal.managers;
 
 import java.util.Stack;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.states.*;
 
 /**
@@ -18,9 +23,14 @@ public class GameStateManager {
 	//Stack of GameStates. These are all the states that the player has opened in that order.
 	private Stack<GameState> states;
 	
+	private Skin skin;
+	
+	private Loadout loadout;
+
 	//This enum lists all the different types of gamestates.
 	public enum State {
 		SPLASH,
+		LOADOUT,
 		TITLE,
 		PLAY, 
 		MENU
@@ -35,7 +45,15 @@ public class GameStateManager {
 		this.states = new Stack<GameState>();
 		
 		//Default state is the title state currently.
-		this.setState(State.TITLE);
+		this.addState(State.TITLE);
+		
+		BitmapFont font24 = new BitmapFont();
+		this.skin = new Skin();
+		this.skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
+		this.skin.add("default-font", font24);
+		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+		
+		this.loadout = new Loadout();
 	}
 	
 	/**
@@ -86,20 +104,16 @@ public class GameStateManager {
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
 	 * @param state: The new state
 	 */
-	public void setState(State state) {
-		if (states.size() >= 1) {
-			states.pop().dispose();
-		}
-		states.push(getState(state));
-	}
 	
 	public void addState(State state) {
 		states.push(getState(state));
+		states.peek().show();
 	}
 	
 	public void removeState() {
 		if (states.size() >= 1) {
 			states.pop().dispose();
+			states.peek().show();
 		}
 	}
 	
@@ -112,11 +126,20 @@ public class GameStateManager {
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return null;
-		case PLAY: return new PlayState(this);
+		case PLAY: return new PlayState(this, loadout);
+		case LOADOUT: return new LoadoutState(this);
 		case MENU: return new MenuState(this);
 		default:
 			break;
 		}
 		return null;
+	}
+	
+	public Skin getSkin() {
+		return skin;
+	}
+	
+	public Loadout getLoadout() {
+		return loadout;
 	}
 }

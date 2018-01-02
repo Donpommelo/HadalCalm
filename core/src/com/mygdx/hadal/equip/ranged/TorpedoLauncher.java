@@ -27,7 +27,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 0.5f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 15.0f;
+	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 40;
 	private final static int projectileHeight = 20;
 	private final static float lifespan = 3.0f;
@@ -35,7 +35,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	
 	private final static int projDura = 1;
 		
-	private final static int explosionRadius = 250;
+	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 15.0f;
 
@@ -47,16 +47,9 @@ public class TorpedoLauncher extends RangedWeapon {
 				RayHandler rays) {
 			
 			final Schmuck user2 = user;
-			final Vector2 initialVelocity = startVelocity;
-			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, world, camera, rays, user){
-				
-				public void controller(float delta) {
-					super.controller(delta);
-					body.applyForceToCenter(initialVelocity.nor().scl(projectileSpeed * body.getMass()), true);
-				}
-			};
+
+			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
+					filter, false, world, camera, rays, user);
 			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;
