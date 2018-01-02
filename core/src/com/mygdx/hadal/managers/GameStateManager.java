@@ -33,6 +33,7 @@ public class GameStateManager {
 		LOADOUT,
 		TITLE,
 		PLAY, 
+		GAMEOVER, 
 		MENU
 	}
 	
@@ -127,6 +128,7 @@ public class GameStateManager {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return null;
 		case PLAY: return new PlayState(this, loadout);
+		case GAMEOVER: return new GameoverState(this);
 		case LOADOUT: return new LoadoutState(this);
 		case MENU: return new MenuState(this);
 		default:

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.LoadoutBackdrop;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.melee.*;
@@ -43,6 +44,8 @@ public class LoadoutState extends GameState {
 	public LoadoutState(final GameStateManager gsm) {
 		super(gsm);
 		
+		items.clear();
+		
 		items.add(Boomerang.class);
 		items.add(BouncingBlade.class);
 		items.add(ChargeBeam.class);
@@ -61,6 +64,8 @@ public class LoadoutState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
+//				addActor(new LoadoutBackdrop(HadalGame.assetManager));
+
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260);
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {

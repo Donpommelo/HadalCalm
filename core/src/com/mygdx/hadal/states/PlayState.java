@@ -62,6 +62,10 @@ public class PlayState extends GameState {
 	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
 	public int score = 0;
 	
+	public boolean gameover = false;
+	public static final float gameoverCd = 2.5f;
+	public float gameoverCdCount;
+	
 //	public Set<Zone> zones;
 	
 //	private float controllerCounter = 0;
@@ -144,6 +148,15 @@ public class PlayState extends GameState {
 		tmr.setView(camera);
 		batch.setProjectionMatrix(camera.combined);
 //		rays.setCombinedMatrix(camera.combined.cpy().scl(PPM));
+		
+		//process gameover
+		if (gameover) {
+			gameoverCdCount -= delta;
+			if (gameoverCdCount < 0) {
+				gsm.removeState();
+				gsm.addState(State.GAMEOVER);
+			}
+		}
 	}
 	
 	/**
@@ -254,6 +267,11 @@ public class PlayState extends GameState {
 	 */
 	public void incrementScore(int i) {
 		score += i;
+	}
+
+	public void gameOver() {
+		gameover = true;
+		gameoverCdCount = gameoverCd;
 	}
 	
 }

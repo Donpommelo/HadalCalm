@@ -307,6 +307,7 @@ public class Player extends Schmuck {
 	}
 	
 	public void dispose() {
+		state.gameOver();
 		super.dispose();
 	}
 	
