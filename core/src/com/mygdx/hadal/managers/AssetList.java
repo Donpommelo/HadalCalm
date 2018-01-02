@@ -12,6 +12,9 @@ public enum AssetList {
 	BUTLER_FONT("fonts/butler.fnt", null),
 	LEARNING_FONT("fonts/learning_curve.fnt", null),
 	
+	PROJ_1("sprites/projectiles.png", Texture.class),
+	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
+	
 	UISKINIMG("ui/uiskin.png", Texture.class),
 	UISKINATL("ui/uiskin.atlas", TextureAtlas.class);
 	

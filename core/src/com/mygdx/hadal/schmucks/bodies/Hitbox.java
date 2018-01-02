@@ -74,9 +74,7 @@ public class Hitbox extends HadalEntity {
 		this.body.setLinearVelocity(startVelo);
 		
 		//Rotate hitbox to match angle of fire.
-		if (startVelo.x != 0) {
-			this.body.setTransform(startX / PPM, startY / PPM, (float) Math.atan(startVelo.y / startVelo.x));
-		}
+		this.body.setTransform(startX / PPM, startY / PPM, (float)(Math.atan2(startVelo.y , startVelo.x)));
 	}
 	
 	/**
