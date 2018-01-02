@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.HitboxAnimated;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -26,13 +27,15 @@ public class StandardRanged extends RangedWeapon {
 	private final static float baseDamage = 10.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.5f;
-	private final static float projectileSpeed = 7.5f;
-	private final static int projectileWidth = 15;
+	private final static float projectileSpeed = 6.0f;
+	private final static int projectileWidth = 45;
 	private final static int projectileHeight = 15;
 	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
+	
+	private final static String spriteId = "spit";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -41,8 +44,8 @@ public class StandardRanged extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user);
+			HitboxAnimated proj = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, true, world, camera, rays, user, spriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				

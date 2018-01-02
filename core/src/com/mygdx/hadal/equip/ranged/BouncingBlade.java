@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -36,6 +37,8 @@ public class BouncingBlade extends RangedWeapon {
 	
 	private final static float restitution = 1.0f;
 	
+	private final static String spriteId = "orb_blue";
+
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -43,8 +46,8 @@ public class BouncingBlade extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-					filter, false, world, camera, rays, user);
+			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
+					filter, false, world, camera, rays, user, spriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				

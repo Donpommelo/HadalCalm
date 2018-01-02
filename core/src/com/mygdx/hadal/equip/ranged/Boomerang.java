@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -35,6 +36,8 @@ public class Boomerang extends RangedWeapon {
 	
 	private final static int projDura = 1;
 	
+	private final static String spriteId = "orb_orange";
+
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -44,8 +47,8 @@ public class Boomerang extends RangedWeapon {
 			
 			final Schmuck user2 = user;
 			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user) {
+			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
+					filter, true, world, camera, rays, user, spriteId) {
 				
 				public void controller(float delta) {
 					super.controller(delta);

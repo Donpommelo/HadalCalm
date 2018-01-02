@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -27,13 +28,15 @@ public class Machinegun extends RangedWeapon {
 	private final static float recoil = 0.25f;
 	private final static float knockback = .05f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 15;
-	private final static int projectileHeight = 15;
+	private final static int projectileWidth = 40;
+	private final static int projectileHeight = 5;
 	private final static float lifespan = 0.75f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
 	
+	private final static String spriteId = "bullet";
+
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -41,8 +44,8 @@ public class Machinegun extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user);
+			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, true, world, camera, rays, user, spriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				

@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -28,8 +29,8 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float recoil = 0.5f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 20;
+	private final static int projectileWidth = 50;
+	private final static int projectileHeight = 10;
 	private final static float lifespan = 3.0f;
 	private final static float gravity = 0;
 	
@@ -38,6 +39,8 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 15.0f;
+
+	private final static String spriteId = "torpedo";
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -48,8 +51,8 @@ public class TorpedoLauncher extends RangedWeapon {
 			
 			final Schmuck user2 = user;
 
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
-					filter, false, world, camera, rays, user);
+			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
+					filter, false, world, camera, rays, user, spriteId);
 			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;

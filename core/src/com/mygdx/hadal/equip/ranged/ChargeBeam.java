@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -38,6 +39,8 @@ public class ChargeBeam extends RangedWeapon {
 	private static int chargeStage = 0;
 	private static final float maxCharge = 1.5f;
 	
+	private final static String spriteId = "orb_yellow";
+
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -84,8 +87,8 @@ public class ChargeBeam extends RangedWeapon {
 			final float damageMultiplier2 = damageMultiplier;
 			final float kbMultiplier2 = kbMultiplier;
 			
-			Hitbox proj = new Hitbox(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
-					filter, true, world, camera, rays, user);
+			HitboxImage proj = new HitboxImage(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
+					filter, true, world, camera, rays, user, spriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
