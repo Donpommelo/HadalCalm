@@ -25,7 +25,7 @@ public class HitboxAnimated extends Hitbox {
 	private Animation<TextureRegion> projectileSprite;
 	private float animCdCount;
 	
-	private float speed = 0.15f;
+	private float speed = 0.05f;
 	
 	/**
 	 * Same as normal hitbox man

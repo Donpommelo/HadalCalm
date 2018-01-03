@@ -24,7 +24,7 @@ public class HitboxImage extends Hitbox {
 	private TextureRegion projectileSprite;
 	
 	/**
-	 * Same as normal hitbox man
+	 * Same as normal hitbox 
 	 */
 	public HitboxImage(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
 			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator,
