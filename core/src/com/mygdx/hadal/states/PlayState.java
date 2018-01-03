@@ -20,6 +20,7 @@ import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -97,6 +98,8 @@ public class PlayState extends GameState {
 		
 		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
 //		map = new TmxMapLoader().load("Maps/test_map.tmx");
+		
+		new Turret(this, world, camera, rays, 300, 800);
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
