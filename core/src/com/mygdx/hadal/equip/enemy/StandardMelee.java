@@ -38,7 +38,7 @@ public class StandardMelee extends MeleeWeapon {
 				OrthographicCamera camera, RayHandler rays) {
 			
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
-					new Vector2(0, -user.height / 2 / PPM), filter, world, camera, rays, user);
+					new Vector2(-user.width / PPM / 2, 0), filter, world, camera, rays, user);
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 				

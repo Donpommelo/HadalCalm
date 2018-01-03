@@ -45,7 +45,7 @@ public class SteeringEnemy extends Enemy implements Steerable<Vector2>{
 
 	public void create() {
 		this.bodyData = new BodyData(world, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 1, 0f, false, false, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, 0, 1, 0f, false, false, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);	
 		

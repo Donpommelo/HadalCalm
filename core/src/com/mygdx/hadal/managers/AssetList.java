@@ -18,6 +18,9 @@ public enum AssetList {
 	TURRET_1("sprites/turret.png", Texture.class),
 	TURRET_ATL("sprites/turret.atlas", TextureAtlas.class),
 	
+	FISH_1("sprites/fish.png", Texture.class),
+	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),
+	
 	UISKINIMG("ui/uiskin.png", Texture.class),
 	UISKINATL("ui/uiskin.atlas", TextureAtlas.class);
 	

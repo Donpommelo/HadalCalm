@@ -58,7 +58,7 @@ public class EntitySpawner extends Event {
 				break;
 			case 1:
 				if (Math.random() > 0.5f) {
-					new FloatingEnemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
+					new FloatingEnemy(state, world, camera, rays, spawnX, spawnY);
 				} else {
 					new RunningEnemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
 				}

@@ -2,14 +2,18 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.StandardMelee;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -29,14 +33,6 @@ public class FloatingEnemy extends SteeringEnemy {
 				
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
-
-/*	private IndexedAStarPathFinder<Node> pathFinder;
-	private GraphPathImp resultPath = null;
-	
-	private Node startNode;
-    private Node endNode;
-    
-    private boolean isRequested = false;*/
     
     public Vector2 direction;
     
@@ -59,6 +55,17 @@ public class FloatingEnemy extends SteeringEnemy {
   	float shortestFraction;
   	Fixture closestFixture;
   	
+  	private TextureAtlas atlas;
+	private TextureRegion fishSprite;
+	
+	public static final int width = 288;
+	public static final int height = 119;
+	
+	public static final int hbWidth = 119;
+	public static final int hbHeight = 288;
+	
+	public static final float scale = 0.5f;
+
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
 	 * @param state: current gameState
@@ -70,14 +77,16 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public FloatingEnemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float width, float height, int x, int y) {
-		super(state, world, camera, rays, width, height, x, y);
+	public FloatingEnemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
+		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);
 		
 		//default enemy weapon is a slow ranged projectile
 		this.weapon = new StandardMelee(this);	
 		
-//		pathFinder = new IndexedAStarPathFinder<Node>(LevelManager.airGraph, false);
 		this.aiState = floatingState.ROAMING;
+		
+		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
+		fishSprite = atlas.findRegion("scissorfish_swim");
 	}
 	
 	/**
@@ -99,7 +108,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			}
 		};
 		
-		sensorDef = FixtureBuilder.createFixtureDef(width * 2, height * 2, new Vector2(0,0), true, 0, 
+		sensorDef = FixtureBuilder.createFixtureDef(hbWidth * scale, hbHeight * scale, new Vector2(0,0), true, 0, 
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER), Constants.PLAYER_HITBOX);
 		sensor = body.createFixture(sensorDef);
 		sensor.setUserData(sensorData);
@@ -211,7 +220,17 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * draws enemy
 	 */
 	public void render(SpriteBatch batch) {
-		
+		batch.setProjectionMatrix(state.hud.combined);
+		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
+		camera.project(bodyScreenPosition);
+							
+		batch.draw(fishSprite, 
+				bodyScreenPosition.x - hbHeight * scale / 2, 
+				bodyScreenPosition.y - hbWidth * scale / 2, 
+				hbHeight * scale / 2, hbWidth * scale / 2,
+				width * scale, height * scale,
+				1, 1, 
+				(float) Math.toDegrees(body.getAngle()) - 90);
 	}
 	
 	public enum floatingState {		CHASING,
