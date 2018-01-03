@@ -39,14 +39,19 @@ public class Turret extends Enemy {
   	private TextureAtlas atlas;
 	private TextureRegion turretBase, turretBarrel;
 	
-	public static final int width = 450;
+	public static final int width = 528;
 	public static final int height = 252;
 	
-	public static final int hbWidth = 260;
-	public static final int hbHeight = 252;
+	public static final int hbWidth = 261;
+	public static final int hbHeight = 165;
+	
+	public static final int rotationX = 130;
+	public static final int rotationY = 114;
+	
+	public static final float scale = 1.0f;
 	
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
-		super(state, world, camera, rays, width, height, x, y);		
+		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
 		this.weapon = new StandardRanged(this);	
 		this.angle = 90;
 		
@@ -62,7 +67,7 @@ public class Turret extends Enemy {
 	 */
 	public void create() {
 		this.bodyData = new BodyData(world, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth / 2, hbHeight / 2, 0, 1, 0, false, true, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale / 2, hbHeight * scale / 2, 0, 1, 0, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);
 	}
@@ -128,17 +133,16 @@ public class Turret extends Enemy {
 		camera.project(bodyScreenPosition);
 				
 		batch.draw(turretBarrel, 
-				bodyScreenPosition.x - hbWidth / 2, 
-				bodyScreenPosition.y - hbHeight / 2, 
-				130, 114,
-				width, height, 1, 1, angle);
+				bodyScreenPosition.x - hbWidth * scale / 2, 
+				bodyScreenPosition.y - hbHeight * scale / 2, 
+				rotationX * scale, rotationY * scale,
+				width * scale, height * scale, 1, 1, angle);
 		
 		batch.draw(turretBase, 
-				bodyScreenPosition.x - hbWidth / 2, 
-				bodyScreenPosition.y - hbHeight / 2, 
-				hbWidth / 2, hbHeight / 2,
-				width, height, 1, 1, 0.0f);
-		
+				bodyScreenPosition.x - hbWidth * scale / 2, 
+				bodyScreenPosition.y - hbHeight * scale / 2, 
+				0, 0,
+				width * scale, height * scale, 1, 1, 0.0f);
 		
 		angle++;
 		

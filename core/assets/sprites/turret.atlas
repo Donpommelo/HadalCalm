@@ -1,116 +1,117 @@
 
 turret.png
-size: 1024,1024
+size: 2048,2048
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 base
   rotate: false
-  xy: 532, 764
-  size: 450, 252
-  orig: 450, 252
+  xy: 2, 1272
+  size: 528, 252
+  orig: 528, 252
   offset: 0, 0
   index: -1
 flak
   rotate: false
-  xy: 532, 510
-  size: 450, 252
-  orig: 450, 252
+  xy: 2, 1018
+  size: 528, 252
+  orig: 528, 252
   offset: 0, 0
   index: 0
 flak
   rotate: false
-  xy: 532, 256
-  size: 450, 252
-  orig: 450, 252
+  xy: 532, 1272
+  size: 528, 252
+  orig: 528, 252
   offset: 0, 0
   index: 1
 flak
-  rotate: false
-  xy: 532, 256
-  size: 450, 252
-  orig: 450, 252
-  offset: 0, 0
-  index: 4
-flak
-  rotate: false
-  xy: 532, 2
-  size: 450, 252
-  orig: 450, 252
-  offset: 0, 0
-  index: 2
-volley
   rotate: false
   xy: 2, 764
   size: 528, 252
   orig: 528, 252
   offset: 0, 0
-  index: 0
-volley
+  index: 2
+turret_flak
+  rotate: false
+  xy: 2, 764
+  size: 528, 252
+  orig: 528, 252
+  offset: 0, 0
+  index: -1
+flak
+  rotate: false
+  xy: 532, 1018
+  size: 528, 252
+  orig: 528, 252
+  offset: 0, 0
+  index: 3
+flak
+  rotate: false
+  xy: 1062, 1272
+  size: 528, 252
+  orig: 528, 252
+  offset: 0, 0
+  index: 4
+flak
   rotate: false
   xy: 2, 510
   size: 528, 252
   orig: 528, 252
   offset: 0, 0
-  index: 1
-volley
-  rotate: false
-  xy: 2, 256
-  size: 528, 252
-  orig: 528, 252
-  offset: 0, 0
-  index: 2
-volley
-  rotate: false
-  xy: 2, 2
-  size: 528, 252
-  orig: 528, 252
-  offset: 0, 0
-  index: 3
-
-turret2.png
-size: 1024,1024
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-flak
-  rotate: false
-  xy: 532, 764
-  size: 450, 252
-  orig: 450, 252
-  offset: 0, 0
-  index: 3
-flak
-  rotate: false
-  xy: 2, 2
-  size: 450, 252
-  orig: 450, 252
-  offset: 0, 0
   index: 5
 flak
   rotate: false
-  xy: 532, 510
+  xy: 1592, 1272
   size: 450, 252
   orig: 450, 252
   offset: 0, 0
   index: 6
 volley
   rotate: false
-  xy: 2, 764
+  xy: 532, 764
+  size: 528, 252
+  orig: 528, 252
+  offset: 0, 0
+  index: 0
+volley
+  rotate: false
+  xy: 1062, 1018
+  size: 528, 252
+  orig: 528, 252
+  offset: 0, 0
+  index: 1
+volley
+  rotate: false
+  xy: 2, 256
+  size: 528, 252
+  orig: 528, 252
+  offset: 0, 0
+  index: 2
+volley
+  rotate: false
+  xy: 532, 510
+  size: 528, 252
+  orig: 528, 252
+  offset: 0, 0
+  index: 3
+volley
+  rotate: false
+  xy: 1062, 764
   size: 528, 252
   orig: 528, 252
   offset: 0, 0
   index: 4
 volley
   rotate: false
-  xy: 2, 510
+  xy: 2, 2
   size: 528, 252
   orig: 528, 252
   offset: 0, 0
   index: 5
 volley
   rotate: false
-  xy: 2, 256
+  xy: 532, 256
   size: 528, 252
   orig: 528, 252
   offset: 0, 0
