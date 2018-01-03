@@ -101,6 +101,8 @@ public class PlayState extends GameState {
 		
 		new Turret(this, world, camera, rays, 300, 800);
 		
+		player = new Player(this, world, camera, rays, 0, 0);
+		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());

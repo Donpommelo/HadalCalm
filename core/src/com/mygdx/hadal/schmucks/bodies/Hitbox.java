@@ -101,6 +101,9 @@ public class Hitbox extends HadalEntity {
 		if (lifeSpan <= 0) {
 			state.destroy(this);
 		}
+		this.body.setTransform(body.getPosition().x, body.getPosition().y, 
+				(float)(Math.atan2(body.getLinearVelocity().y , body.getLinearVelocity().x)));
+
 	}
 
 	@Override

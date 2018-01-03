@@ -11,13 +11,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.StandardMelee;
 import com.mygdx.hadal.schmucks.MoveStates;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
@@ -27,7 +25,7 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class FloatingEnemy extends Enemy {
+public class FloatingEnemy extends SteeringEnemy {
 				
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
@@ -86,11 +84,9 @@ public class FloatingEnemy extends Enemy {
 	 * Create the enemy's body and initialize enemy's user data.
 	 */
 	public void create() {
-		this.bodyData = new BodyData(world, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 1, 0.5f, false, true, Constants.BIT_ENEMY, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
-				Constants.ENEMY_HITBOX, false, bodyData);
 		
+		super.create();
+
 		this.sensorData = new HitboxData(state, world, null) {
 			public void onHit(HadalData fixB) {
 				if (fixB == null) {
@@ -108,7 +104,6 @@ public class FloatingEnemy extends Enemy {
 		sensor = body.createFixture(sensorDef);
 		sensor.setUserData(sensorData);
 		
-		// super.create() if you want enemy to have feet that process groundedness
 	}
 
 	/**
@@ -140,9 +135,8 @@ public class FloatingEnemy extends Enemy {
 			
 			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 			
-			direction = new Vector2(
-					state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
-					state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag / 8);			
+			super.controller(delta);
+			
 			break;
 		default:
 			break;
@@ -151,8 +145,13 @@ public class FloatingEnemy extends Enemy {
 		
 		if (moveCdCount < 0) {
 			moveCdCount += moveCd;
-			if (direction != null) {
+			switch (aiState) {
+			case ROAMING:
+			case WALLHUGGING:
 				push(direction.x, direction.y);
+				break;
+			case CHASING:
+				break;
 			}
 		}
 		
