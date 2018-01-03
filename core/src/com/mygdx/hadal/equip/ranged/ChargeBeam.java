@@ -37,7 +37,7 @@ public class ChargeBeam extends RangedWeapon {
 	
 	private static float chargeDura = 0.0f;
 	private static int chargeStage = 0;
-	private static final float maxCharge = 1.5f;
+	private static final float maxCharge = 1.0f;
 	
 	private final static String spriteId = "orb_yellow";
 
@@ -50,9 +50,9 @@ public class ChargeBeam extends RangedWeapon {
 			
 			if (chargeDura >= maxCharge) {
 				chargeStage = 3;
-			} else if (chargeDura >= 1.0f) {
+			} else if (chargeDura >= 0.8f) {
 				chargeStage = 2;
-			} else if (chargeDura >= 0.5f) {
+			} else if (chargeDura >= 0.4f) {
 				chargeStage = 1;
 			} else {
 				chargeStage = 0;
@@ -65,22 +65,22 @@ public class ChargeBeam extends RangedWeapon {
 
 			switch(chargeStage) {
 			case 3:
-				sizeMultiplier = 6.0f;
-				speedMultiplier = 4.5f;
+				sizeMultiplier = 8.0f;
+				speedMultiplier = 5.0f;
 				damageMultiplier = 10.0f;
-				kbMultiplier = 8.0f;
+				kbMultiplier = 12.0f;
 				break;
 			case 2:
-				sizeMultiplier = 2.5f;
-				speedMultiplier = 3.0f;
+				sizeMultiplier = 4.0f;
+				speedMultiplier = 4.0f;
 				damageMultiplier = 6.0f;
-				kbMultiplier = 5.0f;
+				kbMultiplier = 7.5f;
 				break;
 			case 1:
-				sizeMultiplier = 1.5f;
-				speedMultiplier = 1.5f;
+				sizeMultiplier = 2.0f;
+				speedMultiplier = 3.0f;
 				damageMultiplier = 2.0f;
-				kbMultiplier = 1.5f;
+				kbMultiplier = 2.5f;
 				break;
 			}
 			
@@ -126,6 +126,16 @@ public class ChargeBeam extends RangedWeapon {
 	
 	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {
 		super.execute(state, bodyData, world, camera, rays);
-		chargeDura = 1;
+		chargeDura = 0;
+	}
+	
+	@Override
+	public String getText() {
+		if (reloading) {
+			return name + ": " + clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "% RELOADING";
+		} else {
+			return name + ": " + clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "%";
+
+		}
 	}
 }

@@ -32,8 +32,8 @@ public class SteeringEnemy extends Enemy implements Steerable<Vector2>{
 		
 		this.boundingRadius = 500;
 		
-		this.maxLinearSpeed = 150;
-		this.maxLinearAcceleration = 1500;
+		this.maxLinearSpeed = 100;
+		this.maxLinearAcceleration = 1000;
 		this.maxAngularSpeed = 10;
 		this.maxAngularAcceleration = 5;
 		

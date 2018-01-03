@@ -34,6 +34,10 @@ public class MeleeHitbox extends Hitbox {
 		Vector2 hbLocation = creator.getBody().getPosition().add(center);
 		this.body.setTransform(hbLocation, startVelo.angleRad());
 
+		if (creator.bodyData.currentHp <= 0) {
+			state.destroy(this);
+		}
+		
 		lifeSpan -= delta;
 		if (lifeSpan <= 0) {
 			state.destroy(this);
