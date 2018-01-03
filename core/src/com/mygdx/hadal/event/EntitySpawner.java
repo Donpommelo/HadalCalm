@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.FloatingEnemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.RunningEnemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.TrailingEnemy;
@@ -12,6 +11,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class EntitySpawner extends Event {
 	
@@ -52,11 +52,13 @@ public class EntitySpawner extends Event {
 			amountCount++;
 			switch(id) {
 			case 0:
-				state.player = new Player(state, world, camera, rays, spawnX, spawnY);
+				state.player.getBody().setTransform(
+						spawnX / PPM + state.getPlayer().width / PPM / 2, 
+						spawnY / PPM + state.getPlayer().height / PPM / 2, 0);
 				break;
 			case 1:
 				if (Math.random() > 0.5f) {
-					new FloatingEnemy(state, world, camera, rays, 32, 16, spawnX, spawnY);
+					new FloatingEnemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
 				} else {
 					new RunningEnemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
 				}

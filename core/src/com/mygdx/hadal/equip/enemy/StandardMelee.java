@@ -28,7 +28,7 @@ public class StandardMelee extends MeleeWeapon {
 	private final static int hitboxSize = 100;
 	private final static int swingArc = 100;
 	private final static float knockback = 7.5f;
-	private final static float momentum = 3.0f;
+	private final static float momentum = 0.0f;
 	
 	
 	private final static HitboxFactory onSwing = new HitboxFactory() {
@@ -37,16 +37,8 @@ public class StandardMelee extends MeleeWeapon {
 		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, float x, float y, short filter, World world,
 				OrthographicCamera camera, RayHandler rays) {
 			
-			Vector2 center;
-			
-			if (startAngle.x > 0) {
-				center = new Vector2(user.width / 2 / PPM, 0);
-			} else {
-				center = new Vector2( - user.width / 2 / PPM, 0);
-			}
-			
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
-					center, filter, world, camera, rays, user);
+					new Vector2(user.width / 2 / PPM, 0), filter, world, camera, rays, user);
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 				
