@@ -1,5 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -48,7 +50,7 @@ public class Turret extends Enemy {
 	public static final int rotationX = 130;
 	public static final int rotationY = 114;
 	
-	public static final float scale = 1.0f;
+	public static final float scale = 0.5f;
 	
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
@@ -67,7 +69,7 @@ public class Turret extends Enemy {
 	 */
 	public void create() {
 		this.bodyData = new BodyData(world, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale / 2, hbHeight * scale / 2, 0, 1, 0, false, true, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 1, 0, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);
 	}
@@ -126,19 +128,18 @@ public class Turret extends Enemy {
 	}
 	
 	public void render(SpriteBatch batch) {
-		batch.setProjectionMatrix(state.hud.combined);
-		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-		camera.project(bodyScreenPosition);
-				
+
+		batch.setProjectionMatrix(state.sprite.combined);
+		
 		batch.draw(turretBarrel, 
-				bodyScreenPosition.x - hbWidth * scale / 2, 
-				bodyScreenPosition.y - hbHeight * scale / 2, 
+				body.getPosition().x * PPM - hbWidth * scale / 2, 
+				body.getPosition().y * PPM - hbHeight * scale / 2, 
 				rotationX * scale, rotationY * scale,
 				width * scale, height * scale, 1, 1, angle);
 		
 		batch.draw(turretBase, 
-				bodyScreenPosition.x - hbWidth * scale / 2, 
-				bodyScreenPosition.y - hbHeight * scale / 2, 
+				body.getPosition().x * PPM - hbWidth * scale / 2, 
+				body.getPosition().y * PPM - hbHeight * scale / 2, 
 				0, 0,
 				width * scale, height * scale, 1, 1, 0.0f);
 		

@@ -15,7 +15,7 @@ public class Spittlefish extends FloatingEnemy {
 	public static final int hbWidth = 76;
 	public static final int hbHeight = 197;
 	
-	public static final float scale = 0.5f;
+	public static final float scale = 0.25f;
 	
 	public static final float maxLinearSpeed = 75;
 	public static final float maxLinearAcceleration = 800;

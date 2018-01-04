@@ -15,15 +15,15 @@ public class Scissorfish extends FloatingEnemy {
 	public static final int hbWidth = 119;
 	public static final int hbHeight = 288;
 	
-	public static final float scale = 0.5f;
+	public static final float scale = 0.25f;
 	
-	public static final float maxLinearSpeed = 120;
+	public static final float maxLinearSpeed = 200;
 	public static final float maxLinearAcceleration = 1000;
 	public static final float maxAngularSpeed = 10;
 	public static final float maxAngularAcceleration = 5;
 	
 	public static final int boundingRadius = 500;
-	public static final int decelerationRadius = 10;
+	public static final int decelerationRadius = 0;
 	
 	public static final String spriteId = "scissorfish_swim";
 	

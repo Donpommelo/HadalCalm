@@ -28,18 +28,18 @@ public class HadalGame extends ApplicationAdapter {
 	
 	//The main camera scales to the viewport size scaled to this for some reason.
 	//TODO: replace this with a constant aspect ratio?
-	public final static float SCALE = 1.0f;
+	public final static float BOX2DSCALE = 1.0f;
 //	private final float SCALE = 0.25f;
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
-	private OrthographicCamera camera, hud;
+	private OrthographicCamera camera, sprite, hud;
 	private SpriteBatch batch;
 
 	//This is the Gamestate Manager. It manages the current game state.
 	private GameStateManager gsm;
 	
     public static AssetManager assetManager;
-    public static FitViewport viewport;
+    public static FitViewport viewportCamera, viewportSprite;
 
     public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_TEXT;
     public static Color DEFAULT_TEXT_COLOR;
@@ -59,15 +59,21 @@ public class HadalGame extends ApplicationAdapter {
 		CONFIG_HEIGHT = DEFAULT_HEIGHT;
 		batch = new SpriteBatch();
 		
-		camera = new OrthographicCamera(CONFIG_WIDTH * SCALE, CONFIG_HEIGHT * SCALE);
-		camera.setToOrtho(false, CONFIG_WIDTH * SCALE, CONFIG_HEIGHT * SCALE);
+		camera = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+		camera.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
 		
-		hud = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
-	    hud.setToOrtho(false, CONFIG_WIDTH, CONFIG_HEIGHT);
+	    sprite = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+	    sprite.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+	    	    
+		viewportCamera = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, camera);
+	    viewportCamera.apply();
 		
-		viewport = new FitViewport(CONFIG_WIDTH * SCALE, CONFIG_HEIGHT * SCALE, camera);
-	    viewport.apply();
-		
+	    viewportSprite = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, sprite);
+	    viewportSprite.apply();
+	    
+	    hud = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+	    hud.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
         loadAssets();
 	        
@@ -105,13 +111,17 @@ public class HadalGame extends ApplicationAdapter {
 	@Override
 	public void resize (int width, int height) {
 				
-		viewport.update((int)(width * SCALE), (int)(height * SCALE), true);
-//		camera.setToOrtho(false, width, height);
-//		camera.update();
+		gsm.resize((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE));
+
+		viewportCamera.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-		gsm.resize((int)(width * SCALE), (int)(height * SCALE));
-		viewport.apply();
+		viewportCamera.apply();
 		
+		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
+        sprite.position.set(sprite.viewportWidth / 2, sprite.viewportHeight / 2, 0);
+		viewportSprite.apply();
+		
+
 		if (currentMenu != null) {
 			currentMenu.getViewport().update(width, height);
 		}
@@ -149,6 +159,10 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	public OrthographicCamera getHud() {
 		return hud;
+	}
+	
+	public OrthographicCamera getSprite() {
+		return sprite;
 	}
 	
 	/**

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -65,8 +64,6 @@ public class TorpedoLauncher extends RangedWeapon {
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
 					filter, false, world, camera, rays, user, spriteId) {
 				
-				Vector3 bodyScreenPosition;
-
 				{
 					bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
 					bubbles.start();
@@ -75,24 +72,16 @@ public class TorpedoLauncher extends RangedWeapon {
 				@Override
 				public void controller(float delta) {
 					super.controller(delta);
-					bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-					camera.project(bodyScreenPosition);
-					
-					bubbles.setPosition(bodyScreenPosition.x, bodyScreenPosition.y);
+
+					bubbles.setPosition(body.getPosition().x * PPM, body.getPosition().y * PPM);
 				}
 				
 				@Override
 				public void render(SpriteBatch batch) {
-					batch.setProjectionMatrix(state.hud.combined);
 					
+					batch.setProjectionMatrix(state.sprite.combined);
 					bubbles.draw(batch, Gdx.graphics.getDeltaTime());
-					
-					batch.draw(getProjectileSprite(), 
-							bodyScreenPosition.x - width / 2, 
-							bodyScreenPosition.y - height / 2, 
-							width / 2, height / 2,
-							width, height, 1, 1, 
-							(float) Math.toDegrees(body.getAngle()) + 180);
+					super.render(batch);
 				}
 			};
 			

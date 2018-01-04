@@ -17,7 +17,7 @@ public abstract class GameState {
 	protected GameStateManager gsm;
 	protected HadalGame app;
 	protected SpriteBatch batch;
-	public OrthographicCamera camera, hud;
+	public OrthographicCamera camera, sprite, hud;
 	
 	/**
 	 * This constructor is run when the player switches GameState to a new State.
@@ -28,6 +28,7 @@ public abstract class GameState {
 		this.app = gsm.application();
 		this.batch = app.getBatch();
 		this.camera = app.getCamera();
+		this.sprite = app.getSprite();
 		this.hud = app.getHud();		
 	}
 	
@@ -43,6 +44,9 @@ public abstract class GameState {
 	public void resize(int w, int h) {
 		camera.setToOrtho(false, w, h);
 		camera.update();
+		
+		sprite.setToOrtho(false, w, h);
+		sprite.update();
 		
 		hud.setToOrtho(false, w, h);
 		hud.update();

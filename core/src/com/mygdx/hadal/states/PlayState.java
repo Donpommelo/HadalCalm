@@ -183,7 +183,7 @@ public class PlayState extends GameState {
 		rays.updateAndRender();
 		
 		//Iterate through entities in the world to render
-		batch.setProjectionMatrix(camera.combined);
+//		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
 		for (HadalEntity schmuck : entities) {
@@ -219,9 +219,11 @@ public class PlayState extends GameState {
 	 */
 	private void cameraUpdate() {
 		camera.zoom = 1.0f;
+		sprite.zoom = 1.0f;
 		if (player != null) {
 			if (player.getBody() != null) {
 				CameraStyles.lerpToTarget(camera, player.getBody().getPosition().scl(PPM));
+				CameraStyles.lerpToTarget(sprite, player.getBody().getPosition().scl(PPM));
 			}
 		}
 	}

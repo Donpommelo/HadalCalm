@@ -1,5 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -109,7 +111,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			}
 		};
 		
-		sensorDef = FixtureBuilder.createFixtureDef(hbWidth * scale, hbHeight * scale, new Vector2(0,0), true, 0, 
+		sensorDef = FixtureBuilder.createFixtureDef(hbWidth * scale * 2, hbHeight * scale * 2, new Vector2(0,0), true, 0, 
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER), Constants.PLAYER_HITBOX);
 		sensor = body.createFixture(sensorDef);
 		sensor.setUserData(sensorData);
@@ -226,9 +228,6 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * draws enemy
 	 */
 	public void render(SpriteBatch batch) {
-		batch.setProjectionMatrix(state.hud.combined);
-		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-		camera.project(bodyScreenPosition);
 		
 		if (body.getAngle() < 0 && !fishSprite.isFlipY()) {
 			fishSprite.flip(false, true);
@@ -238,13 +237,15 @@ public class FloatingEnemy extends SteeringEnemy {
 			fishSprite.flip(false, true);
 		}
 		
+		batch.setProjectionMatrix(state.sprite.combined);
+
 		batch.draw(fishSprite, 
-				bodyScreenPosition.x - hbHeight * scale / 2, 
-				bodyScreenPosition.y - hbWidth * scale / 2, 
+				body.getPosition().x * PPM - hbHeight * scale / 2, 
+				body.getPosition().y * PPM - hbWidth * scale / 2, 
 				hbHeight * scale / 2, hbWidth * scale / 2,
-				width * scale, height * scale,
-				1, 1, 
+				width * scale, height * scale, 1, 1, 
 				(float) Math.toDegrees(body.getAngle()) - 90);
+
 	}
 	
 	public enum floatingState {		CHASING,
