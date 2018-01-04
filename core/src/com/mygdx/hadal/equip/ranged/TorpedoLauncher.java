@@ -1,9 +1,16 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.HitboxImage;
@@ -41,6 +48,9 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float explosionKnockback = 15.0f;
 
 	private final static String spriteId = "torpedo";
+	
+	// Particle effect information.
+	 private static TextureAtlas particleAtlas;
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -50,9 +60,41 @@ public class TorpedoLauncher extends RangedWeapon {
 				RayHandler rays) {
 			
 			final Schmuck user2 = user;
+			final ParticleEffect bubbles = new ParticleEffect();
 
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
-					filter, false, world, camera, rays, user, spriteId);
+					filter, false, world, camera, rays, user, spriteId) {
+				
+				Vector3 bodyScreenPosition;
+
+				{
+					bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
+					bubbles.start();
+				}
+				
+				@Override
+				public void controller(float delta) {
+					super.controller(delta);
+					bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
+					camera.project(bodyScreenPosition);
+					
+					bubbles.setPosition(bodyScreenPosition.x, bodyScreenPosition.y);
+				}
+				
+				@Override
+				public void render(SpriteBatch batch) {
+					batch.setProjectionMatrix(state.hud.combined);
+					
+					bubbles.draw(batch, Gdx.graphics.getDeltaTime());
+					
+					batch.draw(getProjectileSprite(), 
+							bodyScreenPosition.x - width / 2, 
+							bodyScreenPosition.y - height / 2, 
+							width / 2, height / 2,
+							width, height, 1, 1, 
+							(float) Math.toDegrees(body.getAngle()) + 180);
+				}
+			};
 			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;
@@ -105,5 +147,6 @@ public class TorpedoLauncher extends RangedWeapon {
 	
 	public TorpedoLauncher(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 	}
 }

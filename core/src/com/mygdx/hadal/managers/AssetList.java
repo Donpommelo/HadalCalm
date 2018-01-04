@@ -12,6 +12,7 @@ public enum AssetList {
 	BUTLER_FONT("fonts/butler.fnt", null),
 	LEARNING_FONT("fonts/learning_curve.fnt", null),
 	
+	// Player and enemy sprites.
 	PROJ_1("sprites/projectiles.png", Texture.class),
 	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
 	
@@ -20,6 +21,13 @@ public enum AssetList {
 	
 	FISH_1("sprites/fish.png", Texture.class),
 	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),
+	
+	// Particle effects.
+	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),
+	BUBBLE_IMPACT("sprites/particle/bubble_impact.particle", null),
+	BUBBLE_TRAIL("sprites/particle/bubble_trail.particle", null),
+	SMOKE_PUFF("sprites/particle/smoke_puff.particle", null),
+	SPARK_TRAIL("sprites/particle/spark_trail.particle", null),
 	
 	UISKINIMG("ui/uiskin.png", Texture.class),
 	UISKINATL("ui/uiskin.atlas", TextureAtlas.class);

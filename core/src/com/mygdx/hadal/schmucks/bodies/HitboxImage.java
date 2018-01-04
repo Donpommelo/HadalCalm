@@ -41,12 +41,20 @@ public class HitboxImage extends Hitbox {
 		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
 		camera.project(bodyScreenPosition);
 							
-		batch.draw(projectileSprite, 
+		batch.draw(getProjectileSprite(), 
 				bodyScreenPosition.x - width / 2, 
 				bodyScreenPosition.y - height / 2, 
 				width / 2, height / 2,
 				width, height, 1, 1, 
 				(float) Math.toDegrees(body.getAngle()) + 180);
+	}
+
+	public TextureRegion getProjectileSprite() {
+		return projectileSprite;
+	}
+
+	public void setProjectileSprite(TextureRegion projectileSprite) {
+		this.projectileSprite = projectileSprite;
 	}	
 
 }
