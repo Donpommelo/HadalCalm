@@ -229,7 +229,15 @@ public class FloatingEnemy extends SteeringEnemy {
 		batch.setProjectionMatrix(state.hud.combined);
 		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
 		camera.project(bodyScreenPosition);
-							
+		
+		if (body.getAngle() < 0 && !fishSprite.isFlipY()) {
+			fishSprite.flip(false, true);
+		}
+		
+		if (body.getAngle() > 0 && fishSprite.isFlipY()) {
+			fishSprite.flip(false, true);
+		}
+		
 		batch.draw(fishSprite, 
 				bodyScreenPosition.x - hbHeight * scale / 2, 
 				bodyScreenPosition.y - hbWidth * scale / 2, 

@@ -16,9 +16,9 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
-public class StandardMelee extends MeleeWeapon {
+public class ScissorfishAttack extends MeleeWeapon {
 
-	private final static String name = "Standard Melee Attack";
+	private final static String name = "Scissorfish Scissor";
 	private final static float swingCd = 0.5f;
 	private final static float windup = 0.5f;
 	private final static float backSwing = 0.0f;
@@ -54,7 +54,7 @@ public class StandardMelee extends MeleeWeapon {
 
 	};
 	
-	public StandardMelee(Schmuck user) {
+	public ScissorfishAttack(Schmuck user) {
 		super(user, name, swingCd, windup, momentum, onSwing);
 	}
 

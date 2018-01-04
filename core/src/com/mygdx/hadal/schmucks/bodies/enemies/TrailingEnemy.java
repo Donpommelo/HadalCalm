@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.enemy.StandardMelee;
+import com.mygdx.hadal.equip.enemy.ScissorfishAttack;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -73,7 +73,7 @@ public class TrailingEnemy extends Enemy {
 		super(state, world, camera, rays, width, height, x, y);
 		
 		//default enemy weapon is a slow ranged projectile
-		this.weapon = new StandardMelee(this);	
+		this.weapon = new ScissorfishAttack(this);	
 		
 		this.aiState = trailingState.ROAMING;
 	}

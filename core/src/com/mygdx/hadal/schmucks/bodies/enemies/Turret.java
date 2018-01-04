@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.enemy.StandardRanged;
+import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -52,7 +52,7 @@ public class Turret extends Enemy {
 	
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
-		this.weapon = new StandardRanged(this);	
+		this.weapon = new SpittlefishAttack(this);	
 		this.angle = 90;
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
@@ -83,8 +83,6 @@ public class Turret extends Enemy {
 				
 			case SHOOTING:
 		}
-		
-		
 		
 		if (aiCdCount < 0) {
 		
