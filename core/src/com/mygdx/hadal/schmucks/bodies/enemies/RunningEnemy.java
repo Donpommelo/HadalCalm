@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.enemy.StandardRanged;
+import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -53,7 +53,7 @@ public class RunningEnemy extends Enemy {
 		super(state, world, camera, rays, width, height, x, y);
 		
 		//default enemy weapon is a slow ranged projectile
-		this.weapon = new StandardRanged(this);	
+		this.weapon = new SpittlefishAttack(this);	
 		
 		this.aiState = runningState.ROAMING;
 	}

@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.equip.enemy.StandardRanged;
+import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
 import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
@@ -19,11 +19,11 @@ public class Spittlefish extends FloatingEnemy {
 	
 	public static final float maxLinearSpeed = 75;
 	public static final float maxLinearAcceleration = 800;
-	public static final float maxAngularSpeed = 12;
-	public static final float maxAngularAcceleration = 5;
+	public static final float maxAngularSpeed = 45;
+	public static final float maxAngularAcceleration = 10;
 	
 	public static final int boundingRadius = 500;
-	public static final int decelerationRadius = 200;
+	public static final int decelerationRadius = 100;
 	
 	public static final String spriteId = "spittlefish_swim";
 
@@ -32,7 +32,7 @@ public class Spittlefish extends FloatingEnemy {
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius);
 		
 		//default enemy weapon is a slow ranged projectile
-		this.weapon = new StandardRanged(this);	
+		this.weapon = new SpittlefishAttack(this);	
 	}
 
 }

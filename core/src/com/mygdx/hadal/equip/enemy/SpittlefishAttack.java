@@ -16,9 +16,9 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
-public class StandardRanged extends RangedWeapon {
+public class SpittlefishAttack extends RangedWeapon {
 
-	private final static String name = "Standard Ranged Attack";
+	private final static String name = "Spittlefish Spittle";
 	private final static int clipSize = 6;
 	private final static float shootCd = 1.0f;
 	private final static float shootDelay = 0;
@@ -64,7 +64,7 @@ public class StandardRanged extends RangedWeapon {
 		
 	};
 	
-	public StandardRanged(Schmuck user) {
+	public SpittlefishAttack(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 
