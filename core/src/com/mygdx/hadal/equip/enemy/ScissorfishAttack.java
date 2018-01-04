@@ -22,7 +22,7 @@ public class ScissorfishAttack extends MeleeWeapon {
 	private final static float swingCd = 0.5f;
 	private final static float windup = 0.5f;
 	private final static float backSwing = 0.0f;
-	private final static float baseDamage = 8.0f;
+	private final static float baseDamage = 12.0f;
 	private final static int hitboxSize = 200;
 	private final static int swingArc = 100;
 	private final static float knockback = 7.5f;

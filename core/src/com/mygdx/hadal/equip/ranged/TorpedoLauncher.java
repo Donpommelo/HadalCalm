@@ -44,7 +44,7 @@ public class TorpedoLauncher extends RangedWeapon {
 		
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 60.0f;
-	private final static float explosionKnockback = 15.0f;
+	private final static float explosionKnockback = 10.0f;
 
 	private final static String spriteId = "torpedo";
 	

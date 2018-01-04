@@ -27,7 +27,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 1.5f;
 	private final static float knockback = 1.0f;
-	private final static float projectileSpeed = 6.0f;
+	private final static float projectileSpeed = 10.0f;
 	private final static int projectileWidth = 15;
 	private final static int projectileHeight = 15;
 	private final static float lifespan = 3.0f;
@@ -66,19 +66,19 @@ public class ChargeBeam extends RangedWeapon {
 			switch(chargeStage) {
 			case 3:
 				sizeMultiplier = 8.0f;
-				speedMultiplier = 5.0f;
+				speedMultiplier = 4.0f;
 				damageMultiplier = 10.0f;
 				kbMultiplier = 12.0f;
 				break;
 			case 2:
 				sizeMultiplier = 4.0f;
-				speedMultiplier = 4.0f;
+				speedMultiplier = 3.0f;
 				damageMultiplier = 6.0f;
 				kbMultiplier = 7.5f;
 				break;
 			case 1:
 				sizeMultiplier = 2.0f;
-				speedMultiplier = 3.0f;
+				speedMultiplier = 2.0f;
 				damageMultiplier = 2.0f;
 				kbMultiplier = 2.5f;
 				break;
