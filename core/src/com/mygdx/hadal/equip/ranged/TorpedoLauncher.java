@@ -72,13 +72,11 @@ public class TorpedoLauncher extends RangedWeapon {
 				@Override
 				public void controller(float delta) {
 					super.controller(delta);
-
 					bubbles.setPosition(body.getPosition().x * PPM, body.getPosition().y * PPM);
 				}
 				
 				@Override
 				public void render(SpriteBatch batch) {
-					
 					batch.setProjectionMatrix(state.sprite.combined);
 					bubbles.draw(batch, Gdx.graphics.getDeltaTime());
 					super.render(batch);

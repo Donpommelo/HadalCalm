@@ -65,7 +65,7 @@ timeline0: 0.0
 lowMin: 0.0
 lowMax: 0.0
 highMin: 8.0
-highMax: 32.0
+highMax: 16.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -77,8 +77,8 @@ timeline1: 1.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 120.0
-highMax: 300.0
+highMin: 50.0
+highMax: 200.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -143,12 +143,12 @@ highMin: 1.0
 highMax: 1.0
 relative: false
 scalingCount: 3
-scaling0: 1.0
-scaling1: 0.75
+scaling0: 0.68421054
+scaling1: 0.45614034
 scaling2: 0.0
 timelineCount: 3
 timeline0: 0.0
-timeline1: 0.8
+timeline1: 0.79452056
 timeline2: 1.0
 - Options - 
 attached: false
@@ -226,7 +226,7 @@ timeline0: 0.0
 lowMin: 0.0
 lowMax: 0.0
 highMin: 2.0
-highMax: 16.0
+highMax: 8.0
 relative: false
 scalingCount: 3
 scaling0: 1.0
@@ -240,8 +240,8 @@ timeline2: 1.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 80.0
-highMax: 300.0
+highMin: 50.0
+highMax: 200.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -304,12 +304,12 @@ highMin: 1.0
 highMax: 1.0
 relative: false
 scalingCount: 3
-scaling0: 1.0
-scaling1: 0.75
+scaling0: 0.75438595
+scaling1: 0.49122807
 scaling2: 0.0
 timelineCount: 3
 timeline0: 0.0
-timeline1: 0.8
+timeline1: 0.79452056
 timeline2: 1.0
 - Options - 
 attached: false

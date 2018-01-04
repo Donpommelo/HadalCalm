@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -40,6 +41,7 @@ public class Turret extends Enemy {
 
   	private TextureAtlas atlas;
 	private TextureRegion turretBase, turretBarrel;
+	private Animation<TextureRegion> fireAnimation;
 	
 	public static final int width = 528;
 	public static final int height = 252;
@@ -47,10 +49,10 @@ public class Turret extends Enemy {
 	public static final int hbWidth = 261;
 	public static final int hbHeight = 165;
 	
-	public static final int rotationX = 130;
+	public static final int rotationX = 131;
 	public static final int rotationY = 114;
 	
-	public static final float scale = 0.5f;
+	public static final float scale = 0.3f;
 	
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
@@ -59,9 +61,12 @@ public class Turret extends Enemy {
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
 		turretBase = atlas.findRegion("base");
-		turretBarrel = atlas.findRegion("flak");
+//		turretBarrel = atlas.findRegion("flak");
+//		fireAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions("flak"));
+		turretBarrel = atlas.findRegion("volley");
+		fireAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions("volley"));
 		
-		aiState = turretState.NOTSHOOTING;
+		aiState = turretState.SHOOTING;
 	}
 	
 	/**
@@ -79,7 +84,8 @@ public class Turret extends Enemy {
 	 */
 	public void controller(float delta) {
 		
-		
+		increaseAnimationTime(delta);
+
 		switch(aiState) {
 			case NOTSHOOTING:
 				
@@ -123,19 +129,26 @@ public class Turret extends Enemy {
 				if (closestFixture.getUserData() instanceof PlayerBodyData ) {
 					aiState = turretState.SHOOTING;
 				}
-			}			
+			}
 		}
 	}
 	
 	public void render(SpriteBatch batch) {
 
 		batch.setProjectionMatrix(state.sprite.combined);
-		
-		batch.draw(turretBarrel, 
-				body.getPosition().x * PPM - hbWidth * scale / 2, 
-				body.getPosition().y * PPM - hbHeight * scale / 2, 
-				rotationX * scale, rotationY * scale,
-				width * scale, height * scale, 1, 1, angle);
+		if(aiState == turretState.NOTSHOOTING) {
+			batch.draw(turretBarrel, 
+					body.getPosition().x * PPM - hbWidth * scale / 2, 
+					body.getPosition().y * PPM - hbHeight * scale / 2, 
+					rotationX * scale, rotationY * scale,
+					width * scale, height * scale, 1, 1, angle);
+		} else {
+			batch.draw(fireAnimation.getKeyFrame(getAnimationTime(), true), 
+					body.getPosition().x * PPM - hbWidth * scale / 2, 
+					body.getPosition().y * PPM - hbHeight * scale / 2, 
+					rotationX * scale, rotationY * scale,
+					width * scale, height * scale, 1, 1, angle);
+		}
 		
 		batch.draw(turretBase, 
 				body.getPosition().x * PPM - hbWidth * scale / 2, 

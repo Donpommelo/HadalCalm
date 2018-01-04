@@ -47,6 +47,12 @@ public class Schmuck extends HadalEntity {
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	public float controllerCount = 0;
 	
+	// This counter keeps track of frames for animations. This is incremented every controller tick for now.
+	public float animationTime = 0;
+	public void increaseAnimationTime(float i) { animationTime += i; }
+	public float getAnimationTime() { return animationTime; }
+
+
 	/**
 	 * This constructor is called when a Schmuck is made.
 	 * @param state: Current playState
@@ -91,7 +97,7 @@ public class Schmuck extends HadalEntity {
 		controllerCount+=delta;
 		if (controllerCount >= 1/60f) {
 			controllerCount -= 1/60f;
-			
+						
 			Vector2 currentVel = body.getLinearVelocity();
 			float desiredXVel = 0.0f;
 			float desiredYVel = 0.0f;
@@ -204,7 +210,5 @@ public class Schmuck extends HadalEntity {
 	 */
 	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
 		tool.release(state, bodyData, world, camera, rays);
-	}
-	
-	
+	}	
 }

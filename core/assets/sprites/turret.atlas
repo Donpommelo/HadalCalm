@@ -32,13 +32,6 @@ flak
   orig: 528, 252
   offset: 0, 0
   index: 2
-turret_flak
-  rotate: false
-  xy: 2, 764
-  size: 528, 252
-  orig: 528, 252
-  offset: 0, 0
-  index: -1
 flak
   rotate: false
   xy: 532, 1018
@@ -60,13 +53,6 @@ flak
   orig: 528, 252
   offset: 0, 0
   index: 5
-flak
-  rotate: false
-  xy: 1592, 1272
-  size: 450, 252
-  orig: 450, 252
-  offset: 0, 0
-  index: 6
 volley
   rotate: false
   xy: 532, 764
