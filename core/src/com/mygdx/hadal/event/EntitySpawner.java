@@ -3,8 +3,8 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.bodies.enemies.FloatingEnemy;
-import com.mygdx.hadal.schmucks.bodies.enemies.RunningEnemy;
+import com.mygdx.hadal.schmucks.bodies.enemies.Scissorfish;
+import com.mygdx.hadal.schmucks.bodies.enemies.Spittlefish;
 import com.mygdx.hadal.schmucks.bodies.enemies.TrailingEnemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -58,9 +58,9 @@ public class EntitySpawner extends Event {
 				break;
 			case 1:
 				if (Math.random() > 0.5f) {
-					new FloatingEnemy(state, world, camera, rays, spawnX, spawnY);
+					new Scissorfish(state, world, camera, rays, spawnX, spawnY);
 				} else {
-					new RunningEnemy(state, world, camera, rays, 16, 32, spawnX, spawnY);
+					new Spittlefish(state, world, camera, rays, spawnX, spawnY);
 				}
 				break;
 			case 2:

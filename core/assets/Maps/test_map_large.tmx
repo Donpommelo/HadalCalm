@@ -120,7 +120,7 @@
     <property name="limit" type="int" value="0"/>
    </properties>
   </object>
-  <object id="44" name="Spawn" type="Spawn" x="3104" y="1792" width="32" height="32">
+  <object id="44" name="Spawn" type="Spawn" x="3072" y="1760" width="32" height="32">
    <properties>
     <property name="id" type="int" value="1"/>
     <property name="interval" type="float" value="10"/>

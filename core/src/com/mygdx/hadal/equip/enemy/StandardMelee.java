@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.enemy;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -25,10 +23,10 @@ public class StandardMelee extends MeleeWeapon {
 	private final static float windup = 0.5f;
 	private final static float backSwing = 0.0f;
 	private final static float baseDamage = 8.0f;
-	private final static int hitboxSize = 100;
+	private final static int hitboxSize = 200;
 	private final static int swingArc = 100;
 	private final static float knockback = 7.5f;
-	private final static float momentum = 0.0f;
+	private final static float momentum = 3.0f;
 	
 	
 	private final static HitboxFactory onSwing = new HitboxFactory() {
@@ -38,7 +36,7 @@ public class StandardMelee extends MeleeWeapon {
 				OrthographicCamera camera, RayHandler rays) {
 			
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
-					new Vector2(-user.width / PPM / 2, 0), filter, world, camera, rays, user);
+					new Vector2(0, 0), filter, world, camera, rays, user);
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 				

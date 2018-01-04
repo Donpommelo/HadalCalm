@@ -23,19 +23,22 @@ public class SteeringEnemy extends Enemy implements Steerable<Vector2>{
 	float maxLinearSpeed, maxLinearAcceleration;
 	float maxAngularSpeed, maxAngularAcceleration;
 	
+	float decelerationRad;
+	
 	SteeringBehavior<Vector2> behavior;
 	SteeringAcceleration<Vector2> steeringOutput;
 	
-	public SteeringEnemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float width,
-			float height, int x, int y) {
+	public SteeringEnemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float width, float height, int x, int y, 
+			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad) {
 		super(state, world, camera, rays, width, height, x, y);
 		
-		this.boundingRadius = 500;
+		this.maxLinearSpeed = maxLinSpd;
+		this.maxLinearAcceleration = maxLinAcc;
+		this.maxAngularSpeed = maxAngSpd;
+		this.maxAngularAcceleration = maxAngAcc;
 		
-		this.maxLinearSpeed = 100;
-		this.maxLinearAcceleration = 1000;
-		this.maxAngularSpeed = 10;
-		this.maxAngularAcceleration = 5;
+		this.boundingRadius = boundingRad;
+		this.decelerationRad = decelerationRad;
 		
 		this.tagged = false;
 		
@@ -45,13 +48,13 @@ public class SteeringEnemy extends Enemy implements Steerable<Vector2>{
 
 	public void create() {
 		this.bodyData = new BodyData(world, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, 0, 1, 0f, false, false, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, 0, 1, 0f, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);	
 		
 		Arrive<Vector2> arriveSB = new Arrive<Vector2>(this, state.getPlayer())
 				.setArrivalTolerance(2f)
-				.setDecelerationRadius(10);
+				.setDecelerationRadius(decelerationRad);
 		
 		this.setBehavior(arriveSB);
 	}

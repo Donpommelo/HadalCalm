@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.enemy.StandardMelee;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -32,7 +31,7 @@ import box2dLight.RayHandler;
 public class FloatingEnemy extends SteeringEnemy {
 				
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
-	private Equipable weapon;
+	protected Equipable weapon;
     
     public Vector2 direction;
     
@@ -58,13 +57,9 @@ public class FloatingEnemy extends SteeringEnemy {
   	private TextureAtlas atlas;
 	private TextureRegion fishSprite;
 	
-	public static final int width = 288;
-	public static final int height = 119;
+	public int width, height, hbWidth, hbHeight;
 	
-	public static final int hbWidth = 119;
-	public static final int hbHeight = 288;
-	
-	public static final float scale = 0.5f;
+	public float scale;
 
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -77,16 +72,22 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public FloatingEnemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
-		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);
+	public FloatingEnemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y,
+			int width, int height, int hbWidth, int hbHeight, float scale, String spriteId,
+			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad) {
+		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y,
+				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad);
 		
-		//default enemy weapon is a slow ranged projectile
-		this.weapon = new StandardMelee(this);	
+		this.width = width;
+		this.height = height;
+		this.hbWidth = hbWidth;
+		this.hbHeight = hbHeight;
+		this.scale = scale;
 		
 		this.aiState = floatingState.ROAMING;
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
-		fishSprite = atlas.findRegion("scissorfish_swim");
+		fishSprite = atlas.findRegion(spriteId);
 	}
 	
 	/**
@@ -158,6 +159,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			case ROAMING:
 			case WALLHUGGING:
 				push(direction.x, direction.y);
+//				body.setTransform(body.getPosition(), 90);
 				break;
 			case CHASING:
 				break;
@@ -210,6 +212,10 @@ public class FloatingEnemy extends SteeringEnemy {
 		//If the delay on using a tool just ended, use thte tool.
 		if (shootDelayCount <= 0 && usedTool != null) {
 			useToolEnd();
+		}
+		
+		if (weapon.reloading) {
+			weapon.reload(delta);
 		}
 		
 		moveCdCount -= delta;
