@@ -1,0 +1,41 @@
+
+moreau.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm
+  rotate: false
+  xy: 638, 275
+  size: 251, 184
+  orig: 251, 184
+  offset: 0, 0
+  index: -1
+body_stand
+  rotate: false
+  xy: 2, 2
+  size: 210, 457
+  orig: 210, 457
+  offset: 0, 0
+  index: 0
+gem_active
+  rotate: false
+  xy: 214, 2
+  size: 210, 457
+  orig: 210, 457
+  offset: 0, 0
+  index: -1
+gem_inactive
+  rotate: false
+  xy: 426, 2
+  size: 210, 457
+  orig: 210, 457
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 638, 62
+  size: 188, 211
+  orig: 188, 211
+  offset: 0, 0
+  index: -1

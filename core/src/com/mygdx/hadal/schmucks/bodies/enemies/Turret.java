@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
@@ -33,6 +32,7 @@ public class Turret extends Enemy {
 	public float aiCdCount = 0;
 	    
 	public float angle;
+	public float desiredAngle;
 	
 	float shortestFraction;
   	Fixture closestFixture;
@@ -57,7 +57,8 @@ public class Turret extends Enemy {
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
 		this.weapon = new SpittlefishAttack(this);	
-		this.angle = 90;
+		this.angle = 0;
+		this.desiredAngle = 0;
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
 		turretBase = atlas.findRegion("base");
@@ -66,7 +67,7 @@ public class Turret extends Enemy {
 		turretBarrel = atlas.findRegion("volley");
 		fireAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions("volley"));
 		
-		aiState = turretState.SHOOTING;
+		aiState = turretState.NOTSHOOTING;
 	}
 	
 	/**
@@ -88,9 +89,16 @@ public class Turret extends Enemy {
 
 		switch(aiState) {
 			case NOTSHOOTING:
-				
+				angle = desiredAngle;
+				break;
 			case SHOOTING:
+				angle =  (float)(Math.atan2(
+						state.getPlayer().getBody().getPosition().y - body.getPosition().y ,
+						state.getPlayer().getBody().getPosition().x - body.getPosition().x) * 180 / Math.PI);
+				break;
 		}
+		
+		
 		
 		if (aiCdCount < 0) {
 		
@@ -131,6 +139,8 @@ public class Turret extends Enemy {
 				}
 			}
 		}
+		
+		aiCdCount -= delta;
 	}
 	
 	public void render(SpriteBatch batch) {
@@ -154,10 +164,7 @@ public class Turret extends Enemy {
 				body.getPosition().x * PPM - hbWidth * scale / 2, 
 				body.getPosition().y * PPM - hbHeight * scale / 2, 
 				0, 0,
-				width * scale, height * scale, 1, 1, 0.0f);
-		
-		angle++;
-		
+				width * scale, height * scale, 1, 1, 0.0f);		
 	}
 	
 	public enum turretState {

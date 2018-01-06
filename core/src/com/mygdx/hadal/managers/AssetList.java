@@ -22,6 +22,12 @@ public enum AssetList {
 	FISH_1("sprites/fish.png", Texture.class),
 	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),
 	
+	PLAYER_1("sprites/player/moreau.png", Texture.class),
+	PLAYER_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
+	
+	MULTITOOL_1("sprites/player/multitool.png", Texture.class),
+	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),
+	
 	// Particle effects.
 	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),
 	BUBBLE_IMPACT("sprites/particle/bubble_impact.particle", null),

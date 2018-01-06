@@ -1,17 +1,23 @@
 package com.mygdx.hadal.schmucks.bodies;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.equip.misc.MomentumStopper;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.ai.PlayerTrail;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -70,6 +76,32 @@ public class Player extends Schmuck implements Location<Vector2>{
 	//Queue of velocities that the player can manipulate
 	public Queue<Vector2> momentums;
 	
+	private TextureAtlas atlas;
+	private TextureRegion bodySprite, armSprite, headSprite, gemSprite, gemInactiveSprite;
+	
+	public static final int hbWidth = 160;
+	public static final int hbHeight = 320;
+	
+	public static final int bodyWidth = 210;
+	public static final int bodyHeight = 457;
+	
+	public static final int headWidth = 188;
+	public static final int headHeight = 211;
+	
+	public static final int headConnectX = -7;
+	public static final int headConnectY = 327;
+	
+	public static final int armWidth = 251;
+	public static final int armHeight = 184;
+	
+	public static final int armConnectX = -161;
+	public static final int armConnectY = 186;
+	
+	public static final int armRotateX = 212;
+	public static final int armRotateY = 147;
+	
+	public static final float scale = 0.1f;
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -84,6 +116,13 @@ public class Player extends Schmuck implements Location<Vector2>{
 		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
+		
+		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.PLAYER_ATL.toString());
+		bodySprite = atlas.findRegion("body_stand");
+		armSprite = atlas.findRegion("arm");
+		headSprite = atlas.findRegion("head");
+		gemSprite = atlas.findRegion("gem_active");
+		gemInactiveSprite = atlas.findRegion("gem_inactive");
 	}
 	
 	/**
@@ -305,7 +344,25 @@ public class Player extends Schmuck implements Location<Vector2>{
 	}
 	
 	public void render(SpriteBatch batch) {
+		batch.setProjectionMatrix(state.sprite.combined);
+
+		batch.draw(armSprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectX * scale, 
+				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
+				armRotateX * scale, armRotateY * scale,
+				armWidth * scale, armHeight * scale, 1, 1, 0);
 		
+		batch.draw(bodySprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2, 
+				body.getPosition().y * PPM - hbHeight * scale / 2, 
+				0, 0,
+				bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+		
+		batch.draw(headSprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectX * scale, 
+				body.getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale, 
+				0, 0,
+				headWidth * scale, headHeight * scale, 1, 1, 0);
 	}
 	
 	public void dispose() {
