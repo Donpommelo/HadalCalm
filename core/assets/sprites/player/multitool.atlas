@@ -1,13 +1,13 @@
 
 multitool.png
-size: 32,32
+size: 512,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 default
   rotate: false
   xy: 2, 2
-  size: 25, 26
-  orig: 25, 26
+  size: 257, 150
+  orig: 257, 150
   offset: 0, 0
   index: -1

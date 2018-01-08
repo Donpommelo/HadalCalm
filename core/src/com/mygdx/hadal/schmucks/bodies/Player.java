@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.HadalGame;
@@ -76,14 +77,17 @@ public class Player extends Schmuck implements Location<Vector2>{
 	//Queue of velocities that the player can manipulate
 	public Queue<Vector2> momentums;
 	
-	private TextureAtlas atlas;
-	private TextureRegion bodySprite, armSprite, headSprite, gemSprite, gemInactiveSprite;
+	private TextureAtlas atlasBody, atlasTool;
+	private TextureRegion bodySprite, bodyBackSprite, armSprite, headSprite, gemSprite, gemInactiveSprite, toolSprite;
 	
 	public static final int hbWidth = 160;
 	public static final int hbHeight = 320;
 	
 	public static final int bodyWidth = 210;
 	public static final int bodyHeight = 457;
+	
+	public static final int bodyBackWidth = 216;
+	public static final int bodyBackHeight = 450;
 	
 	public static final int headWidth = 188;
 	public static final int headHeight = 211;
@@ -94,11 +98,11 @@ public class Player extends Schmuck implements Location<Vector2>{
 	public static final int armWidth = 251;
 	public static final int armHeight = 184;
 	
-	public static final int armConnectX = -161;
-	public static final int armConnectY = 186;
+	public static final int armConnectX = -200;
+	public static final int armConnectY = 200;
 	
-	public static final int armRotateX = 212;
-	public static final int armRotateY = 147;
+	public static final int armRotateX = 235;
+	public static final int armRotateY = 50;
 	
 	public static final float scale = 0.1f;
 	
@@ -117,12 +121,15 @@ public class Player extends Schmuck implements Location<Vector2>{
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
 		
-		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.PLAYER_ATL.toString());
-		bodySprite = atlas.findRegion("body_stand");
-		armSprite = atlas.findRegion("arm");
-		headSprite = atlas.findRegion("head");
-		gemSprite = atlas.findRegion("gem_active");
-		gemInactiveSprite = atlas.findRegion("gem_inactive");
+		atlasBody = (TextureAtlas) HadalGame.assetManager.get(AssetList.PLAYER_ATL.toString());
+		atlasTool = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
+		bodySprite = atlasBody.findRegion("body_stand");
+		bodyBackSprite = atlasBody.findRegion("body_background");
+		armSprite = atlasBody.findRegion("arm");
+		headSprite = atlasBody.findRegion("head");
+		gemSprite = atlasBody.findRegion("gem_active");
+		gemInactiveSprite = atlasBody.findRegion("gem_inactive");
+		toolSprite = atlasTool.findRegion("default");
 	}
 	
 	/**
@@ -346,11 +353,60 @@ public class Player extends Schmuck implements Location<Vector2>{
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
 
+		Vector3 bodyScreenPosition = new Vector3(
+				body.getPosition().x,
+				body.getPosition().y, 0);
+		camera.project(bodyScreenPosition);
+		
+		float angle = (float)(Math.atan2(
+				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
+				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
+		
+		
+		if (Math.abs(angle) > 90 && !armSprite.isFlipX()) {
+			armSprite.flip(true, false);
+			bodySprite.flip(true, false);
+			bodyBackSprite.flip(true, false);
+			headSprite.flip(true, false);
+		}
+		
+		if (Math.abs(angle) < 90 && armSprite.isFlipX()) {
+			armSprite.flip(true, false);
+			bodySprite.flip(true, false);
+			bodyBackSprite.flip(true, false);
+			headSprite.flip(true, false);
+		}
+		
+		float armConnectXReal = armConnectX;
+		float headConnectXReal = headConnectX;
+		float armRotateXReal = armRotateX;
+		
+		if (armSprite.isFlipX()) {
+			armConnectXReal = bodyWidth - armWidth - armConnectX;
+			headConnectXReal = bodyWidth - headWidth - headConnectX;
+			armRotateXReal = armWidth - armRotateX;
+			angle = angle + 180;
+		}
+		
+		batch.draw(bodyBackSprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2, 
+				body.getPosition().y * PPM - hbHeight * scale / 2, 
+				0, 0,
+				bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
+		
+		
+		
 		batch.draw(armSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectX * scale, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
-				armRotateX * scale, armRotateY * scale,
-				armWidth * scale, armHeight * scale, 1, 1, 0);
+				armRotateXReal * scale, armRotateY * scale,
+				armWidth * scale, armHeight * scale, 1, 1, angle);
+		
+/*		batch.draw(toolSprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale - 25 * scale, 
+				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale - 26 * scale, 
+				armRotateXReal * scale , armRotateY * scale,
+				25 * scale, 26 * scale, 1, 1, angle);*/
 		
 		batch.draw(bodySprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2, 
@@ -359,7 +415,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 				bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		
 		batch.draw(headSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectX * scale, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale, 
 				0, 0,
 				headWidth * scale, headHeight * scale, 1, 1, 0);
