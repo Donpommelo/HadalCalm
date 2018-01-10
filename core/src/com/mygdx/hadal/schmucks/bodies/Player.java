@@ -93,10 +93,11 @@ public class Player extends Schmuck implements Location<Vector2>{
 	
 	public static final int armRotateX = 260;
 	public static final int armRotateY = 50;
-	
+		
 	public static final float scale = 0.15f;
 	
-	public int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight;
+	public int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
+	toolHeight, toolWidth, gemHeight, gemWidth;
 	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
@@ -131,6 +132,10 @@ public class Player extends Schmuck implements Location<Vector2>{
 		this.bodyHeight = bodySprite.getRegionHeight();
 		this.bodyBackWidth = bodyBackSprite.getRegionWidth();
 		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
+		this.toolHeight = toolSprite.getRegionHeight();
+		this.toolWidth = toolSprite.getRegionWidth();
+		this.gemHeight = gemSprite.getRegionHeight();
+		this.gemWidth = gemSprite.getRegionWidth();
 	}
 	
 	/**
@@ -369,6 +374,9 @@ public class Player extends Schmuck implements Location<Vector2>{
 			bodySprite.flip(true, false);
 			bodyBackSprite.flip(true, false);
 			headSprite.flip(true, false);
+			toolSprite.flip(true, false);
+			gemSprite.flip(true, false);
+			gemInactiveSprite.flip(true, false);
 		}
 		
 		if (Math.abs(angle) < 90 && armSprite.isFlipX()) {
@@ -376,6 +384,9 @@ public class Player extends Schmuck implements Location<Vector2>{
 			bodySprite.flip(true, false);
 			bodyBackSprite.flip(true, false);
 			headSprite.flip(true, false);
+			toolSprite.flip(true, false);
+			gemSprite.flip(true, false);
+			gemInactiveSprite.flip(true, false);
 		}
 		
 		float armConnectXReal = armConnectX;
@@ -401,11 +412,17 @@ public class Player extends Schmuck implements Location<Vector2>{
 				armRotateXReal * scale, armRotateY * scale,
 				armWidth * scale, armHeight * scale, 1, 1, angle);
 		
-/*		batch.draw(toolSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale - 25 * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale - 26 * scale, 
+		batch.draw(toolSprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
 				armRotateXReal * scale , armRotateY * scale,
-				25 * scale, 26 * scale, 1, 1, angle);*/
+				toolWidth * scale, toolHeight * scale, 1, 1, angle);
+		
+		batch.draw(momentumCdCount < 0 ? gemSprite : gemInactiveSprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 , 
+				body.getPosition().y * PPM - hbHeight * scale / 2, 
+				0, 0,
+				gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
 		batch.draw(bodySprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2, 
