@@ -22,8 +22,14 @@ public enum AssetList {
 	FISH_1("sprites/fish.png", Texture.class),
 	FISH_ATL("sprites/fish.atlas", TextureAtlas.class),
 	
-	PLAYER_1("sprites/player/moreau.png", Texture.class),
-	PLAYER_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
+	PLAYER_MOREAU("sprites/player/moreau.png", Texture.class),
+	PLAYER_MOREAU_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
+	
+	PLAYER_TAKA("sprites/player/takanori.png", Texture.class),
+	PLAYER_TAKA_ATL("sprites/player/takanori.atlas", TextureAtlas.class),
+	
+	PLAYER_TELE("sprites/player/telemachus.png", Texture.class),
+	PLAYER_TELE_ATL("sprites/player/telemachus.atlas", TextureAtlas.class),
 	
 	MULTITOOL_1("sprites/player/multitool.png", Texture.class),
 	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),

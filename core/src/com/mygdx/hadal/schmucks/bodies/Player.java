@@ -82,29 +82,19 @@ public class Player extends Schmuck implements Location<Vector2>{
 	
 	public static final int hbWidth = 160;
 	public static final int hbHeight = 320;
-	
-	public static final int bodyWidth = 210;
-	public static final int bodyHeight = 457;
-	
-	public static final int bodyBackWidth = 216;
-	public static final int bodyBackHeight = 450;
-	
-	public static final int headWidth = 188;
-	public static final int headHeight = 211;
-	
+		
 	public static final int headConnectX = -7;
 	public static final int headConnectY = 327;
 	
-	public static final int armWidth = 251;
-	public static final int armHeight = 184;
+	public static final int armConnectX = -234;
+	public static final int armConnectY = 218;
 	
-	public static final int armConnectX = -200;
-	public static final int armConnectY = 200;
-	
-	public static final int armRotateX = 235;
+	public static final int armRotateX = 260;
 	public static final int armRotateY = 50;
 	
 	public static final float scale = 0.1f;
+	
+	public int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight;
 	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
@@ -115,21 +105,30 @@ public class Player extends Schmuck implements Location<Vector2>{
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
+	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String playerSprite) {
 		super(state, world, camera, rays, playerWidth, playerHeight, x, y);
 		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
 		
-		atlasBody = (TextureAtlas) HadalGame.assetManager.get(AssetList.PLAYER_ATL.toString());
+		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
 		atlasTool = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
-		bodySprite = atlasBody.findRegion("body_stand");
+		bodySprite = atlasBody.findRegion("body_stand");		
 		bodyBackSprite = atlasBody.findRegion("body_background");
 		armSprite = atlasBody.findRegion("arm");
 		headSprite = atlasBody.findRegion("head");
 		gemSprite = atlasBody.findRegion("gem_active");
 		gemInactiveSprite = atlasBody.findRegion("gem_inactive");
 		toolSprite = atlasTool.findRegion("default");
+		
+		this.armWidth = armSprite.getRegionWidth();
+		this.armHeight = armSprite.getRegionHeight();
+		this.headWidth = headSprite.getRegionWidth();
+		this.headHeight = headSprite.getRegionHeight();
+		this.bodyWidth = bodySprite.getRegionWidth();
+		this.bodyHeight = bodySprite.getRegionHeight();
+		this.bodyBackWidth = bodyBackSprite.getRegionWidth();
+		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
 	}
 	
 	/**
@@ -393,8 +392,6 @@ public class Player extends Schmuck implements Location<Vector2>{
 				body.getPosition().y * PPM - hbHeight * scale / 2, 
 				0, 0,
 				bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
-		
-		
 		
 		batch.draw(armSprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 

@@ -10,12 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.LoadoutBackdrop;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.*;
 import com.mygdx.hadal.equip.ranged.*;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 
@@ -27,15 +28,17 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 public class LoadoutState extends GameState {
 
 	private Stage stage;
-	
-	//Temporary links to other modules for testing.
-	private Text slot1, slot2, slot3, slot4;
 		
 	private Actor exitOption, playOption;
 
 	private ScrollPane options;
 	
-	private static Array<Class<? extends Equipable>> items = new Array<Class<? extends Equipable>>();
+	private static Array<Equipable> items = new Array<Equipable>();
+	private static Array<String> characters = new Array<String>();
+	
+	private Array<Text> slotButtons = new Array<Text>();
+	
+	private Text characterSelect;
 	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -45,19 +48,22 @@ public class LoadoutState extends GameState {
 		super(gsm);
 		
 		items.clear();
+		items.add(new Boomerang(null));
+		items.add(new BouncingBlade(null));
+		items.add(new ChargeBeam(null));
+		items.add(new GrenadeLauncher(null));
+		items.add(new IronBallLauncher(null));
+		items.add(new Machinegun(null));
+		items.add(new MomentumShooter(null));
+		items.add(new Scattergun(null));
+		items.add(new Speargun(null));
+		items.add(new Scrapripper(null));
+		items.add(new TorpedoLauncher(null));
 		
-		items.add(Boomerang.class);
-		items.add(BouncingBlade.class);
-		items.add(ChargeBeam.class);
-		items.add(GrenadeLauncher.class);
-		items.add(IronBallLauncher.class);
-		items.add(Machinegun.class);
-		items.add(MomentumShooter.class);
-		items.add(Scattergun.class);
-		items.add(Speargun.class);
-		items.add(Scrapripper.class);
-		items.add(TorpedoLauncher.class);
-		
+		characters.clear();
+		characters.add(AssetList.PLAYER_MOREAU_ATL.toString());
+		characters.add(AssetList.PLAYER_TAKA_ATL.toString());
+		characters.add(AssetList.PLAYER_TELE_ATL.toString());
 	}
 
 	@Override
@@ -83,52 +89,37 @@ public class LoadoutState extends GameState {
 			    });
 				playOption.setScale(0.5f);
 				
-				slot1 = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 250);
-				
-				slot1.addListener(new ClickListener() {
+				characterSelect = new Text(HadalGame.assetManager, "",  200, HadalGame.CONFIG_HEIGHT - 250);
+				characterSelect.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getOptions(1);
+			        	getCharOptions();
 			        }
-			    });
+				});
 				
-				slot2 = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 300);
-				
-				slot2.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	getOptions(2);
-			        }
-			    });
-				
-				slot3 = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 350);
-				
-				slot3.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	getOptions(3);
-			        }
-			    });
-				
-				slot4 = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 400);
-				
-				slot4.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	getOptions(4);
-			        }
-			    });
-				
-				addActor(slot1);
-				addActor(slot2);
-				addActor(slot3);
-				addActor(slot4);
-				
+				for (int i = 0; i < Loadout.getNumSlots(); i++) {
+					
+					final int slotNum = i;
+					
+					Text nextSlot = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 300  - 50 * i);
+					nextSlot.addListener(new ClickListener() {
+							public void clicked(InputEvent e, float x, float y) {
+								getEquipOptions(slotNum);
+							}
+					});
+					slotButtons.add(nextSlot);
+					addActor(nextSlot);
+				};
+							
 				addActor(exitOption);				
 				addActor(playOption);				
+				addActor(characterSelect);				
 			}
 		};
 		refreshLoadout();
 		app.newMenu(stage);
 	}
 	
-	public void getOptions(final int slot) {
+	public void getEquipOptions(final int slot) {
 		
 		if (options != null) {
 			options.remove();
@@ -138,28 +129,16 @@ public class LoadoutState extends GameState {
 		
 		weapons.addActor(new Text(HadalGame.assetManager, "SLOT: " + slot, 0, 0));
 		
-		for (Class<? extends Equipable> c: items) {
+		for (Equipable c: items) {
 			
-			final Class<? extends Equipable> selected = c;
+			final Equipable selected = c;
 			
-			Text itemChoose = new Text(HadalGame.assetManager, selected.getSimpleName(), 0, 0);
+			Text itemChoose = new Text(HadalGame.assetManager, selected.name , 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
-		        	switch(slot) {
-		        	case 1:
-		        		gsm.getLoadout().slot1 = selected;
-		        		break;
-		        	case 2:
-		        		gsm.getLoadout().slot2 = selected;
-		        		break;
-		        	case 3:
-		        		gsm.getLoadout().slot3 = selected;
-		        		break;
-		        	case 4:
-		        		gsm.getLoadout().slot4 = selected;
-		        		break;
-		        	}
+
+		        	gsm.getLoadout().multitools[slot] = selected;
 
 		        	refreshLoadout();
 
@@ -177,11 +156,51 @@ public class LoadoutState extends GameState {
 		
 	}
 	
+	public void getCharOptions() {
+		if (options != null) {
+			options.remove();
+		}
+		
+		VerticalGroup people = new VerticalGroup();
+		
+		people.addActor(new Text(HadalGame.assetManager, "CHARACTERS", 0, 0));
+		
+		for (String s : characters) {
+			
+			final String selected = s;
+			
+			Text itemChoose = new Text(HadalGame.assetManager, selected , 0, 0);
+			
+			itemChoose.addListener(new ClickListener() {
+		        public void clicked(InputEvent e, float x, float y) {
+
+		        	gsm.getLoadout().playerSprite = selected;
+
+		        	refreshLoadout();
+
+		        }
+		    });
+			
+			people.addActor(itemChoose);
+		}
+		options = new ScrollPane(people, gsm.getSkin());
+		options.setPosition(HadalGame.CONFIG_WIDTH - 500, 0);
+		options.setSize(500, HadalGame.CONFIG_HEIGHT);
+		
+		stage.addActor(options);
+	}
+	
 	public void refreshLoadout() {
-		slot1.setText("SLOT 1: " + gsm.getLoadout().slot1.getSimpleName());
-		slot2.setText("SLOT 2: " + gsm.getLoadout().slot2.getSimpleName());
-		slot3.setText("SLOT 3: " + gsm.getLoadout().slot3.getSimpleName());
-		slot4.setText("SLOT 4: " + gsm.getLoadout().slot4.getSimpleName());
+		
+		characterSelect.setText("Character: " + gsm.getLoadout().playerSprite);
+		
+		for (int i = 0; i < slotButtons.size; i++) {
+			if (gsm.getLoadout().multitools[i] != null) {
+				slotButtons.get(i).setText("SLOT " + i + ": " + gsm.getLoadout().multitools[i].name);
+			} else {
+				slotButtons.get(i).setText("SLOT " + i + ": EMPTY");
+			}
+		}
 		
 	}
 	

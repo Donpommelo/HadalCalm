@@ -1,12 +1,9 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
 public class PlayerBodyData extends BodyData {
 
@@ -26,7 +23,6 @@ public class PlayerBodyData extends BodyData {
 	public int airblastCost = 30;
 	public float airblastPow = 7.5f;
 	
-	public int itemSlots = 4;
 	public Equipable[] multitools;
 	public int currentSlot = 0;
 	public int lastSlot = 0;
@@ -37,24 +33,11 @@ public class PlayerBodyData extends BodyData {
 	public PlayerBodyData(World world, Player body, Loadout loadout) {
 		super(world, body);
 		this.player = body;
-		multitools = new Equipable[itemSlots];
-		try {
-			multitools[0] = loadout.slot1.getConstructor(Schmuck.class).newInstance(body);
-			multitools[1] = loadout.slot2.getConstructor(Schmuck.class).newInstance(body);
-			multitools[2] = loadout.slot3.getConstructor(Schmuck.class).newInstance(body);
-			multitools[3] = loadout.slot4.getConstructor(Schmuck.class).newInstance(body);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
+		multitools = loadout.multitools;
+		for (Equipable e : multitools) {
+			if (e != null) {
+				e.user = player;
+			}
 		}
 		this.currentTool = multitools[currentSlot];
 	}
@@ -80,7 +63,7 @@ public class PlayerBodyData extends BodyData {
 	
 	public Equipable pickup(Equipable equip) {
 		
-		for (int i = 0; i < itemSlots; i++) {
+		for (int i = 0; i < Loadout.getNumSlots(); i++) {
 			if (multitools[i] == null) {
 				multitools[i] = equip;
 				multitools[i].user = player;

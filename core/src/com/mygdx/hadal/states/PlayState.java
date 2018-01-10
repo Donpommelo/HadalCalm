@@ -101,7 +101,7 @@ public class PlayState extends GameState {
 		
 		new Turret(this, world, camera, rays, 300, 800);
 		
-		player = new Player(this, world, camera, rays, 0, 0);
+		player = new Player(this, world, camera, rays, 0, 0, loadout.playerSprite);
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		

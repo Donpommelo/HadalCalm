@@ -7,7 +7,7 @@ repeat: none
 default
   rotate: false
   xy: 2, 2
-  size: 257, 150
-  orig: 257, 150
+  size: 276, 150
+  orig: 276, 150
   offset: 0, 0
   index: -1

@@ -1,31 +1,27 @@
 package com.mygdx.hadal.equip;
 
-import com.mygdx.hadal.equip.enemy.Nothing;
 import com.mygdx.hadal.equip.melee.Scrapripper;
 import com.mygdx.hadal.equip.misc.MomentumShooter;
 import com.mygdx.hadal.equip.ranged.Speargun;
+import com.mygdx.hadal.managers.AssetList;
 
 public class Loadout {
 
 	private final static int numSlots = 4;
 	
-	public Class<? extends Equipable> slot1, slot2, slot3, slot4;
+	public Equipable[] multitools;
+
+	public String playerSprite;
 	
 	public Loadout() {
-		slot1 = Speargun.class;
-		slot2 = Scrapripper.class;
-		slot3 = MomentumShooter.class;
-		slot4 = Nothing.class;
-	}
-
-	public Loadout(Class<? extends Equipable>... slots) {
-		slot1 = slots[0];
-		slot2 = slots[1];
-		slot3 = slots[2];
-		slot4 = slots[3];
+		multitools = new Equipable[numSlots];
+		multitools[0] = new Speargun(null);
+		multitools[1] = new Scrapripper(null);
+		multitools[2] = new MomentumShooter(null);
+		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
 	}
 	
-	public static int getNumslots() {
+	public static int getNumSlots() {
 		return numSlots;
 	}
 }
