@@ -15,6 +15,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
@@ -78,7 +79,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void create() {
 		this.feetData = new FeetData(world, UserDataTypes.FEET, this);        
-		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width, height / 8, new Vector2(0, -0.5f), true, 0,
+		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width, height / 8, new Vector2(0,  - height / 2 / PPM), true, 0,
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), Constants.PLAYER_HITBOX));
 		
 		feet.setUserData(feetData);

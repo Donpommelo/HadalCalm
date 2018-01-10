@@ -37,8 +37,10 @@ public class Player extends Schmuck implements Location<Vector2>{
 	
 
 	//player stats
-	private final static int playerWidth = 16;
-	private final static int playerHeight = 32;
+//	private final static int playerWidth = 21;
+//	private final static int playerHeight = 42;
+	
+	private final static float playerDensity = 0.2f;
 	
 	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
@@ -80,8 +82,8 @@ public class Player extends Schmuck implements Location<Vector2>{
 	private TextureAtlas atlasBody, atlasTool;
 	private TextureRegion bodySprite, bodyBackSprite, armSprite, headSprite, gemSprite, gemInactiveSprite, toolSprite;
 	
-	public static final int hbWidth = 160;
-	public static final int hbHeight = 320;
+	public static final int hbWidth = 216;
+	public static final int hbHeight = 516;
 		
 	public static final int headConnectX = -26;
 	public static final int headConnectY = 330;
@@ -92,7 +94,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 	public static final int armRotateX = 260;
 	public static final int armRotateY = 50;
 	
-	public static final float scale = 0.1f;
+	public static final float scale = 0.15f;
 	
 	public int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight;
 	
@@ -106,7 +108,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 	 * @param y: player starting x position.
 	 */
 	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String playerSprite) {
-		super(state, world, camera, rays, playerWidth, playerHeight, x, y);
+		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);
 		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
@@ -138,10 +140,10 @@ public class Player extends Schmuck implements Location<Vector2>{
 		this.playerData = new PlayerBodyData(world, this, state.loadout);
 		this.bodyData = playerData;
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_PLAYER, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				Constants.PLAYER_HITBOX, false, playerData);
-        
+		
 		super.create();
 	}
 	
