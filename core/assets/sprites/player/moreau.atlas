@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 arm
   rotate: false
-  xy: 874, 302
+  xy: 1104, 302
   size: 276, 150
   orig: 276, 150
   offset: 0, 0
@@ -41,8 +41,8 @@ gem_inactive
   index: -1
 head
   rotate: false
-  xy: 874, 89
-  size: 188, 211
-  orig: 188, 211
+  xy: 874, 176
+  size: 228, 276
+  orig: 228, 276
   offset: 0, 0
   index: -1
