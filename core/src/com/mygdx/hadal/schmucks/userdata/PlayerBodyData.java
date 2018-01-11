@@ -3,13 +3,13 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.statuses.Status;
 
 public class PlayerBodyData extends BodyData {
 
-	public int maxFuel = 100;
-	public float currentFuel = 100;
-	public float fuelRegen = 5.0f;
+	
 	
 	public int numExtraJumps = 1;
 	public int extraJumpsUsed = 0;
@@ -21,9 +21,9 @@ public class PlayerBodyData extends BodyData {
 	public float hoverPow = 0.8f;
 	
 	public int airblastCost = 30;
-	public float airblastPow = 7.5f;
 	
 	public Equipable[] multitools;
+	public Artifact[] artifacts;
 	public int currentSlot = 0;
 	public int lastSlot = 0;
 	public Equipable currentTool;
@@ -39,6 +39,17 @@ public class PlayerBodyData extends BodyData {
 				e.user = player;
 			}
 		}
+		artifacts = loadout.artifacts;
+		for (Artifact a : artifacts) {
+			if (a != null) {
+				for (Status s : a.getEnchantment(this)) {
+					addStatus(s);
+				}
+			}
+		}
+
+		currentHp = getMaxHp();
+		currentFuel = getMaxHp();	
 		this.currentTool = multitools[currentSlot];
 	}
 	
@@ -91,8 +102,8 @@ public class PlayerBodyData extends BodyData {
 	
 	public void fuelGain(float fuelRegen2) {
 		currentFuel += fuelRegen2;
-		if (currentFuel > maxFuel) {
-			currentFuel = maxFuel;
+		if (currentFuel > getMaxFuel()) {
+			currentFuel = getMaxFuel();
 		}
 	}
 

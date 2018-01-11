@@ -38,6 +38,10 @@ public class EventData extends HadalData {
 		
 	}
 	
+	public void onActivate(Player p, EventData activator) {
+		
+	}
+	
 	public Event getEvent() {
 		return event;
 	}

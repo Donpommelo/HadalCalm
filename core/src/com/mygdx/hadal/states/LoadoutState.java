@@ -13,6 +13,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.artifacts.*;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.*;
 import com.mygdx.hadal.equip.ranged.*;
@@ -34,9 +35,11 @@ public class LoadoutState extends GameState {
 	private ScrollPane options;
 	
 	private static Array<Equipable> items = new Array<Equipable>();
+	private static Array<Artifact> artifacts = new Array<Artifact>();
 	private static Array<String> characters = new Array<String>();
 	
 	private Array<Text> slotButtons = new Array<Text>();
+	private Array<Text> artifactButtons = new Array<Text>();
 	
 	private Text characterSelect;
 	
@@ -60,6 +63,11 @@ public class LoadoutState extends GameState {
 		items.add(new Scrapripper(null));
 		items.add(new TorpedoLauncher(null));
 		
+		artifacts.add(new GoodHealth());
+		artifacts.add(new NiceShoes());
+		artifacts.add(new SkateWings());
+		
+		
 		characters.clear();
 		characters.add(AssetList.PLAYER_MOREAU_ATL.toString());
 		characters.add(AssetList.PLAYER_TAKA_ATL.toString());
@@ -70,8 +78,6 @@ public class LoadoutState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-//				addActor(new LoadoutBackdrop(HadalGame.assetManager));
-
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260);
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
@@ -109,6 +115,20 @@ public class LoadoutState extends GameState {
 					slotButtons.add(nextSlot);
 					addActor(nextSlot);
 				};
+				
+				for (int i = 0; i < Loadout.getNumArtifacts(); i++) {
+					
+					final int slotNum = i;
+					
+					Text nextSlot = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 600  - 50 * i);
+					nextSlot.addListener(new ClickListener() {
+							public void clicked(InputEvent e, float x, float y) {
+								getArtifactOptions(slotNum);
+							}
+					});
+					artifactButtons.add(nextSlot);
+					addActor(nextSlot);
+				};
 							
 				addActor(exitOption);				
 				addActor(playOption);				
@@ -127,7 +147,7 @@ public class LoadoutState extends GameState {
 		
 		VerticalGroup weapons = new VerticalGroup();
 		
-		weapons.addActor(new Text(HadalGame.assetManager, "SLOT: " + slot, 0, 0));
+		weapons.addActor(new Text(HadalGame.assetManager, "WEAPON SLOT: " + slot, 0, 0));
 		
 		for (Equipable c: items) {
 			
@@ -156,6 +176,43 @@ public class LoadoutState extends GameState {
 		
 	}
 	
+	public void getArtifactOptions(final int slot) {
+		
+		if (options != null) {
+			options.remove();
+		}
+		
+		VerticalGroup items = new VerticalGroup();
+		
+		items.addActor(new Text(HadalGame.assetManager, "ARTIFACT: " + slot, 0, 0));
+		
+		for (Artifact a: artifacts) {
+			
+			final Artifact selected = a;
+			
+			Text itemChoose = new Text(HadalGame.assetManager, selected.name , 0, 0);
+			
+			itemChoose.addListener(new ClickListener() {
+		        public void clicked(InputEvent e, float x, float y) {
+
+		        	gsm.getLoadout().artifacts[slot] = selected;
+
+		        	refreshLoadout();
+
+		        }
+		    });
+			
+			items.addActor(itemChoose);
+		}
+		
+		options = new ScrollPane(items, gsm.getSkin());
+		options.setPosition(HadalGame.CONFIG_WIDTH - 500, 0);
+		options.setSize(500, HadalGame.CONFIG_HEIGHT);
+		
+		stage.addActor(options);
+		
+	}
+
 	public void getCharOptions() {
 		if (options != null) {
 			options.remove();
@@ -199,6 +256,14 @@ public class LoadoutState extends GameState {
 				slotButtons.get(i).setText("SLOT " + i + ": " + gsm.getLoadout().multitools[i].name);
 			} else {
 				slotButtons.get(i).setText("SLOT " + i + ": EMPTY");
+			}
+		}
+		
+		for (int i = 0; i < artifactButtons.size; i++) {
+			if (gsm.getLoadout().artifacts[i] != null) {
+				artifactButtons.get(i).setText("ARTIFACT " + i + ": " + gsm.getLoadout().artifacts[i].name);
+			} else {
+				artifactButtons.get(i).setText("ARTIFACT " + i + ": EMPTY");
 			}
 		}
 		

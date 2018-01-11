@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" nextobjectid="57">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" nextobjectid="58">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="100" height="80">
   <data encoding="base64" compression="zlib">
@@ -155,5 +155,6 @@
     <property name="interval" type="float" value="30"/>
    </properties>
   </object>
+  <object id="57" name="Dropthrough" type="Dropthrough" x="800" y="1184" width="224" height="32"/>
  </objectgroup>
 </map>

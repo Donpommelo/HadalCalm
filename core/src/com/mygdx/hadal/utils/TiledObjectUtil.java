@@ -8,13 +8,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.hadal.event.AirBubbleSpawner;
-import com.mygdx.hadal.event.Currents;
-import com.mygdx.hadal.event.EntitySpawner;
-import com.mygdx.hadal.event.EquipPickup;
-import com.mygdx.hadal.event.EquipPickupRandom;
-import com.mygdx.hadal.event.MedpakSpawner;
-import com.mygdx.hadal.event.Spring;
+import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
@@ -100,6 +94,10 @@ public class TiledObjectUtil {
     			new MedpakSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
     					object.getProperties().get("interval", float.class));
+    		}
+    		if (object.getName().equals("Dropthrough")) {
+    			new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		
     	}

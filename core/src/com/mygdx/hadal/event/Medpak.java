@@ -35,7 +35,7 @@ public class Medpak extends Event{
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
-						if (((PlayerBodyData)fixB).currentHp < ((PlayerBodyData)fixB).maxHp) {
+						if (((PlayerBodyData)fixB).currentHp < ((PlayerBodyData)fixB).getMaxHp()) {
 							((PlayerBodyData)fixB).regainHp(hpRegained);
 							if (spawner != null) {
 								spawner.readyToSpawn = true;

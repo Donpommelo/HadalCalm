@@ -170,14 +170,14 @@ public class Player extends Schmuck implements Location<Vector2>{
 		
 		//Holding 'W' = use jetpack if the player is off ground and lacks extra jumps
 		if(Gdx.input.isKeyPressed((Input.Keys.W))) {
-			if (!grounded && playerData.extraJumpsUsed == playerData.numExtraJumps) {
+			if (!grounded && playerData.extraJumpsUsed >= playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
 				if (jumpCdCount < 0) {
 					
 					//Player will continuously do small upwards bursts that cost fuel.
-					if (playerData.currentFuel >= playerData.hoverCost) {
-						playerData.fuelSpend(playerData.hoverCost);
+					if (playerData.currentFuel >= playerData.hoverCost * (1 + playerData.getBonusHoverCost())) {
+						playerData.fuelSpend(playerData.hoverCost * (1 + playerData.getBonusHoverCost()));
 						jumpCdCount = hoverCd;
-						push(0, playerData.hoverPow);
+						push(0, playerData.hoverPow * (1 + playerData.getBonusHoverPower()));
 					}
 				}
 			}
@@ -188,14 +188,14 @@ public class Player extends Schmuck implements Location<Vector2>{
 			if (grounded) {
 				if (jumpCdCount < 0) {
 					jumpCdCount = jumpCd;
-					push(0, playerData.jumpPow);
+					push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
 				}
 			} else {
-				if (playerData.extraJumpsUsed < playerData.numExtraJumps) {
+				if (playerData.extraJumpsUsed < playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
 					if (jumpCdCount < 0) {
 						jumpCdCount = jumpCd;
 						playerData.extraJumpsUsed++;
-						push(0, playerData.jumpPow);
+						push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
 					}
 				}
 			}
@@ -315,8 +315,8 @@ public class Player extends Schmuck implements Location<Vector2>{
 		//Clicking right mouse = airblast
 		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
 			if (airblastCdCount < 0) {
-				if (playerData.currentFuel >= playerData.airblastCost) {
-					playerData.fuelSpend(playerData.airblastCost);
+				if (playerData.currentFuel >= playerData.airblastCost * (1 + playerData.getBonusAirblastCost())) {
+					playerData.fuelSpend(playerData.airblastCost * (1 + playerData.getBonusAirblastCost()));
 					airblastCdCount = airblastCd;
 					
 					useToolStart(delta, airblast, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
@@ -328,7 +328,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 		//TODO: mouse wheel to scroll through equip?
 		
 		//process fuel regen
-		playerData.fuelGain(playerData.fuelRegen * delta);
+		playerData.fuelGain(playerData.getFuelRegen() * delta);
 		
 		//If player is reloading, run the reload method of the current equipment.
 		if (playerData.currentTool.reloading) {

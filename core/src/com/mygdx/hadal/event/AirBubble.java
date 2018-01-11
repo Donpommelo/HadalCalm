@@ -35,7 +35,7 @@ public class AirBubble extends Event{
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
-						if (((PlayerBodyData)fixB).currentFuel < ((PlayerBodyData)fixB).maxFuel) {
+						if (((PlayerBodyData)fixB).currentFuel < ((PlayerBodyData)fixB).getMaxFuel()) {
 							((PlayerBodyData)fixB).fuelGain(fuelRegained);
 							if (spawner != null) {
 								spawner.readyToSpawn = true;

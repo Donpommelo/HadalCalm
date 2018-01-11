@@ -106,10 +106,14 @@ public class Schmuck extends HadalEntity {
 			//set desired velocity depending on move states. TODO: add movestates for schmucks not affected by gravity.
 			switch(moveState) {
 			case MOVE_LEFT:
-				desiredXVel = grounded ? -bodyData.maxGroundXSpeed : -bodyData.maxAirXSpeed;
+				desiredXVel = grounded ? 
+						-bodyData.maxGroundXSpeed * (1 + bodyData.getBonusGroundSpeed()) :
+						-bodyData.maxAirXSpeed * (1 + bodyData.getBonusAirSpeed());
 				break;
 			case MOVE_RIGHT:
-				desiredXVel = grounded ? bodyData.maxGroundXSpeed : bodyData.maxAirXSpeed;
+				desiredXVel = grounded ? 
+						bodyData.maxGroundXSpeed * (1 + bodyData.getBonusGroundSpeed()) : 
+						bodyData.maxAirXSpeed * (1 + bodyData.getBonusAirSpeed());
 				break;
 			default:
 				break;
@@ -120,17 +124,25 @@ public class Schmuck extends HadalEntity {
 			
 			//Process acceleration based on bodyData stats.
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
-				accelX = grounded ? bodyData.groundXAccel : bodyData.airXAccel;
+				accelX = grounded ? 
+						bodyData.groundXAccel * (1 + bodyData.getBonusGroundAccel()): 
+						bodyData.airXAccel * (1 + bodyData.getBonusAirAccel());
 			} else {
-				accelX = grounded ? bodyData.groundXDeaccel : bodyData.airXDeaccel;
+				accelX = grounded ? 
+						bodyData.groundXDeaccel * (1 + bodyData.getBonusGroundDrag()) : 
+						bodyData.airXDeaccel * (1 + bodyData.getBonusAirDrag());
 			}
 			
 			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
 			
 			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
-				accelY = grounded ? bodyData.groundYAccel : bodyData.airYAccel;
+				accelY = grounded ? 
+						bodyData.groundYAccel * (1 + bodyData.getBonusGroundDrag()): 
+						bodyData.airYAccel * (1 + bodyData.getBonusAirDrag());
 			} else {
-				accelY = grounded ? bodyData.groundYDeaccel : bodyData.airYDeaccel;
+				accelY = grounded ? 
+						bodyData.groundYDeaccel * (1 + bodyData.getBonusGroundDrag()):
+						bodyData.airYDeaccel * (1 + bodyData.getBonusAirDrag());
 			}
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
@@ -140,7 +152,7 @@ public class Schmuck extends HadalEntity {
 		}
 		
 		//Apply base hp regen
-		bodyData.regainHp(bodyData.hpRegen * delta);
+		bodyData.regainHp(bodyData.getHpRegen() * delta);
 		
 		//process cooldowns
 		shootCdCount-=delta;
@@ -150,6 +162,8 @@ public class Schmuck extends HadalEntity {
 		if (shootDelayCount <= 0 && usedTool != null) {
 			useToolEnd();
 		}
+		
+		
 		
 	}
 
