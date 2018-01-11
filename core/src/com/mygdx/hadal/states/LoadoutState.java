@@ -63,7 +63,12 @@ public class LoadoutState extends GameState {
 		items.add(new Scrapripper(null));
 		items.add(new TorpedoLauncher(null));
 		
+		artifacts.clear();
+		artifacts.add(new EelskinCover());
 		artifacts.add(new GoodHealth());
+		artifacts.add(new ImprovedHovering());
+		artifacts.add(new ImprovedPropulsion());
+		artifacts.add(new LoamskinTalisman());
 		artifacts.add(new NiceShoes());
 		artifacts.add(new SkateWings());
 		

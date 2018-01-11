@@ -4,18 +4,18 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 
-public class NiceShoes extends Artifact {
+public class EelskinCover extends Artifact {
 
-	static String name = "Nice Shoes";
+	static String name = "Eelskin Cover";
 	public Status[] enchantment = new Status[2];
 	
-	public NiceShoes() {
+	public EelskinCover() {
 		super(name);
 	}
 
 	public Status[] getEnchantment(BodyData b) {
-		enchantment[0] = new StatChangeStatus(4, 0.30f, b, b, 50);
-		enchantment[1] = new StatChangeStatus(6, 0.50f, b, b, 50);
+		enchantment[0] = new StatChangeStatus(8, -0.40f, b, b, 50);
+		enchantment[1] = new StatChangeStatus(9, -0.40f, b, b, 50);
 		return enchantment;
 	}
 }
