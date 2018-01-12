@@ -47,10 +47,9 @@ public class BodyData extends HadalData {
 	 * 22: Universal Damage Reduction
 	 * 23: Universal Knockback on Hit (to others)
 	 * 24: Universal Knockback Resistance (to self)
-	 * 
-	 * 
-	 * 
 	 * 25: Universal Tool-Use Speed
+	 * 
+	 * 
 	 * 26: Melee Damage on Hit
 	 * 27: Melee Knockback on Hit
 	 * 28: Melee Swing Speed
@@ -441,5 +440,13 @@ public class BodyData extends HadalData {
 	
 	public void setKnockbackReduc(float buff) {
 		buffedStats[24] = buff;
+	}
+	
+	public float getToolCdReduc() {
+		return buffedStats[25];
+	}
+	
+	public void setToolCdReduc(float buff) {
+		buffedStats[25] = buff;
 	}
 }

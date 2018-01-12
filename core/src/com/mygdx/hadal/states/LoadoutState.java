@@ -76,6 +76,7 @@ public class LoadoutState extends GameState {
 		artifacts.add(new RecklessMark());
 		artifacts.add(new NuclearPunchThrusters());
 		artifacts.add(new RootBoots());
+		artifacts.add(new TriggerFinger());
 		
 		
 		characters.clear();
@@ -122,6 +123,7 @@ public class LoadoutState extends GameState {
 								getEquipOptions(slotNum);
 							}
 					});
+					nextSlot.setScale(0.5f);
 					slotButtons.add(nextSlot);
 					addActor(nextSlot);
 				};
@@ -136,6 +138,7 @@ public class LoadoutState extends GameState {
 								getArtifactOptions(slotNum);
 							}
 					});
+					nextSlot.setScale(0.5f);
 					artifactButtons.add(nextSlot);
 					addActor(nextSlot);
 				};
@@ -271,7 +274,8 @@ public class LoadoutState extends GameState {
 		
 		for (int i = 0; i < artifactButtons.size; i++) {
 			if (gsm.getLoadout().artifacts[i] != null) {
-				artifactButtons.get(i).setText("ARTIFACT " + i + ": " + gsm.getLoadout().artifacts[i].name);
+				artifactButtons.get(i).setText("ARTIFACT " + i + ": " + 
+			gsm.getLoadout().artifacts[i].name+ " " + gsm.getLoadout().artifacts[i].descr);
 			} else {
 				artifactButtons.get(i).setText("ARTIFACT " + i + ": EMPTY");
 			}
