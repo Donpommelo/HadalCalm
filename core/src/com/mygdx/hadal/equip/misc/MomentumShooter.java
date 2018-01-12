@@ -35,7 +35,7 @@ public class MomentumShooter extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
@@ -58,8 +58,6 @@ public class MomentumShooter extends RangedWeapon {
 					super.onHit(fixB);
 				}
 			});		
-			
-			return null;
 		}
 		
 	};

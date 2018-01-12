@@ -7,10 +7,12 @@ import com.mygdx.hadal.statuses.Status;
 public class EelskinCover extends Artifact {
 
 	static String name = "Eelskin Cover";
+	static String descr = "Reduces Drag";
+	static String descrLong = "";
 	public Status[] enchantment = new Status[2];
 	
 	public EelskinCover() {
-		super(name);
+		super(name, descr, descrLong);
 	}
 
 	public Status[] getEnchantment(BodyData b) {

@@ -7,10 +7,12 @@ import com.mygdx.hadal.statuses.Status;
 public class SkateWings extends Artifact {
 
 	static String name = "Skate Wings";
+	static String descr = "+1 Jump, +20% Jump Power";
+	static String descrLong = "";
 	public Status[] enchantment = new Status[2];
 	
 	public SkateWings() {
-		super(name);
+		super(name, descr, descrLong);
 	}
 
 	public Status[] getEnchantment(BodyData b) {

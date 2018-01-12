@@ -6,11 +6,13 @@ import com.mygdx.hadal.statuses.Status;
 public class Artifact {
 
 	
-	public String name;
+	public String name, descr, descrLong;
 	public Status[] statuses;
 	
-	public Artifact(String name) {
+	public Artifact(String name, String descr, String descrLong) {
 		this.name = name;
+		this.descr = descr;
+		this.descrLong = descrLong;
 	}
 	
 	public Status[] getEnchantment(BodyData b) {

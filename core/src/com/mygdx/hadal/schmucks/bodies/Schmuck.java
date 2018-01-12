@@ -226,4 +226,8 @@ public class Schmuck extends HadalEntity {
 	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
 		tool.release(state, bodyData, world, camera, rays);
 	}	
+	
+	public BodyData getBodyData() {
+		return bodyData;
+	}
 }

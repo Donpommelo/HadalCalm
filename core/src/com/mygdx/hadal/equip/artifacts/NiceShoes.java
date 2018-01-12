@@ -7,10 +7,12 @@ import com.mygdx.hadal.statuses.Status;
 public class NiceShoes extends Artifact {
 
 	static String name = "Nice Shoes";
+	static String descr = "+30% Ground Speed";
+	static String descrLong = "";
 	public Status[] enchantment = new Status[2];
 	
 	public NiceShoes() {
-		super(name);
+		super(name, descr, descrLong);
 	}
 
 	public Status[] getEnchantment(BodyData b) {

@@ -4,19 +4,20 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 
-public class GoodHealth extends Artifact {
+public class RecklessMark extends Artifact {
 
-	static String name = "Good Health";
-	static String descr = "+25 Hp";
+	static String name = "Reckless Mark";
+	static String descr = "Deal and take +40% more damage.";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[1];
+	public Status[] enchantment = new Status[2];
 	
-	public GoodHealth() {
+	public RecklessMark() {
 		super(name, descr, descrLong);
 	}
 
 	public Status[] getEnchantment(BodyData b) {
-		enchantment[0] = new StatChangeStatus(0, 20, b, b, 50);
+		enchantment[0] = new StatChangeStatus(21, 0.4f, b, b, 50);
+		enchantment[1] = new StatChangeStatus(22, -0.4f, b, b, 50);
 		return enchantment;
 	}
 }

@@ -7,10 +7,12 @@ import com.mygdx.hadal.statuses.Status;
 public class ImprovedHovering extends Artifact {
 
 	static String name = "Improved Hovering";
+	static String descr = "+25% Hovering Power and -25% Hovering Cost";
+	static String descrLong = "";
 	public Status[] enchantment = new Status[2];
 	
 	public ImprovedHovering() {
-		super(name);
+		super(name, descr, descrLong);
 	}
 
 	public Status[] getEnchantment(BodyData b) {

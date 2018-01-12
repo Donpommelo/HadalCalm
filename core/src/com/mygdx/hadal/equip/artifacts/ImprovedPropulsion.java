@@ -7,10 +7,12 @@ import com.mygdx.hadal.statuses.Status;
 public class ImprovedPropulsion extends Artifact {
 
 	static String name = "Improved Propulsion";
+	static String descr = "-25% Airblast Cost";
+	static String descrLong = "";
 	public Status[] enchantment = new Status[1];
 	
 	public ImprovedPropulsion() {
-		super(name);
+		super(name, descr, descrLong);
 	}
 
 	public Status[] getEnchantment(BodyData b) {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.ai.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
 /**
@@ -39,14 +40,16 @@ public class BodyData extends HadalData {
 	 * 15: Airblast Cost
 	 * 16: Bonus Airblast Recoil !
 	 * 17: Bonus Airblast Size !
-	 * 
-	 * 18: Momentum Freeze Amplification
-	 * 19: Momentum Freeze Size
+	 * 18: Momentum Freeze Amplification!
+	 * 19: Momentum Freeze Size!
 	 * 20: Momentum Freeze Cooldown Reduction
 	 * 21: Universal Damage Amplification
 	 * 22: Universal Damage Reduction
 	 * 23: Universal Knockback on Hit (to others)
 	 * 24: Universal Knockback Resistance (to self)
+	 * 
+	 * 
+	 * 
 	 * 25: Universal Tool-Use Speed
 	 * 26: Melee Damage on Hit
 	 * 27: Melee Knockback on Hit
@@ -193,9 +196,21 @@ public class BodyData extends HadalData {
 	 * @param knockback: amount of knockback to apply.
 	 *TODO: include the source of damage
 	 */
-	public void receiveDamage(float basedamage, Vector2 knockback) {
-		currentHp -= basedamage;
-		schmuck.getBody().applyLinearImpulse(knockback, schmuck.getBody().getLocalCenter(), true);
+	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, DamageTypes... tags) {
+		
+		float damage = basedamage;
+		
+		damage -= basedamage * (getDamageReduc());
+		damage += basedamage * (perp.getDamageAmp());
+		
+		currentHp -= damage;
+		
+		float kbScale = 1;
+		
+		kbScale -= getKnockbackReduc();
+		kbScale += perp.getKnockbackAmp();
+		
+		schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
 		if (currentHp <= 0) {
 			currentHp = 0;
 			die();
@@ -370,5 +385,61 @@ public class BodyData extends HadalData {
 	
 	public void setBonusAirblastSize(float buff) {
 		buffedStats[17] = buff;
+	}
+	
+	public float getBonusMomentumAmp() {
+		return buffedStats[18];
+	}
+	
+	public void setBonusMomentumAmp(float buff) {
+		buffedStats[18] = buff;
+	}
+	
+	public float getBonusMomentumSize() {
+		return buffedStats[19];
+	}
+	
+	public void setBonusMomentumSize(float buff) {
+		buffedStats[19] = buff;
+	}
+	
+	public float getBonusMomentumCd() {
+		return buffedStats[20];
+	}
+	
+	public void setBonusMomentumCd(float buff) {
+		buffedStats[20] = buff;
+	}
+	
+	public float getDamageAmp() {
+		return buffedStats[21];
+	}
+	
+	public void setDamageAmp(float buff) {
+		buffedStats[21] = buff;
+	}
+	
+	public float getDamageReduc() {
+		return buffedStats[22];
+	}
+	
+	public void setDamageReduc(float buff) {
+		buffedStats[22] = buff;
+	}
+	
+	public float getKnockbackAmp() {
+		return buffedStats[23];
+	}
+	
+	public void setKnockbackAmp(float buff) {
+		buffedStats[23] = buff;
+	}
+	
+	public float getKnockbackReduc() {
+		return buffedStats[24];
+	}
+	
+	public void setKnockbackReduc(float buff) {
+		buffedStats[24] = buff;
 	}
 }

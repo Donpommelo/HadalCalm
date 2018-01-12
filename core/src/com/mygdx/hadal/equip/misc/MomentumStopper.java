@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip.misc;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.MeleeHitbox;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -29,7 +28,7 @@ public class MomentumStopper extends MeleeWeapon {
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, float x, float y, short filter,
+		public void makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 
@@ -53,8 +52,6 @@ public class MomentumStopper extends MeleeWeapon {
 					}
 				}
 			});		
-			
-			return null;
 		}
 		
 	};

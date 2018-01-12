@@ -28,5 +28,11 @@ public class Status {
 		
 	}
 	
+	public float onDealDamage(float damage, BodyData vic) {
+		return damage;
+	}
 	
+	public float onReceiveDamage(float damage, BodyData perp) {
+		return damage;
+	}
 }

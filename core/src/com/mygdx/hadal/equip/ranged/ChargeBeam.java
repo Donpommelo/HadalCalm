@@ -5,13 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
@@ -44,7 +44,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public Hitbox makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
 				World world, OrthographicCamera camera,
 				RayHandler rays) {			
 			
@@ -95,7 +95,8 @@ public class ChargeBeam extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							((BodyData) fixB).receiveDamage(baseDamage * damageMultiplier2, this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2));
+							((BodyData) fixB).receiveDamage(baseDamage * damageMultiplier2, 
+									this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), DamageTypes.RANGED);
 						}
 					}
 					if (chargeStage != 3) {
@@ -103,8 +104,6 @@ public class ChargeBeam extends RangedWeapon {
 					}
 				}
 			});		
-			
-			return null;
 		}
 		
 	};

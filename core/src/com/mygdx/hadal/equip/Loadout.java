@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip;
 
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.equip.artifacts.GoodHealth;
 import com.mygdx.hadal.equip.melee.Scrapripper;
 import com.mygdx.hadal.equip.misc.MomentumShooter;
 import com.mygdx.hadal.equip.ranged.Speargun;
@@ -27,7 +26,6 @@ public class Loadout {
 		multitools[2] = new MomentumShooter(null);
 		
 		artifacts = new Artifact[numArtifacts];
-		artifacts[0] = new GoodHealth();
 		
 		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
 	}
