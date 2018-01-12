@@ -9,13 +9,13 @@ public class StatChangeStatus extends Status {
 	public int statNum;
 	public double statIncrement;
 	
-	public StatChangeStatus(int i, int stat, double amount, BodyData p,	BodyData v, int pr) {
+	public StatChangeStatus(int i, int stat, float amount, BodyData p,	BodyData v, int pr) {
 		super(i, name, false, false, true, true, p, v, pr);
 		this.statNum = stat;
 		this.statIncrement = amount;
 	}
 	
-	public StatChangeStatus(int stat, double amount, BodyData p, BodyData v, int pr) {
+	public StatChangeStatus(int stat, float amount, BodyData p, BodyData v, int pr) {
 		super(0, name, true, false, false, false, p, v, pr);
 		this.statNum = stat;
 		this.statIncrement = amount;

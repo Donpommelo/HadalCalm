@@ -104,4 +104,8 @@ public class MeleeWeapon extends Equipable {
 	public String getText() {
 		return name;
 	}
+	
+	public float getUseCd() {
+		return useCd * (1 - user.getBodyData().getMeleeSwingRate());
+	}
 }

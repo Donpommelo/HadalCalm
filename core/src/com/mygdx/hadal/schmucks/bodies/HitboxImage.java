@@ -18,7 +18,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  * @author Zachary Tu
  *
  */
-public class HitboxImage extends Hitbox {
+public class HitboxImage extends RangedHitbox {
 	
 	private TextureAtlas atlas;
 	private TextureRegion projectileSprite;

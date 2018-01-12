@@ -93,4 +93,8 @@ public abstract class Equipable {
 	 * @return
 	 */
 	public abstract String getText();
+	
+	public float getUseCd() {
+		return useCd;
+	}
 }

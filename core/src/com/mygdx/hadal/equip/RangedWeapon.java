@@ -103,15 +103,15 @@ public class RangedWeapon extends Equipable{
 			
 			//If player fires in the middle of reloading, reset reload progress
 			reloading = false;
-			reloadCd = reloadTime;
+			reloadCd = reloadTime * (1 - shooter.getReloadRate());
 			
 			//process weapon recoil.
-			user.recoil(x, y, recoil);
+			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
 		} 
 		if (clipLeft <= 0) {
 			if (!reloading) {
 				reloading = true;
-				reloadCd = reloadTime;
+				reloadCd = reloadTime * (1 - shooter.getReloadRate());
 			}
 		}
 	}
@@ -132,12 +132,14 @@ public class RangedWeapon extends Equipable{
 		if (reloadCd > 0) {
 			reloadCd -= delta;
 		} else {
-			clipLeft += reloadAmount;
+			
+			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
+			clipLeft += reloadAmount != 0 ? reloadAmount : getClipSize();
 			reloadCd = reloadTime;
 
 			//If clip is full, finish reloading.
-			if (clipLeft >= clipSize) {
-				clipLeft = clipSize;
+			if (clipLeft >= getClipSize()) {
+				clipLeft = getClipSize();
 				reloading = false;
 			}
 		}
@@ -149,9 +151,9 @@ public class RangedWeapon extends Equipable{
 	@Override
 	public String getText() {
 		if (reloading) {
-			return name + ": " + clipLeft + "/" + clipSize + " RELOADING";
+			return name + ": " + clipLeft + "/" + getClipSize() + " RELOADING";
 		} else {
-			return name + ": " + clipLeft + "/" + clipSize;
+			return name + ": " + clipLeft + "/" + getClipSize();
 
 		}
 	}
@@ -162,8 +164,21 @@ public class RangedWeapon extends Equipable{
 	 */
 	public void gainAmmo(int gained) {
 		clipLeft += gained;
-		if (clipLeft >= clipSize) {
-			clipLeft = clipSize;
+		if (clipLeft >= getClipSize()) {
+			clipLeft = getClipSize();
+		}
+	}
+	
+	public float getUseCd() {
+		return useCd * (1 - user.getBodyData().getRangedFireRate());
+	}
+	
+	public int getClipSize() {
+		
+		if (clipSize * user.getBodyData().getBonusClipSize() > 0 && clipSize * user.getBodyData().getBonusClipSize() < 1) {
+			return clipSize + 1;
+		} else {
+			return (int) (clipSize * (1 + user.getBodyData().getBonusClipSize()));
 		}
 	}
 }

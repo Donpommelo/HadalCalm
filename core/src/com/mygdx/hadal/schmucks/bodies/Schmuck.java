@@ -206,7 +206,7 @@ public class Schmuck extends HadalEntity {
 	public void useToolEnd() {
 			
 		//the schmuck will not register another tool usage for the tool's cd
-		shootCdCount = usedTool.useCd * (1 - bodyData.getToolCdReduc());
+		shootCdCount = usedTool.getUseCd() * (1 - bodyData.getToolCdReduc());
 		
 		//execute the tool.
 		usedTool.execute(state, bodyData, world, camera, rays);

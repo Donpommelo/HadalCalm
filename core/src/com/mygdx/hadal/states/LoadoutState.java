@@ -77,6 +77,7 @@ public class LoadoutState extends GameState {
 		artifacts.add(new NuclearPunchThrusters());
 		artifacts.add(new RootBoots());
 		artifacts.add(new TriggerFinger());
+		artifacts.add(new RingofTesting());
 		
 		
 		characters.clear();

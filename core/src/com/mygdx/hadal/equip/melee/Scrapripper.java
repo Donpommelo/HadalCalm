@@ -30,7 +30,6 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float knockback = 15.0f;
 	private final static float momentum = 2.5f;
 	
-	
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override

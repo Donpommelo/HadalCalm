@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -48,24 +49,26 @@ public class BodyData extends HadalData {
 	 * 23: Universal Knockback on Hit (to others)
 	 * 24: Universal Knockback Resistance (to self)
 	 * 25: Universal Tool-Use Speed
+	 * 26: Ranged Damage on Hit
+	 * 27: Ranged Fire Rate
+	 * 28: Ranged Reload Rate
+	 * 29: Ranged Clip Size
+	 * 30: Ranged Projectile Speed
+	 * 31: Ranged Projectile Size
+	 * 32: Ranged Projectile Gravity
+	 * 33: Ranged Projectile Lifespan
+	 * 34: Ranged Projectile Durability
+	 * 35: Ranged Projectile Bounciness
+	 * 36: Ranged Recoil
+	 * 37: Melee Damage on Hit
+	 * 38: Melee Swing Speed
 	 * 
-	 * 
-	 * 26: Melee Damage on Hit
-	 * 27: Melee Knockback on Hit
-	 * 28: Melee Swing Speed
-	 * 29: Melee Active Frames
-	 * 30: Melee Hitbox Size
-	 * 31: Melee Momentum on Swing
-	 * 32: Ranged Damage on Hit
-	 * 33: Ranged Knockback on Hit
-	 * 34: Ranged Fire Rate
-	 * 35: Ranged Reload Rate
-	 * 36: Ranged Clip Size
-	 * 37: Ranged Projectile Speed
-	 * 48: Ranged Projectile Size
-	 * 49: Ranged Projectile Duration
-	 * 50: Ranged Projectile Durability
-	 * 51: 
+	 * 38: Melee Range
+	 * 39: Melee Arc Size
+	 * 40: Melee Momentum on Swing
+	 * 41: 
+
+
 	 */
 	
 	public float[] baseStats;
@@ -133,8 +136,8 @@ public class BodyData extends HadalData {
 	
 	
 	
-	public int statusProcTime(int procTime, Schmuck schmuck, int amount, Status status) {
-		int finalAmount = amount;
+	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status) {
+		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
 		for(Status s : this.statusesChecked){
 			this.statuses.add(0,s);
@@ -149,7 +152,10 @@ public class BodyData extends HadalData {
 				tempStatus.statChanges(this);
 				break;
 			case 1:
-				
+				finalAmount = tempStatus.onDealDamage(finalAmount, schmuck);
+				break;
+			case 2:
+				finalAmount = tempStatus.onReceiveDamage(finalAmount, schmuck);
 				break;
 			}
 			
@@ -186,7 +192,7 @@ public class BodyData extends HadalData {
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
-		statusProcTime(0, this.schmuck, 0, null);
+		statusProcTime(0, this, 0, null);
 	}
 	
 	/**
@@ -201,6 +207,17 @@ public class BodyData extends HadalData {
 		
 		damage -= basedamage * (getDamageReduc());
 		damage += basedamage * (perp.getDamageAmp());
+		
+		if (Arrays.asList(tags).contains(DamageTypes.RANGED)) {
+			damage *= (1 + perp.getBonusRangedDamage());
+		}
+		
+		if (Arrays.asList(tags).contains(DamageTypes.MELEE)) {
+			damage *= (1 + perp.getBonusMeleeDamage());
+		}
+		
+		damage = perp.statusProcTime(1, perp, damage, null);
+		damage = statusProcTime(2, this, damage, null);
 		
 		currentHp -= damage;
 		
@@ -448,5 +465,109 @@ public class BodyData extends HadalData {
 	
 	public void setToolCdReduc(float buff) {
 		buffedStats[25] = buff;
+	}
+	
+	public float getBonusRangedDamage() {
+		return buffedStats[26];
+	}
+	
+	public void setBonusRangedDamage(float buff) {
+		buffedStats[26] = buff;
+	}
+	
+	public float getRangedFireRate() {
+		return buffedStats[27];
+	}
+	
+	public void setRangedFireRate(float buff) {
+		buffedStats[27] = buff;
+	}
+	
+	public float getReloadRate() {
+		return buffedStats[28];
+	}
+	
+	public void setReloadRate(float buff) {
+		buffedStats[28] = buff;
+	}
+	
+	public float getBonusClipSize() {
+		return buffedStats[29];
+	}
+	
+	public void setBonusClipSize(float buff) {
+		buffedStats[29] = buff;
+	}
+	
+	public float getProjectileSpeed() {
+		return buffedStats[30];
+	}
+	
+	public void setProjectileSpeed(float buff) {
+		buffedStats[30] = buff;
+	}
+	
+	public float getProjectileSize() {
+		return buffedStats[31];
+	}
+	
+	public void setProjectileSize(float buff) {
+		buffedStats[31] = buff;
+	}
+	
+	public float getProjectileGravity() {
+		return buffedStats[32];
+	}
+	
+	public void setProjectileGravity(float buff) {
+		buffedStats[32] = buff;
+	}
+	
+	public float getProjectileLifespan() {
+		return buffedStats[33];
+	}
+	
+	public void setProjectileLifespan(float buff) {
+		buffedStats[33] = buff;
+	}
+	
+	public float getProjectileDurability() {
+		return buffedStats[34];
+	}
+	
+	public void setProjectileDurability(float buff) {
+		buffedStats[34] = buff;
+	}
+	
+	public float getProjectileBounciness() {
+		return buffedStats[35];
+	}
+	
+	public void setProjectileBounciness(float buff) {
+		buffedStats[35] = buff;
+	}
+	
+	public float getBonusRecoil() {
+		return buffedStats[36];
+	}
+	
+	public void setBonusRecoil(float buff) {
+		buffedStats[36] = buff;
+	}
+	
+	public float getBonusMeleeDamage() {
+		return buffedStats[37];
+	}
+	
+	public void setBonusMeleeDamage(float buff) {
+		buffedStats[37] = buff;
+	}
+	
+	public float getMeleeSwingRate() {
+		return buffedStats[38];
+	}
+	
+	public void getMeleeSwingRate(float buff) {
+		buffedStats[38] = buff;
 	}
 }

@@ -7,7 +7,7 @@ import com.mygdx.hadal.statuses.Status;
 public class TriggerFinger extends Artifact {
 
 	static String name = "Trigger Finger";
-	static String descr = "+30% Attack Speed";
+	static String descr = "+30% Ranged Attack Speed";
 	static String descrLong = "";
 	public Status[] enchantment = new Status[1];
 	
@@ -16,7 +16,7 @@ public class TriggerFinger extends Artifact {
 	}
 
 	public Status[] getEnchantment(BodyData b) {
-		enchantment[0] = new StatChangeStatus(25, 0.3f, b, b, 50);
+		enchantment[0] = new StatChangeStatus(27, 0.25f, b, b, 50);
 		return enchantment;
 	}
 }

@@ -20,7 +20,7 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class HitboxAnimated extends Hitbox {
+public class HitboxAnimated extends RangedHitbox {
 	
 	private TextureAtlas atlas;
 	private Animation<TextureRegion> projectileSprite;
