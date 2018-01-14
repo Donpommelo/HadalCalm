@@ -1,0 +1,14 @@
+{
+	"0": [
+		{
+			"Name": "Moreau",
+			"Text": "Testing Dialogue",
+			"Sprite": ""
+		}, 
+		{
+			"Name": "Telemachus",
+			"Text": "Testing More Dialogue",
+			"Sprite": ""
+		}
+	]
+}

@@ -99,6 +99,16 @@ public class TiledObjectUtil {
     			new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
+    		if (object.getName().equals("Text")) {
+    			new InfoFlag(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("text", String.class));
+    		}
+    		if (object.getName().equals("Radio")) {
+    			new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("id", String.class));
+    		}
     		
     	}
     }

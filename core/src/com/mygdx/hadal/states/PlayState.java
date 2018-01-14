@@ -15,14 +15,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.hadal.dialogue.DialogueStage;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
-import com.mygdx.hadal.stages.DialogueStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -69,6 +68,8 @@ public class PlayState extends GameState {
 	public static final float gameoverCd = 2.5f;
 	public float gameoverCdCount;
 	
+	
+	public DialogueStage stage;
 //	public Set<Zone> zones;
 	
 //	private float controllerCounter = 0;
@@ -114,7 +115,10 @@ public class PlayState extends GameState {
 	
 	@Override
 	public void show() {
-		app.newMenu(new DialogueStage(this));
+		
+		this.stage = new DialogueStage(this); 
+		
+		app.newMenu(stage);
 	}
 
 	/**
@@ -160,6 +164,10 @@ public class PlayState extends GameState {
 		tmr.setView(camera);
 		batch.setProjectionMatrix(camera.combined);
 //		rays.setCombinedMatrix(camera.combined.cpy().scl(PPM));
+		
+		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+			stage.nextDialogue();
+		}
 		
 		//process gameover
 		if (gameover) {
