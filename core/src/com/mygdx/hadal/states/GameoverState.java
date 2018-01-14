@@ -1,7 +1,5 @@
 package com.mygdx.hadal.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,16 +42,16 @@ public class GameoverState extends GameState{
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState();
-			        	gsm.addState(State.PLAY);
+			        	gsm.removeState(GameoverState.class);
+			        	gsm.addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
 				
 				loadoutOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState();
-			        	gsm.addState(State.LOADOUT);
+			        	gsm.removeState(GameoverState.class);
+			        	gsm.addState(State.LOADOUT, TitleState.class);
 			        }
 			    });
 				loadoutOption.setScale(0.5f);
@@ -61,7 +59,7 @@ public class GameoverState extends GameState{
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState();
+			        	gsm.removeState(GameoverState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);
@@ -79,7 +77,7 @@ public class GameoverState extends GameState{
 	 */
 	@Override
 	public void update(float delta) {
-		stage.act();
+
 	}
 
 	/**
@@ -87,13 +85,7 @@ public class GameoverState extends GameState{
 	 */
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
-		stage.draw();
-		batch.end();
+
 	}
 
 	/**

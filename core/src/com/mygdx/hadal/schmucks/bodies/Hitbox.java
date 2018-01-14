@@ -75,7 +75,7 @@ public class Hitbox extends HadalEntity {
 		
 		//Rotate hitbox to match angle of fire.
 		float newAngle = (float)(Math.atan2(startVelo.y , startVelo.x));
-		Vector2 newPosition = new Vector2(startX / PPM, startY / PPM).add(startVelo.nor());
+		Vector2 newPosition = new Vector2(startX / PPM, startY / PPM).add(startVelo.nor().scl(.5f));
 		this.body.setTransform(newPosition.x, newPosition.y, newAngle);
 	}
 	

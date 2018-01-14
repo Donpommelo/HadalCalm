@@ -18,9 +18,9 @@ import box2dLight.RayHandler;
 public class MomentumStopper extends MeleeWeapon {
 	
 	private final static String name = "Momentum Stopper";
-	private final static float swingCd = 0.0f;
+	private final static float swingCd = 1.0f;
 	private final static float windup = 0.0f;
-	private final static float backSwing = 0.50f;
+	private final static float backSwing = 0.5f;
 	private final static int hitboxSize = 400;
 	private final static int swingArc = 400;
 	private final static float momentum = 0.0f;
@@ -32,7 +32,7 @@ public class MomentumStopper extends MeleeWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 
-			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
+			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
 					new Vector2(0, 0), filter, world, camera, rays, user);
 			
 			final Schmuck user2 = user;

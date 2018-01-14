@@ -28,6 +28,10 @@ public class Status {
 		
 	}
 	
+	public void timePassing(float delta) {
+		
+	}
+	
 	public float onDealDamage(float damage, BodyData vic) {
 		return damage;
 	}

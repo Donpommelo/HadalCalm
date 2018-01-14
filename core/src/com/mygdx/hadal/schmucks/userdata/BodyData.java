@@ -62,11 +62,12 @@ public class BodyData extends HadalData {
 	 * 36: Ranged Recoil
 	 * 37: Melee Damage on Hit
 	 * 38: Melee Swing Speed
-	 * 
-	 * 38: Melee Range
-	 * 39: Melee Arc Size
-	 * 40: Melee Momentum on Swing
-	 * 41: 
+	 * 39: Melee Swing Delay
+	 * 40: Melee Swing Interval
+	 * 41: Melee Range
+	 * 42: Melee Arc Size
+	 * 43: Melee Momentum on Swing
+	 * 44: 
 
 
 	 */
@@ -156,6 +157,9 @@ public class BodyData extends HadalData {
 				break;
 			case 2:
 				finalAmount = tempStatus.onReceiveDamage(finalAmount, schmuck);
+				break;
+			case 3:
+				tempStatus.timePassing(amount);
 				break;
 			}
 			
@@ -569,5 +573,45 @@ public class BodyData extends HadalData {
 	
 	public void getMeleeSwingRate(float buff) {
 		buffedStats[38] = buff;
+	}
+	
+	public float getMeleeSwingDelay() {
+		return buffedStats[39];
+	}
+	
+	public void getMeleeSwingDelay(float buff) {
+		buffedStats[39] = buff;
+	}
+	
+	public float getMeleeSwingInterval() {
+		return buffedStats[40];
+	}
+	
+	public void getMeleeSwingInterval(float buff) {
+		buffedStats[40] = buff;
+	}
+	
+	public float getMeleeRange() {
+		return buffedStats[41];
+	}
+	
+	public void getMeleeRange(float buff) {
+		buffedStats[41] = buff;
+	}
+	
+	public float getMeleeArcSize() {
+		return buffedStats[42];
+	}
+	
+	public void getMeleeArcSize(float buff) {
+		buffedStats[42] = buff;
+	}
+	
+	public float getMeleeMomentum() {
+		return buffedStats[43];
+	}
+	
+	public void getMeleeMomentum(float buff) {
+		buffedStats[43] = buff;
 	}
 }

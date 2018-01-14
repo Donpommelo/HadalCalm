@@ -97,4 +97,8 @@ public abstract class Equipable {
 	public float getUseCd() {
 		return useCd;
 	}
+	
+	public float getUseDelay() {
+		return useDelay;
+	}
 }

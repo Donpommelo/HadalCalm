@@ -2,8 +2,6 @@ package com.mygdx.hadal.states;
 
 import java.util.Arrays;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -93,7 +91,7 @@ public class LoadoutState extends GameState {
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260);
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState();
+			        	gsm.removeState(LoadoutState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);	
@@ -101,8 +99,8 @@ public class LoadoutState extends GameState {
 				playOption = new Text(HadalGame.assetManager, "Play?",  100, HadalGame.CONFIG_HEIGHT - 350);
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState();
-			        	gsm.addState(State.PLAY);
+			        	gsm.removeState(LoadoutState.class);
+			        	gsm.addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
@@ -289,7 +287,7 @@ public class LoadoutState extends GameState {
 	 */
 	@Override
 	public void update(float delta) {
-		stage.act();
+
 	}
 
 	/**
@@ -297,13 +295,7 @@ public class LoadoutState extends GameState {
 	 */
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
-		stage.draw();
-		batch.end();
+
 	}
 
 	/**

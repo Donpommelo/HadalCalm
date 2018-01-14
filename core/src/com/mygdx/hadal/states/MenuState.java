@@ -1,7 +1,5 @@
 package com.mygdx.hadal.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,6 +31,7 @@ public class MenuState extends GameState {
 
 	@Override
 	public void show() {
+		
 		stage = new Stage() {
 			{
 				addActor(new MenuBackdrop(HadalGame.assetManager));
@@ -41,15 +40,15 @@ public class MenuState extends GameState {
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState();
+			        	gsm.removeState(MenuState.class);
 			        }
 			    });
 				resumeOption.setScale(0.5f);
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState();
-			        	gsm.removeState();
+			        	gsm.removeState(MenuState.class);
+			        	gsm.removeState(PlayState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);
@@ -66,7 +65,7 @@ public class MenuState extends GameState {
 	 */
 	@Override
 	public void update(float delta) {
-		stage.act();
+
 	}
 
 	/**
@@ -74,13 +73,7 @@ public class MenuState extends GameState {
 	 */
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
-		stage.draw();
-		batch.end();
 	}
 
 	/**

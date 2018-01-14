@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -75,8 +76,11 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
         loadAssets();
-	        
+	       
+		currentMenu = new Stage();
+
 		gsm = new GameStateManager(this);
+		
 	}
 	
 	public void loadAssets() {
@@ -100,8 +104,19 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void render() {
+		
 		gsm.update(Gdx.graphics.getDeltaTime());
+		currentMenu.act();
+
+		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
 		gsm.render();
+
+		batch.setProjectionMatrix(hud.combined);
+		batch.begin();
+		currentMenu.draw();
+		batch.end();
 	}
 	
 	/**
@@ -119,11 +134,8 @@ public class HadalGame extends ApplicationAdapter {
 		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
         sprite.position.set(sprite.viewportWidth / 2, sprite.viewportHeight / 2, 0);
 		viewportSprite.apply();
-		
 
-		if (currentMenu != null) {
-			currentMenu.getViewport().update(width, height);
-		}
+		currentMenu.getViewport().update(width, height);
 		
 		CONFIG_WIDTH = width;
 		CONFIG_HEIGHT = height;

@@ -15,12 +15,14 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
+import com.mygdx.hadal.stages.DialogueStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -109,6 +111,11 @@ public class PlayState extends GameState {
 		
 		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());		
 	}
+	
+	@Override
+	public void show() {
+		app.newMenu(new DialogueStage(this));
+	}
 
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
@@ -158,8 +165,8 @@ public class PlayState extends GameState {
 		if (gameover) {
 			gameoverCdCount -= delta;
 			if (gameoverCdCount < 0) {
-				gsm.removeState();
-				gsm.addState(State.GAMEOVER);
+				gsm.removeState(PlayState.class);
+				gsm.addState(State.GAMEOVER, TitleState.class);
 			}
 		}
 	}
@@ -208,7 +215,7 @@ public class PlayState extends GameState {
 			}
 		}
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { gsm.addState(State.MENU); }
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { gsm.addState(State.MENU, PlayState.class); }
 
 		batch.end();
 		

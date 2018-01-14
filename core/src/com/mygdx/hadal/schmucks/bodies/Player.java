@@ -243,7 +243,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 			if (momentums.size == 0) {
 				if (momentumCdCount < 0) {
 					momentumCdCount = momentumCd * (1 + playerData.getBonusMomentumCd());
-					useToolStart(delta, mStop, (short) 0, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+					useToolStart(delta, mStop, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
 				}
 			} else {
 				body.setLinearVelocity(momentums.removeFirst());

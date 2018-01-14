@@ -79,7 +79,7 @@ public class MeleeWeapon extends Equipable {
 				shooter.getSchmuck().getBody().getPosition().y * PPM, 
 				faction, world, camera, rays);
 		
-		user.recoil(x, y, -momentum);
+		user.recoil(x, y, -momentum * (1 + shooter.getMeleeMomentum()));
 
 	}
 	
@@ -107,5 +107,9 @@ public class MeleeWeapon extends Equipable {
 	
 	public float getUseCd() {
 		return useCd * (1 - user.getBodyData().getMeleeSwingRate());
+	}
+	
+	public float getUseDelay() {
+		return useDelay * (1 - user.getBodyData().getMeleeSwingDelay());
 	}
 }

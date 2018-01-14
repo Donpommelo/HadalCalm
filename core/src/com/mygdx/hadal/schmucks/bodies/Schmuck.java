@@ -163,7 +163,8 @@ public class Schmuck extends HadalEntity {
 			useToolEnd();
 		}
 		
-		
+		//Process statuses
+		bodyData.statusProcTime(3, bodyData, delta, null);
 		
 	}
 

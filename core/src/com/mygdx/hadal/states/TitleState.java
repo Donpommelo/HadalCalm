@@ -1,7 +1,6 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -45,14 +44,14 @@ public class TitleState extends GameState{
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.addState(State.LOADOUT);
+			        	gsm.addState(State.LOADOUT, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
 				
 				quickPlayOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.addState(State.PLAY);
+			        	gsm.addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				quickPlayOption.setScale(0.5f);
@@ -77,7 +76,7 @@ public class TitleState extends GameState{
 	 */
 	@Override
 	public void update(float delta) {
-		stage.act();
+
 	}
 
 	/**
@@ -85,13 +84,7 @@ public class TitleState extends GameState{
 	 */
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
-		stage.draw();
-		batch.end();
+
 	}
 
 	/**

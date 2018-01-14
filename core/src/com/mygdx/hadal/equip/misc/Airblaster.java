@@ -23,7 +23,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static String name = "Airblaster";
 	private final static float swingCd = 0.0f;
 	private final static float windup = 0.0f;
-	private final static float backSwing = 0.2f;
+	private final static float backSwing = 1.0f;
 	private final static float baseDamage = 0.0f;
 	private final static int hitboxSize = 200;
 	private final static int swingArc = 200;
@@ -37,7 +37,7 @@ public class Airblaster extends MeleeWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startAngle, float x, float y, short filter, World world,
 				OrthographicCamera camera, RayHandler rays) {
 						
-			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd - backSwing, startAngle, 
+			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
 					startAngle.nor().scl(hitboxSize / 4 / PPM), filter, world, camera, rays, user);
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {

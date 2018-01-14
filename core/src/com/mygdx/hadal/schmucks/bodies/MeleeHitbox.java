@@ -21,10 +21,15 @@ public class MeleeHitbox extends Hitbox {
 	/**
 	 * Same as normal hitbox man
 	 */
-	public MeleeHitbox(PlayState state, float x, float y, int width, int height, float lifespan,
+	public MeleeHitbox(PlayState state, float x, float y, int width, int height, float lifespan, float backswing,
 			Vector2 startAngle, Vector2 center, short filter, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator) {
-		super(state, x, y, width, height, 0, lifespan, 0, 0, startAngle, filter, true, world, camera, rays, creator);
-		this.center = center;
+		super(state, x, y, 
+				(int) (width * (1 + creator.getBodyData().getMeleeRange())), 
+				(int) (height * (1 + creator.getBodyData().getMeleeArcSize())),
+				0, 
+				lifespan * backswing * (1 + creator.getBodyData().getMeleeSwingInterval()), 
+				0, 0, startAngle, filter, true, world, camera, rays, creator);
+		this.center = center.scl(1 + creator.getBodyData().getMeleeRange());
 	}
 	
 	/**

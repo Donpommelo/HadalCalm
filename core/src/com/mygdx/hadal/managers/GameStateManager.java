@@ -46,7 +46,7 @@ public class GameStateManager {
 		this.states = new Stack<GameState>();
 		
 		//Default state is the title state currently.
-		this.addState(State.TITLE);
+		this.addState(State.TITLE, null);
 		
 		BitmapFont font24 = new BitmapFont();
 		this.skin = new Skin();
@@ -96,7 +96,9 @@ public class GameStateManager {
 	 * @param h: new height of the screen.
 	 */
 	public void resize(int w, int h) {
-		states.peek().resize(w, h);
+		for (Object state : states.toArray()) {
+			((GameState) state).resize(w, h);
+		};
 	}
 	
 	/**
@@ -106,15 +108,24 @@ public class GameStateManager {
 	 * @param state: The new state
 	 */
 	
-	public void addState(State state) {
-		states.push(getState(state));
-		states.peek().show();
+	public void addState(State state, Class<? extends GameState> lastState) {
+		if (states.empty()) {
+			states.push(getState(state));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(getState(state));
+			states.peek().show();
+		}
+		
 	}
 	
-	public void removeState() {
-		if (states.size() >= 1) {
-			states.pop().dispose();
-			states.peek().show();
+	public void removeState(Class<? extends GameState> lastState) {
+
+		if (!states.empty()) {
+			if (states.peek().getClass().equals(lastState)) {
+				states.pop().dispose();
+				states.peek().show();
+			}
 		}
 	}
 	
