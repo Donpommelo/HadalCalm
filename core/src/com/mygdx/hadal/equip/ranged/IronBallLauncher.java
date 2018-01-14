@@ -37,8 +37,9 @@ public class IronBallLauncher extends RangedWeapon {
 	
 	private final static float restitution = 0.5f;
 
-	private final static String spriteId = "orb_pink";
-
+	private final static String weapSpriteId = "cannon";
+	private final static String projSpriteId = "orb_pink";
+	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -47,7 +48,7 @@ public class IronBallLauncher extends RangedWeapon {
 				RayHandler rays) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-					filter, false, world, camera, rays, user, spriteId);
+					filter, false, world, camera, rays, user, projSpriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -65,7 +66,7 @@ public class IronBallLauncher extends RangedWeapon {
 	};
 	
 	public IronBallLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 
 }

@@ -36,7 +36,8 @@ public class Boomerang extends RangedWeapon {
 	
 	private final static int projDura = 1;
 	
-	private final static String spriteId = "orb_orange";
+	private final static String weapSpriteId = "boomeranglauncher";
+	private final static String projSpriteId = "orb_orange";
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -46,7 +47,7 @@ public class Boomerang extends RangedWeapon {
 				RayHandler rays) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user, spriteId) {
+					filter, true, world, camera, rays, user, projSpriteId) {
 				
 				public void controller(float delta) {
 					super.controller(delta);
@@ -74,7 +75,7 @@ public class Boomerang extends RangedWeapon {
 	};
 	
 	public Boomerang(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 
 }

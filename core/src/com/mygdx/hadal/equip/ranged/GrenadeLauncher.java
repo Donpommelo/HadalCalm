@@ -41,7 +41,8 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 10.0f;
 
-	private final static String spriteId = "grenade";
+	private final static String weapSpriteId = "grenadelauncher";
+	private final static String projSpriteId = "grenade";
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -51,7 +52,7 @@ public class GrenadeLauncher extends RangedWeapon {
 				RayHandler rays) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, world, camera, rays, user, spriteId) {
+					filter, false, world, camera, rays, user, projSpriteId) {
 				public void controller(float delta) {
 					super.controller(delta);
 					if (lifeSpan <= 0) {
@@ -104,6 +105,6 @@ public class GrenadeLauncher extends RangedWeapon {
 	};
 	
 	public GrenadeLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 }

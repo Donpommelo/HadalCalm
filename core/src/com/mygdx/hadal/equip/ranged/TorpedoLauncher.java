@@ -47,7 +47,8 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 10.0f;
 
-	private final static String spriteId = "torpedo";
+	private final static String weapSpriteId = "torpedolauncher";
+	private final static String projSpriteId = "torpedo";
 	
 	// Particle effect information.
 	 private static TextureAtlas particleAtlas;
@@ -62,7 +63,7 @@ public class TorpedoLauncher extends RangedWeapon {
 			final ParticleEffect bubbles = new ParticleEffect();
 
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
-					filter, false, world, camera, rays, user, spriteId) {
+					filter, false, world, camera, rays, user, projSpriteId) {
 				
 				{
 					bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
@@ -133,7 +134,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	};
 	
 	public TorpedoLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 	}
 }

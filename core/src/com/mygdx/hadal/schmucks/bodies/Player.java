@@ -367,8 +367,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 		float angle = (float)(Math.atan2(
 				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
 				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
-		
-		
+				
 		if (Math.abs(angle) > 90 && !armSprite.isFlipX()) {
 			armSprite.flip(true, false);
 			bodySprite.flip(true, false);
@@ -445,7 +444,15 @@ public class Player extends Schmuck implements Location<Vector2>{
 	public PlayerBodyData getPlayerData() {
 		return playerData;
 	}
+	
+	public void setToolSprite(TextureRegion sprite) {
+		toolSprite = sprite;
+	}
 
+	public TextureRegion getToolSprite() {
+		return toolSprite;
+	}
+	
 	@Override
 	public Vector2 getPosition() {
 		return body.getPosition();

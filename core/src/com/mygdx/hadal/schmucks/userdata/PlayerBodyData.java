@@ -50,7 +50,7 @@ public class PlayerBodyData extends BodyData {
 
 		currentHp = getMaxHp();
 		currentFuel = getMaxHp();	
-		this.currentTool = multitools[currentSlot];
+		setEquip();
 	}
 	
 	public void switchWeapon(int slot) {
@@ -58,7 +58,7 @@ public class PlayerBodyData extends BodyData {
 			if (multitools[slot - 1] != null) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
-				currentTool = multitools[currentSlot];
+				setEquip();
 			}
 		}
 	}
@@ -68,7 +68,7 @@ public class PlayerBodyData extends BodyData {
 			int tempSlot = lastSlot;
 			lastSlot = currentSlot;
 			currentSlot = tempSlot;
-			currentTool = multitools[currentSlot];
+			setEquip();
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class PlayerBodyData extends BodyData {
 				multitools[i] = equip;
 				multitools[i].user = player;
 				currentSlot = i;
-				currentTool = multitools[currentSlot];
+				setEquip();
 				return null;
 			}
 		}
@@ -88,9 +88,20 @@ public class PlayerBodyData extends BodyData {
 		
 		multitools[currentSlot] = equip;
 		multitools[currentSlot].user = player;
-		currentTool = multitools[currentSlot];
+		setEquip();
 		
 		return old;
+	}
+	
+	public void setEquip() {
+		currentTool = multitools[currentSlot];
+		if (player.getToolSprite().isFlipX() != currentTool.getEquipSprite().isFlipX()) {
+			currentTool.getEquipSprite().flip(true, false);
+			player.setToolSprite(currentTool.getEquipSprite());
+			
+		} else {
+			player.setToolSprite(currentTool.getEquipSprite());
+		}
 	}
 	
 	public void fuelSpend(float cost) {

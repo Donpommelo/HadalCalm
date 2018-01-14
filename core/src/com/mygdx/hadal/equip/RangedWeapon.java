@@ -56,6 +56,18 @@ public class RangedWeapon extends Equipable{
 		this.projectileSpeed = projectileSpeed;
 		this.onShoot = onShoot;
 	}
+	
+	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
+			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot, String spriteId) {
+		super(user, name, shootCd, shootDelay, spriteId);
+		this.clipSize = clipSize;
+		this.clipLeft = clipSize;
+		this.reloadTime = reloadTime;
+		this.reloadAmount = reloadAmount;
+		this.recoil = recoil;
+		this.projectileSpeed = projectileSpeed;
+		this.onShoot = onShoot;
+	}
 
 	/**
 	 * This method is called when a schmuck targets a point with this weapon.

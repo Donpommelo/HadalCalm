@@ -35,7 +35,8 @@ public class Speargun extends RangedWeapon {
 	
 	private final static int projDura = 2;
 	
-	private final static String spriteId = "harpoon";
+	private final static String weapSpriteId = "speargun";
+	private final static String projSpriteId = "harpoon";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -45,7 +46,7 @@ public class Speargun extends RangedWeapon {
 				RayHandler rays) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user, spriteId);
+					filter, true, world, camera, rays, user, projSpriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -64,7 +65,7 @@ public class Speargun extends RangedWeapon {
 	};
 	
 	public Speargun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 
 }

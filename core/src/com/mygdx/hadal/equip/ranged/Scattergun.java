@@ -27,12 +27,12 @@ public class Scattergun extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 9.0f;
+	private final static float baseDamage = 8.0f;
 	private final static float recoil = 3.0f;
 	private final static float knockback = 2.0f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 15;
-	private final static int projectileHeight = 15;
+	private final static int projectileWidth = 18;
+	private final static int projectileHeight = 18;
 	private final static float lifespan = 0.5f;
 	private final static float gravity = 0.5f;
 	
@@ -41,6 +41,7 @@ public class Scattergun extends RangedWeapon {
 	private final static int numProj = 10;
 	private final static int spread = 10;
 	
+	private final static String weapSpriteId = "scattergun";
 	private final static String[] spriteId = {"debris_a", "debris_b", "debris_c", "debris_d"};
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -78,7 +79,7 @@ public class Scattergun extends RangedWeapon {
 	};
 	
 	public Scattergun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 
 }

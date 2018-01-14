@@ -24,12 +24,12 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 8.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float recoil = 1.5f;
 	private final static float knockback = 1.0f;
-	private final static float projectileSpeed = 12.0f;
-	private final static int projectileWidth = 15;
-	private final static int projectileHeight = 15;
+	private final static float projectileSpeed = 18.0f;
+	private final static int projectileWidth = 20;
+	private final static int projectileHeight = 20;
 	private final static float lifespan = 3.0f;
 	private final static float gravity = 0;
 	
@@ -39,8 +39,9 @@ public class ChargeBeam extends RangedWeapon {
 	private static int chargeStage = 0;
 	private static final float maxCharge = 1.0f;
 	
-	private final static String spriteId = "orb_yellow";
-
+	private final static String weapSpriteId = "chargebeam";
+	private final static String projSpriteId = "orb_yellow";
+	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -65,20 +66,20 @@ public class ChargeBeam extends RangedWeapon {
 
 			switch(chargeStage) {
 			case 3:
-				sizeMultiplier = 8.0f;
-				speedMultiplier = 4.0f;
-				damageMultiplier = 10.0f;
+				sizeMultiplier = 6.0f;
+				speedMultiplier = 3.0f;
+				damageMultiplier = 6.0f;
 				kbMultiplier = 12.0f;
 				break;
 			case 2:
 				sizeMultiplier = 4.0f;
-				speedMultiplier = 3.0f;
-				damageMultiplier = 6.0f;
+				speedMultiplier = 2.0f;
+				damageMultiplier = 4.0f;
 				kbMultiplier = 7.5f;
 				break;
 			case 1:
 				sizeMultiplier = 2.0f;
-				speedMultiplier = 2.0f;
+				speedMultiplier = 1.0f;
 				damageMultiplier = 2.0f;
 				kbMultiplier = 2.5f;
 				break;
@@ -88,7 +89,7 @@ public class ChargeBeam extends RangedWeapon {
 			final float kbMultiplier2 = kbMultiplier;
 			
 			HitboxImage proj = new HitboxImage(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
-					filter, true, world, camera, rays, user, spriteId);
+					filter, true, world, camera, rays, user, projSpriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -99,9 +100,7 @@ public class ChargeBeam extends RangedWeapon {
 									this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), DamageTypes.RANGED);
 						}
 					}
-					if (chargeStage != 3) {
-						super.onHit(fixB);
-					}
+					super.onHit(fixB);
 				}
 			});		
 		}
@@ -109,7 +108,7 @@ public class ChargeBeam extends RangedWeapon {
 	};
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 	
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {

@@ -1,7 +1,11 @@
 package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -28,6 +32,9 @@ public abstract class Equipable {
 	//Counter for how much longer this tool needs to be reloaded before it gets more ammo
 	public float reloadCd;
 	
+	private TextureAtlas atlas;
+	private TextureRegion equipSprite;
+	
 	/**
 	 * Equipables are constructed when creating tool spawns or default schmuck loadouts
 	 * @param user: Schmuck that is using this tool.
@@ -42,6 +49,21 @@ public abstract class Equipable {
 		this.useDelay = useDelay;
 		this.reloading = false;
 		this.reloadCd = 0;
+		
+		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
+		equipSprite = atlas.findRegion("default");
+	}
+	
+	public Equipable(Schmuck user, String name, float useCd, float useDelay, String spriteId) {
+		this.user = user;
+		this.name = name;
+		this.useCd = useCd;
+		this.useDelay = useDelay;
+		this.reloading = false;
+		this.reloadCd = 0;
+		
+		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
+		equipSprite = atlas.findRegion(spriteId);
 	}
 	
 	/**
@@ -100,5 +122,9 @@ public abstract class Equipable {
 	
 	public float getUseDelay() {
 		return useDelay;
+	}
+	
+	public TextureRegion getEquipSprite() {
+		return equipSprite;
 	}
 }

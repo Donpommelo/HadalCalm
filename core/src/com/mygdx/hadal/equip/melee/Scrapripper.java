@@ -30,6 +30,8 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float knockback = 15.0f;
 	private final static float momentum = 2.5f;
 	
+	private final static String weapSpriteId = "scrapripper";
+
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
@@ -56,7 +58,7 @@ public class Scrapripper extends MeleeWeapon {
 	};
 	
 	public Scrapripper(Schmuck user) {
-		super(user, name, swingCd, windup, momentum, onSwing);
+		super(user, name, swingCd, windup, momentum, onSwing, weapSpriteId);
 	}
 
 }

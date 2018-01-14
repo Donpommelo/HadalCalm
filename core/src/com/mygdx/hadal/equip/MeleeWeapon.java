@@ -44,6 +44,13 @@ public class MeleeWeapon extends Equipable {
 		this.momentum = momentum;
 		this.onSwing = onSwing;
 	}
+	
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum,
+			HitboxFactory onSwing, String spriteId) {
+		super(user, name, swingcd, windup, spriteId);
+		this.momentum = momentum;
+		this.onSwing = onSwing;
+	}
 
 	/**
 	 * This method is called when a schmuck targets a point with this weapon.
