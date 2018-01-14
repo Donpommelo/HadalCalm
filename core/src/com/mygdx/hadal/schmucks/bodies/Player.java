@@ -88,10 +88,10 @@ public class Player extends Schmuck implements Location<Vector2>{
 	public static final int headConnectX = -26;
 	public static final int headConnectY = 330;
 	
-	public static final int armConnectX = -234;
+	public static final int armConnectX = -304;
 	public static final int armConnectY = 218;
 	
-	public static final int armRotateX = 260;
+	public static final int armRotateX = 330;
 	public static final int armRotateY = 50;
 		
 	public static final float scale = 0.15f;

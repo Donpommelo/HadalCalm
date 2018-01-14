@@ -1,13 +1,83 @@
 
 multitool.png
-size: 512,256
+size: 2048,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-default
+bladegun
+  rotate: false
+  xy: 2, 306
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+boomeranglauncher
+  rotate: false
+  xy: 2, 154
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+cannon
+  rotate: false
+  xy: 350, 306
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+chargebeam
   rotate: false
   xy: 2, 2
-  size: 276, 150
-  orig: 276, 150
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+default
+  rotate: false
+  xy: 350, 154
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+grenadelauncher
+  rotate: false
+  xy: 698, 306
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+machinegun
+  rotate: false
+  xy: 350, 2
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+scattergun
+  rotate: false
+  xy: 698, 154
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+scrapripper
+  rotate: false
+  xy: 1046, 306
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+speargun
+  rotate: false
+  xy: 698, 2
+  size: 346, 150
+  orig: 346, 150
+  offset: 0, 0
+  index: -1
+torpedolauncher
+  rotate: false
+  xy: 1046, 154
+  size: 346, 150
+  orig: 346, 150
   offset: 0, 0
   index: -1

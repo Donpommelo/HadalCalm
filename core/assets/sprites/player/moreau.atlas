@@ -7,8 +7,8 @@ repeat: none
 arm
   rotate: false
   xy: 1104, 302
-  size: 276, 150
-  orig: 276, 150
+  size: 346, 150
+  orig: 346, 150
   offset: 0, 0
   index: -1
 body_background
