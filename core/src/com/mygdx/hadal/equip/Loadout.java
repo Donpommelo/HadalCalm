@@ -30,6 +30,21 @@ public class Loadout {
 		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
 	}
 	
+	public Loadout(Equipable... tools) {
+		multitools = new Equipable[numSlots];
+		
+		for (int i = 0; i < numSlots; i++) {
+			if (tools.length > i) {
+				multitools[i] = tools[i];
+			}
+		}
+		
+		artifacts = new Artifact[numArtifacts];
+		
+		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
+
+	}
+	
 	public static int getNumSlots() {
 		return numSlots;
 	}

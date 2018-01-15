@@ -100,7 +100,6 @@ public class LoadoutState extends GameState {
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	gsm.removeState(LoadoutState.class);
-			        	gsm.setLevel("Maps/test_map_large.tmx");
 			        	gsm.addState(State.PLAY, TitleState.class);
 			        }
 			    });

@@ -119,7 +119,16 @@ public class GameStateManager {
 			states.push(getState(state));
 			states.peek().show();
 		}
-		
+	}
+	
+	public void addPlayState(String map, Loadout loadout, Class<? extends GameState> lastState) {
+		if (states.empty()) {
+			states.push(new PlayState(this, loadout, map));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new PlayState(this, loadout, map));
+			states.peek().show();
+		}
 	}
 	
 	public void removeState(Class<? extends GameState> lastState) {

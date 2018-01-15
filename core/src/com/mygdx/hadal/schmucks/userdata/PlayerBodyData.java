@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
+import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.statuses.Status;
 
@@ -73,6 +74,13 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public Equipable pickup(Equipable equip) {
+		
+		if (multitools[currentSlot] instanceof Nothing) {
+			multitools[currentSlot] = equip;
+			multitools[currentSlot].user = player;
+			setEquip();
+			return null;
+		}
 		
 		for (int i = 0; i < Loadout.getNumSlots(); i++) {
 			if (multitools[i] == null) {

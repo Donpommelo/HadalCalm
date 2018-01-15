@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
+import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 
@@ -52,7 +54,6 @@ public class TitleState extends GameState{
 				
 				quickPlayOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.setLevel("Maps/test_map_large.tmx");
 			        	gsm.addState(State.PLAY, TitleState.class);
 			        }
 			    });
@@ -60,8 +61,7 @@ public class TitleState extends GameState{
 				
 				tutorialOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.setLevel("Maps/tutorial.tmx");
-			        	gsm.addState(State.PLAY, TitleState.class);
+			        	gsm.addPlayState("Maps/tutorial.tmx", new Loadout(new Nothing(null)), TitleState.class);
 			        }
 			    });
 				tutorialOption.setScale(0.5f);
