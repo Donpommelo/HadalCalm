@@ -19,7 +19,7 @@ public class AirBubbleSpawner extends Event {
 	
 	public boolean readyToSpawn = true;
 	
-	private static final String name = "Air Bubble Spawner";
+	private static final String name = "Fuel Spawner";
 
 	public AirBubbleSpawner(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, float interval) {

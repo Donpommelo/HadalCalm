@@ -24,6 +24,8 @@ public class Event extends HadalEntity {
 	//The event's name
 	public String name;
 	
+	private Event connectedEvent;
+
 	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
 			int width, int height, int x, int y) {
 		super(state, world, camera, rays, width, height, x, y);
@@ -53,5 +55,13 @@ public class Event extends HadalEntity {
 	
 	public String getText() {
 		return name;
+	}
+
+	public Event getConnectedEvent() {
+		return connectedEvent;
+	}
+
+	public void setConnectedEvent(Event connectedEvent) {
+		this.connectedEvent = connectedEvent;
 	}
 }

@@ -5,4 +5,5 @@ public enum UserDataTypes {
 	BODY,
 	HITBOX,
 	EVENT,
+	WALL,
 }

@@ -117,5 +117,10 @@ public class PlayerBodyData extends BodyData {
 			currentFuel = getMaxFuel();
 		}
 	}
+	
+	public void die() {
+		schmuck.state.gameOver(false);
+		schmuck.queueDeletion();
+	}
 
 }

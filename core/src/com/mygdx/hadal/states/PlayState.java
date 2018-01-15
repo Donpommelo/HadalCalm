@@ -65,6 +65,7 @@ public class PlayState extends GameState {
 	public int score = 0;
 	
 	public boolean gameover = false;
+	public boolean won = false;
 	public static final float gameoverCd = 2.5f;
 	public float gameoverCdCount;
 	
@@ -78,7 +79,7 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout) {
+	public PlayState(GameStateManager gsm, Loadout loadout, String level) {
 		super(gsm);
 		this.loadout = loadout;
 		
@@ -99,8 +100,9 @@ public class PlayState extends GameState {
 		
 		//TODO: Load a map from Tiled file. Eventually, this will take an input map that the player chooses.
 		
-		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
-//		map = new TmxMapLoader().load("Maps/test_map.tmx");
+//		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
+//		map = new TmxMapLoader().load("Maps/tutorial.tmx");
+		map = new TmxMapLoader().load(level);
 		
 		new Turret(this, world, camera, rays, 300, 800);
 		
@@ -110,7 +112,10 @@ public class PlayState extends GameState {
 		
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
 		
-		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());		
+		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
+		
+		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays, map.getLayers().get("trigger-layer").getObjects());
+
 	}
 	
 	@Override
@@ -174,7 +179,11 @@ public class PlayState extends GameState {
 			gameoverCdCount -= delta;
 			if (gameoverCdCount < 0) {
 				gsm.removeState(PlayState.class);
-				gsm.addState(State.GAMEOVER, TitleState.class);
+				if (won) {
+					gsm.addState(State.VICTORY, TitleState.class);
+				} else {
+					gsm.addState(State.GAMEOVER, TitleState.class);
+				}
 			}
 		}
 	}
@@ -291,7 +300,8 @@ public class PlayState extends GameState {
 		score += i;
 	}
 
-	public void gameOver() {
+	public void gameOver(boolean won) {
+		this.won = won;
 		gameover = true;
 		gameoverCdCount = gameoverCd;
 	}

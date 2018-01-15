@@ -21,7 +21,7 @@ public class AirBubble extends Event{
 
 	private AirBubbleSpawner spawner;
 	
-	private static final String name = "Air Bubble";
+	private static final String name = "Fuel Tank";
 	
 	public AirBubble(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y,
 			AirBubbleSpawner spawner) {

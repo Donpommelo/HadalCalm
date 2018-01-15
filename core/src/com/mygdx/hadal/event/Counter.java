@@ -2,27 +2,31 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.event.userdata.InteractableEventData;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
-public class Switch extends Event {
+public class Counter extends Event {
 
-	private static final String name = "Switch";
+	private static final String name = "Sensor";
 
-	public Switch(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y) {
+	int maxCount;
+	int currentCount = 0;
+	
+	public Counter(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+			int x, int y, int maxCount) {
 		super(state, world, camera, rays, name, width, height, x, y);
+		this.maxCount = maxCount;
 	}
 	
 	public void create() {
-		this.eventData = new InteractableEventData(world, this) {
-			public void onInteract(Player p) {
-				if (event.getConnectedEvent() != null) {
+		this.eventData = new EventData(world, this) {
+			public void onActivate(EventData activator) {
+				currentCount++;
+				if (currentCount >= maxCount && event.getConnectedEvent() != null) {
 					event.getConnectedEvent().eventData.onActivate(this);
 				}
 			}
@@ -32,9 +36,4 @@ public class Switch extends Event {
 				(short) (Constants.BIT_PLAYER),
 				(short) 0, true, eventData);
 	}
-	
-	public String getText() {
-		return name + " (E TO ACTIVATE)";
-	}
-
 }

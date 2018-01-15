@@ -1,5 +1,8 @@
 package com.mygdx.hadal.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -44,6 +47,9 @@ public class TiledObjectUtil {
             shape.dispose();
         }
     }
+    
+    static Map<String, Event> triggeredEvents = new HashMap<String, Event>();
+    static Map<Event, String> triggeringEvents = new HashMap<Event, String>();
     
     /**
      * Parses Tiled objects into in game events
@@ -110,6 +116,53 @@ public class TiledObjectUtil {
     					object.getProperties().get("id", String.class));
     		}
     		
+    		if (object.getName().equals("Door")) {
+    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)));
+    		}
+    		if (object.getName().equals("Switch")) {
+    			triggeringEvents.put(new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)), object.getProperties().get("triggeringId", String.class));
+    		}
+    		if (object.getName().equals("Sensor")) {
+    			triggeringEvents.put(new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("oneTime", boolean.class)), object.getProperties().get("triggeringId", String.class));
+    		}
+    		if (object.getName().equals("Target")) {
+    			triggeringEvents.put(new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("oneTime", boolean.class)), object.getProperties().get("triggeringId", String.class));
+    		}
+    		if (object.getName().equals("Rock")) {
+    			new Rock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
+    		if (object.getName().equals("Counter")) {
+    			Event counter = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("count", int.class));
+    			triggeringEvents.put(counter, object.getProperties().get("triggeringId", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), counter);
+    		}
+    		if (object.getName().equals("TriggerSpawn")) {
+    			
+    			Event spawn = new TriggerSpawn(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
+    					object.getProperties().get("limit", int.class));	
+    			
+    			triggeringEvents.put(spawn, object.getProperties().get("triggeringId", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), spawn);
+    		}
+    		if (object.getName().equals("Victory")) {
+    			new Victory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
+    	}
+    }
+    
+    public static void parseTiledTriggerLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObjects objects) {
+    	for (Event key : triggeringEvents.keySet()) {
+    		key.setConnectedEvent(triggeredEvents.getOrDefault(triggeringEvents.get(key), null));
     	}
     }
 

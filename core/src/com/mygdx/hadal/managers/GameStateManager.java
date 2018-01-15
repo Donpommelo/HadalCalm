@@ -27,6 +27,8 @@ public class GameStateManager {
 	
 	private Loadout loadout;
 
+	private String level = "Maps/test_map_large.tmx";
+	
 	//This enum lists all the different types of gamestates.
 	public enum State {
 		SPLASH,
@@ -34,6 +36,7 @@ public class GameStateManager {
 		TITLE,
 		PLAY, 
 		GAMEOVER, 
+		VICTORY,
 		MENU
 	}
 	
@@ -138,8 +141,9 @@ public class GameStateManager {
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return null;
-		case PLAY: return new PlayState(this, loadout);
+		case PLAY: return new PlayState(this, loadout, level);
 		case GAMEOVER: return new GameoverState(this);
+		case VICTORY: return new VictoryState(this);
 		case LOADOUT: return new LoadoutState(this);
 		case MENU: return new MenuState(this);
 		default:
@@ -154,5 +158,13 @@ public class GameStateManager {
 	
 	public Loadout getLoadout() {
 		return loadout;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
 	}
 }

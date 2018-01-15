@@ -37,7 +37,9 @@ public class HitboxData extends HadalData {
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
 			hbox.dura = 0;
-		} else if (fixB.getType().equals(UserDataTypes.BODY)){
+		} else if (fixB.getType().equals(UserDataTypes.WALL)){
+			hbox.dura = 0;
+		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
 			hbox.dura--;
 		}
 		if (hbox.dura <= 0) {

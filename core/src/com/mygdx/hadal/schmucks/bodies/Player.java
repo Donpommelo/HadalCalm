@@ -399,6 +399,12 @@ public class Player extends Schmuck implements Location<Vector2>{
 			angle = angle + 180;
 		}
 		
+		batch.draw(toolSprite, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
+				armRotateXReal * scale , armRotateY * scale,
+				toolWidth * scale, toolHeight * scale, 1, 1, angle);
+		
 		batch.draw(bodyBackSprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2, 
 				body.getPosition().y * PPM - hbHeight * scale / 2, 
@@ -410,12 +416,6 @@ public class Player extends Schmuck implements Location<Vector2>{
 				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
 				armRotateXReal * scale, armRotateY * scale,
 				armWidth * scale, armHeight * scale, 1, 1, angle);
-		
-		batch.draw(toolSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
-				armRotateXReal * scale , armRotateY * scale,
-				toolWidth * scale, toolHeight * scale, 1, 1, angle);
 		
 		batch.draw(momentumCdCount < 0 ? gemSprite : gemInactiveSprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2 , 
@@ -437,7 +437,6 @@ public class Player extends Schmuck implements Location<Vector2>{
 	}
 	
 	public void dispose() {
-		state.gameOver();
 		super.dispose();
 	}
 	

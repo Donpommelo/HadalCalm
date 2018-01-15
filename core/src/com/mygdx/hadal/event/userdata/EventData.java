@@ -22,6 +22,12 @@ public class EventData extends HadalData {
 		this.schmucks = new HashSet<HadalEntity>();
 	}
 	
+	public EventData(World world, Event event, UserDataTypes type) {
+		super(world, type, event);
+		this.event = event;
+		this.schmucks = new HashSet<HadalEntity>();
+	}
+	
 	public void onTouch(HadalData fixB) {
 		if (fixB != null) {	
 			schmucks.add(fixB.getEntity());
@@ -38,7 +44,7 @@ public class EventData extends HadalData {
 		
 	}
 	
-	public void onActivate(Player p, EventData activator) {
+	public void onActivate(EventData activator) {
 		
 	}
 	

@@ -167,4 +167,5 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="trigger-layer"/>
 </map>

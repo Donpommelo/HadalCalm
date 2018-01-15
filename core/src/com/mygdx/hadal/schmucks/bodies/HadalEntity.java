@@ -23,7 +23,7 @@ import box2dLight.RayHandler;
 public abstract class HadalEntity {
 
 	//References to game fields.
-	protected PlayState state;
+	public PlayState state;
 	protected World world;
 	protected OrthographicCamera camera;
 	protected RayHandler rays;

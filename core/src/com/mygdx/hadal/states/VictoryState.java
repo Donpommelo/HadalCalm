@@ -1,34 +1,32 @@
 package com.mygdx.hadal.states;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.TitleBackdrop;
+import com.mygdx.hadal.actors.VictoryBackdrop;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 
 /**
- * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
- * TODO: Eventually, this might be where we initialize game data + assets + player change settings.
+ * The Gameover state appears when you lose.
  * @author Zachary Tu
  *
  */
-public class TitleState extends GameState{
+public class VictoryState extends GameState{
 
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor playOption, exitOption, quickPlayOption, tutorialOption;
+	private Actor playOption, loadoutOption, exitOption;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
 	 */
-	public TitleState(final GameStateManager gsm) {
+	public VictoryState(final GameStateManager gsm) {
 		super(gsm);
 	}
 	
@@ -36,46 +34,38 @@ public class TitleState extends GameState{
 	public void show() {
 		stage = new Stage() {
 			{
-				addActor(new TitleBackdrop(HadalGame.assetManager));
+				addActor(new VictoryBackdrop(HadalGame.assetManager));
 				
-				playOption = new Text(HadalGame.assetManager, "PLAY?", 150, HadalGame.CONFIG_HEIGHT - 180);
-				quickPlayOption = new Text(HadalGame.assetManager, "QUICK PLAY?", 150, HadalGame.CONFIG_HEIGHT - 220);
-				tutorialOption = new Text(HadalGame.assetManager, "TUTORIAL?", 150, HadalGame.CONFIG_HEIGHT - 260);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 300);
+				playOption = new Text(HadalGame.assetManager, "PLAY AGAIN?", 150, HadalGame.CONFIG_HEIGHT - 180);
+				loadoutOption = new Text(HadalGame.assetManager, "LOADOUT?", 150, HadalGame.CONFIG_HEIGHT - 220);
+				exitOption = new Text(HadalGame.assetManager, "TITLE?", 150, HadalGame.CONFIG_HEIGHT - 260);
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.addState(State.LOADOUT, TitleState.class);
+			        	gsm.removeState(VictoryState.class);
+			        	gsm.addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
 				
-				quickPlayOption.addListener(new ClickListener() {
+				loadoutOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.setLevel("Maps/test_map_large.tmx");
-			        	gsm.addState(State.PLAY, TitleState.class);
+			        	gsm.removeState(VictoryState.class);
+			        	gsm.addState(State.LOADOUT, TitleState.class);
 			        }
 			    });
-				quickPlayOption.setScale(0.5f);
+				loadoutOption.setScale(0.5f);
 				
-				tutorialOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.setLevel("Maps/tutorial.tmx");
-			        	gsm.addState(State.PLAY, TitleState.class);
-			        }
-			    });
-				tutorialOption.setScale(0.5f);
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	Gdx.app.exit();
+			        	gsm.removeState(VictoryState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);
 				
 				addActor(playOption);
-				addActor(quickPlayOption);
-				addActor(tutorialOption);
+				addActor(loadoutOption);
 				addActor(exitOption);
 			}
 		};
