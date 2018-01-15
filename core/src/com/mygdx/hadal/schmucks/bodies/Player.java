@@ -114,15 +114,26 @@ public class Player extends Schmuck implements Location<Vector2>{
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
 		
-		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
 		atlasTool = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
+		
+		toolSprite = atlasTool.findRegion("default");
+		
+		
+		this.toolHeight = toolSprite.getRegionHeight();
+		this.toolWidth = toolSprite.getRegionWidth();
+		
+		setBodySprite(playerSprite);
+		
+	}
+	
+	public void setBodySprite(String playerSprite) {
+		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
 		bodySprite = atlasBody.findRegion("body_stand");		
 		bodyBackSprite = atlasBody.findRegion("body_background");
 		armSprite = atlasBody.findRegion("arm");
 		headSprite = atlasBody.findRegion("head");
 		gemSprite = atlasBody.findRegion("gem_active");
 		gemInactiveSprite = atlasBody.findRegion("gem_inactive");
-		toolSprite = atlasTool.findRegion("default");
 		
 		this.armWidth = armSprite.getRegionWidth();
 		this.armHeight = armSprite.getRegionHeight();
@@ -132,8 +143,6 @@ public class Player extends Schmuck implements Location<Vector2>{
 		this.bodyHeight = bodySprite.getRegionHeight();
 		this.bodyBackWidth = bodyBackSprite.getRegionWidth();
 		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
-		this.toolHeight = toolSprite.getRegionHeight();
-		this.toolWidth = toolSprite.getRegionWidth();
 		this.gemHeight = gemSprite.getRegionHeight();
 		this.gemWidth = gemSprite.getRegionWidth();
 	}
@@ -450,6 +459,14 @@ public class Player extends Schmuck implements Location<Vector2>{
 
 	public TextureRegion getToolSprite() {
 		return toolSprite;
+	}
+	
+	public void setArmSprite(TextureRegion sprite) {
+		armSprite = sprite;
+	}
+
+	public TextureRegion getArmSprite() {
+		return armSprite;
 	}
 	
 	@Override

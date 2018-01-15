@@ -14,13 +14,6 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="17" name="Spawn" type="Spawn" x="256" y="192" width="32" height="32">
-   <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="interval" type="float" value="10"/>
-    <property name="limit" type="int" value="1"/>
-   </properties>
-  </object>
   <object id="16" name="Spawn" type="Spawn" x="64" y="320" width="32" height="32">
    <properties>
     <property name="id" type="int" value="0"/>

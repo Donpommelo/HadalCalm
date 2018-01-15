@@ -160,7 +160,7 @@ public class TiledObjectUtil {
     	}
     }
     
-    public static void parseTiledTriggerLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObjects objects) {
+    public static void parseTiledTriggerLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays) {
     	for (Event key : triggeringEvents.keySet()) {
     		key.setConnectedEvent(triggeredEvents.getOrDefault(triggeringEvents.get(key), null));
     	}

@@ -34,7 +34,7 @@ public class PlayerBodyData extends BodyData {
 	public PlayerBodyData(World world, Player body, Loadout loadout) {
 		super(world, body);
 		this.player = body;
-		multitools = loadout.multitools;
+		multitools = loadout.multitools.clone();
 		for (Equipable e : multitools) {
 			if (e != null) {
 				e.user = player;
@@ -50,12 +50,23 @@ public class PlayerBodyData extends BodyData {
 		}
 
 		currentHp = getMaxHp();
-		currentFuel = getMaxHp();	
+		currentFuel = getMaxHp();
+		currentSlot = 0;
 		setEquip();
 	}
 	
 	public void switchWeapon(int slot) {
 		if (multitools.length >= slot && schmuck.shootDelayCount <= 0) {
+			if (multitools[slot - 1] != null) {
+				lastSlot = currentSlot;
+				currentSlot = slot - 1;
+				setEquip();
+			}
+		}
+	}
+	
+	public void hardSwitchWeapon(int slot) {
+		if (multitools.length >= slot) {
 			if (multitools[slot - 1] != null) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
@@ -101,9 +112,16 @@ public class PlayerBodyData extends BodyData {
 		return old;
 	}
 	
+	public void replaceSlot(Equipable equip, int slot) {
+		multitools[slot] = equip;
+		multitools[slot].user = player;
+		currentSlot = slot;
+		setEquip();
+	}
+	
 	public void setEquip() {
 		currentTool = multitools[currentSlot];
-		if (player.getToolSprite().isFlipX() != currentTool.getEquipSprite().isFlipX()) {
+		if (player.getArmSprite().isFlipX() != currentTool.getEquipSprite().isFlipX()) {
 			currentTool.getEquipSprite().flip(true, false);
 			player.setToolSprite(currentTool.getEquipSprite());
 			

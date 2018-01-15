@@ -69,6 +69,8 @@ public class PlayState extends GameState {
 	public static final float gameoverCd = 2.5f;
 	public float gameoverCdCount;
 	
+	public float zoom;
+	public boolean realFite;
 	
 	public DialogueStage stage;
 //	public Set<Zone> zones;
@@ -79,8 +81,12 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, String level) {
+	public PlayState(GameStateManager gsm, Loadout loadout, String level, float zoom, boolean realFite) {
 		super(gsm);
+		
+		this.zoom = zoom;
+		this.realFite = realFite;
+		
 		this.loadout = loadout;
 		
 		//Initialize font and text camera for ui purposes.
@@ -114,7 +120,7 @@ public class PlayState extends GameState {
 		
 		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
 		
-		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays, map.getLayers().get("trigger-layer").getObjects());
+		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays);
 
 	}
 	
@@ -178,12 +184,19 @@ public class PlayState extends GameState {
 		if (gameover) {
 			gameoverCdCount -= delta;
 			if (gameoverCdCount < 0) {
-				gsm.removeState(PlayState.class);
-				if (won) {
-					gsm.addState(State.VICTORY, TitleState.class);
+				if (realFite) {
+					gsm.removeState(PlayState.class);
+					if (won) {
+						gsm.addState(State.VICTORY, TitleState.class);
+					} else {
+						gsm.addState(State.GAMEOVER, TitleState.class);
+					}
 				} else {
-					gsm.addState(State.GAMEOVER, TitleState.class);
+					player = new Player(this, world, camera, rays, (int)(player.getBody().getPosition().x * PPM),
+							(int)(player.getBody().getPosition().y * PPM), loadout.playerSprite);
+					gameover = false;
 				}
+ 				
 			}
 		}
 	}
@@ -242,8 +255,8 @@ public class PlayState extends GameState {
 	 * This is called every update. This resets the camera zoom and makes it move towards the player.
 	 */
 	private void cameraUpdate() {
-		camera.zoom = 1.0f;
-		sprite.zoom = 1.0f;
+		camera.zoom = zoom;
+		sprite.zoom = zoom;
 		if (player != null) {
 			if (player.getBody() != null) {
 				CameraStyles.lerpToTarget(camera, player.getBody().getPosition().scl(PPM));
