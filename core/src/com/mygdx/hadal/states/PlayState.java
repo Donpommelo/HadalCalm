@@ -14,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.ContactFilter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.dialogue.DialogueStage;
 import com.mygdx.hadal.equip.Loadout;
@@ -95,6 +97,17 @@ public class PlayState extends GameState {
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), false);
 		world.setContactListener(new WorldContactListener());
+		
+		/*world.setContactFilter(new ContactFilter() {
+
+			@Override
+			public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+		});*/
+		
 		rays = new RayHandler(world);
         rays.setAmbientLight(.4f);
 		b2dr = new Box2DDebugRenderer();

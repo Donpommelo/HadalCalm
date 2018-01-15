@@ -153,6 +153,15 @@ public class TiledObjectUtil {
     			triggeringEvents.put(spawn, object.getProperties().get("triggeringId", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), spawn);
     		}
+    		if (object.getName().equals("UsePortal")) {
+    			
+    			Event portal = new UsePortal(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("oneTime", boolean.class));
+    			
+    			triggeringEvents.put(portal, object.getProperties().get("triggeringId", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), portal);
+    		}
     		if (object.getName().equals("Victory")) {
     			new Victory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
