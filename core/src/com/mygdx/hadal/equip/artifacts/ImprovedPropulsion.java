@@ -1,8 +1,13 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
+
+import box2dLight.RayHandler;
 
 public class ImprovedPropulsion extends Artifact {
 
@@ -15,8 +20,8 @@ public class ImprovedPropulsion extends Artifact {
 		super(name, descr, descrLong);
 	}
 
-	public Status[] getEnchantment(BodyData b) {
-		enchantment[0] = new StatChangeStatus(15, -0.25f, b, b, 50);
+	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 15, -0.25f, b, b, 50);
 		return enchantment;
 	}
 }

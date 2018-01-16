@@ -43,7 +43,7 @@ public class PlayerBodyData extends BodyData {
 		artifacts = loadout.artifacts;
 		for (Artifact a : artifacts) {
 			if (a != null) {
-				for (Status s : a.getEnchantment(this)) {
+				for (Status s : a.getEnchantment(player.state, world, player.state.camera, player.state.rays, this)) {
 					addStatus(s);
 				}
 			}

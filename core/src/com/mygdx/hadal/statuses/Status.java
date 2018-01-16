@@ -1,9 +1,20 @@
 package com.mygdx.hadal.statuses;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.PlayState;
+
+import box2dLight.RayHandler;
 
 public class Status {
 
+	//References to game fields.
+	public PlayState state;
+	protected World world;
+	protected OrthographicCamera camera;
+	protected RayHandler rays;
+	
 	public float duration;
 	public String name;
 	public boolean perm, decay, removedEnd, visible;
@@ -12,7 +23,13 @@ public class Status {
 	
 	public BodyData perp, vic;
 	
-	public Status(int i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, BodyData p, BodyData v, int pr){
+	public Status(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
+			int i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, BodyData p, BodyData v, int pr){
+		this.state = state;
+		this.world = world;
+		this.camera = camera;
+		this.rays = rays;		
+		
 		this.duration=i;
 		this.name = n;
 		this.perm = perm;
@@ -29,7 +46,13 @@ public class Status {
 	}
 	
 	public void timePassing(float delta) {
-		
+		if (decay) { 
+			duration -= delta;
+			
+			if (duration <= 0 && !perm) {
+				perp.removeStatus(this);
+			}
+		}
 	}
 	
 	public float onDealDamage(float damage, BodyData vic) {

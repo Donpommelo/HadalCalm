@@ -53,6 +53,7 @@ public class Schmuck extends HadalEntity {
 	public void increaseAnimationTime(float i) { animationTime += i; }
 	public float getAnimationTime() { return animationTime; }
 
+	public float hitboxfilter;
 
 	/**
 	 * This constructor is called when a Schmuck is made.
@@ -66,9 +67,10 @@ public class Schmuck extends HadalEntity {
 	 * @param startY: starting y position
 	 */
 	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
-			float startX, float startY) {
+			float startX, float startY, float hitboxFilter) {
 		super(state, world, camera, rays, w, h, startX, startY);
 		this.grounded = false;
+		this.hitboxfilter = hitboxFilter;
 	}
 
 	/**
@@ -231,4 +233,8 @@ public class Schmuck extends HadalEntity {
 	public BodyData getBodyData() {
 		return bodyData;
 	}
+	
+/*	public float getFaction() {
+		
+	}*/
 }

@@ -14,8 +14,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.ContactFilter;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.dialogue.DialogueStage;
 import com.mygdx.hadal.equip.Loadout;
@@ -50,7 +48,7 @@ public class PlayState extends GameState {
     public BitmapFont font;
     
     //TODO: rays will eventually implement lighting.
-	private RayHandler rays;
+	public RayHandler rays;
 	
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
 	private Box2DDebugRenderer b2dr;

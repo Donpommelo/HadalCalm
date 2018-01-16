@@ -234,6 +234,20 @@
     <property name="text" value="UR A WINNER. TOUCH THE VICTORY EVENT TO COMPLETE TUTORIAL"/>
    </properties>
   </object>
+  <object id="76" name="UsePortal" type="UsePortal" x="2368" y="3424" width="32" height="32">
+   <properties>
+    <property name="oneTime" type="bool" value="false"/>
+    <property name="triggeredId" value="8"/>
+    <property name="triggeringId" value="7"/>
+   </properties>
+  </object>
+  <object id="77" name="UsePortal" type="UsePortal" x="2368" y="3680" width="32" height="32">
+   <properties>
+    <property name="oneTime" type="bool" value="false"/>
+    <property name="triggeredId" value="7"/>
+    <property name="triggeringId" value="8"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="collision-layer">
   <object id="11" x="1920" y="3712">

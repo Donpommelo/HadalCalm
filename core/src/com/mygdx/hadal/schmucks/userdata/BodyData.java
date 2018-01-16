@@ -108,6 +108,8 @@ public class BodyData extends HadalData {
 	public ArrayList<Status> statuses;
 	public ArrayList<Status> statusesChecked;
 	
+	
+	
 	/**
 	 * This is created upon the create() method of any schmuck.
 	 * Schmucks are the Body data type.
@@ -189,6 +191,7 @@ public class BodyData extends HadalData {
 	
 	public void removeStatus(Status s) {
 		statuses.remove(s);
+		statusesChecked.remove(s);
 		calcStats();
 	}
 	

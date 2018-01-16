@@ -1,10 +1,15 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Lifesteal;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.TimedStatusTest;
+
+import box2dLight.RayHandler;
 
 public class RingofTesting extends Artifact {
 
@@ -17,11 +22,11 @@ public class RingofTesting extends Artifact {
 		super(name, descr, descrLong);
 	}
 
-	public Status[] getEnchantment(BodyData b) {
-		enchantment[0] = new StatChangeStatus(35, 2.f, b, b, 50);
-		enchantment[1] = new StatChangeStatus(42, 1.f, b, b, 50);
-		enchantment[2] = new Lifesteal(0.05f, b, b, 50);
-		enchantment[3] = new TimedStatusTest(b, b, 50);
+	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 29, .25f, b, b, 50);
+		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 42, 1.f, b, b, 50);
+		enchantment[2] = new Lifesteal(state, world, camera, rays, 0.05f, b, b, 50);
+		enchantment[3] = new TimedStatusTest(state, world, camera, rays, b, b, 50);
 		return enchantment;
 	}
 }

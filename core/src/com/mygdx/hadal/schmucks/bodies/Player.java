@@ -109,7 +109,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 	 * @param y: player starting x position.
 	 */
 	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String playerSprite) {
-		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);
+		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
 		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();

@@ -34,7 +34,7 @@ public class Enemy extends Schmuck {
 	 * @param y: enemy starting x position.
 	 */
 	public Enemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float width, float height, int x, int y) {
-		super(state, world, camera, rays, width, height, x, y);
+		super(state, world, camera, rays, width, height, x, y, Constants.ENEMY_HITBOX);
 	}
 	
 	/**
