@@ -119,7 +119,10 @@ public class TorpedoLauncher extends RangedWeapon {
 			explosion.setUserData(new HitboxData(state, world, explosion){
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
-						fixB.receiveDamage(explosionDamage, this.hbox.getBody().getLinearVelocity().nor().scl(explosionKnockback), 
+						Vector2 kb = new Vector2(fixB.getEntity().getBody().getPosition().x - this.hbox.getBody().getPosition().x,
+								fixB.getEntity().getBody().getPosition().y - this.hbox.getBody().getPosition().y);
+						
+						fixB.receiveDamage(explosionDamage, kb.nor().scl(explosionKnockback), 
 								user.getBodyData(), true, DamageTypes.EXPLOSIVE);
 					}
 				}

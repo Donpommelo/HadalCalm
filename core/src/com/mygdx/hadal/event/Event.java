@@ -26,10 +26,23 @@ public class Event extends HadalEntity {
 	
 	private Event connectedEvent;
 
+	boolean temporary;
+	float duration;
+	
 	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
 			int width, int height, int x, int y) {
 		super(state, world, camera, rays, width, height, x, y);
 		this.name = name;
+		this.temporary = false;
+		this.duration = 0;
+	}
+	
+	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
+			int width, int height, int x, int y, float duration) {
+		super(state, world, camera, rays, width, height, x, y);
+		this.name = name;
+		this.temporary = true;
+		this.duration = duration;
 	}
 	
 	@Override
@@ -39,7 +52,12 @@ public class Event extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		
+		if (temporary) {
+			duration -= delta;
+			if (duration <= 0) {
+				this.queueDeletion();
+			}
+		}
 	}
 
 	/**

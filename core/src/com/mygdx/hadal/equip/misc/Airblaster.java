@@ -36,14 +36,16 @@ public class Airblaster extends MeleeWeapon {
 				OrthographicCamera camera, RayHandler rays) {
 						
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
-					startAngle.nor().scl(hitboxSize / 4 / PPM), filter, world, camera, rays, user);
+					startAngle.nor().scl(hitboxSize / 4 / PPM), (short) 0, world, camera, rays, user);
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 				
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), false, DamageTypes.AIR);
+						if (!fixB.equals(user.getBodyData())) {
+							fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+									user.getBodyData(), false, DamageTypes.AIR);
+						}
 					}
 				}
 				
