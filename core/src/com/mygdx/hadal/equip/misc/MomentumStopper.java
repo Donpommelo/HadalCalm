@@ -21,8 +21,8 @@ public class MomentumStopper extends MeleeWeapon {
 	private final static float swingCd = 1.0f;
 	private final static float windup = 0.0f;
 	private final static float backSwing = 0.5f;
-	private final static int hitboxSize = 400;
-	private final static int swingArc = 400;
+	private final static int hitboxSize = 800;
+	private final static int swingArc = 800;
 	private final static float momentum = 0.0f;
 	
 	private final static HitboxFactory onSwing = new HitboxFactory() {
@@ -33,7 +33,7 @@ public class MomentumStopper extends MeleeWeapon {
 				RayHandler rays) {
 
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
-					new Vector2(0, 0), filter, world, camera, rays, user);
+					new Vector2(0, 0), (short) 0, world, camera, rays, user);
 			
 			final Schmuck user2 = user;
 			

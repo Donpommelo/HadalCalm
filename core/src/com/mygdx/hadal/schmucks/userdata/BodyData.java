@@ -206,9 +206,9 @@ public class BodyData extends HadalData {
 	 * This method is called when this schmuck receives damage.
 	 * @param basedamage: amount of damage received
 	 * @param knockback: amount of knockback to apply.
-	 *TODO: include the source of damage
 	 */
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, DamageTypes... tags) {
+	@Override
+	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		
 		float damage = basedamage;
 		
@@ -223,8 +223,10 @@ public class BodyData extends HadalData {
 			damage *= (1 + perp.getBonusMeleeDamage());
 		}
 		
-		damage = perp.statusProcTime(1, perp, damage, null);
-		damage = statusProcTime(2, this, damage, null);
+		if (procEffects) {
+			damage = perp.statusProcTime(1, perp, damage, null);
+			damage = statusProcTime(2, this, damage, null);
+		}
 		
 		currentHp -= damage;
 		

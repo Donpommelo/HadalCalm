@@ -5,5 +5,7 @@ public enum DamageTypes {
 	MELEE,
 	RANGED,
 	EXPLOSIVE,
-	MISC
+	MISC,
+	AIR,
+	ENERGY
 }

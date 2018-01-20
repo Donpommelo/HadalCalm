@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" nextobjectid="78">
- <tileset firstgid="1" source="main.tsx"/>
+ <tileset firstgid="1" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
+  <image source="../Images/tileset.png" width="192" height="128"/>
+ </tileset>
  <layer name="Tile Layer 1" width="300" height="200">
   <data encoding="base64" compression="zlib">
    eJzt3dty2zYUQFE3jdOLO9P//9uGD5xxGcECSIAHB1pr5jzaYihgR9aFensDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADO+NdUzaPz9nunefT7gV9FdyDLHP1Ve4IrfO/4u2Bl0R3IMkd6BfeL7kCWOdIruF90B7LMkV7B/aI7kGWO9AruF92BLHNU6tVvP+fvwnwr/IxeQZ3oDmSZo1Kvvn/xO776GeC56A5kmSO9gvvV7tde742MGL2CNdTs1Z7PLUf4qiF6BXno1Ry9WuEx7aPzBD3p1Zy9ynjOPU5kNL3Sq170itH0Sq960StG0yu96kWvGG3mXn31XvHa945v9OoeesVoM/eqpTNfHeMfb/1fC/vzxDHrFVzzCr26k17BODO3QK9y0StGm7kFepWLXjHazC3Qq1z0itFmboFe5aJXjDZDC0rvW6ht1T61730YOWfOo15BnRl69VF5HNlHr+CaGXq1eYVm6RVcM0uvNqs3S6/gmpl6tcnYrBHvidcr+NVsvdpkalaPc6NXUGfGXm2yNGtUr7a5+jnvTctnxmtv4+rruXDWrL3a9LiuQuZePZravzF3tZ/1brmN4+9sPWfcL3qfZNuTZ+jVfffDfgxnbqP1fuJ+0fsk2548Q6/0ij6i90m2PXnGKr169hzSDPeDXq0tep/MtidHWKVXvf4desVZ0fvk0Yz6Xrlnz+mOold6RR/R++TOtRxFr/SKPqL3iV7NMTXnvdf140c+ztWrtUXvE72aY1Y573q1tuh9suq++Uyv7qNXa4veJ9n2zZnPhUSf0xXOe60rvar5e1evYrWs6Z6v1WXdNxkeK+nVuH/P5/uf+0Wt59K+n33f6NXc9GptetVGr+amV2vTqzZ6NTe9WptetdGrsd7f/v9axY/Gn9erta3Yq/01vGfXgGv9fVle6zs70d8hVjq/Z3++57X9dnoVa8Ve9f4/dtXHVKY8Nd+pwf2u3n9nld7r0uOzGnplro5ezenq/Rep9HefXpmro1dzunr/RSp1Sa/M1dGrOV29/yLplRk1ejWnlvsw+rWj2teCeh9z9N4x949ezSl6XRgz4+jVnKLXhTEzjl7NKXpdGPNoRl3D/+o1UPUqVvS6NOY4M762s9OrWNFr05jj6BUl0WvTvMa0XMNRryiJXsdm/antz+hrK/SgV7Gi17JZf/SKXqLXsll/9IpeoteyWX/0il6i17JZf2r7s19jaOT3P1+lV3Gi17F5jZn58VIrvYoTvY7Na4xe0UP0OjavMXpFD9Hr2LzG6BU9RK9j8xqjV/QQvY7Na8yzXn3+vrTZ59G/D+hn9l5lv9400E/0ftYroFb0ftYroFb0ftYroFb0fv7nyfF9DL59II+ZW7Ub2Swgj9lbtRvVLCCPDK3ajWgWkEeWVu16NwvIo+fef/adEVdbtfuouC29gvX0atVsnwOsfR8EkIdeAVnoFZCFXgFZ6BWQhV4BWegVkIVeAVnoFZCFXgFZ9OrVNo++g+HH4ON/L9xu7TEDefTsVWlGNeu9w7EBedzRqxHN6tEqvYJc7upV6e/Fbb4Vju2r7x7sdUxAHnf2qjSl5+rv+K4JII/oVukVUCu6VXoF1IpulV4BtaJbpVdApNZmlK7rfua7JQBa9GjVrrVZAC16tWrX0iyAFleesyrx+WVgBL0CstArIAu9ArLQKyALvQKy0Csgi5qubFO6tpXrGwN3qW3LiAFooVdAFnoFZKFXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDmP3+wBWg=
@@ -211,7 +213,7 @@
   </object>
   <object id="71" name="Text" type="Text" x="7232" y="2432" width="640" height="544">
    <properties>
-    <property name="text" value="THIS IS A ROCK. WALK INTO IT TO PUSH."/>
+    <property name="text" value="AIRBLAST CAN ALSO BE USED TO PUSH AROUND ENEMIES, PROJECTILES AND OBJECTS."/>
    </properties>
   </object>
   <object id="72" name="Text" type="Text" x="7424" y="3040" width="512" height="480">

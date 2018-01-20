@@ -135,7 +135,7 @@ public class TiledObjectUtil {
     					object.getProperties().get("oneTime", boolean.class)), object.getProperties().get("triggeringId", String.class));
     		}
     		if (object.getName().equals("Rock")) {
-    			new Rock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			new AirblastableRock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Counter")) {

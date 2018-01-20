@@ -373,6 +373,8 @@ public class Player extends Schmuck implements Location<Vector2>{
 				body.getPosition().y, 0);
 		camera.project(bodyScreenPosition);
 		
+		
+		
 		float angle = (float)(Math.atan2(
 				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
 				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);

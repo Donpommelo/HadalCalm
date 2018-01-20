@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -95,10 +94,9 @@ public class ChargeBeam extends RangedWeapon {
 				
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							((BodyData) fixB).receiveDamage(baseDamage * damageMultiplier2, 
-									this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), DamageTypes.RANGED);
-						}
+						fixB.receiveDamage(baseDamage * damageMultiplier2, 
+								this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2), 
+								user.getBodyData(), true, DamageTypes.RANGED);
 					}
 					super.onHit(fixB);
 				}

@@ -13,7 +13,7 @@ public class TimedStatusTest extends Status {
 
 	private static String name = "TEST";
 	private float procCdCount;
-	private float procCd = .1f;
+	private float procCd = .5f;
 
 	private Equipable weapon;
 	

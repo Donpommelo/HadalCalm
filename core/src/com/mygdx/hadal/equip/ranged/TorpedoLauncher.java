@@ -14,7 +14,6 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -94,10 +93,10 @@ public class TorpedoLauncher extends RangedWeapon {
 					boolean explode = false;
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							((BodyData) fixB).receiveDamage(baseDamage, 
-									this.hbox.getBody().getLinearVelocity().nor().scl(knockback), user.getBodyData(), DamageTypes.RANGED);
 							explode = true;
 						}
+						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+								user.getBodyData(), true, DamageTypes.RANGED);
 					} else {
 						explode = true;
 					}
@@ -117,19 +116,14 @@ public class TorpedoLauncher extends RangedWeapon {
 					x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
 					(short) 0, true, world, camera, rays, user);
 
-				explosion.setUserData(new HitboxData(state, world, explosion){
-					public void onHit(HadalData fixB) {
-						if (fixB != null) {
-							if (fixB.getType().equals(UserDataTypes.BODY)) {
-								((BodyData) fixB).receiveDamage(explosionDamage, 
-										new Vector2(fixB.getEntity().getBody().getPosition().x - this.hbox.getBody().getPosition().x, 
-												fixB.getEntity().getBody().getPosition().y - this.hbox.getBody().getPosition().y).nor().scl(explosionKnockback)
-										, user.getBodyData(), DamageTypes.RANGED);
-									
-							}
-						}
+			explosion.setUserData(new HitboxData(state, world, explosion){
+				public void onHit(HadalData fixB) {
+					if (fixB != null) {
+						fixB.receiveDamage(explosionDamage, this.hbox.getBody().getLinearVelocity().nor().scl(explosionKnockback), 
+								user.getBodyData(), true, DamageTypes.EXPLOSIVE);
 					}
-				});
+				}
+			});
 		}
 	};
 	
