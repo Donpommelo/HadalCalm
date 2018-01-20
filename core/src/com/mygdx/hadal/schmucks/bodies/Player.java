@@ -41,6 +41,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 //	private final static int playerHeight = 42;
 	
 	private final static float playerDensity = 0.2f;
+	private final static float momentumBoost = 1.5f;
 	
 	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
@@ -255,7 +256,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 					useToolStart(delta, mStop, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
 				}
 			} else {
-				body.setLinearVelocity(momentums.removeFirst());
+				body.setLinearVelocity(momentums.removeFirst().scl(momentumBoost));
 			}
 		}
 		

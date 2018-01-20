@@ -8,9 +8,9 @@ import com.mygdx.hadal.managers.AssetList;
 
 public class Loadout {
 
-	private final static int numSlots = 4;
+	private final static int numSlots = 3;
 	
-	private final static int numArtifacts = 3;
+	private final static int numArtifacts = 2;
 	
 	public Equipable[] multitools;
 	
@@ -38,7 +38,6 @@ public class Loadout {
 				multitools[i] = tools[i];
 			}
 		}
-		
 		artifacts = new Artifact[numArtifacts];
 		
 		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();

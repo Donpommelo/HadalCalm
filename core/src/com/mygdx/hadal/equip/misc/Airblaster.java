@@ -43,7 +43,7 @@ public class Airblaster extends MeleeWeapon {
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.AIR);
+								user.getBodyData(), false, DamageTypes.AIR);
 					}
 				}
 				
