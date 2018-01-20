@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -50,28 +50,30 @@ public class GrenadeLauncher extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
+			final World world2 = world;
+			final OrthographicCamera camera2 = camera;
+			final RayHandler rays2 = rays;
+			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, false, world, camera, rays, user, projSpriteId) {
 				public void controller(float delta) {
 					super.controller(delta);
 					if (lifeSpan <= 0) {
-						explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								world, camera, rays, user);
+						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
+								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
 					}
 				}
 			};
 			
-			final World world2 = world;
-			final OrthographicCamera camera2 = camera;
-			final RayHandler rays2 = rays;
+			
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
-							explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
-									world2, camera2, rays2, user);
+							WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
+									world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
 							hbox.queueDeletion();
 						}
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
@@ -79,26 +81,6 @@ public class GrenadeLauncher extends RangedWeapon {
 					}
 				}
 			});		
-		}
-		
-		public void explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
-				final Schmuck user) {
-			Hitbox explosion = new Hitbox(state, 
-					x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-					(short) 0, true, world, camera, rays, user);
-
-			explosion.setUserData(new HitboxData(state, world, explosion){
-				public void onHit(HadalData fixB) {
-					if (fixB != null) {
-						
-						Vector2 kb = new Vector2(fixB.getEntity().getBody().getPosition().x - this.hbox.getBody().getPosition().x,
-								fixB.getEntity().getBody().getPosition().y - this.hbox.getBody().getPosition().y);
-						
-						fixB.receiveDamage(explosionDamage, kb.nor().scl(explosionKnockback), 
-								user.getBodyData(), true, DamageTypes.EXPLOSIVE);
-					}
-				}
-			});
 		}
 	};
 	

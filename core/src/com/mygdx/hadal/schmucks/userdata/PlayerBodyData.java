@@ -40,7 +40,7 @@ public class PlayerBodyData extends BodyData {
 				e.user = player;
 			}
 		}
-		artifacts = loadout.artifacts;
+		artifacts = loadout.artifacts.clone();
 		for (Artifact a : artifacts) {
 			if (a != null) {
 				for (Status s : a.getEnchantment(player.state, world, player.state.camera, player.state.rays, this)) {
@@ -117,6 +117,21 @@ public class PlayerBodyData extends BodyData {
 		multitools[slot].user = player;
 		currentSlot = slot;
 		setEquip();
+	}
+	
+	public void replaceSlot(Artifact artifact, int slot) {
+		
+		if (artifacts[slot] != null) {
+			for (Status s : artifacts[slot].enchantment) {
+				removeStatus(s);
+			}
+		}	
+		
+		artifacts[slot] = artifact;
+		
+		for (Status s : artifacts[slot].getEnchantment(player.state, world, player.state.camera, player.state.rays, this)) {
+			addStatus(s);
+		}
 	}
 	
 	public void setEquip() {

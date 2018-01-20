@@ -14,10 +14,10 @@ public class RootBoots extends Artifact {
 	static String name = "Root-Boots";
 	static String descr = "+75% Knockback Resistance";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[1];
+	public static final int statusNum = 1;
 	
 	public RootBoots() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

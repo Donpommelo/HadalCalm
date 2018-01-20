@@ -14,10 +14,10 @@ public class ImprovedHovering extends Artifact {
 	static String name = "Improved Hovering";
 	static String descr = "+25% Hovering Power and -25% Hovering Cost";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[2];
+	public static final int statusNum = 2;
 	
 	public ImprovedHovering() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

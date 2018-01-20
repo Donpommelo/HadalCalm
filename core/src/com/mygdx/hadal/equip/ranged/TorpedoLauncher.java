@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.HitboxImage;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -101,32 +101,13 @@ public class TorpedoLauncher extends RangedWeapon {
 						explode = true;
 					}
 					if (explode) {
-						explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
-								world2, camera2, rays2, user);
+						WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
+								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
 						hbox.queueDeletion();
 					}
 					
 				}
 			});		
-		}
-		
-		public void explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
-				final Schmuck user) {
-			Hitbox explosion = new Hitbox(state, 
-					x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-					(short) 0, true, world, camera, rays, user);
-
-			explosion.setUserData(new HitboxData(state, world, explosion){
-				public void onHit(HadalData fixB) {
-					if (fixB != null) {
-						Vector2 kb = new Vector2(fixB.getEntity().getBody().getPosition().x - this.hbox.getBody().getPosition().x,
-								fixB.getEntity().getBody().getPosition().y - this.hbox.getBody().getPosition().y);
-						
-						fixB.receiveDamage(explosionDamage, kb.nor().scl(explosionKnockback), 
-								user.getBodyData(), true, DamageTypes.EXPLOSIVE);
-					}
-				}
-			});
 		}
 	};
 	

@@ -22,6 +22,8 @@ public class HadalData {
 	//The entity that owns this data
 	private HadalEntity entity;
 	
+	public World world;
+	
 	/**
 	 * aye
 	 * @param world

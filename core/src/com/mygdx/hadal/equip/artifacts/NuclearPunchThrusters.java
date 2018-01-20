@@ -14,10 +14,10 @@ public class NuclearPunchThrusters extends Artifact {
 	static String name = "Nuclear Punch-THrusters";
 	static String descr = "+50% Knockback";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[1];
+	public static final int statusNum = 1;
 	
 	public NuclearPunchThrusters() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

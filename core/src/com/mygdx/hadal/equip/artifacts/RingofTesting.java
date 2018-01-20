@@ -16,10 +16,10 @@ public class RingofTesting extends Artifact {
 	static String name = "Ring of Testing";
 	static String descr = "Tests Things";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[4];
+	public static final int statusNum = 4;
 	
 	public RingofTesting() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

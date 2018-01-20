@@ -14,10 +14,10 @@ public class RecklessMark extends Artifact {
 	static String name = "Reckless Mark";
 	static String descr = "Deal and take +40% more damage.";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[2];
+	public static final int statusNum = 2;
 	
 	public RecklessMark() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

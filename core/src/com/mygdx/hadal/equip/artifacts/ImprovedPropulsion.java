@@ -14,10 +14,10 @@ public class ImprovedPropulsion extends Artifact {
 	static String name = "Improved Propulsion";
 	static String descr = "-25% Airblast Cost";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[1];
+	public static final int statusNum = 1;
 	
 	public ImprovedPropulsion() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

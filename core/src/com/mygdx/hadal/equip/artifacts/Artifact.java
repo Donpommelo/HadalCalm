@@ -12,12 +12,13 @@ public class Artifact {
 
 	
 	public String name, descr, descrLong;
-	public Status[] statuses;
+	public Status[] enchantment;
 	
-	public Artifact(String name, String descr, String descrLong) {
+	public Artifact(String name, String descr, String descrLong, int statusNum) {
 		this.name = name;
 		this.descr = descr;
 		this.descrLong = descrLong;
+		enchantment = new Status[statusNum];
 	}
 	
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

@@ -219,6 +219,9 @@ public class LoadoutState extends GameState {
 
 		        	if (!Arrays.asList(gsm.getLoadout().artifacts).contains(selected)) {
 		        		gsm.getLoadout().artifacts[slot] = selected;
+		        		
+		        		playState.player.getPlayerData().replaceSlot(selected, slot);
+		        		
 			        	refreshLoadout();
 		        	}
 		        }

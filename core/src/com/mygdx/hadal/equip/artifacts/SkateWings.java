@@ -14,10 +14,10 @@ public class SkateWings extends Artifact {
 	static String name = "Skate Wings";
 	static String descr = "+1 Jump, +20% Jump Power";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[2];
+	public static final int statusNum = 2;
 	
 	public SkateWings() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {

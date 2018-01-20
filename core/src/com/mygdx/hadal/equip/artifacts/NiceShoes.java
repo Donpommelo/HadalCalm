@@ -14,10 +14,10 @@ public class NiceShoes extends Artifact {
 	static String name = "Nice Shoes";
 	static String descr = "+30% Ground Speed";
 	static String descrLong = "";
-	public Status[] enchantment = new Status[2];
+	public static final int statusNum = 2;
 	
 	public NiceShoes() {
-		super(name, descr, descrLong);
+		super(name, descr, descrLong, statusNum);
 	}
 
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
