@@ -146,6 +146,11 @@ public class Player extends Schmuck implements Location<Vector2>{
 		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
 		this.gemHeight = gemSprite.getRegionHeight();
 		this.gemWidth = gemSprite.getRegionWidth();
+		
+		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
+		if (playerData != null) {
+			playerData.setEquip();
+		}
 	}
 	
 	/**

@@ -196,10 +196,16 @@ public class BodyData extends HadalData {
 	}
 	
 	public void calcStats() {
+		
+		//Keep Hp% constant in case of changing max hp
+		float hpPercent = currentHp / getMaxHp();
+		
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
 		statusProcTime(0, this, 0, null);
+		
+		currentHp = hpPercent * getMaxHp();
 	}
 	
 	/**

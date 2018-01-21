@@ -63,10 +63,8 @@ public class Scattergun extends RangedWeapon {
 					
 					public void onHit(HadalData fixB) {
 						if (fixB != null) {
-							if (fixB != null) {
-								fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-										user.getBodyData(), true, DamageTypes.RANGED);
-							}
+							fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+									user.getBodyData(), true, DamageTypes.RANGED);
 						}
 						super.onHit(fixB);
 					}
