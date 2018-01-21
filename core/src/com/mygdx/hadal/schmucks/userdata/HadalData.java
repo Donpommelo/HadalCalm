@@ -31,6 +31,7 @@ public class HadalData {
 	 * @param entity
 	 */
 	public HadalData(World world, UserDataTypes type, HadalEntity entity) {
+		this.world = world;
 		this.type = type;
 		this.entity = entity;
 		this.numContacts = 0;

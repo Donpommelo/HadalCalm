@@ -10,6 +10,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Victory event (temporarily) is the way that a player "wins" a level.
+ * After the player touches the victory, they will win briefly afterwards.
+ * @author Zachary Tu
+ *
+ */
 public class Victory extends Event {
 
 	private static final String name = "VICTORY";

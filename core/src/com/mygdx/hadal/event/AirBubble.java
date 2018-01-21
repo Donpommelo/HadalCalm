@@ -12,6 +12,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * An Air Bubble or "Fuel" restores fuel to the player on contact.
+ * @author Zachary Tu
+ *
+ */
 public class AirBubble extends Event{
 
 	private static final int width = 16;
@@ -19,9 +24,10 @@ public class AirBubble extends Event{
 	
 	private static final int fuelRegained = 25;
 
+	//If this was spawned by an event, this is a local reference to it.
 	private AirBubbleSpawner spawner;
 	
-	private static final String name = "Fuel Tank";
+	private static final String name = "Fuel";
 	
 	public AirBubble(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y,
 			AirBubbleSpawner spawner) {
@@ -33,7 +39,7 @@ public class AirBubble extends Event{
 
 		this.eventData = new EventData(world, this) {
 			public void onTouch(HadalData fixB) {
-				if (fixB != null) {
+				if (fixB != null && !consumed) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if (((PlayerBodyData)fixB).currentFuel < ((PlayerBodyData)fixB).getMaxFuel()) {
 							((PlayerBodyData)fixB).fuelGain(fuelRegained);

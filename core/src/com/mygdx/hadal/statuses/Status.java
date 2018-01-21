@@ -62,4 +62,12 @@ public class Status {
 	public float onReceiveDamage(float damage, BodyData perp) {
 		return damage;
 	}
+	
+	public void onKill(BodyData vic) {
+		
+	}
+	
+	public void onDeath(BodyData vic) {
+		
+	}
 }

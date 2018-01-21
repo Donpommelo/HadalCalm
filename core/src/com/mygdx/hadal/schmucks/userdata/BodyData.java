@@ -137,8 +137,6 @@ public class BodyData extends HadalData {
 		currentFuel = getMaxHp();		
 	}
 	
-	
-	
 	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status) {
 		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
@@ -162,6 +160,12 @@ public class BodyData extends HadalData {
 				break;
 			case 3:
 				tempStatus.timePassing(amount);
+				break;
+			case 4:
+				tempStatus.onKill(schmuck);
+				break;
+			case 5:
+				tempStatus.onDeath(schmuck);
 				break;
 			}
 			
@@ -244,7 +248,7 @@ public class BodyData extends HadalData {
 		schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
 		if (currentHp <= 0) {
 			currentHp = 0;
-			die();
+			die(perp);
 		}
 	}
 	
@@ -262,7 +266,11 @@ public class BodyData extends HadalData {
 	/**
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
 	 */
-	public void die() {
+	public void die(BodyData perp) {
+		
+		perp.statusProcTime(4, perp, 0, null);
+		statusProcTime(5, this, 0, null);
+		
 		schmuck.queueDeletion();
 	}
 

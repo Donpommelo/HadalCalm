@@ -9,9 +9,15 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Counter is an event that is both triggered by another event as well as triggers another event.
+ * After it is triggered a certain number of times, it will trigger its connected event.
+ * @author Zachary Tu
+ *
+ */
 public class Counter extends Event {
 
-	private static final String name = "Sensor";
+	private static final String name = "Counter";
 
 	int maxCount;
 	int currentCount = 0;
@@ -28,6 +34,7 @@ public class Counter extends Event {
 				currentCount++;
 				if (currentCount >= maxCount && event.getConnectedEvent() != null) {
 					event.getConnectedEvent().eventData.onActivate(this);
+					currentCount = 0;
 				}
 			}
 		};

@@ -60,11 +60,13 @@ public class EquipPickup extends Event {
 	public void create() {
 		this.eventData = new InteractableEventData(world, this) {
 			public void onInteract(Player p) {
-				Equipable temp = p.playerData.pickup(equip);
-				if (temp == null) {
-					queueDeletion();
-				} else {
-					equip = temp;
+				if (!consumed) {
+					Equipable temp = p.playerData.pickup(equip);
+					if (temp == null) {
+						queueDeletion();
+					} else {
+						equip = temp;
+					}
 				}
 			}
 		};

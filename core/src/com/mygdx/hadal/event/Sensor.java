@@ -10,6 +10,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Sensor is an activating event that will activate a connected event when the player (or anyone else?) touches it
+ * TODO: enemy sensors + filters.
+ * @author Zachary Tu
+ *
+ */
 public class Sensor extends Event {
 
 	private static final String name = "Sensor";
@@ -27,12 +33,14 @@ public class Sensor extends Event {
 			public void onTouch(HadalData fixB) {
 				super.onTouch(fixB);
 				
-				if (event.getConnectedEvent() != null) {
-					event.getConnectedEvent().eventData.onActivate(this);
-				}
-				
-				if (oneTime) {
-					event.queueDeletion();
+				if (!consumed) {
+					if (event.getConnectedEvent() != null) {
+						event.getConnectedEvent().eventData.onActivate(this);
+					}
+					
+					if (oneTime) {
+						event.queueDeletion();
+					}
 				}
 			}
 		};

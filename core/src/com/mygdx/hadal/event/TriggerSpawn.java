@@ -13,6 +13,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Trigger spawn is an enemy spawner that activates when triggered by another event.
+ * @author Zachary Tu
+ *
+ */
 public class TriggerSpawn extends Event {
 	
 	public int id;
@@ -38,19 +43,16 @@ public class TriggerSpawn extends Event {
 		this.limit = limit;
 		this.spawnX = x;
 		this.spawnY = y;
-		
 		this.spawns = new ArrayList<Schmuck>();
 	}
 	
 	public void create() {
-
 		this.eventData = new EventData(world, this) {
 			public void onActivate(EventData activator) {
 				for (int i = 0; i < limit; i++) {
-					
+
 					int randX = spawnX + (int)( (Math.random() - 0.5) * 100);
 					int randY = spawnY + (int)( (Math.random() - 0.5) * 100);
-					
 					switch(id) {
 					case 0:
 						spawns.add(new Scissorfish(state, world, camera, rays, randX, randY));

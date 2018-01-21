@@ -10,6 +10,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A switch is an activating event that will activate a connected event when the player interacts with it.
+ * @author Zachary Tu
+ *
+ */
 public class Switch extends Event {
 
 	private static final String name = "Switch";

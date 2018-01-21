@@ -10,6 +10,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Use Portal is a portal that transports the player elsewhere when they interact with it.
+ * The event they are transported to does not have to be a portal.
+ * @author Zachary Tu
+ *
+ */
 public class UsePortal extends Event {
 
 	private static final String name = "Portal";

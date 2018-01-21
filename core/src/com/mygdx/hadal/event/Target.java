@@ -11,6 +11,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Target is an activating event that will activate a connected event when it touches a hitbox
+ * @author Zachary Tu
+ *
+ */
 public class Target extends Event {
 
 	private static final String name = "Target";
@@ -27,13 +32,16 @@ public class Target extends Event {
 		this.eventData = new EventData(world, this, UserDataTypes.EVENT) {
 			public void onTouch(HadalData fixB) {
 				super.onTouch(fixB);
-				if (event.getConnectedEvent() != null) {
-					event.getConnectedEvent().eventData.onActivate(this);
+				if (!consumed) {
+					if (event.getConnectedEvent() != null) {
+						event.getConnectedEvent().eventData.onActivate(this);
+					}
+					
+					if (oneTime) {
+						event.queueDeletion();
+					}
 				}
 				
-				if (oneTime) {
-					event.queueDeletion();
-				}
 			}
 		};
 		

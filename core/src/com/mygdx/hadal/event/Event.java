@@ -24,10 +24,15 @@ public class Event extends HadalEntity {
 	//The event's name
 	public String name;
 	
+	//If this event triggers another event, this is a local reference to it
 	private Event connectedEvent;
 
-	boolean temporary;
-	float duration;
+	//Whether the event will despawn after time.
+	private boolean temporary;
+	private float duration;
+	
+	//This is used by consumable events to avoid being activated multiple times before next engine tick.
+	public boolean consumed = false;
 	
 	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
 			int width, int height, int x, int y) {
@@ -69,6 +74,14 @@ public class Event extends HadalEntity {
 		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
 		camera.project(bodyScreenPosition);
 		state.font.draw(batch, getText(), bodyScreenPosition.x, bodyScreenPosition.y);
+	}
+	
+	@Override
+	public void queueDeletion() {
+		
+		//This is here b/c queue for deletion is not a reliable way of preventing multiple things from interacting with a deleted event
+		consumed = true;
+		state.destroy(this);
 	}
 	
 	public String getText() {

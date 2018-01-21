@@ -159,9 +159,10 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	public void die() {
+	@Override
+	public void die(BodyData perp) {
 		schmuck.state.gameOver(false);
-		schmuck.queueDeletion();
+		super.die(perp);
 	}
 
 }

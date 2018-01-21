@@ -87,7 +87,7 @@ public class LoadoutState extends GameState {
 		
 		characters.clear();
 		characters.put(AssetList.PLAYER_MOREAU_ATL.toString(), "Moreau");
-		characters.put(AssetList.PLAYER_TAKA_ATL.toString(), "Takanori");
+		characters.put(AssetList.PLAYER_TAKA_ATL.toString(), "Taka");
 		characters.put(AssetList.PLAYER_TELE_ATL.toString(), "Telemachus");
 	}
 

@@ -16,7 +16,6 @@ public class Loadout {
 	
 	public Artifact[] artifacts;
 	
-	
 	public String playerSprite;
 	
 	public Loadout() {

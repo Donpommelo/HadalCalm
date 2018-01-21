@@ -37,8 +37,10 @@ public class MomentumPickup extends Event {
 	public void create() {
 		this.eventData = new InteractableEventData(world, this) {
 			public void onInteract(Player p) {
-				p.momentums.addLast(momentum);
-				queueDeletion();
+				if (!consumed) {
+					p.momentums.addLast(momentum);
+					queueDeletion();
+				}
 			}
 		};
 		

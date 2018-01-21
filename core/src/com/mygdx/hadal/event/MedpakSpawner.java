@@ -39,7 +39,9 @@ public class MedpakSpawner extends Event {
 	}
 	
 	public void controller(float delta) {
-		spawnCount += delta;
+		if (readyToSpawn) {
+			spawnCount += delta;
+		}
 		if (spawnCount >= interval) {
 			spawnCount = 0;
 			

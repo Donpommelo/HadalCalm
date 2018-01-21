@@ -33,7 +33,7 @@ public class Medpak extends Event{
 
 		this.eventData = new EventData(world, this) {
 			public void onTouch(HadalData fixB) {
-				if (fixB != null) {
+				if (fixB != null && !consumed) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if (((PlayerBodyData)fixB).currentHp < ((PlayerBodyData)fixB).getMaxHp()) {
 							((PlayerBodyData)fixB).regainHp(hpRegained);
