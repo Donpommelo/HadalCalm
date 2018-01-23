@@ -40,11 +40,12 @@ public class LoadoutState extends GameState {
 	private static Array<Equipable> items = new Array<Equipable>();
 	private static Array<Artifact> artifacts = new Array<Artifact>();
 	private static Map<String, String> characters = new HashMap<String, String>();
+	private static Map<String, String> levels = new HashMap<String, String>();
 	
 	private Array<Text> slotButtons = new Array<Text>();
 	private Array<Text> artifactButtons = new Array<Text>();
 	
-	private Text characterSelect;
+	private Text characterSelect, levelSelect;
 	
 	private PlayState playState;
 	
@@ -87,8 +88,13 @@ public class LoadoutState extends GameState {
 		
 		characters.clear();
 		characters.put(AssetList.PLAYER_MOREAU_ATL.toString(), "Moreau");
-		characters.put(AssetList.PLAYER_TAKA_ATL.toString(), "Taka");
+		characters.put(AssetList.PLAYER_TAKA_ATL.toString(), "Takanori");
 		characters.put(AssetList.PLAYER_TELE_ATL.toString(), "Telemachus");
+		
+		levels.clear();
+		levels.put("Maps/test_map_large.tmx", "Level_1");
+		levels.put("Maps/tutorial.tmx", "Tutorial");
+		levels.put("Maps/test_map.tmx", "Sandbox?");
 	}
 
 	@Override
@@ -103,7 +109,7 @@ public class LoadoutState extends GameState {
 			    });
 				exitOption.setScale(0.5f);	
 				
-				playOption = new Text(HadalGame.assetManager, "Play?",  100, HadalGame.CONFIG_HEIGHT - 350, Color.WHITE);
+				playOption = new Text(HadalGame.assetManager, "PLAY?",  100, HadalGame.CONFIG_HEIGHT - 350, Color.WHITE);
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	gsm.removeState(LoadoutState.class);
@@ -119,11 +125,18 @@ public class LoadoutState extends GameState {
 			        }
 				});
 				
+				levelSelect = new Text(HadalGame.assetManager, "",  200, HadalGame.CONFIG_HEIGHT - 300, Color.WHITE);
+				levelSelect.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	getLevelOptions();
+			        }
+				});
+				
 				for (int i = 0; i < Loadout.getNumSlots(); i++) {
 					
 					final int slotNum = i;
 					
-					Text nextSlot = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 300  - 50 * i, Color.WHITE);
+					Text nextSlot = new Text(HadalGame.assetManager, "", 200, HadalGame.CONFIG_HEIGHT - 350  - 50 * i, Color.WHITE);
 					nextSlot.addListener(new ClickListener() {
 							public void clicked(InputEvent e, float x, float y) {
 								getEquipOptions(slotNum);
@@ -153,6 +166,7 @@ public class LoadoutState extends GameState {
 				addActor(exitOption);				
 				addActor(playOption);				
 				addActor(characterSelect);				
+				addActor(levelSelect);				
 			}
 		};
 		refreshLoadout();
@@ -274,9 +288,43 @@ public class LoadoutState extends GameState {
 		stage.addActor(options);
 	}
 	
+	public void getLevelOptions() {
+		if (options != null) {
+			options.remove();
+		}
+		
+		VerticalGroup people = new VerticalGroup();
+		
+		people.addActor(new Text(HadalGame.assetManager, "LEVELS", 0, 0));
+		
+		for (String s : levels.keySet()) {
+			
+			final String selected = s;
+			
+			Text itemChoose = new Text(HadalGame.assetManager, levels.get(s) , 0, 0);
+			
+			itemChoose.addListener(new ClickListener() {
+		        public void clicked(InputEvent e, float x, float y) {
+
+		        	gsm.setLevel(selected);
+		        	refreshLoadout();
+
+		        }
+		    });
+			
+			people.addActor(itemChoose);
+		}
+		options = new ScrollPane(people, gsm.getSkin());
+		options.setPosition(HadalGame.CONFIG_WIDTH - 500, 0);
+		options.setSize(500, HadalGame.CONFIG_HEIGHT);
+		
+		stage.addActor(options);
+	}
+	
 	public void refreshLoadout() {
 		
 		characterSelect.setText("Character: " + characters.get(gsm.getLoadout().playerSprite));
+		levelSelect.setText("Level: " + levels.get(gsm.getLevel()));
 		
 		for (int i = 0; i < slotButtons.size; i++) {
 			if (gsm.getLoadout().multitools[i] != null) {

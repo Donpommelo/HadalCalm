@@ -19,7 +19,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
  * @author Zachary Tu
  *
  */
-public class TitleState extends GameState{
+public class TitleState extends GameState {
 
 	private Stage stage;
 	

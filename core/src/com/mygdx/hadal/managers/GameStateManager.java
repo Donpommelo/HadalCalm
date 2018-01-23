@@ -110,7 +110,6 @@ public class GameStateManager {
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
 	 * @param state: The new state
 	 */
-	
 	public void addState(State state, Class<? extends GameState> lastState) {
 		if (states.empty()) {
 			states.push(getState(state));

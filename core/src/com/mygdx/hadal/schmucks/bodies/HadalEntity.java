@@ -34,6 +34,8 @@ public abstract class HadalEntity {
 	public float height, width;
 	protected float startX, startY;
 	
+	boolean alive = true;
+	
 	/**
 	 * Constructor is called when an entity is created.
 	 * @param state: Current playstate
@@ -83,6 +85,7 @@ public abstract class HadalEntity {
 	 * This tells the playstate to remove this entity next engine tick.
 	 */
 	public void queueDeletion() {
+		alive = false;
 		state.destroy(this);
 	}
 	

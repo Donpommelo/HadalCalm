@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -13,6 +12,7 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -59,33 +59,26 @@ public class TorpedoLauncher extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			final ParticleEffect bubbles = new ParticleEffect();
-
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
-					filter, false, world, camera, rays, user, projSpriteId) {
-				
-				{
-					bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
-					bubbles.start();
-				}
-				
-				@Override
-				public void controller(float delta) {
-					super.controller(delta);
-					bubbles.setPosition(body.getPosition().x * PPM, body.getPosition().y * PPM);
-				}
-				
-				@Override
-				public void render(SpriteBatch batch) {
-					batch.setProjectionMatrix(state.sprite.combined);
-					bubbles.draw(batch, Gdx.graphics.getDeltaTime());
-					super.render(batch);
-				}
-			};
-			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;
 			final RayHandler rays2 = rays;
+			
+			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
+					filter, false, world, camera, rays, user, projSpriteId) {
+				public void controller(float delta) {
+					super.controller(delta);
+					if (lifeSpan <= 0) {
+						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
+								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
+					}
+				}
+			};
+			
+			final ParticleEffect bubbles = new ParticleEffect();
+			bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
+			new ParticleEntity(state, world, camera, rays, proj, bubbles, 3.0f);
+			
+			
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
