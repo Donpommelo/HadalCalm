@@ -33,6 +33,7 @@ public class GameStateManager {
 	public enum State {
 		SPLASH,
 		LOADOUT,
+		CONTROL,
 		TITLE,
 		PLAY, 
 		GAMEOVER, 
@@ -153,6 +154,7 @@ public class GameStateManager {
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
 		case LOADOUT: return new LoadoutState(this);
+		case CONTROL: return new ControlState(this);
 		case MENU: return new MenuState(this);
 		default:
 			break;

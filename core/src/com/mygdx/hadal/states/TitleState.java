@@ -24,7 +24,7 @@ public class TitleState extends GameState {
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor playOption, exitOption, quickPlayOption, tutorialOption;
+	private Actor playOption, exitOption, quickPlayOption, tutorialOption, controlOption;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -43,7 +43,8 @@ public class TitleState extends GameState {
 				playOption = new Text(HadalGame.assetManager, "PLAY?", 150, HadalGame.CONFIG_HEIGHT - 180);
 				quickPlayOption = new Text(HadalGame.assetManager, "QUICK PLAY?", 150, HadalGame.CONFIG_HEIGHT - 220);
 				tutorialOption = new Text(HadalGame.assetManager, "TUTORIAL?", 150, HadalGame.CONFIG_HEIGHT - 260);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 300);
+				controlOption = new Text(HadalGame.assetManager, "CONTROLS?", 150, HadalGame.CONFIG_HEIGHT - 300);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 340);
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
@@ -66,6 +67,13 @@ public class TitleState extends GameState {
 			    });
 				tutorialOption.setScale(0.5f);
 				
+				controlOption.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	getGsm().addState(State.CONTROL, TitleState.class);
+			        }
+			    });
+				controlOption.setScale(0.5f);
+				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	Gdx.app.exit();
@@ -76,6 +84,7 @@ public class TitleState extends GameState {
 				addActor(playOption);
 				addActor(quickPlayOption);
 				addActor(tutorialOption);
+				addActor(controlOption);
 				addActor(exitOption);
 			}
 		};
