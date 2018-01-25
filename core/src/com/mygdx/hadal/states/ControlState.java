@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,8 +26,6 @@ public class ControlState extends GameState {
 	
 	public ControlState(GameStateManager gsm) {
 		super(gsm);
-		new PlayState(gsm, gsm.getLoadout(), "Maps/test_map.tmx", 0.40f, false);
-		
 	}
 
 	@Override
@@ -50,7 +47,6 @@ public class ControlState extends GameState {
 		app.newMenu(stage);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
 			@Override
@@ -58,6 +54,7 @@ public class ControlState extends GameState {
 				if (currentlyEditing != null) {
 					currentlyEditing.setKey(keycode);
 					refreshBinds();
+					currentlyEditing = null;
 				}
 				return false;
 			}
@@ -74,8 +71,7 @@ public class ControlState extends GameState {
 
 			@Override
 			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-				keyDown(button);
-				return false;
+				return keyDown(button);
 			}
 
 			@Override
@@ -99,7 +95,8 @@ public class ControlState extends GameState {
 			}
 			
 		});
-		
+		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
+
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
 		refreshBinds();

@@ -96,7 +96,9 @@ public class PlayerController implements InputProcessor {
 		}
 		
 		if (keycode == PlayerAction.DIALOGUE.getKey()) {
-			state.stage.nextDialogue();
+			if (state.stage != null) {
+				state.stage.nextDialogue();
+			}
 		}
 		
 		if (keycode == PlayerAction.PAUSE.getKey()) {
