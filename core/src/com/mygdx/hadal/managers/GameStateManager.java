@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.states.*;
 
 /**
@@ -27,7 +28,7 @@ public class GameStateManager {
 	
 	private Loadout loadout;
 
-	private String level = "Maps/test_map_large.tmx";
+	private String level;
 	
 	//This enum lists all the different types of gamestates.
 	public enum State {
@@ -59,6 +60,9 @@ public class GameStateManager {
 		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
 		this.loadout = new Loadout();
+		this.level = "Maps/test_map_large.tmx";
+		
+		PlayerAction.retrieveKeys();
 	}
 	
 	/**

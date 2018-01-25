@@ -18,7 +18,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class ControlState extends GameState {
 	private Stage stage;
 	
-	private Actor exitOption;
+	private Actor exitOption, saveOption, resetOption;
 	
 	private ScrollPane options;
 	
@@ -40,8 +40,26 @@ public class ControlState extends GameState {
 			    });
 				exitOption.setScale(0.5f);
 				
+				saveOption = new Text(HadalGame.assetManager, "SAVE?", 100, HadalGame.CONFIG_HEIGHT - 300);
+				saveOption.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	PlayerAction.saveKeys();
+			        }
+			    });
+				saveOption.setScale(0.5f);
+				
+				resetOption = new Text(HadalGame.assetManager, "RESET?", 100, HadalGame.CONFIG_HEIGHT - 340);
+				resetOption.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	PlayerAction.resetKeys();
+			        	refreshBinds();
+			        }
+			    });
+				resetOption.setScale(0.5f);
 				
 				addActor(exitOption);
+				addActor(saveOption);
+				addActor(resetOption);
 			}
 		};
 		app.newMenu(stage);
