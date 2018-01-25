@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.bodies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -63,10 +62,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 	protected float trailCd = 0.25f;
 	protected float trailCdCount = 0;
 	protected PlayerTrail lastTrail;
-	
-	//is the player currently in the process of holding their currently used tool?
-	private boolean charging = false;
-	
+		
 	//user data
 	public PlayerBodyData playerData;
 	
@@ -100,6 +96,12 @@ public class Player extends Schmuck implements Location<Vector2>{
 	public int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
 	toolHeight, toolWidth, gemHeight, gemWidth;
 	
+	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
+	public float controllerCount = 0;
+	public boolean shooting = false;
+	public boolean hovering = false;
+	
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -123,6 +125,8 @@ public class Player extends Schmuck implements Location<Vector2>{
 		this.toolHeight = toolSprite.getRegionHeight();
 		this.toolWidth = toolSprite.getRegionWidth();
 		
+		this.moveState = MoveStates.STAND;
+
 		setBodySprite(playerSprite);
 		
 	}
@@ -156,7 +160,10 @@ public class Player extends Schmuck implements Location<Vector2>{
 	/**
 	 * Create the player's body and initialize player's user data.
 	 */
-	public void create() {
+	public void create() {		
+		
+		state.resetController();
+		
 		this.playerData = new PlayerBodyData(world, this, state.loadout);
 		this.bodyData = playerData;
 		
@@ -172,8 +179,18 @@ public class Player extends Schmuck implements Location<Vector2>{
 	 */
 	public void controller(float delta) {
 		
-		//players default position is standing
-		moveState = MoveStates.STAND;
+		controllerCount+=delta;
+		if (controllerCount >= 1/60f) {
+			controllerCount -= 1/60f;
+
+			if (hovering) {
+				hover();
+			}
+		}
+		
+		if (shooting) {
+			shoot(delta);
+		}
 		
 		//Determine if the player is in the air or on ground.
 		grounded = feetData.getNumContacts() > 0;
@@ -182,166 +199,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 		if (grounded) {
 			playerData.extraJumpsUsed = 0;
 		}
-		
-		//Holding 'W' = use jetpack if the player is off ground and lacks extra jumps
-		if(Gdx.input.isKeyPressed((Input.Keys.W))) {
-			if (!grounded && playerData.extraJumpsUsed >= playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
-				if (jumpCdCount < 0) {
-					
-					//Player will continuously do small upwards bursts that cost fuel.
-					if (playerData.currentFuel >= playerData.hoverCost * (1 + playerData.getBonusHoverCost())) {
-						playerData.fuelSpend(playerData.hoverCost * (1 + playerData.getBonusHoverCost()));
-						jumpCdCount = hoverCd;
-						push(0, playerData.hoverPow * (1 + playerData.getBonusHoverPower()));
-					}
-				}
-			}
-		}
-		
-		//Pressing 'W' = jump.
-		if(Gdx.input.isKeyJustPressed((Input.Keys.W))) {
-			if (grounded) {
-				if (jumpCdCount < 0) {
-					jumpCdCount = jumpCd;
-					push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
-				}
-			} else {
-				if (playerData.extraJumpsUsed < playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
-					if (jumpCdCount < 0) {
-						jumpCdCount = jumpCd;
-						playerData.extraJumpsUsed++;
-						push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
-					}
-				}
-			}
-        }		
-		
-		//Holding 'S' = crouch. Currently does nothing but TODO: later should reduce knockback.
-		if(Gdx.input.isKeyPressed((Input.Keys.S))) {
-			if (grounded) {
-				moveState = MoveStates.CROUCH;
-			}
-			if (feetData.terrain != null) {
-				feetData.terrain.eventData.onInteract(this);
-			}
-		}
-		
-		//Pressing 'S' in the air does a fastfall
-		if(Gdx.input.isKeyJustPressed((Input.Keys.S))) {
-			if (!grounded) {
-				if (fastFallCdCount < 0) {
-					fastFallCdCount = fastFallCd;
-					push(0, -playerData.fastFallPow);
-				}
-			}
-		}
-		
-		//Holding 'A', 'D' = move left/right. Schmuck.controller(delta) will handle the physics for these.
-		if(Gdx.input.isKeyPressed((Input.Keys.A))) {
-			moveState = MoveStates.MOVE_LEFT;
-        }
-
-		if(Gdx.input.isKeyPressed((Input.Keys.D))) {
-			moveState = MoveStates.MOVE_RIGHT;
-		}
-		
-		//Pressing 'E' = interact with an event
-		if(Gdx.input.isKeyJustPressed((Input.Keys.E))) {
-			if (currentEvent != null && interactCdCount < 0) {
-				interactCdCount = interactCd;
-				currentEvent.eventData.onInteract(this);
-			}
-		}
-		
-		//Pressing 'Space' = use momentum.
-		if(Gdx.input.isKeyJustPressed((Input.Keys.SPACE))) {
-			if (momentums.size == 0) {
-				if (momentumCdCount < 0) {
-					momentumCdCount = momentumCd * (1 + playerData.getBonusMomentumCd());
-					useToolStart(delta, mStop, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
-				}
-			} else {
-				body.setLinearVelocity(momentums.removeFirst().scl(momentumBoost));
-			}
-		}
-		
-		//Pressing 'R' = reload current weapon.
-		if(Gdx.input.isKeyJustPressed((Input.Keys.R))) {
-			playerData.currentTool.reloading = true;
-		}
-		
-		//Pressing 'Q' = switch to last weapon.
-		if(Gdx.input.isKeyJustPressed((Input.Keys.Q))) {
-			playerData.switchToLast();
-		}
-		
-		//Pressing '1' ... '0' = switch to weapon slot.
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_1))) {
-			playerData.switchWeapon(1);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_2))) {
-			playerData.switchWeapon(2);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_3))) {
-			playerData.switchWeapon(3);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_4))) {
-			playerData.switchWeapon(4);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_5))) {
-			playerData.switchWeapon(5);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_6))) {
-			playerData.switchWeapon(6);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_7))) {
-			playerData.switchWeapon(7);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_8))) {
-			playerData.switchWeapon(8);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_9))) {
-			playerData.switchWeapon(9);
-		}
-		
-		if(Gdx.input.isKeyJustPressed((Input.Keys.NUM_0))) {
-			playerData.switchWeapon(10);
-		}
-		
-		//Clicking left mouse = use tool. charging keeps track of whether button is held.
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-			charging = true;
-			useToolStart(delta, playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), true);
-		} else {
-			if (charging) {
-				useToolRelease(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
-			}
-			charging = false;
-		}
-		
-		//Clicking right mouse = airblast
-		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-			if (airblastCdCount < 0) {
-				if (playerData.currentFuel >= playerData.airblastCost * (1 + playerData.getBonusAirblastCost())) {
-					playerData.fuelSpend(playerData.airblastCost * (1 + playerData.getBonusAirblastCost()));
-					airblastCdCount = airblastCd;
-					
-					useToolStart(delta, airblast, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
-
-				}
-			}
-		}
-		
-		//TODO: mouse wheel to scroll through equip?
-		
+				
 		//process fuel regen
 		playerData.fuelGain(playerData.getFuelRegen() * delta);
 		
@@ -369,6 +227,98 @@ public class Player extends Schmuck implements Location<Vector2>{
 		
 		super.controller(delta);		
 		
+	}
+	
+	public void hover() {
+		if (!grounded && playerData.extraJumpsUsed >= playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
+			if (jumpCdCount < 0) {
+				
+				//Player will continuously do small upwards bursts that cost fuel.
+				if (playerData.currentFuel >= playerData.hoverCost * (1 + playerData.getBonusHoverCost())) {
+					playerData.fuelSpend(playerData.hoverCost * (1 + playerData.getBonusHoverCost()));
+					jumpCdCount = hoverCd;
+					push(0, playerData.hoverPow * (1 + playerData.getBonusHoverPower()));
+				}
+			}
+		}
+	}
+	
+	public void jump() {
+		if (grounded) {
+			if (jumpCdCount < 0) {
+				jumpCdCount = jumpCd;
+				push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
+			}
+		} else {
+			if (playerData.extraJumpsUsed < playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
+				if (jumpCdCount < 0) {
+					jumpCdCount = jumpCd;
+					playerData.extraJumpsUsed++;
+					push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
+				}
+			}
+		}
+	}
+	
+	public void fastFall() {
+		if (!grounded) {
+			if (fastFallCdCount < 0) {
+				fastFallCdCount = fastFallCd;
+				push(0, -playerData.fastFallPow);
+			}
+		}
+		if (feetData.terrain != null) {
+			feetData.terrain.eventData.onInteract(this);
+		}
+	}
+	
+	public void shoot(float delta) {
+		useToolStart(delta, playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), true);
+	}
+	
+	public void release() {
+		//TODO: THIS LINE GOT A NULLPOINTER ONCE UPON DYING. CANNOT REPLICATE. ADDED NULL CHECK TO INPUT PROCESSOR. HOPEFULLY FIXED.
+		useToolRelease(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
+	}
+	
+	public void airblast() {
+		if (airblastCdCount < 0) {
+			if (playerData.currentFuel >= playerData.airblastCost * (1 + playerData.getBonusAirblastCost())) {
+				playerData.fuelSpend(playerData.airblastCost * (1 + playerData.getBonusAirblastCost()));
+				airblastCdCount = airblastCd;
+				useToolStart(0, airblast, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+			}
+		}
+	}
+	
+	public void interact() {
+		if (currentEvent != null && interactCdCount < 0) {
+			interactCdCount = interactCd;
+			currentEvent.eventData.onInteract(this);
+		}
+	}
+	
+	public void momentum() {
+		if (momentums.size == 0) {
+			if (momentumCdCount < 0) {
+				momentumCdCount = momentumCd * (1 + playerData.getBonusMomentumCd());
+				useToolStart(0, mStop, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+			}
+		} else {
+			body.setLinearVelocity(momentums.removeFirst().scl(momentumBoost));
+		}
+	}
+	
+	public void reload() {
+		playerData.currentTool.reloading = true;
+	}
+	
+	public void switchToLast() {
+		playerData.switchToLast();
+	}
+	
+	public void switchToSlot(int slot) {
+		playerData.switchWeapon(slot);
 	}
 	
 	public void render(SpriteBatch batch) {
@@ -490,7 +440,6 @@ public class Player extends Schmuck implements Location<Vector2>{
 	@Override
 	public void setOrientation(float orientation) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

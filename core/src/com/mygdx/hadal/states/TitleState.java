@@ -47,21 +47,21 @@ public class TitleState extends GameState {
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.addState(State.LOADOUT, TitleState.class);
+			        	getGsm().addState(State.LOADOUT, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
 				
 				quickPlayOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.addState(State.PLAY, TitleState.class);
+			        	getGsm().addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				quickPlayOption.setScale(0.5f);
 				
 				tutorialOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.addPlayState("Maps/tutorial.tmx", new Loadout(new Nothing(null)), TitleState.class);
+			        	getGsm().addPlayState("Maps/tutorial.tmx", new Loadout(new Nothing(null)), TitleState.class);
 			        }
 			    });
 				tutorialOption.setScale(0.5f);

@@ -104,7 +104,7 @@ public class LoadoutState extends GameState {
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(LoadoutState.class);
+			        	getGsm().removeState(LoadoutState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);	
@@ -112,8 +112,8 @@ public class LoadoutState extends GameState {
 				playOption = new Text(HadalGame.assetManager, "PLAY?",  100, HadalGame.CONFIG_HEIGHT - 350, Color.WHITE);
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(LoadoutState.class);
-			        	gsm.addState(State.PLAY, TitleState.class);
+			        	getGsm().removeState(LoadoutState.class);
+			        	getGsm().addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
@@ -170,6 +170,7 @@ public class LoadoutState extends GameState {
 			}
 		};
 		refreshLoadout();
+		
 		app.newMenu(stage);
 	}
 	
@@ -192,7 +193,7 @@ public class LoadoutState extends GameState {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
-		        	gsm.getLoadout().multitools[slot] = selected;
+		        	getGsm().getLoadout().multitools[slot] = selected;
 
 		        	playState.player.getPlayerData().replaceSlot(selected, slot);
 		        	
@@ -204,7 +205,7 @@ public class LoadoutState extends GameState {
 			weapons.addActor(itemChoose);
 		}
 		
-		options = new ScrollPane(weapons, gsm.getSkin());
+		options = new ScrollPane(weapons, getGsm().getSkin());
 		options.setPosition(HadalGame.CONFIG_WIDTH - 500, 0);
 		options.setSize(500, HadalGame.CONFIG_HEIGHT);
 		
@@ -231,8 +232,8 @@ public class LoadoutState extends GameState {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
-		        	if (!Arrays.asList(gsm.getLoadout().artifacts).contains(selected)) {
-		        		gsm.getLoadout().artifacts[slot] = selected;
+		        	if (!Arrays.asList(getGsm().getLoadout().artifacts).contains(selected)) {
+		        		getGsm().getLoadout().artifacts[slot] = selected;
 		        		
 		        		playState.player.getPlayerData().replaceSlot(selected, slot);
 		        		
@@ -244,7 +245,7 @@ public class LoadoutState extends GameState {
 			items.addActor(itemChoose);
 		}
 		
-		options = new ScrollPane(items, gsm.getSkin());
+		options = new ScrollPane(items, getGsm().getSkin());
 		options.setPosition(HadalGame.CONFIG_WIDTH - 500, 0);
 		options.setSize(500, HadalGame.CONFIG_HEIGHT);
 		
@@ -270,7 +271,7 @@ public class LoadoutState extends GameState {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
-		        	gsm.getLoadout().playerSprite = selected;
+		        	getGsm().getLoadout().playerSprite = selected;
 
 		        	playState.player.setBodySprite(selected);
 		        	
@@ -281,7 +282,7 @@ public class LoadoutState extends GameState {
 			
 			people.addActor(itemChoose);
 		}
-		options = new ScrollPane(people, gsm.getSkin());
+		options = new ScrollPane(people, getGsm().getSkin());
 		options.setPosition(HadalGame.CONFIG_WIDTH - 500, 0);
 		options.setSize(500, HadalGame.CONFIG_HEIGHT);
 		
@@ -306,7 +307,7 @@ public class LoadoutState extends GameState {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
-		        	gsm.setLevel(selected);
+		        	getGsm().setLevel(selected);
 		        	refreshLoadout();
 
 		        }
@@ -314,7 +315,7 @@ public class LoadoutState extends GameState {
 			
 			people.addActor(itemChoose);
 		}
-		options = new ScrollPane(people, gsm.getSkin());
+		options = new ScrollPane(people, getGsm().getSkin());
 		options.setPosition(HadalGame.CONFIG_WIDTH - 500, 0);
 		options.setSize(500, HadalGame.CONFIG_HEIGHT);
 		
@@ -323,21 +324,21 @@ public class LoadoutState extends GameState {
 	
 	public void refreshLoadout() {
 		
-		characterSelect.setText("Character: " + characters.get(gsm.getLoadout().playerSprite));
-		levelSelect.setText("Level: " + levels.get(gsm.getLevel()));
+		characterSelect.setText("Character: " + characters.get(getGsm().getLoadout().playerSprite));
+		levelSelect.setText("Level: " + levels.get(getGsm().getLevel()));
 		
 		for (int i = 0; i < slotButtons.size; i++) {
-			if (gsm.getLoadout().multitools[i] != null) {
-				slotButtons.get(i).setText("SLOT " + (i + 1) + ": " + gsm.getLoadout().multitools[i].name);
+			if (getGsm().getLoadout().multitools[i] != null) {
+				slotButtons.get(i).setText("SLOT " + (i + 1) + ": " + getGsm().getLoadout().multitools[i].name);
 			} else {
 				slotButtons.get(i).setText("SLOT " + (i + 1) + ": EMPTY");
 			}
 		}
 		
 		for (int i = 0; i < artifactButtons.size; i++) {
-			if (gsm.getLoadout().artifacts[i] != null) {
+			if (getGsm().getLoadout().artifacts[i] != null) {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": " + 
-			gsm.getLoadout().artifacts[i].name+ " " + gsm.getLoadout().artifacts[i].descr);
+			getGsm().getLoadout().artifacts[i].name+ " " + getGsm().getLoadout().artifacts[i].descr);
 			} else {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": EMPTY");
 			}

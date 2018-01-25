@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.dialogue.DialogueStage;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
+import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -37,6 +38,7 @@ public class PlayState extends GameState {
 	
 	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
 	public Player player;
+	public PlayerController controller;
 	
 	public Loadout loadout;
 	
@@ -74,8 +76,6 @@ public class PlayState extends GameState {
 	
 	public DialogueStage stage;
 //	public Set<Zone> zones;
-	
-//	private float controllerCounter = 0;
 	
 	/**
 	 * Constructor is called upon player beginning a game.
@@ -117,13 +117,12 @@ public class PlayState extends GameState {
 		
 		//TODO: Load a map from Tiled file. Eventually, this will take an input map that the player chooses.
 		
-//		map = new TmxMapLoader().load("Maps/test_map_large.tmx");
-//		map = new TmxMapLoader().load("Maps/tutorial.tmx");
 		map = new TmxMapLoader().load(level);
 		
 		new Turret(this, world, camera, rays, 300, 800);
 		
 		player = new Player(this, world, camera, rays, 0, 0, loadout.playerSprite);
+		controller = new PlayerController(player, this);
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
@@ -132,17 +131,30 @@ public class PlayState extends GameState {
 		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
 		
 		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays);
-
+		
 	}
 	
 	@Override
 	public void show() {
-		
 		this.stage = new DialogueStage(this); 
-		
 		app.newMenu(stage);
+		resetController();
 	}
 
+	public void resetController() {
+		controller = new PlayerController(player, this);
+		
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		
+		if (stage != null) {
+			inputMultiplexer.addProcessor(stage);
+		} else {
+			inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
+		}
+		inputMultiplexer.addProcessor(controller);
+		Gdx.input.setInputProcessor(inputMultiplexer);
+	}
+	
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
 	 */
@@ -166,16 +178,6 @@ public class PlayState extends GameState {
 		}
 		createList.clear();
 		
-		
-/*		controllerCounter += delta;
-		
-		if (controllerCounter >= 1/60f) {
-			controllerCounter  -= 1/60f;
-			for (HadalEntity schmuck : schmucks) {
-				schmuck.controller(1 / 60f);
-			}
-		}*/
-		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		for (HadalEntity entity : entities) {
 			entity.controller(delta);
@@ -187,24 +189,23 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(camera.combined);
 //		rays.setCombinedMatrix(camera.combined.cpy().scl(PPM));
 		
-		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
-			stage.nextDialogue();
-		}
-		
 		//process gameover
 		if (gameover) {
 			gameoverCdCount -= delta;
 			if (gameoverCdCount < 0) {
 				if (realFite) {
-					gsm.removeState(PlayState.class);
+					getGsm().removeState(PlayState.class);
 					if (won) {
-						gsm.addState(State.VICTORY, TitleState.class);
+						getGsm().addState(State.VICTORY, TitleState.class);
 					} else {
-						gsm.addState(State.GAMEOVER, TitleState.class);
+						getGsm().addState(State.GAMEOVER, TitleState.class);
 					}
 				} else {
 					player = new Player(this, world, camera, rays, (int)(player.getBody().getPosition().x * PPM),
 							(int)(player.getBody().getPosition().y * PPM), loadout.playerSprite);
+					
+					controller.setPlayer(player);
+					
 					gameover = false;
 				}
  				
@@ -256,8 +257,6 @@ public class PlayState extends GameState {
 			}
 		}
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) { gsm.addState(State.MENU, PlayState.class); }
-
 		batch.end();
 		
 	}	

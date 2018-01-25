@@ -14,7 +14,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public abstract class GameState {
 	
 	//References to the Game, StateManager and their relevant fields.
-	protected GameStateManager gsm;
+	private GameStateManager gsm;
 	protected HadalGame app;
 	protected SpriteBatch batch;
 	public OrthographicCamera camera, sprite, hud;
@@ -67,4 +67,8 @@ public abstract class GameState {
 	 * This will be run upon deleting the state and will dispose of any unneeded object in the state. 
 	 */
 	public abstract void dispose();
+
+	public GameStateManager getGsm() {
+		return gsm;
+	}
 }

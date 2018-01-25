@@ -64,7 +64,6 @@ public class ParticleEntity extends HadalEntity {
 			lifespan -= delta;
 			
 			if (lifespan <= 0) {
-				effect.dispose();
 				this.queueDeletion();
 			}
 		}
@@ -75,6 +74,12 @@ public class ParticleEntity extends HadalEntity {
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
 		effect.draw(batch, Gdx.graphics.getDeltaTime());
+	}
+	
+	@Override
+	public void dispose() {
+		effect.dispose();
+		super.dispose();
 	}
 
 }

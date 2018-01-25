@@ -42,16 +42,16 @@ public class VictoryState extends GameState{
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(VictoryState.class);
-			        	gsm.addState(State.PLAY, TitleState.class);
+			        	getGsm().removeState(VictoryState.class);
+			        	getGsm().addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
 				
 				loadoutOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(VictoryState.class);
-			        	gsm.addState(State.LOADOUT, TitleState.class);
+			        	getGsm().removeState(VictoryState.class);
+			        	getGsm().addState(State.LOADOUT, TitleState.class);
 			        }
 			    });
 				loadoutOption.setScale(0.5f);
@@ -59,7 +59,7 @@ public class VictoryState extends GameState{
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(VictoryState.class);
+			        	getGsm().removeState(VictoryState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);

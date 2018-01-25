@@ -40,15 +40,15 @@ public class MenuState extends GameState {
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(MenuState.class);
+			        	getGsm().removeState(MenuState.class);
 			        }
 			    });
 				resumeOption.setScale(0.5f);
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(MenuState.class);
-			        	gsm.removeState(PlayState.class);
+			        	getGsm().removeState(MenuState.class);
+			        	getGsm().removeState(PlayState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);

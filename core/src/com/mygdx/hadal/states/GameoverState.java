@@ -42,16 +42,16 @@ public class GameoverState extends GameState{
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(GameoverState.class);
-			        	gsm.addState(State.PLAY, TitleState.class);
+			        	getGsm().removeState(GameoverState.class);
+			        	getGsm().addState(State.PLAY, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
 				
 				loadoutOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(GameoverState.class);
-			        	gsm.addState(State.LOADOUT, TitleState.class);
+			        	getGsm().removeState(GameoverState.class);
+			        	getGsm().addState(State.LOADOUT, TitleState.class);
 			        }
 			    });
 				loadoutOption.setScale(0.5f);
@@ -59,7 +59,7 @@ public class GameoverState extends GameState{
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(GameoverState.class);
+			        	getGsm().removeState(GameoverState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);

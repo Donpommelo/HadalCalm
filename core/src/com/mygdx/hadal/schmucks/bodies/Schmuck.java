@@ -26,7 +26,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Schmuck extends HadalEntity {
 
 	//The current movestate of this schmuck
-	protected MoveStates moveState;
+	public MoveStates moveState;
 	
 	//Fixtures and user data
 	protected Fixture feet;
