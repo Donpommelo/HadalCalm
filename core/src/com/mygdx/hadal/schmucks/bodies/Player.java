@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.bodies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,7 +21,6 @@ import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.SteeringUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
@@ -32,7 +30,7 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class Player extends Schmuck implements Location<Vector2>{
+public class Player extends Schmuck {
 	
 
 	//player stats
@@ -436,36 +434,5 @@ public class Player extends Schmuck implements Location<Vector2>{
 
 	public TextureRegion getArmSprite() {
 		return armSprite;
-	}
-	
-	@Override
-	public Vector2 getPosition() {
-		return body.getPosition();
-	}
-
-	@Override
-	public float getOrientation() {
-		return body.getAngle();
-	}
-
-	@Override
-	public void setOrientation(float orientation) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public float vectorToAngle(Vector2 vector) {
-		return SteeringUtil.vectorToAngle(vector);
-	}
-
-	@Override
-	public Vector2 angleToVector(Vector2 outVector, float angle) {
-		return SteeringUtil.angleToVector(outVector, angle);
-	}
-
-	@Override
-	public Location<Vector2> newLocation() {
-		System.out.println("newLocation was run?");
-		return null;//new Location<Vector2>();
 	}
 }

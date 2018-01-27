@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 
 /**

@@ -33,7 +33,7 @@ public class Schmuck extends HadalEntity {
 	protected FeetData feetData;
 	
 	//user data.
-	protected BodyData bodyData;
+	public BodyData bodyData;
 	
 	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;

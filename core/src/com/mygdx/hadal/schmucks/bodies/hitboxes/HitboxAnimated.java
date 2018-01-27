@@ -1,4 +1,4 @@
-package com.mygdx.hadal.schmucks.bodies;
+package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;

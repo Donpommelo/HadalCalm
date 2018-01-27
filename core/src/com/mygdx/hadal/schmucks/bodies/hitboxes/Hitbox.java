@@ -1,9 +1,11 @@
-package com.mygdx.hadal.schmucks.bodies;
+package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
