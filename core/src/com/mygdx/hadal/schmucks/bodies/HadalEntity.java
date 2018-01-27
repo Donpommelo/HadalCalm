@@ -34,7 +34,7 @@ public abstract class HadalEntity {
 	public float height, width;
 	protected float startX, startY;
 	
-	boolean alive = true;
+	public boolean alive = true;
 	
 	/**
 	 * Constructor is called when an entity is created.

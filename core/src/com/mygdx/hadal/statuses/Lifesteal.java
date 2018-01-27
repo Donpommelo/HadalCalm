@@ -13,7 +13,7 @@ public class Lifesteal extends Status {
 	private float power;
 
 	public Lifesteal(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
-			int i, float amount, BodyData p,	BodyData v, int pr) {
+			int i, float amount, BodyData p, BodyData v, int pr) {
 		super(state, world, camera, rays, i, name, false, false, true, true, p, v, pr);
 		this.power = amount;
 	}
@@ -24,7 +24,8 @@ public class Lifesteal extends Status {
 		this.power = amount;
 	}
 	
-	public float onDealDamage(float damage, BodyData vic) {
+	@Override
+	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
 
 		perp.regainHp(power * damage);
 		

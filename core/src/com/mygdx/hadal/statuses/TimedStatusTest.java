@@ -31,6 +31,7 @@ public class TimedStatusTest extends Status {
 		this.procCdCount = 0;
 	}
 	
+	@Override
 	public void timePassing(float delta) {
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;

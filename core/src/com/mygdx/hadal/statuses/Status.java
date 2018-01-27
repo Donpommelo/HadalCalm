@@ -55,11 +55,11 @@ public class Status {
 		}
 	}
 	
-	public float onDealDamage(float damage, BodyData vic) {
+	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
 		return damage;
 	}
 	
-	public float onReceiveDamage(float damage, BodyData perp) {
+	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 		return damage;
 	}
 	

@@ -28,6 +28,7 @@ public class StatChangeStatus extends Status {
 		this.statIncrement = amount;
 	}
 	
+	@Override
 	public void statChanges(BodyData bodyData){
 		bodyData.buffedStats[statNum] += statIncrement;
 	}

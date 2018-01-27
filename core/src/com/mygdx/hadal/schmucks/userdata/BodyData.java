@@ -137,7 +137,7 @@ public class BodyData extends HadalData {
 		currentFuel = getMaxHp();		
 	}
 	
-	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status) {
+	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, DamageTypes... tags) {
 		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
 		for(Status s : this.statusesChecked){
@@ -153,10 +153,10 @@ public class BodyData extends HadalData {
 				tempStatus.statChanges(this);
 				break;
 			case 1:
-				finalAmount = tempStatus.onDealDamage(finalAmount, schmuck);
+				finalAmount = tempStatus.onDealDamage(finalAmount, schmuck, tags);
 				break;
 			case 2:
-				finalAmount = tempStatus.onReceiveDamage(finalAmount, schmuck);
+				finalAmount = tempStatus.onReceiveDamage(finalAmount, schmuck, tags);
 				break;
 			case 3:
 				tempStatus.timePassing(amount);
