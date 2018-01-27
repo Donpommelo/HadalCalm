@@ -62,7 +62,9 @@ public class Player extends Schmuck implements Location<Vector2>{
 	protected float trailCd = 0.25f;
 	protected float trailCdCount = 0;
 	protected PlayerTrail lastTrail;
-		
+	
+	private float attackAngle = 0;
+	
 	//user data
 	public PlayerBodyData playerData;
 	
@@ -277,7 +279,8 @@ public class Player extends Schmuck implements Location<Vector2>{
 	}
 	
 	public void release() {
-		//TODO: THIS LINE GOT A NULLPOINTER ONCE UPON DYING. CANNOT REPLICATE. ADDED NULL CHECK TO INPUT PROCESSOR. HOPEFULLY FIXED.
+		//TODO: THIS LINE GOT A NULLPOINTER ONCE UPON DYING. CANNOT REPLICATE. 
+		//ADDED NULL CHECK TO INPUT PROCESSOR. HOPEFULLY FIXED.
 		useToolRelease(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
 	}
 	
@@ -321,6 +324,16 @@ public class Player extends Schmuck implements Location<Vector2>{
 		playerData.switchWeapon(slot);
 	}
 	
+	@Override
+	public float getAttackAngle() {
+		if (armSprite.isFlipX()) {
+			return (float) Math.toRadians(attackAngle - 180);
+		} else {
+			return (float) Math.toRadians(attackAngle);
+
+		}
+	}
+	
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
 
@@ -329,13 +342,11 @@ public class Player extends Schmuck implements Location<Vector2>{
 				body.getPosition().y, 0);
 		camera.project(bodyScreenPosition);
 		
-		
-		
-		float angle = (float)(Math.atan2(
+		attackAngle = (float)(Math.atan2(
 				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
 				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
 				
-		if (Math.abs(angle) > 90 && !armSprite.isFlipX()) {
+		if (Math.abs(attackAngle) > 90 && !armSprite.isFlipX()) {
 			armSprite.flip(true, false);
 			bodySprite.flip(true, false);
 			bodyBackSprite.flip(true, false);
@@ -345,7 +356,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 			gemInactiveSprite.flip(true, false);
 		}
 		
-		if (Math.abs(angle) < 90 && armSprite.isFlipX()) {
+		if (Math.abs(attackAngle) < 90 && armSprite.isFlipX()) {
 			armSprite.flip(true, false);
 			bodySprite.flip(true, false);
 			bodyBackSprite.flip(true, false);
@@ -363,14 +374,14 @@ public class Player extends Schmuck implements Location<Vector2>{
 			armConnectXReal = bodyWidth - armWidth - armConnectX;
 			headConnectXReal = bodyWidth - headWidth - headConnectX;
 			armRotateXReal = armWidth - armRotateX;
-			angle = angle + 180;
+			attackAngle = attackAngle + 180;
 		}
 		
 		batch.draw(toolSprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
 				armRotateXReal * scale , armRotateY * scale,
-				toolWidth * scale, toolHeight * scale, 1, 1, angle);
+				toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(bodyBackSprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2, 
@@ -382,7 +393,7 @@ public class Player extends Schmuck implements Location<Vector2>{
 				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
 				armRotateXReal * scale, armRotateY * scale,
-				armWidth * scale, armHeight * scale, 1, 1, angle);
+				armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(momentumCdCount < 0 ? gemSprite : gemInactiveSprite, 
 				body.getPosition().x * PPM - hbWidth * scale / 2 , 

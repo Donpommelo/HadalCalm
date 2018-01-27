@@ -224,6 +224,11 @@ public class FloatingEnemy extends SteeringEnemy {
 		aiCdCount -= delta;
 	}
 	
+	@Override
+	public float getAttackAngle() {
+		return (float) (body.getAngle() + Math.PI / 2);
+	}
+	
 	/**
 	 * draws enemy
 	 */

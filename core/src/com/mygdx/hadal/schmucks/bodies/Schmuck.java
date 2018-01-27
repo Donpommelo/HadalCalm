@@ -234,6 +234,10 @@ public class Schmuck extends HadalEntity {
 		return bodyData;
 	}
 	
+	public float getAttackAngle() {
+		return 0;
+	}
+	
 /*	public float getFaction() {
 		
 	}*/
