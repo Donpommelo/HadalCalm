@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
@@ -414,7 +415,26 @@ public class Player extends Schmuck {
 				0, 0,
 				gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
-		if (moveState.equals(MoveStates.MOVE_LEFT) || moveState.equals(MoveStates.MOVE_RIGHT)) {
+		if (moveState.equals(MoveStates.MOVE_LEFT)) {
+			
+			if (Math.abs(attackAngle) > 90) {
+				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
+			} else {
+				bodyRunSprite.setPlayMode(PlayMode.LOOP);
+			}
+			
+			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
+					body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY, 
+					0, 0,
+					bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+		} else if (moveState.equals(MoveStates.MOVE_RIGHT)) {
+			if (Math.abs(attackAngle) < 90) {
+				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
+			} else {
+				bodyRunSprite.setPlayMode(PlayMode.LOOP);
+			}
+			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
 					body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY, 
