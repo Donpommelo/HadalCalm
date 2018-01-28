@@ -150,7 +150,7 @@ public class Player extends Schmuck {
 		this.armWidth = armSprite.getRegionWidth();
 		this.armHeight = armSprite.getRegionHeight();
 		this.headWidth = headSprite.getKeyFrame(animationTime).getRegionWidth();
-		this.headHeight = headSprite.getKeyFrame(animationTime).getRegionWidth();
+		this.headHeight = headSprite.getKeyFrame(animationTime).getRegionHeight();
 		this.bodyWidth = bodyRunSprite.getKeyFrame(animationTime).getRegionWidth();
 		this.bodyHeight = bodyRunSprite.getKeyFrame(animationTime).getRegionHeight();
 		this.bodyBackWidth = bodyBackSprite.getRegionWidth();
