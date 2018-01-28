@@ -166,6 +166,11 @@ public class TiledObjectUtil {
     			new Victory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
+    		if (object.getName().equals("Destr_Obj")) {
+    			new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("Hp", Integer.class));
+    		}
     	}
     }
     

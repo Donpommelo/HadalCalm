@@ -34,7 +34,7 @@ public class BeeGun extends RangedWeapon {
 	private final static float projectileSpeedStart = 3.0f;
 	private final static int projectileWidth = 32;
 	private final static int projectileHeight = 4;
-	private final static float lifespanx = 5.0f;
+	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	private final static float homeRadius = 10;
 	
@@ -62,7 +62,7 @@ public class BeeGun extends RangedWeapon {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			final SteeringHitbox proj = new SteeringHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity.setAngle(newDegrees),
+			final SteeringHitbox proj = new SteeringHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
 					filter, false, world, camera, rays, user, projSpriteId,
 					maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius) {
 				

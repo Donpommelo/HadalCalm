@@ -34,6 +34,7 @@ public class SteeringHitbox extends HitboxImage {
 	}
 	
 	public void controller (float delta) {
+		super.controller(delta);
 		if (behavior != null) {
 			behavior.calculateSteering(steeringOutput);
 			applySteering(delta);
