@@ -4,6 +4,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -77,11 +78,16 @@ public class Player extends Schmuck {
 	public Queue<Vector2> momentums;
 	
 	private TextureAtlas atlasBody, atlasTool;
-	private TextureRegion bodySprite, bodyBackSprite, armSprite, headSprite, gemSprite, gemInactiveSprite, toolSprite;
+	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
+	
+	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 	
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
 		
+	public static final int bodyConnectX = -15;
+	public static final int bodyConnectY = 0;
+	
 	public static final int headConnectX = -26;
 	public static final int headConnectY = 330;
 	
@@ -121,7 +127,6 @@ public class Player extends Schmuck {
 		
 		toolSprite = atlasTool.findRegion("default");
 		
-		
 		this.toolHeight = toolSprite.getRegionHeight();
 		this.toolWidth = toolSprite.getRegionWidth();
 		
@@ -133,19 +138,20 @@ public class Player extends Schmuck {
 	
 	public void setBodySprite(String playerSprite) {
 		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
-		bodySprite = atlasBody.findRegion("body_stand");		
+		bodyRunSprite = new Animation<TextureRegion>(0.08f, atlasBody.findRegions("body_run"));	
+		bodyStillSprite = new Animation<TextureRegion>(0.08f, atlasBody.findRegions("body_stand"));	
 		bodyBackSprite = atlasBody.findRegion("body_background");
 		armSprite = atlasBody.findRegion("arm");
-		headSprite = atlasBody.findRegion("head");
+		headSprite = new Animation<TextureRegion>(0.08f, atlasBody.findRegions("head"));	
 		gemSprite = atlasBody.findRegion("gem_active");
 		gemInactiveSprite = atlasBody.findRegion("gem_inactive");
 		
 		this.armWidth = armSprite.getRegionWidth();
 		this.armHeight = armSprite.getRegionHeight();
-		this.headWidth = headSprite.getRegionWidth();
-		this.headHeight = headSprite.getRegionHeight();
-		this.bodyWidth = bodySprite.getRegionWidth();
-		this.bodyHeight = bodySprite.getRegionHeight();
+		this.headWidth = headSprite.getKeyFrame(animationTime).getRegionWidth();
+		this.headHeight = headSprite.getKeyFrame(animationTime).getRegionWidth();
+		this.bodyWidth = bodyRunSprite.getKeyFrame(animationTime).getRegionWidth();
+		this.bodyHeight = bodyRunSprite.getKeyFrame(animationTime).getRegionHeight();
 		this.bodyBackWidth = bodyBackSprite.getRegionWidth();
 		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
 		this.gemHeight = gemSprite.getRegionHeight();
@@ -178,6 +184,7 @@ public class Player extends Schmuck {
 	 * The player's controller currently polls for input.
 	 */
 	public void controller(float delta) {
+		increaseAnimationTime(delta);
 		
 		controllerCount+=delta;
 		if (controllerCount >= 1/60f) {
@@ -346,9 +353,7 @@ public class Player extends Schmuck {
 				
 		if (Math.abs(attackAngle) > 90 && !armSprite.isFlipX()) {
 			armSprite.flip(true, false);
-			bodySprite.flip(true, false);
 			bodyBackSprite.flip(true, false);
-			headSprite.flip(true, false);
 			toolSprite.flip(true, false);
 			gemSprite.flip(true, false);
 			gemInactiveSprite.flip(true, false);
@@ -356,12 +361,22 @@ public class Player extends Schmuck {
 		
 		if (Math.abs(attackAngle) < 90 && armSprite.isFlipX()) {
 			armSprite.flip(true, false);
-			bodySprite.flip(true, false);
 			bodyBackSprite.flip(true, false);
-			headSprite.flip(true, false);
 			toolSprite.flip(true, false);
 			gemSprite.flip(true, false);
 			gemInactiveSprite.flip(true, false);
+		}
+		
+		if (bodyRunSprite.getKeyFrame(animationTime).isFlipX() != armSprite.isFlipX()) {
+			for (Object t : bodyRunSprite.getKeyFrames()) {
+				((TextureRegion)t).flip(true, false);
+			}
+			for (Object t : bodyStillSprite.getKeyFrames()) {
+				((TextureRegion)t).flip(true, false);
+			}
+			for (Object t : headSprite.getKeyFrames()) {
+				((TextureRegion)t).flip(true, false);
+			}
 		}
 		
 		float armConnectXReal = armConnectX;
@@ -369,8 +384,8 @@ public class Player extends Schmuck {
 		float armRotateXReal = armRotateX;
 		
 		if (armSprite.isFlipX()) {
-			armConnectXReal = bodyWidth - armWidth - armConnectX;
-			headConnectXReal = bodyWidth - headWidth - headConnectX;
+			armConnectXReal = bodyWidth - armWidth - armConnectX - 200;
+			headConnectXReal = bodyWidth - headWidth - headConnectX - 200;
 			armRotateXReal = armWidth - armRotateX;
 			attackAngle = attackAngle + 180;
 		}
@@ -382,8 +397,8 @@ public class Player extends Schmuck {
 				toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(bodyBackSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2, 
-				body.getPosition().y * PPM - hbHeight * scale / 2, 
+				body.getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX, 
+				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY, 
 				0, 0,
 				bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 		
@@ -394,18 +409,26 @@ public class Player extends Schmuck {
 				armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(momentumCdCount < 0 ? gemSprite : gemInactiveSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 , 
-				body.getPosition().y * PPM - hbHeight * scale / 2, 
+				body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY, 
 				0, 0,
 				gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
-		batch.draw(bodySprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2, 
-				body.getPosition().y * PPM - hbHeight * scale / 2, 
-				0, 0,
-				bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+		if (moveState.equals(MoveStates.MOVE_LEFT) || moveState.equals(MoveStates.MOVE_RIGHT)) {
+			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
+					body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY, 
+					0, 0,
+					bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+		} else {
+			batch.draw((TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), 
+					body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY, 
+					0, 0,
+					bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+		}
 		
-		batch.draw(headSprite, 
+		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTime, true), 
 				body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale, 
 				0, 0,

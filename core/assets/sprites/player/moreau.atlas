@@ -1,48 +1,104 @@
 
 moreau.png
-size: 2048,512
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 arm
   rotate: false
-  xy: 1104, 302
+  xy: 1235, 1358
   size: 346, 150
   orig: 346, 150
   offset: 0, 0
   index: -1
 body_background
   rotate: false
-  xy: 2, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 2, 1510
+  size: 409, 408
+  orig: 409, 408
   offset: 0, 0
   index: -1
-body_stand
+body_run
   rotate: false
-  xy: 220, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 2, 1100
+  size: 409, 408
+  orig: 409, 408
   offset: 0, 0
   index: 0
+body_run
+  rotate: false
+  xy: 413, 1510
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: 1
+body_run
+  rotate: false
+  xy: 2, 690
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: 2
+body_run
+  rotate: false
+  xy: 413, 1100
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: 3
+body_run
+  rotate: false
+  xy: 824, 1510
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: 4
+body_run
+  rotate: false
+  xy: 2, 280
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: 5
+body_run
+  rotate: false
+  xy: 413, 690
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: 6
+body_run
+  rotate: false
+  xy: 824, 1100
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: 7
+body_stand
+  rotate: false
+  xy: 1235, 1510
+  size: 409, 408
+  orig: 409, 408
+  offset: 0, 0
+  index: -1
 gem_active
   rotate: false
-  xy: 438, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 413, 280
+  size: 409, 408
+  orig: 409, 408
   offset: 0, 0
   index: -1
 gem_inactive
   rotate: false
-  xy: 656, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 824, 690
+  size: 409, 408
+  orig: 409, 408
   offset: 0, 0
   index: -1
 head
   rotate: false
-  xy: 874, 176
+  xy: 2, 2
   size: 228, 276
   orig: 228, 276
   offset: 0, 0
-  index: -1
+  index: 0

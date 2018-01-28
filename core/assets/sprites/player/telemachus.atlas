@@ -1,48 +1,153 @@
 
 telemachus.png
-size: 2048,512
+size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 arm
   rotate: false
-  xy: 1104, 302
+  xy: 1546, 1490
   size: 346, 150
   orig: 346, 150
   offset: 0, 0
   index: -1
 body_background
   rotate: false
-  xy: 2, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 2, 1510
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: -1
-body_stand
+body_run
   rotate: false
-  xy: 220, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 2, 1100
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: 0
+body_run
+  rotate: false
+  xy: 388, 1510
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: 1
+body_run
+  rotate: false
+  xy: 2, 690
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: 2
+body_run
+  rotate: false
+  xy: 388, 1100
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: 3
+body_run
+  rotate: false
+  xy: 774, 1510
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: 4
+body_run
+  rotate: false
+  xy: 2, 280
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: 5
+body_run
+  rotate: false
+  xy: 388, 690
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: 6
+body_run
+  rotate: false
+  xy: 774, 1100
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: 7
+body_stand
+  rotate: false
+  xy: 1160, 1510
+  size: 384, 408
+  orig: 384, 408
+  offset: 0, 0
+  index: -1
 gem_active
   rotate: false
-  xy: 438, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 388, 280
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: -1
 gem_inactive
   rotate: false
-  xy: 656, 2
-  size: 216, 450
-  orig: 216, 450
+  xy: 774, 690
+  size: 384, 408
+  orig: 384, 408
   offset: 0, 0
   index: -1
 head
   rotate: false
-  xy: 874, 176
+  xy: 2, 2
   size: 228, 276
   orig: 228, 276
   offset: 0, 0
-  index: -1
+  index: 0
+head
+  rotate: false
+  xy: 1160, 1232
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 1
+head
+  rotate: false
+  xy: 1546, 1642
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 2
+head
+  rotate: false
+  xy: 774, 412
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 3
+head
+  rotate: false
+  xy: 232, 2
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 4
+head
+  rotate: false
+  xy: 1160, 954
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 5
+head
+  rotate: false
+  xy: 1776, 1642
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 6
+head
+  rotate: false
+  xy: 462, 2
+  size: 228, 276
+  orig: 228, 276
+  offset: 0, 0
+  index: 7
