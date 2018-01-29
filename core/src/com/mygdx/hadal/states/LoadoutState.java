@@ -344,7 +344,9 @@ public class LoadoutState extends GameState {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": EMPTY");
 			}
 		}
-		
+		if (options != null) {
+			options.remove();
+		}
 	}
 	
 	/**

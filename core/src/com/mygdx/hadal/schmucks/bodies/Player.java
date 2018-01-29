@@ -352,39 +352,24 @@ public class Player extends Schmuck {
 				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
 				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
 				
-		if (Math.abs(attackAngle) > 90 && !armSprite.isFlipX()) {
-			armSprite.flip(true, false);
-			bodyBackSprite.flip(true, false);
-			toolSprite.flip(true, false);
-			gemSprite.flip(true, false);
-			gemInactiveSprite.flip(true, false);
-		}
+		boolean flip = false;
 		
-		if (Math.abs(attackAngle) < 90 && armSprite.isFlipX()) {
-			armSprite.flip(true, false);
-			bodyBackSprite.flip(true, false);
-			toolSprite.flip(true, false);
-			gemSprite.flip(true, false);
-			gemInactiveSprite.flip(true, false);
+		if (Math.abs(attackAngle) > 90) {
+			flip = true;
 		}
-		
-		if (bodyRunSprite.getKeyFrame(animationTime).isFlipX() != armSprite.isFlipX()) {
-			for (Object t : bodyRunSprite.getKeyFrames()) {
-				((TextureRegion)t).flip(true, false);
-			}
-			for (Object t : bodyStillSprite.getKeyFrames()) {
-				((TextureRegion)t).flip(true, false);
-			}
-			for (Object t : headSprite.getKeyFrames()) {
-				((TextureRegion)t).flip(true, false);
-			}
+
+/*		if (bodyStillSprite.getKeyFrame(animationTime).isFlipX() != armSprite.isFlipX()) {
+			bodyStillSprite.getKeyFrame(animationTime).flip(true, false);
 		}
+		if (headSprite.getKeyFrame(animationTime).isFlipX() != armSprite.isFlipX()) {
+			headSprite.getKeyFrame(animationTime).flip(true, false);
+		}*/
 		
 		float armConnectXReal = armConnectX;
 		float headConnectXReal = headConnectX;
 		float armRotateXReal = armRotateX;
 		
-		if (armSprite.isFlipX()) {
+		if (flip) {
 			armConnectXReal = bodyWidth - armWidth - armConnectX - 200;
 			headConnectXReal = bodyWidth - headWidth - headConnectX - 200;
 			armRotateXReal = armWidth - armRotateX;
@@ -392,28 +377,28 @@ public class Player extends Schmuck {
 		}
 		
 		batch.draw(toolSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				(flip ? toolWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
-				armRotateXReal * scale , armRotateY * scale,
-				toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
+				(flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
+				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(bodyBackSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX, 
+				(flip ? bodyBackWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY, 
 				0, 0,
-				bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
+				(flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 		
 		batch.draw(armSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				(flip ? armWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale, 
-				armRotateXReal * scale, armRotateY * scale,
-				armWidth * scale, armHeight * scale, 1, 1, attackAngle);
+				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
+				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(momentumCdCount < 0 ? gemSprite : gemInactiveSprite, 
-				body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+				(flip ? gemWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY, 
 				0, 0,
-				gemWidth * scale, gemHeight * scale, 1, 1, 0);
+				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
 		if (moveState.equals(MoveStates.MOVE_LEFT)) {
 			
@@ -424,10 +409,10 @@ public class Player extends Schmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
-					body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY, 
 					0, 0,
-					bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else if (moveState.equals(MoveStates.MOVE_RIGHT)) {
 			if (Math.abs(attackAngle) < 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
@@ -436,23 +421,23 @@ public class Player extends Schmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
-					body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY, 
 					0, 0,
-					bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
 			batch.draw((TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), 
-					body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY, 
 					0, 0,
-					bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
+					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		}
 		
 		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTime, true), 
-				body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
+				(flip ?headWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale, 
 				0, 0,
-				headWidth * scale, headHeight * scale, 1, 1, 0);
+				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 	}
 	
 	public void dispose() {

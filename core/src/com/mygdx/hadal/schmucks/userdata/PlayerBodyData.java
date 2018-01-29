@@ -136,13 +136,7 @@ public class PlayerBodyData extends BodyData {
 	
 	public void setEquip() {
 		currentTool = multitools[currentSlot];
-		if (player.getArmSprite().isFlipX() != currentTool.getEquipSprite().isFlipX()) {
-			currentTool.getEquipSprite().flip(true, false);
-			player.setToolSprite(currentTool.getEquipSprite());
-			
-		} else {
-			player.setToolSprite(currentTool.getEquipSprite());
-		}
+		player.setToolSprite(currentTool.getEquipSprite());
 	}
 	
 	public void fuelSpend(float cost) {
