@@ -50,7 +50,7 @@ public class TorpedofishAttack extends RangedWeapon {
 				World world, OrthographicCamera camera,
 				RayHandler rays) {
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, projectileSpeed, startVelocity,
+			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, false, world, camera, rays, user, spriteId);
 			
 			final World world2 = world;
