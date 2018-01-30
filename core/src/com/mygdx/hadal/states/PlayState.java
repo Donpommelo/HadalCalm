@@ -162,7 +162,7 @@ public class PlayState extends GameState {
 	public void update(float delta) {
 		
 		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
-		world.step(delta, 6, 2);
+		world.step(1 / 60f, 6, 2);
 
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity : removeList) {

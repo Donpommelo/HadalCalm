@@ -9,14 +9,14 @@ import com.mygdx.hadal.statuses.Status;
 
 import box2dLight.RayHandler;
 
-public class ImprovedHovering extends Artifact {
+public class MoonFluther extends Artifact {
 
-	static String name = "Improved Hovering";
+	static String name = "Moon Fluther";
 	static String descr = "+25% Hovering Power and -25% Hovering Cost";
 	static String descrLong = "";
 	public static final int statusNum = 2;
 	
-	public ImprovedHovering() {
+	public MoonFluther() {
 		super(name, descr, descrLong, statusNum);
 	}
 

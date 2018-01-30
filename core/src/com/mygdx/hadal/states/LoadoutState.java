@@ -75,8 +75,8 @@ public class LoadoutState extends GameState {
 		artifacts.clear();
 		artifacts.add(new EelskinCover());
 		artifacts.add(new GoodHealth());
-		artifacts.add(new ImprovedHovering());
-		artifacts.add(new ImprovedPropulsion());
+		artifacts.add(new MoonFluther());
+		artifacts.add(new VoidHyponome());
 		artifacts.add(new LoamskinTalisman());
 		artifacts.add(new NiceShoes());
 		artifacts.add(new SkateWings());

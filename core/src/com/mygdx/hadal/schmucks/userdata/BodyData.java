@@ -95,7 +95,7 @@ public class BodyData extends HadalData {
 	public float airYDeaccel = 0.01f;
 	
 	//Hp and regen
-	public int maxHp = 100;
+	public int maxHp = 36;
 	public float hpRegen = 0.0f;
 	
 	public int maxFuel = 100;

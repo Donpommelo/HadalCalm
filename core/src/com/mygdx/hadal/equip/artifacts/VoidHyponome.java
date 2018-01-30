@@ -9,14 +9,14 @@ import com.mygdx.hadal.statuses.Status;
 
 import box2dLight.RayHandler;
 
-public class ImprovedPropulsion extends Artifact {
+public class VoidHyponome extends Artifact {
 
-	static String name = "Improved Propulsion";
+	static String name = "Void Hyponome";
 	static String descr = "-25% Airblast Cost";
 	static String descrLong = "";
 	public static final int statusNum = 1;
 	
-	public ImprovedPropulsion() {
+	public VoidHyponome() {
 		super(name, descr, descrLong, statusNum);
 	}
 
