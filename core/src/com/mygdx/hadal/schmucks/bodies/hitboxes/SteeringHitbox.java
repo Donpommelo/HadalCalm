@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
-public class SteeringHitbox extends HitboxImage {
+public class SteeringHitbox extends HitboxAnimated {
 
 	public SteeringHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan,
 			int dura, float rest, Vector2 startVelo, short filter, boolean sensor, World world,

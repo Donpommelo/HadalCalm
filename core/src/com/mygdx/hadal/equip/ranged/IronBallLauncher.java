@@ -26,8 +26,8 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static float recoil = 3.0f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 50;
+	private final static int projectileWidth = 44;
+	private final static int projectileHeight = 45;
 	private final static float lifespan = 2.5f;
 	private final static float gravity = 10;
 	
@@ -36,7 +36,7 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static float restitution = 0.5f;
 
 	private final static String weapSpriteId = "cannon";
-	private final static String projSpriteId = "orb_pink";
+	private final static String projSpriteId = "iron_ball";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 

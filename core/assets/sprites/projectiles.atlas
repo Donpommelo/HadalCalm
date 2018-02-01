@@ -4,121 +4,156 @@ size: 1024,64
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+bee
+  rotate: false
+  xy: 482, 16
+  size: 52, 46
+  orig: 52, 46
+  offset: 0, 0
+  index: 0
+bee
+  rotate: false
+  xy: 536, 16
+  size: 52, 46
+  orig: 52, 46
+  offset: 0, 0
+  index: 1
+boomerang
+  rotate: false
+  xy: 975, 24
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1
+bouncing_blade
+  rotate: false
+  xy: 426, 8
+  size: 54, 54
+  orig: 54, 54
+  offset: 0, 0
+  index: -1
 bullet
   rotate: false
-  xy: 158, 49
+  xy: 311, 49
   size: 112, 13
   orig: 112, 13
   offset: 0, 0
   index: -1
 debris_a
   rotate: false
-  xy: 783, 22
+  xy: 862, 22
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 debris_b
   rotate: false
-  xy: 693, 22
+  xy: 816, 22
   size: 44, 40
   orig: 44, 40
   offset: 0, 0
   index: -1
 debris_c
   rotate: false
-  xy: 864, 10
+  xy: 943, 10
   size: 30, 52
   orig: 30, 52
   offset: 0, 0
   index: -1
 debris_d
   rotate: false
-  xy: 509, 16
+  xy: 590, 16
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 grenade
   rotate: false
-  xy: 825, 19
+  xy: 904, 19
   size: 37, 43
   orig: 37, 43
   offset: 0, 0
   index: -1
 harpoon
   rotate: false
-  xy: 2, 46
+  xy: 2, 16
   size: 154, 16
   orig: 154, 16
   offset: 0, 0
   index: -1
+iron_ball
+  rotate: false
+  xy: 334, 2
+  size: 44, 45
+  orig: 44, 45
+  offset: 0, 0
+  index: -1
 orb_blue
   rotate: false
-  xy: 557, 18
+  xy: 380, 3
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 orb_orange
   rotate: false
-  xy: 603, 19
+  xy: 638, 19
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_pink
   rotate: false
-  xy: 648, 19
+  xy: 683, 19
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_red
   rotate: false
-  xy: 135, 2
+  xy: 728, 20
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 orb_yellow
   rotate: false
-  xy: 739, 20
+  xy: 772, 20
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 spit
   rotate: false
-  xy: 179, 22
-  size: 77, 25
-  orig: 77, 25
+  xy: 135, 37
+  size: 86, 25
+  orig: 86, 25
   offset: 0, 0
   index: 0
 spit
   rotate: false
-  xy: 272, 37
-  size: 77, 25
-  orig: 77, 25
+  xy: 158, 10
+  size: 86, 25
+  orig: 86, 25
   offset: 0, 0
   index: 1
 spit
   rotate: false
-  xy: 351, 37
-  size: 77, 25
-  orig: 77, 25
+  xy: 223, 37
+  size: 86, 25
+  orig: 86, 25
   offset: 0, 0
   index: 2
 spit
   rotate: false
-  xy: 430, 37
-  size: 77, 25
-  orig: 77, 25
+  xy: 246, 10
+  size: 86, 25
+  orig: 86, 25
   offset: 0, 0
   index: 3
 torpedo
   rotate: false
-  xy: 2, 16
+  xy: 2, 34
   size: 131, 28
   orig: 131, 28
   offset: 0, 0

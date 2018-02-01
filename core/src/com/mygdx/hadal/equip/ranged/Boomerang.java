@@ -27,15 +27,15 @@ public class Boomerang extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 50;
+	private final static int projectileWidth = 40;
+	private final static int projectileHeight = 38;
 	private final static float lifespanx = 5.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
 	
 	private final static String weapSpriteId = "boomeranglauncher";
-	private final static String projSpriteId = "orb_orange";
+	private final static String projSpriteId = "boomerang";
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -47,11 +47,19 @@ public class Boomerang extends RangedWeapon {
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
 					filter, true, world, camera, rays, user, projSpriteId) {
 				
+				public void create() {
+					super.create();
+					body.setAngularVelocity(5);
+				}
+				
 				public void controller(float delta) {
-					super.controller(delta);
 					Vector2 diff = new Vector2(user.getBody().getPosition().x * PPM - body.getPosition().x * PPM, 
 							user.getBody().getPosition().y * PPM - body.getPosition().y * PPM);
 					body.applyForceToCenter(diff.nor().scl(projectileSpeed * body.getMass()), true);
+					lifeSpan -= delta;
+					if (lifeSpan <= 0) {
+						state.destroy(this);
+					}
 				}
 			};
 			

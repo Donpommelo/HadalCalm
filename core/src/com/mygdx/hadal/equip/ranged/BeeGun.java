@@ -32,8 +32,8 @@ public class BeeGun extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.2f;
 	private final static float projectileSpeedStart = 3.0f;
-	private final static int projectileWidth = 32;
-	private final static int projectileHeight = 4;
+	private final static int projectileWidth = 26;
+	private final static int projectileHeight = 23;
 	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	private final static float homeRadius = 10;
@@ -42,8 +42,8 @@ public class BeeGun extends RangedWeapon {
 	
 	private final static int spread = 45;
 	
-	private final static String weapSpriteId = "default";
-	private final static String projSpriteId = "bullet";
+	private final static String weapSpriteId = "beegun";
+	private final static String projSpriteId = "bee";
 
 	private static final float maxLinearSpeed = 100;
 	private static final float maxLinearAcceleration = 500;

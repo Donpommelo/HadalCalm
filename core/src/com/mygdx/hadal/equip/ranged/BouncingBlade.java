@@ -36,7 +36,7 @@ public class BouncingBlade extends RangedWeapon {
 	private final static float restitution = 1.0f;
 	
 	private final static String weapSpriteId = "bladegun";
-	private final static String projSpriteId = "orb_blue";
+	private final static String projSpriteId = "bouncing_blade";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
