@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -23,21 +24,22 @@ import com.mygdx.hadal.utils.HitboxFactory;
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-public class TorpedoLauncher extends RangedWeapon {
+public class LaserGuidedRocket extends RangedWeapon {
 
-	private final static String name = "Torpedo Launcher";
-	private final static int clipSize = 4;
-	private final static float shootCd = 0.25f;
-	private final static float shootDelay = 0.15f;
-	private final static float reloadTime = 0.8f;
+	private final static String name = "Laser-Guided Rocket";
+	private final static int clipSize = 1;
+	private final static float shootCd = 0.0f;
+	private final static float shootDelay = 0.0f;
+	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 0.5f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 15;
-	private final static float lifespan = 3.0f;
+	private final static float projectileSpeed = 0.0f;
+	private final static float projectileSpeed2 = 8.0f;
+	private final static int projectileWidth = 100;
+	private final static int projectileHeight = 20;
+	private final static float lifespan = 8.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
@@ -71,14 +73,20 @@ public class TorpedoLauncher extends RangedWeapon {
 						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
 								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
 					}
+					
+					Vector3 bodyPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
+					camera.project(bodyPosition);
+					
+					Vector2 diff = new Vector2(Gdx.input.getX() - bodyPosition.x, 
+							Gdx.graphics.getHeight() - Gdx.input.getY() - bodyPosition.y);
+					
+					body.applyForceToCenter(diff.nor().scl(projectileSpeed2 * body.getMass()), true);
 				}
 			};
 			
 			final ParticleEffect bubbles = new ParticleEffect();
 			bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
-			new ParticleEntity(state, world, camera, rays, proj, bubbles, 3.0f);
-			
-			
+			new ParticleEntity(state, world, camera, rays, proj, bubbles, 3.0f);			
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -104,7 +112,7 @@ public class TorpedoLauncher extends RangedWeapon {
 		}
 	};
 	
-	public TorpedoLauncher(Schmuck user) {
+	public LaserGuidedRocket(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 	}

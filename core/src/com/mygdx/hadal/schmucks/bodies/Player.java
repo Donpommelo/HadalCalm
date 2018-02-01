@@ -281,7 +281,7 @@ public class Player extends Schmuck {
 	}
 	
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), true);
+		useToolStart(delta, playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true);
 	}
 	
 	public void release() {

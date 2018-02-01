@@ -22,6 +22,11 @@ public class Spring extends Event {
 		this.vec = vec;
 	}
 	
+	public Spring(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, Vector2 vec, float duration) {
+		super(state, world, camera, rays, name, width, height, x, y, duration);
+		this.vec = vec;
+	}
+	
 	public void create() {
 
 		this.eventData = new EventData(world, this) {

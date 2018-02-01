@@ -71,6 +71,8 @@ public class LoadoutState extends GameState {
 		items.add(new Speargun(null));
 		items.add(new Scrapripper(null));
 		items.add(new TorpedoLauncher(null));
+		items.add(new LaserGuidedRocket(null));
+		items.add(new Boiler(null));
 		
 		artifacts.clear();
 		artifacts.add(new EelskinCover());
