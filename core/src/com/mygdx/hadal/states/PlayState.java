@@ -236,6 +236,7 @@ public class PlayState extends GameState {
 		//Iterate through entities in the world to render
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		font.getData().setScale(1.0f);
 
 		for (HadalEntity schmuck : entities) {
 			schmuck.render(batch);
@@ -248,14 +249,16 @@ public class PlayState extends GameState {
 		if (player != null) {
 			if (player.getPlayerData() != null) {
 				font.getData().setScale(1.5f);
-				font.draw(batch, "Score: " + score+ " Hp: " + Math.round(player.getPlayerData().currentHp) + "/" + player.getPlayerData().getMaxHp() + " Fuel: " + Math.round(player.getPlayerData().currentFuel), 40, 180);
-				font.draw(batch, player.getPlayerData().currentTool.getText(), 40, 160);
+				font.draw(batch, "Hp: " + Math.round(player.getPlayerData().currentHp) + "/" + player.getPlayerData().getMaxHp() + " Fuel: " + Math.round(player.getPlayerData().currentFuel), 25, 180);
+				font.draw(batch, player.getPlayerData().currentTool.getText(), 25, 160);
 				if (player.momentums.size != 0) {
-					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 40, 140);
+					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 25, 140);
 				}
 				if (player.currentEvent != null) {
-					font.draw(batch, player.currentEvent.getText(), 40, 120);
+					font.draw(batch, player.currentEvent.getText(), 25, 120);
 				}
+				font.getData().setScale(2.5f);
+				font.draw(batch, "SCORE: " + score, HadalGame.CONFIG_WIDTH - 220, HadalGame.CONFIG_HEIGHT - 50);
 			}
 		}
 		

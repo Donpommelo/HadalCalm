@@ -35,8 +35,12 @@ public class MenuState extends GameState {
 		stage = new Stage() {
 			{
 				addActor(new MenuBackdrop(HadalGame.assetManager));
-				resumeOption = new Text(HadalGame.assetManager, "RESUME?", 150, HadalGame.CONFIG_HEIGHT - 300);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 340);
+				resumeOption = new Text(HadalGame.assetManager, "RESUME?", 
+						HadalGame.CONFIG_WIDTH / 2,
+						HadalGame.CONFIG_HEIGHT - 300);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", 
+						HadalGame.CONFIG_WIDTH / 2,
+						HadalGame.CONFIG_HEIGHT - 340);
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
