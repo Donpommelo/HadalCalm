@@ -112,11 +112,8 @@ public class HadalGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		gsm.render();
-
-		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
+		
 		currentMenu.draw();
-		batch.end();
 	}
 	
 	/**

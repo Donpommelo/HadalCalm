@@ -15,6 +15,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.HpBar;
 import com.mygdx.hadal.dialogue.DialogueStage;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
@@ -136,7 +138,8 @@ public class PlayState extends GameState {
 	
 	@Override
 	public void show() {
-		this.stage = new DialogueStage(this); 
+		this.stage = new DialogueStage(this);
+		this.stage.addActor(new HpBar(HadalGame.assetManager, this, player));
 		app.newMenu(stage);
 		resetController();
 	}
@@ -186,7 +189,6 @@ public class PlayState extends GameState {
 		//Update the game camera and batch.
 		cameraUpdate();
 		tmr.setView(camera);
-		batch.setProjectionMatrix(camera.combined);
 //		rays.setCombinedMatrix(camera.combined.cpy().scl(PPM));
 		
 		//process gameover
@@ -232,7 +234,7 @@ public class PlayState extends GameState {
 		rays.updateAndRender();
 		
 		//Iterate through entities in the world to render
-//		batch.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
 		for (HadalEntity schmuck : entities) {
@@ -245,14 +247,14 @@ public class PlayState extends GameState {
 		//Check for null because player is not immediately spawned in a map.
 		if (player != null) {
 			if (player.getPlayerData() != null) {
-				font.getData().setScale(1);
-				font.draw(batch, "Score: " + score+ " Hp: " + Math.round(player.getPlayerData().currentHp) + "/" + player.getPlayerData().getMaxHp() + " Fuel: " + Math.round(player.getPlayerData().currentFuel), 20, 80);
-				font.draw(batch, player.getPlayerData().currentTool.getText(), 20, 60);
+				font.getData().setScale(1.5f);
+				font.draw(batch, "Score: " + score+ " Hp: " + Math.round(player.getPlayerData().currentHp) + "/" + player.getPlayerData().getMaxHp() + " Fuel: " + Math.round(player.getPlayerData().currentFuel), 40, 180);
+				font.draw(batch, player.getPlayerData().currentTool.getText(), 40, 160);
 				if (player.momentums.size != 0) {
-					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 20, 40);
+					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 40, 140);
 				}
 				if (player.currentEvent != null) {
-					font.draw(batch, player.currentEvent.getText(), 20, 20);
+					font.draw(batch, player.currentEvent.getText(), 40, 120);
 				}
 			}
 		}
