@@ -27,7 +27,7 @@ public class Lifesteal extends Status {
 	@Override
 	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
 
-		perp.regainHp(power * damage);
+		perp.regainHp(power * damage, perp, true, DamageTypes.LIFESTEAL);
 		
 		return damage;
 	}

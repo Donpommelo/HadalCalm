@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -36,7 +37,7 @@ public class Medpak extends Event{
 				if (fixB != null && !consumed) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if (((PlayerBodyData)fixB).currentHp < ((PlayerBodyData)fixB).getMaxHp()) {
-							((PlayerBodyData)fixB).regainHp(hpRegained);
+							((PlayerBodyData)fixB).regainHp(hpRegained, ((PlayerBodyData)fixB), true, DamageTypes.MEDPAK);
 							if (spawner != null) {
 								spawner.readyToSpawn = true;
 							}

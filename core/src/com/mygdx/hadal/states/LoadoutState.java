@@ -85,6 +85,11 @@ public class LoadoutState extends GameState {
 		artifacts.add(new RootBoots());
 		artifacts.add(new TriggerFinger());
 		artifacts.add(new RingofTesting());
+		artifacts.add(new AnarchistsCookbook());
+		artifacts.add(new RingoftheLamprey());
+		artifacts.add(new FracturePlate());
+		artifacts.add(new ThrobbingRageGland());
+		artifacts.add(new GluttonousGreyGlove());
 		
 		
 		characters.clear();
@@ -202,7 +207,7 @@ public class LoadoutState extends GameState {
 
 		        }
 		    });
-			
+			itemChoose.setScale(0.75f);
 			weapons.addActor(itemChoose);
 		}
 		
@@ -242,7 +247,7 @@ public class LoadoutState extends GameState {
 		        	}
 		        }
 		    });
-			
+			itemChoose.setScale(0.75f);
 			items.addActor(itemChoose);
 		}
 		
@@ -280,7 +285,7 @@ public class LoadoutState extends GameState {
 
 		        }
 		    });
-			
+			itemChoose.setScale(0.75f);
 			people.addActor(itemChoose);
 		}
 		options = new ScrollPane(people, getGsm().getSkin());
@@ -339,7 +344,7 @@ public class LoadoutState extends GameState {
 		for (int i = 0; i < artifactButtons.size; i++) {
 			if (getGsm().getLoadout().artifacts[i] != null) {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": " + 
-			getGsm().getLoadout().artifacts[i].name+ " " + getGsm().getLoadout().artifacts[i].descr);
+			getGsm().getLoadout().artifacts[i].name+ ": " + getGsm().getLoadout().artifacts[i].descr);
 			} else {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": EMPTY");
 			}

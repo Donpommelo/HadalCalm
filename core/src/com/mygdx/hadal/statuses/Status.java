@@ -24,7 +24,7 @@ public class Status {
 	public BodyData perp, vic;
 	
 	public Status(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			int i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, BodyData p, BodyData v, int pr){
+			float i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, BodyData p, BodyData v, int pr){
 		this.state = state;
 		this.world = world;
 		this.camera = camera;
@@ -60,6 +60,10 @@ public class Status {
 	}
 	
 	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
+		return damage;
+	}
+	
+	public float onHeal(float damage, BodyData perp, DamageTypes... tags) {
 		return damage;
 	}
 	

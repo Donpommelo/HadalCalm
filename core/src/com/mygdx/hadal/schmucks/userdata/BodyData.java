@@ -167,6 +167,9 @@ public class BodyData extends HadalData {
 			case 5:
 				tempStatus.onDeath(schmuck);
 				break;
+			case 6:
+				finalAmount = tempStatus.onHeal(finalAmount, schmuck, tags);
+				break;
 			}
 			
 			if(this.statuses.contains(tempStatus)){
@@ -234,8 +237,8 @@ public class BodyData extends HadalData {
 		}
 		
 		if (procEffects) {
-			damage = perp.statusProcTime(1, perp, damage, null);
-			damage = statusProcTime(2, this, damage, null);
+			damage = perp.statusProcTime(1, perp, damage, null, tags);
+			damage = statusProcTime(2, this, damage, null, tags);
 		}
 		
 		currentHp -= damage;
@@ -256,7 +259,14 @@ public class BodyData extends HadalData {
 	 * This method is called when the schmuck is healed
 	 * @param heal: amount of Hp to regenerate
 	 */
-	public void regainHp(float heal) {
+	public void regainHp(float baseheal, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+		
+		float heal = baseheal;
+		
+		if (procEffects) {
+			heal = statusProcTime(6, this, heal, null, tags);
+		}
+		
 		currentHp += heal;
 		if (currentHp >= getMaxHp()) {
 			currentHp = getMaxHp();

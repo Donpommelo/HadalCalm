@@ -11,6 +11,7 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -154,7 +155,7 @@ public class Schmuck extends HadalEntity {
 		}
 		
 		//Apply base hp regen
-		bodyData.regainHp(bodyData.getHpRegen() * delta);
+		bodyData.regainHp(bodyData.getHpRegen() * delta, bodyData, true, DamageTypes.REGEN);
 		
 		//process cooldowns
 		shootCdCount-=delta;

@@ -7,5 +7,8 @@ public enum DamageTypes {
 	EXPLOSIVE,
 	MISC,
 	AIR,
-	ENERGY
+	ENERGY,
+	REGEN,
+	MEDPAK,
+	LIFESTEAL,
 }

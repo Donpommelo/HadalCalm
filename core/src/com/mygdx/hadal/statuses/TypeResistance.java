@@ -30,7 +30,7 @@ public class TypeResistance extends Status {
 	}
 	
 	@Override
-	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
+	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 		if (Arrays.asList(tags).contains(resisted)) {
 			damage *= power;
 		}

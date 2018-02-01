@@ -15,7 +15,7 @@ public class StatChangeStatus extends Status {
 	public double statIncrement;
 	
 	public StatChangeStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
-			int i, int stat, float amount, BodyData p,	BodyData v, int pr) {
+			float i, int stat, float amount, BodyData p,	BodyData v, int pr) {
 		super(state, world, camera, rays, i, name, false, false, true, true, p, v, pr);
 		this.statNum = stat;
 		this.statIncrement = amount;
