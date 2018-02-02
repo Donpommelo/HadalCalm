@@ -24,6 +24,7 @@ import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -64,6 +65,9 @@ public class PlayState extends GameState {
 	
 	//This is a set of all entities in the world
 	private Set<HadalEntity> entities;
+	
+	//sourced effects from the world are attributed to this dummy.
+	public Enemy worldDummy;
 	
 	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
 	public int score = 0;
@@ -116,6 +120,8 @@ public class PlayState extends GameState {
 		removeList = new HashSet<HadalEntity>();
 		createList = new HashSet<HadalEntity>();
 		entities = new HashSet<HadalEntity>();
+		
+		worldDummy = new Enemy(this, world, camera, rays, 1, 1, -1000, -1000);
 		
 		//TODO: Load a map from Tiled file. Eventually, this will take an input map that the player chooses.
 		

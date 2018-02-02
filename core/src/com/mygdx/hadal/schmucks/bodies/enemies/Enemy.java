@@ -40,6 +40,7 @@ public class Enemy extends Schmuck {
 	/**
 	 * Create the enemy's body and initialize enemy's user data.
 	 */
+	@Override
 	public void create() {
 		this.bodyData = new BodyData(world, this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
@@ -52,16 +53,15 @@ public class Enemy extends Schmuck {
 	/**
 	 * Enemy ai goes here. Defaut enemy behaviour just walks right/left towards player and fires weapon.
 	 */
+	@Override
 	public void controller(float delta) {
 		
-		
-
-		super.controller(delta);
 	}
 	
 	/**
 	 * draws enemy
 	 */
+	@Override
 	public void render(SpriteBatch batch) {
 		
 	}
@@ -69,6 +69,7 @@ public class Enemy extends Schmuck {
 	/**
 	 * Deletes enemy. Currently also increments game score.
 	 */
+	@Override
 	public void dispose() {
 		state.incrementScore(1);
 		super.dispose();

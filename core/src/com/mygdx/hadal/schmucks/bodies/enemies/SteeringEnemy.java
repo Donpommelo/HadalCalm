@@ -31,6 +31,7 @@ public class SteeringEnemy extends Enemy {
 		this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
 	}
 
+	@Override
 	public void create() {
 		this.bodyData = new BodyData(world, this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 1, 0f, false, true, Constants.BIT_ENEMY, 
@@ -44,6 +45,7 @@ public class SteeringEnemy extends Enemy {
 		this.setBehavior(arriveSB);
 	}
 	
+	@Override
 	public void controller (float delta) {
 		if (behavior != null) {
 			behavior.calculateSteering(steeringOutput);

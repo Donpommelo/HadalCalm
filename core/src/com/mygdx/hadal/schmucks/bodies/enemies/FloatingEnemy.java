@@ -111,7 +111,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			}
 		};
 		
-		sensorDef = FixtureBuilder.createFixtureDef(hbWidth * scale * 2, hbHeight * scale * 2, new Vector2(0,0), true, 0, 
+		sensorDef = FixtureBuilder.createFixtureDef(hbWidth * scale * 2, hbHeight * scale * 2, new Vector2(0,0), true, 0, 0, 0,
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER), Constants.PLAYER_HITBOX);
 		sensor = body.createFixture(sensorDef);
 		sensor.setUserData(sensorData);

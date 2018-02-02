@@ -49,7 +49,7 @@ public class MomentumPickup extends Event {
 				(short) 0, true, eventData);
 		
 		body.createFixture(FixtureBuilder.createFixtureDef(width, height, new Vector2(0 ,0),
-				false, 0, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
+				false, 0, 0, 0, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
 		
 		Vector2 v = new Vector2(2,0);
 
