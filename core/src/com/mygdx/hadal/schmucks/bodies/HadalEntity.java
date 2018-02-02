@@ -29,9 +29,9 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 
 	//References to game fields.
 	public PlayState state;
-	protected World world;
-	protected OrthographicCamera camera;
-	protected RayHandler rays;
+	public World world;
+	public OrthographicCamera camera;
+	public RayHandler rays;
 	
 	//Fields common to all entities.
 	protected Body body;

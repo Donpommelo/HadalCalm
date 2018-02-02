@@ -88,6 +88,7 @@ public class Hitbox extends HadalEntity {
 	 * @param userData: the entity's user data
 	 */
 	public void setUserData(HitboxData userData) {
+		
 		data = userData;
 		
 		//I don't know if this will ever be necessary, but better to be safe. 
