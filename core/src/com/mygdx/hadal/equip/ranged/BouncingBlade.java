@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -28,12 +29,12 @@ public class BouncingBlade extends RangedWeapon {
 	private final static float projectileSpeed = 15.0f;
 	private final static int projectileWidth = 50;
 	private final static int projectileHeight = 50;
-	private final static float lifespan = 3.0f;
+	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	
-	private final static int projDura = 3;
+	private final static int projDura = 5;
 	
-	private final static float restitution = 1.0f;
+	private final static float restitution = 1.25f;
 	
 	private final static String weapSpriteId = "bladegun";
 	private final static String projSpriteId = "bouncing_blade";
@@ -54,6 +55,15 @@ public class BouncingBlade extends RangedWeapon {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
 								user.getBodyData(), true, DamageTypes.RANGED);
+						
+						if (fixB.getType().equals(UserDataTypes.WALL)){
+							hbox.dura--;
+						}
+					} else {
+						hbox.dura--;
+					}
+					if (hbox.dura <= 0) {
+						hbox.queueDeletion();
 					}
 				}
 			});		
