@@ -24,8 +24,8 @@ import box2dLight.RayHandler;
 public class HitboxAnimated extends RangedHitbox {
 	
 	private TextureAtlas atlas;
-	private Animation<TextureRegion> projectileSprite;
-	private float animCdCount;
+	protected Animation<TextureRegion> projectileSprite;
+	protected float animCdCount;
 	
 	private float speed = 0.05f;
 	

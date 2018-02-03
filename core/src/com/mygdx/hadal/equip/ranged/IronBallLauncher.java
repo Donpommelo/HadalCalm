@@ -46,7 +46,15 @@ public class IronBallLauncher extends RangedWeapon {
 				RayHandler rays) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-					filter, false, world, camera, rays, user, projSpriteId);
+					filter, false, world, camera, rays, user, projSpriteId) {
+				
+				public void controller(float delta) {
+					lifeSpan -= delta;
+					if (lifeSpan <= 0) {
+						state.destroy(this);
+					}
+				}
+			};
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				

@@ -233,22 +233,21 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * draws enemy
 	 */
 	public void render(SpriteBatch batch) {
+
+		boolean flip = false;
 		
-		if (body.getAngle() < 0 && !fishSprite.isFlipY()) {
-			fishSprite.flip(false, true);
-		}
-		
-		if (body.getAngle() > 0 && fishSprite.isFlipY()) {
-			fishSprite.flip(false, true);
+		if (body.getAngle() < 0) {
+			flip = true;
 		}
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 
 		batch.draw(fishSprite, 
 				body.getPosition().x * PPM - hbHeight * scale / 2, 
-				body.getPosition().y * PPM - hbWidth * scale / 2, 
-				hbHeight * scale / 2, hbWidth * scale / 2,
-				width * scale, height * scale, 1, 1, 
+				(flip ? height * scale : 0) + body.getPosition().y * PPM - hbWidth * scale / 2, 
+				hbHeight * scale / 2, 
+				(flip ? -1 : 1) * hbWidth * scale / 2,
+				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
 				(float) Math.toDegrees(body.getAngle()) - 90);
 
 	}

@@ -1,6 +1,8 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -18,6 +20,8 @@ import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BeeGun extends RangedWeapon {
@@ -28,12 +32,12 @@ public class BeeGun extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.75f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 7.5f;
+	private final static float baseDamage = 9.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.2f;
 	private final static float projectileSpeedStart = 3.0f;
-	private final static int projectileWidth = 26;
-	private final static int projectileHeight = 23;
+	private final static int projectileWidth = 15;
+	private final static int projectileHeight = 14;
 	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	private final static float homeRadius = 10;
@@ -94,6 +98,27 @@ public class BeeGun extends RangedWeapon {
 						body.getPosition().x - homeRadius, body.getPosition().y - homeRadius, 
 						body.getPosition().x + homeRadius, body.getPosition().y + homeRadius);
 					}
+				}
+				
+				@Override
+				public void render(SpriteBatch batch) {
+				
+					boolean flip = false;
+					
+					if (body.getAngle() < 0) {
+						flip = true;
+					}
+					
+					batch.setProjectionMatrix(state.sprite.combined);
+
+					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animCdCount, true), 
+							body.getPosition().x * PPM - width / 2, 
+							(flip ? height : 0) + body.getPosition().y * PPM - height / 2, 
+							width / 2, 
+							(flip ? -1 : 1) * height / 2,
+							width, (flip ? -1 : 1) * height, 1, 1, 
+							(float) Math.toDegrees(body.getAngle()) - 90);
+
 				}
 			};
 			
