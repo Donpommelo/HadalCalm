@@ -4,30 +4,32 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.Slodged;
 import com.mygdx.hadal.utils.HitboxFactory;
 
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-public class NematocystCannon extends RangedWeapon {
+public class SlodgeGun extends RangedWeapon {
 
-	private final static String name = "Nematocyst Cannon";
-	private final static int clipSize = 2;
-	private final static float shootCd = 0.45f;
+	private final static String name = "Slodge Gun";
+	private final static int clipSize = 1;
+	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.6f;
-	private final static int reloadAmount = 1;
-	private final static float baseDamage = 30.0f;
+	private final static float reloadTime = 1.2f;
+	private final static int reloadAmount = 0;
+	private final static float baseDamage = 20.0f;
 	private final static float recoil = 0.0f;
-	private final static float knockback = 0.75f;
+	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 40;
 	private final static int projectileHeight = 40;
@@ -35,10 +37,10 @@ public class NematocystCannon extends RangedWeapon {
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
-		
-	private final static int poisonRadius = 250;
-	private final static float poisonDamage = 25/60f;
-	private final static float poisonDuration = 4.0f;
+	
+	private final static float slowDura = 3.0f;
+
+	private final static int explosionRadius = 200;
 
 	private final static String weapSpriteId = "default";
 	private final static String projSpriteId = "debris_c";
@@ -46,21 +48,15 @@ public class NematocystCannon extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
-				final World world, final OrthographicCamera camera, final RayHandler rays) {
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, final short filter,
+				World world, OrthographicCamera camera,
+				RayHandler rays) {
+			
+			final OrthographicCamera camera2 = camera;
+			final RayHandler rays2 = rays;
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, world, camera, rays, user, projSpriteId) {
-				
-				@Override
-				public void controller(float delta) {
-					if (lifeSpan <= 0) {
-						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
-								(int)(body.getPosition().x * PPM), (int)(body.getPosition().y * PPM), poisonDamage, poisonDuration, user.getBodyData());
-					}
-					super.controller(delta);
-				}
-			};
+					filter, true, world, camera, rays, user, projSpriteId);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -77,9 +73,26 @@ public class NematocystCannon extends RangedWeapon {
 						explode = true;
 					}
 					if (explode) {
-						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
-								(int)(this.hbox.getBody().getPosition().x * PPM), 
-								(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, user.getBodyData());
+
+						Hitbox explosion = new Hitbox(state, 
+								this.hbox.getBody().getPosition().x * PPM , 
+								this.hbox.getBody().getPosition().y * PPM,	
+								explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
+								filter, true, world, camera2, rays2, user);
+						
+						explosion.setUserData(new HitboxData(state, world, explosion) {
+							
+							@Override
+							public void onHit(HadalData fixB) {
+								if (fixB != null) {
+									if (fixB instanceof BodyData) {
+										((BodyData)fixB).addStatus(new Slodged(state, world, camera2, rays2, slowDura, user.getBodyData(), ((BodyData)fixB), 50));
+									}
+								}
+							}
+						});
+						
+						
 						hbox.queueDeletion();
 					}
 					
@@ -88,7 +101,7 @@ public class NematocystCannon extends RangedWeapon {
 		}
 	};
 	
-	public NematocystCannon(Schmuck user) {
+	public SlodgeGun(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 }

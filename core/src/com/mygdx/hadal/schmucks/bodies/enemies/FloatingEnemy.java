@@ -222,6 +222,9 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		moveCdCount -= delta;
 		aiCdCount -= delta;
+		
+		//Process statuses
+		bodyData.statusProcTime(3, bodyData, delta, null);
 	}
 	
 	@Override

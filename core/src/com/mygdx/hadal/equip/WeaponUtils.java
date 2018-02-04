@@ -16,7 +16,7 @@ public class WeaponUtils {
 
 	private static final float selfDamageReduction = 0.4f;
 	
-	public static void explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
+	public static Hitbox explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
 			final Schmuck user, int explosionRadius, final float explosionDamage, final float explosionKnockback) {
 		Hitbox explosion = new Hitbox(state, 
 				x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
@@ -38,5 +38,7 @@ public class WeaponUtils {
 				}
 			}
 		});
+		
+		return explosion;
 	}
 }

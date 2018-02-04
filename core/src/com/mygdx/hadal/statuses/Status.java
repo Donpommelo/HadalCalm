@@ -39,6 +39,7 @@ public class Status {
 		this.perp = p;
 		this.vic = v;
 		this.priority = pr;
+		
 	}
 	
 	public void statChanges(BodyData bodyData){
@@ -50,7 +51,7 @@ public class Status {
 			duration -= delta;
 			
 			if (duration <= 0 && !perm) {
-				perp.removeStatus(this);
+				vic.removeStatus(this);
 			}
 		}
 	}

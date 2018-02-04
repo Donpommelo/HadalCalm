@@ -150,9 +150,13 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void applySteering(float delta) {
 		boolean anyAcceleration = false;
-		
 		if (!steeringOutput.linear.isZero()) {
-			Vector2 force = steeringOutput.linear.scl(delta);
+			Vector2 force;
+			if (this instanceof Schmuck) {
+				force = steeringOutput.linear.scl(delta).scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed());
+			} else {
+				force = steeringOutput.linear.scl(delta);
+			}
 			body.applyForceToCenter(force, true);
 			anyAcceleration = true;
 		}
@@ -170,10 +174,22 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		}
 		
 		if (anyAcceleration) {
+			
 			Vector2 velocity = body.getLinearVelocity();
 			float currentSpeedSquare = velocity.len2();
-			if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-				body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
+			
+			if (this instanceof Schmuck) {
+				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed 
+						* (1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())
+						* (1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())) {
+					body.setLinearVelocity(velocity
+							.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
+							.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed()));
+				}
+			} else {
+				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+					body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
+				}
 			}
 			
 			if (body.getAngularVelocity() > maxAngularSpeed) {
