@@ -25,10 +25,12 @@ public class DestructableBlock extends Event {
 		this.hp = hp;
 	}
 
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this, UserDataTypes.WALL) {
 			
+			@Override
 			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 				hp -= basedamage;
 				

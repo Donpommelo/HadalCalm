@@ -38,6 +38,7 @@ public class ScissorfishAttack extends MeleeWeapon {
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 

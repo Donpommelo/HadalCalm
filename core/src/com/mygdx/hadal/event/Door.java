@@ -21,8 +21,11 @@ public class Door extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new EventData(world, this, UserDataTypes.WALL) {
+			
+			@Override
 			public void onActivate(EventData activator) {
 				if (!activated) {
 					activated = true;
@@ -34,10 +37,5 @@ public class Door extends Event {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_WALL, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR | Constants.BIT_WALL),
 				(short) 0, false, eventData);
-	}
-	
-	@Override
-	public void controller(float delta) {
-		
 	}
 }

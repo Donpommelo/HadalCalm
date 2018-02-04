@@ -21,6 +21,7 @@ public class RingoftheLamprey extends Artifact {
 		super(name, descr, descrLong, statusNum);
 	}
 
+	@Override
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new Lifesteal(state, world, camera, rays, 0.05f, b, b, 50);
 		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 0, -25, b, b, 50);

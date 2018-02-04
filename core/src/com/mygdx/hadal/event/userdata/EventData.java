@@ -50,7 +50,5 @@ public class EventData extends HadalData {
 	
 	public Event getEvent() {
 		return event;
-	}
-
-	
+	}	
 }

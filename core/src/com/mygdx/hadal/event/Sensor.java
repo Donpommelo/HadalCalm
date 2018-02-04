@@ -28,8 +28,11 @@ public class Sensor extends Event {
 		this.oneTime = oneTime;
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new EventData(world, this) {
+			
+			@Override
 			public void onTouch(HadalData fixB) {
 				super.onTouch(fixB);
 				

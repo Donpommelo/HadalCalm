@@ -26,9 +26,12 @@ public class Victory extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this) {
+			
+			@Override
 			public void onTouch(HadalData fixB) {
 				if (!touched) {
 					touched = true;

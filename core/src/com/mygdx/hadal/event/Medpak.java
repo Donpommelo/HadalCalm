@@ -30,9 +30,12 @@ public class Medpak extends Event{
 		this.spawner = medpakSpawner;
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this) {
+			
+			@Override
 			public void onTouch(HadalData fixB) {
 				if (fixB != null && !consumed) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {

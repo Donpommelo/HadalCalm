@@ -55,6 +55,7 @@ public class Boiler extends RangedWeapon {
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
 					filter, true, world, camera, rays, user, projSpriteId) {
 				
+				@Override
 				public void create() {
 					super.create();
 					getBody().createFixture(FixtureBuilder.createFixtureDef(projectileWidth / 2, projectileHeight / 2, 
@@ -65,6 +66,7 @@ public class Boiler extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 

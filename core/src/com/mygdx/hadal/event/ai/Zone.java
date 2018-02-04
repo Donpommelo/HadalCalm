@@ -25,9 +25,11 @@ public class Zone extends Event {
 		
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new EventData(world, this) {
 			
+			@Override
 			public void onTouch(HadalData fixB) {
 				super.onTouch(fixB);
 				
@@ -41,8 +43,6 @@ public class Zone extends Event {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				(short) 0, true, eventData);
-	}
-	
-	
+	}	
 
 }

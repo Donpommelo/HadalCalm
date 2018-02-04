@@ -72,6 +72,7 @@ public class BeeGun extends RangedWeapon {
 				
 				private Schmuck homing;
 
+				@Override
 				public void controller(float delta) {
 					super.controller(delta);
 					
@@ -124,6 +125,7 @@ public class BeeGun extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 

@@ -55,6 +55,8 @@ public class GrenadeDropTest extends RangedWeapon {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, false, world, camera, rays, user, projSpriteId) {
+				
+				@Override
 				public void controller(float delta) {
 					super.controller(delta);
 					if (lifeSpan <= 0) {
@@ -66,6 +68,7 @@ public class GrenadeDropTest extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {

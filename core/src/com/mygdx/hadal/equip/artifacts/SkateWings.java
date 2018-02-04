@@ -20,6 +20,7 @@ public class SkateWings extends Artifact {
 		super(name, descr, descrLong, statusNum);
 	}
 
+	@Override
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 10, 0.2f, b, b, 50);
 		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 11, 1, b, b, 50);

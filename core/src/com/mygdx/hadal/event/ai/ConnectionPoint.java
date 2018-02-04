@@ -17,6 +17,7 @@ public class ConnectionPoint extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new EventData(world, this);
 		
@@ -24,7 +25,4 @@ public class ConnectionPoint extends Event {
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				(short) 0, true, eventData);
 	}
-	
-	
-
 }

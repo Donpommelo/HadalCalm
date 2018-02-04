@@ -38,7 +38,8 @@ public class MomentumStopper extends MeleeWeapon {
 			final Schmuck user2 = user;
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
-								
+						
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.HITBOX)) {

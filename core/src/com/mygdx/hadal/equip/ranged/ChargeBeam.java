@@ -92,6 +92,7 @@ public class ChargeBeam extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage * damageMultiplier2, 
@@ -109,6 +110,7 @@ public class ChargeBeam extends RangedWeapon {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
 	}
 	
+	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
 		if (chargeDura < maxCharge) {
 			chargeDura+=delta;
@@ -116,10 +118,12 @@ public class ChargeBeam extends RangedWeapon {
 		super.mouseClicked(delta, state, shooter, faction, x, y, world, camera, rays);
 	}
 	
+	@Override
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
 
 	}
 	
+	@Override
 	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {
 		super.execute(state, bodyData, world, camera, rays);
 		chargeDura = 0;

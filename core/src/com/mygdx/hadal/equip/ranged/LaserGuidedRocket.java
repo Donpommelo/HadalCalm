@@ -67,6 +67,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, false, world, camera, rays, user, projSpriteId) {
+				
+				@Override
 				public void controller(float delta) {
 					super.controller(delta);
 					if (lifeSpan <= 0) {
@@ -90,6 +92,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					boolean explode = false;
 					if (fixB != null) {

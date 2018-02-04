@@ -20,6 +20,7 @@ public class MoonFluther extends Artifact {
 		super(name, descr, descrLong, statusNum);
 	}
 
+	@Override
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 12, 0.25f, b, b, 50);
 		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 13, -0.25f, b, b, 50);

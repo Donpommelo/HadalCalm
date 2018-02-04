@@ -20,6 +20,7 @@ public class GoodHealth extends Artifact {
 		super(name, descr, descrLong, statusNum);
 	}
 
+	@Override
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 0, 25, b, b, 50);
 		return enchantment;

@@ -34,6 +34,7 @@ public class EntitySpawner extends Event {
 		this.spawnY = y;
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this);
@@ -43,6 +44,7 @@ public class EntitySpawner extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public void controller(float delta) {
 		spawnCount += delta;
 		if (spawnCount >= interval && (limit == 0 || amountCount < limit)) {

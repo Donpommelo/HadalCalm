@@ -80,6 +80,7 @@ public class MeleeWeapon extends Equipable {
 	 * This is run after the weapon's swingDelay to actually swing.
 	 * Here, the stored velo, recoil, filter are used to generate a melee hitbox
 	 */
+	@Override
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
 		onSwing.makeHitbox(user, state, velo, 
 				shooter.getSchmuck().getBody().getPosition().x * PPM, 
@@ -112,10 +113,12 @@ public class MeleeWeapon extends Equipable {
 		return name;
 	}
 	
+	@Override
 	public float getUseCd() {
 		return useCd * (1 - user.getBodyData().getMeleeSwingRate());
 	}
 	
+	@Override
 	public float getUseDelay() {
 		return useDelay * (1 - user.getBodyData().getMeleeSwingDelay());
 	}

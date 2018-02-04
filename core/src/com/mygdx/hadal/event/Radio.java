@@ -21,9 +21,12 @@ public class Radio extends Event {
 		this.id = id;
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new InteractableEventData(world, this) {
+			
+			@Override
 			public void onInteract(Player p) {
 				state.stage.addDialogue(id);
 			}
@@ -34,6 +37,7 @@ public class Radio extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public String getText() {
 		if (eventData.schmucks.isEmpty()) {
 			return "RADIO";

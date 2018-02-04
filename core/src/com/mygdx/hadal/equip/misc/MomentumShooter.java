@@ -44,6 +44,7 @@ public class MomentumShooter extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (state.getPlayer().momentums.size > 0) {
@@ -59,7 +60,6 @@ public class MomentumShooter extends RangedWeapon {
 				}
 			});		
 		}
-		
 	};
 	
 	public MomentumShooter(Schmuck user) {

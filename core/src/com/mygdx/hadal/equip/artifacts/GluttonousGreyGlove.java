@@ -20,6 +20,7 @@ public class GluttonousGreyGlove extends Artifact {
 		super(name, descr, descrLong, statusNum);
 	}
 
+	@Override
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new GluttonousGreyGloveStatus(state, world, camera, rays, b, b, 50);
 		return enchantment;

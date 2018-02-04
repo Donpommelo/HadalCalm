@@ -20,7 +20,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class GrenadeLauncher extends RangedWeapon {
 
 	private final static String name = "Grenade Launcher";
-	private final static int clipSize = 4;
+	private final static int clipSize = 5;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.15f;
 	private final static float reloadTime = 0.75f;
@@ -33,6 +33,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static int projectileHeight = 25;
 	private final static float lifespan = 3.0f;
 	private final static float gravity = 1;
+	private final static float restitution = 0.3f;
 	
 	private final static int projDura = 1;
 		
@@ -54,8 +55,10 @@ public class GrenadeLauncher extends RangedWeapon {
 			final OrthographicCamera camera2 = camera;
 			final RayHandler rays2 = rays;
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
 					filter, false, world, camera, rays, user, projSpriteId) {
+				
+				@Override
 				public void controller(float delta) {
 					super.controller(delta);
 					if (lifeSpan <= 0) {
@@ -69,6 +72,7 @@ public class GrenadeLauncher extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {

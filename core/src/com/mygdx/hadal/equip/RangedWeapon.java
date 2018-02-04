@@ -138,6 +138,7 @@ public class RangedWeapon extends Equipable{
 	/**
 	 * This method is run every engine tick when reloading.
 	 */
+	@Override
 	public void reload(float delta) {
 		
 		//Keep track of how long schmuck has been reloading. If done, get more ammo.
@@ -181,6 +182,7 @@ public class RangedWeapon extends Equipable{
 		}
 	}
 	
+	@Override
 	public float getUseCd() {
 		return useCd * (1 - user.getBodyData().getRangedFireRate());
 	}

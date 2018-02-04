@@ -20,6 +20,7 @@ public class InfoFlag extends Event {
 		this.text = text;
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this);
@@ -29,6 +30,7 @@ public class InfoFlag extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public String getText() {
 		if (eventData.schmucks.isEmpty()) {
 			return "";

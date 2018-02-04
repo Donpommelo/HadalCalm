@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
@@ -34,8 +33,11 @@ public class MomentumPickup extends Event {
 		this.lifeLeft = lifespan; 
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new InteractableEventData(world, this) {
+			
+			@Override
 			public void onInteract(Player p) {
 				if (!consumed) {
 					p.momentums.addLast(momentum);
@@ -63,11 +65,7 @@ public class MomentumPickup extends Event {
 		
 		body.setLinearVelocity(vRotated);
 	}
-	
-	public void render(SpriteBatch batch) {
-		
-	}
-	
+
 	@Override
 	public void controller(float delta) {
 		lifeLeft -= delta;
@@ -76,6 +74,7 @@ public class MomentumPickup extends Event {
 		}
 	}
 	
+	@Override
 	public String getText() {
 		return momentum + " (PRESS E TO PICKUP)";
 	}

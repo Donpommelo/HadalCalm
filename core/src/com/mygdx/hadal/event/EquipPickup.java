@@ -16,7 +16,7 @@ public class EquipPickup extends Event {
 
 	private Equipable equip;
 	
-	public static final int numWeapons = 9;
+	public static final int numWeapons = 14;
 	
 	private static final String name = "Equip Pickup";
 
@@ -51,14 +51,32 @@ public class EquipPickup extends Event {
 		case 8:
 			this.equip = new BouncingBlade(null);
 			break;
+		case 9:
+			this.equip = new Boiler(null);
+			break;
+		case 10:
+			this.equip = new BeeGun(null);
+			break;
+		case 11:
+			this.equip = new LaserGuidedRocket(null);
+			break;
+		case 12:
+			this.equip = new NematocystCannon(null);
+			break;
+		case 13:
+			this.equip = new StickyBombLauncher(null);
+			break;
 		default:
 			this.equip = new Speargun(null);
 			break;
 		}
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new InteractableEventData(world, this) {
+			
+			@Override
 			public void onInteract(Player p) {
 				if (!consumed) {
 					Equipable temp = p.playerData.pickup(equip);
@@ -76,6 +94,7 @@ public class EquipPickup extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public String getText() {
 		return equip.name + " (E TO TAKE)";
 	}

@@ -3,7 +3,6 @@ package com.mygdx.hadal.event.userdata;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 
@@ -13,6 +12,7 @@ public class InteractableEventData extends EventData {
 		super(world, event);
 	}
 	
+	@Override
 	public void onTouch(HadalData fixB) {
 		if (fixB != null) {	
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
@@ -22,6 +22,7 @@ public class InteractableEventData extends EventData {
 		super.onTouch(fixB);
 	}
 	
+	@Override
 	public void onRelease(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
@@ -32,9 +33,4 @@ public class InteractableEventData extends EventData {
 		}
 		super.onRelease(fixB);
 	}
-	
-	public void onInteract(Player p) {
-
-	}
-
 }

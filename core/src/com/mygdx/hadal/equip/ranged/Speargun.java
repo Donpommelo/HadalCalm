@@ -48,6 +48,7 @@ public class Speargun extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
@@ -57,7 +58,6 @@ public class Speargun extends RangedWeapon {
 				}
 			});		
 		}
-		
 	};
 	
 	public Speargun(Schmuck user) {

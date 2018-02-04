@@ -59,6 +59,7 @@ public class TorpedofishAttack extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					boolean explode = false;
 					if (fixB != null) {

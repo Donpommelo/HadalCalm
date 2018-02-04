@@ -106,9 +106,7 @@ public class BodyData extends HadalData {
 	public Zone currentZone;
 	
 	public ArrayList<Status> statuses;
-	public ArrayList<Status> statusesChecked;
-	
-	
+	public ArrayList<Status> statusesChecked;	
 	
 	/**
 	 * This is created upon the create() method of any schmuck.

@@ -20,6 +20,7 @@ public class EelskinCover extends Artifact {
 		super(name, descr, descrLong, statusNum);
 	}
 
+	@Override
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 8, -0.60f, b, b, 50);
 		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 9, -0.60f, b, b, 50);

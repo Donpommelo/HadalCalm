@@ -50,6 +50,7 @@ public class Boomerang extends RangedWeapon {
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
 					(short) 0, true, world, camera, rays, user, projSpriteId) {
 				
+				@Override
 				public void create() {
 					super.create();
 					body.setAngularVelocity(5);
@@ -58,6 +59,7 @@ public class Boomerang extends RangedWeapon {
 						Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), Constants.PLAYER_HITBOX));
 				}
 				
+				@Override
 				public void controller(float delta) {
 					Vector2 diff = new Vector2(user.getBody().getPosition().x * PPM - body.getPosition().x * PPM, 
 							user.getBody().getPosition().y * PPM - body.getPosition().y * PPM);
@@ -71,6 +73,7 @@ public class Boomerang extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB instanceof PlayerBodyData) {

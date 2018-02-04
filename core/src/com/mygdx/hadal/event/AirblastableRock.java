@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -28,10 +29,17 @@ public class AirblastableRock extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this, UserDataTypes.WALL) {
 			
+			@Override
+			public void onTouch(HadalData fixB) {
+				
+			}
+			
+			@Override
 			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 				if (Arrays.asList(tags).contains(DamageTypes.AIR)) {
 					event.push(knockback.x * 200, knockback.y * 200);

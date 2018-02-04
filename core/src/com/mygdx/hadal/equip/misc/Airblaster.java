@@ -40,6 +40,7 @@ public class Airblaster extends MeleeWeapon {
 			
 			hbox.setUserData(new HitboxData(state, world, hbox) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (!fixB.equals(user.getBodyData())) {

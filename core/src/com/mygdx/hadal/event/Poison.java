@@ -35,6 +35,7 @@ public class Poison extends Event {
 		this.perp = perp;
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this);
@@ -44,9 +45,10 @@ public class Poison extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public void controller(float delta) {
 		controllerCount+=delta;
-		if (controllerCount >= 0.5f) {
+		if (controllerCount >= 1/60f) {
 			controllerCount = 0;
 			
 			for (HadalEntity entity : eventData.schmucks) {

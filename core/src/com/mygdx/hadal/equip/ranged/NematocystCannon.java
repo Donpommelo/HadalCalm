@@ -23,7 +23,7 @@ public class NematocystCannon extends RangedWeapon {
 	private final static int clipSize = 2;
 	private final static float shootCd = 0.45f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.25f;
+	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 0.0f;
@@ -37,8 +37,8 @@ public class NematocystCannon extends RangedWeapon {
 	private final static int projDura = 1;
 		
 	private final static int poisonRadius = 250;
-	private final static float poisonDamage = 10.0f;
-	private final static float poisonDuration = 3.0f;
+	private final static float poisonDamage = 25/60f;
+	private final static float poisonDuration = 4.0f;
 
 	private final static String weapSpriteId = "default";
 	private final static String projSpriteId = "debris_c";
@@ -51,6 +51,8 @@ public class NematocystCannon extends RangedWeapon {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, false, world, camera, rays, user, projSpriteId) {
+				
+				@Override
 				public void controller(float delta) {
 					if (lifeSpan <= 0) {
 						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
@@ -62,6 +64,7 @@ public class NematocystCannon extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					boolean explode = false;
 					if (fixB != null) {

@@ -27,9 +27,12 @@ public class Spring extends Event {
 		this.vec = vec;
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this) {
+			
+			@Override
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					fixB.getEntity().getBody().applyLinearImpulse(vec, fixB.getEntity().getBody().getWorldCenter(), true);

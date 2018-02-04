@@ -48,6 +48,7 @@ public class IronBallLauncher extends RangedWeapon {
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
 					filter, false, world, camera, rays, user, projSpriteId) {
 				
+				@Override
 				public void controller(float delta) {
 					lifeSpan -= delta;
 					if (lifeSpan <= 0) {
@@ -58,6 +59,7 @@ public class IronBallLauncher extends RangedWeapon {
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
+				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 

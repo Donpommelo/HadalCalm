@@ -29,6 +29,7 @@ public class PlayerTrail extends Event {
 		this.lifeLeft = lifespan;
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this);

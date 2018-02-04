@@ -46,8 +46,11 @@ public class TriggerSpawn extends Event {
 		this.spawns = new ArrayList<Schmuck>();
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new EventData(world, this) {
+			
+			@Override
 			public void onActivate(EventData activator) {
 				for (int i = 0; i < limit; i++) {
 
@@ -74,6 +77,7 @@ public class TriggerSpawn extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public void controller(float delta) {
 		
 		if (!defeated) {

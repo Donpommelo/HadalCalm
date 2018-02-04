@@ -22,6 +22,7 @@ public class RingofTesting extends Artifact {
 		super(name, descr, descrLong, statusNum);
 	}
 
+	@Override
 	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 29, .25f, b, b, 50);
 		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 42, 1.f, b, b, 50);

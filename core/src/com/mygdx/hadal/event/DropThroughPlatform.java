@@ -21,9 +21,12 @@ public class DropThroughPlatform extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 	}
 	
+	@Override
 	public void create() {
 
 		this.eventData = new EventData(world, this) {
+			
+			@Override
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
@@ -36,6 +39,7 @@ public class DropThroughPlatform extends Event {
 				}
 			}
 			
+			@Override
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
@@ -49,6 +53,7 @@ public class DropThroughPlatform extends Event {
 				}
 			}
 			
+			@Override
 			public void onInteract(Player p) {
 				Filter filter = event.getBody().getFixtureList().get(0).getFilterData();
 				filter.maskBits = (short) (Constants.BIT_SENSOR);

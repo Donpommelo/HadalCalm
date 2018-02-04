@@ -28,8 +28,11 @@ public class Target extends Event {
 		this.oneTime = oneTime;
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new EventData(world, this, UserDataTypes.EVENT) {
+			
+			@Override
 			public void onTouch(HadalData fixB) {
 				super.onTouch(fixB);
 				if (!consumed) {

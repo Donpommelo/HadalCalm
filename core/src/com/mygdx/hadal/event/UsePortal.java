@@ -28,8 +28,11 @@ public class UsePortal extends Event {
 		this.oneTime = oneTime;
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new InteractableEventData(world, this) {
+			
+			@Override
 			public void onInteract(Player p) {
 				if (event.getConnectedEvent() != null) {
 					p.getBody().setTransform(event.getConnectedEvent().getBody().getPosition(), 0);
@@ -46,6 +49,7 @@ public class UsePortal extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public String getText() {
 		return name + " (E TO USE)";
 	}

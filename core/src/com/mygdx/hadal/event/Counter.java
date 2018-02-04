@@ -28,8 +28,11 @@ public class Counter extends Event {
 		this.maxCount = maxCount;
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new EventData(world, this) {
+			
+			@Override
 			public void onActivate(EventData activator) {
 				currentCount++;
 				if (currentCount >= maxCount && event.getConnectedEvent() != null) {

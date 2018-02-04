@@ -24,8 +24,11 @@ public class Switch extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 	}
 	
+	@Override
 	public void create() {
 		this.eventData = new InteractableEventData(world, this) {
+			
+			@Override
 			public void onInteract(Player p) {
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().eventData.onActivate(this);
@@ -38,6 +41,7 @@ public class Switch extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	@Override
 	public String getText() {
 		return name + " (E TO ACTIVATE)";
 	}
