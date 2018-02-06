@@ -28,7 +28,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static String name = "Torpedo Launcher";
 	private final static int clipSize = 4;
 	private final static float shootCd = 0.25f;
-	private final static float shootDelay = 0.15f;
+	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.8f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 8.0f;
@@ -88,7 +88,7 @@ public class TorpedoLauncher extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					boolean explode = false;
 					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY)) {
+						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 							explode = true;
 						}
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 

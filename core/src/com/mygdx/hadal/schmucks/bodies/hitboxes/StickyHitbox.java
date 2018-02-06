@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.hitboxes;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -29,12 +30,16 @@ public class StickyHitbox extends HitboxImage {
 			public void onHit(final HadalData fixB) {
 				if (!stuckWall && !stuckEnemy) {
 					if (fixB != null) {
-						if (fixB instanceof BodyData) {
+						if (fixB.getType().equals(UserDataTypes.BODY)) {
 							stuckEnemy = true;
 							target = ((BodyData)fixB).getSchmuck();
 							location = new Vector2(
 									hbox.getBody().getPosition().x - target.getPosition().x, 
-									hbox.getBody().getPosition().y - target.getPosition().y);							
+									hbox.getBody().getPosition().y - target.getPosition().y);		
+						}
+						if (fixB.getType().equals(UserDataTypes.WALL)) {
+							stuckWall = true;
+							location = body.getPosition();				
 						}
 					} else {
 						stuckWall = true;

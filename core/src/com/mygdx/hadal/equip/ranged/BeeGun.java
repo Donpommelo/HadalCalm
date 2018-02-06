@@ -51,8 +51,8 @@ public class BeeGun extends RangedWeapon {
 
 	private static final float maxLinearSpeed = 100;
 	private static final float maxLinearAcceleration = 500;
-	private static final float maxAngularSpeed = 30;
-	private static final float maxAngularAcceleration = 5;
+	private static final float maxAngularSpeed = 60;
+	private static final float maxAngularAcceleration = 15;
 	
 	private static final int boundingRadius = 500;
 	private static final int decelerationRadius = 0;

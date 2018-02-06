@@ -65,7 +65,7 @@ public class TorpedofishAttack extends RangedWeapon {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
 								user.getBodyData(), true, DamageTypes.RANGED);
-						if (fixB.getType().equals(UserDataTypes.BODY)) {
+						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 							explode = true;
 						}
 						

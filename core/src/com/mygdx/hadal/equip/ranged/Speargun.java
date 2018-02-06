@@ -24,14 +24,14 @@ public class Speargun extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 50.0f;
 	private final static float recoil = 1.5f;
-	private final static float knockback = 3.5f;
+	private final static float knockback = 5.5f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 8;
 	private final static float lifespan = 0.75f;
 	private final static float gravity = 1;
 	
-	private final static int projDura = 2;
+	private final static int projDura = 1;
 	
 	private final static String weapSpriteId = "speargun";
 	private final static String projSpriteId = "harpoon";

@@ -21,17 +21,17 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Boomerang extends RangedWeapon {
 
 	private final static String name = "Boomerang";
-	private final static int clipSize = 5;
-	private final static float shootCd = 0.45f;
+	private final static int clipSize = 3;
+	private final static float shootCd = 0.75f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.75f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 30.0f;
+	private final static float baseDamage = 50.0f;
 	private final static float recoil = 0.0f;
-	private final static float knockback = 4.5f;
+	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 38;
+	private final static int projectileWidth = 60;
+	private final static int projectileHeight = 57;
 	private final static float lifespanx = 4.0f;
 	private final static float gravity = 0;
 	

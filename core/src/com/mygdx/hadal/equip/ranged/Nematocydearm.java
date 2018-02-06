@@ -68,7 +68,7 @@ public class Nematocydearm extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					boolean explode = false;
 					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY)) {
+						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 							explode = true;
 						}
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
