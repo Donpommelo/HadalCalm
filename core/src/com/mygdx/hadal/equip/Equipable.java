@@ -127,4 +127,8 @@ public abstract class Equipable {
 	public TextureRegion getEquipSprite() {
 		return equipSprite;
 	}
+
+	public void gainAmmo(int gained) {
+		
+	}
 }

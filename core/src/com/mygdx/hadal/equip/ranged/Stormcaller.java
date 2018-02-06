@@ -61,7 +61,7 @@ public class Stormcaller extends RangedWeapon {
 						damage += 0.1f;
 						
 						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								world, camera, rays, user, (int) width, damage, 0.0f);	
+								world, camera, rays, user, (int) width, damage, 0.0f, filter);	
 					}
 					super.controller(delta);
 				}

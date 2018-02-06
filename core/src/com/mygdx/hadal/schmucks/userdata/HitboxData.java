@@ -1,9 +1,14 @@
 package com.mygdx.hadal.schmucks.userdata;
 
+import java.util.Arrays;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * This stat contains the information relevant to a particular Hitbox.
@@ -27,6 +32,19 @@ public class HitboxData extends HadalData {
 		super(world, UserDataTypes.HITBOX, proj);
 		this.state = state;
 		this.hbox = proj;
+	}
+	
+	@Override
+	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT)) {
+			super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
+		}
+		
+		if (Arrays.asList(tags).contains(DamageTypes.REFLECT)) {
+			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
+			filter.groupIndex = (short) perp.getSchmuck().hitboxfilter;
+			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
+		}
 	}
 	
 	/**

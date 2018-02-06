@@ -124,6 +124,7 @@ public class LoadoutState extends GameState {
 				playOption = new Text(HadalGame.assetManager, "PLAY?",  100, HadalGame.CONFIG_HEIGHT - 350, Color.WHITE);
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
+			        	getGsm().getLoadout().refresh();
 			        	getGsm().removeState(LoadoutState.class);
 			        	getGsm().addState(State.PLAY, TitleState.class);
 			        }
@@ -206,9 +207,9 @@ public class LoadoutState extends GameState {
 		        public void clicked(InputEvent e, float x, float y) {
 
 		        	getGsm().getLoadout().multitools[slot] = selected;
-
 		        	playState.player.getPlayerData().replaceSlot(selected, slot);
-		        	
+		        	selected.gainAmmo(1000);
+
 		        	refreshLoadout();
 
 		        }

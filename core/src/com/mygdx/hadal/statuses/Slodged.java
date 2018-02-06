@@ -29,9 +29,7 @@ public class Slodged extends Status {
 	
 	@Override
 	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-		if (Arrays.asList(tags).contains(DamageTypes.MELEE)) {
-			damage *= amp;
-		}
+		damage *= amp;
 		return damage;
 	}
 

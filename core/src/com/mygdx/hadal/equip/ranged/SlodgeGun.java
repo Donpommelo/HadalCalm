@@ -40,7 +40,7 @@ public class SlodgeGun extends RangedWeapon {
 	
 	private final static float slowDura = 3.0f;
 
-	private final static int explosionRadius = 200;
+	private final static int explosionRadius = 250;
 
 	private final static String weapSpriteId = "default";
 	private final static String projSpriteId = "debris_c";

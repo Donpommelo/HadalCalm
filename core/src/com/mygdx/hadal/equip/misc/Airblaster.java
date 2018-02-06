@@ -25,7 +25,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static float baseDamage = 0.0f;
 	private final static int hitboxSize = 300;
 	private final static int swingArc = 300;
-	private final static float knockback = 15.0f;
+	private final static float knockback = 25.0f;
 	private final static float momentum = -7.5f;
 	
 	
@@ -45,7 +45,7 @@ public class Airblaster extends MeleeWeapon {
 					if (fixB != null) {
 						if (!fixB.equals(user.getBodyData())) {
 							fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-									user.getBodyData(), false, DamageTypes.AIR);
+									user.getBodyData(), false, DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT);
 						}
 					}
 				}

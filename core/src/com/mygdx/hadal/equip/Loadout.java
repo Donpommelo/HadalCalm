@@ -43,6 +43,12 @@ public class Loadout {
 
 	}
 	
+	public void refresh() {
+		for (Equipable e : multitools) {
+			e.gainAmmo(1000);
+		}
+	}
+	
 	public static int getNumSlots() {
 		return numSlots;
 	}

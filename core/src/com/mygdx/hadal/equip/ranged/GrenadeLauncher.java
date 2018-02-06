@@ -63,7 +63,7 @@ public class GrenadeLauncher extends RangedWeapon {
 					super.controller(delta);
 					if (lifeSpan <= 0) {
 						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
+								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
 					}
 				}
 			};
@@ -77,7 +77,7 @@ public class GrenadeLauncher extends RangedWeapon {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
 							WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
-									world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
+									world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
 							hbox.queueDeletion();
 						}
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 

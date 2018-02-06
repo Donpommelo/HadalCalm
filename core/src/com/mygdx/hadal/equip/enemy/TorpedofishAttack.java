@@ -74,7 +74,7 @@ public class TorpedofishAttack extends RangedWeapon {
 					}
 					if (explode) {
 						WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
-								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
+								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
 						hbox.queueDeletion();
 					}
 					

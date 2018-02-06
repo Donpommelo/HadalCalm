@@ -56,7 +56,7 @@ public class StickyBombLauncher extends RangedWeapon {
 				WeaponUtils.explode(state, 
 						bombsLaid.first().getBody().getPosition().x * PPM, 
 						bombsLaid.first().getBody().getPosition().y * PPM, 
-						world, camera, rays, user, explosionRadius, explosionDamage, explosionKnockback);
+						world, camera, rays, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
 				bombsLaid.removeFirst().queueDeletion();
 			}
 			bombsLaid.addLast(proj);
@@ -98,7 +98,7 @@ public class StickyBombLauncher extends RangedWeapon {
 			WeaponUtils.explode(user.state, 
 					bomb.getBody().getPosition().x * PPM, 
 					bomb.getBody().getPosition().y * PPM, 
-					user.world, user.camera, user.rays, user, explosionRadius, explosionDamage, explosionKnockback);
+					user.world, user.camera, user.rays, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
 			bomb.queueDeletion();
 		}
 		bombsLaid.clear();

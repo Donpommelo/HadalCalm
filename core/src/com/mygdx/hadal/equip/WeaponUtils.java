@@ -17,10 +17,10 @@ public class WeaponUtils {
 	private static final float selfDamageReduction = 0.4f;
 	
 	public static Hitbox explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
-			final Schmuck user, int explosionRadius, final float explosionDamage, final float explosionKnockback) {
+			final Schmuck user, int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		Hitbox explosion = new Hitbox(state, 
 				x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-				(short) 0, true, world, camera, rays, user);
+				filter, true, world, camera, rays, user);
 
 		explosion.setUserData(new HitboxData(state, world, explosion){
 			public void onHit(HadalData fixB) {
@@ -30,10 +30,10 @@ public class WeaponUtils {
 					
 					if (fixB.equals(user.getBodyData())) {
 						fixB.receiveDamage(explosionDamage * selfDamageReduction, kb.nor().scl(explosionKnockback), 
-								user.getBodyData(), true, DamageTypes.EXPLOSIVE);
+								user.getBodyData(), true, DamageTypes.EXPLOSIVE, DamageTypes.DEFLECT);
 					} else {
 						fixB.receiveDamage(explosionDamage, kb.nor().scl(explosionKnockback), 
-								user.getBodyData(), true, DamageTypes.EXPLOSIVE);
+								user.getBodyData(), true, DamageTypes.EXPLOSIVE, DamageTypes.DEFLECT);
 					}
 				}
 			}

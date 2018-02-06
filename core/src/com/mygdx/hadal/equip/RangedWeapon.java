@@ -175,6 +175,7 @@ public class RangedWeapon extends Equipable{
 	 * helper method for gaining ammo. Not currently used, but could be useful for stuff that gives you free reloads
 	 * @param gained: amount of ammo to gain.
 	 */
+	@Override
 	public void gainAmmo(int gained) {
 		clipLeft += gained;
 		if (clipLeft >= getClipSize()) {
