@@ -68,21 +68,26 @@ public class LaserGuidedRocket extends RangedWeapon {
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, false, world, camera, rays, user, projSpriteId) {
 				
+				float controllerCount = 0;
+				
 				@Override
 				public void controller(float delta) {
-					super.controller(delta);
-					if (lifeSpan <= 0) {
-						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
+					controllerCount+=delta;
+					if (controllerCount >= 1/60f) {
+						if (lifeSpan <= 0) {
+							WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
+									world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback);
+						}
+						
+						Vector3 bodyPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
+						camera.project(bodyPosition);
+						
+						Vector2 diff = new Vector2(Gdx.input.getX() - bodyPosition.x, 
+								Gdx.graphics.getHeight() - Gdx.input.getY() - bodyPosition.y);
+						
+						body.applyForceToCenter(diff.nor().scl(projectileSpeed2 * body.getMass()), true);
 					}
-					
-					Vector3 bodyPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-					camera.project(bodyPosition);
-					
-					Vector2 diff = new Vector2(Gdx.input.getX() - bodyPosition.x, 
-							Gdx.graphics.getHeight() - Gdx.input.getY() - bodyPosition.y);
-					
-					body.applyForceToCenter(diff.nor().scl(projectileSpeed2 * body.getMass()), true);
+					super.controller(delta);
 				}
 			};
 			

@@ -26,6 +26,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -63,8 +64,10 @@ public class PlayState extends GameState {
 	private Set<HadalEntity> removeList;
 	private Set<HadalEntity> createList;
 	
-	//This is a set of all entities in the world
+	//This is a set of all nont-hitbox entities in the world
 	private Set<HadalEntity> entities;
+	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
+	private Set<HadalEntity> hitboxes;
 	
 	//sourced effects from the world are attributed to this dummy.
 	public Enemy worldDummy;
@@ -120,6 +123,7 @@ public class PlayState extends GameState {
 		removeList = new HashSet<HadalEntity>();
 		createList = new HashSet<HadalEntity>();
 		entities = new HashSet<HadalEntity>();
+		hitboxes = new HashSet<HadalEntity>();
 		
 		worldDummy = new Enemy(this, world, camera, rays, 1, 1, -1000, -1000);
 		
@@ -176,18 +180,26 @@ public class PlayState extends GameState {
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity : removeList) {
 			entities.remove(entity);
+			hitboxes.remove(entity);
 			entity.dispose();
 		}
 		removeList.clear();
 		
 		//All entities that are set to be added are added.
 		for (HadalEntity entity : createList) {
-			entities.add(entity);
+			if (entity instanceof Hitbox) {
+				hitboxes.add(entity);
+			} else {
+				entities.add(entity);
+			}
 			entity.create();
 		}
 		createList.clear();
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
+		for (HadalEntity entity : hitboxes) {
+			entity.controller(delta);
+		}
 		for (HadalEntity entity : entities) {
 			entity.controller(delta);
 		}
@@ -244,6 +256,9 @@ public class PlayState extends GameState {
 		batch.begin();
 		font.getData().setScale(1.0f);
 
+		for (HadalEntity hitbox : hitboxes) {
+			hitbox.render(batch);
+		}
 		for (HadalEntity schmuck : entities) {
 			schmuck.render(batch);
 		}
@@ -296,7 +311,9 @@ public class PlayState extends GameState {
 		for (HadalEntity schmuck : entities) {
 			schmuck.dispose();
 		}
-		
+		for (HadalEntity hitbox : hitboxes) {
+			hitbox.dispose();
+		}
 		world.dispose();
 		tmr.dispose();
 		map.dispose();

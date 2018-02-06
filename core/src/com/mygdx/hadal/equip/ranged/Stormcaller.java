@@ -49,17 +49,20 @@ public class Stormcaller extends RangedWeapon {
 					filter, true, world, camera, rays, user, projSpriteId) {
 				
 				float damage = 1;
+				float controllerCount = 0;
 				
 				@Override
 				public void controller(float delta) {
-
-					width+=2;
-					height+=2;
-					
-					damage += 0.1f;
-					
-					WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-							world, camera, rays, user, (int) width, damage, 0.0f);					
+					controllerCount+=delta;
+					if (controllerCount >= 1/60f) {
+						width+=2;
+						height+=2;
+						
+						damage += 0.1f;
+						
+						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
+								world, camera, rays, user, (int) width, damage, 0.0f);	
+					}
 					super.controller(delta);
 				}
 			};
