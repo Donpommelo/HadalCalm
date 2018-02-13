@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -36,11 +37,11 @@ public class HitboxData extends HadalData {
 	
 	@Override
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT)) {
+		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && !(hbox instanceof MeleeHitbox)) {
 			super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
 		}
 		
-		if (Arrays.asList(tags).contains(DamageTypes.REFLECT)) {
+		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && !(hbox instanceof MeleeHitbox)) {
 			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
 			filter.groupIndex = (short) perp.getSchmuck().hitboxfilter;
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);

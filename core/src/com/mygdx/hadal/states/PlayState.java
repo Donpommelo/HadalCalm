@@ -64,7 +64,7 @@ public class PlayState extends GameState {
 	private Set<HadalEntity> removeList;
 	private Set<HadalEntity> createList;
 	
-	//This is a set of all nont-hitbox entities in the world
+	//This is a set of all non-hitbox entities in the world
 	private Set<HadalEntity> entities;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private Set<HadalEntity> hitboxes;
@@ -104,6 +104,7 @@ public class PlayState extends GameState {
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), false);
 		world.setContactListener(new WorldContactListener());
+		World.setVelocityThreshold(0);
 		
 		/*world.setContactFilter(new ContactFilter() {
 
@@ -116,7 +117,11 @@ public class PlayState extends GameState {
 		});*/
 		
 		rays = new RayHandler(world);
-        rays.setAmbientLight(.4f);
+        rays.setAmbientLight(1.0f);
+        rays.setCulling(false);
+ //       RayHandler.useDiffuseLight(true);
+        rays.setCombinedMatrix(camera);
+
 		b2dr = new Box2DDebugRenderer();
 		
 		//Initialize sets to keep track of active entities
@@ -131,7 +136,7 @@ public class PlayState extends GameState {
 		
 		map = new TmxMapLoader().load(level);
 		
-		new Turret(this, world, camera, rays, 300, 800);
+//		new Turret(this, world, camera, rays, 300, 800);
 		
 		player = new Player(this, world, camera, rays, 0, 0, loadout.playerSprite);
 		controller = new PlayerController(player, this);
@@ -207,7 +212,7 @@ public class PlayState extends GameState {
 		//Update the game camera and batch.
 		cameraUpdate();
 		tmr.setView(camera);
-//		rays.setCombinedMatrix(camera.combined.cpy().scl(PPM));
+//		rays.setCombinedMatrix(camera);
 		
 		//process gameover
 		if (gameover) {
@@ -248,8 +253,7 @@ public class PlayState extends GameState {
 		//Render debug lines for box2d objects.
 		b2dr.render(world, camera.combined.scl(PPM));
 
-		//Update rays. Does nothing yet.
-		rays.updateAndRender();
+		
 		
 		//Iterate through entities in the world to render
 		batch.setProjectionMatrix(camera.combined);
@@ -263,6 +267,8 @@ public class PlayState extends GameState {
 			schmuck.render(batch);
 		}
 		
+		
+				
 		batch.setProjectionMatrix(hud.combined);
 		
 		//Draw player information for temporary ui.
@@ -282,8 +288,10 @@ public class PlayState extends GameState {
 				font.draw(batch, "SCORE: " + score, HadalGame.CONFIG_WIDTH - 220, HadalGame.CONFIG_HEIGHT - 50);
 			}
 		}
-		
+				
 		batch.end();
+		rays.setCombinedMatrix(camera);
+		rays.updateAndRender();
 		
 	}	
 	

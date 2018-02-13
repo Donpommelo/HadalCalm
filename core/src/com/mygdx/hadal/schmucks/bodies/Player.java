@@ -177,7 +177,6 @@ public class Player extends Schmuck {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				Constants.PLAYER_HITBOX, false, playerData);
-		
 		super.create();
 	}
 	
@@ -342,7 +341,7 @@ public class Player extends Schmuck {
 	
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
-
+		
 		Vector3 bodyScreenPosition = new Vector3(
 				body.getPosition().x,
 				body.getPosition().y, 0);

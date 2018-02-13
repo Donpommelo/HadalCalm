@@ -9,19 +9,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.MoveStates;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
 
@@ -45,13 +41,7 @@ public class FloatingEnemy extends SteeringEnemy {
     
     public static final float moveMag = 7.5f;
     
-    //Fixtures and user data
-  	protected FixtureDef sensorDef;
-  	protected Fixture sensor;
-  	protected HitboxData sensorData;
-    
   	private floatingState aiState;
-  	private Vector2 wallhug;
   	
   	float shortestFraction;
   	Fixture closestFixture;
@@ -90,32 +80,18 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
 		fishSprite = atlas.findRegion(spriteId);
+		
+		
 	}
 	
 	/**
 	 * Create the enemy's body and initialize enemy's user data.
 	 */
 	public void create() {
-		
 		super.create();
-
-		this.sensorData = new HitboxData(state, world, null) {
-			public void onHit(HadalData fixB) {
-				if (fixB == null) {
-					if (aiState.equals(floatingState.ROAMING)) {
-						aiState = floatingState.WALLHUGGING;
-						aiCdCount = aiCd;
-						wallhug = getBody().getLinearVelocity().nor().scl(moveMag / 2).rotate(45);
-					}
-				}
-			}
-		};
-		
-		sensorDef = FixtureBuilder.createFixtureDef(hbWidth * scale * 2, hbHeight * scale * 2, new Vector2(0,0), true, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER), Constants.PLAYER_HITBOX);
-		sensor = body.createFixture(sensorDef);
-		sensor.setUserData(sensorData);
-		
+		direction = new Vector2(
+				state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
+				state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag);
 	}
 
 	/**
@@ -126,20 +102,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		moveState = MoveStates.STAND;
 		
 		switch (aiState) {
-		case ROAMING:
-			
-			if (sensorData.getNumContacts() > 0) {
-				aiState = floatingState.WALLHUGGING;
-				aiCdCount = aiCd;
-				wallhug = direction.rotate(180);
-			}
-			
-			direction = new Vector2(
-					state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
-					state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag);			
-			break;
-		case WALLHUGGING:
-			direction = wallhug;
+		case ROAMING:		
 			break;
 		case CHASING:
 			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
@@ -159,9 +122,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			moveCdCount += moveCd;
 			switch (aiState) {
 			case ROAMING:
-			case WALLHUGGING:
 				push(direction.x, direction.y);
-//				body.setTransform(body.getPosition(), 90);
 				break;
 			case CHASING:
 				break;
@@ -171,6 +132,8 @@ public class FloatingEnemy extends SteeringEnemy {
 		if (aiCdCount < 0) {
 			aiCdCount += aiCd;
 			aiState = floatingState.ROAMING;
+			
+			direction = direction.setAngle((float) (Math.random() * 360));	
 			
 			shortestFraction = 1.0f;
 			
@@ -257,6 +220,5 @@ public class FloatingEnemy extends SteeringEnemy {
 	
 	public enum floatingState {		CHASING,
 		ROAMING,
-		WALLHUGGING
 	}
 }

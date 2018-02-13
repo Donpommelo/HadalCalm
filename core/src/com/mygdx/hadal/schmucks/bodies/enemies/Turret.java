@@ -8,12 +8,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
+import com.mygdx.hadal.equip.enemy.TurretAttack;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -60,6 +62,8 @@ public class Turret extends Enemy {
 		this.angle = 0;
 		this.desiredAngle = 0;
 		
+		this.weapon = new TurretAttack(this);
+		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
 		turretBase = atlas.findRegion("base");
 //		turretBarrel = atlas.findRegion("flak");
@@ -75,7 +79,7 @@ public class Turret extends Enemy {
 	 */
 	public void create() {
 		this.bodyData = new BodyData(world, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 1, 0, false, true, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 1, 0, true, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);
 	}
@@ -95,6 +99,11 @@ public class Turret extends Enemy {
 				angle =  (float)(Math.atan2(
 						state.getPlayer().getBody().getPosition().y - body.getPosition().y ,
 						state.getPlayer().getBody().getPosition().x - body.getPosition().x) * 180 / Math.PI);
+				
+				Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
+				camera.project(target);
+				
+				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 				break;
 		}
 		
@@ -141,6 +150,17 @@ public class Turret extends Enemy {
 		}
 		
 		aiCdCount -= delta;
+		shootCdCount-=delta;
+		shootDelayCount-=delta;
+		
+		//If the delay on using a tool just ended, use thte tool.
+		if (shootDelayCount <= 0 && usedTool != null) {
+			useToolEnd();
+		}
+		
+		if (weapon.reloading) {
+			weapon.reload(delta);
+		}
 	}
 	
 	public void render(SpriteBatch batch) {
