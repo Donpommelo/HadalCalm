@@ -267,24 +267,6 @@ public class PlayState extends GameState {
 		}
 				
 		batch.setProjectionMatrix(hud.combined);
-		
-		//Draw player information for temporary ui.
-		//Check for null because player is not immediately spawned in a map.
-/*		if (player != null) {
-			if (player.getPlayerData() != null) {
-				font.getData().setScale(1.5f);
-				font.draw(batch, "Hp: " + Math.round(player.getPlayerData().currentHp) + "/" + player.getPlayerData().getMaxHp() + " Fuel: " + Math.round(player.getPlayerData().currentFuel), 25, 180);
-				font.draw(batch, player.getPlayerData().currentTool.getText(), 25, 160);
-				if (player.momentums.size != 0) {
-					font.draw(batch, "Saved Momentum: " + player.momentums.first(), 25, 140);
-				}
-				if (player.currentEvent != null) {
-					font.draw(batch, player.currentEvent.getText(), 25, 120);
-				}
-				font.getData().setScale(2.5f);
-				font.draw(batch, "SCORE: " + score, HadalGame.CONFIG_WIDTH - 220, HadalGame.CONFIG_HEIGHT - 50);
-			}
-		}*/
 				
 		batch.end();
 		rays.setCombinedMatrix(camera);

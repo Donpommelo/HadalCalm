@@ -81,20 +81,6 @@ public class UIPlay extends AHadalActor{
 				}
 			}
 		}
-		
-		
-		
-		
-/*		font.getData().setScale(1.5f);
-		font.draw(batch, "Score: " + state.score+ " Hp: " + Math.round(player.getPlayerData().currentHp) + "/" + player.getPlayerData().getMaxHp() + " Fuel: " + Math.round(player.getPlayerData().currentFuel), 60, 80);
-		font.draw(batch, player.getPlayerData().currentTool.getText(), 60, 60);
-		if (player.momentums.size != 0) {
-			font.draw(batch, "Saved Momentum: " + player.momentums.first(), 60, 40);
-		}
-		if (player.currentEvent != null) {
-			font.draw(batch, player.currentEvent.getText(), 60, 20);
-		}*/
-
 	}
 
 }

@@ -48,10 +48,6 @@ public enum AssetList {
 	UI2("ui/UI2.png", Texture.class),
 	UIATLAS("ui/UI.atlas", TextureAtlas.class);
 	
-	
-	
-	;
-	
 	//Enum constructor and methods.
 	private String pathname;
     private Class<?> type;
