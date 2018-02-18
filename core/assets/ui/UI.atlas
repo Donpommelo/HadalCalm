@@ -6,167 +6,181 @@ filter: Linear,Linear
 repeat: none
 UI_main_fuel_cutoff
   rotate: false
-  xy: 1851, 1901
+  xy: 1972, 1874
   size: 10, 51
   orig: 10, 51
   offset: 0, 0
   index: -1
 UI_main_fuelbar
   rotate: false
-  xy: 2, 2
+  xy: 1542, 1829
   size: 425, 25
   orig: 425, 25
   offset: 0, 0
   index: -1
+UI_main_health_low
+  rotate: false
+  xy: 2, 1618
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: -1
 UI_main_healthbar
   rotate: false
-  xy: 2, 29
+  xy: 1542, 1856
+  size: 428, 69
+  orig: 428, 69
+  offset: 0, 0
+  index: -1
+UI_main_healthmissing
+  rotate: false
+  xy: 2, 2
   size: 428, 69
   orig: 428, 69
   offset: 0, 0
   index: -1
 UI_main_null
   rotate: false
-  xy: 2, 1645
+  xy: 2, 1309
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 0
 UI_main_null
   rotate: false
-  xy: 2, 1336
+  xy: 772, 1618
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 1
 UI_main_null
   rotate: false
-  xy: 772, 1645
+  xy: 2, 1000
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 2
 UI_main_null
   rotate: false
-  xy: 2, 1027
+  xy: 772, 1309
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 3
 UI_main_overlay
   rotate: false
-  xy: 772, 1336
+  xy: 2, 691
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: -1
 UI_main_reloading
   rotate: false
-  xy: 2, 718
+  xy: 772, 1000
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: -1
 UI_main_selected
   rotate: false
-  xy: 772, 1027
+  xy: 2, 382
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 0
 UI_main_selected
   rotate: false
-  xy: 2, 409
+  xy: 772, 691
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 1
 UI_main_selected
   rotate: false
-  xy: 772, 718
+  xy: 2, 73
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 2
 UI_main_selected
   rotate: false
-  xy: 2, 100
+  xy: 772, 382
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 3
 UI_main_unselected
   rotate: false
-  xy: 772, 409
+  xy: 772, 73
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 0
-UI_main_unselected
+UI_momentum_arrow
   rotate: false
-  xy: 772, 100
-  size: 768, 307
-  orig: 768, 307
-  offset: 0, 0
-  index: 1
-ui_momentum_arrow
-  rotate: false
-  xy: 1542, 1645
-  size: 307, 307
-  orig: 307, 307
+  xy: 1542, 1673
+  size: 154, 154
+  orig: 154, 154
   offset: 0, 0
   index: 0
-ui_momentum_arrow
+UI_momentum_arrow
   rotate: false
-  xy: 1542, 1336
-  size: 307, 307
-  orig: 307, 307
+  xy: 1542, 1517
+  size: 154, 154
+  orig: 154, 154
   offset: 0, 0
   index: 1
-ui_momentum_arrow
+UI_momentum_arrow
   rotate: false
-  xy: 1542, 1027
-  size: 307, 307
-  orig: 307, 307
+  xy: 1698, 1673
+  size: 154, 154
+  orig: 154, 154
   offset: 0, 0
   index: 2
-ui_momentum_base
+UI_momentum_base
   rotate: false
-  xy: 1542, 718
-  size: 307, 307
-  orig: 307, 307
+  xy: 1542, 1361
+  size: 154, 154
+  orig: 154, 154
   offset: 0, 0
   index: -1
-ui_momentum_overlay
+UI_momentum_overlay
   rotate: false
-  xy: 1542, 409
-  size: 307, 307
-  orig: 307, 307
+  xy: 1698, 1517
+  size: 154, 154
+  orig: 154, 154
   offset: 0, 0
   index: -1
-ui_momentum_ready
+UI_momentum_ready
   rotate: false
-  xy: 1542, 100
-  size: 307, 307
-  orig: 307, 307
+  xy: 1542, 1205
+  size: 154, 154
+  orig: 154, 154
   offset: 0, 0
   index: -1
 
 UI2.png
-size: 2048,512
+size: 1024,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 UI_main_unselected
   rotate: false
-  xy: 2, 2
+  xy: 2, 620
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 1
+UI_main_unselected
+  rotate: false
+  xy: 2, 311
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
   index: 2
 UI_main_unselected
   rotate: false
-  xy: 772, 2
+  xy: 2, 2
   size: 768, 307
   orig: 768, 307
   offset: 0, 0
