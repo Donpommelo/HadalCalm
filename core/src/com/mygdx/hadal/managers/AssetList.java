@@ -43,7 +43,14 @@ public enum AssetList {
 	SPARK_TRAIL("sprites/particle/spark_trail.particle", null),
 	
 	UISKINIMG("ui/uiskin.png", Texture.class),
-	UISKINATL("ui/uiskin.atlas", TextureAtlas.class);
+	UISKINATL("ui/uiskin.atlas", TextureAtlas.class),
+	UI1("ui/UI.png", Texture.class),
+	UI2("ui/UI2.png", Texture.class),
+	UIATLAS("ui/UI.atlas", TextureAtlas.class);
+	
+	
+	
+	;
 	
 	//Enum constructor and methods.
 	private String pathname;

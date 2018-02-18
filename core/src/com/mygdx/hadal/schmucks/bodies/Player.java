@@ -59,7 +59,7 @@ public class Player extends PhysicsSchmuck {
 	protected float interactCdCount = 0;
 	
 	protected float momentumCd = 10.0f;
-	protected float momentumCdCount = 0;
+	public float momentumCdCount = 0;
 	
 	protected float trailCd = 0.25f;
 	protected float trailCdCount = 0;
@@ -112,7 +112,7 @@ public class Player extends PhysicsSchmuck {
 	
 	private final float spriteAnimationSpeed = 0.08f;
 	
-	private ParticleEntity hoverBubbles, jumpSmoke;
+	private ParticleEntity hoverBubbles;//, jumpSmoke;
 	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map

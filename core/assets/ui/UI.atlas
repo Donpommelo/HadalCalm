@@ -1,0 +1,173 @@
+
+UI.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+UI_main_fuel_cutoff
+  rotate: false
+  xy: 1851, 1901
+  size: 10, 51
+  orig: 10, 51
+  offset: 0, 0
+  index: -1
+UI_main_fuelbar
+  rotate: false
+  xy: 2, 2
+  size: 425, 25
+  orig: 425, 25
+  offset: 0, 0
+  index: -1
+UI_main_healthbar
+  rotate: false
+  xy: 2, 29
+  size: 428, 69
+  orig: 428, 69
+  offset: 0, 0
+  index: -1
+UI_main_null
+  rotate: false
+  xy: 2, 1645
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 0
+UI_main_null
+  rotate: false
+  xy: 2, 1336
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 1
+UI_main_null
+  rotate: false
+  xy: 772, 1645
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 2
+UI_main_null
+  rotate: false
+  xy: 2, 1027
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 3
+UI_main_overlay
+  rotate: false
+  xy: 772, 1336
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: -1
+UI_main_reloading
+  rotate: false
+  xy: 2, 718
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: -1
+UI_main_selected
+  rotate: false
+  xy: 772, 1027
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 0
+UI_main_selected
+  rotate: false
+  xy: 2, 409
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 1
+UI_main_selected
+  rotate: false
+  xy: 772, 718
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 2
+UI_main_selected
+  rotate: false
+  xy: 2, 100
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 3
+UI_main_unselected
+  rotate: false
+  xy: 772, 409
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 0
+UI_main_unselected
+  rotate: false
+  xy: 772, 100
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 1
+ui_momentum_arrow
+  rotate: false
+  xy: 1542, 1645
+  size: 307, 307
+  orig: 307, 307
+  offset: 0, 0
+  index: 0
+ui_momentum_arrow
+  rotate: false
+  xy: 1542, 1336
+  size: 307, 307
+  orig: 307, 307
+  offset: 0, 0
+  index: 1
+ui_momentum_arrow
+  rotate: false
+  xy: 1542, 1027
+  size: 307, 307
+  orig: 307, 307
+  offset: 0, 0
+  index: 2
+ui_momentum_base
+  rotate: false
+  xy: 1542, 718
+  size: 307, 307
+  orig: 307, 307
+  offset: 0, 0
+  index: -1
+ui_momentum_overlay
+  rotate: false
+  xy: 1542, 409
+  size: 307, 307
+  orig: 307, 307
+  offset: 0, 0
+  index: -1
+ui_momentum_ready
+  rotate: false
+  xy: 1542, 100
+  size: 307, 307
+  orig: 307, 307
+  offset: 0, 0
+  index: -1
+
+UI2.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+UI_main_unselected
+  rotate: false
+  xy: 2, 2
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 2
+UI_main_unselected
+  rotate: false
+  xy: 772, 2
+  size: 768, 307
+  orig: 768, 307
+  offset: 0, 0
+  index: 3

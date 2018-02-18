@@ -16,7 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.actors.HpBar;
+import com.mygdx.hadal.actors.UIMomentum;
+import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -154,7 +155,8 @@ public class PlayState extends GameState {
 	@Override
 	public void show() {
 		this.stage = new PlayStateStage(this);
-		this.stage.addActor(new HpBar(HadalGame.assetManager, this, player));
+		this.stage.addActor(new UIPlay(HadalGame.assetManager, this, player));
+		this.stage.addActor(new UIMomentum(HadalGame.assetManager, this, player));
 		app.newMenu(stage);
 		resetController();
 	}
@@ -268,7 +270,7 @@ public class PlayState extends GameState {
 		
 		//Draw player information for temporary ui.
 		//Check for null because player is not immediately spawned in a map.
-		if (player != null) {
+/*		if (player != null) {
 			if (player.getPlayerData() != null) {
 				font.getData().setScale(1.5f);
 				font.draw(batch, "Hp: " + Math.round(player.getPlayerData().currentHp) + "/" + player.getPlayerData().getMaxHp() + " Fuel: " + Math.round(player.getPlayerData().currentFuel), 25, 180);
@@ -282,7 +284,7 @@ public class PlayState extends GameState {
 				font.getData().setScale(2.5f);
 				font.draw(batch, "SCORE: " + score, HadalGame.CONFIG_WIDTH - 220, HadalGame.CONFIG_HEIGHT - 50);
 			}
-		}
+		}*/
 				
 		batch.end();
 		rays.setCombinedMatrix(camera);
