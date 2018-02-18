@@ -71,7 +71,9 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	public void turnOn() {
-		effect.start();
+		if (effect.isComplete()) {
+			effect.start();
+		}
 	}
 	
 	public void turnOff() {

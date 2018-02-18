@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -111,6 +112,8 @@ public class Player extends PhysicsSchmuck {
 	
 	private final float spriteAnimationSpeed = 0.08f;
 	
+	private ParticleEntity hoverBubbles, jumpSmoke;
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -136,7 +139,7 @@ public class Player extends PhysicsSchmuck {
 		this.moveState = MoveStates.STAND;
 
 		setBodySprite(playerSprite);
-		
+		loadParticles();
 	}
 	
 	public void setBodySprite(String playerSprite) {
@@ -163,7 +166,27 @@ public class Player extends PhysicsSchmuck {
 		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
 		if (playerData != null) {
 			playerData.setEquip();
-		}
+		}		
+	}
+	
+	public void loadParticles() {
+		
+		final TextureAtlas particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
+		
+		final ParticleEffect bubbles = new ParticleEffect();
+		bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
+		
+		bubbles.findEmitter("bubble0").setContinuous(false);
+		bubbles.findEmitter("bubble0").duration = 10;
+
+		hoverBubbles = new ParticleEntity(state, world, camera, rays, this, bubbles, 3.0f);
+		hoverBubbles.turnOff();
+		/*
+		final ParticleEffect smoke = new ParticleEffect();
+		smoke.load(Gdx.files.internal(AssetList.SMOKE_PUFF.toString()), particleAtlas);
+		
+		jumpSmoke = new ParticleEntity(state, world, camera, rays, this, smoke, 3.0f);
+		jumpSmoke.turnOff();*/
 	}
 	
 	/**
@@ -179,6 +202,7 @@ public class Player extends PhysicsSchmuck {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				Constants.PLAYER_HITBOX, false, playerData);
+				
 		super.create();
 	}
 	
@@ -238,16 +262,19 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	public void hover() {
-		if (!grounded && playerData.extraJumpsUsed >= playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
+		if (!grounded && playerData.extraJumpsUsed >= playerData.numExtraJumps + (int) playerData.getBonusJumpNum() &&
+				playerData.currentFuel >= playerData.hoverCost * (1 + playerData.getBonusHoverCost())) {
 			if (jumpCdCount < 0) {
 				
 				//Player will continuously do small upwards bursts that cost fuel.
-				if (playerData.currentFuel >= playerData.hoverCost * (1 + playerData.getBonusHoverCost())) {
-					playerData.fuelSpend(playerData.hoverCost * (1 + playerData.getBonusHoverCost()));
-					jumpCdCount = hoverCd;
-					push(0, playerData.hoverPow * (1 + playerData.getBonusHoverPower()));
-				}
+				playerData.fuelSpend(playerData.hoverCost * (1 + playerData.getBonusHoverCost()));
+				jumpCdCount = hoverCd;
+				push(0, playerData.hoverPow * (1 + playerData.getBonusHoverPower()));
+				
+				hoverBubbles.turnOn();
 			}
+		} else {
+			hoverBubbles.turnOff();
 		}
 	}
 	
@@ -256,6 +283,7 @@ public class Player extends PhysicsSchmuck {
 			if (jumpCdCount < 0) {
 				jumpCdCount = jumpCd;
 				push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
+//				jumpSmoke.turnOn();
 			}
 		} else {
 			if (playerData.extraJumpsUsed < playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
@@ -263,6 +291,7 @@ public class Player extends PhysicsSchmuck {
 					jumpCdCount = jumpCd;
 					playerData.extraJumpsUsed++;
 					push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
+//					jumpSmoke.turnOn();
 				}
 			}
 		}
