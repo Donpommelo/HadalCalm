@@ -47,6 +47,7 @@ public class SteeringEnemy extends Enemy {
 	
 	@Override
 	public void controller (float delta) {
+		super.controller(delta);
 		if (behavior != null && bodyData != null) {
 			behavior.calculateSteering(steeringOutput);
 			applySteering(delta);

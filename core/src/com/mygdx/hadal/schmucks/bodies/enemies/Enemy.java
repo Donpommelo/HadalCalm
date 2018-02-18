@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -47,23 +46,7 @@ public class Enemy extends Schmuck {
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);
 		
-		//ass super.create() if you want enemy to have feet that process groundedness
-	}
-
-	/**
-	 * Enemy ai goes here. Defaut enemy behaviour just walks right/left towards player and fires weapon.
-	 */
-	@Override
-	public void controller(float delta) {
-		
-	}
-	
-	/**
-	 * draws enemy
-	 */
-	@Override
-	public void render(SpriteBatch batch) {
-		
+		//super.create() if you want enemy to have feet that process groundedness
 	}
 	
 	/**

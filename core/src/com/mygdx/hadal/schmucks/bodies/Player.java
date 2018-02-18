@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,7 +33,7 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class Player extends Schmuck {
+public class Player extends PhysicsSchmuck {
 	
 
 	//player stats
@@ -86,7 +87,7 @@ public class Player extends Schmuck {
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
 		
-	public static final int bodyConnectX = -15;
+	public static final int bodyConnectX = -100;
 	public static final int bodyConnectY = 0;
 	
 	public static final int headConnectX = -26;
@@ -185,7 +186,6 @@ public class Player extends Schmuck {
 	 * The player's controller currently polls for input.
 	 */
 	public void controller(float delta) {
-		increaseAnimationTime(delta);
 		
 		controllerCount+=delta;
 		if (controllerCount >= 1/60f) {
@@ -370,24 +370,29 @@ public class Player extends Schmuck {
 		}
 		
 		int yOffset = 0;
-		switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
-		case 0:
-		case 1:
-			yOffset++;
-		case 2:
-			yOffset++;
-		case 3:
-			yOffset++;
-		case 4:
-			yOffset++;
-		case 5:
-			yOffset--;
-		case 6:
-			yOffset--;
-		case 7:
-			yOffset--;
+		if (moveState.equals(MoveStates.MOVE_LEFT) || moveState.equals(MoveStates.MOVE_RIGHT)) {
+			switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
+			case 0:
+			case 1:
+				yOffset++;
+			case 2:
+				yOffset++;
+			case 3:
+				yOffset++;
+			case 4:
+				yOffset++;
+			case 5:
+				yOffset--;
+			case 6:
+				yOffset--;
+			case 7:
+				yOffset--;
+			}
 		}
 		
+		if (flashingCount > 0) {
+			batch.setColor(Color.RED);
+		}
 		
 		batch.draw(toolSprite, 
 				(flip ? toolWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
@@ -396,7 +401,7 @@ public class Player extends Schmuck {
 				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(bodyBackSprite, 
-				(flip ? bodyBackWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX, 
+				(flip ? bodyBackWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
@@ -408,7 +413,7 @@ public class Player extends Schmuck {
 				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(momentumCdCount < 0 ? gemSprite : gemInactiveSprite, 
-				(flip ? gemWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+				(flip ? gemWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
@@ -422,7 +427,7 @@ public class Player extends Schmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
@@ -434,13 +439,13 @@ public class Player extends Schmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
 			batch.draw((TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX, 
+					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
@@ -451,6 +456,8 @@ public class Player extends Schmuck {
 				body.getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
+		
+		batch.setColor(Color.WHITE);
 	}
 	
 	public void dispose() {

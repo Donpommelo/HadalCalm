@@ -9,7 +9,7 @@ import com.mygdx.hadal.managers.AssetList;
 /**
  * Static background actor for title screen.
  */
-public class TitleBackdrop extends AHadalActor{
+public class TitleBackdrop extends AHadalActor {
 	private Texture backgroundTexture;
 	
 	public TitleBackdrop(AssetManager assetManager) {

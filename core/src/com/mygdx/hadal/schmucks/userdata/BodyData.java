@@ -103,6 +103,8 @@ public class BodyData extends HadalData {
 	
 	public float currentHp, currentFuel;
 
+	private final static float flashDuration = 0.08f;
+	
 	public Zone currentZone;
 	
 	public ArrayList<Status> statuses;
@@ -240,6 +242,11 @@ public class BodyData extends HadalData {
 		}
 		
 		currentHp -= damage;
+		
+		//Make shmuck flash upon receiving damage
+		if (damage > 0 && schmuck.flashingCount < -flashDuration) {
+			schmuck.flashingCount = flashDuration;
+		}
 		
 		float kbScale = 1;
 		

@@ -61,18 +61,22 @@ public class HadalGame extends ApplicationAdapter {
 		
 		camera = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
 		camera.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
 		
 	    sprite = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
 	    sprite.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    	    
+	    camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
+	    
 		viewportCamera = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, camera);
 	    viewportCamera.apply();
-		
+
 	    viewportSprite = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, sprite);
 	    viewportSprite.apply();
 	    
 	    hud = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
 	    hud.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+	    
+	    hud.zoom = 1 / BOX2DSCALE;
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
         loadAssets();
@@ -108,7 +112,7 @@ public class HadalGame extends ApplicationAdapter {
 		gsm.update(Gdx.graphics.getDeltaTime());
 		currentMenu.act();
 
-		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		gsm.render();
@@ -131,7 +135,7 @@ public class HadalGame extends ApplicationAdapter {
 		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
         sprite.position.set(sprite.viewportWidth / 2, sprite.viewportHeight / 2, 0);
 		viewportSprite.apply();
-
+		
 		currentMenu.getViewport().update(width, height);
 		
 		CONFIG_WIDTH = width;

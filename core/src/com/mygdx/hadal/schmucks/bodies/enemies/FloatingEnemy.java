@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -79,9 +80,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		this.aiState = floatingState.ROAMING;
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
-		fishSprite = atlas.findRegion(spriteId);
-		
-		
+		fishSprite = atlas.findRegion(spriteId);	
 	}
 	
 	/**
@@ -170,14 +169,6 @@ public class FloatingEnemy extends SteeringEnemy {
 			}
 				
 		}
-
-		shootCdCount-=delta;
-		shootDelayCount-=delta;
-		
-		//If the delay on using a tool just ended, use thte tool.
-		if (shootDelayCount <= 0 && usedTool != null) {
-			useToolEnd();
-		}
 		
 		if (weapon.reloading) {
 			weapon.reload(delta);
@@ -185,9 +176,6 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		moveCdCount -= delta;
 		aiCdCount -= delta;
-		
-		//Process statuses
-		bodyData.statusProcTime(3, bodyData, delta, null);
 	}
 	
 	@Override
@@ -208,6 +196,10 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 
+		if (flashingCount > 0) {
+			batch.setColor(Color.RED);
+		}
+		
 		batch.draw(fishSprite, 
 				body.getPosition().x * PPM - hbHeight * scale / 2, 
 				(flip ? height * scale : 0) + body.getPosition().y * PPM - hbWidth * scale / 2, 
@@ -216,6 +208,7 @@ public class FloatingEnemy extends SteeringEnemy {
 				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
 				(float) Math.toDegrees(body.getAngle()) - 90);
 
+		batch.setColor(Color.WHITE);
 	}
 	
 	public enum floatingState {		CHASING,

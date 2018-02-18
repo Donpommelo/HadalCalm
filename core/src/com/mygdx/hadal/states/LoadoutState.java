@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.HpBar;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;

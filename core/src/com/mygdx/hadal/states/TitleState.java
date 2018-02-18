@@ -87,6 +87,7 @@ public class TitleState extends GameState {
 				addActor(controlOption);
 				addActor(exitOption);
 			}
+			
 		};
 		app.newMenu(stage);
 	}

@@ -17,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.HpBar;
-import com.mygdx.hadal.dialogue.DialogueStage;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -25,8 +24,8 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -83,7 +82,7 @@ public class PlayState extends GameState {
 	public float zoom;
 	public boolean realFite;
 	
-	public DialogueStage stage;
+	public PlayStateStage stage;
 //	public Set<Zone> zones;
 	
 	/**
@@ -119,6 +118,7 @@ public class PlayState extends GameState {
 		rays = new RayHandler(world);
         rays.setAmbientLight(1.0f);
         rays.setCulling(false);
+        
  //       RayHandler.useDiffuseLight(true);
         rays.setCombinedMatrix(camera);
 
@@ -153,7 +153,7 @@ public class PlayState extends GameState {
 	
 	@Override
 	public void show() {
-		this.stage = new DialogueStage(this);
+		this.stage = new PlayStateStage(this);
 		this.stage.addActor(new HpBar(HadalGame.assetManager, this, player));
 		app.newMenu(stage);
 		resetController();
@@ -212,7 +212,6 @@ public class PlayState extends GameState {
 		//Update the game camera and batch.
 		cameraUpdate();
 		tmr.setView(camera);
-//		rays.setCombinedMatrix(camera);
 		
 		//process gameover
 		if (gameover) {
@@ -252,8 +251,6 @@ public class PlayState extends GameState {
 
 		//Render debug lines for box2d objects.
 		b2dr.render(world, camera.combined.scl(PPM));
-
-		
 		
 		//Iterate through entities in the world to render
 		batch.setProjectionMatrix(camera.combined);
@@ -266,8 +263,6 @@ public class PlayState extends GameState {
 		for (HadalEntity schmuck : entities) {
 			schmuck.render(batch);
 		}
-		
-		
 				
 		batch.setProjectionMatrix(hud.combined);
 		

@@ -80,8 +80,6 @@ public class TorpedoLauncher extends RangedWeapon {
 			bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
 			new ParticleEntity(state, world, camera, rays, proj, bubbles, 3.0f);
 			
-			
-			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
 				@Override

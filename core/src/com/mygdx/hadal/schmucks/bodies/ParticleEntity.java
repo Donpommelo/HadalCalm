@@ -69,6 +69,14 @@ public class ParticleEntity extends HadalEntity {
 		}
 		
 	}
+	
+	public void turnOn() {
+		effect.start();
+	}
+	
+	public void turnOff() {
+		effect.allowCompletion();
+	}
 
 	@Override
 	public void render(SpriteBatch batch) {

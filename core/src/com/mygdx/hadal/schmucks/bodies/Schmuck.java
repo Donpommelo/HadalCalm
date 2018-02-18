@@ -43,6 +43,9 @@ public class Schmuck extends HadalEntity {
 	public float shootCdCount = 0;
 	public float shootDelayCount = 0;
 	
+	//Keeps track of a schmuck's sprite flashing after receiving damage.
+	public float flashingCount = 0;
+	
 	//The last used tool. This is used to process equipment with a delay between using and executing.
 	public Equipable usedTool;
 	
@@ -98,69 +101,16 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void controller(float delta) {
 		
-		//This line ensures that this runs every 1/60 second regardless of computer speed.
-		controllerCount+=delta;
-		if (controllerCount >= 1/60f) {
-			controllerCount -= 1/60f;
-						
-			Vector2 currentVel = body.getLinearVelocity();
-			float desiredXVel = 0.0f;
-			float desiredYVel = 0.0f;
-			
-			//set desired velocity depending on move states. TODO: add movestates for schmucks not affected by gravity.
-			switch(moveState) {
-			case MOVE_LEFT:
-				desiredXVel = grounded ? 
-						-bodyData.maxGroundXSpeed * (1 + bodyData.getBonusGroundSpeed()) :
-						-bodyData.maxAirXSpeed * (1 + bodyData.getBonusAirSpeed());
-				break;
-			case MOVE_RIGHT:
-				desiredXVel = grounded ? 
-						bodyData.maxGroundXSpeed * (1 + bodyData.getBonusGroundSpeed()) : 
-						bodyData.maxAirXSpeed * (1 + bodyData.getBonusAirSpeed());
-				break;
-			default:
-				break;
-			}
-			
-			float accelX = 0.0f;
-			float accelY = 0.0f;
-			
-			//Process acceleration based on bodyData stats.
-			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
-				accelX = grounded ? 
-						bodyData.groundXAccel * (1 + bodyData.getBonusGroundAccel()): 
-						bodyData.airXAccel * (1 + bodyData.getBonusAirAccel());
-			} else {
-				accelX = grounded ? 
-						bodyData.groundXDeaccel * (1 + bodyData.getBonusGroundDrag()) : 
-						bodyData.airXDeaccel * (1 + bodyData.getBonusAirDrag());
-			}
-			
-			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
-			
-			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
-				accelY = grounded ? 
-						bodyData.groundYAccel * (1 + bodyData.getBonusGroundDrag()): 
-						bodyData.airYAccel * (1 + bodyData.getBonusAirDrag());
-			} else {
-				accelY = grounded ? 
-						bodyData.groundYDeaccel * (1 + bodyData.getBonusGroundDrag()):
-						bodyData.airYDeaccel * (1 + bodyData.getBonusAirDrag());
-			}
-			
-			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
-			
-			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(body.getMass());
-			body.applyLinearImpulse(force, body.getWorldCenter(), true);
-		}
-		
+		//Animate sprites
+		increaseAnimationTime(delta);
+
 		//Apply base hp regen
 		bodyData.regainHp(bodyData.getHpRegen() * delta, bodyData, true, DamageTypes.REGEN);
 		
-		//process cooldowns
+		//process cooldowns on firing
 		shootCdCount-=delta;
 		shootDelayCount-=delta;
+		flashingCount-=delta;
 		
 		//If the delay on using a tool just ended, use the tool.
 		if (shootDelayCount <= 0 && usedTool != null) {
