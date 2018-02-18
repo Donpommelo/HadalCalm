@@ -55,12 +55,12 @@ public class UIPlay extends AHadalActor{
 		float fuelCutoffRatio = player.getPlayerData().airblastCost * 
 				(1 + player.getPlayerData().getBonusAirblastCost()) / player.getPlayerData().getMaxFuel();
 		
-		batch.draw(hp, x + 233, y + 130, hp.getRegionWidth() * scale * hpRatio, hp.getRegionHeight() * scale);
-		batch.draw(fuel, x + 233, y + 91, fuel.getRegionWidth() * scale * fuelRatio, fuel.getRegionHeight() * scale);
+		batch.draw(hp, x + 233, y + 78, hp.getRegionWidth() * scale * hpRatio, hp.getRegionHeight() * scale);
+		batch.draw(fuel, x + 233, y + 32, fuel.getRegionWidth() * scale * fuelRatio, fuel.getRegionHeight() * scale);
 		
 		batch.draw(main, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 		
-		batch.draw(fuelCutoff, x + 233 + fuelCutoffRatio * fuel.getRegionWidth() * scale, y + 86,
+		batch.draw(fuelCutoff, x + 233 + fuelCutoffRatio * fuel.getRegionWidth() * scale, y + 22,
 				fuelCutoff.getRegionWidth() * scale, fuelCutoff.getRegionHeight() * scale);
 
 		
@@ -68,7 +68,7 @@ public class UIPlay extends AHadalActor{
 			batch.draw(reloading, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 		}
 
-		font.draw(batch, player.getPlayerData().currentTool.getText(), x + 53, y + 98);
+		font.draw(batch, player.getPlayerData().currentTool.getText(), x + 60, y + 42);
 		
 		for (int i = 0; i < 4; i++) {
 			if (player.getPlayerData().multitools.length <= i) {
