@@ -20,6 +20,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UILevel;
 import com.mygdx.hadal.actors.UIMomentum;
 import com.mygdx.hadal.actors.UIPlay;
+import com.mygdx.hadal.actors.UIReload;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -170,6 +171,7 @@ public class PlayState extends GameState {
 		this.stage = new PlayStateStage(this);
 		this.stage.addActor(new UIPlay(HadalGame.assetManager, this, player));
 		this.stage.addActor(new UIMomentum(HadalGame.assetManager, this, player));
+		this.stage.addActor(new UIReload(HadalGame.assetManager, this, player));
 		this.stage.addActor(new UILevel(HadalGame.assetManager, this));
 		app.newMenu(stage);
 		resetController();
@@ -334,6 +336,9 @@ public class PlayState extends GameState {
 		world.dispose();
 		tmr.dispose();
 		map.dispose();
+		if (stage != null) {
+			stage.dispose();
+		}
 	}
 	
 	/**

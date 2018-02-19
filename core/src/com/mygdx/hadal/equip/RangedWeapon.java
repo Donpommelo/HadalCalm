@@ -22,7 +22,7 @@ public class RangedWeapon extends Equipable{
 
 	public int clipSize;
 	public int clipLeft;
-	public float reloadTime;
+	
 	public int reloadAmount;
 	public float recoil;
 	public float projectileSpeed;

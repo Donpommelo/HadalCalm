@@ -32,6 +32,9 @@ public abstract class Equipable {
 	//Counter for how much longer this tool needs to be reloaded before it gets more ammo
 	public float reloadCd;
 	
+	//The amount of time it takes to reload this weapon. (default = 0 for non-ranged)
+	public float reloadTime = 0;
+	
 	private TextureAtlas atlas;
 	private TextureRegion equipSprite;
 	
