@@ -36,7 +36,7 @@ public class UIReload extends AHadalActor{
     public void draw(Batch batch, float alpha) {
 		batch.setProjectionMatrix(state.hud.combined);
 
-		if (player.getPlayerData().currentTool.reloading) {
+		if (player.getPlayerData().currentTool.reloading && player.alive) {
 		
 			Vector3 bodyScreenPosition = new Vector3(player.getBody().getPosition().x, player.getBody().getPosition().y, 0);
 			state.camera.project(bodyScreenPosition);
