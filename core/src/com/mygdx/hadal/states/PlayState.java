@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UILevel;
 import com.mygdx.hadal.actors.UIMomentum;
@@ -92,10 +93,9 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, String level, float zoom, boolean realFite) {
+	public PlayState(GameStateManager gsm, Loadout loadout, String level, boolean realFite, Player old) {
 		super(gsm);
 		
-		this.zoom = zoom;
 		this.realFite = realFite;
 		
 		this.loadout = loadout;
@@ -134,16 +134,10 @@ public class PlayState extends GameState {
 		entities = new HashSet<HadalEntity>();
 		hitboxes = new HashSet<HadalEntity>();
 		
+		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, world, camera, rays, 1, 1, -1000, -1000);
 		
-		//TODO: Load a map from Tiled file. Eventually, this will take an input map that the player chooses.
-		
 		map = new TmxMapLoader().load(level);
-		
-//		new Turret(this, world, camera, rays, 300, 800);
-		
-		player = new Player(this, world, camera, rays, 0, 0, loadout.playerSprite);
-		controller = new PlayerController(player, this);
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
@@ -153,6 +147,22 @@ public class PlayState extends GameState {
 		
 		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays);
 		
+		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
+		
+		if (old == null) {
+			player = new Player(this, world, camera, rays, 0, 0, loadout.playerSprite);
+
+		} else {
+			player = old;
+		}
+		
+		controller = new PlayerController(player, this);		
+	}
+	
+	//This constructor is used when entering a new playstate.
+	//The null represents that there is no existing player and a new one should be made.
+	public PlayState(GameStateManager gsm, Loadout loadout, String level, boolean realFite) {
+		this(gsm, loadout, level, realFite, null);
 	}
 	
 	@Override
@@ -165,18 +175,35 @@ public class PlayState extends GameState {
 		resetController();
 	}
 
+	/**
+	 * This method gives input to the player as well as the menu.
+	 * This is called when a player is created.
+	 */
 	public void resetController() {
 		controller = new PlayerController(player, this);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
+		//atm, stage is not null if the playstate is displayed within another state (loadout) (show is not called.)
 		if (stage != null) {
 			inputMultiplexer.addProcessor(stage);
 		} else {
 			inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
 		}
+		
 		inputMultiplexer.addProcessor(controller);
 		Gdx.input.setInputProcessor(inputMultiplexer);
+	}
+	
+	/**
+	 * transition from one playstate to another with a new level.
+	 * @param level: file of the new map
+	 */
+	public void loadLevel(String level) {
+		getGsm().removeState(PlayState.class);
+		getGsm().removeState(LoadoutState.class);
+		getGsm().removeState(HubState.class);
+		getGsm().addPlayState(level, loadout, TitleState.class);
 	}
 	
 	/**
@@ -245,7 +272,6 @@ public class PlayState extends GameState {
 	
 	/**
 	 * This method renders stuff to the screen after updating.
-	 * TODO: atm, this is mostly debug info + temporary ui. Will replace eventually
 	 */
 	@Override
 	public void render() {
@@ -324,6 +350,10 @@ public class PlayState extends GameState {
 	 */
 	public void create(HadalEntity entity) {
 		createList.add(entity);
+	}
+	
+	public void addActor(Actor actor) {
+		stage.addActor(actor);
 	}
 	
 	/**

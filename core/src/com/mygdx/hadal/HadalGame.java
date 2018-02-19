@@ -146,6 +146,7 @@ public class HadalGame extends ApplicationAdapter {
 	public void newMenu(Stage menu) {
 		currentMenu = menu;
 		Gdx.input.setInputProcessor(currentMenu);
+//		currentMenu.setViewport(viewportCamera);
 	}
 	
 	/**

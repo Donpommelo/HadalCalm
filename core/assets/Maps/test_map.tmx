@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="32" tileheight="32" nextobjectid="22">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="36" height="36" tilewidth="32" tileheight="32" nextobjectid="27">
  <tileset firstgid="1" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="../Images/tileset.png" width="192" height="128"/>
  </tileset>
@@ -9,6 +9,9 @@
   </data>
  </layer>
  <objectgroup name="collision-layer">
+  <properties>
+   <property name="zoom" type="float" value="0.4"/>
+  </properties>
   <object id="21" x="96" y="192">
    <polyline points="0,0 96,-96 864,-96 960,0 960,768 864,864 96,864 0,768 0,0"/>
   </object>
@@ -19,6 +22,11 @@
     <property name="id" type="int" value="0"/>
     <property name="interval" type="float" value="0"/>
     <property name="limit" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="26" name="Warp" type="Warp" x="352" y="960" width="32" height="32">
+   <properties>
+    <property name="Level" value="test_map_large.tmx"/>
    </properties>
   </object>
  </objectgroup>

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.Unlock;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.states.*;
 
@@ -63,6 +64,7 @@ public class GameStateManager {
 		this.level = "Maps/test_map_large.tmx";
 		
 		PlayerAction.retrieveKeys();
+		Unlock.retrieveUnlocks();
 	}
 	
 	/**
@@ -127,10 +129,10 @@ public class GameStateManager {
 	
 	public void addPlayState(String map, Loadout loadout, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, 1.0f, true));
+			states.push(new PlayState(this, loadout, map, true));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, 1.0f, true));
+			states.push(new PlayState(this, loadout, map, true));
 			states.peek().show();
 		}
 	}
@@ -154,7 +156,7 @@ public class GameStateManager {
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return null;
-		case PLAY: return new PlayState(this, loadout, level, 1.0f, true);
+		case PLAY: return new PlayState(this, loadout, level, true);
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
 		case LOADOUT: return new LoadoutState(this);

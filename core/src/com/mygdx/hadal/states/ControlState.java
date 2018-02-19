@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,9 +31,10 @@ public class ControlState extends GameState {
 
 	@Override
 	public void show() {
+		
 		stage = new Stage() {
 			{
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(ControlState.class);
@@ -40,7 +42,7 @@ public class ControlState extends GameState {
 			    });
 				exitOption.setScale(0.5f);
 				
-				saveOption = new Text(HadalGame.assetManager, "SAVE?", 100, HadalGame.CONFIG_HEIGHT - 300);
+				saveOption = new Text(HadalGame.assetManager, "SAVE?", 100, HadalGame.CONFIG_HEIGHT - 300, Color.WHITE);
 				saveOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	PlayerAction.saveKeys();
@@ -48,7 +50,7 @@ public class ControlState extends GameState {
 			    });
 				saveOption.setScale(0.5f);
 				
-				resetOption = new Text(HadalGame.assetManager, "RESET?", 100, HadalGame.CONFIG_HEIGHT - 340);
+				resetOption = new Text(HadalGame.assetManager, "RESET?", 100, HadalGame.CONFIG_HEIGHT - 340, Color.WHITE);
 				resetOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	PlayerAction.resetKeys();
@@ -166,14 +168,12 @@ public class ControlState extends GameState {
 	
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

@@ -365,10 +365,10 @@ public class Player extends PhysicsSchmuck {
 			return (float) Math.toRadians(attackAngle - 180);
 		} else {
 			return (float) Math.toRadians(attackAngle);
-
 		}
 	}
 	
+	@Override
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
 		

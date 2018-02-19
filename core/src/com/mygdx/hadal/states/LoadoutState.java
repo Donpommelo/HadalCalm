@@ -56,7 +56,7 @@ public class LoadoutState extends GameState {
 	public LoadoutState(final GameStateManager gsm) {
 		super(gsm);
 		
-		playState = new PlayState(gsm, gsm.getLoadout(), "Maps/test_map.tmx", 0.40f, false);
+		playState = new PlayState(gsm, gsm.getLoadout(), "Maps/test_map.tmx", false);
 		
 		items.clear();
 		items.add(new BeeGun(null));

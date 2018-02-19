@@ -175,6 +175,11 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Turret")) {
     			new Turret(state, world, camera, rays, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
+    		if (object.getName().equals("Warp")) {
+    			new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("Level", String.class));
+    		}
     	}
     }
     
