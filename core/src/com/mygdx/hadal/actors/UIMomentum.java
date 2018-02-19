@@ -32,7 +32,7 @@ public class UIMomentum extends AHadalActor{
 		super(assetManager);
 		this.player = player;
 		this.state = state;
-		this.font = new BitmapFont();
+		this.font = HadalGame.SYSTEM_FONT_UI;
 		
 		this.atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.UIATLAS.toString());
 		this.base = atlas.findRegion("UI_momentum_base");
@@ -52,8 +52,8 @@ public class UIMomentum extends AHadalActor{
 		if (player.momentumCdCount < 0) {
 			batch.draw(ready, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 		} else {
-			font.getData().setScale(1.5f);
-			font.draw(batch, Math.round(player.momentumCdCount) +" CD", x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale + 40, 64);
+			font.getData().setScale(0.5f);
+			font.draw(batch, Math.round(player.momentumCdCount) +" CD", x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale + 34, 64);
 		}
 		
 		batch.draw(overlay, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);

@@ -12,6 +12,7 @@ public enum AssetList {
 	VICTORY_CARD("VICTORY_CARD.png", Texture.class),
 	BUTLER_FONT("fonts/butler.fnt", null),
 	LEARNING_FONT("fonts/learning_curve.fnt", null),
+	FIXEDSYS_FONT("fonts/fixedsys.fnt", null),
 	
 	// Player and enemy sprites.
 	PROJ_1("sprites/projectiles.png", Texture.class),

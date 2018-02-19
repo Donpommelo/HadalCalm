@@ -110,7 +110,7 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public String getText() {
-		return name;
+		return "";
 	}
 	
 	@Override

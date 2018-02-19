@@ -163,12 +163,7 @@ public class RangedWeapon extends Equipable{
 	 */
 	@Override
 	public String getText() {
-		if (reloading) {
-			return name + ": " + clipLeft + "/" + getClipSize() + " RELOADING";
-		} else {
-			return name + ": " + clipLeft + "/" + getClipSize();
-
-		}
+		return clipLeft + "/" + getClipSize();
 	}
 	
 	/**

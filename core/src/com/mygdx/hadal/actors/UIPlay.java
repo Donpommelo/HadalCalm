@@ -40,7 +40,7 @@ public class UIPlay extends AHadalActor{
 		super(assetManager);
 		this.player = player;
 		this.state = state;
-		this.font = new BitmapFont();
+		this.font = HadalGame.SYSTEM_FONT_UI;
 		
 		this.atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.UIATLAS.toString());
 		this.main = atlas.findRegion("UI_main_overlay");
@@ -105,7 +105,10 @@ public class UIPlay extends AHadalActor{
 			batch.draw(reloading, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 		}
 
-		font.draw(batch, player.getPlayerData().currentTool.getText(), x + 60, y + 42);
+		font.getData().setScale(0.4f);
+		font.draw(batch, player.getPlayerData().currentTool.name, x + 60, y + 130);
+		font.getData().setScale(0.8f);
+		font.draw(batch, player.getPlayerData().currentTool.getText(), x + 70, y + 75);
 		
 		for (int i = 0; i < 4; i++) {
 			if (player.getPlayerData().multitools.length <= i) {

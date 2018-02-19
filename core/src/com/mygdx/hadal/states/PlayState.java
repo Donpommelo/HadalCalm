@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.UILevel;
 import com.mygdx.hadal.actors.UIMomentum;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.equip.Loadout;
@@ -74,6 +75,7 @@ public class PlayState extends GameState {
 	
 	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
 	public int score = 0;
+	public String level;
 	
 	public boolean gameover = false;
 	public boolean won = false;
@@ -97,6 +99,7 @@ public class PlayState extends GameState {
 		this.realFite = realFite;
 		
 		this.loadout = loadout;
+		this.level = level;
 		
 		//Initialize font and text camera for ui purposes.
         font = new BitmapFont();
@@ -157,6 +160,7 @@ public class PlayState extends GameState {
 		this.stage = new PlayStateStage(this);
 		this.stage.addActor(new UIPlay(HadalGame.assetManager, this, player));
 		this.stage.addActor(new UIMomentum(HadalGame.assetManager, this, player));
+		this.stage.addActor(new UILevel(HadalGame.assetManager, this));
 		app.newMenu(stage);
 		resetController();
 	}
