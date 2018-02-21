@@ -31,7 +31,6 @@ public class MenuState extends GameState {
 
 	@Override
 	public void show() {
-		
 		stage = new Stage() {
 			{
 				addActor(new MenuBackdrop(HadalGame.assetManager));

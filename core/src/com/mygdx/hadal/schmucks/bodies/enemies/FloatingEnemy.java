@@ -102,6 +102,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		switch (aiState) {
 		case ROAMING:		
+			flashingCount-=delta;
 			break;
 		case CHASING:
 			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);

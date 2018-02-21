@@ -40,11 +40,13 @@ public class TitleState extends GameState {
 			{
 				addActor(new TitleBackdrop(HadalGame.assetManager));
 				
-				playOption = new Text(HadalGame.assetManager, "PLAY?", 150, HadalGame.CONFIG_HEIGHT - 180);
-				quickPlayOption = new Text(HadalGame.assetManager, "QUICK PLAY?", 150, HadalGame.CONFIG_HEIGHT - 220);
-				tutorialOption = new Text(HadalGame.assetManager, "TUTORIAL?", 150, HadalGame.CONFIG_HEIGHT - 260);
-				controlOption = new Text(HadalGame.assetManager, "CONTROLS?", 150, HadalGame.CONFIG_HEIGHT - 300);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 150, HadalGame.CONFIG_HEIGHT - 340);
+				int x = HadalGame.CONFIG_WIDTH - 200;
+				
+				playOption = new Text(HadalGame.assetManager, "PLAY", x, 340);
+				quickPlayOption = new Text(HadalGame.assetManager, "QUICK PLAY", x, 300);
+				tutorialOption = new Text(HadalGame.assetManager, "TUTORIAL", x, 260);
+				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 220);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 180);
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {

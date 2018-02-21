@@ -1,5 +1,6 @@
 package com.mygdx.hadal.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
@@ -14,7 +15,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public abstract class GameState {
 	
 	//References to the Game, StateManager and their relevant fields.
-	private GameStateManager gsm;
+	protected GameStateManager gsm;
 	protected HadalGame app;
 	protected SpriteBatch batch;
 	public OrthographicCamera camera, sprite, hud;
@@ -33,7 +34,7 @@ public abstract class GameState {
 	}
 	
 	public void show() {
-		
+
 	}
 	
 	/**

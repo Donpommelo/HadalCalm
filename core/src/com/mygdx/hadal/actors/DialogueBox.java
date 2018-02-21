@@ -34,7 +34,7 @@ public class DialogueBox extends AHadalActor {
 		
 		dialogues = new Queue<Dialogue>();
 		
-		font = HadalGame.SYSTEM_FONT_TEXT;
+		font = HadalGame.SYSTEM_FONT_UI;
 		color = HadalGame.DEFAULT_TEXT_COLOR;
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		updateHitBox();

@@ -31,7 +31,7 @@ public class ControlState extends GameState {
 
 	@Override
 	public void show() {
-		
+		//stage = new Stage(new FitViewport(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT)) {
 		stage = new Stage() {
 			{
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);

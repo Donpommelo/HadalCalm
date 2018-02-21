@@ -51,9 +51,6 @@ public class GameStateManager {
 		this.app = hadalGame;
 		this.states = new Stack<GameState>();
 		
-		//Default state is the title state currently.
-		this.addState(State.TITLE, null);
-		
 		BitmapFont font24 = new BitmapFont();
 		this.skin = new Skin();
 		this.skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
@@ -166,6 +163,10 @@ public class GameStateManager {
 			break;
 		}
 		return null;
+	}
+	
+	public HadalGame getApp() {
+		return app;
 	}
 	
 	public Skin getSkin() {

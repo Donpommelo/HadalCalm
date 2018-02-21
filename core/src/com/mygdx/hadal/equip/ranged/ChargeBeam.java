@@ -132,9 +132,9 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public String getText() {
 		if (reloading) {
-			return name + ": " + clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "% RELOADING";
+			return clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "% RELOADING";
 		} else {
-			return name + ": " + clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "%";
+			return clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "%";
 
 		}
 	}

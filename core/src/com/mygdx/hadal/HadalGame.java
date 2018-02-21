@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.managers.AssetList;
 
 /**
@@ -22,7 +23,7 @@ import com.mygdx.hadal.managers.AssetList;
 public class HadalGame extends ApplicationAdapter {
 	
 	//Name of the game. Currently unused.
-	public static final String TITLE = "Hadal Panic";
+	//private static final String TITLE = "Hadal Panic";
 	
 	public static int CONFIG_WIDTH;
 	public static int CONFIG_HEIGHT;
@@ -30,7 +31,6 @@ public class HadalGame extends ApplicationAdapter {
 	//The main camera scales to the viewport size scaled to this for some reason.
 	//TODO: replace this with a constant aspect ratio?
 	public final static float BOX2DSCALE = 1.0f;
-//	private final float SCALE = 0.25f;
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, sprite, hud;
@@ -39,15 +39,16 @@ public class HadalGame extends ApplicationAdapter {
 	//This is the Gamestate Manager. It manages the current game state.
 	private GameStateManager gsm;
 	
+	private static FitViewport viewportCamera, viewportSprite;
+	
     public static AssetManager assetManager;
-    public static FitViewport viewportCamera, viewportSprite;
 
     public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_TEXT, SYSTEM_FONT_UI;
     public static Color DEFAULT_TEXT_COLOR;
  
     private static int DEFAULT_WIDTH = 1080;
 	private static int DEFAULT_HEIGHT = 720;
-    public Stage currentMenu;
+    private Stage currentMenu;
     
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
@@ -85,9 +86,13 @@ public class HadalGame extends ApplicationAdapter {
 
 		gsm = new GameStateManager(this);
 		
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		gsm.addState(State.TITLE, null);
+	
 	}
 	
-	public void loadAssets() {
+	private void loadAssets() {
 		
 		SYSTEM_FONT_TITLE = new BitmapFont(Gdx.files.internal(AssetList.LEARNING_FONT.toString()), false);
 		SYSTEM_FONT_TEXT = new BitmapFont(Gdx.files.internal(AssetList.BUTLER_FONT.toString()), false);
@@ -145,7 +150,9 @@ public class HadalGame extends ApplicationAdapter {
 	
 	public void newMenu(Stage menu) {
 		currentMenu = menu;
+//		currentMenu.setViewport(viewportCamera);
 		Gdx.input.setInputProcessor(currentMenu);
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
 	/**
