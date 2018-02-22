@@ -12,6 +12,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * This is an experimental ai strategy that is dropped continuously by the player and is attractive to enemies.
+ * @author Zachary Tu
+ *
+ */
 public class PlayerTrail extends Event {
 
 	private final static String name = "Trail";
@@ -20,9 +25,9 @@ public class PlayerTrail extends Event {
 	private final static int height = 64;
 	
 	private static final float lifespan = 20.0f;
-	public float lifeLeft;
+	private float lifeLeft;
 	
-	public PlayerTrail nextTrail;
+	private PlayerTrail nextTrail;
 	
 	public PlayerTrail(PlayState state, World world, OrthographicCamera camera, RayHandler ray, int x, int y) {
 		super(state, world, camera, ray, name, width, height, x, y);
@@ -47,14 +52,14 @@ public class PlayerTrail extends Event {
 			queueDeletion();
 		}
 		
-		for (HadalEntity schmuck : eventData.schmucks) {
+		for (HadalEntity schmuck : eventData.getSchmucks()) {
 			if (schmuck instanceof Enemy && nextTrail != null) {
-				if (((Enemy)schmuck).target instanceof PlayerTrail) {
-					if (((PlayerTrail)((Enemy)schmuck).target).lifeLeft <= lifeLeft) {
-						((Enemy)schmuck).target = nextTrail;
+				if (((Enemy)schmuck).getTarget() instanceof PlayerTrail) {
+					if (((PlayerTrail)((Enemy)schmuck).getTarget()).lifeLeft <= lifeLeft) {
+						((Enemy)schmuck).setTarget(nextTrail);
 					}
 				} else {
-					((Enemy)schmuck).target = nextTrail;
+					((Enemy)schmuck).setTarget(nextTrail);
 				}
 			}
 		}

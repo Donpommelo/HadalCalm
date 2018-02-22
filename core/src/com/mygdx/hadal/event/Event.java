@@ -19,10 +19,10 @@ import box2dLight.RayHandler;
 public class Event extends HadalEntity {
 	
 	//The event's data
-	public EventData eventData;
+	protected EventData eventData;
 	
 	//The event's name
-	public String name;
+	private String name;
 	
 	//If this event triggers another event, this is a local reference to it
 	private Event connectedEvent;
@@ -32,8 +32,11 @@ public class Event extends HadalEntity {
 	private float duration;
 	
 	//This is used by consumable events to avoid being activated multiple times before next engine tick.
-	public boolean consumed = false;
+	protected boolean consumed = false;
 	
+	/**
+	 * Constructor for permanent events.
+	 */
 	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
 			int width, int height, int x, int y) {
 		super(state, world, camera, rays, width, height, x, y);
@@ -42,6 +45,9 @@ public class Event extends HadalEntity {
 		this.duration = 0;
 	}
 	
+	/**
+	 * Constructor for temporary events.
+	 */
 	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
 			int width, int height, int x, int y, float duration) {
 		super(state, world, camera, rays, width, height, x, y);
@@ -84,6 +90,14 @@ public class Event extends HadalEntity {
 		state.destroy(this);
 	}
 	
+	public EventData getEventData() {
+		return eventData;
+	}
+
+	public void setEventData(EventData eventData) {
+		this.eventData = eventData;
+	}
+
 	public String getText() {
 		return name;
 	}

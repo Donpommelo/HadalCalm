@@ -63,7 +63,7 @@ public class TorpedofishAttack extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					boolean explode = false;
 					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+						fixB.receiveDamage(baseDamage, hbox.getBody().getLinearVelocity().nor().scl(knockback), 
 								user.getBodyData(), true, DamageTypes.RANGED);
 						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 							explode = true;
@@ -73,7 +73,7 @@ public class TorpedofishAttack extends RangedWeapon {
 						explode = true;
 					}
 					if (explode) {
-						WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
+						WeaponUtils.explode(state, hbox.getBody().getPosition().x * PPM , hbox.getBody().getPosition().y * PPM, 
 								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
 						hbox.queueDeletion();
 					}

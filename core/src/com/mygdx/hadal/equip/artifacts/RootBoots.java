@@ -11,17 +11,17 @@ import box2dLight.RayHandler;
 
 public class RootBoots extends Artifact {
 
-	static String name = "Root-Boots";
-	static String descr = "+75% Knockback Resistance";
-	static String descrLong = "";
-	public static final int statusNum = 1;
+	private final static String name = "Root-Boots";
+	private final static String descr = "+75% Knockback Resistance";
+	private final static String descrLong = "";
+	private final static int statusNum = 1;
 	
 	public RootBoots() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 24, 0.75f, b, b, 50);
 		return enchantment;
 	}

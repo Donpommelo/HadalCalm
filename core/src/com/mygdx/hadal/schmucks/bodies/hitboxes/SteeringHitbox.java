@@ -11,6 +11,12 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Steering hitbox has steering behaviour and can home and stuff.
+ * Currently used for: Beegun
+ * @author Zachary Tu
+ *
+ */
 public class SteeringHitbox extends HitboxAnimated {
 
 	public SteeringHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan,
@@ -33,6 +39,7 @@ public class SteeringHitbox extends HitboxAnimated {
 		this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
 	}
 	
+	@Override
 	public void controller (float delta) {
 		super.controller(delta);
 		if (behavior != null) {

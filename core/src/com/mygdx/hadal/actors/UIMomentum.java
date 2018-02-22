@@ -49,17 +49,17 @@ public class UIMomentum extends AHadalActor{
 
 		batch.draw(base, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 		
-		if (player.momentumCdCount < 0) {
+		if (player.getMomentumCdCount() < 0) {
 			batch.draw(ready, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 		} else {
 			font.getData().setScale(0.5f);
-			font.draw(batch, Math.round(player.momentumCdCount) +" CD", x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale + 34, 64);
+			font.draw(batch, Math.round(player.getMomentumCdCount()) +" CD", x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale + 34, 64);
 		}
 		
 		batch.draw(overlay, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 		
-		if (player.momentums.size != 0) {
-			Vector2 nextVec = player.momentums.first();
+		if (player.getMomentums().size != 0) {
+			Vector2 nextVec = player.getMomentums().first();
 			
 			batch.draw(arrow.get(2), x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y,
 					base.getRegionWidth() * scale / 2, base.getRegionHeight() * scale / 2,

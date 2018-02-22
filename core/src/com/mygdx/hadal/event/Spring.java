@@ -11,8 +11,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Spring is an event that, when touched, will push an entity in a set direction
+ * @author Zachary Tu
+ *
+ */
 public class Spring extends Event {
 	
+	//The vector of force that will be applied to any touching entity.
 	private Vector2 vec;
 
 	private static final String name = "Spring";

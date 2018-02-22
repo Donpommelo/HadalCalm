@@ -36,16 +36,14 @@ public class MeleeHitbox extends Hitbox {
 	/**
 	 * This just makes sure the melee hitbox tracks the position of the user.
 	 */
+	@Override
 	public void controller(float delta) {
-		
-/*		Vector2 hbLocation = creator.getBody().getPosition()
-				.add(center.setAngle((float) (creator.getAttackAngle() * 180 / Math.PI) + 180));
-		this.body.setTransform(hbLocation, creator.getAttackAngle());*/
-		
+				
 		Vector2 hbLocation = creator.getBody().getPosition().add(center);
 		this.body.setTransform(hbLocation, startVelo.angleRad());
 		
-		if (creator.bodyData.currentHp <= 0) {
+		//Melee hboes should not persist after owner's disposal
+		if (!creator.isAlive()) {
 			state.destroy(this);
 		}
 		

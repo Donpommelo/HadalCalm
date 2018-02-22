@@ -21,10 +21,10 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class HitboxData extends HadalData {
 
 	//reference to game state.
-	public PlayState state;
+	protected PlayState state;
 	
 	//The hitbox containing this data
-	public Hitbox hbox;
+	protected Hitbox hbox;
 
 	/**
 	 * This data is usually initialized after making a hitbox. It is given to the newly created hitbox using the setUserData() method
@@ -43,7 +43,7 @@ public class HitboxData extends HadalData {
 		
 		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && !(hbox instanceof MeleeHitbox)) {
 			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
-			filter.groupIndex = (short) perp.getSchmuck().hitboxfilter;
+			filter.groupIndex = (short) perp.getSchmuck().getHitboxfilter();
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 		}
 	}
@@ -55,14 +55,18 @@ public class HitboxData extends HadalData {
 	 */
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
-			hbox.dura = 0;
+			hbox.setDura(0);
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			hbox.dura = 0;
+			hbox.setDura(0);
 		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
-			hbox.dura--;
+			hbox.setDura(hbox.getDura() - 1);
 		}
-		if (hbox.dura <= 0) {
+		if (hbox.getDura() <= 0) {
 			hbox.queueDeletion();
 		}
 	}
+
+	public Hitbox getHbox() {
+		return hbox;
+	}	
 }

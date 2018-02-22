@@ -27,37 +27,37 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Schmuck extends HadalEntity {
 
 	//The current movestate of this schmuck
-	public MoveStates moveState;
+	protected MoveStates moveState;
 	
 	//Fixtures and user data
 	protected Fixture feet;
 	protected FeetData feetData;
 	
 	//user data.
-	public BodyData bodyData;
+	protected BodyData bodyData;
 	
 	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;
 	
 	//Counters that keep track of delay between action initiation + action execution and action execution + next action
-	public float shootCdCount = 0;
-	public float shootDelayCount = 0;
+	protected float shootCdCount = 0;
+	protected float shootDelayCount = 0;
 	
 	//Keeps track of a schmuck's sprite flashing after receiving damage.
-	public float flashingCount = 0;
+	protected float flashingCount = 0;
 	
 	//The last used tool. This is used to process equipment with a delay between using and executing.
-	public Equipable usedTool;
+	protected Equipable usedTool;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	public float controllerCount = 0;
+	protected float controllerCount = 0;
 	
 	// This counter keeps track of frames for animations. This is incremented every controller tick for now.
-	public float animationTime = 0;
-	public void increaseAnimationTime(float i) { animationTime += i; }
-	public float getAnimationTime() { return animationTime; }
+	protected float animationTime = 0;
+	protected void increaseAnimationTime(float i) { animationTime += i; }
+	protected float getAnimationTime() { return animationTime; }
 
-	public float hitboxfilter;
+	protected float hitboxfilter;
 
 	/**
 	 * This constructor is called when a Schmuck is made.
@@ -145,7 +145,7 @@ public class Schmuck extends HadalEntity {
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
 
 			//account for the tool's use delay.
-			shootDelayCount = tool.useDelay;
+			shootDelayCount = tool.getUseDelay();
 			
 			//Register the tool targeting the input coordinates.
 			tool.mouseClicked(delta, state, bodyData, hitbox, x, y, world, camera, rays);
@@ -190,7 +190,31 @@ public class Schmuck extends HadalEntity {
 		return 0;
 	}
 	
-/*	public float getFaction() {
-		
-	}*/
+	public MoveStates getMoveState() {
+		return moveState;
+	}
+	public void setMoveState(MoveStates moveState) {
+		this.moveState = moveState;
+	}
+	
+	public float getShootCdCount() {
+		return shootCdCount;
+	}
+
+	public float getShootDelayCount() {
+		return shootDelayCount;
+	}
+	
+	public float getFlashingCount() {
+		return flashingCount;
+	}
+	
+	public void setFlashingCount(float flashduration) {
+		this.flashingCount = flashduration;
+	}
+	
+	public float getHitboxfilter() {
+		return hitboxfilter;
+	}
+	
 }

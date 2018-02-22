@@ -19,7 +19,7 @@ import com.mygdx.hadal.statuses.Status;
 public class BodyData extends HadalData {
 
 	//The Schmuck that owns this data
-	public Schmuck schmuck;
+	protected Schmuck schmuck;
 	
 	/**
 	 * Stats:
@@ -72,43 +72,39 @@ public class BodyData extends HadalData {
 
 	 */
 	
-	public float[] baseStats;
-	public float[] buffedStats;	
+	private float[] baseStats;
+	private float[] buffedStats;	
 	
 	//Speed on ground
-	public float maxGroundXSpeed = 15.0f;
-	public float maxAirXSpeed = 10.0f;
-	
-	//Speed on ground
-	public float maxGroundYSpeed = 10.0f;
-	public float maxAirYSpeed = 7.5f;
+	private float maxGroundXSpeed = 15.0f;
+	private float maxAirXSpeed = 10.0f;
 		
 	//Accelerating on the ground/air
-	public float groundXAccel = 0.10f;
-	public float airXAccel = 0.05f;
-	public float groundXDeaccel = 0.05f;
-	public float airXDeaccel = 0.01f;
+	private float groundXAccel = 0.10f;
+	private float airXAccel = 0.05f;
+	private float groundXDeaccel = 0.05f;
+	private float airXDeaccel = 0.01f;
 	
-	public float groundYAccel = 0.10f;
-	public float airYAccel = 0.50f;
-	public float groundYDeaccel = 0.05f;
-	public float airYDeaccel = 0.01f;
+	private float groundYAccel = 0.10f;
+	private float airYAccel = 0.50f;
+	private float groundYDeaccel = 0.05f;
+	private float airYDeaccel = 0.01f;
 	
 	//Hp and regen
-	public int maxHp = 100;
-	public float hpRegen = 0.0f;
+	private int maxHp = 100;
+	private float hpRegen = 0.0f;
 	
-	public int maxFuel = 100;
-	public float fuelRegen = 5.0f;
+	private int maxFuel = 100;
+	private float fuelRegen = 5.0f;
 	
-	public float currentHp, currentFuel;
+	protected float currentHp, currentFuel;
 
 	private final static float flashDuration = 0.08f;
 	
-	public Zone currentZone;
+	private Zone currentZone;
 	
-	public ArrayList<Status> statuses;
-	public ArrayList<Status> statusesChecked;	
+	protected ArrayList<Status> statuses;
+	protected ArrayList<Status> statusesChecked;	
 	
 	/**
 	 * This is created upon the create() method of any schmuck.
@@ -244,8 +240,8 @@ public class BodyData extends HadalData {
 		currentHp -= damage;
 		
 		//Make shmuck flash upon receiving damage
-		if (damage > 0 && schmuck.flashingCount < -flashDuration) {
-			schmuck.flashingCount = flashDuration;
+		if (damage > 0 && schmuck.getFlashingCount() < -flashDuration) {
+			schmuck.setFlashingCount(flashDuration);
 		}
 		
 		float kbScale = 1;
@@ -288,9 +284,81 @@ public class BodyData extends HadalData {
 		
 		schmuck.queueDeletion();
 	}
-
+	
+	public float getXGroundSpeed() {
+		return maxGroundXSpeed * (1 + getBonusGroundSpeed());
+	}
+	
+	public float getXAirSpeed() {
+		return maxAirXSpeed * (1 + getBonusAirSpeed());
+	}
+	
+	public float getXGroundAccel() {
+		return groundXAccel * (1 + getBonusGroundAccel());
+	}
+	
+	public float getXAirAccel() {
+		return airXAccel * (1 + getBonusAirAccel());
+	}
+	
+	public float getXGroundDeaccel() {
+		return groundXDeaccel * (1 + getBonusGroundDrag());
+	}
+	
+	public float getXAirDeaccel() {
+		return airXDeaccel * (1 + getBonusAirDrag());
+	}
+	
+	public float getYGroundAccel() {
+		return groundYAccel * (1 + getBonusGroundAccel());
+	}
+	
+	public float getYAirAccel() {
+		return airYAccel * (1 + getBonusAirAccel());
+	}
+	
+	public float getYGroundDeaccel() {
+		return groundYDeaccel * (1 + getBonusGroundDrag());
+	}
+	
+	public float getYAirDeaccel() {
+		return airYDeaccel * (1 + getBonusAirDrag());
+	}
+	
 	public Schmuck getSchmuck() {
 		return schmuck;
+	}
+		
+	public float getCurrentHp() {
+		return currentHp;
+	}
+
+	public void setCurrentHp(float currentHp) {
+		this.currentHp = currentHp;
+	}
+
+	public float getCurrentFuel() {
+		return currentFuel;
+	}
+
+	public void setCurrentFuel(float currentFuel) {
+		this.currentFuel = currentFuel;
+	}
+
+	public Zone getCurrentZone() {
+		return currentZone;
+	}
+
+	public void setCurrentZone(Zone currentZone) {
+		this.currentZone = currentZone;
+	}
+
+	public float getStat(int index) {
+		return buffedStats[index];
+	}
+	
+	public void setStat(int index, float amount) {
+		buffedStats[index] += amount;
 	}
 	
 	public float getMaxHp() {
@@ -647,5 +715,5 @@ public class BodyData extends HadalData {
 	
 	public void getMeleeMomentum(float buff) {
 		buffedStats[43] = buff;
-	}
+	}	
 }

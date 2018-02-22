@@ -11,8 +11,8 @@ import box2dLight.RayHandler;
 public class Artifact {
 
 	
-	public String name, descr, descrLong;
-	public Status[] enchantment;
+	protected String name, descr, descrLong;
+	protected Status[] enchantment;
 	
 	public Artifact(String name, String descr, String descrLong, int statusNum) {
 		this.name = name;
@@ -21,7 +21,24 @@ public class Artifact {
 		enchantment = new Status[statusNum];
 	}
 	
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		return null;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public String getDescrLong() {
+		return descrLong;
+	}
+
+	public Status[] getEnchantment() {
+		return enchantment;
+	}
+	
 }

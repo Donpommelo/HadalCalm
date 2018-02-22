@@ -62,10 +62,9 @@ public class UIPlay extends AHadalActor{
 		batch.setProjectionMatrix(state.hud.combined);
 
 		//Calc the ratios needed to draw the bars
-		float hpRatio = player.getPlayerData().currentHp / player.getPlayerData().getMaxHp();
-		float fuelRatio = player.getPlayerData().currentFuel / player.getPlayerData().getMaxFuel();
-		float fuelCutoffRatio = player.getPlayerData().airblastCost * 
-				(1 + player.getPlayerData().getBonusAirblastCost()) / player.getPlayerData().getMaxFuel();
+		float hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
+		float fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
+		float fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
 		
 		//This code makes the hp bar delay work.
 		if (hpDelayed > hpRatio) {
@@ -101,20 +100,20 @@ public class UIPlay extends AHadalActor{
 				fuelCutoff.getRegionWidth() * scale, fuelCutoff.getRegionHeight() * scale);
 
 		
-		if (player.getPlayerData().currentTool.reloading) {
+		if (player.getPlayerData().getCurrentTool().isReloading()) {
 			batch.draw(reloading, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 		}
 
 		font.getData().setScale(0.4f);
-		font.draw(batch, player.getPlayerData().currentTool.name, x + 60, y + 130);
+		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), x + 60, y + 130);
 		font.getData().setScale(0.8f);
-		font.draw(batch, player.getPlayerData().currentTool.getText(), x + 70, y + 75);
+		font.draw(batch, player.getPlayerData().getCurrentTool().getText(), x + 70, y + 75);
 		
 		for (int i = 0; i < 4; i++) {
-			if (player.getPlayerData().multitools.length <= i) {
+			if (player.getPlayerData().getMultitools().length <= i) {
 				batch.draw(itemNull.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 			} else {
-				if (i == player.getPlayerData().currentSlot) {
+				if (i == player.getPlayerData().getCurrentSlot()) {
 					batch.draw(itemSelect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 				} else {
 					batch.draw(itemUnselect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);

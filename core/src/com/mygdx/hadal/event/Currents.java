@@ -11,10 +11,17 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * Currents are an event that apply a continuous force to all schmucks inside of it.
+ * @author Zachary Tu
+ *
+ */
 public class Currents extends Event {
 	
+	//force applied every 1/60 seconds
 	private Vector2 vec;
 
+	//This keeps track of engine timer.
 	private float controllerCount = 0;
 	
 	private static final String name = "Current";
@@ -45,7 +52,7 @@ public class Currents extends Event {
 		if (controllerCount >= 1/60f) {
 			controllerCount = 0;
 			
-			for (HadalEntity entity : eventData.schmucks) {
+			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.getBody().applyLinearImpulse(vec, entity.getBody().getWorldCenter(), true);
 			}
 		}

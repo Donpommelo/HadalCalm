@@ -20,7 +20,7 @@ public class Victory extends Event {
 
 	private static final String name = "VICTORY";
 
-	boolean touched = false;
+	private boolean touched = false;
 	
 	public Victory(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y);

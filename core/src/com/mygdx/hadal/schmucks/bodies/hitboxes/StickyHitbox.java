@@ -12,12 +12,18 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Stickyhitbox will stick to the first surface it hits, wall or schmuck.
+ * This is currently used for: Stickybombs
+ * @author Zachary Tu
+ *
+ */
 public class StickyHitbox extends HitboxImage {
 
-	public boolean stuckWall = false;
-	public boolean stuckEnemy = false;
-	public Schmuck target;
-	public Vector2 location;
+	private boolean stuckWall = false;
+	private boolean stuckEnemy = false;
+	private Schmuck target;
+	private Vector2 location;
 	
 	public StickyHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura,
 			float rest, Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera,
@@ -27,7 +33,10 @@ public class StickyHitbox extends HitboxImage {
 		
 		this.setUserData(new HitboxData(state, world, this) {
 			
+			@Override
 			public void onHit(final HadalData fixB) {
+				
+				//If not stuck yet and hitting a body, stick to it. A schmuck is saved.
 				if (!stuckWall && !stuckEnemy) {
 					if (fixB != null) {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
@@ -37,6 +46,8 @@ public class StickyHitbox extends HitboxImage {
 									hbox.getBody().getPosition().x - target.getPosition().x, 
 									hbox.getBody().getPosition().y - target.getPosition().y);		
 						}
+						
+						//If not stuck yet and hitting a wall, stick to it. A position is saved.
 						if (fixB.getType().equals(UserDataTypes.WALL)) {
 							stuckWall = true;
 							location = body.getPosition();				
@@ -52,11 +63,13 @@ public class StickyHitbox extends HitboxImage {
 	
 	@Override
 	public void controller(float delta) {
+		
+		//If stuck to either a wall or schmuck, track its location and maintain same relative position.
 		if (stuckWall && location != null) {
 			body.setTransform(location, 0);
 		}
 		if (stuckEnemy && target != null && location != null) {
-			if (target.alive) {
+			if (target.isAlive()) {
 				body.setTransform(target.getPosition().add(location), 0);
 			} else {
 				stuckEnemy = false;

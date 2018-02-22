@@ -95,10 +95,11 @@ public class StickyBombLauncher extends RangedWeapon {
 	public void reload(float delta) {
 		
 		for (Hitbox bomb : bombsLaid) {
-			WeaponUtils.explode(user.state, 
+			WeaponUtils.explode(user.getState(), 
 					bomb.getBody().getPosition().x * PPM, 
 					bomb.getBody().getPosition().y * PPM, 
-					user.world, user.camera, user.rays, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
+					user.getWorld(), user.getCamera(), user.getRays(), user,
+					explosionRadius, explosionDamage, explosionKnockback, (short) 0);
 			bomb.queueDeletion();
 		}
 		bombsLaid.clear();

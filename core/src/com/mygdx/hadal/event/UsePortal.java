@@ -20,7 +20,7 @@ public class UsePortal extends Event {
 
 	private static final String name = "Portal";
 
-	boolean oneTime;
+	private boolean oneTime;
 
 	public UsePortal(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, boolean oneTime) {

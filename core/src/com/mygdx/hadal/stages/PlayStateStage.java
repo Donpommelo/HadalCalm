@@ -7,7 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 
 public class PlayStateStage extends Stage {
 
-	DialogueBox dialogue;
+	private DialogueBox dialogue;
 	
 	public PlayStateStage(PlayState state) {
 		

@@ -69,8 +69,8 @@ public class Boomerang extends RangedWeapon {
 						Vector2 diff = new Vector2(user.getBody().getPosition().x * PPM - body.getPosition().x * PPM, 
 								user.getBody().getPosition().y * PPM - body.getPosition().y * PPM);
 						body.applyForceToCenter(diff.nor().scl(projectileSpeed * body.getMass() * returnAmp), true);
-						lifeSpan -= delta;
-						if (lifeSpan <= 0) {
+						setLifeSpan(getLifeSpan() - delta);
+						if (getLifeSpan() <= 0) {
 							state.destroy(this);
 						}
 						controllerCount = 0;
@@ -84,9 +84,9 @@ public class Boomerang extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB instanceof PlayerBodyData) {
-							if (hbox.lifeSpan < lifespanx - 0.25f) {
-								if (((PlayerBodyData)fixB).currentTool instanceof Boomerang) {
-									((Boomerang)((PlayerBodyData)fixB).currentTool).gainAmmo(1);
+							if (hbox.getLifeSpan() < lifespanx - 0.25f) {
+								if (((PlayerBodyData)fixB).getCurrentTool() instanceof Boomerang) {
+									((Boomerang)((PlayerBodyData)fixB).getCurrentTool()).gainAmmo(1);
 								}
 								this.hbox.queueDeletion();
 							}

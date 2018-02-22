@@ -47,7 +47,7 @@ public class MomentumStopper extends MeleeWeapon {
 							Vector2 velo = new Vector2(
 									fixB.getEntity().getBody().getLinearVelocity().x, 
 									fixB.getEntity().getBody().getLinearVelocity().y);
-							((Player) user2).momentums.addLast(velo);
+							((Player) user2).getMomentums().addLast(velo);
 							fixB.getEntity().getBody().setLinearVelocity(new Vector2(0, 0));
 						}
 					}

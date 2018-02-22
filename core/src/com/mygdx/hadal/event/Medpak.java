@@ -39,10 +39,10 @@ public class Medpak extends Event{
 			public void onTouch(HadalData fixB) {
 				if (fixB != null && !consumed) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
-						if (((PlayerBodyData)fixB).currentHp < ((PlayerBodyData)fixB).getMaxHp()) {
+						if (((PlayerBodyData)fixB).getCurrentHp() < ((PlayerBodyData)fixB).getMaxHp()) {
 							((PlayerBodyData)fixB).regainHp(hpRegained, ((PlayerBodyData)fixB), true, DamageTypes.MEDPAK);
 							if (spawner != null) {
-								spawner.readyToSpawn = true;
+								spawner.setReadyToSpawn(true);
 							}
 							queueDeletion();
 						}

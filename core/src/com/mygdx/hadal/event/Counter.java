@@ -19,8 +19,8 @@ public class Counter extends Event {
 
 	private static final String name = "Counter";
 
-	int maxCount;
-	int currentCount = 0;
+	private int maxCount;
+	private int currentCount = 0;
 	
 	public Counter(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, int maxCount) {

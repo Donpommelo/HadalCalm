@@ -20,17 +20,17 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class RangedWeapon extends Equipable{
 
-	public int clipSize;
-	public int clipLeft;
+	protected int clipSize;
+	protected int clipLeft;
 	
-	public int reloadAmount;
-	public float recoil;
-	public float projectileSpeed;
-	public HitboxFactory onShoot;
+	protected int reloadAmount;
+	protected float recoil;
+	protected float projectileSpeed;
+	protected HitboxFactory onShoot;
 	
-	public Vector2 velo;
-	public int x, y;
-	public short faction;
+	protected Vector2 velo;
+	protected int x, y;
+	protected short faction;
 
 	/**
 	 * Ranged weapons, like most equipment, is constructed when creating tool spawns or default schmuck loadouts
@@ -115,7 +115,7 @@ public class RangedWeapon extends Equipable{
 			
 			//If player fires in the middle of reloading, reset reload progress
 			reloading = false;
-			reloadCd = reloadTime * (1 - shooter.getReloadRate());
+			reloadCd = getReloadTime();
 			
 			//process weapon recoil.
 			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
@@ -123,7 +123,7 @@ public class RangedWeapon extends Equipable{
 		if (clipLeft <= 0) {
 			if (!reloading) {
 				reloading = true;
-				reloadCd = reloadTime * (1 - shooter.getReloadRate());
+				reloadCd = getReloadTime();
 			}
 		}
 	}

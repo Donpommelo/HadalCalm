@@ -7,6 +7,11 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
+/**
+ * This enum maps to each possible action the player can perform to an input.
+ * @author Zachary Tu
+ *
+ */
 public enum PlayerAction {
 	PAUSE(Input.Keys.ESCAPE),
 	WALK_RIGHT(Input.Keys.D),
@@ -42,6 +47,9 @@ public enum PlayerAction {
 		this.key = key;
 	}
 	
+	/**
+	 * Reset key to default bindings
+	 */
 	public static void resetKeys() {
 				
 		PAUSE.setKey(Input.Keys.ESCAPE);
@@ -65,6 +73,10 @@ public enum PlayerAction {
 		MO_CYCLE_DOWN.setKey(0);
 	}
 	
+	/**
+	 * Retrieve saved bindings from save file.
+	 * TODO: If fail to read file, reset to default?
+	 */
 	public static void retrieveKeys() {
 		JsonReader json;
 		JsonValue base;
@@ -77,6 +89,9 @@ public enum PlayerAction {
 		}
 	}
 	
+	/**
+	 * Save edited keybinds to file
+	 */
 	public static void saveKeys() {		
 		Gdx.files.local("save/Keybind.json").writeString("", false);
 		

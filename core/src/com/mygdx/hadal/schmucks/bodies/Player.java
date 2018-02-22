@@ -36,10 +36,6 @@ import box2dLight.RayHandler;
  */
 public class Player extends PhysicsSchmuck {
 	
-
-	//player stats
-//	private final static int playerWidth = 21;
-//	private final static int playerHeight = 42;
 	
 	private final static float playerDensity = 0.2f;
 	private final static float momentumBoost = 1.5f;
@@ -59,7 +55,7 @@ public class Player extends PhysicsSchmuck {
 	protected float interactCdCount = 0;
 	
 	protected float momentumCd = 10.0f;
-	public float momentumCdCount = 0;
+	protected float momentumCdCount = 0;
 	
 	protected float trailCd = 0.25f;
 	protected float trailCdCount = 0;
@@ -68,17 +64,17 @@ public class Player extends PhysicsSchmuck {
 	private float attackAngle = 0;
 	
 	//user data
-	public PlayerBodyData playerData;
+	private PlayerBodyData playerData;
 	
 	//The event that the player last collided with. Used for active events that the player interacts with by pressing 'E'
-	public Event currentEvent;
+	private Event currentEvent;
 	
 	//Equipment that the player has built in to their toolset.
-	public MomentumStopper mStop;
-	public Airblaster airblast;
+	private MomentumStopper mStop;
+	private Airblaster airblast;
 	
 	//Queue of velocities that the player can manipulate
-	public Queue<Vector2> momentums;
+	private Queue<Vector2> momentums;
 	
 	private TextureAtlas atlasBody, atlasTool;
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
@@ -88,27 +84,27 @@ public class Player extends PhysicsSchmuck {
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
 		
-	public static final int bodyConnectX = -100;
-	public static final int bodyConnectY = 0;
+	private static final int bodyConnectX = -100;
+	private static final int bodyConnectY = 0;
 	
-	public static final int headConnectX = -26;
-	public static final int headConnectY = 330;
+	private static final int headConnectX = -26;
+	private static final int headConnectY = 330;
 	
-	public static final int armConnectX = -304;
-	public static final int armConnectY = 218;
+	private static final int armConnectX = -304;
+	private static final int armConnectY = 218;
 	
-	public static final int armRotateX = 330;
-	public static final int armRotateY = 50;
+	private static final int armRotateX = 330;
+	private static final int armRotateY = 50;
 		
 	public static final float scale = 0.15f;
 	
-	public int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
+	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
 	toolHeight, toolWidth, gemHeight, gemWidth;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	public float controllerCount = 0;
-	public boolean shooting = false;
-	public boolean hovering = false;
+	private float controllerCount = 0;
+	private boolean shooting = false;
+	private boolean hovering = false;
 	
 	private final float spriteAnimationSpeed = 0.08f;
 	
@@ -123,7 +119,8 @@ public class Player extends PhysicsSchmuck {
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String playerSprite) {
+	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String playerSprite, 
+			PlayerBodyData oldData) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
 		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
@@ -138,10 +135,18 @@ public class Player extends PhysicsSchmuck {
 		
 		this.moveState = MoveStates.STAND;
 
+		if (oldData != null) {
+			this.playerData = oldData;
+		}
+		
 		setBodySprite(playerSprite);
 		loadParticles();
 	}
 	
+	/**
+	 * This method prepares the player sprite from various texture regions.
+	 * @param playerSprite
+	 */
 	public void setBodySprite(String playerSprite) {
 		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
 		bodyRunSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_run"));	
@@ -169,6 +174,9 @@ public class Player extends PhysicsSchmuck {
 		}		
 	}
 	
+	/**
+	 * This method prepares the various particle emitting entities attached to the player.
+	 */
 	public void loadParticles() {
 		
 		final TextureAtlas particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
@@ -192,11 +200,17 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * Create the player's body and initialize player's user data.
 	 */
-	public void create() {		
+	@Override
+	public void create() {
 		
 		state.resetController();
 		
-		this.playerData = new PlayerBodyData(world, this, state.loadout);
+		if (playerData == null) {
+			this.playerData = new PlayerBodyData(world, this, state.getLoadout());
+		} else {
+			playerData.resetData(this, world);
+		}
+		
 		this.bodyData = playerData;
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, false, true, Constants.BIT_PLAYER, 
@@ -209,6 +223,7 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * The player's controller currently polls for input.
 	 */
+	@Override
 	public void controller(float delta) {
 		
 		controllerCount+=delta;
@@ -229,15 +244,15 @@ public class Player extends PhysicsSchmuck {
 		
 		//player's jumps are refreshed on the ground
 		if (grounded) {
-			playerData.extraJumpsUsed = 0;
+			playerData.setExtraJumpsUsed(0);
 		}
 				
 		//process fuel regen
 		playerData.fuelGain(playerData.getFuelRegen() * delta);
 		
 		//If player is reloading, run the reload method of the current equipment.
-		if (playerData.currentTool.reloading) {
-			playerData.currentTool.reload(delta);
+		if (playerData.getCurrentTool().isReloading()) {
+			playerData.getCurrentTool().reload(delta);
 		}
 		
 		if (trailCdCount < 0) {
@@ -261,15 +276,18 @@ public class Player extends PhysicsSchmuck {
 		
 	}
 	
+	/**
+	 * Player's Hover power. Costs fuel and continuously pushes the player upwards.
+	 */
 	public void hover() {
-		if (!grounded && playerData.extraJumpsUsed >= playerData.numExtraJumps + (int) playerData.getBonusJumpNum() &&
-				playerData.currentFuel >= playerData.hoverCost * (1 + playerData.getBonusHoverCost())) {
+		if (!grounded && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
+				playerData.getCurrentFuel() >= playerData.getHoverCost()) {
 			if (jumpCdCount < 0) {
 				
 				//Player will continuously do small upwards bursts that cost fuel.
-				playerData.fuelSpend(playerData.hoverCost * (1 + playerData.getBonusHoverCost()));
+				playerData.fuelSpend(playerData.getHoverCost());
 				jumpCdCount = hoverCd;
-				push(0, playerData.hoverPow * (1 + playerData.getBonusHoverPower()));
+				push(0, playerData.getHoverPower());
 				
 				hoverBubbles.turnOn();
 			}
@@ -278,64 +296,86 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	/**
+	 * Player's jump. Player moves up if they have jumps left.
+	 */
 	public void jump() {
 		if (grounded) {
 			if (jumpCdCount < 0) {
 				jumpCdCount = jumpCd;
-				push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
+				push(0, playerData.getJumpPower());
 //				jumpSmoke.turnOn();
 			}
 		} else {
-			if (playerData.extraJumpsUsed < playerData.numExtraJumps + (int) playerData.getBonusJumpNum()) {
+			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
 				if (jumpCdCount < 0) {
 					jumpCdCount = jumpCd;
-					playerData.extraJumpsUsed++;
-					push(0, playerData.jumpPow * (1 + playerData.getBonusJumpPower()));
+					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);;
+					push(0, playerData.getJumpPower());
 //					jumpSmoke.turnOn();
 				}
 			}
 		}
 	}
 	
+	/**
+	 * Player falls rapidly if in the air. If grounded, this also interacts with terrain events.
+	 */
 	public void fastFall() {
 		if (!grounded) {
 			if (fastFallCdCount < 0) {
 				fastFallCdCount = fastFallCd;
-				push(0, -playerData.fastFallPow);
+				push(0, -playerData.getFastFallPower());
 			}
 		}
-		if (feetData.terrain != null) {
-			feetData.terrain.eventData.onInteract(this);
+		if (feetData.getTerrain() != null) {
+			feetData.getTerrain().getEventData().onInteract(this);
 		}
 	}
 	
+	/**
+	 * Point and shoot
+	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
+	 */
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true);
+		useToolStart(delta, playerData.getCurrentTool(), Constants.PLAYER_HITBOX, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true);
 	}
 	
+	/**
+	 * Player releases mouse. This is used to fire charge weapons.
+	 */
 	public void release() {
 		//TODO: THIS LINE GOT A NULLPOINTER ONCE UPON DYING. CANNOT REPLICATE. 
 		//ADDED NULL CHECK TO INPUT PROCESSOR. HOPEFULLY FIXED.
-		useToolRelease(playerData.currentTool, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
+		useToolRelease(playerData.getCurrentTool(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
 	}
 	
+	/**
+	 * Player's airblast power. Boosts player, knocks enemies/hitboxes.
+	 */
 	public void airblast() {
 		if (airblastCdCount < 0) {
-			if (playerData.currentFuel >= playerData.airblastCost * (1 + playerData.getBonusAirblastCost())) {
-				playerData.fuelSpend(playerData.airblastCost * (1 + playerData.getBonusAirblastCost()));
+			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
+				playerData.fuelSpend(playerData.getAirblastCost());
 				airblastCdCount = airblastCd;
 				useToolStart(0, airblast, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
 			}
 		}
 	}
 	
+	/**
+	 * Player interacts with an event they are overlapping with
+	 */
 	public void interact() {
 		if (currentEvent != null && interactCdCount < 0) {
 			interactCdCount = interactCd;
-			currentEvent.eventData.onInteract(this);
+			currentEvent.getEventData().onInteract(this);
 		}
 	}
 	
+	/**
+	 * Player uses momentum saving power, freezing nearby entities and storing their momentum for later use. has a cooldown.
+	 */
 	public void momentum() {
 		if (momentums.size == 0) {
 			if (momentumCdCount < 0) {
@@ -347,18 +387,31 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	/**
+	 * Player begins reloading.
+	 */
 	public void reload() {
-		playerData.currentTool.reloading = true;
+		playerData.getCurrentTool().setReloading(true);
 	}
 	
+	/**
+	 * Player switches to their last equiped weapon. (does nothing if they have no previously equipped weapon.)
+	 */
 	public void switchToLast() {
 		playerData.switchToLast();
 	}
 	
+	/**
+	 * Switches to the weapon in a specific slot.
+	 * @param slot
+	 */
 	public void switchToSlot(int slot) {
 		playerData.switchWeapon(slot);
 	}
 	
+	/**
+	 * This returns the angle of the player's arm. What was this needed for again?
+	 */
 	@Override
 	public float getAttackAngle() {
 		if (armSprite.isFlipX()) {
@@ -377,6 +430,7 @@ public class Player extends PhysicsSchmuck {
 				body.getPosition().y, 0);
 		camera.project(bodyScreenPosition);
 		
+		//Determine player mouse location and hence where the arm should be angled.
 		attackAngle = (float)(Math.atan2(
 				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
 				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
@@ -387,6 +441,7 @@ public class Player extends PhysicsSchmuck {
 			flip = true;
 		}
 		
+		//Depending on which way the player is facing, the connection points of various body parts are slightly offset.
 		float armConnectXReal = armConnectX;
 		float headConnectXReal = headConnectX;
 		float armRotateXReal = armRotateX;
@@ -398,6 +453,7 @@ public class Player extends PhysicsSchmuck {
 			attackAngle = attackAngle + 180;
 		}
 		
+		//This switch determins the total body y-offset to make the body bob up and down when running.
 		int yOffset = 0;
 		if (moveState.equals(MoveStates.MOVE_LEFT) || moveState.equals(MoveStates.MOVE_RIGHT)) {
 			switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
@@ -419,10 +475,12 @@ public class Player extends PhysicsSchmuck {
 			}
 		}
 		
+		//This makes bodies flash red when receiving damage.
 		if (flashingCount > 0) {
 			batch.setColor(Color.RED);
 		}
 		
+		//Draw a bunch of stuff
 		batch.draw(toolSprite, 
 				(flip ? toolWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
@@ -489,6 +547,7 @@ public class Player extends PhysicsSchmuck {
 		batch.setColor(Color.WHITE);
 	}
 	
+	@Override
 	public void dispose() {
 		super.dispose();
 	}
@@ -512,4 +571,40 @@ public class Player extends PhysicsSchmuck {
 	public TextureRegion getArmSprite() {
 		return armSprite;
 	}
+
+	public float getMomentumCdCount() {
+		return momentumCdCount;
+	}
+
+	public Event getCurrentEvent() {
+		return currentEvent;
+	}
+
+	public void setCurrentEvent(Event currentEvent) {
+		this.currentEvent = currentEvent;
+	}
+
+	public Queue<Vector2> getMomentums() {
+		return momentums;
+	}
+
+	public void setMomentums(Queue<Vector2> momentums) {
+		this.momentums = momentums;
+	}
+
+	public boolean isHovering() {
+		return hovering;
+	}
+
+	public void setHovering(boolean hovering) {
+		this.hovering = hovering;
+	}
+
+	public boolean isShooting() {
+		return shooting;
+	}
+
+	public void setShooting(boolean shooting) {
+		this.shooting = shooting;
+	}	
 }

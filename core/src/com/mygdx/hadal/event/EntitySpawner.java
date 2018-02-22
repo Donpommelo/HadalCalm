@@ -11,16 +11,28 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+/**
+ * The Entity spawner periodically spawns entities.
+ * @author Zachary Tu
+ *
+ */
 public class EntitySpawner extends Event {
 	
-	public int id;
-	public float interval;
-	public int limit;
+	//id of the entity to spawned
+	private int id;
 	
-	public float spawnCount = 0;
-	public int amountCount = 0;
+	//How frequently will the spawns occur? Every interval seconds.
+	private float interval;
 	
-	public int spawnX, spawnY;
+	//The event will spawn limit entites before stopping. If this is 0, the event will never stop.
+	private int limit;
+	
+	//These keep track of how long since last spawn and total spawn number respectively
+	private float spawnCount = 0;
+	private int amountCount = 0;
+	
+	//Where entites will be spawned
+	private int spawnX, spawnY;
 	
 	private static final String name = "Schmuck Spawner";
 
@@ -52,9 +64,10 @@ public class EntitySpawner extends Event {
 			amountCount++;
 			switch(id) {
 			case 0:
-				state.player.getBody().setTransform(
-						spawnX / PPM + state.getPlayer().width / PPM / 2, 
-						spawnY / PPM + state.getPlayer().height / PPM / 2, 0);
+				
+				//This is kinda a dumb hacky way of having player spawns. Player spawns are technically dictated by the 
+				//playstate, but this lets us spawn on this event provided interval = 0 and limit = 1.
+				state.getPlayer().getBody().setTransform(spawnX / PPM, spawnY / PPM , 0);
 				break;
 			case 1:
 				if (Math.random() > 0.4f) {

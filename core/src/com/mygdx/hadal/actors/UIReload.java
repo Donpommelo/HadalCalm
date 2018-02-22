@@ -36,7 +36,7 @@ public class UIReload extends AHadalActor{
     public void draw(Batch batch, float alpha) {
 		batch.setProjectionMatrix(state.hud.combined);
 
-		if (player.getPlayerData().currentTool.reloading && player.alive) {
+		if (player.getPlayerData().getCurrentTool().isReloading() && player.isAlive()) {
 		
 			Vector3 bodyScreenPosition = new Vector3(player.getBody().getPosition().x, player.getBody().getPosition().y, 0);
 			state.camera.project(bodyScreenPosition);
@@ -44,8 +44,8 @@ public class UIReload extends AHadalActor{
 			float x = bodyScreenPosition.x - reload.getRegionWidth() * scale / 2;
 			float y = bodyScreenPosition.y + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
 			
-			float percent = player.getPlayerData().currentTool.reloadCd / 
-					(player.getPlayerData().currentTool.reloadTime * (1 - player.getPlayerData().getReloadRate()));
+			float percent = player.getPlayerData().getCurrentTool().getReloadCd() / 
+					(player.getPlayerData().getCurrentTool().getReloadTime());
 			
 			batch.draw(reloadBar, x + 12, y + 5, reloadBar.getRegionWidth() * scale * percent, reloadBar.getRegionHeight() * scale);
 			batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);

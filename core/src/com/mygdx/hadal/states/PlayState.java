@@ -29,6 +29,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -44,25 +45,24 @@ import box2dLight.RayHandler;
 public class PlayState extends GameState {
 	
 	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
-	public Player player;
-	public PlayerController controller;
+	private Player player;
+	private PlayerController controller;
 	
-	public Loadout loadout;
+	private Loadout loadout;
 	
 	//These process and store the map parsed from the Tiled file.
 	private TiledMap map;
-	OrthogonalTiledMapRenderer tmr;
-	
-	//The font is for writing text.
-    public BitmapFont font;
+	private OrthogonalTiledMapRenderer tmr;
     
-    //TODO: rays will eventually implement lighting.
-	public RayHandler rays;
+    //rays will implement lighting.
+	private RayHandler rays;
 	
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
 	private Box2DDebugRenderer b2dr;
 	private World world;
-		
+	
+	public BitmapFont font;
+	
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private Set<HadalEntity> removeList;
 	private Set<HadalEntity> createList;
@@ -73,38 +73,37 @@ public class PlayState extends GameState {
 	private Set<HadalEntity> hitboxes;
 	
 	//sourced effects from the world are attributed to this dummy.
-	public Enemy worldDummy;
+	private Enemy worldDummy;
 	
 	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
-	public int score = 0;
-	public String level;
+	private int score = 0;
+	private String level;
 	
-	public boolean gameover = false;
-	public boolean won = false;
-	public static final float gameoverCd = 2.5f;
-	public float gameoverCdCount;
+	private boolean gameover = false;
+	private boolean won = false;
+	private static final float gameoverCd = 2.5f;
+	private float gameoverCdCount;
 	
-	public float zoom;
-	public boolean realFite;
+	private float zoom;
+	private boolean realFite;
 	
-	public PlayStateStage stage;
-//	public Set<Zone> zones;
+	private PlayStateStage stage;
+//	private Set<Zone> zones;
 	
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, String level, boolean realFite, Player old) {
+	public PlayState(GameStateManager gsm, Loadout loadout, String level, boolean realFite, PlayerBodyData old) {
 		super(gsm);
-		
+
 		this.realFite = realFite;
 		
 		this.loadout = loadout;
 		this.level = level;
-		
-		//Initialize font and text camera for ui purposes.
-        font = new BitmapFont();
         
+		this.font = new BitmapFont();
+		
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), false);
 		world.setContactListener(new WorldContactListener());
@@ -150,22 +149,18 @@ public class PlayState extends GameState {
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		
-		if (old == null) {
-			player = new Player(this, world, camera, rays, 0, 0, loadout.playerSprite);
-
-		} else {
-			player = old;
-		}
+		player = new Player(this, world, camera, rays, 200, 200, loadout.playerSprite, old);
 		
 		controller = new PlayerController(player, this);		
 	}
 	
-	//This constructor is used when entering a new playstate.
-	//The null represents that there is no existing player and a new one should be made.
+	/**
+	 * 
+	 */
 	public PlayState(GameStateManager gsm, Loadout loadout, String level, boolean realFite) {
 		this(gsm, loadout, level, realFite, null);
 	}
-	
+			
 	@Override
 	public void show() {
 		this.stage = new PlayStateStage(this);
@@ -205,7 +200,7 @@ public class PlayState extends GameState {
 		getGsm().removeState(PlayState.class);
 		getGsm().removeState(LoadoutState.class);
 		getGsm().removeState(HubState.class);
-		getGsm().addPlayState(level, loadout, TitleState.class);
+		getGsm().addPlayState(level, loadout, player.getPlayerData(), TitleState.class);
 	}
 	
 	/**
@@ -261,7 +256,7 @@ public class PlayState extends GameState {
 					}
 				} else {
 					player = new Player(this, world, camera, rays, (int)(player.getBody().getPosition().x * PPM),
-							(int)(player.getBody().getPosition().y * PPM), loadout.playerSprite);
+							(int)(player.getBody().getPosition().y * PPM), loadout.playerSprite, null);
 					
 					controller.setPlayer(player);
 					
@@ -289,7 +284,6 @@ public class PlayState extends GameState {
 		//Iterate through entities in the world to render
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		font.getData().setScale(1.0f);
 
 		for (HadalEntity hitbox : hitboxes) {
 			hitbox.render(batch);
@@ -367,6 +361,30 @@ public class PlayState extends GameState {
 	 */
 	public Player getPlayer() {
 		return player;
+	}	
+
+	public Loadout getLoadout() {
+		return loadout;
+	}
+	
+	public RayHandler getRays() {
+		return rays;
+	}
+	
+	public Enemy getWorldDummy() {
+		return worldDummy;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+	
+	public PlayStateStage getStage() {
+		return stage;
 	}
 
 	/**

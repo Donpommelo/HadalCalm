@@ -2,10 +2,6 @@ package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.Unlock;
-import com.mygdx.hadal.equip.Unlock.UnlockType;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
@@ -34,7 +30,7 @@ public class Armory extends Event {
 			@Override
 			public void onInteract(Player p) {
 				
-				Array<Class<? extends Equipable>> items = Unlock.getUnlocks(UnlockType.RANGED);
+//				Array<Class<? extends Equipable>> items = Unlock.getUnlocks(UnlockType.RANGED);
 				
 //				state.stage.addActor(actor);
 			}

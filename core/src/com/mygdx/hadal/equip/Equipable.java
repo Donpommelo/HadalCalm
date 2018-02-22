@@ -15,25 +15,25 @@ import box2dLight.RayHandler;
 public abstract class Equipable {	
 	
 	//The Schmuck that is using this tool
-	public Schmuck user;
+	protected Schmuck user;
 	
 	//The name of this tool
-	public String name;
+	protected String name;
 	
 	//The delay in seconds after using this tool before you can use a tool again.
-	public float useCd;
+	protected float useCd;
 	
 	//The delay in seconds between pressing the button for this tool and it activating. 
-	public float useDelay;
+	protected float useDelay;
 
 	//Whether this tool is currently in the process of reloading or not.
-	public boolean reloading;
+	protected boolean reloading;
 	
 	//Counter for how much longer this tool needs to be reloaded before it gets more ammo
-	public float reloadCd;
+	protected float reloadCd;
 	
 	//The amount of time it takes to reload this weapon. (default = 0 for non-ranged)
-	public float reloadTime = 0;
+	protected float reloadTime = 0;
 	
 	private TextureAtlas atlas;
 	private TextureRegion equipSprite;
@@ -119,6 +119,10 @@ public abstract class Equipable {
 	 */
 	public abstract String getText();
 	
+	public void gainAmmo(int gained) {
+		
+	}
+
 	public float getUseCd() {
 		return useCd;
 	}
@@ -130,8 +134,32 @@ public abstract class Equipable {
 	public TextureRegion getEquipSprite() {
 		return equipSprite;
 	}
+	
+	public float getReloadTime() {
+		return reloadTime * (1 - user.getBodyData().getReloadRate());
+	}
+	
+	public String getName() {
+		return name;
+	}
 
-	public void gainAmmo(int gained) {
-		
+	public Schmuck getUser() {
+		return user;
+	}
+
+	public void setUser(Schmuck user) {
+		this.user = user;
+	}
+
+	public boolean isReloading() {
+		return reloading;
+	}
+
+	public void setReloading(boolean reloading) {
+		this.reloading = reloading;
+	}
+
+	public float getReloadCd() {
+		return reloadCd;
 	}
 }

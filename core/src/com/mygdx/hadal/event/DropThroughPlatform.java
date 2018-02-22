@@ -13,6 +13,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * This event is a solid block that can be passed by hitboxes, but not the player.
+ * When the player presses crouch when standing on it, they will pass through it.
+ * @author Zachary Tu
+ *
+ */
 public class DropThroughPlatform extends Event {
 	
 	private static final String name = "Drop Through Platform";
@@ -34,7 +40,7 @@ public class DropThroughPlatform extends Event {
 						filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER);
 						event.getBody().getFixtureList().get(0).setFilterData(filter);
 						
-						((FeetData) fixB).terrain = this.event;
+						((FeetData) fixB).setTerrain(this.event);
 					}
 				}
 			}
@@ -47,7 +53,7 @@ public class DropThroughPlatform extends Event {
 						filter.maskBits = (short) (Constants.BIT_SENSOR);
 						event.getBody().getFixtureList().get(0).setFilterData(filter);
 						
-						((FeetData) fixB).terrain = null;
+						((FeetData) fixB).setTerrain(null);
 
 					}
 				}

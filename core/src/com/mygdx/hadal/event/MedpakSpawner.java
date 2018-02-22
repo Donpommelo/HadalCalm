@@ -11,13 +11,13 @@ import box2dLight.RayHandler;
 
 public class MedpakSpawner extends Event {
 	
-	public float interval;
+	private float interval;
 	
-	public float spawnCount = 0;
+	private float spawnCount = 0;
 	
-	public int spawnX, spawnY;
+	private int spawnX, spawnY;
 	
-	public boolean readyToSpawn = true;
+	private boolean readyToSpawn = true;
 	
 	private static final String name = "Medpak Spawner";
 
@@ -52,5 +52,9 @@ public class MedpakSpawner extends Event {
 				new Medpak(state, world, camera, rays, spawnX, spawnY, this);
 			}
 		}
+	}
+
+	public void setReadyToSpawn(boolean readyToSpawn) {
+		this.readyToSpawn = readyToSpawn;
 	}
 }

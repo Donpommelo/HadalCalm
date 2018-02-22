@@ -6,6 +6,11 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * An event that will spawn with a random weapon for the player to pick up,
+ * @author Zachary Tu
+ *
+ */
 public class EquipPickupRandom extends EquipPickup {
 
 	public EquipPickupRandom(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width,

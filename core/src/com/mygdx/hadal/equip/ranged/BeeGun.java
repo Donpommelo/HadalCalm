@@ -76,7 +76,7 @@ public class BeeGun extends RangedWeapon {
 				public void controller(float delta) {
 					super.controller(delta);
 					
-					if (homing != null && homing.alive) {
+					if (homing != null && homing.isAlive()) {
 						if (behavior != null) {
 							behavior.calculateSteering(steeringOutput);
 							applySteering(delta);
@@ -128,7 +128,7 @@ public class BeeGun extends RangedWeapon {
 				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+						fixB.receiveDamage(baseDamage, hbox.getBody().getLinearVelocity().nor().scl(knockback), 
 								user.getBodyData(), true, DamageTypes.RANGED);
 						super.onHit(fixB);
 					}

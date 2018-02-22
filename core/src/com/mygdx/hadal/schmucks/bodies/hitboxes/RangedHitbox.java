@@ -8,6 +8,12 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Ranged hitbox is really just a totally normal hitbox.
+ * This subclass exists as a means to implement various ranged-specific stats that modify projectile properties.
+ * @author Zachary Tu
+ *
+ */
 public class RangedHitbox extends Hitbox {
 
 	public RangedHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura,

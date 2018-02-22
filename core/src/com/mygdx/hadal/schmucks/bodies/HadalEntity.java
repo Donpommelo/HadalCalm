@@ -28,18 +28,18 @@ import box2dLight.RayHandler;
 public abstract class HadalEntity implements Steerable<Vector2> {
 
 	//References to game fields.
-	public PlayState state;
-	public World world;
-	public OrthographicCamera camera;
-	public RayHandler rays;
+	protected PlayState state;
+	protected World world;
+	protected OrthographicCamera camera;
+	protected RayHandler rays;
 	
 	//Fields common to all entities.
 	protected Body body;
 	protected HadalData hadalData;
-	public float height, width;
+	protected float height, width;
 	protected float startX, startY;
 	
-	public boolean alive = true;
+	private boolean alive = true;
 	
 	//The below fields are only used for steering entities. most things will ignore these
 	protected boolean tagged;
@@ -142,6 +142,26 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public Body getBody() {
 		return body;
+	}
+	
+	public PlayState getState() {
+		return state;
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	public RayHandler getRays() {
+		return rays;
+	}
+
+	public boolean isAlive() {
+		return alive;
 	}
 	
 	/**

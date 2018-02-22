@@ -44,10 +44,10 @@ public class AirBubble extends Event{
 			public void onTouch(HadalData fixB) {
 				if (fixB != null && !consumed) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
-						if (((PlayerBodyData)fixB).currentFuel < ((PlayerBodyData)fixB).getMaxFuel()) {
+						if (((PlayerBodyData)fixB).getCurrentFuel() < ((PlayerBodyData)fixB).getMaxFuel()) {
 							((PlayerBodyData)fixB).fuelGain(fuelRegained);
 							if (spawner != null) {
-								spawner.readyToSpawn = true;
+								spawner.setReadyToSpawn(true);
 							}
 							queueDeletion();
 						}

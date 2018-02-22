@@ -12,10 +12,18 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * This event, when interacted with, will give the player a new weapon.
+ * If the player's slots are full, this will replace currently held weapon.
+ * @author Zachary Tu
+ *
+ */
 public class EquipPickup extends Event {
 
+	//This is the weapon that will be picked up when interacting with this event.
 	private Equipable equip;
 	
+	//Number of weapons in the game. Eventually, this wil be held elsewhere.
 	public static final int numWeapons = 16;
 	
 	private static final String name = "Equip Pickup";
@@ -85,7 +93,7 @@ public class EquipPickup extends Event {
 			@Override
 			public void onInteract(Player p) {
 				if (!consumed) {
-					Equipable temp = p.playerData.pickup(equip);
+					Equipable temp = p.getPlayerData().pickup(equip);
 					if (temp == null) {
 						queueDeletion();
 					} else {
@@ -102,7 +110,7 @@ public class EquipPickup extends Event {
 	
 	@Override
 	public String getText() {
-		return equip.name + " (E TO TAKE)";
+		return equip.getName() + " (E TO TAKE)";
 	}
 
 }

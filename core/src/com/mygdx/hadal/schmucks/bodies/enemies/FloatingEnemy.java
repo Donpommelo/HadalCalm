@@ -24,6 +24,7 @@ import box2dLight.RayHandler;
 
 /**
  * Enemies are Schmucks that attack the player.
+ * Floating enemies are the basic fish-enemies of the game
  * @author Zachary Tu
  *
  */
@@ -32,27 +33,33 @@ public class FloatingEnemy extends SteeringEnemy {
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	protected Equipable weapon;
     
-    public Vector2 direction;
+	//direction tells the fish what vector to propel themselves in next if roaming.
+	private Vector2 direction;
     
-    public static final float moveCd = 0.75f;
-    public float moveCdCount = 0;
+	//moveCd determines how much time until the fish moves again.
+    private static final float moveCd = 0.75f;
+    private float moveCdCount = 0;
     
-    public static final float aiCd = 0.75f;
-    public float aiCdCount = 0;
+    //moveCd determines how much time until the fish processes ai again.
+    private static final float aiCd = 0.75f;
+    private float aiCdCount = 0;
     
-    public static final float moveMag = 7.5f;
+    //when roaming, this determins the power of their propulsion.
+    private static final float moveMag = 7.5f;
     
+    //Ai mode of the fish
   	private floatingState aiState;
   	
-  	float shortestFraction;
-  	Fixture closestFixture;
+  	//These are used for raycasting to determing whether the player is in vision of the fish.
+  	private float shortestFraction;
+  	private Fixture closestFixture;
   	
   	private TextureAtlas atlas;
 	private TextureRegion fishSprite;
 	
-	public int width, height, hbWidth, hbHeight;
+	private int width, height, hbWidth, hbHeight;
 	
-	public float scale;
+	private float scale;
 
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -86,6 +93,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	/**
 	 * Create the enemy's body and initialize enemy's user data.
 	 */
+	@Override
 	public void create() {
 		super.create();
 		direction = new Vector2(
@@ -96,15 +104,20 @@ public class FloatingEnemy extends SteeringEnemy {
 	/**
 	 * Enemy ai goes here. Default enemy behaviour just walks right/left towards player and fires weapon.
 	 */
+	@Override
 	public void controller(float delta) {
 		
 		moveState = MoveStates.STAND;
 		
 		switch (aiState) {
-		case ROAMING:		
+		case ROAMING:
+			
+			//atm, this is here so fish still flash red even when out of sight
 			flashingCount-=delta;
 			break;
 		case CHASING:
+			
+			//when chasing, fish run their steering ai and fire their weapons continously
 			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
 			camera.project(target);
 			
@@ -118,6 +131,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		}
 		
+		//If roaming, fish will propel themselves around.
 		if (moveCdCount < 0) {
 			moveCdCount += moveCd;
 			switch (aiState) {
@@ -129,6 +143,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			}
 		}
 		
+		//When processing ai, fish attempt to raycast towards player.
 		if (aiCdCount < 0) {
 			aiCdCount += aiCd;
 			aiState = floatingState.ROAMING;
@@ -162,6 +177,7 @@ public class FloatingEnemy extends SteeringEnemy {
 					
 				}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
 				
+				//If player is detected, begin chasing.
 				if (closestFixture != null) {
 					if (closestFixture.getUserData() instanceof PlayerBodyData ) {
 						aiState = floatingState.CHASING;
@@ -171,10 +187,12 @@ public class FloatingEnemy extends SteeringEnemy {
 				
 		}
 		
-		if (weapon.reloading) {
+		//Fish must manually reload their singular weapon.
+		if (weapon.isReloading()) {
 			weapon.reload(delta);
 		}
 		
+		//process cooldowns
 		moveCdCount -= delta;
 		aiCdCount -= delta;
 	}
@@ -187,6 +205,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	/**
 	 * draws enemy
 	 */
+	@Override
 	public void render(SpriteBatch batch) {
 
 		boolean flip = false;

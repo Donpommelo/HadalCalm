@@ -22,7 +22,7 @@ public class HadalData {
 	//The entity that owns this data
 	private HadalEntity entity;
 	
-	public World world;
+	protected World world;
 	
 	/**
 	 * aye
@@ -33,7 +33,7 @@ public class HadalData {
 	public HadalData(World world, UserDataTypes type, HadalEntity entity) {
 		this.world = world;
 		this.type = type;
-		this.entity = entity;
+		this.setEntity(entity);
 		this.numContacts = 0;
 	}
 
@@ -47,7 +47,7 @@ public class HadalData {
 	 *TODO: include the source of damage
 	 */
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-		entity.push(knockback.x, knockback.y);
+		getEntity().push(knockback.x, knockback.y);
 	}
 	
 	public int getNumContacts() {
@@ -61,9 +61,13 @@ public class HadalData {
 	public UserDataTypes getType() {
 		return type;
 	}
-	
+
 	public HadalEntity getEntity() {
 		return entity;
+	}
+
+	public void setEntity(HadalEntity entity) {
+		this.entity = entity;
 	}
 	
 }

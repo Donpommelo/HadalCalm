@@ -9,13 +9,13 @@ import box2dLight.RayHandler;
 
 public class StatChangeStatus extends Status {
 
-	public static String name = "Stats Changed";
+	private static String name = "Stats Changed";
 	
-	public int statNum;
-	public double statIncrement;
+	private int statNum;
+	private float statIncrement;
 	
 	public StatChangeStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
-			float i, int stat, float amount, BodyData p,	BodyData v, int pr) {
+			float i, int stat, float amount, BodyData p, BodyData v, int pr) {
 		super(state, world, camera, rays, i, name, false, false, true, true, p, v, pr);
 		this.statNum = stat;
 		this.statIncrement = amount;
@@ -30,7 +30,7 @@ public class StatChangeStatus extends Status {
 	
 	@Override
 	public void statChanges(BodyData bodyData){
-		bodyData.buffedStats[statNum] += statIncrement;
+		bodyData.setStat(statNum, bodyData.getStat(statNum) + statIncrement);
 	}
 
 }

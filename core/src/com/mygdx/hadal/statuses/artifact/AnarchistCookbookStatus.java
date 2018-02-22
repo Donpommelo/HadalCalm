@@ -36,7 +36,7 @@ public class AnarchistCookbookStatus extends Status {
 	public void timePassing(float delta) {
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
-			vic.schmuck.useToolStart(delta, weapon, (short) vic.schmuck.hitboxfilter, (int)0, (int)0, false);
+			vic.getSchmuck().useToolStart(delta, weapon, (short) vic.getSchmuck().getHitboxfilter(), (int)0, (int)0, false);
 			weapon.reload(delta);
 		}
 		procCdCount += delta;

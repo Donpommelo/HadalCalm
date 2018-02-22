@@ -18,8 +18,7 @@ import box2dLight.RayHandler;
  */
 public class Enemy extends Schmuck {
 				
-	
-	public HadalEntity target;
+	protected HadalEntity target;
 	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -56,5 +55,13 @@ public class Enemy extends Schmuck {
 	public void dispose() {
 		state.incrementScore(1);
 		super.dispose();
+	}
+
+	public HadalEntity getTarget() {
+		return target;
+	}
+
+	public void setTarget(HadalEntity target) {
+		this.target = target;
 	}
 }

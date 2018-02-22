@@ -13,10 +13,16 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * This is a block that can be destroyed.
+ * @author Zachary Tu
+ *
+ */
 public class DestructableBlock extends Event {
 
 	private static final String name = "Destructable Object";
 
+	//psuedo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
 	public DestructableBlock(PlayState state, World world, OrthographicCamera camera, RayHandler rays,

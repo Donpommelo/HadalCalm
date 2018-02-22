@@ -26,8 +26,8 @@ public class UILevel extends AHadalActor{
 		batch.setProjectionMatrix(state.hud.combined);
 
 		font.getData().setScale(1.0f);
-		font.draw(batch, "SCORE: " + state.score, HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y);
-//		font.draw(batch, "LEVEL: " + state.level, HadalGame.CONFIG_WIDTH - x , HadalGame.CONFIG_HEIGHT - y - 100);
+		font.draw(batch, "SCORE: " + state.getScore(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y);
+//		font.draw(batch, "LEVEL: " + state.getLevel(), HadalGame.CONFIG_WIDTH - x , HadalGame.CONFIG_HEIGHT - y - 100);
 	}
 
 }

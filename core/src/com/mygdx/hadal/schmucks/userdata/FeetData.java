@@ -7,10 +7,18 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 
 public class FeetData extends HadalData {
 
-	public Event terrain;
+	private Event terrain;
 	
 	public FeetData(World world, UserDataTypes type, HadalEntity entity) {
 		super(world, type, entity);
 	}
 
+	public Event getTerrain() {
+		return terrain;
+	}
+
+	public void setTerrain(Event terrain) {
+		this.terrain = terrain;
+	}
+	
 }

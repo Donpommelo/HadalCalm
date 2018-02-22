@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event.ai;
 
-import java.util.Map;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
@@ -16,7 +14,7 @@ import box2dLight.RayHandler;
 
 public class Zone extends Event {
 
-	public Map<Zone, ConnectionPoint> connections;
+//	private Map<Zone, ConnectionPoint> connections;
 	
 	public Zone(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name, int width,
 			int height, int x, int y) {
@@ -34,7 +32,7 @@ public class Zone extends Event {
 				super.onTouch(fixB);
 				
 				if (fixB instanceof BodyData) {
-					((BodyData) fixB).currentZone = (Zone) this.event;
+					((BodyData) fixB).setCurrentZone((Zone) this.event);
 				}
 			}
 			

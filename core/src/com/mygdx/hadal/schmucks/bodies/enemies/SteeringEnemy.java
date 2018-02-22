@@ -12,6 +12,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Steering enemy is an enemy with ai that steers it, probably towards the player.
+ * @author Zachary Tu
+ *
+ */
 public class SteeringEnemy extends Enemy {
 	
 	public SteeringEnemy(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float width, float height, int x, int y, 

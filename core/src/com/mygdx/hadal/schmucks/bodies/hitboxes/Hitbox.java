@@ -22,31 +22,31 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Hitbox extends HadalEntity {
 
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
-	public float grav;
+	protected float grav;
 	
 	//Initial velocity of the hitbox
-	public Vector2 startVelo;
+	protected Vector2 startVelo;
 		
 	//lifespan is the time in seconds that the hitbox will exist before timing out.
-	public float lifeSpan;
+	protected float lifeSpan;
 	
 	//filter describes the type of body the hitbox will register a hit on .(player, enemy or neutral)
-	public short filter;
+	protected short filter;
 	
 	//durability is the number of things the hitbox can hit before disappearing.
-	public int dura;
+	protected int dura;
 	
 	//restitution is the hitbox bounciness.
-	public float rest;
+	protected float rest;
 	
 	//sensor is whether the hitbox passes through things it registers a hit on.
-	public boolean sensor;
+	protected boolean sensor;
 	
 	//hitbox user data. This contains on-hit method
-	public HitboxData data;
+	protected HitboxData data;
 	
 	//This is the Schmuck that created the hitbox
-	public Schmuck creator;
+	protected Schmuck creator;
 	
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
@@ -98,6 +98,7 @@ public class Hitbox extends HadalEntity {
 	
 	/**
 	 * Hitboxes need to keep track of lifespan.
+	 * This also makes hitboxes angled in the direction of their velocity. Overload this if you don't want that.
 	 */
 	public void controller(float delta) {
 		lifeSpan -= delta;
@@ -113,4 +114,73 @@ public class Hitbox extends HadalEntity {
 	public void render(SpriteBatch batch) {
 		
 	}
+	
+	public HitboxData getData() {
+		return data;
+	}	
+	
+	public float getLifeSpan() {
+		return lifeSpan;
+	}
+
+	public void setLifeSpan(float lifeSpan) {
+		this.lifeSpan = lifeSpan;
+	}
+
+	public int getDura() {
+		return dura;
+	}
+
+	public void setDura(int dura) {
+		this.dura = dura;
+	}
+
+	public short getFilter() {
+		return filter;
+	}
+
+	public void setFilter(short filter) {
+		this.filter = filter;
+	}
+
+	public float getGrav() {
+		return grav;
+	}
+
+	public void setGrav(float grav) {
+		this.grav = grav;
+	}
+
+	public Vector2 getStartVelo() {
+		return startVelo;
+	}
+
+	public void setStartVelo(Vector2 startVelo) {
+		this.startVelo = startVelo;
+	}
+
+	public float getRest() {
+		return rest;
+	}
+
+	public void setRest(float rest) {
+		this.rest = rest;
+	}
+
+	public boolean isSensor() {
+		return sensor;
+	}
+
+	public void setSensor(boolean sensor) {
+		this.sensor = sensor;
+	}
+
+	public Schmuck getCreator() {
+		return creator;
+	}
+
+	public void setCreator(Schmuck creator) {
+		this.creator = creator;
+	}
+	
 }

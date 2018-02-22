@@ -11,17 +11,17 @@ import box2dLight.RayHandler;
 
 public class TriggerFinger extends Artifact {
 
-	static String name = "Trigger Finger";
-	static String descr = "+30% Ranged Attack Speed";
-	static String descrLong = "";
-	public static final int statusNum = 1;
+	private final static String name = "Trigger Finger";
+	private final static String descr = "+30% Ranged Attack Speed";
+	private final static String descrLong = "";
+	private final static int statusNum = 1;
 	
 	public TriggerFinger() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 27, 0.25f, b, b, 50);
 		return enchantment;
 	}

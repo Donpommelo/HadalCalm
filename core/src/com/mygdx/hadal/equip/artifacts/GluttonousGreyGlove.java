@@ -11,17 +11,17 @@ import box2dLight.RayHandler;
 
 public class GluttonousGreyGlove extends Artifact {
 
-	static String name = "Gluttonous Grey Glove";
-	static String descr = "Heal on Kill. No longer heal from medpaks.";
-	static String descrLong = "";
-	public static final int statusNum = 1;
+	private final static String name = "Gluttonous Grey Glove";
+	private final static String descr = "Heal on Kill. No longer heal from medpaks.";
+	private final static String descrLong = "";
+	private final static int statusNum = 1;
 	
 	public GluttonousGreyGlove() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new GluttonousGreyGloveStatus(state, world, camera, rays, b, b, 50);
 		return enchantment;
 	}

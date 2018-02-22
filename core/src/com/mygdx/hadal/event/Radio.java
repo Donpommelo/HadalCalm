@@ -10,6 +10,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A radio is a simple event that when interacted with will put up a test dialogue actor into the play stage
+ * @author Zachary Tu
+ *
+ */
 public class Radio extends Event {
 
 	private static final String name = "Radio";
@@ -28,7 +33,7 @@ public class Radio extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				state.stage.addDialogue(id);
+				state.getStage().addDialogue(id);
 			}
 		};
 		
@@ -39,7 +44,7 @@ public class Radio extends Event {
 	
 	@Override
 	public String getText() {
-		if (eventData.schmucks.isEmpty()) {
+		if (eventData.getSchmucks().isEmpty()) {
 			return "RADIO";
 		} else {
 			return "RADIO (E TO LISTEN)";

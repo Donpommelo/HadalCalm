@@ -23,10 +23,16 @@ import box2dLight.RayHandler;
  */
 public class HitboxAnimated extends RangedHitbox {
 	
+	//This atlas contains the frames of animation for this hbox
 	private TextureAtlas atlas;
+	
+	//This is the animation of this sprite
 	protected Animation<TextureRegion> projectileSprite;
+	
+	//This keeps track of how many frames have gone by. TODO: Make this a field of all entities?
 	protected float animCdCount;
 	
+	//Speed of the animation. Make this an input?
 	private float speed = 0.05f;
 	
 	/**
@@ -41,6 +47,7 @@ public class HitboxAnimated extends RangedHitbox {
 		animCdCount = 0;
 	}
 	
+	@Override
 	public void controller(float delta) {
 		super.controller(delta);
 		animCdCount += delta;

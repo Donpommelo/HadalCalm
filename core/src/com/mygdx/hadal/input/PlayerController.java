@@ -6,11 +6,17 @@ import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * The PlayerController controls the player using events to process various player actions.
+ * @author Zachary Tu
+ *
+ */
 public class PlayerController implements InputProcessor {
 
 	private Player player;
 	private PlayState state;
 	
+	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
 	private boolean leftDown = false;
 	private boolean rightDown = false;
 	
@@ -27,23 +33,23 @@ public class PlayerController implements InputProcessor {
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			leftDown = true;
 			if (!rightDown) {
-				player.moveState = MoveStates.MOVE_LEFT;
+				player.setMoveState(MoveStates.MOVE_LEFT);
 			} else {
-				player.moveState = MoveStates.STAND;
+				player.setMoveState(MoveStates.STAND);
 			}
 		}
 		
 		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 			rightDown = true;
 			if (!leftDown) {
-				player.moveState = MoveStates.MOVE_RIGHT;
+				player.setMoveState(MoveStates.MOVE_RIGHT);
 			} else {
-				player.moveState = MoveStates.STAND;
+				player.setMoveState(MoveStates.STAND);
 			}
 		}
 		
 		if (keycode == PlayerAction.JUMP.getKey()) {
-			player.hovering = true;
+			player.setHovering(true);
 			player.jump();
 		}
 		
@@ -64,7 +70,7 @@ public class PlayerController implements InputProcessor {
 		}
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
-			player.shooting = true;
+			player.setShooting(true);
 		}
 		
 		if (keycode == PlayerAction.BOOST.getKey()) {
@@ -96,8 +102,8 @@ public class PlayerController implements InputProcessor {
 		}
 		
 		if (keycode == PlayerAction.DIALOGUE.getKey()) {
-			if (state.stage != null) {
-				state.stage.nextDialogue();
+			if (state.getStage() != null) {
+				state.getStage().nextDialogue();
 			}
 		}
 		
@@ -116,27 +122,27 @@ public class PlayerController implements InputProcessor {
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			leftDown = false;
 			if (rightDown) {
-				player.moveState = MoveStates.MOVE_RIGHT;
+				player.setMoveState(MoveStates.MOVE_RIGHT);
 			} else {
-				player.moveState = MoveStates.STAND;
+				player.setMoveState(MoveStates.STAND);
 			}
 		}
 		
 		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 			rightDown = false;
 			if (leftDown) {
-				player.moveState = MoveStates.MOVE_LEFT;
+				player.setMoveState(MoveStates.MOVE_LEFT);
 			} else {
-				player.moveState = MoveStates.STAND;
+				player.setMoveState(MoveStates.STAND);
 			}
 		}
 		
 		if (keycode == PlayerAction.JUMP.getKey()) {
-			player.hovering = false;
+			player.setHovering(false);
 		}
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
-			player.shooting = false;
+			player.setShooting(false);
 			player.release();
 		}
 		
@@ -162,19 +168,16 @@ public class PlayerController implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

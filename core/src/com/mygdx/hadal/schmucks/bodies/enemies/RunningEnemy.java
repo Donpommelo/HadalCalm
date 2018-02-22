@@ -28,15 +28,15 @@ public class RunningEnemy extends Enemy {
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
 
-	public static final float aiCd = 1.0f;
-    public float aiCdCount = 0;
+	private static final float aiCd = 1.0f;
+	private float aiCdCount = 0;
     
   	private runningState aiState;
 
   	private final float jumpPow = 5.0f;
   	
-  	float shortestFraction;
-  	Fixture closestFixture;
+  	private float shortestFraction;
+  	private Fixture closestFixture;
   	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -61,6 +61,7 @@ public class RunningEnemy extends Enemy {
 	/**
 	 * Create the enemy's body and initialize enemy's user data.
 	 */
+	@Override
 	public void create() {
 		this.bodyData = new BodyData(world, this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
@@ -73,6 +74,7 @@ public class RunningEnemy extends Enemy {
 	/**
 	 * Enemy ai goes here. Default enemy behaviour just walks right/left towards player and fires weapon.
 	 */
+	@Override
 	public void controller(float delta) {
 		
 		moveState = MoveStates.STAND;
@@ -145,7 +147,7 @@ public class RunningEnemy extends Enemy {
 			}			
 		}
 
-		if (weapon.reloading) {
+		if (weapon.isReloading()) {
 			weapon.reload(delta);
 		}
 
@@ -157,6 +159,7 @@ public class RunningEnemy extends Enemy {
 	/**
 	 * draws enemy
 	 */
+	@Override
 	public void render(SpriteBatch batch) {
 		
 	}

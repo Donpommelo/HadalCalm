@@ -8,28 +8,31 @@ import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.statuses.Status;
 
+/**
+ * This is the data for a player and contains player-specific fields like airblast, jump stats, etc.
+ * @author Zachary Tu
+ *
+ */
 public class PlayerBodyData extends BodyData {
+	
+	private int numExtraJumps = 1;
+	private int extraJumpsUsed = 0;
+	private float jumpPow = 5.0f;
+	
+	private float fastFallPow = 6.0f;
 
+	private int hoverCost = 5;
+	private float hoverPow = 0.8f;
 	
+	private int airblastCost = 30;
 	
-	public int numExtraJumps = 1;
-	public int extraJumpsUsed = 0;
-	public float jumpPow = 5.0f;
+	private Equipable[] multitools;
+	private Artifact[] artifacts;
+	private int currentSlot = 0;
+	private int lastSlot = 0;
+	private Equipable currentTool;
 	
-	public float fastFallPow = 6.0f;
-
-	public int hoverCost = 5;
-	public float hoverPow = 0.8f;
-	
-	public int airblastCost = 30;
-	
-	public Equipable[] multitools;
-	public Artifact[] artifacts;
-	public int currentSlot = 0;
-	public int lastSlot = 0;
-	public Equipable currentTool;
-	
-	public Player player;
+	private Player player;
 	
 	public PlayerBodyData(World world, Player body, Loadout loadout) {
 		super(world, body);
@@ -37,13 +40,14 @@ public class PlayerBodyData extends BodyData {
 		multitools = loadout.multitools.clone();
 		for (Equipable e : multitools) {
 			if (e != null) {
-				e.user = player;
+				e.setUser(player);
 			}
 		}
 		artifacts = loadout.artifacts.clone();
 		for (Artifact a : artifacts) {
 			if (a != null) {
-				for (Status s : a.getEnchantment(player.state, world, player.state.camera, player.state.rays, this)) {
+				for (Status s : a.loadEnchantments(player.getState(), world, player.getState().camera,
+						player.getState().getRays(), this)) {
 					addStatus(s);
 				}
 			}
@@ -55,8 +59,35 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 	}
 	
+	/**
+	 * This is run when transitioning the player into a new map/world
+	 * @param newPlayer
+	 * @param newWorld
+	 */
+	public void resetData(Player newPlayer, World newWorld) {
+		this.setEntity(newPlayer);
+		this.schmuck = newPlayer;
+		this.player = newPlayer;
+		this.world = newWorld;
+		statuses.clear();
+		statusesChecked.clear();
+		for (Equipable e : multitools) {
+			if (e != null) {
+				e.setUser(player);
+			}
+		}
+		for (Artifact a : artifacts) {
+			if (a != null) {
+				for (Status s : a.loadEnchantments(player.getState(), world, player.getState().camera, 
+						player.getState().getRays(), this)) {
+					addStatus(s);
+				}
+			}
+		}
+	}
+	
 	public void switchWeapon(int slot) {
-		if (multitools.length >= slot && schmuck.shootDelayCount <= 0) {
+		if (multitools.length >= slot && schmuck.getShootDelayCount() <= 0) {
 			if (multitools[slot - 1] != null) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
@@ -76,7 +107,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void switchToLast() {
-		if (schmuck.shootDelayCount <= 0) {
+		if (schmuck.getShootDelayCount() <= 0) {
 			int tempSlot = lastSlot;
 			lastSlot = currentSlot;
 			currentSlot = tempSlot;
@@ -88,7 +119,7 @@ public class PlayerBodyData extends BodyData {
 		
 		if (multitools[currentSlot] instanceof Nothing) {
 			multitools[currentSlot] = equip;
-			multitools[currentSlot].user = player;
+			multitools[currentSlot].setUser(player);
 			setEquip();
 			return null;
 		}
@@ -96,7 +127,7 @@ public class PlayerBodyData extends BodyData {
 		for (int i = 0; i < Loadout.getNumSlots(); i++) {
 			if (multitools[i] == null) {
 				multitools[i] = equip;
-				multitools[i].user = player;
+				multitools[i].setUser(player);
 				currentSlot = i;
 				setEquip();
 				return null;
@@ -106,7 +137,7 @@ public class PlayerBodyData extends BodyData {
 		Equipable old = multitools[currentSlot];
 		
 		multitools[currentSlot] = equip;
-		multitools[currentSlot].user = player;
+		multitools[currentSlot].setUser(player);
 		setEquip();
 		
 		return old;
@@ -114,7 +145,7 @@ public class PlayerBodyData extends BodyData {
 	
 	public void replaceSlot(Equipable equip, int slot) {
 		multitools[slot] = equip;
-		multitools[slot].user = player;
+		multitools[slot].setUser(player);
 		currentSlot = slot;
 		setEquip();
 	}
@@ -122,14 +153,15 @@ public class PlayerBodyData extends BodyData {
 	public void replaceSlot(Artifact artifact, int slot) {
 		
 		if (artifacts[slot] != null) {
-			for (Status s : artifacts[slot].enchantment) {
+			for (Status s : artifacts[slot].getEnchantment()) {
 				removeStatus(s);
 			}
 		}	
 		
 		artifacts[slot] = artifact;
 		
-		for (Status s : artifacts[slot].getEnchantment(player.state, world, player.state.camera, player.state.rays, this)) {
+		for (Status s : artifacts[slot].loadEnchantments(player.getState(), world, player.getState().camera, 
+				player.getState().getRays(), this)) {
 			addStatus(s);
 		}
 	}
@@ -155,8 +187,55 @@ public class PlayerBodyData extends BodyData {
 	
 	@Override
 	public void die(BodyData perp) {
-		schmuck.state.gameOver(false);
+		schmuck.getState().gameOver(false);
 		super.die(perp);
 	}
+	
+	public Player getPlayer() {
+		return player;
+	}
 
+	public int getExtraJumps() {
+		return numExtraJumps + (int)getBonusJumpNum();
+	}
+	
+	public float getJumpPower() {
+		return jumpPow * (1 + getBonusJumpPower());
+	}
+	
+	public float getFastFallPower() {
+		return fastFallPow;
+	}
+	
+	public float getHoverPower() {
+		return hoverPow * (1 + getBonusHoverPower());
+	}
+	
+	public float getHoverCost() {
+		return hoverCost * (1 + getBonusHoverCost());
+	}
+
+	public float getAirblastCost() {
+		return airblastCost * (1 + getBonusAirblastCost());
+	}
+	
+	public int getExtraJumpsUsed() {
+		return extraJumpsUsed;
+	}
+
+	public void setExtraJumpsUsed(int extraJumpsUsed) {
+		this.extraJumpsUsed = extraJumpsUsed;
+	}
+
+	public Equipable[] getMultitools() {
+		return multitools;
+	}
+
+	public int getCurrentSlot() {
+		return currentSlot;
+	}
+
+	public Equipable getCurrentTool() {
+		return currentTool;
+	}	
 }

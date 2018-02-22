@@ -15,13 +15,27 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * The particle entity is an invisible, ephemeral entity that emits particle effects.
+ * Atm, this is needed so that other entities can have particle effects that persist beyond their own disposal.
+ * @author Zachary Tu
+ *
+ */
 public class ParticleEntity extends HadalEntity {
 
+	//What particles come out of this entity?
 	private ParticleEffect effect;
+	
+	//Is this entity following another entity?
 	private HadalEntity attachedEntity;
+	
+	//How long this entity will last.
 	private float lifespan;
+	
+	//Has the attached entity despawned yet?
 	private boolean despawn;
 	
+	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
 			float startX, float startY, ParticleEffect effect, float lifespan) {
 		super(state, world, camera, rays, 0, 0, startX, startY);
@@ -32,6 +46,7 @@ public class ParticleEntity extends HadalEntity {
 		effect.start();
 	}
 	
+	//This constructor creates a particle effect that will follow another entity.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
 			HadalEntity entity, ParticleEffect effect, float lifespan) {
 		super(state, world, camera, rays, 0, 0, 0, 0);
@@ -53,7 +68,7 @@ public class ParticleEntity extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (attachedEntity.alive) {
+		if (attachedEntity.isAlive()) {
 			effect.setPosition(attachedEntity.getBody().getPosition().x * PPM, attachedEntity.getBody().getPosition().y * PPM);
 		} else {
 			despawn = true;

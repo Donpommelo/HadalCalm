@@ -14,7 +14,7 @@ public class EventData extends HadalData {
 
 	protected Event event;
 	
-	public Set<HadalEntity> schmucks;
+	protected Set<HadalEntity> schmucks;
 
 	public EventData(World world, Event event) {
 		super(world, UserDataTypes.EVENT, event);
@@ -50,5 +50,10 @@ public class EventData extends HadalData {
 	
 	public Event getEvent() {
 		return event;
-	}	
+	}
+
+	public Set<HadalEntity> getSchmucks() {
+		return schmucks;
+	}
+	
 }

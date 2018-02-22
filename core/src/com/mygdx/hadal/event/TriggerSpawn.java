@@ -15,18 +15,16 @@ import box2dLight.RayHandler;
 
 /**
  * A Trigger spawn is an enemy spawner that activates when triggered by another event.
+ * Also, when all enemies are defeated, this event can trigger another event.
  * @author Zachary Tu
  *
  */
 public class TriggerSpawn extends Event {
 	
-	public int id;
-	public int limit;
+	private int id;
+	private int limit;
 	
-	public float spawnCount = 0;
-	public int amountCount = 0;
-	
-	public int spawnX, spawnY;
+	private int spawnX, spawnY;
 	
 	private static final String name = "Schmuck Spawner";
 
@@ -91,7 +89,7 @@ public class TriggerSpawn extends Event {
 					
 					for (Schmuck s : spawns) {
 						
-						if (s.getBodyData().currentHp > 0) {
+						if (s.getBodyData().getCurrentHp() > 0) {
 							defeated = false;
 						}
 					}

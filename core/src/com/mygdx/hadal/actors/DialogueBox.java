@@ -16,7 +16,7 @@ import com.mygdx.hadal.dialogue.Dialogue;
 public class DialogueBox extends AHadalActor {
 
 	private BitmapFont font;
-	private Color color;
+//	private Color color;
 	
 	private float scale = 0.5f;
 
@@ -35,7 +35,7 @@ public class DialogueBox extends AHadalActor {
 		dialogues = new Queue<Dialogue>();
 		
 		font = HadalGame.SYSTEM_FONT_UI;
-		color = HadalGame.DEFAULT_TEXT_COLOR;
+//		color = HadalGame.DEFAULT_TEXT_COLOR;
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		updateHitBox();
 	}

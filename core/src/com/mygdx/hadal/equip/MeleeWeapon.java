@@ -21,13 +21,13 @@ import box2dLight.RayHandler;
  */
 public class MeleeWeapon extends Equipable {
 
-	public float momentum;
+	protected float momentum;
 	
-	public HitboxFactory onSwing;
+	protected HitboxFactory onSwing;
 
-	public Vector2 velo;
-	public int x, y;
-	public short faction;
+	protected Vector2 velo;
+	protected int x, y;
+	protected short faction;
 	
 	/**
 	 * 

@@ -11,17 +11,17 @@ import box2dLight.RayHandler;
 
 public class RecklessMark extends Artifact {
 
-	static String name = "Reckless Mark";
-	static String descr = "Deal and take +40% more damage.";
-	static String descrLong = "";
-	public static final int statusNum = 2;
+	private final static String name = "Reckless Mark";
+	private final static String descr = "Deal and take +40% more damage.";
+	private final static String descrLong = "";
+	private final static int statusNum = 2;
 	
 	public RecklessMark() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 21, 0.4f, b, b, 50);
 		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 22, -0.4f, b, b, 50);
 		return enchantment;

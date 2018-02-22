@@ -11,17 +11,17 @@ import box2dLight.RayHandler;
 
 public class EelskinCover extends Artifact {
 
-	static String name = "Eelskin Cover";
-	static String descr = "Reduces Drag";
-	static String descrLong = "";
-	public static final int statusNum = 2;
+	private final static String name = "Eelskin Cover";
+	private final static String descr = "Reduces Drag";
+	private final static String descrLong = "";
+	private final static int statusNum = 2;
 	
 	public EelskinCover() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 8, -0.60f, b, b, 50);
 		enchantment[1] = new StatChangeStatus(state, world, camera, rays, 9, -0.60f, b, b, 50);
 		return enchantment;

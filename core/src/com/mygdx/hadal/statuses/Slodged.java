@@ -1,7 +1,5 @@
 package com.mygdx.hadal.statuses;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -23,8 +21,8 @@ public class Slodged extends Status {
 	
 	@Override
 	public void statChanges(BodyData bodyData){
-		bodyData.buffedStats[5]  = -slow;
-		bodyData.buffedStats[4]  = -slow;
+		bodyData.setBonusAirSpeed(-slow);
+		bodyData.setBonusGroundSpeed(-slow);
 	}
 	
 	@Override

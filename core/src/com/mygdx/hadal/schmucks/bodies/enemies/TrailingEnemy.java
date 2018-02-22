@@ -24,6 +24,7 @@ import box2dLight.RayHandler;
 
 /**
  * Enemies are Schmucks that attack the player.
+ * Trailing enemies are a test for ai that follows trails left by the player.
  * @author Zachary Tu
  *
  */
@@ -32,15 +33,15 @@ public class TrailingEnemy extends Enemy {
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
     
-    public Vector2 direction;
+	private Vector2 direction;
     
-    public static final float moveCd = 0.75f;
-    public float moveCdCount = 0;
+	private static final float moveCd = 0.75f;
+	private float moveCdCount = 0;
     
-    public static final float moveMag = 7.5f;
+	private static final float moveMag = 7.5f;
 
-    public static final float trailCd = 1/60f;
-    public float trailCountCount = 0;
+	private static final float trailCd = 1/60f;
+	private float trailCountCount = 0;
     
     public static final float aiCd = 0.5f;
     public float aiCdCount = 0;
@@ -48,15 +49,15 @@ public class TrailingEnemy extends Enemy {
     public static final float maxTrailSpeed = 15.0f;
 
     //Fixtures and user data
-  	protected FixtureDef sensorDef;
-  	protected Fixture sensor;
-  	protected HitboxData sensorData;
+    private FixtureDef sensorDef;
+  	private Fixture sensor;
+  	private HitboxData sensorData;
   	
   	private trailingState aiState;
   	private Vector2 wallhug;
 
-  	float shortestFraction;
-  	Fixture closestFixture;
+  	private float shortestFraction;
+  	private Fixture closestFixture;
   	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -81,6 +82,7 @@ public class TrailingEnemy extends Enemy {
 	/**
 	 * Create the enemy's body and initialize enemy's user data.
 	 */
+	@Override
 	public void create() {
 		this.bodyData = new BodyData(world, this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 1, 0f, false, true, Constants.BIT_ENEMY, 
@@ -108,6 +110,7 @@ public class TrailingEnemy extends Enemy {
 	/**
 	 * Enemy ai goes here. Default enemy behaviour just walks right/left towards player and fires weapon.
 	 */
+	@Override
 	public void controller(float delta) {
 		
 		moveState = MoveStates.STAND;
@@ -130,17 +133,17 @@ public class TrailingEnemy extends Enemy {
 			float accelY = 0.0f;
 			
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
-				accelX = grounded ? bodyData.groundXAccel : bodyData.airXAccel;
+				accelX = grounded ? bodyData.getXGroundAccel() : bodyData.getXAirAccel();
 			} else {
-				accelX = grounded ? bodyData.groundXDeaccel : bodyData.airXDeaccel;
+				accelX = grounded ? bodyData.getXGroundDeaccel() : bodyData.getXAirDeaccel();
 			}
 			
 			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
 			
 			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
-				accelY = grounded ? bodyData.groundYAccel : bodyData.airYAccel;
+				accelY = grounded ? bodyData.getYGroundAccel() : bodyData.getYAirAccel();
 			} else {
-				accelY = grounded ? bodyData.groundYDeaccel : bodyData.airYDeaccel;
+				accelY = grounded ? bodyData.getYGroundDeaccel() : bodyData.getYAirDeaccel();
 			}
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
@@ -240,6 +243,7 @@ public class TrailingEnemy extends Enemy {
 	/**
 	 * draws enemy
 	 */
+	@Override
 	public void render(SpriteBatch batch) {
 		
 	}

@@ -201,13 +201,13 @@ public class LoadoutState extends GameState {
 			
 			final Equipable selected = c;
 			
-			Text itemChoose = new Text(HadalGame.assetManager, selected.name , 0, 0);
+			Text itemChoose = new Text(HadalGame.assetManager, selected.getName() , 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
 		        	getGsm().getLoadout().multitools[slot] = selected;
-		        	playState.player.getPlayerData().replaceSlot(selected, slot);
+		        	playState.getPlayer().getPlayerData().replaceSlot(selected, slot);
 		        	selected.gainAmmo(1000);
 
 		        	refreshLoadout();
@@ -240,7 +240,7 @@ public class LoadoutState extends GameState {
 			
 			final Artifact selected = a;
 			
-			Text itemChoose = new Text(HadalGame.assetManager, selected.name , 0, 0);
+			Text itemChoose = new Text(HadalGame.assetManager, selected.getName() , 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
@@ -248,7 +248,7 @@ public class LoadoutState extends GameState {
 		        	if (!Arrays.asList(getGsm().getLoadout().artifacts).contains(selected)) {
 		        		getGsm().getLoadout().artifacts[slot] = selected;
 		        		
-		        		playState.player.getPlayerData().replaceSlot(selected, slot);
+		        		playState.getPlayer().getPlayerData().replaceSlot(selected, slot);
 		        		
 			        	refreshLoadout();
 		        	}
@@ -286,7 +286,7 @@ public class LoadoutState extends GameState {
 
 		        	getGsm().getLoadout().playerSprite = selected;
 
-		        	playState.player.setBodySprite(selected);
+		        	playState.getPlayer().setBodySprite(selected);
 		        	
 		        	refreshLoadout();
 
@@ -342,7 +342,7 @@ public class LoadoutState extends GameState {
 		
 		for (int i = 0; i < slotButtons.size; i++) {
 			if (getGsm().getLoadout().multitools[i] != null) {
-				slotButtons.get(i).setText("SLOT " + (i + 1) + ": " + getGsm().getLoadout().multitools[i].name);
+				slotButtons.get(i).setText("SLOT " + (i + 1) + ": " + getGsm().getLoadout().multitools[i].getName());
 			} else {
 				slotButtons.get(i).setText("SLOT " + (i + 1) + ": EMPTY");
 			}
@@ -351,7 +351,7 @@ public class LoadoutState extends GameState {
 		for (int i = 0; i < artifactButtons.size; i++) {
 			if (getGsm().getLoadout().artifacts[i] != null) {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": " + 
-			getGsm().getLoadout().artifacts[i].name+ ": " + getGsm().getLoadout().artifacts[i].descr);
+			getGsm().getLoadout().artifacts[i].getName() + ": " + getGsm().getLoadout().artifacts[i].getDescr());
 			} else {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": EMPTY");
 			}

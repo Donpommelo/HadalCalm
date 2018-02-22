@@ -20,7 +20,7 @@ public class Target extends Event {
 
 	private static final String name = "Target";
 
-	boolean oneTime;
+	private boolean oneTime;
 	
 	public Target(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, boolean oneTime) {

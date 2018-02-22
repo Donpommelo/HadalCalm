@@ -32,7 +32,7 @@ public class InfoFlag extends Event {
 	
 	@Override
 	public String getText() {
-		if (eventData.schmucks.isEmpty()) {
+		if (eventData.getSchmucks().isEmpty()) {
 			return "";
 		} else {
 			return text;

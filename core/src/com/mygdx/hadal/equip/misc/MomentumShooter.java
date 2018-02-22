@@ -47,12 +47,12 @@ public class MomentumShooter extends RangedWeapon {
 				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
-						if (state.getPlayer().momentums.size > 0) {
-							Vector2 velo = state.getPlayer().momentums.first();
+						if (state.getPlayer().getMomentums().size > 0) {
+							Vector2 velo = state.getPlayer().getMomentums().first();
 							fixB.getEntity().getBody().setLinearVelocity(velo);
 							
 							if (fixB instanceof HitboxData) {
-								((HitboxData)fixB).hbox.filter = (short)0;
+								((HitboxData)fixB).getHbox().setFilter((short)0);
 							}
 						}
 					}

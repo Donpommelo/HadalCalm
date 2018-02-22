@@ -25,7 +25,7 @@ public class Poison extends Event {
 			int x, int y, float dps) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.dps = dps;
-		this.perp = state.worldDummy.getBodyData();
+		this.perp = state.getWorldDummy().getBodyData();
 	}
 	
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
@@ -51,7 +51,7 @@ public class Poison extends Event {
 		if (controllerCount >= 1/60f) {
 			controllerCount = 0;
 			
-			for (HadalEntity entity : eventData.schmucks) {
+			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck) {
 					((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(0, 0), perp, true);
 				}

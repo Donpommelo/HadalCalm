@@ -58,12 +58,12 @@ public class BouncingBlade extends RangedWeapon {
 								user.getBodyData(), true, DamageTypes.RANGED);
 						
 						if (fixB.getType().equals(UserDataTypes.WALL)){
-							hbox.dura--;
+							hbox.setDura(hbox.getDura() - 1);
 						}
 					} else {
-						hbox.dura--;
+						hbox.setDura(hbox.getDura() - 1);
 					}
-					if (hbox.dura <= 0) {
+					if (hbox.getDura() <= 0) {
 						hbox.queueDeletion();
 					}
 				}

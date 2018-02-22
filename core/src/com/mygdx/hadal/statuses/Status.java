@@ -10,18 +10,19 @@ import box2dLight.RayHandler;
 public class Status {
 
 	//References to game fields.
-	public PlayState state;
+	protected PlayState state;
 	protected World world;
 	protected OrthographicCamera camera;
 	protected RayHandler rays;
 	
-	public float duration;
-	public String name;
-	public boolean perm, decay, removedEnd, visible;
+	//TODO:implement or delete these 
+	protected float duration;
+	protected String name;
+	protected boolean perm, decay, removedEnd, visible;
 	
-	public int priority;
+	protected int priority;
 	
-	public BodyData perp, vic;
+	protected BodyData perp, vic;
 	
 	public Status(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
 			float i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, BodyData p, BodyData v, int pr){
@@ -56,23 +57,13 @@ public class Status {
 		}
 	}
 	
-	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
-		return damage;
-	}
+	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) { return damage;	}
 	
-	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-		return damage;
-	}
+	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) { return damage; }
 	
-	public float onHeal(float damage, BodyData perp, DamageTypes... tags) {
-		return damage;
-	}
+	public float onHeal(float damage, BodyData perp, DamageTypes... tags) { return damage; }
 	
-	public void onKill(BodyData vic) {
-		
-	}
+	public void onKill(BodyData vic) {}
 	
-	public void onDeath(BodyData vic) {
-		
-	}
+	public void onDeath(BodyData vic) {}
 }

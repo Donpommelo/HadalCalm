@@ -6,6 +6,12 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 
+/**
+ * Interactable events can be interacted with by the player. They should only touch the player.
+ * When the player is touching one, pressing the interact button will activate its activate method.
+ * @author Zachary Tu
+ *
+ */
 public class InteractableEventData extends EventData {
 
 	public InteractableEventData(World world, Event event) {
@@ -16,7 +22,7 @@ public class InteractableEventData extends EventData {
 	public void onTouch(HadalData fixB) {
 		if (fixB != null) {	
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
-				((PlayerBodyData)fixB).player.currentEvent = event;
+				((PlayerBodyData)fixB).getPlayer().setCurrentEvent(event);
 			}
 		}
 		super.onTouch(fixB);
@@ -26,8 +32,8 @@ public class InteractableEventData extends EventData {
 	public void onRelease(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
-				if (((PlayerBodyData)fixB).player.currentEvent == event) {
-					((PlayerBodyData)fixB).player.currentEvent = null;
+				if (((PlayerBodyData)fixB).getPlayer().getCurrentEvent() == event) {
+					((PlayerBodyData)fixB).getPlayer().setCurrentEvent(null);
 				}
 			}
 		}

@@ -10,6 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.Unlock;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;
 
 /**
@@ -25,10 +26,13 @@ public class GameStateManager {
 	//Stack of GameStates. These are all the states that the player has opened in that order.
 	private Stack<GameState> states;
 	
+	//temp skin for ui windows
 	private Skin skin;
 	
+	//This is the player's currently selected loadout. (not equiped weapons after entering level)
 	private Loadout loadout;
 
+	//This is the player's currently selected level filename
 	private String level;
 	
 	//This enum lists all the different types of gamestates.
@@ -60,6 +64,7 @@ public class GameStateManager {
 		this.loadout = new Loadout();
 		this.level = "Maps/test_map_large.tmx";
 		
+		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
 		Unlock.retrieveUnlocks();
 	}
@@ -113,6 +118,7 @@ public class GameStateManager {
 	 * TODO: At the moment, we only have one state active. Maybe change later?
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
 	 * @param state: The new state
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public void addState(State state, Class<? extends GameState> lastState) {
 		if (states.empty()) {
@@ -124,16 +130,27 @@ public class GameStateManager {
 		}
 	}
 	
-	public void addPlayState(String map, Loadout loadout, Class<? extends GameState> lastState) {
+	/**
+	 * This is a addState eclusively for special playstates.
+	 * @param map: level the new playstate will load
+	 * @param loadout: loadout that the player will enter the playstate with
+	 * @param old: old playerdata to persist stuff like equips/hp/whatever
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 */
+	public void addPlayState(String map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, true));
+			states.push(new PlayState(this, loadout, map, true, old));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, true));
+			states.push(new PlayState(this, loadout, map, true, old));
 			states.peek().show();
 		}
 	}
 	
+	/**
+	 * Remove the top state from the stack
+	 * @param lastState: the state we expect to remove. ensures no double-removing
+	 */
 	public void removeState(Class<? extends GameState> lastState) {
 
 		if (!states.empty()) {
@@ -153,7 +170,7 @@ public class GameStateManager {
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return null;
-		case PLAY: return new PlayState(this, loadout, level, true);
+		case PLAY: return new PlayState(this, loadout, level, true, null);
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
 		case LOADOUT: return new LoadoutState(this);

@@ -11,17 +11,17 @@ import box2dLight.RayHandler;
 
 public class LoamskinTalisman extends Artifact {
 
-	static String name = "Loamskin Talisman";
-	static String descr = "+1.5 Hp Regen";
-	static String descrLong = "";
-	public static final int statusNum = 1;
+	private final static String name = "Loamskin Talisman";
+	private final static String descr = "+1.5 Hp Regen";
+	private final static String descrLong = "";
+	private final static int statusNum = 1;
 	
 	public LoamskinTalisman() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new StatChangeStatus(state, world, camera, rays, 2, 1.5f, b, b, 50);
 		return enchantment;
 	}

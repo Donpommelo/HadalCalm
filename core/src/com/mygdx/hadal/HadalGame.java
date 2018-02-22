@@ -30,7 +30,7 @@ public class HadalGame extends ApplicationAdapter {
 	
 	//The main camera scales to the viewport size scaled to this for some reason.
 	//TODO: replace this with a constant aspect ratio?
-	public final static float BOX2DSCALE = 1.0f;
+	private final static float BOX2DSCALE = 1.0f;
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, sprite, hud;

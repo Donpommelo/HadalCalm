@@ -7,6 +7,12 @@ import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Physics schmuck runs custom acceleration physics for their movement.
+ * atm, this includes the player and other "running" units.
+ * @author Zachary Tu
+ *
+ */
 public class PhysicsSchmuck extends Schmuck {
 
 	public PhysicsSchmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
@@ -27,17 +33,15 @@ public class PhysicsSchmuck extends Schmuck {
 			float desiredXVel = 0.0f;
 			float desiredYVel = 0.0f;
 			
-			//set desired velocity depending on move states. TODO: add movestates for schmucks not affected by gravity.
+			//set desired velocity depending on move states.
 			switch(moveState) {
 			case MOVE_LEFT:
 				desiredXVel = grounded ? 
-						-bodyData.maxGroundXSpeed * (1 + bodyData.getBonusGroundSpeed()) :
-						-bodyData.maxAirXSpeed * (1 + bodyData.getBonusAirSpeed());
+						-bodyData.getXGroundSpeed() : -bodyData.getXAirSpeed();
 				break;
 			case MOVE_RIGHT:
 				desiredXVel = grounded ? 
-						bodyData.maxGroundXSpeed * (1 + bodyData.getBonusGroundSpeed()) : 
-						bodyData.maxAirXSpeed * (1 + bodyData.getBonusAirSpeed());
+						bodyData.getXGroundSpeed() : bodyData.getXAirSpeed();
 				break;
 			default:
 				break;
@@ -49,24 +53,20 @@ public class PhysicsSchmuck extends Schmuck {
 			//Process acceleration based on bodyData stats.
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
 				accelX = grounded ? 
-						bodyData.groundXAccel * (1 + bodyData.getBonusGroundAccel()): 
-						bodyData.airXAccel * (1 + bodyData.getBonusAirAccel());
+						bodyData.getXGroundAccel(): bodyData.getXAirAccel();
 			} else {
 				accelX = grounded ? 
-						bodyData.groundXDeaccel * (1 + bodyData.getBonusGroundDrag()) : 
-						bodyData.airXDeaccel * (1 + bodyData.getBonusAirDrag());
+						bodyData.getXGroundDeaccel() : bodyData.getXAirDeaccel();
 			}
 			
 			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
 			
 			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
 				accelY = grounded ? 
-						bodyData.groundYAccel * (1 + bodyData.getBonusGroundDrag()): 
-						bodyData.airYAccel * (1 + bodyData.getBonusAirDrag());
+						bodyData.getYGroundAccel(): bodyData.getYAirAccel();
 			} else {
 				accelY = grounded ? 
-						bodyData.groundYDeaccel * (1 + bodyData.getBonusGroundDrag()):
-						bodyData.airYDeaccel * (1 + bodyData.getBonusAirDrag());
+						bodyData.getYGroundDeaccel() : bodyData.getYAirDeaccel();
 			}
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;

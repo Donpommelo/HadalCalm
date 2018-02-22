@@ -10,6 +10,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * do not open
+ * @author Zachary Tu
+ *
+ */
 public class Door extends Event {
 
 	private static String name = "Door";

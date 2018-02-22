@@ -11,17 +11,17 @@ import box2dLight.RayHandler;
 
 public class FracturePlate extends Artifact {
 
-	static String name = "Fracture Plate";
-	static String descr = "Blocks damge every 8 seconds";
-	static String descrLong = "";
-	public static final int statusNum = 1;
+	private final static String name = "Fracture Plate";
+	private final static String descr = "Blocks damge every 8 seconds";
+	private final static String descrLong = "";
+	private final static int statusNum = 1;
 	
 	public FracturePlate() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] getEnchantment(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, World world, OrthographicCamera camera, RayHandler rays, BodyData b) {
 		enchantment[0] = new FracturePlateStatus(state, world, camera, rays, b, b, 50);
 		return enchantment;
 	}

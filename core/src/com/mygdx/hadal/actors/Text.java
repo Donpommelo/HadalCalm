@@ -80,10 +80,12 @@ public class Text extends AHadalActor{
 		updateHitBox();
 	}
 	
+	@Override
 	public Color getColor() {
 		return color;
 	}
 
+	@Override
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -92,6 +94,7 @@ public class Text extends AHadalActor{
 		return scale;
 	}
 
+	@Override
 	public void setScale(float scale) {
 		this.scale = scale;
 		updateHitBox();

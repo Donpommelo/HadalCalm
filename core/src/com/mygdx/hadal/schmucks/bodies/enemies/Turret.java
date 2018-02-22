@@ -25,19 +25,24 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * A Turret is an immobile enemy that fires towards players in sight.
+ * @author Zachary Tu
+ *
+ */
 public class Turret extends Enemy {
 
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
 
-	public static final float aiCd = 1.0f;
-	public float aiCdCount = 0;
+	private static final float aiCd = 1.0f;
+	private float aiCdCount = 0;
 	    
-	public float angle;
-	public float desiredAngle;
+	private float angle;
+	private float desiredAngle;
 	
-	float shortestFraction;
-  	Fixture closestFixture;
+	private float shortestFraction;
+	private Fixture closestFixture;
   	
   	private turretState aiState;
 
@@ -45,16 +50,16 @@ public class Turret extends Enemy {
 	private TextureRegion turretBase, turretBarrel;
 	private Animation<TextureRegion> fireAnimation;
 	
-	public static final int width = 528;
-	public static final int height = 252;
+	private static final int width = 528;
+	private static final int height = 252;
 	
-	public static final int hbWidth = 261;
-	public static final int hbHeight = 165;
+	private static final int hbWidth = 261;
+	private static final int hbHeight = 165;
 	
-	public static final int rotationX = 131;
-	public static final int rotationY = 114;
+	private static final int rotationX = 131;
+	private static final int rotationY = 114;
 	
-	public static final float scale = 0.3f;
+	private static final float scale = 0.3f;
 	
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
@@ -77,6 +82,7 @@ public class Turret extends Enemy {
 	/**
 	 * Create the enemy's body and initialize enemy's user data.
 	 */
+	@Override
 	public void create() {
 		this.bodyData = new BodyData(world, this);
 		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 1, 0, true, true, Constants.BIT_ENEMY, 
@@ -87,6 +93,7 @@ public class Turret extends Enemy {
 	/**
 	 * Enemy ai goes here. Default enemy behavior: don't move. shoot player on sight.
 	 */
+	@Override
 	public void controller(float delta) {
 		
 		increaseAnimationTime(delta);
@@ -106,9 +113,7 @@ public class Turret extends Enemy {
 				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 				break;
 		}
-		
-		
-		
+				
 		if (aiCdCount < 0) {
 		
 			aiCdCount += aiCd;
@@ -158,11 +163,12 @@ public class Turret extends Enemy {
 			useToolEnd();
 		}
 		
-		if (weapon.reloading) {
+		if (weapon.isReloading()) {
 			weapon.reload(delta);
 		}
 	}
 	
+	@Override
 	public void render(SpriteBatch batch) {
 
 		batch.setProjectionMatrix(state.sprite.combined);

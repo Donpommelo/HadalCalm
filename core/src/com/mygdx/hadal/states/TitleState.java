@@ -64,7 +64,7 @@ public class TitleState extends GameState {
 				
 				tutorialOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addPlayState("Maps/tutorial.tmx", new Loadout(new Nothing(null)), TitleState.class);
+			        	getGsm().addPlayState("Maps/tutorial.tmx", new Loadout(new Nothing(null)), null, TitleState.class);
 			        }
 			    });
 				tutorialOption.setScale(0.5f);
