@@ -76,7 +76,6 @@ public class RangedWeapon extends Equipable{
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
 				
-		
 		//Convert body coordinates into screen coordinates to calc a starting velocity for the projectile.
 		Vector3 bodyScreenPosition = new Vector3(
 				shooter.getSchmuck().getBody().getPosition().x,

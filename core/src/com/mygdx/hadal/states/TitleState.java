@@ -9,7 +9,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 
@@ -64,7 +63,7 @@ public class TitleState extends GameState {
 				
 				tutorialOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addPlayState("Maps/tutorial.tmx", new Loadout(new Nothing(null)), null, TitleState.class);
+			        	getGsm().addPlayState("Maps/tutorial.tmx", new Loadout(), null, TitleState.class);
 			        }
 			    });
 				tutorialOption.setScale(0.5f);

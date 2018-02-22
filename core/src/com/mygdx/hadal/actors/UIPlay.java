@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -110,14 +111,17 @@ public class UIPlay extends AHadalActor{
 		font.draw(batch, player.getPlayerData().getCurrentTool().getText(), x + 70, y + 75);
 		
 		for (int i = 0; i < 4; i++) {
-			if (player.getPlayerData().getMultitools().length <= i) {
-				batch.draw(itemNull.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
-			} else {
-				if (i == player.getPlayerData().getCurrentSlot()) {
-					batch.draw(itemSelect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+			if (player.getPlayerData().getMultitools().length > i) {
+				
+				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof Nothing) {
+					batch.draw(itemNull.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 				} else {
-					batch.draw(itemUnselect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
-				}
+					if (i == player.getPlayerData().getCurrentSlot()) {
+						batch.draw(itemSelect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+					} else {
+						batch.draw(itemUnselect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+					}
+				}	
 			}
 		}
 	}

@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.melee.Scrapripper;
 import com.mygdx.hadal.equip.misc.MomentumShooter;
+import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.equip.ranged.Speargun;
 import com.mygdx.hadal.managers.AssetList;
 
@@ -31,6 +32,9 @@ public class Loadout {
 	
 	public Loadout(Equipable... tools) {
 		multitools = new Equipable[numSlots];
+		multitools[0] = new Nothing(null);
+		multitools[1] = new Nothing(null);
+		multitools[2] = new Nothing(null);
 		
 		for (int i = 0; i < numSlots; i++) {
 			if (tools.length > i) {

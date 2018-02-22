@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.userdata;
 
+
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
@@ -88,7 +89,7 @@ public class PlayerBodyData extends BodyData {
 	
 	public void switchWeapon(int slot) {
 		if (multitools.length >= slot && schmuck.getShootDelayCount() <= 0) {
-			if (multitools[slot - 1] != null) {
+			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof Nothing)) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
 				setEquip();
@@ -108,28 +109,47 @@ public class PlayerBodyData extends BodyData {
 	
 	public void switchToLast() {
 		if (schmuck.getShootDelayCount() <= 0) {
-			int tempSlot = lastSlot;
-			lastSlot = currentSlot;
-			currentSlot = tempSlot;
-			setEquip();
+			if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof Nothing)) {
+				int tempSlot = lastSlot;
+				lastSlot = currentSlot;
+				currentSlot = tempSlot;
+				setEquip();
+			}
+		}
+	}
+	
+	public void switchUp() {
+		for (int i = 1; i <= multitools.length; i++) {
+			if (multitools[(currentSlot + i) % multitools.length] != null &&
+					!(multitools[(currentSlot + i) % multitools.length] instanceof Nothing)) {
+				lastSlot = currentSlot;
+				currentSlot = (currentSlot + i) % multitools.length;
+				setEquip();
+				return;
+			}
+		}
+	}
+	
+	public void switchDown() {
+		for (int i = 1; i <= multitools.length; i++) {
+			if (multitools[(currentSlot - i) % multitools.length] != null &&
+					!(multitools[(currentSlot - i) % multitools.length] instanceof Nothing)) {
+				lastSlot = currentSlot;
+				currentSlot = (currentSlot - i) % multitools.length;
+				setEquip();
+				return;
+			}
 		}
 	}
 	
 	public Equipable pickup(Equipable equip) {
 		
-		if (multitools[currentSlot] instanceof Nothing) {
-			multitools[currentSlot] = equip;
-			multitools[currentSlot].setUser(player);
-			setEquip();
-			return null;
-		}
-		
 		for (int i = 0; i < Loadout.getNumSlots(); i++) {
-			if (multitools[i] == null) {
+			if (multitools[i] == null || multitools[i] instanceof Nothing) {
 				multitools[i] = equip;
 				multitools[i].setUser(player);
 				currentSlot = i;
-				setEquip();
+ 				setEquip();
 				return null;
 			}
 		}
