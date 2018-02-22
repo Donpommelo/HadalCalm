@@ -78,6 +78,8 @@ public class LoadoutState extends GameState {
 		items.add(new SlodgeGun(null));
 		items.add(new Stormcaller(null));
 		
+		items.add(new Melon(null));
+
 		artifacts.clear();
 		artifacts.add(new EelskinCover());
 		artifacts.add(new GoodHealth());

@@ -33,6 +33,7 @@ public enum Unlock {
 	SCRAPRIPPER(Scrapripper.class, UnlockType.MELEE),
 	
 	MOMENTUM_SHOOTER(MomentumShooter.class, UnlockType.MISC),
+	MELON(Melon.class, UnlockType.MISC),
 
 	;
 	

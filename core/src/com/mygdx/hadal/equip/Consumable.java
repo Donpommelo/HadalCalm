@@ -73,5 +73,12 @@ public class Consumable extends Equipable {
 	public String getText() {
 		return chargesLeft + "";
 	}
+	
+	public void gainAmmo(int gained) {
+		chargesLeft += gained;
+		if (chargesLeft > chargesMax) {
+			chargesLeft = chargesMax;
+		}
+	}
 
 }
