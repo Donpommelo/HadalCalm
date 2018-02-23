@@ -15,11 +15,11 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.UnlockEquip;
-import com.mygdx.hadal.equip.artifacts.*;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.save.UnlockEquip;
 
 /**
  * The MenuState is pulled up by pausing in game.
@@ -34,8 +34,6 @@ public class LoadoutState extends GameState {
 
 	private ScrollPane options;
 	
-	private static Array<Artifact> artifacts = new Array<Artifact>();
-	private static Map<String, String> characters = new HashMap<String, String>();
 	private static Map<String, String> levels = new HashMap<String, String>();
 	
 	private Array<Text> slotButtons = new Array<Text>();
@@ -52,37 +50,12 @@ public class LoadoutState extends GameState {
 	public LoadoutState(final GameStateManager gsm) {
 		super(gsm);
 		
-		playState = new PlayState(gsm, gsm.getLoadout(), "Maps/test_map.tmx", false);
-		
-		artifacts.clear();
-		artifacts.add(new EelskinCover());
-		artifacts.add(new GoodHealth());
-		artifacts.add(new MoonFluther());
-		artifacts.add(new VoidHyponome());
-		artifacts.add(new LoamskinTalisman());
-		artifacts.add(new NiceShoes());
-		artifacts.add(new SkateWings());
-		artifacts.add(new RecklessMark());
-		artifacts.add(new NuclearPunchThrusters());
-		artifacts.add(new RootBoots());
-		artifacts.add(new TriggerFinger());
-		artifacts.add(new RingofTesting());
-		artifacts.add(new AnarchistsCookbook());
-		artifacts.add(new RingoftheLamprey());
-		artifacts.add(new FracturePlate());
-		artifacts.add(new ThrobbingRageGland());
-		artifacts.add(new GluttonousGreyGlove());
-		
-		
-		characters.clear();
-		characters.put(AssetList.PLAYER_MOREAU_ATL.toString(), "Moreau");
-		characters.put(AssetList.PLAYER_TAKA_ATL.toString(), "Takanori");
-		characters.put(AssetList.PLAYER_TELE_ATL.toString(), "Telemachus");
+		playState = new PlayState(gsm, gsm.getLoadout(), "Maps/test_map.tmx", false);	
 		
 		levels.clear();
 		levels.put("Maps/test_map_large.tmx", "Level_1");
 		levels.put("Maps/tutorial.tmx", "Tutorial");
-		levels.put("Maps/test_map.tmx", "Sandbox?");
+		levels.put("Maps/test_map.tmx", "Sandbox");
 	}
 
 	@Override
@@ -210,9 +183,9 @@ public class LoadoutState extends GameState {
 		
 		items.addActor(new Text(HadalGame.assetManager, "ARTIFACT: " + slot, 0, 0));
 		
-		for (Artifact a: artifacts) {
+		for (UnlockArtifact c: UnlockArtifact.values()) {
 			
-			final Artifact selected = a;
+			final UnlockArtifact selected = c;
 			
 			Text itemChoose = new Text(HadalGame.assetManager, selected.getName() , 0, 0);
 			
@@ -249,18 +222,18 @@ public class LoadoutState extends GameState {
 		
 		people.addActor(new Text(HadalGame.assetManager, "CHARACTERS", 0, 0));
 		
-		for (String s : characters.keySet()) {
+		for (UnlockCharacter c: UnlockCharacter.values()) {
 			
-			final String selected = s;
+			final UnlockCharacter selected = c;
 			
-			Text itemChoose = new Text(HadalGame.assetManager, characters.get(s) , 0, 0);
+			Text itemChoose = new Text(HadalGame.assetManager, selected.getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
 		        	getGsm().getLoadout().playerSprite = selected;
 
-		        	playState.getPlayer().setBodySprite(selected);
+		        	playState.getPlayer().setBodySprite(selected.getSprite());
 		        	
 		        	refreshLoadout();
 
@@ -311,7 +284,7 @@ public class LoadoutState extends GameState {
 	
 	public void refreshLoadout() {
 		
-		characterSelect.setText("Character: " + characters.get(getGsm().getLoadout().playerSprite));
+		characterSelect.setText("Character: " + getGsm().getLoadout().playerSprite.getName());
 		levelSelect.setText("Level: " + levels.get(getGsm().getLevel()));
 		
 		for (int i = 0; i < slotButtons.size; i++) {

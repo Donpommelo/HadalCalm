@@ -1,4 +1,4 @@
-package com.mygdx.hadal.equip;
+package com.mygdx.hadal.save;
 
 import java.util.HashMap;
 
@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.equip.artifacts.Artifact;
+import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.equip.artifacts.*;
 
 public enum UnlockArtifact {
@@ -31,11 +32,13 @@ public enum UnlockArtifact {
 	;
 	
 	private Class<? extends Artifact> artifact;
+	private Artifact singleton;
 	private boolean unlocked;
 	
 	UnlockArtifact(Class<? extends Artifact> artifact) {
 		this.artifact = artifact;
 		this.unlocked = false;
+		this.singleton = UnlocktoItem.getUnlock(this);
 	}
 	
 	public static Array<Class<? extends Artifact>> getUnlocks() {
@@ -79,7 +82,11 @@ public enum UnlockArtifact {
 	}
 	
 	public String getName() {
-		return name();
+		return singleton.getName();
+	}
+	
+	public String getDescr() {
+		return singleton.getDescr();
 	}
 
 	public boolean isUnlocked() {

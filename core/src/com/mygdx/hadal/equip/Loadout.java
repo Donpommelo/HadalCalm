@@ -1,7 +1,8 @@
 package com.mygdx.hadal.equip;
 
-import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.save.UnlockEquip;
 
 public class Loadout {
 
@@ -11,9 +12,9 @@ public class Loadout {
 	
 	public UnlockEquip[] multitools;
 	
-	public Artifact[] artifacts;
+	public UnlockArtifact[] artifacts;
 	
-	public String playerSprite;
+	public UnlockCharacter playerSprite;
 	
 	public Loadout() {
 		multitools = new UnlockEquip[numSlots];
@@ -21,9 +22,9 @@ public class Loadout {
 		multitools[1] = UnlockEquip.SCRAPRIPPER;
 		multitools[2] = UnlockEquip.MELON;
 		
-		artifacts = new Artifact[numArtifacts];
+		artifacts = new UnlockArtifact[numArtifacts];
 		
-		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
+		playerSprite = UnlockCharacter.MOREAU;
 	}
 	
 	public Loadout(UnlockEquip... tools) {
@@ -37,9 +38,9 @@ public class Loadout {
 				multitools[i] = tools[i];
 			}
 		}
-		artifacts = new Artifact[numArtifacts];
+		artifacts = new UnlockArtifact[numArtifacts];
 		
-		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
+		playerSprite = UnlockCharacter.MOREAU;
 
 	}
 	

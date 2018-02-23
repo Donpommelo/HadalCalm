@@ -1,4 +1,4 @@
-package com.mygdx.hadal.equip;
+package com.mygdx.hadal.save;
 
 import java.util.HashMap;
 
@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.*;
 import com.mygdx.hadal.equip.ranged.*;
+import com.mygdx.hadal.utils.UnlocktoItem;
 
 public enum UnlockEquip {
 	
@@ -40,6 +42,7 @@ public enum UnlockEquip {
 	;
 	
 	private Class<? extends Equipable> weapon;
+	private Equipable singleton;
 	private boolean unlocked;
 	private UnlockType type;
 	
@@ -47,6 +50,7 @@ public enum UnlockEquip {
 		this.weapon = weapon;
 		this.type = type;
 		this.unlocked = false;
+		this.singleton = UnlocktoItem.getUnlock(this, null);
 	}
 	
 	public static Array<Class<? extends Equipable>> getUnlocks(UnlockType type) {
@@ -96,7 +100,7 @@ public enum UnlockEquip {
 	}
 	
 	public String getName() {
-		return name();
+		return singleton.getName();
 	}
 
 	public boolean isUnlocked() {

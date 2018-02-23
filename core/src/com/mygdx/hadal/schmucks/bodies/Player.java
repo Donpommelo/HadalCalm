@@ -21,6 +21,7 @@ import com.mygdx.hadal.equip.misc.MomentumStopper;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.ai.PlayerTrail;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -119,7 +120,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String playerSprite, 
+	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, UnlockCharacter character, 
 			PlayerBodyData oldData) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
 		mStop = new MomentumStopper(this);
@@ -139,7 +140,7 @@ public class Player extends PhysicsSchmuck {
 			this.playerData = oldData;
 		}
 		
-		setBodySprite(playerSprite);
+		setBodySprite(character.getSprite());
 		loadParticles();
 	}
 	

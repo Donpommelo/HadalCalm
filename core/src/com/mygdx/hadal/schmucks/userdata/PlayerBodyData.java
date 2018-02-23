@@ -5,9 +5,10 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.UnlockEquip;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -43,10 +44,18 @@ public class PlayerBodyData extends BodyData {
 		this.player = body;
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
-			multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
+			if (loadout.multitools[i] != null) {
+				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
+			}
 		}
 	
-		artifacts = loadout.artifacts.clone();
+		this.artifacts = new Artifact[loadout.artifacts.length];
+		for (int i = 0; i < loadout.artifacts.length; i++) {
+			if (loadout.artifacts[i] != null) {
+				artifacts[i] = UnlocktoItem.getUnlock(loadout.artifacts[i]);
+			}
+		}
+		
 		for (Artifact a : artifacts) {
 			if (a != null) {
 				for (Status s : a.loadEnchantments(player.getState(), world, player.getState().camera,
@@ -172,7 +181,7 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 	}
 	
-	public void replaceSlot(Artifact artifact, int slot) {
+	public void replaceSlot(UnlockArtifact artifact, int slot) {
 		
 		if (artifacts[slot] != null) {
 			for (Status s : artifacts[slot].getEnchantment()) {
@@ -180,7 +189,7 @@ public class PlayerBodyData extends BodyData {
 			}
 		}	
 		
-		artifacts[slot] = artifact;
+		artifacts[slot] = UnlocktoItem.getUnlock(artifact);
 		
 		for (Status s : artifacts[slot].loadEnchantments(player.getState(), world, player.getState().camera, 
 				player.getState().getRays(), this)) {
