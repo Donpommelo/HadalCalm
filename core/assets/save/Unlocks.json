@@ -1,1 +1,164 @@
-{IRON_BALL_LAUNCHER:{class:java.lang.Boolean,value:true},BOUNCING_BLADE:{class:java.lang.Boolean,value:true},BOILER:{class:java.lang.Boolean,value:true},BOOMERANG:{class:java.lang.Boolean,value:true},CR4PCANNON:{class:java.lang.Boolean,value:true},MOMENTUM_SHOOTER:{class:java.lang.Boolean,value:true},LASER_GUIDED_ROCKET:{class:java.lang.Boolean,value:true},SPEARGUN:{class:java.lang.Boolean,value:true},TORPEDO_LAUNCHER:{class:java.lang.Boolean,value:true},CHARGE_BEAM:{class:java.lang.Boolean,value:true},GRENADE_LAUNCHER:{class:java.lang.Boolean,value:true},BEEGUN:{class:java.lang.Boolean,value:true},NEMATOCYDEARM:{class:java.lang.Boolean,value:true},SCRAPRIPPER:{class:java.lang.Boolean,value:true},MACHINEGUN:{class:java.lang.Boolean,value:true},STICKY_BOMB_LAUNCHER:{class:java.lang.Boolean,value:true},SLODGEGUN:{class:java.lang.Boolean,value:true},STORMCALLER:{class:java.lang.Boolean,value:true}}
+{
+EQUIP: {
+	IRON_BALL_LAUNCHER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	BOUNCING_BLADE: {
+		class: java.lang.Boolean
+		value: true
+	}
+	BOILER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	BOOMERANG: {
+		class: java.lang.Boolean
+		value: true
+	}
+	CR4PCANNON: {
+		class: java.lang.Boolean
+		value: true
+	}
+	MOMENTUM_SHOOTER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	LASER_GUIDED_ROCKET: {
+		class: java.lang.Boolean
+		value: true
+	}
+	SPEARGUN: {
+		class: java.lang.Boolean
+		value: true
+	}
+	TORPEDO_LAUNCHER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	MELON: {
+		class: java.lang.Boolean
+		value: true
+	}
+	CHARGE_BEAM: {
+		class: java.lang.Boolean
+		value: true
+	}
+	GRENADE_LAUNCHER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	BEEGUN: {
+		class: java.lang.Boolean
+		value: true
+	}
+	NEMATOCYDEARM: {
+		class: java.lang.Boolean
+		value: true
+	}
+	SCRAPRIPPER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	MACHINEGUN: {
+		class: java.lang.Boolean
+		value: true
+	}
+	STICKY_BOMB_LAUNCHER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	NOTHING: {
+		class: java.lang.Boolean
+		value: true
+	}
+	SLODGEGUN: {
+		class: java.lang.Boolean
+		value: true
+	}
+	STORMCALLER: {
+		class: java.lang.Boolean
+		value: true
+	}
+}
+ARTIFACT: {
+	EELSKIN_COVER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	GLUTTONOUS_GREY_GLOVE: {
+		class: java.lang.Boolean
+		value: true
+	}
+	SKATE_WINGS: {
+		class: java.lang.Boolean
+		value: true
+	}
+	TRIGGER_FINGER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	VOID_HYPONOME: {
+		class: java.lang.Boolean
+		value: true
+	}
+	FRACTURE_PLATE: {
+		class: java.lang.Boolean
+		value: true
+	}
+	GOOD_HEALTH: {
+		class: java.lang.Boolean
+		value: true
+	}
+	ROOT_BOOTS: {
+		class: java.lang.Boolean
+		value: true
+	}
+	NICE_SHOES: {
+		class: java.lang.Boolean
+		value: true
+	}
+	LOAMSKIN_TALISMAN: {
+		class: java.lang.Boolean
+		value: true
+	}
+	ANARCHISTS_COOKBOOK: {
+		class: java.lang.Boolean
+		value: true
+	}
+	RECKLESS_MARK: {
+		class: java.lang.Boolean
+		value: true
+	}
+	THROBBING_RAGE_GLAND: {
+		class: java.lang.Boolean
+		value: true
+	}
+	RING_OF_THE_LAMPREY: {
+		class: java.lang.Boolean
+		value: true
+	}
+	MOON_FLUTHER: {
+		class: java.lang.Boolean
+		value: true
+	}
+	NUCLEAR_PUNCH_THRUSTERS: {
+		class: java.lang.Boolean
+		value: true
+	}
+}
+CHARACTER: {
+	TAKANORI: {
+		class: java.lang.Boolean
+		value: true
+	}
+	TELEMACHUS: {
+		class: java.lang.Boolean
+		value: true
+	}
+	MOREAU: {
+		class: java.lang.Boolean
+		value: true
+	}
+}
+}

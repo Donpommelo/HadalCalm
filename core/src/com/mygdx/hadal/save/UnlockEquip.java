@@ -1,12 +1,6 @@
 package com.mygdx.hadal.save;
 
-import java.util.HashMap;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.*;
@@ -53,44 +47,18 @@ public enum UnlockEquip {
 		this.singleton = UnlocktoItem.getUnlock(this, null);
 	}
 	
-	public static Array<Class<? extends Equipable>> getUnlocks(UnlockType type) {
-		Array<Class<? extends Equipable>> items = new Array<Class<? extends Equipable>>();
+	public static Array<UnlockEquip> getUnlocks(UnlockType type) {
+		Array<UnlockEquip> items = new Array<UnlockEquip>();
 		
 		for (UnlockEquip u : UnlockEquip.values()) {
-			if (u.getType().equals(type) && u.isUnlocked()) {
-				items.add(u.getWeapon());
+			if ((u.getType().equals(type) || UnlockType.ALL.equals(type)) && u.isUnlocked()) {
+				items.add(u);
 			}
 		}
 		
 		return items;
 	}
-	
-	public static void retrieveUnlocks() {
-		JsonReader json;
-		JsonValue base;
-		
-		json = new JsonReader();
-		base = json.parse(Gdx.files.internal("save/Unlocks.json"));
-		
-		for (JsonValue d : base) {
-			valueOf(d.name()).setUnlocked(d.getBoolean("value"));
-		}
-	}
-	
-	public static void saveUnlocks() {
-		Gdx.files.local("save/Unlocks.json").writeString("", false);
-		
-		Json json = new Json();
-		
-		HashMap<String, Boolean> map = new HashMap<String, Boolean>();
-		
-		for (UnlockEquip u : UnlockEquip.values()) {
-			map.put(u.name(), u.unlocked);
-		}
-		
-		Gdx.files.local("save/Unlocks.json").writeString(json.toJson(map), true);
-	}
-	
+
 	public Class<? extends Equipable> getWeapon() {
 		return weapon;
 	}
@@ -112,6 +80,7 @@ public enum UnlockEquip {
 	}
 	
 	public enum UnlockType {
+		ALL,
 		RANGED,
 		MELEE,
 		MISC

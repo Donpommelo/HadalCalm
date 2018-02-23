@@ -20,6 +20,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockEquip.UnlockType;
 
 /**
  * The MenuState is pulled up by pausing in game.
@@ -145,7 +146,7 @@ public class LoadoutState extends GameState {
 		
 		weapons.addActor(new Text(HadalGame.assetManager, "WEAPON SLOT: " + slot, 0, 0));
 		
-		for (UnlockEquip c: UnlockEquip.values()) {
+		for (UnlockEquip c: UnlockEquip.getUnlocks(UnlockType.ALL)) {
 			
 			final UnlockEquip selected = c;
 			
@@ -183,7 +184,7 @@ public class LoadoutState extends GameState {
 		
 		items.addActor(new Text(HadalGame.assetManager, "ARTIFACT: " + slot, 0, 0));
 		
-		for (UnlockArtifact c: UnlockArtifact.values()) {
+		for (UnlockArtifact c: UnlockArtifact.getUnlocks()) {
 			
 			final UnlockArtifact selected = c;
 			
@@ -222,7 +223,7 @@ public class LoadoutState extends GameState {
 		
 		people.addActor(new Text(HadalGame.assetManager, "CHARACTERS", 0, 0));
 		
-		for (UnlockCharacter c: UnlockCharacter.values()) {
+		for (UnlockCharacter c: UnlockCharacter.getUnlocks()) {
 			
 			final UnlockCharacter selected = c;
 			

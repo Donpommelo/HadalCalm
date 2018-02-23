@@ -1,14 +1,7 @@
 package com.mygdx.hadal.save;
 
-import java.util.HashMap;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.save.UnlockEquip.UnlockType;
 
 public enum UnlockCharacter {
 
@@ -25,42 +18,16 @@ public enum UnlockCharacter {
 		this.unlocked = false;
 	}
 
-	public static Array<String> getUnlocks(UnlockType type) {
-		Array<String> items = new Array<String>();
+	public static Array<UnlockCharacter> getUnlocks() {
+		Array<UnlockCharacter> items = new Array<UnlockCharacter>();
 		
 		for (UnlockCharacter u : UnlockCharacter.values()) {
 			if (u.isUnlocked()) {
-				items.add(u.getSprite());
+				items.add(u);
 			}
 		}
 		
 		return items;
-	}
-	
-	public static void retrieveUnlocks() {
-		JsonReader json;
-		JsonValue base;
-		
-		json = new JsonReader();
-		base = json.parse(Gdx.files.internal("save/Unlocks.json"));
-		
-		for (JsonValue d : base) {
-			valueOf(d.name()).setUnlocked(d.getBoolean("value"));
-		}
-	}
-	
-	public static void saveUnlocks() {
-		Gdx.files.local("save/Unlocks.json").writeString("", false);
-		
-		Json json = new Json();
-		
-		HashMap<String, Boolean> map = new HashMap<String, Boolean>();
-		
-		for (UnlockCharacter u : UnlockCharacter.values()) {
-			map.put(u.name(), u.unlocked);
-		}
-		
-		Gdx.files.local("save/Unlocks.json").writeString(json.toJson(map), true);
 	}
 	
 	public String getSprite() {

@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
-import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;
 
@@ -66,7 +66,8 @@ public class GameStateManager {
 		
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
-		UnlockEquip.retrieveUnlocks();
+		
+		UnlockManager.retrieveUnlocks();
 	}
 	
 	/**
