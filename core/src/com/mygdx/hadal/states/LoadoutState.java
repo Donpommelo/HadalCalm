@@ -14,12 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.UnlockEquip;
 import com.mygdx.hadal.equip.artifacts.*;
-import com.mygdx.hadal.equip.melee.*;
-import com.mygdx.hadal.equip.misc.*;
-import com.mygdx.hadal.equip.ranged.*;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
@@ -37,7 +34,6 @@ public class LoadoutState extends GameState {
 
 	private ScrollPane options;
 	
-	private static Array<Equipable> items = new Array<Equipable>();
 	private static Array<Artifact> artifacts = new Array<Artifact>();
 	private static Map<String, String> characters = new HashMap<String, String>();
 	private static Map<String, String> levels = new HashMap<String, String>();
@@ -58,28 +54,6 @@ public class LoadoutState extends GameState {
 		
 		playState = new PlayState(gsm, gsm.getLoadout(), "Maps/test_map.tmx", false);
 		
-		items.clear();
-		items.add(new BeeGun(null));
-		items.add(new Boiler(null));
-		items.add(new Boomerang(null));
-		items.add(new BouncingBlade(null));
-		items.add(new ChargeBeam(null));
-		items.add(new GrenadeLauncher(null));
-		items.add(new IronBallLauncher(null));
-		items.add(new LaserGuidedRocket(null));
-		items.add(new Machinegun(null));
-		items.add(new MomentumShooter(null));
-		items.add(new Scattergun(null));
-		items.add(new Speargun(null));
-		items.add(new Scrapripper(null));
-		items.add(new StickyBombLauncher(null));
-		items.add(new Nematocydearm(null));
-		items.add(new TorpedoLauncher(null));
-		items.add(new SlodgeGun(null));
-		items.add(new Stormcaller(null));
-		
-		items.add(new Melon(null));
-
 		artifacts.clear();
 		artifacts.add(new EelskinCover());
 		artifacts.add(new GoodHealth());
@@ -126,7 +100,6 @@ public class LoadoutState extends GameState {
 				playOption = new Text(HadalGame.assetManager, "PLAY?",  100, HadalGame.CONFIG_HEIGHT - 350, Color.WHITE);
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().getLoadout().refresh();
 			        	getGsm().removeState(LoadoutState.class);
 			        	getGsm().addState(State.PLAY, TitleState.class);
 			        }
@@ -199,19 +172,18 @@ public class LoadoutState extends GameState {
 		
 		weapons.addActor(new Text(HadalGame.assetManager, "WEAPON SLOT: " + slot, 0, 0));
 		
-		for (Equipable c: items) {
+		for (UnlockEquip c: UnlockEquip.values()) {
 			
-			final Equipable selected = c;
+			final UnlockEquip selected = c;
 			
-			Text itemChoose = new Text(HadalGame.assetManager, selected.getName() , 0, 0);
+			Text itemChoose = new Text(HadalGame.assetManager, selected.name() , 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
-
 		        	getGsm().getLoadout().multitools[slot] = selected;
+		        	
 		        	playState.getPlayer().getPlayerData().replaceSlot(selected, slot);
-		        	selected.gainAmmo(1000);
-
+		        	
 		        	refreshLoadout();
 
 		        }

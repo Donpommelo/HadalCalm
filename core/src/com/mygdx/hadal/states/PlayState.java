@@ -163,7 +163,14 @@ public class PlayState extends GameState {
 			
 	@Override
 	public void show() {
-		this.stage = new PlayStateStage(this);
+		this.stage = new PlayStateStage(this) {
+			public void draw() {
+				if (player.getPlayerData() != null) {
+					super.draw();
+				}
+			}
+		};
+		
 		this.stage.addActor(new UIPlay(HadalGame.assetManager, this, player));
 		this.stage.addActor(new UIMomentum(HadalGame.assetManager, this, player));
 		this.stage.addActor(new UIReload(HadalGame.assetManager, this, player));

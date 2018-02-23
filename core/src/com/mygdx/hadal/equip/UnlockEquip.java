@@ -11,7 +11,7 @@ import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.*;
 import com.mygdx.hadal.equip.ranged.*;
 
-public enum Unlock {
+public enum UnlockEquip {
 	
 	BEEGUN(BeeGun.class, UnlockType.RANGED),
 	BOILER(Boiler.class, UnlockType.RANGED),
@@ -35,13 +35,15 @@ public enum Unlock {
 	MOMENTUM_SHOOTER(MomentumShooter.class, UnlockType.MISC),
 	MELON(Melon.class, UnlockType.MISC),
 
+	NOTHING(Nothing.class, UnlockType.MISC),
+	
 	;
 	
 	private Class<? extends Equipable> weapon;
 	private boolean unlocked;
 	private UnlockType type;
 	
-	Unlock(Class<? extends Equipable> weapon, UnlockType type) {
+	UnlockEquip(Class<? extends Equipable> weapon, UnlockType type) {
 		this.weapon = weapon;
 		this.type = type;
 		this.unlocked = false;
@@ -50,7 +52,7 @@ public enum Unlock {
 	public static Array<Class<? extends Equipable>> getUnlocks(UnlockType type) {
 		Array<Class<? extends Equipable>> items = new Array<Class<? extends Equipable>>();
 		
-		for (Unlock u : Unlock.values()) {
+		for (UnlockEquip u : UnlockEquip.values()) {
 			if (u.getType().equals(type) && u.isUnlocked()) {
 				items.add(u.getWeapon());
 			}
@@ -71,14 +73,14 @@ public enum Unlock {
 		}
 	}
 	
-	public static void saveUnlocks() {		
+	public static void saveUnlocks() {
 		Gdx.files.local("save/Unlocks.json").writeString("", false);
 		
 		Json json = new Json();
 		
 		HashMap<String, Boolean> map = new HashMap<String, Boolean>();
 		
-		for (Unlock u : Unlock.values()) {
+		for (UnlockEquip u : UnlockEquip.values()) {
 			map.put(u.name(), u.unlocked);
 		}
 		
@@ -91,6 +93,10 @@ public enum Unlock {
 	
 	public UnlockType getType() {
 		return type;
+	}
+	
+	public String getName() {
+		return name();
 	}
 
 	public boolean isUnlocked() {

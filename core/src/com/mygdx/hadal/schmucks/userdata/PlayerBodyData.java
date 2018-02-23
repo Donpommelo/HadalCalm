@@ -1,13 +1,16 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 
+
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.UnlockEquip;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.UnlocktoItem;
 
 /**
  * This is the data for a player and contains player-specific fields like airblast, jump stats, etc.
@@ -38,12 +41,11 @@ public class PlayerBodyData extends BodyData {
 	public PlayerBodyData(World world, Player body, Loadout loadout) {
 		super(world, body);
 		this.player = body;
-		multitools = loadout.multitools.clone();
-		for (Equipable e : multitools) {
-			if (e != null) {
-				e.setUser(player);
-			}
+		this.multitools = new Equipable[loadout.multitools.length];
+		for (int i = 0; i < loadout.multitools.length; i++) {
+			multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
 		}
+	
 		artifacts = loadout.artifacts.clone();
 		for (Artifact a : artifacts) {
 			if (a != null) {
@@ -163,8 +165,8 @@ public class PlayerBodyData extends BodyData {
 		return old;
 	}
 	
-	public void replaceSlot(Equipable equip, int slot) {
-		multitools[slot] = equip;
+	public void replaceSlot(UnlockEquip equip, int slot) {
+		multitools[slot] = UnlocktoItem.getUnlock(equip, player);
 		multitools[slot].setUser(player);
 		currentSlot = slot;
 		setEquip();

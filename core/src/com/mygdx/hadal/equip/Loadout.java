@@ -1,10 +1,6 @@
 package com.mygdx.hadal.equip;
 
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.equip.melee.Scrapripper;
-import com.mygdx.hadal.equip.misc.MomentumShooter;
-import com.mygdx.hadal.equip.misc.Nothing;
-import com.mygdx.hadal.equip.ranged.Speargun;
 import com.mygdx.hadal.managers.AssetList;
 
 public class Loadout {
@@ -13,28 +9,28 @@ public class Loadout {
 	
 	private final static int numArtifacts = 2;
 	
-	public Equipable[] multitools;
+	public UnlockEquip[] multitools;
 	
 	public Artifact[] artifacts;
 	
 	public String playerSprite;
 	
 	public Loadout() {
-		multitools = new Equipable[numSlots];
-		multitools[0] = new Speargun(null);
-		multitools[1] = new Scrapripper(null);
-		multitools[2] = new MomentumShooter(null);
+		multitools = new UnlockEquip[numSlots];
+		multitools[0] = UnlockEquip.SPEARGUN;
+		multitools[1] = UnlockEquip.SCRAPRIPPER;
+		multitools[2] = UnlockEquip.MELON;
 		
 		artifacts = new Artifact[numArtifacts];
 		
 		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
 	}
 	
-	public Loadout(Equipable... tools) {
-		multitools = new Equipable[numSlots];
-		multitools[0] = new Nothing(null);
-		multitools[1] = new Nothing(null);
-		multitools[2] = new Nothing(null);
+	public Loadout(UnlockEquip... tools) {
+		multitools = new UnlockEquip[numSlots];
+		multitools[0] = UnlockEquip.NOTHING;
+		multitools[1] = UnlockEquip.NOTHING;
+		multitools[2] = UnlockEquip.NOTHING;
 		
 		for (int i = 0; i < numSlots; i++) {
 			if (tools.length > i) {
@@ -45,12 +41,6 @@ public class Loadout {
 		
 		playerSprite = AssetList.PLAYER_MOREAU_ATL.toString();
 
-	}
-	
-	public void refresh() {
-		for (Equipable e : multitools) {
-			e.gainAmmo(1000);
-		}
 	}
 	
 	public static int getNumSlots() {

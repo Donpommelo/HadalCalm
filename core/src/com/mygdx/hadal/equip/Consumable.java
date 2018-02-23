@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -56,7 +55,7 @@ public class Consumable extends Equipable {
 		
 		if (chargesLeft <= 0) {
 			if (bodyData instanceof PlayerBodyData) {
-				((PlayerBodyData)bodyData).replaceSlot(new Nothing(user), ((PlayerBodyData)bodyData).getCurrentSlot());
+				((PlayerBodyData)bodyData).replaceSlot(UnlockEquip.NOTHING, ((PlayerBodyData)bodyData).getCurrentSlot());
 				((PlayerBodyData)bodyData).switchUp();
 			}
 		}
