@@ -17,7 +17,7 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="16" name="Spawn" type="Spawn" x="384" y="1024" width="32" height="32">
+  <object id="16" name="Spawn" type="Spawn" x="512" y="1024" width="32" height="32">
    <properties>
     <property name="id" type="int" value="0"/>
     <property name="interval" type="float" value="0"/>
@@ -29,9 +29,9 @@
     <property name="Level" value="test_map_large.tmx"/>
    </properties>
   </object>
-  <object id="28" name="Armory" type="Armory" x="448" y="960" width="96" height="96"/>
-  <object id="30" name="Reliquary" type="Reliquary" x="576" y="960" width="96" height="96"/>
-  <object id="31" name="Dormitory" type="Dormitory" x="704" y="960" width="96" height="96"/>
+  <object id="28" name="Armory" type="Armory" x="576" y="960" width="96" height="96"/>
+  <object id="30" name="Reliquary" type="Reliquary" x="704" y="960" width="96" height="96"/>
+  <object id="31" name="Dormitory" type="Dormitory" x="384" y="960" width="96" height="96"/>
   <object id="32" name="Navigation" type="Navigation" x="832" y="960" width="96" height="96"/>
  </objectgroup>
 </map>

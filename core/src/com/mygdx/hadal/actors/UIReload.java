@@ -52,5 +52,9 @@ public class UIReload extends AHadalActor{
 			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
 		}
 	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
 }

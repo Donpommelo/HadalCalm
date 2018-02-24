@@ -125,5 +125,9 @@ public class UIPlay extends AHadalActor{
 			}
 		}
 	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 
 }

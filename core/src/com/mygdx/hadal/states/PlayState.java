@@ -90,6 +90,12 @@ public class PlayState extends GameState {
 	private PlayStateStage stage;
 //	private Set<Zone> zones;
 	
+	private UIPlay uiPlay;
+	private UIReload uiReload;
+	private UIMomentum uiMomentum;
+	private UILevel uiLevel;
+	
+	
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
@@ -171,10 +177,15 @@ public class PlayState extends GameState {
 			}
 		};
 		
-		this.stage.addActor(new UIPlay(HadalGame.assetManager, this, player));
-		this.stage.addActor(new UIMomentum(HadalGame.assetManager, this, player));
-		this.stage.addActor(new UIReload(HadalGame.assetManager, this, player));
-		this.stage.addActor(new UILevel(HadalGame.assetManager, this));
+		uiPlay = new UIPlay(HadalGame.assetManager, this, player);
+		uiReload = new UIReload(HadalGame.assetManager, this, player);
+		uiMomentum = new UIMomentum(HadalGame.assetManager, this, player);
+		uiLevel = new UILevel(HadalGame.assetManager, this);
+		
+		this.stage.addActor(uiPlay);
+		this.stage.addActor(uiMomentum);
+		this.stage.addActor(uiReload);
+		this.stage.addActor(uiLevel);
 		app.newMenu(stage);
 		resetController();
 	}
@@ -188,15 +199,14 @@ public class PlayState extends GameState {
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
-		//atm, stage is not null if the playstate is displayed within another state (loadout) (show is not called.)
-		if (stage != null) {
-			inputMultiplexer.addProcessor(stage);
-		} else {
-			inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
-		}
+		inputMultiplexer.addProcessor(stage);
 		
 		inputMultiplexer.addProcessor(controller);
 		Gdx.input.setInputProcessor(inputMultiplexer);
+		
+		uiPlay.setPlayer(player);
+		uiMomentum.setPlayer(player);
+		uiReload.setPlayer(player);
 	}
 	
 	/**
