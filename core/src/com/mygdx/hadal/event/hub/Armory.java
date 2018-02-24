@@ -30,14 +30,12 @@ public class Armory extends HubEvent {
 		for (UnlockEquip c: UnlockEquip.getUnlocks(UnlockType.ALL)) {
 			
 			final UnlockEquip selected = c;
-			final int slot = state.getPlayer().getPlayerData().getCurrentSlot();
 			Text itemChoose = new Text(HadalGame.assetManager, selected.getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
-		        	state.getGsm().getLoadout().multitools[slot] = selected;
-		        	
-		        	state.getPlayer().getPlayerData().replaceSlot(selected, slot);
+		        	state.getGsm().getLoadout().multitools[state.getPlayer().getPlayerData().getCurrentSlot()] = selected;
+		        	state.getPlayer().getPlayerData().replaceSlot(selected, state.getPlayer().getPlayerData().getCurrentSlot());
 		        }
 		    });
 			itemChoose.setScale(0.75f);

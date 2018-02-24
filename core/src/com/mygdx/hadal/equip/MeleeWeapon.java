@@ -103,7 +103,7 @@ public class MeleeWeapon extends Equipable {
 	 * Override this for special weapon arts or whatever.
 	 */
 	@Override
-	public void reload(float delta) {}
+	public void reload(float delta) { reloading = false; }
 
 	/**
 	 * returns the weapon name
