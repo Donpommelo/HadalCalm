@@ -23,6 +23,8 @@ public enum UnlockArtifact {
 	THROBBING_RAGE_GLAND(ThrobbingRageGland.class),
 	TRIGGER_FINGER(TriggerFinger.class),
 	VOID_HYPONOME(VoidHyponome.class),
+
+	NOTHING(Nothing.class),
 	;
 	
 	private Class<? extends Artifact> artifact;

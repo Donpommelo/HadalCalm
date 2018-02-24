@@ -67,6 +67,10 @@ public enum UnlockEquip {
 		return type;
 	}
 	
+	public Equipable getSingleton() {
+		return singleton;
+	}
+
 	public String getName() {
 		return singleton.getName();
 	}

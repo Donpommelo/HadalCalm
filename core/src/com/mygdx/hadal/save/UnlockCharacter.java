@@ -7,7 +7,7 @@ public enum UnlockCharacter {
 
 	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString(), "Moreau"),
 	TELEMACHUS(AssetList.PLAYER_TELE_ATL.toString(), "Telemachus"),
-	TAKANORI(AssetList.PLAYER_TAKA_ATL.toString(), "Moreau"),
+	TAKANORI(AssetList.PLAYER_TAKA_ATL.toString(), "Takanori"),
 	;
 	private String sprite, name;
 	private boolean unlocked;

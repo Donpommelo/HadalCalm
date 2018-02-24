@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.event.*;
+import com.mygdx.hadal.event.hub.*;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.states.PlayState;
 
@@ -179,6 +180,18 @@ public class TiledObjectUtil {
     			new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Level", String.class));
+    		}
+    		if (object.getName().equals("Armory")) {
+    			new Armory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
+    		if (object.getName().equals("Reliquary")) {
+    			new Reliquary(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
+    		if (object.getName().equals("Dormitory")) {
+    			new Dormitory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     	}
     }

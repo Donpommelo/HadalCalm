@@ -8,13 +8,11 @@ public class Loadout {
 
 	private final static int numSlots = 3;
 	
-	private final static int numArtifacts = 2;
-	
 	public UnlockEquip[] multitools;
 	
-	public UnlockArtifact[] artifacts;
+	public UnlockArtifact artifact;
 	
-	public UnlockCharacter playerSprite;
+	public UnlockCharacter character;
 	
 	public Loadout() {
 		multitools = new UnlockEquip[numSlots];
@@ -22,9 +20,9 @@ public class Loadout {
 		multitools[1] = UnlockEquip.SCRAPRIPPER;
 		multitools[2] = UnlockEquip.MELON;
 		
-		artifacts = new UnlockArtifact[numArtifacts];
+		artifact = UnlockArtifact.NOTHING;
 		
-		playerSprite = UnlockCharacter.MOREAU;
+		character = UnlockCharacter.MOREAU;
 	}
 	
 	public Loadout(UnlockEquip... tools) {
@@ -38,17 +36,14 @@ public class Loadout {
 				multitools[i] = tools[i];
 			}
 		}
-		artifacts = new UnlockArtifact[numArtifacts];
 		
-		playerSprite = UnlockCharacter.MOREAU;
+		artifact = UnlockArtifact.NOTHING;
+		
+		character = UnlockCharacter.MOREAU;
 
 	}
 	
 	public static int getNumSlots() {
 		return numSlots;
-	}
-	
-	public static int getNumArtifacts() {
-		return numArtifacts;
 	}
 }

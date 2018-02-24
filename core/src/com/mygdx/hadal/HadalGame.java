@@ -123,6 +123,7 @@ public class HadalGame extends ApplicationAdapter {
 		
 		gsm.render();
 		
+		currentMenu.getBatch().setColor(1, 1, 1, 1);
 		currentMenu.draw();
 	}
 	

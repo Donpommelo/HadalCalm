@@ -2,6 +2,8 @@ package com.mygdx.hadal.schmucks.userdata;
 
 
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
@@ -32,7 +34,8 @@ public class PlayerBodyData extends BodyData {
 	private int airblastCost = 30;
 	
 	private Equipable[] multitools;
-	private Artifact[] artifacts;
+	private ArrayList<Artifact> artifacts;
+	private Artifact artifactStart;
 	private int currentSlot = 0;
 	private int lastSlot = 0;
 	private Equipable currentTool;
@@ -49,21 +52,8 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 	
-		this.artifacts = new Artifact[loadout.artifacts.length];
-		for (int i = 0; i < loadout.artifacts.length; i++) {
-			if (loadout.artifacts[i] != null) {
-				artifacts[i] = UnlocktoItem.getUnlock(loadout.artifacts[i]);
-			}
-		}
-		
-		for (Artifact a : artifacts) {
-			if (a != null) {
-				for (Status s : a.loadEnchantments(player.getState(), world, player.getState().camera,
-						player.getState().getRays(), this)) {
-					addStatus(s);
-				}
-			}
-		}
+		this.artifacts = new ArrayList<Artifact>();
+		artifactStart = addArtifact(loadout.artifact);
 
 		currentHp = getMaxHp();
 		currentFuel = getMaxHp();
@@ -181,20 +171,27 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 	}
 	
-	public void replaceSlot(UnlockArtifact artifact, int slot) {
-		
-		if (artifacts[slot] != null) {
-			for (Status s : artifacts[slot].getEnchantment()) {
+	public void replaceSlot(UnlockArtifact artifact) {
+		if (artifactStart != null) {
+			for (Status s : artifactStart.getEnchantment()) {
 				removeStatus(s);
 			}
 		}	
 		
-		artifacts[slot] = UnlocktoItem.getUnlock(artifact);
+		artifactStart = addArtifact(artifact);
+	}
+	
+	public Artifact addArtifact(UnlockArtifact artifact) {
 		
-		for (Status s : artifacts[slot].loadEnchantments(player.getState(), world, player.getState().camera, 
+		Artifact newArtifact =  UnlocktoItem.getUnlock(artifact);
+		
+		for (Status s : newArtifact.loadEnchantments(player.getState(), world, player.getState().camera, 
 				player.getState().getRays(), this)) {
 			addStatus(s);
 		}
+		
+		artifacts.add(newArtifact);
+		return newArtifact;
 	}
 	
 	public void setEquip() {

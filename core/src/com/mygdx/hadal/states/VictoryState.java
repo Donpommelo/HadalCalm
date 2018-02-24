@@ -51,7 +51,7 @@ public class VictoryState extends GameState{
 				loadoutOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(VictoryState.class);
-			        	getGsm().addState(State.LOADOUT, TitleState.class);
+			        	getGsm().addState(State.HUB, TitleState.class);
 			        }
 			    });
 				loadoutOption.setScale(0.5f);

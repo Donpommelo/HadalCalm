@@ -1,6 +1,5 @@
-package com.mygdx.hadal.states;
+package com.mygdx.hadal._retired;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +20,9 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockEquip.UnlockType;
+import com.mygdx.hadal.states.GameState;
+import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.TitleState;
 
 /**
  * The MenuState is pulled up by pausing in game.
@@ -110,7 +112,7 @@ public class LoadoutState extends GameState {
 					addActor(nextSlot);
 				};
 				
-				for (int i = 0; i < Loadout.getNumArtifacts(); i++) {
+/*				for (int i = 0; i < Loadout.getNumArtifacts(); i++) {
 					
 					final int slotNum = i;
 					
@@ -123,7 +125,7 @@ public class LoadoutState extends GameState {
 					nextSlot.setScale(0.5f);
 					artifactButtons.add(nextSlot);
 					addActor(nextSlot);
-				};
+				};*/
 							
 				addActor(exitOption);				
 				addActor(playOption);				
@@ -142,7 +144,7 @@ public class LoadoutState extends GameState {
 			options.remove();
 		}
 		
-		VerticalGroup weapons = new VerticalGroup();
+		VerticalGroup weapons = new VerticalGroup().space(10);
 		
 		weapons.addActor(new Text(HadalGame.assetManager, "WEAPON SLOT: " + slot, 0, 0));
 		
@@ -150,7 +152,7 @@ public class LoadoutState extends GameState {
 			
 			final UnlockEquip selected = c;
 			
-			Text itemChoose = new Text(HadalGame.assetManager, selected.name() , 0, 0);
+			Text itemChoose = new Text(HadalGame.assetManager, selected.getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
@@ -180,7 +182,7 @@ public class LoadoutState extends GameState {
 			options.remove();
 		}
 		
-		VerticalGroup items = new VerticalGroup();
+		VerticalGroup items = new VerticalGroup().space(10);
 		
 		items.addActor(new Text(HadalGame.assetManager, "ARTIFACT: " + slot, 0, 0));
 		
@@ -193,13 +195,13 @@ public class LoadoutState extends GameState {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
-		        	if (!Arrays.asList(getGsm().getLoadout().artifacts).contains(selected)) {
+	/*	        	if (!Arrays.asList(getGsm().getLoadout().artifacts).contains(selected)) {
 		        		getGsm().getLoadout().artifacts[slot] = selected;
 		        		
 		        		playState.getPlayer().getPlayerData().replaceSlot(selected, slot);
 		        		
 			        	refreshLoadout();
-		        	}
+		        	}*/
 		        }
 		    });
 			itemChoose.setScale(0.75f);
@@ -219,7 +221,7 @@ public class LoadoutState extends GameState {
 			options.remove();
 		}
 		
-		VerticalGroup people = new VerticalGroup();
+		VerticalGroup people = new VerticalGroup().space(10);
 		
 		people.addActor(new Text(HadalGame.assetManager, "CHARACTERS", 0, 0));
 		
@@ -232,7 +234,7 @@ public class LoadoutState extends GameState {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
-		        	getGsm().getLoadout().playerSprite = selected;
+		        	getGsm().getLoadout().character = selected;
 
 		        	playState.getPlayer().setBodySprite(selected.getSprite());
 		        	
@@ -255,7 +257,7 @@ public class LoadoutState extends GameState {
 			options.remove();
 		}
 		
-		VerticalGroup people = new VerticalGroup();
+		VerticalGroup people = new VerticalGroup().space(10);
 		
 		people.addActor(new Text(HadalGame.assetManager, "LEVELS", 0, 0));
 		
@@ -285,7 +287,7 @@ public class LoadoutState extends GameState {
 	
 	public void refreshLoadout() {
 		
-		characterSelect.setText("Character: " + getGsm().getLoadout().playerSprite.getName());
+		characterSelect.setText("Character: " + getGsm().getLoadout().character.getName());
 		levelSelect.setText("Level: " + levels.get(getGsm().getLevel()));
 		
 		for (int i = 0; i < slotButtons.size; i++) {
@@ -297,12 +299,12 @@ public class LoadoutState extends GameState {
 		}
 		
 		for (int i = 0; i < artifactButtons.size; i++) {
-			if (getGsm().getLoadout().artifacts[i] != null) {
+/*			if (getGsm().getLoadout().artifacts[i] != null) {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": " + 
 			getGsm().getLoadout().artifacts[i].getName() + ": " + getGsm().getLoadout().artifacts[i].getDescr());
 			} else {
 				artifactButtons.get(i).setText("ARTIFACT " + (i + 1) + ": EMPTY");
-			}
+			}*/
 		}
 		if (options != null) {
 			options.remove();

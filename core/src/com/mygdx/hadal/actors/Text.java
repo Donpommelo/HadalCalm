@@ -13,12 +13,12 @@ import com.mygdx.hadal.HadalGame;
  */
 public class Text extends AHadalActor{
 	
-	private String text;
-	private BitmapFont font;
-	private Color color;
-	private GlyphLayout layout;
+	protected String text;
+	protected BitmapFont font;
+	protected Color color;
+	protected GlyphLayout layout;
 
-	private float scale = 1.0f;
+	protected float scale = 1.0f;
 
 	public Text(AssetManager assetManager, String text, int x, int y) {
 		super(assetManager, x, y);

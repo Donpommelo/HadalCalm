@@ -49,7 +49,7 @@ public class TitleState extends GameState {
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addState(State.LOADOUT, TitleState.class);
+			        	getGsm().addState(State.HUB, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);

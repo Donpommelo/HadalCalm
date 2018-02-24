@@ -15,8 +15,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal._retired.LoadoutState;
 import com.mygdx.hadal.actors.UILevel;
 import com.mygdx.hadal.actors.UIMomentum;
 import com.mygdx.hadal.actors.UIPlay;
@@ -149,7 +149,7 @@ public class PlayState extends GameState {
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		
-		player = new Player(this, world, camera, rays, 200, 200, loadout.playerSprite, old);
+		player = new Player(this, world, camera, rays, 200, 200, loadout.character, old);
 		
 		controller = new PlayerController(player, this);		
 	}
@@ -263,7 +263,7 @@ public class PlayState extends GameState {
 					}
 				} else {
 					player = new Player(this, world, camera, rays, (int)(player.getBody().getPosition().x * PPM),
-							(int)(player.getBody().getPosition().y * PPM), loadout.playerSprite, null);
+							(int)(player.getBody().getPosition().y * PPM), loadout.character, null);
 					
 					controller.setPlayer(player);
 					
@@ -356,10 +356,6 @@ public class PlayState extends GameState {
 	 */
 	public void create(HadalEntity entity) {
 		createList.add(entity);
-	}
-	
-	public void addActor(Actor actor) {
-		stage.addActor(actor);
 	}
 	
 	/**

@@ -38,13 +38,13 @@ public class GameStateManager {
 	//This enum lists all the different types of gamestates.
 	public enum State {
 		SPLASH,
-		LOADOUT,
 		CONTROL,
 		TITLE,
 		PLAY, 
 		GAMEOVER, 
 		VICTORY,
-		MENU
+		MENU,
+		HUB
 	}
 	
 	/**
@@ -174,9 +174,9 @@ public class GameStateManager {
 		case PLAY: return new PlayState(this, loadout, level, true, null);
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
-		case LOADOUT: return new LoadoutState(this);
 		case CONTROL: return new ControlState(this);
 		case MENU: return new MenuState(this);
+		case HUB: return new HubState(this, loadout);
 		default:
 			break;
 		}
