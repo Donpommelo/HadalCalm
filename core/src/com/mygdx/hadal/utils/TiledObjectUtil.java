@@ -119,28 +119,33 @@ public class TiledObjectUtil {
     		}
     		
     		if (object.getName().equals("Door")) {
-    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)));
     		}
     		if (object.getName().equals("Switch")) {
     			triggeringEvents.put(new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)), object.getProperties().get("triggeringId", String.class));
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)), 
+    					object.getProperties().get("triggeringId", "", String.class));
     		}
     		if (object.getName().equals("Sensor")) {
     			triggeringEvents.put(new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", boolean.class)), object.getProperties().get("triggeringId", String.class));
+    					object.getProperties().get("oneTime", boolean.class)), 
+    					object.getProperties().get("triggeringId", "", String.class));
     		}
     		if (object.getName().equals("Timer")) {
-    			triggeringEvents.put(new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event timer = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class)), 
-    					object.getProperties().get("triggeringId", String.class));
+    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class),
+    					object.getProperties().get("startOn", true, boolean.class));
+    			triggeringEvents.put(timer, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), timer);
     		}
     		if (object.getName().equals("Target")) {
     			triggeringEvents.put(new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", boolean.class)), object.getProperties().get("triggeringId", String.class));
+    					object.getProperties().get("oneTime", boolean.class)),
+    					object.getProperties().get("triggeringId", "", String.class));
     		}
     		if (object.getName().equals("Rock")) {
     			new AirblastableRock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -149,8 +154,8 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Counter")) {
     			Event counter = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("count", int.class));
-    			triggeringEvents.put(counter, object.getProperties().get("triggeringId", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), counter);
+    			triggeringEvents.put(counter, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), counter);
     		}
     		if (object.getName().equals("Spawn")) {
     			
@@ -158,8 +163,8 @@ public class TiledObjectUtil {
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("limit", int.class));	
     			
-    			triggeringEvents.put(spawn, object.getProperties().get("triggeringId", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), spawn);
+    			triggeringEvents.put(spawn, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), spawn);
     		}
     		if (object.getName().equals("UsePortal")) {
     			
@@ -167,8 +172,8 @@ public class TiledObjectUtil {
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("oneTime", boolean.class));
     			
-    			triggeringEvents.put(portal, object.getProperties().get("triggeringId", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), portal);
+    			triggeringEvents.put(portal, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), portal);
     		}
     		if (object.getName().equals("Victory")) {
     			new Victory(state, world, camera, rays, (int)rect.width, (int)rect.height, 

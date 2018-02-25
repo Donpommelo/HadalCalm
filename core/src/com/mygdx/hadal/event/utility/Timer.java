@@ -25,20 +25,28 @@ public class Timer extends Event {
 	
 	private float timeCount = 0;
 	private int amountCount = 0;
+	private boolean on;
 	
 	private static final String name = "Timer";
 
 	public Timer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, float interval, int limit) {
+			int x, int y, float interval, int limit, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.interval = interval;
 		this.limit = limit;
+		this.on = startOn;
 	}
 	
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this);
+		this.eventData = new EventData(world, this){
+			
+			@Override
+			public void onActivate(EventData activator) {
+				((Timer)event).on = !((Timer)event).on;
+			}
+		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
@@ -47,12 +55,14 @@ public class Timer extends Event {
 	
 	@Override
 	public void controller(float delta) {
-		timeCount += delta;
-		if (timeCount >= interval && (limit == 0 || amountCount < limit)) {
-			timeCount = 0;
-			amountCount++;
-			if (getConnectedEvent() != null) {
-				getConnectedEvent().getEventData().onActivate(eventData);
+		if (on) {
+			timeCount += delta;
+			if (timeCount >= interval && (limit == 0 || amountCount < limit)) {
+				timeCount = 0;
+				amountCount++;
+				if (getConnectedEvent() != null) {
+					getConnectedEvent().getEventData().onActivate(eventData);
+				}
 			}
 		}
 	}
