@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" nextobjectid="78">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" nextobjectid="79">
  <properties>
   <property name="startX" type="int" value="63"/>
   <property name="startY" type="int" value="115"/>
@@ -150,7 +150,7 @@
   <object id="52" name="Sensor" type="Sensor" x="6496" y="4384" width="224" height="32">
    <properties>
     <property name="oneTime" type="bool" value="true"/>
-    <property name="triggeringId" value="3"/>
+    <property name="triggeringId" value="7"/>
    </properties>
   </object>
   <object id="53" name="Equip" type="Equip" x="7520" y="3488" width="32" height="32">
@@ -178,12 +178,6 @@
     <property name="limit" type="int" value="2"/>
     <property name="triggeredId" value="4"/>
     <property name="triggeringId" value="5"/>
-   </properties>
-  </object>
-  <object id="59" name="Sensor" type="Sensor" x="6496" y="4384" width="224" height="32">
-   <properties>
-    <property name="oneTime" type="bool" value="true"/>
-    <property name="triggeringId" value="4"/>
    </properties>
   </object>
   <object id="60" name="Door" type="Door" x="6528" y="5024" width="160" height="32">
@@ -246,6 +240,12 @@
     <property name="oneTime" type="bool" value="false"/>
     <property name="triggeredId" value="7"/>
     <property name="triggeringId" value="8"/>
+   </properties>
+  </object>
+  <object id="78" name="Multitrigger" type="Multitrigger" x="6304" y="4384" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="7"/>
+    <property name="triggeringId" value="3,4"/>
    </properties>
   </object>
  </objectgroup>

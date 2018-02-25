@@ -50,6 +50,9 @@ public class Spawn extends Event {
 			
 			@Override
 			public void onActivate(EventData activator) {
+				
+				defeated = false;
+				
 				for (int i = 0; i < limit; i++) {
 
 					int randX = spawnX + (int)( (Math.random() - 0.5) * 100);
