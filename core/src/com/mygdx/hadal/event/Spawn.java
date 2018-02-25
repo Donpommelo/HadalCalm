@@ -63,6 +63,7 @@ public class Spawn extends Event {
 						} else {
 							new Torpedofish(state, world, camera, rays, spawnX, spawnY);
 						}
+						break;
 					case 2:
 						spawns.add(new Scissorfish(state, world, camera, rays, randX, randY));
 						break;
