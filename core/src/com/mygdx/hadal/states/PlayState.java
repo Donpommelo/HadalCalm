@@ -85,6 +85,7 @@ public class PlayState extends GameState {
 	private float gameoverCdCount;
 	
 	private float zoom;
+	private int startX, startY;
 	private boolean realFite;
 	
 	private PlayStateStage stage;
@@ -154,8 +155,10 @@ public class PlayState extends GameState {
 		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays);
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
+		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", Integer.class);
+		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", Integer.class);
 		
-		player = new Player(this, world, camera, rays, 200, 200, loadout.character, old);
+		player = new Player(this, world, camera, rays, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		
 		controller = new PlayerController(player, this);		
 	}

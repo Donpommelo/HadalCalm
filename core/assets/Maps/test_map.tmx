@@ -10,6 +10,8 @@
  </layer>
  <objectgroup name="collision-layer">
   <properties>
+   <property name="startX" type="int" value="16"/>
+   <property name="startY" type="int" value="4"/>
    <property name="zoom" type="float" value="0.4"/>
   </properties>
   <object id="21" x="96" y="192">
@@ -17,13 +19,6 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="16" name="Spawn" type="Spawn" x="512" y="1024" width="32" height="32">
-   <properties>
-    <property name="id" type="int" value="0"/>
-    <property name="interval" type="float" value="0"/>
-    <property name="limit" type="int" value="1"/>
-   </properties>
-  </object>
   <object id="26" name="Warp" type="Warp" x="960" y="992" width="32" height="32">
    <properties>
     <property name="Level" value="test_map_large.tmx"/>

@@ -1,7 +1,8 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal._retired;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.states.PlayState;
@@ -9,7 +10,6 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
  * The Entity spawner periodically spawns entities.
@@ -63,12 +63,6 @@ public class EntitySpawner extends Event {
 			spawnCount = 0;
 			amountCount++;
 			switch(id) {
-			case 0:
-				
-				//This is kinda a dumb hacky way of having player spawns. Player spawns are technically dictated by the 
-				//playstate, but this lets us spawn on this event provided interval = 0 and limit = 1.
-				state.getPlayer().getBody().setTransform(spawnX / PPM, spawnY / PPM , 0);
-				break;
 			case 1:
 				if (Math.random() > 0.4f) {
 					new Scissorfish(state, world, camera, rays, spawnX, spawnY);

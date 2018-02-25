@@ -84,11 +84,6 @@ public class TiledObjectUtil {
     			new Spring(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
     		}
-    		if (object.getName().equals("Spawn")) {
-    			new EntitySpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
-    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class));
-    		}
     		if (object.getName().equals("Equip")) {
     			new EquipPickup(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
@@ -157,9 +152,9 @@ public class TiledObjectUtil {
     			triggeringEvents.put(counter, object.getProperties().get("triggeringId", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", String.class), counter);
     		}
-    		if (object.getName().equals("TriggerSpawn")) {
+    		if (object.getName().equals("Spawn")) {
     			
-    			Event spawn = new TriggerSpawn(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event spawn = new Spawn(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("limit", int.class));	
     			

@@ -19,7 +19,7 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class TriggerSpawn extends Event {
+public class Spawn extends Event {
 	
 	private int id;
 	private int limit;
@@ -34,7 +34,7 @@ public class TriggerSpawn extends Event {
 
 	boolean defeated = false;
 	
-	public TriggerSpawn(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+	public Spawn(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, int schmuckId, int limit) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.id = schmuckId;
@@ -55,13 +55,21 @@ public class TriggerSpawn extends Event {
 					int randX = spawnX + (int)( (Math.random() - 0.5) * 100);
 					int randY = spawnY + (int)( (Math.random() - 0.5) * 100);
 					switch(id) {
-					case 0:
+					case 1:
+						if (Math.random() > 0.4f) {
+							new Scissorfish(state, world, camera, rays, spawnX, spawnY);
+						} else if (Math.random() > 0.7f){
+							new Spittlefish(state, world, camera, rays, spawnX, spawnY);
+						} else {
+							new Torpedofish(state, world, camera, rays, spawnX, spawnY);
+						}
+					case 2:
 						spawns.add(new Scissorfish(state, world, camera, rays, randX, randY));
 						break;
-					case 1:
+					case 3:
 						spawns.add(new Spittlefish(state, world, camera, rays, randX, randY));
 						break;
-					case 2:
+					case 4:
 						spawns.add(new Torpedofish(state, world, camera, rays, randX, randY));
 						break;
 						
