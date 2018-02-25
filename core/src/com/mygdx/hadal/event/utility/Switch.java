@@ -1,7 +1,8 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -31,7 +32,7 @@ public class Switch extends Event {
 			@Override
 			public void onInteract(Player p) {
 				if (event.getConnectedEvent() != null) {
-					event.getConnectedEvent().eventData.onActivate(this);
+					event.getConnectedEvent().getEventData().onActivate(this);
 				}
 			}
 		};

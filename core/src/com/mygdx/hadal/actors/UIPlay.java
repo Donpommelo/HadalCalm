@@ -109,6 +109,9 @@ public class UIPlay extends AHadalActor{
 		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), x + 60, y + 130);
 		font.getData().setScale(0.8f);
 		font.draw(batch, player.getPlayerData().getCurrentTool().getText(), x + 70, y + 75);
+		font.getData().setScale(0.4f);
+		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)player.getPlayerData().getMaxHp(),
+				x + 233, y + 98);
 		
 		for (int i = 0; i < 4; i++) {
 			if (player.getPlayerData().getMultitools().length > i) {

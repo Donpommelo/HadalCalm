@@ -78,7 +78,7 @@ public class TriggerSpawn extends Event {
 	@Override
 	public void controller(float delta) {
 		
-		if (!defeated) {
+		if (!defeated && getConnectedEvent() != null) {
 			controllerCount+=delta;
 			if (controllerCount >= 1f) {
 				controllerCount = 0;
@@ -94,7 +94,7 @@ public class TriggerSpawn extends Event {
 						}
 					}
 					
-					if (defeated && getConnectedEvent() != null) {
+					if (defeated) {
 						getConnectedEvent().eventData.onActivate(eventData);
 					}
 				}

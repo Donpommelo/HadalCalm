@@ -13,6 +13,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
+import com.mygdx.hadal.event.utility.Counter;
+import com.mygdx.hadal.event.utility.Sensor;
+import com.mygdx.hadal.event.utility.Switch;
+import com.mygdx.hadal.event.utility.Target;
+import com.mygdx.hadal.event.utility.Timer;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.states.PlayState;
 
@@ -130,6 +135,12 @@ public class TiledObjectUtil {
     			triggeringEvents.put(new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("oneTime", boolean.class)), object.getProperties().get("triggeringId", String.class));
+    		}
+    		if (object.getName().equals("Timer")) {
+    			triggeringEvents.put(new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class)), 
+    					object.getProperties().get("triggeringId", String.class));
     		}
     		if (object.getName().equals("Target")) {
     			triggeringEvents.put(new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
