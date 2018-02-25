@@ -138,6 +138,10 @@ ARTIFACT: {
 		class: java.lang.Boolean
 		value: true
 	}
+	NOTHING: {
+		class: java.lang.Boolean
+		value: false
+	}
 	MOON_FLUTHER: {
 		class: java.lang.Boolean
 		value: true
@@ -157,6 +161,20 @@ CHARACTER: {
 		value: true
 	}
 	MOREAU: {
+		class: java.lang.Boolean
+		value: true
+	}
+}
+LEVEL: {
+	TUTORIAL_1: {
+		class: java.lang.Boolean
+		value: true
+	}
+	HUB: {
+		class: java.lang.Boolean
+		value: true
+	}
+	ARENA_1: {
 		class: java.lang.Boolean
 		value: true
 	}

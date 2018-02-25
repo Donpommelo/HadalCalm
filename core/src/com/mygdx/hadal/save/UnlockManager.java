@@ -31,9 +31,15 @@ public class UnlockManager {
 			characters.put(u.name(), u.isUnlocked());
 		}
 		
+		HashMap<String, Boolean> levels = new HashMap<String, Boolean>();
+		for (UnlockLevel u : UnlockLevel.values()) {
+			levels.put(u.name(), u.isUnlocked());
+		}
+		
 		map.put("EQUIP", equip);
 		map.put("ARTIFACT", artifacts);
 		map.put("CHARACTER", characters);
+		map.put("LEVEL", levels);
 		
 		Gdx.files.local("save/Unlocks.json").writeString(json.prettyPrint(map), true);
 	}
@@ -55,6 +61,10 @@ public class UnlockManager {
 		
 		for (JsonValue d : base.get("CHARACTER")) {
 			UnlockCharacter.valueOf(d.name()).setUnlocked(d.getBoolean("value"));
+		}
+		
+		for (JsonValue d : base.get("LEVEL")) {
+			UnlockLevel.valueOf(d.name()).setUnlocked(d.getBoolean("value"));
 		}
 	}
 }

@@ -292,7 +292,7 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
+		Gdx.gl.glClearColor(0/255f, 0/255f, 135/255f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Render Tiled Map + world
