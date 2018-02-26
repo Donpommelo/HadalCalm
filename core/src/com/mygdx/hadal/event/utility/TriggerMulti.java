@@ -13,18 +13,18 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import box2dLight.RayHandler;
 
 /**
- * A Counter is an event that is both triggered by another event as well as triggers another event.
- * After it is triggered a certain number of times, it will trigger its connected event.
+ * A Multitrigger is an event that can trigger multiple events.
+ * 
  * @author Zachary Tu
  *
  */
-public class Multitrigger extends Event {
+public class TriggerMulti extends Event {
 
-	private static final String name = "Multitrigger";
+	private static final String name = "MultiTrigger";
 
 	private ArrayList<Event> triggered = new ArrayList<Event>();
 	
-	public Multitrigger(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+	public TriggerMulti(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y);
 	}

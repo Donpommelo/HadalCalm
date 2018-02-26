@@ -21,12 +21,13 @@ public class Counter extends Event {
 	private static final String name = "Counter";
 
 	private int maxCount;
-	private int currentCount = 0;
+	private int currentCount;
 	
 	public Counter(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, int maxCount) {
+			int x, int y, int maxCount, int startCount) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.maxCount = maxCount;
+		this.currentCount = startCount;
 	}
 	
 	@Override

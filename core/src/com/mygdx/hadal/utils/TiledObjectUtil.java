@@ -13,12 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
-import com.mygdx.hadal.event.utility.Counter;
-import com.mygdx.hadal.event.utility.Multitrigger;
-import com.mygdx.hadal.event.utility.Sensor;
-import com.mygdx.hadal.event.utility.Switch;
-import com.mygdx.hadal.event.utility.Target;
-import com.mygdx.hadal.event.utility.Timer;
+import com.mygdx.hadal.event.utility.*;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.states.PlayState;
 
@@ -58,7 +53,7 @@ public class TiledObjectUtil {
     
     static Map<String, Event> triggeredEvents = new HashMap<String, Event>();
     static Map<Event, String> triggeringEvents = new HashMap<Event, String>();
-    static Map<Multitrigger, String> multiTriggeringEvents = new HashMap<Multitrigger, String>();
+    static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
     
     /**
      * Parses Tiled objects into in game events
@@ -103,15 +98,22 @@ public class TiledObjectUtil {
     		}
     		if (object.getName().equals("Counter")) {
     			Event counter = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("count", int.class));
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+    					object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
     			triggeringEvents.put(counter, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), counter);
     		}
     		if (object.getName().equals("Multitrigger")) {
-    			Multitrigger multiTrigger = new Multitrigger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			TriggerMulti multiTrigger = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     			multiTriggeringEvents.put(multiTrigger, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), multiTrigger);
+    		}
+    		if (object.getName().equals("Alttrigger")) {
+    			Event trigger = new TriggerAlt(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("message","", String.class));
+    			triggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
     		}
     		
     		if (object.getName().equals("Spawn")) {
@@ -225,7 +227,7 @@ public class TiledObjectUtil {
     	for (Event key : triggeringEvents.keySet()) {
     		key.setConnectedEvent(triggeredEvents.getOrDefault(triggeringEvents.get(key), null));
     	}
-    	for (Multitrigger key : multiTriggeringEvents.keySet()) {
+    	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
     			key.addTrigger(triggeredEvents.getOrDefault(id, null));
     		}
