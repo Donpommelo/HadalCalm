@@ -67,6 +67,7 @@ public class GameStateManager {
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
 		
+//		UnlockManager.saveUnlocks();
 		UnlockManager.retrieveUnlocks();
 	}
 	

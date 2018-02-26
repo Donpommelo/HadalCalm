@@ -172,6 +172,9 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void replaceSlot(UnlockArtifact artifact) {
+		
+		artifacts.clear();
+		
 		if (artifactStart != null) {
 			for (Status s : artifactStart.getEnchantment()) {
 				removeStatus(s);

@@ -15,7 +15,7 @@ public enum UnlockCharacter {
 	UnlockCharacter(String sprite, String name) {
 		this.sprite = sprite;
 		this.name= name;
-		this.unlocked = false;
+		this.unlocked = true;
 	}
 
 	public static Array<UnlockCharacter> getUnlocks() {

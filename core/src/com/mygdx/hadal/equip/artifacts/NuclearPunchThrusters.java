@@ -11,7 +11,7 @@ import box2dLight.RayHandler;
 
 public class NuclearPunchThrusters extends Artifact {
 
-	private final static String name = "Nuclear Punch-THrusters";
+	private final static String name = "Nuclear Punch-Thrusters";
 	private final static String descr = "+50% Knockback";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;

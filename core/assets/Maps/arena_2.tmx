@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="25">
+ <tileset firstgid="1" source="main.tsx"/>
+ <layer name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt2NsOwyAIBmB26LJT0vd/242LJcZoi6AgK3/C7epX24JbAWA9QF0mL4rhDfPnCv4NmC2HFwOm5vBkwJQc3gyY3OHRgEkdD+O1SBKOuRKOueLVcfrWM6n0m+vJ8YLteSo1no3WSM2exVNP3LNwDPkzq7WfNQt3H/IZR/N96zlfzeKQXvdfHVg34W9yrj3CoWXRcOR9qbUo372eDmpfai3KunrPVyMsFo4RFisHhmOp/Vd4N3RgWizSWW70+YNi6TGPapyj0FJ7ZnrN1BxHPtfOcFbhOEr9zvos6cWxwHbP56xF27EUriftNxhNR6vhV5S5TXIPNAzSotwD6gxvZdDY8yh/FYlEIpHIkfMBPyokDw==
+  </data>
+ </layer>
+ <objectgroup name="collision-layer">
+  <properties>
+   <property name="startX" type="int" value="21"/>
+   <property name="startY" type="int" value="14"/>
+  </properties>
+  <object id="1" x="64" y="1152">
+   <polyline points="0,0 288,0 288,-160 480,-160 480,32 768,32 800,64 1088,64 1248,-96 1472,-96 1472,-576 1344,-704 1344,-736 1472,-736 1472,-1088 192,-1088 0,-896 0,-672 128,-672 128,-640 0,-512 0,0"/>
+  </object>
+  <object id="2" x="544" y="544">
+   <polyline points="0,0 160,0 160,128 224,192 736,192 736,352 512,352 416,448 224,448 0,224 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="event-layer">
+  <object id="3" name="EquipRand" type="EquipRand" x="800" y="1152" width="32" height="32"/>
+  <object id="4" name="EquipRand" type="EquipRand" x="832" y="704" width="32" height="32"/>
+  <object id="5" name="EquipRand" type="EquipRand" x="1408" y="384" width="32" height="32"/>
+  <object id="6" name="Medpak" type="Medpak" x="96" y="448" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="45"/>
+   </properties>
+  </object>
+  <object id="8" name="AirBubble" type="AirBubble" x="768" y="256" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="30"/>
+   </properties>
+  </object>
+  <object id="9" name="Spring" type="Spring" x="1408" y="1024" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="10" name="Spring" type="Spring" x="576" y="1152" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="11" name="Current" type="Current" x="64" y="512" width="128" height="640">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="0.25"/>
+   </properties>
+  </object>
+  <object id="12" name="Current" type="Current" x="64" y="512" width="192" height="192">
+   <properties>
+    <property name="currentX" type="float" value="0.5"/>
+    <property name="currentY" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="13" name="Current" type="Current" x="1024" y="416" width="384" height="128">
+   <properties>
+    <property name="currentX" type="float" value="-0.19999999999999996"/>
+    <property name="currentY" type="float" value="0.2"/>
+   </properties>
+  </object>
+  <object id="16" name="Dropthrough" type="Dropthrough" x="672" y="288" width="224" height="32"/>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="672" y="288" width="224" height="32"/>
+  <object id="19" name="Timer" type="Timer" x="0" y="1568" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="5"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeredId" value="1"/>
+    <property name="triggeringId" value="2"/>
+   </properties>
+  </object>
+  <object id="20" name="Multitrigger" x="128" y="1568" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="2"/>
+    <property name="triggeringId" value="3,4"/>
+   </properties>
+  </object>
+  <object id="22" name="Spawn" type="Spawn" x="1440" y="128" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeredId" value="3"/>
+    <property name="triggeringId" value="5"/>
+   </properties>
+  </object>
+  <object id="23" name="Spawn" type="Spawn" x="288" y="128" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeredId" value="4"/>
+    <property name="triggeringId" value="5"/>
+   </properties>
+  </object>
+  <object id="24" name="Counter" type="Counter" x="256" y="1568" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="2"/>
+    <property name="triggeredId" value="5"/>
+    <property name="triggeringId" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

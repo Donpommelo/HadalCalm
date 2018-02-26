@@ -45,6 +45,8 @@ public class Timer extends Event {
 			@Override
 			public void onActivate(EventData activator) {
 				((Timer)event).on = !((Timer)event).on;
+				amountCount = 0;
+				timeCount = 0;
 			}
 		};
 		
@@ -57,12 +59,15 @@ public class Timer extends Event {
 	public void controller(float delta) {
 		if (on) {
 			timeCount += delta;
-			if (timeCount >= interval && (limit == 0 || amountCount < limit)) {
+			if (timeCount >= interval) {
 				timeCount = 0;
 				amountCount++;
 				if (getConnectedEvent() != null) {
 					getConnectedEvent().getEventData().onActivate(eventData);
 				}
+			}
+			if ((limit != 0 && amountCount >= limit)) {
+				on = false;
 			}
 		}
 	}

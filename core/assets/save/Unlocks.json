@@ -140,7 +140,7 @@ ARTIFACT: {
 	}
 	NOTHING: {
 		class: java.lang.Boolean
-		value: false
+		value: true
 	}
 	MOON_FLUTHER: {
 		class: java.lang.Boolean
@@ -171,6 +171,10 @@ LEVEL: {
 		value: true
 	}
 	HUB: {
+		class: java.lang.Boolean
+		value: true
+	}
+	ARENA_2: {
 		class: java.lang.Boolean
 		value: true
 	}

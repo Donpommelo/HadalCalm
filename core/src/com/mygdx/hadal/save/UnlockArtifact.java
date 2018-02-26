@@ -33,7 +33,7 @@ public enum UnlockArtifact {
 	
 	UnlockArtifact(Class<? extends Artifact> artifact) {
 		this.artifact = artifact;
-		this.unlocked = false;
+		this.unlocked = true;
 		this.singleton = UnlocktoItem.getUnlock(this);
 	}
 	

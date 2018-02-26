@@ -60,11 +60,11 @@ public class Spawn extends Event {
 					switch(id) {
 					case 1:
 						if (Math.random() > 0.4f) {
-							new Scissorfish(state, world, camera, rays, spawnX, spawnY);
+							spawns.add(new Scissorfish(state, world, camera, rays, spawnX, spawnY));
 						} else if (Math.random() > 0.7f){
-							new Spittlefish(state, world, camera, rays, spawnX, spawnY);
+							spawns.add(new Spittlefish(state, world, camera, rays, spawnX, spawnY));
 						} else {
-							new Torpedofish(state, world, camera, rays, spawnX, spawnY);
+							spawns.add(new Torpedofish(state, world, camera, rays, spawnX, spawnY));
 						}
 						break;
 					case 2:

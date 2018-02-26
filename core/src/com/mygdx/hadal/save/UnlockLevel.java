@@ -6,7 +6,8 @@ public enum UnlockLevel {
 
 	HUB("Maps/test_map.tmx", "Hub"),
 	TUTORIAL_1("Maps/tutorial.tmx", "Tutorial 1"),
-	ARENA_1("Maps/test_map_large.tmx", "Arena 1"),
+	ARENA_1("Maps/arena_1.tmx", "Arena 1"),
+	ARENA_2("Maps/arena_2.tmx", "Arena 2"),
 	
 	;
 	private String map, name;
@@ -15,7 +16,7 @@ public enum UnlockLevel {
 	UnlockLevel(String map, String name) {
 		this.map = map;
 		this.name= name;
-		this.unlocked = false;
+		this.unlocked = true;
 	}
 
 	public static Array<UnlockLevel> getUnlocks() {

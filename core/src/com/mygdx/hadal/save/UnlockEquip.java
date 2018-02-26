@@ -43,7 +43,7 @@ public enum UnlockEquip {
 	UnlockEquip(Class<? extends Equipable> weapon, UnlockType type) {
 		this.weapon = weapon;
 		this.type = type;
-		this.unlocked = false;
+		this.unlocked = true;
 		this.singleton = UnlocktoItem.getUnlock(this, null);
 	}
 	

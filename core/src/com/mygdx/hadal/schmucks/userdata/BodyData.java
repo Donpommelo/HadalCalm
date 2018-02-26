@@ -358,7 +358,7 @@ public class BodyData extends HadalData {
 	}
 	
 	public void setStat(int index, float amount) {
-		buffedStats[index] += amount;
+		buffedStats[index] = amount;
 	}
 	
 	public float getMaxHp() {
