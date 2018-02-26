@@ -1,104 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" nextobjectid="25">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" nextobjectid="71">
+ <properties>
+  <property name="startX" type="int" value="18"/>
+  <property name="startY" type="int" value="35"/>
+  <property name="zoom" type="float" value="0.4"/>
+ </properties>
  <tileset firstgid="1" source="main.tsx"/>
- <layer name="Tile Layer 1" width="50" height="50">
+ <layer name="Tile Layer 1" width="100" height="80">
   <data encoding="base64" compression="zlib">
-   eJzt2NsOwyAIBmB26LJT0vd/242LJcZoi6AgK3/C7epX24JbAWA9QF0mL4rhDfPnCv4NmC2HFwOm5vBkwJQc3gyY3OHRgEkdD+O1SBKOuRKOueLVcfrWM6n0m+vJ8YLteSo1no3WSM2exVNP3LNwDPkzq7WfNQt3H/IZR/N96zlfzeKQXvdfHVg34W9yrj3CoWXRcOR9qbUo372eDmpfai3KunrPVyMsFo4RFisHhmOp/Vd4N3RgWizSWW70+YNi6TGPapyj0FJ7ZnrN1BxHPtfOcFbhOEr9zvos6cWxwHbP56xF27EUriftNxhNR6vhV5S5TXIPNAzSotwD6gxvZdDY8yh/FYlEIpHIkfMBPyokDw==
+   eJztne1u3SAMhrOtXfcl9efu/04ra4uUWiQYsPEL9iPlz2mbAzwxJkDS4yjz/v/4tsBxlnVnqH5/vAsh5Pexv4+f3gVo5MW7AMakDyzSBxY7+Xg9/MYa35Xqt4sPcuE5LqGxhoaTHXx4uzjRcLK6DxQXJ6P5bWUfaC6IqD4QXRARfaC6ICL6QHVBRPSBzGj5aH5O617GGuqn0OcTNXysEiNU1/SBQ/rAIoqPFXLImTui+ECPkTM20gcG6QOLaD6Qc8g1d6D7oDn3X+xoaddrPVFj5BobIz6+HJ/b6et40US0rItE8sHPI6mvlkOpkxV8vB9+Pnr+5ulcNXhd0XIIzx2zfbwdn/ct/Bj8/hq8rmgxwttwxIdm2/ZAdald75F8eCPZ75o+9JDk/lqfxeuKlENKuQPZhyQ/9fhAiZFSbFj6IP8jdZfkpx4fCDFyFxuWPmaszff68I6Ru9iw9DGjzr0+PGPkKTa4D805EHQfHk5qLrgPzfvnFXzQwecrS0fN26vwPJLy8Pqt5qP1Gu95jqJWF6t9U1o+SmMri/lguidsaYvevZhePrTmQEpjK83Y4+eVMLIv1suHFqXyW813SdoCeY/yDGaO72s+orsgNH3U8k7tGcjoLghNH7W8g/oMJBKaPmp5B/kZSBS884fV93vt4RhlVx9WY3Zr0kcb0vmW3mNm372DD/T7yRZm+vC8p12FmT6sSB9YIPkYHUOmD11Gc2T60GU0R6YPLJB98L4Y4f7AGgQf1/u5K2dfvFN71xj1MTqeOOcuXwrfW/psd0o++L6Rp+tzZDxxnUeO6oPP9ZTa+tq+tb6i1wef04/qQ7IPVeriPF+rj9L6SmQfNVpyaOt4+26tK33cY9kGd57Txz0ebRDRh3RdPH3Y07JHIX3Y0rpfJH3Y0bN3ZzUf1uvn3mvxHj5orz0va+kzjvR64+2yEl59xN/G34+yb2+FPjuKCwLdRyQXBLKPaC6IWT74uIivnZTWByMyywefG+ZzkW/s55bP+yOj9f+nnpC+Syx9/Bt3lt6FKT0kLqXvSkof40jiK33MpeYkfcznqc+Tvnsjoo8PfB0jdg==
   </data>
  </layer>
  <objectgroup name="collision-layer">
   <properties>
-   <property name="startX" type="int" value="19"/>
-   <property name="startY" type="int" value="4"/>
+   <property name="startX" type="int" value="18"/>
+   <property name="startY" type="int" value="45"/>
   </properties>
-  <object id="1" x="64" y="1152">
-   <polyline points="0,0 288,0 288,-160 480,-160 480,32 768,32 800,64 1088,64 1248,-96 1472,-96 1472,-576 1344,-704 1344,-736 1472,-736 1472,-1088 192,-1088 0,-896 0,-672 128,-672 128,-640 0,-512 0,0"/>
+  <object id="1" x="159.75" y="1856.25">
+   <polyline points="0,0 127.75,-0.5 0.25,127.75 0.25,543.75 32.25,575.75 480.25,575.75 576.25,671.75 768.25,671.75 768.25,575.75 800.25,543.75 800.25,511.75 832.25,479.75 960.25,479.75 960.25,543.75 928.25,543.75 928.25,671.75 1088.25,671.75 1088.25,543.75 1056.25,543.75 1056.25,479.75 1216.25,479.75 1408.25,287.75 2752.25,287.75 2880.25,159.75 2880.25,31.75 2912.25,-0.25 3008.25,-0.25 3008.25,-640.25 2976.25,-672.25 2976.25,-928.25 2944.25,-960.25 2944.25,-1056.25 2880.25,-1120.25 2752.25,-1120.25 2720.25,-1152.25 2720.25,-1600.25 2656.25,-1664.25 1696.25,-1664.25 1472.25,-1440.25 1472.25,-672.25 896.25,-672.25 896.25,-576.25 864.25,-576.25 864.25,-672.25 896.25,-704.25 1184.25,-704.25 1248.25,-768.25 1248.25,-800.25 1280.25,-832.25 1280.25,-864.25 1312.25,-896.25 1312.25,-992.25 1344.25,-1024.25 1344.25,-1120.25 1376.25,-1152.25 1376.25,-1248.25 1408.25,-1280.25 1408.25,-1376.25 1440.25,-1408.25 1440.25,-1792.25 1408.25,-1824.25 96.25,-1824.25 64.25,-1792.25 64.25,-1408.25 96.25,-1376.25 96.25,-1280.25 128.25,-1248.25 128.25,-1152.25 160.25,-1120.25 160.25,-1024.25 192.25,-992.25 192.25,-896.25 224.25,-864.25 224.25,-832.25 256.25,-800.25 256.25,-768.25 320.25,-704.25 608.25,-704.25 640.25,-672.25 640.25,-576.25 608.25,-576.25 608.25,-640.25 224.25,-640.25 0.25,-416.25 0.25,-0.25"/>
   </object>
-  <object id="2" x="544" y="544">
-   <polyline points="0,0 160,0 160,128 224,192 736,192 736,352 512,352 416,448 224,448 0,224 0,0"/>
+  <object id="2" x="832" y="1440">
+   <polyline points="0,0 160,0 160,160 0,160 0,0"/>
+  </object>
+  <object id="3" x="480" y="1824">
+   <polyline points="0,0 160,0 160,160 0,160 0,32"/>
+  </object>
+  <object id="4" x="864" y="1984">
+   <polyline points="0,0 0,32 192,-160 192,192 224,224 256,192 256,-192 192,-192 0,0"/>
+  </object>
+  <object id="5" x="1216" y="2176">
+   <polyline points="0,0 32,32 64,0 64,-352 96,-384 320,-384 352,-416 352,-640 1088,-640 1120,-672 1120,-928 1152,-960 1152,-1120 1184,-1152 1184,-1184 1152,-1184 1120,-1152 1120,-992 1088,-960 1088,-672 352,-672 320,-640 320,-416 0,-416 0,0"/>
+  </object>
+  <object id="6" x="1728" y="1088">
+   <polyline points="0,0 0,160 160,160 160,0 0,0"/>
+  </object>
+  <object id="7" x="2080" y="736">
+   <polyline points="0,0 160,0 160,160 0,160 0,0"/>
+  </object>
+  <object id="8" x="2496" y="768">
+   <polyline points="0,0 160,0 160,64 160,96 0,96 0,0"/>
+  </object>
+  <object id="9" x="2848" y="928">
+   <polyline points="0,0 160,0 160,96 0,96 0,0"/>
+  </object>
+  <object id="10" x="2912" y="1312">
+   <polyline points="0,0 0,96 160,96 160,0 0,0"/>
+  </object>
+  <object id="11" x="2624" y="1280">
+   <polyline points="0,0 0,-96 -160,-96 -160,0 0,0"/>
+  </object>
+  <object id="12" x="2656" y="1632">
+   <polyline points="0,0 160,0 160,96 0,96 0,0"/>
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="3" name="EquipRand" type="EquipRand" x="800" y="1152" width="32" height="32"/>
-  <object id="4" name="EquipRand" type="EquipRand" x="832" y="704" width="32" height="32"/>
-  <object id="5" name="EquipRand" type="EquipRand" x="1408" y="384" width="32" height="32"/>
-  <object id="6" name="Medpak" type="Medpak" x="96" y="448" width="32" height="32">
+  <object id="19" name="Current" type="Current" x="1568" y="1888" width="512" height="256">
    <properties>
-    <property name="interval" type="float" value="45"/>
+    <property name="currentX" type="float" value="0.25"/>
+    <property name="currentY" type="float" value="0.25"/>
    </properties>
   </object>
-  <object id="8" name="AirBubble" type="AirBubble" x="768" y="256" width="32" height="32">
+  <object id="23" name="Current" type="Current" x="928" y="1632" width="512" height="256">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="0.5"/>
+   </properties>
+  </object>
+  <object id="24" name="Current" type="Current" x="1632" y="192" width="544" height="352">
+   <properties>
+    <property name="currentX" type="float" value="0.30000000000000004"/>
+    <property name="currentY" type="float" value="0.15"/>
+   </properties>
+  </object>
+  <object id="25" name="Current" type="Current" x="2368" y="192" width="512" height="352">
+   <properties>
+    <property name="currentX" type="float" value="-0.3"/>
+    <property name="currentY" type="float" value="0.15"/>
+   </properties>
+  </object>
+  <object id="26" name="Current" type="Current" x="544" y="2144" width="192" height="416">
+   <properties>
+    <property name="currentX" type="float" value="0.30000000000000004"/>
+    <property name="currentY" type="float" value="0.1"/>
+   </properties>
+  </object>
+  <object id="28" name="Spring" type="Spring" x="1152" y="2496" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="15"/>
+   </properties>
+  </object>
+  <object id="36" name="Spring" type="Spring" x="352" y="2400" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="37" name="Spring" type="Spring" x="2112" y="1472" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="38" name="Spring" type="Spring" x="2528" y="2112" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="42" name="Timer" type="Timer" x="2272" y="224" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="10"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="triggeringId" value="2"/>
+   </properties>
+  </object>
+  <object id="43" name="Timer" type="Timer" x="1536" y="96" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="10"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="triggeringId" value="1"/>
+   </properties>
+  </object>
+  <object id="44" name="Timer" type="Timer" x="3072" y="1760" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="10"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="triggeringId" value="3"/>
+   </properties>
+  </object>
+  <object id="47" name="EquipRand" type="EquipRand" x="2912" y="896" width="32" height="32"/>
+  <object id="48" name="EquipRand" type="EquipRand" x="1184" y="1120" width="32" height="32"/>
+  <object id="49" name="EquipRand" type="EquipRand" x="2880" y="2112" width="32" height="32"/>
+  <object id="50" name="AirBubble" type="AirBubble" x="896" y="1408" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="30"/>
    </properties>
   </object>
-  <object id="9" name="Spring" type="Spring" x="1408" y="1024" width="32" height="32">
+  <object id="53" name="AirBubble" type="AirBubble" x="2368" y="960" width="32" height="32">
    <properties>
-    <property name="springX" type="float" value="0"/>
-    <property name="springY" type="float" value="12"/>
+    <property name="interval" type="float" value="30"/>
    </properties>
   </object>
-  <object id="10" name="Spring" type="Spring" x="576" y="1152" width="32" height="32">
+  <object id="54" name="Medpak" type="Medpak" x="1792" y="1056" width="32" height="32">
    <properties>
-    <property name="springX" type="float" value="0"/>
-    <property name="springY" type="float" value="12"/>
+    <property name="interval" type="float" value="30"/>
    </properties>
   </object>
-  <object id="11" name="Current" type="Current" x="64" y="512" width="128" height="640">
+  <object id="55" name="Medpak" type="Medpak" x="1280" y="2304" width="32" height="32">
    <properties>
-    <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="0.15"/>
+    <property name="interval" type="float" value="30"/>
    </properties>
   </object>
-  <object id="12" name="Current" type="Current" x="64" y="512" width="192" height="192">
+  <object id="57" name="Dropthrough" type="Dropthrough" x="800" y="1184" width="224" height="32"/>
+  <object id="58" name="Text" type="Text" x="512" y="1024" width="160" height="128">
    <properties>
-    <property name="currentX" type="float" value="0.5"/>
-    <property name="currentY" type="float" value="0"/>
+    <property name="text" value="VERY IMPORTANT TEXT GOES HERE"/>
    </properties>
   </object>
-  <object id="13" name="Current" type="Current" x="1024" y="416" width="384" height="128">
+  <object id="62" name="Radio" type="Radio" x="1088" y="1120" width="32" height="32">
    <properties>
-    <property name="currentX" type="float" value="-0.1"/>
-    <property name="currentY" type="float" value="0.1"/>
+    <property name="id" value="0"/>
    </properties>
   </object>
-  <object id="16" name="Dropthrough" type="Dropthrough" x="672" y="288" width="224" height="32"/>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="672" y="288" width="224" height="32"/>
-  <object id="19" name="Timer" type="Timer" x="0" y="1568" width="32" height="32">
+  <object id="63" name="Rock" type="Rock" x="2240" y="2080" width="64" height="64"/>
+  <object id="64" name="EquipRand" type="EquipRand" x="224" y="1824" width="32" height="32"/>
+  <object id="67" name="Spawn" type="Spawn" x="1536" y="96" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="5"/>
+    <property name="id" type="int" value="1"/>
     <property name="limit" type="int" value="1"/>
     <property name="triggeredId" value="1"/>
-    <property name="triggeringId" value="2"/>
+    <property name="triggeringId" value="0"/>
    </properties>
   </object>
-  <object id="20" name="Multitrigger" x="128" y="1568" width="32" height="32">
+  <object id="68" name="Spawn" type="Spawn" x="2272" y="224" width="32" height="32">
    <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="1"/>
     <property name="triggeredId" value="2"/>
-    <property name="triggeringId" value="3,4"/>
+    <property name="triggeringId" value="0"/>
    </properties>
   </object>
-  <object id="22" name="Spawn" type="Spawn" x="1440" y="128" width="32" height="32">
+  <object id="70" name="Spawn" type="Spawn" x="3072" y="1760" width="32" height="32">
    <properties>
     <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="5"/>
+    <property name="limit" type="int" value="1"/>
     <property name="triggeredId" value="3"/>
-    <property name="triggeringId" value="5"/>
-   </properties>
-  </object>
-  <object id="23" name="Spawn" type="Spawn" x="288" y="128" width="32" height="32">
-   <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="5"/>
-    <property name="triggeredId" value="4"/>
-    <property name="triggeringId" value="5"/>
-   </properties>
-  </object>
-  <object id="24" name="Counter" type="Counter" x="256" y="1568" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="2"/>
-    <property name="triggeredId" value="5"/>
-    <property name="triggeringId" value="1"/>
+    <property name="triggeringId" value="0"/>
    </properties>
   </object>
  </objectgroup>

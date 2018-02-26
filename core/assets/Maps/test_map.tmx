@@ -21,7 +21,7 @@
  <objectgroup name="event-layer">
   <object id="26" name="Warp" type="Warp" x="960" y="992" width="32" height="32">
    <properties>
-    <property name="Level" value="test_map_large.tmx"/>
+    <property name="Level" value="arena_1.tmx"/>
    </properties>
   </object>
   <object id="28" name="Armory" type="Armory" x="576" y="960" width="96" height="96"/>

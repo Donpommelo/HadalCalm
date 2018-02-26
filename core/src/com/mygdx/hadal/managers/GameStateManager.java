@@ -62,7 +62,7 @@ public class GameStateManager {
 		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
 		this.loadout = new Loadout();
-		this.level = "Maps/test_map_large.tmx";
+		this.level = "Maps/arena_1.tmx";
 		
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();

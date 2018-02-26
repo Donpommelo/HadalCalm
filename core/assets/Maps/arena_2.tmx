@@ -81,7 +81,7 @@
   <object id="22" name="Spawn" type="Spawn" x="1440" y="128" width="32" height="32">
    <properties>
     <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="1"/>
+    <property name="limit" type="int" value="3"/>
     <property name="triggeredId" value="3"/>
     <property name="triggeringId" value="5"/>
    </properties>
@@ -89,7 +89,7 @@
   <object id="23" name="Spawn" type="Spawn" x="288" y="128" width="32" height="32">
    <properties>
     <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="1"/>
+    <property name="limit" type="int" value="3"/>
     <property name="triggeredId" value="4"/>
     <property name="triggeringId" value="5"/>
    </properties>
