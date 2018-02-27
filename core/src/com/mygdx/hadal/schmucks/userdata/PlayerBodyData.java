@@ -133,10 +133,10 @@ public class PlayerBodyData extends BodyData {
 	
 	public void switchDown() {
 		for (int i = 1; i <= multitools.length; i++) {
-			if (multitools[(currentSlot - i) % multitools.length] != null &&
-					!(multitools[(currentSlot - i) % multitools.length] instanceof Nothing)) {
+			if (multitools[(multitools.length + (currentSlot - i)) % multitools.length] != null &&
+					!(multitools[(multitools.length + (currentSlot - i)) % multitools.length] instanceof Nothing)) {
 				lastSlot = currentSlot;
-				currentSlot = (currentSlot - i) % multitools.length;
+				currentSlot = (multitools.length + (currentSlot - i)) % multitools.length;
 				setEquip();
 				return;
 			}

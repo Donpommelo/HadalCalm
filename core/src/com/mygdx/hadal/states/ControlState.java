@@ -111,7 +111,7 @@ public class ControlState extends GameState {
 
 			@Override
 			public boolean scrolled(int amount) {
-				return false;
+				return keyDown(amount * 1000);
 			}
 			
 		});
@@ -162,6 +162,13 @@ public class ControlState extends GameState {
 			return "MOUSE_MIDDLE";
 		}
 		
+		if (keycode == -1000) {
+			return "M_WHEEL_UP";
+		}
+		
+		if (keycode == 1000) {
+			return "M_WHEEL_DOWN";
+		}
 		
 		return Input.Keys.toString(keycode);
 	}

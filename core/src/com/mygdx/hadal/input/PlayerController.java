@@ -111,6 +111,14 @@ public class PlayerController implements InputProcessor {
 			state.getGsm().addState(State.MENU, PlayState.class);
 		}
 		
+		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {
+			player.getPlayerData().switchDown();
+		}
+		
+		if (keycode == PlayerAction.MO_CYCLE_DOWN.getKey()) {
+			player.getPlayerData().switchUp();
+		}
+		
 		return false;
 	}
 
@@ -145,7 +153,7 @@ public class PlayerController implements InputProcessor {
 			player.setShooting(false);
 			player.release();
 		}
-		
+				
 		return false;
 	}
 
@@ -178,6 +186,7 @@ public class PlayerController implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
+		keyDown(amount * 1000);
 		return false;
 	}
 
