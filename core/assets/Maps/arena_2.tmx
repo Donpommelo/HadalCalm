@@ -47,19 +47,13 @@
   <object id="11" name="Current" type="Current" x="64" y="512" width="128" height="640">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="0.25"/>
+    <property name="currentY" type="float" value="0.35"/>
    </properties>
   </object>
   <object id="12" name="Current" type="Current" x="64" y="512" width="192" height="192">
    <properties>
     <property name="currentX" type="float" value="0.5"/>
     <property name="currentY" type="float" value="0"/>
-   </properties>
-  </object>
-  <object id="13" name="Current" type="Current" x="1024" y="416" width="384" height="128">
-   <properties>
-    <property name="currentX" type="float" value="-0.19999999999999996"/>
-    <property name="currentY" type="float" value="0.2"/>
    </properties>
   </object>
   <object id="16" name="Dropthrough" type="Dropthrough" x="672" y="288" width="224" height="32"/>

@@ -18,27 +18,36 @@ public class Poison extends Event {
 	private float controllerCount = 0;
 	private float dps;
 	private BodyData perp;
+	private boolean on;
 	
 	private static final String name = "Poison";
 
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
-			int x, int y, float dps) {
+			int x, int y, float dps, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.dps = dps;
 		this.perp = state.getWorldDummy().getBodyData();
+		this.on = startOn;
 	}
 	
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
-			int x, int y, float dps, float duration, BodyData perp) {
+			int x, int y, float dps, float duration, BodyData perp, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y, duration);
 		this.dps = dps;
 		this.perp = perp;
+		this.on = startOn;
 	}
 	
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this);
+		this.eventData = new EventData(world, this) {
+			
+			@Override
+			public void onActivate(EventData activator) {
+				on = !on;
+			}
+		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY),
@@ -47,13 +56,15 @@ public class Poison extends Event {
 	
 	@Override
 	public void controller(float delta) {
-		controllerCount+=delta;
-		if (controllerCount >= 1/60f) {
-			controllerCount = 0;
-			
-			for (HadalEntity entity : eventData.getSchmucks()) {
-				if (entity instanceof Schmuck) {
-					((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(0, 0), perp, true);
+		if (on) {
+			controllerCount+=delta;
+			if (controllerCount >= 1/60f) {
+				controllerCount = 0;
+				
+				for (HadalEntity entity : eventData.getSchmucks()) {
+					if (entity instanceof Schmuck) {
+						((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(0, 0), perp, true);
+					}
 				}
 			}
 		}

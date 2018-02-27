@@ -83,6 +83,12 @@ public class Spawn extends Event {
 						case 4:
 							spawns.add(new Torpedofish(state, world, camera, rays, randX, randY));
 							break;
+						case 5:
+							spawns.add(new Turret(state, world, camera, rays, randX, randY, "flak"));
+							break;
+						case 6:
+							spawns.add(new Turret(state, world, camera, rays, randX, randY, "volley"));
+							break;
 							
 						}
 					}

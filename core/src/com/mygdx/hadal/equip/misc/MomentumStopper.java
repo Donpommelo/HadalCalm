@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.equip.MeleeWeapon;
+import com.mygdx.hadal.event.FreezeBubble;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -18,19 +19,19 @@ import box2dLight.RayHandler;
 public class MomentumStopper extends MeleeWeapon {
 	
 	private final static String name = "Momentum Stopper";
-	private final static float swingCd = 1.0f;
+	private final static float swingCd = 0.1f;
 	private final static float windup = 0.0f;
 	private final static float backSwing = 0.5f;
-	private final static int hitboxSize = 800;
-	private final static int swingArc = 800;
+	private final static int hitboxSize = 500;
+	private final static int swingArc = 500;
 	private final static float momentum = 0.0f;
 	
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, float x, float y, short filter,
-				World world, OrthographicCamera camera,
-				RayHandler rays) {
+		public void makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, final float x, final float y, final short filter,
+				World world, final OrthographicCamera camera,
+				final RayHandler rays) {
 
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
 					new Vector2(0, 0), (short) 0, world, camera, rays, user);
@@ -49,6 +50,8 @@ public class MomentumStopper extends MeleeWeapon {
 									fixB.getEntity().getBody().getLinearVelocity().y);
 							((Player) user2).getMomentums().addLast(velo);
 							fixB.getEntity().getBody().setLinearVelocity(new Vector2(0, 0));
+							
+							new FreezeBubble(state, world, camera, rays, hitboxSize / 2, swingArc / 2, (int)x, (int)y, 1.0f, filter);
 						}
 					}
 				}

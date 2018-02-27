@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
 import com.mygdx.hadal.event.utility.*;
-import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
@@ -195,13 +194,15 @@ public class TiledObjectUtil {
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Hp", Integer.class));
     		}
-    		if (object.getName().equals("Turret")) {
-    			new Turret(state, world, camera, rays, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
     		if (object.getName().equals("Warp")) {
     			new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Level", String.class));
+    		}
+    		if (object.getName().equals("Poison")) {
+    			new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("Damage", float.class), object.getProperties().get("startOn", boolean.class));
     		}
     		
     		if (object.getName().equals("Armory")) {
