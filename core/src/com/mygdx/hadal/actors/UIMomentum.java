@@ -61,7 +61,17 @@ public class UIMomentum extends AHadalActor{
 		if (player.getMomentums().size != 0) {
 			Vector2 nextVec = player.getMomentums().first();
 			
-			batch.draw(arrow.get(2), x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y,
+			TextureRegion tex = arrow.get(0);
+			
+			if (nextVec.len2() > 100) {
+				tex = arrow.get(1);
+			}
+
+			if (nextVec.len2() > 300) {
+				tex = arrow.get(2);
+			}
+			
+			batch.draw(tex, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y,
 					base.getRegionWidth() * scale / 2, base.getRegionHeight() * scale / 2,
 					base.getRegionWidth() * scale, base.getRegionWidth() * scale,
 					1, 1, nextVec.angle() - 90);

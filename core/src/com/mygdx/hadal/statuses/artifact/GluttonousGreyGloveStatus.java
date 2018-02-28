@@ -14,7 +14,7 @@ import box2dLight.RayHandler;
 public class GluttonousGreyGloveStatus extends Status {
 
 	private static String name = "Gloved Gluttonously";
-	private static final float lifesteal = 0.05f;
+	private static final float lifesteal = 0.025f;
 	
 	public GluttonousGreyGloveStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
 			BodyData p, BodyData v, int pr) {
