@@ -20,16 +20,12 @@ public class Medpak extends Event{
 	
 	private static final int hpRegained = 25;
 
-	private MedpakSpawner spawner;
-	
 	private static final String name = "Medpak";
-
-	public Medpak(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y,
-			MedpakSpawner medpakSpawner) {
-		super(state, world, camera, rays, name, width, height, x, y);
-		this.spawner = medpakSpawner;
-	}
 	
+	public Medpak(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
+		super(state, world, camera, rays, name, width, height, x, y);
+	}
+
 	@Override
 	public void create() {
 
@@ -41,9 +37,11 @@ public class Medpak extends Event{
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if (((PlayerBodyData)fixB).getCurrentHp() < ((PlayerBodyData)fixB).getMaxHp()) {
 							((PlayerBodyData)fixB).regainHp(hpRegained, ((PlayerBodyData)fixB), true, DamageTypes.MEDPAK);
-							if (spawner != null) {
-								spawner.setReadyToSpawn(true);
+
+							if (event.getConnectedEvent() != null) {
+								event.getConnectedEvent().getEventData().onActivate(this);
 							}
+							
 							queueDeletion();
 						}
 					}

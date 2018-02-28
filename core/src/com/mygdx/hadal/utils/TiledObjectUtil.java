@@ -115,14 +115,22 @@ public class TiledObjectUtil {
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
     		}
     		
-    		if (object.getName().equals("Spawn")) {
+    		if (object.getName().equals("SchmuckSpawn")) {
     			
-    			Event spawn = new Spawn(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event spawn = new SchmuckSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("limit", int.class));	
     			
     			triggeringEvents.put(spawn, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), spawn);
+    		}
+    		if (object.getName().equals("EventSpawn")) {
+    			
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), 
+    					new EventSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
+    					object.getProperties().get("reset", true, boolean.class),
+    					object.getProperties().get("args", "", String.class)));	
     		}
     		if (object.getName().equals("UsePortal")) {
     			
@@ -152,16 +160,6 @@ public class TiledObjectUtil {
     		if (object.getName().equals("EquipRand")) {
     			new EquipPickupRandom(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("AirBubble")) {
-    			new AirBubbleSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-    					object.getProperties().get("interval", float.class));
-    		}
-    		if (object.getName().equals("Medpak")) {
-    			new MedpakSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-    					object.getProperties().get("interval", float.class));
     		}
     		if (object.getName().equals("Dropthrough")) {
     			new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 

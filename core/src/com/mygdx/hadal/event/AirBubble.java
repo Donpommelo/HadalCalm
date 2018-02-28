@@ -24,17 +24,13 @@ public class AirBubble extends Event{
 	
 	private static final int fuelRegained = 25;
 
-	//If this was spawned by an event, this is a local reference to it.
-	private AirBubbleSpawner spawner;
 	
 	private static final String name = "Fuel";
 	
-	public AirBubble(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y,
-			AirBubbleSpawner spawner) {
+	public AirBubble(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.spawner = spawner;
 	}
-	
+
 	@Override
 	public void create() {
 
@@ -46,9 +42,11 @@ public class AirBubble extends Event{
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if (((PlayerBodyData)fixB).getCurrentFuel() < ((PlayerBodyData)fixB).getMaxFuel()) {
 							((PlayerBodyData)fixB).fuelGain(fuelRegained);
-							if (spawner != null) {
-								spawner.setReadyToSpawn(true);
+
+							if (event.getConnectedEvent() != null) {
+								event.getConnectedEvent().getEventData().onActivate(this);
 							}
+							
 							queueDeletion();
 						}
 					}

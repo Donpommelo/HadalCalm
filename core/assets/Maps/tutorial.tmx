@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" nextobjectid="79">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" nextobjectid="83">
  <properties>
   <property name="startX" type="int" value="63"/>
   <property name="startY" type="int" value="115"/>
@@ -42,11 +42,6 @@
   <object id="17" name="Text" type="Text" x="4000" y="3008" width="416" height="320">
    <properties>
     <property name="text" value="FUEL REGENERATES NATURALLY OR BY PICKING UP FUEL PICKUPS"/>
-   </properties>
-  </object>
-  <object id="18" name="AirBubble" type="AirBubble" x="4256" y="3296" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="3"/>
    </properties>
   </object>
   <object id="19" name="Text" type="Text" x="4416" y="2368" width="576" height="224">
@@ -98,11 +93,6 @@
    <properties>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="15"/>
-   </properties>
-  </object>
-  <object id="30" name="AirBubble" type="AirBubble" x="6528" y="2944" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="3"/>
    </properties>
   </object>
   <object id="31" name="Current" type="Current" x="7168" y="2432" width="64" height="544">
@@ -164,7 +154,7 @@
     <property name="springY" type="float" value="15"/>
    </properties>
   </object>
-  <object id="56" name="Spawn" type="Spawn" x="6144" y="4704" width="32" height="32">
+  <object id="56" name="SchmuckSpawn" type="SchmuckSpawn" x="6144" y="4704" width="32" height="32">
    <properties>
     <property name="id" type="int" value="2"/>
     <property name="limit" type="int" value="2"/>
@@ -172,7 +162,7 @@
     <property name="triggeringId" value="5"/>
    </properties>
   </object>
-  <object id="58" name="Spawn" type="Spawn" x="7040" y="4704" width="32" height="32">
+  <object id="58" name="SchmuckSpawn" type="SchmuckSpawn" x="7040" y="4704" width="32" height="32">
    <properties>
     <property name="id" type="int" value="3"/>
     <property name="limit" type="int" value="2"/>
@@ -246,6 +236,32 @@
    <properties>
     <property name="triggeredId" value="7"/>
     <property name="triggeringId" value="3,4"/>
+   </properties>
+  </object>
+  <object id="79" name="Timer" type="Timer" x="4256" y="3296" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeringId" value="8"/>
+   </properties>
+  </object>
+  <object id="80" name="EventSpawn" type="EventSpawn" x="4256" y="3296" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="2"/>
+    <property name="triggeredId" value="8"/>
+   </properties>
+  </object>
+  <object id="81" name="EventSpawn" type="EventSpawn" x="6528" y="2944" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="2"/>
+    <property name="triggeredId" value="9"/>
+   </properties>
+  </object>
+  <object id="82" name="Timer" type="Timer" x="6528" y="2944" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeringId" value="9"/>
    </properties>
   </object>
  </objectgroup>

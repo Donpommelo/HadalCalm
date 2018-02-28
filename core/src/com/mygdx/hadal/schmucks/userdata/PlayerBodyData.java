@@ -119,7 +119,7 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	public void switchUp() {
+	public void swithDown() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(currentSlot + i) % multitools.length] != null &&
 					!(multitools[(currentSlot + i) % multitools.length] instanceof Nothing)) {
@@ -131,7 +131,7 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	public void switchDown() {
+	public void switchUp() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(multitools.length + (currentSlot - i)) % multitools.length] != null &&
 					!(multitools[(multitools.length + (currentSlot - i)) % multitools.length] instanceof Nothing)) {

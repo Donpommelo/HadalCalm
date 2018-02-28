@@ -23,7 +23,7 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class Spawn extends Event {
+public class SchmuckSpawner extends Event {
 	
 	private int id;
 	private int limit;
@@ -38,7 +38,7 @@ public class Spawn extends Event {
 
 	boolean defeated = false;
 	
-	public Spawn(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+	public SchmuckSpawner(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, int schmuckId, int limit) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.id = schmuckId;

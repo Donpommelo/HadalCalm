@@ -57,7 +57,7 @@ public class Consumable extends Equipable {
 		if (chargesLeft <= 0) {
 			if (bodyData instanceof PlayerBodyData) {
 				((PlayerBodyData)bodyData).replaceSlot(UnlockEquip.NOTHING, ((PlayerBodyData)bodyData).getCurrentSlot());
-				((PlayerBodyData)bodyData).switchUp();
+				((PlayerBodyData)bodyData).swithDown();
 			}
 		}
 		

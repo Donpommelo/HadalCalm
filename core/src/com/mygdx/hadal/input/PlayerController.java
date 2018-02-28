@@ -112,11 +112,11 @@ public class PlayerController implements InputProcessor {
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {
-			player.getPlayerData().switchDown();
+			player.getPlayerData().switchUp();
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_DOWN.getKey()) {
-			player.getPlayerData().switchUp();
+			player.getPlayerData().swithDown();
 		}
 		
 		return false;
@@ -187,6 +187,7 @@ public class PlayerController implements InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		keyDown(amount * 1000);
+		keyUp(-amount * 1000);
 		return false;
 	}
 
