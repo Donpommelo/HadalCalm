@@ -38,7 +38,13 @@ public class BodyBuilder {
 	 */
     public static Body createBox(final World world, float x, float y, float w, float h, float grav, float density, float resti,
     		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
-        BodyDef bodyDef = new BodyDef();
+    	return createBox(world, x, y, w, h, grav, density, resti, 1.0f, isStatic, canRotate, cBits, mBits, gIndex, sensor, userData);
+    }
+    
+    public static Body createBox(final World world, float x, float y, float w, float h, float grav, float density, float resti, float friction,
+    		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
+    	
+    	BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = canRotate;
         bodyDef.position.set(x / PPM, y / PPM);
 
@@ -57,7 +63,7 @@ public class BodyBuilder {
         fixtureDef.shape = shape;
         fixtureDef.density = density;
         fixtureDef.restitution = resti;
-        //fixtureDef.friction = 0;
+        fixtureDef.friction = friction;
         fixtureDef.filter.categoryBits = cBits;
         fixtureDef.filter.maskBits = mBits;
         fixtureDef.filter.groupIndex = gIndex;

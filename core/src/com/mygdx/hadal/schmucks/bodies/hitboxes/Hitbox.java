@@ -39,6 +39,9 @@ public class Hitbox extends HadalEntity {
 	//restitution is the hitbox bounciness.
 	protected float rest;
 	
+	//restitution is the hitbox bounciness.
+	protected float friction = 1.0f;
+		
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	protected boolean sensor;
 	
@@ -66,12 +69,18 @@ public class Hitbox extends HadalEntity {
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
 		this.startVelo = new Vector2(startVelo);
 	}
+	
+	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest, float friction,
+			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator) {
+		this(state, x, y, width, height, grav, lifespan, dura, rest,startVelo, filter, sensor, world, camera, rays, creator);
+		this.friction = friction;
+	}
 
 	/**
 	 * Create the hitbox body. User data is initialized separately.
 	 */
 	public void create() {
-		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, rest, false, false, Constants.BIT_PROJECTILE, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, rest, friction, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR), filter, sensor, data);
 		this.body.setLinearVelocity(startVelo);
 		
