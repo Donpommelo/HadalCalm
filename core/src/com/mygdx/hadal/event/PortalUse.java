@@ -16,13 +16,13 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class UsePortal extends Event {
+public class PortalUse extends Event {
 
 	private static final String name = "Portal";
 
 	private boolean oneTime;
 
-	public UsePortal(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+	public PortalUse(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, boolean oneTime) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.oneTime = oneTime;

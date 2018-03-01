@@ -134,9 +134,18 @@ public class TiledObjectUtil {
     		}
     		if (object.getName().equals("UsePortal")) {
     			
-    			Event portal = new UsePortal(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event portal = new PortalUse(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("oneTime", boolean.class));
+    			
+    			triggeringEvents.put(portal, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), portal);
+    		}
+    		
+    		if (object.getName().equals("TouchPortal")) {
+    			
+    			Event portal = new PortalTouch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     			
     			triggeringEvents.put(portal, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), portal);
@@ -208,6 +217,14 @@ public class TiledObjectUtil {
     			new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Damage", float.class), object.getProperties().get("startOn", boolean.class));
+    		}
+    		if (object.getName().equals("Save")) {
+    			new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
+    		if (object.getName().equals("Pit")) {
+    			new Pit(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		
     		if (object.getName().equals("Armory")) {

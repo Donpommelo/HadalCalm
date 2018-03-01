@@ -86,6 +86,7 @@ public class PlayState extends GameState {
 	
 	private float zoom;
 	private int startX, startY;
+	private int safeX, safeY;
 	private boolean realFite;
 	
 	private PlayStateStage stage;
@@ -95,7 +96,6 @@ public class PlayState extends GameState {
 	private UIReload uiReload;
 	private UIMomentum uiMomentum;
 	private UILevel uiLevel;
-	
 	
 	/**
 	 * Constructor is called upon player beginning a game.
@@ -157,6 +157,8 @@ public class PlayState extends GameState {
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", Integer.class);
 		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", Integer.class);
+		this.safeX = startX;
+		this.safeY = startY;
 		
 		player = new Player(this, world, camera, rays, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		
@@ -401,6 +403,19 @@ public class PlayState extends GameState {
 	
 	public PlayStateStage getStage() {
 		return stage;
+	}
+	
+	public void setSafe(int x, int y) {
+		this.safeX = x;
+		this.safeY = y;
+	}
+	
+	public int getSafeX() {
+		return safeX;
+	}
+
+	public int getSafeY() {
+		return safeY;
 	}
 
 	/**
