@@ -195,6 +195,15 @@ public class BodyData extends HadalData {
 		calcStats();
 	}
 	
+	public Status getStatus(Class<? extends Status> s) {
+		for (Status st : statuses) {
+			if (st.getClass().equals(s)) {
+				return st;
+			}
+		} 
+		return null;
+	}
+	
 	public void calcStats() {
 		
 		//Keep Hp% constant in case of changing max hp

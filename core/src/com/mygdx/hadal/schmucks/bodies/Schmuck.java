@@ -30,8 +30,8 @@ public class Schmuck extends HadalEntity {
 	protected MoveStates moveState;
 	
 	//Fixtures and user data
-	protected Fixture feet;
-	protected FeetData feetData;
+	protected Fixture feet, rightSensor, leftSensor;
+	protected FeetData feetData, rightData, leftData;
 	
 	//user data.
 	protected BodyData bodyData;
@@ -86,11 +86,29 @@ public class Schmuck extends HadalEntity {
 	public void create() {
 		this.feetData = new FeetData(world, UserDataTypes.FEET, this); 
 		
-		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width, height / 8, new Vector2(0,  - height / 2 / PPM), 
-								true, 0, 0, 0,Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), hitboxfilter));
+		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
+				new Vector2(1 / 2 / PPM,  - height / 2 / PPM), true, 0, 0, 0, 
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), hitboxfilter));
 		
 		feet.setUserData(feetData);
-
+		
+		this.leftData = new FeetData(world, UserDataTypes.FEET, this); 
+		
+		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
+				new Vector2(-width / 2 / PPM,  0), true, 0, 0, 0, 
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), hitboxfilter));
+		
+		leftSensor.setUserData(leftData);
+		
+		this.rightData = new FeetData(world, UserDataTypes.FEET, this); 
+		
+		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
+				new Vector2(width / 2 / PPM,  0), true, 0, 0, 0, 
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), hitboxfilter));
+		
+		rightSensor.setUserData(rightData);
+		
+		//Creates a pad at bottom of player with friction.
 		this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
 				new Vector2(1 / 2 / PPM,  - 7 * (height + 1) / 16 / PPM), false, 0, 0, 0,
 				Constants.BIT_WALL, Constants.BIT_WALL, hitboxfilter));

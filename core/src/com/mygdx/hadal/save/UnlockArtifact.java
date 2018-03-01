@@ -19,6 +19,7 @@ public enum UnlockArtifact {
 	RECKLESS_MARK(RecklessMark.class),
 	RING_OF_THE_LAMPREY(RingoftheLamprey.class),
 	ROOT_BOOTS(RootBoots.class),
+	SCALING_SCALES(ScalingScales.class),
 	SKATE_WINGS(SkateWings.class),
 	THROBBING_RAGE_GLAND(ThrobbingRageGland.class),
 	TRIGGER_FINGER(TriggerFinger.class),

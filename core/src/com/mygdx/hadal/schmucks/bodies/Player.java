@@ -24,6 +24,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.artifact.ScalingScalesStatus;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -241,7 +242,11 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Determine if the player is in the air or on ground.
-		grounded = feetData.getNumContacts() > 0;
+		if (playerData.getStatus(ScalingScalesStatus.class) != null) {
+			grounded = feetData.getNumContacts() > 0 || leftData.getNumContacts() > 0 || rightData.getNumContacts() > 0;
+		} else {
+			grounded = feetData.getNumContacts() > 0;
+		}
 		
 		//player's jumps are refreshed on the ground
 		if (grounded) {
