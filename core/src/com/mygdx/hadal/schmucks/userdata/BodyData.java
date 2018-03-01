@@ -67,9 +67,6 @@ public class BodyData extends HadalData {
 	 * 41: Melee Range
 	 * 42: Melee Arc Size
 	 * 43: Melee Momentum on Swing
-	 * 44: 
-
-
 	 */
 	
 	private float[] baseStats;
@@ -673,7 +670,7 @@ public class BodyData extends HadalData {
 		return buffedStats[38];
 	}
 	
-	public void getMeleeSwingRate(float buff) {
+	public void setMeleeSwingRate(float buff) {
 		buffedStats[38] = buff;
 	}
 	
@@ -681,7 +678,7 @@ public class BodyData extends HadalData {
 		return buffedStats[39];
 	}
 	
-	public void getMeleeSwingDelay(float buff) {
+	public void setMeleeSwingDelay(float buff) {
 		buffedStats[39] = buff;
 	}
 	
@@ -689,7 +686,7 @@ public class BodyData extends HadalData {
 		return buffedStats[40];
 	}
 	
-	public void getMeleeSwingInterval(float buff) {
+	public void setMeleeSwingInterval(float buff) {
 		buffedStats[40] = buff;
 	}
 	
@@ -697,7 +694,7 @@ public class BodyData extends HadalData {
 		return buffedStats[41];
 	}
 	
-	public void getMeleeRange(float buff) {
+	public void setMeleeRange(float buff) {
 		buffedStats[41] = buff;
 	}
 	
@@ -705,7 +702,7 @@ public class BodyData extends HadalData {
 		return buffedStats[42];
 	}
 	
-	public void getMeleeArcSize(float buff) {
+	public void setMeleeArcSize(float buff) {
 		buffedStats[42] = buff;
 	}
 	
@@ -713,7 +710,7 @@ public class BodyData extends HadalData {
 		return buffedStats[43];
 	}
 	
-	public void getMeleeMomentum(float buff) {
+	public void setMeleeMomentum(float buff) {
 		buffedStats[43] = buff;
 	}	
 }

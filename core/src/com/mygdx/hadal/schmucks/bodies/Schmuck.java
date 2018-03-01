@@ -57,7 +57,7 @@ public class Schmuck extends HadalEntity {
 	protected void increaseAnimationTime(float i) { animationTime += i; }
 	protected float getAnimationTime() { return animationTime; }
 
-	protected float hitboxfilter;
+	protected short hitboxfilter;
 
 	/**
 	 * This constructor is called when a Schmuck is made.
@@ -71,7 +71,7 @@ public class Schmuck extends HadalEntity {
 	 * @param startY: starting y position
 	 */
 	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
-			float startX, float startY, float hitboxFilter) {
+			float startX, float startY, short hitboxFilter) {
 		super(state, world, camera, rays, w, h, startX, startY);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
@@ -84,15 +84,17 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void create() {
+		this.feetData = new FeetData(world, UserDataTypes.FEET, this); 
 		
-		
-		
-		this.feetData = new FeetData(world, UserDataTypes.FEET, this);        
-		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
-				new Vector2(1 / 2 / PPM,  - 7 * (height + 1) / 16 / PPM), false, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), Constants.PLAYER_HITBOX));
+		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width, height / 8, new Vector2(0,  - height / 2 / PPM), 
+								true, 0, 0, 0,Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), hitboxfilter));
 		
 		feet.setUserData(feetData);
+
+		this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
+				new Vector2(1 / 2 / PPM,  - 7 * (height + 1) / 16 / PPM), false, 0, 0, 0,
+				Constants.BIT_WALL, Constants.BIT_WALL, hitboxfilter));
+		
 		
 		this.hadalData = bodyData;
 	}
@@ -216,8 +218,7 @@ public class Schmuck extends HadalEntity {
 		this.flashingCount = flashduration;
 	}
 	
-	public float getHitboxfilter() {
+	public short getHitboxfilter() {
 		return hitboxfilter;
 	}
-	
 }

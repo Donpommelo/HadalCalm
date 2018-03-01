@@ -16,7 +16,7 @@ import box2dLight.RayHandler;
 public class PhysicsSchmuck extends Schmuck {
 
 	public PhysicsSchmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
-			float startX, float startY, float hitboxFilter) {
+			float startX, float startY, short hitboxFilter) {
 		super(state, world, camera, rays, w, h, startX, startY, hitboxFilter);
 	}
 	
