@@ -37,7 +37,7 @@ public class PlayerBodyData extends BodyData {
 	private ArrayList<Artifact> artifacts;
 	private Artifact artifactStart;
 	private int currentSlot = 0;
-	private int lastSlot = 0;
+	private int lastSlot = 1;
 	private Equipable currentTool;
 	
 	private Player player;
@@ -88,6 +88,10 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
+	/**
+	 * Player switches to a specified weapon slot
+	 * @param slot: new weapon slot.
+	 */
 	public void switchWeapon(int slot) {
 		if (multitools.length >= slot && schmuck.getShootDelayCount() <= 0) {
 			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof Nothing)) {
@@ -98,28 +102,27 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	public void hardSwitchWeapon(int slot) {
-		if (multitools.length >= slot) {
-			if (multitools[slot - 1] != null) {
-				lastSlot = currentSlot;
-				currentSlot = slot - 1;
-				setEquip();
-			}
-		}
-	}
-	
+	/**
+	 * Player switches to last used weapon slot
+	 */
 	public void switchToLast() {
 		if (schmuck.getShootDelayCount() <= 0) {
-			if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof Nothing)) {
-				int tempSlot = lastSlot;
-				lastSlot = currentSlot;
-				currentSlot = tempSlot;
-				setEquip();
+			if (lastSlot < multitools.length) {
+				if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof Nothing)) {
+					int tempSlot = lastSlot;
+					lastSlot = currentSlot;
+					currentSlot = tempSlot;
+					setEquip();
+				}
 			}
 		}
 	}
 	
-	public void swithDown() {
+	/**
+	 * Player switches to a weapon slot above current slot, wrapping to end of slots if at first slot. (ignore empty slots)
+	 * This is also called automatically when running out of a consumable equip.
+	 */
+	public void switchDown() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(currentSlot + i) % multitools.length] != null &&
 					!(multitools[(currentSlot + i) % multitools.length] instanceof Nothing)) {
@@ -131,6 +134,9 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
+	/**
+	 * Player switches to a weapon slot below current slot, wrapping to end of slots if at last slot. (ignore empty slots)
+	 */
 	public void switchUp() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(multitools.length + (currentSlot - i)) % multitools.length] != null &&
@@ -143,6 +149,11 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
+	/**
+	 * Player picks up new weapon.
+	 * @param equip: The new equip to switch in. Replaces current slot if inventory is full.
+	 * @return: If a weapon is dropped to make room for new weapon, return it, otherwise return null.
+	 */
 	public Equipable pickup(Equipable equip) {
 		
 		for (int i = 0; i < Loadout.getNumSlots(); i++) {
@@ -164,6 +175,9 @@ public class PlayerBodyData extends BodyData {
 		return old;
 	}
 	
+	/**
+	 * Replaces slot slot with new equip. Used in loadout state and also when using last charge of consumable weapon.
+	 */
 	public void replaceSlot(UnlockEquip equip, int slot) {
 		multitools[slot] = UnlocktoItem.getUnlock(equip, player);
 		multitools[slot].setUser(player);
@@ -171,6 +185,9 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 	}
 	
+	/**
+	 * Replaces starting artifact with input artifact. This only runs in the loadout state.
+	 */
 	public void replaceSlot(UnlockArtifact artifact) {
 		
 		artifacts.clear();
@@ -184,6 +201,9 @@ public class PlayerBodyData extends BodyData {
 		artifactStart = addArtifact(artifact);
 	}
 	
+	/**
+	 * Add a new artifact. Return the new artifact
+	 */
 	public Artifact addArtifact(UnlockArtifact artifact) {
 		
 		Artifact newArtifact =  UnlocktoItem.getUnlock(artifact);
@@ -197,6 +217,10 @@ public class PlayerBodyData extends BodyData {
 		return newArtifact;
 	}
 	
+	/**
+	 * This helper function is called when weapon switching to ensure the correct weapon sprite is drawn and that the 
+	 * current weapon is kept track of.
+	 */
 	public void setEquip() {
 		currentTool = multitools[currentSlot];
 		player.setToolSprite(currentTool.getEquipSprite());

@@ -116,7 +116,7 @@ public class PlayerController implements InputProcessor {
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_DOWN.getKey()) {
-			player.getPlayerData().swithDown();
+			player.getPlayerData().switchDown();
 		}
 		
 		return false;

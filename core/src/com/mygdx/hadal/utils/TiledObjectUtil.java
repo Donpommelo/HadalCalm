@@ -117,7 +117,7 @@ public class TiledObjectUtil {
     		
     		if (object.getName().equals("SchmuckSpawn")) {
     			
-    			Event spawn = new SchmuckSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event spawn = new SpawnerSchmuck(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("limit", int.class));	
     			
@@ -127,7 +127,7 @@ public class TiledObjectUtil {
     		if (object.getName().equals("EventSpawn")) {
     			
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), 
-    					new EventSpawner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					new SpawnerEvent(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("reset", true, boolean.class),
     					object.getProperties().get("args", "", String.class)));	
@@ -153,13 +153,20 @@ public class TiledObjectUtil {
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
     		}
     		if (object.getName().equals("Equip")) {
-    			new EquipPickup(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event equip = new PickupEquip(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("equipId", int.class));
+    					object.getProperties().get("pool", "", String.class),
+    					object.getProperties().get("startOn", true, boolean.class));
+    			triggeringEvents.put(equip, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), equip);
     		}
-    		if (object.getName().equals("EquipRand")) {
-    			new EquipPickupRandom(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		if (object.getName().equals("Artifact")) {
+    			Event artifact = new PickupArtifact(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("pool", "", String.class),
+    					object.getProperties().get("startOn", true, boolean.class));
+    			triggeringEvents.put(artifact, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), artifact);
     		}
     		if (object.getName().equals("Dropthrough")) {
     			new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 

@@ -19,9 +19,9 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="3" name="EquipRand" type="EquipRand" x="800" y="1152" width="32" height="32"/>
-  <object id="4" name="EquipRand" type="EquipRand" x="832" y="704" width="32" height="32"/>
-  <object id="5" name="EquipRand" type="EquipRand" x="1408" y="384" width="32" height="32"/>
+  <object id="3" name="Equip" type="Equip" x="800" y="1152" width="32" height="32"/>
+  <object id="4" name="Equip" type="Equip" x="832" y="704" width="32" height="32"/>
+  <object id="5" name="Equip" type="Equip" x="1408" y="384" width="32" height="32"/>
   <object id="9" name="Spring" type="Spring" x="1408" y="1024" width="32" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>

@@ -9,7 +9,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
-public class EventSpawner extends Event {
+public class SpawnerEvent extends Event {
 	
 	private int spawnX, spawnY;
 	
@@ -20,7 +20,7 @@ public class EventSpawner extends Event {
 	
 	private static final String name = "Event Spawner";
 
-	public EventSpawner(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+	public SpawnerEvent(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, int id, boolean resetActivator, String extraArgs) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.spawnX = x;

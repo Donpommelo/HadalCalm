@@ -1,13 +1,18 @@
 package com.mygdx.hadal.event;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.ranged.*;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
@@ -18,72 +23,20 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class EquipPickup extends Event {
+public class PickupEquip extends Event {
 
 	//This is the weapon that will be picked up when interacting with this event.
 	private Equipable equip;
 	
-	//Number of weapons in the game. Eventually, this wil be held elsewhere.
-	public static final int numWeapons = 16;
-	
 	private static final String name = "Equip Pickup";
 
-	public EquipPickup(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, int equipId) {
+	private boolean on;
+	
+	public PickupEquip(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
+			int x, int y, String pool, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		switch(equipId) {
-		case 0:
-			this.equip = new Speargun(null);
-			break;
-		case 1:
-			this.equip = new Scattergun(null);
-			break;
-		case 2:
-			this.equip = new Machinegun(null);
-			break;
-		case 3:
-			this.equip = new IronBallLauncher(null);
-			break;
-		case 4:
-			this.equip = new ChargeBeam(null);
-			break;
-		case 5:
-			this.equip = new Boomerang(null);
-			break;
-		case 6:
-			this.equip = new GrenadeLauncher(null);
-			break;
-		case 7:
-			this.equip = new TorpedoLauncher(null);
-			break;
-		case 8:
-			this.equip = new BouncingBlade(null);
-			break;
-		case 9:
-			this.equip = new Boiler(null);
-			break;
-		case 10:
-			this.equip = new BeeGun(null);
-			break;
-		case 11:
-			this.equip = new LaserGuidedRocket(null);
-			break;
-		case 12:
-			this.equip = new Nematocydearm(null);
-			break;
-		case 13:
-			this.equip = new SlodgeGun(null);
-			break;
-		case 14:
-			this.equip = new StickyBombLauncher(null);
-			break;
-		case 15:
-			this.equip = new Stormcaller(null);
-			break;
-		default:
-			this.equip = new Speargun(null);
-			break;
-		}
+		this.on = startOn;
+		equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(getRandWeapFromPool(pool)), null);
 	}
 	
 	@Override
@@ -92,14 +45,23 @@ public class EquipPickup extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (!consumed) {
+				if (!consumed && on) {
 					Equipable temp = p.getPlayerData().pickup(equip);
 					if (temp == null) {
 						queueDeletion();
 					} else {
 						equip = temp;
 					}
+					
+					if (event.getConnectedEvent() != null) {
+						event.getConnectedEvent().getEventData().onActivate(this);
+					}
 				}
+			}
+			
+			@Override
+			public void onActivate(EventData activator) {
+				on = !on;
 			}
 		};
 		
@@ -108,6 +70,20 @@ public class EquipPickup extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	public static String getRandWeapFromPool(String pool) {
+		
+		if (pool.equals("")) {
+			return UnlockEquip.values()[new Random().nextInt(UnlockEquip.values().length)].name();
+		}
+		
+		ArrayList<String> weapons = new ArrayList<String>();
+		
+		for (String id : pool.split(",")) {
+			weapons.add(id);
+		}
+		return weapons.get(new Random().nextInt(weapons.size()));
+	}
+
 	@Override
 	public String getText() {
 		return equip.getName() + " (E TO TAKE)";

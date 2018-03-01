@@ -104,7 +104,7 @@ public class LoadoutState extends GameState {
 					nextSlot.addListener(new ClickListener() {
 							public void clicked(InputEvent e, float x, float y) {
 								getEquipOptions(slotNum);
-								playState.getPlayer().getPlayerData().hardSwitchWeapon(slotNum + 1);
+//								playState.getPlayer().getPlayerData().hardSwitchWeapon(slotNum + 1);
 							}
 					});
 					nextSlot.setScale(0.5f);

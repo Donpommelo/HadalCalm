@@ -145,7 +145,7 @@
   </object>
   <object id="53" name="Equip" type="Equip" x="7520" y="3488" width="32" height="32">
    <properties>
-    <property name="equipId" type="int" value="0"/>
+    <property name="pool" value="SPEARGUN"/>
    </properties>
   </object>
   <object id="55" name="Spring" type="Spring" x="8000" y="4224" width="32" height="32">
