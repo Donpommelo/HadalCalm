@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -42,7 +43,7 @@ public class MovingPlatform extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 50, 0, false, true, Constants.BIT_WALL, 
-				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL),
+				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 		
 		this.body.setType(BodyDef.BodyType.KinematicBody);
@@ -51,7 +52,7 @@ public class MovingPlatform extends Event {
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
-			Vector2 dist = getConnectedEvent().getBody().getPosition().sub(body.getPosition());
+			Vector2 dist = getConnectedEvent().getBody().getPosition().sub(body.getPosition()).scl(PPM);
 
 			if ((int)dist.len2() <= 0 && getConnectedEvent().getConnectedEvent() != null) {
 				setConnectedEvent(getConnectedEvent().getConnectedEvent());

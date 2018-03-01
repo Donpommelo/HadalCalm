@@ -53,6 +53,7 @@ public class TiledObjectUtil {
     static Map<String, Event> triggeredEvents = new HashMap<String, Event>();
     static Map<Event, String> triggeringEvents = new HashMap<Event, String>();
     static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
+    static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
     
     /**
      * Parses Tiled objects into in game events
@@ -103,16 +104,23 @@ public class TiledObjectUtil {
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), counter);
     		}
     		if (object.getName().equals("Multitrigger")) {
-    			TriggerMulti multiTrigger = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			TriggerMulti trigger = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    			multiTriggeringEvents.put(multiTrigger, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), multiTrigger);
+    			multiTriggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
     		}
     		if (object.getName().equals("Alttrigger")) {
     			Event trigger = new TriggerAlt(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("message","", String.class));
     			triggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
+    		}
+    		if (object.getName().equals("Redirecttrigger")) {
+    			TriggerRedirect trigger = new TriggerRedirect(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    			triggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
+    			redirectTriggeringEvents.put(trigger, object.getProperties().get("blameId", "", String.class));
     		}
     		if (object.getName().equals("Dummy")) {
     			Event dummy = new PositionDummy(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -267,6 +275,9 @@ public class TiledObjectUtil {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
     			key.addTrigger(triggeredEvents.getOrDefault(id, null));
     		}
+    	}
+    	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
+    		key.setBlame(triggeredEvents.getOrDefault(redirectTriggeringEvents.get(key), null));
     	}
     }
 
