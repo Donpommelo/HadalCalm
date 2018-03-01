@@ -114,6 +114,12 @@ public class TiledObjectUtil {
     			triggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
     		}
+    		if (object.getName().equals("Dummy")) {
+    			Event dummy = new PositionDummy(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    			triggeringEvents.put(dummy, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), dummy);
+    		}
     		
     		if (object.getName().equals("SchmuckSpawn")) {
     			
@@ -216,7 +222,7 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Poison")) {
     			new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("Damage", float.class), object.getProperties().get("startOn", boolean.class));
+    					object.getProperties().get("Damage", float.class), object.getProperties().get("startOn", true, boolean.class));
     		}
     		if (object.getName().equals("Save")) {
     			new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -225,6 +231,13 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Pit")) {
     			new Pit(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
+    		if (object.getName().equals("Platform")) {
+    			Event platform = new MovingPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("speed", 1.0f, float.class));
+    			triggeringEvents.put(platform, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), platform);
     		}
     		
     		if (object.getName().equals("Armory")) {
