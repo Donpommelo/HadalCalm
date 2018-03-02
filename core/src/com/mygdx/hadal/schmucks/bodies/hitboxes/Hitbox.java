@@ -39,7 +39,7 @@ public class Hitbox extends HadalEntity {
 	//restitution is the hitbox bounciness.
 	protected float rest;
 	
-	//restitution is the hitbox bounciness.
+	//friction is the hitbox slipperyness.
 	protected float friction = 1.0f;
 		
 	//sensor is whether the hitbox passes through things it registers a hit on.

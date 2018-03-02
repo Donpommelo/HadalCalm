@@ -43,7 +43,7 @@ public class MovingPlatform extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, 5.0f, false, true, Constants.BIT_WALL, 
-				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR | Constants.BIT_WALL),
+				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 		
 		this.body.setType(BodyDef.BodyType.KinematicBody);
