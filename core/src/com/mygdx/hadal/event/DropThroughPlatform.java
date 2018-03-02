@@ -67,7 +67,6 @@ public class DropThroughPlatform extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_WALL, 
-				(short) (Constants.BIT_SENSOR),
-				(short) 0, false, eventData);
+				(short) (Constants.BIT_SENSOR),	(short) 0, false, eventData);
 	}	
 }

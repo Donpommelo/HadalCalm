@@ -39,8 +39,7 @@ public class LevelWarp extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER),
-				(short) 0, true, eventData);
+				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
 	@Override

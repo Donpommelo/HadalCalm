@@ -47,7 +47,6 @@
    </properties>
   </object>
   <object id="16" name="Dropthrough" type="Dropthrough" x="672" y="288" width="224" height="32"/>
-  <object id="17" name="Dropthrough" type="Dropthrough" x="672" y="288" width="224" height="32"/>
   <object id="19" name="Timer" type="Timer" x="0" y="1568" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="5"/>

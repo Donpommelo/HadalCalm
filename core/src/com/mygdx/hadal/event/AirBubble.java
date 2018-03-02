@@ -55,8 +55,7 @@ public class AirBubble extends Event{
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER),
-				Constants.ENEMY_HITBOX, true, eventData);
+				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
 }

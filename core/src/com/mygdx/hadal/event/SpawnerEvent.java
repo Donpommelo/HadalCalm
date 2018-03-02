@@ -59,8 +59,7 @@ public class SpawnerEvent extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
-				(short) 0, true, eventData);
+				(short) (0), (short) 0, true, eventData);
 	}
 
 	public String getArgs() {
