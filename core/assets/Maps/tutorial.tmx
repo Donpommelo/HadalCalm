@@ -58,25 +58,25 @@
   <object id="22" name="Current" type="Current" x="5696" y="2080" width="160" height="704">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="0.8"/>
+    <property name="currentY" type="float" value="4"/>
    </properties>
   </object>
   <object id="23" name="Current" type="Current" x="5696" y="2080" width="576" height="160">
    <properties>
-    <property name="currentX" type="float" value="0.8"/>
+    <property name="currentX" type="float" value="4"/>
     <property name="currentY" type="float" value="0"/>
    </properties>
   </object>
   <object id="24" name="Current" type="Current" x="6112" y="2080" width="160" height="640">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="-0.8"/>
+    <property name="currentY" type="float" value="-4"/>
    </properties>
   </object>
   <object id="25" name="Current" type="Current" x="5760" y="3104" width="256" height="64">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="0.5"/>
+    <property name="currentY" type="float" value="2.5"/>
    </properties>
   </object>
   <object id="26" name="Text" type="Text" x="5760" y="2944" width="512" height="160">
@@ -92,12 +92,12 @@
   <object id="29" name="Spring" type="Spring" x="6880" y="3456" width="32" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>
-    <property name="springY" type="float" value="15"/>
+    <property name="springY" type="float" value="75"/>
    </properties>
   </object>
   <object id="31" name="Current" type="Current" x="7168" y="2432" width="64" height="544">
    <properties>
-    <property name="currentX" type="float" value="-1.25"/>
+    <property name="currentX" type="float" value="-5.75"/>
     <property name="currentY" type="float" value="0"/>
    </properties>
   </object>
@@ -151,7 +151,7 @@
   <object id="55" name="Spring" type="Spring" x="8000" y="4224" width="32" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>
-    <property name="springY" type="float" value="15"/>
+    <property name="springY" type="float" value="75"/>
    </properties>
   </object>
   <object id="56" name="SchmuckSpawn" type="SchmuckSpawn" x="6144" y="4704" width="32" height="32">

@@ -39,7 +39,7 @@ public class TorpedofishAttack extends RangedWeapon {
 	
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 20.0f;
-	private final static float explosionKnockback = 4.0f;
+	private final static float explosionKnockback = 25.0f;
 	
 	private final static String spriteId = "orb_red";
 	
@@ -51,7 +51,7 @@ public class TorpedofishAttack extends RangedWeapon {
 				RayHandler rays) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, world, camera, rays, user, spriteId);
+					filter, true, world, camera, rays, user, spriteId);
 			
 			final World world2 = world;
 			final OrthographicCamera camera2 = camera;

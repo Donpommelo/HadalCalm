@@ -24,7 +24,7 @@ public class TurretAttack extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 25.0f;
 	private final static float recoil = 0.0f;
-	private final static float knockback = .6f;
+	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 15.0f;
 	private final static int projectileWidth = 192;
 	private final static int projectileHeight = 24;

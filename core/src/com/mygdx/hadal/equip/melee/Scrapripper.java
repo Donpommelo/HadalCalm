@@ -25,8 +25,8 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float baseDamage = 50.0f;
 	private final static int hitboxSize = 200;
 	private final static int swingArc = 150;
-	private final static float knockback = 15.0f;
-	private final static float momentum = 2.5f;
+	private final static float knockback = 20.0f;
+	private final static float momentum = 12.5f;
 	
 	private final static String weapSpriteId = "scrapripper";
 

@@ -39,7 +39,7 @@ import box2dLight.RayHandler;
 public class Player extends PhysicsSchmuck {
 	
 	
-	private final static float playerDensity = 0.2f;
+	private final static float playerDensity = 1.0f;
 	private final static float momentumBoost = 1.5f;
 	
 	//counters for various cooldowns.

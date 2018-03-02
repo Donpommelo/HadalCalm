@@ -32,7 +32,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float reloadTime = 0.8f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 8.0f;
-	private final static float recoil = 0.5f;
+	private final static float recoil = 2.5f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 75;
@@ -44,7 +44,7 @@ public class TorpedoLauncher extends RangedWeapon {
 		
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 60.0f;
-	private final static float explosionKnockback = 10.0f;
+	private final static float explosionKnockback = 25.0f;
 
 	private final static String weapSpriteId = "torpedolauncher";
 	private final static String projSpriteId = "torpedo";

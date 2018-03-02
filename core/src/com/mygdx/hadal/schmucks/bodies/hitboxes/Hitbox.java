@@ -81,7 +81,8 @@ public class Hitbox extends HadalEntity {
 	 */
 	public void create() {
 		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, rest, friction, false, false, Constants.BIT_PROJECTILE, 
-				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR), filter, sensor, data);
+				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
+				filter, sensor, data);
 		this.body.setLinearVelocity(startVelo);
 		
 		//Rotate hitbox to match angle of fire.
@@ -117,6 +118,13 @@ public class Hitbox extends HadalEntity {
 		this.body.setTransform(body.getPosition().x, body.getPosition().y, 
 				(float)(Math.atan2(body.getLinearVelocity().y , body.getLinearVelocity().x)));
 
+	}
+	
+	@Override
+	public void push(float impulseX, float impulseY) {
+		
+		//Temp fix to forces applying too much push to smaller, lighter hboxes.
+		body.applyLinearImpulse(new Vector2(impulseX, impulseY).scl(0.2f), body.getWorldCenter(), true);
 	}
 
 	@Override

@@ -24,12 +24,12 @@ public class PlayerBodyData extends BodyData {
 	
 	private int numExtraJumps = 1;
 	private int extraJumpsUsed = 0;
-	private float jumpPow = 5.0f;
+	private float jumpPow = 25.0f;
 	
-	private float fastFallPow = 6.0f;
+	private float fastFallPow = 25.0f;
 
 	private int hoverCost = 5;
-	private float hoverPow = 0.8f;
+	private float hoverPow = 4.0f;
 	
 	private int airblastCost = 30;
 	
