@@ -54,9 +54,8 @@
   </object>
   <object id="41" name="Platform" type="Platform" x="288" y="1056" width="96" height="32">
    <properties>
-    <property name="speed" type="float" value="1"/>
+    <property name="speed" type="float" value="3"/>
     <property name="triggeredId" value="9"/>
-    <property name="triggeringId" value=""/>
    </properties>
   </object>
   <object id="42" name="Dummy" type="Dummy" x="768" y="544" width="32" height="32">

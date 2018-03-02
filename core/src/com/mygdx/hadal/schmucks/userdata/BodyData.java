@@ -200,6 +200,11 @@ public class BodyData extends HadalData {
 			if (st.getClass().equals(s)) {
 				return st;
 			}
+		}
+		for (Status st : statusesChecked) {
+			if (st.getClass().equals(s)) {
+				return st;
+			}
 		} 
 		return null;
 	}

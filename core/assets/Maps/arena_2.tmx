@@ -134,7 +134,7 @@
   </object>
   <object id="32" name="Timer" type="Timer" x="768" y="256" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="45"/>
+    <property name="interval" type="float" value="15"/>
     <property name="limit" type="int" value="1"/>
     <property name="triggeringId" value="11"/>
    </properties>

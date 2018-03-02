@@ -52,7 +52,6 @@ public class DropThroughPlatform extends Event {
 						Filter filter = event.getBody().getFixtureList().get(0).getFilterData();
 						filter.maskBits = (short) (Constants.BIT_SENSOR);
 						event.getBody().getFixtureList().get(0).setFilterData(filter);
-						
 						((FeetData) fixB).setTerrain(null);
 
 					}
