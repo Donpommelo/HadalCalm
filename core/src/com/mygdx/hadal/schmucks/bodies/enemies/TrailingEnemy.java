@@ -101,7 +101,7 @@ public class TrailingEnemy extends Enemy {
 			}
 		};
 		
-		sensorDef = FixtureBuilder.createFixtureDef(width * 2, height * 2, new Vector2(0,0), true, 0, 0, 0,
+		sensorDef = FixtureBuilder.createFixtureDef(width * 2, height * 2, new Vector2(0,0), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER), Constants.PLAYER_HITBOX);
 		sensor = body.createFixture(sensorDef);
 		sensor.setUserData(sensorData);

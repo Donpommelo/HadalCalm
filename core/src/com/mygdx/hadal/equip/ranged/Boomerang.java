@@ -11,9 +11,7 @@ import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.HitboxFactory;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -22,7 +20,7 @@ public class Boomerang extends RangedWeapon {
 
 	private final static String name = "Boomerang";
 	private final static int clipSize = 3;
-	private final static float shootCd = 0.75f;
+	private final static float shootCd = 1.25f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.75f;
 	private final static int reloadAmount = 1;
@@ -30,8 +28,8 @@ public class Boomerang extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 60;
-	private final static int projectileHeight = 57;
+	private final static int projectileWidth = 90;
+	private final static int projectileHeight = 85;
 	private final static float lifespanx = 4.0f;
 	private final static float gravity = 0;
 	private final static float returnAmp = 1.5f;
@@ -49,7 +47,7 @@ public class Boomerang extends RangedWeapon {
 				RayHandler rays) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					(short) 0, true, world, camera, rays, user, projSpriteId) {
+					(short) 0, false, world, camera, rays, user, projSpriteId) {
 				
 				float controllerCount = 0;
 				
@@ -57,9 +55,6 @@ public class Boomerang extends RangedWeapon {
 				public void create() {
 					super.create();
 					body.setAngularVelocity(5);
-					getBody().createFixture(FixtureBuilder.createFixtureDef(projectileWidth / 2, projectileHeight / 2, 
-							new Vector2(0,  0), false, 0, 0, 0,
-						Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), Constants.PLAYER_HITBOX));
 				}
 				
 				@Override

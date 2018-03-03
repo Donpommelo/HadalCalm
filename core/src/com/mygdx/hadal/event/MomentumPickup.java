@@ -10,7 +10,6 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
 
@@ -47,11 +46,8 @@ public class MomentumPickup extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, false, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER| Constants.BIT_SENSOR),
+				(short) (Constants.BIT_PLAYER| Constants.BIT_SENSOR | Constants.BIT_WALL),
 				(short) 0, true, eventData);
-		
-		body.createFixture(FixtureBuilder.createFixtureDef(width, height, new Vector2(0 ,0),
-				false, 0, 0, 0, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
 		
 		Vector2 v = new Vector2(2,0);
 

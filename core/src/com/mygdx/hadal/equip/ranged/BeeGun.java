@@ -27,14 +27,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class BeeGun extends RangedWeapon {
 
 	private final static String name = "Bee Gun";
-	private final static int clipSize = 18;
+	private final static int clipSize = 24;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.75f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 9.0f;
+	private final static float baseDamage = 12.0f;
 	private final static float recoil = 0.0f;
-	private final static float knockback = 1.2f;
+	private final static float knockback = 2.5f;
 	private final static float projectileSpeedStart = 3.0f;
 	private final static int projectileWidth = 15;
 	private final static int projectileHeight = 14;
@@ -51,8 +51,8 @@ public class BeeGun extends RangedWeapon {
 
 	private static final float maxLinearSpeed = 100;
 	private static final float maxLinearAcceleration = 500;
-	private static final float maxAngularSpeed = 60;
-	private static final float maxAngularAcceleration = 15;
+	private static final float maxAngularSpeed = 90;
+	private static final float maxAngularAcceleration = 45;
 	
 	private static final int boundingRadius = 500;
 	private static final int decelerationRadius = 0;

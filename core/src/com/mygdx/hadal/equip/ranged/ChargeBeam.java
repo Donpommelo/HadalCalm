@@ -112,7 +112,7 @@ public class ChargeBeam extends RangedWeapon {
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
-		if (chargeDura < maxCharge) {
+		if (chargeDura < maxCharge && !reloading) {
 			chargeDura+=delta;
 		}
 		super.mouseClicked(delta, state, shooter, faction, x, y, world, camera, rays);

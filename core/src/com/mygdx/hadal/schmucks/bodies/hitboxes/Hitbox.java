@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -70,20 +71,20 @@ public class Hitbox extends HadalEntity {
 		this.startVelo = new Vector2(startVelo);
 	}
 	
-	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest, float friction,
-			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator) {
-		this(state, x, y, width, height, grav, lifespan, dura, rest,startVelo, filter, sensor, world, camera, rays, creator);
-		this.friction = friction;
-	}
-
 	/**
 	 * Create the hitbox body. User data is initialized separately.
 	 */
 	public void create() {
-		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, rest, friction, false, false, Constants.BIT_PROJECTILE, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
-				filter, sensor, data);
+				filter, true, data);
 		this.body.setLinearVelocity(startVelo);
+		
+		if (!sensor) {
+			body.createFixture(FixtureBuilder.createFixtureDef(width / 2, height / 2, 
+					new Vector2(0,  0), false, 0, 0, rest, friction,
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), Constants.PLAYER_HITBOX));
+		}
 		
 		//Rotate hitbox to match angle of fire.
 		float newAngle = (float)(Math.atan2(startVelo.y , startVelo.x));
@@ -182,6 +183,14 @@ public class Hitbox extends HadalEntity {
 
 	public void setRest(float rest) {
 		this.rest = rest;
+	}
+	
+	public float getFriction() {
+		return friction;
+	}
+
+	public void setFriction(float friction) {
+		this.friction = friction;
 	}
 
 	public boolean isSensor() {

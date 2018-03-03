@@ -64,7 +64,7 @@ public class TorpedoLauncher extends RangedWeapon {
 			final RayHandler rays2 = rays;
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, world, camera, rays, user, projSpriteId) {
+					filter, true, world, camera, rays, user, projSpriteId) {
 				
 				@Override
 				public void controller(float delta) {

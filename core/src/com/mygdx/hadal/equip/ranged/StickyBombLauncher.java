@@ -71,7 +71,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
-		//Check ckip size. empty clip = reload instead. This makes reloading automatic.
+		//Check clip size. empty clip = reload instead. This makes reloading automatic.
 		if (clipLeft > 0 && velo != null) {
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.

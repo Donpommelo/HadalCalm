@@ -20,14 +20,14 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Nematocydearm extends RangedWeapon {
 
 	private final static String name = "Nematocydearm";
-	private final static int clipSize = 2;
+	private final static int clipSize = 3;
 	private final static float shootCd = 0.45f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.6f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 0.0f;
-	private final static float knockback = 7.5f;
+	private final static float knockback = 12.5f;
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 40;
 	private final static int projectileHeight = 40;
@@ -36,7 +36,7 @@ public class Nematocydearm extends RangedWeapon {
 	
 	private final static int projDura = 1;
 		
-	private final static int poisonRadius = 250;
+	private final static int poisonRadius = 200;
 	private final static float poisonDamage = 40/60f;
 	private final static float poisonDuration = 4.0f;
 

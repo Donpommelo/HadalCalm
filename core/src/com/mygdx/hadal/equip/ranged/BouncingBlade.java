@@ -19,22 +19,22 @@ public class BouncingBlade extends RangedWeapon {
 
 	private final static String name = "Bouncing Blades";
 	private final static int clipSize = 3;
-	private final static float shootCd = 0.15f;
+	private final static float shootCd = 0.60f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.75f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 20.0f;
 	private final static float recoil = 6.0f;
-	private final static float knockback = 5.0f;
-	private final static float projectileSpeed = 15.0f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 50;
-	private final static float lifespan = 5.0f;
+	private final static float knockback = 12.5f;
+	private final static float projectileSpeed = 25.0f;
+	private final static int projectileWidth = 75;
+	private final static int projectileHeight = 75;
+	private final static float lifespan = 3.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 5;
 	
-	private final static float restitution = 1.25f;
+	private final static float restitution = 1.0f;
 	
 	private final static String weapSpriteId = "bladegun";
 	private final static String projSpriteId = "bouncing_blade";
