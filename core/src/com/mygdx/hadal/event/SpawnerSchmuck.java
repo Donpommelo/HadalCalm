@@ -36,15 +36,17 @@ public class SpawnerSchmuck extends Event {
 	
 	private float controllerCount = 0;
 
-	boolean defeated = false;
+	private boolean defeated = false;
+	private boolean spread;
 	
 	public SpawnerSchmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, int schmuckId, int limit) {
+			int x, int y, int schmuckId, int limit, Boolean spread) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.id = schmuckId;
 		this.limit = limit;
 		this.spawnX = x;
 		this.spawnY = y;
+		this.spread = spread;
 		this.spawns = new ArrayList<Schmuck>();
 	}
 	
@@ -61,9 +63,9 @@ public class SpawnerSchmuck extends Event {
 					defeated = false;
 					
 					for (int i = 0; i < limit; i++) {
-
-						int randX = spawnX + (int)( (Math.random() - 0.5) * 100);
-						int randY = spawnY + (int)( (Math.random() - 0.5) * 100);
+						
+						int randX = spawnX + (spread ? (int)( (Math.random() - 0.5) * 100) : 0);
+						int randY = spawnY + (spread ? (int)( (Math.random() - 0.5) * 100) : 0);
 						switch(id) {
 						case 1:
 							if (Math.random() > 0.4f) {

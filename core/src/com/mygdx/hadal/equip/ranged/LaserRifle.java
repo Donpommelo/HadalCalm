@@ -24,18 +24,18 @@ import box2dLight.RayHandler;
 public class LaserRifle extends RangedWeapon {
 
 	private final static String name = "Laser Rifle";
-	private final static int clipSize = 6;
+	private final static int clipSize = 12;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.75f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 40.0f;
-	private final static float recoil = 7.5f;
-	private final static float knockback = 12.5f;
+	private final static float baseDamage = 20.0f;
+	private final static float recoil = 2.5f;
+	private final static float knockback = 7.5f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 2000;
 	private final static int projectileHeight = 24;
-	private final static float lifespan = 0.5f;
+	private final static float lifespan = 0.25f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;

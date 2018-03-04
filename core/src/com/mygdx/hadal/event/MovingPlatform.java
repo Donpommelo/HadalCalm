@@ -1,6 +1,9 @@
 package com.mygdx.hadal.event;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
+
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -23,6 +26,8 @@ public class MovingPlatform extends Event {
 	private static final String name = "Moving Platform";
 
 	private float speed;
+	
+	private ArrayList<Event> connected = new ArrayList<Event>();
 	
 	public MovingPlatform(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
 			int width, int height, int x, int y, float speed) {
@@ -58,8 +63,25 @@ public class MovingPlatform extends Event {
 				setConnectedEvent(getConnectedEvent().getConnectedEvent());
 			} else {
 				body.setLinearVelocity(dist.nor().scl(speed));
+				for (Event e : connected) {
+					if (e.getBody() != null) {
+						e.getBody().setLinearVelocity(dist.nor().scl(speed));
+					}
+				}
 			}
+		} else {
+			body.setLinearVelocity(0, 0);
+			for (Event e : connected) {
+				if (e.getBody() != null) {
+					e.getBody().setLinearVelocity(0, 0);
+				}
+			}
+
 		}
+	}
+	
+	public void addConnection(Event e) {
+		connected.add(e);
 	}
 
 }

@@ -8,6 +8,7 @@ public enum UnlockLevel {
 	TUTORIAL_1("Maps/tutorial.tmx", "Tutorial 1"),
 	ARENA_1("Maps/arena_1.tmx", "Arena 1"),
 	ARENA_2("Maps/arena_2.tmx", "Arena 2"),
+	LEVEL_1("Maps/map_2.tmx", "Level 1"),
 	
 	;
 	private String map, name;

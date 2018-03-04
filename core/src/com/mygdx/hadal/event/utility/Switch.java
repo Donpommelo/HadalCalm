@@ -37,7 +37,7 @@ public class Switch extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 0, 0, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	

@@ -1,9 +1,345 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="400" height="200" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" nextobjectid="71">
  <tileset firstgid="1" source="main.tsx"/>
- <layer name="Tile Layer 1" width="400" height="200">
+ <layer name="Tile Layer 1" width="400" height="300">
   <data encoding="base64" compression="zlib">
-   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
+   eJzt3e2O2zYagFEnaZu0CbDIr97/nS4IVYjjkWiRIsUPnQO8wGKCWrZ3zGdkW9LjAQAAAPv+tzEA8I5+AJBjqx/v5ssEk/O4AfgldQ39Ebmtf/+bEXx/6AfAGSnr599vbmukfgR/PPQDIFfpfoxEPwDy6Yd+AOQq1Y/R6AfAOSn9+Lkzq3f/XkNsm7H7ph8A56T2Y89In5/rB8B5vn+lHwA5fP6hHwA59EM/AHKUfP9qJPoBcI79D/0AyKEf+gGQw/tX+gGQQz/0AyCHfugHQI6S/RipIfoBcI5+6AdADv3QD4AcKWvoX5HbGakffz7SHrd+AHyUsobG9kFG6kfqvod+AHykH/oBkEM/9AMgR+o6uvcZyCj9yPnsQz8APkpdR0c/D1bOvod+AHxUqh8j7HsE+gFQhv0P/QDIkbOWxo4D6VnuZx/6AYwid427arb2Qf59+d89vp+Vu++hH8AoWvfhTD/+3Zhe6Acwu9Z9yO3HVjd6asmZxwwwgtZ9ODKvn4Ec2e9o2Y8zn33oBzCK1m3I2Qfp+X2r4Mx7VxoCjKJ1G0r1o6eG6AdwB63boB/6AYypdRuOzvNnID334+xnH/oBjGJr7fpSYUrug/TcjxL7HvoBjODde0WllFhX132QvX60bkipfQ/9AEYwUj/W+9ZrP0rte+gHMIKR+rHug8T60aohJfc99AMYwWj9ONqQKztSuh36AYxgxH6E+SdxQnN+/jd7jVn//c/E2y7dDv0ARjBqP9Y5+v2vH49j+yg19iX0A5jRyP348d9tb7Xg9Wd758h6/nkv7dAPYARX9ePro+zxJLF2PP/83TkW15/7DAMgzVX96FloSI39I4CZ3b0f6z6IfgCkuXM/nt/b0g+ANHftx+tnI/oBkGbUfqQeoxE7f2845kM/ANJc1Y9Pj/Rj/kofsxc7bl0/ANJc1Y9axw+mjmPIAcpI7cfWfsTnA9upefzg63a2HsP3CtvXD+DOUvux1YEj+yyl+7HVjnU7e/cnpSElrosFMLPUFmwdR/7twHZK9iN2H2P9OHo/Qpt+HpzY7QHMLGdfIsco/Uhph34Ad9ZTP46+ZxTb33nXj++R201th34Ad9ZLP/Y+z8jZzpXHsOgHcFc99KNUO9bt9NIPY8LArF5/16/uR8l2rNvRD9PTwKxef9ev7Efpdqzb0Q/T08CsXn/Xr+pHjXas29EP09PArLZ+39+de2rvePPYOa6eb3+vHannRIxtJ/e/P3Is/TP9MO8GZpXzetj7+/7INWpj7Wj9Oo89tj36Yd4NzOroayD1ePMUvbQjjH6Y0gOzOvL7X/PzhJ7akfNY9cO8G5jVkd//Wv3orR05j1U/zLuBWR35/a/Rjx7bkfNY9cO8G5jVkd//0v3otR05j1U/zLuBO4i9Blpfe/aq0Q9TemB2rV9jvYx+mNIDs2v9GutlUo+Lb3FdXDPWwOxav8Z6mNxzqmiIiQ3MrvVrrPWcPR+Xhpi9gZm1fn21nlLnctQQszUws9avr5ZT+jzAGmJeB2bW+vXVamqdQ77Hhhy9tvwo0/r5TBmYWevXV4up1Y5VTw258nooVxnpe9PA71q/Jntux6qXhuiHfkBPWr8me2/HqoeG6Id+AL/svVZzrl1V2/c396v2+/v6oR/ALzOvk6XPLznL8/JMP4Bcs66TNc5NPMPz8ko/gFwzrpO1zms/+vOyRT+AXLOtkzWviTLy87JHP4BcI66ToREtronS+/OSQz+AXKOtky2vudjz85JLP4BcI62Tra/X2+vzcoZ+ALly1slPj7LX4c29Xu/ox3/UfB4/H9xm6yboB4wrZ53s4W/Wo8cwlryvpftR83ncu689/H+nHzCHEfuRcvy7fly3Tf2AexmtH6nnTtGP67apH3AvOevk10eba1XknHdLP67bpn7AvVyxTrakH9dtUz/gXvTjXv24et9xvT8lbgvoi37cqx9XWx8jMJ+e154S9KMt/YB59bz2lKAfbekHzKvntacE/WhLP2BePa89JehHW/oB86q99rw7x9PeeZpKuWs/wrR6zp/pB8yr9jr5bo2s/XfynfuxNznHYebSD5iXftyrH1e2I9APmJd+3KcfV7cj0A+Yl37cox8t2hHoB8xLP+bvR6t2BPoB89KPufvRsh2BfsC89tadWtecLbWtre+gbn1XuORaPFo/Wrcj0A+YV+2/f2vN1lpeez0eqR89tCPQD5hX6w7ox7ztCPQD5lVy3cq9NoR+zNmOQD9gXi3X1jPrp370345AP2Be+jFHP3psR6AfMC/9GL8fvbYj0A+Yl36068f3Avep53YE+gHzqrm2Ph+PsXW8xt37EZxpSC/X+IjRD5hXzbX1jzf//vWR/p2tdb692d4o/QhyG6IfQEst+1HaqP0IchqiH0BL+tHPep3aEP0AWtKPvtbrlMegH0BL+tHXeq0fwCiu6keYUuf0PXOu3zNzxXdl9QMYRc21tcTxDb3MVcdZ6Acwitpr6wwNufIYPf0ARnHF2jpyQ64+vls/gFFctbaO2JAW5wbRD2AUV66tIzWk1Xml9AMYRc7aembdqv0d2xLTcl3WD2AU+tHXuqwfwCj0o691WT+AUehHX+uyfgCj0I++1mX9AEahH32ty/oBjEI/Pk7La8LqBzAK/einHYF+AKO4uh9nrln7PDO2I9APYBRX96OU0sey99COQD+AUeytTbG//b81uacflWpIL+0I9AMYxajr0io05Mz7YD21I9APYBSjrkuz0g9gFKOuS7NK/X7aX23u5mH6AfPaW5dqX6t8b3pfD0v69Fge8+enn+V8v7nn50w/YF4lPn8uPT2vhyWta+vfGz+b5TnTD5hX61aMth6WtB4L8/x9tjPHV/b4nOkHzKt1J0ZbD2s7e3x+b8+ZfsC8Wjfi3Yz6GcnWZxtHlDi/S0/Pj37AvFr3odUambu+H7X12UbKf9f6+SlFP2BerTvQao3MXd+P2vps44iS55fsoSH6AfNq3YBWa2Tu+l5b6fMTt26IfsC8Wq//Z2dv/6H2+1O1br/G+e1bNkQ/YF6t1/9a/aj9/lSt2691fZRWDdEPmFfr9b9WP868P3Vk36LW+181r6/VoiH6AfNqvf7X6scZtfddjmx7loboB8yr9frfYz9afrZ+xfV9r2yIfsC8Wq//PfajpauuD39VQ/QD5tV6/deP313Vj6saoh8wr9brv3787sp+XNEQ/QBK0Y+4q/tRuyH6AZSiH3Et+lGzIfoBlKIfca36Uash+gGUoh9xLftRoyH6AZSiH3Gt+1G6IfoBlKIfcT30o2RD9AMoRT/ieulHqYboB1CKfsT11I8SDdEPoBT9iOutH2cboh9AKfoR12M/zjREP4BS9COu137kNkQ/gFL0I67nfuQ0RD+AUvQjrvd+pDZEP4BS9CNuhH6kPOf6AZSiH3H6AbBNP+L0A2CbfsTpB8A2/YjTD4Bt+hGnHwDb9CNOPwC26UdcrX58KTjfMh4PwFn6EVejHz8ufQS/0w+gFP2IK92Plu0I9AMoRT/iSvajdTsC/QBK0Y+4Uv3ooR2BfgCl6EdciX700o5AP4Cazq6X/0w0M7Uj0A+gZ6X3aUad3toR6AfQs9brdg/TYzsC/QB61nrtbj29tiPQD6BnJY+tfjdb6/eV23+dntsR6AfA4vX7UTN9/+vT4+Pn+Z9P3qZ+ACxm7sfXx7lzXW3RD4DFzP2oQT8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFvqRRj8AFq/9CHPkuuZnz4M+Kv0AWGz148jcdT9FPwAW+pFGPwAW+pFGPwAW+pFGPwAW+pFGPwAW+pFGPwAW+pFGPwAW+pFGPwAW+pFGPwAW+pFGPwAW+pFGPwAWuf0Ic+Q8WbPN+tgB7u5MP+48AHenH/oBkEM/9AMgxxeTNQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcCf/B6U5JbM=
   </data>
  </layer>
+ <objectgroup name="collision-layer">
+  <properties>
+   <property name="startX" type="int" value="146"/>
+   <property name="startY" type="int" value="295"/>
+  </properties>
+  <object id="1" x="3904" y="192">
+   <polyline points="0,0 32,-32 1600,-32 1632,0 1632,576 1600,608 1600,704 1568,736 1568,832 1536,864 1536,960 1504,992 1504,1088 1472,1120 1472,1152 1440,1184 1440,1216 1376,1280 1024,1280 896,1408 896,1600 704,1600 640,1536 288,1536 256,1568 -384,1568 -384,1952 -608,1952 -608,2016 -320,2016 -96,1792 256,1792 256,1696 320,1632 640,1632 704,1696 704,1760 736,1792 928,1792 1024,1696 1344,1696 1344,2240 1664,2560 2048,2560 1920,2688 1728,2688 1632,2784 672,2784 672,2944 1632,2944 1760,2816 2048,2816 2048,3392 1888,3392 1888,3840 1120,3840 1120,3648 992,3648 992,3872 1152,4032 1152,4320 1728,4320 1824,4416 2304,4416 2496,4224 2496,4032 2688,3840 2688,2432 4352,2432 4352,2784 4224,2784 4224,3008 5120,3008 5120,6848 3168,6848 3168,6464 2848,6464 2848,5984 3840,5984 4160,5664 4800,5664 4800,5408 3840,4448 3840,3648 4288,3200 4288,3168 4064,3168 4064,2784 3296,2784 3296,3616 3456,3776 3456,5824 1824,5824 1824,4736 1696,4608 1536,4608 1408,4480 448,4480 448,4384 704,4384 704,4032 864,3872 864,3520 1248,3520 1248,3712 1760,3712 1760,3392 1312,3392 1312,3168 1024,3168 1024,3392 448,3392 448,2560 672,2560 992,2240 992,1952 -64,1952 -288,2176 -896,2176 -896,2048 -768,2048 -768,1952 -1056,1952 -1056,1152 -384,1152 -384,1408 256,1408 320,1344 640,1344 672,1312 640,1280 256,1280 192,1216 192,1184 160,1152 160,1120 128,1088 128,992 96,960 96,864 64,832 64,736 32,704 32,608 0,576 0,0"/>
+  </object>
+  <object id="2" x="3072" y="1824">
+   <polyline points="0,0 0,96 192,96 192,0 0,0"/>
+  </object>
+  <object id="3" x="5888" y="4928">
+   <polyline points="0,0 96,0 96,96 0,96 0,0"/>
+  </object>
+  <object id="4" x="6144" y="4832">
+   <polyline points="0,0 96,0 96,96 0,96 0,0"/>
+  </object>
+  <object id="5" x="6368" y="4992">
+   <polyline points="0,0 96,0 96,96 0,96 0,0"/>
+  </object>
+  <object id="6" x="6656" y="4928">
+   <polyline points="0,0 0,96 96,96 96,0 0,0"/>
+  </object>
+  <object id="7" x="6912" y="4800">
+   <polyline points="0,0 0,96 96,96 96,0 0,0"/>
+  </object>
+  <object id="8" x="7200" y="4672">
+   <polyline points="0,0 0,96 96,96 96,0 0,0"/>
+  </object>
+  <object id="9" x="8352" y="6176">
+   <properties>
+    <property name="startX" type="int" value="146"/>
+    <property name="startY" type="int" value="293"/>
+   </properties>
+   <polyline points="0,0 0,64 192,64 192,0 0,0"/>
+  </object>
+  <object id="25" x="4352" y="1824">
+   <polyline points="0,0 0,320 64,320 64,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="event-layer">
+  <object id="10" name="Equip" type="Equip" x="4224" y="1440" width="32" height="32">
+   <properties>
+    <property name="pool" value="CR4PCANNON"/>
+   </properties>
+  </object>
+  <object id="11" name="Equip" type="Equip" x="4384" y="1440" width="32" height="32">
+   <properties>
+    <property name="pool" value="MACHINEGUN"/>
+   </properties>
+  </object>
+  <object id="12" name="Equip" type="Equip" x="5120" y="1440" width="32" height="32">
+   <properties>
+    <property name="pool" value="SPEARGUN"/>
+   </properties>
+  </object>
+  <object id="13" name="Equip" type="Equip" x="4960" y="1440" width="32" height="32">
+   <properties>
+    <property name="pool" value="SCRAPRIPPER"/>
+   </properties>
+  </object>
+  <object id="14" name="Platform" type="Platform" x="3936" y="1600" width="96" height="160">
+   <properties>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform1"/>
+   </properties>
+  </object>
+  <object id="15" name="Switch" type="Switch" x="4096" y="1728" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="switch1"/>
+   </properties>
+  </object>
+  <object id="16" name="Redirecttrigger" type="Redirecttrigger" x="4096" y="1792" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platpoint1"/>
+    <property name="triggeredId" value="switch1"/>
+    <property name="triggeringId" value="platform1"/>
+   </properties>
+  </object>
+  <object id="17" name="Dummy" type="Dummy" x="3968" y="1472" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint1"/>
+   </properties>
+  </object>
+  <object id="18" name="Destr_Obj" type="Destr_Obj" x="3104" y="2240" width="32" height="128"/>
+  <object id="19" name="Timer" type="Timer" x="2880" y="992" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="23" name="Multitrigger" type="Multitrigger" x="2976" y="992" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="hp1,turret1"/>
+   </properties>
+  </object>
+  <object id="24" name="EventSpawn" type="EventSpawn" x="3040" y="2336" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="triggeredId" value="hp1"/>
+   </properties>
+  </object>
+  <object id="26" name="TouchPortal" type="TouchPortal" x="4256" y="1920" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="portal2"/>
+    <property name="triggeringId" value="portal1"/>
+   </properties>
+  </object>
+  <object id="27" name="TouchPortal" type="TouchPortal" x="4480" y="1920" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="portal1"/>
+    <property name="triggeringId" value="portal2"/>
+   </properties>
+  </object>
+  <object id="28" name="Artifact" type="Artifact" x="5728" y="2848" width="32" height="32">
+   <properties>
+    <property name="pool" value="LOAMSKIN_TALISMAN"/>
+   </properties>
+  </object>
+  <object id="29" name="Spring" type="Spring" x="4800" y="3552" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="30" name="SchmuckSpawn" type="SchmuckSpawn" x="5056" y="3328" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="5"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="turret1"/>
+   </properties>
+  </object>
+  <object id="31" name="Current" type="Current" x="5664" y="3584" width="128" height="448">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="-4"/>
+   </properties>
+  </object>
+  <object id="32" name="Current" type="Current" x="5024" y="3904" width="768" height="128">
+   <properties>
+    <property name="currentX" type="float" value="-4"/>
+    <property name="currentY" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="33" name="Current" type="Current" x="5024" y="3712" width="128" height="320">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="4"/>
+   </properties>
+  </object>
+  <object id="34" name="Current" type="Current" x="4768" y="3712" width="384" height="128">
+   <properties>
+    <property name="currentX" type="float" value="-4"/>
+    <property name="currentY" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="36" name="Current" type="Current" x="4768" y="3712" width="128" height="352">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="-4"/>
+   </properties>
+  </object>
+  <object id="37" name="Current" type="Current" x="7200" y="3808" width="160" height="704">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="5"/>
+   </properties>
+  </object>
+  <object id="38" name="Current" type="Current" x="6592" y="3200" width="160" height="832">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="4"/>
+   </properties>
+  </object>
+  <object id="40" name="Dropthrough" type="Dropthrough" x="6592" y="2976" width="608" height="32"/>
+  <object id="41" name="Pit" type="Pit" x="5728" y="5920" width="1632" height="96"/>
+  <object id="42" name="Save" type="Save" x="5504" y="4512" width="96" height="288"/>
+  <object id="43" name="Platform" type="Platform" x="7968" y="2976" width="160" height="32">
+   <properties>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform2"/>
+   </properties>
+  </object>
+  <object id="45" name="Switch" type="Switch" x="8192" y="2944" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="switch2"/>
+   </properties>
+  </object>
+  <object id="46" name="Redirecttrigger" type="Redirecttrigger" x="8320" y="2944" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platpoint2"/>
+    <property name="triggeredId" value="switch2"/>
+    <property name="triggeringId" value="platform2"/>
+   </properties>
+  </object>
+  <object id="47" name="Dummy" type="Dummy" x="8032" y="3392" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint2"/>
+   </properties>
+  </object>
+  <object id="48" name="Platform" type="Platform" x="9024" y="3360" width="320" height="32">
+   <properties>
+    <property name="connections" value="platsensor1"/>
+    <property name="speed" type="float" value="4"/>
+    <property name="triggeredId" value="platform3"/>
+   </properties>
+  </object>
+  <object id="49" name="Switch" type="Switch" x="8096" y="3328" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="switch3"/>
+   </properties>
+  </object>
+  <object id="50" name="Redirecttrigger" type="Redirecttrigger" x="7872" y="3328" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platpoint3"/>
+    <property name="triggeredId" value="switch3"/>
+    <property name="triggeringId" value="platform3"/>
+   </properties>
+  </object>
+  <object id="51" name="Dummy" type="Dummy" x="8384" y="3360" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint3"/>
+   </properties>
+  </object>
+  <object id="53" name="Sensor" type="Sensor" x="9024" y="3328" width="320" height="32">
+   <properties>
+    <property name="oneTime" type="bool" value="true"/>
+    <property name="triggeredId" value="platsensor1"/>
+    <property name="triggeringId" value="sensor1"/>
+   </properties>
+  </object>
+  <object id="54" name="Redirecttrigger" type="Redirecttrigger" x="9024" y="3136" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platpoint4"/>
+    <property name="triggeredId" value="sensor1"/>
+    <property name="triggeringId" value="platform3"/>
+   </properties>
+  </object>
+  <object id="55" name="Dummy" type="Dummy" x="7936" y="3840" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint4"/>
+    <property name="triggeringId" value="platpoint5"/>
+   </properties>
+  </object>
+  <object id="56" name="Dummy" type="Dummy" x="7936" y="4640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint5"/>
+    <property name="triggeringId" value="platpoint6"/>
+   </properties>
+  </object>
+  <object id="57" name="Dummy" type="Dummy" x="8864" y="5568" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint6"/>
+    <property name="triggeringId" value="platpoint7"/>
+   </properties>
+  </object>
+  <object id="58" name="Dummy" type="Dummy" x="9376" y="5568" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint7"/>
+    <property name="triggeringId" value="platpoint8"/>
+   </properties>
+  </object>
+  <object id="59" name="Dummy" type="Dummy" x="9184" y="3360" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint8"/>
+    <property name="triggeringId" value="platpoint9"/>
+   </properties>
+  </object>
+  <object id="60" name="Dummy" type="Dummy" x="8384" y="3360" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint9"/>
+    <property name="triggeringId" value="platpoint4"/>
+   </properties>
+  </object>
+  <object id="61" name="Platform" type="Platform" x="8704" y="5824" width="320" height="32">
+   <properties>
+    <property name="connections" value="platsensor2"/>
+    <property name="speed" type="float" value="4"/>
+    <property name="triggeredId" value="platform4"/>
+   </properties>
+  </object>
+  <object id="62" name="Sensor" type="Sensor" x="8704" y="5792" width="320" height="32">
+   <properties>
+    <property name="oneTime" type="bool" value="true"/>
+    <property name="triggeredId" value="platsensor2"/>
+    <property name="triggeringId" value="sensor2"/>
+   </properties>
+  </object>
+  <object id="63" name="Redirecttrigger" type="Redirecttrigger" x="8576" y="5792" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platpoint10"/>
+    <property name="triggeredId" value="sensor2"/>
+    <property name="triggeringId" value="platform4"/>
+   </properties>
+  </object>
+  <object id="64" name="Dummy" type="Dummy" x="8832" y="6240" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint10"/>
+    <property name="triggeringId" value="platpoint11"/>
+   </properties>
+  </object>
+  <object id="65" name="Dummy" type="Dummy" x="8064" y="6240" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint11"/>
+    <property name="triggeringId" value="platpoint12"/>
+   </properties>
+  </object>
+  <object id="66" name="Dummy" type="Dummy" x="8064" y="6656" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint12"/>
+    <property name="triggeringId" value="platpoint13"/>
+   </properties>
+  </object>
+  <object id="67" name="Dummy" type="Dummy" x="7264" y="6656" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint12"/>
+    <property name="triggeringId" value="platpoint13"/>
+   </properties>
+  </object>
+  <object id="68" name="Dummy" type="Dummy" x="7264" y="7040" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint13"/>
+    <property name="triggeringId" value="platpoint14"/>
+   </properties>
+  </object>
+  <object id="69" name="Dummy" type="Dummy" x="8832" y="7040" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpoint14"/>
+    <property name="triggeringId" value="platpoint10"/>
+   </properties>
+  </object>
+  <object id="70" name="Victory" type="Victor" x="6816" y="6624" width="32" height="32"/>
+ </objectgroup>
 </map>

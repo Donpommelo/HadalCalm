@@ -54,7 +54,8 @@ public class TiledObjectUtil {
     static Map<Event, String> triggeringEvents = new HashMap<Event, String>();
     static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
     static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
-    
+    static Map<MovingPlatform, String> platformConnections = new HashMap<MovingPlatform, String>();
+
     /**
      * Parses Tiled objects into in game events
      * @param state: Current GameState
@@ -72,15 +73,18 @@ public class TiledObjectUtil {
 			
 			//Go through every event type to create events
     		if (object.getName().equals("Switch")) {
-    			triggeringEvents.put(new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)), 
-    					object.getProperties().get("triggeringId", "", String.class));
+    			Event swich = new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+
+    			triggeringEvents.put(swich, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), swich);
     		}
     		if (object.getName().equals("Sensor")) {
-    			triggeringEvents.put(new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", boolean.class)), 
-    					object.getProperties().get("triggeringId", "", String.class));
+    			Event sensor = new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)
+    					, object.getProperties().get("oneTime", boolean.class));
+    			triggeringEvents.put(sensor, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), sensor);
     		}
     		if (object.getName().equals("Timer")) {
     			Event timer = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -133,7 +137,7 @@ public class TiledObjectUtil {
     			
     			Event spawn = new SpawnerSchmuck(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
-    					object.getProperties().get("limit", int.class));	
+    					object.getProperties().get("limit", int.class), object.getProperties().get("spread", true, boolean.class));	
     			
     			triggeringEvents.put(spawn, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), spawn);
@@ -220,7 +224,7 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Destr_Obj")) {
     			new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("Hp", Integer.class));
+    					object.getProperties().get("Hp", 100,Integer.class));
     		}
     		if (object.getName().equals("Warp")) {
     			new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -241,11 +245,12 @@ public class TiledObjectUtil {
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Platform")) {
-    			Event platform = new MovingPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			MovingPlatform platform = new MovingPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("speed", 1.0f, float.class));
     			triggeringEvents.put(platform, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), platform);
+    			platformConnections.put(platform, object.getProperties().get("connections", "", String.class));
     		}
     		
     		if (object.getName().equals("Armory")) {
@@ -275,11 +280,22 @@ public class TiledObjectUtil {
     	}
     	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
-    			key.addTrigger(triggeredEvents.getOrDefault(id, null));
+    			if (!id.equals("")) {
+    				key.addTrigger(triggeredEvents.getOrDefault(id, null));
+    			}
     		}
     	}
     	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
-    		key.setBlame(triggeredEvents.getOrDefault(redirectTriggeringEvents.get(key), null));
+    		if (!redirectTriggeringEvents.get(key).equals("")) {
+        		key.setBlame(triggeredEvents.getOrDefault(redirectTriggeringEvents.get(key), null));
+    		}
+    	}
+    	for (MovingPlatform key : platformConnections.keySet()) {
+    		for (String id : platformConnections.get(key).split(",")) {
+    			if (!id.equals("")) {
+        			key.addConnection(triggeredEvents.getOrDefault(id, null));
+    			}
+    		}
     	}
     }
 
