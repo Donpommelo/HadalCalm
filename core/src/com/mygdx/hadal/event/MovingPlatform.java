@@ -64,7 +64,7 @@ public class MovingPlatform extends Event {
 			} else {
 				body.setLinearVelocity(dist.nor().scl(speed));
 				for (Event e : connected) {
-					if (e.getBody() != null) {
+					if (e.getBody() != null && e.isAlive()) {
 						e.getBody().setLinearVelocity(dist.nor().scl(speed));
 					}
 				}
@@ -72,7 +72,7 @@ public class MovingPlatform extends Event {
 		} else {
 			body.setLinearVelocity(0, 0);
 			for (Event e : connected) {
-				if (e.getBody() != null) {
+				if (e.getBody() != null && e.isAlive()) {
 					e.getBody().setLinearVelocity(0, 0);
 				}
 			}

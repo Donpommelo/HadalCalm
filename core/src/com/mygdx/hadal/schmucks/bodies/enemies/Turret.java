@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -173,6 +174,11 @@ public class Turret extends Enemy {
 	public void render(SpriteBatch batch) {
 
 		batch.setProjectionMatrix(state.sprite.combined);
+		
+		if (flashingCount > 0) {
+			batch.setColor(Color.RED);
+		}
+		
 		if(aiState == turretState.NOTSHOOTING) {
 			batch.draw(turretBarrel, 
 					body.getPosition().x * PPM - hbWidth * scale / 2, 
@@ -191,7 +197,9 @@ public class Turret extends Enemy {
 				body.getPosition().x * PPM - hbWidth * scale / 2, 
 				body.getPosition().y * PPM - hbHeight * scale / 2, 
 				0, 0,
-				width * scale, height * scale, 1, 1, 0.0f);		
+				width * scale, height * scale, 1, 1, 0.0f);	
+		
+		batch.setColor(Color.WHITE);
 	}
 	
 	public enum turretState {

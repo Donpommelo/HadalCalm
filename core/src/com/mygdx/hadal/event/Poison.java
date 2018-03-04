@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -17,7 +16,7 @@ public class Poison extends Event {
 	
 	private float controllerCount = 0;
 	private float dps;
-	private BodyData perp;
+	private Schmuck perp;
 	private boolean on;
 	
 	private static final String name = "Poison";
@@ -26,12 +25,12 @@ public class Poison extends Event {
 			int x, int y, float dps, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.dps = dps;
-		this.perp = state.getWorldDummy().getBodyData();
+		this.perp = state.getWorldDummy();
 		this.on = startOn;
 	}
 	
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
-			int x, int y, float dps, float duration, BodyData perp, boolean startOn) {
+			int x, int y, float dps, float duration, Schmuck perp, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y, duration);
 		this.dps = dps;
 		this.perp = perp;
@@ -63,7 +62,7 @@ public class Poison extends Event {
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck) {
-						((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(0, 0), perp, true);
+						((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(0, 0), perp.getBodyData(), true);
 					}
 				}
 			}

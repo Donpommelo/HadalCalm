@@ -87,7 +87,7 @@ public class Event extends HadalEntity {
 		
 		//This is here b/c queue for deletion is not a reliable way of preventing multiple things from interacting with a deleted event
 		consumed = true;
-		state.destroy(this);
+		super.queueDeletion();
 	}
 	
 	public EventData getEventData() {

@@ -44,7 +44,6 @@ public class Enemy extends Schmuck {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				Constants.ENEMY_HITBOX, false, bodyData);
-		
 		//super.create() if you want enemy to have feet that process groundedness
 	}
 	
