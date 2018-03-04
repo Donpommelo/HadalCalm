@@ -79,7 +79,11 @@ public class PickupArtifact extends Event {
 
 	@Override
 	public String getText() {
-		return artifact.getName() + " (E TO TAKE)";
+		if (on) {
+			return artifact.getName() + " (E TO TAKE)";
+		} else {
+			return artifact.getName() + ": LOCKED";
+		}
 	}
 
 }

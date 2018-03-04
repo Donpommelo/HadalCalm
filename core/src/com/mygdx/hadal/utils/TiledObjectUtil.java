@@ -82,7 +82,7 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Sensor")) {
     			Event sensor = new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)
-    					, object.getProperties().get("oneTime", boolean.class));
+    					, object.getProperties().get("oneTime", true, boolean.class));
     			triggeringEvents.put(sensor, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), sensor);
     		}

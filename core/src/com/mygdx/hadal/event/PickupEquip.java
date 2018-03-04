@@ -85,7 +85,11 @@ public class PickupEquip extends Event {
 
 	@Override
 	public String getText() {
-		return equip.getName() + " (E TO TAKE)";
+		if (on) {
+			return equip.getName() + " (E TO TAKE)";
+		} else {
+			return equip.getName() + ": LOCKED";
+		}
 	}
 
 }

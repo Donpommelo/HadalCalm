@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" nextobjectid="71">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" nextobjectid="124">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="400" height="300">
   <data encoding="base64" compression="zlib">
@@ -9,7 +9,7 @@
  <objectgroup name="collision-layer">
   <properties>
    <property name="startX" type="int" value="146"/>
-   <property name="startY" type="int" value="295"/>
+   <property name="startY" type="int" value="274"/>
   </properties>
   <object id="1" x="3904" y="192">
    <polyline points="0,0 32,-32 1600,-32 1632,0 1632,576 1600,608 1600,704 1568,736 1568,832 1536,864 1536,960 1504,992 1504,1088 1472,1120 1472,1152 1440,1184 1440,1216 1376,1280 1024,1280 896,1408 896,1600 704,1600 640,1536 288,1536 256,1568 -384,1568 -384,1952 -608,1952 -608,2016 -320,2016 -96,1792 256,1792 256,1696 320,1632 640,1632 704,1696 704,1760 736,1792 928,1792 1024,1696 1344,1696 1344,2240 1664,2560 2048,2560 1920,2688 1728,2688 1632,2784 672,2784 672,2944 1632,2944 1760,2816 2048,2816 2048,3392 1888,3392 1888,3840 1120,3840 1120,3648 992,3648 992,3872 1152,4032 1152,4320 1728,4320 1824,4416 2304,4416 2496,4224 2496,4032 2688,3840 2688,2432 4352,2432 4352,2784 4224,2784 4224,3008 5120,3008 5120,6848 3168,6848 3168,6464 2848,6464 2848,5984 3840,5984 4160,5664 4800,5664 4800,5408 3840,4448 3840,3648 4288,3200 4288,3168 4064,3168 4064,2784 3296,2784 3296,3616 3456,3776 3456,5824 1824,5824 1824,4736 1696,4608 1536,4608 1408,4480 448,4480 448,4384 704,4384 704,4032 864,3872 864,3520 1248,3520 1248,3712 1760,3712 1760,3392 1312,3392 1312,3168 1024,3168 1024,3392 448,3392 448,2560 672,2560 992,2240 992,1952 -64,1952 -288,2176 -896,2176 -896,2048 -768,2048 -768,1952 -1056,1952 -1056,1152 -384,1152 -384,1408 256,1408 320,1344 640,1344 672,1312 640,1280 256,1280 192,1216 192,1184 160,1152 160,1120 128,1088 128,992 96,960 96,864 64,832 64,736 32,704 32,608 0,576 0,0"/>
@@ -47,29 +47,9 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="10" name="Equip" type="Equip" x="4224" y="1440" width="32" height="32">
-   <properties>
-    <property name="pool" value="CR4PCANNON"/>
-   </properties>
-  </object>
-  <object id="11" name="Equip" type="Equip" x="4384" y="1440" width="32" height="32">
-   <properties>
-    <property name="pool" value="MACHINEGUN"/>
-   </properties>
-  </object>
-  <object id="12" name="Equip" type="Equip" x="5120" y="1440" width="32" height="32">
-   <properties>
-    <property name="pool" value="SPEARGUN"/>
-   </properties>
-  </object>
-  <object id="13" name="Equip" type="Equip" x="4960" y="1440" width="32" height="32">
-   <properties>
-    <property name="pool" value="SCRAPRIPPER"/>
-   </properties>
-  </object>
   <object id="14" name="Platform" type="Platform" x="3936" y="1600" width="96" height="160">
    <properties>
-    <property name="speed" type="float" value="3"/>
+    <property name="speed" type="float" value="5"/>
     <property name="triggeredId" value="platform1"/>
    </properties>
   </object>
@@ -101,10 +81,10 @@
   <object id="23" name="Multitrigger" type="Multitrigger" x="2976" y="992" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="hp1,turret1"/>
+    <property name="triggeringId" value="hp2,turret1"/>
    </properties>
   </object>
-  <object id="24" name="EventSpawn" type="EventSpawn" x="3040" y="2336" width="32" height="32">
+  <object id="24" name="EventSpawn" type="EventSpawn" x="3168" y="1792" width="32" height="32">
    <properties>
     <property name="id" type="int" value="1"/>
     <property name="triggeredId" value="hp1"/>
@@ -122,9 +102,11 @@
     <property name="triggeringId" value="portal2"/>
    </properties>
   </object>
-  <object id="28" name="Artifact" type="Artifact" x="5728" y="2848" width="32" height="32">
+  <object id="28" name="Artifact" type="Artifact" x="4736" y="2944" width="32" height="32">
    <properties>
-    <property name="pool" value="LOAMSKIN_TALISMAN"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="a1"/>
+    <property name="triggeringId" value="lockrewards2"/>
    </properties>
   </object>
   <object id="29" name="Spring" type="Spring" x="4800" y="3552" width="32" height="32">
@@ -224,7 +206,7 @@
   <object id="50" name="Redirecttrigger" type="Redirecttrigger" x="7872" y="3328" width="32" height="32">
    <properties>
     <property name="blameId" value="platpoint3"/>
-    <property name="triggeredId" value="switch3"/>
+    <property name="triggeredId" value="redirect3"/>
     <property name="triggeringId" value="platform3"/>
    </properties>
   </object>
@@ -235,7 +217,6 @@
   </object>
   <object id="53" name="Sensor" type="Sensor" x="9024" y="3328" width="320" height="32">
    <properties>
-    <property name="oneTime" type="bool" value="true"/>
     <property name="triggeredId" value="platsensor1"/>
     <property name="triggeringId" value="sensor1"/>
    </properties>
@@ -253,13 +234,13 @@
     <property name="triggeringId" value="platpoint5"/>
    </properties>
   </object>
-  <object id="56" name="Dummy" type="Dummy" x="7936" y="4640" width="32" height="32">
+  <object id="56" name="Dummy" type="Dummy" x="7936" y="4544" width="32" height="32">
    <properties>
     <property name="triggeredId" value="platpoint5"/>
     <property name="triggeringId" value="platpoint6"/>
    </properties>
   </object>
-  <object id="57" name="Dummy" type="Dummy" x="8864" y="5568" width="32" height="32">
+  <object id="57" name="Dummy" type="Dummy" x="8864" y="5472" width="32" height="32">
    <properties>
     <property name="triggeredId" value="platpoint6"/>
     <property name="triggeringId" value="platpoint7"/>
@@ -292,7 +273,6 @@
   </object>
   <object id="62" name="Sensor" type="Sensor" x="8704" y="5792" width="320" height="32">
    <properties>
-    <property name="oneTime" type="bool" value="true"/>
     <property name="triggeredId" value="platsensor2"/>
     <property name="triggeringId" value="sensor2"/>
    </properties>
@@ -341,5 +321,233 @@
    </properties>
   </object>
   <object id="70" name="Victory" type="Victor" x="6816" y="6624" width="32" height="32"/>
+  <object id="71" name="Sensor" type="Sensor" x="3520" y="1600" width="32" height="160">
+   <properties>
+    <property name="triggeringId" value="spawnsensor1"/>
+   </properties>
+  </object>
+  <object id="72" name="Multitrigger" type="Multitrigger" x="3552" y="1504" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnsensor1"/>
+    <property name="triggeringId" value="spawn1,spawn2"/>
+   </properties>
+  </object>
+  <object id="74" name="SchmuckSpawn" type="SchmuckSpawn" x="2912" y="2048" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn2"/>
+    <property name="triggeringId" value="wavecount1"/>
+   </properties>
+  </object>
+  <object id="75" name="SchmuckSpawn" type="SchmuckSpawn" x="2912" y="1408" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn1"/>
+    <property name="triggeringId" value="wavecount1"/>
+   </properties>
+  </object>
+  <object id="76" name="Counter" type="Counter" x="2752" y="2048" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="2"/>
+    <property name="triggeredId" value="wavecount1"/>
+    <property name="triggeringId" value="hp1"/>
+   </properties>
+  </object>
+  <object id="77" name="Equip" type="Equip" x="3040" y="2336" width="32" height="32"/>
+  <object id="78" name="Sensor" type="Sensor" x="4896" y="2368" width="352" height="32">
+   <properties>
+    <property name="triggeringId" value="spawnsensor2"/>
+   </properties>
+  </object>
+  <object id="79" name="SchmuckSpawn" type="SchmuckSpawn" x="5504" y="2816" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="6"/>
+    <property name="triggeredId" value="spawnsensor2"/>
+    <property name="triggeringId" value="reward2"/>
+   </properties>
+  </object>
+  <object id="80" name="Multitrigger" type="Multitrigger" x="5056" y="3040" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="reward2"/>
+    <property name="triggeringId" value="a1,a2,a3"/>
+   </properties>
+  </object>
+  <object id="81" name="Artifact" type="Artifact" x="4928" y="2944" width="32" height="32">
+   <properties>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="a2"/>
+    <property name="triggeringId" value="lockrewards2"/>
+   </properties>
+  </object>
+  <object id="82" name="Artifact" type="Artifact" x="5120" y="2944" width="32" height="32">
+   <properties>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="a3"/>
+    <property name="triggeringId" value="lockrewards2"/>
+   </properties>
+  </object>
+  <object id="83" name="Multitrigger" type="Multitrigger" x="4896" y="3040" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="lockrewards2"/>
+    <property name="triggeringId" value="a1,a2,a3"/>
+   </properties>
+  </object>
+  <object id="85" name="Multitrigger" type="Multitrigger" x="4192" y="1504" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="lockrewards0"/>
+    <property name="triggeringId" value="w1,w2,w3"/>
+   </properties>
+  </object>
+  <object id="86" name="Equip" type="Equip" x="4192" y="1440" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w1"/>
+    <property name="triggeringId" value="lockrewards0"/>
+   </properties>
+  </object>
+  <object id="87" name="Equip" type="Equip" x="4320" y="1440" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w2"/>
+    <property name="triggeringId" value="lockrewards0"/>
+   </properties>
+  </object>
+  <object id="88" name="Equip" type="Equip" x="4448" y="1440" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w3"/>
+    <property name="triggeringId" value="lockrewards0"/>
+   </properties>
+  </object>
+  <object id="90" name="Text" type="Text" x="4800" y="1184" width="608" height="416">
+   <properties>
+    <property name="text" value="SELECT 1 WEAPON"/>
+   </properties>
+  </object>
+  <object id="91" name="Equip" type="Equip" x="5216" y="1440" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w6"/>
+    <property name="triggeringId" value="lockrewards1"/>
+   </properties>
+  </object>
+  <object id="92" name="Equip" type="Equip" x="5088" y="1440" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w5"/>
+    <property name="triggeringId" value="lockrewards1"/>
+   </properties>
+  </object>
+  <object id="93" name="Equip" type="Equip" x="4960" y="1440" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w4"/>
+    <property name="triggeringId" value="lockrewards1"/>
+   </properties>
+  </object>
+  <object id="95" name="Multitrigger" type="Multitrigger" x="4960" y="1504" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="lockrewards1"/>
+    <property name="triggeringId" value="w4,w5,w6"/>
+   </properties>
+  </object>
+  <object id="96" name="Sensor" type="Sensor" x="4768" y="4032" width="128" height="32">
+   <properties>
+    <property name="triggeringId" value="spawnsensor3"/>
+   </properties>
+  </object>
+  <object id="97" name="SchmuckSpawn" type="SchmuckSpawn" x="4384" y="4608" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="12"/>
+    <property name="triggeredId" value="spawnburst"/>
+   </properties>
+  </object>
+  <object id="98" name="EventSpawn" type="EventSpawn" x="8448" y="6144" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="triggeredId" value="hp2"/>
+   </properties>
+  </object>
+  <object id="100" name="SchmuckSpawn" type="SchmuckSpawn" x="4512" y="4608" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="3"/>
+    <property name="triggeredId" value="spawncont"/>
+   </properties>
+  </object>
+  <object id="101" name="Multitrigger" type="Multitrigger" x="4640" y="4032" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnsensor3"/>
+    <property name="triggeringId" value="spawnburst,spawntimer1"/>
+   </properties>
+  </object>
+  <object id="102" name="Timer" type="Timer" x="4480" y="4480" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="spawntimer1"/>
+    <property name="triggeringId" value="spawncont"/>
+   </properties>
+  </object>
+  <object id="106" name="Sensor" type="Sensor" x="6272" y="4512" width="1088" height="32">
+   <properties>
+    <property name="triggeringId" value="spawntimer1"/>
+   </properties>
+  </object>
+  <object id="107" name="Artifact" type="Artifact" x="7328" y="2944" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="a4"/>
+    <property name="triggeringId" value="lockrewards3"/>
+   </properties>
+  </object>
+  <object id="108" name="Artifact" type="Artifact" x="7456" y="2944" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="a5"/>
+    <property name="triggeringId" value="lockrewards3"/>
+   </properties>
+  </object>
+  <object id="109" name="Artifact" type="Artifact" x="7584" y="2944" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="a6"/>
+    <property name="triggeringId" value="lockrewards3"/>
+   </properties>
+  </object>
+  <object id="110" name="Multitrigger" type="Multitrigger" x="7456" y="3008" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="lockrewards3"/>
+    <property name="triggeringId" value="a4,a5,a6"/>
+   </properties>
+  </object>
+  <object id="111" name="Text" type="Text" x="4032" y="1184" width="608" height="416">
+   <properties>
+    <property name="text" value="SELECT 1 WEAPON"/>
+   </properties>
+  </object>
+  <object id="113" name="Text" type="Text" x="7200" y="2624" width="608" height="416">
+   <properties>
+    <property name="text" value="CHOOSE YOUR REWARD"/>
+   </properties>
+  </object>
+  <object id="114" name="Multitrigger" type="Multitrigger" x="7744" y="3328" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="switch3"/>
+    <property name="triggeringId" value="redirect3"/>
+   </properties>
+  </object>
+  <object id="115" name="Timer" type="Timer" x="7744" y="3424" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="spawntimer2"/>
+    <property name="triggeringId" value="spawncont2"/>
+   </properties>
+  </object>
+  <object id="117" name="SchmuckSpawn" type="SchmuckSpawn" x="8608" y="3840" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeredId" value="spawncont2"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
