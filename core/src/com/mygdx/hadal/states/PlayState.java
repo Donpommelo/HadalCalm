@@ -32,6 +32,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -74,6 +75,9 @@ public class PlayState extends GameState {
 	
 	//sourced effects from the world are attributed to this dummy.
 	private Enemy worldDummy;
+	
+	//this exists so that schmucks can steer towards the mouse.
+	private MouseTracker mouse;
 	
 	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
 	private int score = 0;
@@ -143,6 +147,8 @@ public class PlayState extends GameState {
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, world, camera, rays, 1, 1, -1000, -1000);
+		
+		mouse = new MouseTracker(this, world, camera, rays);
 		
 		map = new TmxMapLoader().load(level);
 		
@@ -391,6 +397,10 @@ public class PlayState extends GameState {
 	
 	public Enemy getWorldDummy() {
 		return worldDummy;
+	}
+	
+	public MouseTracker getMouse() {
+		return mouse;
 	}
 
 	public int getScore() {

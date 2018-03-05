@@ -3,9 +3,10 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -14,7 +15,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.SteeringHitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -36,9 +37,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float recoil = 2.5f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 0.0f;
-	private final static float projectileSpeed2 = 20.0f;
-	private final static int projectileWidth = 100;
-	private final static int projectileHeight = 20;
+	private final static int projectileWidth = 20;
+	private final static int projectileHeight = 100;
 	private final static float lifespan = 12.0f;
 	private final static float gravity = 0;
 	
@@ -48,6 +48,14 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 25.0f;
 
+	private static final float maxLinearSpeed = 100;
+	private static final float maxLinearAcceleration = 500;
+	private static final float maxAngularSpeed = 135;
+	private static final float maxAngularAcceleration = 45;
+	
+	private static final int boundingRadius = 500;
+	private static final int decelerationRadius = 0;
+	
 	private final static String weapSpriteId = "torpedolauncher";
 	private final static String projSpriteId = "torpedo";
 	
@@ -65,11 +73,14 @@ public class LaserGuidedRocket extends RangedWeapon {
 			final OrthographicCamera camera2 = camera;
 			final RayHandler rays2 = rays;
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user, projSpriteId) {
+			final SteeringHitbox proj = new SteeringHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, true, world, camera, rays, user, projSpriteId,	maxLinearSpeed, maxLinearAcceleration,
+					maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius) {
 				
 				float controllerCount = 0;
-				
+				{
+					setTarget(state.getMouse());
+				}
 				@Override
 				public void controller(float delta) {
 					controllerCount+=delta;
@@ -79,15 +90,33 @@ public class LaserGuidedRocket extends RangedWeapon {
 									world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
 						}
 						
-						Vector3 bodyPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-						camera.project(bodyPosition);
-						
-						Vector2 diff = new Vector2(Gdx.input.getX() - bodyPosition.x, 
-								Gdx.graphics.getHeight() - Gdx.input.getY() - bodyPosition.y);
-						
-						body.applyForceToCenter(diff.nor().scl(projectileSpeed2 * body.getMass()), true);
+						if (behavior != null) {
+							behavior.calculateSteering(steeringOutput);
+							applySteering(delta);
+						}
+
 					}
 					super.controller(delta);
+				}
+				
+				@Override
+				public void render(SpriteBatch batch) {
+				
+					boolean flip = false;
+					
+					if (body.getAngle() < 0) {
+						flip = true;
+					}
+					
+					batch.setProjectionMatrix(state.sprite.combined);
+
+					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animCdCount, true), 
+							body.getPosition().x * PPM - height / 2, 
+							(flip ? width : 0) + body.getPosition().y * PPM - width / 2, 
+							height / 2, 
+							(flip ? -1 : 1) * width / 2,
+							height, (flip ? -1 : 1) * width, 1, 1, 
+							(float) Math.toDegrees(body.getAngle()) - 90);
 				}
 			};
 			
