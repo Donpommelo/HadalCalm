@@ -144,6 +144,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return body;
 	}
 	
+	public HadalData getHadalData() {
+		return hadalData;
+	}
+
 	public PlayState getState() {
 		return state;
 	}

@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -22,7 +22,7 @@ public class StickyHitbox extends HitboxImage {
 
 	private boolean stuckWall = false;
 	private boolean stuckEnemy = false;
-	private Schmuck target;
+	private HadalEntity target;
 	private Vector2 location;
 	
 	public StickyHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura,
@@ -39,18 +39,12 @@ public class StickyHitbox extends HitboxImage {
 				//If not stuck yet and hitting a body, stick to it. A schmuck is saved.
 				if (!stuckWall && !stuckEnemy) {
 					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY)) {
+						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 							stuckEnemy = true;
-							target = ((BodyData)fixB).getSchmuck();
+							target = fixB.getEntity();
 							location = new Vector2(
 									hbox.getBody().getPosition().x - target.getPosition().x, 
 									hbox.getBody().getPosition().y - target.getPosition().y);		
-						}
-						
-						//If not stuck yet and hitting a wall, stick to it. A position is saved.
-						if (fixB.getType().equals(UserDataTypes.WALL)) {
-							stuckWall = true;
-							location = body.getPosition();				
 						}
 					} else {
 						stuckWall = true;

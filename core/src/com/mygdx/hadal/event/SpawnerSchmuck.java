@@ -117,8 +117,10 @@ public class SpawnerSchmuck extends Event {
 					
 					for (Schmuck s : spawns) {
 						
-						if (s.getBodyData().getCurrentHp() > 0) {
-							defeated = false;
+						if (s.getBodyData() != null) {
+							if (s.getBodyData().getCurrentHp() > 0) {
+								defeated = false;
+							}
 						}
 					}
 					

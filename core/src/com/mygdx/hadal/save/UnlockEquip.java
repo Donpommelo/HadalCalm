@@ -26,6 +26,7 @@ public enum UnlockEquip {
 	SPEARGUN(Speargun.class, UnlockType.RANGED),
 	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class, UnlockType.RANGED),
 	STORMCALLER(Stormcaller.class, UnlockType.RANGED),
+	TELEKINESIS(TelekineticBlast.class, UnlockType.RANGED),
 	TORPEDO_LAUNCHER(TorpedoLauncher.class, UnlockType.RANGED),
 	
 	SCRAPRIPPER(Scrapripper.class, UnlockType.MELEE),

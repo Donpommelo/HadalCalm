@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -202,6 +203,11 @@ public class Schmuck extends HadalEntity {
 	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
 		tool.release(state, bodyData, world, camera, rays);
 	}	
+	
+	@Override
+	public HadalData getHadalData() {
+		return bodyData;
+	}
 	
 	public BodyData getBodyData() {
 		return bodyData;

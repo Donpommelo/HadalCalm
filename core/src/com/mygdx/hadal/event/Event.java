@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
@@ -88,6 +89,11 @@ public class Event extends HadalEntity {
 		//This is here b/c queue for deletion is not a reliable way of preventing multiple things from interacting with a deleted event
 		consumed = true;
 		super.queueDeletion();
+	}
+	
+	@Override
+	public HadalData getHadalData() {
+		return eventData;
 	}
 	
 	public EventData getEventData() {
