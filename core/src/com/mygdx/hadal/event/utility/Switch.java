@@ -20,9 +20,13 @@ public class Switch extends Event {
 
 	private static final String name = "Switch";
 
+	private boolean oneTime, active;
+	
 	public Switch(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y) {
+			int x, int y, boolean oneTime) {
 		super(state, world, camera, rays, name, width, height, x, y);
+		this.oneTime = oneTime;
+		this.active = true;
 	}
 	
 	@Override
@@ -31,9 +35,15 @@ public class Switch extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (event.getConnectedEvent() != null) {
-					event.getConnectedEvent().getEventData().onActivate(this);
+				if (active) {
+					if (event.getConnectedEvent() != null) {
+						event.getConnectedEvent().getEventData().onActivate(this);
+					}
 				}
+				if (oneTime) {
+					active = false;
+				}
+				
 			}
 		};
 		
@@ -43,7 +53,12 @@ public class Switch extends Event {
 	
 	@Override
 	public String getText() {
-		return name + " (E TO ACTIVATE)";
+		if (active) {
+			return name + " (E TO ACTIVATE)";
+		} else {
+			return name + " (ACTIVATED)";
+		}
+		
 	}
 
 }

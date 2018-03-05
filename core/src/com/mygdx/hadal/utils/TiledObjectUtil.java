@@ -74,7 +74,8 @@ public class TiledObjectUtil {
 			//Go through every event type to create events
     		if (object.getName().equals("Switch")) {
     			Event swich = new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("oneTime", true, boolean.class));
 
     			triggeringEvents.put(swich, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), swich);
