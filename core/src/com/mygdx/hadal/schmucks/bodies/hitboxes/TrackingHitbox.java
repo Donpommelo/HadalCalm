@@ -56,14 +56,20 @@ public class TrackingHitbox extends SteeringHitbox {
 				} else if (target != null){
 					if (target.getHadalData() != fixB) {
 						
-						if (fixB != null) {
+						if (fixB != null && target.getBody() != null) {
+
 							if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 								target.getHadalData().receiveDamage(baseDamage, new Vector2(0, 0),
 										creator.getBodyData(), true, DamageTypes.RANGED);
+
 							}
-							fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback),
-									creator.getBodyData(), true, DamageTypes.RANGED);
+
+							if (fixB.getType().equals(UserDataTypes.BODY)) {
+								fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback),
+										creator.getBodyData(), true, DamageTypes.RANGED);
+							}
 						} else {
+
 							target.getHadalData().receiveDamage(baseDamage, new Vector2(0, 0),
 									creator.getBodyData(), true, DamageTypes.RANGED);
 						}
@@ -82,10 +88,9 @@ public class TrackingHitbox extends SteeringHitbox {
 	
 	@Override
 	public void controller(float delta) {
-		
 		if (stuck && target != null) {
 			super.controller(delta);
-			if (target.isAlive()) {
+			if (target.isAlive() && target.getBody() != null) {
 				target.getBody().setTransform(getPosition(), 0);
 			} else {
 				queueDeletion();

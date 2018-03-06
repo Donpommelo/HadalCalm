@@ -100,8 +100,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * This tells the playstate to remove this entity next engine tick.
 	 */
 	public void queueDeletion() {
-		alive = false;
-		state.destroy(this);
+		if (alive) {
+			alive = false;
+			state.destroy(this);
+		}
 	}
 	
 	/**
