@@ -48,12 +48,12 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 25.0f;
 
-	private static final float maxLinearSpeed = 100;
-	private static final float maxLinearAcceleration = 500;
-	private static final float maxAngularSpeed = 135;
-	private static final float maxAngularAcceleration = 45;
+	private static final float maxLinearSpeed = 150;
+	private static final float maxLinearAcceleration = 1000;
+	private static final float maxAngularSpeed = 180;
+	private static final float maxAngularAcceleration = 90;
 	
-	private static final int boundingRadius = 500;
+	private static final int boundingRadius = 100;
 	private static final int decelerationRadius = 0;
 	
 	private final static String weapSpriteId = "torpedolauncher";

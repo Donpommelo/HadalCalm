@@ -50,9 +50,9 @@ public class BeeGun extends RangedWeapon {
 	private final static String projSpriteId = "bee";
 
 	private static final float maxLinearSpeed = 100;
-	private static final float maxLinearAcceleration = 500;
-	private static final float maxAngularSpeed = 90;
-	private static final float maxAngularAcceleration = 45;
+	private static final float maxLinearAcceleration = 1000;
+	private static final float maxAngularSpeed = 180;
+	private static final float maxAngularAcceleration = 90;
 	
 	private static final int boundingRadius = 500;
 	private static final int decelerationRadius = 0;

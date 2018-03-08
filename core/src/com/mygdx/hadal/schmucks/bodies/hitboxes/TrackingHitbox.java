@@ -23,7 +23,7 @@ public class TrackingHitbox extends SteeringHitbox {
 	private boolean stuck = false;
 	private HadalEntity target;
 	
-	private final static float baseDamage = 20.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float knockback = 35.0f;
 	
 	public TrackingHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura,

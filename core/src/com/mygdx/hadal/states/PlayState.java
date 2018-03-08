@@ -161,6 +161,8 @@ public class PlayState extends GameState {
 		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays);
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
+		
+		
 		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", Integer.class);
 		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", Integer.class);
 		this.safeX = startX;

@@ -18,14 +18,14 @@ import box2dLight.RayHandler;
 public class BouncingBlade extends RangedWeapon {
 
 	private final static String name = "Bouncing Blades";
-	private final static int clipSize = 3;
+	private final static int clipSize = 5;
 	private final static float shootCd = 0.60f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.75f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 20.0f;
 	private final static float recoil = 6.0f;
-	private final static float knockback = 12.5f;
+	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 75;

@@ -34,9 +34,9 @@ public class TelekineticBlast extends RangedWeapon {
 	private final static String projSpriteId = "orb_pink";
 
 	private static final float maxLinearSpeed = 600;
-	private static final float maxLinearAcceleration = 1200;
-	private static final float maxAngularSpeed = 720;
-	private static final float maxAngularAcceleration = 360;
+	private static final float maxLinearAcceleration = 3000;
+	private static final float maxAngularSpeed = 1080;
+	private static final float maxAngularAcceleration = 720;
 	
 	private static final int boundingRadius = 500;
 	private static final int decelerationRadius = 0;

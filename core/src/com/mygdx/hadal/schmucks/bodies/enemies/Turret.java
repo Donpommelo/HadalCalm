@@ -159,6 +159,7 @@ public class Turret extends Enemy {
 		aiCdCount -= delta;
 		shootCdCount-=delta;
 		shootDelayCount-=delta;
+		flashingCount-=delta;
 		
 		//If the delay on using a tool just ended, use thte tool.
 		if (shootDelayCount <= 0 && usedTool != null) {
