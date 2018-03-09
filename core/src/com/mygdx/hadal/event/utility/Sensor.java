@@ -37,7 +37,7 @@ public class Sensor extends Event {
 			public void onTouch(HadalData fixB) {
 				super.onTouch(fixB);
 				
-				if (!consumed) {
+				if (isAlive()) {
 					if (event.getConnectedEvent() != null) {
 						event.getConnectedEvent().getEventData().onActivate(this);
 					}

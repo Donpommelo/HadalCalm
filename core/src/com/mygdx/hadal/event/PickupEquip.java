@@ -45,7 +45,7 @@ public class PickupEquip extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (!consumed && on) {
+				if (isAlive() && on) {
 					Equipable temp = p.getPlayerData().pickup(equip);
 					if (temp == null) {
 						queueDeletion();

@@ -42,7 +42,7 @@ public class PickupArtifact extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (!consumed && on) {
+				if (isAlive() && on) {
 					
 					p.getPlayerData().addArtifact(artifact);
 					

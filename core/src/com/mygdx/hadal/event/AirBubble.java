@@ -38,7 +38,7 @@ public class AirBubble extends Event{
 			
 			@Override
 			public void onTouch(HadalData fixB) {
-				if (fixB != null && !consumed) {
+				if (fixB != null && isAlive()) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if (((PlayerBodyData)fixB).getCurrentFuel() < ((PlayerBodyData)fixB).getMaxFuel()) {
 							((PlayerBodyData)fixB).fuelGain(fuelRegained);

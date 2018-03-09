@@ -32,9 +32,6 @@ public class Event extends HadalEntity {
 	private boolean temporary;
 	private float duration;
 	
-	//This is used by consumable events to avoid being activated multiple times before next engine tick.
-	protected boolean consumed = false;
-	
 	/**
 	 * Constructor for permanent events.
 	 */
@@ -86,8 +83,6 @@ public class Event extends HadalEntity {
 	@Override
 	public void queueDeletion() {
 		
-		//This is here b/c queue for deletion is not a reliable way of preventing multiple things from interacting with a deleted event
-		consumed = true;
 		super.queueDeletion();
 	}
 	

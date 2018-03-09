@@ -38,7 +38,7 @@ public class MomentumPickup extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (!consumed) {
+				if (isAlive()) {
 					p.getMomentums().addLast(momentum);
 					queueDeletion();
 				}

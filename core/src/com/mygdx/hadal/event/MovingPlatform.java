@@ -59,8 +59,18 @@ public class MovingPlatform extends Event {
 		if (getConnectedEvent() != null) {
 			Vector2 dist = getConnectedEvent().getBody().getPosition().sub(body.getPosition()).scl(PPM);
 
-			if ((int)dist.len2() <= 0 && getConnectedEvent().getConnectedEvent() != null) {
-				setConnectedEvent(getConnectedEvent().getConnectedEvent());
+			if ((int)dist.len2() <= 1) {
+				if (getConnectedEvent().getConnectedEvent() == null) {
+					body.setLinearVelocity(0, 0);
+					for (Event e : connected) {
+						if (e.getBody() != null && e.isAlive()) {
+							e.getBody().setLinearVelocity(0, 0);
+						}
+					}
+				} else {
+					body.setTransform(getConnectedEvent().getBody().getPosition(), 0);
+					setConnectedEvent(getConnectedEvent().getConnectedEvent());
+				}
 			} else {
 				body.setLinearVelocity(dist.nor().scl(speed));
 				for (Event e : connected) {
@@ -70,7 +80,6 @@ public class MovingPlatform extends Event {
 				}
 			}
 		} else {
-			body.setLinearVelocity(0, 0);
 			for (Event e : connected) {
 				if (e.getBody() != null && e.isAlive()) {
 					e.getBody().setLinearVelocity(0, 0);
@@ -81,7 +90,9 @@ public class MovingPlatform extends Event {
 	}
 	
 	public void addConnection(Event e) {
-		connected.add(e);
+		if (e != null) {
+			connected.add(e);
+		}
 	}
 
 }

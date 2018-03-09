@@ -53,6 +53,7 @@ public class TiledObjectUtil {
     static Map<String, Event> triggeredEvents = new HashMap<String, Event>();
     static Map<Event, String> triggeringEvents = new HashMap<Event, String>();
     static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
+    static Map<TriggerCond, String> condTriggeringEvents = new HashMap<TriggerCond, String>();
     static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
     static Map<MovingPlatform, String> platformConnections = new HashMap<MovingPlatform, String>();
 
@@ -96,10 +97,12 @@ public class TiledObjectUtil {
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), timer);
     		}
     		if (object.getName().equals("Target")) {
-    			triggeringEvents.put(new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event target = new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", boolean.class)),
-    					object.getProperties().get("triggeringId", "", String.class));
+    					object.getProperties().get("oneTime", boolean.class));
+    			
+    			triggeringEvents.put(target, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), target);
     		}
     		if (object.getName().equals("Counter")) {
     			Event counter = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -112,6 +115,13 @@ public class TiledObjectUtil {
     			TriggerMulti trigger = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     			multiTriggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
+    		}
+    		if (object.getName().equals("Condtrigger")) {
+    			TriggerCond trigger = new TriggerCond(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("start", "", String.class));
+    			condTriggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
     		}
     		if (object.getName().equals("Alttrigger")) {
@@ -283,6 +293,13 @@ public class TiledObjectUtil {
     		for (String id : multiTriggeringEvents.get(key).split(",")) {
     			if (!id.equals("")) {
     				key.addTrigger(triggeredEvents.getOrDefault(id, null));
+    			}
+    		}
+    	}
+    	for (TriggerCond key : condTriggeringEvents.keySet()) {
+    		for (String id : condTriggeringEvents.get(key).split(",")) {
+    			if (!id.equals("")) {
+    				key.addTrigger(id, triggeredEvents.getOrDefault(id, null));
     			}
     		}
     	}
