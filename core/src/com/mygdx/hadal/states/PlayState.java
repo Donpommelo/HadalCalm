@@ -139,6 +139,8 @@ public class PlayState extends GameState {
 
 		b2dr = new Box2DDebugRenderer();
 		
+		
+		
 		//Initialize sets to keep track of active entities
 		removeList = new HashSet<HadalEntity>();
 		createList = new HashSet<HadalEntity>();

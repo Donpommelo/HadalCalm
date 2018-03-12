@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.audio.MusicPlayer;
 import com.mygdx.hadal.managers.AssetList;
 
 /**
@@ -42,7 +43,8 @@ public class HadalGame extends ApplicationAdapter {
 	private static FitViewport viewportCamera, viewportSprite;
 	
     public static AssetManager assetManager;
-
+    public static MusicPlayer musicPlayer;
+    
     public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_TEXT, SYSTEM_FONT_UI;
     public static Color DEFAULT_TEXT_COLOR;
  
@@ -81,7 +83,9 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
         loadAssets();
-	       
+	     
+        musicPlayer = new MusicPlayer();
+        
 		currentMenu = new Stage();
 
 		gsm = new GameStateManager(this);
