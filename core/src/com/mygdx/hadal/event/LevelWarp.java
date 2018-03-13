@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -34,7 +35,7 @@ public class LevelWarp extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				state.loadLevel("Maps/"+level);
+				state.loadLevel(UnlockLevel.valueOf(level));
 			}
 		};
 		

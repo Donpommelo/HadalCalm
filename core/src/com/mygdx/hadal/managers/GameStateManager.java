@@ -13,6 +13,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.Record;
+import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;
@@ -37,7 +38,7 @@ public class GameStateManager {
 	private Loadout loadout;
 
 	//This is the player's currently selected level filename
-	private String level;
+	private UnlockLevel level;
 	
 	private Record record;
 	
@@ -68,7 +69,7 @@ public class GameStateManager {
 		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
 		this.loadout = new Loadout();
-		this.level = "Maps/arena_1.tmx";
+		this.level = UnlockLevel.ARENA_1;
 		
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
@@ -149,7 +150,7 @@ public class GameStateManager {
 	 * @param old: old playerdata to persist stuff like equips/hp/whatever
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addPlayState(String map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
+	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
 		if (states.empty()) {
 			states.push(new PlayState(this, loadout, map, true, old));
 			states.peek().show();
@@ -210,11 +211,11 @@ public class GameStateManager {
 		return loadout;
 	}
 
-	public String getLevel() {
+	public UnlockLevel getLevel() {
 		return level;
 	}
 
-	public void setLevel(String level) {
+	public void setLevel(UnlockLevel level) {
 		this.level = level;
 	}
 }

@@ -20,6 +20,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockEquip.UnlockType;
+import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.TitleState;
@@ -53,7 +54,7 @@ public class LoadoutState extends GameState {
 	public LoadoutState(final GameStateManager gsm) {
 		super(gsm);
 		
-		playState = new PlayState(gsm, gsm.getLoadout(), "Maps/test_map.tmx", false);	
+		playState = new PlayState(gsm, gsm.getLoadout(), UnlockLevel.HUB, false);	
 		
 		levels.clear();
 		levels.put("Maps/test_map_large.tmx", "Level_1");
@@ -270,7 +271,7 @@ public class LoadoutState extends GameState {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 
-		        	getGsm().setLevel(selected);
+		        	getGsm().setLevel(UnlockLevel.valueOf(selected));
 		        	refreshLoadout();
 
 		        }
@@ -288,7 +289,7 @@ public class LoadoutState extends GameState {
 	public void refreshLoadout() {
 		
 		characterSelect.setText("Character: " + getGsm().getLoadout().character.getName());
-		levelSelect.setText("Level: " + levels.get(getGsm().getLevel()));
+		levelSelect.setText("Level: " + getGsm().getLevel());
 		
 		for (int i = 0; i < slotButtons.size; i++) {
 			if (getGsm().getLoadout().multitools[i] != null) {

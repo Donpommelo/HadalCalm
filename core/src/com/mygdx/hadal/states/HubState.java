@@ -9,13 +9,14 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.save.UnlockLevel;
 
 public class HubState extends PlayState {
 
 	private Actor exitOption, playOption;
 	
 	public HubState(GameStateManager gsm, Loadout loadout) {
-		super(gsm, loadout, "Maps/test_map.tmx", false);
+		super(gsm, loadout, UnlockLevel.HUB, false);
 
 	}
 	

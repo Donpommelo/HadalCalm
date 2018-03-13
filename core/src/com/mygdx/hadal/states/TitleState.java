@@ -12,6 +12,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockLevel;
 
 /**
  * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
@@ -64,7 +65,7 @@ public class TitleState extends GameState {
 				
 				tutorialOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addPlayState("Maps/tutorial.tmx", new Loadout(UnlockEquip.NOTHING), null, TitleState.class);
+			        	getGsm().addPlayState(UnlockLevel.TUTORIAL_1, new Loadout(UnlockEquip.NOTHING), null, TitleState.class);
 			        }
 			    });
 				tutorialOption.setScale(0.5f);

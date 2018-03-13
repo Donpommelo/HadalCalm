@@ -26,6 +26,7 @@ import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -81,7 +82,7 @@ public class PlayState extends GameState {
 	
 	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
 	private int score = 0;
-	private String level;
+	private UnlockLevel level;
 	
 	private boolean gameover = false;
 	private boolean won = false;
@@ -105,7 +106,7 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, String level, boolean realFite, PlayerBodyData old) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean realFite, PlayerBodyData old) {
 		super(gsm);
 
 		this.realFite = realFite;
@@ -152,7 +153,7 @@ public class PlayState extends GameState {
 		
 		mouse = new MouseTracker(this, world, camera, rays);
 		
-		map = new TmxMapLoader().load(level);
+		map = new TmxMapLoader().load(level.getMap());
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
@@ -178,7 +179,7 @@ public class PlayState extends GameState {
 	/**
 	 * 
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, String level, boolean realFite) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean realFite) {
 		this(gsm, loadout, level, realFite, null);
 	}
 			
@@ -228,7 +229,7 @@ public class PlayState extends GameState {
 	 * transition from one playstate to another with a new level.
 	 * @param level: file of the new map
 	 */
-	public void loadLevel(String level) {
+	public void loadLevel(UnlockLevel level) {
 		getGsm().removeState(PlayState.class);
 		getGsm().removeState(LoadoutState.class);
 		getGsm().removeState(HubState.class);
@@ -279,22 +280,7 @@ public class PlayState extends GameState {
 		if (gameover) {
 			gameoverCdCount -= delta;
 			if (gameoverCdCount < 0) {
-				if (realFite) {
-					getGsm().removeState(PlayState.class);
-					if (won) {
-						getGsm().addState(State.VICTORY, TitleState.class);
-					} else {
-						getGsm().addState(State.GAMEOVER, TitleState.class);
-					}
-				} else {
-					player = new Player(this, world, camera, rays, (int)(player.getBody().getPosition().x * PPM),
-							(int)(player.getBody().getPosition().y * PPM), loadout.character, null);
-					
-					controller.setPlayer(player);
-					
-					gameover = false;
-				}
- 				
+				endGameProcessing();
 			}
 		}
 	}
@@ -368,6 +354,30 @@ public class PlayState extends GameState {
 	}
 	
 	/**
+	 * This is called when ending a playstate by winning or losing
+	 */
+	public void endGameProcessing() {
+		if (realFite) {
+			
+			gsm.getRecord().updateScore(score, level.name());
+			
+			getGsm().removeState(PlayState.class);
+			if (won) {
+				getGsm().addState(State.VICTORY, TitleState.class);
+			} else {
+				getGsm().addState(State.GAMEOVER, TitleState.class);
+			}			
+		} else {
+			player = new Player(this, world, camera, rays, (int)(player.getBody().getPosition().x * PPM),
+					(int)(player.getBody().getPosition().y * PPM), loadout.character, null);
+			
+			controller.setPlayer(player);
+			
+			gameover = false;
+		}
+	}
+	
+	/**
 	 * This method is called by entities to be added to the set of entities to be deleted next engine tick.
 	 * @param entity: delet this
 	 */
@@ -411,7 +421,7 @@ public class PlayState extends GameState {
 		return score;
 	}
 
-	public String getLevel() {
+	public UnlockLevel getLevel() {
 		return level;
 	}
 	
