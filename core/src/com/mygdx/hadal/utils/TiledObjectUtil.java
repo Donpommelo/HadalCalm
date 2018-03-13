@@ -280,6 +280,10 @@ public class TiledObjectUtil {
     			new Navigations(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
+    		if (object.getName().equals("Quartermaster")) {
+    			new Quartermaster(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		}
     	}
     }
     

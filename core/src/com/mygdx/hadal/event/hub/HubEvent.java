@@ -52,7 +52,7 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open && eventData.getSchmucks().isEmpty()) {
-			exit();
+			leave();
 			open = false;
 		}
 		if (!open && !eventData.getSchmucks().isEmpty()) {
@@ -77,9 +77,8 @@ public class HubEvent extends Event {
 		
 	}
 	
-	public void exit() {
+	public void leave() {
 		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
-		
 	}
 
 }

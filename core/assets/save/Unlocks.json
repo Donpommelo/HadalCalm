@@ -8,6 +8,10 @@ EQUIP: {
 		class: java.lang.Boolean
 		value: true
 	}
+	ICEBERG: {
+		class: java.lang.Boolean
+		value: true
+	}
 	BOILER: {
 		class: java.lang.Boolean
 		value: true
@@ -60,6 +64,14 @@ EQUIP: {
 		class: java.lang.Boolean
 		value: true
 	}
+	TELEKINESIS: {
+		class: java.lang.Boolean
+		value: true
+	}
+	LASER_RIFLE: {
+		class: java.lang.Boolean
+		value: true
+	}
 	MACHINEGUN: {
 		class: java.lang.Boolean
 		value: true
@@ -107,6 +119,10 @@ ARTIFACT: {
 		value: true
 	}
 	GOOD_HEALTH: {
+		class: java.lang.Boolean
+		value: true
+	}
+	SCALING_SCALES: {
 		class: java.lang.Boolean
 		value: true
 	}
@@ -167,6 +183,10 @@ CHARACTER: {
 }
 LEVEL: {
 	TUTORIAL_1: {
+		class: java.lang.Boolean
+		value: true
+	}
+	LEVEL_1: {
 		class: java.lang.Boolean
 		value: true
 	}

@@ -12,27 +12,37 @@ public class Record {
 	
 	private Map<String, Integer> hiScores;
 	
+	
+	
 	public Record() {
+		this.scrap = 100;
+		this.scrip = 100;
 		
 	}
 	
 	public void incrementScrap(int amount) {
 		scrip = scrap + amount;
+		saveRecord();
 	}
 	
 	public void incrementScrip(int amount) {
 		scrip = scrip + amount;
+		saveRecord();
 	}
 	
 	public boolean updateScore(int score, String level) {
 		if (score > hiScores.get(level)) {
 			hiScores.put(level, score);
 			
-			Json json = new Json();
-			Gdx.files.local("save/Records.json").writeString(json.prettyPrint(this), false);
+			saveRecord();
 			return true;
 		}
 		return false;
+	}
+	
+	public void saveRecord() {
+		Json json = new Json();
+		Gdx.files.local("save/Records.json").writeString(json.prettyPrint(this), false);
 	}
 	
 	public int getScrap() {

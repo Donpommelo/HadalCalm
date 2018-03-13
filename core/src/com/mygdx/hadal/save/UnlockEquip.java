@@ -84,6 +84,12 @@ public enum UnlockEquip {
 
 	public void setUnlocked(boolean unlocked) {
 		this.unlocked = unlocked;
+		UnlockManager.saveUnlocks();
+	}
+	
+	//TODO: implement weapon costs
+	public int getCost() {
+		return 10;
 	}
 	
 	public enum UnlockType {
