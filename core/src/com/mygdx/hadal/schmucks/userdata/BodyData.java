@@ -259,7 +259,9 @@ public class BodyData extends HadalData {
 		
 		kbScale -= getKnockbackReduc();
 		kbScale += perp.getKnockbackAmp();
-		schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
+		if (schmuck.isAlive()) {
+			schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
+		}
 		if (currentHp <= 0) {
 			currentHp = 0;
 			die(perp);

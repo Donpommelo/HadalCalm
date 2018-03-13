@@ -65,6 +65,7 @@ public class UnlockManager {
 		
 		for (JsonValue d : base.get("LEVEL")) {
 			UnlockLevel.valueOf(d.name()).setUnlocked(d.getBoolean("value"));
-		}
+		}		
 	}
+	
 }

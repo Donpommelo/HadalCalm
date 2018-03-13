@@ -6,9 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.*;
@@ -34,6 +38,8 @@ public class GameStateManager {
 
 	//This is the player's currently selected level filename
 	private String level;
+	
+	private Record record;
 	
 	//This enum lists all the different types of gamestates.
 	public enum State {
@@ -69,6 +75,10 @@ public class GameStateManager {
 		
 //		UnlockManager.saveUnlocks();
 		UnlockManager.retrieveUnlocks();
+		
+		Json json = new Json();
+		JsonReader reader = new JsonReader();
+		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
 	}
 	
 	/**
@@ -188,6 +198,10 @@ public class GameStateManager {
 		return app;
 	}
 	
+	public Record getRecord() {
+		return record;
+	}
+
 	public Skin getSkin() {
 		return skin;
 	}

@@ -13,7 +13,7 @@ public enum UnlockLevel {
 	;
 	private String map, name;
 	private boolean unlocked;
-	
+
 	UnlockLevel(String map, String name) {
 		this.map = map;
 		this.name= name;
