@@ -86,10 +86,10 @@ public class SpawnerSchmuck extends Event {
 							spawns.add(new Torpedofish(state, world, camera, rays, randX, randY));
 							break;
 						case 5:
-							spawns.add(new Turret(state, world, camera, rays, randX, randY, "flak"));
+							spawns.add(new Turret(state, world, camera, rays, randX, (int) (randY - height / 2), "flak"));
 							break;
 						case 6:
-							spawns.add(new Turret(state, world, camera, rays, randX, randY, "volley"));
+							spawns.add(new Turret(state, world, camera, rays, randX, (int) (randY - height / 2), "volley"));
 							break;
 							
 						}

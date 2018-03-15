@@ -63,7 +63,7 @@ public class Turret extends Enemy {
 	private static final float scale = 0.5f;
 	
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String type) {
-		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
+		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2));		
 		this.angle = 0;
 		this.desiredAngle = 0;
 		
