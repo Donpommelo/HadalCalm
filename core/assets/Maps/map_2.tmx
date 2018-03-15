@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" nextobjectid="132">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="136">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="400" height="300">
   <data encoding="base64" compression="zlib">
@@ -587,5 +587,6 @@
     <property name="triggeredId" value="hp3"/>
    </properties>
   </object>
+  <object id="135" name="Start" type="Start" x="4928" y="3264" width="32" height="32"/>
  </objectgroup>
 </map>

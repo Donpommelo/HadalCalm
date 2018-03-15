@@ -72,6 +72,10 @@ public class TiledObjectUtil {
     		RectangleMapObject current = (RectangleMapObject)object;
 			Rectangle rect = current.getRectangle();
 			
+			if (object.getName().equals("Start")) {
+    			state.setStart((int)rect.x, (int)rect.y);
+    		}
+			
 			//Go through every event type to create events
     		if (object.getName().equals("Switch")) {
     			Event swich = new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 

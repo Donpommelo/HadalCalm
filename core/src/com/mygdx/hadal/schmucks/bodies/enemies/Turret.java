@@ -36,7 +36,7 @@ public class Turret extends Enemy {
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
 
-	private static final float aiCd = 1.0f;
+	private static final float aiCd = 0.25f;
 	private float aiCdCount = 0;
 	    
 	private float angle;
@@ -60,7 +60,7 @@ public class Turret extends Enemy {
 	private static final int rotationX = 131;
 	private static final int rotationY = 114;
 	
-	private static final float scale = 0.3f;
+	private static final float scale = 0.5f;
 	
 	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String type) {
 		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y);		
@@ -180,18 +180,30 @@ public class Turret extends Enemy {
 			batch.setColor(Color.RED);
 		}
 		
+		boolean flip = false;
+		
+		if (Math.abs(angle) > 90) {
+			flip = true;
+		}
+		
+		float rotationYReal = rotationY;
+		
+		if (flip) {
+			rotationYReal = height - rotationY;
+		}
+		
 		if(aiState == turretState.NOTSHOOTING) {
 			batch.draw(turretBarrel, 
 					body.getPosition().x * PPM - hbWidth * scale / 2, 
-					body.getPosition().y * PPM - hbHeight * scale / 2, 
-					rotationX * scale, rotationY * scale,
-					width * scale, height * scale, 1, 1, angle);
+					(flip ? height * scale : 0) + body.getPosition().y * PPM - hbHeight * scale / 2, 
+					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
+					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
 		} else {
 			batch.draw(fireAnimation.getKeyFrame(getAnimationTime(), true), 
 					body.getPosition().x * PPM - hbWidth * scale / 2, 
-					body.getPosition().y * PPM - hbHeight * scale / 2, 
-					rotationX * scale, rotationY * scale,
-					width * scale, height * scale, 1, 1, angle);
+					(flip ? height * scale - 12: 0) + body.getPosition().y * PPM - hbHeight * scale / 2, 
+					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
+					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
 		}
 		
 		batch.draw(turretBase, 

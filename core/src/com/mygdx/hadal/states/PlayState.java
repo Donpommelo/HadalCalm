@@ -157,6 +157,9 @@ public class PlayState extends GameState {
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
+		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", Integer.class);
+		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", Integer.class);
+		
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
 		
 		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
@@ -165,9 +168,7 @@ public class PlayState extends GameState {
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		
-		
-		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", Integer.class);
-		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", Integer.class);
+
 		this.safeX = startX;
 		this.safeY = startY;
 		
@@ -429,6 +430,21 @@ public class PlayState extends GameState {
 		return stage;
 	}
 	
+	
+	
+	public int getStartX() {
+		return startX;
+	}
+
+	public int getStartY() {
+		return startY;
+	}
+	
+	public void setStart(int x, int y) {
+		this.startX = (int) (x / PPM);
+		this.startY = (int) (y / PPM);
+	}
+
 	public void setSafe(int x, int y) {
 		this.safeX = x;
 		this.safeY = y;

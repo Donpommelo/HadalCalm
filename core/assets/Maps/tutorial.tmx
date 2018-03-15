@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" nextobjectid="83">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" infinite="0" nextobjectid="84">
  <properties>
   <property name="startX" type="int" value="63"/>
   <property name="startY" type="int" value="115"/>
@@ -250,6 +250,7 @@
     <property name="triggeringId" value="9"/>
    </properties>
   </object>
+  <object id="83" name="Start" type="Start" x="2016" y="3648" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="collision-layer">
   <properties>
