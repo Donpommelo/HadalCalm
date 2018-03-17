@@ -239,7 +239,7 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Destr_Obj")) {
     			new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("Hp", 100,Integer.class));
+    					object.getProperties().get("Hp", 100, Integer.class));
     		}
     		if (object.getName().equals("Warp")) {
     			new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -247,9 +247,10 @@ public class TiledObjectUtil {
     					object.getProperties().get("Level", String.class));
     		}
     		if (object.getName().equals("Poison")) {
-    			new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event poison = new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Damage", float.class), object.getProperties().get("startOn", true, boolean.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), poison);
     		}
     		if (object.getName().equals("Save")) {
     			new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 

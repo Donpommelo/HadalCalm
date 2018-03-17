@@ -190,6 +190,10 @@ LEVEL: {
 		class: java.lang.Boolean
 		value: true
 	}
+	LEVEL_2: {
+		class: java.lang.Boolean
+		value: true
+	}
 	HUB: {
 		class: java.lang.Boolean
 		value: true

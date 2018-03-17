@@ -1,9 +1,632 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="800" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="800" height="500" tilewidth="32" tileheight="32" infinite="0" nextobjectid="119">
  <tileset firstgid="1" source="main.tsx"/>
- <layer name="Tile Layer 1" width="800" height="300">
+ <layer name="Tile Layer 1" width="800" height="500">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
+ <objectgroup name="collision-layer">
+  <properties>
+   <property name="startX" type="int" value="10"/>
+   <property name="startY" type="int" value="234"/>
+  </properties>
+  <object id="1" x="480" y="8672">
+   <polyline points="0,0 896,0 992,-96 1728,-96 1728,-320 2144,-320 2240,-224 2592,-224 2592,-320 2688,-320 2688,-224 3296,-224 3296,-320 3392,-320 3392,-224 3712,-224 3904,-32 4576,-32 4672,64 4864,64 4960,-32 5440,-32 5696,-288 5952,-288 5952,-416 6112,-576 6112,-288 6272,-288 6272,-576 6432,-576 6432,-288 6592,-288 6592,-704 6752,-704 6752,-288 6912,-288 6912,-448 7072,-448 7072,-288 7232,-288 7232,-1024 7392,-1024 7392,288 9920,288 9920,-1056 10336,-1056 10336,-640 10912,-640 10912,-64 11328,352 11200,480 11200,960 13792,960 13792,128 14144,128 14144,-672 14432,-672 14432,128 16032,128 16032,320 16320,320 16320,-128 15104,-128 15104,-704 14912,-896 13440,-896 13248,-704 13248,800 12576,800 12576,736 12800,736 12800,608 12352,608 12352,800 11616,800 11616,480 11072,-64 11072,-800 10496,-800 10496,-1120 10528,-1120 10560,-1152 10560,-1792 6400,-1792 6080,-1472 5184,-1472 4864,-1152 3552,-1152 3552,-896 3392,-736 3392,-480 3296,-480 3296,-896 2592,-1600 192,-1600 0,-1408 0,0"/>
+  </object>
+  <object id="2" x="4544" y="8288">
+   <polyline points="0,0 0,32 544,32 672,-96 672,-128 128,-128 0,0"/>
+  </object>
+  <object id="3" x="5472" y="7872">
+   <polyline points="0,0 0,32 128,160 672,160 672,128 544,0 0,0"/>
+  </object>
+  <object id="4" x="7392" y="8128">
+   <polyline points="0,0 160,0 160,-288 0,-288 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="event-layer">
+  <object id="27" name="SchmuckSpawn" type="SchmuckSpawn" x="5024" y="7680" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn5"/>
+    <property name="triggeringId" value="spawn6"/>
+   </properties>
+  </object>
+  <object id="28" name="SchmuckSpawn" type="SchmuckSpawn" x="5536" y="7648" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn6"/>
+    <property name="triggeringId" value="spawn4"/>
+   </properties>
+  </object>
+  <object id="29" name="Current" type="Current" x="5472" y="8384" width="704" height="256">
+   <properties>
+    <property name="currentX" type="float" value="15"/>
+    <property name="currentY" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="6" name="Text" type="Text" x="768" y="8256" width="608" height="416">
+   <properties>
+    <property name="text" value="SELECT 1 WEAPON"/>
+   </properties>
+  </object>
+  <object id="7" name="Equip" type="Equip" x="928" y="8640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w1"/>
+    <property name="triggeringId" value="lockrewards0"/>
+   </properties>
+  </object>
+  <object id="8" name="Equip" type="Equip" x="1056" y="8640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w2"/>
+    <property name="triggeringId" value="lockrewards0"/>
+   </properties>
+  </object>
+  <object id="9" name="Equip" type="Equip" x="1184" y="8640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="w3"/>
+    <property name="triggeringId" value="lockrewards0"/>
+   </properties>
+  </object>
+  <object id="10" name="Multitrigger" type="Multitrigger" x="1056" y="8736" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="lockrewards0"/>
+    <property name="triggeringId" value="w1,w2,w3,spawn1"/>
+   </properties>
+  </object>
+  <object id="11" name="Spring" type="Spring" x="2080" y="8544" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="12" name="SchmuckSpawn" type="SchmuckSpawn" x="1696" y="7552" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeredId" value="spawn1"/>
+   </properties>
+  </object>
+  <object id="13" name="Timer" type="Timer" x="608" y="7424" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="14" name="Multitrigger" type="Multitrigger" x="736" y="7424" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="spawn2,hp1,hp2,fuel1"/>
+   </properties>
+  </object>
+  <object id="15" name="SchmuckSpawn" type="SchmuckSpawn" x="2656" y="7552" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn2"/>
+   </properties>
+  </object>
+  <object id="16" name="Switch" type="Switch" x="3456" y="8416" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="spawn3"/>
+   </properties>
+  </object>
+  <object id="18" name="SchmuckSpawn" type="SchmuckSpawn" x="3456" y="7776" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="4"/>
+    <property name="triggeredId" value="spawn3"/>
+    <property name="triggeringId" value="redirect1"/>
+   </properties>
+  </object>
+  <object id="19" name="Redirecttrigger" type="Redirecttrigger" x="3808" y="8512" width="32" height="32">
+   <properties>
+    <property name="blameId" value="doorhinge1"/>
+    <property name="triggeredId" value="redirect1"/>
+    <property name="triggeringId" value="door1"/>
+   </properties>
+  </object>
+  <object id="20" name="Platform" type="Platform" x="3776" y="8192" width="96" height="160">
+   <properties>
+    <property name="speed" type="float" value="5"/>
+    <property name="triggeredId" value="door1"/>
+   </properties>
+  </object>
+  <object id="21" name="Dummy" type="Dummy" x="3808" y="8064" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="doorhinge1"/>
+   </properties>
+  </object>
+  <object id="22" name="EventSpawn" type="EventSpawn" x="4064" y="8416" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="reset" type="bool" value="false"/>
+    <property name="triggeredId" value="hp1"/>
+   </properties>
+  </object>
+  <object id="23" name="Current" type="Current" x="3872" y="7744" width="160" height="448">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="12"/>
+   </properties>
+  </object>
+  <object id="24" name="Spring" type="Spring" x="4224" y="8480" width="64" height="64">
+   <properties>
+    <property name="springX" type="float" value="60"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="25" name="Sensor" type="Sensor" x="3808" y="8192" width="32" height="160">
+   <properties>
+    <property name="triggeringId" value="spawnsensor1"/>
+   </properties>
+  </object>
+  <object id="26" name="SchmuckSpawn" type="SchmuckSpawn" x="4480" y="7904" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn4"/>
+    <property name="triggeringId" value="spawn5"/>
+   </properties>
+  </object>
+  <object id="30" name="Multitrigger" type="Multitrigger" x="3936" y="8640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnsensor1"/>
+    <property name="triggeringId" value="spawn4,spawn7"/>
+   </properties>
+  </object>
+  <object id="31" name="SchmuckSpawn" type="SchmuckSpawn" x="4640" y="8512" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn7"/>
+    <property name="triggeringId" value="spawn8"/>
+   </properties>
+  </object>
+  <object id="32" name="SchmuckSpawn" type="SchmuckSpawn" x="5408" y="8256" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn8"/>
+    <property name="triggeringId" value="spawn9"/>
+   </properties>
+  </object>
+  <object id="33" name="SchmuckSpawn" type="SchmuckSpawn" x="6240" y="8000" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="2"/>
+    <property name="triggeredId" value="spawn9"/>
+    <property name="triggeringId" value="spawn7"/>
+   </properties>
+  </object>
+  <object id="34" name="EventSpawn" type="EventSpawn" x="7456" y="8192" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="reset" type="bool" value="false"/>
+    <property name="triggeredId" value="hp2"/>
+   </properties>
+  </object>
+  <object id="35" name="Dropthrough" type="Dropthrough" x="7968" y="7744" width="544" height="32"/>
+  <object id="36" name="Spring" type="Spring" x="6656" y="8352" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="37" name="Spring" type="Spring" x="6976" y="8352" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="38" name="Spring" type="Spring" x="7616" y="8352" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="39" name="Spring" type="Spring" x="7296" y="8352" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="40" name="Spring" type="Spring" x="7296" y="8352" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="41" name="Platform" type="Platform" x="8640" y="7744" width="288" height="32">
+   <properties>
+    <property name="speed" type="float" value="4"/>
+    <property name="triggeredId" value="platform1"/>
+    <property name="triggeringId" value="platpt1"/>
+   </properties>
+  </object>
+  <object id="42" name="Dummy" type="Dummy" x="8768" y="8064" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt1"/>
+    <property name="triggeringId" value="platpt2"/>
+   </properties>
+  </object>
+  <object id="43" name="Dummy" type="Dummy" x="8768" y="7456" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt2"/>
+    <property name="triggeringId" value="platpt1"/>
+   </properties>
+  </object>
+  <object id="44" name="Pit" type="Pit" x="7872" y="8864" width="2528" height="96"/>
+  <object id="45" name="Save" type="Save" x="7744" y="6880" width="96" height="768"/>
+  <object id="46" name="Platform" type="Platform" x="9184" y="7456" width="288" height="32">
+   <properties>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="platform2"/>
+    <property name="triggeringId" value="platpt3"/>
+   </properties>
+  </object>
+  <object id="47" name="Dummy" type="Dummy" x="8992" y="7456" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt3"/>
+    <property name="triggeringId" value="platpt4"/>
+   </properties>
+  </object>
+  <object id="48" name="Dummy" type="Dummy" x="9312" y="7136" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt4"/>
+    <property name="triggeringId" value="platpt5"/>
+   </properties>
+  </object>
+  <object id="49" name="Dummy" type="Dummy" x="9312" y="7456" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt5"/>
+    <property name="triggeringId" value="platpt3"/>
+   </properties>
+  </object>
+  <object id="51" name="Platform" type="Platform" x="9216" y="8288" width="480" height="32">
+   <properties>
+    <property name="speed" type="float" value="4"/>
+    <property name="triggeredId" value="platform3"/>
+    <property name="triggeringId" value="platpt6"/>
+   </properties>
+  </object>
+  <object id="52" name="Dummy" type="Dummy" x="9056" y="8288" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt6"/>
+    <property name="triggeringId" value="platpt7"/>
+   </properties>
+  </object>
+  <object id="53" name="Dummy" type="Dummy" x="9440" y="8288" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt7"/>
+    <property name="triggeringId" value="platpt6"/>
+   </properties>
+  </object>
+  <object id="54" name="Platform" type="Platform" x="9696" y="8256" width="480" height="32">
+   <properties>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="platform4"/>
+    <property name="triggeringId" value="platpt8"/>
+   </properties>
+  </object>
+  <object id="55" name="Dummy" type="Dummy" x="9440" y="8256" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt8"/>
+    <property name="triggeringId" value="platpt9"/>
+   </properties>
+  </object>
+  <object id="56" name="Dummy" type="Dummy" x="9952" y="8256" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt9"/>
+    <property name="triggeringId" value="platpt8"/>
+   </properties>
+  </object>
+  <object id="57" name="Platform" type="Platform" x="10240" y="8256" width="160" height="32">
+   <properties>
+    <property name="speed" type="float" value="25"/>
+    <property name="triggeredId" value="platform5"/>
+   </properties>
+  </object>
+  <object id="58" name="Dummy" type="Dummy" x="10304" y="7808" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt10"/>
+   </properties>
+  </object>
+  <object id="59" name="Switch" type="Switch" x="10368" y="8192" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="redirect2"/>
+   </properties>
+  </object>
+  <object id="60" name="Redirecttrigger" type="Redirecttrigger" x="10464" y="8192" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platpt10"/>
+    <property name="triggeredId" value="redirect2"/>
+    <property name="triggeringId" value="platform5"/>
+   </properties>
+  </object>
+  <object id="61" name="Dropthrough" type="Dropthrough" x="10240" y="7616" width="160" height="32"/>
+  <object id="62" name="Dummy" type="Dummy" x="9632" y="7552" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt11"/>
+    <property name="triggeringId" value="platpt12"/>
+   </properties>
+  </object>
+  <object id="63" name="Dummy" type="Dummy" x="10080" y="7552" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt12"/>
+    <property name="triggeringId" value="platpt13"/>
+   </properties>
+  </object>
+  <object id="64" name="Dummy" type="Dummy" x="10080" y="7264" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt13"/>
+    <property name="triggeringId" value="platpt14"/>
+   </properties>
+  </object>
+  <object id="65" name="Dummy" type="Dummy" x="9632" y="7264" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt14"/>
+    <property name="triggeringId" value="platpt11"/>
+   </properties>
+  </object>
+  <object id="66" name="Platform" type="Platform" x="9600" y="7552" width="96" height="32">
+   <properties>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="platform6"/>
+    <property name="triggeringId" value="platpt11"/>
+   </properties>
+  </object>
+  <object id="67" name="Platform" type="Platform" x="10048" y="7552" width="96" height="32">
+   <properties>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="platform7"/>
+    <property name="triggeringId" value="platpt12"/>
+   </properties>
+  </object>
+  <object id="68" name="Platform" type="Platform" x="10048" y="7264" width="96" height="32">
+   <properties>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="platform8"/>
+    <property name="triggeringId" value="platpt13"/>
+   </properties>
+  </object>
+  <object id="69" name="Platform" type="Platform" x="9600" y="7264" width="96" height="32">
+   <properties>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="platform9"/>
+    <property name="triggeringId" value="platpt14"/>
+   </properties>
+  </object>
+  <object id="70" name="Sensor" type="Sensor" x="7776" y="6880" width="32" height="768">
+   <properties>
+    <property name="triggeringId" value="spawnsensor2"/>
+   </properties>
+  </object>
+  <object id="71" name="Timer" type="Timer" x="7776" y="6752" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="spawnsensor2"/>
+    <property name="triggeringId" value="spawncont1"/>
+   </properties>
+  </object>
+  <object id="72" name="SchmuckSpawn" type="SchmuckSpawn" x="7936" y="6944" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeredId" value="spawncont1"/>
+   </properties>
+  </object>
+  <object id="73" name="EventSpawn" type="EventSpawn" x="10720" y="7584" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="1"/>
+    <property name="reset" type="bool" value="false"/>
+    <property name="triggeredId" value="hp1"/>
+   </properties>
+  </object>
+  <object id="74" name="Current" type="Current" x="10816" y="7616" width="160" height="416">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="-7"/>
+   </properties>
+  </object>
+  <object id="75" name="Current" type="Current" x="10816" y="7872" width="736" height="160">
+   <properties>
+    <property name="currentX" type="float" value="7"/>
+    <property name="currentY" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="76" name="Current" type="Current" x="11392" y="7872" width="160" height="896">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="-7"/>
+   </properties>
+  </object>
+  <object id="77" name="Current" type="Current" x="11392" y="8608" width="576" height="416">
+   <properties>
+    <property name="currentX" type="float" value="7"/>
+    <property name="currentY" type="float" value="-7"/>
+   </properties>
+  </object>
+  <object id="78" name="Sensor" type="Sensor" x="11680" y="9152" width="416" height="32">
+   <properties>
+    <property name="triggeringId" value="poisonstarter"/>
+   </properties>
+  </object>
+  <object id="79" name="Platform" type="Platform" x="10208" y="9696" width="1408" height="32">
+   <properties>
+    <property name="connections" value="poison1"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="triggeredId" value="poisontrack"/>
+   </properties>
+  </object>
+  <object id="80" name="Poison" type="Poison" x="10208" y="9024" width="1408" height="608">
+   <properties>
+    <property name="Damage" type="float" value="3"/>
+    <property name="triggeredId" value="poison1"/>
+   </properties>
+  </object>
+  <object id="81" name="Redirecttrigger" type="Redirecttrigger" x="12224" y="9152" width="32" height="32">
+   <properties>
+    <property name="blameId" value="poisondummy1"/>
+    <property name="triggeredId" value="poisonstarter"/>
+    <property name="triggeringId" value="poisontrack"/>
+   </properties>
+  </object>
+  <object id="82" name="Dummy" type="Dummy" x="13024" y="9696" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="poisondummy1"/>
+   </properties>
+  </object>
+  <object id="83" name="Destr_Obj" type="Destr_Obj" x="12320" y="9472" width="32" height="160"/>
+  <object id="84" name="Platform" type="Platform" x="13152" y="9472" width="96" height="160">
+   <properties>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="door2"/>
+   </properties>
+  </object>
+  <object id="85" name="Redirecttrigger" type="Redirecttrigger" x="13376" y="9376" width="32" height="32">
+   <properties>
+    <property name="blameId" value="doorhinge2"/>
+    <property name="triggeredId" value="redirect3"/>
+    <property name="triggeringId" value="door2"/>
+   </properties>
+  </object>
+  <object id="86" name="Dummy" type="Dummy" x="13184" y="9696" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="doorhinge2"/>
+   </properties>
+  </object>
+  <object id="87" name="Switch" type="Switch" x="12448" y="9600" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="redirect4"/>
+   </properties>
+  </object>
+  <object id="88" name="Destr_Obj" type="Destr_Obj" x="13536" y="9472" width="32" height="160"/>
+  <object id="89" name="Platform" type="Platform" x="12544" y="9472" width="96" height="160">
+   <properties>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="door3"/>
+   </properties>
+  </object>
+  <object id="90" name="Redirecttrigger" type="Redirecttrigger" x="12448" y="9696" width="32" height="32">
+   <properties>
+    <property name="blameId" value="doorhinge3"/>
+    <property name="triggeredId" value="redirect4"/>
+    <property name="triggeringId" value="door3"/>
+   </properties>
+  </object>
+  <object id="91" name="Dummy" type="Dummy" x="12576" y="9344" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="doorhinge3"/>
+   </properties>
+  </object>
+  <object id="92" name="Switch" type="Switch" x="13184" y="9376" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="redirect3"/>
+   </properties>
+  </object>
+  <object id="93" name="Poison" type="Poison" x="13536" y="9760" width="1184" height="1088">
+   <properties>
+    <property name="Damage" type="float" value="3"/>
+    <property name="triggeredId" value="poison2"/>
+   </properties>
+  </object>
+  <object id="94" name="Platform" type="Platform" x="14816" y="10208" width="32" height="32">
+   <properties>
+    <property name="connections" value="poison2"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="triggeredId" value="poisontrack2"/>
+   </properties>
+  </object>
+  <object id="95" name="Sensor" type="Sensor" x="13664" y="9472" width="32" height="160">
+   <properties>
+    <property name="triggeringId" value="poisonstarter2"/>
+   </properties>
+  </object>
+  <object id="96" name="Redirecttrigger" type="Redirecttrigger" x="13664" y="9408" width="32" height="32">
+   <properties>
+    <property name="blameId" value="poisondummy2"/>
+    <property name="triggeredId" value="poisonstarter2"/>
+    <property name="triggeringId" value="poisontrack2"/>
+   </properties>
+  </object>
+  <object id="97" name="Dummy" type="Dummy" x="14784" y="8256" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="poisondummy2"/>
+   </properties>
+  </object>
+  <object id="98" name="Dropthrough" type="Dropthrough" x="14112" y="9376" width="160" height="32"/>
+  <object id="99" name="Dropthrough" type="Dropthrough" x="13728" y="9120" width="160" height="32"/>
+  <object id="100" name="Platform" type="Platform" x="13952" y="8864" width="160" height="32">
+   <properties>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="triggeredId" value="platform10"/>
+    <property name="triggeringId" value="platpt15"/>
+   </properties>
+  </object>
+  <object id="101" name="Dummy" type="Dummy" x="14016" y="8992" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt15"/>
+    <property name="triggeringId" value="platpt16"/>
+   </properties>
+  </object>
+  <object id="102" name="Dummy" type="Dummy" x="14016" y="8256" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platpt16"/>
+    <property name="triggeringId" value="platpt15"/>
+   </properties>
+  </object>
+  <object id="103" name="Dropthrough" type="Dropthrough" x="14368" y="8448" width="160" height="32"/>
+  <object id="104" name="Dropthrough" type="Dropthrough" x="14464" y="8160" width="160" height="32"/>
+  <object id="105" name="EventSpawn" type="EventSpawn" x="15136" y="8768" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="2"/>
+    <property name="reset" type="bool" value="false"/>
+    <property name="triggeredId" value="fuel1"/>
+   </properties>
+  </object>
+  <object id="106" name="Sensor" type="Sensor" x="14912" y="8512" width="672" height="32">
+   <properties>
+    <property name="triggeringId" value="poisonstarter3"/>
+   </properties>
+  </object>
+  <object id="107" name="Redirecttrigger" type="Redirecttrigger" x="14816" y="8512" width="32" height="32">
+   <properties>
+    <property name="blameId" value="poisondummy3"/>
+    <property name="triggeredId" value="poisonstarter3"/>
+    <property name="triggeringId" value="poisontrack3"/>
+   </properties>
+  </object>
+  <object id="108" name="Platform" type="Platform" x="16160" y="8128" width="32" height="32">
+   <properties>
+    <property name="connections" value="poison3"/>
+    <property name="speed" type="float" value="1"/>
+    <property name="triggeredId" value="poisontrack3"/>
+   </properties>
+  </object>
+  <object id="109" name="Poison" type="Poison" x="15616" y="7904" width="1312" height="576">
+   <properties>
+    <property name="Damage" type="float" value="1"/>
+    <property name="triggeredId" value="poison3"/>
+   </properties>
+  </object>
+  <object id="110" name="Dummy" type="Dummy" x="16160" y="8512" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="poisondummy3"/>
+   </properties>
+  </object>
+  <object id="111" name="Victory" type="Victor" x="16640" y="8960" width="32" height="32"/>
+  <object id="113" name="Start" type="Start" x="608" y="8576" width="32" height="32"/>
+  <object id="118" name="Spring" type="Spring" x="13952" y="9600" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
