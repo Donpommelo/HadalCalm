@@ -5,7 +5,9 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -33,6 +35,8 @@ public class GameStateManager {
 	
 	//temp skin for ui windows
 	private Skin skin;
+	private NinePatchDrawable patch;
+	private ScrollPaneStyle scrollStyle;
 	
 	//This is the player's currently selected loadout. (not equiped weapons after entering level)
 	private Loadout loadout;
@@ -67,6 +71,9 @@ public class GameStateManager {
 		this.skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
 		this.skin.add("default-font", font24);
 		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+		
+		this.patch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_window"));
+		this.scrollStyle = new ScrollPaneStyle(patch, patch, patch, patch, patch);
 		
 		this.loadout = new Loadout();
 		this.level = UnlockLevel.ARENA_1;
@@ -207,6 +214,14 @@ public class GameStateManager {
 		return skin;
 	}
 	
+	public NinePatchDrawable getPatch() {
+		return patch;
+	}
+	
+	public ScrollPaneStyle getScrollStyle() {
+		return scrollStyle;
+	}
+
 	public Loadout getLoadout() {
 		return loadout;
 	}

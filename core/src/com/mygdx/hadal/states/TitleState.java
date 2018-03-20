@@ -108,7 +108,7 @@ public class TitleState extends GameState {
 	 */
 	@Override
 	public void render() {
-
+		
 	}
 
 	/**

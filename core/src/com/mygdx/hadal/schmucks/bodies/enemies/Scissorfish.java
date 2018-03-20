@@ -17,10 +17,10 @@ public class Scissorfish extends FloatingEnemy {
 	
 	private static final float scale = 0.25f;
 	
-	private static final float maxLinearSpeed = 200;
+	private static final float maxLinearSpeed = 120;
 	private static final float maxLinearAcceleration = 1000;
-	private static final float maxAngularSpeed = 10;
-	private static final float maxAngularAcceleration = 5;
+	private static final float maxAngularSpeed = 25;
+	private static final float maxAngularAcceleration = 10;
 	
 	private static final int boundingRadius = 500;
 	private static final int decelerationRadius = 0;

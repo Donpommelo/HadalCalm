@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="81">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="85">
  <properties>
   <property name="startX" type="int" value="18"/>
   <property name="startY" type="int" value="35"/>
@@ -121,9 +121,11 @@
   <object id="48" name="Equip" type="Equip" x="1184" y="1120" width="32" height="32"/>
   <object id="49" name="Equip" type="Equip" x="2880" y="2112" width="32" height="32"/>
   <object id="57" name="Dropthrough" type="Dropthrough" x="800" y="1184" width="224" height="32"/>
-  <object id="62" name="Radio" type="Radio" x="1088" y="1120" width="32" height="32">
+  <object id="62" name="Radio" type="Radio" x="1088" y="928" width="32" height="32">
    <properties>
     <property name="id" value="0"/>
+    <property name="triggeredId" value="radio"/>
+    <property name="triggeringId" value="radio2"/>
    </properties>
   </object>
   <object id="63" name="Rock" type="Rock" x="2240" y="2080" width="64" height="64"/>
@@ -205,5 +207,22 @@
    </properties>
   </object>
   <object id="80" name="Start" type="Start" x="576" y="1088" width="32" height="32"/>
+  <object id="81" name="Switch" type="Switch" x="1088" y="1120" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="radio"/>
+   </properties>
+  </object>
+  <object id="82" name="Radio" type="Radio" x="1184" y="928" width="32" height="32">
+   <properties>
+    <property name="id" value="1"/>
+    <property name="triggeredId" value="radio2"/>
+    <property name="triggeringId" value="test"/>
+   </properties>
+  </object>
+  <object id="83" name="Door" type="Door" x="864" y="864" width="96" height="96">
+   <properties>
+    <property name="triggeredId" value="test"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

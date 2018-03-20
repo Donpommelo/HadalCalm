@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="300" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="8">
+ <tileset firstgid="1" source="main.tsx"/>
+ <layer name="Tile Layer 1" width="300" height="300">
+  <data encoding="base64" compression="zlib">
+   eJzt3OlO4zAUgNHOwgyzSLz/2w7WUKmKmsZbnWtzjpR/lPQK5yOkIZcLAAAAAAAAAAAAAAAA0NPb+/Yt0Pb23HGBif06+w1sfB+0n1U7HW0uv4Po6bP2atW5o82VjPqZsr5o61uv2kSbK9Ereom2vvWqTbS5Er2il2jrW6/aRJsr0St6iba+9apNtLkSvaKXaOtbr9pEmyvRK3qJtr71qk20uRK9opdo61uv2kSbK9Ereom2vlfr1Zf37XfG1uueymg/z0Sv6KVkfecee9vta8E+VuvVz8vYe8D1ipWVrO8/l//HVen2t2Afq/Uql78H4Vjp+i5tVkmrEr1qE22uRK/opWZ95zartFWJXrWJNleiV/RSu76PmlXTqkSv2uTOtb0WmXuNseZ1ekUvLcdtata9a8e1rUr0qk3uXGl/t79fnvk6vaKXtOZ+nP0mPrxcxj0rSa/0ivlc193Zzbq2Sq/a6BUru117ZzXrtlV61UavWNn2OvnoZm1btVqvot7frlfM6N5ne6Oada9Vq/Uq6v3tesWM9u5HuHcOUNuxl53vt7fvEfw9qFfMp/R/a0qbtXcO9WgbQa/0ivmUtqSkWTWtGtWrCJ+J3tIrOFbTk5xjvbZVI3sVqVln9+p6DWDvfvXr5wbb1+gVI9U25dGx3tKq0b2K0qwIvXrUn9Kv374WemjpSunajtqrCM3SKzimVzGapVdwTK9iNEuv4JhePbdZs9zfrlfMQK/ubyXPoX/UpNFzt/Zqb/bSNbDdF/TwWXtV49G8Uez1pqWjNW1/xrkj6FW+GXoFK9OrfHoF59KrfHoF59KrfHoF59KrfOm9uZ4M59ErYBZ6BcxCr4BZlLbk9pnjrzvfc/vMcr0CeuhxPnWk9HwL4B69AmahV8As9AqYhV4Bs9ArYBYlHUlbzrOVWp+1BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFDrHxAXR6Y=
+  </data>
+ </layer>
+ <objectgroup name="event-layer">
+  <object id="5" name="Start" type="Start" x="864" y="640" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="collision-layer">
+  <object id="6" x="672" y="1696">
+   <polyline points="0,0 0,192 416,192 416,0 288,0 288,-480 448,-640 608,-640 768,-800 768,-1312 -352,-1312 -352,-800 -192,-640 -32,-640 128,-480 128,0 0,0"/>
+  </object>
+  <object id="7" x="640" y="704">
+   <polyline points="0,0 0,32 160,192 320,192 480,32 480,0 0,0"/>
+  </object>
+ </objectgroup>
+</map>

@@ -220,9 +220,11 @@ public class TiledObjectUtil {
     					object.getProperties().get("text", String.class));
     		}
     		if (object.getName().equals("Radio")) {
-    			new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			Event radio = new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("id", String.class));
+    			triggeringEvents.put(radio, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), radio);
     		}
     		if (object.getName().equals("Door")) {
     			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 

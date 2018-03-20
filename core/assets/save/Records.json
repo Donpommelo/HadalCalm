@@ -3,7 +3,7 @@ hiScores: {
 	class: java.util.HashMap
 	TUTORIAL_1: 4
 	LEVEL_1: 26
-	LEVEL_2: 2
+	LEVEL_2: 23
 	HUB: 0
 	ARENA_2: 25
 	ARENA_1: 36

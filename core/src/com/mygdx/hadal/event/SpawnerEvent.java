@@ -49,6 +49,9 @@ public class SpawnerEvent extends Event {
 				case 2:
 					event = new AirBubble(state, world, camera, rays, spawnX, spawnY);
 					break;
+				case 3:
+					event = new ScrapHeap(state, world, camera, rays, spawnX, spawnY, Integer.parseInt(args));
+					break;
 						
 				}
 				

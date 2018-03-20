@@ -43,6 +43,8 @@ public enum AssetList {
 	SMOKE_PUFF("sprites/particle/smoke_puff.particle", null),
 	SPARK_TRAIL("sprites/particle/spark_trail.particle", null),
 	
+	UIPATCHIMG("ui/window.png", Texture.class),
+	UIPATCHATL("ui/window.atlas", TextureAtlas.class),
 	UISKINIMG("ui/uiskin.png", Texture.class),
 	UISKINATL("ui/uiskin.atlas", TextureAtlas.class),
 	UI1("ui/UI.png", Texture.class),

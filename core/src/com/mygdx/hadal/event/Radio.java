@@ -2,8 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.event.userdata.InteractableEventData;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -29,11 +28,16 @@ public class Radio extends Event {
 	@Override
 	public void create() {
 
-		this.eventData = new InteractableEventData(world, this) {
+		this.eventData = new EventData(world, this) {
 			
 			@Override
-			public void onInteract(Player p) {
-				state.getStage().addDialogue(id);
+			public void onActivate(EventData activator) {
+				if (event.getConnectedEvent() != null) {
+					state.getStage().addDialogue(id, this, event.getConnectedEvent().getEventData());
+				} else {
+					state.getStage().addDialogue(id, this, null);
+				}
+				
 			}
 		};
 		

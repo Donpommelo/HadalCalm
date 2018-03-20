@@ -1,0 +1,33 @@
+
+window.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+UI_dialogue
+  rotate: false
+  xy: 2, 2
+  size: 254, 126
+  split: 152, 86, 56, 55
+  pad: 152, 86, 55, 56
+  orig: 254, 126
+  offset: 0, 0
+  index: -1
+UI_dialogue_vscale
+  rotate: false
+  xy: 258, 2
+  size: 254, 126
+  split: 152, 86, 105, 16
+  pad: 152, 86, 104, 16
+  orig: 254, 126
+  offset: 0, 0
+  index: -1
+UI_window
+  rotate: false
+  xy: 514, 2
+  size: 254, 126
+  split: 152, 86, 56, 55
+  pad: 152, 86, 55, 56
+  orig: 254, 126
+  offset: 0, 0
+  index: -1

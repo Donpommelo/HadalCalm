@@ -8,7 +8,21 @@
 		{
 			"Name": "Telemachus",
 			"Text": "Testing More Dialogue",
+			"Sprite": "",
+			"End": true
+		}
+	],
+	"1": [
+		{
+			"Name": "Moreau",
+			"Text": "MEEP MERP",
 			"Sprite": ""
+		}, 
+		{
+			"Name": "Telemachus",
+			"Text": "AY CARAMBAS",
+			"Sprite": "",
+			"End": true
 		}
 	]
 }
