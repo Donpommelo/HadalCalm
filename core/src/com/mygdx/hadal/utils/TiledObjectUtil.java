@@ -76,221 +76,186 @@ public class TiledObjectUtil {
     			state.setStart((int)rect.x, (int)rect.y);
     		}
 			
+			Event e = null;
+			
 			//Go through every event type to create events
     		if (object.getName().equals("Switch")) {
-    			Event swich = new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("oneTime", true, boolean.class));
-
-    			triggeringEvents.put(swich, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), swich);
     		}
     		if (object.getName().equals("Sensor")) {
-    			Event sensor = new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)
     					, object.getProperties().get("oneTime", true, boolean.class));
-    			triggeringEvents.put(sensor, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), sensor);
     		}
     		if (object.getName().equals("Timer")) {
-    			Event timer = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class),
     					object.getProperties().get("startOn", true, boolean.class));
-    			triggeringEvents.put(timer, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), timer);
     		}
     		if (object.getName().equals("Target")) {
-    			Event target = new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("oneTime", boolean.class));
-    			
-    			triggeringEvents.put(target, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), target);
     		}
     		if (object.getName().equals("Counter")) {
-    			Event counter = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
     					object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
-    			triggeringEvents.put(counter, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), counter);
     		}
     		if (object.getName().equals("Multitrigger")) {
-    			TriggerMulti trigger = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    			multiTriggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
+    			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
     		}
     		if (object.getName().equals("Condtrigger")) {
-    			TriggerCond trigger = new TriggerCond(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new TriggerCond(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("start", "", String.class));
-    			condTriggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
+    			condTriggeringEvents.put((TriggerCond)e, object.getProperties().get("triggeringId", "", String.class));
     		}
     		if (object.getName().equals("Alttrigger")) {
-    			Event trigger = new TriggerAlt(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new TriggerAlt(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("message","", String.class));
-    			triggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
     		}
     		if (object.getName().equals("Redirecttrigger")) {
-    			TriggerRedirect trigger = new TriggerRedirect(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new TriggerRedirect(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    			triggeringEvents.put(trigger, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), trigger);
-    			redirectTriggeringEvents.put(trigger, object.getProperties().get("blameId", "", String.class));
+    			redirectTriggeringEvents.put((TriggerRedirect)e, object.getProperties().get("blameId", "", String.class));
     		}
     		if (object.getName().equals("Dummy")) {
-    			Event dummy = new PositionDummy(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new PositionDummy(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    			triggeringEvents.put(dummy, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), dummy);
     		}
     		
     		if (object.getName().equals("SchmuckSpawn")) {
-    			
-    			Event spawn = new SpawnerSchmuck(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new SpawnerSchmuck(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("limit", int.class), object.getProperties().get("spread", true, boolean.class));	
-    			
-    			triggeringEvents.put(spawn, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), spawn);
     		}
     		if (object.getName().equals("EventSpawn")) {
-    			
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), 
-    					new SpawnerEvent(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new SpawnerEvent(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
     					object.getProperties().get("reset", true, boolean.class),
-    					object.getProperties().get("args", "", String.class)));	
+    					object.getProperties().get("args", "", String.class));	
     		}
-    		if (object.getName().equals("UsePortal")) {
-    			
-    			Event portal = new PortalUse(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    		if (object.getName().equals("UsePortal")) {		
+    			e = new PortalUse(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("oneTime", boolean.class));
-    			
-    			triggeringEvents.put(portal, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), portal);
     		}
     		
-    		if (object.getName().equals("TouchPortal")) {
-    			
-    			Event portal = new PortalTouch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    		if (object.getName().equals("TouchPortal")) {		
+    			e = new PortalTouch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    			
-    			triggeringEvents.put(portal, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), portal);
     		}
     		
     		if (object.getName().equals("Current")) {
     			Vector2 power = new Vector2(object.getProperties().get("currentX", float.class), object.getProperties().get("currentY", float.class));
-    			new Currents(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Currents(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
     		}
     		if (object.getName().equals("Spring")) {
     			Vector2 power = new Vector2(object.getProperties().get("springX", float.class), object.getProperties().get("springY", float.class));
-    			new Spring(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Spring(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
     		}
     		if (object.getName().equals("Equip")) {
-    			Event equip = new PickupEquip(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new PickupEquip(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("pool", "", String.class),
     					object.getProperties().get("startOn", true, boolean.class));
-    			triggeringEvents.put(equip, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), equip);
     		}
     		if (object.getName().equals("Artifact")) {
-    			Event artifact = new PickupArtifact(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new PickupArtifact(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("pool", "", String.class),
     					object.getProperties().get("startOn", true, boolean.class));
-    			triggeringEvents.put(artifact, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), artifact);
     		}
     		if (object.getName().equals("Dropthrough")) {
-    			new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Text")) {
-    			new InfoFlag(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new InfoFlag(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("text", String.class));
     		}
     		if (object.getName().equals("Radio")) {
-    			Event radio = new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("id", String.class));
-    			triggeringEvents.put(radio, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), radio);
     		}
     		if (object.getName().equals("Door")) {
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)));
+    			e = new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Rock")) {
-    			new AirblastableRock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new AirblastableRock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Victory")) {
-    			new Victory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Victory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Destr_Obj")) {
-    			new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Hp", 100, Integer.class));
     		}
     		if (object.getName().equals("Warp")) {
-    			new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Level", String.class));
     		}
     		if (object.getName().equals("Poison")) {
-    			Event poison = new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("Damage", float.class), object.getProperties().get("startOn", true, boolean.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), poison);
     		}
     		if (object.getName().equals("Save")) {
-    			new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Pit")) {
-    			new Pit(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Pit(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Platform")) {
-    			MovingPlatform platform = new MovingPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new MovingPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("speed", 1.0f, float.class));
-    			triggeringEvents.put(platform, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), platform);
-    			platformConnections.put(platform, object.getProperties().get("connections", "", String.class));
+    			platformConnections.put((MovingPlatform)e, object.getProperties().get("connections", "", String.class));
     		}
     		
     		if (object.getName().equals("Armory")) {
-    			new Armory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Armory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Reliquary")) {
-    			new Reliquary(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Reliquary(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Dormitory")) {
-    			new Dormitory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Dormitory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Navigation")) {
-    			new Navigations(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Navigations(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
     		if (object.getName().equals("Quartermaster")) {
-    			new Quartermaster(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    			e = new Quartermaster(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
+    		
+    		if (e != null) {
+    			triggeringEvents.put(e, object.getProperties().get("triggeringId", "", String.class));
+    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), e);
+    		}
+    		
     	}
     }
     

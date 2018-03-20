@@ -9,10 +9,13 @@ public class Dialogue {
 	
 	private EventData radio, trigger;
 	
-	public Dialogue(String name, String text, boolean end, EventData radio, EventData trigger) {
+	private float duration;
+	
+	public Dialogue(String name, String text, boolean end, float duration, EventData radio, EventData trigger) {
 		this.name = name;
 		this.text = text;
 		this.end = end;
+		this.duration = duration;
 		this.radio = radio;
 		this.trigger = trigger;
 		
@@ -40,6 +43,14 @@ public class Dialogue {
 
 	public void setEnd(boolean end) {
 		this.end = end;
+	}
+
+	public float getDuration() {
+		return duration;
+	}
+
+	public void setDuration(float duration) {
+		this.duration = duration;
 	}
 
 	public EventData getRadio() {

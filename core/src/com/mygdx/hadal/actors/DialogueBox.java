@@ -29,6 +29,8 @@ public class DialogueBox extends AHadalActor {
 
 	private GameStateManager gsm;
 	
+	private float durationCount = 0;
+	
 	public DialogueBox(AssetManager assetManager, GameStateManager stateManager, int x, int y) {
 		super(assetManager, x, y);
 		
@@ -45,12 +47,31 @@ public class DialogueBox extends AHadalActor {
 		updateHitBox();
 	}
 	
+	@Override
+	public void act(float delta) {
+		super.act(delta);
+		
+		if (durationCount > 0) {
+			durationCount -= delta;
+			
+			if(durationCount <= 0) {
+				nextDialogue();
+			}
+		}
+	}
+	
 	public void addDialogue(String id, EventData radio, EventData trigger) {
 		
 		JsonValue dialog = base.get(id);
 		
 		for (JsonValue d : dialog) {
-			dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getBoolean("End", false), radio, trigger));
+			
+			if (dialogues.size == 0) {
+				durationCount = d.getFloat("Duration", 0);
+			}
+			
+			dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getBoolean("End", false),
+					d.getFloat("Duration", 0), radio, trigger));
 		}		
 	}
 	
@@ -62,6 +83,10 @@ public class DialogueBox extends AHadalActor {
 			}
 			
 			dialogues.removeFirst();
+			
+			if (dialogues.size != 0) {
+				durationCount = dialogues.first().getDuration();
+			}
 		}
 	}
 	
