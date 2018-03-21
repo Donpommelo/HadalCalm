@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.utility;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
@@ -25,6 +26,7 @@ public class TriggerCond extends Event {
 
 	private Map<String, Event> triggered = new HashMap<String, Event>();
 	private String condition;
+	Random generator = new Random();
 	
 	public TriggerCond(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, String start) {
@@ -43,7 +45,14 @@ public class TriggerCond extends Event {
 					condition = ((TriggerAlt)activator.getEvent()).getMessage();
 				} else {
 					if (triggered.get(condition) != null) {
-						triggered.get(condition).getEventData().onActivate(this);
+						
+						if (condition.equals("random")) {
+							Object[] values = triggered.values().toArray();
+							((Event)values[generator.nextInt(values.length)]).getEventData().onActivate(this);
+							
+						} else {
+							triggered.get(condition).getEventData().onActivate(this);
+						}
 					}
 				}
 			}

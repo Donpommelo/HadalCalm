@@ -90,7 +90,7 @@ public class PlayState extends GameState {
 	private static final float gameoverCd = 2.5f;
 	private float gameoverCdCount;
 	
-	private float zoom;
+	private float zoom, zoomDesired;
 	private int startX, startY;
 	private int safeX, safeY;
 	private boolean realFite;
@@ -168,7 +168,7 @@ public class PlayState extends GameState {
 		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays);
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
-		
+		this.zoomDesired = zoom;
 
 		this.safeX = startX;
 		this.safeY = startY;
@@ -325,6 +325,9 @@ public class PlayState extends GameState {
 	 * This is called every update. This resets the camera zoom and makes it move towards the player.
 	 */
 	private void cameraUpdate() {
+		
+		zoom = zoom + (zoomDesired - zoom) * 0.1f;
+		
 		camera.zoom = zoom;
 		sprite.zoom = zoom;
 		if (cameraTarget != null) {
@@ -463,7 +466,7 @@ public class PlayState extends GameState {
 	}
 
 	public void setZoom(float zoom) {
-		this.zoom = zoom;
+		this.zoomDesired = zoom;
 	}
 
 	/**
