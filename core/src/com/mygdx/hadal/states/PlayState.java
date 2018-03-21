@@ -80,9 +80,10 @@ public class PlayState extends GameState {
 	//this exists so that schmucks can steer towards the mouse.
 	private MouseTracker mouse;
 	
-	//TODO: Temporary tracker of number of enemies defeated. Will replace eventually
-	private int score = 0;
+	//this is the current level
 	private UnlockLevel level;
+	
+	private HadalEntity cameraTarget;
 	
 	private boolean gameover = false;
 	private boolean won = false;
@@ -172,7 +173,8 @@ public class PlayState extends GameState {
 		this.safeX = startX;
 		this.safeY = startY;
 		
-		player = new Player(this, world, camera, rays, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
+		this.player = new Player(this, world, camera, rays, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
+		this.cameraTarget = player;
 		
 		controller = new PlayerController(player, this);		
 	}
@@ -325,10 +327,10 @@ public class PlayState extends GameState {
 	private void cameraUpdate() {
 		camera.zoom = zoom;
 		sprite.zoom = zoom;
-		if (player != null) {
-			if (player.getBody() != null) {
-				CameraStyles.lerpToTarget(camera, player.getBody().getPosition().scl(PPM));
-				CameraStyles.lerpToTarget(sprite, player.getBody().getPosition().scl(PPM));
+		if (cameraTarget != null) {
+			if (cameraTarget.getBody() != null) {
+				CameraStyles.lerpToTarget(camera, cameraTarget.getBody().getPosition().scl(PPM));
+				CameraStyles.lerpToTarget(sprite, cameraTarget.getBody().getPosition().scl(PPM));
 			}
 		}
 	}
@@ -360,7 +362,7 @@ public class PlayState extends GameState {
 	public void endGameProcessing() {
 		if (realFite) {
 			
-			gsm.getRecord().updateScore(score, level.name());
+			gsm.getRecord().updateScore(uiLevel.getScore(), level.name());
 			
 			getGsm().removeState(PlayState.class);
 			if (won) {
@@ -418,10 +420,6 @@ public class PlayState extends GameState {
 		return mouse;
 	}
 
-	public int getScore() {
-		return score;
-	}
-
 	public UnlockLevel getLevel() {
 		return level;
 	}
@@ -430,6 +428,10 @@ public class PlayState extends GameState {
 		return stage;
 	}	
 	
+	public UILevel getUiLevel() {
+		return uiLevel;
+	}
+
 	public int getStartX() {
 		return startX;
 	}
@@ -456,12 +458,20 @@ public class PlayState extends GameState {
 		return safeY;
 	}
 
+	public void setCameraTarget(HadalEntity cameraTarget) {
+		this.cameraTarget = cameraTarget;
+	}
+
+	public void setZoom(float zoom) {
+		this.zoom = zoom;
+	}
+
 	/**
 	 * Tentative tracker of player kill number.
 	 * @param i: Number to increase score by.
 	 */
 	public void incrementScore(int i) {
-		score += i;
+		uiLevel.incrementScore(i);
 	}
 
 	public void gameOver(boolean won) {

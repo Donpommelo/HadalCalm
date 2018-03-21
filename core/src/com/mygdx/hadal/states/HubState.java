@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UILevel.uiType;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
@@ -23,6 +24,8 @@ public class HubState extends PlayState {
 	@Override
 	public void show() {
 		super.show();
+		
+		getUiLevel().setType(uiType.HUB);
 		
 		exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);
 		exitOption.addListener(new ClickListener() {
