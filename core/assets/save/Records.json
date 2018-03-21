@@ -1,11 +1,13 @@
 {
+scrap: 100
+scrip: 100
 hiScores: {
 	class: java.util.HashMap
 	TUTORIAL_1: 4
-	LEVEL_1: 26
-	LEVEL_2: 23
+	LEVEL_1: 0
+	LEVEL_2: 26
 	HUB: 0
-	ARENA_2: 25
-	ARENA_1: 36
+	ARENA_2: 27
+	ARENA_1: 0
 }
 }

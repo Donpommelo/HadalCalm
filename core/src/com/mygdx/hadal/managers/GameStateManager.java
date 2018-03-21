@@ -72,7 +72,7 @@ public class GameStateManager {
 		this.skin.add("default-font", font24);
 		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
-		this.patch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_window"));
+		this.patch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_dialogue_vscale"));
 		this.scrollStyle = new ScrollPaneStyle(patch, patch, patch, patch, patch);
 		
 		this.loadout = new Loadout();

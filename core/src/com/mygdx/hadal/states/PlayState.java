@@ -428,9 +428,7 @@ public class PlayState extends GameState {
 	
 	public PlayStateStage getStage() {
 		return stage;
-	}
-	
-	
+	}	
 	
 	public int getStartX() {
 		return startX;

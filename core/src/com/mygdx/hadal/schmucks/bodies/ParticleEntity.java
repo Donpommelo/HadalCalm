@@ -107,4 +107,12 @@ public class ParticleEntity extends HadalEntity {
 		super.dispose();
 	}
 
+	public ParticleEffect getEffect() {
+		return effect;
+	}
+
+	public void setEffect(ParticleEffect effect) {
+		this.effect = effect;
+	}
+
 }

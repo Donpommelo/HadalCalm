@@ -440,7 +440,13 @@ public class Player extends PhysicsSchmuck {
 		attackAngle = (float)(Math.atan2(
 				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
 				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
-				
+		
+/*		for (ParticleEmitter p : hoverBubbles.getEffect().getEmitters()) {
+			p.getAngle().setHighMax(attackAngle);
+            p.getAngle().setHighMin(attackAngle);
+            p.getAngle().setLow(attackAngle, attackAngle);
+		}*/
+		
 		boolean flip = false;
 		
 		if (Math.abs(attackAngle) > 90) {

@@ -12,11 +12,7 @@ public class Record {
 	
 	private Map<String, Integer> hiScores;
 	
-	
-	
 	public Record() {
-		this.scrap = 100;
-		this.scrip = 100;
 		
 	}
 	
