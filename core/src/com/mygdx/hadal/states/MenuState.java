@@ -52,6 +52,7 @@ public class MenuState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(MenuState.class);
 			        	getGsm().removeState(PlayState.class);
+			        	getGsm().removeState(HubState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);

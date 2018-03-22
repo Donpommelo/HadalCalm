@@ -378,7 +378,7 @@ public class PlayState extends GameState {
 					(int)(player.getBody().getPosition().y * PPM), loadout.character, null);
 			
 			controller.setPlayer(player);
-			
+			this.cameraTarget = player;
 			gameover = false;
 		}
 	}

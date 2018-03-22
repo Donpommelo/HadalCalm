@@ -4,8 +4,8 @@ scrip: 100
 hiScores: {
 	class: java.util.HashMap
 	TUTORIAL_1: 4
-	NASU: 15
-	LEVEL_1: 10
+	NASU: 109
+	LEVEL_1: 30
 	LEVEL_2: 26
 	HUB: 0
 	ARENA_2: 27

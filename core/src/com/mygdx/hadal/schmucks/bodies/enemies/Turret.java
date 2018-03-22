@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -177,7 +176,7 @@ public class Turret extends Enemy {
 		batch.setProjectionMatrix(state.sprite.combined);
 		
 		if (flashingCount > 0) {
-			batch.setColor(Color.RED);
+			batch.setShader(HadalGame.shader);
 		}
 		
 		boolean flip = false;
@@ -212,7 +211,9 @@ public class Turret extends Enemy {
 				0, 0,
 				width * scale, height * scale, 1, 1, 0.0f);	
 		
-		batch.setColor(Color.WHITE);
+		if (flashingCount > 0) {
+			batch.setShader(null);
+		}
 	}
 	
 	public enum turretState {

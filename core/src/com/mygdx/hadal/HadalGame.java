@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -52,6 +53,8 @@ public class HadalGame extends ApplicationAdapter {
 	private static int DEFAULT_HEIGHT = 720;
     private Stage currentMenu;
     
+    public static ShaderProgram shader;
+    
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
 	 * This also initializes the Gamestate Manager.
@@ -80,6 +83,10 @@ public class HadalGame extends ApplicationAdapter {
 	    hud.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
 	    
 	    hud.zoom = 1 / BOX2DSCALE;
+	    
+	    shader = new ShaderProgram(Gdx.files.internal(
+	    		"shaders/flash-vert.glsl").readString(), 
+	    		Gdx.files.internal("shaders/flash-frag.glsl").readString());
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
         loadAssets();
@@ -189,7 +196,7 @@ public class HadalGame extends ApplicationAdapter {
 	public OrthographicCamera getSprite() {
 		return sprite;
 	}
-	
+
 	/**
 	 * Getter for the main game sprite batch
 	 * @return: the batch

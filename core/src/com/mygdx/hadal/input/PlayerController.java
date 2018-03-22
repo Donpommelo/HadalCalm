@@ -4,6 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.states.HubState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -109,6 +110,7 @@ public class PlayerController implements InputProcessor {
 		
 		if (keycode == PlayerAction.PAUSE.getKey()) {
 			state.getGsm().addState(State.MENU, PlayState.class);
+			state.getGsm().addState(State.MENU, HubState.class);
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {

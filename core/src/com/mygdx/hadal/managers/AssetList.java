@@ -43,6 +43,8 @@ public enum AssetList {
 	SMOKE_PUFF("sprites/particle/smoke_puff.particle", null),
 	SPARK_TRAIL("sprites/particle/spark_trail.particle", null),
 	
+	
+	
 	UIPATCHIMG("ui/window.png", Texture.class),
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),
 	UISKINIMG("ui/uiskin.png", Texture.class),
@@ -50,6 +52,8 @@ public enum AssetList {
 	UI1("ui/UI.png", Texture.class),
 	UI2("ui/UI2.png", Texture.class),
 	UIATLAS("ui/UI.atlas", TextureAtlas.class);
+	
+	
 	
 	//Enum constructor and methods.
 	private String pathname;

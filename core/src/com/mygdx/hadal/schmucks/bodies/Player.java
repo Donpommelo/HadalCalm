@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.bodies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -489,7 +488,7 @@ public class Player extends PhysicsSchmuck {
 		
 		//This makes bodies flash red when receiving damage.
 		if (flashingCount > 0) {
-			batch.setColor(Color.RED);
+			batch.setShader(HadalGame.shader);
 		}
 		
 		//Draw a bunch of stuff
@@ -556,7 +555,9 @@ public class Player extends PhysicsSchmuck {
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 		
-		batch.setColor(Color.WHITE);
+		if (flashingCount > 0) {
+			batch.setShader(null);
+		}
 	}
 	
 	@Override

@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -217,7 +216,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		batch.setProjectionMatrix(state.sprite.combined);
 
 		if (flashingCount > 0) {
-			batch.setColor(Color.RED);
+			batch.setShader(HadalGame.shader);
 		}
 		
 		batch.draw(fishSprite, 
@@ -228,7 +227,9 @@ public class FloatingEnemy extends SteeringEnemy {
 				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
 				(float) Math.toDegrees(body.getAngle()) - 90);
 
-		batch.setColor(Color.WHITE);
+		if (flashingCount > 0) {
+			batch.setShader(null);
+		}
 	}
 	
 	public enum floatingState {		CHASING,
