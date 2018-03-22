@@ -3,7 +3,6 @@ package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -31,6 +30,10 @@ public class DialogueBox extends AHadalActor {
 	
 	private float durationCount = 0;
 	
+	private float currX, currY;
+	private static final int maxX = 1000;
+	private static final int maxY = 200;
+	
 	public DialogueBox(AssetManager assetManager, GameStateManager stateManager, int x, int y) {
 		super(assetManager, x, y);
 		
@@ -42,7 +45,7 @@ public class DialogueBox extends AHadalActor {
 		dialogues = new Queue<Dialogue>();
 		
 		font = HadalGame.SYSTEM_FONT_UI;
-//		color = HadalGame.DEFAULT_TEXT_COLOR;
+		
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		updateHitBox();
 	}
@@ -58,6 +61,9 @@ public class DialogueBox extends AHadalActor {
 				nextDialogue();
 			}
 		}
+
+		currX = currX + (maxX - currX) * 0.1f;
+		currY = currY + (maxY - currY) * 0.1f;
 	}
 	
 	public void addDialogue(String id, EventData radio, EventData trigger) {
@@ -68,6 +74,9 @@ public class DialogueBox extends AHadalActor {
 			
 			if (dialogues.size == 0) {
 				durationCount = d.getFloat("Duration", 0);
+				
+				currX = 0;
+				currY = 0;
 			}
 			
 			dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getBoolean("End", false),
@@ -86,6 +95,8 @@ public class DialogueBox extends AHadalActor {
 			
 			if (dialogues.size != 0) {
 				durationCount = dialogues.first().getDuration();
+				currX = 0;
+				currY = 0;
 			}
 		}
 	}
@@ -93,15 +104,13 @@ public class DialogueBox extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 		 font.getData().setScale(scale);
-		 font.setColor(Color.WHITE);
 		 
 		 if (dialogues.size != 0) {
-			 gsm.getPatch().draw(batch, getX(), getY() - 200, 1000, 200);
+			 gsm.getPatch().draw(batch, getX(), getY() - 200, currX, currY);
 	         font.draw(batch, dialogues.first().getName() +": " + dialogues.first().getText(), getX() + 20, getY() - 20);
 		 }
 		 
          //Return scale and color to default values.
          font.getData().setScale(1.0f);
-         font.setColor(HadalGame.DEFAULT_TEXT_COLOR);
     }	
 }

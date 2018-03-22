@@ -25,9 +25,9 @@ public class SpittlefishAttack extends RangedWeapon {
 	private final static float baseDamage = 10.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 4.5f;
-	private final static float projectileSpeed = 8.0f;
-	private final static int projectileWidth = 90;
-	private final static int projectileHeight = 30;
+	private final static float projectileSpeed = 6.0f;
+	private final static int projectileWidth = 60;
+	private final static int projectileHeight = 20;
 	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	

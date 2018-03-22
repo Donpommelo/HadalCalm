@@ -24,7 +24,8 @@ public class Text extends AHadalActor{
 		super(assetManager, x, y);
 		this.text = text;
 		font = HadalGame.SYSTEM_FONT_UI;
-		color = HadalGame.DEFAULT_TEXT_COLOR;
+//		color = HadalGame.DEFAULT_TEXT_COLOR;
+		color = Color.BLACK;
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		updateHitBox();
 	}
