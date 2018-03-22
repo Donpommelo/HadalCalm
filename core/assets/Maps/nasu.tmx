@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="29">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="39">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="40" height="40">
   <data encoding="base64" compression="zlib">
@@ -135,7 +135,7 @@
     <property name="triggeringId" value="randSpawn"/>
    </properties>
   </object>
-  <object id="22" name="Condtrigger" type="Condtrigger" x="608" y="160" width="32" height="32">
+  <object id="22" name="Condtrigger" type="Condtrigger" x="672" y="160" width="32" height="32">
    <properties>
     <property name="triggeredId" value="randSpawn"/>
     <property name="triggeringId" value="nasu1,nasu2,nasu3,nasu4,nasu5,nasu6,nasu7,nasu8,nasu9,nasu10,nasu11"/>
@@ -143,9 +143,9 @@
   </object>
   <object id="23" name="Timer" type="Timer" x="544" y="160" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="3"/>
+    <property name="interval" type="float" value="4"/>
     <property name="limit" type="int" value="0"/>
-    <property name="triggeringId" value="randSpawn"/>
+    <property name="triggeringId" value="nextWave"/>
    </properties>
   </object>
   <object id="24" name="Sensor" type="Sensor" x="256" y="1056" width="768" height="32">
@@ -181,6 +181,76 @@
    <properties>
     <property name="triggeredId" value="lose"/>
     <property name="won" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="29" name="Multitrigger" type="Multitrigger" x="608" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="nextWave"/>
+    <property name="triggeringId" value="randSpawn,extraSpawn1,extraSpawn2,extraSpawn3"/>
+   </properties>
+  </object>
+  <object id="30" name="Counter" type="Counter" x="768" y="160" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="3"/>
+    <property name="triggeredId" value="extraSpawn1"/>
+    <property name="triggeringId" value="extraTimer1"/>
+   </properties>
+  </object>
+  <object id="31" name="Timer" type="Timer" x="832" y="160" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="5"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="extraTimer1"/>
+    <property name="triggeringId" value="randSpawn"/>
+   </properties>
+  </object>
+  <object id="32" name="Counter" type="Counter" x="768" y="96" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="6"/>
+    <property name="triggeredId" value="extraSpawn2"/>
+    <property name="triggeringId" value="extraTimer2"/>
+   </properties>
+  </object>
+  <object id="34" name="Timer" type="Timer" x="832" y="96" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="6"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="extraTimer2"/>
+    <property name="triggeringId" value="randSpawn"/>
+   </properties>
+  </object>
+  <object id="35" name="Timer" type="Timer" x="832" y="32" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="7"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="extraTimer3"/>
+    <property name="triggeringId" value="randSpawn"/>
+   </properties>
+  </object>
+  <object id="36" name="Counter" type="Counter" x="768" y="32" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="9"/>
+    <property name="triggeredId" value="extraSpawn3"/>
+    <property name="triggeringId" value="extraTimer3"/>
+   </properties>
+  </object>
+  <object id="37" name="Counter" type="Counter" x="928" y="160" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="12"/>
+    <property name="triggeredId" value="extraSpawn4"/>
+    <property name="triggeringId" value="extraTimer4"/>
+   </properties>
+  </object>
+  <object id="38" name="Timer" type="Timer" x="992" y="160" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="startOn" type="bool" value="false"/>
+    <property name="triggeredId" value="extraTimer4"/>
+    <property name="triggeringId" value="randSpawn"/>
    </properties>
   </object>
  </objectgroup>

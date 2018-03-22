@@ -101,7 +101,8 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Counter")) {
     			e = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-    					object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
+    					object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class), 
+    					object.getProperties().get("oneTime", false, boolean.class));
     		}
     		if (object.getName().equals("Multitrigger")) {
     			e = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 

@@ -54,7 +54,7 @@ public class SpawnerEvent extends Event {
 					event = new ScrapHeap(state, world, camera, rays, spawnX, spawnY, Integer.parseInt(args));
 					break;
 				case 4:
-					event = new Sensor(state, world, camera, rays, 32, 32, spawnX, spawnY, true, true, true, true, false, 1.0f);
+					event = new Sensor(state, world, camera, rays, 32, 32, spawnX, spawnY, true, true, true, true, false, 0.2f);
 					break;
 				}
 				

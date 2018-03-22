@@ -23,11 +23,16 @@ public class Counter extends Event {
 	private int maxCount;
 	private int currentCount;
 	
+	private boolean oneTime, active;
+	
 	public Counter(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, int maxCount, int startCount) {
+			int x, int y, int maxCount, int startCount, boolean oneTime) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.maxCount = maxCount;
 		this.currentCount = startCount;
+		
+		this.oneTime = oneTime;
+		this.active = true;
 	}
 	
 	@Override
@@ -36,10 +41,15 @@ public class Counter extends Event {
 			
 			@Override
 			public void onActivate(EventData activator) {
-				currentCount++;
-				if (currentCount >= maxCount && event.getConnectedEvent() != null) {
-					event.getConnectedEvent().getEventData().onActivate(this);
-					currentCount = 0;
+				if (active) {
+					currentCount++;
+					if (currentCount >= maxCount && event.getConnectedEvent() != null) {
+						event.getConnectedEvent().getEventData().onActivate(this);
+						currentCount = 0;
+						if (oneTime) {
+							active = false;
+						}
+					}
 				}
 			}
 		};
