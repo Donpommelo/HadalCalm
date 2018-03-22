@@ -186,6 +186,10 @@ LEVEL: {
 		class: java.lang.Boolean
 		value: true
 	}
+	NASU: {
+		class: java.lang.Boolean
+		value: true
+	}
 	LEVEL_1: {
 		class: java.lang.Boolean
 		value: true

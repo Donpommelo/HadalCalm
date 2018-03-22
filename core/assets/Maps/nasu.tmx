@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="29">
+ <tileset firstgid="1" source="main.tsx"/>
+ <layer name="Tile Layer 1" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztzjEKwCAQBVHBNNrk/rcNqaOBMC4amQe/W9hJSZLinYtsp74cPNJXXm5HORp/e+x7so+xj7GPsY+xj7GPsY+xj9m5714NXuvnl74Z+2ufJI10AXZ5FME=
+  </data>
+ </layer>
+ <objectgroup name="collision-layer">
+  <object id="8" x="320" y="960">
+   <polyline points="-64,0 704,0 704,-640 -64,-640 -64,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="event-layer">
+  <object id="2" name="Timer" type="Timer" x="32" y="32" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="limit" type="int" value="1"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="3" name="Multitrigger" type="Multitrigger" x="96" y="32" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="camera1,ui1,randomizer"/>
+   </properties>
+  </object>
+  <object id="4" name="Camera" type="Camera" x="160" y="32" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="triggeringId" value="mapCenter"/>
+   </properties>
+  </object>
+  <object id="5" name="Dummy" type="Dummy" x="624" y="624" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="mapCenter"/>
+   </properties>
+  </object>
+  <object id="6" name="UI" type="UI" x="224" y="32" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="3"/>
+    <property name="triggeredId" value="ui1"/>
+    <property name="type" value="LIVES"/>
+   </properties>
+  </object>
+  <object id="7" name="Start" type="Start" x="624" y="848" width="32" height="32"/>
+  <object id="9" name="EventSpawn" type="EventSpawn" x="288" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu1"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="10" name="UI" type="UI" x="64" y="288" width="32" height="32">
+   <properties>
+    <property name="score" type="int" value="1"/>
+    <property name="triggeredId" value="scoreIncr"/>
+    <property name="type" value="LIVES"/>
+   </properties>
+  </object>
+  <object id="11" name="EventSpawn" type="EventSpawn" x="352" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu2"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="12" name="EventSpawn" type="EventSpawn" x="416" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu3"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="13" name="EventSpawn" type="EventSpawn" x="480" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu4"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="14" name="EventSpawn" type="EventSpawn" x="544" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu5"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="15" name="EventSpawn" type="EventSpawn" x="608" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu6"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="16" name="EventSpawn" type="EventSpawn" x="672" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu7"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="17" name="EventSpawn" type="EventSpawn" x="736" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu8"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="18" name="EventSpawn" type="EventSpawn" x="800" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu9"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="19" name="EventSpawn" type="EventSpawn" x="864" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu10"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="20" name="EventSpawn" type="EventSpawn" x="928" y="288" width="32" height="32">
+   <properties>
+    <property name="id" type="int" value="4"/>
+    <property name="triggeredId" value="nasu11"/>
+    <property name="triggeringId" value="scoreIncr"/>
+   </properties>
+  </object>
+  <object id="21" name="Alttrigger" type="Alttrigger" x="288" y="32" width="32" height="32">
+   <properties>
+    <property name="message" value="random"/>
+    <property name="triggeredId" value="randomizer"/>
+    <property name="triggeringId" value="randSpawn"/>
+   </properties>
+  </object>
+  <object id="22" name="Condtrigger" type="Condtrigger" x="608" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="randSpawn"/>
+    <property name="triggeringId" value="nasu1,nasu2,nasu3,nasu4,nasu5,nasu6,nasu7,nasu8,nasu9,nasu10,nasu11"/>
+   </properties>
+  </object>
+  <object id="23" name="Timer" type="Timer" x="544" y="160" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="triggeringId" value="randSpawn"/>
+   </properties>
+  </object>
+  <object id="24" name="Sensor" type="Sensor" x="256" y="1056" width="768" height="32">
+   <properties>
+    <property name="event" type="bool" value="true"/>
+    <property name="oneTime" type="bool" value="false"/>
+    <property name="player" type="bool" value="false"/>
+    <property name="triggeringId" value="onMiss"/>
+   </properties>
+  </object>
+  <object id="25" name="UI" type="UI" x="160" y="1120" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="-1"/>
+    <property name="score" type="int" value="-1"/>
+    <property name="triggeredId" value="loselife"/>
+    <property name="type" value="LIVES"/>
+   </properties>
+  </object>
+  <object id="26" name="Multitrigger" type="Multitrigger" x="160" y="1056" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onMiss"/>
+    <property name="triggeringId" value="loselife,livechange"/>
+   </properties>
+  </object>
+  <object id="27" name="Counter" type="Counter" x="224" y="1120" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="3"/>
+    <property name="triggeredId" value="livechange"/>
+    <property name="triggeringId" value="lose"/>
+   </properties>
+  </object>
+  <object id="28" name="End" type="End" x="288" y="1120" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="lose"/>
+    <property name="won" type="bool" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

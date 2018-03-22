@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="800" height="500" tilewidth="32" tileheight="32" infinite="0" nextobjectid="119">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="800" height="500" tilewidth="32" tileheight="32" infinite="0" nextobjectid="120">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="800" height="500">
   <data encoding="base64" compression="zlib">
@@ -620,12 +620,22 @@
     <property name="triggeredId" value="poisondummy3"/>
    </properties>
   </object>
-  <object id="111" name="Victory" type="Victor" x="16640" y="8960" width="32" height="32"/>
+  <object id="111" name="End" type="End" x="16640" y="9056" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="win"/>
+   </properties>
+  </object>
   <object id="113" name="Start" type="Start" x="608" y="8576" width="32" height="32"/>
   <object id="118" name="Spring" type="Spring" x="13952" y="9600" width="32" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>
     <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="119" name="Sensor" type="Sensor" x="16640" y="8960" width="32" height="32">
+   <properties>
+    <property name="oneTime" type="bool" value="true"/>
+    <property name="triggeringId" value="win"/>
    </properties>
   </object>
  </objectgroup>

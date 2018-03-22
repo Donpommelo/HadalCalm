@@ -40,20 +40,18 @@ public class TriggerCond extends Event {
 			
 			@Override
 			public void onActivate(EventData activator) {
-				
 				if (activator.getEvent() instanceof TriggerAlt) {
 					condition = ((TriggerAlt)activator.getEvent()).getMessage();
 				} else {
-					if (triggered.get(condition) != null) {
+					if (condition.equals("random")) {
+						Object[] values = triggered.values().toArray();
+						((Event)values[generator.nextInt(values.length)]).getEventData().onActivate(this);
 						
-						if (condition.equals("random")) {
-							Object[] values = triggered.values().toArray();
-							((Event)values[generator.nextInt(values.length)]).getEventData().onActivate(this);
-							
-						} else {
+					} else {
+						if (triggered.get(condition) != null) {
 							triggered.get(condition).getEventData().onActivate(this);
 						}
-					}
+					}	
 				}
 			}
 		};

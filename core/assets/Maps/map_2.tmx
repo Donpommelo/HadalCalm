@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="137">
+<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="138">
+ <properties>
+  <property name="triggeredId" value="win"/>
+ </properties>
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="400" height="300">
   <data encoding="base64" compression="zlib">
@@ -320,7 +323,11 @@
     <property name="triggeringId" value="platpoint10"/>
    </properties>
   </object>
-  <object id="70" name="Victory" type="Victor" x="6816" y="6624" width="32" height="32"/>
+  <object id="70" name="End" type="End" x="6816" y="6752" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="win"/>
+   </properties>
+  </object>
   <object id="71" name="Sensor" type="Sensor" x="3520" y="1600" width="32" height="160">
    <properties>
     <property name="triggeringId" value="spawnsensor1"/>
@@ -588,5 +595,11 @@
    </properties>
   </object>
   <object id="136" name="Start" type="Start" x="4672" y="1056" width="32" height="32"/>
+  <object id="137" name="Sensor" type="Sensor" x="6816" y="6624" width="32" height="32">
+   <properties>
+    <property name="oneTime" type="bool" value="true"/>
+    <property name="triggeringId" value="win"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -87,19 +87,16 @@ public class TiledObjectUtil {
     		}
     		if (object.getName().equals("Sensor")) {
     			e = new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2)
-    					, object.getProperties().get("oneTime", true, boolean.class));
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+    					object.getProperties().get("oneTime", true, boolean.class), object.getProperties().get("player", true, boolean.class),
+    					object.getProperties().get("hbox", false, boolean.class), object.getProperties().get("event", false, boolean.class), 
+    					object.getProperties().get("enemy", false, boolean.class), object.getProperties().get("gravity", 0.0f, float.class));
     		}
     		if (object.getName().equals("Timer")) {
     			e = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class),
     					object.getProperties().get("startOn", true, boolean.class));
-    		}
-    		if (object.getName().equals("Target")) {
-    			e = new Target(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", boolean.class));
     		}
     		if (object.getName().equals("Counter")) {
     			e = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
@@ -208,9 +205,9 @@ public class TiledObjectUtil {
     			e = new AirblastableRock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
-    		if (object.getName().equals("Victory")) {
-    			e = new Victory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+    		if (object.getName().equals("End")) {
+    			e = new End(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("won", true, boolean.class));
     		}
     		if (object.getName().equals("Destr_Obj")) {
     			e = new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 

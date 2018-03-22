@@ -51,7 +51,7 @@ public class Timer extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (0), (short) 0, true, eventData);
+				(short) 0, (short) 0, true, eventData);
 	}
 	
 	@Override

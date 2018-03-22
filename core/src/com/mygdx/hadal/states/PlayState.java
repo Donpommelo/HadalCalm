@@ -158,8 +158,8 @@ public class PlayState extends GameState {
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
-		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", Integer.class);
-		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", Integer.class);
+		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", 0, Integer.class);
+		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", 0, Integer.class);
 		
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
 		

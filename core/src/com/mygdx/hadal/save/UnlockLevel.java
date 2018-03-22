@@ -10,6 +10,7 @@ public enum UnlockLevel {
 	ARENA_2("Maps/arena_2.tmx", "Arena 2"),
 	LEVEL_1("Maps/map_2.tmx", "Level 1"),
 	LEVEL_2("Maps/expanse.tmx", "Level 2: Expanse"),
+	NASU("Maps/nasu.tmx", "nasu"),
 	
 	;
 	private String map, name;

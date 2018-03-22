@@ -60,16 +60,20 @@
     <property name="triggeredId" value="elevatorwall"/>
    </properties>
   </object>
-  <object id="56" name="Target" type="Target" x="704" y="1472" width="32" height="32">
+  <object id="56" name="Sensor" type="Sensor" x="704" y="1472" width="32" height="32">
    <properties>
+    <property name="hbox" type="bool" value="true"/>
     <property name="oneTime" type="bool" value="false"/>
+    <property name="player" type="bool" value="false"/>
     <property name="triggeredId" value="upbutton"/>
     <property name="triggeringId" value="uppressed"/>
    </properties>
   </object>
-  <object id="57" name="Target" type="Target" x="800" y="1472" width="32" height="32">
+  <object id="57" name="Sensor" type="Sensor" x="800" y="1472" width="32" height="32">
    <properties>
+    <property name="hbox" type="bool" value="true"/>
     <property name="oneTime" type="bool" value="false"/>
+    <property name="player" type="bool" value="false"/>
     <property name="triggeredId" value="downbutton"/>
     <property name="triggeringId" value="downpressed"/>
    </properties>

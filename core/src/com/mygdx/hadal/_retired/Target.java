@@ -1,4 +1,4 @@
-package com.mygdx.hadal.event.utility;
+package com.mygdx.hadal._retired;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -26,10 +26,13 @@ public class Target extends Event {
 
 	private boolean oneTime;
 	
+	private float gravity;
+	
 	public Target(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, boolean oneTime) {
+			int x, int y, boolean oneTime, float gravity) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.oneTime = oneTime;
+		this.gravity = gravity;
 	}
 	
 	@Override
@@ -57,7 +60,7 @@ public class Target extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 0, 0, false, false, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PROJECTILE), (short) 0, true, eventData);
 	}
 }

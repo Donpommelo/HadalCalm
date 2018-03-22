@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -52,11 +53,17 @@ public class SpawnerEvent extends Event {
 				case 3:
 					event = new ScrapHeap(state, world, camera, rays, spawnX, spawnY, Integer.parseInt(args));
 					break;
-						
+				case 4:
+					event = new Sensor(state, world, camera, rays, 32, 32, spawnX, spawnY, true, true, true, true, false, 1.0f);
+					break;
 				}
 				
 				if (reset) {
-					event.setConnectedEvent(activator.getEvent());
+					if (getEvent().getConnectedEvent() != null) {
+						event.setConnectedEvent(getEvent().getConnectedEvent());
+					} else {
+						event.setConnectedEvent(activator.getEvent());
+					}
 				}
 			}
 		};
