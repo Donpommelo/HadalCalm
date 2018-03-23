@@ -516,15 +516,18 @@ public class Player extends PhysicsSchmuck {
 				0, 0,
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
+		boolean reverse = false;
+		
 		if (moveState.equals(MoveStates.MOVE_LEFT)) {
 			
 			if (Math.abs(attackAngle) > 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
+				reverse = true;
 			} else {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			}
 			
-			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
+			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
 					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
@@ -532,17 +535,19 @@ public class Player extends PhysicsSchmuck {
 		} else if (moveState.equals(MoveStates.MOVE_RIGHT)) {
 			if (Math.abs(attackAngle) < 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
+				reverse = true;
 			} else {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			}
 			
-			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime, true), 
+			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
 					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
-			batch.draw((TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), 
+			batch.draw(grounded ? (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true) : 
+					(TextureRegion) bodyRunSprite.getKeyFrame(getFreezeFrame(true)), 
 					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
@@ -557,6 +562,14 @@ public class Player extends PhysicsSchmuck {
 		
 		if (flashingCount > 0) {
 			batch.setShader(null);
+		}
+	}
+	
+	public int getFreezeFrame(boolean reverse) {
+		if (Math.abs(body.getLinearVelocity().x) > Math.abs(body.getLinearVelocity().y)) {
+			return reverse ? 5 : 2;
+		} else {
+			return reverse ? 2 : 5;
 		}
 	}
 	

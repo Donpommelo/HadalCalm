@@ -84,7 +84,7 @@ public class Hitbox extends HadalEntity {
 		if (!sensor) {
 			body.createFixture(FixtureBuilder.createFixtureDef(width / 2, height / 2, 
 					new Vector2(0,  0), false, 0, 0, rest, friction,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), Constants.PLAYER_HITBOX));
+				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
 		}
 		
 		//Rotate hitbox to match angle of fire.

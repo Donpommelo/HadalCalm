@@ -209,7 +209,7 @@
     <property name="triggeredId" value="hp2"/>
    </properties>
   </object>
-  <object id="35" name="Dropthrough" type="Dropthrough" x="7968" y="7744" width="544" height="32"/>
+  <object id="35" name="Dropthrough" type="Dropthrough" x="7968" y="7744" width="544" height="16"/>
   <object id="36" name="Spring" type="Spring" x="6656" y="8352" width="32" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>
@@ -560,8 +560,8 @@
     <property name="triggeredId" value="poisondummy2"/>
    </properties>
   </object>
-  <object id="98" name="Dropthrough" type="Dropthrough" x="14112" y="9376" width="160" height="32"/>
-  <object id="99" name="Dropthrough" type="Dropthrough" x="13728" y="9120" width="160" height="32"/>
+  <object id="98" name="Dropthrough" type="Dropthrough" x="14112" y="9376" width="160" height="16"/>
+  <object id="99" name="Dropthrough" type="Dropthrough" x="13728" y="9120" width="160" height="16"/>
   <object id="100" name="Platform" type="Platform" x="13952" y="8864" width="160" height="32">
    <properties>
     <property name="speed" type="float" value="2.5"/>
@@ -581,8 +581,8 @@
     <property name="triggeringId" value="platpt15"/>
    </properties>
   </object>
-  <object id="103" name="Dropthrough" type="Dropthrough" x="14368" y="8448" width="160" height="32"/>
-  <object id="104" name="Dropthrough" type="Dropthrough" x="14464" y="8160" width="160" height="32"/>
+  <object id="103" name="Dropthrough" type="Dropthrough" x="14368" y="8448" width="160" height="16"/>
+  <object id="104" name="Dropthrough" type="Dropthrough" x="14464" y="8160" width="160" height="16"/>
   <object id="105" name="EventSpawn" type="EventSpawn" x="15136" y="8768" width="32" height="32">
    <properties>
     <property name="id" type="int" value="2"/>

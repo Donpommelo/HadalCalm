@@ -49,7 +49,7 @@
     <property name="text" value="PRESS 'S' TO PASS THROUGH DROP-THROUGH PLATFORMS"/>
    </properties>
   </object>
-  <object id="20" name="Dropthrough" type="Dropthrough" x="4800" y="2592" width="192" height="32"/>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="4800" y="2592" width="192" height="16"/>
   <object id="21" name="Text" type="Text" x="4992" y="2624" width="704" height="160">
    <properties>
     <property name="text" value="CURRENTS WILL MOVE THE PLAYER IN A SET DIRECTION."/>

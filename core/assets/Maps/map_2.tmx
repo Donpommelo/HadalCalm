@@ -168,7 +168,7 @@
     <property name="currentY" type="float" value="4"/>
    </properties>
   </object>
-  <object id="40" name="Dropthrough" type="Dropthrough" x="6592" y="2976" width="608" height="32"/>
+  <object id="40" name="Dropthrough" type="Dropthrough" x="6592" y="2976" width="608" height="16"/>
   <object id="41" name="Pit" type="Pit" x="5728" y="5920" width="1632" height="96"/>
   <object id="42" name="Save" type="Save" x="5504" y="4512" width="96" height="288"/>
   <object id="43" name="Platform" type="Platform" x="7968" y="2976" width="160" height="32">
