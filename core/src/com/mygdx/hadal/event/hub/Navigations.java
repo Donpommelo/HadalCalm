@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockLevel.LevelTag;
 import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
@@ -26,7 +27,7 @@ public class Navigations extends HubEvent {
 
 		super.enter();
 		
-		for (UnlockLevel c: UnlockLevel.getUnlocks()) {
+		for (UnlockLevel c: UnlockLevel.getUnlocks(true, LevelTag.NAVIGATIONS)) {
 			
 			final UnlockLevel selected = c;
 

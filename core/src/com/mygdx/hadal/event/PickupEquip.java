@@ -9,6 +9,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockEquip.EquipTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -72,7 +73,8 @@ public class PickupEquip extends Event {
 	public static String getRandWeapFromPool(String pool) {
 		
 		if (pool.equals("")) {
-			return UnlockEquip.values()[new Random().nextInt(UnlockEquip.values().length)].name();
+			return UnlockEquip.getUnlocks(false, EquipTag.RANDOM_POOL)
+					.get(new Random().nextInt(UnlockEquip.getUnlocks(false, EquipTag.RANDOM_POOL).size)).name();
 		}
 		
 		ArrayList<String> weapons = new ArrayList<String>();
