@@ -546,8 +546,9 @@ public class Player extends PhysicsSchmuck {
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
+			bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			batch.draw(grounded ? (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true) : 
-					(TextureRegion) bodyRunSprite.getKeyFrame(getFreezeFrame(true)), 
+					(TextureRegion) bodyRunSprite.getKeyFrame(getFreezeFrame(reverse)), 
 					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
@@ -569,7 +570,7 @@ public class Player extends PhysicsSchmuck {
 		if (Math.abs(body.getLinearVelocity().x) > Math.abs(body.getLinearVelocity().y)) {
 			return reverse ? 5 : 2;
 		} else {
-			return reverse ? 2 : 5;
+			return reverse ? 1 : 6;
 		}
 	}
 	
