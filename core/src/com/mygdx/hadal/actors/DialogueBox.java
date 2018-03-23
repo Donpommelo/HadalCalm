@@ -33,6 +33,7 @@ public class DialogueBox extends AHadalActor {
 	private float currX, currY;
 	private static final int maxX = 1000;
 	private static final int maxY = 200;
+	private static final float textAppearThreshold = 0.9f;
 	
 	public DialogueBox(AssetManager assetManager, GameStateManager stateManager, int x, int y) {
 		super(assetManager, x, y);
@@ -107,7 +108,9 @@ public class DialogueBox extends AHadalActor {
 		 
 		 if (dialogues.size != 0) {
 			 gsm.getPatch().draw(batch, getX(), getY() - 200, currX, currY);
-	         font.draw(batch, dialogues.first().getName() +": " + dialogues.first().getText(), getX() + 20, getY() - 20);
+			 if (currX >= maxX * textAppearThreshold) {
+		         font.draw(batch, dialogues.first().getName() +": " + dialogues.first().getText(), getX() + 150, getY() - 20);
+			 }
 		 }
 		 
          //Return scale and color to default values.

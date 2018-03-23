@@ -60,6 +60,11 @@ public class PlayerController implements InputProcessor {
 		
 		if (keycode == PlayerAction.INTERACT.getKey()) {
 			player.interact();
+			
+			//ATM, event interaction also advances dialog
+			if (state.getStage() != null) {
+				state.getStage().nextDialogue();
+			}
 		}
 		
 		if (keycode == PlayerAction.FREEZE.getKey()) {
