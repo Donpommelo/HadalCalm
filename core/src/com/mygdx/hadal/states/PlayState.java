@@ -241,7 +241,6 @@ public class PlayState extends GameState {
 		getGsm().removeState(HubState.class);
 		
 		if (reset) {
-			System.out.println("reset");
 			getGsm().addPlayState(level, loadout, null, TitleState.class);
 		} else {
 			getGsm().addPlayState(level, loadout, player.getPlayerData(), TitleState.class);
