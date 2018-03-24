@@ -38,9 +38,10 @@
   </object>
   <object id="6" name="UI" type="UI" x="224" y="32" width="32" height="32">
    <properties>
-    <property name="amount" type="int" value="3"/>
+    <property name="lives" type="int" value="3"/>
+    <property name="misc" value="COLLECT FALLING TARGETS"/>
+    <property name="tags" value="MISC,SCORE,HISCORE,LIVES"/>
     <property name="triggeredId" value="ui1"/>
-    <property name="type" value="LIVES"/>
    </properties>
   </object>
   <object id="7" name="Start" type="Start" x="624" y="848" width="32" height="32"/>
@@ -53,9 +54,9 @@
   </object>
   <object id="10" name="UI" type="UI" x="64" y="288" width="32" height="32">
    <properties>
+    <property name="change" type="int" value="1"/>
     <property name="score" type="int" value="1"/>
     <property name="triggeredId" value="scoreIncr"/>
-    <property name="type" value="LIVES"/>
    </properties>
   </object>
   <object id="11" name="EventSpawn" type="EventSpawn" x="352" y="288" width="32" height="32">
@@ -158,10 +159,10 @@
   </object>
   <object id="25" name="UI" type="UI" x="160" y="1120" width="32" height="32">
    <properties>
-    <property name="amount" type="int" value="-1"/>
+    <property name="change" type="int" value="1"/>
+    <property name="lives" type="int" value="-1"/>
     <property name="score" type="int" value="-1"/>
     <property name="triggeredId" value="loselife"/>
-    <property name="type" value="LIVES"/>
    </properties>
   </object>
   <object id="26" name="Multitrigger" type="Multitrigger" x="160" y="1056" width="32" height="32">

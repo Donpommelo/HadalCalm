@@ -1,8 +1,11 @@
 package com.mygdx.hadal.event.utility;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.actors.UILevel.uiType;
+import com.mygdx.hadal.actors.UITag;
+import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
@@ -21,15 +24,33 @@ public class UIChanger extends Event {
 
 	private static final String name = "UI Changer";
 
-	private uiType type;
-	private int scoreIncr, extraVarIncr;
+	private ArrayList<UITag> tags;
+	private int changeType, scoreIncr, extraVarIncr;
+	private float timerIncr;
+	private String miscTag;
 	
 	public UIChanger(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, uiType type, int extraVarIncr, int scoreIncr) {
+			int x, int y, String types, int changeType, int extraVarIncr, int scoreIncr, float timerIncr, String misc) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.type = type;
+		this.changeType = changeType;
 		this.extraVarIncr = extraVarIncr;
 		this.scoreIncr = scoreIncr;
+		this.timerIncr = timerIncr;
+		this.miscTag = misc;
+		this.tags = new ArrayList<UITag>();
+		if (types != null) {
+			for (String type : types.split(",")) {
+				uiType newType = uiType.valueOf(type);
+				
+				UITag newTag = new UITag(newType);
+				
+				if (newType.equals(uiType.MISC)) {
+					newTag.setMisc(miscTag);
+				}
+				
+				this.tags.add(newTag);
+			}
+		}
 	}
 	
 	@Override
@@ -38,13 +59,10 @@ public class UIChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator) {
-				
-				if (type != null) {
-					state.getUiLevel().setType(type);
-
-				}
-				state.getUiLevel().incrementExtraVar(extraVarIncr);
+				state.getUiLevel().changeTypes(changeType, tags);
+				state.getUiLevel().incrementLives(extraVarIncr);
 				state.getUiLevel().incrementScore(scoreIncr);
+				state.getUiLevel().incrementTimer(timerIncr);
 			}
 		};
 		

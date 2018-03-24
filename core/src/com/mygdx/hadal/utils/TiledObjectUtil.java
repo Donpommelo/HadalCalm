@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.mygdx.hadal.actors.UILevel.uiType;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
 import com.mygdx.hadal.event.utility.*;
@@ -131,8 +130,12 @@ public class TiledObjectUtil {
     		if (object.getName().equals("UI")) {
     			e = new UIChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-    					uiType.valueOf(object.getProperties().get("type", String.class)),
-    					object.getProperties().get("amount", 0, Integer.class), object.getProperties().get("score", 0, Integer.class));
+    					object.getProperties().get("tags", String.class),
+    					object.getProperties().get("change", 0, Integer.class),
+    					object.getProperties().get("lives", 0, Integer.class), 
+    					object.getProperties().get("score", 0, Integer.class),
+    					object.getProperties().get("timer", 0.0f, float.class),
+    					object.getProperties().get("misc", "", String.class));
     		}
     		if (object.getName().equals("Camera")) {
     			e = new CameraChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
