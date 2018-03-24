@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal._retired.LoadoutState;
-import com.mygdx.hadal.actors.UILevel;
+import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIMomentum;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIReload;
@@ -101,7 +101,7 @@ public class PlayState extends GameState {
 	private UIPlay uiPlay;
 	private UIReload uiReload;
 	private UIMomentum uiMomentum;
-	private UILevel uiLevel;
+	private UIExtra uiExtra;
 	
 	/**
 	 * Constructor is called upon player beginning a game.
@@ -201,12 +201,12 @@ public class PlayState extends GameState {
 		uiPlay = new UIPlay(HadalGame.assetManager, this, player);
 		uiReload = new UIReload(HadalGame.assetManager, this, player);
 		uiMomentum = new UIMomentum(HadalGame.assetManager, this, player);
-		uiLevel = new UILevel(HadalGame.assetManager, this);
+		uiExtra = new UIExtra(HadalGame.assetManager, this);
 		
 		this.stage.addActor(uiPlay);
 		this.stage.addActor(uiMomentum);
 		this.stage.addActor(uiReload);
-		this.stage.addActor(uiLevel);
+		this.stage.addActor(uiExtra);
 		app.newMenu(stage);
 		resetController();
 	}
@@ -373,7 +373,7 @@ public class PlayState extends GameState {
 	public void endGameProcessing() {
 		if (realFite) {
 			
-			gsm.getRecord().updateScore(uiLevel.getScore(), level.name());
+			gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 			
 			getGsm().removeState(PlayState.class);
 			if (won) {
@@ -439,8 +439,8 @@ public class PlayState extends GameState {
 		return stage;
 	}	
 	
-	public UILevel getUiLevel() {
-		return uiLevel;
+	public UIExtra getUiExtra() {
+		return uiExtra;
 	}
 
 	public int getStartX() {
@@ -482,7 +482,7 @@ public class PlayState extends GameState {
 	 * @param i: Number to increase score by.
 	 */
 	public void incrementScore(int i) {
-		uiLevel.incrementScore(i);
+		uiExtra.incrementScore(i);
 	}
 
 	public void gameOver(boolean won) {

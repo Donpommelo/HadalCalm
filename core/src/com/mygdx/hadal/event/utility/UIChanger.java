@@ -15,6 +15,23 @@ import box2dLight.RayHandler;
 /**
  * A UIChanger changes the UI. specifically, the UILevel (name tentative) actor to display different information or change 
  * some extra, non-score field like lives.
+ * 
+ * Triggered Behavior: When triggered, this event will change the text that appears in the upper right-hand side of the screen.
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * tags: This string specifies the uiType enums that will be used for the ui change. This is a comma-separated list of enum names.
+ * change: this is an integer that specifies what change should be made to the ui. Optional. Default: 0
+ * 	-1: remove these tags
+ * 	0: set these tags
+ * 	1: add these tags 
+ * lives: Integer specifying how much to change the "lives" field in the ui. Optional. Default: 0
+ * score: Integer specifying how much to change the "score" field in the ui. Optional. Default: 0
+ * timer: Float specifying how much to change the "timer" field in the ui. Optional. Default: 0.0f
+ * misc: String describing the misc tag to be changed in the ui. You can only change 1 MISC tag at once because of this.
+ * 	To remove a MISC tag, you must provide its exact misc text as an input of this field. 
+ * 	Also, if you want a newline after the text, you'll have to insert it yourself.
+ * 
  * @author Zachary Tu
  *
  */
@@ -57,10 +74,10 @@ public class UIChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator) {
-				state.getUiLevel().changeTypes(changeType, tags);
-				state.getUiLevel().incrementLives(extraVarIncr);
-				state.getUiLevel().incrementScore(scoreIncr);
-				state.getUiLevel().incrementTimer(timerIncr);
+				state.getUiExtra().changeTypes(changeType, tags);
+				state.getUiExtra().incrementLives(extraVarIncr);
+				state.getUiExtra().incrementScore(scoreIncr);
+				state.getUiExtra().incrementTimer(timerIncr);
 			}
 		};
 	}

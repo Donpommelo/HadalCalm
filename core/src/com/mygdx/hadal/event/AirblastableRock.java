@@ -17,7 +17,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import box2dLight.RayHandler;
 
 /**
- * This event is a heavy object that doesn't do anything. It is easily pushed by the player airblast. 
+ * This event is a heavy object that doesn't do anything. It is easily pushed by the player airblast.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * N/A
+ * 
  * @author Zachary Tu
  *
  */

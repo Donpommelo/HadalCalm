@@ -11,7 +11,15 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import box2dLight.RayHandler;
 
 /**
- * Currents are an event that apply a continuous force to all schmucks inside of it.
+ * The Freeze bubble is created temporarily by the player's momentum-freezing ability.
+ * This repeatedly sets the velocity of enemy entities to 0.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * filter: what faction this bubble will freeze.
+ * 
  * @author Zachary Tu
  *
  */

@@ -10,6 +10,15 @@ import box2dLight.RayHandler;
 
 /**
  * A CameraChanger changes what the camera is zoomed in on.
+ * 
+ * Triggered Behavior: When triggered, this event makes changes the properties of the camera.
+ * Triggering Behavior: N/A. However, it uses its connected event as a point to make the camera focus on instead. 
+ * 	If there is no connected event, it will zoom in on the player.
+ * 
+ * Fields:
+ * 
+ * zoom: Sets the zoom of the camera. Optional. Default: 1.0f
+ * 
  * @author Zachary Tu
  *
  */

@@ -39,7 +39,8 @@
   <object id="6" name="UI" type="UI" x="224" y="32" width="32" height="32">
    <properties>
     <property name="lives" type="int" value="3"/>
-    <property name="misc" value="COLLECT FALLING TARGETS"/>
+    <property name="misc">COLLECT FALLING TARGETS
+</property>
     <property name="tags" value="MISC,SCORE,HISCORE,LIVES"/>
     <property name="triggeredId" value="ui1"/>
    </properties>

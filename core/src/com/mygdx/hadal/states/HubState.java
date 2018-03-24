@@ -15,7 +15,7 @@ public class HubState extends PlayState {
 	@Override
 	public void show() {
 		super.show();
-		getUiLevel().changeTypes(0, uiType.SCRAP, uiType.SCRIP);
+		getUiExtra().changeTypes(0, uiType.SCRAP, uiType.SCRIP);
 	}
 
 }

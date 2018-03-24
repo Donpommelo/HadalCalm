@@ -2,13 +2,24 @@ package com.mygdx.hadal.dialogue;
 
 import com.mygdx.hadal.event.userdata.EventData;
 
+/**
+ * A Dialogue is a instance of a dude saying a thing. These are used by the DialogueBox in a PlayStateStage to display
+ * conversations to the player 
+ * @author Zachary Tu
+ *
+ */
 public class Dialogue {
 
+	//These strings are to be displayed in the box
 	private String name, text;
+	
+	//This indicates whether this dialogue is the end of the conversation it is a part of
 	private boolean end;
 	
+	//These are the events that triggered and will be triggered by this dialogue respectively.
 	private EventData radio, trigger;
 	
+	//This is the duration in seconds that the dialogue will be active.This can be set to 0 for dialogues that need to be actively skipped
 	private float duration;
 	
 	public Dialogue(String name, String text, boolean end, float duration, EventData radio, EventData trigger) {

@@ -13,6 +13,13 @@ import box2dLight.RayHandler;
 
 /**
  * A Spring is an event that, when touched, will push an entity in a set direction
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * vec: vector2 of force that is applied to entities that touch this.
+ * 
  * @author Zachary Tu
  *
  */

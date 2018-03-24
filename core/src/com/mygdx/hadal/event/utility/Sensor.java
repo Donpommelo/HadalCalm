@@ -15,8 +15,18 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import box2dLight.RayHandler;
 
 /**
- * A Sensor is an activating event that will activate a connected event when the player (or anyone else?) touches it
- * TODO: enemy sensors + filters.
+ * A Sensor is an activating event that will activate a connected event when touching a speficied type of body.
+ * 
+ * Triggered Behavior: N/A.
+ * Triggering Behavior: When touching a specified type of body, this event will trigger its connected event.
+ * 
+ * Fields:
+ * oneTime: Boolean to be replaced
+ * player: Boolean that describes whether this sensor touches player. Optional. Default: true
+ * hbox: Boolean that describes whether this sensor touches hit-boxes. Optional. Default: false
+ * event: Boolean that describes whether this sensor touches events. Optional. Default: false
+ * enemy: Boolean that describes whether this sensor touches enemies. Optional. Default: false
+ * gravity: float that determines the gravity of the object. Optional. Default: 0.0f. Currently only used for falling targets in NASU
  * @author Zachary Tu
  *
  */

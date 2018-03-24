@@ -10,6 +10,21 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * An event spawner an event that activates when triggered by another event.
+ * This event spawns a specified event.
+ * 
+ * Triggered Behavior: When triggered, this will spawn an event.
+ * Triggering Behavior: optionally, when an event is spawned, its connected event can be set to this event's connected event.
+ * 
+ * Fields:
+ * id: The id of the type of event to spawn
+ * reset: boolean. Should newly spawned events trigger this event's connected event? Optional. default: true
+ * args: string extra args for newly spawned events. Optional. Default: ""
+ * 
+ * @author Zachary Tu
+ *
+ */
 public class SpawnerEvent extends Event {
 	
 	private int spawnX, spawnY;
@@ -58,6 +73,8 @@ public class SpawnerEvent extends Event {
 					break;
 				}
 				
+				//If this event has a connected event, can specify that new events inherit it.
+				//Otherwise, they can also activate the event that activates this as default.
 				if (reset) {
 					if (getEvent().getConnectedEvent() != null) {
 						event.setConnectedEvent(getEvent().getConnectedEvent());

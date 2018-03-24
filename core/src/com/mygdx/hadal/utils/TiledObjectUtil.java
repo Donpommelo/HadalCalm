@@ -94,7 +94,7 @@ public class TiledObjectUtil {
     		if (object.getName().equals("Timer")) {
     			e = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", int.class),
+    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", 0, int.class),
     					object.getProperties().get("startOn", true, boolean.class));
     		}
     		if (object.getName().equals("Counter")) {
@@ -159,12 +159,10 @@ public class TiledObjectUtil {
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
     					object.getProperties().get("oneTime", boolean.class));
     		}
-    		
     		if (object.getName().equals("TouchPortal")) {		
     			e = new PortalTouch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
     					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
     		}
-    		
     		if (object.getName().equals("Current")) {
     			Vector2 power = new Vector2(object.getProperties().get("currentX", float.class), object.getProperties().get("currentY", float.class));
     			e = new Currents(state, world, camera, rays, (int)rect.width, (int)rect.height, 

@@ -10,6 +10,11 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This ui element appears above the player's head when they are reloading to indicate reload progress
+ * @author Zachary Tu
+ *
+ */
 public class UIReload extends AHadalActor{
 
 	private Player player;
@@ -44,6 +49,7 @@ public class UIReload extends AHadalActor{
 			float x = bodyScreenPosition.x - reload.getRegionWidth() * scale / 2;
 			float y = bodyScreenPosition.y + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
 			
+			//Calculate reload progress
 			float percent = player.getPlayerData().getCurrentTool().getReloadCd() / 
 					(player.getPlayerData().getCurrentTool().getReloadTime());
 			

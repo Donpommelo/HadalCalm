@@ -12,8 +12,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import box2dLight.RayHandler;
 
 /**
- * A Sensor is an activating event that will activate a connected event when the player (or anyone else?) touches it
- * TODO: enemy sensors + filters.
+ * When touched, this event will be set as a save point for the player. In certain circumstances, the player may be warped back
+ * to the last save point.
+ * 
+ * 
+ * 
  * @author Zachary Tu
  *
  */

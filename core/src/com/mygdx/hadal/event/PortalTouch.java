@@ -15,8 +15,16 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import box2dLight.RayHandler;
 
 /**
- * A Use Portal is a portal that transports the player elsewhere when they interact with it.
+ * A touch Portal is a portal that transports schmucks and hboxes that touch it
  * The event they are transported to does not have to be a portal.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: This event's connected event serves as the point that schmucks will be teleported to
+ * 
+ * Fields:
+ * N/A
+ * 
+ * 
  * @author Zachary Tu
  *
  */
@@ -24,6 +32,7 @@ public class PortalTouch extends Event {
 
 	private static final String name = "Portal";
 
+	//This is a set of schmucks that have just been teleported and cannot teleport instantly until they exit this event.
 	private Set<HadalEntity> justTeleported;
 	
 	public PortalTouch(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
@@ -39,6 +48,9 @@ public class PortalTouch extends Event {
 			@Override
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
+					
+					//When something leaves the area of this portal, they can teleport again.
+					//This solves the issue of something infinitely going between 2 portals
 					schmucks.remove(fixB.getEntity());
 					justTeleported.remove(fixB.getEntity());
 				}
@@ -54,6 +66,7 @@ public class PortalTouch extends Event {
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			
+			//If teleporting someone to another portal, add them to the justTeleported list so htey cannot teleport again right away.
 			if (getConnectedEvent() instanceof PortalTouch) {
 				for (HadalEntity s : eventData.getSchmucks()) {
 					if (!justTeleported.contains(s)) {

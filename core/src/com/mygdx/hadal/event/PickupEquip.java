@@ -21,6 +21,15 @@ import box2dLight.RayHandler;
 /**
  * This event, when interacted with, will give the player a new weapon.
  * If the player's slots are full, this will replace currently held weapon.
+ * 
+ * Triggered Behavior: When triggered, this event is toggled on/off to unlock/lock pickup
+ * Triggering Behavior: This event will trigger its connected event when picked up.
+ * 
+ * Fields:
+ * pool: String, comma separated list of equipunlock enum names of all equips that could appear here.
+ * 	if this is equal to "", return any weapon in the random pool.
+ * startOn: boolean of whether the event starts on or off. Optiona;. Default: True.
+ * 
  * @author Zachary Tu
  *
  */
@@ -31,12 +40,15 @@ public class PickupEquip extends Event {
 	
 	private static final String name = "Equip Pickup";
 
+	//Can this event be interacted with atm?
 	private boolean on;
 	
 	public PickupEquip(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, String pool, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.on = startOn;
+		
+		//Set this pickup to a random weapon in the input pool
 		equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(getRandWeapFromPool(pool)), null);
 	}
 	
@@ -47,10 +59,16 @@ public class PickupEquip extends Event {
 			@Override
 			public void onInteract(Player p) {
 				if (isAlive() && on) {
+					
+					//If player inventory is full, replace their current weapon.
 					Equipable temp = p.getPlayerData().pickup(equip);
+					
+					//If the player picks this up without dropping anything, delete this event.
 					if (temp == null) {
 						queueDeletion();
 					} else {
+						
+						//Otherwise set its weapon to the dropped weapon.
 						equip = temp;
 					}
 					
@@ -70,6 +88,11 @@ public class PickupEquip extends Event {
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
+	/**
+	 * This method returns the name of a weapon randomly selected from the pool.
+	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
+	 * @return
+	 */
 	public static String getRandWeapFromPool(String pool) {
 		
 		if (pool.equals("")) {

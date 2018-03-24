@@ -11,8 +11,16 @@ import com.mygdx.hadal.states.PlayState;
 import box2dLight.RayHandler;
 
 /**
- * A Multitrigger is an event that can trigger multiple events.
+ * A Multitrigger is an event that can trigger multiple events simultaneously.
  * 
+ * Triggered Behavior: When triggered, this will trigger all events in its triggered list
+ * Triggering Behavior: N/A. This event does nothing with its connectedEvent. Instead, it has a triggered list that is filled
+ * when parsing the map.
+ * 
+ * Fields:
+ * 
+ * triggeringId: This string should be a comma-separated list of triggeredIds of events that can be triggered.
+ * NO SPACES IN THIS LIST
  * @author Zachary Tu
  *
  */

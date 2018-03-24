@@ -13,6 +13,11 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This is the main ui element. It displays player loadout, hp, fuel.
+ * @author Zachary Tu
+ *
+ */
 public class UIPlay extends AHadalActor{
 
 	private Player player;
@@ -28,14 +33,20 @@ public class UIPlay extends AHadalActor{
 	private static final int x = 0;
 	private static final int y = 0;
 	
+	//This variable manages the delay of hp decreasing after receiving damage
 	private static final float hpCatchup = 0.01f;
-	private static final float hpLowThreshold = 0.20f;
-	private static final float blinkCd = 0.1f;
 	
 	private float hpDelayed = 1.0f;
+	
+	//These make the Hp bar blink red when at low Hp.
 	private boolean blinking = false;
 	private float blinkCdCount = 0.0f;
 	
+	//Rate of blinking whe nat low health
+	private static final float blinkCd = 0.1f;
+	
+	//Percent of Hp for low heal indication to appear
+	private static final float hpLowThreshold = 0.20f;
 	
 	public UIPlay(AssetManager assetManager, PlayState state, Player player) {
 		super(assetManager);

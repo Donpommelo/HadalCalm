@@ -9,6 +9,18 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * An info flag displays text whe nthe player walks over it. This is a temporary means of information until more sophisticated ui is done
+ *
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * N/A
+ * 
+ * @author Zachary Tu
+ *
+ */
 public class InfoFlag extends Event {
 
 	private static final String name = "Current";

@@ -9,20 +9,31 @@ import com.mygdx.hadal.states.PlayState;
 import box2dLight.RayHandler;
 
 /**
- * The Entity spawner periodically spawns entities.
+ * The Timer keeps track of time.
+ * 
+ * Triggered Behavior: When triggered, the timer will stop or start. This resets the timer
+ * Triggering Behavior: When the timer reaches a specified value, this event will trigger its connected event
+ * 
+ * Fields:
+ * interval: The time in seconds before this activates its connected event.
+ * limit: The number of times this timer can trigger its connected event. If 0, then infinite. Optional. Default: 0
+ * startOn: Does this timer start on or off? Optional. Default: true
  * @author Zachary Tu
  *
  */
 public class Timer extends Event {
 	
-	//How frequently will the spawns occur? Every interval seconds.
+	//How frequently will this event trigger its connected event?
 	private float interval;
 	
-	//The event will spawn limit entites before stopping. If this is 0, the event will never stop.
+	//The number of times this event can trigger its connected event.
 	private int limit;
 	
+	//These keep track of how long until this triggers its connected event and how many times it can trigger again.
 	private float timeCount = 0;
 	private int amountCount = 0;
+	
+	//Is the timer running
 	private boolean on;
 	
 	private static final String name = "Timer";

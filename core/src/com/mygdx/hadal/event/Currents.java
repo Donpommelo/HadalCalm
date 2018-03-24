@@ -13,6 +13,13 @@ import box2dLight.RayHandler;
 
 /**
  * Currents are an event that apply a continuous force to all schmucks inside of it.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * N/A
+ * 
  * @author Zachary Tu
  *
  */

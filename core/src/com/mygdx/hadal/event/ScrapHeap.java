@@ -10,6 +10,20 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * The scrapheap gives scrap and is consumed upon being touched by the player.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: If this event has a connected event, trigger it when this event is touched by the player.
+ * 	NOTE: This event is not created by the map parser, but instead by an event spawner that sets its connected event upon spawning.
+ * 	This is useful to have Medpck/Fuel spawners that are triggered by a timer that only starts after the last pickup is used.
+ * 
+ * Fields:
+ * scrap: integer number of scrap to give.
+ * 
+ * @author Zachary Tu
+ *
+ */
 public class ScrapHeap extends Event{
 
 	private static final int width = 16;

@@ -13,6 +13,14 @@ import box2dLight.RayHandler;
 /**
  * A Use Portal is a portal that transports the player elsewhere when they interact with it.
  * The event they are transported to does not have to be a portal.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: This event's connected event serves as the point that schmucks will be teleported to
+ * 
+ * Fields:
+ * oneTime: boolean of whether this portal can me used multiple times. Optional. Default: false
+ * 
+ 
  * @author Zachary Tu
  *
  */
@@ -37,7 +45,7 @@ public class PortalUse extends Event {
 				if (event.getConnectedEvent() != null) {
 					p.getBody().setTransform(event.getConnectedEvent().getBody().getPosition(), 0);
 					
-					if (oneTime) {
+					if (oneTime && event.isAlive()) {
 						event.queueDeletion();
 					}
 				}

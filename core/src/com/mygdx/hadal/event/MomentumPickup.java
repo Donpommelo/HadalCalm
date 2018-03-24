@@ -13,6 +13,13 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * This event is a pick up that gives the player a designated stored momentum.
+ * 
+ * It is not really used right now because momentums are now gained automatically rather than being picked up.
+ * @author Zachary Tu
+ *
+ */
 public class MomentumPickup extends Event {
 
 	private Vector2 momentum;

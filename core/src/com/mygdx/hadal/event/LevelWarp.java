@@ -14,6 +14,14 @@ import box2dLight.RayHandler;
 /**
  * A Use Portal is a portal that transports the player elsewhere when they interact with it.
  * The event they are transported to does not have to be a portal.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * level: The string filename of the level that the player will be warped to.
+ * reset: boolean determining whether the player's loadout/hp/statuses will be reset. Optiona;. Default: true.
+ * 
  * @author Zachary Tu
  *
  */

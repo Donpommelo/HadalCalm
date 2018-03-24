@@ -15,7 +15,14 @@ import box2dLight.RayHandler;
 
 /**
  * This event is a solid block that can be passed by hitboxes, but not the player.
- * When the player presses crouch when standing on it, they will pass through it.
+ * When the player presses crouch when standing on it, they will pass through it. This event is a little wonky rn.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * N/A
+ * 
  * @author Zachary Tu
  *
  */
@@ -32,6 +39,12 @@ public class DropThroughPlatform extends Event {
 
 		this.eventData = new EventData(world, this) {
 			
+			/**
+			 * When touching the player's foot sensor, this event sets its filter to collide with the player.
+			 * This makes it solid when landing from above.
+			 * This also makes it so that when coming from below, the player can pass through until their feet touch it.
+			 * This sudden collision causes the player to "pop" above the platform. Make these platforms skinny.
+			 */
 			@Override
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
@@ -45,6 +58,9 @@ public class DropThroughPlatform extends Event {
 				}
 			}
 			
+			/**
+			 * When the player's feet sensor leaves the platform, its filter becomes passable by player again.
+			 */
 			@Override
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
@@ -58,6 +74,9 @@ public class DropThroughPlatform extends Event {
 				}
 			}
 			
+			/**
+			 * When the player crouches on this event, this platform sets its filter to no longer collide with the player.
+			 */
 			@Override
 			public void onInteract(Player p) {
 				Filter filter = event.getBody().getFixtureList().get(0).getFilterData();

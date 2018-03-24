@@ -15,6 +15,13 @@ import box2dLight.RayHandler;
 
 /**
  * This is a block that can be destroyed.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: Upon being destroyed, the destructable rock will trigger its connected event.
+ * 
+ * Fields:
+ * Hp: The integer number of Hp this event has before being destroyed.
+ * 
  * @author Zachary Tu
  *
  */
@@ -42,6 +49,10 @@ public class DestructableBlock extends Event {
 				
 				if (hp <= 0) {
 					event.queueDeletion();
+					
+					if (event.getConnectedEvent() != null) {
+						event.getConnectedEvent().getEventData().onActivate(this);
+					}
 				}
 			}
 		};

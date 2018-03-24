@@ -12,14 +12,19 @@ import box2dLight.RayHandler;
 
 /**
  * do not open
+ * 
+ * Triggered Behavior: When triggered, this event despawns
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * N/A
+ * 
  * @author Zachary Tu
  *
  */
 public class Door extends Event {
 
 	private static String name = "Door";
-	
-	private boolean activated = false;
 	
 	public Door(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width,
 			int height, int x, int y) {
@@ -32,8 +37,7 @@ public class Door extends Event {
 			
 			@Override
 			public void onActivate(EventData activator) {
-				if (!activated) {
-					activated = true;
+				if (event.isAlive()) {
 					event.queueDeletion();
 				}
 			}

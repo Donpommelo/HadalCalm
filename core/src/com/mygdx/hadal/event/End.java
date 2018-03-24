@@ -8,8 +8,15 @@ import com.mygdx.hadal.states.PlayState;
 import box2dLight.RayHandler;
 
 /**
- * A Victory event (temporarily) is the way that a player "wins" a level.
- * After the player touches the victory, they will win briefly afterwards.
+ * An End event makes the game end with either a victory or loss.
+ * 
+ * Triggered Behavior: When triggered, this will initiate the end of the game.
+ * Triggering Behavior: N/A
+ * 
+ * 
+ * Fields:
+ * won: boolean that determines if the player wins or not. Optional. Default: true
+ * 
  * @author Zachary Tu
  *
  */

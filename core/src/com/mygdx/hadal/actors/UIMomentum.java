@@ -13,6 +13,11 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * UIMomentum appears in the bottom right screen and displays information about the player's momentum freezing cd and stored momentums
+ * @author Zachary Tu
+ *
+ */
 public class UIMomentum extends AHadalActor{
 
 	private Player player;
@@ -27,6 +32,10 @@ public class UIMomentum extends AHadalActor{
 	private float scale = 0.75f;
 	private static final int x = 0;
 	private static final int y = 0;
+	
+	//These 2 determine the magnitude of velocity needed to show up as larger arrows
+	private static final int threshold1 = 100;
+	private static final int threshold2 = 300;
 	
 	public UIMomentum(AssetManager assetManager, PlayState state, Player player) {
 		super(assetManager);
@@ -49,6 +58,7 @@ public class UIMomentum extends AHadalActor{
 
 		batch.draw(base, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 		
+		//Indicate cooldown on momentum freeze
 		if (player.getMomentumCdCount() < 0) {
 			batch.draw(ready, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 		} else {
@@ -58,16 +68,17 @@ public class UIMomentum extends AHadalActor{
 		
 		batch.draw(overlay, x + HadalGame.CONFIG_WIDTH - base.getRegionWidth() * scale, y, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 		
+		//If any momentums stored, display them according to orientation and magnitude
 		if (player.getMomentums().size != 0) {
 			Vector2 nextVec = player.getMomentums().first();
 			
 			TextureRegion tex = arrow.get(0);
 			
-			if (nextVec.len2() > 100) {
+			if (nextVec.len2() > threshold1) {
 				tex = arrow.get(1);
 			}
 
-			if (nextVec.len2() > 300) {
+			if (nextVec.len2() > threshold2) {
 				tex = arrow.get(2);
 			}
 			

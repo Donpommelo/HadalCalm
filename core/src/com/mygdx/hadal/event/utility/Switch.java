@@ -13,6 +13,13 @@ import box2dLight.RayHandler;
 
 /**
  * A switch is an activating event that will activate a connected event when the player interacts with it.
+ * 
+ * Triggered Behavior: N/A.
+ * Triggering Behavior: When interacted with by the player, this event will trigger its connected event.
+ * 
+ * Fields:
+ * oneTime: Boolean to be replaced
+ * 
  * @author Zachary Tu
  *
  */

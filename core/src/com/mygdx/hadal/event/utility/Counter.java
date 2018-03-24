@@ -9,8 +9,16 @@ import com.mygdx.hadal.states.PlayState;
 import box2dLight.RayHandler;
 
 /**
- * A Counter is an event that is both triggered by another event as well as triggers another event.
- * After it is triggered a certain number of times, it will trigger its connected event.
+ * A Counter is an event keeps track of the number of times it is triggered and can link to another event after specified numbers of triggerings.
+ * 
+ * Triggered Behavior: When triggered, this event increments its currentCount field.
+ * Triggering Behavior: This event will trigger its connected event when its currentCount field reaches its maxCount field.
+ * 
+ * Fields:
+ * count: maxCount. When this event is triggered this many times, it will trigger its connected event.
+ * countStart: the number that currentCount will start at. Optional. Default: 0
+ * oneTime: Boolean that determines whether this counter can activate multiple times or not. Optionall. Default: false
+ * 
  * @author Zachary Tu
  *
  */

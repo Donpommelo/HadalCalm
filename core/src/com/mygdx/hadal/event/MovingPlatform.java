@@ -18,6 +18,17 @@ import box2dLight.RayHandler;
 
 /**
  * This is a platform that continuously moves towards its connected event.
+ * 
+ * Triggered Behavior: When triggered, the platform's connected event will be set to the event that triggered it.
+ * Triggering Behavior: This event will move continually to the position of its connected event. When it touches its connected event,
+ * 	the platform will set its connected event to its connected event's connected event if possible .
+ * 
+ * Fields:
+ * speed: float determining the platform's speed. Optional. Default: 1.0f
+ * 
+ * connections: This is a comma-separated list of triggeredIds of events that are "connected" to this platform and will move along it.
+ * 	NOTES: DO NOT CONNECT ANY EVENTS THAT DO NOT HAVE A BODY; TIMERS, COUNTERS, ETC.
+ * 
  * @author Zachary Tu
  *
  */
@@ -59,9 +70,14 @@ public class MovingPlatform extends Event {
 		if (getConnectedEvent() != null) {
 			Vector2 dist = getConnectedEvent().getBody().getPosition().sub(body.getPosition()).scl(PPM);
 
+			//If this platform is close enough to its connected event, move to the next event in the chain.
 			if ((int)dist.len2() <= 1) {
+				
+				//If no more connected events, make the platfor mand all connected events stop moving.
 				if (getConnectedEvent().getConnectedEvent() == null) {
 					body.setLinearVelocity(0, 0);
+					
+					//Move all connected events by same amount.
 					for (Event e : connected) {
 						if (e.getBody() != null && e.isAlive()) {
 							e.getBody().setLinearVelocity(0, 0);
@@ -72,7 +88,11 @@ public class MovingPlatform extends Event {
 					setConnectedEvent(getConnectedEvent().getConnectedEvent());
 				}
 			} else {
+				
+				//Continually move towards connected event.				
 				body.setLinearVelocity(dist.nor().scl(speed));
+				
+				//Move all connected events by same amount.
 				for (Event e : connected) {
 					if (e.getBody() != null && e.isAlive()) {
 						e.getBody().setLinearVelocity(dist.nor().scl(speed));
@@ -80,6 +100,8 @@ public class MovingPlatform extends Event {
 				}
 			}
 		} else {
+			
+			//If no connected events, all connected events should stand still.
 			for (Event e : connected) {
 				if (e.getBody() != null && e.isAlive()) {
 					e.getBody().setLinearVelocity(0, 0);

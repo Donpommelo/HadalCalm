@@ -13,6 +13,20 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * The medpak restores Hp and is consumed upon being touched by the player.
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: If this event has a connected event, trigger it when this event is touched by the player.
+ * 	NOTE: This event is not created by the map parser, but instead by an event spawner that sets its connected event upon spawning.
+ * 	This is useful to have Medpck/Fuel spawners that are triggered by a timer that only starts after the last pickup is used.
+ * 
+ * Fields:
+ * N/A
+ * 
+ * @author Zachary Tu
+ *
+ */
 public class Medpak extends Event{
 
 	private static final int width = 16;

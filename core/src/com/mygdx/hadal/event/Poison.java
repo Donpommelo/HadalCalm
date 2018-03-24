@@ -12,6 +12,20 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
+/**
+ * This event damages all schmucks inside of it. It can be spawned as a hazard in a map or created temporarily fro mthe effects 
+ * of attacks
+ * 
+ * Triggered Behavior: Toggle whether the poison is on or off
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * damage: float damage per 1/60f done by this event
+ * startOn: boolean of whether this event starts on or off. Optional. Default: true.
+ * 
+ * @author Zachary Tu
+ *
+ */
 public class Poison extends Event {
 	
 	private float controllerCount = 0;
@@ -29,6 +43,9 @@ public class Poison extends Event {
 		this.on = startOn;
 	}
 	
+	/**
+	 * This constructor is used for when this event is created temporarily.
+	 */
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
 			int x, int y, float dps, float duration, Schmuck perp, boolean startOn) {
 		super(state, world, camera, rays, name, width, height, x, y, duration);
