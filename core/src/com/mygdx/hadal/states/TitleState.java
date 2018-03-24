@@ -8,11 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockLevel;
 
 /**
  * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
@@ -25,7 +22,7 @@ public class TitleState extends GameState {
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor playOption, exitOption, quickPlayOption, tutorialOption, controlOption;
+	private Actor playOption, exitOption, quickPlayOption, controlOption;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -45,9 +42,8 @@ public class TitleState extends GameState {
 				
 				playOption = new Text(HadalGame.assetManager, "PLAY", x, 340);
 				quickPlayOption = new Text(HadalGame.assetManager, "QUICK PLAY", x, 300);
-				tutorialOption = new Text(HadalGame.assetManager, "TUTORIAL", x, 260);
-				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 220);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 180);
+				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 260);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 220);
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
@@ -62,14 +58,8 @@ public class TitleState extends GameState {
 			        }
 			    });
 				quickPlayOption.setScale(0.5f);
-				
-				tutorialOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addPlayState(UnlockLevel.TUTORIAL_1, new Loadout(UnlockEquip.NOTHING), null, TitleState.class);
-			        }
-			    });
-				tutorialOption.setScale(0.5f);
-				
+			
+
 				controlOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().addState(State.CONTROL, TitleState.class);
@@ -86,7 +76,6 @@ public class TitleState extends GameState {
 				
 				addActor(playOption);
 				addActor(quickPlayOption);
-				addActor(tutorialOption);
 				addActor(controlOption);
 				addActor(exitOption);
 			}

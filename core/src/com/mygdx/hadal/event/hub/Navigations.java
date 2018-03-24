@@ -36,7 +36,7 @@ public class Navigations extends HubEvent {
 			itemChoose.addListener(new ClickListener() {
 		        public void clicked(InputEvent e, float x, float y) {
 		        	state.getGsm().setLevel(selected);
-		        	state.loadLevel(selected);
+		        	state.loadLevel(selected, true);
 		        }
 		    });
 			itemChoose.setScale(0.75f);

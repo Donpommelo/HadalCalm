@@ -112,7 +112,11 @@ public class PlayState extends GameState {
 
 		this.realFite = realFite;
 		
-		this.loadout = loadout;
+		if (level.getLoadout() != null) {
+			this.loadout = level.getLoadout();
+		} else {
+			this.loadout = loadout;
+		}
 		this.level = level;
         
 		this.font = new BitmapFont();
@@ -140,8 +144,6 @@ public class PlayState extends GameState {
         rays.setCombinedMatrix(camera);
 
 		b2dr = new Box2DDebugRenderer();
-		
-		
 		
 		//Initialize sets to keep track of active entities
 		removeList = new HashSet<HadalEntity>();
@@ -231,12 +233,19 @@ public class PlayState extends GameState {
 	/**
 	 * transition from one playstate to another with a new level.
 	 * @param level: file of the new map
+	 * @param reset: should this warp reset the player's loadout/hp and stuff?
 	 */
-	public void loadLevel(UnlockLevel level) {
+	public void loadLevel(UnlockLevel level, boolean reset) {
 		getGsm().removeState(PlayState.class);
 		getGsm().removeState(LoadoutState.class);
 		getGsm().removeState(HubState.class);
-		getGsm().addPlayState(level, loadout, player.getPlayerData(), TitleState.class);
+		
+		if (reset) {
+			System.out.println("reset");
+			getGsm().addPlayState(level, loadout, null, TitleState.class);
+		} else {
+			getGsm().addPlayState(level, loadout, player.getPlayerData(), TitleState.class);
+		}
 	}
 	
 	/**

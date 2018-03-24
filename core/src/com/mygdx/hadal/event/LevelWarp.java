@@ -21,12 +21,14 @@ public class LevelWarp extends Event {
 
 	private static final String name = "Level Warp";
 
-	String level;
-
+	private String level;
+	private boolean reset;
+	
 	public LevelWarp(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, String level) {
+			int x, int y, String level, boolean reset) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.level = level;
+		this.reset = reset;
 	}
 	
 	@Override
@@ -35,7 +37,7 @@ public class LevelWarp extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				state.loadLevel(UnlockLevel.valueOf(level));
+				state.loadLevel(UnlockLevel.valueOf(level), reset);
 			}
 		};
 		
