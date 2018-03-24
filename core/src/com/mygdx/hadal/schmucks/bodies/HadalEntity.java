@@ -111,7 +111,9 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * This is where the body is actually deleted
 	 */
 	public void dispose() {
-		world.destroyBody(body);
+		if (body != null) {
+			world.destroyBody(body);
+		}
 	}	
 	
 	/**

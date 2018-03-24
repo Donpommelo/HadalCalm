@@ -74,10 +74,12 @@ public class Event extends HadalEntity {
 	 */
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.setProjectionMatrix(state.hud.combined);
-		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-		camera.project(bodyScreenPosition);
-		state.font.draw(batch, getText(), bodyScreenPosition.x, bodyScreenPosition.y);
+		if (body != null) {
+			batch.setProjectionMatrix(state.hud.combined);
+			Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
+			camera.project(bodyScreenPosition);
+			state.font.draw(batch, getText(), bodyScreenPosition.x, bodyScreenPosition.y);
+		}
 	}
 	
 	@Override
