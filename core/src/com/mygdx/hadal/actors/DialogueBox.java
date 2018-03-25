@@ -142,7 +142,7 @@ public class DialogueBox extends AHadalActor {
 		 font.getData().setScale(scale);
 		 
 		 if (dialogues.size != 0) {
-			 gsm.getPatch().draw(batch, getX(), getY() - 200, currX, currY);
+			 gsm.getPatch().draw(batch, getX(), getY() - 200 + maxY - currY, currX, currY);
 			 
 			 //Only draw dialogue text if window has reached specified size.
 			 if (currX >= maxX * textAppearThreshold) {
