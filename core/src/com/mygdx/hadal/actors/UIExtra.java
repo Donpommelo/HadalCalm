@@ -30,7 +30,7 @@ public class UIExtra extends AHadalActor{
 	private ArrayList<UITag> uiTags;
 	
 	//These variables are all fields that are displayed in the default tags for the ui
-	private int score, lives;
+	private int score, lives, extraVar1, extraVar2;
 	private float timer;
 	
 	public UIExtra(AssetManager assetManager, PlayState state) {
@@ -71,6 +71,12 @@ public class UIExtra extends AHadalActor{
 				break;
 			case HISCORE:
 				text = text.concat("HI-SCORE: " + state.getGsm().getRecord().getHiScores().get(state.getLevel().name()) + "\n");
+				break;
+			case VAR1:
+				text = text.concat(" " + extraVar1);
+				break;
+			case VAR2:
+				text = text.concat(" " + extraVar2);
 				break;
 			case MISC:
 				text = text.concat(tag.getMisc());
@@ -153,5 +159,21 @@ public class UIExtra extends AHadalActor{
 
 	public void incrementTimer(float timer) {
 		this.timer += timer;
+	}
+	
+	public float getVar1() {
+		return extraVar1;
+	}
+
+	public void incrementVar1(int var1) {
+		this.extraVar1 += var1;
+	}
+	
+	public float getVar2() {
+		return extraVar2;
+	}
+
+	public void incrementVar2(int var2) {
+		this.extraVar2 += var2;
 	}
 }

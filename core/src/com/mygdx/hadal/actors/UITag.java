@@ -93,6 +93,8 @@ public class UITag {
 		SCRIP,
 		LIVES,
 		TIMER,
+		VAR1,
+		VAR2,
 		MISC,	
 	}
 }

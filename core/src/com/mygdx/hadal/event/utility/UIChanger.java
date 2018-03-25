@@ -40,16 +40,19 @@ public class UIChanger extends Event {
 	private static final String name = "UI Changer";
 
 	private ArrayList<UITag> tags;
-	private int changeType, scoreIncr, extraVarIncr;
+	private int changeType, scoreIncr, livesIncr, var1Incr, var2Incr;
 	private float timerIncr;
 	private String miscTag;
 	
 	public UIChanger(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, String types, int changeType, int extraVarIncr, int scoreIncr, float timerIncr, String misc) {
+			int x, int y, String types, int changeType, int livesIncr, int scoreIncr, int var1Incr, int var2Incr,
+			float timerIncr, String misc) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.changeType = changeType;
-		this.extraVarIncr = extraVarIncr;
+		this.livesIncr = livesIncr;
 		this.scoreIncr = scoreIncr;
+		this.var1Incr = var1Incr;
+		this.var2Incr = var2Incr;
 		this.timerIncr = timerIncr;
 		this.miscTag = misc;
 		this.tags = new ArrayList<UITag>();
@@ -75,9 +78,11 @@ public class UIChanger extends Event {
 			@Override
 			public void onActivate(EventData activator) {
 				state.getUiExtra().changeTypes(changeType, tags);
-				state.getUiExtra().incrementLives(extraVarIncr);
+				state.getUiExtra().incrementLives(livesIncr);
 				state.getUiExtra().incrementScore(scoreIncr);
 				state.getUiExtra().incrementTimer(timerIncr);
+				state.getUiExtra().incrementVar1(var1Incr);
+				state.getUiExtra().incrementVar2(var2Incr);
 			}
 		};
 	}

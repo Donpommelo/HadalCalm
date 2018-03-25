@@ -134,6 +134,8 @@ public class TiledObjectUtil {
     					object.getProperties().get("change", 0, Integer.class),
     					object.getProperties().get("lives", 0, Integer.class), 
     					object.getProperties().get("score", 0, Integer.class),
+    					object.getProperties().get("var1", 0, Integer.class),
+    					object.getProperties().get("var2", 0, Integer.class),
     					object.getProperties().get("timer", 0.0f, float.class),
     					object.getProperties().get("misc", "", String.class));
     		}
