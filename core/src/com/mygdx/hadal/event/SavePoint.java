@@ -4,10 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
@@ -34,15 +31,11 @@ public class SavePoint extends Event {
 		this.eventData = new EventData(world, this) {
 			
 			@Override
-			public void onTouch(HadalData fixB) {
-				super.onTouch(fixB);
-				
-				state.setSafe((int)event.getPosition().x, (int)event.getPosition().y);
+			public void onActivate(EventData activator) {
+				if (event.getConnectedEvent() != null) {
+					state.setSafe((int)event.getConnectedEvent().getPosition().x, (int)event.getConnectedEvent().getPosition().y);
+				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER),
-				(short) 0, true, eventData);
 	}
 }
