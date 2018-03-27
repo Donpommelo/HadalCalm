@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -22,10 +23,16 @@ public class HubEvent extends Event {
 	protected ScrollPane options;
 	protected boolean open;
 	
+	//These fields pertain to the extra info window that pops up when mousing over stuff.
+	private Text extraInfo;
+	private String info;
+	private final static int infoWidth = 400;
+	private final static int infoHeight = 300;
+	
 	protected static final float optionsWidth = 600.0f;
 	protected static final float optionsHeight = 50.0f;
 	
-	public HubEvent(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name, int width, int height,
+	public HubEvent(final PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name, int width, int height,
 			int x, int y, String title) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.tableInner = new Table();
@@ -34,8 +41,22 @@ public class HubEvent extends Event {
 		tableOuter.add(new Text(HadalGame.assetManager, title, 0, 0)).width(optionsWidth).height(optionsHeight);
 		tableOuter.row();
 		this.options = new ScrollPane(tableInner, state.getGsm().getSkin());
+		options.setFadeScrollBars(false);
 		
 		tableOuter.add(options).width(optionsWidth).height(HadalGame.CONFIG_HEIGHT / 2);
+		
+		extraInfo = new Text(HadalGame.assetManager, "", 0, 0) {
+			
+			@Override
+		    public void draw(Batch batch, float alpha) {
+				super.draw(batch, alpha);
+				font.getData().setScale(0.4f);
+				state.getGsm().getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
+			    font.draw(batch, info, getX(), getY() + infoHeight, infoWidth, -1, true);
+			    font.getData().setScale(1.0f);
+		    }
+			
+		};
 		
 		this.open = false;
 	}
@@ -79,6 +100,20 @@ public class HubEvent extends Event {
 	
 	public void leave() {
 		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
+		mouseOut();
 	}
-
+	
+	public void mouseIn(String info) {
+		
+		this.info = info;
+		extraInfo.setPosition(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4);
+		
+		state.getStage().addActor(extraInfo);
+		
+		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH - optionsWidth - infoWidth, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
+	}
+	
+	public void mouseOut() {
+		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
+	}
 }

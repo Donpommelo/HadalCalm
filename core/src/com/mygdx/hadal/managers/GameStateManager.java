@@ -35,7 +35,7 @@ public class GameStateManager {
 	
 	//temp skin for ui windows
 	private Skin skin;
-	private NinePatchDrawable patch;
+	private NinePatchDrawable dialogPatch, simplePatch;
 	private ScrollPaneStyle scrollStyle;
 	
 	//This is the player's currently selected loadout. (not equiped weapons after entering level)
@@ -72,8 +72,9 @@ public class GameStateManager {
 		this.skin.add("default-font", font24);
 		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
-		this.patch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
-		this.scrollStyle = new ScrollPaneStyle(patch, patch, patch, patch, patch);
+		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
+		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
+		this.scrollStyle = new ScrollPaneStyle(dialogPatch, dialogPatch, dialogPatch, dialogPatch, dialogPatch);
 		
 		this.loadout = new Loadout();
 		this.level = UnlockLevel.ARENA_1;
@@ -214,8 +215,12 @@ public class GameStateManager {
 		return skin;
 	}
 	
-	public NinePatchDrawable getPatch() {
-		return patch;
+	public NinePatchDrawable getDialogPatch() {
+		return dialogPatch;
+	}
+	
+	public NinePatchDrawable getSimplePatch() {
+		return simplePatch;
 	}
 	
 	public ScrollPaneStyle getScrollStyle() {

@@ -52,6 +52,7 @@ public class DialogueBox extends AHadalActor {
 	//For example, the text will appear when the window's x = maxX * this variable
 	private static final float textAppearThreshold = 0.9f;
 	
+	
 	public DialogueBox(AssetManager assetManager, GameStateManager stateManager, int x, int y) {
 		super(assetManager, x, y);
 		
@@ -106,7 +107,7 @@ public class DialogueBox extends AHadalActor {
 				currX = 0;
 				currY = 0;
 			}
-			
+
 			dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getBoolean("End", false),
 					d.getFloat("Duration", 0), radio, trigger));
 		}		
@@ -117,7 +118,7 @@ public class DialogueBox extends AHadalActor {
 	 * It is called when the player presses the input that cycles through dialogue.
 	 */
 	public void nextDialogue() {
-		
+
 		//Do nothing if queue is empty
 		if (dialogues.size != 0) {
 			
@@ -142,11 +143,11 @@ public class DialogueBox extends AHadalActor {
 		 font.getData().setScale(scale);
 		 
 		 if (dialogues.size != 0) {
-			 gsm.getPatch().draw(batch, getX(), getY() - 200 + maxY - currY, currX, currY);
+			 gsm.getDialogPatch().draw(batch, getX(), getY() - 200 + maxY - currY, currX, currY);
 			 
 			 //Only draw dialogue text if window has reached specified size.
 			 if (currX >= maxX * textAppearThreshold) {
-		         font.draw(batch, dialogues.first().getName() +": " + dialogues.first().getText(), getX() + 150, getY() - 20);
+		         font.draw(batch, dialogues.first().getName() +": " + dialogues.first().getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
 			 }
 		 }
 		 
