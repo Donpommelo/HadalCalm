@@ -40,6 +40,7 @@ public enum UnlockEquip {
 	
 	private Class<? extends Equipable> weapon;
 	private Equipable singleton;
+	private String descr = "<DESCR PLACEHOLDER>";
 	private boolean unlocked;
 	private EquipTag[] tags;
 	
@@ -102,6 +103,14 @@ public enum UnlockEquip {
 		UnlockManager.saveUnlocks();
 	}
 	
+	public String getDescr() {
+		return descr;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+
 	//TODO: implement weapon costs
 	public int getCost() {
 		return 10;

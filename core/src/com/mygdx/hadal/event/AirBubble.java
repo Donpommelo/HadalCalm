@@ -37,7 +37,7 @@ public class AirBubble extends Event{
 	private static final String name = "Fuel";
 	
 	public AirBubble(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y);
+		super(state, world, camera, rays, name, width, height, x, y, "event_fuel");
 	}
 
 	@Override

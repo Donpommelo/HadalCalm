@@ -38,7 +38,7 @@ public class SpawnerEvent extends Event {
 
 	public SpawnerEvent(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y, int id, boolean resetActivator, String extraArgs) {
-		super(state, world, camera, rays, name, width, height, x, y);
+		super(state, world, camera, rays, name, width, height, x, y, "event_base");
 		this.spawnX = x;
 		this.spawnY = y;
 		this.id = id;
@@ -88,7 +88,7 @@ public class SpawnerEvent extends Event {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (0), (short) 0, true, eventData);
 	}
-
+	
 	public String getArgs() {
 		return args;
 	}	

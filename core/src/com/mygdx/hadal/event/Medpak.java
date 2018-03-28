@@ -37,7 +37,7 @@ public class Medpak extends Event{
 	private static final String name = "Medpak";
 	
 	public Medpak(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y);
+		super(state, world, camera, rays, name, width, height, x, y, "event_health");
 	}
 
 	@Override

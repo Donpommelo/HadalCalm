@@ -54,9 +54,7 @@ public class Schmuck extends HadalEntity {
 	protected float controllerCount = 0;
 	
 	// This counter keeps track of frames for animations. This is incremented every controller tick for now.
-	protected float animationTime = 0;
-	protected void increaseAnimationTime(float i) { animationTime += i; }
-	protected float getAnimationTime() { return animationTime; }
+	
 
 	protected short hitboxfilter;
 

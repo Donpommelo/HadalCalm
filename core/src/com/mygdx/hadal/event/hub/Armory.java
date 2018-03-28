@@ -21,7 +21,6 @@ public class Armory extends HubEvent {
 	public Armory(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y, title);
-	
 	}
 	
 	public void enter() {

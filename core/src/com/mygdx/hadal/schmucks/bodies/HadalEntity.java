@@ -51,6 +51,11 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	
 	protected SteeringBehavior<Vector2> behavior;
 	protected SteeringAcceleration<Vector2> steeringOutput;
+	
+	protected float animationTime = 0;
+	protected void increaseAnimationTime(float i) { animationTime += i; }
+	protected float getAnimationTime() { return animationTime; }
+	
 	/**
 	 * Constructor is called when an entity is created.
 	 * @param state: Current playstate

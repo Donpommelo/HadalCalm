@@ -36,6 +36,9 @@ public enum AssetList {
 	MULTITOOL_1("sprites/player/multitool.png", Texture.class),
 	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),
 	
+	EVENT_1("sprites/event.png", Texture.class),
+	EVENT_ATL("sprites/event.atlas", TextureAtlas.class),
+	
 	// Particle effects.
 	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),
 	BUBBLE_IMPACT("sprites/particle/bubble_impact.particle", null),

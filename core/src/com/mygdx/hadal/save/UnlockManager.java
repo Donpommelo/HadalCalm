@@ -65,7 +65,31 @@ public class UnlockManager {
 		
 		for (JsonValue d : base.get("LEVEL")) {
 			UnlockLevel.valueOf(d.name()).setUnlocked(d.getBoolean("value"));
-		}		
+		}
+	}
+	
+	public static void getDescriptions() {
+		JsonReader json;
+		JsonValue base;
+		
+		json = new JsonReader();
+		base = json.parse(Gdx.files.internal("text/Descriptions.json"));
+		
+		for (JsonValue d : base.get("EQUIP")) {
+			UnlockEquip.valueOf(d.name()).setDescr(d.getString("description"));
+		}
+		
+/*		for (JsonValue d : base.get("ARTIFACT")) {
+			UnlockArtifact.valueOf(d.name()).setUnlocked(d.getBoolean("value"));
+		}
+		
+		for (JsonValue d : base.get("CHARACTER")) {
+			UnlockCharacter.valueOf(d.name()).setUnlocked(d.getBoolean("value"));
+		}
+		
+		for (JsonValue d : base.get("LEVEL")) {
+			UnlockLevel.valueOf(d.name()).setUnlocked(d.getBoolean("value"));
+		}*/
 	}
 	
 }
