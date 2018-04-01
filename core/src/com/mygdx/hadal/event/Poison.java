@@ -36,22 +36,22 @@ public class Poison extends Event {
 	private static final String name = "Poison";
 
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
-			int x, int y, float dps, boolean startOn) {
+			int x, int y, float dps) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.dps = dps;
 		this.perp = state.getWorldDummy();
-		this.on = startOn;
+		this.on = true;
 	}
 	
 	/**
 	 * This constructor is used for when this event is created temporarily.
 	 */
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
-			int x, int y, float dps, float duration, Schmuck perp, boolean startOn) {
+			int x, int y, float dps, float duration, Schmuck perp) {
 		super(state, world, camera, rays, name, width, height, x, y, duration);
 		this.dps = dps;
 		this.perp = perp;
-		this.on = startOn;
+		this.on = true;
 	}
 	
 	@Override

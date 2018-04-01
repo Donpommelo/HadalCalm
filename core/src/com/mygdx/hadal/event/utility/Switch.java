@@ -18,7 +18,7 @@ import box2dLight.RayHandler;
  * Triggering Behavior: When interacted with by the player, this event will trigger its connected event.
  * 
  * Fields:
- * oneTime: Boolean to be replaced
+ * N/A
  * 
  * @author Zachary Tu
  *
@@ -26,14 +26,10 @@ import box2dLight.RayHandler;
 public class Switch extends Event {
 
 	private static final String name = "Switch";
-
-	private boolean oneTime, active;
 	
 	public Switch(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, boolean oneTime) {
+			int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.oneTime = oneTime;
-		this.active = true;
 	}
 	
 	@Override
@@ -42,15 +38,9 @@ public class Switch extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (active) {
-					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().onActivate(this);
-					}
+				if (event.getConnectedEvent() != null) {
+					event.getConnectedEvent().getEventData().onActivate(this);
 				}
-				if (oneTime) {
-					active = false;
-				}
-				
 			}
 		};
 		
@@ -60,12 +50,6 @@ public class Switch extends Event {
 	
 	@Override
 	public String getText() {
-		if (active) {
-			return name + " (E TO ACTIVATE)";
-		} else {
-			return name + " (ACTIVATED)";
-		}
-		
+		return name + " (E TO ACTIVATE)";
 	}
-
 }

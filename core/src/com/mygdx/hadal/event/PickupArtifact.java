@@ -24,7 +24,6 @@ import box2dLight.RayHandler;
  * Fields:
  * pool: String, comma separated list of artifactunlock enum names of all equips that could appear here.
  * 	if this is equal to "", return any weapon in the random pool.
- * startOn: boolean of whether the event starts on or off. Optiona;. Default: True.
  * 
  * @author Zachary Tu
  *
@@ -40,9 +39,9 @@ public class PickupArtifact extends Event {
 	private boolean on;
 	
 	public PickupArtifact(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, String pool, boolean startOn) {
+			int x, int y, String pool) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.on = startOn;
+		this.on = true;
 		
 		//Set this pickup to a random equip in the input pool
 		artifact = UnlockArtifact.valueOf(getRandArtfFromPool(pool));

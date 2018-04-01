@@ -67,212 +67,247 @@ public class TiledObjectUtil {
      */
     public static void parseTiledEventLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObjects objects) {
     	for(MapObject object : objects) {
-    		
-    		//atm, all events are just rectangles.
-    		RectangleMapObject current = (RectangleMapObject)object;
-			Rectangle rect = current.getRectangle();
-			
-			if (object.getName().equals("Start")) {
-    			state.setStart((int)rect.x, (int)rect.y);
-    		}
-			
-			Event e = null;
-			
-			//Go through every event type to create events
-    		if (object.getName().equals("Switch")) {
-    			e = new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", true, boolean.class));
-    		}
-    		if (object.getName().equals("Sensor")) {
-    			e = new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", true, boolean.class), object.getProperties().get("player", true, boolean.class),
-    					object.getProperties().get("hbox", false, boolean.class), object.getProperties().get("event", false, boolean.class), 
-    					object.getProperties().get("enemy", false, boolean.class), object.getProperties().get("gravity", 0.0f, float.class));
-    		}
-    		if (object.getName().equals("Timer")) {
-    			e = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("interval", float.class), object.getProperties().get("limit", 0, int.class),
-    					object.getProperties().get("startOn", true, boolean.class));
-    		}
-    		if (object.getName().equals("Counter")) {
-    			e = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-    					object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class), 
-    					object.getProperties().get("oneTime", false, boolean.class));
-    		}
-    		if (object.getName().equals("Multitrigger")) {
-    			e = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
-    		}
-    		if (object.getName().equals("Condtrigger")) {
-    			e = new TriggerCond(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("start", "", String.class));
-    			condTriggeringEvents.put((TriggerCond)e, object.getProperties().get("triggeringId", "", String.class));
-    		}
-    		if (object.getName().equals("Alttrigger")) {
-    			e = new TriggerAlt(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("message","", String.class));
-    		}
-    		if (object.getName().equals("Redirecttrigger")) {
-    			e = new TriggerRedirect(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    			redirectTriggeringEvents.put((TriggerRedirect)e, object.getProperties().get("blameId", "", String.class));
-    		}
-    		if (object.getName().equals("Dummy")) {
-    			e = new PositionDummy(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("UI")) {
-    			e = new UIChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-    					object.getProperties().get("tags", String.class),
-    					object.getProperties().get("change", 0, Integer.class),
-    					object.getProperties().get("lives", 0, Integer.class), 
-    					object.getProperties().get("score", 0, Integer.class),
-    					object.getProperties().get("var1", 0, Integer.class),
-    					object.getProperties().get("var2", 0, Integer.class),
-    					object.getProperties().get("timer", 0.0f, float.class),
-    					object.getProperties().get("misc", "", String.class));
-    		}
-    		if (object.getName().equals("Camera")) {
-    			e = new CameraChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-    					object.getProperties().get("zoom", 1.0f, float.class));
-    		}
-    		
-    		if (object.getName().equals("SchmuckSpawn")) {
-    			e = new SpawnerSchmuck(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
-    					object.getProperties().get("limit", int.class), object.getProperties().get("spread", true, boolean.class));	
-    		}
-    		if (object.getName().equals("EventSpawn")) {
-    			e = new SpawnerEvent(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("id", int.class), 
-    					object.getProperties().get("reset", true, boolean.class),
-    					object.getProperties().get("args", "", String.class));	
-    		}
-    		if (object.getName().equals("UsePortal")) {		
-    			e = new PortalUse(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("oneTime", boolean.class));
-    		}
-    		if (object.getName().equals("TouchPortal")) {		
-    			e = new PortalTouch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Current")) {
-    			Vector2 power = new Vector2(object.getProperties().get("currentX", float.class), object.getProperties().get("currentY", float.class));
-    			e = new Currents(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
-    		}
-    		if (object.getName().equals("Spring")) {
-    			Vector2 power = new Vector2(object.getProperties().get("springX", float.class), object.getProperties().get("springY", float.class));
-    			e = new Spring(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
-    		}
-    		if (object.getName().equals("Equip")) {
-    			e = new PickupEquip(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("pool", "", String.class),
-    					object.getProperties().get("startOn", true, boolean.class));
-    		}
-    		if (object.getName().equals("Artifact")) {
-    			e = new PickupArtifact(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("pool", "", String.class),
-    					object.getProperties().get("startOn", true, boolean.class));
-    		}
-    		if (object.getName().equals("Dropthrough")) {
-    			e = new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Text")) {
-    			e = new InfoFlag(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("text", String.class));
-    		}
-    		if (object.getName().equals("Radio")) {
-    			e = new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("id", String.class));
-    		}
-    		if (object.getName().equals("Door")) {
-    			e = new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Rock")) {
-    			e = new AirblastableRock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("End")) {
-    			e = new End(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), object.getProperties().get("won", true, boolean.class));
-    		}
-    		if (object.getName().equals("Destr_Obj")) {
-    			e = new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("Hp", 100, Integer.class));
-    		}
-    		if (object.getName().equals("Warp")) {
-    			e = new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("Level", String.class), object.getProperties().get("reset", true, Boolean.class));
-    		}
-    		if (object.getName().equals("Poison")) {
-    			e = new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("Damage", float.class), object.getProperties().get("startOn", true, boolean.class));
-    		}
-    		if (object.getName().equals("Save")) {
-    			e = new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Pit")) {
-    			e = new Pit(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Platform")) {
-    			e = new MovingPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-    					object.getProperties().get("speed", 1.0f, float.class));
-    			platformConnections.put((MovingPlatform)e, object.getProperties().get("connections", "", String.class));
-    		}
-    		
-    		if (object.getName().equals("Armory")) {
-    			e = new Armory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Reliquary")) {
-    			e = new Reliquary(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Dormitory")) {
-    			e = new Dormitory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Navigation")) {
-    			e = new Navigations(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		if (object.getName().equals("Quartermaster")) {
-    			e = new Quartermaster(state, world, camera, rays, (int)rect.width, (int)rect.height, 
-    					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-    		}
-    		
-    		if (e != null) {
-    			triggeringEvents.put(e, object.getProperties().get("triggeringId", "", String.class));
-    			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), e);
-    		}
-    		
+    		parseTiledEvent(state, world, camera, rays, object);
     	}
     }
     
-    public static void parseTiledTriggerLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays) {
+    public static Event parseTiledEvent(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObject object) {
+    	//atm, all events are just rectangles.
+		RectangleMapObject current = (RectangleMapObject)object;
+		Rectangle rect = current.getRectangle();
+		
+		if (object.getName().equals("Start")) {
+			state.setStart((int)rect.x, (int)rect.y);
+		}
+		
+		Event e = null;
+		
+		//Go through every event type to create events
+		if (object.getName().equals("Switch")) {
+			e = new Switch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Sensor")) {
+			e = new Sensor(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("player", true, boolean.class), object.getProperties().get("hbox", false, boolean.class), 
+					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class));
+		}
+		if (object.getName().equals("Timer")) {
+			e = new Timer(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("interval", float.class));
+		}
+		if (object.getName().equals("Counter")) {
+			e = new Counter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+					object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
+		}
+		if (object.getName().equals("Limiter")) {
+			e = new Limiter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+					object.getProperties().get("count", int.class));
+		}
+		if (object.getName().equals("Multitrigger")) {
+			e = new TriggerMulti(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
+		}
+		if (object.getName().equals("Condtrigger")) {
+			e = new TriggerCond(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("start", "", String.class));
+			condTriggeringEvents.put((TriggerCond)e, object.getProperties().get("triggeringId", "", String.class));
+		}
+		if (object.getName().equals("Alttrigger")) {
+			e = new TriggerAlt(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("message","", String.class));
+		}
+		if (object.getName().equals("Redirecttrigger")) {
+			e = new TriggerRedirect(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+			redirectTriggeringEvents.put((TriggerRedirect)e, object.getProperties().get("blameId", "", String.class));
+		}
+		if (object.getName().equals("Dummy")) {
+			e = new PositionDummy(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("UI")) {
+			e = new UIChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+					object.getProperties().get("tags", String.class),
+					object.getProperties().get("change", 0, Integer.class),
+					object.getProperties().get("lives", 0, Integer.class), 
+					object.getProperties().get("score", 0, Integer.class),
+					object.getProperties().get("var1", 0, Integer.class),
+					object.getProperties().get("var2", 0, Integer.class),
+					object.getProperties().get("timer", 0.0f, float.class),
+					object.getProperties().get("misc", "", String.class));
+		}
+		if (object.getName().equals("Camera")) {
+			e = new CameraChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+					object.getProperties().get("zoom", 1.0f, float.class));
+		}
+		if (object.getName().equals("Player")) {
+			e = new PlayerChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+					object.getProperties().get("hp", 0.0f, float.class), object.getProperties().get("fuel", 0.0f, float.class), 
+					object.getProperties().get("scrap", 0, Integer.class));
+		}
+		
+		if (object.getName().equals("SchmuckSpawn")) {
+			e = new SpawnerSchmuck(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("enemyId", int.class), object.getProperties().get("amount", 1, int.class), 
+					object.getProperties().get("spread", true, boolean.class));	
+		}
+		
+		if (object.getName().equals("EventClone")) {
+			e = new EventCloner(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));	
+		}
+		if (object.getName().equals("EventDelete")) {
+			e = new EventDeleter(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));	
+		}
+		if (object.getName().equals("EventMove")) {
+			e = new EventMover(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("gravityChange", -1.0f, float.class));	
+		}
+		
+		if (object.getName().equals("UsePortal")) {		
+			e = new PortalUse(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("TouchPortal")) {		
+			e = new PortalTouch(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Current")) {
+			Vector2 power = new Vector2(object.getProperties().get("currentX", float.class), object.getProperties().get("currentY", float.class));
+			e = new Currents(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
+		}
+		if (object.getName().equals("Spring")) {
+			Vector2 power = new Vector2(object.getProperties().get("springX", float.class), object.getProperties().get("springY", float.class));
+			e = new Spring(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
+		}
+		if (object.getName().equals("Equip")) {
+			e = new PickupEquip(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("pool", "", String.class));
+		}
+		if (object.getName().equals("Artifact")) {
+			e = new PickupArtifact(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("pool", "", String.class));
+		}
+		if (object.getName().equals("Dropthrough")) {
+			e = new DropThroughPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Text")) {
+			e = new InfoFlag(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("text", String.class));
+		}
+		if (object.getName().equals("Radio")) {
+			e = new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("textId", String.class));
+		}
+		if (object.getName().equals("Door")) {
+			e = new Door(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Rock")) {
+			e = new AirblastableRock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("End")) {
+			e = new End(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("won", true, boolean.class));
+		}
+		if (object.getName().equals("Destr_Obj")) {
+			e = new DestructableBlock(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("Hp", 100, Integer.class));
+		}
+		if (object.getName().equals("Warp")) {
+			e = new LevelWarp(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("Level", String.class), object.getProperties().get("reset", true, Boolean.class));
+		}
+		if (object.getName().equals("Poison")) {
+			e = new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("Damage", float.class));
+		}
+		if (object.getName().equals("Save")) {
+			e = new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Pit")) {
+			e = new Pit(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Platform")) {
+			e = new MovingPlatform(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("speed", 1.0f, float.class));
+			platformConnections.put((MovingPlatform)e, object.getProperties().get("connections", "", String.class));
+		}
+		
+		if (object.getName().equals("Armory")) {
+			e = new Armory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Reliquary")) {
+			e = new Reliquary(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Dormitory")) {
+			e = new Dormitory(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Navigation")) {
+			e = new Navigations(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Quartermaster")) {
+			e = new Quartermaster(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		
+		//Extra, universal functions to change event sprite properties		
+		if (e != null) {
+			triggeringEvents.put(e, object.getProperties().get("triggeringId", "", String.class));
+			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), e);
+			
+			if (object.getProperties().get("sprite", String.class) != null) {
+				e.setEventSprite(object.getProperties().get("sprite", String.class));
+			}
+			if (object.getProperties().get("scale", float.class) != null) {
+				e.setScale(object.getProperties().get("scale", float.class));
+			}
+			if (object.getProperties().get("align", Integer.class) != null) {
+				e.setScaleAlign(object.getProperties().get("align", Integer.class));
+			}
+			
+			e.setGravity(object.getProperties().get("gravity", 0.0f, float.class));
+			
+			e.setBlueprint(object);
+		}
+		
+		return e;
+    }
+    
+    public static void parseTiledTriggerLayer() {
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("")) {
         		key.setConnectedEvent(triggeredEvents.getOrDefault(triggeringEvents.get(key), null));
@@ -304,6 +339,19 @@ public class TiledObjectUtil {
     			}
     		}
     	}
+    }
+    
+    public static void parseTiledSingleTrigger(Event e) {
+    	MapObject blueprint = e.getBlueprint();
+    	String triggeringId =  blueprint.getProperties().get("triggeringId", "", String.class);
+    	String triggeredId =  blueprint.getProperties().get("triggeredId", "", String.class);
+    	
+    	for (Event key : triggeringEvents.keySet()) {
+    		if (!triggeringEvents.get(key).equals("") && triggeringEvents.get(key).equals(triggeredId)) {
+        		key.setConnectedEvent(e);
+    		}
+    	}
+    	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
 
     /**

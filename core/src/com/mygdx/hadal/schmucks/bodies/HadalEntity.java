@@ -177,6 +177,19 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return alive;
 	}
 	
+	public float getStartX() {
+		return startX;
+	}
+	public void setStartX(float startX) {
+		this.startX = startX;
+	}
+	public float getStartY() {
+		return startY;
+	}
+	public void setStartY(float startY) {
+		this.startY = startY;
+	}
+	
 	/**
 	 * This is only used for steering entities.
 	 * @param delta

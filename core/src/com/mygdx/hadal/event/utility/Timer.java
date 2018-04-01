@@ -26,12 +26,8 @@ public class Timer extends Event {
 	//How frequently will this event trigger its connected event?
 	private float interval;
 	
-	//The number of times this event can trigger its connected event.
-	private int limit;
-	
 	//These keep track of how long until this triggers its connected event and how many times it can trigger again.
 	private float timeCount = 0;
-	private int amountCount = 0;
 	
 	//Is the timer running
 	private boolean on;
@@ -39,11 +35,10 @@ public class Timer extends Event {
 	private static final String name = "Timer";
 
 	public Timer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, float interval, int limit, boolean startOn) {
+			int x, int y, float interval) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.interval = interval;
-		this.limit = limit;
-		this.on = startOn;
+		this.on = true;
 	}
 	
 	@Override
@@ -54,7 +49,6 @@ public class Timer extends Event {
 			@Override
 			public void onActivate(EventData activator) {
 				((Timer)event).on = !((Timer)event).on;
-				amountCount = 0;
 				timeCount = 0;
 			}
 		};
@@ -66,13 +60,9 @@ public class Timer extends Event {
 			timeCount += delta;
 			if (timeCount >= interval) {
 				timeCount = 0;
-				amountCount++;
 				if (getConnectedEvent() != null) {
 					getConnectedEvent().getEventData().onActivate(eventData);
 				}
-			}
-			if ((limit != 0 && amountCount >= limit)) {
-				on = false;
 			}
 		}
 	}

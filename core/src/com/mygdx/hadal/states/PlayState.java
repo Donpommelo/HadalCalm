@@ -167,7 +167,7 @@ public class PlayState extends GameState {
 		
 		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
 		
-		TiledObjectUtil.parseTiledTriggerLayer(this, world, camera, rays);
+		TiledObjectUtil.parseTiledTriggerLayer();
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;
@@ -201,7 +201,10 @@ public class PlayState extends GameState {
 		uiPlay = new UIPlay(HadalGame.assetManager, this, player);
 		uiReload = new UIReload(HadalGame.assetManager, this, player);
 		uiMomentum = new UIMomentum(HadalGame.assetManager, this, player);
-		uiExtra = new UIExtra(HadalGame.assetManager, this);
+		
+		if (uiExtra == null) {
+			uiExtra = new UIExtra(HadalGame.assetManager, this);
+		}
 		
 		this.stage.addActor(uiPlay);
 		this.stage.addActor(uiMomentum);

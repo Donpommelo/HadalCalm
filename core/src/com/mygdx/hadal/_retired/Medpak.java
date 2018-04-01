@@ -1,7 +1,8 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal._retired;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -29,15 +30,15 @@ import box2dLight.RayHandler;
  */
 public class Medpak extends Event{
 
-	private static final int width = 16;
-	private static final int height = 16;
+	private static final int width = 32;
+	private static final int height = 32;
 	
 	private static final int hpRegained = 25;
 
 	private static final String name = "Medpak";
 	
 	public Medpak(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y, "event_health");
+		super(state, world, camera, rays, name, width, height, x, y, "event_health", 0.25f, 2);
 	}
 
 	@Override

@@ -44,9 +44,9 @@ public class PickupEquip extends Event {
 	private boolean on;
 	
 	public PickupEquip(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, String pool, boolean startOn) {
+			int x, int y, String pool) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.on = startOn;
+		this.on = true;
 		
 		//Set this pickup to a random weapon in the input pool
 		equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(getRandWeapFromPool(pool)), null);

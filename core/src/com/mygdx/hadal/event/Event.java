@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
@@ -37,11 +38,18 @@ public class Event extends HadalEntity {
 	private boolean temporary;
 	private float duration;
 	
+	protected float gravity = 0.0f;
+	
 	private TextureAtlas atlasEvent;
 	private Animation<TextureRegion> eventSprite;
 	private int spriteWidth;
 	private int spriteHeight;
-	private float scale = 1.0f;
+	private float scale = 0.25f;
+    private int scaleAlign = 0;
+	
+    private final static float animationSpeed = 0.8f;
+    
+    private MapObject blueprint;
     
 	/**
 	 * Constructor for permanent events.
@@ -52,20 +60,24 @@ public class Event extends HadalEntity {
 		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
+		
+		atlasEvent = (TextureAtlas) HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 	}
 	
 	/**
 	 * Events with sprites
 	 */
 	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
-			int width, int height, int x, int y, String sprite) {
+			int width, int height, int x, int y, String sprite, float scale, int scaleAlign) {
 		super(state, world, camera, rays, width, height, x, y);
 		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
+		this.scale = scale;
+		this.scaleAlign = scaleAlign;
 		
 		atlasEvent = (TextureAtlas) HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
-		eventSprite = new Animation<TextureRegion>(0.08f, atlasEvent.findRegions(sprite));
+		eventSprite = new Animation<TextureRegion>(animationSpeed, atlasEvent.findRegions(sprite));
 		spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
 		spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}
@@ -79,6 +91,8 @@ public class Event extends HadalEntity {
 		this.name = name;
 		this.temporary = true;
 		this.duration = duration;
+		
+		atlasEvent = (TextureAtlas) HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 	}
 	
 	@Override
@@ -107,16 +121,50 @@ public class Event extends HadalEntity {
 		
 		if (eventSprite != null) {
 			batch.setProjectionMatrix(state.sprite.combined);
-   /*         batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
-                    body.getPosition().x * PPM - spriteWidth * scale / 2,
-                    body.getPosition().y * PPM,
-                    spriteWidth * scale / 2, spriteHeight * scale / 2,
-                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);*/
-			batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
-                    body.getPosition().x * PPM - width * scale / 2,
-                    body.getPosition().y * PPM - height * scale / 2,
-                    width * scale / 2, height * scale / 2,
-                    width * scale, height * scale, 1, 1, 0);
+			switch (scaleAlign) {
+			case 0:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+	                    body.getPosition().x * PPM - width / 2,
+	                    body.getPosition().y * PPM - height / 2,
+	                    width / 2, height / 2,
+	                    width, height, 1, 1, 0);
+				break;
+			case 1:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
+	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
+	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+				break;
+			case 2:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
+	                    body.getPosition().y * PPM - height / 2,
+	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
+	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+				break;
+			case 3:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
+	                    body.getPosition().y * PPM + height / 2,
+	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
+	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+				break;
+			case 4:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+	                    body.getPosition().x * PPM - width / 2,
+	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
+	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+				break;
+			case 5:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+	                    body.getPosition().x * PPM + width / 2,
+	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
+	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+				break;
+			}            
 		}
 		
 		if (body != null) {
@@ -129,7 +177,6 @@ public class Event extends HadalEntity {
 	
 	@Override
 	public void queueDeletion() {
-		
 		super.queueDeletion();
 	}
 	
@@ -156,5 +203,35 @@ public class Event extends HadalEntity {
 
 	public void setConnectedEvent(Event connectedEvent) {
 		this.connectedEvent = connectedEvent;
+	}
+	
+	public float getGravity() {
+		return gravity;
+	}
+
+	public void setGravity(float gravity) {
+		this.gravity = gravity;
+	}
+
+	public void setEventSprite(String sprite) {
+		this.eventSprite = new Animation<TextureRegion>(0.08f, atlasEvent.findRegions(sprite));
+		this.spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
+		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
+	}
+	
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+
+	public void setScaleAlign(int scaleAlign) {
+		this.scaleAlign = scaleAlign;
+	}
+
+	public MapObject getBlueprint() {
+		return blueprint;
+	}
+
+	public void setBlueprint(MapObject blueprint) {
+		this.blueprint = blueprint;
 	}
 }

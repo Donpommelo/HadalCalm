@@ -56,7 +56,7 @@ public class Nematocydearm extends RangedWeapon {
 				public void controller(float delta) {
 					if (lifeSpan <= 0) {
 						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
-								(int)(body.getPosition().x * PPM), (int)(body.getPosition().y * PPM), poisonDamage, poisonDuration, user, true);
+								(int)(body.getPosition().x * PPM), (int)(body.getPosition().y * PPM), poisonDamage, poisonDuration, user);
 					}
 					super.controller(delta);
 				}
@@ -79,7 +79,7 @@ public class Nematocydearm extends RangedWeapon {
 					if (explode) {
 						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
 								(int)(this.hbox.getBody().getPosition().x * PPM), 
-								(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, user, true);
+								(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, user);
 						hbox.queueDeletion();
 					}
 					

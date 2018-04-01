@@ -21,7 +21,6 @@ import box2dLight.RayHandler;
  * Triggering Behavior: When touching a specified type of body, this event will trigger its connected event.
  * 
  * Fields:
- * oneTime: Boolean to be replaced
  * player: Boolean that describes whether this sensor touches player. Optional. Default: true
  * hbox: Boolean that describes whether this sensor touches hit-boxes. Optional. Default: false
  * event: Boolean that describes whether this sensor touches events. Optional. Default: false
@@ -34,18 +33,13 @@ public class Sensor extends Event {
 
 	private static final String name = "Sensor";
 
-	private boolean oneTime;
 	private short filter;
-	private float gravity;
 	
 	public Sensor(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, boolean oneTime, boolean player, boolean hbox, boolean event, boolean enemy, float gravity) {
+			int x, int y, boolean player, boolean hbox, boolean event, boolean enemy) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.oneTime = oneTime;
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0)
 				| (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
-
-		this.gravity = gravity;
 	}
 	
 	@Override
@@ -63,10 +57,6 @@ public class Sensor extends Event {
 				if (isAlive()) {
 					if (event.getConnectedEvent() != null) {
 						event.getConnectedEvent().getEventData().onActivate(this);
-					}
-					
-					if (oneTime) {
-						event.queueDeletion();
 					}
 				}
 			}

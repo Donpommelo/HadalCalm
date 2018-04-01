@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.3" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="142">
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="161">
  <properties>
   <property name="triggeredId" value="win"/>
  </properties>
@@ -77,20 +77,13 @@
   <object id="19" name="Timer" type="Timer" x="2880" y="992" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="1"/>
-    <property name="limit" type="int" value="1"/>
-    <property name="triggeringId" value="onceAtStart"/>
+    <property name="triggeringId" value="initLimiter"/>
    </properties>
   </object>
-  <object id="23" name="Multitrigger" type="Multitrigger" x="2976" y="992" width="32" height="32">
+  <object id="23" name="Multitrigger" type="Multitrigger" x="3072" y="992" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="hp2,turret1,hp3"/>
-   </properties>
-  </object>
-  <object id="24" name="EventSpawn" type="EventSpawn" x="3168" y="1792" width="32" height="32">
-   <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="triggeredId" value="hp1"/>
+    <property name="triggeringId" value="hp2,turret1,hp3,spawntimer1,spawntimer2,spawntimer3,a1,a2,a3"/>
    </properties>
   </object>
   <object id="26" name="TouchPortal" type="TouchPortal" x="4256" y="2112" width="32" height="32">
@@ -107,7 +100,6 @@
   </object>
   <object id="28" name="Artifact" type="Artifact" x="4736" y="2944" width="32" height="32">
    <properties>
-    <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="a1"/>
     <property name="triggeringId" value="lockrewards2"/>
    </properties>
@@ -120,8 +112,8 @@
   </object>
   <object id="30" name="SchmuckSpawn" type="SchmuckSpawn" x="5056" y="3328" width="32" height="32">
    <properties>
-    <property name="id" type="int" value="5"/>
-    <property name="limit" type="int" value="1"/>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" type="int" value="5"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="turret1"/>
    </properties>
@@ -202,7 +194,7 @@
   </object>
   <object id="49" name="Switch" type="Switch" x="8096" y="3328" width="32" height="32">
    <properties>
-    <property name="triggeringId" value="switch3"/>
+    <property name="triggeringId" value="switchLimiter1"/>
    </properties>
   </object>
   <object id="50" name="Redirecttrigger" type="Redirecttrigger" x="7872" y="3328" width="32" height="32">
@@ -220,7 +212,7 @@
   <object id="53" name="Sensor" type="Sensor" x="9024" y="3328" width="320" height="32">
    <properties>
     <property name="triggeredId" value="platsensor1"/>
-    <property name="triggeringId" value="sensor1"/>
+    <property name="triggeringId" value="platLimiter2"/>
    </properties>
   </object>
   <object id="54" name="Redirecttrigger" type="Redirecttrigger" x="9024" y="3136" width="32" height="32">
@@ -275,7 +267,7 @@
   </object>
   <object id="62" name="Sensor" type="Sensor" x="8704" y="5792" width="320" height="32">
    <properties>
-    <property name="triggeredId" value="platsensor2"/>
+    <property name="triggeredId" value="platLimiter"/>
     <property name="triggeringId" value="sensor2"/>
    </properties>
   </object>
@@ -322,14 +314,14 @@
     <property name="triggeringId" value="platpoint10"/>
    </properties>
   </object>
-  <object id="70" name="End" type="End" x="6816" y="6752" width="32" height="32">
+  <object id="70" name="End" type="End" x="6848" y="6688" width="32" height="32">
    <properties>
     <property name="triggeredId" value="win"/>
    </properties>
   </object>
   <object id="71" name="Sensor" type="Sensor" x="3520" y="1600" width="32" height="160">
    <properties>
-    <property name="triggeringId" value="spawnsensor1"/>
+    <property name="triggeringId" value="spawnLimiter4"/>
    </properties>
   </object>
   <object id="72" name="Multitrigger" type="Multitrigger" x="3552" y="1504" width="32" height="32">
@@ -340,16 +332,16 @@
   </object>
   <object id="74" name="SchmuckSpawn" type="SchmuckSpawn" x="2912" y="2048" width="32" height="32">
    <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="2"/>
+    <property name="amount" type="int" value="2"/>
+    <property name="enemyId" type="int" value="1"/>
     <property name="triggeredId" value="spawn2"/>
     <property name="triggeringId" value="wavecount1"/>
    </properties>
   </object>
   <object id="75" name="SchmuckSpawn" type="SchmuckSpawn" x="2912" y="1408" width="32" height="32">
    <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="2"/>
+    <property name="amount" type="int" value="2"/>
+    <property name="enemyId" type="int" value="1"/>
     <property name="triggeredId" value="spawn1"/>
     <property name="triggeringId" value="wavecount1"/>
    </properties>
@@ -364,13 +356,13 @@
   <object id="77" name="Equip" type="Equip" x="3040" y="2336" width="32" height="32"/>
   <object id="78" name="Sensor" type="Sensor" x="4896" y="2368" width="352" height="32">
    <properties>
-    <property name="triggeringId" value="spawnsensor2"/>
+    <property name="triggeringId" value="spawnLimiter3"/>
    </properties>
   </object>
   <object id="79" name="SchmuckSpawn" type="SchmuckSpawn" x="5504" y="2816" width="32" height="32">
    <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="6"/>
+    <property name="amount" type="int" value="6"/>
+    <property name="enemyId" type="int" value="1"/>
     <property name="triggeredId" value="spawnsensor2"/>
     <property name="triggeringId" value="reward2"/>
    </properties>
@@ -383,14 +375,12 @@
   </object>
   <object id="81" name="Artifact" type="Artifact" x="4928" y="2944" width="32" height="32">
    <properties>
-    <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="a2"/>
     <property name="triggeringId" value="lockrewards2"/>
    </properties>
   </object>
   <object id="82" name="Artifact" type="Artifact" x="5120" y="2944" width="32" height="32">
    <properties>
-    <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="a3"/>
     <property name="triggeringId" value="lockrewards2"/>
    </properties>
@@ -454,29 +444,22 @@
     <property name="triggeringId" value="w4,w5,w6"/>
    </properties>
   </object>
-  <object id="96" name="Sensor" type="Sensor" x="4768" y="4032" width="128" height="32">
+  <object id="96" name="Sensor" type="Sensor" x="4768" y="4034" width="128" height="32">
    <properties>
-    <property name="triggeringId" value="spawnsensor3"/>
+    <property name="triggeringId" value="spawnLimiter2"/>
    </properties>
   </object>
   <object id="97" name="SchmuckSpawn" type="SchmuckSpawn" x="4384" y="4608" width="32" height="32">
    <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="12"/>
+    <property name="amount" type="int" value="12"/>
+    <property name="enemyId" type="int" value="1"/>
     <property name="triggeredId" value="spawnburst"/>
-   </properties>
-  </object>
-  <object id="98" name="EventSpawn" type="EventSpawn" x="8448" y="6144" width="32" height="32">
-   <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="reset" type="bool" value="false"/>
-    <property name="triggeredId" value="hp2"/>
    </properties>
   </object>
   <object id="100" name="SchmuckSpawn" type="SchmuckSpawn" x="4512" y="4608" width="32" height="32">
    <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="3"/>
+    <property name="amount" type="int" value="3"/>
+    <property name="enemyId" type="int" value="1"/>
     <property name="triggeredId" value="spawncont"/>
    </properties>
   </object>
@@ -489,15 +472,13 @@
   <object id="102" name="Timer" type="Timer" x="4480" y="4480" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="3"/>
-    <property name="limit" type="int" value="0"/>
-    <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="spawntimer1"/>
     <property name="triggeringId" value="spawncont"/>
    </properties>
   </object>
   <object id="106" name="Sensor" type="Sensor" x="6272" y="4512" width="1088" height="32">
    <properties>
-    <property name="triggeringId" value="spawntimer1"/>
+    <property name="triggeringId" value="spawnLimiter1"/>
    </properties>
   </object>
   <object id="107" name="Artifact" type="Artifact" x="7328" y="2944" width="32" height="32">
@@ -543,16 +524,14 @@
   <object id="115" name="Timer" type="Timer" x="7744" y="3424" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="3"/>
-    <property name="limit" type="int" value="0"/>
-    <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="spawntimer2"/>
     <property name="triggeringId" value="spawncont2"/>
    </properties>
   </object>
   <object id="117" name="SchmuckSpawn" type="SchmuckSpawn" x="8608" y="3840" width="32" height="32">
    <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="limit" type="int" value="1"/>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" type="int" value="1"/>
     <property name="triggeredId" value="spawncont2"/>
    </properties>
   </object>
@@ -586,21 +565,13 @@
     <property name="Damage" type="float" value="1"/>
    </properties>
   </object>
-  <object id="131" name="EventSpawn" type="EventSpawn" x="7872" y="2944" width="32" height="32">
-   <properties>
-    <property name="id" type="int" value="1"/>
-    <property name="reset" type="bool" value="false"/>
-    <property name="triggeredId" value="hp3"/>
-   </properties>
-  </object>
   <object id="136" name="Start" type="Start" x="4672" y="1056" width="32" height="32"/>
   <object id="137" name="Sensor" type="Sensor" x="6816" y="6624" width="32" height="32">
    <properties>
-    <property name="oneTime" type="bool" value="true"/>
-    <property name="triggeringId" value="win"/>
+    <property name="triggeringId" value="winLimiter"/>
    </properties>
   </object>
-  <object id="138" name="Save" type="Save" x="5536" y="4832" width="32" height="32">
+  <object id="138" name="Save" type="Save" x="5568" y="4832" width="32" height="32">
    <properties>
     <property name="triggeredId" value="save1"/>
     <property name="triggeringId" value="savept1"/>
@@ -608,12 +579,130 @@
   </object>
   <object id="139" name="Sensor" type="Sensor" x="5504" y="4512" width="96" height="288">
    <properties>
-    <property name="triggeringId" value="save1"/>
+    <property name="triggeringId" value="saveLimiter"/>
    </properties>
   </object>
   <object id="141" name="Dummy" type="Dummy" x="5536" y="4736" width="32" height="32">
    <properties>
     <property name="triggeredId" value="savept1"/>
+   </properties>
+  </object>
+  <object id="142" name="Limiter" type="Limiter" x="6784" y="6688" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="winLimiter"/>
+    <property name="triggeringId" value="win"/>
+   </properties>
+  </object>
+  <object id="144" name="Limiter" type="Limiter" x="7424" y="4512" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="spawnLimiter1"/>
+    <property name="triggeringId" value="spawntimer1"/>
+   </properties>
+  </object>
+  <object id="146" name="Limiter" type="Limiter" x="2976" y="992" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="initLimiter"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="147" name="Limiter" type="Limiter" x="5504" y="4832" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="saveLimiter"/>
+    <property name="triggeringId" value="save1"/>
+   </properties>
+  </object>
+  <object id="148" name="Limiter" type="Limiter" x="4576" y="4032" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="spawnLimiter2"/>
+    <property name="triggeringId" value="spawnsensor3"/>
+   </properties>
+  </object>
+  <object id="149" name="Limiter" type="Limiter" x="4768" y="2368" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="spawnLimiter3"/>
+    <property name="triggeringId" value="spawnsensor2"/>
+   </properties>
+  </object>
+  <object id="150" name="Limiter" type="Limiter" x="3520" y="1824" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="spawnLimiter4"/>
+    <property name="triggeringId" value="spawnsensor1"/>
+   </properties>
+  </object>
+  <object id="151" name="Limiter" type="Limiter" x="9088" y="5792" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="platLimiter"/>
+    <property name="triggeringId" value="sensor2"/>
+   </properties>
+  </object>
+  <object id="152" name="Limiter" type="Limiter" x="9408" y="3328" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="platLimiter2"/>
+    <property name="triggeringId" value="sensor1"/>
+   </properties>
+  </object>
+  <object id="153" name="Limiter" type="Limiter" x="8096" y="3392" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="1"/>
+    <property name="triggeredId" value="switchLimiter1"/>
+    <property name="triggeringId" value="switch3"/>
+   </properties>
+  </object>
+  <object id="154" name="EventClone" type="EventClone" x="7872" y="2944" width="32" height="32">
+   <properties>
+    <property name="align" type="int" value="2"/>
+    <property name="scale" type="float" value="0.25"/>
+    <property name="sprite" value="event_base"/>
+    <property name="triggeredId" value="hp3"/>
+    <property name="triggeringId" value="hp"/>
+   </properties>
+  </object>
+  <object id="155" name="Sensor" type="Sensor" x="8480" y="2432" width="32" height="32">
+   <properties>
+    <property name="align" type="int" value="2"/>
+    <property name="scale" type="float" value="0.25"/>
+    <property name="sprite" value="event_health"/>
+    <property name="triggeredId" value="hp"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="157" name="Player" type="Player" x="8608" y="2432" width="32" height="32">
+   <properties>
+    <property name="hp" type="float" value="30"/>
+    <property name="triggeredId" value="hptouched"/>
+   </properties>
+  </object>
+  <object id="158" name="EventDelete" type="EventDelete" x="8544" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="delete"/>
+    <property name="triggeringId" value="hptouched"/>
+   </properties>
+  </object>
+  <object id="159" name="EventClone" type="EventClone" x="8448" y="6144" width="32" height="32">
+   <properties>
+    <property name="align" type="int" value="2"/>
+    <property name="scale" type="float" value="0.25"/>
+    <property name="sprite" value="event_base"/>
+    <property name="triggeredId" value="hp2"/>
+    <property name="triggeringId" value="hp"/>
+   </properties>
+  </object>
+  <object id="160" name="EventClone" type="EventClone" x="3168" y="1792" width="32" height="32">
+   <properties>
+    <property name="align" type="int" value="2"/>
+    <property name="scale" type="float" value="0.25"/>
+    <property name="sprite" value="event_base"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="triggeringId" value="hp"/>
    </properties>
   </object>
  </objectgroup>

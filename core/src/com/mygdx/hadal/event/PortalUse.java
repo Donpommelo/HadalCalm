@@ -18,7 +18,7 @@ import box2dLight.RayHandler;
  * Triggering Behavior: This event's connected event serves as the point that schmucks will be teleported to
  * 
  * Fields:
- * oneTime: boolean of whether this portal can me used multiple times. Optional. Default: false
+ * N/A
  * 
  
  * @author Zachary Tu
@@ -28,12 +28,9 @@ public class PortalUse extends Event {
 
 	private static final String name = "Portal";
 
-	private boolean oneTime;
-
 	public PortalUse(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, boolean oneTime) {
+			int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y);
-		this.oneTime = oneTime;
 	}
 	
 	@Override
@@ -44,10 +41,6 @@ public class PortalUse extends Event {
 			public void onInteract(Player p) {
 				if (event.getConnectedEvent() != null) {
 					p.getBody().setTransform(event.getConnectedEvent().getBody().getPosition(), 0);
-					
-					if (oneTime && event.isAlive()) {
-						event.queueDeletion();
-					}
 				}
 			}
 		};
