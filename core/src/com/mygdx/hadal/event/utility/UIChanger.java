@@ -55,6 +55,7 @@ public class UIChanger extends Event {
 		this.var2Incr = var2Incr;
 		this.timerIncr = timerIncr;
 		this.miscTag = misc;
+
 		this.tags = new ArrayList<UITag>();
 		if (types != null) {
 			for (String type : types.split(",")) {

@@ -79,7 +79,10 @@ public class UIExtra extends AHadalActor{
 				text = text.concat(" " + extraVar2);
 				break;
 			case MISC:
-				text = text.concat(tag.getMisc() + "\n");
+				text = text.concat(tag.getMisc());
+				break;
+			case EMPTY:
+				text = text.concat("\n");
 				break;
 			default:
 				break;

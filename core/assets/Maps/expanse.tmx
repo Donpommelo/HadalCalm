@@ -708,13 +708,13 @@
     <property name="triggeringId" value="deletehp"/>
    </properties>
   </object>
-  <object id="135" name="Player" type="Player" x="15296" y="9280" width="32" height="32">
+  <object id="135" name="Player" type="Player" x="15232" y="9280" width="32" height="32">
    <properties>
     <property name="hp" type="float" value="30"/>
     <property name="triggeredId" value="hptouched"/>
    </properties>
   </object>
-  <object id="136" name="EventDelete" type="EventDelete" x="15232" y="9280" width="32" height="32">
+  <object id="136" name="EventDelete" type="EventDelete" x="15360" y="9280" width="32" height="32">
    <properties>
     <property name="triggeredId" value="deletehp"/>
     <property name="triggeringId" value="hptouched"/>
@@ -729,7 +729,7 @@
     <property name="triggeringId" value="deletefuel"/>
    </properties>
   </object>
-  <object id="138" name="Player" type="Player" x="15296" y="9344" width="32" height="32">
+  <object id="138" name="Player" type="Player" x="15232" y="9344" width="32" height="32">
    <properties>
     <property name="fuel" type="float" value="30"/>
     <property name="triggeredId" value="fueltouched"/>
@@ -771,7 +771,7 @@
     <property name="triggeringId" value="hp"/>
    </properties>
   </object>
-  <object id="144" name="EventDelete" type="EventDelete" x="15232" y="9344" width="32" height="32">
+  <object id="144" name="EventDelete" type="EventDelete" x="15360" y="9344" width="32" height="32">
    <properties>
     <property name="triggeredId" value="deletefuel"/>
     <property name="triggeringId" value="fueltouched"/>

@@ -95,6 +95,7 @@ public class UITag {
 		TIMER,
 		VAR1,
 		VAR2,
-		MISC,	
+		MISC,
+		EMPTY
 	}
 }

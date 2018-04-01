@@ -134,6 +134,7 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
 		}
 		if (object.getName().equals("UI")) {
+			
 			e = new UIChanger(state, world, camera, rays, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
 					object.getProperties().get("tags", String.class),
@@ -349,6 +350,11 @@ public class TiledObjectUtil {
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("") && triggeringEvents.get(key).equals(triggeredId)) {
         		key.setConnectedEvent(e);
+    		}
+    	}
+    	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
+    		if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
+        		key.setBlame(e);
     		}
     	}
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
