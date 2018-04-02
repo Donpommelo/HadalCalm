@@ -337,7 +337,7 @@ public class PlayState extends GameState {
 	 */
 	private void cameraUpdate() {
 		
-		zoom = zoom + (zoomDesired - zoom) * 0.1f;
+		zoom = zoom + (zoomDesired - zoom) * 0.05f;
 		
 		camera.zoom = zoom;
 		sprite.zoom = zoom;
