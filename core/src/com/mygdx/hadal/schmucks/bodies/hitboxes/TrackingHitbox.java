@@ -18,7 +18,7 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class TrackingHitbox extends SteeringHitbox {
+public class TrackingHitbox extends HitboxImage {
 
 	private boolean stuck = false;
 	private HadalEntity target;
@@ -28,12 +28,8 @@ public class TrackingHitbox extends SteeringHitbox {
 	
 	public TrackingHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura,
 			float rest, Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera,
-			RayHandler rays, final Schmuck creator, String spriteId,
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad) {
-		super(state, x, y, width, height, grav, lifespan, dura, rest, startVelo, filter, sensor, world, camera, rays, creator,
-				spriteId, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad);
-
-		setTarget(state.getMouse());
+			RayHandler rays, final Schmuck creator, String spriteId) {
+		super(state, x, y, width, height, grav, lifespan, dura, rest, startVelo, filter, sensor, world, camera, rays, creator, spriteId);
 		
 		this.setUserData(new HitboxData(state, world, this) {
 			
@@ -90,6 +86,14 @@ public class TrackingHitbox extends SteeringHitbox {
 	public void controller(float delta) {
 		if (stuck && target != null) {
 			super.controller(delta);
+			
+			if (target != null && target.isAlive()) {
+				if (behavior != null) {
+					behavior.calculateSteering(steeringOutput);
+					applySteering(delta);
+				}
+			}
+			
 			if (target.isAlive() && target.getBody() != null) {
 				target.getBody().setTransform(getPosition(), 0);
 			} else {

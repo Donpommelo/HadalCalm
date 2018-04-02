@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.SteeringHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -49,12 +50,12 @@ public class BeeGun extends RangedWeapon {
 	private final static String weapSpriteId = "beegun";
 	private final static String projSpriteId = "bee";
 
-	private static final float maxLinearSpeed = 100;
-	private static final float maxLinearAcceleration = 1000;
-	private static final float maxAngularSpeed = 180;
-	private static final float maxAngularAcceleration = 90;
+	private static final float maxLinSpd = 100;
+	private static final float maxLinAcc = 1000;
+	private static final float maxAngSpd = 180;
+	private static final float maxAngAcc = 90;
 	
-	private static final int boundingRadius = 500;
+	private static final int boundingRad = 500;
 	private static final int decelerationRadius = 0;
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -66,12 +67,24 @@ public class BeeGun extends RangedWeapon {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			final SteeringHitbox proj = new SteeringHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
-					filter, false, world, camera, rays, user, projSpriteId,
-					maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius) {
+			final HitboxAnimated proj = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
+					filter, false, world, camera, rays, user, projSpriteId) {
 				
 				private Schmuck homing;
 
+				{
+					this.maxLinearSpeed = maxLinSpd;
+					this.maxLinearAcceleration = maxLinAcc;
+					this.maxAngularSpeed = maxAngSpd;
+					this.maxAngularAcceleration = maxAngAcc;
+					
+					this.boundingRadius = boundingRad;
+					this.decelerationRad = decelerationRadius;
+					
+					this.tagged = false;
+					this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
+				}
+				
 				@Override
 				public void controller(float delta) {
 					super.controller(delta);

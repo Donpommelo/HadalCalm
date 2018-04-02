@@ -1,11 +1,10 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
@@ -15,7 +14,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.SteeringHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -37,8 +36,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float recoil = 2.5f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 0.0f;
-	private final static int projectileWidth = 20;
-	private final static int projectileHeight = 100;
+	private final static int projectileWidth = 100;
+	private final static int projectileHeight = 20;
 	private final static float lifespan = 12.0f;
 	private final static float gravity = 0;
 	
@@ -47,17 +46,17 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 25.0f;
-
-	private static final float maxLinearSpeed = 150;
-	private static final float maxLinearAcceleration = 1000;
-	private static final float maxAngularSpeed = 180;
-	private static final float maxAngularAcceleration = 90;
-	
-	private static final int boundingRadius = 100;
-	private static final int decelerationRadius = 0;
 	
 	private final static String weapSpriteId = "torpedolauncher";
 	private final static String projSpriteId = "torpedo";
+	
+	private static final float maxLinSpd = 150;
+	private static final float maxLinAcc = 1000;
+	private static final float maxAngSpd = 180;
+	private static final float maxAngAcc = 90;
+	
+	private static final int boundingRad = 100;
+	private static final int decelerationRadius = 0;
 	
 	// Particle effect information.
 	 private static TextureAtlas particleAtlas;
@@ -73,14 +72,24 @@ public class LaserGuidedRocket extends RangedWeapon {
 			final OrthographicCamera camera2 = camera;
 			final RayHandler rays2 = rays;
 			
-			final SteeringHitbox proj = new SteeringHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user, projSpriteId,	maxLinearSpeed, maxLinearAcceleration,
-					maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius) {
+			final HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, true, world, camera, rays, user, projSpriteId) {
 				
 				float controllerCount = 0;
 				{
 					setTarget(state.getMouse());
+					this.maxLinearSpeed = maxLinSpd;
+					this.maxLinearAcceleration = maxLinAcc;
+					this.maxAngularSpeed = maxAngSpd;
+					this.maxAngularAcceleration = maxAngAcc;
+					
+					this.boundingRadius = boundingRad;
+					this.decelerationRad = decelerationRadius;
+					
+					this.tagged = false;
+					this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
 				}
+				
 				@Override
 				public void controller(float delta) {
 					controllerCount+=delta;
@@ -97,26 +106,6 @@ public class LaserGuidedRocket extends RangedWeapon {
 
 					}
 					super.controller(delta);
-				}
-				
-				@Override
-				public void render(SpriteBatch batch) {
-				
-					boolean flip = false;
-					
-					if (body.getAngle() < 0) {
-						flip = true;
-					}
-					
-					batch.setProjectionMatrix(state.sprite.combined);
-
-					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animCdCount, true), 
-							body.getPosition().x * PPM - height / 2, 
-							(flip ? width : 0) + body.getPosition().y * PPM - width / 2, 
-							height / 2, 
-							(flip ? -1 : 1) * width / 2,
-							height, (flip ? -1 : 1) * width, 1, 1, 
-							(float) Math.toDegrees(body.getAngle()) - 90);
 				}
 			};
 			

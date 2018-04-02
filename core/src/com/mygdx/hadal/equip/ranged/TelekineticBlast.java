@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -33,14 +34,14 @@ public class TelekineticBlast extends RangedWeapon {
 	private final static String weapSpriteId = "default";
 	private final static String projSpriteId = "orb_pink";
 
-	private static final float maxLinearSpeed = 600;
-	private static final float maxLinearAcceleration = 3000;
-	private static final float maxAngularSpeed = 1080;
-	private static final float maxAngularAcceleration = 720;
+	private static final float maxLinSpd = 600;
+	private static final float maxLinAcc = 3000;
+	private static final float maxAngSpd = 1080;
+	private static final float maxAngAcc = 7200;
 	
-	private static final int boundingRadius = 500;
+	private static final int boundingRad = 500;
 	private static final int decelerationRadius = 0;
-
+	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
@@ -49,8 +50,22 @@ public class TelekineticBlast extends RangedWeapon {
 				RayHandler rays) {
 			
 			new TrackingHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 1, startVelocity,
-					filter, false, world, camera, rays, user, projSpriteId,
-					maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius);
+					filter, false, world, camera, rays, user, projSpriteId) {
+				
+				{
+					setTarget(state.getMouse());
+					this.maxLinearSpeed = maxLinSpd;
+					this.maxLinearAcceleration = maxLinAcc;
+					this.maxAngularSpeed = maxAngSpd;
+					this.maxAngularAcceleration = maxAngAcc;
+					
+					this.boundingRadius = boundingRad;
+					this.decelerationRad = decelerationRadius;
+					
+					this.tagged = false;
+					this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
+				}
+			};
 					
 		}
 		
