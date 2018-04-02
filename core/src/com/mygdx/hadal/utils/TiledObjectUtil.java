@@ -357,6 +357,16 @@ public class TiledObjectUtil {
         		key.setBlame(e);
     		}
     	}
+    	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
+			if (!multiTriggeringEvents.get(key).equals("") && multiTriggeringEvents.get(key).equals(triggeredId)) {
+				key.addTrigger(e);
+			}
+    	}
+    	for (TriggerCond key : condTriggeringEvents.keySet()) {
+    		if (!condTriggeringEvents.get(key).equals("") && condTriggeringEvents.get(key).equals(triggeredId)) {
+				key.addTrigger(triggeredId, e);
+			}
+    	}
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
 
