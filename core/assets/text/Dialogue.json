@@ -24,5 +24,18 @@
 			"Sprite": "",
 			"End": true
 		}
+	],
+	"2": [
+		{
+			"Name": "Pelican",
+			"Text": "Welcome to the Tunicate, salvager.",
+			"Sprite": "PELICAN_MASKED"
+		}, 
+		{
+			"Name": "Pelican",
+			"Text": "This submersible will serve as your new home.",
+			"Sprite": "PELICAN_MASKED"
+			"End": true
+		}
 	]
 }

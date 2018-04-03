@@ -216,8 +216,8 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("text", String.class));
 		}
-		if (object.getName().equals("Radio")) {
-			e = new Radio(state, world, camera, rays, (int)rect.width, (int)rect.height, 
+		if (object.getName().equals("Dialog")) {
+			e = new Dialog(state, world, camera, rays, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("textId", String.class));
 		}

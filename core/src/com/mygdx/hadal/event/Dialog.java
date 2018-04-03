@@ -19,13 +19,13 @@ import box2dLight.RayHandler;
  * @author Zachary Tu
  *
  */
-public class Radio extends Event {
+public class Dialog extends Event {
 
 	private static final String name = "Radio";
 
 	private String id;
 	
-	public Radio(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, String id) {
+	public Dialog(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, String id) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.id = id;
 	}

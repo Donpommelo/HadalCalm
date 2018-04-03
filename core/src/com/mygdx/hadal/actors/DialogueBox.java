@@ -1,11 +1,13 @@
 package com.mygdx.hadal.actors;
 
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Queue;
@@ -52,6 +54,7 @@ public class DialogueBox extends AHadalActor {
 	//For example, the text will appear when the window's x = maxX * this variable
 	private static final float textAppearThreshold = 0.9f;
 	
+	protected float animCdCount;
 	
 	public DialogueBox(AssetManager assetManager, GameStateManager stateManager, int x, int y) {
 		super(assetManager, x, y);
@@ -66,12 +69,17 @@ public class DialogueBox extends AHadalActor {
 		font = HadalGame.SYSTEM_FONT_UI;
 		
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		
+		animCdCount = 0;
+		
 		updateHitBox();
 	}
 	
 	@Override
 	public void act(float delta) {
 		super.act(delta);
+		
+		animCdCount += delta;
 		
 		//Keep track of duration of dialogues
 		if (durationCount > 0) {
@@ -108,7 +116,7 @@ public class DialogueBox extends AHadalActor {
 				currY = 0;
 			}
 
-			dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getBoolean("End", false),
+			dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getString("Sprite"), d.getBoolean("End", false),
 					d.getFloat("Duration", 0), radio, trigger));
 		}		
 	}
@@ -143,11 +151,20 @@ public class DialogueBox extends AHadalActor {
 		 font.getData().setScale(scale);
 		 
 		 if (dialogues.size != 0) {
+			 
+			 Dialogue first = dialogues.first();
 			 gsm.getDialogPatch().draw(batch, getX(), getY() - 200 + maxY - currY, currX, currY);
 			 
 			 //Only draw dialogue text if window has reached specified size.
 			 if (currX >= maxX * textAppearThreshold) {
-		         font.draw(batch, dialogues.first().getName() +": " + dialogues.first().getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
+		         font.draw(batch, first.getName() +": " + first.getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
+			 }
+			 
+			 if (first.getBust() != null) {
+				 batch.draw((TextureRegion) first.getBust().getKeyFrame(animCdCount, true), 
+							getX() + 10, getY() - 130, 
+							100 / 2, 100 / 2,
+							120, 120, 1, 1, 0);
 			 }
 		 }
 		 
