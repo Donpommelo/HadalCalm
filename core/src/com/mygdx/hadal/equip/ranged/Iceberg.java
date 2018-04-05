@@ -20,9 +20,9 @@ public class Iceberg extends RangedWeapon {
 	private final static int clipSize = 1;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.15f;
-	private final static float reloadTime = 1.25f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 60.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 15.0f;

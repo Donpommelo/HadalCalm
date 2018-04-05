@@ -94,7 +94,7 @@ public class TorpedoLauncher extends RangedWeapon {
 					} else {
 						explode = true;
 					}
-					if (explode) {
+					if (explode && hbox.isAlive()) {
 						WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
 								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
 						hbox.queueDeletion();

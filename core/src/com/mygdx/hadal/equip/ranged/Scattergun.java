@@ -36,8 +36,8 @@ public class Scattergun extends RangedWeapon {
 	
 	private final static int projDura = 2;
 	
-	private final static int numProj = 10;
-	private final static int spread = 10;
+	private final static int numProj = 12;
+	private final static int spread = 15;
 	
 	private final static String weapSpriteId = "scattergun";
 	private final static String[] spriteId = {"debris_a", "debris_b", "debris_c", "debris_d"};

@@ -72,7 +72,7 @@ public class SlodgeGun extends RangedWeapon {
 					} else {
 						explode = true;
 					}
-					if (explode) {
+					if (explode && hbox.isAlive()) {
 
 						Hitbox explosion = new Hitbox(state, 
 								this.hbox.getBody().getPosition().x * PPM , 

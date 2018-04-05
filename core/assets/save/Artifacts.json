@@ -31,7 +31,7 @@ SKATE_WINGS: {
 }
 TRIGGER_FINGER: {
 	class: com.mygdx.hadal.save.InfoArtifact
-	name: trigger Finger
+	name: Trigger Finger
 	description: "Bonus Ranged Attack Speed."
 	unlocked: true
 	tags: [

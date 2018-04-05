@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -71,7 +71,11 @@ public class BeeGun extends RangedWeapon {
 					filter, false, world, camera, rays, user, projSpriteId) {
 				
 				private Schmuck homing;
-
+				private Schmuck homeAttempt;
+				private Fixture closestFixture;
+				
+				private float shortestFraction = 1.0f;
+			  	
 				{
 					this.maxLinearSpeed = maxLinSpd;
 					this.maxLinearAcceleration = maxLinAcc;
@@ -100,10 +104,44 @@ public class BeeGun extends RangedWeapon {
 							@Override
 							public boolean reportFixture(Fixture fixture) {
 								if (fixture.getUserData() instanceof BodyData) {
-									if (!(fixture.getUserData() instanceof PlayerBodyData)) {
-										homing = ((BodyData)fixture.getUserData()).getSchmuck();
-										setTarget(homing);
-									}
+									
+									homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+									shortestFraction = 1.0f;
+									
+								  	if (body.getPosition().x != homeAttempt.getPosition().x || 
+								  			body.getPosition().y != homeAttempt.getPosition().y) {
+										world.rayCast(new RayCastCallback() {
+
+											@Override
+											public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+												if (fixture.getUserData() == null) {
+													if (fraction < shortestFraction) {
+														shortestFraction = fraction;
+														closestFixture = fixture;
+														return fraction;
+													}
+												} else if (fixture.getUserData() instanceof BodyData) {
+													if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
+														if (fraction < shortestFraction) {
+															shortestFraction = fraction;
+															closestFixture = fixture;
+															return fraction;
+														}
+													}
+												} 
+												return -1.0f;
+											}
+											
+										}, getBody().getPosition(), homeAttempt.getPosition());	
+										
+										if (closestFixture != null) {
+											if (closestFixture.getUserData() instanceof BodyData) {
+												System.out.println("TEST");
+												homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
+												setTarget(homing);
+											}
+										}	
+									}									
 								}
 								return true;
 							}

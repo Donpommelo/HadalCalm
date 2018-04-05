@@ -17,20 +17,20 @@ import box2dLight.RayHandler;
 public class Boiler extends RangedWeapon {
 
 	private final static String name = "Boiler";
-	private final static int clipSize = 48;
+	private final static int clipSize = 40;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 18.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 2.0f;
 	private final static float projectileSpeed = 10.0f;
-	private final static int projectileWidth = 120;
-	private final static int projectileHeight = 120;
-	private final static float lifespan = 0.8f;
+	private final static int projectileWidth = 150;
+	private final static int projectileHeight = 150;
+	private final static float lifespan = 0.75f;
 	private final static float gravity = 0;
-	private final static float restitution = 1.0f;
+	private final static float restitution = 0.5f;
 	
 	private final static int projDura = 3;
 	

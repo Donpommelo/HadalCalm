@@ -33,7 +33,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 8.0f;
-	private final static float recoil = 2.5f;
+	private final static float recoil = 0.0f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 0.0f;
 	private final static int projectileWidth = 100;
@@ -52,8 +52,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 	
 	private static final float maxLinSpd = 150;
 	private static final float maxLinAcc = 1000;
-	private static final float maxAngSpd = 180;
-	private static final float maxAngAcc = 90;
+	private static final float maxAngSpd = 270;
+	private static final float maxAngAcc = 180;
 	
 	private static final int boundingRad = 100;
 	private static final int decelerationRadius = 0;
@@ -127,7 +127,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 					} else {
 						explode = true;
 					}
-					if (explode) {
+					if (explode && hbox.isAlive()) {
 						WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
 								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
 						hbox.queueDeletion();

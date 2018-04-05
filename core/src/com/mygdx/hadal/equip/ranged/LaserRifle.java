@@ -73,7 +73,6 @@ public class LaserRifle extends RangedWeapon {
 								if (((HadalData)fixture.getUserData()).getType() == UserDataTypes.WALL && 
 										fraction < shortestFraction) {
 									shortestFraction = fraction;
-
 									return fraction;
 								}
 							}
@@ -90,7 +89,7 @@ public class LaserRifle extends RangedWeapon {
 				
 				@Override
 				public void create() {
-					this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, 0, 0, true, false, Constants.BIT_PROJECTILE, 
+					this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
 							(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 							filter, true, data);
 					
@@ -102,6 +101,7 @@ public class LaserRifle extends RangedWeapon {
 				
 				@Override
 				public void controller(float delta) {
+					this.body.setLinearVelocity(0, 0);
 					lifeSpan -= delta;
 					if (lifeSpan <= 0) {
 						state.destroy(this);

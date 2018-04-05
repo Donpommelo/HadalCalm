@@ -23,9 +23,9 @@ public class Nematocydearm extends RangedWeapon {
 	private final static int clipSize = 3;
 	private final static float shootCd = 0.45f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.0f;
+	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 30.0f;
+	private final static float baseDamage = 40.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 12.5f;
 	private final static float projectileSpeed = 25.0f;
@@ -76,7 +76,7 @@ public class Nematocydearm extends RangedWeapon {
 					} else {
 						explode = true;
 					}
-					if (explode) {
+					if (explode && hbox.isAlive()) {
 						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
 								(int)(this.hbox.getBody().getPosition().x * PPM), 
 								(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, user);
