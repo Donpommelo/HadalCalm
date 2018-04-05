@@ -29,9 +29,6 @@ public class HitboxAnimated extends RangedHitbox {
 	//This is the animation of this sprite
 	protected Animation<TextureRegion> projectileSprite;
 	
-	//This keeps track of how many frames have gone by. TODO: Make this a field of all entities?
-	protected float animCdCount;
-	
 	//Speed of the animation. Make this an input?
 	private float speed = 0.05f;
 	
@@ -44,13 +41,12 @@ public class HitboxAnimated extends RangedHitbox {
 		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, world, camera, rays, creator);
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
 		projectileSprite = new Animation<TextureRegion>(speed, atlas.findRegions(spriteId));
-		animCdCount = 0;
 	}
 	
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
-		animCdCount += delta;
+		increaseAnimationTime(delta);
 	}
 	
 	
@@ -59,7 +55,7 @@ public class HitboxAnimated extends RangedHitbox {
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 
-		batch.draw((TextureRegion) projectileSprite.getKeyFrame(animCdCount, true), 
+		batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
 				body.getPosition().x * PPM - width / 2, 
 				body.getPosition().y * PPM - height / 2, 
 				width / 2, height / 2,

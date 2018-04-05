@@ -1,0 +1,179 @@
+{
+EELSKIN_COVER: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Eelskin Cover
+	description: "Reduces Drag"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+GLUTTONOUS_GREY_GLOVE: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Gluttonous Grey Grove
+	description: "Fish eat Fish. No heal from medpaks."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SKATE_WINGS: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Skate Wings
+	description: "+1 Jump. Improved Jumps."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+TRIGGER_FINGER: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: trigger Finger
+	description: "Bonus Ranged Attack Speed."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+VOID_HYPONOME: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Void Hyponome
+	description: "Reduced Airblast Cost."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+FRACTURE_PLATE: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Fracture Plate
+	description: "Blocks an instance of damage every 8 seconds."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+GOOD_HEALTH: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Good Health
+	description: "+25 Hp."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SCALING_SCALES: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Scaling Scales
+	description: "Enables wall-jumping."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+ROOT_BOOTS: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Root Boots
+	description: "+Knockback Resistance."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+NICE_SHOES: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Nice Shoes
+	description: "Increased ground speed."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+LOAMSKIN_TALISMAN: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Loamskin Talisman
+	description: "Passive Hp Regeneration."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+ANARCHISTS_COOKBOOK: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Anarchist's Cookbook
+	description: "Explosions"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+RECKLESS_MARK: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Reckless Mark
+	description: "Deal and receive 40% more damage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+THROBBING_RAGE_GLAND: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Throbbing Rage Gland
+	description: "Temporarily boosts speed and damage upon taking damage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+RING_OF_THE_LAMPREY: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Ring of the Lamprey
+	description: "-20 Hp. Lifesteal."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+NOTHING: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: NOTHING
+	description: "Doesn't do much."
+	unlocked: true
+	tags: []
+}
+MOON_FLUTHER: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Moon Fluther
+	description: "Improved Hovering."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+NUCLEAR_PUNCH_THRUSTERS: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Nuclear Punch Thrusters
+	description: "Increased Knockback on attacks."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+}

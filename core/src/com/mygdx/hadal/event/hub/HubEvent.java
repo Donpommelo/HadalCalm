@@ -52,7 +52,7 @@ public class HubEvent extends Event {
 				super.draw(batch, alpha);
 				font.getData().setScale(0.4f);
 				state.getGsm().getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
-			    font.draw(batch, info, getX(), getY() + infoHeight, infoWidth, -1, true);
+			    font.draw(batch, info, getX(), getY() + infoHeight - 25, infoWidth, -1, true);
 			    font.getData().setScale(1.0f);
 		    }
 			

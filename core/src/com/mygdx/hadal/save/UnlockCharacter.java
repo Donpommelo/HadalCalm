@@ -5,17 +5,16 @@ import com.mygdx.hadal.managers.AssetList;
 
 public enum UnlockCharacter {
 
-	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString(), "Moreau"),
-	TELEMACHUS(AssetList.PLAYER_TELE_ATL.toString(), "Telemachus"),
-	TAKANORI(AssetList.PLAYER_TAKA_ATL.toString(), "Takanori"),
+	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString()),
+	TELEMACHUS(AssetList.PLAYER_TELE_ATL.toString()),
+	TAKANORI(AssetList.PLAYER_TAKA_ATL.toString()),
 	;
-	private String sprite, name;
-	private boolean unlocked;
 	
-	UnlockCharacter(String sprite, String name) {
+	private String sprite;
+	private InfoCharacter info;
+	
+	UnlockCharacter(String sprite) {
 		this.sprite = sprite;
-		this.name= name;
-		this.unlocked = true;
 	}
 
 	public static Array<UnlockCharacter> getUnlocks() {
@@ -30,19 +29,39 @@ public enum UnlockCharacter {
 		return items;
 	}
 	
+	public InfoCharacter getInfo() {
+		return info;
+	}
+
+	public void setInfo(InfoCharacter info) {
+		this.info = info;
+	}
+
+	public void setSprite(String sprite) {
+		this.sprite = sprite;
+	}
+
 	public String getSprite() {
 		return sprite;
 	}
 	
 	public String getName() {
-		return name;
+		return info.getName();
+	}
+	
+	public String getBio() {
+		return info.getBio();
+	}
+	
+	public String getDescr() {
+		return info.getDescription();
 	}
 	
 	public boolean isUnlocked() {
-		return unlocked;
+		return info.isUnlocked();
 	}
 
 	public void setUnlocked(boolean unlocked) {
-		this.unlocked = unlocked;
+		info.setUnlocked(unlocked);
 	}
 }

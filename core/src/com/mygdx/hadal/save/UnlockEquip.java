@@ -1,57 +1,53 @@
 package com.mygdx.hadal.save;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.*;
 import com.mygdx.hadal.equip.ranged.*;
-import com.mygdx.hadal.utils.UnlocktoItem;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 
 public enum UnlockEquip {
 	
-	BEEGUN(BeeGun.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	BOILER(Boiler.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	BOOMERANG(Boomerang.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	BOUNCING_BLADE(BouncingBlade.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	CHARGE_BEAM(ChargeBeam.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	GRENADE_LAUNCHER(GrenadeLauncher.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	ICEBERG(Iceberg.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	IRON_BALL_LAUNCHER(IronBallLauncher.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	LASER_GUIDED_ROCKET(LaserGuidedRocket.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	LASER_RIFLE(LaserRifle.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	MACHINEGUN(Machinegun.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	NEMATOCYDEARM(Nematocydearm.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	CR4PCANNON(Scattergun.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	SLODGEGUN(SlodgeGun.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	SPEARGUN(Speargun.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	STORMCALLER(Stormcaller.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	TELEKINESIS(TelekineticBlast.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
-	TORPEDO_LAUNCHER(TorpedoLauncher.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.RANGED),
+	BEEGUN(BeeGun.class),
+	BOILER(Boiler.class),
+	BOOMERANG(Boomerang.class),
+	BOUNCING_BLADE(BouncingBlade.class),
+	CHARGE_BEAM(ChargeBeam.class),
+	GRENADE_LAUNCHER(GrenadeLauncher.class),
+	ICEBERG(Iceberg.class),
+	IRON_BALL_LAUNCHER(IronBallLauncher.class),
+	LASER_GUIDED_ROCKET(LaserGuidedRocket.class),
+	LASER_RIFLE(LaserRifle.class),
+	MACHINEGUN(Machinegun.class),
+	NEMATOCYDEARM(Nematocydearm.class),
+	CR4PCANNON(Scattergun.class),
+	SLODGEGUN(SlodgeGun.class),
+	SPEARGUN(Speargun.class),
+	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class),
+	STORMCALLER(Stormcaller.class),
+	TELEKINESIS(TelekineticBlast.class),
+	TORPEDO_LAUNCHER(TorpedoLauncher.class),
 	
-	SCRAPRIPPER(Scrapripper.class, EquipTag.ARMORY, EquipTag.RANDOM_POOL, EquipTag.MELEE),
+	SCRAPRIPPER(Scrapripper.class),
 	
-	MOMENTUM_SHOOTER(MomentumShooter.class, EquipTag.ARMORY, EquipTag.MISC),
-	MELON(Melon.class, EquipTag.ARMORY, EquipTag.MISC),
+	MOMENTUM_SHOOTER(MomentumShooter.class),
+	MELON(Melon.class),
 
-	NOTHING(Nothing.class, EquipTag.MISC),
+	NOTHING(Nothing.class),
 	
 	;
 	
-	private Class<? extends Equipable> weapon;
-	private Equipable singleton;
-	private String descr = "<DESCR PLACEHOLDER>";
-	private boolean unlocked;
-	private EquipTag[] tags;
+	private Class<? extends Equipable> weapon;	
+	private InfoEquip info;
 	
-	UnlockEquip(Class<? extends Equipable> weapon, EquipTag... tags) {
+	UnlockEquip(Class<? extends Equipable> weapon) {
 		this.weapon = weapon;
-		this.tags = tags;
-		this.unlocked = true;
-		this.singleton = UnlocktoItem.getUnlock(this, null);
 	}
 	
-	public static Array<UnlockEquip> getUnlocks(boolean unlock, EquipTag... tags) {
+	public static Array<UnlockEquip> getUnlocks(boolean unlock, UnlockTag... tags) {
 		Array<UnlockEquip> items = new Array<UnlockEquip>();
 		
 		for (UnlockEquip u : UnlockEquip.values()) {
@@ -59,8 +55,8 @@ public enum UnlockEquip {
 			boolean get = false;
 			
 			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getTags().length; j++) {
-					if (tags[i].equals(u.getTags()[j])) {
+				for (int j = 0; j < u.getTags().size(); j++) {
+					if (tags[i].equals(u.getTags().get(j))) {
 						get = true;
 					}
 				}
@@ -81,47 +77,37 @@ public enum UnlockEquip {
 	public Class<? extends Equipable> getWeapon() {
 		return weapon;
 	}
-	
-	public EquipTag[] getTags() {
-		return tags;
-	}
-	
-	public Equipable getSingleton() {
-		return singleton;
+		
+	public InfoEquip getInfo() {
+		return info;
 	}
 
-	public String getName() {
-		return singleton.getName();
+	public void setInfo(InfoEquip info) {
+		this.info = info;
 	}
 
 	public boolean isUnlocked() {
-		return unlocked;
+		return info.isUnlocked();
 	}
-
-	public void setUnlocked(boolean unlocked) {
-		this.unlocked = unlocked;
-		UnlockManager.saveUnlocks();
+	
+	public ArrayList<UnlockTag> getTags() {
+		return info.getTags();
+	}
+	
+	public String getName() {
+		return info.getName();
 	}
 	
 	public String getDescr() {
-		return descr;
-	}
-
-	public void setDescr(String descr) {
-		this.descr = descr;
-	}
-
-	//TODO: implement weapon costs
-	public int getCost() {
-		return 10;
+		return info.getDescription();
 	}
 	
-	public enum EquipTag {
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-		MELEE,
-		MISC
+	public int getCost() {
+		return info.getCost();
+	}
+	
+	public void setUnlocked(boolean unlock) {
+		info.setUnlocked(unlock);
 	}
 }
 

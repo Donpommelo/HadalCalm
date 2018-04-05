@@ -1,37 +1,36 @@
 package com.mygdx.hadal.save;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 
 public enum UnlockLevel {
 
-	HUB("Maps/test_map.tmx", "Hub"),
-	TUTORIAL_1("Maps/tutorial.tmx", "Tutorial 1", new Loadout(UnlockEquip.NOTHING), LevelTag.NAVIGATIONS, LevelTag.TRAINING),
-	ARENA_1("Maps/arena_1.tmx", "Arena 1", LevelTag.NAVIGATIONS, LevelTag.ARENA),
-	ARENA_2("Maps/arena_2.tmx", "Arena 2", LevelTag.NAVIGATIONS, LevelTag.ARENA),
-	LEVEL_1("Maps/map_2.tmx", "Level 1", LevelTag.NAVIGATIONS, LevelTag.CAMPAIGN),
-	LEVEL_2("Maps/expanse.tmx", "Level 2: Expanse", LevelTag.NAVIGATIONS, LevelTag.CAMPAIGN),
-	NASU("Maps/nasu.tmx", "nasu", LevelTag.NAVIGATIONS, LevelTag.NASU),
+	HUB("Maps/test_map.tmx"),
+	TUTORIAL_1("Maps/tutorial.tmx"),
+	ARENA_1("Maps/arena_1.tmx"),
+	ARENA_2("Maps/arena_2.tmx"),
+	LEVEL_1("Maps/map_2.tmx"),
+	LEVEL_2("Maps/expanse.tmx"),
+	NASU("Maps/nasu.tmx"),
 	
 	;
-	private String map, name;
+	private String map;
 	private Loadout loadout;
-	private boolean unlocked;
-	private LevelTag[] tags;
+	private InfoLevel info;
 	
-	UnlockLevel(String map, String name, Loadout loadout, LevelTag... tags) {
-		this(map, name, tags);
+	UnlockLevel(String map, Loadout loadout) {
+		this(map);
 		this.loadout = loadout;
 	}
 	
-	UnlockLevel(String map, String name, LevelTag... tags) {
+	UnlockLevel(String map) {
 		this.map = map;
-		this.name= name;
-		this.tags = tags;
-		this.unlocked = true;
 	}
-
-	public static Array<UnlockLevel> getUnlocks(boolean unlock, LevelTag... tags) {
+	
+	public static Array<UnlockLevel> getUnlocks(boolean unlock, UnlockTag... tags) {
 		Array<UnlockLevel> items = new Array<UnlockLevel>();
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
@@ -39,8 +38,8 @@ public enum UnlockLevel {
 			boolean get = false;
 			
 			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getTags().length; j++) {
-					if (tags[i].equals(u.getTags()[j])) {
+				for (int j = 0; j < u.getTags().size(); j++) {
+					if (tags[i].equals(u.getTags().get(j))) {
 						get = true;
 					}
 				}
@@ -57,9 +56,17 @@ public enum UnlockLevel {
 		
 		return items;
 	}
-	
-	public LevelTag[] getTags() {
-		return tags;
+		
+	public InfoLevel getInfo() {
+		return info;
+	}
+
+	public void setInfo(InfoLevel info) {
+		this.info = info;
+	}
+
+	public ArrayList<UnlockTag> getTags() {
+		return info.getTags();
 	}
 	
 	public String getMap() {
@@ -69,25 +76,21 @@ public enum UnlockLevel {
 	public Loadout getLoadout() {
 		return loadout;
 	}
+
+	public boolean isUnlocked() {
+		return info.isUnlocked();
+	}
 	
 	public String getName() {
-		return name;
+		return info.getName();
 	}
 	
-	public boolean isUnlocked() {
-		return unlocked;
+	public String getDescr() {
+		return info.getDescription();
+	}
+	
+	public void setUnlocked(boolean unlock) {
+		info.setUnlocked(unlock);
 	}
 
-	public void setUnlocked(boolean unlocked) {
-		this.unlocked = unlocked;
-	}
-	
-	public enum LevelTag {
-		NAVIGATIONS,
-		TRAINING,
-		CAMPAIGN,
-		ARENA,
-		NASU,
-		MISC
-	}
 }

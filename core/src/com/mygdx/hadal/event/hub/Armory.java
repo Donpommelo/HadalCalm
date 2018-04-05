@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockEquip.EquipTag;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 
 import box2dLight.RayHandler;
@@ -27,7 +27,7 @@ public class Armory extends HubEvent {
 
 		super.enter();
 		
-		for (UnlockEquip c: UnlockEquip.getUnlocks(true, EquipTag.ARMORY)) {
+		for (UnlockEquip c: UnlockEquip.getUnlocks(true, UnlockTag.ARMORY)) {
 			
 			final UnlockEquip selected = c;
 			Text itemChoose = new Text(HadalGame.assetManager, selected.getName(), 0, 0);
@@ -43,7 +43,7 @@ public class Armory extends HubEvent {
 				@Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					mouseIn(selected.getName() + " DESCR_SHORT");
+					mouseIn(selected.getName() + ": " + selected.getDescr());
 				}
 
 				@Override

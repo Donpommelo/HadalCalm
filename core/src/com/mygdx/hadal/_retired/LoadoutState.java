@@ -19,8 +19,8 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockEquip.EquipTag;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.TitleState;
@@ -149,7 +149,7 @@ public class LoadoutState extends GameState {
 		
 		weapons.addActor(new Text(HadalGame.assetManager, "WEAPON SLOT: " + slot, 0, 0));
 		
-		for (UnlockEquip c: UnlockEquip.getUnlocks(true, EquipTag.ARMORY)) {
+		for (UnlockEquip c: UnlockEquip.getUnlocks(true, UnlockTag.ARMORY)) {
 			
 			final UnlockEquip selected = c;
 			
@@ -187,7 +187,7 @@ public class LoadoutState extends GameState {
 		
 		items.addActor(new Text(HadalGame.assetManager, "ARTIFACT: " + slot, 0, 0));
 		
-		for (UnlockArtifact c: UnlockArtifact.getUnlocks()) {
+		for (UnlockArtifact c: UnlockArtifact.getUnlocks(true, UnlockTag.RELIQUARY)) {
 			
 			final UnlockArtifact selected = c;
 			

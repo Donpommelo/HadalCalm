@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -82,7 +83,8 @@ public class PickupArtifact extends Event {
 	public static String getRandArtfFromPool(String pool) {
 		
 		if (pool.equals("")) {
-			return UnlockArtifact.values()[new Random().nextInt(UnlockArtifact.values().length)].name();
+			return UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL)
+					.get(new Random().nextInt(UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
 		}
 		
 		ArrayList<String> artifacts = new ArrayList<String>();

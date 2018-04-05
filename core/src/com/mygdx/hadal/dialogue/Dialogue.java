@@ -29,7 +29,7 @@ public class Dialogue {
 	
 	private Animation<TextureRegion> bust;
 	
-	private static final float speed = 0.05f;
+	private static final float speed = 0.1f;
 	
 	public Dialogue(String name, String text, String sprite, boolean end, float duration, EventData radio, EventData trigger) {
 		this.name = name;

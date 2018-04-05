@@ -1,0 +1,71 @@
+{
+TUTORIAL_1: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: Tutorial 1
+	description: TEMP
+	unlocked: true
+	tags: [
+		TRAINING,
+		NAVIGATIONS,
+	]
+}
+NASU: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: NASU
+	description: "Collect falling targets!"
+	unlocked: true
+	tags: [
+		NASU,
+		NAVIGATIONS,
+	]
+}
+LEVEL_1: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: LEVEL_1
+	description: TEMP
+	unlocked: true
+	tags: [
+		CAMPAIGN,
+		NAVIGATIONS,
+	]
+}
+LEVEL_2: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: LEVEL_2
+	description: TEMP
+	unlocked: true
+	tags: [
+		CAMPAIGN,
+		NAVIGATIONS,
+	]
+}
+HUB: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: HUB
+	description: TEMP
+	unlocked: true
+	tags: [
+		MISC,
+	]
+}
+ARENA_2: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: ARENA_2
+	description: TEMP
+	unlocked: true
+	tags: [
+		ARENA,
+		NAVIGATIONS,
+	]
+}
+ARENA_1: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: ARENA_1
+	description: TEMP
+	unlocked: true
+	tags: [
+		ARENA,
+		NAVIGATIONS,
+	]
+}
+}

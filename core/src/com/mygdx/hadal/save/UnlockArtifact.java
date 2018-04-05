@@ -1,8 +1,10 @@
 package com.mygdx.hadal.save;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.utils.UnlocktoItem;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.equip.artifacts.*;
 
 public enum UnlockArtifact {
@@ -29,20 +31,31 @@ public enum UnlockArtifact {
 	;
 	
 	private Class<? extends Artifact> artifact;
-	private Artifact singleton;
-	private boolean unlocked;
+	private InfoArtifact info;
 	
 	UnlockArtifact(Class<? extends Artifact> artifact) {
 		this.artifact = artifact;
-		this.unlocked = true;
-		this.singleton = UnlocktoItem.getUnlock(this);
 	}
 	
-	public static Array<UnlockArtifact> getUnlocks() {
+	public static Array<UnlockArtifact> getUnlocks(boolean unlock, UnlockTag... tags) {
 		Array<UnlockArtifact> items = new Array<UnlockArtifact>();
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
-			if (u.isUnlocked()) {
+			boolean get = false;
+			
+			for (int i = 0; i < tags.length; i++) {
+				for (int j = 0; j < u.getTags().size(); j++) {
+					if (tags[i].equals(u.getTags().get(j))) {
+						get = true;
+					}
+				}
+			}
+			
+			if (unlock && !u.isUnlocked()) {
+				get = false;
+			}
+			
+			if (get) {
 				items.add(u);
 			}
 		}
@@ -54,20 +67,36 @@ public enum UnlockArtifact {
 		return artifact;
 	}
 	
+	public InfoArtifact getInfo() {
+		return info;
+	}
+	
+	public void setInfo(InfoArtifact info) {
+		this.info = info;
+	}
+	
+	public boolean isUnlocked() {
+		return info.isUnlocked();
+	}
+	
+	public ArrayList<UnlockTag> getTags() {
+		return info.getTags();
+	}
+	
 	public String getName() {
-		return singleton.getName();
+		return info.getName();
 	}
 	
 	public String getDescr() {
-		return singleton.getDescr();
+		return info.getDescription();
 	}
-
-	public boolean isUnlocked() {
-		return unlocked;
+	
+	public int getCost() {
+		return info.getCost();
 	}
-
-	public void setUnlocked(boolean unlocked) {
-		this.unlocked = unlocked;
+	
+	public void setUnlocked(boolean unlock) {
+		info.setUnlocked(unlock);
 	}
 	
 }

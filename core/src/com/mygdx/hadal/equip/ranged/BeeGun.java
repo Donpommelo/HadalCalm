@@ -125,7 +125,7 @@ public class BeeGun extends RangedWeapon {
 					
 					batch.setProjectionMatrix(state.sprite.combined);
 
-					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animCdCount, true), 
+					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
 							body.getPosition().x * PPM - width / 2, 
 							(flip ? height : 0) + body.getPosition().y * PPM - height / 2, 
 							width / 2, 

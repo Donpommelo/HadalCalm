@@ -1,0 +1,26 @@
+{
+TAKANORI: {
+	class: com.mygdx.hadal.save.InfoCharacter
+	name: TAKANORI
+	description: TEMP
+	bio: TEST
+	unlocked: true
+	tags: []
+}
+TELEMACHUS: {
+	class: com.mygdx.hadal.save.InfoCharacter
+	name: TELEMACHUS
+	description: TEMP
+	bio: TEST
+	unlocked: true
+	tags: []
+}
+MOREAU: {
+	class: com.mygdx.hadal.save.InfoCharacter
+	name: MOREAU
+	description: TEMP
+	bio: TEST
+	unlocked: true
+	tags: []
+}
+}
