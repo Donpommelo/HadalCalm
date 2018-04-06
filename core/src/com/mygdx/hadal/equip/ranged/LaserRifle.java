@@ -104,7 +104,7 @@ public class LaserRifle extends RangedWeapon {
 					this.body.setLinearVelocity(0, 0);
 					lifeSpan -= delta;
 					if (lifeSpan <= 0) {
-						state.destroy(this);
+						queueDeletion();
 					}
 				}
 				

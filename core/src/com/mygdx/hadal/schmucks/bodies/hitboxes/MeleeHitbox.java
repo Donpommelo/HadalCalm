@@ -44,12 +44,12 @@ public class MeleeHitbox extends Hitbox {
 		
 		//Melee hboes should not persist after owner's disposal
 		if (!creator.isAlive()) {
-			state.destroy(this);
+			queueDeletion();
 		}
 		
 		lifeSpan -= delta;
 		if (lifeSpan <= 0) {
-			state.destroy(this);
+			queueDeletion();
 		}
 	}
 

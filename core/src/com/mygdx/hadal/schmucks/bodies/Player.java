@@ -5,7 +5,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -180,15 +179,9 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		
-		final TextureAtlas particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
-		
-		final ParticleEffect bubbles = new ParticleEffect();
-		bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
-		
-		bubbles.findEmitter("bubble0").setContinuous(false);
-		bubbles.findEmitter("bubble0").duration = 10;
-
-		hoverBubbles = new ParticleEntity(state, world, camera, rays, this, bubbles, 3.0f);
+		hoverBubbles = new ParticleEntity(state, world, camera, rays, this, AssetList.BUBBLE_TRAIL.toString(), 3.0f);
+		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
+		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
 		hoverBubbles.turnOff();
 		/*
 		final ParticleEffect smoke = new ParticleEffect();

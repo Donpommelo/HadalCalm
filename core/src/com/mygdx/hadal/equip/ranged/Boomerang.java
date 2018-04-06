@@ -66,7 +66,7 @@ public class Boomerang extends RangedWeapon {
 						body.applyForceToCenter(diff.nor().scl(projectileSpeed * body.getMass() * returnAmp), true);
 						setLifeSpan(getLifeSpan() - delta);
 						if (getLifeSpan() <= 0) {
-							state.destroy(this);
+							queueDeletion();
 						}
 						controllerCount = 0;
 					}

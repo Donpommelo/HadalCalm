@@ -115,7 +115,7 @@ public class Hitbox extends HadalEntity {
 	public void controller(float delta) {
 		lifeSpan -= delta;
 		if (lifeSpan <= 0) {
-			state.destroy(this);
+			queueDeletion();
 		}
 		this.body.setTransform(body.getPosition().x, body.getPosition().y, 
 				(float)(Math.atan2(body.getLinearVelocity().y , body.getLinearVelocity().x)));

@@ -61,7 +61,7 @@ public class Iceberg extends RangedWeapon {
 				public void controller(float delta) {
 					lifeSpan -= delta;
 					if (lifeSpan <= 0) {
-						state.destroy(this);
+						queueDeletion();
 					}
 					controllerCount+=delta;
 					if (controllerCount >= 1/60f) {

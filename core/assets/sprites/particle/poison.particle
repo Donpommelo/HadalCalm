@@ -169,7 +169,7 @@ additive: false
 behind: false
 premultipliedAlpha: false
 - Image Path -
-poison_0.png
+poison_a.png
 
 
 cloud_1
@@ -343,7 +343,7 @@ additive: false
 behind: false
 premultipliedAlpha: false
 - Image Path -
-poison_1.png
+poison_b.png
 
 
 skull

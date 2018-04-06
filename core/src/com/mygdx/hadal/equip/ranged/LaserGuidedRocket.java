@@ -1,13 +1,9 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.managers.AssetList;
@@ -58,8 +54,6 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private static final int boundingRad = 100;
 	private static final int decelerationRadius = 0;
 	
-	// Particle effect information.
-	 private static TextureAtlas particleAtlas;
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -75,7 +69,6 @@ public class LaserGuidedRocket extends RangedWeapon {
 			final HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, true, world, camera, rays, user, projSpriteId) {
 				
-				float controllerCount = 0;
 				{
 					setTarget(state.getMouse());
 					this.maxLinearSpeed = maxLinSpd;
@@ -92,26 +85,20 @@ public class LaserGuidedRocket extends RangedWeapon {
 				
 				@Override
 				public void controller(float delta) {
-					controllerCount+=delta;
-					if (controllerCount >= 1/60f) {
-						if (lifeSpan <= 0) {
-							WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-									world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
-						}
-						
-						if (behavior != null) {
-							behavior.calculateSteering(steeringOutput);
-							applySteering(delta);
-						}
-
+					if (lifeSpan <= 0) {
+						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
+								world2, camera2, rays2, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
+					}
+					
+					if (behavior != null) {
+						behavior.calculateSteering(steeringOutput);
+						applySteering(delta);
 					}
 					super.controller(delta);
 				}
 			};
 			
-			final ParticleEffect bubbles = new ParticleEffect();
-			bubbles.load(Gdx.files.internal(AssetList.BUBBLE_TRAIL.toString()), particleAtlas);
-			new ParticleEntity(state, world, camera, rays, proj, bubbles, 3.0f);			
+			new ParticleEntity(state, world, camera, rays, proj, AssetList.BUBBLE_TRAIL.toString(), 1.0f);			
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				
@@ -140,6 +127,5 @@ public class LaserGuidedRocket extends RangedWeapon {
 	
 	public LaserGuidedRocket(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
-		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 	}
 }

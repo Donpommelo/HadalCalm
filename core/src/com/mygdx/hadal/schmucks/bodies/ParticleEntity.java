@@ -6,7 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
@@ -23,6 +26,8 @@ import box2dLight.RayHandler;
  */
 public class ParticleEntity extends HadalEntity {
 
+	private static TextureAtlas particleAtlas;
+	
 	//What particles come out of this entity?
 	private ParticleEffect effect;
 	
@@ -37,25 +42,32 @@ public class ParticleEntity extends HadalEntity {
 	
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			float startX, float startY, ParticleEffect effect, float lifespan) {
+			float startX, float startY, String effect, float lifespan) {
 		super(state, world, camera, rays, 0, 0, startX, startY);
-		this.effect = effect;
-		this.despawn = false;
+		
+		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
+		
+		this.effect = new ParticleEffect();
+		this.effect.load(Gdx.files.internal(effect), particleAtlas);
+		this.despawn = true;
 		this.lifespan = lifespan;
 		
-		effect.start();
+		this.effect.start();
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			HadalEntity entity, ParticleEffect effect, float lifespan) {
+			HadalEntity entity, String effect, float lifespan) {
 		super(state, world, camera, rays, 0, 0, 0, 0);
 		this.attachedEntity = entity;
-		this.effect = effect;
+		
+		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
+		
+		this.effect = new ParticleEffect();
+		this.effect.load(Gdx.files.internal(effect), particleAtlas);
 		this.despawn = false;
 		this.lifespan = lifespan;
-		effect.start();
-
+		this.effect.start();
 	}
 
 	@Override
@@ -68,11 +80,13 @@ public class ParticleEntity extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (attachedEntity.isAlive()) {
-			effect.setPosition(attachedEntity.getBody().getPosition().x * PPM, attachedEntity.getBody().getPosition().y * PPM);
-		} else {
-			despawn = true;
-			effect.allowCompletion();
+		if (attachedEntity != null) {
+			if (attachedEntity.isAlive()) {
+				effect.setPosition(attachedEntity.getBody().getPosition().x * PPM, attachedEntity.getBody().getPosition().y * PPM);
+			} else {
+				despawn = true;
+				effect.allowCompletion();
+			}
 		}
 		
 		if (despawn) {
