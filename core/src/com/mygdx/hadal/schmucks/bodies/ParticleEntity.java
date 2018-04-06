@@ -31,33 +31,15 @@ public class ParticleEntity extends HadalEntity {
 	private HadalEntity attachedEntity;
 	
 	//How long this entity will last after deletion.
-	private float linger, interval;
+	private float linger, interval, lifespan;
 	
 	//Has the attached entity despawned yet?
-	private boolean despawn;
+	private boolean despawn, temp;
 	
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			float startX, float startY, String effect, float linger, boolean startOn) {
+			float startX, float startY, String effect, float lifespan, boolean startOn) {
 		super(state, world, camera, rays, 0, 0, startX, startY);
-		
-		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
-		
-		this.effect = new ParticleEffect();
-		this.effect.load(Gdx.files.internal(effect), particleAtlas);
-		this.despawn = true;
-		this.linger = linger;
-		
-		if (startOn) {
-			this.effect.start();
-		}
-	}
-	
-	//This constructor creates a particle effect that will follow another entity.
-	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			HadalEntity entity, String effect, float linger, boolean startOn) {
-		super(state, world, camera, rays, 0, 0, 0, 0);
-		this.attachedEntity = entity;
 		
 		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 		
@@ -65,12 +47,23 @@ public class ParticleEntity extends HadalEntity {
 		this.effect.load(Gdx.files.internal(effect), particleAtlas);
 		
 		this.despawn = false;
-		this.linger = linger;
+		
+		temp = lifespan != 0;
+		this.lifespan = lifespan;
+		
 		if (startOn) {
 			this.effect.start();
 		} else {
 			this.effect.allowCompletion();
 		}
+	}
+	
+	//This constructor creates a particle effect that will follow another entity.
+	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
+			HadalEntity entity, String effect, float linger, float lifespan, boolean startOn) {
+		this(state, world, camera, rays, 0, 0, effect, lifespan, startOn);
+		this.attachedEntity = entity;
+		this.linger = linger;
 	}
 
 	@Override
@@ -92,6 +85,14 @@ public class ParticleEntity extends HadalEntity {
 			linger -= delta;
 			
 			if (linger <= 0) {
+				this.queueDeletion();
+			}
+		}
+		
+		if (temp) {
+			lifespan -= delta;
+			
+			if (lifespan <= 0) {
 				this.queueDeletion();
 			}
 		}

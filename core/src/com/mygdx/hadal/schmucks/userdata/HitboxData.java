@@ -64,6 +64,8 @@ public class HitboxData extends HadalData {
 		if (hbox.getDura() <= 0) {
 			hbox.queueDeletion();
 		}
+		
+		hbox.particle.onForBurst(0.25f);
 	}
 
 	public Hitbox getHbox() {

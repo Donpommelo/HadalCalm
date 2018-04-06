@@ -44,7 +44,7 @@ public class Poison extends Event {
 		this.perp = state.getWorldDummy();
 		this.on = true;
 		
-		new ParticleEntity(state, world, camera, rays, this, AssetList.POISON.toString(), 1.0f, true);
+		new ParticleEntity(state, world, camera, rays, this, AssetList.POISON.toString(), 1.0f, 0.0f, true);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class Poison extends Event {
 		this.perp = perp;
 		this.on = true;
 		
-		new ParticleEntity(state, world, camera, rays, this, AssetList.POISON.toString(), 1.0f, true);
+		new ParticleEntity(state, world, camera, rays, this, AssetList.POISON.toString(), 1.0f, 0.0f, true);
 	}
 	
 	@Override
