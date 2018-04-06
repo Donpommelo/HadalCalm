@@ -50,7 +50,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static String projSpriteId = "torpedo";
 	
 	// Particle effect information.
-	 private static TextureAtlas particleAtlas;
+	private static TextureAtlas particleAtlas;
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 

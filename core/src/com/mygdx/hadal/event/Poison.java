@@ -1,10 +1,16 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -35,12 +41,20 @@ public class Poison extends Event {
 	
 	private static final String name = "Poison";
 
+	private ParticleEffect effect;
+	private static TextureAtlas particleAtlas;
+	
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
 			int x, int y, float dps) {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.dps = dps;
 		this.perp = state.getWorldDummy();
 		this.on = true;
+		
+		effect = new ParticleEffect();
+		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
+		effect.load(Gdx.files.internal(AssetList.POISON.toString()), particleAtlas);
+		new ParticleEntity(state, world, camera, rays, this, effect, 1.0f);
 	}
 	
 	/**
@@ -52,6 +66,11 @@ public class Poison extends Event {
 		this.dps = dps;
 		this.perp = perp;
 		this.on = true;
+		
+		effect = new ParticleEffect();
+		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
+		effect.load(Gdx.files.internal(AssetList.POISON.toString()), particleAtlas);
+		new ParticleEntity(state, world, camera, rays, this, effect, 1.0f);
 	}
 	
 	@Override
@@ -85,5 +104,5 @@ public class Poison extends Event {
 			}
 		}
 		super.controller(delta);
-	}	
+	}
 }

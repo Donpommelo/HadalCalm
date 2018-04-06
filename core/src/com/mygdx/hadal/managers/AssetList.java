@@ -45,6 +45,7 @@ public enum AssetList {
 	BUBBLE_TRAIL("sprites/particle/bubble_trail.particle", null),
 	SMOKE_PUFF("sprites/particle/smoke_puff.particle", null),
 	SPARK_TRAIL("sprites/particle/spark_trail.particle", null),
+	POISON("sprites/particle/poison.particle", null),
 	
 	
 	
