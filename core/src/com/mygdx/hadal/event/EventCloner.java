@@ -3,6 +3,8 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -19,9 +21,14 @@ public class EventCloner extends Event {
 	
 	private static final String name = "Event Spawner";
 
+	private ParticleEntity particle;
+
 	public EventCloner(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
 			int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y, "event_base", 0.25f, 2);
+		
+		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.EVENT_HOLO.toString(), 1.0f);
+		particle.turnOff();
 	}
 	
 	@Override
@@ -35,6 +42,8 @@ public class EventCloner extends Event {
 										
 					if (event.getConnectedEvent().getBlueprint() != null) {
 						Event clone = TiledObjectUtil.parseTiledEvent(state, world, camera, rays, event.getConnectedEvent().getBlueprint());
+						
+						particle.onForBurst(1.0f);
 						
 						clone.setStartX(event.getStartX());
 						clone.setStartY(event.getStartY());

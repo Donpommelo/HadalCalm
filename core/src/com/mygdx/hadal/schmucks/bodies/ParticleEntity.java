@@ -34,15 +34,15 @@ public class ParticleEntity extends HadalEntity {
 	//Is this entity following another entity?
 	private HadalEntity attachedEntity;
 	
-	//How long this entity will last.
-	private float lifespan;
+	//How long this entity will last after deletion.
+	private float linger, interval;
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
 	
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			float startX, float startY, String effect, float lifespan) {
+			float startX, float startY, String effect, float linger) {
 		super(state, world, camera, rays, 0, 0, startX, startY);
 		
 		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
@@ -50,14 +50,14 @@ public class ParticleEntity extends HadalEntity {
 		this.effect = new ParticleEffect();
 		this.effect.load(Gdx.files.internal(effect), particleAtlas);
 		this.despawn = true;
-		this.lifespan = lifespan;
+		this.linger = linger;
 		
 		this.effect.start();
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			HadalEntity entity, String effect, float lifespan) {
+			HadalEntity entity, String effect, float linger) {
 		super(state, world, camera, rays, 0, 0, 0, 0);
 		this.attachedEntity = entity;
 		
@@ -66,7 +66,7 @@ public class ParticleEntity extends HadalEntity {
 		this.effect = new ParticleEffect();
 		this.effect.load(Gdx.files.internal(effect), particleAtlas);
 		this.despawn = false;
-		this.lifespan = lifespan;
+		this.linger = linger;
 		this.effect.start();
 	}
 
@@ -90,10 +90,18 @@ public class ParticleEntity extends HadalEntity {
 		}
 		
 		if (despawn) {
-			lifespan -= delta;
+			linger -= delta;
 			
-			if (lifespan <= 0) {
+			if (linger <= 0) {
 				this.queueDeletion();
+			}
+		}
+		
+		if (interval > 0) {
+			interval -= delta;
+			
+			if (interval <= 0) {
+				effect.allowCompletion();
 			}
 		}
 		
@@ -109,6 +117,11 @@ public class ParticleEntity extends HadalEntity {
 		effect.allowCompletion();
 	}
 
+	public void onForBurst(float duration) {
+		turnOn();
+		interval = duration;
+	}
+	
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
