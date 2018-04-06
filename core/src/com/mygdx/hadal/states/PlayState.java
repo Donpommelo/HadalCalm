@@ -19,6 +19,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal._retired.LoadoutState;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIMomentum;
+import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIReload;
 import com.mygdx.hadal.equip.Loadout;
@@ -84,6 +85,7 @@ public class PlayState extends GameState {
 	private UnlockLevel level;
 	
 	private HadalEntity cameraTarget;
+	private HadalEntity objectiveTarget;
 	
 	private boolean gameover = false;
 	private boolean won = false;
@@ -101,6 +103,7 @@ public class PlayState extends GameState {
 	private UIPlay uiPlay;
 	private UIReload uiReload;
 	private UIMomentum uiMomentum;
+	private UIObjective uiObjective;
 	private UIExtra uiExtra;
 	
 	/**
@@ -201,6 +204,7 @@ public class PlayState extends GameState {
 		uiPlay = new UIPlay(HadalGame.assetManager, this, player);
 		uiReload = new UIReload(HadalGame.assetManager, this, player);
 		uiMomentum = new UIMomentum(HadalGame.assetManager, this, player);
+		uiObjective = new UIObjective(HadalGame.assetManager, this, player);
 		
 		if (uiExtra == null) {
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
@@ -210,6 +214,7 @@ public class PlayState extends GameState {
 		this.stage.addActor(uiMomentum);
 		this.stage.addActor(uiReload);
 		this.stage.addActor(uiExtra);
+		this.stage.addActor(uiObjective);
 		app.newMenu(stage);
 		resetController();
 	}
@@ -475,7 +480,19 @@ public class PlayState extends GameState {
 	public void setCameraTarget(HadalEntity cameraTarget) {
 		this.cameraTarget = cameraTarget;
 	}
+	
+	public HadalEntity getObjectiveTarget() {
+		return objectiveTarget;
+	}
 
+	public void setObjectiveTarget(HadalEntity objectiveTarget) {
+		this.objectiveTarget = objectiveTarget;
+	}
+
+	public float getZoom() {
+		return zoom;
+	}
+	
 	public void setZoom(float zoom) {
 		this.zoomDesired = zoom;
 	}

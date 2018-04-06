@@ -106,19 +106,21 @@ public class DialogueBox extends AHadalActor {
 		
 		JsonValue dialog = base.get(id);
 		
-		for (JsonValue d : dialog) {
-			
-			//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
-			if (dialogues.size == 0) {
-				durationCount = d.getFloat("Duration", 0);
+		if (dialog != null) {
+			for (JsonValue d : dialog) {
 				
-				currX = 0;
-				currY = 0;
-			}
+				//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
+				if (dialogues.size == 0) {
+					durationCount = d.getFloat("Duration", 0);
+					
+					currX = 0;
+					currY = 0;
+				}
 
-			dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getString("Sprite"), d.getBoolean("End", false),
-					d.getFloat("Duration", 0), radio, trigger));
-		}		
+				dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getString("Sprite"), d.getBoolean("End", false),
+						d.getFloat("Duration", 0), radio, trigger));
+			}	
+		}
 	}
 	
 	/**
