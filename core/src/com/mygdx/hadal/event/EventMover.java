@@ -30,8 +30,7 @@ public class EventMover extends Event {
 		super(state, world, camera, rays, name, width, height, x, y);
 		this.gravity = gravity;
 		
-		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.EVENT_HOLO.toString(), 1.0f);
-		particle.turnOff();
+		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.EVENT_HOLO.toString(), 1.0f, false);
 	}
 	
 	@Override

@@ -10,11 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 import box2dLight.RayHandler;
 
@@ -42,7 +38,7 @@ public class ParticleEntity extends HadalEntity {
 	
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			float startX, float startY, String effect, float linger) {
+			float startX, float startY, String effect, float linger, boolean startOn) {
 		super(state, world, camera, rays, 0, 0, startX, startY);
 		
 		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
@@ -52,12 +48,14 @@ public class ParticleEntity extends HadalEntity {
 		this.despawn = true;
 		this.linger = linger;
 		
-		this.effect.start();
+		if (startOn) {
+			this.effect.start();
+		}
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
 	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			HadalEntity entity, String effect, float linger) {
+			HadalEntity entity, String effect, float linger, boolean startOn) {
 		super(state, world, camera, rays, 0, 0, 0, 0);
 		this.attachedEntity = entity;
 		
@@ -65,17 +63,18 @@ public class ParticleEntity extends HadalEntity {
 		
 		this.effect = new ParticleEffect();
 		this.effect.load(Gdx.files.internal(effect), particleAtlas);
+		
 		this.despawn = false;
 		this.linger = linger;
-		this.effect.start();
+		if (startOn) {
+			this.effect.start();
+		} else {
+			this.effect.allowCompletion();
+		}
 	}
 
 	@Override
 	public void create() {
-		this.hadalData = new HadalData(world, UserDataTypes.FEET, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 0, 0, false, true, Constants.BIT_PLAYER, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				Constants.PLAYER_HITBOX, true, hadalData);
 	}
 
 	@Override

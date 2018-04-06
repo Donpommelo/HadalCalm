@@ -179,10 +179,9 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		
-		hoverBubbles = new ParticleEntity(state, world, camera, rays, this, AssetList.BUBBLE_TRAIL.toString(), 3.0f);
+		hoverBubbles = new ParticleEntity(state, world, camera, rays, this, AssetList.BUBBLE_TRAIL.toString(), 3.0f, false);
 		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
 		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
-		hoverBubbles.turnOff();
 		/*
 		final ParticleEffect smoke = new ParticleEffect();
 		smoke.load(Gdx.files.internal(AssetList.SMOKE_PUFF.toString()), particleAtlas);

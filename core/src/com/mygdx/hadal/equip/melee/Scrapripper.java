@@ -47,6 +47,7 @@ public class Scrapripper extends MeleeWeapon {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
 								user.getBodyData(), true, DamageTypes.MELEE);
 					}
+					hbox.particle.onForBurst(0.25f);
 				}
 				
 			});

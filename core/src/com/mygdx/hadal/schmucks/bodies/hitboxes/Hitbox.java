@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -53,6 +55,8 @@ public class Hitbox extends HadalEntity {
 	//This is the Schmuck that created the hitbox
 	protected Schmuck creator;
 	
+	public ParticleEntity particle;
+	
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * @param : pretty much the same as the fields above.
@@ -70,6 +74,8 @@ public class Hitbox extends HadalEntity {
 		
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
 		this.startVelo = new Vector2(startVelo);
+		
+		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.SPARK_TRAIL.toString(), 1.0f, false);
 	}
 	
 	/**

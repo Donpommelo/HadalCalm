@@ -69,7 +69,7 @@ public class TorpedoLauncher extends RangedWeapon {
 				}
 			};
 			
-			new ParticleEntity(state, world, camera, rays, proj, AssetList.BUBBLE_TRAIL.toString(), 3.0f);
+			new ParticleEntity(state, world, camera, rays, proj, AssetList.BUBBLE_TRAIL.toString(), 3.0f, true);
 			
 			proj.setUserData(new HitboxData(state, world, proj) {
 				

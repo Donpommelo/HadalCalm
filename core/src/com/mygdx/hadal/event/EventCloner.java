@@ -27,8 +27,7 @@ public class EventCloner extends Event {
 			int x, int y) {
 		super(state, world, camera, rays, name, width, height, x, y, "event_base", 0.25f, 2);
 		
-		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.EVENT_HOLO.toString(), 1.0f);
-		particle.turnOff();
+		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.EVENT_HOLO.toString(), 1.0f, false);
 	}
 	
 	@Override
