@@ -57,7 +57,9 @@ public class Scattergun extends RangedWeapon {
 				int randomIndex = generator.nextInt(spriteId.length);
 				String projSprite = spriteId[randomIndex];
 				
-				HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
+				Vector2 newVelocity = new Vector2(startVelocity);
+				
+				HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, newVelocity.setAngle(newDegrees),
 						filter, true, world, camera, rays, user, projSprite);
 				proj.setUserData(new HitboxData(state, world, proj) {
 					
