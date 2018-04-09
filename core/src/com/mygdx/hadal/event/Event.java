@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -167,11 +166,9 @@ public class Event extends HadalEntity {
 			}            
 		}
 		
-		if (body != null) {
-			batch.setProjectionMatrix(state.hud.combined);
-			Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-			camera.project(bodyScreenPosition);
-			state.font.draw(batch, getText(), bodyScreenPosition.x, bodyScreenPosition.y);
+		if (body != null) {			
+			batch.setProjectionMatrix(state.sprite.combined);
+			state.font.draw(batch, getText(), body.getPosition().x * PPM, body.getPosition().y * PPM);
 		}
 	}
 	

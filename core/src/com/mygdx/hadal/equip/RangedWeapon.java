@@ -75,11 +75,13 @@ public class RangedWeapon extends Equipable{
 	 */
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays) {
-				
+
+
 		//Convert body coordinates into screen coordinates to calc a starting velocity for the projectile.
 		Vector3 bodyScreenPosition = new Vector3(
 				shooter.getSchmuck().getBody().getPosition().x,
 				shooter.getSchmuck().getBody().getPosition().y, 0);
+
 		camera.project(bodyScreenPosition);
 		
 		float powerDiv = bodyScreenPosition.dst(x, y, 0) / projectileSpeed;
@@ -101,7 +103,7 @@ public class RangedWeapon extends Equipable{
 	@Override
 	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
 		
-		//Check ckip size. empty clip = reload instead. This makes reloading automatic.
+		//Check clip size. empty clip = reload instead. This makes reloading automatic.
 		if (clipLeft > 0 && velo != null) {
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.

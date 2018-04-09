@@ -41,7 +41,7 @@ public class HadalGame extends ApplicationAdapter {
 	//This is the Gamestate Manager. It manages the current game state.
 	private GameStateManager gsm;
 	
-	private static FitViewport viewportCamera, viewportSprite;
+	private static FitViewport viewportCamera, viewportSprite, viewportUI;
 	
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;
@@ -66,21 +66,19 @@ public class HadalGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		
 		camera = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-		camera.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
 		
 	    sprite = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    sprite.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
+	    
+	    hud = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
 	    
 		viewportCamera = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, camera);
 	    viewportCamera.apply();
 
 	    viewportSprite = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, sprite);
-	    viewportSprite.apply();
+	    viewportSprite.apply();	    
 	    
-	    hud = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    hud.setToOrtho(false, CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
+	    viewportUI = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, hud);
+	    viewportUI.apply();
 	    
 	    hud.zoom = 1 / BOX2DSCALE;
 	    
@@ -93,12 +91,8 @@ public class HadalGame extends ApplicationAdapter {
 	     
         musicPlayer = new MusicPlayer();
         
-		currentMenu = new Stage();
-
 		gsm = new GameStateManager(this);
-		
-		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		
+				
 		gsm.addState(State.TITLE, null);
 	
 	}
@@ -132,8 +126,10 @@ public class HadalGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		viewportCamera.apply();
 		gsm.render();
 		
+		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
 		currentMenu.draw();
 	}
@@ -143,28 +139,20 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void resize (int width, int height) {
-				
-		gsm.resize((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE));
-
+		
+//		gsm.resize(width, height);
+		
 		viewportCamera.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-		viewportCamera.apply();
 		
 		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
-        sprite.position.set(sprite.viewportWidth / 2, sprite.viewportHeight / 2, 0);
-		viewportSprite.apply();
 		
-		currentMenu.getViewport().update(width, height);
-		
-		CONFIG_WIDTH = width;
-		CONFIG_HEIGHT = height;
+		viewportUI.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
 	}
 	
 	public void newMenu(Stage menu) {
 		currentMenu = menu;
-//		currentMenu.setViewport(viewportCamera);
+		currentMenu.setViewport(viewportUI);
 		Gdx.input.setInputProcessor(currentMenu);
-		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 	
 	/**

@@ -319,7 +319,6 @@ public class PlayState extends GameState {
 		b2dr.render(world, camera.combined.scl(PPM));
 		
 		//Iterate through entities in the world to render
-		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
 		for (HadalEntity hitbox : hitboxes) {
@@ -329,12 +328,9 @@ public class PlayState extends GameState {
 			schmuck.render(batch);
 		}
 				
-		batch.setProjectionMatrix(hud.combined);
-				
 		batch.end();
 		rays.setCombinedMatrix(camera);
 		rays.updateAndRender();
-		
 	}	
 	
 	/**

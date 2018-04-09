@@ -65,6 +65,7 @@ public class IronBallLauncher extends RangedWeapon {
 						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
 								user.getBodyData(), true, DamageTypes.RANGED);
 					}
+					hbox.particle.onForBurst(0.25f);
 				}
 			});		
 		}

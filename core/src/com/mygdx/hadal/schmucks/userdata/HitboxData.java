@@ -56,16 +56,17 @@ public class HitboxData extends HadalData {
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
 			hbox.setDura(0);
+			hbox.particle.onForBurst(0.25f);
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
 			hbox.setDura(0);
+			hbox.particle.onForBurst(0.25f);
 		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
 			hbox.setDura(hbox.getDura() - 1);
+			hbox.particle.onForBurst(0.25f);
 		}
 		if (hbox.getDura() <= 0) {
 			hbox.queueDeletion();
 		}
-		
-		hbox.particle.onForBurst(0.25f);
 	}
 
 	public Hitbox getHbox() {

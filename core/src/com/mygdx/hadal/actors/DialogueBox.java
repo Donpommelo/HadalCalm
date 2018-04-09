@@ -150,6 +150,7 @@ public class DialogueBox extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
+		
 		 font.getData().setScale(scale);
 		 
 		 if (dialogues.size != 0) {

@@ -1,11 +1,11 @@
 package com.mygdx.hadal.actors;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
@@ -47,30 +47,22 @@ public class UIObjective extends AHadalActor{
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.setProjectionMatrix(state.hud.combined);
+		batch.setProjectionMatrix(state.sprite.combined);
 
 		float x = 500;
 		float y = 500;
 		
 		if (state.getObjectiveTarget() != null) {
 			
-			Vector3 playerScreenPosition = new Vector3(player.getBody().getPosition().x, player.getBody().getPosition().y, 0);
-			state.camera.project(playerScreenPosition);
-			
-			Vector3 objectiveScreenPosition = new Vector3(state.getObjectiveTarget().getBody().getPosition().x, state.getObjectiveTarget().getBody().getPosition().y, 0);
-			state.camera.project(objectiveScreenPosition);
-			
-			float xDist = playerScreenPosition.x - objectiveScreenPosition.x;
-			float yDist = playerScreenPosition.y - objectiveScreenPosition.y;
-			
-			
+			float xDist = (player.getBody().getPosition().x * PPM) - (state.getObjectiveTarget().getBody().getPosition().x * PPM);
+			float yDist = (player.getBody().getPosition().y * PPM) - (state.getObjectiveTarget().getBody().getPosition().y * PPM);		
 			
 			if (Math.abs(xDist) > HadalGame.CONFIG_WIDTH / 2 || Math.abs(yDist) > HadalGame.CONFIG_HEIGHT / 2) {
 				Vector2 toObjective = new Vector2(xDist, yDist);
 				
 				float angle = SteeringUtil.vectorToAngle(toObjective);
 				float corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
-
+	
 				if (angle < corner && angle > -(Math.PI + corner)) {
 					x = (float) (base.getRegionWidth() * scale);
 					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(Math.abs(angle) - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - base.getRegionWidth() * scale));
@@ -88,8 +80,8 @@ public class UIObjective extends AHadalActor{
 					y = (float) (HadalGame.CONFIG_HEIGHT - base.getRegionHeight() * scale);
 				}	
 			} else {
-				x = objectiveScreenPosition.x;
-				y = objectiveScreenPosition.y;
+				x = state.getObjectiveTarget().getBody().getPosition().x * PPM;
+				y = state.getObjectiveTarget().getBody().getPosition().y * PPM;
 				
 			}
 			batch.draw(base, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
@@ -99,6 +91,8 @@ public class UIObjective extends AHadalActor{
 					base.getRegionWidth() * scale, base.getRegionWidth() * scale, 1, 1, 0);
 		}
 		
+		//ARGHARGHARGHARGHARGH
+		batch.setProjectionMatrix(state.hud.combined);
 	}
 
 	public void setPlayer(Player player) {

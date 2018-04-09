@@ -66,6 +66,8 @@ public class BouncingBlade extends RangedWeapon {
 					if (hbox.getDura() <= 0) {
 						hbox.queueDeletion();
 					}
+					
+					hbox.particle.onForBurst(0.25f);
 				}
 			});		
 		}

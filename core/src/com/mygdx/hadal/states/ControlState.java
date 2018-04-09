@@ -116,9 +116,7 @@ public class ControlState extends GameState {
 			
 		});
 		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
-
 		Gdx.input.setInputProcessor(inputMultiplexer);
-		
 		refreshBinds();
 
 	}
@@ -137,13 +135,13 @@ public class ControlState extends GameState {
 					currentlyEditing = action;
 				}
 			});
-			
+			actionChoose.setScale(0.75f);
 			actions.addActor(actionChoose);
 		}
 		
 		options = new ScrollPane(actions, getGsm().getSkin());
 		options.setPosition(200, 0);
-		options.setSize(1500, HadalGame.CONFIG_HEIGHT);
+		options.setSize(HadalGame.CONFIG_WIDTH - 200, HadalGame.CONFIG_HEIGHT);
 		
 		stage.addActor(options);
 	}
@@ -182,7 +180,7 @@ public class ControlState extends GameState {
 	public void render() {
 
 	}
-
+	
 	@Override
 	public void dispose() {
 		stage.dispose();		

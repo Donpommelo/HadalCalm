@@ -29,7 +29,7 @@ public class HubEvent extends Event {
 	private final static int infoWidth = 400;
 	private final static int infoHeight = 300;
 	
-	protected static final float optionsWidth = 600.0f;
+	protected static final float optionsWidth = 300.0f;
 	protected static final float optionsHeight = 50.0f;
 	
 	public HubEvent(final PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name, int width, int height,

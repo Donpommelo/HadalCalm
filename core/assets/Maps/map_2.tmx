@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="170">
+<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="172">
  <properties>
   <property name="triggeredId" value="win"/>
  </properties>
@@ -83,7 +83,8 @@
   <object id="23" name="Multitrigger" type="Multitrigger" x="3072" y="992" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="hpspawn2,turret1,hpspawn3,spawntimer1,spawntimer2,spawntimer3,a1,a2,a3"/>
+    <property name="triggeringId">hpspawn2,turret1,hpspawn3,spawntimer1,spawntimer2,spawntimer3,a1,a2,a3,objective1
+</property>
    </properties>
   </object>
   <object id="26" name="TouchPortal" type="TouchPortal" x="4256" y="2112" width="32" height="32">
@@ -756,6 +757,17 @@
     <property name="blameId" value="hp3"/>
     <property name="triggeredId" value="hpregen3"/>
     <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="170" name="Objective" type="Objective" x="3136" y="992" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="objective1"/>
+    <property name="triggeringId" value="test1"/>
+   </properties>
+  </object>
+  <object id="171" name="Dummy" type="Dummy" x="4768" y="1056" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="test1"/>
    </properties>
   </object>
  </objectgroup>

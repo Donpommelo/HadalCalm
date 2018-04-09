@@ -1,20 +1,27 @@
 
 window.png
-size: 512,256
+size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 UI_box_dialogue
   rotate: false
-  xy: 2, 35
+  xy: 388, 321
   size: 161, 161
   split: 138, 13, 138, 14
   orig: 161, 161
   offset: 0, 0
   index: -1
+UI_box_dialogue_large
+  rotate: false
+  xy: 2, 98
+  size: 384, 384
+  orig: 384, 384
+  offset: 0, 0
+  index: -1
 UI_box_simple
   rotate: false
-  xy: 2, 2
+  xy: 388, 288
   size: 31, 31
   split: 12, 12, 11, 13
   orig: 31, 31
@@ -22,7 +29,7 @@ UI_box_simple
   index: -1
 UI_popup
   rotate: false
-  xy: 165, 102
+  xy: 2, 2
   size: 94, 94
   split: 69, 16, 22, 58
   orig: 94, 94
