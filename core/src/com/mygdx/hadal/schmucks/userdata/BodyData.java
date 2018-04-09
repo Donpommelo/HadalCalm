@@ -253,6 +253,7 @@ public class BodyData extends HadalData {
 		//Make shmuck flash upon receiving damage
 		if (damage > 0 && schmuck.getFlashingCount() < -flashDuration) {
 			schmuck.setFlashingCount(flashDuration);
+			schmuck.impact.onForBurst(0.25f);
 		}
 		
 		float kbScale = 1;

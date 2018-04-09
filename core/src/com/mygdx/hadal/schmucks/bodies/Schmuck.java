@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -53,8 +54,8 @@ public class Schmuck extends HadalEntity {
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	protected float controllerCount = 0;
 	
-	// This counter keeps track of frames for animations. This is incremented every controller tick for now.
 	
+	public ParticleEntity impact;
 
 	protected short hitboxfilter;
 
@@ -74,6 +75,7 @@ public class Schmuck extends HadalEntity {
 		super(state, world, camera, rays, w, h, startX, startY);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
+		impact = new ParticleEntity(state, world, camera, rays, this, AssetList.IMPACT.toString(), 1.0f, 0.0f, false);
 	}
 
 	/**

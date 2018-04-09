@@ -29,7 +29,7 @@ public class UIPlay extends AHadalActor{
 	private TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
 	private Array<AtlasRegion> itemNull, itemSelect, itemUnselect;
 	
-	private float scale = 0.75f;
+	private float scale = 0.50f;
 	private static final int x = 0;
 	private static final int y = 0;
 	
@@ -85,9 +85,9 @@ public class UIPlay extends AHadalActor{
 			hpDelayed = hpRatio;
 		}
 		
-		batch.draw(hpMissing, x + 233, y + 78, hp.getRegionWidth() * scale * hpDelayed, hp.getRegionHeight() * scale);
-		batch.draw(hp, x + 233, y + 78, hp.getRegionWidth() * scale * hpRatio, hp.getRegionHeight() * scale);
-		batch.draw(fuel, x + 233, y + 32, fuel.getRegionWidth() * scale * fuelRatio, fuel.getRegionHeight() * scale);
+		batch.draw(hpMissing, x + 155, y + 50, hp.getRegionWidth() * scale * hpDelayed, hp.getRegionHeight() * scale);
+		batch.draw(hp, x + 155, y + 50, hp.getRegionWidth() * scale * hpRatio, hp.getRegionHeight() * scale);
+		batch.draw(fuel, x + 155, y + 22, fuel.getRegionWidth() * scale * fuelRatio, fuel.getRegionHeight() * scale);
 		
 		//This makes low Hp indicator blink at low health
 		if (hpRatio <= hpLowThreshold) {
@@ -108,7 +108,7 @@ public class UIPlay extends AHadalActor{
 		
 		batch.draw(main, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 		
-		batch.draw(fuelCutoff, x + 233 + fuelCutoffRatio * fuel.getRegionWidth() * scale, y + 22,
+		batch.draw(fuelCutoff, x + 155 + fuelCutoffRatio * fuel.getRegionWidth() * scale, y + 22,
 				fuelCutoff.getRegionWidth() * scale, fuelCutoff.getRegionHeight() * scale);
 
 		
@@ -116,13 +116,13 @@ public class UIPlay extends AHadalActor{
 			batch.draw(reloading, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
 		}
 
-		font.getData().setScale(0.4f);
-		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), x + 60, y + 130);
-		font.getData().setScale(0.8f);
-		font.draw(batch, player.getPlayerData().getCurrentTool().getText(), x + 70, y + 75);
-		font.getData().setScale(0.4f);
+		font.getData().setScale(0.25f);
+		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), x + 48, y + 90, 100, -1, true);
+		font.getData().setScale(0.5f);
+		font.draw(batch, player.getPlayerData().getCurrentTool().getText(), x + 48, y + 50);
+		font.getData().setScale(0.25f);
 		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)player.getPlayerData().getMaxHp(),
-				x + 233, y + 98);
+				x + 155, y + 66);
 		
 		for (int i = 0; i < 4; i++) {
 			if (player.getPlayerData().getMultitools().length > i) {

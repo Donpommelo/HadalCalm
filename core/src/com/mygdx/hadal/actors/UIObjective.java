@@ -31,6 +31,8 @@ public class UIObjective extends AHadalActor{
 	
 	private float scale = 0.25f;
 	
+	private float corner;
+	
 	public UIObjective(AssetManager assetManager, PlayState state, Player player) {
 		super(assetManager);
 		this.player = player;
@@ -43,11 +45,12 @@ public class UIObjective extends AHadalActor{
 		
 		this.arrow = atlas.findRegions("UI_momentum_arrow");
 		
+		this.corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
 	}
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.setProjectionMatrix(state.sprite.combined);
+		batch.setProjectionMatrix(state.hud.combined);
 
 		float x = 500;
 		float y = 500;
@@ -61,8 +64,7 @@ public class UIObjective extends AHadalActor{
 				Vector2 toObjective = new Vector2(xDist, yDist);
 				
 				float angle = SteeringUtil.vectorToAngle(toObjective);
-				float corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
-	
+				
 				if (angle < corner && angle > -(Math.PI + corner)) {
 					x = (float) (base.getRegionWidth() * scale);
 					y = (float) (HadalGame.CONFIG_HEIGHT / 2 + Math.tan(Math.abs(angle) - Math.PI / 2) * (HadalGame.CONFIG_WIDTH / 2 - base.getRegionWidth() * scale));
@@ -80,10 +82,11 @@ public class UIObjective extends AHadalActor{
 					y = (float) (HadalGame.CONFIG_HEIGHT - base.getRegionHeight() * scale);
 				}	
 			} else {
+				batch.setProjectionMatrix(state.sprite.combined);
 				x = state.getObjectiveTarget().getBody().getPosition().x * PPM;
 				y = state.getObjectiveTarget().getBody().getPosition().y * PPM;
-				
 			}
+			
 			batch.draw(base, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 			batch.draw(ready, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 			batch.draw(overlay, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);

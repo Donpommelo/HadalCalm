@@ -429,7 +429,7 @@ public class Player extends PhysicsSchmuck {
 		
 		//Determine player mouse location and hence where the arm should be angled.
 		attackAngle = (float)(Math.atan2(
-				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()) ,
+				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()),
 				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
 		
 /*		for (ParticleEmitter p : hoverBubbles.getEffect().getEmitters()) {

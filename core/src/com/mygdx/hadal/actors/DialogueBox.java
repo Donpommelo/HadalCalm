@@ -47,7 +47,7 @@ public class DialogueBox extends AHadalActor {
 	private float currX, currY;
 	
 	//These 2 variables keep track of the dialogue box's final location. These exist to make the box grow/move upon initiating
-	private static final int maxX = 1000;
+	private static final int maxX = 800;
 	private static final int maxY = 200;
 	
 	//This float is the ratio of the max dimensions of the window before the text appears.

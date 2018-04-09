@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -28,21 +29,15 @@ public class MouseTracker extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		tmpVec3.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
-		state.getStage().getViewport().unproject(tmpVec3);
-		
-//		Vector3 mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		
-		
-//		camera.unproject(tmpVec3);
-		camera.unproject(tmpVec3, 0, 0, camera.viewportWidth, camera.viewportHeight);
+		tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		HadalGame.viewportCamera.unproject(tmpVec3);
+
 		body.setTransform(tmpVec3.x / PPM, tmpVec3.y / PPM, 0);
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.setProjectionMatrix(state.sprite.combined);
-		state.font.draw(batch, "TEST", body.getPosition().x * PPM, body.getPosition().y * PPM);
+
 	}
 
 }

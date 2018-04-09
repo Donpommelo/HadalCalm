@@ -41,7 +41,7 @@ public class HadalGame extends ApplicationAdapter {
 	//This is the Gamestate Manager. It manages the current game state.
 	private GameStateManager gsm;
 	
-	private static FitViewport viewportCamera, viewportSprite, viewportUI;
+	public static FitViewport viewportCamera, viewportSprite, viewportUI;
 	
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;

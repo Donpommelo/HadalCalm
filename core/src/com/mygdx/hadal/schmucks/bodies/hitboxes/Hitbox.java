@@ -75,7 +75,7 @@ public class Hitbox extends HadalEntity {
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
 		this.startVelo = new Vector2(startVelo);
 		
-		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.SPARK_TRAIL.toString(), 1.0f, 0.0f, false);
+		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.SPARK_TRAIL.toString(), 1.5f, 0.0f, false);
 	}
 	
 	/**

@@ -41,7 +41,7 @@ public class Quartermaster extends HubEvent {
 			        	}
 			        }
 			    });
-				itemChoose.setScale(0.75f);
+				itemChoose.setScale(0.50f);
 				tableInner.add(itemChoose).width(optionsWidth).height(optionsHeight);
 				tableInner.row();
 			}
