@@ -66,16 +66,6 @@ public class GameStateManager {
 		this.app = hadalGame;
 		this.states = new Stack<GameState>();
 		
-		BitmapFont font24 = new BitmapFont();
-		this.skin = new Skin();
-		this.skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
-		this.skin.add("default-font", font24);
-		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
-		
-		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
-		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
-		this.scrollStyle = new ScrollPaneStyle(dialogPatch, dialogPatch, dialogPatch, dialogPatch, dialogPatch);
-		
 		this.loadout = new Loadout();
 		this.level = UnlockLevel.ARENA_1;
 		
@@ -87,6 +77,18 @@ public class GameStateManager {
 		Json json = new Json();
 		JsonReader reader = new JsonReader();
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
+	}
+	
+	public void loadAssets() {
+		BitmapFont font24 = new BitmapFont();
+		this.skin = new Skin();
+		this.skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
+		this.skin.add("default-font", font24);
+		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+		
+		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
+		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
+		this.scrollStyle = new ScrollPaneStyle(dialogPatch, dialogPatch, dialogPatch, dialogPatch, dialogPatch);
 	}
 	
 	/**
@@ -189,7 +191,7 @@ public class GameStateManager {
 	public GameState getState(State state) {
 		switch(state) {
 		case TITLE: return new TitleState(this);
-		case SPLASH: return null;
+		case SPLASH: return new InitState(this);
 		case PLAY: return new PlayState(this, loadout, level, true, null);
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);

@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.audio.MusicPlayer;
-import com.mygdx.hadal.managers.AssetList;
 
 /**
  * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GamestateManager.
@@ -87,32 +86,15 @@ public class HadalGame extends ApplicationAdapter {
 	    		Gdx.files.internal("shaders/flash-frag.glsl").readString());
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
-        loadAssets();
-	     
-        musicPlayer = new MusicPlayer();
+	    musicPlayer = new MusicPlayer();
+		
         
-		gsm = new GameStateManager(this);
-				
-		gsm.addState(State.TITLE, null);
-	
+        
+        gsm = new GameStateManager(this);
+		
+		gsm.addState(State.SPLASH, null);
 	}
 	
-	private void loadAssets() {
-		
-		SYSTEM_FONT_TITLE = new BitmapFont(Gdx.files.internal(AssetList.LEARNING_FONT.toString()), false);
-		SYSTEM_FONT_TEXT = new BitmapFont(Gdx.files.internal(AssetList.BUTLER_FONT.toString()), false);
-		SYSTEM_FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
-		DEFAULT_TEXT_COLOR = Color.WHITE;
-		
-		for (AssetList asset: AssetList.values()) {
-            if (asset.getType() != null) {
-                assetManager.load(asset.toString(), asset.getType());
-            }
-        }
-
-        assetManager.finishLoading();
-	}
-
 	/**
 	 * This is run every engine tick according to libgdx.
 	 * Here, we tell the gsm to tell the current state of the elapsed time.
@@ -132,6 +114,7 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
 		currentMenu.draw();
+		
 	}
 	
 	/**

@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 UI_box_dialogue
   rotate: false
-  xy: 388, 321
+  xy: 386, 319
   size: 161, 161
   split: 138, 13, 138, 14
   orig: 161, 161
@@ -15,13 +15,14 @@ UI_box_dialogue
 UI_box_dialogue_large
   rotate: false
   xy: 2, 98
-  size: 384, 384
-  orig: 384, 384
+  size: 382, 382
+  split: 333, 31, 337, 32
+  orig: 382, 382
   offset: 0, 0
   index: -1
 UI_box_simple
   rotate: false
-  xy: 388, 288
+  xy: 386, 286
   size: 31, 31
   split: 12, 12, 11, 13
   orig: 31, 31

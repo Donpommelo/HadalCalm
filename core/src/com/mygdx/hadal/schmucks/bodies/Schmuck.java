@@ -54,7 +54,6 @@ public class Schmuck extends HadalEntity {
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	protected float controllerCount = 0;
 	
-	
 	public ParticleEntity impact;
 
 	protected short hitboxfilter;

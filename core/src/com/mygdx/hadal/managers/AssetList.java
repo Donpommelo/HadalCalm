@@ -58,6 +58,10 @@ public enum AssetList {
 	UI1("ui/UI.png", Texture.class),
 	UI2("ui/UI2.png", Texture.class),
 	UIATLAS("ui/UI.atlas", TextureAtlas.class),
+	ANCHOR("ui/anchor_logo.png", Texture.class),
+	ANCHORATLAS("ui/anchor_logo.atlas", TextureAtlas.class),
+	ANCHORDARK("ui/anchor_logo_dark.png", Texture.class),
+	ANCHORDARKATLAS("ui/anchor_logo_dark.atlas", TextureAtlas.class),
 	
 	PELICAN("sprites/busts/portrait_pelican.png", Texture.class),
 	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class);
