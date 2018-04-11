@@ -171,6 +171,7 @@ public class Event extends HadalEntity {
 		
 		if (body != null) {			
 			batch.setProjectionMatrix(state.sprite.combined);
+			state.font.getData().setScale(0.60f);
 			state.font.draw(batch, getText(), body.getPosition().x * PPM, body.getPosition().y * PPM);
 		}
 	}

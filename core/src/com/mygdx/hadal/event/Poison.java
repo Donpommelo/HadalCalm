@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -37,6 +38,8 @@ public class Poison extends Event {
 	
 	private static final String name = "Poison";
 
+	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
+	
 	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
 			int x, int y, float dps) {
 		super(state, world, camera, rays, name, width, height, x, y);
@@ -44,7 +47,7 @@ public class Poison extends Event {
 		this.perp = state.getWorldDummy();
 		this.on = true;
 		
-		new ParticleEntity(state, world, camera, rays, this, AssetList.POISON.toString(), 1.0f, 0.0f, true);
+		spawnTimerLimit = 4096f/(width * height);
 	}
 	
 	/**
@@ -57,7 +60,7 @@ public class Poison extends Event {
 		this.perp = perp;
 		this.on = true;
 		
-		new ParticleEntity(state, world, camera, rays, this, AssetList.POISON.toString(), 1.0f, 0.0f, true);
+		spawnTimerLimit = 4096f/(width * height);
 	}
 	
 	@Override
@@ -89,6 +92,15 @@ public class Poison extends Event {
 					}
 				}
 			}
+			
+			currPoisonSpawnTimer += delta;
+			while (currPoisonSpawnTimer >= spawnTimerLimit) {
+				currPoisonSpawnTimer -= spawnTimerLimit;
+				int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
+				int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
+				new ParticleEntity(state, world, camera, rays, randX, randY, AssetList.POISON.toString(), 1.5f, true);
+			}
+			
 		}
 		super.controller(delta);
 	}

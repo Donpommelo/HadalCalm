@@ -56,6 +56,8 @@ public class ParticleEntity extends HadalEntity {
 		} else {
 			this.effect.allowCompletion();
 		}
+		
+		this.effect.setPosition(startX, startY);
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
