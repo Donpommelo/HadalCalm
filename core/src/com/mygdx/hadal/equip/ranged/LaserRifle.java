@@ -61,15 +61,14 @@ public class LaserRifle extends RangedWeapon {
 
 					@Override
 					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+						
 						if (fixture.getUserData() == null) {
 							if (fraction < shortestFraction) {
 								shortestFraction = fraction;
 								return fraction;
 							}
 						} else {
-
 							if (fixture.getUserData() instanceof HadalData) {
-
 								if (((HadalData)fixture.getUserData()).getType() == UserDataTypes.WALL && 
 										fraction < shortestFraction) {
 									shortestFraction = fraction;
@@ -83,7 +82,6 @@ public class LaserRifle extends RangedWeapon {
 				}, user.getBody().getPosition(), endPt);
 			}
 			
-
 			HitboxImage proj = new HitboxImage(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
 					lifespan, projDura, 0, new Vector2(0, 0), filter, true, world, camera, rays, user, projSpriteId) {
 				

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -23,8 +25,11 @@ public class MouseTracker extends HadalEntity {
 
 	@Override
 	public void create() {
+		this.hadalData = new HadalData(world, UserDataTypes.EVENT, this);
+
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (0), (short) 0, true, null);
+				(short) (0), (short) 0, true, hadalData);
+		
 	}
 
 	@Override
