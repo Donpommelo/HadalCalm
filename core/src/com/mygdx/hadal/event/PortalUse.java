@@ -41,6 +41,10 @@ public class PortalUse extends Event {
 			public void onInteract(Player p) {
 				if (event.getConnectedEvent() != null) {
 					p.getBody().setTransform(event.getConnectedEvent().getBody().getPosition(), 0);
+					
+					if (event.getConnectedEvent().getStandardParticle() != null) {
+						event.getConnectedEvent().getStandardParticle().onForBurst(1.0f);
+					}
 				}
 			}
 		};

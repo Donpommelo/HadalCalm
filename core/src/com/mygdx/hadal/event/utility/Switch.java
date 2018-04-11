@@ -40,6 +40,10 @@ public class Switch extends Event {
 			public void onInteract(Player p) {
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().getEventData().onActivate(this);
+					
+					if (standardParticle != null) {
+						standardParticle.onForBurst(1.0f);
+					}
 				}
 			}
 		};

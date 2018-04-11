@@ -303,6 +303,12 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("align", Integer.class) != null) {
 				e.setScaleAlign(object.getProperties().get("align", Integer.class));
 			}
+			if (object.getProperties().get("particle_amb", String.class) != null) {
+				e.addAmbientParticle(object.getProperties().get("particle_amb", String.class));
+			}
+			if (object.getProperties().get("particle_std", String.class) != null) {
+				e.setStandardParticle(object.getProperties().get("particle_std", String.class));
+			}
 			
 			e.setGravity(object.getProperties().get("gravity", 0.0f, float.class));
 			

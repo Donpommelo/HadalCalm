@@ -136,7 +136,6 @@ public class BeeGun extends RangedWeapon {
 										
 										if (closestFixture != null) {
 											if (closestFixture.getUserData() instanceof BodyData) {
-												System.out.println("TEST");
 												homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
 												setTarget(homing);
 											}

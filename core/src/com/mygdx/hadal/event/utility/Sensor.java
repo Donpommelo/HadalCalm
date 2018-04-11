@@ -57,6 +57,10 @@ public class Sensor extends Event {
 				if (isAlive()) {
 					if (event.getConnectedEvent() != null) {
 						event.getConnectedEvent().getEventData().onActivate(this);
+						
+						if (standardParticle != null) {
+							standardParticle.onForBurst(1.0f);
+						}
 					}
 				}
 			}

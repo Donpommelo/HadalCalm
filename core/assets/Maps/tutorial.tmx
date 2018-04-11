@@ -260,6 +260,7 @@
   <object id="91" name="EventMove" type="EventMove" x="4256" y="3296" width="32" height="32">
    <properties>
     <property name="align" type="int" value="2"/>
+    <property name="particle_std" value="event_holo"/>
     <property name="scale" type="float" value="0.25"/>
     <property name="sprite" value="event_base"/>
     <property name="triggeredId" value="fuelspawn1"/>
@@ -303,6 +304,7 @@
   <object id="99" name="EventMove" type="EventMove" x="6528" y="2944" width="32" height="32">
    <properties>
     <property name="align" type="int" value="2"/>
+    <property name="particle_std" value="event_holo"/>
     <property name="scale" type="float" value="0.25"/>
     <property name="sprite" value="event_base"/>
     <property name="triggeredId" value="fuelspawn2"/>

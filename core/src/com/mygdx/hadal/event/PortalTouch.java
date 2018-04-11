@@ -72,12 +72,20 @@ public class PortalTouch extends Event {
 					if (!justTeleported.contains(s)) {
 						((PortalTouch)getConnectedEvent()).getJustTeleported().add(s);
 						s.getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
+						
+						if (getConnectedEvent().getStandardParticle() != null) {
+							getConnectedEvent().getStandardParticle().onForBurst(1.0f);
+						}
 					}
 				}
 			} else {
 				for (HadalEntity s : eventData.getSchmucks()) {
 					if (!justTeleported.contains(s)) {
 						s.getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
+						
+						if (getConnectedEvent().getStandardParticle() != null) {
+							getConnectedEvent().getStandardParticle().onForBurst(1.0f);
+						}
 					}
 				}
 			}

@@ -45,7 +45,7 @@ public class HadalGame extends ApplicationAdapter {
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;
     
-    public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_TEXT, SYSTEM_FONT_UI;
+    public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_UI;
     public static Color DEFAULT_TEXT_COLOR;
  
     private static int DEFAULT_WIDTH = 1080;
@@ -87,8 +87,6 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    musicPlayer = new MusicPlayer();
-		
-        
         
         gsm = new GameStateManager(this);
 		

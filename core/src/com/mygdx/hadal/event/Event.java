@@ -11,6 +11,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -49,6 +50,8 @@ public class Event extends HadalEntity {
     private final static float animationSpeed = 0.8f;
     
     private MapObject blueprint;
+    
+    protected ParticleEntity standardParticle;
     
 	/**
 	 * Constructor for permanent events.
@@ -172,6 +175,19 @@ public class Event extends HadalEntity {
 		}
 	}
 	
+	public void setStandardParticle(String particle) {
+		this.standardParticle = 
+				new ParticleEntity(state, world, camera, rays, this, "sprites/particle/" + particle + ".particle", 0, 0, false);
+	}
+
+	public ParticleEntity getStandardParticle() {
+		return standardParticle;
+	}
+
+	public void addAmbientParticle(String particle) {
+		new ParticleEntity(state, world, camera, rays, this, "sprites/particle/" + particle + ".particle", 0, 0, true);	
+	}
+
 	@Override
 	public void queueDeletion() {
 		super.queueDeletion();

@@ -41,7 +41,6 @@ public class InitState extends GameState {
 	private void loadAssets() {
 		
 		HadalGame.SYSTEM_FONT_TITLE = new BitmapFont(Gdx.files.internal(AssetList.LEARNING_FONT.toString()), false);
-		HadalGame.SYSTEM_FONT_TEXT = new BitmapFont(Gdx.files.internal(AssetList.BUTLER_FONT.toString()), false);
 		HadalGame.SYSTEM_FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
 		HadalGame.DEFAULT_TEXT_COLOR = Color.WHITE;
 		
