@@ -9,6 +9,16 @@ EELSKIN_COVER: {
 		RANDOM_POOL,
 	]
 }
+BLOODY_LUST: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Bloody Lust
+	description: "-50% Reload Speed. Refill 50% clip on kill."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 GLUTTONOUS_GREY_GLOVE: {
 	class: com.mygdx.hadal.save.InfoArtifact
 	name: Gluttonous Grey Grove

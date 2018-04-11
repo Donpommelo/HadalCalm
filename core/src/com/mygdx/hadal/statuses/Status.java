@@ -65,5 +65,5 @@ public class Status {
 	
 	public void onKill(BodyData vic) {}
 	
-	public void onDeath(BodyData vic) {}
+	public void onDeath(BodyData perp) {}
 }

@@ -10,6 +10,7 @@ import com.mygdx.hadal.equip.artifacts.*;
 public enum UnlockArtifact {
 	
 	ANARCHISTS_COOKBOOK(AnarchistsCookbook.class),
+	BLOODY_LUST(Bloodylust.class),
 	EELSKIN_COVER(EelskinCover.class),
 	FRACTURE_PLATE(FracturePlate.class),
 	GLUTTONOUS_GREY_GLOVE(GluttonousGreyGlove.class),
