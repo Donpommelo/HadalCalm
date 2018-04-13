@@ -22,6 +22,7 @@ import com.mygdx.hadal.actors.UIMomentum;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIReload;
+import com.mygdx.hadal.actors.UIStatuses;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -105,6 +106,7 @@ public class PlayState extends GameState {
 	private UIMomentum uiMomentum;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
+	private UIStatuses uiStatus;
 	
 	/**
 	 * Constructor is called upon player beginning a game.
@@ -205,6 +207,7 @@ public class PlayState extends GameState {
 		uiReload = new UIReload(HadalGame.assetManager, this, player);
 		uiMomentum = new UIMomentum(HadalGame.assetManager, this, player);
 		uiObjective = new UIObjective(HadalGame.assetManager, this, player);
+		uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
 		
 		if (uiExtra == null) {
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
@@ -215,6 +218,7 @@ public class PlayState extends GameState {
 		this.stage.addActor(uiReload);
 		this.stage.addActor(uiExtra);
 		this.stage.addActor(uiObjective);
+		this.stage.addActor(uiStatus);
 		app.newMenu(stage);
 		resetController();
 	}
