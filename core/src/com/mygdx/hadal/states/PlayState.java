@@ -218,7 +218,7 @@ public class PlayState extends GameState {
 		this.stage.addActor(uiReload);
 		this.stage.addActor(uiExtra);
 		this.stage.addActor(uiObjective);
-		this.stage.addActor(uiStatus);
+
 		app.newMenu(stage);
 		resetController();
 	}
@@ -451,6 +451,10 @@ public class PlayState extends GameState {
 		return uiExtra;
 	}
 
+	public UIStatuses getUiStatus() {
+		return uiStatus;
+	}
+	
 	public int getStartX() {
 		return startX;
 	}

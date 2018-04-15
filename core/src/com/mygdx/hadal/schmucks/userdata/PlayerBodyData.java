@@ -71,8 +71,9 @@ public class PlayerBodyData extends BodyData {
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
 		this.world = newWorld;
-		statuses.clear();
-		statusesChecked.clear();
+		
+		clearStatuses();
+		
 		for (Equipable e : multitools) {
 			if (e != null) {
 				e.setUser(player);
@@ -224,6 +225,24 @@ public class PlayerBodyData extends BodyData {
 	public void setEquip() {
 		currentTool = multitools[currentSlot];
 		player.setToolSprite(currentTool.getEquipSprite());
+	}
+	
+	@Override
+	public void addStatus(Status s) {
+		super.addStatus(s);
+		player.getState().getUiStatus().addStatus(s);
+	}
+	
+	@Override
+	public void removeStatus(Status s) {
+		super.removeStatus(s);
+		player.getState().getUiStatus().removeStatus(s);
+	}
+	
+	public void clearStatuses() {
+		statuses.clear();
+		statusesChecked.clear();
+		player.getState().getUiStatus().clearStatus();
 	}
 	
 	public void fuelSpend(float cost) {
