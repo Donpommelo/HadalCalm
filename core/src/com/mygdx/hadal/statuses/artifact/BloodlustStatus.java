@@ -10,12 +10,12 @@ import com.mygdx.hadal.statuses.Status;
 
 import box2dLight.RayHandler;
 
-public class Bloodlust extends Status {
+public class BloodlustStatus extends Status {
 
 	private static String name = "Bloodlust";
 	private static final float cliprefill = 0.50f;
 	
-	public Bloodlust(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
+	public BloodlustStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
 			BodyData p, BodyData v, int pr) {
 		super(state, world, camera, rays, 0, name, true, false, false, false, p, v, pr);
 	}

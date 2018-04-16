@@ -292,8 +292,8 @@ public class BodyData extends HadalData {
 	 */
 	public void die(BodyData perp) {
 		
-		perp.statusProcTime(4, perp, 0, null);
-		statusProcTime(5, this, 0, null);
+		perp.statusProcTime(4, this, 0, null);
+		statusProcTime(5, perp, 0, null);
 		
 		schmuck.queueDeletion();
 	}

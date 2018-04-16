@@ -11,7 +11,9 @@ public enum UnlockArtifact {
 	
 	ANARCHISTS_COOKBOOK(AnarchistsCookbook.class),
 	BLOODY_LUST(Bloodylust.class),
+	CONFIDENCE(Confidence.class),
 	EELSKIN_COVER(EelskinCover.class),
+	ENVENOMED_EARTH(EnvenomedEarth.class),
 	FRACTURE_PLATE(FracturePlate.class),
 	GLUTTONOUS_GREY_GLOVE(GluttonousGreyGlove.class),
 	GOOD_HEALTH(GoodHealth.class),
