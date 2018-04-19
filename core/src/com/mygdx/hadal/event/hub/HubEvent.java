@@ -101,6 +101,9 @@ public class HubEvent extends Event {
 	public void leave() {
 		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
 		mouseOut();
+		if (state.getStage().getScrollFocus().equals(options)) {
+			state.getStage().setScrollFocus(null);
+		}
 	}
 	
 	public void mouseIn(String info) {

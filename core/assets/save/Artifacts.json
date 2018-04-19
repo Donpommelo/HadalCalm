@@ -9,6 +9,26 @@ EELSKIN_COVER: {
 		RANDOM_POOL,
 	]
 }
+CONFIDENCE: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Confidence
+	description: "+50% damage at Max Hp."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+ENVENOMED_EARTH: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Envenomed Earth
+	description: "Create poison cloud on kill."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 BLOODY_LUST: {
 	class: com.mygdx.hadal.save.InfoArtifact
 	name: Bloody Lust

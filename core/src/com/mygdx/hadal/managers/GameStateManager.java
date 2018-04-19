@@ -37,7 +37,7 @@ public class GameStateManager {
 	private Skin skin;
 	private NinePatchDrawable dialogPatch, simplePatch;
 	private ScrollPaneStyle scrollStyle;
-	
+	public static TextureAtlas particleAtlas;
 	//This is the player's currently selected loadout. (not equiped weapons after entering level)
 	private Loadout loadout;
 
@@ -89,6 +89,8 @@ public class GameStateManager {
 		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
 		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
 		this.scrollStyle = new ScrollPaneStyle(dialogPatch, dialogPatch, dialogPatch, dialogPatch, dialogPatch);
+		
+		GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 	}
 	
 	/**

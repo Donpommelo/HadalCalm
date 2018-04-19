@@ -70,6 +70,7 @@ public class ParticleEntity extends HadalEntity {
 
 	@Override
 	public void create() {
+		
 	}
 
 	@Override

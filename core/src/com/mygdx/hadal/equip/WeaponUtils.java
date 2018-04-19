@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -18,9 +19,9 @@ public class WeaponUtils {
 	
 	public static Hitbox explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
 			final Schmuck user, int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
-		Hitbox explosion = new Hitbox(state, 
-				x, y,	explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-				filter, true, world, camera, rays, user);
+		Hitbox explosion = new HitboxAnimated(state, 
+				x, y,	explosionRadius, explosionRadius, 0, 0.7f, 1, 0, new Vector2(0, 0),
+				filter, true, world, camera, rays, user, "boom");
 
 		explosion.setUserData(new HitboxData(state, world, explosion){
 			public void onHit(HadalData fixB) {

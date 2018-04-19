@@ -17,6 +17,8 @@ public enum AssetList {
 	// Player and enemy sprites.
 	PROJ_1("sprites/projectiles.png", Texture.class),
 	PROJ_1_ATL("sprites/projectiles.atlas", TextureAtlas.class),
+	BOOM_1("sprites/boom.png", Texture.class),
+	BOOM_1_ATL("sprites/boom.atlas", TextureAtlas.class),
 	
 	TURRET_1("sprites/turret.png", Texture.class),
 	TURRET_ATL("sprites/turret.atlas", TextureAtlas.class),

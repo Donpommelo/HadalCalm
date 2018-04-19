@@ -40,7 +40,13 @@ public class HitboxAnimated extends RangedHitbox {
 			String spriteId) {
 		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, world, camera, rays, creator);
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
-		projectileSprite = new Animation<TextureRegion>(speed, atlas.findRegions(spriteId));
+		
+		if (spriteId.equals("boom")) {
+			projectileSprite = new Animation<TextureRegion>(speed, 
+					((TextureAtlas) HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString())).findRegions(spriteId));
+		} else {
+			projectileSprite = new Animation<TextureRegion>(speed, atlas.findRegions(spriteId));
+		}
 	}
 	
 	@Override
