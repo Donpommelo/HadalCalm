@@ -20,8 +20,15 @@ public class WeaponUtils {
 	public static Hitbox explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
 			final Schmuck user, int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		Hitbox explosion = new HitboxAnimated(state, 
-				x, y,	explosionRadius, explosionRadius, 0, 0.7f, 1, 0, new Vector2(0, 0),
-				filter, true, world, camera, rays, user, "boom");
+				x, y,	explosionRadius, explosionRadius, 0, 0.5f, 1, 0, new Vector2(0, 0),
+				filter, true, world, camera, rays, user, "boom") {
+			
+			@Override
+			public void controller(float delta) {
+				this.body.setLinearVelocity(0, 0);
+				super.controller(delta);
+			}
+		};
 
 		explosion.setUserData(new HitboxData(state, world, explosion){
 			public void onHit(HadalData fixB) {

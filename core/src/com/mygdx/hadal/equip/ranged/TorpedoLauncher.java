@@ -38,7 +38,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	
 	private final static int projDura = 1;
 		
-	private final static int explosionRadius = 100;
+	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 25.0f;
 
