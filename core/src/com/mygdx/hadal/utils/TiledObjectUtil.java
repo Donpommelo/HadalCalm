@@ -256,7 +256,8 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Poison")) {
 			e = new Poison(state, world, camera, rays, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("Damage", float.class));
+					object.getProperties().get("Damage", float.class), 
+					object.getProperties().get("filter", (short)0, short.class));
 		}
 		if (object.getName().equals("Save")) {
 			e = new SavePoint(state, world, camera, rays, (int)rect.width, (int)rect.height, 

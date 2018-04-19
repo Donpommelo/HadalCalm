@@ -15,8 +15,8 @@ public class EnvenomedEarthStatus extends Status {
 
 	private static String name = "Envenomed";
 	
-	private final static int poisonRadius = 100;
-	private final static float poisonDamage = 30/60f;
+	private final static int poisonRadius = 150;
+	private final static float poisonDamage = 40/60f;
 	private final static float poisonDuration = 3.0f;
 	
 	public EnvenomedEarthStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
@@ -29,6 +29,6 @@ public class EnvenomedEarthStatus extends Status {
 		new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
 				(int)(vic.getSchmuck().getBody().getPosition().x * PPM), 
 				(int)(vic.getSchmuck().getBody().getPosition().y * PPM), 
-				poisonDamage, poisonDuration, perp.getSchmuck());
+				poisonDamage, poisonDuration, perp.getSchmuck(), perp.getSchmuck().getHitboxfilter());
 	}
 }
