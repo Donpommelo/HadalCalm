@@ -67,10 +67,10 @@ public class StickyBombLauncher extends RangedWeapon {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		//Check clip size. empty clip = reload instead. This makes reloading automatic.
-		if (clipLeft > 0 && velo != null) {
+		if (clipLeft > 0 && weaponVelo != null) {
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
-			onShoot.makeHitbox(user, state, velo, 
+			onShoot.makeHitbox(user, state, weaponVelo, 
 					shooter.getSchmuck().getBody().getPosition().x * PPM, 
 					shooter.getSchmuck().getBody().getPosition().y * PPM, 
 					faction);

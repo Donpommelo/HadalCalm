@@ -158,6 +158,7 @@ public class PlayState extends GameState {
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, 1, 1, -1000, -1000);
 		
+		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
 		mouse = new MouseTracker(this);
 		
 		map = new TmxMapLoader().load(level.getMap());

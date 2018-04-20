@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -19,7 +17,6 @@ public class MeleeWeapon extends Equipable {
 	
 	protected HitboxFactory onSwing;
 
-	protected Vector2 velo;
 	protected int x, y;
 	protected short faction;
 	
@@ -53,17 +50,17 @@ public class MeleeWeapon extends Equipable {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 
-		Vector3 bodyScreenPosition = new Vector3(
-				shooter.getSchmuck().getBody().getPosition().x, 
+		mouseLocation.set(shooter.getSchmuck().getBody().getPosition().x,
 				shooter.getSchmuck().getBody().getPosition().y, 0);
-		state.camera.project(bodyScreenPosition);
 		
-		float powerDiv = bodyScreenPosition.dst(x, y, 0);
+		state.camera.project(mouseLocation);
 		
-		float xImpulse = -(bodyScreenPosition.x - x) / powerDiv;
-		float yImpulse = -(bodyScreenPosition.y - y) / powerDiv;
+		float powerDiv = mouseLocation.dst(x, y, 0);
+		
+		float xImpulse = -(mouseLocation.x - x) / powerDiv;
+		float yImpulse = -(mouseLocation.y - y) / powerDiv;
 
-		this.velo = new Vector2(xImpulse, yImpulse);
+		weaponVelo.set(xImpulse, yImpulse);
 		this.faction = faction;
 		this.x = x;
 		this.y = y;
@@ -75,7 +72,7 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		onSwing.makeHitbox(user, state, velo, 
+		onSwing.makeHitbox(user, state, weaponVelo, 
 				shooter.getSchmuck().getBody().getPosition().x * PPM, 
 				shooter.getSchmuck().getBody().getPosition().y * PPM, 
 				faction);

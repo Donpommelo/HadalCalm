@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
@@ -18,9 +19,6 @@ import com.mygdx.hadal.states.PlayState;
  *
  */
 public class HitboxAnimated extends RangedHitbox {
-	
-	//This atlas contains the frames of animation for this hbox
-	private TextureAtlas atlas;
 	
 	//This is the animation of this sprite
 	protected Animation<TextureRegion> projectileSprite;
@@ -34,13 +32,12 @@ public class HitboxAnimated extends RangedHitbox {
 	public HitboxAnimated(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
 			Vector2 startVelo, short filter, boolean sensor, Schmuck creator, String spriteId) {
 		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, creator);
-		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
 		
 		if (spriteId.equals("boom")) {
 			projectileSprite = new Animation<TextureRegion>(speed, 
 					((TextureAtlas) HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString())).findRegions(spriteId));
 		} else {
-			projectileSprite = new Animation<TextureRegion>(speed, atlas.findRegions(spriteId));
+			projectileSprite = new Animation<TextureRegion>(speed, GameStateManager.projectileAtlas.findRegions(spriteId));
 		}
 	}
 	

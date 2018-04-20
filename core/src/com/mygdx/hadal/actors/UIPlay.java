@@ -48,6 +48,8 @@ public class UIPlay extends AHadalActor{
 	//Percent of Hp for low heal indication to appear
 	private static final float hpLowThreshold = 0.20f;
 	
+	private float hpRatio, fuelRatio, fuelCutoffRatio;
+	
 	public UIPlay(AssetManager assetManager, PlayState state, Player player) {
 		super(assetManager);
 		this.player = player;
@@ -67,6 +69,9 @@ public class UIPlay extends AHadalActor{
 		this.itemSelect = atlas.findRegions("UI_main_selected");
 		this.itemUnselect = atlas.findRegions("UI_main_unselected");
 		
+		this.hpRatio = 1.0f;
+		this.fuelRatio = 1.0f;
+		this.fuelCutoffRatio = 1.0f;
 	}
 	
 	@Override
@@ -74,9 +79,9 @@ public class UIPlay extends AHadalActor{
 		batch.setProjectionMatrix(state.hud.combined);
 
 		//Calc the ratios needed to draw the bars
-		float hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
-		float fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
-		float fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
+		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
+		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
+		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
 		
 		//This code makes the hp bar delay work.
 		if (hpDelayed > hpRatio) {

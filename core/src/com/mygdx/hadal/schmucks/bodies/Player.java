@@ -264,8 +264,7 @@ public class Player extends PhysicsSchmuck {
 		momentumCdCount-=delta;
 		trailCdCount-=delta;
 		
-		super.controller(delta);		
-		
+		super.controller(delta);
 	}
 	
 	/**
@@ -413,19 +412,23 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	private Vector3 bodyPosition = new Vector3();
+	private float armConnectXReal;
+	private float headConnectXReal;
+	private float armRotateXReal;
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
 		
-		Vector3 bodyScreenPosition = new Vector3(
-				body.getPosition().x,
+		bodyPosition.set(body.getPosition().x,
 				body.getPosition().y, 0);
-		camera.project(bodyScreenPosition);
+		
+		camera.project(bodyPosition);
 		
 		//Determine player mouse location and hence where the arm should be angled.
 		attackAngle = (float)(Math.atan2(
-				bodyScreenPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()),
-				bodyScreenPosition.x - Gdx.input.getX()) * 180 / Math.PI);
+				bodyPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()),
+				bodyPosition.x - Gdx.input.getX()) * 180 / Math.PI);
 		
 /*		for (ParticleEmitter p : hoverBubbles.getEffect().getEmitters()) {
 			p.getAngle().setHighMax(attackAngle);
@@ -440,9 +443,9 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Depending on which way the player is facing, the connection points of various body parts are slightly offset.
-		float armConnectXReal = armConnectX;
-		float headConnectXReal = headConnectX;
-		float armRotateXReal = armRotateX;
+		armConnectXReal = armConnectX;
+		headConnectXReal = headConnectX;
+		armRotateXReal = armRotateX;
 		
 		if (flip) {
 			armConnectXReal = bodyWidth - armWidth - armConnectX - 200;

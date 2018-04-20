@@ -5,9 +5,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -18,8 +16,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ParticleEntity extends HadalEntity {
 
-	private static TextureAtlas particleAtlas;
-	
 	//What particles come out of this entity?
 	private ParticleEffect effect;
 	
@@ -36,10 +32,8 @@ public class ParticleEntity extends HadalEntity {
 	public ParticleEntity(PlayState state, float startX, float startY, String effect, float lifespan, boolean startOn) {
 		super(state, 0, 0, startX, startY);
 		
-		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
-		
 		this.effect = new ParticleEffect();
-		this.effect.load(Gdx.files.internal(effect), particleAtlas);
+		this.effect.load(Gdx.files.internal(effect), GameStateManager.particleAtlas);
 		
 		this.despawn = false;
 		

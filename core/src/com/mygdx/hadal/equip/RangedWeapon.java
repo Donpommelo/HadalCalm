@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -25,7 +23,6 @@ public class RangedWeapon extends Equipable{
 	protected float projectileSpeed;
 	protected HitboxFactory onShoot;
 	
-	protected Vector2 velo;
 	protected int x, y;
 	protected short faction;
 
@@ -73,19 +70,16 @@ public class RangedWeapon extends Equipable{
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 
-
-		//Convert body coordinates into screen coordinates to calc a starting velocity for the projectile.
-		Vector3 bodyScreenPosition = new Vector3(
-				shooter.getSchmuck().getBody().getPosition().x,
+		mouseLocation.set(shooter.getSchmuck().getBody().getPosition().x,
 				shooter.getSchmuck().getBody().getPosition().y, 0);
-
-		state.camera.project(bodyScreenPosition);
 		
-		float powerDiv = bodyScreenPosition.dst(x, y, 0) / projectileSpeed;
+		state.camera.project(mouseLocation);
 		
-		float xImpulse = -(bodyScreenPosition.x - x) / powerDiv;
-		float yImpulse = -(bodyScreenPosition.y - y) / powerDiv;
-		this.velo = new Vector2(xImpulse, yImpulse);
+		float powerDiv = mouseLocation.dst(x, y, 0) / projectileSpeed;
+		
+		float xImpulse = -(mouseLocation.x - x) / powerDiv;
+		float yImpulse = -(mouseLocation.y - y) / powerDiv;
+		weaponVelo.set(xImpulse, yImpulse);
 		
 		//Also store the recoil vector and filter.
 		this.faction = faction;
@@ -101,10 +95,10 @@ public class RangedWeapon extends Equipable{
 	public void execute(PlayState state, BodyData shooter) {
 		
 		//Check clip size. empty clip = reload instead. This makes reloading automatic.
-		if (clipLeft > 0 && velo != null) {
+		if (clipLeft > 0) {
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
-			onShoot.makeHitbox(user, state, velo, 
+			onShoot.makeHitbox(user, state, weaponVelo, 
 					shooter.getSchmuck().getBody().getPosition().x * PPM, 
 					shooter.getSchmuck().getBody().getPosition().y * PPM, 
 					faction);

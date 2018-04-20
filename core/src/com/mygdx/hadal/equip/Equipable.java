@@ -2,6 +2,8 @@ package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -34,24 +36,8 @@ public abstract class Equipable {
 	private TextureAtlas atlas;
 	private TextureRegion equipSprite;
 	
-	/**
-	 * Equipables are constructed when creating tool spawns or default schmuck loadouts
-	 * @param user: Schmuck that is using this tool.
-	 * @param name: Name of the weapon
-	 * @param useCd: The delay after using this tool before you can use a tool again.
-	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
-	 */
-	public Equipable(Schmuck user, String name, float useCd, float useDelay) {
-		this.user = user;
-		this.name = name;
-		this.useCd = useCd;
-		this.useDelay = useDelay;
-		this.reloading = false;
-		this.reloadCd = 0;
-		
-		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
-		equipSprite = atlas.findRegion("default");
-	}
+	protected Vector3 mouseLocation;
+	protected Vector2 weaponVelo;
 	
 	public Equipable(Schmuck user, String name, float useCd, float useDelay, String spriteId) {
 		this.user = user;
@@ -63,6 +49,19 @@ public abstract class Equipable {
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
 		equipSprite = atlas.findRegion(spriteId);
+		mouseLocation = new Vector3();
+		weaponVelo = new Vector2();
+	}
+	
+	/**
+	 * Equipables are constructed when creating tool spawns or default schmuck loadouts
+	 * @param user: Schmuck that is using this tool.
+	 * @param name: Name of the weapon
+	 * @param useCd: The delay after using this tool before you can use a tool again.
+	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
+	 */
+	public Equipable(Schmuck user, String name, float useCd, float useDelay) {
+		this(user, name, useCd, useDelay, "default");
 	}
 	
 	/**
