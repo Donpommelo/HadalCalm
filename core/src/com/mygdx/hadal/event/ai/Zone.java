@@ -1,6 +1,5 @@
 package com.mygdx.hadal.event.ai;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -10,22 +9,20 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
-import box2dLight.RayHandler;
-
 public class Zone extends Event {
 
 //	private Map<Zone, ConnectionPoint> connections;
 	
-	public Zone(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name, int width,
+	public Zone(PlayState state, World world, String name, int width,
 			int height, int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y);
+		super(state, name, width, height, x, y);
 		
 		
 	}
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onTouch(HadalData fixB) {

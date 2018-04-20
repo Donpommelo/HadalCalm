@@ -16,7 +16,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal._retired.LoadoutState;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIMomentum;
 import com.mygdx.hadal.actors.UIObjective;
@@ -157,9 +156,9 @@ public class PlayState extends GameState {
 		hitboxes = new HashSet<HadalEntity>();
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new Enemy(this, world, camera, rays, 1, 1, -1000, -1000);
+		worldDummy = new Enemy(this, 1, 1, -1000, -1000);
 		
-		mouse = new MouseTracker(this, world, camera, rays);
+		mouse = new MouseTracker(this);
 		
 		map = new TmxMapLoader().load(level.getMap());
 		
@@ -180,7 +179,7 @@ public class PlayState extends GameState {
 		this.safeX = startX;
 		this.safeY = startY;
 		
-		this.player = new Player(this, world, camera, rays, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
+		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		this.cameraTarget = player;
 		
 		controller = new PlayerController(player, this);		
@@ -249,7 +248,6 @@ public class PlayState extends GameState {
 	 */
 	public void loadLevel(UnlockLevel level, boolean reset) {
 		getGsm().removeState(PlayState.class);
-		getGsm().removeState(LoadoutState.class);
 		getGsm().removeState(HubState.class);
 		
 		if (reset) {
@@ -390,7 +388,8 @@ public class PlayState extends GameState {
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			}			
 		} else {
-			player = new Player(this, world, camera, rays, (int)(player.getBody().getPosition().x * PPM),
+			uiStatus.clearStatus();
+			player = new Player(this, (int)(player.getBody().getPosition().x * PPM),
 					(int)(player.getBody().getPosition().y * PPM), loadout.character, null);
 			
 			controller.setPlayer(player);
@@ -425,6 +424,10 @@ public class PlayState extends GameState {
 
 	public Loadout getLoadout() {
 		return loadout;
+	}
+	
+	public World getWorld() {
+		return world;
 	}
 	
 	public RayHandler getRays() {

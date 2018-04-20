@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -22,16 +21,13 @@ public class HadalData {
 	//The entity that owns this data
 	private HadalEntity entity;
 	
-	protected World world;
-	
 	/**
 	 * aye
 	 * @param world
 	 * @param type
 	 * @param entity
 	 */
-	public HadalData(World world, UserDataTypes type, HadalEntity entity) {
-		this.world = world;
+	public HadalData(UserDataTypes type, HadalEntity entity) {
 		this.type = type;
 		this.setEntity(entity);
 		this.numContacts = 0;

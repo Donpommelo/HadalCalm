@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -12,8 +10,6 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.StickyHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
-
-import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class StickyBombLauncher extends RangedWeapon {
@@ -46,17 +42,16 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {		
 		
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, final short filter,
-				World world, final OrthographicCamera camera, final RayHandler rays) {
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, final short filter) {
 			
 			StickyHitbox proj = new StickyHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user, projSpriteId);
+					filter, true, user, projSpriteId);
 			
 			if (bombsLaid.size >= maxBombs) {
 				WeaponUtils.explode(state, 
 						bombsLaid.first().getBody().getPosition().x * PPM, 
 						bombsLaid.first().getBody().getPosition().y * PPM, 
-						world, camera, rays, user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
+						user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
 				bombsLaid.removeFirst().queueDeletion();
 			}
 			bombsLaid.addLast(proj);
@@ -70,7 +65,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
+	public void execute(PlayState state, BodyData shooter) {
 		//Check clip size. empty clip = reload instead. This makes reloading automatic.
 		if (clipLeft > 0 && velo != null) {
 			
@@ -78,7 +73,7 @@ public class StickyBombLauncher extends RangedWeapon {
 			onShoot.makeHitbox(user, state, velo, 
 					shooter.getSchmuck().getBody().getPosition().x * PPM, 
 					shooter.getSchmuck().getBody().getPosition().y * PPM, 
-					faction, world, camera, rays);
+					faction);
 			
 			clipLeft--;
 			
@@ -98,8 +93,7 @@ public class StickyBombLauncher extends RangedWeapon {
 			WeaponUtils.explode(user.getState(), 
 					bomb.getBody().getPosition().x * PPM, 
 					bomb.getBody().getPosition().y * PPM, 
-					user.getWorld(), user.getCamera(), user.getRays(), user,
-					explosionRadius, explosionDamage, explosionKnockback, (short) 0);
+					user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
 			bomb.queueDeletion();
 		}
 		bombsLaid.clear();

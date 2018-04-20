@@ -1,14 +1,10 @@
 package com.mygdx.hadal.statuses.artifact;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.misc.GrenadeDropTest;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-
-import box2dLight.RayHandler;
 
 public class AnarchistCookbookStatus extends Status {
 
@@ -18,16 +14,14 @@ public class AnarchistCookbookStatus extends Status {
 
 	private Equipable weapon;
 	
-	public AnarchistCookbookStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
-			int i, BodyData p, BodyData v, int pr) {
-		super(state, world, camera, rays, i, name, false, false, true, true, p, v, pr);
+	public AnarchistCookbookStatus(PlayState state, int i, BodyData p, BodyData v, int pr) {
+		super(state, i, name, false, false, true, true, p, v, pr);
 		weapon = new GrenadeDropTest(perp.getSchmuck());
 		this.procCdCount = 0;
 	}
 	
-	public AnarchistCookbookStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
-			BodyData p, BodyData v, int pr) {
-		super(state, world, camera, rays, 0, name, true, false, false, false, p, v, pr);
+	public AnarchistCookbookStatus(PlayState state, BodyData p, BodyData v, int pr) {
+		super(state, 0, name, true, false, false, false, p, v, pr);
 		weapon = new GrenadeDropTest(perp.getSchmuck());
 		this.procCdCount = 0;
 	}

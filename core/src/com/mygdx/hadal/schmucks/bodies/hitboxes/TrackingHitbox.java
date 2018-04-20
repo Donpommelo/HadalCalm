@@ -1,8 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -10,8 +8,6 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-
-import box2dLight.RayHandler;
 
 /**
  * A tracking hboxga rghalirlhgairsgfkrad
@@ -27,11 +23,10 @@ public class TrackingHitbox extends HitboxImage {
 	private final static float knockback = 35.0f;
 	
 	public TrackingHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura,
-			float rest, Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera,
-			RayHandler rays, final Schmuck creator, String spriteId) {
-		super(state, x, y, width, height, grav, lifespan, dura, rest, startVelo, filter, sensor, world, camera, rays, creator, spriteId);
+			float rest, Vector2 startVelo, short filter, boolean sensor, final Schmuck creator, String spriteId) {
+		super(state, x, y, width, height, grav, lifespan, dura, rest, startVelo, filter, sensor, creator, spriteId);
 		
-		this.setUserData(new HitboxData(state, world, this) {
+		this.setUserData(new HitboxData(state, this) {
 			
 			@Override
 			public void onHit(final HadalData fixB) {

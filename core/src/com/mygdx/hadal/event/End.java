@@ -1,11 +1,7 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * An End event makes the game end with either a victory or loss.
@@ -26,15 +22,15 @@ public class End extends Event {
 
 	private boolean won;
 	
-	public End(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, int x, int y, boolean won) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public End(PlayState state, int width, int height, int x, int y, boolean won) {
+		super(state, name, width, height, x, y);
 		this.won = won;
 	}
 	
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {

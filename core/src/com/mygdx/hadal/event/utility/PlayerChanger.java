@@ -1,14 +1,10 @@
 package com.mygdx.hadal.event.utility;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-
-import box2dLight.RayHandler;
 
 /**
  * A PlayerChanger TBA
@@ -23,9 +19,8 @@ public class PlayerChanger extends Event {
 	private float hp, fuel;
 	private int scrap;
 	
-	public PlayerChanger(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, float hp, float fuel, int scrap) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public PlayerChanger(PlayState state, int width, int height, int x, int y, float hp, float fuel, int scrap) {
+		super(state, name, width, height, x, y);
 		this.hp = hp;
 		this.fuel = fuel;
 		this.scrap = scrap;
@@ -33,7 +28,7 @@ public class PlayerChanger extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {

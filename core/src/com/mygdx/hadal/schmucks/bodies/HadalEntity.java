@@ -68,11 +68,11 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * @param startX: Starting x position
 	 * @param startY: Starting y position
 	 */
-	public HadalEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h, float startX, float startY) {
+	public HadalEntity(PlayState state, float w, float h, float startX, float startY) {
 		this.state = state;
-		this.world = world;
-		this.camera = camera;
-		this.rays = rays;
+		this.camera = state.camera;
+		this.world = state.getWorld();
+		this.rays = state.getRays();
 		
 		this.width = w;
 		this.height = h;

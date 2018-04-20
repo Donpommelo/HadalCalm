@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
@@ -29,8 +28,8 @@ public class HitboxData extends HadalData {
 	/**
 	 * This data is usually initialized after making a hitbox. It is given to the newly created hitbox using the setUserData() method
 	 */
-	public HitboxData(PlayState state, World world, Hitbox proj) {
-		super(world, UserDataTypes.HITBOX, proj);
+	public HitboxData(PlayState state, Hitbox proj) {
+		super(UserDataTypes.HITBOX, proj);
 		this.state = state;
 		this.hbox = proj;
 	}

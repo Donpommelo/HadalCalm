@@ -1,13 +1,9 @@
 package com.mygdx.hadal.equip.misc;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Consumable;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-
-import box2dLight.RayHandler;
 
 public class Melon extends Consumable {
 
@@ -24,10 +20,10 @@ public class Melon extends Consumable {
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {
+	public void execute(PlayState state, BodyData bodyData) {
 		
-		bodyData.addStatus(new StatChangeStatus(state, world, camera, rays, duration, 2, power, bodyData, bodyData, 50));
+		bodyData.addStatus(new StatChangeStatus(state, duration, 2, power, bodyData, bodyData, 50));
 		
-		super.execute(state, bodyData, world, camera, rays);
+		super.execute(state, bodyData);
 	}
 }

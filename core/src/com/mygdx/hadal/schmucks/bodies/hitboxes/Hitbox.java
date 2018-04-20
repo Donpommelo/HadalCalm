@@ -1,9 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -15,7 +13,6 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
-import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -62,8 +59,8 @@ public class Hitbox extends HadalEntity {
 	 * @param : pretty much the same as the fields above.
 	 */
 	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator) {
-		super(state, world, camera, rays, width, height, x, y);
+			Vector2 startVelo, short filter, boolean sensor, Schmuck creator) {
+		super(state, width, height, x, y);
 		this.grav = grav;
 		this.lifeSpan = lifespan;
 		this.filter = filter;
@@ -75,7 +72,7 @@ public class Hitbox extends HadalEntity {
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
 		this.startVelo = new Vector2(startVelo);
 		
-		particle = new ParticleEntity(state, world, camera, rays, this, AssetList.SPARK_TRAIL.toString(), 1.5f, 0.0f, false);
+		particle = new ParticleEntity(state, this, AssetList.SPARK_TRAIL.toString(), 1.5f, 0.0f, false);
 	}
 	
 	/**

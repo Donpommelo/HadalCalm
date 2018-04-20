@@ -3,16 +3,12 @@ package com.mygdx.hadal.schmucks.bodies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * The particle entity is an invisible, ephemeral entity that emits particle effects.
@@ -37,9 +33,8 @@ public class ParticleEntity extends HadalEntity {
 	private boolean despawn, temp;
 	
 	//This constructor creates a particle effect at an area.
-	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			float startX, float startY, String effect, float lifespan, boolean startOn) {
-		super(state, world, camera, rays, 0, 0, startX, startY);
+	public ParticleEntity(PlayState state, float startX, float startY, String effect, float lifespan, boolean startOn) {
+		super(state, 0, 0, startX, startY);
 		
 		particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 		
@@ -61,9 +56,8 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
-	public ParticleEntity(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			HadalEntity entity, String effect, float linger, float lifespan, boolean startOn) {
-		this(state, world, camera, rays, 0, 0, effect, lifespan, startOn);
+	public ParticleEntity(PlayState state, HadalEntity entity, String effect, float linger, float lifespan, boolean startOn) {
+		this(state, 0, 0, effect, lifespan, startOn);
 		this.attachedEntity = entity;
 		this.linger = linger;
 	}

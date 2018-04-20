@@ -1,12 +1,8 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * A MeleeHitbox is a hitbox used by melee weapons.
@@ -23,13 +19,13 @@ public class MeleeHitbox extends Hitbox {
 	 * Same as normal hitbox man
 	 */
 	public MeleeHitbox(PlayState state, float x, float y, int width, int height, float lifespan, float backswing,
-			Vector2 startAngle, Vector2 center, short filter, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator) {
+			Vector2 startAngle, Vector2 center, short filter, Schmuck creator) {
 		super(state, x, y, 
 				(int) (width * (1 + creator.getBodyData().getMeleeRange())), 
 				(int) (height * (1 + creator.getBodyData().getMeleeArcSize())),
 				0, 
 				lifespan * backswing * (1 + creator.getBodyData().getMeleeSwingInterval()), 
-				0, 0, startAngle, filter, true, world, camera, rays, creator);
+				0, 0, startAngle, filter, true, creator);
 		this.center = center.scl(1 + creator.getBodyData().getMeleeRange());
 	}
 	

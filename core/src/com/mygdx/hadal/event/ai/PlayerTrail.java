@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event.ai;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -9,8 +7,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * This is an experimental ai strategy that is dropped continuously by the player and is attractive to enemies.
@@ -29,15 +25,15 @@ public class PlayerTrail extends Event {
 	
 	private PlayerTrail nextTrail;
 	
-	public PlayerTrail(PlayState state, World world, OrthographicCamera camera, RayHandler ray, int x, int y) {
-		super(state, world, camera, ray, name, width, height, x, y);
+	public PlayerTrail(PlayState state, int x, int y) {
+		super(state, name, width, height, x, y);
 		this.lifeLeft = lifespan;
 	}
 	
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this);
+		this.eventData = new EventData(this);
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_ENEMY | Constants.BIT_SENSOR),

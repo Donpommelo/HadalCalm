@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event.hub;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -10,16 +8,13 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.states.PlayState;
 
-import box2dLight.RayHandler;
-
 public class Dormitory extends HubEvent {
 
 	private static final String name = "Dormitory";
 	private static final String title = "SELECT CHARACTER";
 
-	public Dormitory(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y, title);
+	public Dormitory(PlayState state, int width, int height, int x, int y) {
+		super(state, name, width, height, x, y, title);
 	
 	}
 	

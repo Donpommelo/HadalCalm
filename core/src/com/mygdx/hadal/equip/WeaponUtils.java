@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
@@ -11,17 +9,15 @@ import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-import box2dLight.RayHandler;
-
 public class WeaponUtils {
 
 	private static final float selfDamageReduction = 0.4f;
 	
-	public static Hitbox explode(PlayState state, float x, float y, World world, OrthographicCamera camera, RayHandler rays, 
-			final Schmuck user, int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+	public static Hitbox explode(PlayState state, float x, float y, final Schmuck user, 
+			int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		Hitbox explosion = new HitboxAnimated(state, 
 				x, y,	explosionRadius, explosionRadius, 0, 0.5f, 1, 0, new Vector2(0, 0),
-				filter, true, world, camera, rays, user, "boom") {
+				filter, true, user, "boom") {
 			
 			@Override
 			public void controller(float delta) {
@@ -30,7 +26,7 @@ public class WeaponUtils {
 			}
 		};
 
-		explosion.setUserData(new HitboxData(state, world, explosion){
+		explosion.setUserData(new HitboxData(state, explosion){
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					Vector2 kb = new Vector2(fixB.getEntity().getBody().getPosition().x - this.hbox.getBody().getPosition().x,

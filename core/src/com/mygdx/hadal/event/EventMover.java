@@ -1,13 +1,9 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * An event deleter TBA
@@ -21,16 +17,15 @@ public class EventMover extends Event {
 	private float gravity;
 	private boolean moving = false;
 	
-	public EventMover(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, float gravity) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public EventMover(PlayState state, int width, int height, int x, int y, float gravity) {
+		super(state, name, width, height, x, y);
 		this.gravity = gravity;
 	}
 	
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {

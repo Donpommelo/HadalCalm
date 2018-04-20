@@ -1,18 +1,12 @@
 package com.mygdx.hadal.equip;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
 import static com.mygdx.hadal.utils.Constants.PPM;
-
-
-
-import box2dLight.RayHandler;
 
 /**
  * Melee weapons are weapons that create MeleeHitboxes that are attached to the user.
@@ -57,13 +51,12 @@ public class MeleeWeapon extends Equipable {
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y, World world,
-			OrthographicCamera camera, RayHandler rays) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 
 		Vector3 bodyScreenPosition = new Vector3(
 				shooter.getSchmuck().getBody().getPosition().x, 
 				shooter.getSchmuck().getBody().getPosition().y, 0);
-		camera.project(bodyScreenPosition);
+		state.camera.project(bodyScreenPosition);
 		
 		float powerDiv = bodyScreenPosition.dst(x, y, 0);
 		
@@ -81,11 +74,11 @@ public class MeleeWeapon extends Equipable {
 	 * Here, the stored velo, recoil, filter are used to generate a melee hitbox
 	 */
 	@Override
-	public void execute(PlayState state, BodyData shooter, World world, OrthographicCamera camera, RayHandler rays) {
+	public void execute(PlayState state, BodyData shooter) {
 		onSwing.makeHitbox(user, state, velo, 
 				shooter.getSchmuck().getBody().getPosition().x * PPM, 
 				shooter.getSchmuck().getBody().getPosition().y * PPM, 
-				faction, world, camera, rays);
+				faction);
 		
 		user.recoil(x, y, -momentum * (1 + shooter.getMeleeMomentum()));
 
@@ -96,7 +89,7 @@ public class MeleeWeapon extends Equipable {
 	 * Override this in charge weapons or other weapons that care about mouse release.
 	 */
 	@Override
-	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {}
+	public void release(PlayState state, BodyData bodyData) {}
 
 	/**
 	 * Default behaviour for reloading is nothing.

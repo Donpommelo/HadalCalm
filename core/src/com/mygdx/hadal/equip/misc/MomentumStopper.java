@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.misc;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
@@ -13,8 +11,6 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
-
-import box2dLight.RayHandler;
 
 public class MomentumStopper extends MeleeWeapon {
 	
@@ -29,16 +25,14 @@ public class MomentumStopper extends MeleeWeapon {
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, final float x, final float y, final short filter,
-				World world, final OrthographicCamera camera,
-				final RayHandler rays) {
+		public void makeHitbox(Schmuck user, PlayState state, Vector2 startAngle, final float x, final float y, final short filter) {
 
 			MeleeHitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
-					new Vector2(0, 0), (short) 0, world, camera, rays, user);
+					new Vector2(0, 0), (short) 0, user);
 			
 			final Schmuck user2 = user;
 			
-			hbox.setUserData(new HitboxData(state, world, hbox) {
+			hbox.setUserData(new HitboxData(state, hbox) {
 						
 				@Override
 				public void onHit(HadalData fixB) {
@@ -51,7 +45,7 @@ public class MomentumStopper extends MeleeWeapon {
 							((Player) user2).getMomentums().addLast(velo);
 							fixB.getEntity().getBody().setLinearVelocity(new Vector2(0, 0));
 							
-							new FreezeBubble(state, world, camera, rays, hitboxSize / 2, swingArc / 2, (int)x, (int)y, 1.0f, filter);
+							new FreezeBubble(state, hitboxSize / 2, swingArc / 2, (int)x, (int)y, 1.0f, filter);
 						}
 					}
 				}

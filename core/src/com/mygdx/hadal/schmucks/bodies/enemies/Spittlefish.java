@@ -1,11 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 public class Spittlefish extends FloatingEnemy {
 
@@ -27,8 +23,8 @@ public class Spittlefish extends FloatingEnemy {
 	
 	private static final String spriteId = "spittlefish_swim";
 
-	public Spittlefish(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y) {
-		super(state, world, camera, rays, x, y, width, height, hbWidth, hbHeight, scale, spriteId,
+	public Spittlefish(PlayState state, int x, int y) {
+		super(state, x, y, width, height, hbWidth, hbHeight, scale, spriteId,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius);
 		
 		this.weapon = new SpittlefishAttack(this);	

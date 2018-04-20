@@ -2,23 +2,18 @@ package com.mygdx.hadal.statuses.artifact;
 
 import java.util.Arrays;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
-
-import box2dLight.RayHandler;
 
 public class GluttonousGreyGloveStatus extends Status {
 
 	private static String name = "Gloved Gluttonously";
 	private static final float lifesteal = 0.025f;
 	
-	public GluttonousGreyGloveStatus(PlayState state, World world, OrthographicCamera camera, RayHandler rays, 
-			BodyData p, BodyData v, int pr) {
-		super(state, world, camera, rays, 0, name, true, false, false, false, p, v, pr);
+	public GluttonousGreyGloveStatus(PlayState state, BodyData p, BodyData v, int pr) {
+		super(state, 0, name, true, false, false, false, p, v, pr);
 	}
 	
 	@Override

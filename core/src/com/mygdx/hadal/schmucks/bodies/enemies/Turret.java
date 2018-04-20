@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.TurretAttack;
@@ -22,8 +20,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
@@ -61,8 +57,8 @@ public class Turret extends Enemy {
 	
 	private static final float scale = 0.5f;
 	
-	public Turret(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, String type) {
-		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2));		
+	public Turret(PlayState state, int x, int y, String type) {
+		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2));		
 		this.angle = 0;
 		this.desiredAngle = 0;
 		
@@ -81,10 +77,10 @@ public class Turret extends Enemy {
 	 */
 	@Override
 	public void create() {
-		this.bodyData = new BodyData(world, this);
+		this.bodyData = new BodyData(this);
 		
 		//temp way of more Hp
-		this.bodyData.addStatus(new StatChangeStatus(state, world, camera, rays, 0, 225, bodyData, bodyData, 50));
+		this.bodyData.addStatus(new StatChangeStatus(state, 0, 225, bodyData, bodyData, 50));
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 10, 0, true, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),

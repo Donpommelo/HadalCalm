@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.bodies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.misc.Airblaster;
@@ -26,8 +24,6 @@ import com.mygdx.hadal.statuses.artifact.ScalingScalesStatus;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * The player is the entity that the player controls.
@@ -119,9 +115,8 @@ public class Player extends PhysicsSchmuck {
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, UnlockCharacter character, 
-			PlayerBodyData oldData) {
-		super(state, world, camera, rays, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
+	public Player(PlayState state, int x, int y, UnlockCharacter character, PlayerBodyData oldData) {
+		super(state, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
 		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
 		momentums = new Queue<Vector2>();
@@ -179,7 +174,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		
-		hoverBubbles = new ParticleEntity(state, world, camera, rays, this, AssetList.BUBBLE_TRAIL.toString(), 3.0f, 0.0f, false);
+		hoverBubbles = new ParticleEntity(state, this, AssetList.BUBBLE_TRAIL.toString(), 3.0f, 0.0f, false);
 		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
 		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
 		/*
@@ -199,7 +194,7 @@ public class Player extends PhysicsSchmuck {
 		state.resetController();
 		
 		if (playerData == null) {
-			this.playerData = new PlayerBodyData(world, this, state.getLoadout());
+			this.playerData = new PlayerBodyData(this, state.getLoadout());
 		} else {
 			playerData.resetData(this, world);
 		}

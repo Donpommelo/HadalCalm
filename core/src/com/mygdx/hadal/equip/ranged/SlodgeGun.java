@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -15,8 +13,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Slodged;
 import com.mygdx.hadal.utils.HitboxFactory;
-
-import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class SlodgeGun extends RangedWeapon {
@@ -48,17 +44,12 @@ public class SlodgeGun extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, final short filter,
-				World world, OrthographicCamera camera,
-				RayHandler rays) {
-			
-			final OrthographicCamera camera2 = camera;
-			final RayHandler rays2 = rays;
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, final short filter) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user, projSpriteId);
+					filter, true, user, projSpriteId);
 			
-			proj.setUserData(new HitboxData(state, world, proj) {
+			proj.setUserData(new HitboxData(state, proj) {
 				
 				@Override
 				public void onHit(HadalData fixB) {
@@ -78,15 +69,15 @@ public class SlodgeGun extends RangedWeapon {
 								this.hbox.getBody().getPosition().x * PPM , 
 								this.hbox.getBody().getPosition().y * PPM,	
 								explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-								filter, true, world, camera2, rays2, user);
+								filter, true, user);
 						
-						explosion.setUserData(new HitboxData(state, world, explosion) {
+						explosion.setUserData(new HitboxData(state, explosion) {
 							
 							@Override
 							public void onHit(HadalData fixB) {
 								if (fixB != null) {
 									if (fixB instanceof BodyData) {
-										((BodyData)fixB).addStatus(new Slodged(state, world, camera2, rays2, slowDura, user.getBodyData(), ((BodyData)fixB), 50));
+										((BodyData)fixB).addStatus(new Slodged(state, slowDura, user.getBodyData(), ((BodyData)fixB), 50));
 									}
 								}
 							}

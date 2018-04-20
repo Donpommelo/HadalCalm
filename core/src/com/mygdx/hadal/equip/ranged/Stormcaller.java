@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -13,7 +11,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
 
-import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Stormcaller extends RangedWeapon {
@@ -41,12 +38,10 @@ public class Stormcaller extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
-				World world, OrthographicCamera camera,
-				RayHandler rays) {
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, world, camera, rays, user, projSpriteId) {
+					filter, false,  user, projSpriteId) {
 				
 				float damage = 1;
 				float controllerCount = 0;
@@ -61,13 +56,13 @@ public class Stormcaller extends RangedWeapon {
 						damage += 0.15f;
 						
 						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								world, camera, rays, user, (int) width, damage, 0.0f, filter);	
+								user, (int) width, damage, 0.0f, filter);	
 					}
 					super.controller(delta);
 				}
 			};
 			
-			proj.setUserData(new HitboxData(state, world, proj) {
+			proj.setUserData(new HitboxData(state, proj) {
 				
 				@Override
 				public void onHit(HadalData fixB) {

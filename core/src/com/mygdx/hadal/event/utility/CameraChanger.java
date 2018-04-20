@@ -1,12 +1,8 @@
 package com.mygdx.hadal.event.utility;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * A CameraChanger changes what the camera is zoomed in on.
@@ -28,15 +24,14 @@ public class CameraChanger extends Event {
 	
 	private float zoom;
 	
-	public CameraChanger(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, float zoom) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public CameraChanger(PlayState state, int width, int height, int x, int y, float zoom) {
+		super(state, name, width, height, x, y);
 		this.zoom = zoom;
 	}
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {

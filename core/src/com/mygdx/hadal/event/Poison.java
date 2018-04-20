@@ -1,9 +1,7 @@
 package com.mygdx.hadal.event;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -12,8 +10,6 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * This event damages all schmucks inside of it. It can be spawned as a hazard in a map or created temporarily fro mthe effects 
@@ -41,9 +37,8 @@ public class Poison extends Event {
 	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
 	private short filter;
 	
-	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
-			int x, int y, float dps, short filter) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public Poison(PlayState state, int width, int height, int x, int y, float dps, short filter) {
+		super(state, name, width, height, x, y);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = state.getWorldDummy();
@@ -55,9 +50,8 @@ public class Poison extends Event {
 	/**
 	 * This constructor is used for when this event is created temporarily.
 	 */
-	public Poison(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height, 
-			int x, int y, float dps, float duration, Schmuck perp, short filter) {
-		super(state, world, camera, rays, name, width, height, x, y, duration);
+	public Poison(PlayState state, int width, int height, int x, int y, float dps, float duration, Schmuck perp, short filter) {
+		super(state, name, width, height, x, y, duration);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = perp;
@@ -68,7 +62,7 @@ public class Poison extends Event {
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {
@@ -100,7 +94,7 @@ public class Poison extends Event {
 				currPoisonSpawnTimer -= spawnTimerLimit;
 				int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
 				int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
-				new ParticleEntity(state, world, camera, rays, randX, randY, AssetList.POISON.toString(), 1.5f, true);
+				new ParticleEntity(state, randX, randY, AssetList.POISON.toString(), 1.5f, true);
 			}
 			
 		}

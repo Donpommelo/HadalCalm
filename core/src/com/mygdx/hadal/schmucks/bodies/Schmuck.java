@@ -1,10 +1,8 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.MoveStates;
@@ -17,7 +15,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
-import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -69,12 +66,11 @@ public class Schmuck extends HadalEntity {
 	 * @param startX: starting x position
 	 * @param startY: starting y position
 	 */
-	public Schmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
-			float startX, float startY, short hitboxFilter) {
-		super(state, world, camera, rays, w, h, startX, startY);
+	public Schmuck(PlayState state, float w, float h, float startX, float startY, short hitboxFilter) {
+		super(state, w, h, startX, startY);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
-		impact = new ParticleEntity(state, world, camera, rays, this, AssetList.IMPACT.toString(), 1.0f, 0.0f, false);
+		impact = new ParticleEntity(state, this, AssetList.IMPACT.toString(), 1.0f, 0.0f, false);
 	}
 
 	/**
@@ -84,7 +80,7 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void create() {
-		this.feetData = new FeetData(world, UserDataTypes.FEET, this); 
+		this.feetData = new FeetData(UserDataTypes.FEET, this); 
 		
 		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
 				new Vector2(1 / 2 / PPM,  - height / 2 / PPM), true, 0, 0, 0, 0,
@@ -92,7 +88,7 @@ public class Schmuck extends HadalEntity {
 		
 		feet.setUserData(feetData);
 		
-		this.leftData = new FeetData(world, UserDataTypes.FEET, this); 
+		this.leftData = new FeetData(UserDataTypes.FEET, this); 
 		
 		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
 				new Vector2(-width / 2 / PPM,  0), true, 0, 0, 0, 0,
@@ -100,7 +96,7 @@ public class Schmuck extends HadalEntity {
 		
 		leftSensor.setUserData(leftData);
 		
-		this.rightData = new FeetData(world, UserDataTypes.FEET, this); 
+		this.rightData = new FeetData(UserDataTypes.FEET, this); 
 		
 		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
 				new Vector2(width / 2 / PPM,  0), true, 0, 0, 0, 0,
@@ -169,7 +165,7 @@ public class Schmuck extends HadalEntity {
 			shootDelayCount = tool.getUseDelay();
 			
 			//Register the tool targeting the input coordinates.
-			tool.mouseClicked(delta, state, bodyData, hitbox, x, y, world, camera, rays);
+			tool.mouseClicked(delta, state, bodyData, hitbox, x, y);
 			
 			//set the tool that will be executed after delay to input tool.
 			usedTool = tool;
@@ -185,7 +181,7 @@ public class Schmuck extends HadalEntity {
 		shootCdCount = usedTool.getUseCd() * (1 - bodyData.getToolCdReduc());
 		
 		//execute the tool.
-		usedTool.execute(state, bodyData, world, camera, rays);
+		usedTool.execute(state, bodyData);
 		
 		//clear the used tool field.
 		usedTool = null;
@@ -200,7 +196,7 @@ public class Schmuck extends HadalEntity {
 	 * @param y: y screen coordinate that represents where the tool is being directed.
 	 */
 	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
-		tool.release(state, bodyData, world, camera, rays);
+		tool.release(state, bodyData);
 	}	
 	
 	@Override

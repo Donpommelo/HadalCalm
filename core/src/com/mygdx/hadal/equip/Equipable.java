@@ -1,16 +1,12 @@
 package com.mygdx.hadal.equip;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 public abstract class Equipable {	
 	
@@ -78,33 +74,24 @@ public abstract class Equipable {
 	 * @param faction: Filter of the tool. (player, enemy, neutral)
 	 * @param x: x coordinate of the target. (screen coordinates)
 	 * @param y: y coordinate of the target. (screen coordinates)
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
 	 */
-	public abstract void mouseClicked(float delta, PlayState state, BodyData bodyData, short faction, int x, int y, World world, OrthographicCamera camera, RayHandler rays);
+	public abstract void mouseClicked(float delta, PlayState state, BodyData bodyData, short faction, int x, int y);
 	
 	/**
 	 * This method is called useDelay seconds after mouseClicked(). This involves the tool actually firing off in a direction
 	 * that should be set in mouseClicked().
 	 * @param state: The play state
 	 * @param bodyData: user data of he schmuck using this tool
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
 	 */
-	public abstract void execute(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays);
+	public abstract void execute(PlayState state, BodyData bodyData);
 	
 	/**
 	 * This method is called when the player releases the mouse button for using this tool.
 	 * Default does nothing. Used mostly for charge weapons. Enemies will not care about this method.
 	 * @param state: The play state
 	 * @param bodyData: user data of he schmuck using this tool
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
 	 */
-	abstract public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays);
+	abstract public void release(PlayState state, BodyData bodyData);
 
 	/**
 	 * This method will be called every engine tick if the player is reloading.

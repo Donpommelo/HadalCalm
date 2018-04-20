@@ -1,14 +1,10 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * An event cloner TBA
@@ -19,15 +15,14 @@ public class EventCloner extends Event {
 	
 	private static final String name = "Event Spawner";
 
-	public EventCloner(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y, "event_base", 0.25f, 2);
+	public EventCloner(PlayState state, int width, int height, int x, int y) {
+		super(state, name, width, height, x, y, "event_base", 0.25f, 2);
 	}
 	
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {

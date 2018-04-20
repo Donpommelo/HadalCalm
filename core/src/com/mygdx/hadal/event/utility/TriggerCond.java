@@ -4,13 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * A Conditional trigger is like a multi-trigger, except it only triggers one of the events in its list. Which event it triggers is
@@ -39,15 +35,14 @@ public class TriggerCond extends Event {
 	private String condition;
 	Random generator = new Random();
 	
-	public TriggerCond(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, String start) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public TriggerCond(PlayState state, int width, int height, int x, int y, String start) {
+		super(state, name, width, height, x, y);
 		this.condition = start;
 	}
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {

@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.misc;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -10,8 +8,6 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
-
-import box2dLight.RayHandler;
 
 public class MomentumShooter extends RangedWeapon {
 
@@ -35,14 +31,12 @@ public class MomentumShooter extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
-				World world, OrthographicCamera camera,
-				RayHandler rays) {
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-					filter, false, world, camera, rays, user);
+					filter, false, user);
 			
-			proj.setUserData(new HitboxData(state, world, proj) {
+			proj.setUserData(new HitboxData(state, proj) {
 				
 				@Override
 				public void onHit(HadalData fixB) {

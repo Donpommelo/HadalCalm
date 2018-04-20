@@ -2,8 +2,6 @@ package com.mygdx.hadal.event;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -11,8 +9,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * A Trigger spawn is an enemy spawner that activates when triggered by another event.
@@ -47,9 +43,8 @@ public class SpawnerSchmuck extends Event {
 	private boolean defeated = false;
 	private boolean spread;
 	
-	public SpawnerSchmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, int schmuckId, int limit, Boolean spread) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, Boolean spread) {
+		super(state, name, width, height, x, y);
 		this.id = schmuckId;
 		this.limit = limit;
 		this.spawnX = x;
@@ -60,7 +55,7 @@ public class SpawnerSchmuck extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {
@@ -77,27 +72,27 @@ public class SpawnerSchmuck extends Event {
 						switch(id) {
 						case 1:
 							if (Math.random() > 0.4f) {
-								spawns.add(new Scissorfish(state, world, camera, rays, randX, randY));
+								spawns.add(new Scissorfish(state, randX, randY));
 							} else if (Math.random() > 0.7f){
-								spawns.add(new Spittlefish(state, world, camera, rays, randX, randY));
+								spawns.add(new Spittlefish(state, randX, randY));
 							} else {
-								spawns.add(new Torpedofish(state, world, camera, rays, randX, randY));
+								spawns.add(new Torpedofish(state, randX, randY));
 							}
 							break;
 						case 2:
-							spawns.add(new Scissorfish(state, world, camera, rays, randX, randY));
+							spawns.add(new Scissorfish(state, randX, randY));
 							break;
 						case 3:
-							spawns.add(new Spittlefish(state, world, camera, rays, randX, randY));
+							spawns.add(new Spittlefish(state, randX, randY));
 							break;
 						case 4:
-							spawns.add(new Torpedofish(state, world, camera, rays, randX, randY));
+							spawns.add(new Torpedofish(state, randX, randY));
 							break;
 						case 5:
-							spawns.add(new Turret(state, world, camera, rays, randX, (int) (randY - height / 2), "flak"));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "flak"));
 							break;
 						case 6:
-							spawns.add(new Turret(state, world, camera, rays, randX, (int) (randY - height / 2), "volley"));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "volley"));
 							break;
 							
 						}

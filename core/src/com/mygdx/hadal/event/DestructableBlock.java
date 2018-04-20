@@ -1,8 +1,6 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -10,8 +8,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * This is a block that can be destroyed.
@@ -32,16 +28,15 @@ public class DestructableBlock extends Event {
 	//psuedo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
-	public DestructableBlock(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			int width, int height, int x, int y, int hp) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public DestructableBlock(PlayState state, int width, int height, int x, int y, int hp) {
+		super(state, name, width, height, x, y);
 		this.hp = hp;
 	}
 
 	@Override
 	public void create() {
 
-		this.eventData = new EventData(world, this, UserDataTypes.WALL) {
+		this.eventData = new EventData(this, UserDataTypes.WALL) {
 			
 			@Override
 			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {

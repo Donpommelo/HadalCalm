@@ -2,11 +2,9 @@ package com.mygdx.hadal.equip.ranged;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -18,8 +16,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.HitboxFactory;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 public class LaserRifle extends RangedWeapon {
 
@@ -48,16 +44,14 @@ public class LaserRifle extends RangedWeapon {
 		float shortestFraction;
 		
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, final Vector2 startVelocity, float x, float y, short filter,
-				World world, OrthographicCamera camera,
-				RayHandler rays) {
+		public void makeHitbox(final Schmuck user, PlayState state, final Vector2 startVelocity, float x, float y, short filter) {
 			Vector2 endPt = new Vector2(user.getBody().getPosition()).add(startVelocity.nor().scl(projectileWidth));
 			
 			shortestFraction = 1.0f;
 			
 			if (user.getBody().getPosition().x != endPt.x || user.getBody().getPosition().y != endPt.y) {
 
-				world.rayCast(new RayCastCallback() {
+				state.getWorld().rayCast(new RayCastCallback() {
 
 					@Override
 					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
@@ -83,7 +77,7 @@ public class LaserRifle extends RangedWeapon {
 			}
 			
 			HitboxImage proj = new HitboxImage(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
-					lifespan, projDura, 0, new Vector2(0, 0), filter, true, world, camera, rays, user, projSpriteId) {
+					lifespan, projDura, 0, new Vector2(0, 0), filter, true, user, projSpriteId) {
 				
 				@Override
 				public void create() {
@@ -108,7 +102,7 @@ public class LaserRifle extends RangedWeapon {
 				
 			};
 			
-			proj.setUserData(new HitboxData(state, world, proj) {
+			proj.setUserData(new HitboxData(state, proj) {
 				
 				@Override
 				public void onHit(HadalData fixB) {

@@ -3,16 +3,12 @@ package com.mygdx.hadal.event;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * A touch Portal is a portal that transports schmucks and hboxes that touch it
@@ -35,15 +31,14 @@ public class PortalTouch extends Event {
 	//This is a set of schmucks that have just been teleported and cannot teleport instantly until they exit this event.
 	private Set<HadalEntity> justTeleported;
 	
-	public PortalTouch(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public PortalTouch(PlayState state, int width, int height, int x, int y) {
+		super(state, name, width, height, x, y);
 		justTeleported = new HashSet<HadalEntity>();
 	}
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onRelease(HadalData fixB) {

@@ -1,9 +1,7 @@
 package com.mygdx.hadal.event.hub;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -14,8 +12,6 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 public class HubEvent extends Event {
 
@@ -32,9 +28,8 @@ public class HubEvent extends Event {
 	protected static final float optionsWidth = 400.0f;
 	protected static final float optionsHeight = 30.0f;
 	
-	public HubEvent(final PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name, int width, int height,
-			int x, int y, String title) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public HubEvent(final PlayState state, String name, int width, int height, int x, int y, String title) {
+		super(state, name, width, height, x, y);
 		this.tableInner = new Table();
 		this.tableOuter = new Table();
 		
@@ -63,7 +58,7 @@ public class HubEvent extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this);
+		this.eventData = new EventData(this);
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),
@@ -101,8 +96,10 @@ public class HubEvent extends Event {
 	public void leave() {
 		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
 		mouseOut();
-		if (state.getStage().getScrollFocus().equals(options)) {
-			state.getStage().setScrollFocus(null);
+		if (state.getStage().getScrollFocus() != null) {
+			if (state.getStage().getScrollFocus().equals(options)) {
+				state.getStage().setScrollFocus(null);
+			}
 		}
 	}
 	

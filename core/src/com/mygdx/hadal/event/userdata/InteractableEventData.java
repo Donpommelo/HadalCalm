@@ -1,6 +1,5 @@
 package com.mygdx.hadal.event.userdata;
 
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -14,8 +13,8 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
  */
 public class InteractableEventData extends EventData {
 
-	public InteractableEventData(World world, Event event) {
-		super(world, event);
+	public InteractableEventData(Event event) {
+		super(event);
 	}
 	
 	@Override

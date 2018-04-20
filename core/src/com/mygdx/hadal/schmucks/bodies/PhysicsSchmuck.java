@@ -1,11 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * A Physics schmuck runs custom acceleration physics for their movement.
@@ -15,9 +11,8 @@ import box2dLight.RayHandler;
  */
 public class PhysicsSchmuck extends Schmuck {
 
-	public PhysicsSchmuck(PlayState state, World world, OrthographicCamera camera, RayHandler rays, float w, float h,
-			float startX, float startY, short hitboxFilter) {
-		super(state, world, camera, rays, w, h, startX, startY, hitboxFilter);
+	public PhysicsSchmuck(PlayState state, float w, float h, float startX, float startY, short hitboxFilter) {
+		super(state, w, h, startX, startY, hitboxFilter);
 	}
 	
 	@Override

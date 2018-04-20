@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -14,7 +12,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
 
-import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Nematocydearm extends RangedWeapon {
@@ -46,23 +43,22 @@ public class Nematocydearm extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
-				final World world, final OrthographicCamera camera, final RayHandler rays) {
+		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
 			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, world, camera, rays, user, projSpriteId) {
+					filter, true, user, projSpriteId) {
 				
 				@Override
 				public void controller(float delta) {
 					if (lifeSpan <= 0) {
-						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
+						new Poison(state, poisonRadius, poisonRadius, 
 								(int)(body.getPosition().x * PPM), (int)(body.getPosition().y * PPM), poisonDamage, poisonDuration, user, (short)(0));
 					}
 					super.controller(delta);
 				}
 			};
 			
-			proj.setUserData(new HitboxData(state, world, proj) {
+			proj.setUserData(new HitboxData(state, proj) {
 				
 				@Override
 				public void onHit(HadalData fixB) {
@@ -77,7 +73,7 @@ public class Nematocydearm extends RangedWeapon {
 						explode = true;
 					}
 					if (explode && hbox.isAlive()) {
-						new Poison(state, world, camera, rays, poisonRadius, poisonRadius,
+						new Poison(state, poisonRadius, poisonRadius,
 								(int)(this.hbox.getBody().getPosition().x * PPM), 
 								(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, user, (short)(0));
 						hbox.queueDeletion();

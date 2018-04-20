@@ -2,16 +2,12 @@ package com.mygdx.hadal.event;
 
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * This event is a pick up that gives the player a designated stored momentum.
@@ -32,16 +28,15 @@ public class MomentumPickup extends Event {
 	
 	private static final String name = "Momentum Bubble";
 
-	public MomentumPickup(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int x, int y, 
-			Vector2 momentum) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public MomentumPickup(PlayState state, int x, int y, Vector2 momentum) {
+		super(state, name, width, height, x, y);
 		this.momentum = momentum;
 		this.lifeLeft = lifespan; 
 	}
 	
 	@Override
 	public void create() {
-		this.eventData = new InteractableEventData(world, this) {
+		this.eventData = new InteractableEventData(this) {
 			
 			@Override
 			public void onInteract(Player p) {

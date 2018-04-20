@@ -1,19 +1,12 @@
 package com.mygdx.hadal.statuses;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 public class Status {
 
 	//References to game fields.
 	protected PlayState state;
-	protected World world;
-	protected OrthographicCamera camera;
-	protected RayHandler rays;
 	
 	//TODO:implement or delete these 
 	protected float duration;
@@ -24,13 +17,10 @@ public class Status {
 	
 	protected BodyData perp, vic;
 	
-	public Status(PlayState state, World world, OrthographicCamera camera, RayHandler rays,
-			float i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, BodyData p, BodyData v, int pr){
+	public Status(PlayState state, float i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, 
+			BodyData p, BodyData v, int pr){
 		this.state = state;
-		this.world = world;
-		this.camera = camera;
-		this.rays = rays;		
-		
+
 		this.duration=i;
 		this.name = n;
 		this.perm = perm;

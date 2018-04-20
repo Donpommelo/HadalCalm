@@ -1,17 +1,14 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
-import box2dLight.RayHandler;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -28,9 +25,8 @@ public class HitboxImage extends RangedHitbox {
 	 * Same as normal hitbox 
 	 */
 	public HitboxImage(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, World world, OrthographicCamera camera, RayHandler rays, Schmuck creator,
-			String spriteId) {
-		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, world, camera, rays, creator);
+			Vector2 startVelo, short filter, boolean sensor, Schmuck creator, String spriteId) {
+		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, creator);
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
 		projectileSprite = atlas.findRegion(spriteId);
 	}

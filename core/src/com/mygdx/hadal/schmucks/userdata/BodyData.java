@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.ai.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -109,8 +108,8 @@ public class BodyData extends HadalData {
 	 * @param world
 	 * @param schmuck
 	 */
-	public BodyData(World world, Schmuck schmuck) {
-		super(world, UserDataTypes.BODY, schmuck);
+	public BodyData(Schmuck schmuck) {
+		super(UserDataTypes.BODY, schmuck);
 		this.schmuck = schmuck;	
 		
 		this.baseStats = new float[52];

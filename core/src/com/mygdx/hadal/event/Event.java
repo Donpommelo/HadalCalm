@@ -1,12 +1,10 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.AssetList;
@@ -15,7 +13,6 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import static com.mygdx.hadal.utils.Constants.PPM;
-import box2dLight.RayHandler;
 
 /**
  * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.
@@ -56,9 +53,9 @@ public class Event extends HadalEntity {
 	/**
 	 * Constructor for permanent events.
 	 */
-	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
+	public Event(PlayState state, String name,
 			int width, int height, int x, int y) {
-		super(state, world, camera, rays, width, height, x, y);
+		super(state, width, height, x, y);
 		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
@@ -69,9 +66,8 @@ public class Event extends HadalEntity {
 	/**
 	 * Events with sprites
 	 */
-	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
-			int width, int height, int x, int y, String sprite, float scale, int scaleAlign) {
-		super(state, world, camera, rays, width, height, x, y);
+	public Event(PlayState state, String name, int width, int height, int x, int y, String sprite, float scale, int scaleAlign) {
+		super(state, width, height, x, y);
 		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
@@ -87,9 +83,8 @@ public class Event extends HadalEntity {
 	/**
 	 * Constructor for temporary events.
 	 */
-	public Event(PlayState state, World world, OrthographicCamera camera, RayHandler rays, String name,
-			int width, int height, int x, int y, float duration) {
-		super(state, world, camera, rays, width, height, x, y);
+	public Event(PlayState state, String name, int width, int height, int x, int y, float duration) {
+		super(state, width, height, x, y);
 		this.name = name;
 		this.temporary = true;
 		this.duration = duration;
@@ -178,7 +173,7 @@ public class Event extends HadalEntity {
 	
 	public void setStandardParticle(String particle) {
 		this.standardParticle = 
-				new ParticleEntity(state, world, camera, rays, this, "sprites/particle/" + particle + ".particle", 0, 0, false);
+				new ParticleEntity(state, this, "sprites/particle/" + particle + ".particle", 0, 0, false);
 	}
 
 	public ParticleEntity getStandardParticle() {
@@ -186,7 +181,7 @@ public class Event extends HadalEntity {
 	}
 
 	public void addAmbientParticle(String particle) {
-		new ParticleEntity(state, world, camera, rays, this, "sprites/particle/" + particle + ".particle", 0, 0, true);	
+		new ParticleEntity(state, this, "sprites/particle/" + particle + ".particle", 0, 0, true);	
 	}
 
 	@Override

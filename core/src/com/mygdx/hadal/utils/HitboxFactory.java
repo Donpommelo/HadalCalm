@@ -1,12 +1,8 @@
 package com.mygdx.hadal.utils;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * The HitboxFactory is a thing that creates a hitbox when asked.
@@ -28,6 +24,5 @@ public abstract class HitboxFactory {
 	 * @param rays: current rays
 	 * @return: The Hitbox entity created.
 	 */
-	public abstract void makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter,
-			World world, OrthographicCamera camera, RayHandler rays);
+	public abstract void makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter);
 }

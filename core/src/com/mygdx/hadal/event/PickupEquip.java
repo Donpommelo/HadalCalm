@@ -3,8 +3,6 @@ package com.mygdx.hadal.event;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
@@ -15,8 +13,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-
-import box2dLight.RayHandler;
 
 /**
  * This event, when interacted with, will give the player a new weapon.
@@ -43,9 +39,8 @@ public class PickupEquip extends Event {
 	//Can this event be interacted with atm?
 	private boolean on;
 	
-	public PickupEquip(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y, String pool) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public PickupEquip(PlayState state, int width, int height, int x, int y, String pool) {
+		super(state, name, width, height, x, y);
 		this.on = true;
 		
 		//Set this pickup to a random weapon in the input pool
@@ -54,7 +49,7 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new InteractableEventData(world, this) {
+		this.eventData = new InteractableEventData(this) {
 			
 			@Override
 			public void onInteract(Player p) {

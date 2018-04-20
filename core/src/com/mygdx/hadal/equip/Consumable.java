@@ -1,16 +1,12 @@
 package com.mygdx.hadal.equip;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 public class Consumable extends Equipable {
 
@@ -29,13 +25,12 @@ public class Consumable extends Equipable {
 	}
 
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData bodyData, short faction, int x, int y, World world,
-			OrthographicCamera camera, RayHandler rays) {
+	public void mouseClicked(float delta, PlayState state, BodyData bodyData, short faction, int x, int y) {
 		//Convert body coordinates into screen coordinates to calc a starting velocity for the projectile.
 		Vector3 bodyScreenPosition = new Vector3(
 				bodyData.getSchmuck().getBody().getPosition().x,
 				bodyData.getSchmuck().getBody().getPosition().y, 0);
-		camera.project(bodyScreenPosition);
+		state.camera.project(bodyScreenPosition);
 		
 		float powerDiv = bodyScreenPosition.dst(x, y, 0);
 		
@@ -51,7 +46,7 @@ public class Consumable extends Equipable {
 	}
 
 	@Override
-	public void execute(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {
+	public void execute(PlayState state, BodyData bodyData) {
 		chargesLeft--;
 		
 		if (chargesLeft <= 0) {
@@ -64,7 +59,7 @@ public class Consumable extends Equipable {
 	}
 
 	@Override
-	public void release(PlayState state, BodyData bodyData, World world, OrthographicCamera camera, RayHandler rays) {}
+	public void release(PlayState state, BodyData bodyData) {}
 
 	@Override
 	public void reload(float delta) {}

@@ -1,12 +1,8 @@
 package com.mygdx.hadal.event.utility;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * A Redirecttrigger is an event that can trigger another event while saying that another event did it.
@@ -31,14 +27,13 @@ public class TriggerRedirect extends Event {
 
 	private Event blame ;
 	
-	public TriggerRedirect(PlayState state, World world, OrthographicCamera camera, RayHandler rays, int width, int height,
-			int x, int y) {
-		super(state, world, camera, rays, name, width, height, x, y);
+	public TriggerRedirect(PlayState state, int width, int height, int x, int y) {
+		super(state, name, width, height, x, y);
 	}
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(world, this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {

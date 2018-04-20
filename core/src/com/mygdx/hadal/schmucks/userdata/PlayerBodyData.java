@@ -42,8 +42,8 @@ public class PlayerBodyData extends BodyData {
 	
 	private Player player;
 	
-	public PlayerBodyData(World world, Player body, Loadout loadout) {
-		super(world, body);
+	public PlayerBodyData(Player body, Loadout loadout) {
+		super(body);
 		this.player = body;
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
@@ -70,8 +70,7 @@ public class PlayerBodyData extends BodyData {
 		this.setEntity(newPlayer);
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
-		this.world = newWorld;
-		
+
 		clearStatuses();
 		
 		for (Equipable e : multitools) {
@@ -81,8 +80,7 @@ public class PlayerBodyData extends BodyData {
 		}
 		for (Artifact a : artifacts) {
 			if (a != null) {
-				for (Status s : a.loadEnchantments(player.getState(), world, player.getState().camera, 
-						player.getState().getRays(), this)) {
+				for (Status s : a.loadEnchantments(player.getState(), this)) {
 					addStatus(s);
 				}
 			}
@@ -209,8 +207,7 @@ public class PlayerBodyData extends BodyData {
 		
 		Artifact newArtifact =  UnlocktoItem.getUnlock(artifact);
 		
-		for (Status s : newArtifact.loadEnchantments(player.getState(), world, player.getState().camera, 
-				player.getState().getRays(), this)) {
+		for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
 			addStatus(s);
 		}
 		
