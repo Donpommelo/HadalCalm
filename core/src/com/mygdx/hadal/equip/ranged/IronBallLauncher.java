@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -39,31 +39,12 @@ public class IronBallLauncher extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-					filter, false, user, projSpriteId) {
-				
-				@Override
-				public void controller(float delta) {
-					lifeSpan -= delta;
-					if (lifeSpan <= 0) {
-							queueDeletion();
-					}
-				}
-			};
+			HitboxImage hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
+					filter, false, user, projSpriteId);
 			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-					}
-					hbox.particle.onForBurst(0.25f);
-				}
-			});		
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
 		}
-		
 	};
 	
 	public IronBallLauncher(Schmuck user) {

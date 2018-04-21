@@ -8,14 +8,15 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.HitboxFactory;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 public class LaserRifle extends RangedWeapon {
 
@@ -76,42 +77,23 @@ public class LaserRifle extends RangedWeapon {
 				}, user.getBody().getPosition(), endPt);
 			}
 			
-			HitboxImage proj = new HitboxImage(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
+			Hitbox hbox = new HitboxImage(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
 					lifespan, projDura, 0, new Vector2(0, 0), filter, true, user, projSpriteId) {
 				
 				@Override
 				public void create() {
-					this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
-							(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
-							filter, true, data);
+					super.create();
 					
 					//Rotate hitbox to match angle of fire.
 					float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
 					Vector2 newPosition = this.body.getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
 					this.body.setTransform(newPosition.x, newPosition.y, newAngle);
 				}
-				
-				@Override
-				public void controller(float delta) {
-					this.body.setLinearVelocity(0, 0);
-					lifeSpan -= delta;
-					if (lifeSpan <= 0) {
-						queueDeletion();
-					}
-				}
-				
 			};
 			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-					}
-				}
-			});		
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
+			hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		}
 	};
 	

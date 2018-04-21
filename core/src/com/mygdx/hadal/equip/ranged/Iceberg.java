@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -39,48 +39,50 @@ public class Iceberg extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, 
-					startVelocity, filter, false, user, projSpriteId) {
+			HitboxImage hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, 
+					startVelocity, filter, false, user, projSpriteId);
+			
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				float controllerCount = 0;
 				float lastX = 0;
 				
 				@Override
 				public void create() {
-					super.create();
-					body.setTransform(body.getPosition(), 0);
+					hbox.getBody().setTransform(hbox.getBody().getPosition(), 0);
 				}
 				
 				@Override
 				public void controller(float delta) {
-					lifeSpan -= delta;
-					if (lifeSpan <= 0) {
-						queueDeletion();
+					hbox.setLifeSpan(hbox.getLifeSpan() - delta);
+					if (hbox.getLifeSpan() <= 0) {
+						hbox.die();
 					}
 					controllerCount+=delta;
 					if (controllerCount >= 1/60f) {
 						
-						if (body.getLinearVelocity().x == 0) {
-							body.setLinearVelocity(-lastX, body.getLinearVelocity().y);
+						if (hbox.getBody().getLinearVelocity().x == 0) {
+							hbox.getBody().setLinearVelocity(-lastX, hbox.getBody().getLinearVelocity().y);
 						}
 						
-						lastX = body.getLinearVelocity().x;
+						lastX = hbox.getBody().getLinearVelocity().x;
 					}
 				}
-			};
-			
-			proj.setFriction(0);
-			
-			proj.setUserData(new HitboxData(state, proj) {
 				
 				@Override
-				public void onHit(HadalData fixB) {
-					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-					}
+				public void push(float impulseX, float impulseY) {
+					hbox.getBody().applyLinearImpulse(new Vector2(impulseX, impulseY).scl(0.2f), hbox.getBody().getWorldCenter(), true);
 				}
-			});		
+				
+				@Override
+				public void die() {
+					hbox.queueDeletion();
+				}
+				
+			});
+			
+			hbox.setFriction(0);	
 		}
 		
 	};

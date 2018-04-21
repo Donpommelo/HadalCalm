@@ -4,6 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -33,10 +36,12 @@ public class MomentumShooter extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			Hitbox proj = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
+			Hitbox hbox = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
 					filter, false, user);
 			
-			proj.setUserData(new HitboxData(state, proj) {
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				@Override
 				public void onHit(HadalData fixB) {
@@ -50,9 +55,8 @@ public class MomentumShooter extends RangedWeapon {
 							}
 						}
 					}
-					super.onHit(fixB);
 				}
-			});		
+			});	
 		}
 	};
 	

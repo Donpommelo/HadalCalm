@@ -1,15 +1,14 @@
 package com.mygdx.hadal.equip.enemy;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.equip.WeaponUtils;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -44,37 +43,15 @@ public class TorpedofishAttack extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, true, user, spriteId);
 			
-			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					boolean explode = false;
-					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-							explode = true;
-						}
-						
-					} else {
-						explode = true;
-					}
-					if (explode && hbox.isAlive()) {
-						WeaponUtils.explode(state, hbox.getBody().getPosition().x * PPM , hbox.getBody().getPosition().y * PPM, 
-								user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
-						hbox.queueDeletion();
-					}
-					
-				}
-			});		
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
+			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		}		
-	};
-	
-	
+	};	
 
 	public TorpedofishAttack(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);

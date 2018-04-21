@@ -3,9 +3,11 @@ package com.mygdx.hadal.equip.enemy;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStandardStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -36,22 +38,13 @@ public class SpittlefishAttack extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			HitboxAnimated proj = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+			Hitbox hbox = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, true, user, spriteId);
 			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-					}
-					super.onHit(fixB);
-				}
-			});		
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
 		}
-		
 	};
 	
 	public SpittlefishAttack(Schmuck user) {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -53,18 +54,8 @@ public class HitboxData extends HadalData {
 	 * @param fixB: The fixture the hitbox collides with.
 	 */
 	public void onHit(HadalData fixB) {
-		if (fixB == null) {
-			hbox.setDura(0);
-			hbox.particle.onForBurst(0.25f);
-		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			hbox.setDura(0);
-			hbox.particle.onForBurst(0.25f);
-		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
-			hbox.setDura(hbox.getDura() - 1);
-			hbox.particle.onForBurst(0.25f);
-		}
-		if (hbox.getDura() <= 0) {
-			hbox.queueDeletion();
+		for (HitboxStrategy s : hbox.getStrategies()) {
+			s.onHit(fixB);
 		}
 	}
 

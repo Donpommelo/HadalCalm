@@ -3,9 +3,11 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -41,34 +43,31 @@ public class Boomerang extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					(short) 0, false, user, projSpriteId) {
+			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
+					(short) 0, false, user, projSpriteId);
+			
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				float controllerCount = 0;
 				
 				@Override
 				public void create() {
-					super.create();
-					body.setAngularVelocity(5);
+					hbox.getBody().setAngularVelocity(5);
 				}
 				
 				@Override
 				public void controller(float delta) {
 					controllerCount+=delta;
+
 					if (controllerCount >= 1/60f) {
-						Vector2 diff = new Vector2(user.getBody().getPosition().x * PPM - body.getPosition().x * PPM, 
-								user.getBody().getPosition().y * PPM - body.getPosition().y * PPM);
-						body.applyForceToCenter(diff.nor().scl(projectileSpeed * body.getMass() * returnAmp), true);
-						setLifeSpan(getLifeSpan() - delta);
-						if (getLifeSpan() <= 0) {
-							queueDeletion();
-						}
+						Vector2 diff = new Vector2(user.getBody().getPosition().x * PPM - hbox.getPosition().x * PPM, 
+								user.getBody().getPosition().y * PPM - hbox.getPosition().y * PPM);
+						hbox.getBody().applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getBody().getMass() * returnAmp), true);
+
 						controllerCount = 0;
 					}
 				}
-			};
-			
-			proj.setUserData(new HitboxData(state, proj) {
 				
 				@Override
 				public void onHit(HadalData fixB) {
@@ -86,9 +85,9 @@ public class Boomerang extends RangedWeapon {
 						}
 					}
 				}
-			});		
+
+			});	
 		}
-		
 	};
 	
 	public Boomerang(Schmuck user) {

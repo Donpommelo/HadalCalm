@@ -369,4 +369,20 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	public void setBehavior(SteeringBehavior<Vector2> behavior) {
 		this.behavior = behavior;
 	}
+	
+	public void setBoundingRadius(float radius) {
+		this.boundingRadius = radius;
+	}
+	
+	public void setDecelerationRad(float radius) {
+		this.decelerationRad = radius;
+	}
+	
+	public SteeringAcceleration<Vector2> getSteeringOutput() {
+		return steeringOutput;
+	}
+	
+	public void setSteeringOutput(SteeringAcceleration<Vector2> steeringOutput) {
+		this.steeringOutput = steeringOutput;
+	}	
 }

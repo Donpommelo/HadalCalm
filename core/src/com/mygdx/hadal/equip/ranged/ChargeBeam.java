@@ -4,9 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -81,10 +83,12 @@ public class ChargeBeam extends RangedWeapon {
 			final float damageMultiplier2 = damageMultiplier;
 			final float kbMultiplier2 = kbMultiplier;
 			
-			HitboxImage proj = new HitboxImage(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
+			HitboxImage hbox = new HitboxImage(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
 					filter, true, user, projSpriteId);
 			
-			proj.setUserData(new HitboxData(state, proj) {
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				@Override
 				public void onHit(HadalData fixB) {
@@ -93,11 +97,9 @@ public class ChargeBeam extends RangedWeapon {
 								this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2), 
 								user.getBodyData(), true, DamageTypes.RANGED);
 					}
-					super.onHit(fixB);
 				}
-			});		
+			});
 		}
-		
 	};
 	
 	public ChargeBeam(Schmuck user) {

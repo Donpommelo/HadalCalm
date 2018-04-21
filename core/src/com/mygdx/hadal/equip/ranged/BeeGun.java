@@ -1,18 +1,16 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxHomingStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnHitDieStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -61,89 +59,8 @@ public class BeeGun extends RangedWeapon {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			final HitboxAnimated proj = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
 					filter, false, user, projSpriteId) {
-				
-				private Schmuck homing;
-				private Schmuck homeAttempt;
-				private Fixture closestFixture;
-				
-				private float shortestFraction = 1.0f;
-			  	
-				{
-					this.maxLinearSpeed = maxLinSpd;
-					this.maxLinearAcceleration = maxLinAcc;
-					this.maxAngularSpeed = maxAngSpd;
-					this.maxAngularAcceleration = maxAngAcc;
-					
-					this.boundingRadius = boundingRad;
-					this.decelerationRad = decelerationRadius;
-					
-					this.tagged = false;
-					this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
-				}
-				
-				@Override
-				public void controller(float delta) {
-					super.controller(delta);
-					
-					if (homing != null && homing.isAlive()) {
-						if (behavior != null) {
-							behavior.calculateSteering(steeringOutput);
-							applySteering(delta);
-						}
-					} else {
-						world.QueryAABB(new QueryCallback() {
-
-							@Override
-							public boolean reportFixture(Fixture fixture) {
-								if (fixture.getUserData() instanceof BodyData) {
-									
-									homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
-									shortestFraction = 1.0f;
-									
-								  	if (body.getPosition().x != homeAttempt.getPosition().x || 
-								  			body.getPosition().y != homeAttempt.getPosition().y) {
-										world.rayCast(new RayCastCallback() {
-
-											@Override
-											public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-												if (fixture.getUserData() == null) {
-													if (fraction < shortestFraction) {
-														shortestFraction = fraction;
-														closestFixture = fixture;
-														return fraction;
-													}
-												} else if (fixture.getUserData() instanceof BodyData) {
-													if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
-														if (fraction < shortestFraction) {
-															shortestFraction = fraction;
-															closestFixture = fixture;
-															return fraction;
-														}
-													}
-												} 
-												return -1.0f;
-											}
-											
-										}, getBody().getPosition(), homeAttempt.getPosition());	
-										
-										if (closestFixture != null) {
-											if (closestFixture.getUserData() instanceof BodyData) {
-												homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
-												setTarget(homing);
-											}
-										}	
-									}									
-								}
-								return true;
-							}
-							
-						}, 
-						body.getPosition().x - homeRadius, body.getPosition().y - homeRadius, 
-						body.getPosition().x + homeRadius, body.getPosition().y + homeRadius);
-					}
-				}
 				
 				@Override
 				public void render(SpriteBatch batch) {
@@ -167,19 +84,12 @@ public class BeeGun extends RangedWeapon {
 				}
 			};
 			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					if (fixB != null) {
-						fixB.receiveDamage(baseDamage, hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-						super.onHit(fixB);
-					}
-				}
-			});		
-		}
-		
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
+			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, 
+					maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, filter));	
+		}	
 	};
 	
 	public BeeGun(Schmuck user) {

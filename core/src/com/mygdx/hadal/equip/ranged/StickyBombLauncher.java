@@ -3,10 +3,12 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.StickyHitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStickStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -44,17 +46,17 @@ public class StickyBombLauncher extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, final short filter) {
 			
-			StickyHitbox proj = new StickyHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
+			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
 					filter, true, user, projSpriteId);
 			
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+			hbox.addStrategy(new HitboxOnContactStickStrategy(state, hbox, user.getBodyData(), true, true));
+			
 			if (bombsLaid.size >= maxBombs) {
-				WeaponUtils.explode(state, 
-						bombsLaid.first().getBody().getPosition().x * PPM, 
-						bombsLaid.first().getBody().getPosition().y * PPM, 
-						user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
-				bombsLaid.removeFirst().queueDeletion();
+				bombsLaid.removeFirst().die();
 			}
-			bombsLaid.addLast(proj);
+			bombsLaid.addLast(hbox);
 			
 		}
 		
@@ -90,11 +92,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	public void reload(float delta) {
 		
 		for (Hitbox bomb : bombsLaid) {
-			WeaponUtils.explode(user.getState(), 
-					bomb.getBody().getPosition().x * PPM, 
-					bomb.getBody().getPosition().y * PPM, 
-					user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
-			bomb.queueDeletion();
+			bomb.die();
 		}
 		bombsLaid.clear();
 		

@@ -1,21 +1,18 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.equip.WeaponUtils;
-import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxMouseStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
-
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class LaserGuidedRocket extends RangedWeapon {
 
@@ -57,62 +54,14 @@ public class LaserGuidedRocket extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			final HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, user, projSpriteId) {
-				
-				{
-					setTarget(state.getMouse());
-					this.maxLinearSpeed = maxLinSpd;
-					this.maxLinearAcceleration = maxLinAcc;
-					this.maxAngularSpeed = maxAngSpd;
-					this.maxAngularAcceleration = maxAngAcc;
-					
-					this.boundingRadius = boundingRad;
-					this.decelerationRad = decelerationRadius;
-					
-					this.tagged = false;
-					this.steeringOutput = new SteeringAcceleration<Vector2>(new Vector2());
-				}
-				
-				@Override
-				public void controller(float delta) {					
-					if (behavior != null) {
-						behavior.calculateSteering(steeringOutput);
-						applySteering(delta);
-					}
-					super.controller(delta);
-					
-					if (lifeSpan <= 0) {
-						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								user, explosionRadius, explosionDamage, explosionKnockback, (short) 0);
-					}
-				}
-			};
-			
-			new ParticleEntity(state, proj, AssetList.BUBBLE_TRAIL.toString(), 1.0f, 0.0f, true);			
-			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					boolean explode = false;
-					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-							explode = true;
-						}
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-					} else {
-						explode = true;
-					}
-					if (explode && hbox.isAlive()) {
-						WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
-								user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
-						hbox.queueDeletion();
-					}
-					
-				}
-			});		
+			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, true, user, projSpriteId);
+
+			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+			hbox.addStrategy(new HitboxMouseStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		}
 	};
 	

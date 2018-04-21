@@ -3,17 +3,9 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
-import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class TorpedoLauncher extends RangedWeapon {
 
@@ -39,50 +31,14 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float explosionKnockback = 25.0f;
 
 	private final static String weapSpriteId = "torpedolauncher";
-	private final static String projSpriteId = "torpedo";
-	
+
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, user, projSpriteId) {
-				
-				@Override
-				public void controller(float delta) {
-					super.controller(delta);
-					if (lifeSpan <= 0) {
-						WeaponUtils.explode(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
-					}
-				}
-			};
-			
-			new ParticleEntity(state, proj, AssetList.BUBBLE_TRAIL.toString(), 3.0f, 0.0f, true);
-			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					boolean explode = false;
-					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-							explode = true;
-						}
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-					} else {
-						explode = true;
-					}
-					if (explode && hbox.isAlive()) {
-						WeaponUtils.explode(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
-								user, explosionRadius, explosionDamage, explosionKnockback, (short)0);
-						hbox.queueDeletion();
-					}
-					
-				}
-			});		
+			WeaponUtils.createTorpedo(state, x, y, user, baseDamage, knockback, projectileWidth, projectileHeight, gravity, lifespan, projDura,
+					startVelocity, explosionRadius, explosionDamage, explosionKnockback, filter);	
 		}
 	};
 	

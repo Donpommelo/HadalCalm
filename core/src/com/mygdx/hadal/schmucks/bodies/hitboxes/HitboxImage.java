@@ -16,7 +16,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
  */
 public class HitboxImage extends RangedHitbox {
 	
-	private TextureRegion projectileSprite;
+	protected TextureRegion projectileSprite;
 	
 	/**
 	 * Same as normal hitbox 

@@ -2,10 +2,9 @@ package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
@@ -14,6 +13,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
+
+import java.util.ArrayList;
 
 /**
  * A hitbox is a box that hits things.
@@ -52,7 +53,7 @@ public class Hitbox extends HadalEntity {
 	//This is the Schmuck that created the hitbox
 	protected Schmuck creator;
 	
-	public ParticleEntity particle;
+	private ArrayList<HitboxStrategy> strategies, add, remove;
 	
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
@@ -72,13 +73,18 @@ public class Hitbox extends HadalEntity {
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
 		this.startVelo = new Vector2(startVelo);
 		
-		particle = new ParticleEntity(state, this, AssetList.SPARK_TRAIL.toString(), 1.5f, 0.0f, false);
+		this.strategies = new ArrayList<HitboxStrategy>();
+		this.add = new ArrayList<HitboxStrategy>();
+		this.remove = new ArrayList<HitboxStrategy>();
 	}
 	
 	/**
 	 * Create the hitbox body. User data is initialized separately.
 	 */
 	public void create() {
+		
+		this.data = new HitboxData(state, this);
+		
 		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 				filter, true, data);
@@ -90,25 +96,9 @@ public class Hitbox extends HadalEntity {
 				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
 		}
 		
-		//Rotate hitbox to match angle of fire.
-		float newAngle = (float)(Math.atan2(startVelo.y , startVelo.x));
-		Vector2 newPosition = new Vector2(startX / PPM, startY / PPM).add(startVelo.nor().scl(.5f));
-		this.body.setTransform(newPosition.x, newPosition.y, newAngle);
-	}
-	
-	/**
-	 * This sets a hitbox's user data. It should always be called immediately after creating the hitbox body by the hitboxfactory of a weapon.
-	 * The reason this is done is b/c the hitbox user data needs the hitbox as an input but is created as an anonymous inner class.
-	 * This lets us avoid having multiple projectile classes that need data passed to them from a weapon.
-	 * @param userData: the entity's user data
-	 */
-	public void setUserData(HitboxData userData) {
-		
-		data = userData;
-		
-		//I don't know if this will ever be necessary, but better to be safe. 
-		//I think this can be solved with some clever <? extends whatever> but idk
-		hadalData = userData;
+		for (HitboxStrategy s : strategies) {
+			s.create();
+		}
 	}
 	
 	/**
@@ -116,25 +106,40 @@ public class Hitbox extends HadalEntity {
 	 * This also makes hitboxes angled in the direction of their velocity. Overload this if you don't want that.
 	 */
 	public void controller(float delta) {
-		lifeSpan -= delta;
-		if (lifeSpan <= 0) {
-			queueDeletion();
+		
+		for (HitboxStrategy s : add) {
+			strategies.add(s);
 		}
-		this.body.setTransform(body.getPosition().x, body.getPosition().y, 
-				(float)(Math.atan2(body.getLinearVelocity().y , body.getLinearVelocity().x)));
-
+		add.clear();
+		
+		for (HitboxStrategy s : remove) {
+			strategies.remove(s);
+		}
+		remove.clear();
+		
+		for (HitboxStrategy s : strategies) {
+			s.controller(delta);
+		}
 	}
 	
 	@Override
-	public void push(float impulseX, float impulseY) {
-		
-		//Temp fix to forces applying too much push to smaller, lighter hboxes.
-		body.applyLinearImpulse(new Vector2(impulseX, impulseY).scl(0.2f), body.getWorldCenter(), true);
+	public void push(float impulseX, float impulseY) {		
+		for (HitboxStrategy s : strategies) {
+			s.push(impulseX, impulseY);
+		}
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
-		
+		for (HitboxStrategy s : strategies) {
+			s.render(batch);
+		}
+	}
+	
+	public void die() {
+		for (HitboxStrategy s : strategies) {
+			s.die();
+		}
 	}
 	
 	@Override
@@ -142,6 +147,18 @@ public class Hitbox extends HadalEntity {
 		return data;
 	}	
 	
+	public ArrayList<HitboxStrategy> getStrategies() {
+		return strategies;
+	}
+	
+	public void addStrategy(HitboxStrategy strat) {
+		add.add(strat);
+	}
+	
+	public void removeStrategy(HitboxStrategy strat) {
+		remove.add(strat);
+	}
+
 	public float getLifeSpan() {
 		return lifeSpan;
 	}

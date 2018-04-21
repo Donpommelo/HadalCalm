@@ -2,17 +2,16 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.event.Poison;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
-import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnDiePoisonStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
-
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Nematocydearm extends RangedWeapon {
 
@@ -45,42 +44,13 @@ public class Nematocydearm extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
 			
-			HitboxImage proj = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, user, projSpriteId) {
-				
-				@Override
-				public void controller(float delta) {
-					if (lifeSpan <= 0) {
-						new Poison(state, poisonRadius, poisonRadius, 
-								(int)(body.getPosition().x * PPM), (int)(body.getPosition().y * PPM), poisonDamage, poisonDuration, user, (short)(0));
-					}
-					super.controller(delta);
-				}
-			};
+			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, true, user, projSpriteId);
 			
-			proj.setUserData(new HitboxData(state, proj) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					boolean explode = false;
-					if (fixB != null) {
-						if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-							explode = true;
-						}
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), true, DamageTypes.RANGED);
-					} else {
-						explode = true;
-					}
-					if (explode && hbox.isAlive()) {
-						new Poison(state, poisonRadius, poisonRadius,
-								(int)(this.hbox.getBody().getPosition().x * PPM), 
-								(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, user, (short)(0));
-						hbox.queueDeletion();
-					}
-					
-				}
-			});		
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxOnDiePoisonStrategy(state, hbox, user.getBodyData(), poisonRadius, poisonDamage, poisonDuration, (short)0));
 		}
 	};
 	
