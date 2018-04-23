@@ -1,6 +1,7 @@
 package com.mygdx.hadal.utils;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
@@ -24,5 +25,5 @@ public abstract class HitboxFactory {
 	 * @param rays: current rays
 	 * @return: The Hitbox entity created.
 	 */
-	public abstract void makeHitbox(Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter);
+	public abstract void makeHitbox(Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter);
 }

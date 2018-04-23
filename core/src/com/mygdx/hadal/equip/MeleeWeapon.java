@@ -72,7 +72,7 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		onSwing.makeHitbox(user, state, weaponVelo, 
+		onSwing.makeHitbox(user, state, this, weaponVelo, 
 				shooter.getSchmuck().getBody().getPosition().x * PPM, 
 				shooter.getSchmuck().getBody().getPosition().y * PPM, 
 				faction);

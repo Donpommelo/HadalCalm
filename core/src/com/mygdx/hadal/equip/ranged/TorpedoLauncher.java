@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -35,9 +36,9 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
+		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
-			WeaponUtils.createTorpedo(state, x, y, user, baseDamage, knockback, projectileWidth, projectileHeight, gravity, lifespan, projDura,
+			WeaponUtils.createTorpedo(state, x, y, user, tool, baseDamage, knockback, projectileWidth, projectileHeight, gravity, lifespan, projDura,
 					startVelocity, explosionRadius, explosionDamage, explosionKnockback, filter);	
 		}
 	};

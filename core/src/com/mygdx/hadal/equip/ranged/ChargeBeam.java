@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
@@ -42,7 +43,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {			
+		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {			
 			
 			if (chargeDura >= maxCharge) {
 				chargeStage = 3;
@@ -95,7 +96,7 @@ public class ChargeBeam extends RangedWeapon {
 					if (fixB != null) {
 						fixB.receiveDamage(baseDamage * damageMultiplier2, 
 								this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2), 
-								user.getBodyData(), true, DamageTypes.RANGED);
+								user.getBodyData(), tool, true, DamageTypes.RANGED);
 					}
 				}
 			});

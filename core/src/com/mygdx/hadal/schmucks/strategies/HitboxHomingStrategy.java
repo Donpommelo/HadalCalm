@@ -18,13 +18,22 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 	
 	private float shortestFraction = 1.0f;
 	
-	private float homeRadius;
+	private float radius;
 	private short filter;
+	
+	private static final float maxLinSpd = 500;
+	private static final float maxLinAcc = 5000;
+	private static final float maxAngSpd = 3600;
+	private static final float maxAngAcc = 360;
+	
+	private static final int boundingRad = 500;
+	private static final int homeRadius = 10;
+	private static final int decelerationRadius = 0;
 	
 	public HitboxHomingStrategy(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
 			float maxAngAcc, int boundingRad, int decelerationRadius, float radius, short filter) {
 		super(state, proj, user);
-		this.homeRadius = radius;
+		this.radius = radius;
 		this.filter = filter;
 		
 		hbox.setMaxLinearSpeed(maxLinSpd);
@@ -37,6 +46,10 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 		
 		hbox.setTagged(false);
 		hbox.setSteeringOutput(new SteeringAcceleration<Vector2>(new Vector2()));
+	}
+	
+	public HitboxHomingStrategy(PlayState state, Hitbox proj, BodyData user, short filter) {
+		this(state, proj, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, homeRadius, decelerationRadius, filter);
 	}
 	
 	@Override
@@ -94,8 +107,8 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 				}
 				
 			}, 
-			hbox.getBody().getPosition().x - homeRadius, hbox.getBody().getPosition().y - homeRadius, 
-			hbox.getBody().getPosition().x + homeRadius, hbox.getBody().getPosition().y + homeRadius);
+			hbox.getBody().getPosition().x - radius, hbox.getBody().getPosition().y - radius, 
+			hbox.getBody().getPosition().x + radius, hbox.getBody().getPosition().y + radius);
 		}
 	}	
 }

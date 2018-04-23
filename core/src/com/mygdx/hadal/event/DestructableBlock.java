@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -39,7 +40,8 @@ public class DestructableBlock extends Event {
 		this.eventData = new EventData(this, UserDataTypes.WALL) {
 			
 			@Override
-			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool,
+					Boolean procEffects, DamageTypes... tags) {
 				hp -= basedamage;
 				
 				if (hp <= 0) {

@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.event.FreezeBubble;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -27,7 +28,7 @@ public class MomentumStopper extends MeleeWeapon {
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startAngle, final float x, final float y, final short filter) {
+		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startAngle, final float x, final float y, final short filter) {
 
 			Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
 					new Vector2(0, 0), (short) 0, user);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.ai.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -102,6 +103,8 @@ public class BodyData extends HadalData {
 	protected ArrayList<Status> statuses;
 	protected ArrayList<Status> statusesChecked;	
 	
+	protected Equipable currentTool;
+	
 	/**
 	 * This is created upon the create() method of any schmuck.
 	 * Schmucks are the Body data type.
@@ -129,7 +132,7 @@ public class BodyData extends HadalData {
 		currentFuel = getMaxHp();		
 	}
 	
-	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, DamageTypes... tags) {
+	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, DamageTypes... tags) {
 		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
 		for(Status s : this.statusesChecked){
@@ -140,29 +143,8 @@ public class BodyData extends HadalData {
 		
 		while(!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
-			switch(procTime) {
-			case 0:
-				tempStatus.statChanges(this);
-				break;
-			case 1:
-				finalAmount = tempStatus.onDealDamage(finalAmount, schmuck, tags);
-				break;
-			case 2:
-				finalAmount = tempStatus.onReceiveDamage(finalAmount, schmuck, tags);
-				break;
-			case 3:
-				tempStatus.timePassing(amount);
-				break;
-			case 4:
-				tempStatus.onKill(schmuck);
-				break;
-			case 5:
-				tempStatus.onDeath(schmuck);
-				break;
-			case 6:
-				finalAmount = tempStatus.onHeal(finalAmount, schmuck, tags);
-				break;
-			}
+			
+			tempStatus.statusProcTime(procTime, schmuck, finalAmount, status, tool, tags);
 			
 			if(this.statuses.contains(tempStatus)){
 				this.statuses.remove(tempStatus);
@@ -179,8 +161,7 @@ public class BodyData extends HadalData {
 		for(Status s : oldChecked){
 			this.statusesChecked.add(s);
 		}
-		return finalAmount;
-				
+		return finalAmount;		
 	}
 	
 	public void addStatus(Status s) {
@@ -216,7 +197,7 @@ public class BodyData extends HadalData {
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
-		statusProcTime(0, this, 0, null);
+		statusProcTime(0, null, 0, null, currentTool);
 		
 		currentHp = hpPercent * getMaxHp();
 	}
@@ -227,7 +208,7 @@ public class BodyData extends HadalData {
 	 * @param knockback: amount of knockback to apply.
 	 */
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
 		
 		float damage = basedamage;
 		
@@ -243,8 +224,8 @@ public class BodyData extends HadalData {
 		}
 		
 		if (procEffects) {
-			damage = perp.statusProcTime(1, perp, damage, null, tags);
-			damage = statusProcTime(2, this, damage, null, tags);
+			damage = perp.statusProcTime(1, perp, damage, null, tool, tags);
+			damage = statusProcTime(2, this, damage, null, currentTool, tags);
 		}
 		
 		currentHp -= damage;
@@ -264,7 +245,7 @@ public class BodyData extends HadalData {
 		}
 		if (currentHp <= 0) {
 			currentHp = 0;
-			die(perp);
+			die(perp, tool);
 		}
 	}
 	
@@ -277,7 +258,7 @@ public class BodyData extends HadalData {
 		float heal = baseheal;
 		
 		if (procEffects) {
-			heal = statusProcTime(6, this, heal, null, tags);
+			heal = statusProcTime(6, this, heal, null, currentTool, tags);
 		}
 		
 		currentHp += heal;
@@ -289,13 +270,17 @@ public class BodyData extends HadalData {
 	/**
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
 	 */
-	public void die(BodyData perp) {
+	public void die(BodyData perp, Equipable tool) {
 		
-		perp.statusProcTime(4, this, 0, null);
-		statusProcTime(5, perp, 0, null);
+		perp.statusProcTime(4, this, 0, null, tool);
+		statusProcTime(5, perp, 0, null, currentTool);
 		
 		schmuck.queueDeletion();
 	}
+	
+	public Equipable getCurrentTool() {
+		return currentTool;
+	}	
 	
 	public float getXGroundSpeed() {
 		return maxGroundXSpeed * (1 + getBonusGroundSpeed());

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.userdata;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -42,7 +43,7 @@ public class HadalData {
 	 * @param tags: damage tags
 	 *TODO: include the source of damage
 	 */
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
 		getEntity().push(knockback.x, knockback.y);
 	}
 	

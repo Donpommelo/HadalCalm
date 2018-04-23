@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -50,7 +51,7 @@ public class TelekineticBlast extends RangedWeapon {
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Vector2 startVelocity, float x, float y, short filter) {
+		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 1, startVelocity,
 					filter, false, user, projSpriteId) {
@@ -92,16 +93,16 @@ public class TelekineticBlast extends RangedWeapon {
 
 												if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
 													track.getTarget().getHadalData().receiveDamage(baseDamage, new Vector2(0, 0),
-															creator, true, DamageTypes.RANGED);
+															creator, tool, true, DamageTypes.RANGED);
 												}
 
 												if (fixB.getType().equals(UserDataTypes.BODY)) {
 													fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback),
-															creator, true, DamageTypes.RANGED);
+															creator, tool, true, DamageTypes.RANGED);
 												}
 											} else {
 												track.getTarget().getHadalData().receiveDamage(baseDamage, new Vector2(0, 0),
-														creator, true, DamageTypes.RANGED);
+														creator, tool, true, DamageTypes.RANGED);
 											}
 										}
 									}

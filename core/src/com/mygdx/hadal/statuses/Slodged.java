@@ -15,9 +15,9 @@ public class Slodged extends Status {
 	}
 	
 	@Override
-	public void statChanges(BodyData bodyData){
-		bodyData.setBonusAirSpeed(-slow);
-		bodyData.setBonusGroundSpeed(-slow);
+	public void statChanges(){
+		vic.setBonusAirSpeed(-slow);
+		vic.setBonusGroundSpeed(-slow);
 	}
 	
 	@Override

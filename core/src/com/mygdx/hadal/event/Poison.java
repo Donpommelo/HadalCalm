@@ -84,7 +84,7 @@ public class Poison extends Event {
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck) {
-						((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(0, 0), perp.getBodyData(), true);
+						((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(0, 0), perp.getBodyData(), null, true);
 					}
 				}
 			}

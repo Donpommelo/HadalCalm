@@ -21,7 +21,7 @@ public class WeaponUtils {
 
 	private static final float selfDamageReduction = 0.4f;
 	
-	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, 
+	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, Equipable tool,
 			int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new HitboxAnimated(state, x, y, explosionRadius, explosionRadius, 0, 0.4f, 1, 0, new Vector2(0, 0),
@@ -36,14 +36,14 @@ public class WeaponUtils {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageExplosionStrategy(state, hbox, user.getBodyData(), 
+		hbox.addStrategy(new HitboxDamageExplosionStrategy(state, hbox, user.getBodyData(), tool,
 				explosionDamage, explosionKnockback, selfDamageReduction, DamageTypes.EXPLOSIVE, DamageTypes.DEFLECT));
 		
 		return hbox;
 	}
 	
-	public static Hitbox createGrenade(PlayState state, float x, float y, final Schmuck user, final float baseDamage, final float knockback,
-			int grenadeSize, float gravity, float lifespan, float restitution, int dura, Vector2 startVelocity, 
+	public static Hitbox createGrenade(PlayState state, float x, float y, final Schmuck user, Equipable tool,
+			final float baseDamage, final float knockback, int grenadeSize, float gravity, float lifespan, float restitution, int dura, Vector2 startVelocity, 
 			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new HitboxImage(state, x, y, grenadeSize, grenadeSize, gravity, lifespan, dura, restitution, startVelocity,
@@ -51,14 +51,14 @@ public class WeaponUtils {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
 		return hbox;
 	}
 	
-	public static Hitbox createTorpedo(PlayState state, float x, float y, final Schmuck user, final float baseDamage, final float knockback,
-			int rocketWidth, int rocketHeight, float gravity, float lifespan, int dura, Vector2 startVelocity, 
+	public static Hitbox createTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
+			final float baseDamage, final float knockback, int rocketWidth, int rocketHeight, float gravity, float lifespan, int dura, Vector2 startVelocity, 
 			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new HitboxImage(state, x, y, rocketWidth, rocketHeight, gravity, lifespan, dura, 0, startVelocity,
@@ -66,8 +66,8 @@ public class WeaponUtils {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
 		new ParticleEntity(state, hbox, AssetList.BUBBLE_TRAIL.toString(), 3.0f, 0.0f, true);
 		

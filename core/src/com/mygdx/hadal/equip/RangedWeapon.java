@@ -98,7 +98,7 @@ public class RangedWeapon extends Equipable{
 		if (clipLeft > 0) {
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
-			onShoot.makeHitbox(user, state, weaponVelo, 
+			onShoot.makeHitbox(user, state, this, weaponVelo, 
 					shooter.getSchmuck().getBody().getPosition().x * PPM, 
 					shooter.getSchmuck().getBody().getPosition().y * PPM, 
 					faction);

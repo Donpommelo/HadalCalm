@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -14,58 +15,13 @@ public class StatusComposite extends Status {
 		this.statuses = statuses;
 	}
 	
-	public void statChanges(BodyData bodyData){
-		for (Status s : statuses) {
-			s.statChanges(bodyData);
-		}
-	}
-	
-	public void timePassing(float delta) {
-		for (Status s : statuses) {
-			s.timePassing(delta);
-		}
-	}
-	
-	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) { 
-		
-		float finalDamage = damage;
-		
-		for (Status s : statuses) {
-			finalDamage = s.onDealDamage(finalDamage, vic, tags);
+	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, DamageTypes... tags) {
+		float finalAmount = amount;
+
+		for (Status s: statuses) {
+			finalAmount = s.statusProcTime(procTime, schmuck, finalAmount, status, tool, tags);
 		}
 		
-		return finalDamage;	
-	}
-	
-	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) { 
-		float finalDamage = damage;
-		
-		for (Status s : statuses) {
-			finalDamage = s.onReceiveDamage(finalDamage, perp, tags);
-		}
-		
-		return finalDamage;	
-	}
-	
-	public float onHeal(float damage, BodyData perp, DamageTypes... tags) { 
-		float finalDamage = damage;
-		
-		for (Status s : statuses) {
-			finalDamage = s.onHeal(finalDamage, perp, tags);
-		}
-		
-		return finalDamage;	 
-	}
-	
-	public void onKill(BodyData vic) {
-		for (Status s : statuses) {
-			s.onKill(vic);
-		}
-	}
-	
-	public void onDeath(BodyData perp) {
-		for (Status s : statuses) {
-			s.onKill(perp);
-		}
+		return finalAmount;
 	}
 }

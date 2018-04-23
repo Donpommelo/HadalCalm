@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -33,7 +34,37 @@ public class Status {
 		
 	}
 	
-	public void statChanges(BodyData bodyData){
+	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, DamageTypes... tags) {
+		float finalAmount = amount;
+		
+		switch(procTime) {
+		case 0:
+			statChanges();
+			break;
+		case 1:
+			finalAmount = onDealDamage(finalAmount, schmuck, tags);
+			break;
+		case 2:
+			finalAmount = onReceiveDamage(finalAmount, schmuck, tags);
+			break;
+		case 3:
+			timePassing(amount);
+			break;
+		case 4:
+			onKill(schmuck);
+			break;
+		case 5:
+			onDeath(schmuck);
+			break;
+		case 6:
+			finalAmount = onHeal(finalAmount, schmuck, tags);
+			break;
+		}
+		
+		return finalAmount;
+	}
+	
+	public void statChanges(){
 		
 	}
 	
@@ -57,6 +88,11 @@ public class Status {
 	
 	public void onDeath(BodyData perp) {}
 
+	
+	
+	
+	
+	
 	public String getName() {
 		return name;
 	}

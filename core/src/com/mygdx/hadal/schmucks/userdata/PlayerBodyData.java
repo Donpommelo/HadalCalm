@@ -38,7 +38,6 @@ public class PlayerBodyData extends BodyData {
 	private Artifact artifactStart;
 	private int currentSlot = 0;
 	private int lastSlot = 1;
-	private Equipable currentTool;
 	
 	private Player player;
 	
@@ -49,6 +48,9 @@ public class PlayerBodyData extends BodyData {
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
 				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
+				for (Status s : multitools[i].getWeaponMods()) {
+					addStatus(s);
+				}
 			}
 		}
 	
@@ -75,6 +77,9 @@ public class PlayerBodyData extends BodyData {
 		
 		for (Equipable e : multitools) {
 			if (e != null) {
+				for (Status s : e.getWeaponMods()) {
+					addStatus(s);
+				}
 				e.setUser(player);
 			}
 		}
@@ -155,6 +160,10 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public Equipable pickup(Equipable equip) {
 		
+		for (Status s : equip.getWeaponMods()) {
+			addStatus(s);
+		}
+		
 		for (int i = 0; i < Loadout.getNumSlots(); i++) {
 			if (multitools[i] == null || multitools[i] instanceof Nothing) {
 				multitools[i] = equip;
@@ -167,6 +176,10 @@ public class PlayerBodyData extends BodyData {
 		
 		Equipable old = multitools[currentSlot];
 		
+		for (Status s : old.getWeaponMods()) {
+			removeStatus(s);
+		}
+		
 		multitools[currentSlot] = equip;
 		multitools[currentSlot].setUser(player);
 		setEquip();
@@ -178,8 +191,20 @@ public class PlayerBodyData extends BodyData {
 	 * Replaces slot slot with new equip. Used in loadout state and also when using last charge of consumable weapon.
 	 */
 	public void replaceSlot(UnlockEquip equip, int slot) {
+		
+		if (multitools[slot] != null) {
+			for (Status s : multitools[slot].getWeaponMods()) {
+				removeStatus(s);
+			}
+		}
+		
 		multitools[slot] = UnlocktoItem.getUnlock(equip, player);
 		multitools[slot].setUser(player);
+		
+		for (Status s : multitools[slot].getWeaponMods()) {
+			addStatus(s);
+		}
+		
 		currentSlot = slot;
 		setEquip();
 	}
@@ -222,6 +247,9 @@ public class PlayerBodyData extends BodyData {
 	public void setEquip() {
 		currentTool = multitools[currentSlot];
 		player.setToolSprite(currentTool.getEquipSprite());
+		
+		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equiped".
+		calcStats();
 	}
 	
 	@Override
@@ -257,9 +285,9 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	@Override
-	public void die(BodyData perp) {
+	public void die(BodyData perp, Equipable tool) {
 		schmuck.getState().gameOver(false);
-		super.die(perp);
+		super.die(perp, tool);
 	}
 	
 	public Player getPlayer() {
@@ -305,8 +333,4 @@ public class PlayerBodyData extends BodyData {
 	public int getCurrentSlot() {
 		return currentSlot;
 	}
-
-	public Equipable getCurrentTool() {
-		return currentTool;
-	}	
 }

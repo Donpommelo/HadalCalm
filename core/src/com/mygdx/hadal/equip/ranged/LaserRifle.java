@@ -5,6 +5,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -45,7 +46,7 @@ public class LaserRifle extends RangedWeapon {
 		float shortestFraction;
 		
 		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, final Vector2 startVelocity, float x, float y, short filter) {
+		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, final Vector2 startVelocity, float x, float y, short filter) {
 			Vector2 endPt = new Vector2(user.getBody().getPosition()).add(startVelocity.nor().scl(projectileWidth));
 			
 			shortestFraction = 1.0f;
@@ -93,7 +94,7 @@ public class LaserRifle extends RangedWeapon {
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 			hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 		}
 	};
 	

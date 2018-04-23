@@ -135,7 +135,7 @@ public class Schmuck extends HadalEntity {
 		}
 		
 		//Process statuses
-		bodyData.statusProcTime(3, bodyData, delta, null);
+		bodyData.statusProcTime(3, bodyData, delta, null, bodyData.getCurrentTool());
 		
 	}
 

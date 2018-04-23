@@ -23,8 +23,8 @@ public class StatChangeStatus extends Status {
 	}
 	
 	@Override
-	public void statChanges(BodyData bodyData){
-		bodyData.setStat(statNum, bodyData.getStat(statNum) + statIncrement);
+	public void statChanges(){
+		vic.setStat(statNum, vic.getStat(statNum) + statIncrement);
 	}
 
 }
