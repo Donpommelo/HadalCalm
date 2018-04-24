@@ -48,7 +48,6 @@ public class LaserRifle extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, final Vector2 startVelocity, float x, float y, short filter) {
 			Vector2 endPt = new Vector2(user.getBody().getPosition()).add(startVelocity.nor().scl(projectileWidth));
-			
 			shortestFraction = 1.0f;
 			
 			if (user.getBody().getPosition().x != endPt.x || user.getBody().getPosition().y != endPt.y) {

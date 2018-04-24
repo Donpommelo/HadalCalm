@@ -83,6 +83,28 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
+	public static Hitbox createHomingTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
+			final float baseDamage, final float knockback, int rocketWidth, int rocketHeight, float lifespan,
+			int numTorp, int spread, Vector2 startVelocity, boolean procEffects,
+			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+		
+		for (int i = 0; i < numTorp; i++) {
+			
+			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+			
+			Hitbox hbox = new HitboxImage(state, x, y, rocketWidth, rocketHeight, 0, lifespan, 1, 0, startVelocity.setAngle(newDegrees),
+					filter, true, procEffects, user, "torpedo");
+			
+			hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
+			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), filter));
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+		}
+		
+		return null;
+	}
+	
 	public static Hitbox createBees(PlayState state, float x, float y, final Schmuck user, Equipable tool,
 			final float baseDamage, final float knockback, int projectileWidth, int projectileHeight, float lifespan,
 			int numBees, int spread, Vector2 startVelocity, boolean procEffects,
@@ -117,11 +139,12 @@ public class WeaponUtils {
 				}
 			};
 			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));	
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, 
-					maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, radius, filter));	
+					maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, radius, filter));
+			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+
 		}
 		
 		return null;

@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -197,9 +197,9 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	
 	public void setTarget(HadalEntity target) {
-		Arrive<Vector2> arriveSB = new Arrive<Vector2>(this, target)
-				.setArrivalTolerance(2f)
-				.setDecelerationRadius(decelerationRad);
+		Pursue<Vector2> arriveSB = new Pursue<Vector2>(this, target);
+	//			.setArrivalTolerance(2f)
+	//			.setDecelerationRadius(decelerationRad);
 		
 		this.setBehavior(arriveSB);
 	}

@@ -7,7 +7,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnDieSummonRocketsStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxPoisonTrailStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -42,16 +42,13 @@ public class RingofTesting extends Artifact {
 			public void onShoot(Equipable tool) {
 				if (tool instanceof RangedWeapon) {
 					
-					Vector2 newVelo = new Vector2(tool.getWeaponVelo());
-					
 					((RangedWeapon)tool).getOnShoot().makeHitbox(vic.getSchmuck(), state, tool, 
-							newVelo.setAngle(newVelo.angle() + 20),
+							new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
 							vic.getSchmuck().getBody().getPosition().x * PPM, 
 							vic.getSchmuck().getBody().getPosition().y * PPM, 
 							vic.getSchmuck().getHitboxfilter());
-					
 					((RangedWeapon)tool).getOnShoot().makeHitbox(vic.getSchmuck(), state, tool, 
-							newVelo.setAngle(newVelo.angle() - 40),
+							new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
 							vic.getSchmuck().getBody().getPosition().x * PPM, 
 							vic.getSchmuck().getBody().getPosition().y * PPM, 
 							vic.getSchmuck().getHitboxfilter());
@@ -65,7 +62,7 @@ public class RingofTesting extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, 50, 20 / 60f, 1.0f, b.getSchmuck().getHitboxfilter()));
-				hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, b, null, 200, 25, 16.0f, vic.getSchmuck().getHitboxfilter()));
+				hbox.addStrategy(new HitboxOnDieSummonRocketsStrategy(state, hbox, b, null, 100, 25, 16.0f, 3, vic.getSchmuck().getHitboxfilter()));
 			}
 			
 		};

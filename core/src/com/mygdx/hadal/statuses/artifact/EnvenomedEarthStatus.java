@@ -24,6 +24,6 @@ public class EnvenomedEarthStatus extends Status {
 		new Poison(state, poisonRadius, poisonRadius,
 				(int)(vic.getSchmuck().getBody().getPosition().x * PPM), 
 				(int)(vic.getSchmuck().getBody().getPosition().y * PPM), 
-				poisonDamage, poisonDuration, perp.getSchmuck(), perp.getSchmuck().getHitboxfilter());
+				poisonDamage, poisonDuration, perp.getSchmuck(), true, perp.getSchmuck().getHitboxfilter());
 	}
 }

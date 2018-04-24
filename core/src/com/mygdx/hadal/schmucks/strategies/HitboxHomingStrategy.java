@@ -21,14 +21,14 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 	private float radius;
 	private short filter;
 	
-	private static final float maxLinSpd = 500;
-	private static final float maxLinAcc = 5000;
-	private static final float maxAngSpd = 3600;
-	private static final float maxAngAcc = 360;
+	private static final float maxLinSpd = 100;
+	private static final float maxLinAcc = 1000;
+	private static final float maxAngSpd = 180;
+	private static final float maxAngAcc = 90;
 	
 	private static final int boundingRad = 500;
-	private static final int homeRadius = 10;
 	private static final int decelerationRadius = 0;
+	private static final int homeRadius = 1000;
 	
 	public HitboxHomingStrategy(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
 			float maxAngAcc, int boundingRad, int decelerationRadius, float radius, short filter) {
@@ -49,7 +49,7 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 	}
 	
 	public HitboxHomingStrategy(PlayState state, Hitbox proj, BodyData user, short filter) {
-		this(state, proj, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, homeRadius, decelerationRadius, filter);
+		this(state, proj, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, filter);
 	}
 	
 	@Override

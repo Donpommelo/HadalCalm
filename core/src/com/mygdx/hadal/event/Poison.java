@@ -30,25 +30,26 @@ public class Poison extends Event {
 	private float controllerCount = 0;
 	private float dps;
 	private Schmuck perp;
-	private boolean on, randomParticles;
+	private boolean on, draw, randomParticles;
 	
 	private static final String name = "Poison";
 
 	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
 	private short filter;
 	
-	public Poison(PlayState state, int width, int height, int x, int y, float dps, short filter) {
+	public Poison(PlayState state, int width, int height, int x, int y, float dps, boolean draw, short filter) {
 		super(state, name, width, height, x, y);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = state.getWorldDummy();
+		this.draw = draw;
 		this.on = true;
 		
 		spawnTimerLimit = 4096f/(width * height);
 		
 		randomParticles = width > 100;
 		
-		if (!randomParticles) {
+		if (!randomParticles && draw) {
 			new ParticleEntity(state, this, AssetList.POISON.toString(), 0, 0, on);
 		}
 	}
@@ -56,17 +57,18 @@ public class Poison extends Event {
 	/**
 	 * This constructor is used for when this event is created temporarily.
 	 */
-	public Poison(PlayState state, int width, int height, int x, int y, float dps, float duration, Schmuck perp, short filter) {
+	public Poison(PlayState state, int width, int height, int x, int y, float dps, float duration, Schmuck perp, boolean draw, short filter) {
 		super(state, name, width, height, x, y, duration);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = perp;
+		this.draw = draw;
 		this.on = true;
 		spawnTimerLimit = 4096f/(width * height);
 		
 		randomParticles = width > 100;
 		
-		if (!randomParticles) {
+		if (!randomParticles && draw) {
 			new ParticleEntity(state, this, AssetList.POISON.toString(), 1.5f, 0, on);
 		}
 	}
@@ -101,7 +103,7 @@ public class Poison extends Event {
 				}
 			}
 			
-			if (randomParticles) {
+			if (randomParticles && draw) {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
