@@ -1,90 +1,146 @@
 
 particles.png
-size: 512,128
+size: 512,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+bang_a
+  rotate: false
+  xy: 413, 168
+  size: 76, 86
+  orig: 76, 86
+  offset: 0, 0
+  index: -1
+bang_b
+  rotate: false
+  xy: 157, 138
+  size: 151, 116
+  orig: 151, 116
+  offset: 0, 0
+  index: -1
+bang_c
+  rotate: false
+  xy: 240, 77
+  size: 50, 59
+  orig: 50, 59
+  offset: 0, 0
+  index: -1
 bubble
   rotate: false
-  xy: 2, 2
+  xy: 324, 16
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
 casing
   rotate: false
-  xy: 432, 50
+  xy: 254, 4
   size: 17, 71
   orig: 17, 71
   offset: 0, 0
   index: -1
+energy_icon
+  rotate: false
+  xy: 310, 106
+  size: 101, 148
+  orig: 101, 148
+  offset: 0, 0
+  index: -1
 glow_a
   rotate: false
-  xy: 41, 13
+  xy: 459, 72
   size: 25, 26
   orig: 25, 26
   offset: 0, 0
   index: -1
 glow_b
   rotate: false
-  xy: 361, 77
+  xy: 411, 54
   size: 46, 44
   orig: 46, 44
   offset: 0, 0
   index: -1
+health_icon
+  rotate: false
+  xy: 2, 6
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: -1
 poison_a
   rotate: false
-  xy: 266, 70
+  xy: 273, 24
   size: 49, 51
   orig: 49, 51
   offset: 0, 0
   index: -1
 poison_b
   rotate: false
-  xy: 214, 68
+  xy: 179, 13
   size: 50, 53
   orig: 50, 53
   offset: 0, 0
   index: -1
 ring
   rotate: false
-  xy: 85, 55
+  xy: 413, 100
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
+ring_fade
+  rotate: false
+  xy: 2, 100
+  size: 153, 154
+  orig: 153, 154
+  offset: 0, 0
+  index: -1
 skull
   rotate: false
-  xy: 317, 72
+  xy: 324, 55
   size: 42, 49
   orig: 42, 49
   offset: 0, 0
   index: -1
 smoke
   rotate: false
-  xy: 2, 41
+  xy: 96, 18
   size: 81, 80
   orig: 81, 80
   offset: 0, 0
   index: -1
 spark_a
   rotate: false
-  xy: 451, 83
+  xy: 292, 98
   size: 15, 38
   orig: 15, 38
   offset: 0, 0
   index: -1
 spark_b
   rotate: false
-  xy: 409, 57
+  xy: 231, 2
   size: 21, 64
   orig: 21, 64
   offset: 0, 0
   index: -1
 star_a
   rotate: false
-  xy: 153, 53
+  xy: 179, 68
   size: 59, 68
   orig: 59, 68
+  offset: 0, 0
+  index: -1
+streak_curve
+  rotate: false
+  xy: 368, 54
+  size: 41, 50
+  orig: 41, 50
+  offset: 0, 0
+  index: -1
+streak_straight
+  rotate: false
+  xy: 491, 146
+  size: 18, 108
+  orig: 18, 108
   offset: 0, 0
   index: -1

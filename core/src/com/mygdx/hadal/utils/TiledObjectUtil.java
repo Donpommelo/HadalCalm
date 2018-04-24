@@ -166,6 +166,11 @@ public class TiledObjectUtil {
 					object.getProperties().get("hp", 0.0f, float.class), object.getProperties().get("fuel", 0.0f, float.class), 
 					object.getProperties().get("scrap", 0, Integer.class));
 		}
+		if (object.getName().equals("Particle")) {
+			e = new ParticleCreator(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("particle", String.class), object.getProperties().get("duration", 1, int.class));	
+		}
 		
 		if (object.getName().equals("SchmuckSpawn")) {
 			e = new SpawnerSchmuck(state, (int)rect.width, (int)rect.height, 
