@@ -60,7 +60,7 @@ public class Hitbox extends HadalEntity {
 	 * @param : pretty much the same as the fields above.
 	 */
 	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, Schmuck creator) {
+			Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator) {
 		super(state, width, height, x, y);
 		this.grav = grav;
 		this.lifeSpan = lifespan;
@@ -76,6 +76,10 @@ public class Hitbox extends HadalEntity {
 		this.strategies = new ArrayList<HitboxStrategy>();
 		this.add = new ArrayList<HitboxStrategy>();
 		this.remove = new ArrayList<HitboxStrategy>();
+		
+		if (procEffects) {
+			creator.getBodyData().statusProcTime(11, creator.getBodyData(), 0, null, creator.getBodyData().getCurrentTool(), this);
+		}
 	}
 	
 	/**

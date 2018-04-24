@@ -48,7 +48,7 @@ public class StickyBombLauncher extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, final short filter) {
 			
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					filter, true, user, projSpriteId);
+					filter, true, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
@@ -71,6 +71,8 @@ public class StickyBombLauncher extends RangedWeapon {
 	public void execute(PlayState state, BodyData shooter) {
 		//Check clip size. empty clip = reload instead. This makes reloading automatic.
 		if (clipLeft > 0 && weaponVelo != null) {
+			
+			shooter.statusProcTime(8, null, 0, null, this, null);
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
 			onShoot.makeHitbox(user, state, this, weaponVelo, 

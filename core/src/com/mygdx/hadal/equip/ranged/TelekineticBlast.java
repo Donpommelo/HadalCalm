@@ -54,7 +54,7 @@ public class TelekineticBlast extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 1, startVelocity,
-					filter, false, user, projSpriteId) {
+					filter, false, true, user, projSpriteId) {
 				
 				@Override
 				public void create() {

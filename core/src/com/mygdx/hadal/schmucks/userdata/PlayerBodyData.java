@@ -48,9 +48,6 @@ public class PlayerBodyData extends BodyData {
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
 				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
-				for (Status s : multitools[i].getWeaponMods()) {
-					addStatus(s);
-				}
 			}
 		}
 	
@@ -66,7 +63,6 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * This is run when transitioning the player into a new map/world
 	 * @param newPlayer
-	 * @param newWorld
 	 */
 	public void resetData(Player newPlayer, World newWorld) {
 		this.setEntity(newPlayer);
@@ -77,9 +73,6 @@ public class PlayerBodyData extends BodyData {
 		
 		for (Equipable e : multitools) {
 			if (e != null) {
-				for (Status s : e.getWeaponMods()) {
-					addStatus(s);
-				}
 				e.setUser(player);
 			}
 		}

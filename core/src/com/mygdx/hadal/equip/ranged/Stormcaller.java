@@ -44,7 +44,7 @@ public class Stormcaller extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false,  user, projSpriteId) {
+					filter, false, true,  user, projSpriteId) {
 				
 				float damage = 1;
 				float controllerCount = 0;

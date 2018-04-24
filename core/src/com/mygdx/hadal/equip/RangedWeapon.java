@@ -85,6 +85,8 @@ public class RangedWeapon extends Equipable{
 		this.faction = faction;
 		this.x = x;
 		this.y = y;
+		
+		shooter.statusProcTime(7, null, delta, null, this, null);
 	}
 	
 	/**
@@ -96,6 +98,8 @@ public class RangedWeapon extends Equipable{
 		
 		//Check clip size. empty clip = reload instead. This makes reloading automatic.
 		if (clipLeft > 0) {
+			
+			shooter.statusProcTime(8, null, 0, null, this, null);
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
 			onShoot.makeHitbox(user, state, this, weaponVelo, 
@@ -136,6 +140,9 @@ public class RangedWeapon extends Equipable{
 		//Keep track of how long schmuck has been reloading. If done, get more ammo.
 		if (reloadCd > 0) {
 			reloadCd -= delta;
+			
+			user.getBodyData().statusProcTime(9, null, delta, null, this, null);
+			
 		} else {
 			
 			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
@@ -146,6 +153,8 @@ public class RangedWeapon extends Equipable{
 			if (clipLeft >= getClipSize()) {
 				clipLeft = getClipSize();
 				reloading = false;
+				
+				user.getBodyData().statusProcTime(10, null, 0, null, this, null);
 			}
 		}
 	}
@@ -183,4 +192,9 @@ public class RangedWeapon extends Equipable{
 			return (int) (clipSize * (1 + user.getBodyData().getBonusClipSize()));
 		}
 	}
+
+	public HitboxFactory getOnShoot() {
+		return onShoot;
+	}
+
 }

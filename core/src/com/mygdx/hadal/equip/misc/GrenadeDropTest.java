@@ -36,7 +36,7 @@ public class GrenadeDropTest extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			WeaponUtils.createGrenade(state, x, y, user, tool, baseDamage, knockback, projectileWidth, gravity, lifespan, restitution, projDura,
-					startVelocity, explosionRadius, explosionDamage, explosionKnockback, filter);
+					startVelocity, false, explosionRadius, explosionDamage, explosionKnockback, filter);
 		}
 	};
 	

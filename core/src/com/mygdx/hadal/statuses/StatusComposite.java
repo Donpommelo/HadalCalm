@@ -1,6 +1,7 @@
 package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
@@ -15,11 +16,12 @@ public class StatusComposite extends Status {
 		this.statuses = statuses;
 	}
 	
-	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, DamageTypes... tags) {
+	@Override
+	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
 		float finalAmount = amount;
 
 		for (Status s: statuses) {
-			finalAmount = s.statusProcTime(procTime, schmuck, finalAmount, status, tool, tags);
+			finalAmount = s.statusProcTime(procTime, schmuck, finalAmount, status, tool, hbox, tags);
 		}
 		
 		return finalAmount;

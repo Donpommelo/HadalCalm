@@ -39,7 +39,7 @@ public class TorpedoLauncher extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			WeaponUtils.createTorpedo(state, x, y, user, tool, baseDamage, knockback, projectileWidth, projectileHeight, gravity, lifespan, projDura,
-					startVelocity, explosionRadius, explosionDamage, explosionKnockback, filter);	
+					startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);	
 		}
 	};
 	

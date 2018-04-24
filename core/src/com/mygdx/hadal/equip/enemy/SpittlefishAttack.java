@@ -40,7 +40,7 @@ public class SpittlefishAttack extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, user, spriteId);
+					filter, true, true, user, spriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));

@@ -50,7 +50,7 @@ public class SlodgeGun extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, final short filter) {
 			
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, user, projSpriteId);
+					filter, true, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));
@@ -64,7 +64,7 @@ public class SlodgeGun extends RangedWeapon {
 							this.hbox.getBody().getPosition().x * PPM , 
 							this.hbox.getBody().getPosition().y * PPM,	
 							explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-							filter, true, user);
+							filter, true, false, user);
 					
 					explosion.addStrategy(new HitboxDefaultStrategy(state, explosion, user.getBodyData()));
 					explosion.addStrategy(new HitboxStrategy(state, explosion, user.getBodyData()) {

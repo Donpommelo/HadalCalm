@@ -1,24 +1,12 @@
 package com.mygdx.hadal.equip.ranged;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxHomingStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnHitDieStrategy;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
-
-import static com.mygdx.hadal.utils.Constants.PPM;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BeeGun extends RangedWeapon {
 
@@ -35,15 +23,11 @@ public class BeeGun extends RangedWeapon {
 	private final static int projectileWidth = 23;
 	private final static int projectileHeight = 21;
 	private final static float lifespan = 5.0f;
-	private final static float gravity = 0;
 	private final static float homeRadius = 10;
-	
-	private final static int projDura = 1;
 	
 	private final static int spread = 45;
 	
 	private final static String weapSpriteId = "beegun";
-	private final static String projSpriteId = "bee";
 
 	private static final float maxLinSpd = 100;
 	private static final float maxLinAcc = 1000;
@@ -58,38 +42,9 @@ public class BeeGun extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
-			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-			
-			Hitbox hbox = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
-					filter, false, user, projSpriteId) {
-				
-				@Override
-				public void render(SpriteBatch batch) {
-				
-					boolean flip = false;
-					
-					if (body.getAngle() < 0) {
-						flip = true;
-					}
-					
-					batch.setProjectionMatrix(state.sprite.combined);
-
-					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-							body.getPosition().x * PPM - width / 2, 
-							(flip ? height : 0) + body.getPosition().y * PPM - height / 2, 
-							width / 2, 
-							(flip ? -1 : 1) * height / 2,
-							width, (flip ? -1 : 1) * height, 1, 1, 
-							(float) Math.toDegrees(body.getAngle()) - 90);
-
-				}
-			};
-			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));	
-			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, 
-					maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, filter));	
+			WeaponUtils.createBees(state, x, y, user, tool, baseDamage, knockback, projectileWidth, projectileHeight, lifespan,
+					1, spread, startVelocity,
+					true, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, filter);
 		}	
 	};
 	

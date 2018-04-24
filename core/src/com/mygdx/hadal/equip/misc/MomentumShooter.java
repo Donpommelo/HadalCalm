@@ -38,7 +38,7 @@ public class MomentumShooter extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new Hitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-					filter, false, user);
+					filter, false, false, user);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));

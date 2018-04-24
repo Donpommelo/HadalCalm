@@ -48,7 +48,7 @@ public class TurretAttack extends RangedWeapon {
 			for (int i = -numProj / 2; i <= numProj / 2; i++) {
 				Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, 
 						startVelocity.setAngle(center.angle() + i * spread),
-						filter, true, user, projSpriteId);
+						filter, true, true, user, projSpriteId);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));

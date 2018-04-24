@@ -26,7 +26,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 0.0f;
+	private final static float projectileSpeed = 4.0f;
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 20;
 	private final static float lifespan = 12.0f;
@@ -56,7 +56,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, user, projSpriteId);
+					filter, true, true, user, projSpriteId);
 
 			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));

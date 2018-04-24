@@ -79,7 +79,7 @@ public class LaserRifle extends RangedWeapon {
 			}
 			
 			Hitbox hbox = new HitboxImage(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
-					lifespan, projDura, 0, new Vector2(0, 0), filter, true, user, projSpriteId) {
+					lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSpriteId) {
 				
 				@Override
 				public void create() {

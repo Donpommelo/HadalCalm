@@ -22,6 +22,7 @@ public enum UnlockArtifact {
 	NICE_SHOES(NiceShoes.class),
 	NUCLEAR_PUNCH_THRUSTERS(NuclearPunchThrusters.class),
 	RECKLESS_MARK(RecklessMark.class),
+	RING_OF_TESTING(RingofTesting.class),
 	RING_OF_THE_LAMPREY(RingoftheLamprey.class),
 	ROOT_BOOTS(RootBoots.class),
 	SCALING_SCALES(ScalingScales.class),

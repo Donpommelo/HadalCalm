@@ -30,8 +30,8 @@ public class HitboxAnimated extends RangedHitbox {
 	 * Same as normal hitbox man
 	 */
 	public HitboxAnimated(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, Schmuck creator, String spriteId) {
-		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, creator);
+			Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, String spriteId) {
+		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, procEffects, creator);
 		
 		if (spriteId.equals("boom")) {
 			projectileSprite = new Animation<TextureRegion>(speed, 

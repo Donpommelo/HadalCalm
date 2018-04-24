@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 public class RangedHitbox extends Hitbox {
 
 	public RangedHitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura,
-			float rest, Vector2 startVelo, short filter, boolean sensor, Schmuck creator) {
+			float rest, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator) {
 		super(state, x, y, 
 				(int) (width * (1 + creator.getBodyData().getProjectileSize())), 
 				(int) (height * (1 + creator.getBodyData().getProjectileSize())), 
@@ -21,7 +21,7 @@ public class RangedHitbox extends Hitbox {
 				lifespan * (1 + creator.getBodyData().getProjectileLifespan()),
 				(int) (dura + creator.getBodyData().getProjectileDurability()), 
 				rest + creator.getBodyData().getProjectileBounciness(), 
-				startVelo.scl(1 + creator.getBodyData().getProjectileSpeed()), filter, sensor, creator);
+				startVelo.scl(1 + creator.getBodyData().getProjectileSpeed()), filter, sensor, procEffects, creator);
 	}
 
 }

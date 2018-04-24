@@ -19,13 +19,13 @@ public class MeleeHitbox extends Hitbox {
 	 * Same as normal hitbox man
 	 */
 	public MeleeHitbox(PlayState state, float x, float y, int width, int height, float lifespan, float backswing,
-			Vector2 startAngle, Vector2 center, short filter, Schmuck creator) {
+			Vector2 startAngle, Vector2 center, boolean procEffects, short filter, Schmuck creator) {
 		super(state, x, y, 
 				(int) (width * (1 + creator.getBodyData().getMeleeRange())), 
 				(int) (height * (1 + creator.getBodyData().getMeleeArcSize())),
 				0, 
 				lifespan * backswing * (1 + creator.getBodyData().getMeleeSwingInterval()), 
-				0, 0, startAngle, filter, true, creator);
+				0, 0, startAngle, filter, true, procEffects, creator);
 		this.center = center.scl(1 + creator.getBodyData().getMeleeRange());
 	}
 	

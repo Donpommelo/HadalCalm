@@ -30,7 +30,7 @@ public class Poison extends Event {
 	private float controllerCount = 0;
 	private float dps;
 	private Schmuck perp;
-	private boolean on;
+	private boolean on, randomParticles;
 	
 	private static final String name = "Poison";
 
@@ -45,6 +45,12 @@ public class Poison extends Event {
 		this.on = true;
 		
 		spawnTimerLimit = 4096f/(width * height);
+		
+		randomParticles = width > 100;
+		
+		if (!randomParticles) {
+			new ParticleEntity(state, this, AssetList.POISON.toString(), 0, 0, on);
+		}
 	}
 	
 	/**
@@ -57,6 +63,12 @@ public class Poison extends Event {
 		this.perp = perp;
 		this.on = true;
 		spawnTimerLimit = 4096f/(width * height);
+		
+		randomParticles = width > 100;
+		
+		if (!randomParticles) {
+			new ParticleEntity(state, this, AssetList.POISON.toString(), 1.5f, 0, on);
+		}
 	}
 	
 	@Override
@@ -89,14 +101,15 @@ public class Poison extends Event {
 				}
 			}
 			
-			currPoisonSpawnTimer += delta;
-			while (currPoisonSpawnTimer >= spawnTimerLimit) {
-				currPoisonSpawnTimer -= spawnTimerLimit;
-				int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
-				int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
-				new ParticleEntity(state, randX, randY, AssetList.POISON.toString(), 1.5f, true);
+			if (randomParticles) {
+				currPoisonSpawnTimer += delta;
+				while (currPoisonSpawnTimer >= spawnTimerLimit) {
+					currPoisonSpawnTimer -= spawnTimerLimit;
+					int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
+					int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
+					new ParticleEntity(state, randX, randY, AssetList.POISON.toString(), 1.5f, true);
+				}
 			}
-			
 		}
 		super.controller(delta);
 	}

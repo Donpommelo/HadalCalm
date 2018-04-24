@@ -8,6 +8,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.ai.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
@@ -132,7 +133,7 @@ public class BodyData extends HadalData {
 		currentFuel = getMaxHp();		
 	}
 	
-	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, DamageTypes... tags) {
+	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
 		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
 		for(Status s : this.statusesChecked){
@@ -144,7 +145,7 @@ public class BodyData extends HadalData {
 		while(!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
 			
-			tempStatus.statusProcTime(procTime, schmuck, finalAmount, status, tool, tags);
+			tempStatus.statusProcTime(procTime, schmuck, finalAmount, status, tool, hbox, tags);
 			
 			if(this.statuses.contains(tempStatus)){
 				this.statuses.remove(tempStatus);
@@ -197,7 +198,7 @@ public class BodyData extends HadalData {
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
-		statusProcTime(0, null, 0, null, currentTool);
+		statusProcTime(0, null, 0, null, currentTool, null);
 		
 		currentHp = hpPercent * getMaxHp();
 	}
@@ -224,8 +225,8 @@ public class BodyData extends HadalData {
 		}
 		
 		if (procEffects) {
-			damage = perp.statusProcTime(1, perp, damage, null, tool, tags);
-			damage = statusProcTime(2, this, damage, null, currentTool, tags);
+			damage = perp.statusProcTime(1, perp, damage, null, tool, null, tags);
+			damage = statusProcTime(2, this, damage, null, currentTool, null, tags);
 		}
 		
 		currentHp -= damage;
@@ -258,7 +259,7 @@ public class BodyData extends HadalData {
 		float heal = baseheal;
 		
 		if (procEffects) {
-			heal = statusProcTime(6, this, heal, null, currentTool, tags);
+			heal = statusProcTime(6, this, heal, null, currentTool, null, tags);
 		}
 		
 		currentHp += heal;
@@ -272,8 +273,8 @@ public class BodyData extends HadalData {
 	 */
 	public void die(BodyData perp, Equipable tool) {
 		
-		perp.statusProcTime(4, this, 0, null, tool);
-		statusProcTime(5, perp, 0, null, currentTool);
+		perp.statusProcTime(4, this, 0, null, tool, null);
+		statusProcTime(5, perp, 0, null, currentTool, null);
 		
 		schmuck.queueDeletion();
 	}

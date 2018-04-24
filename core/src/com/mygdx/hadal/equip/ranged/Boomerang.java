@@ -45,7 +45,7 @@ public class Boomerang extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					(short) 0, false, user, projSpriteId);
+					(short) 0, false, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

@@ -41,7 +41,7 @@ public class Iceberg extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			HitboxImage hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, 
-					startVelocity, filter, false, user, projSpriteId);
+					startVelocity, filter, false, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));	
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

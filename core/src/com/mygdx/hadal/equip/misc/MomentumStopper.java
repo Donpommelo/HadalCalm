@@ -31,7 +31,7 @@ public class MomentumStopper extends MeleeWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startAngle, final float x, final float y, final short filter) {
 
 			Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
-					new Vector2(0, 0), (short) 0, user);
+					new Vector2(0, 0), false, (short) 0, user);
 						
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

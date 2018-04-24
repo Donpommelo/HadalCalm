@@ -206,4 +206,13 @@ NUCLEAR_PUNCH_THRUSTERS: {
 		RANDOM_POOL,
 	]
 }
+RING_OF_TESTING: {
+	class: com.mygdx.hadal.save.InfoArtifact
+	name: Ring of Testing
+	description: "Test things."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+	]
+}
 }

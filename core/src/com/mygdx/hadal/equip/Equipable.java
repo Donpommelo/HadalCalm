@@ -158,5 +158,13 @@ public abstract class Equipable {
 
 	public ArrayList<Status> getWeaponMods() {
 		return weaponMods;
-	}	
+	}
+
+	public Vector2 getWeaponVelo() {
+		return weaponVelo;
+	}
+
+	public void setWeaponVelo(Vector2 weaponVelo) {
+		this.weaponVelo = weaponVelo;
+	}
 }

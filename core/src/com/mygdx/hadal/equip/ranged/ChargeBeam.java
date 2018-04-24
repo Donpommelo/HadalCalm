@@ -85,7 +85,7 @@ public class ChargeBeam extends RangedWeapon {
 			final float kbMultiplier2 = kbMultiplier;
 			
 			HitboxImage hbox = new HitboxImage(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
-					filter, true, user, projSpriteId);
+					filter, true, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));

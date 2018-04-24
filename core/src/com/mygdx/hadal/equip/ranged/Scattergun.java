@@ -56,7 +56,7 @@ public class Scattergun extends RangedWeapon {
 				Vector2 newVelocity = new Vector2(startVelocity);
 				
 				HitboxImage hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, newVelocity.setAngle(newDegrees),
-						filter, true, user, projSprite);
+						filter, true, true, user, projSprite);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));
