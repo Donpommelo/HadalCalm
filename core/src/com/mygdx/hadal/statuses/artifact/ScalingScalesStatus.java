@@ -8,7 +8,7 @@ public class ScalingScalesStatus extends Status {
 
 	private static String name = "Scaling";
 	
-	public ScalingScalesStatus(PlayState state, BodyData p, BodyData v, int pr) {
-		super(state, 0, name, true, false, false, false, p, v, pr);
+	public ScalingScalesStatus(PlayState state, BodyData i) {
+		super(state, name, i);
 	}
 }

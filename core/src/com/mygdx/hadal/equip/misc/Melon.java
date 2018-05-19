@@ -22,7 +22,7 @@ public class Melon extends Consumable {
 	@Override
 	public void execute(PlayState state, BodyData bodyData) {
 		
-		bodyData.addStatus(new StatChangeStatus(state, duration, 2, power, bodyData, bodyData, 50));
+		bodyData.addStatus(new StatChangeStatus(state, duration, 2, power, bodyData, bodyData));
 		
 		super.execute(state, bodyData);
 	}

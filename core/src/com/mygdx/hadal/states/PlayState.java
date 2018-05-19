@@ -148,6 +148,7 @@ public class PlayState extends GameState {
         rays.setCombinedMatrix(camera);
 
 		b2dr = new Box2DDebugRenderer();
+//		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities
 		removeList = new HashSet<HadalEntity>();

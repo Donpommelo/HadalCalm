@@ -80,7 +80,7 @@ public class Turret extends Enemy {
 		this.bodyData = new BodyData(this);
 		
 		//temp way of more Hp
-		this.bodyData.addStatus(new StatChangeStatus(state, 0, 225, bodyData, bodyData, 50));
+		this.bodyData.addStatus(new StatChangeStatus(state, 0, 225, bodyData));
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 10, 0, true, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),

@@ -15,12 +15,10 @@ public class Status {
 	protected String name;
 	protected boolean perm, decay, removedEnd, visible;
 	
-	protected int priority;
-	
-	protected BodyData perp, vic;
+	protected BodyData inflicter, inflicted;
 	
 	public Status(PlayState state, float i, String n, Boolean perm, Boolean vis, Boolean end, Boolean dec, 
-			BodyData p, BodyData v, int pr){
+			BodyData p, BodyData v){
 		this.state = state;
 
 		this.duration=i;
@@ -29,10 +27,12 @@ public class Status {
 		this.visible = vis;
 		this.removedEnd = end;
 		this.decay = dec;
-		this.perp = p;
-		this.vic = v;
-		this.priority = pr;
-		
+		this.inflicter = p;
+		this.inflicted = v;
+	}
+	
+	public Status(PlayState state, String name, BodyData i) {
+		this(state, 0, name, true, true, false, false, i, i);
 	}
 	
 	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
@@ -89,7 +89,7 @@ public class Status {
 			duration -= delta;
 			
 			if (duration <= 0 && !perm) {
-				vic.removeStatus(this);
+				inflicted.removeStatus(this);
 			}
 		}
 	}
@@ -116,5 +116,11 @@ public class Status {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void reset(PlayState state, BodyData inflicted, BodyData inflicter) {
+		this.state = state;
+		this.inflicted = inflicted;
+		this.inflicter = inflicter;
 	}
 }

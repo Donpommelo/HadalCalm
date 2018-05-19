@@ -112,4 +112,9 @@ public class UnlockManager {
 		NASU,
 		MISC
 	}
+	
+	public enum ModTag {
+		MISC,
+		RANDOM_POOL
+	}
 }

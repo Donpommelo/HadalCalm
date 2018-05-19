@@ -73,7 +73,7 @@ public class SlodgeGun extends RangedWeapon {
 						public void onHit(HadalData fixB) {
 							if (fixB != null) {
 								if (fixB instanceof BodyData) {
-									((BodyData)fixB).addStatus(new Slodged(state, slowDura, user.getBodyData(), ((BodyData)fixB), 50));
+									((BodyData)fixB).addStatus(new Slodged(state, slowDura, user.getBodyData(), ((BodyData)fixB)));
 								}
 							}
 						}

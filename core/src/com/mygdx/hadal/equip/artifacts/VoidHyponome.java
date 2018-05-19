@@ -18,7 +18,7 @@ public class VoidHyponome extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state,15, -0.25f, b, b, 50);
+		enchantment[0] = new StatChangeStatus(state, 15, -0.25f, b);
 		return enchantment;
 	}
 }

@@ -18,7 +18,7 @@ public class ScalingScales extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new ScalingScalesStatus(state, b, b, 50);
+		enchantment[0] = new ScalingScalesStatus(state, b);
 		return enchantment;
 	}
 }

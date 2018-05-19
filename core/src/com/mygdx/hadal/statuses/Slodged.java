@@ -10,14 +10,14 @@ public class Slodged extends Status {
 	private final static float amp = 2.0f;
 	private final static float slow = 0.99f;
 	
-	public Slodged(PlayState state, float i, BodyData p, BodyData v, int pr) {
-		super(state, i, name, false, false, true, true, p, v, pr);
+	public Slodged(PlayState state, float i, BodyData p, BodyData v) {
+		super(state, i, name, false, false, true, true, p, v);
 	}
 	
 	@Override
 	public void statChanges(){
-		vic.setBonusAirSpeed(-slow);
-		vic.setBonusGroundSpeed(-slow);
+		inflicted.setBonusAirSpeed(-slow);
+		inflicted.setBonusGroundSpeed(-slow);
 	}
 	
 	@Override

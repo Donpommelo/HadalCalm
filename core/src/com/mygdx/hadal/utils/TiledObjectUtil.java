@@ -169,7 +169,7 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Particle")) {
 			e = new ParticleCreator(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("particle", String.class), object.getProperties().get("duration", 1, int.class));	
+					object.getProperties().get("particle", String.class), object.getProperties().get("duration", 2.0f, float.class));	
 		}
 		
 		if (object.getName().equals("SchmuckSpawn")) {
@@ -218,6 +218,11 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Artifact")) {
 			e = new PickupArtifact(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("pool", "", String.class));
+		}
+		if (object.getName().equals("WeaponMod")) {
+			e = new PickupWeaponMod(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}

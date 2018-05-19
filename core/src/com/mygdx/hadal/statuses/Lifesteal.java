@@ -8,20 +8,20 @@ public class Lifesteal extends Status {
 	private static String name = "Lifesteal";
 	private float power;
 
-	public Lifesteal(PlayState state, int i, float amount, BodyData p, BodyData v, int pr) {
-		super(state, i, name, false, false, true, true, p, v, pr);
+	public Lifesteal(PlayState state, int i, float amount, BodyData p, BodyData v) {
+		super(state, i, name, false, false, true, true, p, v);
 		this.power = amount;
 	}
 	
-	public Lifesteal(PlayState state, float amount, BodyData p, BodyData v, int pr) {
-		super(state, 0, name, true, false, false, false, p, v, pr);
+	public Lifesteal(PlayState state, float amount, BodyData i) {
+		super(state, name, i);
 		this.power = amount;
 	}
 	
 	@Override
 	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
 
-		perp.regainHp(power * damage, perp, true, DamageTypes.LIFESTEAL);
+		inflicter.regainHp(power * damage, inflicter, true, DamageTypes.LIFESTEAL);
 		
 		return damage;
 	}

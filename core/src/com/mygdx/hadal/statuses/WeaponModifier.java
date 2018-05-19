@@ -5,14 +5,14 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
-public class WeaponMod extends Status {
+public class WeaponModifier extends Status {
 
 	
 	private Equipable moddedTool;
 	private Status mod;
 	
-	public WeaponMod(PlayState state, BodyData p, BodyData v, int pr, Equipable tool, Status mod){
-		super(state, 0, "", true, false, false, false, p, v, pr);
+	public WeaponModifier(PlayState state, BodyData i, Equipable tool, Status mod){
+		super(state, "", i);
 		this.moddedTool = tool;
 		this.mod = mod;
 	}

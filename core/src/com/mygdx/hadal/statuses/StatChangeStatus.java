@@ -10,21 +10,21 @@ public class StatChangeStatus extends Status {
 	private int statNum;
 	private float statIncrement;
 	
-	public StatChangeStatus(PlayState state, float i, int stat, float amount, BodyData p, BodyData v, int pr) {
-		super(state, i, name, false, false, true, true, p, v, pr);
+	public StatChangeStatus(PlayState state, float i, int stat, float amount, BodyData p, BodyData v) {
+		super(state, i, name, false, false, true, true, p, v);
 		this.statNum = stat;
 		this.statIncrement = amount;
 	}
 	
-	public StatChangeStatus(PlayState state, int stat, float amount, BodyData p, BodyData v, int pr) {
-		super(state, 0, name, true, false, false, false, p, v, pr);
+	public StatChangeStatus(PlayState state, int stat, float amount, BodyData i) {
+		super(state, name, i);
 		this.statNum = stat;
 		this.statIncrement = amount;
 	}
 	
 	@Override
 	public void statChanges(){
-		vic.setStat(statNum, vic.getStat(statNum) + statIncrement);
+		inflicted.setStat(statNum, inflicted.getStat(statNum) + statIncrement);
 	}
 
 }

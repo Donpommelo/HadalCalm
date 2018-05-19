@@ -36,48 +36,48 @@ public class RingofTesting extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new Status(state, 0, name, true, true, false, false , b, b, 50) {
+		enchantment[0] = new Status(state, name, b) {
 			
 			@Override
 			public void onShoot(Equipable tool) {
 				if (tool instanceof RangedWeapon) {
 					
-					((RangedWeapon)tool).getOnShoot().makeHitbox(vic.getSchmuck(), state, tool, 
+					((RangedWeapon)tool).getOnShoot().makeHitbox(inflicted.getSchmuck(), state, tool, 
 							new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
-							vic.getSchmuck().getBody().getPosition().x * PPM, 
-							vic.getSchmuck().getBody().getPosition().y * PPM, 
-							vic.getSchmuck().getHitboxfilter());
-					((RangedWeapon)tool).getOnShoot().makeHitbox(vic.getSchmuck(), state, tool, 
+							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
+							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
+							inflicted.getSchmuck().getHitboxfilter());
+					((RangedWeapon)tool).getOnShoot().makeHitbox(inflicted.getSchmuck(), state, tool, 
 							new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
-							vic.getSchmuck().getBody().getPosition().x * PPM, 
-							vic.getSchmuck().getBody().getPosition().y * PPM, 
-							vic.getSchmuck().getHitboxfilter());
+							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
+							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
+							inflicted.getSchmuck().getHitboxfilter());
 				}
 			}
 			
 		};
 		
-		enchantment[1] = new Status(state, 0, name, true, true, false, false , b, b, 50) {
+		enchantment[1] = new Status(state, name, b) {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, 50, 20 / 60f, 1.0f, b.getSchmuck().getHitboxfilter()));
-				hbox.addStrategy(new HitboxOnDieSummonRocketsStrategy(state, hbox, b, null, 100, 25, 16.0f, 3, vic.getSchmuck().getHitboxfilter()));
+				hbox.addStrategy(new HitboxOnDieSummonRocketsStrategy(state, hbox, b, null, 100, 25, 16.0f, 3, inflicted.getSchmuck().getHitboxfilter()));
 			}
 			
 		};
 		
-		enchantment[2] = new Status(state, 0, name, true, true, false, false , b, b, 50) {
+		enchantment[2] = new Status(state, name, b) {
 			
 			@Override
 			public void onReload(Equipable tool) {
 				
 				WeaponUtils.createBees(state, 
-						vic.getSchmuck().getBody().getPosition().x * PPM, 
-						vic.getSchmuck().getBody().getPosition().y * PPM, 
-						vic.getSchmuck(), tool, 14, 5.0f, 23, 21, 4.0f,
+						inflicted.getSchmuck().getBody().getPosition().x * PPM, 
+						inflicted.getSchmuck().getBody().getPosition().y * PPM, 
+						inflicted.getSchmuck(), tool, 14, 5.0f, 23, 21, 4.0f,
 						5, 180, new Vector2(1, 1), false,
-						maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, vic.getSchmuck().getHitboxfilter());
+						maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, inflicted.getSchmuck().getHitboxfilter());
 			}
 		};
 		
