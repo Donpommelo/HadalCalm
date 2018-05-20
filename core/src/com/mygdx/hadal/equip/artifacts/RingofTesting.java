@@ -54,7 +54,6 @@ public class RingofTesting extends Artifact {
 							inflicted.getSchmuck().getHitboxfilter());
 				}
 			}
-			
 		};
 		
 		enchantment[1] = new Status(state, name, b) {

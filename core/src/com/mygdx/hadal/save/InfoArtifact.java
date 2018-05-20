@@ -13,7 +13,7 @@ public class InfoArtifact {
 	private ArrayList<UnlockTag> tags;
 	
 	public InfoArtifact() {
-	
+		
 	}
 
 	public String getName() {

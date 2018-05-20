@@ -147,7 +147,7 @@ public class RangedWeapon extends Equipable{
 			
 			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
 			clipLeft += reloadAmount != 0 ? reloadAmount : getClipSize();
-			reloadCd = reloadTime;
+			reloadCd = getReloadTime();
 
 			//If clip is full, finish reloading.
 			if (clipLeft >= getClipSize()) {

@@ -411,6 +411,5 @@
     <property name="triggeredId" value="pickupParticleHp"/>
    </properties>
   </object>
-  <object id="130" name="WeaponMod" type="WeaponMod" x="1024" y="1280" width="32" height="32"/>
  </objectgroup>
 </map>

@@ -14,28 +14,28 @@ public enum WeaponMod {
 	PLUS_DAMAGE(ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 26, 0.2f, b);
+			return new StatChangeStatus(state, 26, 0.25f, b);
 		}
 	},
 	
 	PLUS_ATK_SPD(ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 27, 0.2f, b);
+			return new StatChangeStatus(state, 27, 0.25f, b);
 		}
 	},
 	
 	PLUS_RLD_SPD(ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 28, 0.2f, b);
+			return new StatChangeStatus(state, 28, 0.25f, b);
 		}
 	},
 	
 	PLUS_ClIP(ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 29, 0.2f, b);
+			return new StatChangeStatus(state, 29, 0.25f, b);
 		}
 	},
 	
@@ -44,7 +44,9 @@ public enum WeaponMod {
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 23, 0.2f, b);
 		}
-	};
+	}
+	
+	;
 	
 	
 	;

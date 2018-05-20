@@ -84,7 +84,7 @@ public class StickyBombLauncher extends RangedWeapon {
 			
 			//If player fires in the middle of reloading, reset reload progress
 			reloading = false;
-			reloadCd = reloadTime * (1 - shooter.getReloadRate());
+			reloadCd = getReloadTime();
 			
 			//process weapon recoil.
 			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
