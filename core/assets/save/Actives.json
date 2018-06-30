@@ -1,0 +1,9 @@
+{
+MELON: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Melon
+	description: "Restores Hp. Charges by dealing damage."
+	unlocked: true
+	tags: []
+}
+}

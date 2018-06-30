@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 
-public class InfoEquip {
+public class InfoItem {
 
 	private String name;
 	private String description;
@@ -12,7 +12,7 @@ public class InfoEquip {
 	private boolean unlocked;
 	private ArrayList<UnlockTag> tags;
 	
-	public InfoEquip() {
+	public InfoItem() {
 	
 	}
 

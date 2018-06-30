@@ -4,19 +4,27 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.statuses.Status;
 
 public class StatusTag extends AHadalActor {
 
 	private Status status;
+	
 	private BitmapFont font;
 	
 	private float scale = 0.4f;
 	private Color color;
+	
+	private TextureAtlas atlas;
+	
+	private TextureRegion base, ready, overlay;
 	
 	private boolean mouseOver;
 	
@@ -26,6 +34,11 @@ public class StatusTag extends AHadalActor {
 		
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = Color.WHITE;
+		
+		this.atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.UIATLAS.toString());
+		this.base = atlas.findRegion("UI_momentum_base");
+		this.ready = atlas.findRegion("UI_momentum_ready");
+		this.overlay = atlas.findRegion("UI_momentum_overlay");
 		
 		mouseOver = false;
 		
@@ -46,12 +59,14 @@ public class StatusTag extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		 font.getData().setScale(scale);
-		 font.setColor(color);
-         font.draw(batch, status.getName(), getX(), getY());
+		batch.draw(base, getX(), getY(), getWidth(), getHeight());
+		batch.draw(ready, getX(), getY(), getWidth(), getHeight());
+		batch.draw(overlay, getX(), getY(), getWidth(), getHeight());
          
          if (mouseOver) {
-   //     	 font.draw(batch, "TEMP: DESCRIPTION", getX() + 100, getY());
+        	 font.setColor(color);
+        	 font.getData().setScale(scale);
+        	 font.draw(batch, status.getName(), getX(), getY() - 25);
          }
     }
 

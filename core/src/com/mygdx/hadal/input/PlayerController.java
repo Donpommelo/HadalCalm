@@ -69,7 +69,7 @@ public class PlayerController implements InputProcessor {
 		}
 		
 		if (keycode == PlayerAction.FREEZE.getKey()) {
-			player.momentum();
+			player.activeItem();
 		}
 		
 		if (keycode == PlayerAction.RELOAD.getKey()) {

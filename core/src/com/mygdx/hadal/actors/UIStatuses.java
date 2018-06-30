@@ -16,7 +16,7 @@ public class UIStatuses {
 	private ArrayList<StatusTag> statuses;
 	private Table table; 
 	
-	private final int tagWidth = 300;
+	private final int tagWidth = 25;
 	private final int tagHeight = 25;
 	
 	
@@ -27,7 +27,7 @@ public class UIStatuses {
 		this.statuses = new ArrayList<StatusTag>();
 		
 		state.getStage().addActor(table);
-		table.setPosition(200, HadalGame.CONFIG_HEIGHT);
+		table.setPosition(50, HadalGame.CONFIG_HEIGHT - 50);
 	}
 	
 	public StatusTag addTag(Status s) {
@@ -35,30 +35,29 @@ public class UIStatuses {
 		newTag.setWidth(tagWidth);
 		newTag.setWidth(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);
-		table.row();
 		
 		return newTag;
 	}
 	
 	public void addStatus(Status s) {
-		statuses.add(addTag(s));
+		if (s.isVisible()) {
+			statuses.add(addTag(s));
+		}
 	}
 	
-	public void removeStatus(Status s) {
-		table.clear();
-		
-		StatusTag toRemove = null;
-		
+	public void removeStatus(Status s) {		
+		ArrayList<Status> keeps= new ArrayList<Status>();
+
 		for (StatusTag tag : statuses) {
-			if (tag.getStatus().equals(s)) {
-				toRemove = tag;
-			} else {
-				addTag(s);
+			if (!tag.getStatus().equals(s)) {
+				keeps.add(tag.getStatus());
 			}
 		}
 		
-		if (toRemove != null) {
-			statuses.remove(toRemove);
+		clearStatus();
+		
+		for (Status tag : keeps) {
+			statuses.add(addTag(tag));
 		}
 	}
 

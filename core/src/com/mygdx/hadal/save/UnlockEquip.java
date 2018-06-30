@@ -32,16 +32,13 @@ public enum UnlockEquip {
 	TORPEDO_LAUNCHER(TorpedoLauncher.class),
 	
 	SCRAPRIPPER(Scrapripper.class),
-	
-	MOMENTUM_SHOOTER(MomentumShooter.class),
-	MELON(Melon.class),
 
 	NOTHING(Nothing.class),
 	
 	;
 	
 	private Class<? extends Equipable> weapon;	
-	private InfoEquip info;
+	private InfoItem info;
 	
 	UnlockEquip(Class<? extends Equipable> weapon) {
 		this.weapon = weapon;
@@ -78,11 +75,11 @@ public enum UnlockEquip {
 		return weapon;
 	}
 		
-	public InfoEquip getInfo() {
+	public InfoItem getInfo() {
 		return info;
 	}
 
-	public void setInfo(InfoEquip info) {
+	public void setInfo(InfoItem info) {
 		this.info = info;
 	}
 

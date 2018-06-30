@@ -8,12 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Queue;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.misc.Airblaster;
-import com.mygdx.hadal.equip.misc.MomentumStopper;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.ai.PlayerTrail;
 import com.mygdx.hadal.managers.AssetList;
@@ -34,7 +32,6 @@ public class Player extends PhysicsSchmuck {
 	
 	
 	private final static float playerDensity = 1.0f;
-	private final static float momentumBoost = 1.5f;
 	
 	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
@@ -49,10 +46,7 @@ public class Player extends PhysicsSchmuck {
 	
 	protected float interactCd = 0.15f;
 	protected float interactCdCount = 0;
-	
-	protected float momentumCd = 10.0f;
-	protected float momentumCdCount = 0;
-	
+
 	protected float trailCd = 0.25f;
 	protected float trailCdCount = 0;
 	protected PlayerTrail lastTrail;
@@ -66,11 +60,7 @@ public class Player extends PhysicsSchmuck {
 	private Event currentEvent;
 	
 	//Equipment that the player has built in to their toolset.
-	private MomentumStopper mStop;
 	private Airblaster airblast;
-	
-	//Queue of velocities that the player can manipulate
-	private Queue<Vector2> momentums;
 	
 	private TextureAtlas atlasBody, atlasTool;
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
@@ -117,9 +107,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public Player(PlayState state, int x, int y, UnlockCharacter character, PlayerBodyData oldData) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
-		mStop = new MomentumStopper(this);
 		airblast = new Airblaster(this);
-		momentums = new Queue<Vector2>();
 		
 		atlasTool = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
 		
@@ -256,12 +244,15 @@ public class Player extends PhysicsSchmuck {
 			lastTrail = newTrail;*/
 		}
 		
+		if (playerData.getActiveItem().getStyle().equals(chargeStyle.byTime)) {
+			playerData.getActiveItem().gainCharge(delta);
+		}
+		
 		//process cds
 		jumpCdCount-=delta;
 		fastFallCdCount-=delta;
 		airblastCdCount-=delta;
 		interactCdCount-=delta;
-		momentumCdCount-=delta;
 		trailCdCount-=delta;
 		
 		super.controller(delta);
@@ -367,15 +358,16 @@ public class Player extends PhysicsSchmuck {
 	/**
 	 * Player uses momentum saving power, freezing nearby entities and storing their momentum for later use. has a cooldown.
 	 */
-	public void momentum() {
-		if (momentums.size == 0) {
-			if (momentumCdCount < 0) {
-				momentumCdCount = momentumCd * (1 + playerData.getBonusMomentumCd());
-				useToolStart(0, mStop, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
-			}
-		} else {
-			body.setLinearVelocity(momentums.removeFirst().scl(momentumBoost));
-		}
+	public void activeItem() {
+//		if (momentums.size == 0) {
+//			if (momentumCdCount < 0) {
+//				momentumCdCount = momentumCd * (1 + playerData.getBonusMomentumCd());
+//				useToolStart(0, mStop, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+//			}
+//		} else {
+//			body.setLinearVelocity(momentums.removeFirst().scl(momentumBoost));
+//		}
+		useToolStart(0, playerData.getActiveItem(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
 	}
 	
 	/**
@@ -500,7 +492,7 @@ public class Player extends PhysicsSchmuck {
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
 				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
-		batch.draw(momentumCdCount < 0 ? gemSprite : gemInactiveSprite, 
+		batch.draw(playerData.getActiveItem().isReady() ? gemSprite : gemInactiveSprite, 
 				(flip ? gemWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
 				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
@@ -589,24 +581,12 @@ public class Player extends PhysicsSchmuck {
 		return armSprite;
 	}
 
-	public float getMomentumCdCount() {
-		return momentumCdCount;
-	}
-
 	public Event getCurrentEvent() {
 		return currentEvent;
 	}
 
 	public void setCurrentEvent(Event currentEvent) {
 		this.currentEvent = currentEvent;
-	}
-
-	public Queue<Vector2> getMomentums() {
-		return momentums;
-	}
-
-	public void setMomentums(Queue<Vector2> momentums) {
-		this.momentums = momentums;
 	}
 
 	public boolean isHovering() {

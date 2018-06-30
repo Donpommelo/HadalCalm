@@ -35,7 +35,7 @@ public enum UnlockArtifact {
 	;
 	
 	private Class<? extends Artifact> artifact;
-	private InfoArtifact info;
+	private InfoItem info;
 	
 	UnlockArtifact(Class<? extends Artifact> artifact) {
 		this.artifact = artifact;
@@ -71,11 +71,11 @@ public enum UnlockArtifact {
 		return artifact;
 	}
 	
-	public InfoArtifact getInfo() {
+	public InfoItem getInfo() {
 		return info;
 	}
 	
-	public void setInfo(InfoArtifact info) {
+	public void setInfo(InfoItem info) {
 		this.info = info;
 	}
 	

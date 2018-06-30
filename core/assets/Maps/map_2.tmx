@@ -772,10 +772,6 @@
    </properties>
   </object>
   <object id="172" name="WeaponMod" type="WeaponMod" x="3360" y="2336" width="32" height="32"/>
-  <object id="173" name="WeaponMod" type="WeaponMod" x="4416" y="1696" width="32" height="32">
-   <properties>
-    <property name="pool" value="PLUS_RLD_SPD"/>
-   </properties>
-  </object>
+  <object id="173" name="WeaponMod" type="WeaponMod" x="4416" y="1696" width="32" height="32"/>
  </objectgroup>
 </map>

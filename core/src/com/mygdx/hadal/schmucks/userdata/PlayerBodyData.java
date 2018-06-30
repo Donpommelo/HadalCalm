@@ -5,13 +5,16 @@ package com.mygdx.hadal.schmucks.userdata;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.actives.Melon;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.statuses.ActiveItemCharge;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -36,6 +39,7 @@ public class PlayerBodyData extends BodyData {
 	private Equipable[] multitools;
 	private ArrayList<Artifact> artifacts;
 	private Artifact artifactStart;
+	private ActiveItem activeItem;
 	private int currentSlot = 0;
 	private int lastSlot = 1;
 	
@@ -54,6 +58,10 @@ public class PlayerBodyData extends BodyData {
 		this.artifacts = new ArrayList<Artifact>();
 		artifactStart = addArtifact(loadout.artifact);
 
+		this.activeItem = new Melon(player);
+		addStatus(new ActiveItemCharge(player.getState(), this));
+		
+		
 		currentHp = getMaxHp();
 		currentFuel = getMaxHp();
 		currentSlot = 0;
@@ -321,6 +329,10 @@ public class PlayerBodyData extends BodyData {
 
 	public Equipable[] getMultitools() {
 		return multitools;
+	}
+	
+	public ActiveItem getActiveItem() {
+		return activeItem;
 	}
 
 	public int getCurrentSlot() {

@@ -1,6 +1,6 @@
 {
 EELSKIN_COVER: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Eelskin Cover
 	description: "Reduces Drag"
 	unlocked: true
@@ -10,7 +10,7 @@ EELSKIN_COVER: {
 	]
 }
 CONFIDENCE: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Confidence
 	description: "+50% damage at Max Hp."
 	unlocked: true
@@ -20,7 +20,7 @@ CONFIDENCE: {
 	]
 }
 ENVENOMED_EARTH: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Envenomed Earth
 	description: "Create poison cloud on kill."
 	unlocked: true
@@ -30,7 +30,7 @@ ENVENOMED_EARTH: {
 	]
 }
 BLOODY_LUST: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Bloody Lust
 	description: "-50% Reload Speed. Refill 50% clip on kill."
 	unlocked: true
@@ -40,7 +40,7 @@ BLOODY_LUST: {
 	]
 }
 GLUTTONOUS_GREY_GLOVE: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Gluttonous Grey Grove
 	description: "Fish eat Fish. No heal from medpaks."
 	unlocked: true
@@ -50,7 +50,7 @@ GLUTTONOUS_GREY_GLOVE: {
 	]
 }
 SKATE_WINGS: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Skate Wings
 	description: "+1 Jump. Improved Jumps."
 	unlocked: true
@@ -60,7 +60,7 @@ SKATE_WINGS: {
 	]
 }
 TRIGGER_FINGER: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Trigger Finger
 	description: "Bonus Ranged Attack Speed."
 	unlocked: true
@@ -70,7 +70,7 @@ TRIGGER_FINGER: {
 	]
 }
 VOID_HYPONOME: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Void Hyponome
 	description: "Reduced Airblast Cost."
 	unlocked: true
@@ -80,7 +80,7 @@ VOID_HYPONOME: {
 	]
 }
 FRACTURE_PLATE: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Fracture Plate
 	description: "Blocks an instance of damage every 8 seconds."
 	unlocked: true
@@ -90,7 +90,7 @@ FRACTURE_PLATE: {
 	]
 }
 GOOD_HEALTH: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Good Health
 	description: "+25 Hp."
 	unlocked: true
@@ -100,7 +100,7 @@ GOOD_HEALTH: {
 	]
 }
 SCALING_SCALES: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Scaling Scales
 	description: "Enables wall-jumping."
 	unlocked: true
@@ -110,7 +110,7 @@ SCALING_SCALES: {
 	]
 }
 ROOT_BOOTS: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Root Boots
 	description: "+Knockback Resistance."
 	unlocked: true
@@ -120,7 +120,7 @@ ROOT_BOOTS: {
 	]
 }
 NICE_SHOES: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Nice Shoes
 	description: "Increased ground speed."
 	unlocked: true
@@ -130,7 +130,7 @@ NICE_SHOES: {
 	]
 }
 LOAMSKIN_TALISMAN: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Loamskin Talisman
 	description: "Passive Hp Regeneration."
 	unlocked: true
@@ -140,7 +140,7 @@ LOAMSKIN_TALISMAN: {
 	]
 }
 ANARCHISTS_COOKBOOK: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook
 	description: "Explosions"
 	unlocked: true
@@ -150,7 +150,7 @@ ANARCHISTS_COOKBOOK: {
 	]
 }
 RECKLESS_MARK: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Reckless Mark
 	description: "Deal and receive 40% more damage."
 	unlocked: true
@@ -160,7 +160,7 @@ RECKLESS_MARK: {
 	]
 }
 THROBBING_RAGE_GLAND: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Throbbing Rage Gland
 	description: "Temporarily boosts speed and damage upon taking damage."
 	unlocked: true
@@ -170,7 +170,7 @@ THROBBING_RAGE_GLAND: {
 	]
 }
 RING_OF_THE_LAMPREY: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Ring of the Lamprey
 	description: "-20 Hp. Lifesteal."
 	unlocked: true
@@ -180,14 +180,14 @@ RING_OF_THE_LAMPREY: {
 	]
 }
 NOTHING: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: NOTHING
 	description: "Doesn't do much."
 	unlocked: true
 	tags: []
 }
 MOON_FLUTHER: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Moon Fluther
 	description: "Improved Hovering."
 	unlocked: true
@@ -197,7 +197,7 @@ MOON_FLUTHER: {
 	]
 }
 NUCLEAR_PUNCH_THRUSTERS: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Nuclear Punch Thrusters
 	description: "Increased Knockback on attacks."
 	unlocked: true
@@ -207,7 +207,7 @@ NUCLEAR_PUNCH_THRUSTERS: {
 	]
 }
 RING_OF_TESTING: {
-	class: com.mygdx.hadal.save.InfoArtifact
+	class: com.mygdx.hadal.save.InfoItem
 	name: Ring of Testing
 	description: "Test things."
 	unlocked: true

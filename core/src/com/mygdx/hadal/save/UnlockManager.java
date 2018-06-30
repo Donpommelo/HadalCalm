@@ -19,7 +19,7 @@ public class UnlockManager {
 		case 0:
 			filename = "save/Equips.json";
 			
-			HashMap<String, InfoEquip> equip = new HashMap<String, InfoEquip>();
+			HashMap<String, InfoItem> equip = new HashMap<String, InfoItem>();
 			
 			for (UnlockEquip u : UnlockEquip.values()) {
 				if (u.getInfo() != null) {
@@ -32,7 +32,7 @@ public class UnlockManager {
 		case 1:
 			filename = "save/Artifacts.json";
 			
-			HashMap<String, InfoArtifact> artifact = new HashMap<String, InfoArtifact>();
+			HashMap<String, InfoItem> artifact = new HashMap<String, InfoItem>();
 			
 			for (UnlockArtifact u : UnlockArtifact.values()) {
 				if (u.getInfo() != null) {
@@ -69,6 +69,20 @@ public class UnlockManager {
 			save = json.prettyPrint(level);
 			
 			break;
+		case 4:
+			filename = "save/Actives.json";
+			
+			HashMap<String, InfoItem> active = new HashMap<String, InfoItem>();
+			
+			for (UnlockActives u : UnlockActives.values()) {
+				if (u.getInfo() != null) {
+					active.put(u.name(), u.getInfo());
+				}
+				
+			}
+			save = json.prettyPrint(active);
+			
+			break;
 		}
 		
 		Gdx.files.local(filename).writeString("", false);
@@ -83,17 +97,18 @@ public class UnlockManager {
 		Json json = new Json();
 		
 		for (JsonValue d : reader.parse(Gdx.files.internal("save/Equips.json"))) {
-			UnlockEquip.valueOf(d.name()).setInfo(json.fromJson(InfoEquip.class, d.toJson(OutputType.minimal)));
+			UnlockEquip.valueOf(d.name()).setInfo(json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		
 		for (JsonValue d : reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
-			UnlockArtifact.valueOf(d.name()).setInfo(json.fromJson(InfoArtifact.class, d.toJson(OutputType.minimal)));
+			UnlockArtifact.valueOf(d.name()).setInfo(json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
-		
+		for (JsonValue d : reader.parse(Gdx.files.internal("save/Actives.json"))) {
+			UnlockActives.valueOf(d.name()).setInfo(json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+		}
 		for (JsonValue d : reader.parse(Gdx.files.internal("save/Characters.json"))) {
 			UnlockCharacter.valueOf(d.name()).setInfo(json.fromJson(InfoCharacter.class, d.toJson(OutputType.minimal)));
 		}
-		
 		for (JsonValue d : reader.parse(Gdx.files.internal("save/Levels.json"))) {
 			UnlockLevel.valueOf(d.name()).setInfo(json.fromJson(InfoLevel.class, d.toJson(OutputType.minimal)));
 		}

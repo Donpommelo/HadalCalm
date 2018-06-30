@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
-import com.mygdx.hadal.actors.UIMomentum;
+import com.mygdx.hadal.actors.UIActives;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIReload;
@@ -102,7 +102,7 @@ public class PlayState extends GameState {
 	
 	private UIPlay uiPlay;
 	private UIReload uiReload;
-	private UIMomentum uiMomentum;
+	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
 	private UIStatuses uiStatus;
@@ -206,7 +206,7 @@ public class PlayState extends GameState {
 		
 		uiPlay = new UIPlay(HadalGame.assetManager, this, player);
 		uiReload = new UIReload(HadalGame.assetManager, this, player);
-		uiMomentum = new UIMomentum(HadalGame.assetManager, this, player);
+		uiActive = new UIActives(HadalGame.assetManager, this, player);
 		uiObjective = new UIObjective(HadalGame.assetManager, this, player);
 		uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
 		
@@ -215,7 +215,7 @@ public class PlayState extends GameState {
 		}
 		
 		this.stage.addActor(uiPlay);
-		this.stage.addActor(uiMomentum);
+		this.stage.addActor(uiActive);
 		this.stage.addActor(uiReload);
 		this.stage.addActor(uiExtra);
 		this.stage.addActor(uiObjective);
@@ -239,7 +239,7 @@ public class PlayState extends GameState {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
 		uiPlay.setPlayer(player);
-		uiMomentum.setPlayer(player);
+		uiActive.setPlayer(player);
 		uiReload.setPlayer(player);
 	}
 	

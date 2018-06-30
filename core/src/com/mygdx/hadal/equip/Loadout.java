@@ -18,7 +18,7 @@ public class Loadout {
 		multitools = new UnlockEquip[numSlots];
 		multitools[0] = UnlockEquip.SPEARGUN;
 		multitools[1] = UnlockEquip.SCRAPRIPPER;
-		multitools[2] = UnlockEquip.MELON;
+		multitools[2] = UnlockEquip.NOTHING;
 		
 		artifact = UnlockArtifact.NOTHING;
 		

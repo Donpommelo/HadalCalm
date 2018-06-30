@@ -1,6 +1,6 @@
 {
 IRON_BALL_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Iron Ball Launcher
 	description: "Fires a singular, heavy projectile. Clunky but powerful." 
 	unlocked: true
@@ -11,7 +11,7 @@ IRON_BALL_LAUNCHER: {
 	]
 }
 BOUNCING_BLADE: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Bouncing Blades
 	description: "Fires a projectile in a straight line that bounces off surfaces."
 	unlocked: true
@@ -22,7 +22,7 @@ BOUNCING_BLADE: {
 	]
 }
 ICEBERG: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Iceberg
 	description: "Fires a projectile that slides across flat surfaces."
 	unlocked: true
@@ -33,7 +33,7 @@ ICEBERG: {
 	]
 }
 BOILER: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Boiler
 	description: "Fires a short-ranged spray of damaging particles."
 	unlocked: true
@@ -44,7 +44,7 @@ BOILER: {
 	]
 }
 BOOMERANG: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Boomerang
 	description: "Fires a projectile that slowly returns to player. Catch returning boomerangs to refill clip!"
 	unlocked: true
@@ -55,7 +55,7 @@ BOOMERANG: {
 	]
 }
 CR4PCANNON: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Cr4p Cannon
 	description: "Fires a shotgun-burst of short-ranged projectiles."
 	unlocked: true
@@ -65,18 +65,8 @@ CR4PCANNON: {
 		RANGED,
 	]
 }
-MOMENTUM_SHOOTER: {
-	class: com.mygdx.hadal.save.InfoEquip
-	name: Momentum Shooter
-	description: "Fires your last stored momentum to transfer velocity to any objects struck."
-	unlocked: true
-	tags: [
-		ARMORY,
-		MISC,
-	]
-}
 LASER_GUIDED_ROCKET: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Laser-Guided Rocket
 	description: "Fires a missile that will home in towards your mouse position."
 	unlocked: true
@@ -87,7 +77,7 @@ LASER_GUIDED_ROCKET: {
 	]
 }
 SPEARGUN: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Speargun
 	description: "A simple weapon that fires arcing projectiles."
 	unlocked: true
@@ -98,7 +88,7 @@ SPEARGUN: {
 	]
 }
 TORPEDO_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Torpedo Launcher
 	description: "Fires projectiles in a straight line that explode upon contact with an enemy or wall."
 	unlocked: true
@@ -108,18 +98,8 @@ TORPEDO_LAUNCHER: {
 		RANGED,
 	]
 }
-MELON: {
-	class: com.mygdx.hadal.save.InfoEquip
-	name: Melon
-	description: "Eat to slowly regenerate Health."
-	unlocked: true
-	tags: [
-		ARMORY,
-		MISC,
-	]
-}
 CHARGE_BEAM: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Charge Beam
 	description: "Hold the fire button to charge a faster, more powerful projectile and release to fire."
 	unlocked: true
@@ -130,7 +110,7 @@ CHARGE_BEAM: {
 	]
 }
 GRENADE_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Grenade Launcher
 	description: "Fires projectiles that are affected by gravity and explode upon contact with an enemy or wall."
 	unlocked: true
@@ -141,7 +121,7 @@ GRENADE_LAUNCHER: {
 	]
 }
 BEEGUN: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."
 	unlocked: true
@@ -152,7 +132,7 @@ BEEGUN: {
 	]
 }
 NEMATOCYDEARM: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Nematocydearm
 	description: "Fires projectiles that create a damaging poison field upon contact with an enemy or wall."
 	unlocked: true
@@ -163,7 +143,7 @@ NEMATOCYDEARM: {
 	]
 }
 SCRAPRIPPER: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Scrapripper
 	description: "Perform a close-range, melee swing to damage enemies and deflect projectiles."
 	unlocked: true
@@ -174,7 +154,7 @@ SCRAPRIPPER: {
 	]
 }
 TELEKINESIS: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Telekinetic Blast
 	description: "Fire a projectile that captures an enemy upon contact. Use the mouse to swing captured target around, damaging it upon contact with walls or other enemies."
 	unlocked: true
@@ -185,7 +165,7 @@ TELEKINESIS: {
 	]
 }
 LASER_RIFLE: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Laser Rifle
 	description: "Fires a straight, piercing beam through enemies."
 	unlocked: true
@@ -196,7 +176,7 @@ LASER_RIFLE: {
 	]
 }
 MACHINEGUN: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Machinegun
 	description: "Standard weapon with a high rate of fire."
 	unlocked: true
@@ -207,7 +187,7 @@ MACHINEGUN: {
 	]
 }
 STICKY_BOMB_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: "Stickybomb-Launcher"
 	description: "Fires projectiles that stick to enemies and walls. Press the Reload button to detonate all active bombs."
 	unlocked: true
@@ -218,7 +198,7 @@ STICKY_BOMB_LAUNCHER: {
 	]
 }
 NOTHING: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Nothing
 	description: "Your bare hands."
 	unlocked: true
@@ -227,7 +207,7 @@ NOTHING: {
 	]
 }
 SLODGEGUN: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Slodgegun
 	description: "Fire a projectile that slows targets and induces vulnerability."
 	unlocked: true
@@ -238,7 +218,7 @@ SLODGEGUN: {
 	]
 }
 STORMCALLER: {
-	class: com.mygdx.hadal.save.InfoEquip
+	class: com.mygdx.hadal.save.InfoItem
 	name: Stormcaller
 	description: "Fire a singular projectile that grows in size and power as it travels."
 	unlocked: true

@@ -12,7 +12,7 @@ public class Status {
 	
 	//TODO:implement or delete these 
 	protected float duration;
-	protected String name;
+	protected String name, descr;
 	protected boolean perm, decay, removedEnd, visible;
 	
 	protected BodyData inflicter, inflicted;
@@ -123,4 +123,8 @@ public class Status {
 		this.inflicted = inflicted;
 		this.inflicter = inflicter;
 	}
+
+	public boolean isVisible() {
+		return visible;
+	}	
 }
