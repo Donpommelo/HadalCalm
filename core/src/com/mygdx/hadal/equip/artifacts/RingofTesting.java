@@ -20,23 +20,13 @@ public class RingofTesting extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 3;
 	
-	
-	private static final float maxLinSpd = 100;
-	private static final float maxLinAcc = 1000;
-	private static final float maxAngSpd = 180;
-	private static final float maxAngAcc = 90;
-	
-	private static final int boundingRad = 500;
-	private static final int decelerationRadius = 0;
-	private final static float homeRadius = 10;
-	
 	public RingofTesting() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new Status(state, name, b) {
+		enchantment[0] = new Status(state, name, descr, b) {
 			
 			@Override
 			public void onShoot(Equipable tool) {
@@ -56,7 +46,7 @@ public class RingofTesting extends Artifact {
 			}
 		};
 		
-		enchantment[1] = new Status(state, name, b) {
+		enchantment[1] = new Status(state, name, descr, b) {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
@@ -66,7 +56,7 @@ public class RingofTesting extends Artifact {
 			
 		};
 		
-		enchantment[2] = new Status(state, name, b) {
+		enchantment[2] = new Status(state, name, descr, b) {
 			
 			@Override
 			public void onReload(Equipable tool) {
@@ -74,9 +64,7 @@ public class RingofTesting extends Artifact {
 				WeaponUtils.createBees(state, 
 						inflicted.getSchmuck().getBody().getPosition().x * PPM, 
 						inflicted.getSchmuck().getBody().getPosition().y * PPM, 
-						inflicted.getSchmuck(), tool, 14, 5.0f, 23, 21, 4.0f,
-						5, 180, new Vector2(1, 1), false,
-						maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, inflicted.getSchmuck().getHitboxfilter());
+						inflicted.getSchmuck(), tool, 5, 180, new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
 			}
 		};
 		

@@ -8,9 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.actives.Melon;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -58,7 +58,7 @@ public class PlayerBodyData extends BodyData {
 		this.artifacts = new ArrayList<Artifact>();
 		artifactStart = addArtifact(loadout.artifact);
 
-		this.activeItem = new Melon(player);
+		this.activeItem = getActiveItem(loadout.activeItem);
 		addStatus(new ActiveItemCharge(player.getState(), this));
 		
 		
@@ -188,6 +188,18 @@ public class PlayerBodyData extends BodyData {
 		return old;
 	}
 	
+	public ActiveItem pickup(ActiveItem item) {
+		if (activeItem == null) {
+			activeItem = item;
+			return null;
+		}
+		
+		ActiveItem old = activeItem;
+		activeItem = item;
+		
+		return old;
+	}
+	
 	/**
 	 * Replaces slot slot with new equip. Used in loadout state and also when using last charge of consumable weapon.
 	 */
@@ -226,6 +238,14 @@ public class PlayerBodyData extends BodyData {
 		artifactStart = addArtifact(artifact);
 	}
 	
+	public ActiveItem replaceSlot(UnlockActives activeItem) {
+		ActiveItem old = this.activeItem;
+		
+		this.activeItem = getActiveItem(activeItem);
+		
+		return old;
+	}
+	
 	/**
 	 * Add a new artifact. Return the new artifact
 	 */
@@ -239,6 +259,15 @@ public class PlayerBodyData extends BodyData {
 		
 		artifacts.add(newArtifact);
 		return newArtifact;
+	}
+	
+	public ActiveItem getActiveItem(UnlockActives activeItem) {
+		
+		ActiveItem newItem = UnlocktoItem.getUnlock(activeItem, player);
+		
+		this.activeItem = newItem;
+		
+		return newItem;
 	}
 	
 	/**

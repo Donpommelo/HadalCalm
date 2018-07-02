@@ -6,15 +6,16 @@ import com.mygdx.hadal.states.PlayState;
 public class Lifesteal extends Status {
 
 	private static String name = "Lifesteal";
+	private static String descr = "Heal when inflicting damage.";
 	private float power;
 
 	public Lifesteal(PlayState state, int i, float amount, BodyData p, BodyData v) {
-		super(state, i, name, false, false, true, true, p, v);
+		super(state, i, name, descr, false, false, true, true, p, v);
 		this.power = amount;
 	}
 	
 	public Lifesteal(PlayState state, float amount, BodyData i) {
-		super(state, name, i);
+		super(state, name, descr, i);
 		this.power = amount;
 	}
 	

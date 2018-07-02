@@ -8,9 +8,10 @@ import com.mygdx.hadal.states.PlayState;
 public class ActiveItemCharge extends Status {
 
 	private static String name = "Active Item Charge";
+	private static String descr = "Your Active Item Charges";
 
 	public ActiveItemCharge(PlayState state, BodyData i) {
-		super(state, name, i);
+		super(state, name, descr, i);
 	}
 	
 	@Override

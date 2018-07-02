@@ -221,6 +221,11 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}
+		if (object.getName().equals("Active")) {
+			e = new PickupActive(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("pool", "", String.class));
+		}
 		if (object.getName().equals("WeaponMod")) {
 			e = new PickupWeaponMod(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
@@ -290,6 +295,10 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Reliquary")) {
 			e = new Reliquary(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Dispensary")) {
+			e = new Dispensary(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
 		}
 		if (object.getName().equals("Dormitory")) {

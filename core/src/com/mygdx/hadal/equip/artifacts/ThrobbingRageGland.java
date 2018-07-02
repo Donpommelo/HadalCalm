@@ -22,7 +22,7 @@ public class ThrobbingRageGland extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, b) {
+		enchantment[0] = new Status(state, name, descr, b) {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {

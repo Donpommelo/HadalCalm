@@ -9,7 +9,7 @@ import com.mygdx.hadal.statuses.StatusComposite;
 public class MoonFluther extends Artifact {
 
 	private final static String name = "Moon Fluther";
-	private final static String descr = "+25% Hovering Power and -25% Hovering Cost";
+	private final static String descr = "Improved Hovering";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -19,7 +19,7 @@ public class MoonFluther extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, b, 
+		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, 12, 0.25f, b), 
 				new StatChangeStatus(state, 13, -0.25f, b));
 		return enchantment;

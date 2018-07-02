@@ -11,8 +11,8 @@ public class WeaponModifier extends Status {
 	private Equipable moddedTool;
 	private Status mod;
 	
-	public WeaponModifier(PlayState state, BodyData i, Equipable tool, Status mod){
-		super(state, "", i);
+	public WeaponModifier(PlayState state, String name, String descr, BodyData i, Equipable tool, Status mod){
+		super(state, name, descr, i);
 		this.moddedTool = tool;
 		this.mod = mod;
 	}

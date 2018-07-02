@@ -19,7 +19,7 @@ public class NiceShoes extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, b, 
+		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, 4, 0.30f, b), 
 				new StatChangeStatus(state, 6, 0.50f, b));
 		return enchantment;

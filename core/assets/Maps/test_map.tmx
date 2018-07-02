@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="72" height="72" tilewidth="32" tileheight="32" infinite="0" nextobjectid="131">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="72" height="72" tilewidth="32" tileheight="32" infinite="0" nextobjectid="132">
  <tileset firstgid="1" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="../Images/tileset_1.png" width="192" height="128"/>
  </tileset>
@@ -19,11 +19,6 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="26" name="Warp" type="Warp" x="1888" y="1568" width="32" height="32">
-   <properties>
-    <property name="Level" value="ARENA_1"/>
-   </properties>
-  </object>
   <object id="28" name="Armory" type="Armory" x="1472" y="1536" width="96" height="96"/>
   <object id="30" name="Reliquary" type="Reliquary" x="1600" y="1536" width="96" height="96"/>
   <object id="31" name="Dormitory" type="Dormitory" x="1216" y="1536" width="96" height="96"/>
@@ -411,5 +406,6 @@
     <property name="triggeredId" value="pickupParticleHp"/>
    </properties>
   </object>
+  <object id="131" name="Dispensary" type="Dispensary" x="1856" y="1536" width="96" height="96"/>
  </objectgroup>
 </map>

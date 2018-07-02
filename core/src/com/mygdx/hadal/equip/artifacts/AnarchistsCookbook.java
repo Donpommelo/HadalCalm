@@ -11,7 +11,7 @@ import com.mygdx.hadal.statuses.Status;
 public class AnarchistsCookbook extends Artifact {
 
 	private final static String name = "Anarchist's Cookbook";
-	private final static String descr = "Explosions";
+	private final static String descr = "Explosions!";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -35,7 +35,7 @@ public class AnarchistsCookbook extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		
-		enchantment[0] = new Status(state, name, b) {
+		enchantment[0] = new Status(state, name, descr, b) {
 			
 			private float procCdCount;
 			private float procCd = .5f;

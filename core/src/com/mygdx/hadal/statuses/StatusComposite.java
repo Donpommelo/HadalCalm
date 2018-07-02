@@ -10,14 +10,14 @@ public class StatusComposite extends Status {
 	
 	private Status[] statuses;
 	
-	public StatusComposite(PlayState state, float i, String name, Boolean perm, Boolean vis, Boolean end, Boolean dec,
+	public StatusComposite(PlayState state, float i, String name, String descr, Boolean perm, Boolean vis, Boolean end, Boolean dec,
 			BodyData p, BodyData v, Status...statuses){
-		super(state, i, name, perm, vis, end, dec, p, v);
+		super(state, i, name, descr, perm, vis, end, dec, p, v);
 		this.statuses = statuses;
 	}
 	
-	public StatusComposite(PlayState state, String name, BodyData i, Status...statuses){
-		super(state, name, i);
+	public StatusComposite(PlayState state, String name, String descr, BodyData i, Status...statuses){
+		super(state, name, descr, i);
 		this.statuses = statuses;
 	}
 	

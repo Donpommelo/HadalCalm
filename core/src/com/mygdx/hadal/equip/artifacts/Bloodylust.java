@@ -23,9 +23,9 @@ public class Bloodylust extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, b, 
+		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, 28, -0.75f, b), 
-				new Status(state, "", b) {
+				new Status(state, "", "", b) {
 			
 			@Override
 			public void onKill(BodyData vic) {

@@ -19,7 +19,7 @@ public class EelskinCover extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, b, 
+		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, 8, -0.60f, b), 
 				new StatChangeStatus(state, 9, -0.60f, b));
 		return enchantment;

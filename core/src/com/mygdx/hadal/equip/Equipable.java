@@ -20,6 +20,7 @@ public abstract class Equipable {
 	
 	//The name of this tool
 	protected String name;
+	private String descr = "";
 	
 	//The delay in seconds after using this tool before you can use a tool again.
 	protected float useCd;
@@ -134,6 +135,14 @@ public abstract class Equipable {
 	
 	public String getName() {
 		return name;
+	}
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
 	}
 
 	public Schmuck getUser() {

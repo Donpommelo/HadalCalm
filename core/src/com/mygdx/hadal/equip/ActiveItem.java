@@ -18,6 +18,8 @@ public class ActiveItem extends Equipable {
 	
 	private chargeStyle style;
 	
+	
+	
 	public ActiveItem(Schmuck user, String name, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
 		super(user, name, usecd, usedelay);
 		this.maxCharge = maxCharge;

@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
@@ -12,6 +15,7 @@ import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Status;
 
 /**
  * This is the main ui element. It displays player loadout, hp, fuel.
@@ -50,6 +54,8 @@ public class UIPlay extends AHadalActor{
 	
 	private float hpRatio, fuelRatio, fuelCutoffRatio;
 	
+	private boolean mouseOver;
+
 	public UIPlay(AssetManager assetManager, PlayState state, Player player) {
 		super(assetManager);
 		this.player = player;
@@ -72,6 +78,25 @@ public class UIPlay extends AHadalActor{
 		this.hpRatio = 1.0f;
 		this.fuelRatio = 1.0f;
 		this.fuelCutoffRatio = 1.0f;
+		
+		setWidth(main.getRegionWidth() * scale);
+		setHeight(main.getRegionHeight() * scale);
+		
+		mouseOver = false;
+		
+		addListener(new ClickListener() {
+			@Override
+			public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+				super.enter(event, x, y, pointer, fromActor);
+				mouseOver = true;
+			}
+
+			@Override
+			public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
+				super.enter(event, x, y, pointer, toActor);
+				mouseOver = false;
+			}
+		});
 	}
 	
 	@Override
@@ -108,17 +133,17 @@ public class UIPlay extends AHadalActor{
 		}
 		
 		if (blinking) {
-			batch.draw(hpLow, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+			batch.draw(hpLow, x, y, getWidth(), getHeight());
 		}
 		
-		batch.draw(main, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+		batch.draw(main, x, y, getWidth(), getHeight());
 		
 		batch.draw(fuelCutoff, x + 155 + fuelCutoffRatio * fuel.getRegionWidth() * scale, y + 22,
 				fuelCutoff.getRegionWidth() * scale, fuelCutoff.getRegionHeight() * scale);
 
 		
 		if (player.getPlayerData().getCurrentTool().isReloading()) {
-			batch.draw(reloading, x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+			batch.draw(reloading, x, y, getWidth(), getHeight());
 		}
 
 		font.getData().setScale(0.25f);
@@ -133,14 +158,23 @@ public class UIPlay extends AHadalActor{
 			if (player.getPlayerData().getMultitools().length > i) {
 				
 				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof Nothing) {
-					batch.draw(itemNull.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+					batch.draw(itemNull.get(i), x, y, getWidth(), getHeight());
 				} else {
 					if (i == player.getPlayerData().getCurrentSlot()) {
-						batch.draw(itemSelect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+						batch.draw(itemSelect.get(i), x, y, getWidth(), getHeight());
 					} else {
-						batch.draw(itemUnselect.get(i), x, y, main.getRegionWidth() * scale, main.getRegionHeight() * scale);
+						batch.draw(itemUnselect.get(i), x, y, getWidth(), getHeight());
 					}
 				}	
+			}
+		}
+		
+		if (mouseOver) {
+			int yOffset = 0;
+			for(Status s : player.getPlayerData().getCurrentTool().getWeaponMods()) {
+				font.getData().setScale(0.25f);
+				font.draw(batch, s.getName(), x + 25, y + 150 + yOffset, 250, -1, true);
+				yOffset += 25;
 			}
 		}
 	}

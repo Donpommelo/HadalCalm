@@ -120,6 +120,7 @@ public class UnlockManager {
 		RANGED,
 		MELEE,
 		RELIQUARY,
+		DISPENSARY,
 		NAVIGATIONS,
 		TRAINING,
 		CAMPAIGN,

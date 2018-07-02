@@ -8,7 +8,7 @@ import com.mygdx.hadal.statuses.Status;
 public class FracturePlate extends Artifact {
 
 	private final static String name = "Fracture Plate";
-	private final static String descr = "Blocks damge every 8 seconds";
+	private final static String descr = "Blocks damage every 8 seconds";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -21,7 +21,7 @@ public class FracturePlate extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, b) {
+		enchantment[0] = new Status(state, name, descr, b) {
 			
 			@Override
 			public void timePassing(float delta) {

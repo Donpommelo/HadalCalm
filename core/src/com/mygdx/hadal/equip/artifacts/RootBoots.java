@@ -4,6 +4,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.statuses.StatusComposite;
 
 public class RootBoots extends Artifact {
 
@@ -18,7 +19,9 @@ public class RootBoots extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, 24, 0.75f, b);
+		enchantment[0] = new StatusComposite(state, name, descr, b, 
+				new StatChangeStatus(state, 24, 0.75f, b)
+		);
 		return enchantment;
 	}
 }

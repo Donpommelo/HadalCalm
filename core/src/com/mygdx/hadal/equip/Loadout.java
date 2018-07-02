@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip;
 
+import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -12,6 +13,8 @@ public class Loadout {
 	
 	public UnlockArtifact artifact;
 	
+	public UnlockActives activeItem;
+	
 	public UnlockCharacter character;
 	
 	public Loadout() {
@@ -21,7 +24,7 @@ public class Loadout {
 		multitools[2] = UnlockEquip.NOTHING;
 		
 		artifact = UnlockArtifact.NOTHING;
-		
+		activeItem = UnlockActives.MELON;
 		character = UnlockCharacter.MOREAU;
 	}
 	
@@ -38,7 +41,7 @@ public class Loadout {
 		}
 		
 		artifact = UnlockArtifact.NOTHING;
-		
+		activeItem = UnlockActives.MELON;
 		character = UnlockCharacter.MOREAU;
 
 	}

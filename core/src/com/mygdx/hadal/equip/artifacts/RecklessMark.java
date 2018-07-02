@@ -19,7 +19,7 @@ public class RecklessMark extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {		
-		enchantment[0] = new StatusComposite(state, name, b, 
+		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, 21, 0.4f, b), 
 				new StatChangeStatus(state, 22, -0.4f, b));
 		return enchantment;

@@ -4,6 +4,19 @@ MELON: {
 	name: Melon
 	description: "Restores Hp. Charges by dealing damage."
 	unlocked: true
-	tags: []
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+HONEYCOMB: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Honeycomb
+	description: "Releases a swarm of Bees!"
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
 }
 }

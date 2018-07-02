@@ -105,16 +105,27 @@ public class WeaponUtils {
 		return null;
 	}
 	
-	public static Hitbox createBees(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			final float baseDamage, final float knockback, int projectileWidth, int projectileHeight, float lifespan,
-			int numBees, int spread, Vector2 startVelocity, boolean procEffects,
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, int boundingRad, int decelerationRadius, float radius, short filter) {
+	private static final float beeBaseDamage = 14;
+	private static final float beeKnockback = 5.0f;
+	private static final int beeWidth = 23;
+	private static final int beeHeight = 21;
+	private static final float beeLifespan = 4.0f;
+	private static final float beeMaxLinSpd = 100;
+	private static final float beeMaxLinAcc = 1000;
+	private static final float beeMaxAngSpd = 180;
+	private static final float beeMaxAngAcc = 90;
+	private static final int beeBoundingRad = 500;
+	private static final int beeDecelerationRadius = 0;
+	private final static float beeHomeRadius = 10;
+
+	public static Hitbox createBees(PlayState state, float x, float y, final Schmuck user, Equipable tool, int numBees, 
+			int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numBees; i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			Hitbox hbox = new HitboxAnimated(state, x, y, projectileWidth, projectileHeight, 0, lifespan, 1, 0, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new HitboxAnimated(state, x, y, beeWidth, beeHeight, 0, beeLifespan, 1, 0, startVelocity.setAngle(newDegrees),
 					filter, false, procEffects, user, "bee") {
 				
 				@Override
@@ -140,9 +151,9 @@ public class WeaponUtils {
 			};
 			
 			hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));	
-			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, 
-					maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, radius, filter));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
+			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, 
+					beeMaxAngSpd, beeMaxAngAcc, beeBoundingRad, beeDecelerationRadius, beeHomeRadius, filter));
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 
 		}

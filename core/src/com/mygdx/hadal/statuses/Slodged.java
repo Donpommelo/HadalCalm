@@ -6,12 +6,13 @@ import com.mygdx.hadal.states.PlayState;
 public class Slodged extends Status {
 
 	private static String name = "Slodged";
+	private static String descr = "Slowed";
 	
 	private final static float amp = 2.0f;
 	private final static float slow = 0.99f;
 	
 	public Slodged(PlayState state, float i, BodyData p, BodyData v) {
-		super(state, i, name, false, false, true, true, p, v);
+		super(state, i, name, descr, false, false, true, true, p, v);
 	}
 	
 	@Override

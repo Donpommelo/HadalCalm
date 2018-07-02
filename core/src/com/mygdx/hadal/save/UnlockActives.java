@@ -10,6 +10,7 @@ import com.mygdx.hadal.equip.actives.*;
 public enum UnlockActives {
 	
 	MELON(Melon.class),
+	HONEYCOMB(Honeycomb.class),
 	
 	;
 	

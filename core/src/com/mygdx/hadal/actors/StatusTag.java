@@ -19,7 +19,7 @@ public class StatusTag extends AHadalActor {
 	
 	private BitmapFont font;
 	
-	private float scale = 0.4f;
+	private float scale = 0.25f;
 	private Color color;
 	
 	private TextureAtlas atlas;
@@ -66,7 +66,7 @@ public class StatusTag extends AHadalActor {
          if (mouseOver) {
         	 font.setColor(color);
         	 font.getData().setScale(scale);
-        	 font.draw(batch, status.getName(), getX(), getY() - 25);
+        	 font.draw(batch, status.getName() + ": " + status.getDescr(), getX(), getY() - 25);
          }
     }
 
