@@ -91,6 +91,10 @@ public class PlayerBodyData extends BodyData {
 				}
 			}
 		}
+
+		//Eventually, this space might be used for a "intrinsic status" thing.
+		addStatus(new ActiveItemCharge(player.getState(), this));
+
 	}
 	
 	/**

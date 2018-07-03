@@ -8,6 +8,7 @@ import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -25,6 +26,7 @@ import com.mygdx.hadal.actors.UIStatuses;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -107,6 +109,8 @@ public class PlayState extends GameState {
 	private UIExtra uiExtra;
 	private UIStatuses uiStatus;
 	
+	private Texture bg;
+	
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
@@ -184,7 +188,9 @@ public class PlayState extends GameState {
 		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		this.cameraTarget = player;
 		
-		controller = new PlayerController(player, this);		
+		controller = new PlayerController(player, this);	
+		
+		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
 	}
 	
 	/**
@@ -208,7 +214,7 @@ public class PlayState extends GameState {
 		uiReload = new UIReload(HadalGame.assetManager, this, player);
 		uiActive = new UIActives(HadalGame.assetManager, this, player);
 		uiObjective = new UIObjective(HadalGame.assetManager, this, player);
-		uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
+		uiStatus = new UIStatuses(HadalGame.assetManager, this);
 		
 		if (uiExtra == null) {
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
@@ -313,9 +319,18 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(0/255f, 0/255f, 135/255f, 1.0f);
+		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
+		
+		
+		//Render Background
+		batch.setProjectionMatrix(hud.combined);
+		batch.begin();
+		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+		batch.end();
+		
+		batch.setProjectionMatrix(camera.combined);
 		//Render Tiled Map + world
 		tmr.render();				
 

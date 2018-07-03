@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
@@ -21,7 +19,7 @@ public class UIStatuses {
 	private final int tagHeight = 25;
 	
 	
-	public UIStatuses(AssetManager assetManager, PlayState state, Player player) {
+	public UIStatuses(AssetManager assetManager, PlayState state) {
 		this.assetManager = assetManager;
 		this.table = new Table().left();
 		
@@ -67,5 +65,4 @@ public class UIStatuses {
 		table.clear();
 		statuses.clear();
 	}
-	
 }

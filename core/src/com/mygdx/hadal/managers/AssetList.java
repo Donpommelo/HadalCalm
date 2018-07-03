@@ -68,7 +68,10 @@ public enum AssetList {
 	ANCHORDARKATLAS("ui/anchor_logo_dark.atlas", TextureAtlas.class),
 	
 	PELICAN("sprites/busts/portrait_pelican.png", Texture.class),
-	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class);
+	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),
+	
+	BACKGROUND1("under_da_sea.jpg", Texture.class),
+	BACKGROUND2("under_da_sea_no_rocks.jpg", Texture.class);
 	
 	//Enum constructor and methods.
 	private String pathname;
