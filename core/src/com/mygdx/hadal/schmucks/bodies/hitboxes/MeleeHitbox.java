@@ -35,6 +35,8 @@ public class MeleeHitbox extends Hitbox {
 	@Override
 	public void controller(float delta) {
 				
+		super.controller(delta);
+		
 		Vector2 hbLocation = creator.getBody().getPosition().add(center);
 		this.body.setTransform(hbLocation, startVelo.angleRad());
 		
