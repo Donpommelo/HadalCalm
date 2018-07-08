@@ -83,21 +83,29 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
+	private static final float torpedoBaseDamage = 5.0f;
+	private static final float torpedoBaseKnockback = 3.0f;
+	private static final float torpedoExplosionDamage = 20.0f;
+	private static final float torpedoExplosionKnockback = 16.0f;
+	private static final int torpedoExplosionRadius = 100;
+	private static final int torpedoWidth = 75;
+	private static final int torpedoHeight = 15;
+	private static final float torpedoLifespan = 3.0f;
+	
+	
 	public static Hitbox createHomingTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			final float baseDamage, final float knockback, int rocketWidth, int rocketHeight, float lifespan,
-			int numTorp, int spread, Vector2 startVelocity, boolean procEffects,
-			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+			int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			Hitbox hbox = new HitboxImage(state, x, y, rocketWidth, rocketHeight, 0, lifespan, 1, 0, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new HitboxImage(state, x, y, torpedoWidth, torpedoHeight, 0, torpedoLifespan, 1, 0, startVelocity.setAngle(newDegrees),
 					filter, true, procEffects, user, "torpedo");
 			
 			hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, torpedoExplosionRadius, torpedoExplosionDamage, torpedoExplosionKnockback, (short)0));
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), filter));
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		}

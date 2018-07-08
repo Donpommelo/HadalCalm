@@ -9,9 +9,12 @@ import com.mygdx.hadal.equip.actives.*;
 
 public enum UnlockActives {
 	
-	MELON(Melon.class),
 	HONEYCOMB(Honeycomb.class),
-	
+	MELON(Melon.class),
+	MISSILE_POD(MissilePod.class),
+	RELOADER(Reloader.class),
+	RESERVED_FUEL(ReservedFuel.class),
+
 	;
 	
 	private Class<? extends ActiveItem> active;

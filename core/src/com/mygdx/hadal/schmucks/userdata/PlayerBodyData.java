@@ -311,8 +311,8 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	public void fuelGain(float fuelRegen2) {
-		currentFuel += fuelRegen2;
+	public void fuelGain(float fuelRegen) {
+		currentFuel += fuelRegen;
 		if (currentFuel > getMaxFuel()) {
 			currentFuel = getMaxFuel();
 		}

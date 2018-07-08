@@ -51,7 +51,7 @@ public class RingofTesting extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, 50, 20 / 60f, 1.0f, b.getSchmuck().getHitboxfilter()));
-				hbox.addStrategy(new HitboxOnDieSummonRocketsStrategy(state, hbox, b, null, 100, 25, 16.0f, 3, inflicted.getSchmuck().getHitboxfilter()));
+				hbox.addStrategy(new HitboxOnDieSummonRocketsStrategy(state, hbox, b, null, 3, inflicted.getSchmuck().getHitboxfilter()));
 			}
 			
 		};

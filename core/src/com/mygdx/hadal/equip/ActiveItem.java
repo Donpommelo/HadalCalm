@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip;
 
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -23,7 +24,7 @@ public class ActiveItem extends Equipable {
 	public ActiveItem(Schmuck user, String name, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
 		super(user, name, usecd, usedelay);
 		this.maxCharge = maxCharge;
-		this.currentCharge = 0;
+		this.currentCharge = maxCharge;
 		this.style = chargeStyle;
 	}
 	
@@ -58,12 +59,12 @@ public class ActiveItem extends Equipable {
 	public void execute(PlayState state, BodyData shooter) {
 		if (currentCharge >= maxCharge) {
 			currentCharge = 0;
-			useItem(state, shooter);
+			useItem(state, (PlayerBodyData)shooter);
 		}
 
 	}
 	
-	public void useItem(PlayState state, BodyData shooter) {
+	public void useItem(PlayState state, PlayerBodyData shooter) {
 		
 	}
 	
