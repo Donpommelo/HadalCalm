@@ -31,7 +31,7 @@ public class Boiler extends RangedWeapon {
 	
 	private final static int projDura = 3;
 	
-	private final static String weapSpriteId = "default";
+	private final static String weapSpriteId = "boiler";
 	private final static String projSpriteId = "orb_yellow";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {

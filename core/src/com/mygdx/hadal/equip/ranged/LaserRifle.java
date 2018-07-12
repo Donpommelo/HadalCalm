@@ -38,7 +38,7 @@ public class LaserRifle extends RangedWeapon {
 	
 	private final static int projDura = 1;
 	
-	private final static String weapSpriteId = "default";
+	private final static String weapSpriteId = "laserrifle";
 	private final static String projSpriteId = "orb_orange";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {

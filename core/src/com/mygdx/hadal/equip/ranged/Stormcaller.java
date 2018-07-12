@@ -35,7 +35,7 @@ public class Stormcaller extends RangedWeapon {
 	
 	private final static int projDura = 10;
 	
-	private final static String weapSpriteId = "default";
+	private final static String weapSpriteId = "stormcaller";
 	private final static String projSpriteId = "orb_yellow";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {

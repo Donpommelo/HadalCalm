@@ -41,7 +41,7 @@ public class SlodgeGun extends RangedWeapon {
 
 	private final static int explosionRadius = 250;
 
-	private final static String weapSpriteId = "default";
+	private final static String weapSpriteId = "slodgegun";
 	private final static String projSpriteId = "debris_c";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {

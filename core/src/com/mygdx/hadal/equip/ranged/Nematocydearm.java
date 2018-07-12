@@ -37,7 +37,7 @@ public class Nematocydearm extends RangedWeapon {
 	private final static float poisonDamage = 40/60f;
 	private final static float poisonDuration = 4.0f;
 
-	private final static String weapSpriteId = "default";
+	private final static String weapSpriteId = "nematocytearm";
 	private final static String projSpriteId = "debris_c";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {

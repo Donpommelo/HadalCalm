@@ -32,7 +32,7 @@ public class Iceberg extends RangedWeapon {
 	
 	private final static float restitution = 0.0f;
 
-	private final static String weapSpriteId = "default";
+	private final static String weapSpriteId = "iceberggun";
 	private final static String projSpriteId = "orb_blue";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {

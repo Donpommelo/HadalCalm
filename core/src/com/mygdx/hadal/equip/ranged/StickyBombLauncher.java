@@ -37,7 +37,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static float explosionDamage = 40.0f;
 	private final static float explosionKnockback = 18.0f;	
 	
-	private final static String weapSpriteId = "grenadelauncher";
+	private final static String weapSpriteId = "stickybomblauncher";
 	private final static String projSpriteId = "orb_yellow";
 
 	private static Queue<Hitbox> bombsLaid = new Queue<Hitbox>();

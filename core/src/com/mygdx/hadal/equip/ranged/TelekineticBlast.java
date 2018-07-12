@@ -37,7 +37,7 @@ public class TelekineticBlast extends RangedWeapon {
 	
 	private final static int projDura = 1;
 		
-	private final static String weapSpriteId = "default";
+	private final static String weapSpriteId = "tractorbeam";
 	private final static String projSpriteId = "orb_pink";
 
 	private static final float maxLinSpd = 600;

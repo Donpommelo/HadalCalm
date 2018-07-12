@@ -1,4 +1,15 @@
 {
+
+HONEYCOMB: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Honeycomb
+	description: "Releases a swarm of Bees!"
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 MELON: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Melon
@@ -9,10 +20,30 @@ MELON: {
 		RANDOM_POOL,
 	]
 }
-HONEYCOMB: {
+MISSILE_POD: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Honeycomb
-	description: "Releases a swarm of Bees!"
+	name: Missile Pod
+	description: "Fire a barrage ofhoming missiles!"
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+RELOADER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Auroreloader
+	description: "Reloads all of your weapons."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+RESERVED_FUEL: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Reserved Fuel
+	description: "Restores Fuel."
 	unlocked: true
 	tags: [
 		DISPENSARY,
