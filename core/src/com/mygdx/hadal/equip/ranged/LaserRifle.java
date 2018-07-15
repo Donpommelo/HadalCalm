@@ -39,6 +39,7 @@ public class LaserRifle extends RangedWeapon {
 	private final static int projDura = 1;
 	
 	private final static String weapSpriteId = "laserrifle";
+	private final static String weapEventSpriteId = "event_laserrifle";
 	private final static String projSpriteId = "orb_orange";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -98,7 +99,7 @@ public class LaserRifle extends RangedWeapon {
 	};
 	
 	public LaserRifle(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

@@ -39,6 +39,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float explosionKnockback = 25.0f;
 	
 	private final static String weapSpriteId = "smartrocketlauncher";
+	private final static String weapEventSpriteId = "event_smartrocket";
 	private final static String projSpriteId = "torpedo";
 	
 	private static final float maxLinSpd = 150;
@@ -67,6 +68,6 @@ public class LaserGuidedRocket extends RangedWeapon {
 	};
 	
 	public LaserGuidedRocket(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 }

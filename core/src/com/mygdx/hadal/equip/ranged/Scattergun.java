@@ -38,6 +38,7 @@ public class Scattergun extends RangedWeapon {
 	private final static int spread = 10;
 	
 	private final static String weapSpriteId = "scattergun";
+	private final static String weapEventSpriteId = "event_doublebarrel";
 	private final static String[] spriteId = {"debris_a", "debris_b", "debris_c", "debris_d"};
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -65,6 +66,6 @@ public class Scattergun extends RangedWeapon {
 	};
 	
 	public Scattergun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 }

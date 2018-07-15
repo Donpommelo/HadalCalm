@@ -32,6 +32,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static float explosionKnockback = 25.0f;
 
 	private final static String weapSpriteId = "torpedolauncher";
+	private final static String weapEventSpriteId = "event_torpedo";
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -44,6 +45,6 @@ public class TorpedoLauncher extends RangedWeapon {
 	};
 	
 	public TorpedoLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 }

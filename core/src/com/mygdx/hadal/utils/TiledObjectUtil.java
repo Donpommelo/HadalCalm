@@ -335,6 +335,10 @@ public class TiledObjectUtil {
 				e.setStandardParticle(object.getProperties().get("particle_std", String.class));
 			}
 			
+			if (object.getProperties().get("default", true, Boolean.class)) {
+				e.loadDefaultProperties();
+			}
+			
 			e.setGravity(object.getProperties().get("gravity", 0.0f, float.class));
 			
 			e.setBlueprint(object);

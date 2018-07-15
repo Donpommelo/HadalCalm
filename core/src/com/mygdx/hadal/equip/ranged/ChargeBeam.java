@@ -38,6 +38,7 @@ public class ChargeBeam extends RangedWeapon {
 	private static final float maxCharge = 1.0f;
 	
 	private final static String weapSpriteId = "chargebeam";
+	private final static String weapEventSpriteId = "event_chargebeam";
 	private final static String projSpriteId = "orb_yellow";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -104,7 +105,7 @@ public class ChargeBeam extends RangedWeapon {
 	};
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 	
 	@Override

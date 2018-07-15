@@ -39,13 +39,14 @@ public abstract class Equipable {
 	
 	private TextureAtlas atlas;
 	private TextureRegion equipSprite;
+	private String eventSpriteId;
 	
 	protected Vector3 mouseLocation;
 	protected Vector2 weaponVelo;
 	
 	protected ArrayList<Status> weaponMods;
 	
-	public Equipable(Schmuck user, String name, float useCd, float useDelay, String spriteId) {
+	public Equipable(Schmuck user, String name, float useCd, float useDelay, String spriteId, String eventSpriteId) {
 		this.user = user;
 		this.name = name;
 		this.useCd = useCd;
@@ -57,6 +58,8 @@ public abstract class Equipable {
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
 		equipSprite = atlas.findRegion(spriteId);
+		this.eventSpriteId = eventSpriteId;
+		
 		mouseLocation = new Vector3();
 		weaponVelo = new Vector2();
 	}
@@ -69,7 +72,7 @@ public abstract class Equipable {
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
 	 */
 	public Equipable(Schmuck user, String name, float useCd, float useDelay) {
-		this(user, name, useCd, useDelay, "default");
+		this(user, name, useCd, useDelay, "default", "default");
 	}
 	
 	/**
@@ -127,6 +130,10 @@ public abstract class Equipable {
 	
 	public TextureRegion getEquipSprite() {
 		return equipSprite;
+	}
+	
+	public String getEventSpriteId() {
+		return eventSpriteId;
 	}
 	
 	public float getReloadTime() {

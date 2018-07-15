@@ -22,6 +22,7 @@ public class BeeGun extends RangedWeapon {
 	private final static int spread = 45;
 	
 	private final static String weapSpriteId = "beegun";
+	private final static String weapEventSpriteId = "event_beegun";
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -33,7 +34,7 @@ public class BeeGun extends RangedWeapon {
 	};
 	
 	public BeeGun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

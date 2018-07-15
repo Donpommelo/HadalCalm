@@ -32,6 +32,7 @@ public class Boiler extends RangedWeapon {
 	private final static int projDura = 3;
 	
 	private final static String weapSpriteId = "boiler";
+	private final static String weapEventSpriteId = "event_boiler";
 	private final static String projSpriteId = "orb_yellow";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -48,6 +49,6 @@ public class Boiler extends RangedWeapon {
 	};
 	
 	public Boiler(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 }

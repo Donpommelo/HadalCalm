@@ -35,6 +35,7 @@ public class BouncingBlade extends RangedWeapon {
 	private final static float restitution = 1.0f;
 	
 	private final static String weapSpriteId = "bladegun";
+	private final static String weapEventSpriteId = "event_bladegun";
 	private final static String projSpriteId = "bouncing_blade";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -52,7 +53,7 @@ public class BouncingBlade extends RangedWeapon {
 	};
 	
 	public BouncingBlade(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

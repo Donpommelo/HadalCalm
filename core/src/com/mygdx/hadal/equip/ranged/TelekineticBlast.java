@@ -38,6 +38,7 @@ public class TelekineticBlast extends RangedWeapon {
 	private final static int projDura = 1;
 		
 	private final static String weapSpriteId = "tractorbeam";
+	private final static String weapEventSpriteId = "event_tractorbeam";
 	private final static String projSpriteId = "orb_pink";
 
 	private static final float maxLinSpd = 600;
@@ -116,7 +117,7 @@ public class TelekineticBlast extends RangedWeapon {
 	};
 	
 	public TelekineticBlast(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

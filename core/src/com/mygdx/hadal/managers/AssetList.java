@@ -38,8 +38,14 @@ public enum AssetList {
 	MULTITOOL_1("sprites/player/multitool.png", Texture.class),
 	MULTITOOL_ATL("sprites/player/multitool.atlas", TextureAtlas.class),
 	
-	EVENT_1("sprites/event.png", Texture.class),
-	EVENT_ATL("sprites/event.atlas", TextureAtlas.class),
+	EVENT_1("sprites/events/event.png", Texture.class),
+	EVENT_2("sprites/events/event2.png", Texture.class),
+	EVENT_3("sprites/events/event3.png", Texture.class),
+	EVENT_4("sprites/events/event4.png", Texture.class),
+	EVENT_5("sprites/events/event5.png", Texture.class),
+	EVENT_6("sprites/events/event6.png", Texture.class),
+	EVENT_7("sprites/events/event7.png", Texture.class),
+	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
 	
 	// Particle effects.
 	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),

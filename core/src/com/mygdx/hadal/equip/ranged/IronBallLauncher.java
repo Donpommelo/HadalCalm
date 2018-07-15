@@ -33,6 +33,7 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static float restitution = 0.5f;
 
 	private final static String weapSpriteId = "cannon";
+	private final static String weapEventSpriteId = "event_cannon";
 	private final static String projSpriteId = "iron_ball";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -49,7 +50,7 @@ public class IronBallLauncher extends RangedWeapon {
 	};
 	
 	public IronBallLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

@@ -37,6 +37,7 @@ public class Machinegun extends RangedWeapon {
 	private final static int spread = 5;
 
 	private final static String weapSpriteId = "machinegun";
+	private final static String weapEventSpriteId = "event_machinegun";
 	private final static String projSpriteId = "bullet";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -56,7 +57,7 @@ public class Machinegun extends RangedWeapon {
 	};
 	
 	public Machinegun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

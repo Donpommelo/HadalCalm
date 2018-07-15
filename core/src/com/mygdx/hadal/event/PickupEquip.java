@@ -65,6 +65,8 @@ public class PickupEquip extends Event {
 						
 						//Otherwise set its weapon to the dropped weapon.
 						equip = temp;
+						
+						setEventSprite(equip.getEventSpriteId());
 					}
 					
 					if (event.getConnectedEvent() != null) {
@@ -110,6 +112,14 @@ public class PickupEquip extends Event {
 		} else {
 			return equip.getName() + ": LOCKED";
 		}
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setScale(0.25f);
+		setScaleAlign(1);
+		setEventSprite(equip.getEventSpriteId());
+		addAmbientParticle("event_holo");
 	}
 
 }

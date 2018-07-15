@@ -33,6 +33,7 @@ public class Iceberg extends RangedWeapon {
 	private final static float restitution = 0.0f;
 
 	private final static String weapSpriteId = "iceberggun";
+	private final static String weapEventSpriteId = "event_iceberggun";
 	private final static String projSpriteId = "orb_blue";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -89,7 +90,7 @@ public class Iceberg extends RangedWeapon {
 	};
 	
 	public Iceberg(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

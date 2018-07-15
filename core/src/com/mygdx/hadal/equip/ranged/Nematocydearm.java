@@ -38,6 +38,7 @@ public class Nematocydearm extends RangedWeapon {
 	private final static float poisonDuration = 4.0f;
 
 	private final static String weapSpriteId = "nematocytearm";
+	private final static String weapEventSpriteId = "event_nematocytearm";
 	private final static String projSpriteId = "debris_c";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -56,6 +57,6 @@ public class Nematocydearm extends RangedWeapon {
 	};
 	
 	public Nematocydearm(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 }

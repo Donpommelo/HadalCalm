@@ -35,7 +35,6 @@ public class TurretAttack extends RangedWeapon {
 	private final static int numProj = 3;
 	private final static int spread = 30;
 
-	private final static String weapSpriteId = "machinegun";
 	private final static String projSpriteId = "bullet";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -59,7 +58,7 @@ public class TurretAttack extends RangedWeapon {
 	};
 	
 	public TurretAttack(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot);
 	}
 
 }

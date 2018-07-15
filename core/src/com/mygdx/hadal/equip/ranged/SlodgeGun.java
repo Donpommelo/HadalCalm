@@ -42,6 +42,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static int explosionRadius = 250;
 
 	private final static String weapSpriteId = "slodgegun";
+	private final static String weapEventSpriteId = "event_slodgegun";
 	private final static String projSpriteId = "debris_c";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -85,6 +86,6 @@ public class SlodgeGun extends RangedWeapon {
 	};
 	
 	public SlodgeGun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 }

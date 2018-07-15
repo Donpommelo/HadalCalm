@@ -53,8 +53,7 @@ public class Event extends HadalEntity {
 	/**
 	 * Constructor for permanent events.
 	 */
-	public Event(PlayState state, String name,
-			int width, int height, int x, int y) {
+	public Event(PlayState state, String name, int width, int height, int x, int y) {
 		super(state, width, height, x, y);
 		this.name = name;
 		this.temporary = false;
@@ -169,6 +168,10 @@ public class Event extends HadalEntity {
 			state.font.getData().setScale(0.60f);
 			state.font.draw(batch, getText(), body.getPosition().x * PPM, body.getPosition().y * PPM);
 		}
+	}
+	
+	public void loadDefaultProperties() {
+		
 	}
 	
 	public void setStandardParticle(String particle) {

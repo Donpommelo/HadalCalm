@@ -37,8 +37,8 @@ public class MeleeWeapon extends Equipable {
 	}
 	
 	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum,
-			HitboxFactory onSwing, String spriteId) {
-		super(user, name, swingcd, windup, spriteId);
+			HitboxFactory onSwing, String spriteId, String spriteEventId) {
+		super(user, name, swingcd, windup, spriteId, spriteEventId);
 		this.momentum = momentum;
 		this.onSwing = onSwing;
 	}

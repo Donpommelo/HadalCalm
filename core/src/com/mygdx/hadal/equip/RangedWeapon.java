@@ -52,8 +52,8 @@ public class RangedWeapon extends Equipable{
 	}
 	
 	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
-			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot, String spriteId) {
-		super(user, name, shootCd, shootDelay, spriteId);
+			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot, String spriteId, String spriteEventId) {
+		super(user, name, shootCd, shootDelay, spriteId, spriteEventId);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.reloadTime = reloadTime;

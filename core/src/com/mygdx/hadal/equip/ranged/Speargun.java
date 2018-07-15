@@ -32,6 +32,7 @@ public class Speargun extends RangedWeapon {
 	private final static int projDura = 1;
 	
 	private final static String weapSpriteId = "speargun";
+	private final static String weapEventSpriteId = "event_speargun";
 	private final static String projSpriteId = "harpoon";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -49,7 +50,7 @@ public class Speargun extends RangedWeapon {
 	};
 	
 	public Speargun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

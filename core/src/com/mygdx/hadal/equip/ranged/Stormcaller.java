@@ -36,6 +36,7 @@ public class Stormcaller extends RangedWeapon {
 	private final static int projDura = 10;
 	
 	private final static String weapSpriteId = "stormcaller";
+	private final static String weapEventSpriteId = "event_stormcaller";
 	private final static String projSpriteId = "orb_yellow";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -72,7 +73,7 @@ public class Stormcaller extends RangedWeapon {
 	};
 	
 	public Stormcaller(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

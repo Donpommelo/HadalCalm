@@ -37,6 +37,7 @@ public class Boomerang extends RangedWeapon {
 	private final static int projDura = 1;
 	
 	private final static String weapSpriteId = "boomeranglauncher";
+	private final static String weapEventSpriteId = "event_boomerang";
 	private final static String projSpriteId = "boomerang";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
@@ -92,7 +93,7 @@ public class Boomerang extends RangedWeapon {
 	};
 	
 	public Boomerang(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
 }

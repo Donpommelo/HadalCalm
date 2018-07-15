@@ -38,6 +38,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static float explosionKnockback = 18.0f;	
 	
 	private final static String weapSpriteId = "stickybomblauncher";
+	private final static String weapEventSpriteId = "event_stickybomb";
 	private final static String projSpriteId = "orb_yellow";
 
 	private static Queue<Hitbox> bombsLaid = new Queue<Hitbox>();
@@ -64,7 +65,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	};
 	
 	public StickyBombLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 	
 	@Override

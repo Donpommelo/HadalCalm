@@ -32,6 +32,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static float explosionKnockback = 25.0f;
 
 	private final static String weapSpriteId = "grenadelauncher";
+	private final static String weapEventSpriteId = "event_grenadelauncher";
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -44,6 +45,6 @@ public class GrenadeLauncher extends RangedWeapon {
 	};
 	
 	public GrenadeLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 }
