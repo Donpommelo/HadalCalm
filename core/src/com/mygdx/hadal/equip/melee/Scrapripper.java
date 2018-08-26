@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallSparks;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -38,6 +39,7 @@ public class Scrapripper extends MeleeWeapon {
 					startAngle.nor().scl(hitboxSize / 4 / PPM), true, filter, user);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallSparks(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.MELEE));
 		}
 	};

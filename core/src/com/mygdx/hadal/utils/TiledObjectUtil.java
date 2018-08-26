@@ -12,8 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
-import com.mygdx.hadal.event.prefab.Door;
-import com.mygdx.hadal.event.prefab.Prefabrication;
+import com.mygdx.hadal.event.prefab.*;
 import com.mygdx.hadal.event.utility.*;
 import com.mygdx.hadal.states.PlayState;
 
@@ -150,7 +149,10 @@ public class TiledObjectUtil {
 					object.getProperties().get("scrap", 0, Integer.class));
 		}
 		if (object.getName().equals("Particle")) {
-			e = new ParticleCreator(state, object.getProperties().get("particle", String.class), object.getProperties().get("duration", 2.0f, float.class));	
+			e = new ParticleCreator(state, 
+					object.getProperties().get("particle", String.class), 
+					object.getProperties().get("duration", 0.0f, float.class),
+					object.getProperties().get("startOn", false, Boolean.class));	
 		}
 		
 		if (object.getName().equals("SchmuckSpawn")) {
@@ -333,6 +335,14 @@ public class TiledObjectUtil {
 					object.getProperties().get("speed", 1.0f, float.class),
 					object.getProperties().get("xDisplace", 0, int.class),
 					object.getProperties().get("yDisplace", 0, int.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Spawner")) {
+    		p = new TimedSpawner(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("interval", 1.0f, float.class),
+					object.getProperties().get("type", 0, int.class),
+					object.getProperties().get("power", 0.0f, float.class));
     	}
     	
     	if (p != null) {

@@ -162,7 +162,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		
-		hoverBubbles = new ParticleEntity(state, this, AssetList.BUBBLE_TRAIL.toString(), 3.0f, 0.0f, false);
+		hoverBubbles = new ParticleEntity(state, this, AssetList.BUBBLE_TRAIL.toString(), 0.0f, 0.0f, false);
 		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
 		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
 		/*
@@ -327,8 +327,6 @@ public class Player extends PhysicsSchmuck {
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		//TODO: THIS LINE GOT A NULLPOINTER ONCE UPON DYING. CANNOT REPLICATE. 
-		//ADDED NULL CHECK TO INPUT PROCESSOR. HOPEFULLY FIXED.
 		useToolRelease(playerData.getCurrentTool(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
 	}
 	

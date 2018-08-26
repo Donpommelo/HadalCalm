@@ -15,26 +15,42 @@ public class ParticleCreator extends Event {
 
 	private static final String name = "Particle Creator";
 
-	private String particle;
 	private float duration;
+	private boolean on;
 	
-	public ParticleCreator(PlayState state, String particle, float duration) {
+	private ParticleEntity particles;
+	
+	public ParticleCreator(PlayState state, String particle, float duration, boolean startOn) {
 		super(state, name);
-		this.particle = particle;
 		this.duration = duration;
+		this.on = startOn;
+		
+		particles = new ParticleEntity(state, state.getPlayer(), "sprites/particle/" + particle + ".particle", 2.0f, 0.0f, on);
 	}
 	
 	@Override
 	public void create() {
+		
+		if (getConnectedEvent() != null) {
+			particles.setAttachedEntity(getConnectedEvent());
+		} else {
+			particles.setAttachedEntity(state.getPlayer());
+		}
+		
 		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator) {
 				
-				if (event.getConnectedEvent() != null) {
-					new ParticleEntity(state, event.getConnectedEvent(), "sprites/particle/" + particle + ".particle", 1.0f, duration, true);
+				if (duration == 0) {
+					if (on) {
+						particles.turnOff();
+					} else {
+						particles.turnOn();
+					}
+					on = !on;
 				} else {
-					new ParticleEntity(state, state.getPlayer(), "sprites/particle/" + particle + ".particle", 1.0f, duration, true);
+					particles.onForBurst(duration);
 				}
 			}
 		};

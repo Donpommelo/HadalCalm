@@ -54,6 +54,12 @@ public class ParticleEntity extends HadalEntity {
 		this(state, 0, 0, effect, lifespan, startOn);
 		this.attachedEntity = entity;
 		this.linger = linger;
+		
+		if (attachedEntity != null) {
+			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
+				this.effect.setPosition(attachedEntity.getBody().getPosition().x * PPM, attachedEntity.getBody().getPosition().y * PPM);
+			}
+		}
 	}
 
 	@Override
@@ -63,7 +69,7 @@ public class ParticleEntity extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		if (attachedEntity != null) {
+		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive()) {
 				effect.setPosition(attachedEntity.getBody().getPosition().x * PPM, attachedEntity.getBody().getPosition().y * PPM);
 			} else {
@@ -79,7 +85,7 @@ public class ParticleEntity extends HadalEntity {
 				this.queueDeletion();
 			}
 		}
-		
+
 		if (temp) {
 			lifespan -= delta;
 			
@@ -99,9 +105,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	public void turnOn() {
-		if (effect.isComplete()) {
-			effect.start();
-		}
+		effect.start();
 	}
 	
 	public void turnOff() {
@@ -133,4 +137,11 @@ public class ParticleEntity extends HadalEntity {
 		this.effect = effect;
 	}
 
+	public HadalEntity getAttachedEntity() {
+		return attachedEntity;
+	}
+
+	public void setAttachedEntity(HadalEntity attachedEntity) {
+		this.attachedEntity = attachedEntity;
+	}
 }

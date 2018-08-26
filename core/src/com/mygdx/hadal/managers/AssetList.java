@@ -51,7 +51,6 @@ public enum AssetList {
 	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),
 	BUBBLE_IMPACT("sprites/particle/bubble_impact.particle", null),
 	BUBBLE_TRAIL("sprites/particle/bubble_trail.particle", null),
-	SMOKE_PUFF("sprites/particle/smoke_puff.particle", null),
 	IMPACT("sprites/particle/impact.particle", null),
 	SPARK_TRAIL("sprites/particle/spark_trail.particle", null),
 	POISON("sprites/particle/poison.particle", null),

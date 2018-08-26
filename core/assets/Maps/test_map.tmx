@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="72" height="72" tilewidth="32" tileheight="32" infinite="0" nextobjectid="132">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="72" height="72" tilewidth="32" tileheight="32" infinite="0" nextobjectid="134">
  <tileset firstgid="1" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="../Images/tileset_1.png" width="192" height="128"/>
  </tileset>
@@ -191,108 +191,6 @@
    </properties>
   </object>
   <object id="82" name="Start" type="Start" x="1376" y="1568" width="32" height="32"/>
-  <object id="89" name="EventMove" type="EventMove" x="1312" y="1280" width="32" height="32">
-   <properties>
-    <property name="align" type="int" value="2"/>
-    <property name="particle_std" value="event_holo"/>
-    <property name="scale" type="float" value="0.25"/>
-    <property name="sprite" value="event_base"/>
-    <property name="triggeredId" value="fuelspawn1"/>
-    <property name="triggeringId" value="fuel1"/>
-   </properties>
-  </object>
-  <object id="97" name="Timer" type="Timer" x="1760" y="2240" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="10"/>
-    <property name="triggeredId" value="hptimer1"/>
-    <property name="triggeringId" value="hprespawn1"/>
-   </properties>
-  </object>
-  <object id="98" name="Sensor" type="Sensor" x="1888" y="2176" width="32" height="32">
-   <properties>
-    <property name="align" type="int" value="2"/>
-    <property name="scale" type="float" value="0.25"/>
-    <property name="sprite" value="event_health"/>
-    <property name="triggeredId" value="hp1"/>
-    <property name="triggeringId" value="hp1touched"/>
-   </properties>
-  </object>
-  <object id="99" name="EventMove" type="EventMove" x="1888" y="2240" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="hpback1"/>
-    <property name="triggeringId" value="hp1"/>
-   </properties>
-  </object>
-  <object id="100" name="Multitrigger" type="Multitrigger" x="2016" y="2240" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="hpregen1"/>
-    <property name="triggeringId" value="hpback1,hptimer1,pickupParticleHp"/>
-   </properties>
-  </object>
-  <object id="101" name="Player" type="Player" x="1952" y="2240" width="32" height="32">
-   <properties>
-    <property name="hp" type="float" value="30"/>
-    <property name="triggeredId" value="hp1touched"/>
-    <property name="triggeringId" value="hpregen1"/>
-   </properties>
-  </object>
-  <object id="102" name="Multitrigger" type="Multitrigger" x="1824" y="2240" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="hprespawn1"/>
-    <property name="triggeringId" value="hpspawn1,hptimer1"/>
-   </properties>
-  </object>
-  <object id="103" name="Timer" type="Timer" x="1376" y="2208" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="10"/>
-    <property name="triggeredId" value="fueltimer1"/>
-    <property name="triggeringId" value="fuelrespawn1"/>
-   </properties>
-  </object>
-  <object id="104" name="Sensor" type="Sensor" x="1504" y="2144" width="32" height="32">
-   <properties>
-    <property name="align" type="int" value="2"/>
-    <property name="scale" type="float" value="0.25"/>
-    <property name="sprite" value="event_fuel"/>
-    <property name="triggeredId" value="fuel1"/>
-    <property name="triggeringId" value="fuel1touched"/>
-   </properties>
-  </object>
-  <object id="105" name="EventMove" type="EventMove" x="1504" y="2208" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="fuelback1"/>
-    <property name="triggeringId" value="fuel1"/>
-   </properties>
-  </object>
-  <object id="106" name="Multitrigger" type="Multitrigger" x="1632" y="2208" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="fuelregen1"/>
-    <property name="triggeringId" value="fuelback1,fueltimer1,pickupParticleFuel"/>
-   </properties>
-  </object>
-  <object id="107" name="Player" type="Player" x="1568" y="2208" width="32" height="32">
-   <properties>
-    <property name="fuel" type="float" value="30"/>
-    <property name="triggeredId" value="fuel1touched"/>
-    <property name="triggeringId" value="fuelregen1"/>
-   </properties>
-  </object>
-  <object id="108" name="Multitrigger" type="Multitrigger" x="1440" y="2208" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="fuelrespawn1"/>
-    <property name="triggeringId" value="fuelspawn1,fueltimer1"/>
-   </properties>
-  </object>
-  <object id="109" name="EventMove" type="EventMove" x="1472" y="1280" width="32" height="32">
-   <properties>
-    <property name="align" type="int" value="2"/>
-    <property name="particle_std" value="event_holo"/>
-    <property name="scale" type="float" value="0.25"/>
-    <property name="sprite" value="event_base"/>
-    <property name="triggeredId" value="hpspawn1"/>
-    <property name="triggeringId" value="hp1"/>
-   </properties>
-  </object>
   <object id="110" name="Sensor" type="Sensor" x="1056" y="736" width="32" height="256">
    <properties>
     <property name="triggeringId" value="lefttouched"/>
@@ -394,18 +292,22 @@
     <property name="triggeringId" value="portal1"/>
    </properties>
   </object>
-  <object id="128" name="Particle" type="Particle" x="1696" y="2208" width="32" height="32">
-   <properties>
-    <property name="particle" value="energy_pickup"/>
-    <property name="triggeredId" value="pickupParticleFuel"/>
-   </properties>
-  </object>
-  <object id="129" name="Particle" type="Particle" x="2080" y="2240" width="32" height="32">
-   <properties>
-    <property name="particle" value="health_pickup"/>
-    <property name="triggeredId" value="pickupParticleHp"/>
-   </properties>
-  </object>
   <object id="131" name="Dispensary" type="Dispensary" x="1856" y="1536" width="96" height="96"/>
+  <object id="132" name="Prefab" type="Prefab" x="1344" y="1280" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="25"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="133" name="Prefab" type="Prefab" x="1504" y="1280" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="25"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
