@@ -12,9 +12,8 @@ public class EventDeleter extends Event {
 	
 	private static final String name = "Event Deleter";
 
-	public EventDeleter(PlayState state, int width, int height,
-			int x, int y) {
-		super(state, name, width, height, x, y);
+	public EventDeleter(PlayState state) {
+		super(state, name);
 	}
 	
 	@Override

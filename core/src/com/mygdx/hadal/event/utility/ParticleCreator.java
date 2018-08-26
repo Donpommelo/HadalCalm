@@ -18,8 +18,8 @@ public class ParticleCreator extends Event {
 	private String particle;
 	private float duration;
 	
-	public ParticleCreator(PlayState state, int width, int height, int x, int y, String particle, float duration) {
-		super(state, name, width, height, x, y);
+	public ParticleCreator(PlayState state, String particle, float duration) {
+		super(state, name);
 		this.particle = particle;
 		this.duration = duration;
 	}

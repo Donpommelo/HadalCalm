@@ -91,6 +91,16 @@ public class Event extends HadalEntity {
 		atlasEvent = (TextureAtlas) HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 	}
 	
+	/**
+	 * Constructor for events that do not take up space.
+	 */
+	public Event(PlayState state, String name) {
+		super(state, 1, 1, 0, 0);
+		this.name = name;
+		this.temporary = false;
+		this.duration = 0;
+	}
+	
 	@Override
 	public void create() {
 

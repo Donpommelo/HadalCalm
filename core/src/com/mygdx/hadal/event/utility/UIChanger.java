@@ -40,9 +40,9 @@ public class UIChanger extends Event {
 	private float timerIncr;
 	private String miscTag;
 	
-	public UIChanger(PlayState state, int width, int height, int x, int y, 
-			String types, int changeType, int livesIncr, int scoreIncr, int var1Incr, int var2Incr,	float timerIncr, String misc) {
-		super(state, name, width, height, x, y);
+	public UIChanger(PlayState state, String types, int changeType, int livesIncr, int scoreIncr, int var1Incr, int var2Incr,
+			float timerIncr, String misc) {
+		super(state, name);
 		this.changeType = changeType;
 		this.livesIncr = livesIncr;
 		this.scoreIncr = scoreIncr;

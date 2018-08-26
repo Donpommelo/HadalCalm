@@ -40,7 +40,7 @@ public class AirblastableRock extends Event {
 			
 			@Override
 			public void onTouch(HadalData fixB) {
-				//TODO: make this damage if body ismoving fast enough?
+				//TODO: make this damage if body is moving fast enough?
 			}
 			
 			@Override

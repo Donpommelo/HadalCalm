@@ -29,7 +29,7 @@ public class EventCloner extends Event {
 				if (event.getConnectedEvent() != null) {
 										
 					if (event.getConnectedEvent().getBlueprint() != null) {
-						Event clone = TiledObjectUtil.parseTiledEvent(state, world, camera, rays, event.getConnectedEvent().getBlueprint());
+						Event clone = TiledObjectUtil.parseTiledEvent(state, event.getConnectedEvent().getBlueprint());
 						
 						if (standardParticle != null) {
 							standardParticle.onForBurst(1.0f);

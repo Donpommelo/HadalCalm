@@ -175,7 +175,7 @@ public class PlayState extends GameState {
 		
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
 		
-		TiledObjectUtil.parseTiledEventLayer(this, world, camera, rays, map.getLayers().get("event-layer").getObjects());
+		TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 		
 		TiledObjectUtil.parseTiledTriggerLayer();
 		

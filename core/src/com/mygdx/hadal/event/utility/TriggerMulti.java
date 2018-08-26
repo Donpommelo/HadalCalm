@@ -26,8 +26,8 @@ public class TriggerMulti extends Event {
 
 	private ArrayList<Event> triggered = new ArrayList<Event>();
 	
-	public TriggerMulti(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y);
+	public TriggerMulti(PlayState state) {
+		super(state, name);
 	}
 	
 	@Override

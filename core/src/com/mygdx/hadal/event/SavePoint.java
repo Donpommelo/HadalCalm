@@ -17,8 +17,8 @@ public class SavePoint extends Event {
 
 	private static final String name = "Save Point";
 
-	public SavePoint(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y);
+	public SavePoint(PlayState state) {
+		super(state, name);
 	}
 	
 	@Override

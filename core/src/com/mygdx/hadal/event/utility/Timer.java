@@ -30,8 +30,8 @@ public class Timer extends Event {
 	
 	private static final String name = "Timer";
 
-	public Timer(PlayState state, int width, int height, int x, int y, float interval) {
-		super(state, name, width, height, x, y);
+	public Timer(PlayState state, float interval) {
+		super(state, name);
 		this.interval = interval;
 		this.on = true;
 	}

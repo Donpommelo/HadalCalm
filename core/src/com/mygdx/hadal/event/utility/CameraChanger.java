@@ -24,8 +24,8 @@ public class CameraChanger extends Event {
 	
 	private float zoom;
 	
-	public CameraChanger(PlayState state, int width, int height, int x, int y, float zoom) {
-		super(state, name, width, height, x, y);
+	public CameraChanger(PlayState state, float zoom) {
+		super(state, name);
 		this.zoom = zoom;
 	}
 	

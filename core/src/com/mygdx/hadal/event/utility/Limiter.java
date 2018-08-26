@@ -25,9 +25,8 @@ public class Limiter extends Event {
 	private int maxCount;
 	private int currentCount;
 	
-	public Limiter(PlayState state, int width, int height,
-			int x, int y, int maxCount) {
-		super(state, name, width, height, x, y);
+	public Limiter(PlayState state, int maxCount) {
+		super(state, name);
 		this.maxCount = maxCount;
 		this.currentCount = 0;
 	}

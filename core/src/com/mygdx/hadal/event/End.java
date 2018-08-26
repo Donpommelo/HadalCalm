@@ -22,8 +22,8 @@ public class End extends Event {
 
 	private boolean won;
 	
-	public End(PlayState state, int width, int height, int x, int y, boolean won) {
-		super(state, name, width, height, x, y);
+	public End(PlayState state, boolean won) {
+		super(state, name);
 		this.won = won;
 	}
 	

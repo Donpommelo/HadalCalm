@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="179">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="180">
  <properties>
   <property name="triggeredId" value="win"/>
  </properties>
@@ -50,27 +50,9 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="14" name="Platform" type="Platform" x="3936" y="1600" width="96" height="160">
-   <properties>
-    <property name="speed" type="float" value="5"/>
-    <property name="triggeredId" value="platform1"/>
-   </properties>
-  </object>
   <object id="15" name="Switch" type="Switch" x="4096" y="1728" width="32" height="32">
    <properties>
     <property name="triggeringId" value="switch1"/>
-   </properties>
-  </object>
-  <object id="16" name="Redirecttrigger" type="Redirecttrigger" x="4096" y="1792" width="32" height="32">
-   <properties>
-    <property name="blameId" value="platpoint1"/>
-    <property name="triggeredId" value="switch1"/>
-    <property name="triggeringId" value="platform1"/>
-   </properties>
-  </object>
-  <object id="17" name="Dummy" type="Dummy" x="3968" y="1472" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="platpoint1"/>
    </properties>
   </object>
   <object id="18" name="Destr_Obj" type="Destr_Obj" x="3104" y="2240" width="32" height="128"/>
@@ -778,5 +760,13 @@
   <object id="176" name="WeaponMod" type="WeaponMod" x="4608" y="1760" width="32" height="32"/>
   <object id="177" name="WeaponMod" type="WeaponMod" x="4672" y="1760" width="32" height="32"/>
   <object id="178" name="WeaponMod" type="WeaponMod" x="4736" y="1760" width="32" height="32"/>
+  <object id="179" name="Prefab" type="Prefab" x="3936" y="1600" width="96" height="160">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="triggeredId" value="switch1"/>
+    <property name="yDisplace" type="int" value="-6"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

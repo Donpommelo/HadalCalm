@@ -3,7 +3,6 @@ package com.mygdx.hadal.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
@@ -13,10 +12,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
+import com.mygdx.hadal.event.prefab.Door;
+import com.mygdx.hadal.event.prefab.Prefabrication;
 import com.mygdx.hadal.event.utility.*;
 import com.mygdx.hadal.states.PlayState;
-
-import box2dLight.RayHandler;
 
 /**
  * This util parses a Tiled file into an in-game map.
@@ -70,13 +69,13 @@ public class TiledObjectUtil {
      * @param rays: The rayhandler to pass to the created events.
      * @param objects: The list of Tiled objects to parse into events.
      */
-    public static void parseTiledEventLayer(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObjects objects) {
+    public static void parseTiledEventLayer(PlayState state, MapObjects objects) {
     	for(MapObject object : objects) {
-    		parseTiledEvent(state, world, camera, rays, object);
+    		parseTiledEvent(state, object);
     	}
     }
     
-    public static Event parseTiledEvent(PlayState state, World world, OrthographicCamera camera, RayHandler rays, MapObject object) {
+    public static Event parseTiledEvent(PlayState state, MapObject object) {
     	//atm, all events are just rectangles.
 		RectangleMapObject current = (RectangleMapObject)object;
 		Rectangle rect = current.getRectangle();
@@ -99,39 +98,27 @@ public class TiledObjectUtil {
 					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class));
 		}
 		if (object.getName().equals("Timer")) {
-			e = new Timer(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("interval", float.class));
+			e = new Timer(state, object.getProperties().get("interval", float.class));
 		}
 		if (object.getName().equals("Counter")) {
-			e = new Counter(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-					object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
+			e = new Counter(state, object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
 		}
 		if (object.getName().equals("Limiter")) {
-			e = new Limiter(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-					object.getProperties().get("count", int.class));
+			e = new Limiter(state, object.getProperties().get("count", int.class));
 		}
 		if (object.getName().equals("Multitrigger")) {
-			e = new TriggerMulti(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+			e = new TriggerMulti(state);
 			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
 		}
 		if (object.getName().equals("Condtrigger")) {
-			e = new TriggerCond(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("start", "", String.class));
+			e = new TriggerCond(state, object.getProperties().get("start", "", String.class));
 			condTriggeringEvents.put((TriggerCond)e, object.getProperties().get("triggeringId", "", String.class));
 		}
 		if (object.getName().equals("Alttrigger")) {
-			e = new TriggerAlt(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("message","", String.class));
+			e = new TriggerAlt(state, object.getProperties().get("message","", String.class));
 		}
 		if (object.getName().equals("Redirecttrigger")) {
-			e = new TriggerRedirect(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+			e = new TriggerRedirect(state);
 			redirectTriggeringEvents.put((TriggerRedirect)e, object.getProperties().get("blameId", "", String.class));
 		}
 		if (object.getName().equals("Dummy")) {
@@ -140,8 +127,7 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("UI")) {
 			
-			e = new UIChanger(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
+			e = new UIChanger(state,
 					object.getProperties().get("tags", String.class),
 					object.getProperties().get("change", 0, Integer.class),
 					object.getProperties().get("lives", 0, Integer.class), 
@@ -152,24 +138,19 @@ public class TiledObjectUtil {
 					object.getProperties().get("misc", "", String.class));
 		}
 		if (object.getName().equals("Camera")) {
-			e = new CameraChanger(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-					object.getProperties().get("zoom", 1.0f, float.class));
+			e = new CameraChanger(state, object.getProperties().get("zoom", 1.0f, float.class));
 		}
 		if (object.getName().equals("Objective")) {
-			e = new ObjectiveChanger(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+			e = new ObjectiveChanger(state);
 		}
 		if (object.getName().equals("Player")) {
-			e = new PlayerChanger(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2),
-					object.getProperties().get("hp", 0.0f, float.class), object.getProperties().get("fuel", 0.0f, float.class), 
+			e = new PlayerChanger(state,
+					object.getProperties().get("hp", 0.0f, float.class), 
+					object.getProperties().get("fuel", 0.0f, float.class), 
 					object.getProperties().get("scrap", 0, Integer.class));
 		}
 		if (object.getName().equals("Particle")) {
-			e = new ParticleCreator(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("particle", String.class), object.getProperties().get("duration", 2.0f, float.class));	
+			e = new ParticleCreator(state, object.getProperties().get("particle", String.class), object.getProperties().get("duration", 2.0f, float.class));	
 		}
 		
 		if (object.getName().equals("SchmuckSpawn")) {
@@ -184,8 +165,7 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));	
 		}
 		if (object.getName().equals("EventDelete")) {
-			e = new EventDeleter(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));	
+			e = new EventDeleter(state);	
 		}
 		if (object.getName().equals("EventMove")) {
 			e = new EventMover(state, (int)rect.width, (int)rect.height, 
@@ -241,22 +221,14 @@ public class TiledObjectUtil {
 					object.getProperties().get("text", String.class));
 		}
 		if (object.getName().equals("Dialog")) {
-			e = new Dialog(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("textId", String.class));
-		}
-		if (object.getName().equals("Door")) {
-			e = new Door(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+			e = new Dialog(state, object.getProperties().get("textId", String.class));
 		}
 		if (object.getName().equals("Rock")) {
 			e = new AirblastableRock(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
 		}
 		if (object.getName().equals("End")) {
-			e = new End(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("won", true, boolean.class));
+			e = new End(state, object.getProperties().get("won", true, boolean.class));
 		}
 		if (object.getName().equals("Destr_Obj")) {
 			e = new DestructableBlock(state, (int)rect.width, (int)rect.height, 
@@ -275,8 +247,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("filter", (short)0, short.class));
 		}
 		if (object.getName().equals("Save")) {
-			e = new SavePoint(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+			e = new SavePoint(state);
 		}
 		if (object.getName().equals("Pit")) {
 			e = new Pit(state, (int)rect.width, (int)rect.height, 
@@ -314,6 +285,10 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
 		}
 		
+		if (object.getName().equals("Prefab")) {
+			genPrefab(state, object, rect);
+		}
+		
 		//Extra, universal functions to change event sprite properties		
 		if (e != null) {
 			triggeringEvents.put(e, object.getProperties().get("triggeringId", "", String.class));
@@ -345,6 +320,33 @@ public class TiledObjectUtil {
 		}
 		
 		return e;
+    }
+    
+    public static void genPrefab(PlayState state, MapObject object, Rectangle rect) {
+    	
+    	Prefabrication p = null;
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Door")) {
+    		p = new Door(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class), 
+					object.getProperties().get("speed", 1.0f, float.class),
+					object.getProperties().get("xDisplace", 0, int.class),
+					object.getProperties().get("yDisplace", 0, int.class));
+    	}
+    	
+    	if (p != null) {
+        	p.generateParts();
+    	}
+    }
+    
+    
+    public static int nextId = 0;
+    
+    public static String getPrefabTriggerId() {
+    	String id = "prefabTriggerId" + nextId;
+    	nextId++;
+    	return id;
     }
     
     public static void parseTiledTriggerLayer() {

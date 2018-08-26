@@ -27,8 +27,8 @@ public class TriggerRedirect extends Event {
 
 	private Event blame ;
 	
-	public TriggerRedirect(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y);
+	public TriggerRedirect(PlayState state) {
+		super(state, name);
 	}
 	
 	@Override

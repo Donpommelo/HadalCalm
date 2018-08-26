@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="800" height="500" tilewidth="32" tileheight="32" infinite="0" nextobjectid="160">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="800" height="500" tilewidth="32" tileheight="32" infinite="0" nextobjectid="161">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="800" height="500">
   <data encoding="base64" compression="zlib">
@@ -119,24 +119,6 @@
     <property name="enemyId" type="int" value="1"/>
     <property name="triggeredId" value="spawn3"/>
     <property name="triggeringId" value="redirect1"/>
-   </properties>
-  </object>
-  <object id="19" name="Redirecttrigger" type="Redirecttrigger" x="3808" y="8512" width="32" height="32">
-   <properties>
-    <property name="blameId" value="doorhinge1"/>
-    <property name="triggeredId" value="redirect1"/>
-    <property name="triggeringId" value="door1"/>
-   </properties>
-  </object>
-  <object id="20" name="Platform" type="Platform" x="3776" y="8192" width="96" height="160">
-   <properties>
-    <property name="speed" type="float" value="5"/>
-    <property name="triggeredId" value="door1"/>
-   </properties>
-  </object>
-  <object id="21" name="Dummy" type="Dummy" x="3808" y="8064" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="doorhinge1"/>
    </properties>
   </object>
   <object id="23" name="Current" type="Current" x="3872" y="7744" width="160" height="448">
@@ -833,5 +815,13 @@
    </properties>
   </object>
   <object id="159" name="WeaponMod" type="WeaponMod" x="1728" y="8544" width="32" height="32"/>
+  <object id="160" name="Prefab" type="Prefab" x="3776" y="8192" width="96" height="160">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="triggeredId" value="redirect1"/>
+    <property name="yDisplace" type="int" value="-6"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

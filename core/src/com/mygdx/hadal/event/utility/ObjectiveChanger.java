@@ -14,8 +14,8 @@ public class ObjectiveChanger extends Event {
 
 	private static final String name = "Objective Changer";
 	
-	public ObjectiveChanger(PlayState state, int width, int height,	int x, int y) {
-		super(state, name, width, height, x, y);
+	public ObjectiveChanger(PlayState state) {
+		super(state, name);
 	}
 	
 	@Override

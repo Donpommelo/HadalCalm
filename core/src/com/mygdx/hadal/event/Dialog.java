@@ -21,8 +21,8 @@ public class Dialog extends Event {
 
 	private String id;
 	
-	public Dialog(PlayState state, int width, int height, int x, int y, String id) {
-		super(state, name, width, height, x, y);
+	public Dialog(PlayState state, String id) {
+		super(state, name);
 		this.id = id;
 	}
 	

@@ -24,8 +24,8 @@ public class Counter extends Event {
 	private int maxCount;
 	private int currentCount;
 	
-	public Counter(PlayState state, int width, int height, int x, int y, int maxCount, int startCount) {
-		super(state, name, width, height, x, y);
+	public Counter(PlayState state, int maxCount, int startCount) {
+		super(state, name);
 		this.maxCount = maxCount;
 		this.currentCount = startCount;
 	}

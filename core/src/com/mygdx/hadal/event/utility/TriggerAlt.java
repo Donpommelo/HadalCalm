@@ -33,8 +33,8 @@ public class TriggerAlt extends Event {
 
 	private String message;
 	
-	public TriggerAlt(PlayState state, int width, int height, int x, int y, String message) {
-		super(state, name, width, height, x, y);
+	public TriggerAlt(PlayState state, String message) {
+		super(state, name);
 		this.message = message;
 	}
 	

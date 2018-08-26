@@ -35,8 +35,8 @@ public class TriggerCond extends Event {
 	private String condition;
 	Random generator = new Random();
 	
-	public TriggerCond(PlayState state, int width, int height, int x, int y, String start) {
-		super(state, name, width, height, x, y);
+	public TriggerCond(PlayState state, String start) {
+		super(state, name);
 		this.condition = start;
 	}
 	

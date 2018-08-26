@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" infinite="0" nextobjectid="107">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="300" height="200" tilewidth="32" tileheight="32" infinite="0" nextobjectid="108">
  <properties>
   <property name="startX" type="int" value="63"/>
   <property name="startY" type="int" value="115"/>
   <property name="zoom" type="float" value="1"/>
  </properties>
  <tileset firstgid="1" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
-  <image source="../Images/tileset.png" width="192" height="128"/>
+  <image source="../Images/tileset_1.png" width="192" height="128"/>
  </tileset>
  <layer name="Tile Layer 1" width="300" height="200">
   <data encoding="base64" compression="zlib">
@@ -14,11 +14,6 @@
   </data>
  </layer>
  <objectgroup name="event-layer">
-  <object id="4" name="Door" type="Door" x="2528" y="3616" width="32" height="96">
-   <properties>
-    <property name="triggeredId" value="0"/>
-   </properties>
-  </object>
   <object id="13" name="Text" type="Text" x="1920" y="3392" width="224" height="320">
    <properties>
     <property name="text" value="USE 'A' AND 'D' TO MOVE RIGHT AND LEFT"/>
@@ -356,6 +351,14 @@
    <properties>
     <property name="triggeredId" value="delete"/>
     <property name="triggeringId" value="1"/>
+   </properties>
+  </object>
+  <object id="107" name="Prefab" type="Prefab" x="2528" y="3616" width="32" height="96">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="0"/>
+    <property name="yDisplace" type="int" value="-3"/>
    </properties>
   </object>
  </objectgroup>

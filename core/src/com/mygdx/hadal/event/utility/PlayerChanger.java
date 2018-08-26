@@ -19,8 +19,8 @@ public class PlayerChanger extends Event {
 	private float hp, fuel;
 	private int scrap;
 	
-	public PlayerChanger(PlayState state, int width, int height, int x, int y, float hp, float fuel, int scrap) {
-		super(state, name, width, height, x, y);
+	public PlayerChanger(PlayState state, float hp, float fuel, int scrap) {
+		super(state, name);
 		this.hp = hp;
 		this.fuel = fuel;
 		this.scrap = scrap;
