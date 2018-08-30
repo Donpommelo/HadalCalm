@@ -15,6 +15,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.Record;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -66,9 +67,6 @@ public class GameStateManager {
 		this.app = hadalGame;
 		this.states = new Stack<GameState>();
 		
-		this.loadout = new Loadout();
-		this.level = UnlockLevel.ARENA_1;
-		
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
 		
@@ -77,6 +75,14 @@ public class GameStateManager {
 		Json json = new Json();
 		JsonReader reader = new JsonReader();
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
+		
+		//TODO: remember last loadout used?
+		if (record.getFlags().get("INTRO") < 2) {
+			this.loadout = new Loadout(UnlockEquip.NOTHING);
+		} else {
+			this.loadout = new Loadout();
+		}
+		this.level = UnlockLevel.ARENA_1;
 	}
 	
 	public void loadAssets() {

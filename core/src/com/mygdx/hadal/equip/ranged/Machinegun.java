@@ -19,12 +19,12 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class Machinegun extends RangedWeapon {
 
 	private final static String name = "Machine Gun";
-	private final static int clipSize = 25;
+	private final static int clipSize = 28;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.75f;
+	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 18.0f;
+	private final static float baseDamage = 20.0f;
 	private final static float recoil = 1.25f;
 	private final static float knockback = 2.5f;
 	private final static float projectileSpeed = 40.0f;

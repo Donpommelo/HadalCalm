@@ -262,7 +262,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player's Hover power. Costs fuel and continuously pushes the player upwards.
 	 */
 	public void hover() {
-		if (!grounded && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
+		if (playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
 				playerData.getCurrentFuel() >= playerData.getHoverCost()) {
 			if (jumpCdCount < 0) {
 				
@@ -271,10 +271,8 @@ public class Player extends PhysicsSchmuck {
 				jumpCdCount = hoverCd;
 				push(0, playerData.getHoverPower());
 				
-				hoverBubbles.turnOn();
+				hoverBubbles.onForBurst(0.5f);
 			}
-		} else {
-			hoverBubbles.turnOff();
 		}
 	}
 	
@@ -304,11 +302,9 @@ public class Player extends PhysicsSchmuck {
 	 * Player falls rapidly if in the air. If grounded, this also interacts with terrain events.
 	 */
 	public void fastFall() {
-		if (!grounded) {
-			if (fastFallCdCount < 0) {
-				fastFallCdCount = fastFallCd;
-				push(0, -playerData.getFastFallPower());
-			}
+		if (fastFallCdCount < 0) {
+			fastFallCdCount = fastFallCd;
+			push(0, -playerData.getFastFallPower());
 		}
 		if (feetData.getTerrain() != null) {
 			feetData.getTerrain().getEventData().onInteract(this);
@@ -354,17 +350,9 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	/**
-	 * Player uses momentum saving power, freezing nearby entities and storing their momentum for later use. has a cooldown.
+	 * Player uses active item.
 	 */
 	public void activeItem() {
-//		if (momentums.size == 0) {
-//			if (momentumCdCount < 0) {
-//				momentumCdCount = momentumCd * (1 + playerData.getBonusMomentumCd());
-//				useToolStart(0, mStop, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
-//			}
-//		} else {
-//			body.setLinearVelocity(momentums.removeFirst().scl(momentumBoost));
-//		}
 		useToolStart(0, playerData.getActiveItem(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
 	}
 	

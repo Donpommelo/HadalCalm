@@ -104,6 +104,12 @@ public class DialogueBox extends AHadalActor {
 	 */
 	public void addDialogue(String id, EventData radio, EventData trigger) {
 		
+		if (dialogues.size != 0) {
+			if (dialogues.first().isOverride()) {
+				dialogues.clear();
+			}
+		}
+		
 		JsonValue dialog = base.get(id);
 		
 		if (dialog != null) {
@@ -118,7 +124,7 @@ public class DialogueBox extends AHadalActor {
 				}
 
 				dialogues.addLast(new Dialogue(d.getString("Name"), d.getString("Text"), d.getString("Sprite"), d.getBoolean("End", false),
-						d.getFloat("Duration", 0), radio, trigger));
+						d.getBoolean("Override", false), d.getFloat("Duration", 0), radio, trigger));
 			}	
 		}
 	}

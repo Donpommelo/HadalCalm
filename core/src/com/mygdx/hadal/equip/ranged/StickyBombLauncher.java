@@ -21,7 +21,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int clipSize = 6;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.4f;
+	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 1;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 25.0f;
@@ -34,7 +34,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int maxBombs = 6;
 	
 	private final static int explosionRadius = 250;
-	private final static float explosionDamage = 40.0f;
+	private final static float explosionDamage = 50.0f;
 	private final static float explosionKnockback = 18.0f;	
 	
 	private final static String weapSpriteId = "stickybomblauncher";

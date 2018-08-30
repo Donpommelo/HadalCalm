@@ -1,7 +1,7 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal.event.utility;
 
-import com.mygdx.hadal.event.userdata.InteractableEventData;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -20,22 +20,22 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Zachary Tu
  *
  */
-public class PortalUse extends Event {
+public class PlayerMover extends Event {
 
-	private static final String name = "Portal";
+	private static final String name = "Player Mover";
 
-	public PortalUse(PlayState state, int width, int height, int x, int y) {
+	public PlayerMover(PlayState state, int width, int height, int x, int y) {
 		super(state, name, width, height, x, y);
 	}
 	
 	@Override
 	public void create() {
-		this.eventData = new InteractableEventData(this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onInteract(Player p) {
+			public void onActivate(EventData activator) {
 				if (event.getConnectedEvent() != null) {
-					p.getBody().setTransform(event.getConnectedEvent().getBody().getPosition(), 0);
+					state.getPlayer().getBody().setTransform(event.getConnectedEvent().getBody().getPosition(), 0);
 					
 					if (event.getConnectedEvent().getStandardParticle() != null) {
 						event.getConnectedEvent().getStandardParticle().onForBurst(1.0f);

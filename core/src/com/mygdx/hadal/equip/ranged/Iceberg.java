@@ -14,12 +14,12 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class Iceberg extends RangedWeapon {
 
 	private final static String name = "Iceberg";
-	private final static int clipSize = 1;
-	private final static float shootCd = 0.25f;
+	private final static int clipSize = 5;
+	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0.15f;
-	private final static float reloadTime = 1.0f;
-	private final static int reloadAmount = 1;
-	private final static float baseDamage = 60.0f;
+	private final static float reloadTime = 2.2f;
+	private final static int reloadAmount = 0;
+	private final static float baseDamage = 50.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 15.0f;

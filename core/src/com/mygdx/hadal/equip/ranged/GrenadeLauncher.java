@@ -14,15 +14,15 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static int clipSize = 6;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.5f;
+	private final static float reloadTime = 0.8f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 2.5f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 16.0f;
+	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 25;
 	private final static float lifespan = 3.0f;
-	private final static float gravity = 1.5f;
+	private final static float gravity = 2.5f;
 	private final static float restitution = 0.3f;
 	
 	private final static int projDura = 1;

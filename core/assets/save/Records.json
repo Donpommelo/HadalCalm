@@ -11,4 +11,9 @@ hiScores: {
 	ARENA_2: 60
 	ARENA_1: 20
 }
+flags: {
+	class: java.util.HashMap
+	INTRO: 0
+	TUTORIAL: 0
+}
 }

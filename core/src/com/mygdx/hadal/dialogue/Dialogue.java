@@ -21,6 +21,9 @@ public class Dialogue {
 	//This indicates whether this dialogue is the end of the conversation it is a part of
 	private boolean end;
 	
+	//This indicates the desired behaviour when a new dialog is added over this one. (True: override. False : placed after)
+	private boolean override;
+	
 	//These are the events that triggered and will be triggered by this dialogue respectively.
 	private EventData radio, trigger;
 	
@@ -31,11 +34,12 @@ public class Dialogue {
 	
 	private static final float speed = 0.1f;
 	
-	public Dialogue(String name, String text, String sprite, boolean end, float duration, EventData radio, EventData trigger) {
+	public Dialogue(String name, String text, String sprite, boolean end, boolean override, float duration, EventData radio, EventData trigger) {
 		this.name = name;
 		this.text = text;
 		this.sprite = sprite;
 		this.end = end;
+		this.override = override;
 		this.duration = duration;
 		this.radio = radio;
 		this.trigger = trigger;
@@ -109,6 +113,14 @@ public class Dialogue {
 
 	public void setEnd(boolean end) {
 		this.end = end;
+	}
+
+	public boolean isOverride() {
+		return override;
+	}
+
+	public void setOverride(boolean override) {
+		this.override = override;
 	}
 
 	public float getDuration() {

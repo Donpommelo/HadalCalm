@@ -102,9 +102,7 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Counter")) {
 			e = new Counter(state, object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
 		}
-		if (object.getName().equals("Limiter")) {
-			e = new Limiter(state, object.getProperties().get("count", int.class));
-		}
+		
 		if (object.getName().equals("Multitrigger")) {
 			e = new TriggerMulti(state);
 			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
@@ -174,9 +172,19 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("gravityChange", -1.0f, float.class));	
 		}
+		if (object.getName().equals("QuestChange")) {
+			e = new QuestChanger(state, 
+					object.getProperties().get("quest", String.class), 
+					object.getProperties().get("change", 0, int.class));	
+		}
+		if (object.getName().equals("QuestCheck")) {
+			e = new QuestChecker(state, 
+					object.getProperties().get("quest", String.class), 
+					object.getProperties().get("check", 0, int.class));	
+		}
 		
-		if (object.getName().equals("UsePortal")) {		
-			e = new PortalUse(state, (int)rect.width, (int)rect.height, 
+		if (object.getName().equals("PlayerMove")) {		
+			e = new PlayerMover(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
 		}
 		if (object.getName().equals("TouchPortal")) {		
@@ -216,11 +224,6 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Dropthrough")) {
 			e = new DropThroughPlatform(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-		}
-		if (object.getName().equals("Text")) {
-			e = new InfoFlag(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("text", String.class));
 		}
 		if (object.getName().equals("Dialog")) {
 			e = new Dialog(state, object.getProperties().get("textId", String.class));
@@ -280,7 +283,9 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Navigation")) {
 			e = new Navigations(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("name", "Navigations", String.class),
+					object.getProperties().get("tag", "NAVIGATIONS", String.class));
 		}
 		if (object.getName().equals("Quartermaster")) {
 			e = new Quartermaster(state, (int)rect.width, (int)rect.height, 
@@ -343,6 +348,24 @@ public class TiledObjectUtil {
 					object.getProperties().get("interval", 1.0f, float.class),
 					object.getProperties().get("type", 0, int.class),
 					object.getProperties().get("power", 0.0f, float.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Camera")) {
+    		p = new CameraPanZone(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("zoom1", 1.0f, float.class),
+					object.getProperties().get("zoom2", 1.0f, float.class),
+					object.getProperties().get("align", 0, int.class),
+					object.getProperties().get("point1", "", String.class),
+					object.getProperties().get("point2", "", String.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Limit")) {
+    		p = new Limiter(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("limit", 0, int.class));
     	}
     	
     	if (p != null) {

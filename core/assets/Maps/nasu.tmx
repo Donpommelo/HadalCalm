@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.4" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="55">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="56">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="40" height="40">
   <data encoding="base64" compression="zlib">
@@ -15,16 +15,17 @@
   <object id="2" name="Timer" type="Timer" x="32" y="32" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="0"/>
-    <property name="triggeringId" value="initLimiter"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
    </properties>
   </object>
-  <object id="3" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
+  <object id="3" name="Multitrigger" type="Multitrigger" x="96" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="camera1,ui1,randomizer,eventMove"/>
+    <property name="triggeringId" value="camera1,ui1,randomizer,eventMove,startTimer"/>
    </properties>
   </object>
-  <object id="4" name="Camera" type="Camera" x="224" y="32" width="32" height="32">
+  <object id="4" name="Camera" type="Camera" x="160" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="camera1"/>
     <property name="triggeringId" value="mapCenter"/>
@@ -35,7 +36,7 @@
     <property name="triggeredId" value="mapCenter"/>
    </properties>
   </object>
-  <object id="6" name="UI" type="UI" x="288" y="32" width="32" height="32">
+  <object id="6" name="UI" type="UI" x="224" y="32" width="32" height="32">
    <properties>
     <property name="lives" type="int" value="3"/>
     <property name="misc" value="COLLECT FALLING TARGETS"/>
@@ -58,7 +59,7 @@
     <property name="triggeredId" value="scoreIncr"/>
    </properties>
   </object>
-  <object id="21" name="Alttrigger" type="Alttrigger" x="352" y="32" width="32" height="32">
+  <object id="21" name="Alttrigger" type="Alttrigger" x="288" y="32" width="32" height="32">
    <properties>
     <property name="message" value="random"/>
     <property name="triggeredId" value="randomizer"/>
@@ -272,13 +273,6 @@
    <properties>
     <property name="triggeredId" value="eventDelete"/>
     <property name="triggeringId" value="targetHit"/>
-   </properties>
-  </object>
-  <object id="53" name="Limiter" type="Limiter" x="96" y="32" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="onceAtStart"/>
    </properties>
   </object>
   <object id="54" name="EventMove" type="EventMove" x="192" y="448" width="32" height="32">

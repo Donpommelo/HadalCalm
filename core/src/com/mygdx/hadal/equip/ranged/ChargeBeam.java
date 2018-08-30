@@ -17,15 +17,15 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class ChargeBeam extends RangedWeapon {
 
 	private final static String name = "Charge Beam";
-	private final static int clipSize = 4;
+	private final static int clipSize = 5;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.75f;
+	private final static float reloadTime = 2.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 25.0f;
+	private final static float baseDamage = 30.0f;
 	private final static float recoil = 7.5f;
 	private final static float knockback = 22.5f;
-	private final static float projectileSpeed = 18.0f;
+	private final static float projectileSpeed = 16.0f;
 	private final static int projectileWidth = 30;
 	private final static int projectileHeight = 30;
 	private final static float lifespan = 3.0f;
@@ -35,7 +35,7 @@ public class ChargeBeam extends RangedWeapon {
 	
 	private static float chargeDura = 0.0f;
 	private static int chargeStage = 0;
-	private static final float maxCharge = 1.0f;
+	private static final float maxCharge = 1.5f;
 	
 	private final static String weapSpriteId = "chargebeam";
 	private final static String weapEventSpriteId = "event_chargebeam";
@@ -48,9 +48,9 @@ public class ChargeBeam extends RangedWeapon {
 			
 			if (chargeDura >= maxCharge) {
 				chargeStage = 3;
-			} else if (chargeDura >= 0.8f) {
+			} else if (chargeDura >= 1.0f) {
 				chargeStage = 2;
-			} else if (chargeDura >= 0.4f) {
+			} else if (chargeDura >= 0.5f) {
 				chargeStage = 1;
 			} else {
 				chargeStage = 0;

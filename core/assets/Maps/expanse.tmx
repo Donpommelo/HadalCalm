@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="800" height="500" tilewidth="32" tileheight="32" infinite="0" nextobjectid="161">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="800" height="500" tilewidth="32" tileheight="32" infinite="0" nextobjectid="171">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="800" height="500">
   <data encoding="base64" compression="zlib">
@@ -47,11 +47,6 @@
     <property name="currentY" type="float" value="0"/>
    </properties>
   </object>
-  <object id="6" name="Text" type="Text" x="768" y="8256" width="608" height="416">
-   <properties>
-    <property name="text" value="SELECT 1 WEAPON"/>
-   </properties>
-  </object>
   <object id="7" name="Equip" type="Equip" x="928" y="8640" width="32" height="32">
    <properties>
     <property name="triggeredId" value="w1"/>
@@ -92,13 +87,14 @@
   <object id="13" name="Timer" type="Timer" x="608" y="7424" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="initLimiter"/>
    </properties>
   </object>
-  <object id="14" name="Multitrigger" type="Multitrigger" x="736" y="7424" width="32" height="32">
+  <object id="14" name="Multitrigger" type="Multitrigger" x="672" y="7424" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawn2,hpspawn1,hpspawn2,hpspawn3,fuelspawn1,spawnsensor2"/>
+    <property name="triggeringId" value="spawn2,hpspawn1,hpspawn2,hpspawn3,fuelspawn1,spawnsensor2,startTimer"/>
    </properties>
   </object>
   <object id="15" name="SchmuckSpawn" type="SchmuckSpawn" x="2656" y="7552" width="32" height="32">
@@ -604,83 +600,6 @@
     <property name="triggeringId" value="save1,spawnsensor2"/>
    </properties>
   </object>
-  <object id="122" name="Limiter" type="Limiter" x="16608" y="9056" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="winLimiter"/>
-    <property name="triggeringId" value="win"/>
-   </properties>
-  </object>
-  <object id="124" name="Limiter" type="Limiter" x="15648" y="8512" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="poisonLimiter1"/>
-    <property name="triggeringId" value="poisonstarter3"/>
-   </properties>
-  </object>
-  <object id="125" name="Limiter" type="Limiter" x="13664" y="9664" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="poisonLimiter2"/>
-    <property name="triggeringId" value="poisonstarter2"/>
-   </properties>
-  </object>
-  <object id="126" name="Limiter" type="Limiter" x="13312" y="9376" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="switchLimiter2"/>
-    <property name="triggeringId" value="redirect3"/>
-   </properties>
-  </object>
-  <object id="127" name="Limiter" type="Limiter" x="12416" y="9696" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="switchLimiter1"/>
-    <property name="triggeringId" value="redirect4"/>
-   </properties>
-  </object>
-  <object id="128" name="Limiter" type="Limiter" x="12160" y="9152" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="poisonLimiter3"/>
-    <property name="triggeringId" value="poisonstarter"/>
-   </properties>
-  </object>
-  <object id="129" name="Limiter" type="Limiter" x="7776" y="6816" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="saveLimiter"/>
-    <property name="triggeringId" value="checkpt1"/>
-   </properties>
-  </object>
-  <object id="130" name="Limiter" type="Limiter" x="10432" y="8192" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="switchLimiter3"/>
-    <property name="triggeringId" value="redirect2"/>
-   </properties>
-  </object>
-  <object id="131" name="Limiter" type="Limiter" x="3808" y="8416" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="spawnLimiter1"/>
-    <property name="triggeringId" value="spawnsensor1"/>
-   </properties>
-  </object>
-  <object id="132" name="Limiter" type="Limiter" x="3456" y="8480" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="switchLimiter4"/>
-    <property name="triggeringId" value="spawn3"/>
-   </properties>
-  </object>
-  <object id="133" name="Limiter" type="Limiter" x="672" y="7424" width="32" height="32">
-   <properties>
-    <property name="count" type="int" value="1"/>
-    <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
   <object id="139" name="EventClone" type="EventClone" x="15104" y="8768" width="32" height="32">
    <properties>
     <property name="align" type="int" value="2"/>
@@ -821,6 +740,86 @@
     <property name="speed" type="float" value="5"/>
     <property name="triggeredId" value="redirect1"/>
     <property name="yDisplace" type="int" value="-6"/>
+   </properties>
+  </object>
+  <object id="161" name="Prefab" type="Prefab" x="3456" y="8512" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="switchLimiter4"/>
+    <property name="triggeringId" value="spawn3"/>
+   </properties>
+  </object>
+  <object id="162" name="Prefab" type="Prefab" x="3808" y="8416" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="spawnLimiter1"/>
+    <property name="triggeringId" value="spawnsensor1"/>
+   </properties>
+  </object>
+  <object id="163" name="Prefab" type="Prefab" x="7776" y="6816" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="saveLimiter"/>
+    <property name="triggeringId" value="checkpt1"/>
+   </properties>
+  </object>
+  <object id="164" name="Prefab" type="Prefab" x="10432" y="8192" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="switchLimiter3"/>
+    <property name="triggeringId" value="redirect2"/>
+   </properties>
+  </object>
+  <object id="165" name="Prefab" type="Prefab" x="12160" y="9152" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="poisonLimiter3"/>
+    <property name="triggeringId" value="poisonstarter"/>
+   </properties>
+  </object>
+  <object id="166" name="Prefab" type="Prefab" x="12416" y="9696" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="switchLimiter1"/>
+    <property name="triggeringId" value="redirect4"/>
+   </properties>
+  </object>
+  <object id="167" name="Prefab" type="Prefab" x="13312" y="9376" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="switchLimiter2"/>
+    <property name="triggeringId" value="redirect3"/>
+   </properties>
+  </object>
+  <object id="168" name="Prefab" type="Prefab" x="13664" y="9664" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="poisonLimiter2"/>
+    <property name="triggeringId" value="poisonstarter2"/>
+   </properties>
+  </object>
+  <object id="169" name="Prefab" type="Prefab" x="15648" y="8512" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="poisonLimiter1"/>
+    <property name="triggeringId" value="poisonstarter3"/>
+   </properties>
+  </object>
+  <object id="170" name="Prefab" type="Prefab" x="16608" y="9056" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="winLimiter"/>
+    <property name="triggeringId" value="win"/>
    </properties>
   </object>
  </objectgroup>

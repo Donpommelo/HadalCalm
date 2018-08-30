@@ -20,6 +20,16 @@ MELON: {
 		RANDOM_POOL,
 	]
 }
+FIREBALL: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Fireball
+	description: "Throw a fireball."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 MISSILE_POD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Missile Pod
@@ -29,6 +39,13 @@ MISSILE_POD: {
 		DISPENSARY,
 		RANDOM_POOL,
 	]
+}
+NOTHING: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Nothing
+	description: "Does nothing."
+	unlocked: true
+	tags: []
 }
 RELOADER: {
 	class: com.mygdx.hadal.save.InfoItem

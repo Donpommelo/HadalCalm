@@ -11,6 +11,7 @@ public class Record {
 	private int scrip;
 	
 	private Map<String, Integer> hiScores;
+	private Map<String, Integer> flags;
 	
 	public Record() {
 		
@@ -52,4 +53,8 @@ public class Record {
 	public Map<String, Integer> getHiScores() {
 		return hiScores;
 	}
+
+	public Map<String, Integer> getFlags() {
+		return flags;
+	}	
 }

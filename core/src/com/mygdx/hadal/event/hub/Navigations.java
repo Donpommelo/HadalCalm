@@ -11,19 +11,19 @@ import com.mygdx.hadal.states.PlayState;
 
 public class Navigations extends HubEvent {
 
-	private static final String name = "Navigations";
 	private static final String title = "SELECT LEVEL";
+	private String tag;
 
-	public Navigations(PlayState state, int width, int height,
-			int x, int y) {
+	public Navigations(PlayState state, int width, int height, int x, int y, String name, String tag) {
 		super(state, name, width, height, x, y, title);
+		this.tag = tag;
 	}
 	
 	public void enter() {
 
 		super.enter();
 		
-		for (UnlockLevel c: UnlockLevel.getUnlocks(true, UnlockTag.NAVIGATIONS)) {
+		for (UnlockLevel c: UnlockLevel.getUnlocks(true, UnlockTag.valueOf(tag))) {
 			
 			final UnlockLevel selected = c;
 

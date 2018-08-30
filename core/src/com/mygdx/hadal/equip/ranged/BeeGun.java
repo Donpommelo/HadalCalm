@@ -11,13 +11,13 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class BeeGun extends RangedWeapon {
 
 	private final static String name = "Bee Gun";
-	private final static int clipSize = 24;
+	private final static int clipSize = 28;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.75f;
+	private final static float reloadTime = 2.25f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
-	private final static float projectileSpeedStart = 3.0f;
+	private final static float projectileSpeedStart = 5.0f;
 
 	private final static int spread = 45;
 	

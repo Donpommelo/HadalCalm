@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="60">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <tileset firstgid="25" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
+  <image source="../Images/tileset_1.png" width="192" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="120" height="120">
+  <data encoding="base64" compression="zlib">
+   eJzt3dtu3CAUhWG3adU2PV2k7/+sHV9YpRY4BvbeLJj/k7iJIoNZiWeAgdk2AAAAAAAAAAAAAAAAAAAAAAAAAADG+vAorwPLR/9bfGqfHuX3wPLN/xafWi7fn4/y4lx+beQb4Zzvnu2PwHrJ11eab1S2ab3k6+vo58hs03rJ19eofibfGOS7NvJdm2U/5+ZKSvMX5BvDsp9zY+nSdck3hle+xxzJ14B6V2M5Z/xn88n3vesdv/vW0fZV56495oxH5Tu6zYrSOQmr+eDSc7SlXXf6/ktHW1efu1Z97arJ16Ietfu3onp/5GtD9f7I14bq/ZGvDdX7I18bqvcXnW/P2Fl5DE2+WuN+a8+eb8/YOXIM3TrPaDmnaCkqXwsR/yO9zxm1PiTffB2184xK83PpM+h4rqi07UpkvrV1KL3+lp5BCm27Qr73kK99HT1tO56nLeO+3PvB9JmcFouxqWeJeI/amtMxPmhZ0+v52xi9V8mjKOY7qs6afCP2MKmse5d45lt6DkfkG70XQpVnvqVre+dLtv+sli/Z/s9yHaT0/vB87dLPa65Jtves8n6UbPMs1kEUCtkCAAAAAAAAAAAAAFY2+rstaoriPmh1M30+R32/iSKPc8p6y7E3kXz7Ke0TO3zf8hkrtXEWivnuchmrtXEGqvnuzhkrtlGdcr67NGPVNipTz3c3QxtVzdB3M7RR1Qx9N0MbVc3QdzO0UdUMfTdDG1XN0HcztFFVb9993mzXCq7Ox8ntF2bN4VpPvnu2V/utW9YKatc7+J++1prvOdu7awbvfefU3f3IzHnc05LvOds7e6utX0N5Tb6ntp9asm2pJ/p6q6o9X6Ul27Qe8o3V+vmN2vMuyHeMlvNVWs4yId+1ke/ayHdt5Ls28l2b9TmXqt/P86y8PkdPvhq8zrn0PPscAAAAAAAAgI+/XWw4Fg==
+  </data>
+ </layer>
+ <objectgroup name="event-layer">
+  <object id="2" name="Start" type="Start" x="256" y="1920" width="32" height="32"/>
+  <object id="6" name="Timer" type="Timer" x="352" y="928" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0.5"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="7" name="Multitrigger" type="Multitrigger" x="416" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="tutorial0Dialog,startTimer"/>
+   </properties>
+  </object>
+  <object id="8" name="Dialog" type="Dialog" x="480" y="928" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial0"/>
+    <property name="triggeredId" value="tutorial0Dialog"/>
+   </properties>
+  </object>
+  <object id="12" name="Prefab" type="Prefab" x="480" y="992" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="tutorial1DialogSensor"/>
+    <property name="triggeringId" value="tutorial1Dialog"/>
+   </properties>
+  </object>
+  <object id="13" name="Dialog" type="Dialog" x="544" y="992" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial1"/>
+    <property name="triggeredId" value="tutorial1Dialog"/>
+   </properties>
+  </object>
+  <object id="15" name="Prefab" type="Prefab" x="480" y="1056" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="tutorial2DialogSensor"/>
+    <property name="triggeringId" value="tutorial2Dialog"/>
+   </properties>
+  </object>
+  <object id="16" name="Dialog" type="Dialog" x="544" y="1056" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial2"/>
+    <property name="triggeredId" value="tutorial2Dialog"/>
+   </properties>
+  </object>
+  <object id="9" name="Switch" type="Switch" x="416" y="1984" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="switch0"/>
+   </properties>
+  </object>
+  <object id="10" name="Prefab" type="Prefab" x="512" y="1888" width="96" height="128">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="switch0"/>
+    <property name="yDisplace" type="int" value="-4"/>
+   </properties>
+  </object>
+  <object id="11" name="Sensor" type="Sensor" x="608" y="1408" width="64" height="608">
+   <properties>
+    <property name="triggeringId" value="tutorial1DialogSensor"/>
+   </properties>
+  </object>
+  <object id="14" name="Sensor" type="Sensor" x="1184" y="1408" width="32" height="608">
+   <properties>
+    <property name="triggeringId" value="tutorial2DialogSensor"/>
+   </properties>
+  </object>
+  <object id="17" name="Prefab" type="Prefab" x="1120" y="1408" width="96" height="608">
+   <properties>
+    <property name="align" type="int" value="0"/>
+    <property name="point1" value="leftRoomCenter"/>
+    <property name="prefabId" value="Camera"/>
+    <property name="zoom1" type="float" value="1"/>
+    <property name="zoom2" type="float" value="2"/>
+   </properties>
+  </object>
+  <object id="19" name="Prefab" type="Prefab" x="1728" y="1024" width="96" height="192">
+   <properties>
+    <property name="align" type="int" value="0"/>
+    <property name="point1" value="leftRoomCenter"/>
+    <property name="prefabId" value="Camera"/>
+    <property name="zoom1" type="float" value="2"/>
+    <property name="zoom2" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="20" name="Prefab" type="Prefab" x="1536" y="1792" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="100"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="1920" y="1280" width="160" height="16"/>
+  <object id="22" name="Sensor" type="Sensor" x="1792" y="1024" width="32" height="192">
+   <properties>
+    <property name="triggeringId" value="tutorial3DialogSensor"/>
+   </properties>
+  </object>
+  <object id="23" name="Prefab" type="Prefab" x="480" y="1120" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="tutorial3DialogSensor"/>
+    <property name="triggeringId" value="tutorial3Dialog"/>
+   </properties>
+  </object>
+  <object id="24" name="Dialog" type="Dialog" x="544" y="1120" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial3"/>
+    <property name="triggeredId" value="tutorial3Dialog"/>
+   </properties>
+  </object>
+  <object id="25" name="Equip" type="Equip" x="1920" y="1792" width="32" height="32">
+   <properties>
+    <property name="pool" value="SPEARGUN"/>
+   </properties>
+  </object>
+  <object id="26" name="Equip" type="Equip" x="2016" y="1792" width="32" height="32">
+   <properties>
+    <property name="pool" value="CR4PCANNON"/>
+   </properties>
+  </object>
+  <object id="27" name="Sensor" type="Sensor" x="2464" y="1536" width="32" height="32">
+   <properties>
+    <property name="hbox" type="bool" value="true"/>
+    <property name="player" type="bool" value="false"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="28" name="Sensor" type="Sensor" x="2240" y="1472" width="32" height="32">
+   <properties>
+    <property name="hbox" type="bool" value="true"/>
+    <property name="player" type="bool" value="false"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="29" name="Sensor" type="Sensor" x="2336" y="1728" width="32" height="32">
+   <properties>
+    <property name="hbox" type="bool" value="true"/>
+    <property name="player" type="bool" value="false"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="30" name="EventDelete" type="EventDelete" x="2304" y="1216" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="delete"/>
+    <property name="triggeringId" value="targetCounter"/>
+   </properties>
+  </object>
+  <object id="31" name="Counter" type="Counter" x="2368" y="1216" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="3"/>
+    <property name="triggeredId" value="targetCounter"/>
+    <property name="triggeringId" value="targetDoor"/>
+   </properties>
+  </object>
+  <object id="32" name="Prefab" type="Prefab" x="2560" y="1664" width="64" height="160">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="targetDoor"/>
+    <property name="yDisplace" type="int" value="-5"/>
+   </properties>
+  </object>
+  <object id="33" name="Sensor" type="Sensor" x="1856" y="1344" width="224" height="32">
+   <properties>
+    <property name="triggeringId" value="tutorial4DialogSensor"/>
+   </properties>
+  </object>
+  <object id="34" name="Prefab" type="Prefab" x="480" y="1184" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="tutorial4DialogSensor"/>
+    <property name="triggeringId" value="tutorial4Dialog"/>
+   </properties>
+  </object>
+  <object id="35" name="Dialog" type="Dialog" x="544" y="1184" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial4"/>
+    <property name="triggeredId" value="tutorial4Dialog"/>
+   </properties>
+  </object>
+  <object id="36" name="Prefab" type="Prefab" x="480" y="1248" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="tutorial5DialogSensor"/>
+    <property name="triggeringId" value="tutorial5Dialog"/>
+   </properties>
+  </object>
+  <object id="37" name="Dialog" type="Dialog" x="544" y="1248" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial5"/>
+    <property name="triggeredId" value="tutorial5Dialog"/>
+   </properties>
+  </object>
+  <object id="38" name="Sensor" type="Sensor" x="2624" y="1664" width="32" height="160">
+   <properties>
+    <property name="triggeringId" value="tutorial5DialogSensor"/>
+   </properties>
+  </object>
+  <object id="39" name="Active" type="Active" x="2688" y="1792" width="32" height="32">
+   <properties>
+    <property name="pool" value="FIREBALL"/>
+   </properties>
+  </object>
+  <object id="40" name="Switch" type="Switch" x="3008" y="1792" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="portal0"/>
+   </properties>
+  </object>
+  <object id="41" name="Dummy" type="Dummy" x="224" y="2784" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="tutorialRoom2"/>
+   </properties>
+  </object>
+  <object id="42" name="Multitrigger" type="Multitrigger" x="96" y="2400" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="portal0"/>
+    <property name="triggeringId" value="playerMove2,spawnLimiter1"/>
+   </properties>
+  </object>
+  <object id="43" name="PlayerMove" type="PlayerMove" x="160" y="2400" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerMove2"/>
+    <property name="triggeringId" value="tutorialRoom2"/>
+   </properties>
+  </object>
+  <object id="44" name="Multitrigger" type="Multitrigger" x="224" y="2464" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="enemySpawns"/>
+    <property name="triggeringId" value="spawn1,spawn2"/>
+   </properties>
+  </object>
+  <object id="47" name="SchmuckSpawn" type="SchmuckSpawn" x="896" y="2944" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="2"/>
+    <property name="enemyId" type="int" value="2"/>
+    <property name="triggeredId" value="spawn2"/>
+    <property name="triggeringId" value="doorFinalCounter"/>
+   </properties>
+  </object>
+  <object id="48" name="SchmuckSpawn" type="SchmuckSpawn" x="1216" y="2816" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="2"/>
+    <property name="enemyId" type="int" value="2"/>
+    <property name="triggeredId" value="spawn1"/>
+    <property name="triggeringId" value="doorFinalCounter"/>
+   </properties>
+  </object>
+  <object id="49" name="Counter" type="Counter" x="352" y="2464" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="2"/>
+    <property name="triggeredId" value="doorFinalCounter"/>
+    <property name="triggeringId" value="winFight"/>
+   </properties>
+  </object>
+  <object id="50" name="Prefab" type="Prefab" x="1056" y="3040" width="160" height="96">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="triggeredId" value="doorFinal"/>
+    <property name="xDisplace" type="int" value="5"/>
+   </properties>
+  </object>
+  <object id="51" name="Multitrigger" type="Multitrigger" x="416" y="2464" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="winFight"/>
+    <property name="triggeringId" value="doorFinal,tutorial6Dialog"/>
+   </properties>
+  </object>
+  <object id="52" name="Dialog" type="Dialog" x="416" y="2528" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial6"/>
+    <property name="triggeredId" value="tutorial6Dialog"/>
+   </properties>
+  </object>
+  <object id="53" name="Sensor" type="Sensor" x="1344" y="3392" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="winLimiter"/>
+   </properties>
+  </object>
+  <object id="54" name="End" type="End" x="1472" y="3584" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="winwin"/>
+   </properties>
+  </object>
+  <object id="56" name="Multitrigger" type="Multitrigger" x="1408" y="3584" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="win"/>
+    <property name="triggeringId" value="winwin,quest2"/>
+   </properties>
+  </object>
+  <object id="57" name="QuestChange" type="QuestChange" x="1472" y="3648" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="2"/>
+    <property name="quest" value="INTRO"/>
+    <property name="triggeredId" value="quest2"/>
+   </properties>
+  </object>
+  <object id="58" name="Prefab" type="Prefab" x="160" y="2464" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="spawnLimiter1"/>
+    <property name="triggeringId" value="enemySpawns"/>
+   </properties>
+  </object>
+  <object id="59" name="Prefab" type="Prefab" x="1344" y="3584" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="winLimiter"/>
+    <property name="triggeringId" value="win"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="collision-layer">
+  <object id="4" x="160" y="2016">
+   <polyline points="0,0 640,0 640,-96 736,-96 736,0 832,0 832,-192 928,-192 928,0 1312,0 1312,-192 1472,-192 1472,-288 1568,-288 1568,-800 1760,-800 1760,-704 1696,-704 1696,-192 2944,-192 2944,-352 2400,-352 2400,-608 1920,-608 1920,-992 1152,-992 1056,-896 1056,-608 448,-608 448,-128 352,-128 352,-256 0,-256 0,0"/>
+  </object>
+  <object id="5" x="160" y="3200">
+   <polyline points="0,0 288,0 448,-160 896,-160 896,-64 832,-64 832,224 1376,224 1376,-64 1056,-64 1056,-160 1216,-160 1216,-352 1088,-480 0,-480 0,0"/>
+  </object>
+ </objectgroup>
+</map>

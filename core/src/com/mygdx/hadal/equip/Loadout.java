@@ -24,7 +24,7 @@ public class Loadout {
 		multitools[2] = UnlockEquip.NOTHING;
 		
 		artifact = UnlockArtifact.NOTHING;
-		activeItem = UnlockActives.MELON;
+		activeItem = UnlockActives.NOTHING;
 		character = UnlockCharacter.MOREAU;
 	}
 	
@@ -41,7 +41,7 @@ public class Loadout {
 		}
 		
 		artifact = UnlockArtifact.NOTHING;
-		activeItem = UnlockActives.MELON;
+		activeItem = UnlockActives.NOTHING;
 		character = UnlockCharacter.MOREAU;
 
 	}

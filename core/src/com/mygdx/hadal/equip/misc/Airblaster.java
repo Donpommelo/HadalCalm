@@ -24,7 +24,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static int hitboxSize = 300;
 	private final static int swingArc = 300;
 	private final static float knockback = 25.0f;
-	private final static float momentum = -45.0f;
+	private final static float momentum = -60.0f;
 	
 	
 	private final static HitboxFactory onSwing = new HitboxFactory() {

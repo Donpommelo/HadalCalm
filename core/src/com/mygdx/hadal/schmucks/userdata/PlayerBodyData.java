@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.equip.actives.Empty;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
@@ -29,10 +30,10 @@ public class PlayerBodyData extends BodyData {
 	private int extraJumpsUsed = 0;
 	private float jumpPow = 25.0f;
 	
-	private float fastFallPow = 25.0f;
+	private float fastFallPow = 35.0f;
 
 	private int hoverCost = 5;
-	private float hoverPow = 4.0f;
+	private float hoverPow = 5.0f;
 	
 	private int airblastCost = 30;
 	
@@ -193,7 +194,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public ActiveItem pickup(ActiveItem item) {
-		if (activeItem == null) {
+		if (activeItem == null || activeItem instanceof Empty) {
 			activeItem = item;
 			return null;
 		}

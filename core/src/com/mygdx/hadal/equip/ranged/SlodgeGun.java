@@ -24,7 +24,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static int clipSize = 1;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.8f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 20.0f;
 	private final static float recoil = 0.0f;
@@ -39,7 +39,7 @@ public class SlodgeGun extends RangedWeapon {
 	
 	private final static float slowDura = 3.0f;
 
-	private final static int explosionRadius = 250;
+	private final static int explosionRadius = 350;
 
 	private final static String weapSpriteId = "slodgegun";
 	private final static String weapEventSpriteId = "event_slodgegun";

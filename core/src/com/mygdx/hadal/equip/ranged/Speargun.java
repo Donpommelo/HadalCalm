@@ -17,11 +17,11 @@ public class Speargun extends RangedWeapon {
 
 	private final static String name = "Harpoon Gun";
 	private final static int clipSize = 6;
-	private final static float shootCd = 0.25f;
+	private final static float shootCd = 0.2f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 60.0f;
 	private final static float recoil = 7.5f;
 	private final static float knockback = 12.5f;
 	private final static float projectileSpeed = 22.5f;
