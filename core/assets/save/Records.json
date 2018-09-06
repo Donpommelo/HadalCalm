@@ -13,7 +13,7 @@ hiScores: {
 }
 flags: {
 	class: java.util.HashMap
-	INTRO: 0
+	INTRO: 3
 	TUTORIAL: 0
 }
 }

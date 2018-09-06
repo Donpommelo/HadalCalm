@@ -8,6 +8,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.UnlocktoItem;
 
 public class Dispensary extends HubEvent {
 
@@ -32,7 +33,7 @@ public class Dispensary extends HubEvent {
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
 		        	state.getGsm().getLoadout().activeItem = selected;
-		        	state.getPlayer().getPlayerData().replaceSlot(selected);
+		        	state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
 		        }
 				
 				@Override

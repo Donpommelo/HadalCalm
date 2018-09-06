@@ -77,11 +77,8 @@ public class GameStateManager {
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
 		
 		//TODO: remember last loadout used?
-		if (record.getFlags().get("INTRO") < 2) {
-			this.loadout = new Loadout(UnlockEquip.NOTHING);
-		} else {
-			this.loadout = new Loadout();
-		}
+		this.loadout = new Loadout();
+		
 		this.level = UnlockLevel.ARENA_1;
 	}
 	
@@ -146,7 +143,6 @@ public class GameStateManager {
 	
 	/**
 	 * This is run when we change the current state.
-	 * TODO: At the moment, we only have one state active. Maybe change later?
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
 	 * @param state: The new state
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
@@ -206,7 +202,14 @@ public class GameStateManager {
 		case VICTORY: return new VictoryState(this);
 		case CONTROL: return new ControlState(this);
 		case MENU: return new MenuState(this);
-		case HUB: return new HubState(this, loadout);
+		case HUB: 
+			//TODO: make this less dumb
+			if (record.getFlags().get("INTRO") < 2) {
+				this.loadout = new Loadout(UnlockEquip.NOTHING);
+			} else {
+				this.loadout = new Loadout();
+			}
+			return new HubState(this, loadout);
 		default:
 			break;
 		}

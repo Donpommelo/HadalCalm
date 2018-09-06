@@ -11,9 +11,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.Nothing;
-import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.statuses.ActiveItemCharge;
 import com.mygdx.hadal.statuses.Status;
@@ -58,8 +56,7 @@ public class PlayerBodyData extends BodyData {
 	
 		this.artifacts = new ArrayList<Artifact>();
 		artifactStart = addArtifact(loadout.artifact);
-
-		this.activeItem = getActiveItem(loadout.activeItem);
+		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		addStatus(new ActiveItemCharge(player.getState(), this));
 		
 		
@@ -206,9 +203,9 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * Replaces slot slot with new equip. Used in loadout state and also when using last charge of consumable weapon.
+	 * empties a slot. Used when using last charge of consumable weapon.
 	 */
-	public void replaceSlot(UnlockEquip equip, int slot) {
+	public void emptySlot(int slot) {
 		
 		if (multitools[slot] != null) {
 			for (Status s : multitools[slot].getWeaponMods()) {
@@ -216,12 +213,8 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 		
-		multitools[slot] = UnlocktoItem.getUnlock(equip, player);
+		multitools[slot] = new Nothing(player);
 		multitools[slot].setUser(player);
-		
-		for (Status s : multitools[slot].getWeaponMods()) {
-			addStatus(s);
-		}
 		
 		currentSlot = slot;
 		setEquip();
@@ -243,14 +236,6 @@ public class PlayerBodyData extends BodyData {
 		artifactStart = addArtifact(artifact);
 	}
 	
-	public ActiveItem replaceSlot(UnlockActives activeItem) {
-		ActiveItem old = this.activeItem;
-		
-		this.activeItem = getActiveItem(activeItem);
-		
-		return old;
-	}
-	
 	/**
 	 * Add a new artifact. Return the new artifact
 	 */
@@ -264,15 +249,6 @@ public class PlayerBodyData extends BodyData {
 		
 		artifacts.add(newArtifact);
 		return newArtifact;
-	}
-	
-	public ActiveItem getActiveItem(UnlockActives activeItem) {
-		
-		ActiveItem newItem = UnlocktoItem.getUnlock(activeItem, player);
-		
-		this.activeItem = newItem;
-		
-		return newItem;
 	}
 	
 	/**

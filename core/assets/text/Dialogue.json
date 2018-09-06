@@ -66,6 +66,15 @@
 	"4": [
 		{
 			"Name": "Pelican",
+			"Text": "Now that you've finished the Tutorial, you should go check out the rest of the ship.",
+			"Sprite": "PELICAN_MASKED"
+			"Duration": 3
+			"End": true
+		}
+	],
+	"5": [
+		{
+			"Name": "Pelican",
 			"Text": "Welcome back, Salvager.",
 			"Sprite": "PELICAN_MASKED"
 			"Duration": 3
@@ -187,7 +196,7 @@
 			"Duration": 5
 			"End": true
 		}
-	]
+	],
 	"tutorial6": [
 		{
 			"Name": "Pelican",
@@ -208,7 +217,7 @@
 			"Override": true
 			"End": true
 		}
-	]
+	],
 	"tutorial7": [
 		{
 			"Name": "Pelican",
@@ -226,6 +235,32 @@
 			"Name": "Pelican",
 			"Text": "To your right is main room of the ship. Gear up and go to Navigations to get into a mission!",
 			"Sprite": "PELICAN_MASKED"
+			"Override": true
+			"End": true
+		}
+	],
+	"intro1elevator": [
+		{
+			"Name": "Pelican",
+			"Text": "That switch operates the ship Elevator. You should come back after you've finished the Tutorial.",
+			"Sprite": "PELICAN_MASKED"
+			"Override": true
+			"End": true
+		}
+	],
+	"oob": [
+		{
+			"Name": "Pelican",
+			"Text": "Management requests that Salvagers keep all limbs within the ship when not on active duty.",
+			"Sprite": "PELICAN_MASKED"
+			"Duration": 5
+			"Override": true
+		}
+		{
+			"Name": "Pelican",
+			"Text": "Oh, and please give the Elevator the respect it deserves. That thing isn't a toy.",
+			"Sprite": "PELICAN_MASKED"
+			"Duration": 5
 			"Override": true
 			"End": true
 		}

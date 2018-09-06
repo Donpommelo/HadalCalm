@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -51,7 +50,7 @@ public class Consumable extends Equipable {
 		
 		if (chargesLeft <= 0) {
 			if (bodyData instanceof PlayerBodyData) {
-				((PlayerBodyData)bodyData).replaceSlot(UnlockEquip.NOTHING, ((PlayerBodyData)bodyData).getCurrentSlot());
+				((PlayerBodyData)bodyData).emptySlot(((PlayerBodyData)bodyData).getCurrentSlot());
 				((PlayerBodyData)bodyData).switchDown();
 			}
 		}

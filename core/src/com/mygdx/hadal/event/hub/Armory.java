@@ -8,6 +8,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.UnlocktoItem;
 
 public class Armory extends HubEvent {
 
@@ -32,7 +33,7 @@ public class Armory extends HubEvent {
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
 		        	state.getGsm().getLoadout().multitools[state.getPlayer().getPlayerData().getCurrentSlot()] = selected;
-		        	state.getPlayer().getPlayerData().replaceSlot(selected, state.getPlayer().getPlayerData().getCurrentSlot());
+		        	state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
 		        }
 				
 				@Override

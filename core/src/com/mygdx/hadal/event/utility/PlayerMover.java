@@ -23,6 +23,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class PlayerMover extends Event {
 
 	private static final String name = "Player Mover";
+	private boolean moving = false;
 
 	public PlayerMover(PlayState state, int width, int height, int x, int y) {
 		super(state, name, width, height, x, y);
@@ -35,11 +36,7 @@ public class PlayerMover extends Event {
 			@Override
 			public void onActivate(EventData activator) {
 				if (event.getConnectedEvent() != null) {
-					state.getPlayer().getBody().setTransform(event.getConnectedEvent().getBody().getPosition(), 0);
-					
-					if (event.getConnectedEvent().getStandardParticle() != null) {
-						event.getConnectedEvent().getStandardParticle().onForBurst(1.0f);
-					}
+					moving = true;
 				}
 			}
 		};
@@ -49,8 +46,14 @@ public class PlayerMover extends Event {
 	}
 	
 	@Override
-	public String getText() {
-		return name + " (E TO USE)";
+	public void controller(float delta) {
+		if (moving) {
+			moving = false;
+			state.getPlayer().getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
+			
+			if (getConnectedEvent().getStandardParticle() != null) {
+				getConnectedEvent().getStandardParticle().onForBurst(1.0f);
+			}
+		}
 	}
-
 }

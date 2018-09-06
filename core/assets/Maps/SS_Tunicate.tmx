@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="83">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="104">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer name="Tile Layer 1" width="100" height="120">
   <data encoding="base64" compression="zlib">
@@ -28,7 +28,7 @@
   <object id="2" name="Multitrigger" type="Multitrigger" x="128" y="320" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="intro0Case,intro1Case,intro2Case,startTimer,intro0Capsule"/>
+    <property name="triggeringId" value="intro0Case,intro1Case,intro2Case,intro3Case,startTimer,intro0Capsule"/>
    </properties>
   </object>
   <object id="3" name="Dialog" type="Dialog" x="320" y="320" width="32" height="32">
@@ -197,7 +197,6 @@
     <property name="triggeringId" value="downpressed"/>
    </properties>
   </object>
-  <object id="28" name="Pit" type="Pit" x="0" y="3712" width="3200" height="64"/>
   <object id="34" name="Quartermaster" type="Quartermaster" x="1056" y="2208" width="96" height="96"/>
   <object id="37" name="Dormitory" type="Dormitory" x="1792" y="1824" width="96" height="96"/>
   <object id="38" name="Armory" type="Armory" x="2240" y="1920" width="96" height="96"/>
@@ -209,7 +208,7 @@
   <object id="44" name="Start" type="Start" x="2272" y="1760" width="32" height="32"/>
   <object id="45" name="Switch" type="Switch" x="1760" y="2784" width="32" height="32">
    <properties>
-    <property name="triggeringId" value="setfloor1"/>
+    <property name="triggeringId" value="elevatorSwitchPulled"/>
    </properties>
   </object>
   <object id="46" name="Switch" type="Switch" x="1760" y="2176" width="32" height="32">
@@ -295,7 +294,7 @@
     <property name="triggeringId" value="playerStart0"/>
    </properties>
   </object>
-  <object id="60" name="Redirecttrigger" type="Redirecttrigger" x="192" y="864" width="32" height="32">
+  <object id="60" name="Redirecttrigger" type="Redirecttrigger" x="192" y="928" width="32" height="32">
    <properties>
     <property name="blameId" value="capsuleLandingPoint"/>
     <property name="triggeredId" value="intro0Capsule"/>
@@ -348,7 +347,7 @@
     <property name="triggeredId" value="intro0Done"/>
    </properties>
   </object>
-  <object id="69" name="Dummy" type="Dummy" x="1984" y="2784" width="32" height="32">
+  <object id="69" name="Dummy" type="Dummy" x="1984" y="2752" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerStart1"/>
    </properties>
@@ -376,7 +375,7 @@
   <object id="73" name="Multitrigger" type="Multitrigger" x="256" y="736" width="32" height="32">
    <properties>
     <property name="triggeredId" value="intro2"/>
-    <property name="triggeringId" value="intro2Dialog,playerStart1,setfloor1"/>
+    <property name="triggeringId" value="intro2Dialog,intro2cutscene,intro1PlayerStart,setfloor1"/>
    </properties>
   </object>
   <object id="74" name="Dialog" type="Dialog" x="320" y="736" width="32" height="32">
@@ -385,14 +384,14 @@
     <property name="triggeredId" value="intro2Dialog"/>
    </properties>
   </object>
-  <object id="79" name="Counter" type="Counter" x="256" y="864" width="32" height="32">
+  <object id="79" name="Counter" type="Counter" x="256" y="928" width="32" height="32">
    <properties>
     <property name="count" type="int" value="1"/>
     <property name="triggeredId" value="airlockOpenReqsElse"/>
     <property name="triggeringId" value="intro2OpenDoors"/>
    </properties>
   </object>
-  <object id="80" name="Multitrigger" type="Multitrigger" x="320" y="864" width="32" height="32">
+  <object id="80" name="Multitrigger" type="Multitrigger" x="320" y="928" width="32" height="32">
    <properties>
     <property name="triggeredId" value="intro2OpenDoors"/>
     <property name="triggeringId" value="intro0DoorLeft,intro0DoorRight"/>
@@ -410,6 +409,133 @@
     <property name="message" value="airlockOpenReqs0"/>
     <property name="triggeredId" value="airlockOpenReqsAlt"/>
     <property name="triggeringId" value="airlockOpenReqs"/>
+   </properties>
+  </object>
+  <object id="83" name="Multitrigger" type="Multitrigger" x="1696" y="2976" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorSwitchPulled"/>
+    <property name="triggeringId" value="intro1Elevator,intro2Elevator,intro3Elevator"/>
+   </properties>
+  </object>
+  <object id="84" name="QuestCheck" type="QuestCheck" x="1760" y="2976" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="1"/>
+    <property name="quest" value="INTRO"/>
+    <property name="triggeredId" value="intro1Elevator"/>
+    <property name="triggeringId" value="intro1ElevatorDialog"/>
+   </properties>
+  </object>
+  <object id="85" name="QuestCheck" type="QuestCheck" x="1760" y="3040" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="2"/>
+    <property name="quest" value="INTRO"/>
+    <property name="triggeredId" value="intro2Elevator"/>
+    <property name="triggeringId" value="setfloor1"/>
+   </properties>
+  </object>
+  <object id="86" name="QuestCheck" type="QuestCheck" x="1760" y="3104" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="3"/>
+    <property name="quest" value="INTRO"/>
+    <property name="triggeredId" value="intro3Elevator"/>
+    <property name="triggeringId" value="setfloor1"/>
+   </properties>
+  </object>
+  <object id="87" name="Dialog" type="Dialog" x="1824" y="2976" width="32" height="32">
+   <properties>
+    <property name="textId" value="intro1elevator"/>
+    <property name="triggeredId" value="intro1ElevatorDialog"/>
+   </properties>
+  </object>
+  <object id="88" name="QuestCheck" type="QuestCheck" x="192" y="864" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="3"/>
+    <property name="quest" value="INTRO"/>
+    <property name="triggeredId" value="intro3Case"/>
+    <property name="triggeringId" value="intro3"/>
+   </properties>
+  </object>
+  <object id="89" name="Multitrigger" type="Multitrigger" x="256" y="864" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="intro3"/>
+    <property name="triggeringId" value="intro3Dialog"/>
+   </properties>
+  </object>
+  <object id="90" name="Dialog" type="Dialog" x="320" y="864" width="32" height="32">
+   <properties>
+    <property name="textId" value="5"/>
+    <property name="triggeredId" value="intro3Dialog"/>
+   </properties>
+  </object>
+  <object id="92" name="EventMove" type="EventMove" x="1568" y="2368" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="intro2cutscene"/>
+    <property name="triggeringId" value="intro2sensor"/>
+   </properties>
+  </object>
+  <object id="93" name="Sensor" type="Sensor" x="416" y="736" width="224" height="32">
+   <properties>
+    <property name="triggeredId" value="intro2sensor"/>
+    <property name="triggeringId" value="intro2limiter"/>
+   </properties>
+  </object>
+  <object id="94" name="Prefab" type="Prefab" x="672" y="736" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="intro2limiter"/>
+    <property name="triggeringId" value="intro2multi"/>
+   </properties>
+  </object>
+  <object id="95" name="Multitrigger" type="Multitrigger" x="736" y="736" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="intro2multi"/>
+    <property name="triggeringId" value="intro2Cutscene,intro2QuestChange"/>
+   </properties>
+  </object>
+  <object id="96" name="QuestChange" type="QuestChange" x="800" y="800" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="3"/>
+    <property name="quest" value="INTRO"/>
+    <property name="triggeredId" value="intro2QuestChange"/>
+   </properties>
+  </object>
+  <object id="97" name="Dialog" type="Dialog" x="800" y="736" width="32" height="32">
+   <properties>
+    <property name="textId" value="tutorial7"/>
+    <property name="triggeredId" value="intro2Cutscene"/>
+   </properties>
+  </object>
+  <object id="98" name="Sensor" type="Sensor" x="0" y="3744" width="3200" height="64">
+   <properties>
+    <property name="triggeringId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="99" name="Multitrigger" type="Multitrigger" x="128" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="outOfBounds"/>
+    <property name="triggeringId" value="intro1PlayerStart,oobDialog"/>
+   </properties>
+  </object>
+  <object id="100" name="Dialog" type="Dialog" x="192" y="3616" width="32" height="32">
+   <properties>
+    <property name="textId" value="oob"/>
+    <property name="triggeredId" value="oobDialog"/>
+   </properties>
+  </object>
+  <object id="101" name="Sensor" type="Sensor" x="0" y="64" width="3200" height="64">
+   <properties>
+    <property name="triggeringId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="102" name="Sensor" type="Sensor" x="3136" y="128" width="64" height="3616">
+   <properties>
+    <property name="triggeringId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="103" name="Sensor" type="Sensor" x="0" y="128" width="64" height="3616">
+   <properties>
+    <property name="triggeringId" value="outOfBounds"/>
    </properties>
   </object>
  </objectgroup>
