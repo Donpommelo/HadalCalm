@@ -20,10 +20,11 @@ public class WeaponModifier extends Status {
 	@Override
 	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
 
-		if (tool.equals(moddedTool)) {
-			return mod.statusProcTime(procTime, schmuck, amount, status, tool, hbox, tags);
-		} else {
-			return amount;
+		if (tool != null) {
+			if (tool.equals(moddedTool)) {
+				return mod.statusProcTime(procTime, schmuck, amount, status, tool, hbox, tags);
+			}
 		}
+		return amount;
 	}
 }

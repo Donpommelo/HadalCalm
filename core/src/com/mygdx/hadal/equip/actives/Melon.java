@@ -11,7 +11,7 @@ public class Melon extends ActiveItem {
 	private final static String name = "Melon";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.2f;
-	private final static float maxCharge = 300.0f;
+	private final static float maxCharge = 600.0f;
 	
 	private final static float duration = 5.0f;
 	private final static float power = 8.0f;

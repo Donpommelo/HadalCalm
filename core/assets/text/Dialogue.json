@@ -264,5 +264,35 @@
 			"Override": true
 			"End": true
 		}
+	],
+	"lv3dialog1": [
+		{
+			"Name": "Pelican",
+			"Text": "TEMP",
+			"Sprite": "PELICAN_MASKED"
+			"Duration": 5
+			"Override": true
+            "End": true
+		}
+	],
+    "lv3dialog2": [
+		{
+			"Name": "Pelican",
+			"Text": "TEMP",
+			"Sprite": "PELICAN_MASKED"
+			"Duration": 5
+			"Override": true
+            "End": true
+		}
+	],
+    "lv3dialog3": [
+		{
+			"Name": "Pelican",
+			"Text": "TEMPaefraga",
+			"Sprite": "PELICAN_MASKED"
+			"Duration": 5
+			"Override": true
+            "End": true
+		}
 	]
 }

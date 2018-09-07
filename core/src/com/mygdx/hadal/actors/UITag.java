@@ -21,7 +21,7 @@ public class UITag {
 	private float scale;
 	
 	//Default text size.
-	private static final float defScale = 0.4f;
+	private static final float defScale = 0.25f;
 	
 	public UITag(uiType type, String misc, float scale) {
 		this.type = type;

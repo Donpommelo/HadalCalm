@@ -14,6 +14,7 @@ public enum UnlockLevel {
 	ARENA_2("Maps/arena_2.tmx"),
 	LEVEL_1("Maps/map_2.tmx"),
 	LEVEL_2("Maps/expanse.tmx"),
+	LEVEL_3("Maps/aye_carambas.tmx"),
 	NASU("Maps/nasu.tmx"),
 	
 	;

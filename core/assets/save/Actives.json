@@ -33,7 +33,7 @@ FIREBALL: {
 MISSILE_POD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Missile Pod
-	description: "Fire a barrage ofhoming missiles!"
+	description: "Fire a barrage of homing missiles!"
 	unlocked: true
 	tags: [
 		DISPENSARY,

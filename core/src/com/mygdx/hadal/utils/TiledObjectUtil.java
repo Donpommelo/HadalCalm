@@ -350,6 +350,14 @@ public class TiledObjectUtil {
 					object.getProperties().get("power", 0.0f, float.class));
     	}
     	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("SpawnerTriggered")) {
+    		p = new TriggeredSpawner(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("type", 0, int.class),
+					object.getProperties().get("power", 0.0f, float.class));
+    	}
+    	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Camera")) {
     		p = new CameraPanZone(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 

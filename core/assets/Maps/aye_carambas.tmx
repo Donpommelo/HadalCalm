@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="150" height="130" tilewidth="32" tileheight="32" infinite="0" nextobjectid="30">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="150" height="140" tilewidth="32" tileheight="32" infinite="0" nextobjectid="84">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
- <layer name="Tile Layer 1" width="150" height="130">
+ <layer name="Tile Layer 1" width="150" height="140">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup name="event-layer">
-  <object id="3" name="Start" type="Start" x="640" y="768" width="32" height="32"/>
-  <object id="4" name="Equip" type="Equip" x="704" y="832" width="32" height="32"/>
-  <object id="5" name="WeaponMod" type="WeaponMod" x="960" y="1216" width="32" height="32"/>
   <object id="6" name="WeaponMod" type="WeaponMod" x="1120" y="1216" width="32" height="32"/>
   <object id="7" name="Poison" type="Poison" x="1344" y="1312" width="1888" height="96">
    <properties>
@@ -56,7 +53,7 @@
   <object id="18" name="Spring" type="Spring" x="3328" y="1472" width="224" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>
-    <property name="springY" type="float" value="60"/>
+    <property name="springY" type="float" value="150"/>
    </properties>
   </object>
   <object id="19" name="Switch" type="Switch" x="3744" y="768" width="32" height="32">
@@ -72,7 +69,7 @@
   <object id="21" name="Multitrigger" type="Multitrigger" x="448" y="2720" width="32" height="32">
    <properties>
     <property name="triggeredId" value="portal0"/>
-    <property name="triggeringId" value="playerMove1"/>
+    <property name="triggeringId" value="playerMove1,spawn4,spawn5"/>
    </properties>
   </object>
   <object id="22" name="PlayerMove" type="PlayerMove" x="512" y="2720" width="32" height="32">
@@ -81,14 +78,16 @@
     <property name="triggeringId" value="room2entry"/>
    </properties>
   </object>
-  <object id="23" name="TouchPortal" type="TouchPortal" x="512" y="3520" width="32" height="32">
+  <object id="23" name="TouchPortal" type="TouchPortal" x="512" y="3456" width="32" height="32">
    <properties>
+    <property name="particle_std" value="event_holo"/>
     <property name="triggeredId" value="portal1"/>
     <property name="triggeringId" value="portal2"/>
    </properties>
   </object>
-  <object id="24" name="TouchPortal" type="TouchPortal" x="1152" y="3520" width="32" height="32">
+  <object id="24" name="TouchPortal" type="TouchPortal" x="1152" y="3456" width="32" height="32">
    <properties>
+    <property name="particle_std" value="event_holo"/>
     <property name="triggeredId" value="portal2"/>
     <property name="triggeringId" value="portal1"/>
    </properties>
@@ -105,7 +104,7 @@
    <properties>
     <property name="prefabId" value="Door"/>
     <property name="speed" type="float" value="5"/>
-    <property name="triggeredId" value="door3"/>
+    <property name="triggeredId" value="door4"/>
     <property name="yDisplace" type="int" value="-4"/>
    </properties>
   </object>
@@ -114,7 +113,7 @@
     <property name="prefabId" value="Door"/>
     <property name="speed" type="float" value="5"/>
     <property name="triggeredId" value="door3"/>
-    <property name="xDisplace" type="int" value="-8"/>
+    <property name="xDisplace" type="int" value="9"/>
    </properties>
   </object>
   <object id="28" name="Timer" type="Timer" x="512" y="288" width="32" height="32">
@@ -127,7 +126,322 @@
   <object id="29" name="Multitrigger" type="Multitrigger" x="576" y="288" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer"/>
+    <property name="triggeringId" value="startTimer,turret1,turret2,turret3,mobStartTimer,onemintimer,timerdecrement,wavetimer"/>
+   </properties>
+  </object>
+  <object id="30" name="Equip" type="Equip" x="960" y="1216" width="32" height="32"/>
+  <object id="31" name="Sensor" type="Sensor" x="1376" y="864" width="32" height="544">
+   <properties>
+    <property name="triggeringId" value="spawnLimiter1"/>
+   </properties>
+  </object>
+  <object id="32" name="Prefab" type="Prefab" x="1376" y="704" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="spawnLimiter1"/>
+    <property name="triggeringId" value="spawn1group"/>
+   </properties>
+  </object>
+  <object id="33" name="SchmuckSpawn" type="SchmuckSpawn" x="1920" y="896" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="2"/>
+    <property name="enemyId" type="int" value="1"/>
+    <property name="triggeredId" value="spawn1"/>
+   </properties>
+  </object>
+  <object id="34" name="Sensor" type="Sensor" x="3200" y="864" width="32" height="544">
+   <properties>
+    <property name="triggeringId" value="spawnLimiter2"/>
+   </properties>
+  </object>
+  <object id="35" name="Prefab" type="Prefab" x="3200" y="704" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="spawnLimiter2"/>
+    <property name="triggeringId" value="spawn3"/>
+   </properties>
+  </object>
+  <object id="36" name="SchmuckSpawn" type="SchmuckSpawn" x="3424" y="576" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="4"/>
+    <property name="enemyId" type="int" value="1"/>
+    <property name="triggeredId" value="spawn3"/>
+   </properties>
+  </object>
+  <object id="37" name="SchmuckSpawn" type="SchmuckSpawn" x="2368" y="896" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="3"/>
+    <property name="enemyId" type="int" value="1"/>
+    <property name="triggeredId" value="spawn2"/>
+   </properties>
+  </object>
+  <object id="38" name="Multitrigger" type="Multitrigger" x="1440" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawn1group"/>
+    <property name="triggeringId" value="spawn1,spawn2"/>
+   </properties>
+  </object>
+  <object id="39" name="SchmuckSpawn" type="SchmuckSpawn" x="1152" y="3392" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="4"/>
+    <property name="enemyId" type="int" value="1"/>
+    <property name="triggeredId" value="spawn4"/>
+    <property name="triggeringId" value="fight3counter"/>
+   </properties>
+  </object>
+  <object id="40" name="SchmuckSpawn" type="SchmuckSpawn" x="1120" y="3136" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="4"/>
+    <property name="enemyId" type="int" value="1"/>
+    <property name="triggeredId" value="spawn5"/>
+    <property name="triggeringId" value="fight3counter"/>
+   </properties>
+  </object>
+  <object id="41" name="Counter" type="Counter" x="1056" y="2912" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="2"/>
+    <property name="triggeredId" value="fight3counter"/>
+    <property name="triggeringId" value="fightwon1"/>
+   </properties>
+  </object>
+  <object id="42" name="Platform" type="Platform" x="2048" y="2656" width="32" height="224">
+   <properties>
+    <property name="speed" type="float" value="2"/>
+    <property name="triggeringId" value="platPoint6"/>
+   </properties>
+  </object>
+  <object id="43" name="Dummy" type="Dummy" x="2048" y="2752" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platPoint5"/>
+    <property name="triggeringId" value="platPoint6"/>
+   </properties>
+  </object>
+  <object id="44" name="Dummy" type="Dummy" x="2048" y="3040" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platPoint6"/>
+    <property name="triggeringId" value="platPoint5"/>
+   </properties>
+  </object>
+  <object id="45" name="Dropthrough" type="Dropthrough" x="1792" y="3104" width="160" height="16"/>
+  <object id="46" name="Dropthrough" type="Dropthrough" x="1792" y="2912" width="160" height="16"/>
+  <object id="47" name="Dropthrough" type="Dropthrough" x="1792" y="2624" width="160" height="16"/>
+  <object id="48" name="SchmuckSpawn" type="SchmuckSpawn" x="2240" y="2880" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" type="int" value="5"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="turret2"/>
+   </properties>
+  </object>
+  <object id="49" name="SchmuckSpawn" type="SchmuckSpawn" x="2240" y="2688" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" type="int" value="5"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="turret3"/>
+   </properties>
+  </object>
+  <object id="50" name="SchmuckSpawn" type="SchmuckSpawn" x="2240" y="3072" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" type="int" value="5"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="turret1"/>
+   </properties>
+  </object>
+  <object id="52" name="Start" type="Start" x="672" y="736" width="32" height="32"/>
+  <object id="53" name="Prefab" type="Prefab" x="832" y="3392" width="32" height="32">
+   <properties>
+    <property name="power" type="float" value="25"/>
+    <property name="prefabId" value="SpawnerTriggered"/>
+    <property name="triggeredId" value="hpspawn1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="54" name="Multitrigger" type="Multitrigger" x="1120" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="fightwon1"/>
+    <property name="triggeringId" value="door1,hpspawn1"/>
+   </properties>
+  </object>
+  <object id="55" name="Prefab" type="Prefab" x="2208" y="2496" width="32" height="32">
+   <properties>
+    <property name="power" type="float" value="25"/>
+    <property name="prefabId" value="SpawnerTriggered"/>
+    <property name="triggeredId" value="hpspawn2"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="56" name="Artifact" type="Artifact" x="2368" y="2496" width="32" height="32"/>
+  <object id="57" name="Switch" type="Switch" x="3584" y="3744" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="blackbox1"/>
+   </properties>
+  </object>
+  <object id="58" name="Multitrigger" type="Multitrigger" x="3552" y="3936" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="switchpressed"/>
+    <property name="triggeringId" value="door3,fightInitDialog,mobStartTimer,turnoff"/>
+   </properties>
+  </object>
+  <object id="59" name="Timer" type="Timer" x="3616" y="3936" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="mobStartTimer"/>
+    <property name="triggeringId" value="delayFinish"/>
+   </properties>
+  </object>
+  <object id="60" name="Dialog" type="Dialog" x="3616" y="4000" width="32" height="32">
+   <properties>
+    <property name="textId" value="lv3dialog2"/>
+    <property name="triggeredId" value="fightInitDialog"/>
+   </properties>
+  </object>
+  <object id="61" name="Multitrigger" type="Multitrigger" x="3680" y="3936" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="delayFinish"/>
+    <property name="triggeringId" value="mobStartTimer,uisurvive,onemintimer,uitimerone,timerdecrement,wavetimer"/>
+   </properties>
+  </object>
+  <object id="62" name="UI" type="UI" x="3744" y="3936" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="misc">Survive!
+</property>
+    <property name="tags" value="MISC"/>
+    <property name="triggeredId" value="uisurvive"/>
+   </properties>
+  </object>
+  <object id="63" name="Timer" type="Timer" x="3744" y="4000" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="30"/>
+    <property name="triggeredId" value="onemintimer"/>
+    <property name="triggeringId" value="onemindone"/>
+   </properties>
+  </object>
+  <object id="64" name="UI" type="UI" x="3744" y="4064" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="tags" value="TIMER"/>
+    <property name="timer" type="float" value="30"/>
+    <property name="triggeredId" value="uitimerone"/>
+   </properties>
+  </object>
+  <object id="65" name="Timer" type="Timer" x="3744" y="4128" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="timerdecrement"/>
+    <property name="triggeringId" value="minussecond"/>
+   </properties>
+  </object>
+  <object id="66" name="UI" type="UI" x="3808" y="4128" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="timer" type="float" value="-1"/>
+    <property name="triggeredId" value="minussecond"/>
+   </properties>
+  </object>
+  <object id="67" name="Multitrigger" type="Multitrigger" x="3808" y="4192" width="31.5146" height="32.4781" rotation="-0.862627">
+   <properties>
+    <property name="triggeredId" value="timedspawn"/>
+    <property name="triggeringId" value="spawn6,spawn7"/>
+   </properties>
+  </object>
+  <object id="68" name="Timer" type="Timer" x="3744" y="4192" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="5"/>
+    <property name="limit" type="int" value="0"/>
+    <property name="triggeredId" value="wavetimer"/>
+    <property name="triggeringId" value="timedspawn"/>
+   </properties>
+  </object>
+  <object id="69" name="SchmuckSpawn" type="SchmuckSpawn" x="2880" y="3008" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="2"/>
+    <property name="enemyId" type="int" value="1"/>
+    <property name="triggeredId" value="spawn6"/>
+   </properties>
+  </object>
+  <object id="70" name="SchmuckSpawn" type="SchmuckSpawn" x="3584" y="3008" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="2"/>
+    <property name="enemyId" type="int" value="1"/>
+    <property name="triggeredId" value="spawn7"/>
+   </properties>
+  </object>
+  <object id="71" name="Multitrigger" type="Multitrigger" x="3808" y="4000" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onemindone"/>
+    <property name="triggeringId" value="door4,timerdecrement,wavetimer,onemintimer,uicomplete,uisurvivedone,fightWinDialog"/>
+   </properties>
+  </object>
+  <object id="72" name="UI" type="UI" x="3872" y="4000" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="misc">Complete!
+</property>
+    <property name="tags" value="MISC"/>
+    <property name="triggeredId" value="uicomplete"/>
+   </properties>
+  </object>
+  <object id="73" name="UI" type="UI" x="3872" y="4064" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="-1"/>
+    <property name="misc">Survive!
+</property>
+    <property name="tags" value="MISC"/>
+    <property name="triggeredId" value="uisurvivedone"/>
+   </properties>
+  </object>
+  <object id="74" name="Dialog" type="Dialog" x="3936" y="4000" width="32" height="32">
+   <properties>
+    <property name="textId" value="lv3dialog3"/>
+    <property name="triggeredId" value="fightWinDialog"/>
+   </properties>
+  </object>
+  <object id="75" name="Sensor" type="Sensor" x="4032" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="winLimiter"/>
+   </properties>
+  </object>
+  <object id="76" name="Prefab" type="Prefab" x="4128" y="3808" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="winLimiter"/>
+    <property name="triggeringId" value="win"/>
+   </properties>
+  </object>
+  <object id="77" name="End" type="End" x="4192" y="3808" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="win"/>
+   </properties>
+  </object>
+  <object id="80" name="Spring" type="Spring" x="3072" y="3744" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="81" name="Spring" type="Spring" x="3680" y="3744" width="32" height="32">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="82" name="Condtrigger" type="Condtrigger" x="3488" y="3936" width="32" height="32">
+   <properties>
+    <property name="start" value="switchpressed"/>
+    <property name="triggeredId" value="blackbox1"/>
+    <property name="triggeringId" value="switchpressed"/>
+   </properties>
+  </object>
+  <object id="83" name="Alttrigger" type="Alttrigger" x="3616" y="4064" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="turnoff"/>
+    <property name="triggeringId" value="blackbox1"/>
    </properties>
   </object>
  </objectgroup>

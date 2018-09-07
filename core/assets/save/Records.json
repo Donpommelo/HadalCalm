@@ -10,6 +10,7 @@ hiScores: {
 	HUB: 0
 	ARENA_2: 60
 	ARENA_1: 20
+	LEVEL_3: 37
 }
 flags: {
 	class: java.util.HashMap
