@@ -13,6 +13,9 @@ public class Record {
 	private Map<String, Integer> hiScores;
 	private Map<String, Integer> flags;
 	
+	private String[] equips;
+	private String artifact, active, character;
+	
 	public Record() {
 		
 	}
@@ -56,5 +59,42 @@ public class Record {
 
 	public Map<String, Integer> getFlags() {
 		return flags;
-	}	
+	}
+
+	public String[] getEquips() {
+		return equips;
+	}
+
+	public void setEquips(int index, String equip) {
+		this.equips[index] = equip;
+		saveRecord();
+	}
+
+	public String getArtifact() {
+		return artifact;
+	}
+
+	public void setArtifact(String artifact) {
+		this.artifact = artifact;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
+		saveRecord();
+	}
+
+	public String getCharacter() {
+		return character;
+	}
+
+	public void setCharacter(String character) {
+		this.character = character;
+		saveRecord();
+	}
+	
+	
 }

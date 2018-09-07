@@ -17,4 +17,12 @@ flags: {
 	INTRO: 3
 	TUTORIAL: 0
 }
+equips: [
+	BOUNCING_BLADE
+	ICEBERG
+	NEMATOCYDEARM
+]
+artifact: GOOD_HEALTH
+active: FIREBALL
+character: TAKANORI
 }

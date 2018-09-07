@@ -76,8 +76,7 @@ public class GameStateManager {
 		JsonReader reader = new JsonReader();
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
 		
-		//TODO: remember last loadout used?
-		this.loadout = new Loadout();
+		this.loadout = new Loadout(record);
 		
 		this.level = UnlockLevel.ARENA_1;
 	}
@@ -203,11 +202,10 @@ public class GameStateManager {
 		case CONTROL: return new ControlState(this);
 		case MENU: return new MenuState(this);
 		case HUB: 
-			//TODO: make this less dumb
 			if (record.getFlags().get("INTRO") < 2) {
 				this.loadout = new Loadout(UnlockEquip.NOTHING);
 			} else {
-				this.loadout = new Loadout();
+				this.loadout = new Loadout(record);
 			}
 			return new HubState(this, loadout);
 		default:
