@@ -12,7 +12,7 @@ public class TypeResistance extends Status {
 	private float power;
 	private DamageTypes resisted;
 	
-	public TypeResistance(PlayState state, int i, float power, DamageTypes resisted, BodyData p, BodyData v, int pr) {
+	public TypeResistance(PlayState state, float i, float power, DamageTypes resisted, BodyData p, BodyData v) {
 		super(state, i, name, descr, false, true, p, v);
 		this.resisted = resisted;
 		this.power = power;

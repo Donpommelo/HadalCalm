@@ -77,7 +77,6 @@ public class Status {
 			onHitboxCreation(hbox);
 			break;
 		}
-		
 		return finalAmount;
 	}
 	

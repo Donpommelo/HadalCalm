@@ -134,6 +134,7 @@ public class BodyData extends HadalData {
 	}
 	
 	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
+				
 		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
 		for(Status s : this.statusesChecked){
@@ -145,7 +146,7 @@ public class BodyData extends HadalData {
 		while(!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
 			
-			tempStatus.statusProcTime(procTime, schmuck, finalAmount, status, tool, hbox, tags);
+			finalAmount = tempStatus.statusProcTime(procTime, schmuck, finalAmount, status, tool, hbox, tags);
 			
 			if(this.statuses.contains(tempStatus)){
 				this.statuses.remove(tempStatus);
@@ -228,7 +229,7 @@ public class BodyData extends HadalData {
 			damage = perp.statusProcTime(1, perp, damage, null, tool, null, tags);
 			damage = statusProcTime(2, this, damage, null, currentTool, null, tags);
 		}
-		
+				
 		currentHp -= damage;
 		
 		//Make shmuck flash upon receiving damage

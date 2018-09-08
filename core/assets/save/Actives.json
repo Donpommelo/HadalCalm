@@ -1,5 +1,24 @@
 {
-
+NAUTICAL_MINE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Nautical Mine
+	description: "Throws an large explosive."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+HYDRAULIC_UPPERCUT: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Hydraulic Uppercut
+	description: "Perform an upwards attack."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 HONEYCOMB: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Honeycomb
