@@ -204,6 +204,7 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Equip")) {
 			e = new PickupEquip(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("mods", 0, Integer.class),
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Artifact")) {
@@ -257,6 +258,11 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Pit")) {
 			e = new Pit(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+		}
+		if (object.getName().equals("Text")) {
+			e = new Text(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("text", String.class));
 		}
 		if (object.getName().equals("Platform")) {
 			e = new MovingPlatform(state, (int)rect.width, (int)rect.height, 
@@ -374,6 +380,15 @@ public class TiledObjectUtil {
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("limit", 0, int.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Weapon")) {
+    		p = new WeaponPickup(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("mods", 0, Integer.class),
+					object.getProperties().get("pool", "", String.class));
     	}
     	
     	if (p != null) {

@@ -15,7 +15,7 @@ import com.mygdx.hadal.equip.misc.Nothing;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.statuses.WeaponModifier;
 
 /**
  * This is the main ui element. It displays player loadout, hp, fuel.
@@ -171,7 +171,7 @@ public class UIPlay extends AHadalActor{
 		
 		if (mouseOver) {
 			int yOffset = 0;
-			for(Status s : player.getPlayerData().getCurrentTool().getWeaponMods()) {
+			for(WeaponModifier s : player.getPlayerData().getCurrentTool().getWeaponMods()) {
 				font.getData().setScale(0.25f);
 				font.draw(batch, s.getName(), x + 25, y + 150 + yOffset, 250, -1, true);
 				yOffset += 25;

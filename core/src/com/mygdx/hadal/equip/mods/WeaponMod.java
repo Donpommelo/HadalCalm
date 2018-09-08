@@ -11,91 +11,91 @@ import com.mygdx.hadal.statuses.WeaponModifier;
 
 public enum WeaponMod {
 
-	PLUS_DAMAGE("+Damage", "", ModTag.RANDOM_POOL) {
+	PLUS_DAMAGE("+Damage", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 26, 0.25f, b);
 		}
 	},
 	
-	PLUS_ATK_SPD("+Attack Speed", "", ModTag.RANDOM_POOL) {
+	PLUS_ATK_SPD("+Attack Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 27, 0.25f, b);
 		}
 	},
 	
-	PLUS_RLD_SPD("+Reload Speed", "", ModTag.RANDOM_POOL) {
+	PLUS_RLD_SPD("+Reload Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 28, 0.25f, b);
 		}
 	},
 	
-	PLUS_ClIP("+Clip Size", "", ModTag.RANDOM_POOL) {
+	PLUS_ClIP("+Clip Size", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 29, 0.25f, b);
 		}
 	},
 	
-	PLUS_KB("+Knockback", "", ModTag.RANDOM_POOL) {
+	PLUS_KB("+Knockback", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 23, 0.25f, b);
 		}
 	},
 	
-	PLUS_RUN_SPD("+Run Speed", "", ModTag.RANDOM_POOL) {
+	PLUS_RUN_SPD("+Run Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 4, 0.2f, b);
 		}
 	},
 	
-	PLUS_DEF("+Defense", "", ModTag.RANDOM_POOL) {
+	PLUS_DEF("+Defense", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 22, 0.2f, b);
 		}
 	},
 	
-	PLUS_JUMP("+1 Jump", "", ModTag.RANDOM_POOL) {
+	PLUS_JUMP("+1 Jump", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 11, 1.0f, b);
 		}
 	},
 	
-	PLUS_HOVER("+Hover Power", "", ModTag.RANDOM_POOL) {
+	PLUS_HOVER("+Hover Power", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 12, 0.25f, b);
 		}
 	},
 	
-	PLUS_PROJ_SIZE("+Projectile Size", "", ModTag.RANDOM_POOL) {
+	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 32, 0.25f, b);
 		}
 	},
 	
-	PLUS_PROJ_SPD("+Projectile Speed", "", ModTag.RANDOM_POOL) {
+	PLUS_PROJ_SPD("+Projectile Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 30, 0.25f, b);
 		}
 	},
 	
-	PLUS_PROJ_RNG("+Range", "", ModTag.RANDOM_POOL) {
+	PLUS_PROJ_RNG("+Range", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 33, 0.25f, b);
 		}
 	},
 	
-	PLUS_PROJ_PIERCE("+Pierce", "", ModTag.RANDOM_POOL) {
+	PLUS_PROJ_PIERCE("+Pierce", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
 			return new StatChangeStatus(state, 34, 1.0f, b);
@@ -107,11 +107,13 @@ public enum WeaponMod {
 	;
 	
 	private ModTag[] tags;
-	String name, descr;
+	private String name, descr;
+	private int weight;
 	
-	WeaponMod(String name, String descr, ModTag... tags) {
+	WeaponMod(String name, String descr, int weight, ModTag... tags) {
 		this.name = name;
 		this.descr = descr;
+		this.weight = weight;
 		this.tags = tags;
 	}
 	
@@ -137,12 +139,24 @@ public enum WeaponMod {
 		return items;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public String getDescr() {
+		return descr;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
 	public Status retrieveMod(BodyData b, PlayState state) {
 		return null;
 	}
 	
 	public void acquireMod(BodyData b, PlayState state, Equipable tool) {
-		WeaponModifier newMod = new WeaponModifier(state, name, descr, b, tool, retrieveMod(b, state));
+		WeaponModifier newMod = new WeaponModifier(state, name, descr, b, tool, this, retrieveMod(b, state));
 		tool.getWeaponMods().add(newMod);
 		b.addStatus(newMod);
 	}

@@ -26,11 +26,11 @@ public class PickupWeaponMod extends Event {
 
 	//Can this event be interacted with atm?
 	private boolean on;
-	
+
 	public PickupWeaponMod(PlayState state, int width, int height, int x, int y, String pool) {
 		super(state, name, width, height, x, y);
 		this.on = true;
-		this.mod = WeaponMod.valueOf(getRandModFromPool(pool));
+		this.mod = WeaponMod.valueOf(getRandModFromPool(pool, ModTag.RANDOM_POOL));
 	}
 	
 	@Override
@@ -60,11 +60,11 @@ public class PickupWeaponMod extends Event {
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 
-	public static String getRandModFromPool(String pool) {
+	public static String getRandModFromPool(String pool, ModTag... tags) {
 		
 		if (pool.equals("")) {
-			return WeaponMod.getUnlocks(ModTag.RANDOM_POOL)
-					.get(new Random().nextInt(WeaponMod.getUnlocks(ModTag.RANDOM_POOL).size)).name();
+			return WeaponMod.getUnlocks(tags)
+					.get(new Random().nextInt(WeaponMod.getUnlocks(tags).size)).name();
 		}
 		
 		ArrayList<String> mods = new ArrayList<String>();
@@ -73,6 +73,22 @@ public class PickupWeaponMod extends Event {
 			mods.add(id);
 		}
 		return mods.get(new Random().nextInt(mods.size()));
+	}
+	
+	public static ArrayList<WeaponMod> getRandMods(int modPow, ModTag... tags) {
+		
+		ArrayList<WeaponMod> mods = new ArrayList<WeaponMod>();
+		int modPowLeft = modPow;
+		
+		while (modPowLeft > 0) {
+			WeaponMod newMod = WeaponMod.valueOf(getRandModFromPool("", tags));
+			if (newMod.getWeight() <= modPowLeft) {
+				mods.add(newMod);
+				modPowLeft -= newMod.getWeight();
+			}
+		}
+		
+		return mods;
 	}
 	
 	@Override

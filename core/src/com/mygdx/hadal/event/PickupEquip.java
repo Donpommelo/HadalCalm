@@ -1,15 +1,21 @@
 package com.mygdx.hadal.event;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -39,12 +45,20 @@ public class PickupEquip extends Event {
 	//Can this event be interacted with atm?
 	private boolean on;
 	
-	public PickupEquip(PlayState state, int width, int height, int x, int y, String pool) {
+	private ArrayList<WeaponMod> mods;
+
+	//Is the player standing in this event? Will display extra info
+	protected boolean open;
+
+	public PickupEquip(PlayState state, int width, int height, int x, int y, int modPow, String pool) {
 		super(state, name, width, height, x, y);
 		this.on = true;
 		
 		//Set this pickup to a random weapon in the input pool
 		equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(getRandWeapFromPool(pool)), null);
+		
+		mods = new ArrayList<WeaponMod>();
+		mods.addAll(PickupWeaponMod.getRandMods(modPow, ModTag.RANDOM_POOL));
 	}
 	
 	@Override
@@ -56,7 +70,13 @@ public class PickupEquip extends Event {
 				if (isAlive() && on) {
 					
 					//If player inventory is full, replace their current weapon.
+					equip.getWeaponMods().clear();
 					Equipable temp = p.getPlayerData().pickup(equip);
+					
+					for (WeaponMod mod : mods) {
+						mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
+					}
+					mods.clear();
 					
 					//If the player picks this up without dropping anything, delete this event.
 					if (temp == null) {
@@ -65,8 +85,11 @@ public class PickupEquip extends Event {
 						
 						//Otherwise set its weapon to the dropped weapon.
 						equip = temp;
-						
 						setEventSprite(equip.getEventSpriteId());
+						
+						for (WeaponModifier mod : equip.getWeaponMods()) {
+							mods.add(mod.getConstantMod());
+						}
 					}
 					
 					if (event.getConnectedEvent() != null) {
@@ -106,20 +129,42 @@ public class PickupEquip extends Event {
 	}
 
 	@Override
-	public String getText() {
-		if (on) {
-			return equip.getName() + " (E TO TAKE)";
-		} else {
-			return equip.getName() + ": LOCKED";
+	public void controller(float delta) {
+		if (open && eventData.getSchmucks().isEmpty()) {
+			open = false;
+		}
+		if (!open && !eventData.getSchmucks().isEmpty()) {
+			open = true;
 		}
 	}
 	
 	@Override
+	public void render(SpriteBatch batch) {
+		super.render(batch);
+		
+		if (open) {
+			batch.setProjectionMatrix(state.sprite.combined);
+			state.font.getData().setScale(1.0f);
+			float y = body.getPosition().y * PPM + height / 2;
+			for (WeaponMod mod : mods) {
+				state.font.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
+				y += 15;
+			}
+			state.font.draw(batch, equip.getName(), body.getPosition().x * PPM - width / 2, y);
+		}
+	}
+	
+	public Equipable getEquip() {
+		return equip;
+	}
+
+	public ArrayList<WeaponMod> getMods() {
+		return mods;
+	}
+
+	@Override
 	public void loadDefaultProperties() {
-		setScale(0.25f);
-		setScaleAlign(1);
 		setEventSprite(equip.getEventSpriteId());
-		addAmbientParticle("event_holo");
 	}
 
 }

@@ -11,7 +11,7 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.statuses.WeaponModifier;
 
 public abstract class Equipable {	
 	
@@ -44,7 +44,7 @@ public abstract class Equipable {
 	protected Vector3 mouseLocation;
 	protected Vector2 weaponVelo;
 	
-	protected ArrayList<Status> weaponMods;
+	protected ArrayList<WeaponModifier> weaponMods;
 	
 	public Equipable(Schmuck user, String name, float useCd, float useDelay, String spriteId, String eventSpriteId) {
 		this.user = user;
@@ -54,7 +54,7 @@ public abstract class Equipable {
 		this.reloading = false;
 		this.reloadCd = 0;
 		
-		this.weaponMods = new ArrayList<Status>();
+		this.weaponMods = new ArrayList<WeaponModifier>();
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
 		equipSprite = atlas.findRegion(spriteId);
@@ -172,7 +172,7 @@ public abstract class Equipable {
 		return reloadCd;
 	}
 
-	public ArrayList<Status> getWeaponMods() {
+	public ArrayList<WeaponModifier> getWeaponMods() {
 		return weaponMods;
 	}
 

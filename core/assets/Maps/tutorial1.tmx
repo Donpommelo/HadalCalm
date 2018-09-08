@@ -99,7 +99,7 @@
     <property name="zoom2" type="float" value="1"/>
    </properties>
   </object>
-  <object id="20" name="Prefab" type="Prefab" x="1536" y="1792" width="32" height="32">
+  <object id="20" name="Prefab" type="Prefab" x="1536" y="1760" width="64" height="64">
    <properties>
     <property name="interval" type="float" value="3"/>
     <property name="power" type="float" value="100"/>
@@ -127,12 +127,12 @@
     <property name="triggeredId" value="tutorial3Dialog"/>
    </properties>
   </object>
-  <object id="25" name="Equip" type="Equip" x="1920" y="1792" width="32" height="32">
+  <object id="25" name="Equip" type="Equip" x="1888" y="1728" width="96" height="96">
    <properties>
     <property name="pool" value="SPEARGUN"/>
    </properties>
   </object>
-  <object id="26" name="Equip" type="Equip" x="2016" y="1792" width="32" height="32">
+  <object id="26" name="Equip" type="Equip" x="2016" y="1728" width="96" height="96">
    <properties>
     <property name="pool" value="CR4PCANNON"/>
    </properties>

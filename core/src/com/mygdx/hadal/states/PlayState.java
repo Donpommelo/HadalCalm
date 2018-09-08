@@ -134,16 +134,6 @@ public class PlayState extends GameState {
 		world.setContactListener(new WorldContactListener());
 		World.setVelocityThreshold(0);
 		
-		/*world.setContactFilter(new ContactFilter() {
-
-			@Override
-			public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-			
-		});*/
-		
 		rays = new RayHandler(world);
         rays.setAmbientLight(1.0f);
         rays.setCulling(false);

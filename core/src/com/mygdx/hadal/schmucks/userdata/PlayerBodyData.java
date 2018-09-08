@@ -15,6 +15,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.statuses.ActiveItemCharge;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 /**
@@ -163,7 +164,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public Equipable pickup(Equipable equip) {
 		
-		for (Status s : equip.getWeaponMods()) {
+		for (WeaponModifier s : equip.getWeaponMods()) {
 			addStatus(s);
 		}
 		
@@ -179,7 +180,7 @@ public class PlayerBodyData extends BodyData {
 		
 		Equipable old = multitools[currentSlot];
 		
-		for (Status s : old.getWeaponMods()) {
+		for (WeaponModifier s : old.getWeaponMods()) {
 			removeStatus(s);
 		}
 		

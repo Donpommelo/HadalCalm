@@ -19,10 +19,10 @@ flags: {
 }
 equips: [
 	BOUNCING_BLADE
-	ICEBERG
-	NEMATOCYDEARM
+	IRON_BALL_LAUNCHER
+	CR4PCANNON
 ]
-artifact: GOOD_HEALTH
-active: FIREBALL
-character: TAKANORI
+artifact: VOID_HYPONOME
+active: RELOADER
+character: TELEMACHUS
 }
