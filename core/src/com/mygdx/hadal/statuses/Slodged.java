@@ -12,7 +12,7 @@ public class Slodged extends Status {
 	private final static float slow = 0.99f;
 	
 	public Slodged(PlayState state, float i, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, false, true, true, p, v);
+		super(state, i, name, descr, false, true, p, v);
 	}
 	
 	@Override

@@ -714,4 +714,12 @@ public class BodyData extends HadalData {
 	public void setMeleeMomentum(float buff) {
 		buffedStats[43] = buff;
 	}
+
+	public ArrayList<Status> getStatuses() {
+		return statuses;
+	}
+
+	public ArrayList<Status> getStatusesChecked() {
+		return statusesChecked;
+	}	
 }

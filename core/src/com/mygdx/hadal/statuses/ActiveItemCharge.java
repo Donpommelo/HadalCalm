@@ -11,7 +11,7 @@ public class ActiveItemCharge extends Status {
 	private static String descr = "Your Active Item Charges";
 
 	public ActiveItemCharge(PlayState state, BodyData i) {
-		super(state, name, descr, i);
+		super(state, name, descr, false, i);
 	}
 	
 	@Override

@@ -13,12 +13,11 @@ public class Status {
 	//TODO:implement or delete these 
 	protected float duration;
 	protected String name, descr;
-	protected boolean perm, decay, removedEnd, visible;
+	protected boolean perm, visible;
 	
 	protected BodyData inflicter, inflicted;
 	
-	public Status(PlayState state, float i, String n, String d, Boolean perm, Boolean vis, Boolean end, Boolean dec, 
-			BodyData p, BodyData v){
+	public Status(PlayState state, float i, String n, String d, Boolean perm, Boolean vis, BodyData p, BodyData v){
 		this.state = state;
 
 		this.duration=i;
@@ -26,14 +25,16 @@ public class Status {
 		this.descr = d;
 		this.perm = perm;
 		this.visible = vis;
-		this.removedEnd = end;
-		this.decay = dec;
 		this.inflicter = p;
 		this.inflicted = v;
 	}
 	
+	public Status(PlayState state, String n, String d, Boolean vis, BodyData i) {
+		this(state, 0, n, d, true, vis, i, i);
+	}
+	
 	public Status(PlayState state, String n, String d, BodyData i) {
-		this(state, 0, n, d, true, true, false, false, i, i);
+		this(state, 0, n, d, true, true, i, i);
 	}
 	
 	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
@@ -86,10 +87,10 @@ public class Status {
 	}
 	
 	public void timePassing(float delta) {
-		if (decay) { 
+		if (!perm) { 
 			duration -= delta;
 			
-			if (duration <= 0 && !perm) {
+			if (duration <= 0) {
 				inflicted.removeStatus(this);
 			}
 		}

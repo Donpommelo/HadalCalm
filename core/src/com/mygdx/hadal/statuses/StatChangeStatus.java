@@ -12,13 +12,13 @@ public class StatChangeStatus extends Status {
 	private float statIncrement;
 	
 	public StatChangeStatus(PlayState state, float i, int stat, float amount, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, false, true, true, p, v);
+		super(state, i, name, descr, false, true, p, v);
 		this.statNum = stat;
 		this.statIncrement = amount;
 	}
 	
 	public StatChangeStatus(PlayState state, int stat, float amount, BodyData i) {
-		super(state, name, descr, i);
+		super(state, name, descr, true, i);
 		this.statNum = stat;
 		this.statIncrement = amount;
 	}

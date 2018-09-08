@@ -10,6 +10,6 @@ public class ScalingScalesStatus extends Status {
 	private static String descr = "Lets you scale walls.";
 	
 	public ScalingScalesStatus(PlayState state, BodyData i) {
-		super(state, name, descr, i);
+		super(state, name, descr, true, i);
 	}
 }

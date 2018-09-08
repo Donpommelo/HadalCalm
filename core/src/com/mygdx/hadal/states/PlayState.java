@@ -174,7 +174,7 @@ public class PlayState extends GameState {
 
 		this.safeX = startX;
 		this.safeY = startY;
-		
+				
 		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		this.cameraTarget = player;
 		
@@ -204,7 +204,7 @@ public class PlayState extends GameState {
 		uiReload = new UIReload(HadalGame.assetManager, this, player);
 		uiActive = new UIActives(HadalGame.assetManager, this, player);
 		uiObjective = new UIObjective(HadalGame.assetManager, this, player);
-		uiStatus = new UIStatuses(HadalGame.assetManager, this);
+		uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
 		
 		if (uiExtra == null) {
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
