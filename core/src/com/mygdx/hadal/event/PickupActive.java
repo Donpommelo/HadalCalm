@@ -56,6 +56,7 @@ public class PickupActive extends Event {
 				if (isAlive() && on) {
 					
 					//If player inventory is full, replace their current weapon.
+					item.setUser(p);
 					ActiveItem temp = p.getPlayerData().pickup(item);
 					
 					//If the player picks this up without dropping anything, delete this event.
