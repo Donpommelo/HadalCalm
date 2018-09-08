@@ -9,7 +9,7 @@ hiScores: {
 	LEVEL_2: 37
 	HUB: 0
 	ARENA_2: 60
-	ARENA_1: 20
+	ARENA_1: 56
 	LEVEL_3: 40
 }
 flags: {
@@ -18,11 +18,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	MACHINEGUN
+	CHAIN_LIGHTNING
 	NEMATOCYDEARM
 	CR4PCANNON
 ]
 artifact: FRACTURE_PLATE
-active: TAINTED_WATER
+active: HYDRAULIC_UPPERCUT
 character: TELEMACHUS
 }

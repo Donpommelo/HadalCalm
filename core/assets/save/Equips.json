@@ -153,10 +153,10 @@ SCRAPRIPPER: {
 		MELEE,
 	]
 }
-TELEKINESIS: {
+CHAIN_LIGHTNING: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Telekinetic Blast
-	description: "Fire a projectile that captures an enemy upon contact. Use the mouse to swing captured target around, damaging it upon contact with walls or other enemies."
+	name: Chain Lightning
+	description: "Fire a projectile that bounces between enemies upon contact."
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -220,7 +220,7 @@ SLODGEGUN: {
 STORMCALLER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Stormcaller
-	description: "Fire a singular projectile that grows in size and power as it travels."
+	description: "Fire a wide projectile that deflects enemy projectiles."
 	unlocked: true
 	tags: [
 		ARMORY,

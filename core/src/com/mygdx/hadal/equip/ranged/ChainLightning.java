@@ -13,9 +13,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
 
-public class TelekineticBlast extends RangedWeapon {
+public class ChainLightning extends RangedWeapon {
 
-	private final static String name = "Telekinetic Blast";
+	private final static String name = "Chain Lightning";
 	private final static int clipSize = 3;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0;
@@ -23,11 +23,11 @@ public class TelekineticBlast extends RangedWeapon {
 	private final static int reloadAmount = 0;
 
 	private final static float recoil = 0.0f;
-	private final static float baseDamage = 25.0f;
+	private final static float baseDamage = 20.0f;
 	private final static float knockback = 8.0f;
-	private final static float projectileSpeedStart = 50.0f;
-	private final static int projectileWidth = 100;
-	private final static int projectileHeight = 100;
+	private final static float projectileSpeedStart = 30.0f;
+	private final static int projectileWidth = 80;
+	private final static int projectileHeight = 80;
 	private final static float lifespan = 4.0f;
 	private final static float gravity = 0;
 	
@@ -35,7 +35,7 @@ public class TelekineticBlast extends RangedWeapon {
 		
 	private final static String weapSpriteId = "tractorbeam";
 	private final static String weapEventSpriteId = "event_tractorbeam";
-	private final static String projSpriteId = "orb_pink";
+	private final static String projSpriteId = "orb_yellow";
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -52,7 +52,7 @@ public class TelekineticBlast extends RangedWeapon {
 		}
 	};
 	
-	public TelekineticBlast(Schmuck user) {
+	public ChainLightning(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
 	}
 
