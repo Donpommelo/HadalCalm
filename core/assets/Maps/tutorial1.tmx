@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="61">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="64">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="../Images/tileset_1.png" width="192" height="128"/>
@@ -125,16 +125,6 @@
    <properties>
     <property name="textId" value="tutorial3"/>
     <property name="triggeredId" value="tutorial3Dialog"/>
-   </properties>
-  </object>
-  <object id="25" name="Equip" type="Equip" x="1888" y="1728" width="96" height="96">
-   <properties>
-    <property name="pool" value="SPEARGUN"/>
-   </properties>
-  </object>
-  <object id="26" name="Equip" type="Equip" x="2016" y="1728" width="96" height="96">
-   <properties>
-    <property name="pool" value="CR4PCANNON"/>
    </properties>
   </object>
   <object id="27" name="Sensor" type="Sensor" x="2464" y="1536" width="32" height="32">
@@ -338,6 +328,18 @@
     <property name="quest" value="INTRO"/>
     <property name="triggeredId" value="quest2"/>
     <property name="triggeringId" value="questChange"/>
+   </properties>
+  </object>
+  <object id="62" name="Prefab" type="Prefab" x="2048" y="1728" width="96" height="96">
+   <properties>
+    <property name="pool" value="CR4PCANNON"/>
+    <property name="prefabId" value="Weapon"/>
+   </properties>
+  </object>
+  <object id="63" name="Prefab" type="Prefab" x="1888" y="1728" width="96" height="96">
+   <properties>
+    <property name="pool" value="SPEARGUN"/>
+    <property name="prefabId" value="Weapon"/>
    </properties>
   </object>
  </objectgroup>

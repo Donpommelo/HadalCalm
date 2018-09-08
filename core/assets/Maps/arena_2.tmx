@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextobjectid="63">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextobjectid="66">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
@@ -19,9 +19,6 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="3" name="Equip" type="Equip" x="800" y="1152" width="32" height="32"/>
-  <object id="4" name="Equip" type="Equip" x="832" y="704" width="32" height="32"/>
-  <object id="5" name="Equip" type="Equip" x="1408" y="384" width="32" height="32"/>
   <object id="9" name="Spring" type="Spring" x="1408" y="1024" width="32" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>
@@ -153,7 +150,7 @@
     <property name="triggeringId" value="onceAtStart"/>
    </properties>
   </object>
-  <object id="61" name="Prefab" type="Prefab" x="768" y="256" width="32" height="32">
+  <object id="61" name="Prefab" type="Prefab" x="752" y="224" width="64" height="64">
    <properties>
     <property name="interval" type="float" value="10"/>
     <property name="power" type="float" value="25"/>
@@ -161,12 +158,30 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="62" name="Prefab" type="Prefab" x="128" y="448" width="32" height="32">
+  <object id="62" name="Prefab" type="Prefab" x="96" y="416" width="64" height="64">
    <properties>
     <property name="interval" type="float" value="45"/>
     <property name="power" type="float" value="25"/>
     <property name="prefabId" value="Spawner"/>
     <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="63" name="Prefab" type="Prefab" x="736" y="1088" width="96" height="96">
+   <properties>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="Weapon"/>
+   </properties>
+  </object>
+  <object id="64" name="Prefab" type="Prefab" x="800" y="640" width="96" height="96">
+   <properties>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="Weapon"/>
+   </properties>
+  </object>
+  <object id="65" name="Prefab" type="Prefab" x="1408" y="320" width="96" height="96">
+   <properties>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="Weapon"/>
    </properties>
   </object>
  </objectgroup>

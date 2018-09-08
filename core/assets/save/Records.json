@@ -10,7 +10,7 @@ hiScores: {
 	HUB: 0
 	ARENA_2: 60
 	ARENA_1: 20
-	LEVEL_3: 37
+	LEVEL_3: 40
 }
 flags: {
 	class: java.util.HashMap
@@ -18,11 +18,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	BOUNCING_BLADE
 	IRON_BALL_LAUNCHER
+	LASER_GUIDED_ROCKET
 	CR4PCANNON
 ]
-artifact: VOID_HYPONOME
-active: RELOADER
+artifact: NICE_SHOES
+active: FIREBALL
 character: TELEMACHUS
 }

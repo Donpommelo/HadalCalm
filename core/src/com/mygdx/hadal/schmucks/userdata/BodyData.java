@@ -42,9 +42,9 @@ public class BodyData extends HadalData {
 	 * 15: Airblast Cost
 	 * 16: Bonus Airblast Recoil !
 	 * 17: Bonus Airblast Size !
-	 * 18: Momentum Freeze Amplification!
-	 * 19: Momentum Freeze Size!
-	 * 20: Momentum Freeze Cooldown Reduction
+	 * 18: Active Item Charge Rate
+	 * 19: Active Item Max Charge
+	 * 20: 
 	 * 21: Universal Damage Amplification
 	 * 22: Universal Damage Reduction
 	 * 23: Universal Knockback on Hit (to others)
@@ -507,19 +507,19 @@ public class BodyData extends HadalData {
 		buffedStats[17] = buff;
 	}
 	
-	public float getBonusMomentumAmp() {
+	public float getActiveItemChargeRate() {
 		return buffedStats[18];
 	}
 	
-	public void setBonusMomentumAmp(float buff) {
+	public void setActiveItemChargeRate(float buff) {
 		buffedStats[18] = buff;
 	}
 	
-	public float getBonusMomentumSize() {
+	public float getActiveItemMaxCharge() {
 		return buffedStats[19];
 	}
 	
-	public void setBonusMomentumSize(float buff) {
+	public void setActiveItemMaxCharge(float buff) {
 		buffedStats[19] = buff;
 	}
 	

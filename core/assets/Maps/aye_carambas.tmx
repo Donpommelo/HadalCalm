@@ -131,7 +131,7 @@
   </object>
   <object id="30" name="Prefab" type="Prefab" x="864" y="1152" width="96" height="96">
    <properties>
-    <property name="mods" type="int" value="3"/>
+    <property name="mods" type="int" value="1"/>
     <property name="prefabId" value="Weapon"/>
    </properties>
   </object>
@@ -447,14 +447,6 @@
    <properties>
     <property name="triggeredId" value="turnoff"/>
     <property name="triggeringId" value="blackbox1"/>
-   </properties>
-  </object>
-  <object id="84" name="Prefab" type="Prefab" x="992" y="1184" width="64" height="64">
-   <properties>
-    <property name="interval" type="float" value="3"/>
-    <property name="power" type="float" value="100"/>
-    <property name="prefabId" value="Spawner"/>
-    <property name="type" type="int" value="0"/>
    </properties>
   </object>
  </objectgroup>

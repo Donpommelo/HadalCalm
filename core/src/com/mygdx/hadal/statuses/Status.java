@@ -10,7 +10,6 @@ public class Status {
 	//References to game fields.
 	protected PlayState state;
 	
-	//TODO:implement or delete these 
 	protected float duration;
 	protected String name, descr;
 	protected boolean perm, visible;

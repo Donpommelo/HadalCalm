@@ -21,14 +21,14 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 	private float radius;
 	private short filter;
 	
-	private static final float maxLinSpd = 100;
+	private static final float maxLinSpd = 150;
 	private static final float maxLinAcc = 1000;
-	private static final float maxAngSpd = 180;
-	private static final float maxAngAcc = 90;
+	private static final float maxAngSpd = 1080;
+	private static final float maxAngAcc = 2160;
 	
-	private static final int boundingRad = 500;
+	private static final int boundingRad = 100;
 	private static final int decelerationRadius = 0;
-	private static final int homeRadius = 1000;
+	private static final int homeRadius = 2000;
 	
 	public HitboxHomingStrategy(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
 			float maxAngAcc, int boundingRad, int decelerationRadius, float radius, short filter) {

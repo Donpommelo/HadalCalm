@@ -57,7 +57,7 @@ public class ActiveItem extends Equipable {
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (currentCharge >= maxCharge) {
+		if (currentCharge >= getMaxCharge()) {
 			currentCharge = 0;
 			useItem(state, (PlayerBodyData)shooter);
 		}
@@ -69,9 +69,9 @@ public class ActiveItem extends Equipable {
 	}
 	
 	public void gainCharge(float charge) {
-		currentCharge += charge;
-		if (currentCharge > maxCharge) {
-			currentCharge = maxCharge;
+		currentCharge += (charge * (1 + user.getBodyData().getActiveItemChargeRate()));
+		if (currentCharge > getMaxCharge()) {
+			currentCharge = getMaxCharge();
 		}
 	}
 	
@@ -90,15 +90,15 @@ public class ActiveItem extends Equipable {
 	public void reload(float delta) { reloading = false; }
 
 	public boolean isReady() {
-		return currentCharge >= maxCharge;
+		return currentCharge >= getMaxCharge();
 	}
 	
 	public float chargePercent() {
-		return currentCharge / maxCharge;
+		return currentCharge / getMaxCharge();
 	}	
 	
 	public float getRemainingCharge() {
-		return (maxCharge - currentCharge);
+		return (getMaxCharge() - currentCharge);
 	}
 
 	/**
@@ -118,7 +118,10 @@ public class ActiveItem extends Equipable {
 		this.currentCharge = currentCharge;
 	}
 
-
+	public float getMaxCharge() {
+		return maxCharge * (1 - user.getBodyData().getActiveItemMaxCharge());
+	}
+	
 	public chargeStyle getStyle() {
 		return style;
 	}
