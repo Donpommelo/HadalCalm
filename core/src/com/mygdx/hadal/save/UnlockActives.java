@@ -9,6 +9,9 @@ import com.mygdx.hadal.equip.actives.*;
 
 public enum UnlockActives {
 	
+	TAINTED_WATER(TaintedWater.class),
+	TRACTOR_BEAM(TractorBeam.class),
+	SPRING_LOADER(SpringLoader.class),
 	NAUTICAL_MINE(NauticalMine.class),
 	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
 	HONEYCOMB(Honeycomb.class),

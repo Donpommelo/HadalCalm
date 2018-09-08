@@ -19,16 +19,16 @@ public class HydraulicUppercut extends ActiveItem {
 	private final static String name = "Hydraulic Uppercut";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 2.0f;
+	private final static float maxCharge = 6.0f;
 	
 	private final static float recoil = 150.0f;
 
-	private final static float swingCd = 0.5f;
+	private final static float swingCd = 1.5f;
 	private final static float backSwing = 1.0f;
 	private final static float baseDamage = 70.0f;
-	private final static int hitboxSize = 200;
-	private final static int swingArc = 200;
-	private final static float knockback = 50.0f;
+	private final static int hitboxSize = 250;
+	private final static int swingArc = 250;
+	private final static float knockback = 75.0f;
 	
 	public HydraulicUppercut(Schmuck user) {
 		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);

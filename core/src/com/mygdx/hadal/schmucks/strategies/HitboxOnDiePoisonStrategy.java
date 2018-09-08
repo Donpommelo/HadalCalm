@@ -26,6 +26,7 @@ public class HitboxOnDiePoisonStrategy extends HitboxStrategy{
 	public void die() {
 		new Poison(state, poisonRadius, poisonRadius,
 				(int)(this.hbox.getBody().getPosition().x * PPM), 
-				(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
+				(int)(this.hbox.getBody().getPosition().y * PPM), 
+				poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
 	}
 }

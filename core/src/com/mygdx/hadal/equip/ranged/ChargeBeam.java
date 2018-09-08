@@ -20,7 +20,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static int clipSize = 5;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 2.5f;
+	private final static float reloadTime = 2.25f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 7.5f;

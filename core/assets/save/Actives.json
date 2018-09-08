@@ -1,4 +1,34 @@
 {
+TAINTED_WATER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Tainted Water
+	description: "Release a poisonous cloud."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+TRACTOR_BEAM: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Tractor Beam
+	description: "Grab an enemy and swing them around."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+SPRING_LOADER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Spring Loader
+	description: "Create a temporary spring at mouse location."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 NAUTICAL_MINE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nautical Mine

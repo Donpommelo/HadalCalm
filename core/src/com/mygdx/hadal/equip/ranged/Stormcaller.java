@@ -3,37 +3,36 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactBlockProjectilesStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 public class Stormcaller extends RangedWeapon {
 
 	private final static String name = "Stormcaller";
-	private final static int clipSize = 1;
-	private final static float shootCd = 0.0f;
+	private final static int clipSize = 4;
+	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 0.0f;
+	private final static float baseDamage = 25.0f;
 	private final static float recoil = 18.5f;
-	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 10.0f;
-	private final static int projectileWidth = 20;
-	private final static int projectileHeight = 20;
-	private final static float lifespan = 1.5f;
+	private final static float knockback = 25.0f;
+	private final static float knockbackProj = 225.0f;
+	private final static float projectileSpeed = 5.0f;
+	private final static int projectileWidth = 40;
+	private final static int projectileHeight = 200;
+	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	
-	private final static int projDura = 10;
+	private final static int projDura = 1;
 	
 	private final static String weapSpriteId = "stormcaller";
 	private final static String weapEventSpriteId = "event_stormcaller";
@@ -44,31 +43,21 @@ public class Stormcaller extends RangedWeapon {
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
-			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, true,  user, projSpriteId) {
-				
-				float damage = 1;
-				float controllerCount = 0;
-				
-				@Override
-				public void controller(float delta) {
-					controllerCount+=delta;
-					if (controllerCount >= 1/60f) {
-						width += 2;
-						height += 2;
-						
-						damage += 0.15f;
-						
-						WeaponUtils.createExplosion(state, this.body.getPosition().x * PPM , this.body.getPosition().y * PPM, 
-								user, tool, (int) width, damage, 0.0f, filter);	
-					}
-					super.controller(delta);
-				}
-			};
+			HitboxImage hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, false, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactBlockProjectilesStrategy(state, hbox, user.getBodyData(), tool, knockbackProj));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+								
+				@Override
+				public void controller(float delta) {
+					hbox.getBody().setLinearVelocity(hbox.getStartVelo());
+					hbox.getBody().setTransform(hbox.getBody().getPosition(), (float)(Math.atan2(hbox.getStartVelo().y , hbox.getStartVelo().x)));
+				}
+			});
 		}
 	};
 	
