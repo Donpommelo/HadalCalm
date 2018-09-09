@@ -7,9 +7,9 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class EnvenomedEarth extends Artifact {
+public class RedTideTalisman extends Artifact {
 
-	private final static String name = "Envenomed Earth";
+	private final static String name = "Red Tide Talisman";
 	private final static String descr = "Create poison cloud on kill.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
@@ -18,7 +18,7 @@ public class EnvenomedEarth extends Artifact {
 	private final static float poisonDamage = 40/60f;
 	private final static float poisonDuration = 3.0f;
 	
-	public EnvenomedEarth() {
+	public RedTideTalisman() {
 		super(name, descr, descrLong, statusNum);
 	}
 
@@ -26,12 +26,26 @@ public class EnvenomedEarth extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, name, descr, b) {
 			
+			private float procCdCount;
+			private float procCd = .5f;
+			
+			@Override
+			public void timePassing(float delta) {
+				if (procCdCount < procCd) {
+					procCdCount += delta;
+
+				}
+			}
+			
 			@Override
 			public void onKill(BodyData vic) {
-				new Poison(state, poisonRadius, poisonRadius,
-						(int)(vic.getSchmuck().getBody().getPosition().x * PPM), 
-						(int)(vic.getSchmuck().getBody().getPosition().y * PPM), 
-						poisonDamage, poisonDuration, inflicter.getSchmuck(), true, inflicter.getSchmuck().getHitboxfilter());
+				if (procCdCount >= procCd) {
+					procCdCount -= procCd;
+					new Poison(state, poisonRadius, poisonRadius,
+							(int)(vic.getSchmuck().getBody().getPosition().x * PPM), 
+							(int)(vic.getSchmuck().getBody().getPosition().y * PPM), 
+							poisonDamage, poisonDuration, inflicter.getSchmuck(), true, inflicter.getSchmuck().getHitboxfilter());
+				}
 			}
 		};
 		

@@ -10,6 +10,7 @@ public enum DamageTypes {
 	MISC,
 	AIR,
 	ENERGY,
+	POISON,
 	REGEN,
 	MEDPAK,
 	LIFESTEAL,

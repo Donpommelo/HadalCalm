@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.utility;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -43,6 +44,11 @@ public class PlayerChanger extends Event {
 				
 				if (data.getCurrentHp() < data.getMaxHp() && hp > 0) {
 					state.getPlayer().getPlayerData().regainHp(hp, state.getPlayer().getPlayerData(), true, DamageTypes.MEDPAK);
+					activated = true;
+				}
+				
+				if (hp < 0) {
+					state.getPlayer().getPlayerData().receiveDamage(-hp, new Vector2(0, 0), state.getWorldDummy().getBodyData(), null, false);
 					activated = true;
 				}
 				

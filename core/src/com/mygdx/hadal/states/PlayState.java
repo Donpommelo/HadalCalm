@@ -396,8 +396,8 @@ public class PlayState extends GameState {
 			}			
 		} else {
 			uiStatus.clearStatus();
-			player = new Player(this, (int)(player.getBody().getPosition().x * PPM),
-					(int)(player.getBody().getPosition().y * PPM), loadout.character, null);
+			player = new Player(this, (int)(getSafeX() * PPM),
+					(int)(getSafeY() * PPM), loadout.character, null);
 			
 			controller.setPlayer(player);
 			this.cameraTarget = player;

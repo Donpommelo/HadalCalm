@@ -76,6 +76,7 @@ public class Record {
 
 	public void setArtifact(String artifact) {
 		this.artifact = artifact;
+		saveRecord();
 	}
 
 	public String getActive() {

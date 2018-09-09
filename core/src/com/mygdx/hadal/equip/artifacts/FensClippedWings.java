@@ -6,22 +6,22 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
-public class LoamskinTalisman extends Artifact {
+public class FensClippedWings extends Artifact {
 
-	private final static String name = "Loamskin Talisman";
-	private final static String descr = "+Hp Regen";
+	private final static String name = "Fen's Clipped Wings";
+	private final static String descr = "+1 Jump, +20% Jump Power";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public LoamskinTalisman() {
+	public FensClippedWings() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 2, 1.0f, b)
-		);
+				new StatChangeStatus(state, 10, 0.2f, b), 
+				new StatChangeStatus(state, 11, 1, b));
 		return enchantment;
 	}
 }

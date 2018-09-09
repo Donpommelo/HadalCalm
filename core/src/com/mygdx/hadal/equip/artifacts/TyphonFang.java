@@ -8,16 +8,16 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
-public class Bloodylust extends Artifact {
+public class TyphonFang extends Artifact {
 
-	private final static String name = "Bloody Lust";
-	private final static String descr = "75% Reload Speed. Refill 50% clip on kill.";
+	private final static String name = "Typhon Fang";
+	private final static String descr = "-75% Reload Speed. Refill 50% clip on kill.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
 	private static final float cliprefill = 0.50f;
 	
-	public Bloodylust() {
+	public TyphonFang() {
 		super(name, descr, descrLong, statusNum);
 	}
 

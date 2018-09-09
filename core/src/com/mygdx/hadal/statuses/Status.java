@@ -114,6 +114,8 @@ public class Status {
 	
 	public void onHitboxCreation(Hitbox hbox) {}
 	
+	
+	
 	public String getName() {
 		return name;
 	}

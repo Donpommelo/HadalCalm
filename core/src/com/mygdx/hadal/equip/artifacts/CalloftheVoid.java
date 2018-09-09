@@ -6,14 +6,14 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
-public class RecklessMark extends Artifact {
+public class CalloftheVoid extends Artifact {
 
-	private final static String name = "Reckless Mark";
+	private final static String name = "Call of the Void";
 	private final static String descr = "Deal and take +40% more damage.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public RecklessMark() {
+	public CalloftheVoid() {
 		super(name, descr, descrLong, statusNum);
 	}
 

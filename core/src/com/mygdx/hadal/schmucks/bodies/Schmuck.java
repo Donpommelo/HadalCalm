@@ -238,4 +238,9 @@ public class Schmuck extends HadalEntity {
 	public short getHitboxfilter() {
 		return hitboxfilter;
 	}
+
+	public boolean isGrounded() {
+		return grounded;
+	}
+	
 }

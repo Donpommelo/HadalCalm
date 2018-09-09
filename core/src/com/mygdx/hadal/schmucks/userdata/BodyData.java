@@ -226,8 +226,8 @@ public class BodyData extends HadalData {
 		}
 		
 		if (procEffects) {
-			damage = perp.statusProcTime(1, perp, damage, null, tool, null, tags);
-			damage = statusProcTime(2, this, damage, null, currentTool, null, tags);
+			damage = perp.statusProcTime(1, this, damage, null, tool, null, tags);
+			damage = statusProcTime(2, perp, damage, null, currentTool, null, tags);
 		}
 				
 		currentHp -= damage;

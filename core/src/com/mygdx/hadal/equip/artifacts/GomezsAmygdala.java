@@ -6,9 +6,9 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 
-public class ThrobbingRageGland extends Artifact {
+public class GomezsAmygdala extends Artifact {
 
-	private final static String name = "Throbbing Rage Gland";
+	private final static String name = "Gomez's Amygdala";
 	private final static String descr = "Temporarily boosts speed and damage when taking damage.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
@@ -16,7 +16,7 @@ public class ThrobbingRageGland extends Artifact {
 	private final float damageFloor = 5;
 	private final float dura = 3.0f;
 	
-	public ThrobbingRageGland() {
+	public GomezsAmygdala() {
 		super(name, descr, descrLong, statusNum);
 	}
 

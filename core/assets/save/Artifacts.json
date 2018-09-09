@@ -1,8 +1,48 @@
 {
-EELSKIN_COVER: {
+ANARCHISTS_COOKBOOK: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Eelskin Cover
-	description: "Reduces Drag"
+	name: Anarchist's Cookbook
+	description: "Explosions"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+ANCHOR_TALISMAN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Anchor Talisman
+	description: "Damage Reduction when grounded."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+BLOODWOODS_GLOVE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Bloodwood's Glove
+	description: "Slower Reload and Fire Speed. Lower Active Cooldowns"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+CALL_OF_THE_VOID: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Call of the Void
+	description: "Deal and receive 40% more damage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+CLAWS_OF_FESTUS: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Claws of Festus
+	description: "Enables wall-climbing."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -19,39 +59,59 @@ CONFIDENCE: {
 		RANDOM_POOL,
 	]
 }
-ENVENOMED_EARTH: {
+CROWN_OF_THORNS: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Envenomed Earth
-	description: "Create poison cloud on kill."
+	name: Crown of Thorns
+	description: "Perform a melee attack upon reloading."
 	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-BLOODY_LUST: {
+CURSED_CILICE: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Bloody Lust
-	description: "-50% Reload Speed. Refill 50% clip on kill."
+	name: Cursed Cilice
+	description: "Taking damage regenerates Fuel."
 	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-GLUTTONOUS_GREY_GLOVE: {
+DEPLORABLE_APPARATUS: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Gluttonous Grey Grove
-	description: "Fish eat Fish. No heal from medpaks."
+	name: Deplorable Apparatus
+	description: "-Max Hp. High Hp Regen."
 	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-SKATE_WINGS: {
+EELSKIN_COVER: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Skate Wings
+	name: Eelskin Cover
+	description: "Reduces Drag"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+FARADAYS_CAGE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Faraday's Cage
+	description: "Diverts incoming damage to Fuel."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+FENS_CLIPPED_WINGS: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Fen's Clipped Wings
 	description: "+1 Jump. Improved Jumps."
 	unlocked: true
 	tags: [
@@ -59,20 +119,10 @@ SKATE_WINGS: {
 		RANDOM_POOL,
 	]
 }
-TRIGGER_FINGER: {
+FORAGERS_HIVE: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Trigger Finger
-	description: "Bonus Ranged Attack Speed."
-	unlocked: true
-	tags: [
-		RELIQUARY,
-		RANDOM_POOL,
-	]
-}
-VOID_HYPONOME: {
-	class: com.mygdx.hadal.save.InfoItem
-	name: Void Hyponome
-	description: "Reduced Airblast Cost."
+	name: Forager's Hive
+	description: "Releases bees when receiving damage."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -89,6 +139,26 @@ FRACTURE_PLATE: {
 		RANDOM_POOL,
 	]
 }
+GLUTTONOUS_GREY_GLOVE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Gluttonous Grey Grove
+	description: "Fish eat Fish. No heal from medpaks."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+GOMEZS_AMYGDALA: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Gomez's Amygdala
+	description: "Temporarily boosts speed and damage upon taking damage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 GOOD_HEALTH: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Good Health
@@ -99,30 +169,10 @@ GOOD_HEALTH: {
 		RANDOM_POOL,
 	]
 }
-SCALING_SCALES: {
+HORNS_OF_AMMON: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Scaling Scales
-	description: "Enables wall-jumping."
-	unlocked: true
-	tags: [
-		RELIQUARY,
-		RANDOM_POOL,
-	]
-}
-ROOT_BOOTS: {
-	class: com.mygdx.hadal.save.InfoItem
-	name: Root Boots
-	description: "+Knockback Resistance."
-	unlocked: true
-	tags: [
-		RELIQUARY,
-		RANDOM_POOL,
-	]
-}
-NICE_SHOES: {
-	class: com.mygdx.hadal.save.InfoItem
-	name: Nice Shoes
-	description: "Increased ground speed."
+	name: Horns of Ammon
+	description: "Brief Invulnerability on damage."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -139,40 +189,50 @@ LOAMSKIN_TALISMAN: {
 		RANDOM_POOL,
 	]
 }
-ANARCHISTS_COOKBOOK: {
+MANGROVE_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Anarchist's Cookbook
-	description: "Explosions"
+	name: Mangrove Talisman
+	description: "Poison Resistance."
 	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-RECKLESS_MARK: {
+MASK_OF_SYMPATHY: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Reckless Mark
-	description: "Deal and receive 40% more damage."
+	name: Mask of Sympathy
+	description: "Reflects Damage."
 	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-THROBBING_RAGE_GLAND: {
+MOON_FLUTHER: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Throbbing Rage Gland
-	description: "Temporarily boosts speed and damage upon taking damage."
+	name: Moon Fluther
+	description: "Improved Hovering."
 	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-RING_OF_THE_LAMPREY: {
+MOUTHBREATHER_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Ring of the Lamprey
-	description: "-20 Hp. Lifesteal."
+	name: Mouthbreather Talisman
+	description: "Negates self-damage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+NICE_SHOES: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Nice Shoes
+	description: "Increased ground speed."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -186,20 +246,50 @@ NOTHING: {
 	unlocked: true
 	tags: []
 }
-MOON_FLUTHER: {
+NUCLEAR_PUNCH_THRUSTERS: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Moon Fluther
-	description: "Improved Hovering."
+	name: Nuclear Punch Thrusters
+	description: "Increased Knockback on attacks."
 	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-NUCLEAR_PUNCH_THRUSTERS: {
+PELICAN_PLUSH_TOY: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Nuclear Punch Thrusters
-	description: "Increased Knockback on attacks."
+	name: Pelican Plush Toy
+	description: "Improved Healing"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+PEPPER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Pepper
+	description: "Damages nearby enemies."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+PREHISTORIC_SYNAPSE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Prehistoric Synapse
+	description: "Delays incoming damgage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+RED_TIDE_TALISMAN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Red Tide Talisman
+	description: "Create poison cloud on kill."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -213,6 +303,76 @@ RING_OF_TESTING: {
 	unlocked: true
 	tags: [
 		RELIQUARY,
+	]
+}
+RING_OF_THE_LAMPREY: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Ring of the Lamprey
+	description: "-20 Hp. Lifesteal."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+ROOT_BOOTS: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Root Boots
+	description: "+Knockback Resistance."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+ROYAL_JUJUBE_BANG: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Royal Jujube Bang
+	description: "Bonus damage against distant targets."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SWORD_OF_SYZYGY: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Sword of Syzygy
+	description: "+3 Projectile Pierce."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+TRIGGER_FINGER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Trigger Finger
+	description: "Bonus Ranged Attack Speed."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+TYPHON_FANG: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Typhon Fang
+	description: "-50% Reload Speed. Refill 50% clip on kill."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+VOID_HYPONOME: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Void Hyponome
+	description: "Reduced Airblast Cost."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
 	]
 }
 }

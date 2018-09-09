@@ -6,22 +6,24 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
-public class SkateWings extends Artifact {
+public class BloodwoodsGlove extends Artifact {
 
-	private final static String name = "Skate Wings";
-	private final static String descr = "+1 Jump, +20% Jump Power";
+	private final static String name = "Bloodwood's Glove";
+	private final static String descr = "Slower Reload and Fire Speed. Lower Active Cooldowns";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public SkateWings() {
+	public BloodwoodsGlove() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 10, 0.2f, b), 
-				new StatChangeStatus(state, 11, 1, b));
+				new StatChangeStatus(state, 27, -0.75f, b),
+				new StatChangeStatus(state, 28, -0.5f, b),
+				new StatChangeStatus(state, 18, 0.75f, b)
+		);
 		return enchantment;
 	}
 }

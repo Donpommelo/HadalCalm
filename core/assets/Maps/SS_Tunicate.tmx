@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="104">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="109">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer name="Tile Layer 1" width="100" height="120">
   <data encoding="base64" compression="zlib">
@@ -514,7 +514,7 @@
   <object id="99" name="Multitrigger" type="Multitrigger" x="128" y="3616" width="32" height="32">
    <properties>
     <property name="triggeredId" value="outOfBounds"/>
-    <property name="triggeringId" value="intro1PlayerStart,oobDialog"/>
+    <property name="triggeringId" value="playerDie,oobDialog"/>
    </properties>
   </object>
   <object id="100" name="Dialog" type="Dialog" x="192" y="3616" width="32" height="32">
@@ -536,6 +536,12 @@
   <object id="103" name="Sensor" type="Sensor" x="0" y="128" width="64" height="3616">
    <properties>
     <property name="triggeringId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="108" name="Player" type="Player" x="256" y="3616" width="32" height="32">
+   <properties>
+    <property name="hp" type="float" value="-100"/>
+    <property name="triggeredId" value="playerDie"/>
    </properties>
   </object>
  </objectgroup>
