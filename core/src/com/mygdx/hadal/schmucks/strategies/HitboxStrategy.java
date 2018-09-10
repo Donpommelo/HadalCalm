@@ -21,10 +21,10 @@ public abstract class HitboxStrategy implements IHitboxStrategy{
 		this.hbox = proj;
 		this.creator = user;
 	}
-	
+
 	@Override
 	public void create() {}
-
+	
 	@Override
 	public void controller(float delta) {}
 

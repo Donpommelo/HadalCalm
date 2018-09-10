@@ -86,7 +86,7 @@ public class Hitbox extends HadalEntity {
 	 * Create the hitbox body. User data is initialized separately.
 	 */
 	public void create() {
-		
+
 		this.data = new HitboxData(state, this);
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width / 2, height / 2, grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
@@ -99,10 +99,6 @@ public class Hitbox extends HadalEntity {
 					new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, rest, friction,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
 		}
-		
-		for (HitboxStrategy s : strategies) {
-			s.create();
-		}
 	}
 	
 	/**
@@ -113,6 +109,7 @@ public class Hitbox extends HadalEntity {
 		
 		for (HitboxStrategy s : add) {
 			strategies.add(s);
+			s.create();
 		}
 		add.clear();
 		
@@ -163,6 +160,14 @@ public class Hitbox extends HadalEntity {
 		remove.add(strat);
 	}
 
+	public void removeStrategy(Class<? extends HitboxStrategy> stratType) {
+		for (HitboxStrategy strat : strategies) {
+			if (strat.getClass().equals(stratType)) {
+				remove.add(strat);
+			}
+		}
+	}
+	
 	public float getLifeSpan() {
 		return lifeSpan;
 	}

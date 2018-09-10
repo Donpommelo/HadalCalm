@@ -18,11 +18,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	ICEBERG
-	NEMATOCYDEARM
+	CR4PCANNON
+	SPEARGUN
 	TORPEDO_LAUNCHER
 ]
-artifact: EELSKIN_COVER
+artifact: CURIOUS_SAUCE
 active: MELON
 character: TELEMACHUS
 }

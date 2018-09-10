@@ -79,6 +79,16 @@ CURSED_CILICE: {
 		RANDOM_POOL,
 	]
 }
+CURIOUS_SAUCE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Curious Sauce
+	description: "Bouncy Projectiles"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 DEPLORABLE_APPARATUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Deplorable Apparatus
@@ -93,6 +103,16 @@ EELSKIN_COVER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Eelskin Cover
 	description: "Reduces Drag"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+EMAUDELINES_PRISM: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Emaudeline's Prism
+	description: "Projectile Split-Shot"
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -329,6 +349,16 @@ ROYAL_JUJUBE_BANG: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Royal Jujube Bang
 	description: "Bonus damage against distant targets."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SHILLERS_BASIDIA: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Shiller's Basidia
+	description: "Projectile Poison-Trail"
 	unlocked: true
 	tags: [
 		RELIQUARY,

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -23,18 +21,6 @@ public class HitboxDefaultStrategy extends HitboxStrategy{
 		this.adjustAngle = adjustAngle;	
 	}
 	
-	@Override
-	public void create() {
-		float newAngle = (float)(Math.atan2(hbox.getStartVelo().y , hbox.getStartVelo().x));
-		Vector2 newPosition = new Vector2(hbox.getStartX() / PPM, hbox.getStartY() / PPM).add(hbox.getStartVelo().nor().scl(.5f));
-		
-		if (adjustAngle) {
-			hbox.getBody().setTransform(newPosition.x, newPosition.y, newAngle);
-		} else {
-			hbox.getBody().setTransform(newPosition.x, newPosition.y, 0);
-		}
-	}
-
 	@Override
 	public void controller(float delta) {
 		hbox.setLifeSpan(hbox.getLifeSpan() - delta);

@@ -31,68 +31,65 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 	
 	@Override
 	public void onHit(final HadalData fixB) {
-		if (fixB == null) {
-			hbox.setDura(0);
-		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			hbox.setDura(0);
+		if (fixB != null) {
+			if (fixB.getType().equals(UserDataTypes.BODY)) {
+				
+				if (chains <= 0) {
+					hbox.setDura(0);
+				}
+				chains--;
+				hbox.getWorld().QueryAABB(new QueryCallback() {
 
-		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
-			
-			if (chains <= 0) {
-				hbox.setDura(0);
-			}
-			chains--;
-			hbox.getWorld().QueryAABB(new QueryCallback() {
+					@Override
+					public boolean reportFixture(Fixture fixture) {
+						if (fixture.getUserData() instanceof BodyData) {
+							
+							chainAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+							shortestFraction = 1.0f;
+							
+						  	if (hbox.getBody().getPosition().x != chainAttempt.getPosition().x || 
+						  			hbox.getBody().getPosition().y != chainAttempt.getPosition().y) {
+						  		hbox.getWorld().rayCast(new RayCastCallback() {
 
-				@Override
-				public boolean reportFixture(Fixture fixture) {
-					if (fixture.getUserData() instanceof BodyData) {
-						
-						chainAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
-						shortestFraction = 1.0f;
-						
-					  	if (hbox.getBody().getPosition().x != chainAttempt.getPosition().x || 
-					  			hbox.getBody().getPosition().y != chainAttempt.getPosition().y) {
-					  		hbox.getWorld().rayCast(new RayCastCallback() {
-
-								@Override
-								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-									if (fixture.getUserData() == null) {
-										if (fraction < shortestFraction) {
-											shortestFraction = fraction;
-											closestFixture = fixture;
-											return fraction;
-										}
-									} else if (fixture.getUserData() instanceof BodyData) {
-										if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter &&
-												fixB != fixture.getUserData()) {
+									@Override
+									public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+										if (fixture.getUserData() == null) {
 											if (fraction < shortestFraction) {
 												shortestFraction = fraction;
 												closestFixture = fixture;
 												return fraction;
 											}
-										}
-									} 
-									return -1.0f;
-								}
+										} else if (fixture.getUserData() instanceof BodyData) {
+											if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter &&
+													fixB != fixture.getUserData()) {
+												if (fraction < shortestFraction) {
+													shortestFraction = fraction;
+													closestFixture = fixture;
+													return fraction;
+												}
+											}
+										} 
+										return -1.0f;
+									}
+									
+								}, hbox.getBody().getPosition(), chainAttempt.getPosition());	
 								
-							}, hbox.getBody().getPosition(), chainAttempt.getPosition());	
-							
-							if (closestFixture != null) {
-								if (closestFixture.getUserData() instanceof BodyData) {
-									hbox.getBody().setLinearVelocity(closestFixture.getBody().getPosition()
-											.sub(hbox.getBody().getPosition())
-													.nor().scl(60));
-								}
-							}	
-						}									
+								if (closestFixture != null) {
+									if (closestFixture.getUserData() instanceof BodyData) {
+										hbox.getBody().setLinearVelocity(closestFixture.getBody().getPosition()
+												.sub(hbox.getBody().getPosition())
+														.nor().scl(60));
+									}
+								}	
+							}									
+						}
+						return true;
 					}
-					return true;
-				}
-				
-			}, 
-			hbox.getBody().getPosition().x - radius, hbox.getBody().getPosition().y - radius, 
-			hbox.getBody().getPosition().x + radius, hbox.getBody().getPosition().y + radius);						
+					
+				}, 
+				hbox.getBody().getPosition().x - radius, hbox.getBody().getPosition().y - radius, 
+				hbox.getBody().getPosition().x + radius, hbox.getBody().getPosition().y + radius);						
+			}
 		}
 		if (hbox.getDura() <= 0 && hbox.isAlive()) {
 			hbox.die();

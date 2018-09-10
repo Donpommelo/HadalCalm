@@ -12,14 +12,14 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
-public class RingofTesting extends Artifact {
+public class CuriousSauce extends Artifact {
 
-	private final static String name = "Ring of Testing";
-	private final static String descr = "Tests Things";
+	private final static String name = "Curious Sauce";
+	private final static String descr = "Bouncy Projectiles";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public RingofTesting() {
+	public CuriousSauce() {
 		super(name, descr, descrLong, statusNum);
 	}
 

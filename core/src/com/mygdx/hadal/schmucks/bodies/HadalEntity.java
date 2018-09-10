@@ -254,6 +254,14 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		}
 	}
 	
+	public float getHeight() {
+		return height;
+	}
+	
+	public float getWidth() {
+		return width;
+	}
+	
 	@Override
 	public Vector2 getPosition() {
 		return body.getPosition();
