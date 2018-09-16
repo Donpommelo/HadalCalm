@@ -107,25 +107,24 @@ public class FloatingEnemy extends SteeringEnemy {
 		moveState = MoveStates.STAND;
 		
 		switch (aiState) {
-		case ROAMING:
-			super.controller(delta);
-			break;
 		case CHASING:
 			
-			//when chasing, fish run their steering ai and fire their weapons continously
-			Vector2 orientation = getBody().getPosition().add(new Vector2(10, 10).setAngleRad((float) (getBody().getAngle() + Math.PI / 2)));
-			Vector3 target = new Vector3(orientation.x, orientation.y, 0);
-			camera.project(target);
+			float bodyAngle = (float) (getBody().getAngle() + Math.PI / 2);
+			float angleToTarget = target.getBody().getPosition().sub(getBody().getPosition()).angleRad();
+			
+			if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
+				Vector3 attack = new Vector3(target.getBody().getPosition().x, target.getBody().getPosition().y, 0);
+				camera.project(attack);
 
-			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
-			
-			super.controller(delta);
-			
+				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)attack.x, (int)attack.y, true);
+			}			
 			break;
 		default:
 			break;
 		
 		}
+		
+		super.controller(delta);
 		
 		//When processing ai, fish attempt to raycast towards player.
 		if (aiCdCount < 0) {
