@@ -2,6 +2,10 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.badlogic.gdx.ai.steer.SteeringBehavior;
+import com.badlogic.gdx.ai.steer.behaviors.Evade;
+import com.badlogic.gdx.ai.steer.behaviors.Pursue;
+import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -28,19 +32,10 @@ public class FloatingEnemy extends SteeringEnemy {
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	protected Equipable weapon;
     
-	//direction tells the fish what vector to propel themselves in next if roaming.
-	private Vector2 direction;
-    
-	//moveCd determines how much time until the fish moves again.
-    private static final float moveCd = 0.75f;
-    private float moveCdCount = 0;
-    
     //moveCd determines how much time until the fish processes ai again.
-    private static final float aiCd = 0.75f;
+    private static final float aiRoamCd = 0.75f;
+    private static final float aiChaseCd = 5.0f;
     private float aiCdCount = 0;
-    
-    //when roaming, this determins the power of their propulsion.
-    private static final float moveMag = 7.5f;
     
     //Ai mode of the fish
   	private floatingState aiState;
@@ -56,6 +51,8 @@ public class FloatingEnemy extends SteeringEnemy {
 	
 	private float scale;
 
+	protected SteeringBehavior<Vector2> chase, escape, roam;
+	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
 	 * @param state: current gameState
@@ -81,7 +78,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		this.aiState = floatingState.ROAMING;
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
-		fishSprite = atlas.findRegion(spriteId);	
+		fishSprite = atlas.findRegion(spriteId);
 	}
 	
 	/**
@@ -90,9 +87,15 @@ public class FloatingEnemy extends SteeringEnemy {
 	@Override
 	public void create() {
 		super.create();
-		direction = new Vector2(
-				state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
-				state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag);
+		
+		chase = new Pursue<Vector2>(this, state.getPlayer());
+		escape = new Evade<Vector2>(this, state.getPlayer());
+		roam = new Wander<Vector2>(this)
+				.setWanderOffset(100)
+				.setWanderRadius(100)
+				.setWanderRate(25)
+				.setWanderOrientation(10);
+		setTarget(state.getPlayer(), roam);
 	}
 
 	/**
@@ -105,16 +108,15 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		switch (aiState) {
 		case ROAMING:
-			
-			//atm, this is here so fish still flash red even when out of sight
-			flashingCount-=delta;
+			super.controller(delta);
 			break;
 		case CHASING:
 			
 			//when chasing, fish run their steering ai and fire their weapons continously
-			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
+			Vector2 orientation = getBody().getPosition().add(new Vector2(10, 10).setAngleRad((float) (getBody().getAngle() + Math.PI / 2)));
+			Vector3 target = new Vector3(orientation.x, orientation.y, 0);
 			camera.project(target);
-			
+
 			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 			
 			super.controller(delta);
@@ -125,24 +127,10 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		}
 		
-		//If roaming, fish will propel themselves around.
-		if (moveCdCount < 0) {
-			moveCdCount += moveCd;
-			switch (aiState) {
-			case ROAMING:
-				push(direction.x, direction.y);
-				break;
-			case CHASING:
-				break;
-			}
-		}
-		
 		//When processing ai, fish attempt to raycast towards player.
 		if (aiCdCount < 0) {
-			aiCdCount += aiCd;
+			aiCdCount += aiRoamCd;
 			aiState = floatingState.ROAMING;
-			
-			direction = direction.setAngle((float) (Math.random() * 360));	
 			
 			shortestFraction = 1.0f;
 			
@@ -169,14 +157,20 @@ public class FloatingEnemy extends SteeringEnemy {
 						return -1.0f;
 					}
 					
-				}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+				}, getBody().getPosition(), target.getPosition());
 				
 				//If player is detected, begin chasing.
 				if (closestFixture != null) {
-					if (closestFixture.getUserData() instanceof PlayerBodyData ) {
+					if (closestFixture.getUserData() instanceof PlayerBodyData ) {						
 						aiState = floatingState.CHASING;
+						aiCdCount += aiChaseCd;
+						setTarget(state.getPlayer(), chase);
+					} else {
+						setTarget(state.getPlayer(), roam);
 					}
-				}		
+				} else {
+					setTarget(state.getPlayer(), roam);
+				}
 			}
 				
 		}
@@ -187,7 +181,6 @@ public class FloatingEnemy extends SteeringEnemy {
 		}
 		
 		//process cooldowns
-		moveCdCount -= delta;
 		aiCdCount -= delta;
 	}
 	
@@ -228,6 +221,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	}
 	
 	public enum floatingState {		CHASING,
+		ESCAPING,
 		ROAMING,
 	}
 }

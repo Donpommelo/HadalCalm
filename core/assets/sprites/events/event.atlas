@@ -4,6 +4,397 @@ size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+event_beegun
+  rotate: false
+  xy: 2, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 0
+event_beegun
+  rotate: false
+  xy: 2, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 1
+event_beegun
+  rotate: false
+  xy: 2, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 11
+event_beegun
+  rotate: false
+  xy: 364, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 2
+event_beegun
+  rotate: false
+  xy: 364, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 10
+event_beegun
+  rotate: false
+  xy: 2, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 3
+event_beegun
+  rotate: false
+  xy: 2, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 9
+event_beegun
+  rotate: false
+  xy: 364, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 4
+event_beegun
+  rotate: false
+  xy: 364, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 8
+event_beegun
+  rotate: false
+  xy: 726, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 5
+event_beegun
+  rotate: false
+  xy: 726, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 7
+event_beegun
+  rotate: false
+  xy: 2, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 6
+event_bladegun
+  rotate: false
+  xy: 364, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 0
+event_bladegun
+  rotate: false
+  xy: 726, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 1
+event_bladegun
+  rotate: false
+  xy: 726, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 11
+event_bladegun
+  rotate: false
+  xy: 1088, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 2
+event_bladegun
+  rotate: false
+  xy: 1088, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 10
+event_bladegun
+  rotate: false
+  xy: 2, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 3
+event_bladegun
+  rotate: false
+  xy: 2, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 9
+event_bladegun
+  rotate: false
+  xy: 364, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 4
+event_bladegun
+  rotate: false
+  xy: 364, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 8
+event_bladegun
+  rotate: false
+  xy: 726, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 5
+event_bladegun
+  rotate: false
+  xy: 726, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 7
+event_bladegun
+  rotate: false
+  xy: 1088, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 6
+event_boiler
+  rotate: false
+  xy: 1450, 1668
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 0
+event_boiler
+  rotate: false
+  xy: 364, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 1
+event_boiler
+  rotate: false
+  xy: 364, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 11
+event_boiler
+  rotate: false
+  xy: 726, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 2
+event_boiler
+  rotate: false
+  xy: 726, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 10
+event_boiler
+  rotate: false
+  xy: 1088, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 3
+event_boiler
+  rotate: false
+  xy: 1088, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 9
+event_boiler
+  rotate: false
+  xy: 1450, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 4
+event_boiler
+  rotate: false
+  xy: 1450, 1306
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 8
+event_boiler
+  rotate: false
+  xy: 726, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 5
+event_boiler
+  rotate: false
+  xy: 726, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 7
+event_boiler
+  rotate: false
+  xy: 1088, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 6
+event_boomerang
+  rotate: false
+  xy: 1450, 944
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 0
+event_boomerang
+  rotate: false
+  xy: 1088, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 1
+event_boomerang
+  rotate: false
+  xy: 1088, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 11
+event_boomerang
+  rotate: false
+  xy: 1450, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 2
+event_boomerang
+  rotate: false
+  xy: 1450, 582
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 9
+event_boomerang
+  rotate: false
+  xy: 1450, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 3
+event_boomerang
+  rotate: false
+  xy: 1450, 220
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 10
+event_cube
+  rotate: false
+  xy: 2, 2
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 0
+event_cube
+  rotate: false
+  xy: 1812, 1812
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 1
+event_cube
+  rotate: false
+  xy: 1812, 1812
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 11
+event_cube
+  rotate: false
+  xy: 220, 2
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 2
+event_cube
+  rotate: false
+  xy: 220, 2
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 10
+event_cube
+  rotate: false
+  xy: 1812, 1594
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 3
+event_cube
+  rotate: false
+  xy: 1812, 1594
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 9
+event_cube
+  rotate: false
+  xy: 438, 2
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 4
+event_cube
+  rotate: false
+  xy: 438, 2
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 8
+event_cube
+  rotate: false
+  xy: 1812, 1376
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 5
+event_cube
+  rotate: false
+  xy: 1812, 1376
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 7
+event_cube
+  rotate: false
+  xy: 656, 2
+  size: 216, 216
+  orig: 216, 216
+  offset: 0, 0
+  index: 6
+
+event2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
 event_base
   rotate: false
   xy: 2, 1632
@@ -158,97 +549,104 @@ event_base
   orig: 300, 300
   offset: 0, 0
   index: 11
-event_beegun
+event_boomerang
   rotate: false
   xy: 606, 364
   size: 360, 360
   orig: 360, 360
   offset: 0, 0
-  index: 0
-event_beegun
-  rotate: false
-  xy: 968, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 1
-event_beegun
-  rotate: false
-  xy: 968, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 11
-event_beegun
-  rotate: false
-  xy: 1330, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 2
-event_beegun
-  rotate: false
-  xy: 1330, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 10
-event_beegun
-  rotate: false
-  xy: 2, 62
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 3
-event_beegun
-  rotate: false
-  xy: 2, 62
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 9
-event_beegun
-  rotate: false
-  xy: 364, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
   index: 4
-event_beegun
+event_boomerang
   rotate: false
-  xy: 364, 2
+  xy: 606, 364
   size: 360, 360
   orig: 360, 360
   offset: 0, 0
   index: 8
-event_beegun
+event_boomerang
   rotate: false
-  xy: 726, 2
+  xy: 968, 364
   size: 360, 360
   orig: 360, 360
   offset: 0, 0
   index: 5
-event_beegun
+event_boomerang
+  rotate: false
+  xy: 968, 364
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 7
+event_boomerang
+  rotate: false
+  xy: 1330, 364
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 6
+event_cannon
+  rotate: false
+  xy: 2, 62
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 0
+event_cannon
+  rotate: false
+  xy: 364, 2
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 1
+event_cannon
+  rotate: false
+  xy: 364, 2
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 11
+event_cannon
   rotate: false
   xy: 726, 2
   size: 360, 360
   orig: 360, 360
   offset: 0, 0
-  index: 7
-event_beegun
+  index: 2
+event_cannon
+  rotate: false
+  xy: 726, 2
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 10
+event_cannon
   rotate: false
   xy: 1088, 2
   size: 360, 360
   orig: 360, 360
   offset: 0, 0
-  index: 6
-event_bladegun
+  index: 3
+event_cannon
+  rotate: false
+  xy: 1088, 2
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 9
+event_cannon
   rotate: false
   xy: 1450, 2
   size: 360, 360
   orig: 360, 360
   offset: 0, 0
-  index: 0
+  index: 4
+event_cannon
+  rotate: false
+  xy: 1450, 2
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: 8
 event_fuel
   rotate: false
   xy: 2, 1028
@@ -417,320 +815,6 @@ event_health
   orig: 300, 300
   offset: 0, 0
   index: 6
-
-event2.png
-size: 2048,2048
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
-event_bladegun
-  rotate: false
-  xy: 2, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 1
-event_bladegun
-  rotate: false
-  xy: 2, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 11
-event_bladegun
-  rotate: false
-  xy: 2, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 2
-event_bladegun
-  rotate: false
-  xy: 2, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 10
-event_bladegun
-  rotate: false
-  xy: 364, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 3
-event_bladegun
-  rotate: false
-  xy: 364, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 9
-event_bladegun
-  rotate: false
-  xy: 2, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 4
-event_bladegun
-  rotate: false
-  xy: 2, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 8
-event_bladegun
-  rotate: false
-  xy: 364, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 5
-event_bladegun
-  rotate: false
-  xy: 364, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 7
-event_bladegun
-  rotate: false
-  xy: 726, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 6
-event_boiler
-  rotate: false
-  xy: 2, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 0
-event_boiler
-  rotate: false
-  xy: 364, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 1
-event_boiler
-  rotate: false
-  xy: 364, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 11
-event_boiler
-  rotate: false
-  xy: 726, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 2
-event_boiler
-  rotate: false
-  xy: 726, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 10
-event_boiler
-  rotate: false
-  xy: 1088, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 3
-event_boiler
-  rotate: false
-  xy: 1088, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 9
-event_boiler
-  rotate: false
-  xy: 2, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 4
-event_boiler
-  rotate: false
-  xy: 2, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 8
-event_boiler
-  rotate: false
-  xy: 364, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 5
-event_boiler
-  rotate: false
-  xy: 364, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 7
-event_boiler
-  rotate: false
-  xy: 726, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 6
-event_boomerang
-  rotate: false
-  xy: 1088, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 0
-event_boomerang
-  rotate: false
-  xy: 1450, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 1
-event_boomerang
-  rotate: false
-  xy: 1450, 1450
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 11
-event_boomerang
-  rotate: false
-  xy: 364, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 2
-event_boomerang
-  rotate: false
-  xy: 364, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 9
-event_boomerang
-  rotate: false
-  xy: 726, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 3
-event_boomerang
-  rotate: false
-  xy: 726, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 10
-event_boomerang
-  rotate: false
-  xy: 1088, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 4
-event_boomerang
-  rotate: false
-  xy: 1088, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 8
-event_boomerang
-  rotate: false
-  xy: 1450, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 5
-event_boomerang
-  rotate: false
-  xy: 1450, 1088
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 7
-event_boomerang
-  rotate: false
-  xy: 726, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 6
-event_cannon
-  rotate: false
-  xy: 1088, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 0
-event_cannon
-  rotate: false
-  xy: 1450, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 1
-event_cannon
-  rotate: false
-  xy: 1450, 726
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 11
-event_cannon
-  rotate: false
-  xy: 1088, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 2
-event_cannon
-  rotate: false
-  xy: 1088, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 10
-event_cannon
-  rotate: false
-  xy: 1450, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 3
-event_cannon
-  rotate: false
-  xy: 1450, 364
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 9
-event_cannon
-  rotate: false
-  xy: 1450, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 4
-event_cannon
-  rotate: false
-  xy: 1450, 2
-  size: 360, 360
-  orig: 360, 360
-  offset: 0, 0
-  index: 8
 
 event3.png
 size: 2048,2048

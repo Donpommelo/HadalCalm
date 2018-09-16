@@ -9,8 +9,8 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnHitDieStrategy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -51,7 +51,7 @@ public class NauticalMine extends ActiveItem {
 				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), "grenade");
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user, false));
-		hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user));
+		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user, this, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 	}

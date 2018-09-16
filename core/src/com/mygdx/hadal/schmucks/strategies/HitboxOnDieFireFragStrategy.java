@@ -50,7 +50,8 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy{
 					filter, true, true, creator.getSchmuck(), projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
-			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, creator));
+			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, creator));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, tool, baseDamage, knockback, DamageTypes.RANGED));
 		}
 	}

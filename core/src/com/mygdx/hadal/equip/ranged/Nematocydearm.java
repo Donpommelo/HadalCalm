@@ -9,7 +9,8 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDiePoisonStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -50,7 +51,8 @@ public class Nematocydearm extends RangedWeapon {
 					filter, true, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnDiePoisonStrategy(state, hbox, user.getBodyData(), poisonRadius, poisonDamage, poisonDuration, (short)0));
 		}

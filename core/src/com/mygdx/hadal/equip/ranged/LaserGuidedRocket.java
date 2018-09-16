@@ -10,7 +10,8 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxMouseStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -59,7 +60,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 					filter, true, true, user, projSpriteId);
 
-			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 			hbox.addStrategy(new HitboxMouseStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));

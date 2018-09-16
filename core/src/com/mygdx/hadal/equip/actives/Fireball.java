@@ -7,7 +7,8 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieFireFragStrategy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -50,7 +51,8 @@ public class Fireball extends ActiveItem {
 					user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
-			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user));
+			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnDieFireFragStrategy(state, hbox, user, this, numFrag, user.getPlayer().getHitboxfilter()));
 

@@ -1,5 +1,7 @@
 package com.mygdx.hadal.event.ai;
 
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -52,10 +54,10 @@ public class PlayerTrail extends Event {
 			if (schmuck instanceof Enemy && nextTrail != null) {
 				if (((Enemy)schmuck).getTarget() instanceof PlayerTrail) {
 					if (((PlayerTrail)((Enemy)schmuck).getTarget()).lifeLeft <= lifeLeft) {
-						((Enemy)schmuck).setTarget(nextTrail);
+						((Enemy)schmuck).setTarget(nextTrail, new Arrive<Vector2>(nextTrail));
 					}
 				} else {
-					((Enemy)schmuck).setTarget(nextTrail);
+					((Enemy)schmuck).setTarget(nextTrail, new Arrive<Vector2>(nextTrail));
 				}
 			}
 		}

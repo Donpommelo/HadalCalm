@@ -13,21 +13,21 @@ public class Torpedofish extends FloatingEnemy {
 	
 	private static final float scale = 0.25f;
 	
-	private static final float maxLinearSpeed = 75;
+	private static final float maxLinearSpeed = 25;
 	private static final float maxLinearAcceleration = 800;
-	private static final float maxAngularSpeed = 12;
-	private static final float maxAngularAcceleration = 5;
+	private static final float maxAngularSpeed = 4320;
+	private static final float maxAngularAcceleration = 3240;
 	
 	private static final int boundingRadius = 500;
-	private static final int decelerationRadius = 10;
+	private static final int decelerationRadius = 100;
 	
 	private static final String spriteId = "torpedofish_swim";
 
 	public Torpedofish(PlayState state, int x, int y) {
 		super(state, x, y, width, height, hbWidth, hbHeight, scale, spriteId,
-				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, boundingRadius, decelerationRadius);
+				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
+				boundingRadius, decelerationRadius);
 		
 		this.weapon = new TorpedofishAttack(this);	
 	}
-
 }

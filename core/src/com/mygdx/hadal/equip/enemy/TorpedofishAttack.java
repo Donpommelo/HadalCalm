@@ -9,7 +9,8 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -18,14 +19,14 @@ public class TorpedofishAttack extends RangedWeapon {
 
 	private final static String name = "Torpedofish Torpedo";
 	private final static int clipSize = 1;
-	private final static float shootCd = 2.5f;
+	private final static float shootCd = 1.5f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 0.2f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 5.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.5f;
-	private final static float projectileSpeed = 12.0f;
+	private final static float projectileSpeed = 16.0f;
 	private final static int projectileWidth = 45;
 	private final static int projectileHeight = 45;
 	private final static float lifespan = 5.0f;
@@ -48,7 +49,8 @@ public class TorpedofishAttack extends RangedWeapon {
 					filter, true, true, user, spriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));	
 			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		}		

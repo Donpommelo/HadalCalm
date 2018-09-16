@@ -1,5 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.ai.steer.SteeringBehavior;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -56,7 +58,8 @@ public class Enemy extends Schmuck {
 		return target;
 	}
 
-	public void setTarget(HadalEntity target) {
+	public void setTarget(HadalEntity target, SteeringBehavior<Vector2> behavior) {
+		super.setBehavior(behavior);
 		this.target = target;
 	}
 }

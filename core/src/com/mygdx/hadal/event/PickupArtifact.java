@@ -1,8 +1,11 @@
 package com.mygdx.hadal.event;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -35,6 +38,9 @@ public class PickupArtifact extends Event {
 	//Can this event be interacted with atm?
 	private boolean on;
 	
+	//Is the player standing in this event? Will display extra info
+	protected boolean open;
+
 	public PickupArtifact(PlayState state, int width, int height, int x, int y, String pool) {
 		super(state, name, width, height, x, y);
 		this.on = true;
@@ -70,6 +76,28 @@ public class PickupArtifact extends Event {
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
+	@Override
+	public void controller(float delta) {
+		if (open && eventData.getSchmucks().isEmpty()) {
+			open = false;
+		}
+		if (!open && !eventData.getSchmucks().isEmpty()) {
+			open = true;
+		}
+	}
+	
+	@Override
+	public void render(SpriteBatch batch) {
+		super.render(batch);
+		
+		if (open) {
+			batch.setProjectionMatrix(state.sprite.combined);
+			state.font.getData().setScale(1.0f);
+			float y = body.getPosition().y * PPM + height / 2;
+			state.font.draw(batch, artifact.getName(), body.getPosition().x * PPM - width / 2, y);
+		}
+	}
+	
 	/**
 	 * This method returns the name of a artifact randomly selected from the pool.
 	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
@@ -89,14 +117,4 @@ public class PickupArtifact extends Event {
 		}
 		return artifacts.get(new Random().nextInt(artifacts.size()));
 	}
-
-	@Override
-	public String getText() {
-		if (on) {
-			return artifact.getName() + " (E TO TAKE)";
-		} else {
-			return artifact.getName() + ": LOCKED";
-		}
-	}
-
 }

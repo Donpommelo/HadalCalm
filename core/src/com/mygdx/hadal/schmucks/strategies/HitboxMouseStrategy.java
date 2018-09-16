@@ -1,18 +1,21 @@
 package com.mygdx.hadal.schmucks.strategies;
 
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
+import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
-public class HitboxMouseStrategy extends HitboxStrategy{
+public class HitboxMouseStrategy extends HitboxStrategy {
 	
 	public HitboxMouseStrategy(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
 			float maxAngAcc, int boundingRad, int decelerationRadius) {
 		super(state, proj, user);
 		
-		hbox.setTarget(state.getMouse());
+		Seek<Vector2> seek = new Seek<Vector2>(hbox, state.getMouse());
+		
+		hbox.setBehavior(seek);
 		
 		hbox.setMaxLinearSpeed(maxLinSpd);
 		hbox.setMaxLinearAcceleration(maxLinAcc);

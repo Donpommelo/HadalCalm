@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -37,13 +36,7 @@ public class SteeringEnemy extends Enemy {
 		this.bodyData = new BodyData(this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 1, 0f, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
-				Constants.ENEMY_HITBOX, false, bodyData);	
-		
-		Arrive<Vector2> arriveSB = new Arrive<Vector2>(this, state.getPlayer())
-				.setArrivalTolerance(2f)
-				.setDecelerationRadius(decelerationRad);
-		
-		this.setBehavior(arriveSB);
+				Constants.ENEMY_HITBOX, false, bodyData);
 	}
 	
 	@Override

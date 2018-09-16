@@ -391,6 +391,14 @@ public class TiledObjectUtil {
 					object.getProperties().get("pool", "", String.class));
     	}
     	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Artifact")) {
+    		p = new ArtifactPickup(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("pool", "", String.class));
+    	}
+    	
     	if (p != null) {
         	p.generateParts();
     	}

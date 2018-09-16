@@ -6,9 +6,9 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
-public class HitboxOnHitDieStrategy extends HitboxStrategy{
+public class HitboxOnContactUnitDieStrategy extends HitboxStrategy{
 	
-	public HitboxOnHitDieStrategy(PlayState state, Hitbox proj, BodyData user) {
+	public HitboxOnContactUnitDieStrategy(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 	}
 	

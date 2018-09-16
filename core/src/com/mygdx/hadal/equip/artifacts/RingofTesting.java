@@ -2,8 +2,6 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxBouncyStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxRemoveStrategyStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -31,8 +29,6 @@ public class RingofTesting extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HitboxRemoveStrategyStrategy(state, hbox, b, HitboxOnContactStandardStrategy.class));
-				hbox.addStrategy(new HitboxRemoveStrategyStrategy(state, hbox, b, HitboxOnContactDieStrategy.class));
 				hbox.addStrategy(new HitboxRemoveStrategyStrategy(state, hbox, b, HitboxOnContactWallDieStrategy.class));
 				hbox.addStrategy(new HitboxBouncyStrategy(state, hbox, b));
 				

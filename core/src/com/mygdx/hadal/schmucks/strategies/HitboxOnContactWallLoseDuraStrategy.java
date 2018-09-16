@@ -6,20 +6,18 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
-public class HitboxOnContactDieStrategy extends HitboxStrategy{
+public class HitboxOnContactWallLoseDuraStrategy extends HitboxStrategy{
 	
-	public HitboxOnContactDieStrategy(PlayState state, Hitbox proj, BodyData user) {
+	public HitboxOnContactWallLoseDuraStrategy(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
-			hbox.setDura(0);
+			hbox.setDura(hbox.getDura() - 1);
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			hbox.setDura(0);
-		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
-			hbox.setDura(0);
+			hbox.setDura(hbox.getDura() - 1);
 		}
 		if (hbox.getDura() <= 0 && hbox.isAlive()) {
 			hbox.die();

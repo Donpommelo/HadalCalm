@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
-import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -191,19 +190,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		this.startY = startY;
 	}
 	
-	/**
-	 * This is only used for steering entities.
-	 * @param delta
-	 */
-	
-	public void setTarget(HadalEntity target) {
-		Seek<Vector2> arriveSB = new Seek<Vector2>(this, target);
-	//			.setArrivalTolerance(2f)
-	//			.setDecelerationRadius(decelerationRad);
-		
-		this.setBehavior(arriveSB);
-	}
-	
 	public void applySteering(float delta) {
 		boolean anyAcceleration = false;
 		if (!steeringOutput.linear.isZero()) {
@@ -274,7 +260,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 
 	@Override
 	public void setOrientation(float orientation) {
-		// TODO Auto-generated method stub
+		body.setTransform(body.getPosition(), orientation);
 	}
 
 	@Override

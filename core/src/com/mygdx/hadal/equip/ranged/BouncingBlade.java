@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactLoseDuraStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallLoseDuraStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.HitboxFactory;
@@ -47,7 +47,7 @@ public class BouncingBlade extends RangedWeapon {
 					filter, false, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactLoseDuraStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallLoseDuraStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));	
 		}
 	};

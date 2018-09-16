@@ -18,8 +18,8 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxHomingStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnHitDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -58,7 +58,7 @@ public class WeaponUtils {
 				filter, false, procEffects, user, "grenade");
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
@@ -74,7 +74,8 @@ public class WeaponUtils {
 				filter, true, procEffects, user, "torpedo");
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
@@ -103,7 +104,8 @@ public class WeaponUtils {
 			Hitbox hbox = new HitboxImage(state, x, y, torpedoWidth, torpedoHeight, 0, torpedoLifespan, 1, 0, startVelocity.setAngle(newDegrees),
 					filter, true, procEffects, user, "torpedo");
 			
-			hbox.addStrategy(new HitboxOnContactDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, torpedoExplosionRadius, torpedoExplosionDamage, torpedoExplosionKnockback, filter));
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), filter));
@@ -159,7 +161,7 @@ public class WeaponUtils {
 				}
 			};
 			
-			hbox.addStrategy(new HitboxOnHitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, 
 					beeMaxAngSpd, beeMaxAngAcc, beeBoundingRad, beeDecelerationRadius, beeHomeRadius, filter));

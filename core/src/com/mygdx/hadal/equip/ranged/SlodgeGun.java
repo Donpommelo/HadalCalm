@@ -8,7 +8,8 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStandardStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -54,7 +55,8 @@ public class SlodgeGun extends RangedWeapon {
 					filter, true, true, user, projSpriteId);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactStandardStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				

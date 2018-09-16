@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -263,7 +264,8 @@ public class PlayState extends GameState {
 		
 		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
 		world.step(1 / 60f, 6, 2);
-
+		GdxAI.getTimepiece().update(1 / 60f);
+		
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity : removeList) {
 			entities.remove(entity);
