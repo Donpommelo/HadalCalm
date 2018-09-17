@@ -13,6 +13,12 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+/**
+ * The HubEvent is one of the events in the hub of the game that produces an extra ui for the player to manage
+ * stuff between rounds.
+ * @author Zachary Tu
+ *
+ */
 public class HubEvent extends Event {
 
 	protected Table tableInner, tableOuter;
@@ -65,6 +71,9 @@ public class HubEvent extends Event {
 				(short) 0, true, eventData);
 	}
 	
+	/**
+	 * This keeps track of whether the player is in front of the event or not.
+	 */
 	@Override
 	public void controller(float delta) {
 		if (open && eventData.getSchmucks().isEmpty()) {
@@ -77,6 +86,9 @@ public class HubEvent extends Event {
 		}
 	}
 	
+	/**
+	 * This is run when the player enters the event. Pull up an extra menu with options specified by the child.
+	 */
 	public void enter() {
 
 		tableInner.clear();
@@ -93,6 +105,9 @@ public class HubEvent extends Event {
 		
 	}
 	
+	/**
+	 * Player exits the event. Makes the ui slide out
+	 */
 	public void leave() {
 		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
 		mouseOut();
@@ -103,6 +118,11 @@ public class HubEvent extends Event {
 		}
 	}
 	
+	/**
+	 * This is triggered when the player mouses over a specific option in the ui.
+	 * It pulls up an extra menu with more information.
+	 * @param info: extra info.
+	 */
 	public void mouseIn(String info) {
 		
 		this.info = info;
@@ -113,6 +133,9 @@ public class HubEvent extends Event {
 		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH - optionsWidth - infoWidth, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
 	}
 	
+	/**
+	 * Mouse moves away from the menu making the extra menu slide away.
+	 */
 	public void mouseOut() {
 		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
 	}

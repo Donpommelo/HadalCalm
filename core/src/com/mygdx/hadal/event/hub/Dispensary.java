@@ -10,6 +10,13 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
+/**
+ * The Dispensary is a HubEvent that allows the player to change their active item.
+ * Selecting an item replaces currently held active item.
+ * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
+ * @author Zachary Tu
+ *
+ */
 public class Dispensary extends HubEvent {
 
 	private static final String name = "Dispensary";

@@ -5,7 +5,15 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * A QuestChanger TBA
+ * A QuestChanger event. This modifies a quest flag in the game's save file.
+ * 
+ * Triggered Behavior: When triggered, this event updates a quest flag.
+ * Triggering Behavior: N/A
+ *
+ * Fields:
+ * 
+ * quest: String id of quest changed.
+ * newVal: new value for the quest. Optional. Default: 0
  * 
  * @author Zachary Tu
  *

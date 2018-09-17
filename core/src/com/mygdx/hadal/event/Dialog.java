@@ -4,7 +4,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * A radio is a simple event that when activated will put up a test dialogue actor into the play stage
+ * A Dialog is a simple event that when activated will put up a test dialogue actor into the play stage
  * 
  * Triggered Behavior: When triggered, this event puts up a test dialogue actor into the play stage
  * Triggering Behavior: This event will trigger its connected event when its dialog is finished

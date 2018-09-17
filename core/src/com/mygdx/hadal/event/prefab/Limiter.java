@@ -4,9 +4,17 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * The Limiter is a prefab that is placed between triggerer and triggered to limit the number of times the trigger can activate
+ * @author Zachary Tu
+ *
+ */
 public class Limiter extends Prefabrication {
 
+	//Ids of triggered and triggering events
 	private String triggeredId, triggeringId;
+
+	//Number of times it can trigger
 	private int limit;
 	
 	public Limiter(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, int limit) {

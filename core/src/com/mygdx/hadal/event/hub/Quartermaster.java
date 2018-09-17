@@ -7,6 +7,11 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * The Armory is a HubEvent that allows the player to spend Scrap on unlocks.
+ * @author Zachary Tu
+ *
+ */
 public class Quartermaster extends HubEvent {
 
 	private static final String name = "Quartermaster";

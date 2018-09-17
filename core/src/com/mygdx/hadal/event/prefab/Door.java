@@ -4,10 +4,20 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * The Door is a wall that, when triggered, will move to a specified point.
+ * @author Zachary Tu
+ *
+ */
 public class Door extends Prefabrication {
 
+	//This is the speed that the wall will open at.
 	private float speed;
+	
+	//This is the triggering Id of the event that causes the door to open.
 	private String eventId;
+	
+	//The wall will move this amount in the x and y directions.
 	private int xDisplace, yDisplace;
 	
 	public Door(PlayState state, int width, int height, int x, int y, String eventId, float speed, int xDisplace, int yDisplace) {

@@ -4,6 +4,12 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * The ArtifactPickup is a prefab that (atm) simply contains an artifact pickup with a spawner sprite and does the alignments.
+ * Might add more to this later.
+ * @author Zachary Tu
+ *
+ */
 public class ArtifactPickup extends Prefabrication {
 
 	private String triggeredId, triggeringId;

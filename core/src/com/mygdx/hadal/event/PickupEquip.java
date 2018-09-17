@@ -28,9 +28,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Triggering Behavior: This event will trigger its connected event when picked up.
  * 
  * Fields:
+ * modPow: Int: number of mods to spawn with. Optional. Default: 0
  * pool: String, comma separated list of equipunlock enum names of all equips that could appear here.
  * 	if this is equal to "", return any weapon in the random pool.
- * startOn: boolean of whether the event starts on or off. Optiona;. Default: True.
  * 
  * @author Zachary Tu
  *

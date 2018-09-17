@@ -53,9 +53,7 @@ public class Dialogue {
 
 	public enum characterBusts {
 		
-		PELICAN_MASKED((TextureAtlas) HadalGame.assetManager.get(AssetList.PELICANATLAS.toString()), "pelican"),
-		
-		
+		PELICAN_MASKED((TextureAtlas) HadalGame.assetManager.get(AssetList.PELICANATLAS.toString()), "pelican"),		
 		;
 		
 		private TextureAtlas atlas;

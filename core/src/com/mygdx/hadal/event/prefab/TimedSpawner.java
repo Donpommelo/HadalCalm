@@ -4,9 +4,17 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * The TimedSpawner is a prefab consists of a spawner that, on a timer, spawns an fuel or health pickup.
+ * @author Zachary Tu
+ *
+ */
 public class TimedSpawner extends Prefabrication {
 
+	//How long does it take before the pickup spawns? How much fuel/hp does the pickup regenerate
 	private float interval, power;
+	
+	//0 = fuel. 1 = Hp
 	private int type;
 	
 	public TimedSpawner(PlayState state, int width, int height, int x, int y, float interval, int type, float power) {

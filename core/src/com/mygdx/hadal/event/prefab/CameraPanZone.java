@@ -4,10 +4,21 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * The CameraPanZone is an event that is drawn between two areas with different camera properties.
+ * Think of is at a horizontal or vertical wall that, when passed, makes the camera (un)lock and/or pan. 
+ * @author Zachary Tu
+ *
+ */
 public class CameraPanZone extends Prefabrication {
 
+	//Zoom percent of the left/lower, right/upper sections
 	private float zoom1, zoom2;
+	
+	//0 = Vertical  wall. 1 = Horizontal wall
 	private int align;
+	
+	//These are the eventIDs of the camera lock points for the left/lower, right/upper sections
 	private String point1, point2;
 	
 	public CameraPanZone(PlayState state, int width, int height, int x, int y, float zoom1, float zoom2, int align, String point1, String point2) {

@@ -9,6 +9,11 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * The Navigations is a HubEvent that allows the player to begin a level.
+ * @author Zachary Tu
+ *
+ */
 public class Navigations extends HubEvent {
 
 	private static final String title = "SELECT LEVEL";

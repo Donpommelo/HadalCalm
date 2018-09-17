@@ -6,7 +6,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * 
+ * An active item is an item displayed in the lower right corner. They can be used with thte spacebar and have a cooldown.
  * @author Zachary Tu
  *
  */
@@ -17,9 +17,8 @@ public class ActiveItem extends Equipable {
 	
 	protected float currentCharge, maxCharge;
 	
-	private chargeStyle style;
-	
-	
+	//This indicates whether the active charges over time or by inflicting damage (or potentially, other)
+	private chargeStyle style;	
 	
 	public ActiveItem(Schmuck user, String name, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
 		super(user, name, usecd, usedelay);
@@ -52,8 +51,8 @@ public class ActiveItem extends Equipable {
 	}
 	
 	/**
-	 * This is run after the weapon's swingDelay to actually swing.
-	 * Here, the stored velo, recoil, filter are used to generate a melee hitbox
+	 * This is run after the weapon's useDelay to actually use it.
+	 * Here, the stored properties are used to use the item
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
@@ -64,10 +63,19 @@ public class ActiveItem extends Equipable {
 
 	}
 	
+	/**
+	 * This uses the item. Overridden in each active item.
+	 * @param state: Playstate
+	 * @param shooter: the user of the item
+	 */
 	public void useItem(PlayState state, PlayerBodyData shooter) {
 		
 	}
 	
+	/**
+	 * This is used when the active item charges
+	 * @param charge: The amount of charge that the item gains.
+	 */
 	public void gainCharge(float charge) {
 		currentCharge += (charge * (1 + user.getBodyData().getActiveItemChargeRate()));
 		if (currentCharge > getMaxCharge()) {
@@ -106,13 +114,12 @@ public class ActiveItem extends Equipable {
 	 */
 	@Override
 	public String getText() {
-		return "";
+		return name;
 	}
 
 	public float getCurrentCharge() {
 		return currentCharge;
 	}
-
 
 	public void setCurrentCharge(float currentCharge) {
 		this.currentCharge = currentCharge;
@@ -125,7 +132,6 @@ public class ActiveItem extends Equipable {
 	public chargeStyle getStyle() {
 		return style;
 	}
-
 
 	public void setStyle(chargeStyle style) {
 		this.style = style;

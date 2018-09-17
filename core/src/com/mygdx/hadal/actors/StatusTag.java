@@ -13,6 +13,11 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.statuses.Status;
 
+/**
+ * A Status tag is a ui element that corresponds to a single visible status in the player's status bar.
+ * @author Zachary Tu
+ *
+ */
 public class StatusTag extends AHadalActor {
 
 	private Status status;

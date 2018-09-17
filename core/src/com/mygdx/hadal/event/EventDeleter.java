@@ -4,7 +4,13 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * An event deleter TBA
+ * An EventDeleter. This Event will delete a specified event. very straightforwards.
+ * 
+ * Triggered Behavior: When triggered, this eventwill perform the deletion.
+ * Triggering Behavior: The connected event is the one who will be deleted.
+ *  
+ * Fields: N/A
+ * 
  * @author Zachary Tu
  *
  */

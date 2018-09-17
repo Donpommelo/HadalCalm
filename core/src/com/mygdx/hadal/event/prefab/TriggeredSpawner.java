@@ -4,10 +4,20 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+/**
+ * This is like a TimedSpawner, except you can specify the trigger to be an event outside of the prefab.
+ * @author Zachary Tu
+ *
+ */
 public class TriggeredSpawner extends Prefabrication {
 
+	//The id of the event that triggers this
 	private String triggeredId;
+	
+	//How long does it take before the pickup spawns? How much fuel/hp does the pickup regenerate
 	private float power;
+		
+		//0 = fuel. 1 = Hp
 	private int type;
 	
 	public TriggeredSpawner(PlayState state, int width, int height, int x, int y, String triggeredId, int type, float power) {

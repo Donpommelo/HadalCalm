@@ -5,7 +5,14 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * An objective changes an e oushfairslhgalriu tba
+ * An ObjectiveChanger creates an extra ui element that can track the location of an off-screen event and shows the
+ * player the direction to it in the perimeter of the screen.
+ * 
+ * Triggered Behavior: When triggered, this event makes the objective ui track the connected event.
+ * Triggering Behavior: N/A. However, it uses its connected event as a point to make the ui element track
+ * 
+ * TODO: Probably need to make tracking toggleable before this is fully functional
+ * Fields: N/A
  * 
  * @author Zachary Tu
  *

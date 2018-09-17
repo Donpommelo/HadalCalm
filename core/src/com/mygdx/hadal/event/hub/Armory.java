@@ -10,6 +10,13 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
+/**
+ * The Armory is a HubEvent that allows the player to change their equiped weapons.
+ * Selecting a weapon replaces currently held weapon.
+ * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
+ * @author Zachary Tu
+ *
+ */
 public class Armory extends HubEvent {
 
 	private static final String name = "Armory";
@@ -19,6 +26,7 @@ public class Armory extends HubEvent {
 		super(state, name, width, height, x, y, title);
 	}
 	
+	@Override
 	public void enter() {
 
 		super.enter();

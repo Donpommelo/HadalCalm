@@ -13,7 +13,16 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * TODO
+ * This event, when interacted with, will give the player a new weapon mod for their currently held weapon.
+ * 
+ * Triggered Behavior: When triggered, this event is toggled on/off to unlock/lock pickup
+ * Triggering Behavior: This event will trigger its connected event when picked up.
+ * 
+ * Fields:
+ * pool: String, comma separated list of equipunlock enum names of all items that could appear here.
+ * 	if this is equal to "", return any weapon mod in the random pool.
+ * startOn: boolean of whether the event starts on or off. Optiona;. Default: True.
+ * 
  * @author Zachary Tu
  *
  */

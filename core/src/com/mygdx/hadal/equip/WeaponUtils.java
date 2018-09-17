@@ -24,6 +24,12 @@ import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
+/**
+ * This util contains several shortcuts for hitbox-spawning effects for weapons or other items.
+ * Includes create explosion, missiles, homing missiles, grenades and bees.
+ * @author Zachary Tu
+ *
+ */
 public class WeaponUtils {
 
 	private static final float selfDamageReduction = 0.4f;
