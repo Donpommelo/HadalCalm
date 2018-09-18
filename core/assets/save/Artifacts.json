@@ -1,4 +1,14 @@
 {
+EIGHT_BALL: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: "8-Ball"
+	description: "Large and slow projectiles."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 ANARCHISTS_COOKBOOK: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook
@@ -23,6 +33,16 @@ BLOODWOODS_GLOVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bloodwood's Glove
 	description: "Slower Reload and Fire Speed. Lower Active Cooldowns"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+BUCKET_OF_BATTERIES: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Bucket of Batteries
+	description: "Projectiles chain to nearby enemies."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -199,6 +219,16 @@ HORNS_OF_AMMON: {
 		RANDOM_POOL,
 	]
 }
+INFORMANTS_TIE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name:Informant's Tie
+	description: "Projectiles Home."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 LOAMSKIN_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Loamskin Talisman
@@ -223,6 +253,16 @@ MASK_OF_SYMPATHY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Mask of Sympathy
 	description: "Reflects Damage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+MATTER_UNIVERSALIZER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Matter Universalizer
+	description: "Inflicting damage restores Fuel."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -328,7 +368,7 @@ RING_OF_TESTING: {
 RING_OF_THE_LAMPREY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Ring of the Lamprey
-	description: "-20 Hp. Lifesteal."
+	description: "Lifesteal."
 	unlocked: true
 	tags: [
 		RELIQUARY,

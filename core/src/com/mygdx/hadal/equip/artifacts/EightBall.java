@@ -6,21 +6,24 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 
-public class SwordofSyzygy extends Artifact {
+public class EightBall extends Artifact {
 
-	private final static String name = "Sword of Syzygy";
-	private final static String descr = "+3 Projectile Pierce";
+	private final static String name = "8-Ball";
+	private final static String descr = "Large and slow projectiles";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public SwordofSyzygy() {
+	public EightBall() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 34, 5.0f, b));
+				new StatChangeStatus(state, 30, -0.5f, b),
+				new StatChangeStatus(state, 31, 1.5f, b),
+				new StatChangeStatus(state, 33, 0.5f, b),
+				new StatChangeStatus(state, 27, -2.0f, b));
 		return enchantment;
 	}
 }

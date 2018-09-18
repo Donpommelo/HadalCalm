@@ -7,10 +7,10 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * A Use Portal is a portal that transports the player elsewhere when they interact with it.
+ * A PlayerMover is an event that transports the player elsewhere when they it is activated.
  * The event they are transported to does not have to be a portal.
  * 
- * Triggered Behavior: N/A
+ * Triggered Behavior: This triggers moving the player
  * Triggering Behavior: This event's connected event serves as the point that schmucks will be teleported to
  * 
  * Fields:
@@ -48,11 +48,13 @@ public class PlayerMover extends Event {
 	@Override
 	public void controller(float delta) {
 		if (moving) {
-			moving = false;
-			state.getPlayer().getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
-			
-			if (getConnectedEvent().getStandardParticle() != null) {
-				getConnectedEvent().getStandardParticle().onForBurst(1.0f);
+			if (getConnectedEvent().getBody() != null) {
+				moving = false;
+				state.getPlayer().getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
+				
+				if (getConnectedEvent().getStandardParticle() != null) {
+					getConnectedEvent().getStandardParticle().onForBurst(1.0f);
+				}
 			}
 		}
 	}

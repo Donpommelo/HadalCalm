@@ -23,8 +23,7 @@ public class Slodged extends Status {
 	
 	@Override
 	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-		damage *= amp;
-		return damage;
+		return damage * amp;
 	}
 
 }

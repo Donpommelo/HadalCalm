@@ -255,10 +255,6 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Save")) {
 			e = new SavePoint(state);
 		}
-		if (object.getName().equals("Pit")) {
-			e = new Pit(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
-		}
 		if (object.getName().equals("Text")) {
 			e = new Text(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 

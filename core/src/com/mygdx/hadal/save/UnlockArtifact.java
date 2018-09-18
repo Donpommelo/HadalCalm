@@ -9,9 +9,11 @@ import com.mygdx.hadal.equip.artifacts.*;
 
 public enum UnlockArtifact {
 	
+	EIGHT_BALL(EightBall.class),
 	ANARCHISTS_COOKBOOK(AnarchistsCookbook.class),
 	ANCHOR_TALISMAN(AnchorTalisman.class),
 	BLOODWOODS_GLOVE(BloodwoodsGlove.class),
+	BUCKET_OF_BATTERIES(BucketofBatteries.class),
 	CALL_OF_THE_VOID(CalloftheVoid.class),
 	CLAWS_OF_FESTUS(ClawsofFestus.class),
 	CONFIDENCE(Confidence.class),
@@ -29,9 +31,11 @@ public enum UnlockArtifact {
 	GOMEZS_AMYGDALA(GomezsAmygdala.class),
 	GOOD_HEALTH(GoodHealth.class),
 	HORNS_OF_AMMON(HornsofAmmon.class),
+	INFORMANTS_TIE(InformantsTie.class),
 	LOAMSKIN_TALISMAN(LoamskinTalisman.class),
 	MANGROVE_TALISMAN(MangroveTalisman.class),
 	MASK_OF_SYMPATHY(MaskofSympathy.class),
+	MATTER_UNIVERSALIZER(MatterUniversalizer.class),
 	MOON_FLUTHER(MoonFluther.class),
 	MOUTHBREATHER_TALISMAN(MouthbreatherTalisman.class),
 	NICE_SHOES(NiceShoes.class),
