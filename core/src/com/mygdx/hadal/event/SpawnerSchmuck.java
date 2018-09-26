@@ -42,14 +42,17 @@ public class SpawnerSchmuck extends Event {
 
 	private boolean defeated = false;
 	private boolean spread;
+	private int extraField;
 	
-	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, Boolean spread) {
+	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, 
+			Boolean spread, int extraField) {
 		super(state, name, width, height, x, y);
 		this.id = schmuckId;
 		this.limit = limit;
 		this.spawnX = x;
 		this.spawnY = y;
 		this.spread = spread;
+		this.extraField = extraField;
 		this.spawns = new ArrayList<Schmuck>();
 	}
 	
@@ -89,10 +92,10 @@ public class SpawnerSchmuck extends Event {
 							spawns.add(new Torpedofish(state, randX, randY));
 							break;
 						case 5:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "flak"));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "flak", extraField));
 							break;
 						case 6:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "volley"));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "volley", extraField));
 							break;
 							
 						}

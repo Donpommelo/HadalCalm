@@ -120,4 +120,7 @@ public class MovingPlatform extends Event {
 		}
 	}
 
+	public ArrayList<Event> getConnected() {
+		return connected;
+	}
 }

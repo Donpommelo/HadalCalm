@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="2">
+ <tileset firstgid="1" source="main.tsx"/>
+ <layer name="Tile Layer 1" width="80" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt0DEKwzAQRUFD0iRN7n/b4DaoeziyxAz8etl3HAAAwI4+N9mqZnfbsd/j4u3c7/WHm8/B3VXp1+jX6Nfo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+jX6Nfo1+jX6Nfo1/z+ce598UY3VzX6ZcZWNbvb6v0AuI8vUIQUwQ==
+  </data>
+ </layer>
+ <objectgroup name="collision-layer">
+  <object id="1" x="1536" y="384">
+   <polyline points="0,0 0,640 768,640 768,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="event-layer"/>
+</map>

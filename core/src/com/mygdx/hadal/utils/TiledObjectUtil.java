@@ -157,7 +157,8 @@ public class TiledObjectUtil {
 			e = new SpawnerSchmuck(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("enemyId", int.class), object.getProperties().get("amount", 1, int.class), 
-					object.getProperties().get("spread", true, boolean.class));	
+					object.getProperties().get("spread", true, boolean.class),
+					object.getProperties().get("extra", 0, int.class));	
 		}
 		
 		if (object.getName().equals("EventClone")) {

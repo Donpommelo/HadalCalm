@@ -236,6 +236,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" type="int" value="5"/>
+    <property name="extra" type="int" value="180"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="turret2"/>
    </properties>
@@ -244,6 +245,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" type="int" value="5"/>
+    <property name="extra" type="int" value="180"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="turret3"/>
    </properties>
@@ -252,6 +254,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" type="int" value="5"/>
+    <property name="extra" type="int" value="180"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="turret1"/>
    </properties>

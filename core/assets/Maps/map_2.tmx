@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="208">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="210">
  <properties>
   <property name="triggeredId" value="win"/>
  </properties>
@@ -93,6 +93,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="enemyId" type="int" value="5"/>
+    <property name="extra" type="int" value="180"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="turret1"/>
    </properties>
@@ -461,7 +462,6 @@
     <property name="Damage" type="float" value="1"/>
    </properties>
   </object>
-  <object id="136" name="Start" type="Start" x="4672" y="1056" width="32" height="32"/>
   <object id="137" name="Sensor" type="Sensor" x="6816" y="6624" width="32" height="32">
    <properties>
     <property name="triggeringId" value="winLimiter"/>
@@ -708,5 +708,6 @@
     <property name="triggeredId" value="playerDie"/>
    </properties>
   </object>
+  <object id="209" name="Start" type="Start" x="4640" y="1056" width="32" height="32"/>
  </objectgroup>
 </map>

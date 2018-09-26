@@ -36,6 +36,7 @@ public class Turret extends Enemy {
 	    
 	private float angle;
 	private float desiredAngle;
+	private float startAngle;
 	
 	private float shortestFraction;
 	private Fixture closestFixture;
@@ -57,10 +58,11 @@ public class Turret extends Enemy {
 	
 	private static final float scale = 0.5f;
 	
-	public Turret(PlayState state, int x, int y, String type) {
+	public Turret(PlayState state, int x, int y, String type, int startAngle) {
 		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2));		
 		this.angle = 0;
-		this.desiredAngle = 0;
+		this.startAngle = startAngle;
+		this.desiredAngle = startAngle;
 		
 		this.weapon = new TurretAttack(this);
 		
@@ -95,14 +97,26 @@ public class Turret extends Enemy {
 		
 		increaseAnimationTime(delta);
 
+		
+		angle = angle + (desiredAngle - angle) * 0.05f;
+		
 		switch(aiState) {
 			case NOTSHOOTING:
-				angle = desiredAngle;
+				desiredAngle = startAngle;
 				break;
 			case SHOOTING:
-				angle =  (float)(Math.atan2(
+				
+				desiredAngle =  (float)(Math.atan2(
 						state.getPlayer().getBody().getPosition().y - body.getPosition().y ,
 						state.getPlayer().getBody().getPosition().x - body.getPosition().x) * 180 / Math.PI);
+
+				if (desiredAngle < 0) {
+					if (desiredAngle < -90) {
+						desiredAngle = 180;
+					} else {
+						desiredAngle = 0;
+					}
+				}
 				
 				Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
 				camera.project(target);
@@ -187,10 +201,10 @@ public class Turret extends Enemy {
 			rotationYReal = height - rotationY;
 		}
 		
-		if(aiState == turretState.NOTSHOOTING) {
+		if(aiState == turretState.NOTSHOOTING || weapon.isReloading()) {
 			batch.draw(turretBarrel, 
 					body.getPosition().x * PPM - hbWidth * scale / 2, 
-					(flip ? height * scale : 0) + body.getPosition().y * PPM - hbHeight * scale / 2, 
+					(flip ? height * scale - 12 : 0) + body.getPosition().y * PPM - hbHeight * scale / 2, 
 					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
 					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
 		} else {

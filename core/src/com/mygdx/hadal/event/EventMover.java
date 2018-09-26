@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -64,7 +65,15 @@ public class EventMover extends Event {
 			if (gravity != -1) {
 				getConnectedEvent().getBody().setGravityScale(gravity);
 			}
+			
+			Vector2 dist = new Vector2(getBody().getPosition().sub(getConnectedEvent().getBody().getPosition()));
 			getConnectedEvent().getBody().setTransform(getBody().getPosition(), 0);
+			
+			if (getConnectedEvent() instanceof MovingPlatform) {
+				for (Event connect : ((MovingPlatform)getConnectedEvent()).getConnected()) {
+					connect.getBody().setTransform(connect.getBody().getPosition().add(dist), 0);
+				}
+			}
 			
 			if (standardParticle != null) {
 				standardParticle.onForBurst(1.0f);
