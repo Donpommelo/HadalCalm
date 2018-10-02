@@ -55,7 +55,7 @@ energy_icon
   index: -1
 glow_a
   rotate: false
-  xy: 405, 26
+  xy: 459, 72
   size: 25, 26
   orig: 25, 26
   offset: 0, 0
