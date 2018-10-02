@@ -162,7 +162,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		
-		hoverBubbles = new ParticleEntity(state, this, AssetList.BUBBLE_TRAIL.toString(), 0.0f, 0.0f, false);
+		hoverBubbles = new ParticleEntity(state, this, "BUBBLE_TRAIL", 0.0f, 0.0f, false);
 		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
 		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
 		/*

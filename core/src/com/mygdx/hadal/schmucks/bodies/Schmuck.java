@@ -70,7 +70,7 @@ public class Schmuck extends HadalEntity {
 		super(state, w, h, startX, startY);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
-		impact = new ParticleEntity(state, this, AssetList.IMPACT.toString(), 1.0f, 0.0f, false);
+		impact = new ParticleEntity(state, this, "IMPACT", 1.0f, 0.0f, false);
 	}
 
 	/**

@@ -57,6 +57,8 @@ public enum AssetList {
 	EVENT_HOLO("sprites/particle/event_holo.particle", null),
 	PICKUP_ENERGY("sprites/particle/energy_pickup.particle", null),
 	PICKUP_HEALTH("sprites/particle/health_pickup.particle", null),
+	MOMENTUM("sprites/particle/momentum_freeze.particle", null),
+	PORTAL("sprites/particle/portal.particle", null),
 	
 	
 	

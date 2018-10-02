@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -51,7 +50,7 @@ public class Poison extends Event {
 		randomParticles = width > 100;
 		
 		if (!randomParticles && draw) {
-			new ParticleEntity(state, this, AssetList.POISON.toString(), 0, 0, on);
+			new ParticleEntity(state, this, "POISON", 0, 0, on);
 		}
 	}
 	
@@ -70,7 +69,7 @@ public class Poison extends Event {
 		randomParticles = width > 100;
 		
 		if (!randomParticles && draw) {
-			new ParticleEntity(state, this, AssetList.POISON.toString(), 1.5f, 0, on);
+			new ParticleEntity(state, this, "POISON", 1.5f, 0, on);
 		}
 	}
 	
@@ -110,7 +109,7 @@ public class Poison extends Event {
 					currPoisonSpawnTimer -= spawnTimerLimit;
 					int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
 					int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
-					new ParticleEntity(state, randX, randY, AssetList.POISON.toString(), 1.5f, true);
+					new ParticleEntity(state, randX, randY, "POISON", 1.5f, true);
 				}
 			}
 		}

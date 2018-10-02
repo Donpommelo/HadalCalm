@@ -30,7 +30,7 @@ public class WeaponPickup extends Prefabrication {
 		weapon.getRectangle().set(x, y, width, height);
 		weapon.setName("Equip");
 		weapon.getProperties().put("align", 2);
-		weapon.getProperties().put("particle_amb", "event_holo");
+		weapon.getProperties().put("particle_amb", "EVENT_HOLO");
 		weapon.getProperties().put("triggeredId", triggeredId);
 		weapon.getProperties().put("triggeringId", triggeringId);
 		weapon.getProperties().put("mods", mods);

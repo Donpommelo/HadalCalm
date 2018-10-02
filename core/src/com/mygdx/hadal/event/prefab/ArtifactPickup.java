@@ -29,7 +29,7 @@ public class ArtifactPickup extends Prefabrication {
 		artifact.setName("Artifact");
 		artifact.getProperties().put("align", 2);
 		artifact.getProperties().put("sprite", "event_cube");
-		artifact.getProperties().put("particle_amb", "event_holo");
+		artifact.getProperties().put("particle_amb", "EVENT_HOLO");
 		artifact.getProperties().put("triggeredId", triggeredId);
 		artifact.getProperties().put("triggeringId", triggeringId);
 		artifact.getProperties().put("pool", pool);

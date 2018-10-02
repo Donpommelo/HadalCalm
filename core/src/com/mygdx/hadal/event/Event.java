@@ -186,7 +186,7 @@ public class Event extends HadalEntity {
 	
 	public void setStandardParticle(String particle) {
 		this.standardParticle = 
-				new ParticleEntity(state, this, "sprites/particle/" + particle + ".particle", 0, 0, false);
+				new ParticleEntity(state, this, particle, 0, 0, false);
 	}
 
 	public ParticleEntity getStandardParticle() {
@@ -194,7 +194,7 @@ public class Event extends HadalEntity {
 	}
 
 	public void addAmbientParticle(String particle) {
-		new ParticleEntity(state, this, "sprites/particle/" + particle + ".particle", 0, 0, true);	
+		new ParticleEntity(state, this, particle, 0, 0, true);	
 	}
 
 	@Override

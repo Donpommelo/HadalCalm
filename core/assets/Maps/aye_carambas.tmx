@@ -80,14 +80,14 @@
   </object>
   <object id="23" name="TouchPortal" type="TouchPortal" x="512" y="3456" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="PORTAL"/>
     <property name="triggeredId" value="portal1"/>
     <property name="triggeringId" value="portal2"/>
    </properties>
   </object>
   <object id="24" name="TouchPortal" type="TouchPortal" x="1152" y="3456" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="PORTAL"/>
     <property name="triggeredId" value="portal2"/>
     <property name="triggeringId" value="portal1"/>
    </properties>

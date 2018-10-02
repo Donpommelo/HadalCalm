@@ -41,7 +41,7 @@ public class TriggeredSpawner extends Prefabrication {
 		spawner.getRectangle().set(x, y, width, height);
 		spawner.setName("EventMove");
 		spawner.getProperties().put("align", 2);
-		spawner.getProperties().put("particle_std", "event_holo");
+		spawner.getProperties().put("particle_std", "EVENT_HOLO");
 		spawner.getProperties().put("scale", 0.25f);
 		spawner.getProperties().put("sprite", "event_base");
 		spawner.getProperties().put("triggeredId", spawnerId);
@@ -83,7 +83,7 @@ public class TriggeredSpawner extends Prefabrication {
 		
 		RectangleMapObject effectParticle = new RectangleMapObject();
 		effectParticle.setName("Particle");
-		effectParticle.getProperties().put("particle", "event_holo");
+		effectParticle.getProperties().put("particle", "EVENT_HOLO");
 		effectParticle.getProperties().put("triggeredId", effectParticleId);
 		effectParticle.getProperties().put("triggeringId", spawnerId);
 
@@ -91,12 +91,12 @@ public class TriggeredSpawner extends Prefabrication {
 		case 0:
 			pickup.getProperties().put("sprite", "event_fuel");
 			effect.getProperties().put("fuel", power);
-			pickupParticle.getProperties().put("particle", "energy_pickup");
+			pickupParticle.getProperties().put("particle", "PICKUP_ENERGY");
 			break;
 		case 1:
 			pickup.getProperties().put("sprite", "event_health");
 			effect.getProperties().put("hp", power);
-			pickupParticle.getProperties().put("particle", "health_pickup");
+			pickupParticle.getProperties().put("particle", "PICKUP_HEALTH");
 			break;
 		}
 		

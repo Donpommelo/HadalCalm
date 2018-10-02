@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -85,7 +84,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
-		new ParticleEntity(state, hbox, AssetList.BUBBLE_TRAIL.toString(), 3.0f, 0.0f, true);
+		new ParticleEntity(state, hbox, "BUBBLE_TRAIL", 3.0f, 0.0f, true);
 		
 		return hbox;
 	}

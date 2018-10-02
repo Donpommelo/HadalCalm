@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.strategies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.mygdx.hadal.event.Poison;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -28,7 +27,7 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy{
 		
 		this.poisonCdCount = 0;
 		
-		new ParticleEntity(state, hbox, AssetList.POISON.toString(), 1.5f, 0, true);
+		new ParticleEntity(state, hbox, "POISON", 1.5f, 0, true);
 	}
 	
 	@Override

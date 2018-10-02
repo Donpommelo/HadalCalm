@@ -17,9 +17,9 @@ public class HitboxOnContactWallSparks extends HitboxStrategy{
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
-			new ParticleEntity(state, hbox, AssetList.SPARK_TRAIL.toString(), 1.0f, 0, true);
+			new ParticleEntity(state, hbox, "SPARK_TRAIL", 1.0f, 0, true);
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			new ParticleEntity(state, hbox, AssetList.SPARK_TRAIL.toString(), 1.0f, 0, true);
+			new ParticleEntity(state, hbox, "SPARK_TRAIL", 1.0f, 0, true);
 		}
 	}
 }

@@ -36,7 +36,7 @@ public class ParticleCreator extends Event {
 		this.duration = duration;
 		this.on = startOn;
 		
-		particles = new ParticleEntity(state, state.getPlayer(), "sprites/particle/" + particle + ".particle", 2.0f, 0.0f, on);
+		particles = new ParticleEntity(state, state.getPlayer(), particle, 2.0f, 0.0f, on);
 	}
 	
 	@Override
