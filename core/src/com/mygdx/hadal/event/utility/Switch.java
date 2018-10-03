@@ -33,6 +33,7 @@ public class Switch extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
+				
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().getEventData().onActivate(this);
 					

@@ -23,6 +23,6 @@ equips: [
 	SPEARGUN
 ]
 artifact: ANCHOR_TALISMAN
-active: HONEYCOMB
+active: HYDRAULIC_UPPERCUT
 character: TELEMACHUS
 }

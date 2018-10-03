@@ -236,7 +236,16 @@ public class Event extends HadalEntity {
 	}
 
 	public void setEventSprite(String sprite) {
-		this.eventSprite = new Animation<TextureRegion>(0.08f, atlasEvent.findRegions(sprite));
+		setEventSprite(sprite, false, 0);
+	}
+	
+	public void setEventSprite(String sprite, boolean still, int frame) {
+		
+		if (still) {
+			this.eventSprite = new Animation<TextureRegion>(0.08f, atlasEvent.findRegions(sprite).get(frame));
+		} else {
+			this.eventSprite = new Animation<TextureRegion>(0.08f, atlasEvent.findRegions(sprite));
+		}
 		this.spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
 		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}

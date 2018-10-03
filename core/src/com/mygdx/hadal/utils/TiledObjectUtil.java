@@ -173,6 +173,13 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("gravityChange", -1.0f, float.class));	
 		}
+		if (object.getName().equals("SpriteChange")) {
+			e = new SpriteChanger(state, object.getProperties().get("newSprite", String.class),
+					object.getProperties().get("still", false, boolean.class),
+					object.getProperties().get("frame", 0, int.class),
+					object.getProperties().get("align", -1, int.class),
+					object.getProperties().get("scale", -1.0f, float.class));	
+		}
 		if (object.getName().equals("QuestChange")) {
 			e = new QuestChanger(state, 
 					object.getProperties().get("quest", String.class), 
@@ -305,7 +312,11 @@ public class TiledObjectUtil {
 			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), e);
 			
 			if (object.getProperties().get("sprite", String.class) != null) {
-				e.setEventSprite(object.getProperties().get("sprite", String.class));
+				if (object.getProperties().get("frame", int.class) != null) {
+					e.setEventSprite(object.getProperties().get("sprite", String.class), true, object.getProperties().get("frame", int.class));
+				} else {
+					e.setEventSprite(object.getProperties().get("sprite", String.class));
+				}
 			}
 			if (object.getProperties().get("scale", float.class) != null) {
 				e.setScale(object.getProperties().get("scale", float.class));
@@ -394,6 +405,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("pool", "", String.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivate")) {
+    		p = new LeverActivate(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeringId", "", String.class));
     	}
     	
     	if (p != null) {

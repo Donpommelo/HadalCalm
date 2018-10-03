@@ -73,6 +73,7 @@
   <object id="26" name="TouchPortal" type="TouchPortal" x="4224" y="2048" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="sprite" value="portal"/>
     <property name="triggeredId" value="portal2"/>
     <property name="triggeringId" value="portal1"/>
    </properties>
@@ -80,6 +81,7 @@
   <object id="27" name="TouchPortal" type="TouchPortal" x="4480" y="1888" width="96" height="96">
    <properties>
     <property name="particle_amb" value="PORTAL"/>
+    <property name="sprite" value="portal"/>
     <property name="triggeredId" value="portal1"/>
     <property name="triggeringId" value="portal2"/>
    </properties>

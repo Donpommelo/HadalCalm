@@ -27,7 +27,7 @@ bang_c
   index: -1
 bubble
   rotate: false
-  xy: 324, 16
+  xy: 366, 15
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
@@ -55,7 +55,7 @@ energy_icon
   index: -1
 glow_a
   rotate: false
-  xy: 459, 72
+  xy: 405, 26
   size: 25, 26
   orig: 25, 26
   offset: 0, 0
