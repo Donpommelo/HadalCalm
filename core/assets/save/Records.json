@@ -22,7 +22,7 @@ equips: [
 	MACHINEGUN
 	SPEARGUN
 ]
-artifact: ANCHOR_TALISMAN
+artifact: PEPPER
 active: HYDRAULIC_UPPERCUT
 character: TELEMACHUS
 }

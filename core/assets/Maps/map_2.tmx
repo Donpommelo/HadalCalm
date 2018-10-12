@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="210">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextobjectid="214">
  <properties>
   <property name="triggeredId" value="win"/>
  </properties>
@@ -50,12 +50,6 @@
   </object>
  </objectgroup>
  <objectgroup name="event-layer">
-  <object id="15" name="Switch" type="Switch" x="4096" y="1728" width="32" height="32">
-   <properties>
-    <property name="particle_std" value="MOMENTUM"/>
-    <property name="triggeringId" value="switch1"/>
-   </properties>
-  </object>
   <object id="18" name="Destr_Obj" type="Destr_Obj" x="3104" y="2240" width="32" height="128"/>
   <object id="19" name="Timer" type="Timer" x="2880" y="992" width="32" height="32">
    <properties>
@@ -150,11 +144,6 @@
     <property name="triggeredId" value="platform2"/>
    </properties>
   </object>
-  <object id="45" name="Switch" type="Switch" x="8192" y="2944" width="32" height="32">
-   <properties>
-    <property name="triggeringId" value="switch2"/>
-   </properties>
-  </object>
   <object id="46" name="Redirecttrigger" type="Redirecttrigger" x="8320" y="2944" width="32" height="32">
    <properties>
     <property name="blameId" value="platpoint2"/>
@@ -172,11 +161,6 @@
     <property name="connections" value="platsensor1"/>
     <property name="speed" type="float" value="4"/>
     <property name="triggeredId" value="platform3"/>
-   </properties>
-  </object>
-  <object id="49" name="Switch" type="Switch" x="8096" y="3328" width="32" height="32">
-   <properties>
-    <property name="triggeringId" value="switchLimiter1"/>
    </properties>
   </object>
   <object id="50" name="Redirecttrigger" type="Redirecttrigger" x="7872" y="3328" width="32" height="32">
@@ -712,5 +696,23 @@
    </properties>
   </object>
   <object id="209" name="Start" type="Start" x="4640" y="1056" width="32" height="32"/>
+  <object id="210" name="Prefab" type="Prefab" x="4064" y="1664" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivateOnce"/>
+    <property name="triggeringId" value="switch1"/>
+   </properties>
+  </object>
+  <object id="211" name="Prefab" type="Prefab" x="8160" y="2880" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivateOnce"/>
+    <property name="triggeringId" value="switch2"/>
+   </properties>
+  </object>
+  <object id="212" name="Prefab" type="Prefab" x="8064" y="3264" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivateOnce"/>
+    <property name="triggeringId" value="switchLimiter1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

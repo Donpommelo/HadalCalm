@@ -30,10 +30,10 @@ public class Timer extends Event {
 	
 	private static final String name = "Timer";
 
-	public Timer(PlayState state, float interval) {
+	public Timer(PlayState state, float interval, boolean startOn) {
 		super(state, name);
 		this.interval = interval;
-		this.on = true;
+		this.on = startOn;
 	}
 	
 	@Override

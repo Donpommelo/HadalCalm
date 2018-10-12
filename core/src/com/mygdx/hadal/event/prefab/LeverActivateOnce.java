@@ -5,15 +5,16 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
- * The LeverActivate is a lever that can be activated whenever. The base is always green and the lever animates when pulled.
+ * The LeverActivate is a lever that can be activated once. The base is always green and the lever animates when pulled.
+ * After pulling, the pase is red and the lever is still.
  * @author Zachary Tu
  *
  */
-public class LeverActivate extends Prefabrication {
+public class LeverActivateOnce extends Prefabrication {
 
 	private String triggeringId;
 	
-	public LeverActivate(PlayState state, int width, int height, int x, int y, String triggeringId) {
+	public LeverActivateOnce(PlayState state, int width, int height, int x, int y, String triggeringId) {
 		super(state, width, height, x , y);
 		this.triggeringId = triggeringId;
 	}
@@ -21,20 +22,23 @@ public class LeverActivate extends Prefabrication {
 	@Override
 	public void generateParts() {
 		
+		String baseId = TiledObjectUtil.getPrefabTriggerId();
 		String leverId = TiledObjectUtil.getPrefabTriggerId();
+		String condId = TiledObjectUtil.getPrefabTriggerId();
+		String altId = TiledObjectUtil.getPrefabTriggerId();
 		String multiId = TiledObjectUtil.getPrefabTriggerId();
 		String spriteId1 = TiledObjectUtil.getPrefabTriggerId();
 		String spriteId2 = TiledObjectUtil.getPrefabTriggerId();
+		String spriteId3 = TiledObjectUtil.getPrefabTriggerId();
 		String timerId = TiledObjectUtil.getPrefabTriggerId();
 		String resetId = TiledObjectUtil.getPrefabTriggerId();
-		String alt1Id = TiledObjectUtil.getPrefabTriggerId();
-		String alt2Id = TiledObjectUtil.getPrefabTriggerId();
-
+		
 		RectangleMapObject base = new RectangleMapObject();
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
 		base.getProperties().put("sprite", "lever_base_green");
-		
+		base.getProperties().put("triggeredId", baseId);
+
 		RectangleMapObject lever = new RectangleMapObject();
 		lever.getRectangle().set(x, y, width, height);
 		lever.setName("Switch");
@@ -43,12 +47,24 @@ public class LeverActivate extends Prefabrication {
 		lever.getProperties().put("frame", 0);
 		lever.getProperties().put("particle_std", "MOMENTUM");
 		lever.getProperties().put("triggeredId", leverId);
-		lever.getProperties().put("triggeringId", multiId);
+		lever.getProperties().put("triggeringId", condId);
+		
+		RectangleMapObject cond = new RectangleMapObject();
+		cond.setName("Condtrigger");
+		cond.getProperties().put("start", multiId);
+		cond.getProperties().put("triggeredId", condId);
+		cond.getProperties().put("triggeringId", multiId);
+		
+		RectangleMapObject alt = new RectangleMapObject();
+		alt.setName("Alttrigger");
+		alt.getProperties().put("message", "");
+		alt.getProperties().put("triggeredId", altId);
+		alt.getProperties().put("triggeringId", condId);
 		
 		RectangleMapObject use = new RectangleMapObject();
 		use.setName("Multitrigger");
 		use.getProperties().put("triggeredId", multiId);
-		use.getProperties().put("triggeringId", triggeringId+ ","+ spriteId1 + "," + alt2Id);
+		use.getProperties().put("triggeringId", triggeringId+ ","+ spriteId1 + "," + timerId + "," + altId);
 		
 		RectangleMapObject sprite1 = new RectangleMapObject();
 		sprite1.setName("SpriteChange");
@@ -61,8 +77,15 @@ public class LeverActivate extends Prefabrication {
 		sprite2.setName("SpriteChange");
 		sprite2.getProperties().put("newSprite", "lever");
 		sprite2.getProperties().put("still", true);
+		sprite2.getProperties().put("frame", 8);
 		sprite2.getProperties().put("triggeredId", spriteId2);
 		sprite2.getProperties().put("triggeringId", leverId);
+		
+		RectangleMapObject sprite3 = new RectangleMapObject();
+		sprite3.setName("SpriteChange");
+		sprite3.getProperties().put("newSprite", "lever_base_red");
+		sprite3.getProperties().put("triggeredId", spriteId3);
+		sprite3.getProperties().put("triggeringId", baseId);
 		
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
@@ -74,29 +97,18 @@ public class LeverActivate extends Prefabrication {
 		RectangleMapObject reset = new RectangleMapObject();
 		reset.setName("Multitrigger");
 		reset.getProperties().put("triggeredId", resetId);
-		reset.getProperties().put("triggeringId", alt1Id+ ","+ spriteId2);
+		reset.getProperties().put("triggeringId", spriteId3+ ","+ spriteId2);
 		
-		RectangleMapObject alt1 = new RectangleMapObject();
-		alt1.setName("Alttrigger");
-		alt1.getProperties().put("message", "off");
-		alt1.getProperties().put("triggeredId", alt1Id);
-		alt1.getProperties().put("triggeringId", timerId);
-		
-		RectangleMapObject alt2 = new RectangleMapObject();
-		alt2.setName("Alttrigger");
-		alt2.getProperties().put("message", "on");
-		alt2.getProperties().put("triggeredId", alt2Id);
-		alt2.getProperties().put("triggeringId", timerId);
-		
-		TiledObjectUtil.parseTiledEvent(state, lever);
 		TiledObjectUtil.parseTiledEvent(state, base);
+		TiledObjectUtil.parseTiledEvent(state, lever);
+		TiledObjectUtil.parseTiledEvent(state, cond);
+		TiledObjectUtil.parseTiledEvent(state, alt);
 		TiledObjectUtil.parseTiledEvent(state, use);
 		TiledObjectUtil.parseTiledEvent(state, sprite1);
 		TiledObjectUtil.parseTiledEvent(state, sprite2);
+		TiledObjectUtil.parseTiledEvent(state, sprite3);
 		TiledObjectUtil.parseTiledEvent(state, timer);
 		TiledObjectUtil.parseTiledEvent(state, reset);
-		TiledObjectUtil.parseTiledEvent(state, alt1);
-		TiledObjectUtil.parseTiledEvent(state, alt2);
 
 	}
 }

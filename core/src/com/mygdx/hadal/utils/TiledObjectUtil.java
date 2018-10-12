@@ -97,7 +97,8 @@ public class TiledObjectUtil {
 					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class));
 		}
 		if (object.getName().equals("Timer")) {
-			e = new Timer(state, object.getProperties().get("interval", float.class));
+			e = new Timer(state, object.getProperties().get("interval", float.class),
+					object.getProperties().get("startOn", true, boolean.class));
 		}
 		if (object.getName().equals("Counter")) {
 			e = new Counter(state, object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
@@ -409,6 +410,12 @@ public class TiledObjectUtil {
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivate")) {
     		p = new LeverActivate(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeringId", "", String.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivateOnce")) {
+    		p = new LeverActivateOnce(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeringId", "", String.class));
     	}

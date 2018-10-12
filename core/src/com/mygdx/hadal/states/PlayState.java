@@ -2,7 +2,7 @@ package com.mygdx.hadal.states;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
@@ -146,10 +146,10 @@ public class PlayState extends GameState {
 //		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities
-		removeList = new HashSet<HadalEntity>();
-		createList = new HashSet<HadalEntity>();
-		entities = new HashSet<HadalEntity>();
-		hitboxes = new HashSet<HadalEntity>();
+		removeList = new LinkedHashSet<HadalEntity>();
+		createList = new LinkedHashSet<HadalEntity>();
+		entities = new LinkedHashSet<HadalEntity>();
+		hitboxes = new LinkedHashSet<HadalEntity>();
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, 1, 1, -1000, -1000);
@@ -274,7 +274,7 @@ public class PlayState extends GameState {
 		}
 		removeList.clear();
 		
-		//All entities that are set to be added are added.
+		//All entities that are set to be added are added.		
 		for (HadalEntity entity : createList) {
 			if (entity instanceof Hitbox) {
 				hitboxes.add(entity);
