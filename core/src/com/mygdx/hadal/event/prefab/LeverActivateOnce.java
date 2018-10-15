@@ -37,6 +37,7 @@ public class LeverActivateOnce extends Prefabrication {
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
 		base.getProperties().put("sprite", "lever_base_green");
+		base.getProperties().put("particle_std", "MOMENTUM");
 		base.getProperties().put("triggeredId", baseId);
 
 		RectangleMapObject lever = new RectangleMapObject();
@@ -45,7 +46,6 @@ public class LeverActivateOnce extends Prefabrication {
 		lever.getProperties().put("sprite", "lever");
 		lever.getProperties().put("still", true);
 		lever.getProperties().put("frame", 0);
-		lever.getProperties().put("particle_std", "MOMENTUM");
 		lever.getProperties().put("triggeredId", leverId);
 		lever.getProperties().put("triggeringId", condId);
 		
@@ -64,7 +64,7 @@ public class LeverActivateOnce extends Prefabrication {
 		RectangleMapObject use = new RectangleMapObject();
 		use.setName("Multitrigger");
 		use.getProperties().put("triggeredId", multiId);
-		use.getProperties().put("triggeringId", triggeringId+ ","+ spriteId1 + "," + timerId + "," + altId);
+		use.getProperties().put("triggeringId", triggeringId+ ","+ spriteId1 + "," + timerId + "," + altId + "," + baseId);
 		
 		RectangleMapObject sprite1 = new RectangleMapObject();
 		sprite1.setName("SpriteChange");

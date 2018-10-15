@@ -19,10 +19,10 @@ flags: {
 }
 equips: [
 	TORPEDO_LAUNCHER
-	MACHINEGUN
+	BOUNCING_BLADE
 	SPEARGUN
 ]
-artifact: PEPPER
-active: HYDRAULIC_UPPERCUT
+artifact: MATTER_UNIVERSALIZER
+active: MELON
 character: TELEMACHUS
 }
