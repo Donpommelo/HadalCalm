@@ -37,6 +37,7 @@ public class TriggerRedirect extends Event {
 			
 			@Override
 			public void onActivate(EventData activator) {
+				
 				if (event.getConnectedEvent() != null && blame != null) {
 					event.getConnectedEvent().getEventData().onActivate(blame.getEventData());
 				}

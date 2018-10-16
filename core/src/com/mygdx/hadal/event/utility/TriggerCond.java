@@ -52,7 +52,6 @@ public class TriggerCond extends Event {
 					if (condition.equals("random")) {
 						Object[] values = triggered.values().toArray();
 						((Event)values[generator.nextInt(values.length)]).getEventData().onActivate(this);
-						
 					} else {
 						if (triggered.get(condition) != null) {
 							triggered.get(condition).getEventData().onActivate(this);

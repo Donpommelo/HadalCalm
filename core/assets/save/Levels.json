@@ -18,6 +18,15 @@ NASU: {
 		NAVIGATIONS,
 	]
 }
+DONT_FALL: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: DONT_FALL
+	description: "Don't Fall!"
+	unlocked: true
+	tags: [
+		NAVIGATIONS,
+	]
+}
 LEVEL_1: {
 	class: com.mygdx.hadal.save.InfoLevel
 	name: LEVEL_1

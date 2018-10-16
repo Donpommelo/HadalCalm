@@ -44,6 +44,10 @@ public class DestructableBlock extends Event {
 					Boolean procEffects, DamageTypes... tags) {
 				hp -= basedamage;
 				
+				if (standardParticle != null) {
+					standardParticle.onForBurst(1.0f);
+				}
+				
 				if (hp <= 0) {
 					event.queueDeletion();
 					
@@ -54,7 +58,7 @@ public class DestructableBlock extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 50, 0, false, true, Constants.BIT_WALL, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_WALL, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 	}

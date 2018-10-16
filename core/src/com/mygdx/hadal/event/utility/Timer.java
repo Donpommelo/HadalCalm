@@ -12,7 +12,6 @@ import com.mygdx.hadal.states.PlayState;
  * 
  * Fields:
  * interval: The time in seconds before this activates its connected event.
- * limit: The number of times this timer can trigger its connected event. If 0, then infinite. Optional. Default: 0
  * startOn: Does this timer start on or off? Optional. Default: true
  * @author Zachary Tu
  *

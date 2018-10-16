@@ -16,6 +16,7 @@ public enum UnlockLevel {
 	LEVEL_2("Maps/expanse.tmx"),
 	LEVEL_3("Maps/aye_carambas.tmx"),
 	NASU("Maps/nasu.tmx"),
+	DONT_FALL("Maps/DontFall.tmx"),
 	
 	;
 	private String map;

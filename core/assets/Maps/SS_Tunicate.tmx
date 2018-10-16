@@ -236,6 +236,7 @@
   <object id="52" name="Platform" type="Platform" x="2720" y="2912" width="224" height="32">
    <properties>
     <property name="connections" value="capsuleCeiling,capsuleRightWall,capsuleLeftWall"/>
+    <property name="pause" type="bool" value="true"/>
     <property name="speed" type="float" value="2.5"/>
     <property name="triggeredId" value="capsuleFloor"/>
    </properties>

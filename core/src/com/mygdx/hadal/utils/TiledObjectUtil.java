@@ -272,7 +272,8 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Platform")) {
 			e = new MovingPlatform(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("speed", 1.0f, float.class));
+					object.getProperties().get("speed", 1.0f, float.class),
+					object.getProperties().get("pause", false, boolean.class));
 			platformConnections.put((MovingPlatform)e, object.getProperties().get("connections", "", String.class));
 		}
 		

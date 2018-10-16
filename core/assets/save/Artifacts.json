@@ -2,7 +2,7 @@
 EIGHT_BALL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: "8-Ball"
-	description: "Large and slow projectiles."
+	description: "Large and Slow Projectiles."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -22,7 +22,7 @@ ANARCHISTS_COOKBOOK: {
 ANCHOR_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anchor Talisman
-	description: "Damage Reduction when grounded."
+	description: "Damage Reduction When Grounded."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -42,7 +42,7 @@ BLOODWOODS_GLOVE: {
 BUCKET_OF_BATTERIES: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bucket of Batteries
-	description: "Projectiles chain to nearby enemies."
+	description: "Projectiles Chain to Nearby Enemies."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -52,7 +52,7 @@ BUCKET_OF_BATTERIES: {
 CALL_OF_THE_VOID: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Call of the Void
-	description: "Deal and receive 40% more damage."
+	description: "Deal and Receive 40% More Damage."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -62,7 +62,7 @@ CALL_OF_THE_VOID: {
 CLAWS_OF_FESTUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Claws of Festus
-	description: "Enables wall-climbing."
+	description: "Enables Wall-Climbing."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -72,7 +72,7 @@ CLAWS_OF_FESTUS: {
 CONFIDENCE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Confidence
-	description: "+50% damage at Max Hp."
+	description: "+50% Damage at Max Hp."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -82,7 +82,7 @@ CONFIDENCE: {
 CROWN_OF_THORNS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Crown of Thorns
-	description: "Perform a melee attack upon reloading."
+	description: "Perform a Melee Attack After Reloading."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -92,7 +92,7 @@ CROWN_OF_THORNS: {
 CURSED_CILICE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Cursed Cilice
-	description: "Taking damage regenerates Fuel."
+	description: "Receiving Damage Regenerates Fuel."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -142,7 +142,7 @@ EMAUDELINES_PRISM: {
 FARADAYS_CAGE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Faraday's Cage
-	description: "Diverts incoming damage to Fuel."
+	description: "Diverts Incoming Damage to Fuel."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -162,7 +162,7 @@ FENS_CLIPPED_WINGS: {
 FORAGERS_HIVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Forager's Hive
-	description: "Releases bees when receiving damage."
+	description: "Receiving Damage Releases Bees."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -172,7 +172,7 @@ FORAGERS_HIVE: {
 FRACTURE_PLATE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Fracture Plate
-	description: "Blocks an instance of damage every 8 seconds."
+	description: "Blocks an Instance of Damage Every 8 Seconds."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -182,7 +182,7 @@ FRACTURE_PLATE: {
 GLUTTONOUS_GREY_GLOVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Gluttonous Grey Grove
-	description: "Fish eat Fish. No heal from medpaks."
+	description: "Heal on Kill. Cannot Heal From Medpaks."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -192,7 +192,7 @@ GLUTTONOUS_GREY_GLOVE: {
 GOMEZS_AMYGDALA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Gomez's Amygdala
-	description: "Temporarily boosts speed and damage upon taking damage."
+	description: "Receiving Damage Temporarily Boosts Speed and Damage."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -212,7 +212,7 @@ GOOD_HEALTH: {
 HORNS_OF_AMMON: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Horns of Ammon
-	description: "Brief Invulnerability on damage."
+	description: "Receiving Damage Grants Brief Invulnerability."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -222,7 +222,7 @@ HORNS_OF_AMMON: {
 INFORMANTS_TIE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name:Informant's Tie
-	description: "Projectiles Home."
+	description: "Homing Projectiles."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -262,7 +262,7 @@ MASK_OF_SYMPATHY: {
 MATTER_UNIVERSALIZER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Matter Universalizer
-	description: "Inflicting damage restores Fuel."
+	description: "Inflicting Damage Restores Fuel."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -282,7 +282,7 @@ MOON_FLUTHER: {
 MOUTHBREATHER_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Mouthbreather Talisman
-	description: "Negates self-damage."
+	description: "Negates Self-Damage."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -292,7 +292,7 @@ MOUTHBREATHER_TALISMAN: {
 NICE_SHOES: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nice Shoes
-	description: "Increased ground speed."
+	description: "Increased Ground Speed."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -302,14 +302,14 @@ NICE_SHOES: {
 NOTHING: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: NOTHING
-	description: "Doesn't do much."
+	description: "Doesn't Do Much."
 	unlocked: true
 	tags: []
 }
 NUCLEAR_PUNCH_THRUSTERS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nuclear Punch Thrusters
-	description: "Increased Knockback on attacks."
+	description: "Increased Knockback on Attacks."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -329,7 +329,7 @@ PELICAN_PLUSH_TOY: {
 PEPPER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Pepper
-	description: "Damages nearby enemies."
+	description: "Damages Nearby Enemies."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -339,7 +339,7 @@ PEPPER: {
 PREHISTORIC_SYNAPSE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Prehistoric Synapse
-	description: "Delays incoming damgage."
+	description: "Delays Incoming Damage."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -349,7 +349,7 @@ PREHISTORIC_SYNAPSE: {
 RED_TIDE_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Red Tide Talisman
-	description: "Create poison cloud on kill."
+	description: "Creates Poison Cloud on Kill."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -388,7 +388,7 @@ ROOT_BOOTS: {
 ROYAL_JUJUBE_BANG: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Royal Jujube Bang
-	description: "Bonus damage against distant targets."
+	description: "Bonus Damage Against Distant Targets."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -398,7 +398,7 @@ ROYAL_JUJUBE_BANG: {
 SHILLERS_BASIDIA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Shiller's Basidia
-	description: "Projectile Poison-Trail"
+	description: "Projectile Poison Trail"
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -408,7 +408,7 @@ SHILLERS_BASIDIA: {
 SWORD_OF_SYZYGY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Sword of Syzygy
-	description: "+3 Projectile Pierce."
+	description: "+Projectile Pierce."
 	unlocked: true
 	tags: [
 		RELIQUARY,

@@ -10,6 +10,7 @@ hiScores: {
 	HUB: 0
 	ARENA_2: 157
 	ARENA_1: 56
+	DONT_FALL: 0
 	LEVEL_3: 40
 }
 flags: {
@@ -18,11 +19,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	TORPEDO_LAUNCHER
+	NEMATOCYDEARM
 	BOUNCING_BLADE
 	SPEARGUN
 ]
-artifact: MATTER_UNIVERSALIZER
+artifact: GOMEZS_AMYGDALA
 active: MELON
 character: TELEMACHUS
 }

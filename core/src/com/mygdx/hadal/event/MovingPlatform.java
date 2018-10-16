@@ -21,6 +21,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * Fields:
  * speed: float determining the platform's speed. Optional. Default: 1.0f
+ * pause: boolean of whether the platform will stop moving if it activates an event. Default false.
  * 
  * connections: This is a comma-separated list of triggeredIds of events that are "connected" to this platform and will move along it.
  * 	NOTES: DO NOT CONNECT ANY EVENTS THAT DO NOT HAVE A BODY; TIMERS, COUNTERS, ETC.
@@ -33,12 +34,14 @@ public class MovingPlatform extends Event {
 	private static final String name = "Moving Platform";
 
 	private float speed;
+	private boolean pause;
 	
 	private ArrayList<Event> connected = new ArrayList<Event>();
 	
-	public MovingPlatform(PlayState state, int width, int height, int x, int y, float speed) {
+	public MovingPlatform(PlayState state, int width, int height, int x, int y, float speed, boolean pause) {
 		super(state, name, width, height, x, y);
 		this.speed = speed;
+		this.pause = pause;
 	}
 
 	@Override
@@ -87,13 +90,16 @@ public class MovingPlatform extends Event {
 						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());
 						} else {
-							body.setLinearVelocity(0, 0);
-							//Move all connected events by same amount.
-							for (Event e : connected) {
-								if (e.getBody() != null && e.isAlive()) {
-									e.getBody().setLinearVelocity(0, 0);
+							if (pause) {
+								body.setLinearVelocity(0, 0);
+
+								for (Event e : connected) {
+									if (e.getBody() != null && e.isAlive()) {
+										e.getBody().setLinearVelocity(0, 0);
+									}
 								}
 							}
+							
 							setConnectedEvent(null);
 						}
 					}
