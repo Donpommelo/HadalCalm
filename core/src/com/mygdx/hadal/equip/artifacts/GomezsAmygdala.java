@@ -5,7 +5,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.statuses.StatusComposite;
 
 public class GomezsAmygdala extends Artifact {
 
@@ -14,7 +13,7 @@ public class GomezsAmygdala extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final float dura = 2.0f;
+	private final float dura = 2.5f;
 	
 	public GomezsAmygdala() {
 		super(name, descr, descrLong, statusNum);
@@ -37,16 +36,12 @@ public class GomezsAmygdala extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (procCdCount >= procCd) {
+				if (procCdCount >= procCd && damage > 0) {
 					procCdCount -= procCd;
-					
-					inflicted.addStatus(new StatusComposite(state, "Self-Preservatory", descr, perp,
-							new StatChangeStatus(state, dura, 4, 0.50f, perp, inflicted),
-							new StatChangeStatus(state, dura, 5, 0.50f, perp, inflicted),
-							new StatChangeStatus(state, dura, 21, 0.25f, perp, inflicted),
-							new StatChangeStatus(state, dura, 23, 0.25f, perp, inflicted)							
-							));
-
+					inflicted.addStatus(new StatChangeStatus(state, dura, 4, 0.50f, perp, inflicted));
+					inflicted.addStatus(new StatChangeStatus(state, dura, 5, 0.50f, perp, inflicted));
+					inflicted.addStatus(new StatChangeStatus(state, dura, 21, 0.25f, perp, inflicted));
+					inflicted.addStatus(new StatChangeStatus(state, dura, 23, 0.25f, perp, inflicted));
 				}
 				return damage;
 			}
