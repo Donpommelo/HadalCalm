@@ -76,6 +76,12 @@ public class Status {
 		case 11:
 			onHitboxCreation(hbox);
 			break;
+		case 12:
+			levelStart();
+			break;
+		case 13:
+			onAirBlast(tool);
+			break;
 		}
 		return finalAmount;
 	}
@@ -93,7 +99,7 @@ public class Status {
 			}
 		}
 	}
-	
+
 	public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) { return damage;	}
 	
 	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) { return damage; }
@@ -114,7 +120,10 @@ public class Status {
 	
 	public void onHitboxCreation(Hitbox hbox) {}
 	
+	public void levelStart() {}
 	
+	public void onAirBlast(Equipable tool) {}
+
 	
 	public String getName() {
 		return name;

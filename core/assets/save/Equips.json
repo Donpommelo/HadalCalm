@@ -149,7 +149,6 @@ SCRAPRIPPER: {
 	unlocked: true
 	tags: [
 		ARMORY,
-		RANDOM_POOL,
 		MELEE,
 	]
 }

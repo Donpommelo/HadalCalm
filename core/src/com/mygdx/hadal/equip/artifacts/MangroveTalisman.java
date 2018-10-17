@@ -14,7 +14,7 @@ public class MangroveTalisman extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float res = 0.25f;
+	private final static float res = 0.1f;
 	
 	public MangroveTalisman() {
 		super(name, descr, descrLong, statusNum);

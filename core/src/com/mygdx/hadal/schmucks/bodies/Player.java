@@ -194,6 +194,8 @@ public class Player extends PhysicsSchmuck {
 				Constants.PLAYER_HITBOX, false, playerData);
 				
 		super.create();
+		
+		playerData.statusProcTime(12, null, 0, null, null, null);
 	}
 	
 	/**

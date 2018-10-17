@@ -193,6 +193,10 @@ public class RangedWeapon extends Equipable{
 		}
 	}
 
+	public int getClipLeft() {
+		return clipLeft;
+	}
+
 	public HitboxFactory getOnShoot() {
 		return onShoot;
 	}

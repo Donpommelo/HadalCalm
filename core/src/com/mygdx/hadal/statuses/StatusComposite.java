@@ -22,6 +22,8 @@ public class StatusComposite extends Status {
 	
 	@Override
 	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
+		super.statusProcTime(procTime, schmuck, amount, status, tool, hbox, tags);
+		
 		float finalAmount = amount;
 
 		for (Status s: statuses) {

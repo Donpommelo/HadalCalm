@@ -37,6 +37,9 @@ public class Airblaster extends MeleeWeapon {
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
+			
+			user.getBodyData().statusProcTime(13, user.getBodyData(), 0.0f, null, tool, null);
+
 		}
 	};
 	

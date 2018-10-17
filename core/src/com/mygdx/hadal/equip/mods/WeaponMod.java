@@ -46,38 +46,38 @@ public enum WeaponMod {
 		}
 	},
 	
-	PLUS_RUN_SPD("+Run Speed", "", 1, ModTag.RANDOM_POOL) {
-		@Override
-		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 4, 0.2f, b);
-		}
-	},
-	
-	PLUS_DEF("+Defense", "", 1, ModTag.RANDOM_POOL) {
-		@Override
-		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 22, 0.2f, b);
-		}
-	},
-	
-	PLUS_JUMP("+1 Jump", "", 1, ModTag.RANDOM_POOL) {
-		@Override
-		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 11, 1.0f, b);
-		}
-	},
-	
-	PLUS_HOVER("+Hover Power", "", 1, ModTag.RANDOM_POOL) {
-		@Override
-		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 12, 0.25f, b);
-		}
-	},
+//	PLUS_RUN_SPD("+Run Speed", "", 1, ModTag.RANDOM_POOL) {
+//		@Override
+//		public Status retrieveMod(BodyData b, PlayState state) {
+//			return new StatChangeStatus(state, 4, 0.2f, b);
+//		}
+//	},
+//	
+//	PLUS_DEF("+Defense", "", 1, ModTag.RANDOM_POOL) {
+//		@Override
+//		public Status retrieveMod(BodyData b, PlayState state) {
+//			return new StatChangeStatus(state, 22, 0.2f, b);
+//		}
+//	},
+//	
+//	PLUS_JUMP("+1 Jump", "", 1, ModTag.RANDOM_POOL) {
+//		@Override
+//		public Status retrieveMod(BodyData b, PlayState state) {
+//			return new StatChangeStatus(state, 11, 1.0f, b);
+//		}
+//	},
+//	
+//	PLUS_HOVER("+Hover Power", "", 1, ModTag.RANDOM_POOL) {
+//		@Override
+//		public Status retrieveMod(BodyData b, PlayState state) {
+//			return new StatChangeStatus(state, 12, 0.25f, b);
+//		}
+//	},
 	
 	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 32, 0.25f, b);
+			return new StatChangeStatus(state, 31, 0.25f, b);
 		}
 	},
 	

@@ -19,11 +19,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	BOOMERANG
+	LASER_GUIDED_ROCKET
 	IRON_BALL_LAUNCHER
 	SPEARGUN
 ]
-artifact: GOMEZS_AMYGDALA
+artifact: CLOCKWISE_CAGE
 active: MELON
 character: TELEMACHUS
 }

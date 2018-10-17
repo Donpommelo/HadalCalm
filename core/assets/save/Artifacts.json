@@ -9,6 +9,25 @@ EIGHT_BALL: {
 		RANDOM_POOL,
 	]
 }
+ABYSSAL_INSIGNIA: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Abyssal Insignia
+	description: "Enemies Explode on Death"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+ADMINISTRATOR_CARD: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Administrator Card
+	description: "Get 3 Random Artifacts at the Start of Level."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+	]
+}
 ANARCHISTS_COOKBOOK: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook
@@ -63,6 +82,16 @@ CLAWS_OF_FESTUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Claws of Festus
 	description: "Enables Wall-Climbing."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+CLOCKWISE_CAGE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Clockwise Cage
+	description: "Projectile Echo."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -269,6 +298,15 @@ MATTER_UNIVERSALIZER: {
 		RANDOM_POOL,
 	]
 }
+MODERATOR_CARD: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Moderator Card
+	description: "Upgrade Weapons at the Start of Level."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+	]
+}
 MOON_FLUTHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Moon Fluther
@@ -283,6 +321,16 @@ MOUTHBREATHER_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Mouthbreather Talisman
 	description: "Negates Self-Damage."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+MUDDLING_CUP: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Muddling Cup
+	description: "Airblasting Fires Currently Held Weapon."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -405,6 +453,16 @@ SHILLERS_BASIDIA: {
 		RANDOM_POOL,
 	]
 }
+SKIPPERS_BOX_OF_FUN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Skipper's Box of Fun
+	description: "Reroll Weapons When Emptying Clip"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 SWORD_OF_SYZYGY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Sword of Syzygy
@@ -429,6 +487,16 @@ TYPHON_FANG: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Typhon Fang
 	description: "-50% Reload Speed. Refill 50% clip on kill."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+UNBREATHING_MEMBRANE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Unbreathing Membrane
+	description: "Slows User. +Clip Size and Recoil."
 	unlocked: true
 	tags: [
 		RELIQUARY,
