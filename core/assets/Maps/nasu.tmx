@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="56">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="56">
  <tileset firstgid="1" source="main.tsx"/>
  <layer name="Tile Layer 1" width="40" height="40">
   <data encoding="base64" compression="zlib">
@@ -47,7 +47,7 @@
   <object id="7" name="Start" type="Start" x="624" y="848" width="32" height="32"/>
   <object id="9" name="EventClone" type="EventClone" x="288" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu1"/>
     <property name="triggeringId" value="target"/>
    </properties>
@@ -195,70 +195,70 @@
   </object>
   <object id="40" name="EventClone" type="EventClone" x="352" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu2"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="41" name="EventClone" type="EventClone" x="416" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu3"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="42" name="EventClone" type="EventClone" x="480" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu4"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="43" name="EventClone" type="EventClone" x="544" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu5"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="44" name="EventClone" type="EventClone" x="608" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu6"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="45" name="EventClone" type="EventClone" x="672" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu7"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="47" name="EventClone" type="EventClone" x="736" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu8"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="48" name="EventClone" type="EventClone" x="800" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu9"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="49" name="EventClone" type="EventClone" x="864" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu10"/>
     <property name="triggeringId" value="target"/>
    </properties>
   </object>
   <object id="50" name="EventClone" type="EventClone" x="928" y="288" width="32" height="32">
    <properties>
-    <property name="particle_std" value="event_holo"/>
+    <property name="particle_std" value="EVENT_HOLO"/>
     <property name="triggeredId" value="nasu11"/>
     <property name="triggeringId" value="target"/>
    </properties>

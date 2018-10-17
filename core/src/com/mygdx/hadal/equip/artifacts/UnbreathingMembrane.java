@@ -20,8 +20,10 @@ public class UnbreathingMembrane extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 4, -0.50f, b), 
-				new StatChangeStatus(state, 6, -0.50f, b),
+				new StatChangeStatus(state, 4, -0.75f, b), 
+				new StatChangeStatus(state, 6, -0.75f, b),
+				new StatChangeStatus(state, 10, -0.75f, b),
+				new StatChangeStatus(state, 28, 0.8f, b),
 				new StatChangeStatus(state, 29, 1.0f, b),
 				new StatChangeStatus(state, 36, 5.0f, b)
 				);
