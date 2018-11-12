@@ -8,6 +8,8 @@ public class InfoItem {
 
 	private String name;
 	private String description;
+	private String descriptionLong;
+
 	private int cost;
 	private boolean unlocked;
 	private ArrayList<UnlockTag> tags;
@@ -23,7 +25,11 @@ public class InfoItem {
 	public String getDescription() {
 		return description;
 	}
-
+	
+	public String getDescriptionLong() {
+		return descriptionLong;
+	}
+	
 	public int getCost() {
 		return cost;
 	}
@@ -46,6 +52,10 @@ public class InfoItem {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void setDescriptionLong(String descriptionLong) {
+		this.descriptionLong = descriptionLong;
 	}
 
 	public void setCost(int cost) {

@@ -8,6 +8,7 @@ public class InfoLevel {
 
 	private String name;
 	private String description;
+	private String descriptionLong;
 
 	private boolean unlocked;
 	private ArrayList<UnlockTag> tags;
@@ -24,6 +25,10 @@ public class InfoLevel {
 		return description;
 	}
 
+	public String getDescriptionLong() {
+		return descriptionLong;
+	}
+	
 	public ArrayList<UnlockTag> getTags() {
 		return tags;
 	}
@@ -44,6 +49,10 @@ public class InfoLevel {
 		this.description = description;
 	}
 
+	public void setDescriptionLong(String descriptionLong) {
+		this.descriptionLong = descriptionLong;
+	}
+	
 	public void setTags(ArrayList<UnlockTag> tags) {
 		this.tags = tags;
 	}

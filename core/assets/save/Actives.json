@@ -3,6 +3,7 @@ TAINTED_WATER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Tainted Water
 	description: "Release a poisonous cloud."
+    descriptionLong: "Attack nearby enemies with a cloud of water pollution."
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -13,6 +14,7 @@ TRACTOR_BEAM: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Tractor Beam
 	description: "Grab an enemy and swing them around."
+    descriptionLong: "Use to fire a projectile that captures an enemy on contact. Then, use the mouse to throw the victim at walls or other enemies."
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -23,6 +25,7 @@ SPRING_LOADER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Spring Loader
 	description: "Create a temporary spring at mouse location."
+    descriptionLong: "Drop a spring at the mouse location that propels objects upwards."
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -33,6 +36,7 @@ NAUTICAL_MINE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nautical Mine
 	description: "Throws an large explosive."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -43,6 +47,7 @@ HYDRAULIC_UPPERCUT: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Hydraulic Uppercut
 	description: "Perform an upwards attack."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -53,6 +58,7 @@ HONEYCOMB: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Honeycomb
 	description: "Releases a swarm of Bees!"
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -63,6 +69,7 @@ MELON: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Melon
 	description: "Restores Hp. Charges by dealing damage."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -73,6 +80,7 @@ FIREBALL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Fireball
 	description: "Throw a fireball."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -83,6 +91,7 @@ MISSILE_POD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Missile Pod
 	description: "Fire a barrage of homing missiles!"
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -93,6 +102,7 @@ NOTHING: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nothing
 	description: "Does nothing."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: []
 }
@@ -100,6 +110,7 @@ RELOADER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Auroreloader
 	description: "Reloads all of your weapons."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,
@@ -110,6 +121,7 @@ RESERVED_FUEL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Reserved Fuel
 	description: "Restores Fuel."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		DISPENSARY,

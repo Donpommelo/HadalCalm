@@ -77,7 +77,7 @@ public enum WeaponMod {
 	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 31, 0.25f, b);
+			return new StatChangeStatus(state, 31, 1.0f, b);
 		}
 	},
 	

@@ -57,6 +57,10 @@ public enum UnlockCharacter {
 		return info.getDescription();
 	}
 	
+	public String getDescrLong() {
+		return info.getDescriptionLong();
+	}
+	
 	public boolean isUnlocked() {
 		return info.isUnlocked();
 	}

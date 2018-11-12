@@ -3,6 +3,7 @@ IRON_BALL_LAUNCHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Iron Ball Launcher
 	description: "Fires a singular, heavy projectile. Clunky but powerful." 
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -14,6 +15,7 @@ BOUNCING_BLADE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bouncing Blades
 	description: "Fires a projectile in a straight line that bounces off surfaces."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -25,6 +27,7 @@ ICEBERG: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Iceberg
 	description: "Fires a projectile that slides across flat surfaces."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -36,6 +39,7 @@ BOILER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Boiler
 	description: "Fires a short-ranged spray of damaging particles."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -47,6 +51,7 @@ BOOMERANG: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Boomerang
 	description: "Fires a projectile that slowly returns to player. Catch returning boomerangs to refill clip!"
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -58,6 +63,7 @@ CR4PCANNON: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Cr4p Cannon
 	description: "Fires a shotgun-burst of short-ranged projectiles."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -69,6 +75,7 @@ LASER_GUIDED_ROCKET: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Laser-Guided Rocket
 	description: "Fires a missile that will home in towards your mouse position."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -80,6 +87,7 @@ SPEARGUN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Speargun
 	description: "A simple weapon that fires arcing projectiles."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -91,6 +99,7 @@ TORPEDO_LAUNCHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Torpedo Launcher
 	description: "Fires projectiles in a straight line that explode upon contact with an enemy or wall."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -102,6 +111,7 @@ CHARGE_BEAM: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Charge Beam
 	description: "Hold the fire button to charge a faster, more powerful projectile and release to fire."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -113,6 +123,7 @@ GRENADE_LAUNCHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Grenade Launcher
 	description: "Fires projectiles that are affected by gravity and explode upon contact with an enemy or wall."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -124,6 +135,7 @@ BEEGUN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -135,6 +147,7 @@ NEMATOCYDEARM: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nematocydearm
 	description: "Fires projectiles that create a damaging poison field upon contact with an enemy or wall."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -146,6 +159,7 @@ SCRAPRIPPER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Scrapripper
 	description: "Perform a close-range, melee swing to damage enemies and deflect projectiles."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -156,6 +170,7 @@ CHAIN_LIGHTNING: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Chain Lightning
 	description: "Fire a projectile that bounces between enemies upon contact."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -167,6 +182,7 @@ LASER_RIFLE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Laser Rifle
 	description: "Fires a straight, piercing beam through enemies."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -178,6 +194,7 @@ MACHINEGUN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Machinegun
 	description: "Standard weapon with a high rate of fire."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -189,6 +206,7 @@ STICKY_BOMB_LAUNCHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: "Stickybomb-Launcher"
 	description: "Fires projectiles that stick to enemies and walls. Press the Reload button to detonate all active bombs."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -200,6 +218,7 @@ NOTHING: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nothing
 	description: "Your bare hands."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		MISC,
@@ -209,6 +228,7 @@ SLODGEGUN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Slodgegun
 	description: "Fire a projectile that slows targets and induces vulnerability."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,
@@ -220,6 +240,7 @@ STORMCALLER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Stormcaller
 	description: "Fire a wide projectile that deflects enemy projectiles."
+    descriptionLong: "TEST"
 	unlocked: true
 	tags: [
 		ARMORY,

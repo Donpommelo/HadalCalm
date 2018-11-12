@@ -28,8 +28,8 @@ public class HubEvent extends Event {
 	//These fields pertain to the extra info window that pops up when mousing over stuff.
 	private Text extraInfo;
 	private String info;
-	private final static int infoWidth = 250;
-	private final static int infoHeight = 200;
+	private final static int infoWidth = 300;
+	private final static int infoHeight = 300;
 	
 	protected static final float optionsWidth = 400.0f;
 	protected static final float optionsHeight = 30.0f;

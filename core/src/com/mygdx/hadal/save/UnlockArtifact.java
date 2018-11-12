@@ -125,6 +125,10 @@ public enum UnlockArtifact {
 		return info.getDescription();
 	}
 	
+	public String getDescrLong() {
+		return info.getDescriptionLong();
+	}
+	
 	public int getCost() {
 		return info.getCost();
 	}

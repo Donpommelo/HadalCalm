@@ -47,7 +47,7 @@ public class Reliquary extends HubEvent {
 				@Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					mouseIn(selected.getName() + ": " + selected.getDescr());
+					mouseIn(selected.getName() + ": " + selected.getDescr() + " \n \n" + selected.getDescrLong());
 				}
 
 				@Override

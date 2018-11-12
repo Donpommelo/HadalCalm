@@ -288,7 +288,7 @@
     "lv3dialog3": [
 		{
 			"Name": "Pelican",
-			"Text": "TEMPaefraga",
+			"Text": "TEMP",
 			"Sprite": "PELICAN_MASKED"
 			"Duration": 5
 			"Override": true

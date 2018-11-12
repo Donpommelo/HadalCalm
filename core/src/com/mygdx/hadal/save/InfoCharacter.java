@@ -7,6 +7,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 public class InfoCharacter {
 
 	private String name, description, bio;
+	private String descriptionLong;
 	private int cost;
 	private boolean unlocked;
 	private ArrayList<UnlockTag> tags;
@@ -27,10 +28,18 @@ public class InfoCharacter {
 		return description;
 	}
 
+	public String getDescriptionLong() {
+		return descriptionLong;
+	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
+	public void setDescriptionLong(String descriptionLong) {
+		this.descriptionLong = descriptionLong;
+	}
+	
 	public String getBio() {
 		return bio;
 	}

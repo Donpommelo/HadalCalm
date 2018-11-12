@@ -20,7 +20,7 @@ public class EightBall extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 30, -0.5f, b),
+				new StatChangeStatus(state, 30, -0.25f, b),
 				new StatChangeStatus(state, 31, 1.5f, b),
 				new StatChangeStatus(state, 33, 0.5f, b),
 				new StatChangeStatus(state, 27, -2.0f, b));

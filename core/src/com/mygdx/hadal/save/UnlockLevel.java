@@ -91,6 +91,10 @@ public enum UnlockLevel {
 		return info.getDescription();
 	}
 	
+	public String getDescrLong() {
+		return info.getDescriptionLong();
+	}
+	
 	public void setUnlocked(boolean unlock) {
 		info.setUnlocked(unlock);
 	}
