@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="150" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="97">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="150" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="103">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="140">
@@ -56,8 +56,11 @@
     <property name="springY" type="float" value="150"/>
    </properties>
   </object>
-  <object id="19" name="Switch" type="Switch" x="3744" y="768" width="32" height="32">
+  <object id="19" name="Switch" type="Switch" x="3680" y="768" width="96" height="96">
    <properties>
+    <property name="align" type="int" value="2"/>
+    <property name="particle_amb" value="EVENT_HOLO"/>
+    <property name="sprite" value="event_pyramid"/>
     <property name="triggeringId" value="portal0"/>
    </properties>
   </object>
@@ -427,16 +430,12 @@
   </object>
   <object id="87" name="TouchPortal" type="TouchPortal" x="512" y="3424" width="96" height="96">
    <properties>
-    <property name="particle_amb" value="PORTAL"/>
-    <property name="sprite" value="portal"/>
     <property name="triggeredId" value="portal1"/>
     <property name="triggeringId" value="portal2"/>
    </properties>
   </object>
   <object id="88" name="TouchPortal" type="TouchPortal" x="1088" y="3424" width="96" height="96">
    <properties>
-    <property name="particle_amb" value="PORTAL"/>
-    <property name="sprite" value="portal"/>
     <property name="triggeredId" value="portal2"/>
     <property name="triggeringId" value="portal1"/>
    </properties>

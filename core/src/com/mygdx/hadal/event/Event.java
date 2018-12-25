@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -129,42 +130,42 @@ public class Event extends HadalEntity {
 			batch.setProjectionMatrix(state.sprite.combined);
 			switch (scaleAlign) {
 			case 0:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    body.getPosition().x * PPM - width / 2,
 	                    body.getPosition().y * PPM - height / 2,
 	                    width / 2, height / 2,
 	                    width, height, 1, 1, 0);
 				break;
 			case 1:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
 	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 2:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
 	                    body.getPosition().y * PPM - height / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 3:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
 	                    body.getPosition().y * PPM + height / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 4:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    body.getPosition().x * PPM - width / 2,
 	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 5:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime, true),
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    body.getPosition().x * PPM + width / 2,
 	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
@@ -185,8 +186,7 @@ public class Event extends HadalEntity {
 	}
 	
 	public void setStandardParticle(String particle) {
-		this.standardParticle = 
-				new ParticleEntity(state, this, particle, 0, 0, false);
+		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false);
 	}
 
 	public ParticleEntity getStandardParticle() {
@@ -235,17 +235,25 @@ public class Event extends HadalEntity {
 		this.gravity = gravity;
 	}
 
+	/**
+	 * This is used for default animations with multiple frames. The result is a looping animation.
+	 * @param sprite
+	 */
 	public void setEventSprite(String sprite) {
-		setEventSprite(sprite, false, 0);
+		setEventSprite(sprite, false, 0, animationSpeed, PlayMode.LOOP);
 	}
 	
-	public void setEventSprite(String sprite, boolean still, int frame) {
+	public void setEventSprite(String sprite, boolean still, int frame, float speed, PlayMode mode) {
 		
 		if (still) {
-			this.eventSprite = new Animation<TextureRegion>(0.08f, atlasEvent.findRegions(sprite).get(frame));
+			this.eventSprite = new Animation<TextureRegion>(speed, atlasEvent.findRegions(sprite).get(frame));
 		} else {
-			this.eventSprite = new Animation<TextureRegion>(0.08f, atlasEvent.findRegions(sprite));
+			this.eventSprite = new Animation<TextureRegion>(speed, atlasEvent.findRegions(sprite));
 		}
+		this.eventSprite.setPlayMode(mode);
+		
+		animationTime = 0;
+		
 		this.spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
 		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}

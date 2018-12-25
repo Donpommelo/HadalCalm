@@ -52,5 +52,9 @@ public class LevelWarp extends Event {
 	public String getText() {
 		return name + " (E TO USE)";
 	}
-
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite("event_pyramid");
+	}
 }

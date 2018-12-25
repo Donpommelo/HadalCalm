@@ -53,4 +53,11 @@ public class Spring extends Event {
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				(short) 0, true, eventData);
 	}	
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite("event_spring");
+//		setScaleAlign(2);
+//		setScale(0.25f);
+	}
 }

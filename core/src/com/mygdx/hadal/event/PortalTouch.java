@@ -88,6 +88,18 @@ public class PortalTouch extends Event {
 	}
 
 	public Set<HadalEntity> getJustTeleported() {
+		
+		if (getStandardParticle() != null) {
+			getStandardParticle().onForBurst(1.0f);
+		}
+		
 		return justTeleported;
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite("portal");
+		setStandardParticle("MOMENTUM");
+		addAmbientParticle("PORTAL");
 	}
 }
