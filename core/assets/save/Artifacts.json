@@ -3,7 +3,7 @@ EIGHT_BALL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: "8-Ball"
 	description: "Your Projectiles Become Large and Slow."
-    descriptionLong: "TEST"
+    descriptionLong: "An inky black sphere made of smooth ivory and radiating with unfortunate energies. It is not for billiards, but rather; snooker."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -14,7 +14,7 @@ ABYSSAL_INSIGNIA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Abyssal Insignia
 	description: "Enemies Explode on Death."
-    descriptionLong: "TEST"
+    descriptionLong: "A twisted bone sigil used to worship the chaotic beings of the deep. It seems to have been created by something without opposable thumbs."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -25,7 +25,7 @@ ADMINISTRATOR_CARD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Administrator Card
 	description: "Get 3 Random Artifacts at the Start of Levels."
-    descriptionLong: "TEST"
+    descriptionLong: "An simple and inornate identification card printed on sturdy plastic. Administrative figures carry these to access extra privileges."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -35,7 +35,7 @@ ANARCHISTS_COOKBOOK: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook
 	description: "Periodically Spawns Bombs."
-    descriptionLong: "TEST"
+    descriptionLong: "An ancient text printed on singed (and waterproof) pages. It doesn't actually teach how to cook."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -46,7 +46,7 @@ ANCHOR_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anchor Talisman
 	description: "Damage Reduction When Grounded."
-    descriptionLong: "TEST"
+    descriptionLong: "A pendant depicting the company insignia; a sturdy anchor. "
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -57,7 +57,7 @@ BLOODWOODS_GLOVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bloodwood's Glove
 	description: "Slower Reload and Fire Speed. Lower Active Cooldowns."
-    descriptionLong: "TEST"
+    descriptionLong: "A glove once worn by an esteemed company researcher. It appears to be in pristine condition."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -68,7 +68,7 @@ BUCKET_OF_BATTERIES: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bucket of Batteries
 	description: "Projectiles Chain to Nearby Enemies."
-    descriptionLong: "TEST"
+    descriptionLong: "A bucket filled with batteries floating in a dubious liquid. It imbues the holder with a crackling, unstable power."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -79,7 +79,7 @@ CALL_OF_THE_VOID: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Call of the Void
 	description: "Deal and Receive 40% More Damage."
-    descriptionLong: "TEST"
+    descriptionLong: "A sinister mark that allows its bearer to channel their innate desire for the unseen."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -90,7 +90,7 @@ CLAWS_OF_FESTUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Claws of Festus
 	description: "Enables Wall-Climbing."
-    descriptionLong: "TEST"
+    descriptionLong: "A pair of long, wirey clawed gloves, sharp enough to rend yet flexible enough to strangle. Once used for transmission of vibrations."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -101,7 +101,7 @@ CLOCKWISE_CAGE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Clockwise Cage
 	description: "Projectile Echo."
-    descriptionLong: "TEST"
+    descriptionLong: "A round metal birdcage occupied by a temporarily improbable bird. It looks familiar."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -112,7 +112,7 @@ CONFIDENCE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Confidence
 	description: "+50% Damage at Max Hp."
-    descriptionLong: "TEST"
+    descriptionLong: "The sense of certainty that all will end well. Fragile and fleeting."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -123,7 +123,7 @@ CROWN_OF_THORNS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Crown of Thorns
 	description: "Perform a Melee Attack After Reloading."
-    descriptionLong: "TEST"
+    descriptionLong: "Thorny headgear of nondiscriminatory wrath. To be worn on the outside of the helmet."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -134,7 +134,7 @@ CURSED_CILICE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Cursed Cilice
 	description: "Receiving Damage Regenerates Fuel."
-    descriptionLong: "TEST"
+    descriptionLong: "A bristle-lined band worn around the leg. For those who believe that pain builds character."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -145,7 +145,7 @@ CURIOUS_SAUCE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Curious Sauce
 	description: "Your Projectiles Become Bouncy."
-    descriptionLong: "TEST"
+    descriptionLong: "A jar of perplexing and unstudied substance."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -156,7 +156,7 @@ DEPLORABLE_APPARATUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Deplorable Apparatus
 	description: "-Max Hp. High Hp Regen."
-    descriptionLong: "TEST"
+    descriptionLong: "A rusty, surgically-attached machine. Grants life whether the bearer wants it or not."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -167,7 +167,7 @@ EELSKIN_COVER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Eelskin Cover
 	description: "Reduces Drag."
-    descriptionLong: "TEST"
+    descriptionLong: "Slick coat that lets its wearer slide through the water slimily."
 	unlocked: true
 	tags: [
 		RELIQUARY,

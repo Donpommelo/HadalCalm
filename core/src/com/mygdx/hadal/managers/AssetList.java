@@ -78,7 +78,8 @@ public enum AssetList {
 	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),
 	
 	BACKGROUND1("under_da_sea.jpg", Texture.class),
-	BACKGROUND2("under_da_sea_no_rocks.jpg", Texture.class);
+	BACKGROUND2("under_da_sea_no_rocks.jpg", Texture.class),
+    BLACK("black.png", Texture.class);
 	
 	//Enum constructor and methods.
 	private String pathname;

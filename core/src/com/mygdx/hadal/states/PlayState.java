@@ -90,10 +90,7 @@ public class PlayState extends GameState {
 	private HadalEntity cameraTarget;
 	private HadalEntity objectiveTarget;
 	
-	private boolean gameover = false;
-	private boolean won = false;
-	private static final float gameoverCd = 2.5f;
-	private float gameoverCdCount;
+	private transitionState nextState;
 	
 	private float zoom, zoomDesired;
 	private int startX, startY;
@@ -110,7 +107,11 @@ public class PlayState extends GameState {
 	private UIExtra uiExtra;
 	private UIStatuses uiStatus;
 	
-	private Texture bg;
+	private Texture bg, black;
+	
+	private float fadeInitialDelay = 1.0f;
+	private float fadeLevel = 1f, fadeDelta = -0.015f;
+	private UnlockLevel nextLevel;
 	
 	/**
 	 * Constructor is called upon player beginning a game.
@@ -182,6 +183,8 @@ public class PlayState extends GameState {
 		controller = new PlayerController(player, this);	
 		
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
+		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
+
 	}
 	
 	/**
@@ -241,22 +244,6 @@ public class PlayState extends GameState {
 	}
 	
 	/**
-	 * transition from one playstate to another with a new level.
-	 * @param level: file of the new map
-	 * @param reset: should this warp reset the player's loadout/hp and stuff?
-	 */
-	public void loadLevel(UnlockLevel level, boolean reset) {
-		getGsm().removeState(PlayState.class);
-		getGsm().removeState(HubState.class);
-		
-		if (reset) {
-			getGsm().addPlayState(level, loadout, null, TitleState.class);
-		} else {
-			getGsm().addPlayState(level, loadout, player.getPlayerData(), TitleState.class);
-		}
-	}
-	
-	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
 	 */
 	@Override
@@ -297,12 +284,22 @@ public class PlayState extends GameState {
 		cameraUpdate();
 		tmr.setView(camera);
 		
-		//process gameover
-		if (gameover) {
-			gameoverCdCount -= delta;
-			if (gameoverCdCount < 0) {
-				endGameProcessing();
+		//process fade transitions
+		if (fadeInitialDelay <= 0f) {
+			if (fadeLevel > 0f && fadeDelta < 0f) {
+				fadeLevel += fadeDelta;
+				if (fadeLevel < 0f) {
+					fadeLevel = 0f;
+				}
+			} else if (fadeLevel < 1f && fadeDelta > 0f) {
+				fadeLevel += fadeDelta;
+				if (fadeLevel > 1f) {
+					fadeLevel = 1f;
+					transitionState();
+				}
 			}
+		} else {
+			fadeInitialDelay -= delta;
 		}
 	}
 	
@@ -314,15 +311,12 @@ public class PlayState extends GameState {
 		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		
-		
 		//Render Background
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		batch.end();
 		
-		batch.setProjectionMatrix(camera.combined);
 		//Render Tiled Map + world
 		tmr.render();				
 
@@ -330,6 +324,7 @@ public class PlayState extends GameState {
 		b2dr.render(world, camera.combined.scl(PPM));
 		
 		//Iterate through entities in the world to render
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
 		for (HadalEntity hitbox : hitboxes) {
@@ -338,10 +333,21 @@ public class PlayState extends GameState {
 		for (HadalEntity schmuck : entities) {
 			schmuck.render(batch);
 		}
-				
+
 		batch.end();
+		
 		rays.setCombinedMatrix(camera);
 		rays.updateAndRender();
+		
+		if (fadeLevel > 0) {
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			batch.setProjectionMatrix(hud.combined);
+			batch.setColor(1f, 1f, 1f, fadeLevel);
+			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+			batch.setColor(1f, 1f, 1f, 1);
+			batch.end();
+		}
 	}	
 	
 	/**
@@ -383,28 +389,69 @@ public class PlayState extends GameState {
 	}
 	
 	/**
-	 * This is called when ending a playstate by winning or losing
-	 */
-	public void endGameProcessing() {
-		if (realFite) {
-			
-			gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
-			
-			getGsm().removeState(PlayState.class);
-			if (won) {
-				getGsm().addState(State.VICTORY, TitleState.class);
-			} else {
+	 * This is called when ending a playstate by winning, losing or moving to a new playstate
+	 */	
+	public void transitionState() {
+		getGsm().removeState(PlayState.class);
+		switch (nextState) {
+		case LOSE:
+			if (realFite) {
+				gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 				getGsm().addState(State.GAMEOVER, TitleState.class);
-			}			
-		} else {
-			uiStatus.clearStatus();
-			player = new Player(this, (int)(getSafeX() * PPM),
-					(int)(getSafeY() * PPM), loadout.character, null);
-			
-			controller.setPlayer(player);
-			this.cameraTarget = player;
-			gameover = false;
+			} else {
+				uiStatus.clearStatus();
+				player = new Player(this, (int)(getSafeX() * PPM),
+						(int)(getSafeY() * PPM), loadout.character, null);
+				
+				controller.setPlayer(player);
+				this.cameraTarget = player;
+				fadeDelta = -0.015f;
+			}
+			break;
+		case WIN:
+			gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
+			getGsm().addState(State.VICTORY, TitleState.class);
+			break;
+		case NEWLEVEL:
+			getGsm().removeState(PlayState.class);
+			getGsm().removeState(HubState.class);
+			getGsm().addPlayState(nextLevel, loadout, null, TitleState.class);
+			break;
+		case NEXTSTAGE:
+			getGsm().removeState(PlayState.class);
+			getGsm().removeState(HubState.class);
+			getGsm().addPlayState(nextLevel, loadout, player.getPlayerData(), TitleState.class);
+			break;
+		default:
+			break;
+		}	
+	}
+	
+	/**
+	 * transition from one playstate to another with a new level.
+	 * @param level: file of the new map
+	 * @param reset: should this warp reset the player's loadout/hp and stuff?
+	 */
+	public void loadLevel(UnlockLevel level, boolean reset) {
+		if (nextLevel == null) {
+			nextLevel = level;
+			if (reset) {
+				nextState = transitionState.NEWLEVEL;
+			} else {
+				nextState = transitionState.NEXTSTAGE;
+			}
+			fadeDelta = 0.015f;
 		}
+	}
+	
+	public void gameOver(boolean won) {
+		if (won) {
+			nextState = transitionState.WIN;
+		} else {
+			nextState = transitionState.LOSE;
+		}
+		fadeInitialDelay = 1.0f;
+		fadeDelta = 0.015f;
 	}
 	
 	/**
@@ -520,11 +567,11 @@ public class PlayState extends GameState {
 	public void incrementScore(int i) {
 		uiExtra.incrementScore(i);
 	}
-
-	public void gameOver(boolean won) {
-		this.won = won;
-		gameover = true;
-		gameoverCdCount = gameoverCd;
-	}
 	
+	private enum transitionState {
+		LOSE,
+		WIN,
+		NEWLEVEL,
+		NEXTSTAGE
+	}
 }

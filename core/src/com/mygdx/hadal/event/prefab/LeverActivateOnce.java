@@ -99,8 +99,8 @@ public class LeverActivateOnce extends Prefabrication {
 		reset.getProperties().put("triggeredId", resetId);
 		reset.getProperties().put("triggeringId", spriteId3+ ","+ spriteId2);
 		
-		TiledObjectUtil.parseTiledEvent(state, base);
 		TiledObjectUtil.parseTiledEvent(state, lever);
+		TiledObjectUtil.parseTiledEvent(state, base);
 		TiledObjectUtil.parseTiledEvent(state, cond);
 		TiledObjectUtil.parseTiledEvent(state, alt);
 		TiledObjectUtil.parseTiledEvent(state, use);

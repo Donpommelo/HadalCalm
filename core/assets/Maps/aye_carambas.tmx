@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="150" height="140" tilewidth="32" tileheight="32" infinite="0" nextobjectid="97">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="150" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="97">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
- <layer name="Tile Layer 1" width="150" height="140">
+ <layer id="1" name="Tile Layer 1" width="150" height="140">
   <data encoding="base64" compression="zlib">
    eJzt3cmWniAQhmEzz8kiuf9rTbvgtDEOBVQVhfU+57jr/gX8VETFZQEAAAAAAAAAAAAAAACuvXlZviovb11rgIjevyy/lJcvrjXo17NvsQ8dK7n68bK861x+LnPmqmffmq2uXkqbarSP5m95atm3Zt2HvJCrtnLPWlcv5IpcWSBX5MoCuSJXFsgVubJArvpy9XvRH1d+wvKnoU3PZMwVi/34XsZcaYwnP3n5XNGmZ2bP1dU5bX+/Zta6RiO5h6Z5TvUkOaft60SudNT0J2Zr609L/f0acqWjpj+hcU6N4iw/5EpH1nYkV7aytuNZvcu580nH5hHIFSxkbd+s9faStX2z1ttL1vbNWm8vWds3a729ZG3frPX2krV9tZ6HyfY+WLnvd1fv7LmK8LzITKR5yZqrq3uHvA92jlzZytpu5MpW1nYjV7ayPgcvfRaPXLXJ/hw8ubLR2++fdZFer5Ar1JCe/2d9dh1j1J7/yRUkas//PB8JAAAAAAAAAAAAAAAAAADw6sNi937WR8d6II41U+VdA4tlfc+BbOVSMmX57ZT1/Syylcc2U98N1/NtIVtZeGWqIFvP552pgmw916hMFWTreUZnqiBbzxJpPoxIZUGfSNsyUlnQJ9K2jFQW9Im0LSOVJSrJ94Qtltr526XbUqs+V+UjV/dGzctYu01q5321LB+5ulfzPWHP+RDPynn3f5J5pkoZjuosKR+5uufdRq3r0yzn1W9JxqcYw7pHrv5HtvqRq2Nkq0+WXG2vE6VzDpOtdllydXSdKPktrWNbNllytb1OrLkmla6XbP0rS65af6vmb8nWK3Klu17t70rNmk9ypbtei/sXM2YrS65argdb1qv9XanSF5wtW1lyZXk9aGnWPluWXFlfD1qaMVtZctX6WxFytZotW5FydTXPguZ3+WbM1WqmbEXJlXSehcy5Ws2SrQi5qplnofW7fF7Xgx4ilmlvdK683guc9XrwSMQy7Y3Mlee7pkfPxUqOfRG3YcQy7Y3K1do/8Hx/OcJ1qJaIZdoblaty7PB6J94rV9t+nFW/mlz9bzs+6TnPgleutvuN1TUbuapjOU9o6/hX731ni2xF2mZnopTRep7Q1vGv2vYp40v7bGm9n7stk+RZnJbf1xAhVx7zhLaOf7WMQx5lS3Oct+ZZnFHbdXSuosxrdaU1WxY5X0neJW59/1dLba7O+kAtfYgZMlVEun8i2Wajjxc167/qA0nbe38/ZYZMFVGy9aRc3fWBpO09avxKy+jttSpjNVfn0NHllKxfcr6S7svbvsFsmVqN3l5So8t5t/6aPpAkW6Pr22uW8o8u591YSG0faJst6+fzRhi9vaRGl/NuLKTlfCUZv4m+Xc6M3l5So8t5915Sax/obvym9fm80UZfE0rvdc1+XshoVLZa7nWRq7l4Z+soU5bPbWMcr2ydHac4Fj2X9jwfV30lcpWHxTwf9J2gPc+H5TM/AAAAAAAAAAAAAAAAAAAAAODtL4/dV3Y=
   </data>
  </layer>
- <objectgroup name="event-layer">
+ <objectgroup id="2" name="event-layer">
   <object id="6" name="WeaponMod" type="WeaponMod" x="1184" y="1152" width="96" height="96"/>
   <object id="7" name="Poison" type="Poison" x="1344" y="1312" width="1888" height="96">
    <properties>
     <property name="Damage" type="float" value="1"/>
    </properties>
   </object>
-  <object id="8" name="Platform" type="Platform" x="1344" y="1248" width="288" height="32">
+  <object id="8" name="Platform" type="Platform" x="1440" y="1248" width="288" height="32">
    <properties>
     <property name="speed" type="float" value="4"/>
     <property name="triggeringId" value="platPoint2"/>
    </properties>
   </object>
-  <object id="9" name="Platform" type="Platform" x="2944" y="1248" width="288" height="32">
+  <object id="9" name="Platform" type="Platform" x="2848" y="1248" width="288" height="32">
    <properties>
     <property name="speed" type="float" value="4"/>
     <property name="triggeringId" value="platPoint3"/>
    </properties>
   </object>
-  <object id="13" name="Dummy" type="Dummy" x="1472" y="1248" width="32" height="32">
+  <object id="13" name="Dummy" type="Dummy" x="1568" y="1248" width="32" height="32">
    <properties>
     <property name="triggeredId" value="platPoint1"/>
     <property name="triggeringId" value="platPoint2"/>
@@ -44,7 +44,7 @@
     <property name="triggeringId" value="platPoint4"/>
    </properties>
   </object>
-  <object id="17" name="Dummy" type="Dummy" x="3072" y="1248" width="32" height="32">
+  <object id="17" name="Dummy" type="Dummy" x="2976" y="1248" width="32" height="32">
    <properties>
     <property name="triggeredId" value="platPoint4"/>
     <property name="triggeringId" value="platPoint3"/>
@@ -197,19 +197,19 @@
     <property name="triggeringId" value="fightwon1"/>
    </properties>
   </object>
-  <object id="42" name="Platform" type="Platform" x="2048" y="2656" width="32" height="224">
+  <object id="42" name="Platform" type="Platform" x="2048" y="2720" width="32" height="224">
    <properties>
     <property name="speed" type="float" value="2"/>
     <property name="triggeringId" value="platPoint6"/>
    </properties>
   </object>
-  <object id="43" name="Dummy" type="Dummy" x="2048" y="2752" width="32" height="32">
+  <object id="43" name="Dummy" type="Dummy" x="2048" y="2816" width="32" height="32">
    <properties>
     <property name="triggeredId" value="platPoint5"/>
     <property name="triggeringId" value="platPoint6"/>
    </properties>
   </object>
-  <object id="44" name="Dummy" type="Dummy" x="2048" y="3040" width="32" height="32">
+  <object id="44" name="Dummy" type="Dummy" x="2048" y="3072" width="32" height="32">
    <properties>
     <property name="triggeredId" value="platPoint6"/>
     <property name="triggeringId" value="platPoint5"/>
@@ -474,7 +474,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="collision-layer">
+ <objectgroup id="3" name="collision-layer">
   <object id="10" x="608" y="608">
    <polyline points="0,0 320,0 320,448 416,448 416,256 2720,256 2720,-64 3232,-64 3232,256 2944,256 2944,896 2720,896 2720,640 2624,640 2624,800 736,800 736,640 224,640 224,256 0,256 0,0"/>
   </object>
