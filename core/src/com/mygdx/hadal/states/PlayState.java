@@ -95,6 +95,9 @@ public class PlayState extends GameState {
 	private float zoom, zoomDesired;
 	private int startX, startY;
 	private int safeX, safeY;
+	private float saveZoom;
+	private HadalEntity saveCameraPoint;
+	
 	private boolean realFite;
 	
 	private PlayStateStage stage;
@@ -172,13 +175,15 @@ public class PlayState extends GameState {
 		TiledObjectUtil.parseTiledTriggerLayer();
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
-		this.zoomDesired = zoom;
-
-		this.safeX = startX;
-		this.safeY = startY;
-				
+		this.zoomDesired = zoom;	
+		
 		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		this.cameraTarget = player;
+		
+		this.safeX = startX;
+		this.safeY = startY;
+		this.saveZoom = zoomDesired;
+		this.saveCameraPoint = cameraTarget;
 		
 		controller = new PlayerController(player, this);	
 		
@@ -400,11 +405,23 @@ public class PlayState extends GameState {
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			} else {
 				uiStatus.clearStatus();
+				
+				boolean resetCamera = false;
+				if (saveCameraPoint.equals(player)) {
+					resetCamera = true;
+				}
 				player = new Player(this, (int)(getSafeX() * PPM),
 						(int)(getSafeY() * PPM), loadout.character, null);
 				
 				controller.setPlayer(player);
-				this.cameraTarget = player;
+				
+				this.zoomDesired = saveZoom;
+				if (resetCamera) {
+					this.cameraTarget = player;
+				} else {
+					this.cameraTarget = saveCameraPoint;
+				}
+				
 				fadeDelta = -0.015f;
 			}
 			break;
@@ -441,6 +458,8 @@ public class PlayState extends GameState {
 				nextState = transitionState.NEXTSTAGE;
 			}
 			fadeDelta = 0.015f;
+			
+			//TODO: player flash and particles
 		}
 	}
 	
@@ -530,6 +549,8 @@ public class PlayState extends GameState {
 	public void setSafe(int x, int y) {
 		this.safeX = x;
 		this.safeY = y;
+		this.saveZoom = zoomDesired;
+		this.saveCameraPoint = cameraTarget;
 	}
 	
 	public int getSafeX() {

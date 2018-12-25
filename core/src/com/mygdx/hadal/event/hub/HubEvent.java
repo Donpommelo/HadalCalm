@@ -8,7 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -64,7 +65,16 @@ public class HubEvent extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(this);
+		this.eventData =  new InteractableEventData(this) {
+			
+			@Override
+			public void onInteract(Player p) {
+				if (!open && !eventData.getSchmucks().isEmpty()) {
+					enter();
+					open = true;
+				}
+			}
+		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),
@@ -79,10 +89,6 @@ public class HubEvent extends Event {
 		if (open && eventData.getSchmucks().isEmpty()) {
 			leave();
 			open = false;
-		}
-		if (!open && !eventData.getSchmucks().isEmpty()) {
-			enter();
-			open = true;
 		}
 	}
 	
