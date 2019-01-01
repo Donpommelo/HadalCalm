@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" infinite="0" nextobjectid="119">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="119">
  <tileset firstgid="1" source="main.tsx"/>
- <layer name="Tile Layer 1" width="100" height="50">
+ <layer id="1" name="Tile Layer 1" width="100" height="50">
   <data encoding="base64" compression="zlib">
    eJzt2zkKw0AQAEH5AB+J//9bKzYSxsF6W1AFE4vZTjXLAgD84rTOc/Kch295HNd1XpPnMXzL49jqcRk8euz77PGPt9Fjnx4terTo0aJHy4weM755FHq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4v/GVr0aNGjRY8WPVr0aNGjZeseZ/R9mh773Ku13Jbx92nf5j58SwAAgG1vQIIW0w==
   </data>
  </layer>
- <objectgroup name="collision-layer">
+ <objectgroup id="2" name="collision-layer">
   <object id="86" x="2176" y="224">
    <polyline points="0,0 768,0 768,1024 0,1024 0,0"/>
   </object>
  </objectgroup>
- <objectgroup name="event-layer">
+ <objectgroup id="3" name="event-layer">
   <object id="5" name="Dummy" type="Dummy" x="1856" y="1344" width="32" height="32">
    <properties>
     <property name="triggeredId" value="point1end"/>
@@ -454,7 +454,7 @@
     <property name="triggeredId" value="mapCenter"/>
    </properties>
   </object>
-  <object id="87" name="Poison" type="Poison" x="2176" y="1344" width="768" height="64">
+  <object id="87" name="Poison" type="Poison" x="2176" y="1280" width="768" height="128">
    <properties>
     <property name="Damage" type="float" value="5"/>
     <property name="triggeredId" value="poison1"/>

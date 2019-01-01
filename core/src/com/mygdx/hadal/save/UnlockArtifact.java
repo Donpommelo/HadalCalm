@@ -53,6 +53,7 @@ public enum UnlockArtifact {
 	RING_OF_THE_LAMPREY(RingoftheLamprey.class),
 	ROOT_BOOTS(RootBoots.class),
 	ROYAL_JUJUBE_BANG(RoyalJujubeBang.class),
+	SEAFOAM_TALISMAN(SeafoamTalisman.class),
 	SHILLERS_BASIDIA(ShillersBasidia.class),
 	SKIPPERS_BOX_OF_FUN(SkippersBoxofFun.class),
 	SWORD_OF_SYZYGY(SwordofSyzygy.class),

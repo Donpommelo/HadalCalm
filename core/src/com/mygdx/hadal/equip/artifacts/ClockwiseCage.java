@@ -30,7 +30,7 @@ public class ClockwiseCage extends Artifact {
 			
 			private boolean echoing;
 			private float echoCdCount;
-			private float echoCd = 0.2f;
+			private float echoCd = 0.1f;
 			private RangedWeapon echoTool;
 			private Vector2 angle;
 			

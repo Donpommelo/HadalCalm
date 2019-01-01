@@ -521,6 +521,17 @@ SWORD_OF_SYZYGY: {
 		RANDOM_POOL,
 	]
 }
+SEAFOAM_TALISMAN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Seafoam Talisman
+	description: "+Ranged Attack Speed, Antigravity Projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 TRIGGER_FINGER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Trigger Finger

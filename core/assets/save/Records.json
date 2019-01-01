@@ -10,7 +10,7 @@ hiScores: {
 	HUB: 0
 	ARENA_2: 157
 	ARENA_1: 56
-	DONT_FALL: 0
+	DONT_FALL: 1
 	LEVEL_3: 40
 }
 flags: {
@@ -19,11 +19,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	MACHINEGUN
-	MACHINEGUN
+	BOILER
+	SPEARGUN
 	TORPEDO_LAUNCHER
 ]
-artifact: CLAWS_OF_FESTUS
-active: HYDRAULIC_UPPERCUT
-character: TELEMACHUS
+artifact: TYPHON_FANG
+active: NAUTICAL_MINE
+character: MOREAU_FESTIVE
 }

@@ -28,6 +28,7 @@ public enum AssetList {
 	
 	PLAYER_MOREAU("sprites/player/moreau.png", Texture.class),
 	PLAYER_MOREAU_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
+	PLAYER_MOREAU_FESTIVE_ATL("sprites/player/moreau_festive.atlas", TextureAtlas.class),
 	
 	PLAYER_TAKA("sprites/player/takanori.png", Texture.class),
 	PLAYER_TAKA_ATL("sprites/player/takanori.atlas", TextureAtlas.class),
@@ -59,6 +60,9 @@ public enum AssetList {
 	PICKUP_HEALTH("sprites/particle/health_pickup.particle", null),
 	MOMENTUM("sprites/particle/momentum_freeze.particle", null),
 	PORTAL("sprites/particle/portal.particle", null),
+	SMOKE("sprites/particle/smoke_puff.particle", null),
+	EXPLOSION("sprites/particle/explosion.particle", null),
+	FIRE("sprites/particle/fire.particle", null),
 	
 	
 	

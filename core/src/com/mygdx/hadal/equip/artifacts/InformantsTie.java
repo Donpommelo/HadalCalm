@@ -23,6 +23,7 @@ public class InformantsTie extends Artifact {
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, 30, -0.5f, b),
+				new StatChangeStatus(state, 33, 0.5f, b),
 				new Status(state, name, descr, b) {
 
 			@Override

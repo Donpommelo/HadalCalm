@@ -20,7 +20,7 @@ public class TriggerFinger extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 27, 0.25f, b)
+				new StatChangeStatus(state, 27, 0.30f, b)
 		);
 		return enchantment;
 	}

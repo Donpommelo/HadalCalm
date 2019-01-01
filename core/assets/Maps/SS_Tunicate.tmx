@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="116">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="116">
  <tileset firstgid="1" source="main_0.tsx"/>
- <layer name="Tile Layer 1" width="100" height="120">
+ <layer id="1" name="Tile Layer 1" width="100" height="120">
   <data encoding="base64" compression="zlib">
    eJzt2tlu4yAAQFHP3tkfZv7/W1tUWXUdJwYMhoRzJN6aLr71BkwTAAAAAAAAAAAAAAAAAGf58jJ+FB5fT/0LHkdo8bfC+Ddpkiq0+D+9Hr/fL+NTofFn0iTVusWvgt/756RJipotZprEWd4varWYaXLbGefFmibbWrSYaXLp89SmxUyT9+Ye3xv+Dpq86aFHoMmrXnoEmvTVIxi9SW89gpGb9NgjGLXJ3CP8zeu58Y87n/2w8ZmSY34vGqnJ3GNr7J0ztz5rrj7Pt+n6vHhqj5Jz8+bq38TeU5Y9zEHWk9qjxRxkb88fNaX2OPPY9Po8WJMefdGjL3rUkfu+Nr+H6VHW0fc1PcpaPo/mvHu17HFtb2Tsuduj3OPV+v6xXNPPPXd7dI89YlqM1mOe03oq9HVb9q5He9fYnJ/ZWq/3vr1zoNVel9p67DFqi6Blj9zr0aO2CFr1GPkcuKVFDy2uS+2xnl/JWT9ft1hfl0ZtEaT2WM+vHF0/H/lc2NKyhxaXbu3l2dtfc7SHFpfOmt9dj73+e/elR7W1l6fG/G7pzryXs99Hj3py9vvEnG965EnpEfMctdw3pUe6lB6xx3bUvWwl1OgRhCb3unbRUq0e5NGjL7E9wvuNa099Pa4rjqxmjzBHP+p8Sa6a+6o8X6Wrta/KnG+e0j20OCa2R+z+eS2OiV3HCutXj7iPsDcp6yb+9wEAAAAAAAAAAAAA7ssz158jLA==
   </data>
  </layer>
- <objectgroup name="collision-layer">
+ <objectgroup id="2" name="collision-layer">
   <object id="35" x="2176" y="2688">
    <polyline points="0,0 -64,0 -64,32 -160,128 -480,128 -480,160 -704,160 -704,-480 -864,-480 -864,-384 -1152,-384 -1152,-736 -800,-736 -800,-640 -704,-640 -704,-1120 -864,-1120 -864,-1312 -672,-1504 -96,-1504 288,-1120 -480,-1120 -480,-640 -384,-640 -384,-960 -320,-1024 384,-1024 448,-960 448,-768 288,-768 192,-672 32,-672 -64,-576 -224,-576 -320,-480 -480,-480 -480,-32 -416,-32 -416,-192 -384,-224 -160,-224 -64,-128 0,-128"/>
   </object>
@@ -17,7 +17,7 @@
    <polyline points="-480,288 -480,352 -448,352 -416,320 -160,320 -160,288 -64,192 0,192 0,128"/>
   </object>
  </objectgroup>
- <objectgroup name="event-layer">
+ <objectgroup id="3" name="event-layer">
   <object id="1" name="Timer" type="Timer" x="64" y="320" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="0"/>

@@ -3,8 +3,9 @@ package com.mygdx.hadal.equip.actives;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
@@ -22,16 +23,14 @@ public class Fireball extends ActiveItem {
 	private final static float maxCharge = 6.0f;
 	
 
-	private final static int projectileWidth = 200;
-	private final static int projectileHeight = 200;
+	private final static int projectileWidth = 100;
+	private final static int projectileHeight = 100;
 	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	private final static float projectileSpeed = 12.0f;
 
 	private final static int projDura = 1;
 	private final static int numFrag = 20;
-	
-	private final static String projSpriteId = "orb_orange";
 	
 	private final static float baseDamage = 50.0f;
 	private final static float knockback = 40.0f;
@@ -44,18 +43,18 @@ public class Fireball extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 			
-			HitboxImage hbox = new HitboxImage(state, 
+			RangedHitbox hbox = new RangedHitbox(state, 
 					user.getPlayer().getBody().getPosition().x * PPM, 
 					user.getPlayer().getBody().getPosition().y * PPM,
 					projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, this.weaponVelo.scl(projectileSpeed),
-					user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), projSpriteId);
+					user.getPlayer().getHitboxfilter(), true, true, user.getPlayer());
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
 			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnDieFireFragStrategy(state, hbox, user, this, numFrag, user.getPlayer().getHitboxfilter()));
-
+			new ParticleEntity(state, hbox, "FIRE", 3.0f, 0.0f, true);
 			user.getPlayer().recoil(x, y, recoil);
 	}
 

@@ -97,13 +97,6 @@ gem_inactive
   index: -1
 head
   rotate: false
-  xy: 2, 2
-  size: 228, 276
-  orig: 228, 276
-  offset: 0, 0
-  index: 0
-head_festive
-  rotate: false
   xy: 1235, 1232
   size: 228, 276
   orig: 228, 276

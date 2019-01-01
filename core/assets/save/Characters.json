@@ -26,4 +26,13 @@ MOREAU: {
 	unlocked: true
 	tags: []
 }
+MOREAU_FESTIVE: {
+	class: com.mygdx.hadal.save.InfoCharacter
+	name: MOREAU_FESTIVE
+	description: TEMP
+    descriptionLong: "TEST"
+	bio: TEST
+	unlocked: true
+	tags: []
+}
 }
