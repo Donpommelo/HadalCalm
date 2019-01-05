@@ -40,7 +40,7 @@ public class MeleeHitbox extends Hitbox {
 		Vector2 hbLocation = creator.getBody().getPosition().add(center);
 		this.body.setTransform(hbLocation, startVelo.angleRad());
 		
-		//Melee hboes should not persist after owner's disposal
+		//Melee hboxes should not persist after owner's disposal
 		if (!creator.isAlive()) {
 			queueDeletion();
 		}

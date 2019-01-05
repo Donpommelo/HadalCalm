@@ -13,11 +13,11 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.ai.PlayerTrail;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.statuses.artifact.ScalingScalesStatus;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.utils.Constants;
@@ -32,40 +32,6 @@ public class Player extends PhysicsSchmuck {
 	
 	
 	private final static float playerDensity = 1.0f;
-	
-	//counters for various cooldowns.
-	private float hoverCd = 0.08f;
-	private float jumpCd = 0.25f;
-	private float jumpCdCount = 0;
-	
-	private float fastFallCd = 0.25f;
-	private float fastFallCdCount = 0;
-	
-	private float airblastCd = 0.25f;
-	private float airblastCdCount = 0;
-	
-	protected float interactCd = 0.15f;
-	protected float interactCdCount = 0;
-
-	protected float trailCd = 0.25f;
-	protected float trailCdCount = 0;
-	protected PlayerTrail lastTrail;
-	
-	private float attackAngle = 0;
-	
-	//user data
-	private PlayerBodyData playerData;
-	
-	//The event that the player last collided with. Used for active events that the player interacts with by pressing 'E'
-	private Event currentEvent;
-	
-	//Equipment that the player has built in to their toolset.
-	private Airblaster airblast;
-	
-	private TextureAtlas atlasBody, atlasTool;
-	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
-	
-	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 	
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
@@ -84,17 +50,49 @@ public class Player extends PhysicsSchmuck {
 		
 	public static final float scale = 0.15f;
 	
+	private final float spriteAnimationSpeed = 0.08f;
+	
+	//counters for various cooldowns.
+	private float hoverCd = 0.08f;
+	private float jumpCd = 0.25f;
+	private float jumpCdCount = 0;
+	
+	private float fastFallCd = 0.25f;
+	private float fastFallCdCount = 0;
+	
+	private float airblastCd = 0.25f;
+	private float airblastCdCount = 0;
+	
+	protected float interactCd = 0.15f;
+	protected float interactCdCount = 0;
+	
+	private float attackAngle = 0;
+	
+	//user data
+	private PlayerBodyData playerData;
+	
+	//The event that the player last collided with. Used for active events that the player interacts with by pressing 'E'
+	private Event currentEvent;
+	
+	//Equipment that the player has built in to their toolset.
+	private Airblaster airblast;
+	
+	private TextureAtlas atlasBody;
+	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
+	
+	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
+	
 	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
 	toolHeight, toolWidth, gemHeight, gemWidth;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	private float controllerCount = 0;
+	
+	//Is the player currently shooting/hovering?
 	private boolean shooting = false;
 	private boolean hovering = false;
 	
-	private final float spriteAnimationSpeed = 0.08f;
-	
-	private ParticleEntity hoverBubbles;//, jumpSmoke;
+	private ParticleEntity hoverBubbles;
 	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
@@ -107,11 +105,10 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public Player(PlayState state, int x, int y, UnlockCharacter character, PlayerBodyData oldData) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
+		
 		airblast = new Airblaster(this);
 		
-		atlasTool = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
-		
-		toolSprite = atlasTool.findRegion("default");
+		toolSprite = GameStateManager.multitoolAtlas.findRegion("default");
 		
 		this.toolHeight = toolSprite.getRegionHeight();
 		this.toolWidth = toolSprite.getRegionWidth();
@@ -195,7 +192,7 @@ public class Player extends PhysicsSchmuck {
 				
 		super.create();
 		
-		playerData.statusProcTime(12, null, 0, null, null, null);
+		playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
 	}
 	
 	/**
@@ -237,15 +234,6 @@ public class Player extends PhysicsSchmuck {
 			playerData.getCurrentTool().reload(delta);
 		}
 		
-		if (trailCdCount < 0) {
-			/*trailCdCount += trailCd;
-			PlayerTrail newTrail = new PlayerTrail(state, world, camera, rays, (int)(getBody().getPosition().x * PPM), (int)(getBody().getPosition().y * PPM));
-			if (lastTrail != null) {
-				lastTrail.setTrail(newTrail);
-			}
-			lastTrail = newTrail;*/
-		}
-		
 		if (playerData.getActiveItem().getStyle().equals(chargeStyle.byTime)) {
 			playerData.getActiveItem().gainCharge(delta);
 		}
@@ -255,7 +243,6 @@ public class Player extends PhysicsSchmuck {
 		fastFallCdCount-=delta;
 		airblastCdCount-=delta;
 		interactCdCount-=delta;
-		trailCdCount-=delta;
 		
 		super.controller(delta);
 	}

@@ -261,9 +261,9 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void setEquip() {
 		currentTool = multitools[currentSlot];
-		player.setToolSprite(currentTool.getEquipSprite());
+		player.setToolSprite(currentTool.getWeaponSprite().getFrames().get(0));
 		
-		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equiped".
+		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equipped".
 		calcStats();
 	}
 	

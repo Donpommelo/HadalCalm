@@ -3,12 +3,12 @@ package com.mygdx.hadal.event;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -38,7 +38,6 @@ public class Event extends HadalEntity {
 	
 	protected float gravity = 0.0f;
 	
-	private TextureAtlas atlasEvent;
 	private Animation<TextureRegion> eventSprite;
 	private int spriteWidth;
 	private int spriteHeight;
@@ -59,8 +58,6 @@ public class Event extends HadalEntity {
 		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
-		
-		atlasEvent = (TextureAtlas) HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 	}
 	
 	/**
@@ -74,8 +71,7 @@ public class Event extends HadalEntity {
 		this.scale = scale;
 		this.scaleAlign = scaleAlign;
 		
-		atlasEvent = (TextureAtlas) HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
-		eventSprite = new Animation<TextureRegion>(animationSpeed, atlasEvent.findRegions(sprite));
+		eventSprite = new Animation<TextureRegion>(animationSpeed, GameStateManager.eventAtlas.findRegions(sprite));
 		spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
 		spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}
@@ -88,8 +84,6 @@ public class Event extends HadalEntity {
 		this.name = name;
 		this.temporary = true;
 		this.duration = duration;
-		
-		atlasEvent = (TextureAtlas) HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 	}
 	
 	/**
@@ -176,8 +170,8 @@ public class Event extends HadalEntity {
 		
 		if (body != null) {			
 			batch.setProjectionMatrix(state.sprite.combined);
-			state.font.getData().setScale(0.60f);
-			state.font.draw(batch, getText(), body.getPosition().x * PPM, body.getPosition().y * PPM);
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(0.60f);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, getText(), body.getPosition().x * PPM, body.getPosition().y * PPM);
 		}
 	}
 	
@@ -239,21 +233,21 @@ public class Event extends HadalEntity {
 	 * This is used for default animations with multiple frames. The result is a looping animation.
 	 * @param sprite
 	 */
-	public void setEventSprite(String sprite) {
+	public void setEventSprite(Sprite sprite) {
 		setEventSprite(sprite, false, 0, animationSpeed, PlayMode.LOOP);
 	}
 	
-	public void setEventSprite(String sprite, boolean still, int frame, float speed, PlayMode mode) {
+	public void setEventSprite(Sprite sprite, boolean still, int frame, float speed, PlayMode mode) {
 		
 		if (still) {
-			this.eventSprite = new Animation<TextureRegion>(speed, atlasEvent.findRegions(sprite).get(frame));
+			this.eventSprite = new Animation<TextureRegion>(speed, sprite.getFrames().get(frame));
 		} else {
-			this.eventSprite = new Animation<TextureRegion>(speed, atlasEvent.findRegions(sprite));
+			this.eventSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
 		}
 		this.eventSprite.setPlayMode(mode);
 		
 		animationTime = 0;
-		
+
 		this.spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
 		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}

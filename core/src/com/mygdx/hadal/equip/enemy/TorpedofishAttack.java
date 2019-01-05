@@ -1,11 +1,12 @@
 package com.mygdx.hadal.equip.enemy;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
@@ -38,15 +39,15 @@ public class TorpedofishAttack extends RangedWeapon {
 	private final static float explosionDamage = 20.0f;
 	private final static float explosionKnockback = 25.0f;
 	
-	private final static String spriteId = "orb_red";
-	
+	private final static Sprite projSprite = Sprite.ORB_RED;
+
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
-			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, true, user, spriteId);
+			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+					filter, true, true, user, projSprite);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));

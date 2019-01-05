@@ -30,7 +30,9 @@ public class PlayerController implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		
 		if (player == null) return true;
-		
+
+		if (player.getPlayerData() == null) return true;
+
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			leftDown = true;
 			if (!rightDown) {

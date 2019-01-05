@@ -69,7 +69,5 @@ public class PhysicsSchmuck extends Schmuck {
 			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(body.getMass());
 			body.applyLinearImpulse(force, body.getWorldCenter(), true);
 		}
-		
 	}
-
 }

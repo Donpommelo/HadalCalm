@@ -3,10 +3,11 @@ package com.mygdx.hadal.equip.actives;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
@@ -37,6 +38,8 @@ public class NauticalMine extends ActiveItem {
 	
 	private final static float projectileSpeed = 5.0f;
 	
+	private final static Sprite projSprite = Sprite.GRENADE;
+
 	public NauticalMine(Schmuck user) {
 		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -44,11 +47,12 @@ public class NauticalMine extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
-		Hitbox hbox = new HitboxImage(state, 
+		Hitbox hbox = new HitboxSprite(state, 
 				user.getPlayer().getBody().getPosition().x * PPM, 
 				user.getPlayer().getBody().getPosition().y * PPM,
 				projectileWidth, projectileWidth, gravity, lifespan, projDura, restitution, 
-				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), "grenade");
+				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), 
+				false, false, user.getPlayer(), projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user, false));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));

@@ -3,16 +3,14 @@ package com.mygdx.hadal.save;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.mygdx.hadal.managers.GameStateManager;
 
 public class UnlockManager {
 	
 	public static void saveUnlocks(int type) {
 
-		Json json = new Json();
 		String filename = "";
 		String save = "";
 		switch(type) {
@@ -26,7 +24,7 @@ public class UnlockManager {
 					equip.put(u.name(), u.getInfo());
 				}
 			}
-			save = json.prettyPrint(equip);
+			save = GameStateManager.json.prettyPrint(equip);
 			
 			break;
 		case 1:
@@ -39,7 +37,7 @@ public class UnlockManager {
 					artifact.put(u.name(), u.getInfo());
 				}
 			}
-			save = json.prettyPrint(artifact);
+			save = GameStateManager.json.prettyPrint(artifact);
 			
 			break;
 		case 2:
@@ -52,7 +50,7 @@ public class UnlockManager {
 					character.put(u.name(), u.getInfo());
 				}
 			}
-			save = json.prettyPrint(character);
+			save = GameStateManager.json.prettyPrint(character);
 				
 			break;
 		case 3:
@@ -66,7 +64,7 @@ public class UnlockManager {
 				}
 				
 			}
-			save = json.prettyPrint(level);
+			save = GameStateManager.json.prettyPrint(level);
 			
 			break;
 		case 4:
@@ -80,7 +78,7 @@ public class UnlockManager {
 				}
 				
 			}
-			save = json.prettyPrint(active);
+			save = GameStateManager.json.prettyPrint(active);
 			
 			break;
 		}
@@ -90,27 +88,22 @@ public class UnlockManager {
 	}
 	
 	public static void retrieveUnlocks() {
-		JsonReader reader;
 		
-		reader = new JsonReader();
-		
-		Json json = new Json();
-		
-		for (JsonValue d : reader.parse(Gdx.files.internal("save/Equips.json"))) {
-			UnlockEquip.valueOf(d.name()).setInfo(json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Equips.json"))) {
+			UnlockEquip.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		
-		for (JsonValue d : reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
-			UnlockArtifact.valueOf(d.name()).setInfo(json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
+			UnlockArtifact.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
-		for (JsonValue d : reader.parse(Gdx.files.internal("save/Actives.json"))) {
-			UnlockActives.valueOf(d.name()).setInfo(json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Actives.json"))) {
+			UnlockActives.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
-		for (JsonValue d : reader.parse(Gdx.files.internal("save/Characters.json"))) {
-			UnlockCharacter.valueOf(d.name()).setInfo(json.fromJson(InfoCharacter.class, d.toJson(OutputType.minimal)));
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Characters.json"))) {
+			UnlockCharacter.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoCharacter.class, d.toJson(OutputType.minimal)));
 		}
-		for (JsonValue d : reader.parse(Gdx.files.internal("save/Levels.json"))) {
-			UnlockLevel.valueOf(d.name()).setInfo(json.fromJson(InfoLevel.class, d.toJson(OutputType.minimal)));
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Levels.json"))) {
+			UnlockLevel.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoLevel.class, d.toJson(OutputType.minimal)));
 		}
 	}	
 	

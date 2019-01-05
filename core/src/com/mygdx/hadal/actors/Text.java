@@ -11,7 +11,7 @@ import com.mygdx.hadal.HadalGame;
 /**
  * Simple actor that displays floating text. Not suitable for long messages.
  */
-public class Text extends AHadalActor{
+public class Text extends AHadalActor {
 	
 	protected String text;
 	protected BitmapFont font;
@@ -24,8 +24,7 @@ public class Text extends AHadalActor{
 		super(assetManager, x, y);
 		this.text = text;
 		font = HadalGame.SYSTEM_FONT_UI;
-//		color = HadalGame.DEFAULT_TEXT_COLOR;
-		color = Color.BLACK;
+		color = HadalGame.DEFAULT_TEXT_COLOR;
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		updateHitBox();
 	}

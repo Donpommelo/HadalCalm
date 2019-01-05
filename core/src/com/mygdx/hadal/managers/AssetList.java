@@ -64,15 +64,13 @@ public enum AssetList {
 	EXPLOSION("sprites/particle/explosion.particle", null),
 	FIRE("sprites/particle/fire.particle", null),
 	
-	
-	
 	UIPATCHIMG("ui/window.png", Texture.class),
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),
 	UISKINIMG("ui/uiskin.png", Texture.class),
 	UISKINATL("ui/uiskin.atlas", TextureAtlas.class),
 	UI1("ui/UI.png", Texture.class),
 	UI2("ui/UI2.png", Texture.class),
-	UIATLAS("ui/UI.atlas", TextureAtlas.class),
+	UI_ATL("ui/UI.atlas", TextureAtlas.class),
 	ANCHOR("ui/anchor_logo.png", Texture.class),
 	ANCHORATLAS("ui/anchor_logo.atlas", TextureAtlas.class),
 	ANCHORDARK("ui/anchor_logo_dark.png", Texture.class),

@@ -30,5 +30,4 @@ public class Scissorfish extends FloatingEnemy {
 		
 		this.weapon = new ScissorfishAttack(this);	
 	}
-
 }

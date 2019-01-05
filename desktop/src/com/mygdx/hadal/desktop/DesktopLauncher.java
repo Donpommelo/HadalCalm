@@ -5,10 +5,17 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.hadal.HadalGame;
 
 public class DesktopLauncher {
+	
+	//Name of the game. Currently unused.
+	private static final String TITLE = "Hadal Panic";
+	private final static int DEFAULT_WIDTH = 1080;
+	private final static int DEFAULT_HEIGHT = 720;
+	
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1080;
-		config.height = 720;
+		config.title = TITLE;
+		config.width = DEFAULT_WIDTH;
+		config.height = DEFAULT_HEIGHT;
 		config.fullscreen = true;
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 60;

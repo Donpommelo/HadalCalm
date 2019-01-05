@@ -1,4 +1,4 @@
-package com.mygdx.hadal.event.ai;
+package com.mygdx.hadal.retired;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.event.Event;

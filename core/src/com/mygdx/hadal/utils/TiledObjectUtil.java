@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
 import com.mygdx.hadal.event.prefab.*;
@@ -320,13 +321,13 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("sprite", String.class) != null) {
 				if (object.getProperties().get("frame", int.class) != null) {
 					e.setEventSprite(
-							object.getProperties().get("sprite", String.class), 
+							Sprite.valueOf(object.getProperties().get("sprite", String.class)), 
 							true, 
 							object.getProperties().get("frame", 0, int.class), 
 							object.getProperties().get("speed", 0.8f, float.class), 
 							PlayMode.valueOf(object.getProperties().get("mode", "NORMAL", String.class)));
 				} else {
-					e.setEventSprite(object.getProperties().get("sprite", String.class));
+					e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));
 				}
 			}
 			if (object.getProperties().get("scale", float.class) != null) {
@@ -475,7 +476,7 @@ public class TiledObjectUtil {
         			key.addConnection(triggeredEvents.getOrDefault(id, null));
     			}
     		}
-    	}
+    	}    
     }
     
     public static void parseTiledSingleTrigger(Event e) {
@@ -506,6 +507,15 @@ public class TiledObjectUtil {
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
 
+    public static void clearEvents() {
+    	triggeredEvents.clear();
+    	triggeringEvents.clear();
+    	multiTriggeringEvents.clear();
+    	condTriggeringEvents.clear();
+    	redirectTriggeringEvents.clear();
+    	platformConnections.clear();
+    }
+    
     /**
      * Helper function for parseTiledObjectLayer that creates line bodies
      * @param polyline: Tiled map object

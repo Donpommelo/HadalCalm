@@ -170,7 +170,7 @@ public class Turret extends Enemy {
 		shootDelayCount-=delta;
 		flashingCount-=delta;
 		
-		//If the delay on using a tool just ended, use thte tool.
+		//If the delay on using a tool just ended, use the tool.
 		if (shootDelayCount <= 0 && usedTool != null) {
 			useToolEnd();
 		}
@@ -230,5 +230,4 @@ public class Turret extends Enemy {
 		SHOOTING,
 		NOTSHOOTING
 	}
-
 }

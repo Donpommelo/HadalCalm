@@ -1,5 +1,6 @@
 package com.mygdx.hadal.states;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +16,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
  * @author Zachary Tu
  *
  */
-public class VictoryState extends GameState{
+public class VictoryState extends GameState {
 
 	private Stage stage;
 	
@@ -36,9 +37,9 @@ public class VictoryState extends GameState{
 			{
 				addActor(new VictoryBackdrop(HadalGame.assetManager));
 				
-				playOption = new Text(HadalGame.assetManager, "PLAY AGAIN?", 150, HadalGame.CONFIG_HEIGHT - 180);
-				loadoutOption = new Text(HadalGame.assetManager, "LOADOUT?", 150, HadalGame.CONFIG_HEIGHT - 220);
-				exitOption = new Text(HadalGame.assetManager, "TITLE?", 150, HadalGame.CONFIG_HEIGHT - 260);
+				playOption = new Text(HadalGame.assetManager, "PLAY AGAIN?", 150, HadalGame.CONFIG_HEIGHT - 180, Color.BLACK);
+				loadoutOption = new Text(HadalGame.assetManager, "LOADOUT?", 150, HadalGame.CONFIG_HEIGHT - 220, Color.BLACK);
+				exitOption = new Text(HadalGame.assetManager, "TITLE?", 150, HadalGame.CONFIG_HEIGHT - 260, Color.BLACK);
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {

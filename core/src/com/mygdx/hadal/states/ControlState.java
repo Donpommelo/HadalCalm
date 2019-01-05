@@ -31,7 +31,6 @@ public class ControlState extends GameState {
 
 	@Override
 	public void show() {
-		//stage = new Stage(new FitViewport(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT)) {
 		stage = new Stage() {
 			{
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);
@@ -109,6 +108,9 @@ public class ControlState extends GameState {
 				return false;
 			}
 
+			/**
+			 * This is just a janky way of implementing setting mouse wheel as a hotkey.
+			 */
 			@Override
 			public boolean scrolled(int amount) {
 				return keyDown(amount * 1000);
@@ -122,15 +124,19 @@ public class ControlState extends GameState {
 	}
 	
 	public void refreshBinds() {
-		VerticalGroup actions = new VerticalGroup();
+		VerticalGroup actions = new VerticalGroup()
+				.space(10)
+				.pad(50);
 		actions.addActor(new Text(HadalGame.assetManager, "CONTROLS", 0, 0));
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
 			final PlayerAction action = a;
-			Text actionChoose = new Text(HadalGame.assetManager, a.name() + ":== " + getKey(a.getKey()) , 0, 0);
+			Text actionChoose = new Text(HadalGame.assetManager, a.name() + ":==   " + getKey(a.getKey()) , 0, 0);
 			
 			actionChoose.addListener(new ClickListener() {
+				
+				@Override
 				public void clicked(InputEvent e, float x, float y) {
 					currentlyEditing = action;
 				}
@@ -140,10 +146,12 @@ public class ControlState extends GameState {
 		}
 		
 		options = new ScrollPane(actions, getGsm().getSkin());
+		options.setFadeScrollBars(false);
 		options.setPosition(200, 0);
 		options.setSize(HadalGame.CONFIG_WIDTH - 200, HadalGame.CONFIG_HEIGHT);
 		
 		stage.addActor(options);
+		stage.setScrollFocus(options);
 	}
 	
 	public String getKey(int keycode) {

@@ -4,12 +4,13 @@ package com.mygdx.hadal.equip.actives;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxMouseStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
@@ -37,8 +38,6 @@ public class TractorBeam extends ActiveItem {
 	
 	private final static int projDura = 1;
 	
-	private final static String projSpriteId = "orb_pink";
-
 	private static final float maxLinSpd = 600;
 	private static final float maxLinAcc = 3000;
 	private static final float maxAngSpd = 1080;
@@ -47,6 +46,8 @@ public class TractorBeam extends ActiveItem {
 	private static final int boundingRad = 500;
 	private static final int decelerationRadius = 0;
 	
+	private final static Sprite projSprite = Sprite.ORB_PINK;
+
 	public TractorBeam(Schmuck user) {
 		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -56,11 +57,11 @@ public class TractorBeam extends ActiveItem {
 		
 		final Equipable tool = this;
 		
-		Hitbox hbox = new HitboxImage(state, 
+		Hitbox hbox = new HitboxSprite(state, 
 				user.getPlayer().getBody().getPosition().x * PPM, 
 				user.getPlayer().getBody().getPosition().y * PPM,
 				projectileWidth, projectileHeight, gravity, lifespan, projDura, 1, this.weaponVelo.scl(projectileSpeed),
-				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSpriteId) {
+				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite) {
 			
 			@Override
 			public void create() {

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -85,7 +86,7 @@ public class PickupEquip extends Event {
 						
 						//Otherwise set its weapon to the dropped weapon.
 						equip = temp;
-						setEventSprite(equip.getEventSpriteId());
+						setEventSprite(equip.getEventSprite());
 						
 						for (WeaponModifier mod : equip.getWeaponMods()) {
 							mods.add(mod.getConstantMod());
@@ -144,13 +145,13 @@ public class PickupEquip extends Event {
 		
 		if (open) {
 			batch.setProjectionMatrix(state.sprite.combined);
-			state.font.getData().setScale(1.0f);
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 			float y = body.getPosition().y * PPM + height / 2;
 			for (WeaponMod mod : mods) {
-				state.font.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
+				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
 				y += 15;
 			}
-			state.font.draw(batch, equip.getName(), body.getPosition().x * PPM - width / 2, y);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), body.getPosition().x * PPM - width / 2, y);
 		}
 	}
 	
@@ -164,7 +165,6 @@ public class PickupEquip extends Event {
 
 	@Override
 	public void loadDefaultProperties() {
-		setEventSprite(equip.getEventSpriteId());
+		setEventSprite(equip.getEventSprite());
 	}
-
 }

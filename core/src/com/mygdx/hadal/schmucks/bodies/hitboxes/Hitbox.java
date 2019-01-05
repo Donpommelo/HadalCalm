@@ -8,6 +8,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -53,6 +54,8 @@ public class Hitbox extends HadalEntity {
 	//This is the Schmuck that created the hitbox
 	protected Schmuck creator;
 	
+	//strategies contains a bunch of effects that modify a hitbox.
+	//add+remove are strategies that will be added/removed from the hitbox next world-step
 	private ArrayList<HitboxStrategy> strategies, add, remove;
 	
 	/**
@@ -78,7 +81,7 @@ public class Hitbox extends HadalEntity {
 		this.remove = new ArrayList<HitboxStrategy>();
 		
 		if (procEffects) {
-			creator.getBodyData().statusProcTime(11, creator.getBodyData(), 0, null, creator.getBodyData().getCurrentTool(), this);
+			creator.getBodyData().statusProcTime(StatusProcTime.HITBOX_CREATION, creator.getBodyData(), 0, null, creator.getBodyData().getCurrentTool(), this);
 		}
 	}
 	

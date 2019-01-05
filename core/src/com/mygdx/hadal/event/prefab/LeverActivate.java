@@ -29,12 +29,12 @@ public class LeverActivate extends Prefabrication {
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
 		base.getProperties().put("align", 2);
-		base.getProperties().put("sprite", "lever_base_green");
+		base.getProperties().put("sprite", "BASE_GREEN");
 		
 		RectangleMapObject lever = new RectangleMapObject();
 		lever.getRectangle().set(x, y, width, height);
 		lever.setName("Switch");
-		lever.getProperties().put("sprite", "lever");
+		lever.getProperties().put("sprite", "LEVER");
 		lever.getProperties().put("still", true);
 		lever.getProperties().put("frame", 0);
 		lever.getProperties().put("align", 2);
@@ -49,7 +49,7 @@ public class LeverActivate extends Prefabrication {
 		
 		RectangleMapObject sprite1 = new RectangleMapObject();
 		sprite1.setName("SpriteChange");
-		sprite1.getProperties().put("newSprite", "lever");
+		sprite1.getProperties().put("newSprite", "LEVER");
 		sprite1.getProperties().put("still", false);
 		sprite1.getProperties().put("mode", "NORMAL");
 		sprite1.getProperties().put("speed", 0.02f);

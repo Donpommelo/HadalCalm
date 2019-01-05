@@ -30,5 +30,4 @@ public class Spittlefish extends FloatingEnemy {
 		
 		this.weapon = new SpittlefishAttack(this);	
 	}
-
 }

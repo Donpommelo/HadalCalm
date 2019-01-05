@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -55,6 +56,6 @@ public class LevelWarp extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setEventSprite("event_pyramid");
+		setEventSprite(Sprite.PYRAMID);
 	}
 }

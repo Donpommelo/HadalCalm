@@ -23,5 +23,4 @@ public class RangedHitbox extends Hitbox {
 				rest + creator.getBodyData().getProjectileBounciness(), 
 				startVelo.scl(1 + creator.getBodyData().getProjectileSpeed()), filter, sensor, procEffects, creator);
 	}
-
 }

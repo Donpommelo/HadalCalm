@@ -39,7 +39,6 @@ public class Reliquary extends HubEvent {
 				
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
-		        	state.getGsm().getLoadout().artifact = selected;
 		        	state.getGsm().getRecord().setArtifact(selected.name());
 		        	state.getPlayer().getPlayerData().replaceSlot(selected);
 		        }

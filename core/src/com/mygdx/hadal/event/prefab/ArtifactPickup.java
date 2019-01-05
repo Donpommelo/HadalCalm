@@ -28,7 +28,7 @@ public class ArtifactPickup extends Prefabrication {
 		artifact.getRectangle().set(x, y, width, height);
 		artifact.setName("Artifact");
 		artifact.getProperties().put("align", 2);
-		artifact.getProperties().put("sprite", "event_cube");
+		artifact.getProperties().put("sprite", "CUBE");
 		artifact.getProperties().put("particle_amb", "EVENT_HOLO");
 		artifact.getProperties().put("triggeredId", triggeredId);
 		artifact.getProperties().put("triggeringId", triggeringId);
@@ -39,7 +39,7 @@ public class ArtifactPickup extends Prefabrication {
 		spawner.setName("Dummy");
 		spawner.getProperties().put("align", 2);
 		spawner.getProperties().put("scale", 0.25f);
-		spawner.getProperties().put("sprite", "event_base");
+		spawner.getProperties().put("sprite", "BASE");
 		
 		TiledObjectUtil.parseTiledEvent(state, spawner);
 		TiledObjectUtil.parseTiledEvent(state, artifact);

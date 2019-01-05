@@ -1,4 +1,4 @@
-package com.mygdx.hadal.event.ai;
+package com.mygdx.hadal.retired;
 
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.math.Vector2;

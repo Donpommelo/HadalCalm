@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.melee;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -27,8 +28,8 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float knockback = 20.0f;
 	private final static float momentum = 7.5f;
 	
-	private final static String weapSpriteId = "scrapripper";
-	private final static String weapEventSpriteId = "event_scrapripper";
+	private final static Sprite weaponSprite = Sprite.MT_SCRAPRIPPER;
+	private final static Sprite eventSprite = Sprite.P_SCRAPRIPPER;
 
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
@@ -45,6 +46,6 @@ public class Scrapripper extends MeleeWeapon {
 	};
 	
 	public Scrapripper(Schmuck user) {
-		super(user, name, swingCd, windup, momentum, onSwing, weapSpriteId, weapEventSpriteId);
+		super(user, name, swingCd, windup, momentum, onSwing, weaponSprite, eventSprite);
 	}
 }

@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -57,15 +58,15 @@ public class Text extends Event {
 		
 		if (open) {
 			batch.setProjectionMatrix(state.sprite.combined);
-			state.font.getData().setScale(0.60f);
+			HadalGame.SYSTEM_FONT_UI.getData().setScale(0.60f);
 			if (getConnectedEvent() != null) {
 				if (getConnectedEvent().getBody() != null) {
-					state.font.draw(batch, text, getConnectedEvent().getBody().getPosition().x * PPM, getConnectedEvent().getBody().getPosition().y * PPM);
+					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getConnectedEvent().getBody().getPosition().x * PPM, getConnectedEvent().getBody().getPosition().y * PPM);
 				} else {
-					state.font.draw(batch, text, body.getPosition().x * PPM, body.getPosition().y * PPM);
+					HadalGame.SYSTEM_FONT_UI.draw(batch, text, body.getPosition().x * PPM, body.getPosition().y * PPM);
 				}
 			} else {
-				state.font.draw(batch, text, body.getPosition().x * PPM, body.getPosition().y * PPM);
+				HadalGame.SYSTEM_FONT_UI.draw(batch, text, body.getPosition().x * PPM, body.getPosition().y * PPM);
 			}
 		}
 	}

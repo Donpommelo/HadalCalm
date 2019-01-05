@@ -11,6 +11,7 @@ import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -103,7 +104,7 @@ public class Schmuck extends HadalEntity {
 		
 		rightSensor.setUserData(rightData);
 		
-		//Creates a pad at bottom of player with friction.
+		//Creates a pad at bottom of player with friction. I hate drop-through platforms.
 		this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height, 
 				new Vector2(1 / 2 / PPM,  -1 / PPM), false, 0, 0, 0, 1,
 				Constants.BIT_PLAYER, Constants.BIT_WALL, hitboxfilter));
@@ -134,8 +135,7 @@ public class Schmuck extends HadalEntity {
 		}
 		
 		//Process statuses
-		bodyData.statusProcTime(3, null, delta, null, bodyData.getCurrentTool(), null);
-		
+		bodyData.statusProcTime(StatusProcTime.TIME_PASS, null, delta, null, bodyData.getCurrentTool(), null);
 	}
 
 	/**

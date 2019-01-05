@@ -25,7 +25,7 @@ public abstract class GameState {
 	 */
 	public GameState(GameStateManager gsm) {
 		this.gsm = gsm;
-		this.app = gsm.application();
+		this.app = gsm.getApp();
 		this.batch = app.getBatch();
 		this.camera = app.getCamera();
 		this.sprite = app.getSprite();

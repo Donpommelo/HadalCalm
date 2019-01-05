@@ -1,5 +1,6 @@
 package com.mygdx.hadal.states;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,12 +35,10 @@ public class MenuState extends GameState {
 		stage = new Stage() {
 			{
 				addActor(new MenuBackdrop(HadalGame.assetManager));
-				resumeOption = new Text(HadalGame.assetManager, "RESUME?", 
-						HadalGame.CONFIG_WIDTH / 2,
-						HadalGame.CONFIG_HEIGHT - 300);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 
-						HadalGame.CONFIG_WIDTH / 2,
-						HadalGame.CONFIG_HEIGHT - 340);
+				resumeOption = new Text(HadalGame.assetManager, "RESUME?", HadalGame.CONFIG_WIDTH / 2, 
+						HadalGame.CONFIG_HEIGHT - 300, Color.BLACK);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", HadalGame.CONFIG_WIDTH / 2,
+						HadalGame.CONFIG_HEIGHT - 340, Color.BLACK);
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {

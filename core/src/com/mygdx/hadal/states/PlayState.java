@@ -10,7 +10,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -30,6 +29,7 @@ import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
@@ -67,8 +67,6 @@ public class PlayState extends GameState {
 	private Box2DDebugRenderer b2dr;
 	private World world;
 	
-	public BitmapFont font;
-	
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
 	private Set<HadalEntity> removeList;
 	private Set<HadalEntity> createList;
@@ -101,7 +99,6 @@ public class PlayState extends GameState {
 	private boolean realFite;
 	
 	private PlayStateStage stage;
-//	private Set<Zone> zones;
 	
 	private UIPlay uiPlay;
 	private UIReload uiReload;
@@ -132,8 +129,6 @@ public class PlayState extends GameState {
 		}
 		this.level = level;
         
-		this.font = new BitmapFont();
-		
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), false);
 		world.setContactListener(new WorldContactListener());
@@ -168,10 +163,9 @@ public class PlayState extends GameState {
 		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", 0, Integer.class);
 		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", 0, Integer.class);
 		
+		TiledObjectUtil.clearEvents();
 		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
-		
 		TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
-		
 		TiledObjectUtil.parseTiledTriggerLayer();
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
@@ -180,28 +174,32 @@ public class PlayState extends GameState {
 		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		this.cameraTarget = player;
 		
+		controller = new PlayerController(player, this);	
+		
+		//Set up "save point" as starting point
 		this.safeX = startX;
 		this.safeY = startY;
 		this.saveZoom = zoomDesired;
 		this.saveCameraPoint = cameraTarget;
 		
-		controller = new PlayerController(player, this);	
-		
+		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
 		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
-
 	}
 	
 	/**
-	 * 
+	 * This constructor is used for levels without a custom level/loadout.
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean realFite) {
-		this(gsm, loadout, level, realFite, null);
+	public PlayState(GameStateManager gsm, Record record, boolean realFite, PlayerBodyData old) {
+		this(gsm, new Loadout(record), UnlockLevel.valueOf(record.getLevel()), realFite, old);
 	}
 			
 	@Override
 	public void show() {
 		this.stage = new PlayStateStage(this) {
+			
+			//This precaution exists to prevent null pointer when player is not loaded in yet.
+			@Override
 			public void draw() {
 				if (player.getPlayerData() != null) {
 					super.draw();
@@ -256,6 +254,8 @@ public class PlayState extends GameState {
 		
 		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
 		world.step(1 / 60f, 6, 2);
+		
+		//Let AI process time step
 		GdxAI.getTimepiece().update(1 / 60f);
 		
 		//All entities that are set to be removed are removed.
@@ -341,9 +341,11 @@ public class PlayState extends GameState {
 
 		batch.end();
 		
+		//Render lighting
 		rays.setCombinedMatrix(camera);
 		rays.updateAndRender();
 		
+		//Render fade transitions
 		if (fadeLevel > 0) {
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
@@ -385,9 +387,18 @@ public class PlayState extends GameState {
 		for (HadalEntity hitbox : hitboxes) {
 			hitbox.dispose();
 		}
+		for (HadalEntity hitbox : removeList) {
+			hitbox.dispose();
+		}
+		entities.clear();
+		hitboxes.clear();
+		createList.clear();
+		removeList.clear();
+		
 		world.dispose();
 		tmr.dispose();
 		map.dispose();
+		rays.dispose();
 		if (stage != null) {
 			stage.dispose();
 		}
@@ -432,7 +443,7 @@ public class PlayState extends GameState {
 		case NEWLEVEL:
 			getGsm().removeState(PlayState.class);
 			getGsm().removeState(HubState.class);
-			getGsm().addPlayState(nextLevel, loadout, null, TitleState.class);
+        	getGsm().addState(State.PLAY, TitleState.class);
 			break;
 		case NEXTSTAGE:
 			getGsm().removeState(PlayState.class);

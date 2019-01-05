@@ -3,13 +3,12 @@ package com.mygdx.hadal.actors;
 import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.SteeringUtil;
@@ -19,12 +18,10 @@ import com.mygdx.hadal.utils.SteeringUtil;
  * @author Zachary Tu
  *
  */
-public class UIObjective extends AHadalActor{
+public class UIObjective extends AHadalActor {
 
 	private Player player;
 	private PlayState state;
-	
-	private TextureAtlas atlas;
 	
 	private TextureRegion base, ready, overlay;
 	private Array<AtlasRegion> arrow;
@@ -38,12 +35,11 @@ public class UIObjective extends AHadalActor{
 		this.player = player;
 		this.state = state;
 		
-		this.atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.UIATLAS.toString());
-		this.base = atlas.findRegion("UI_momentum_base");
-		this.ready = atlas.findRegion("UI_momentum_ready");
-		this.overlay = atlas.findRegion("UI_momentum_overlay");
+		this.base = GameStateManager.uiAtlas.findRegion("UI_momentum_base");
+		this.ready = GameStateManager.uiAtlas.findRegion("UI_momentum_ready");
+		this.overlay = GameStateManager.uiAtlas.findRegion("UI_momentum_overlay");
 		
-		this.arrow = atlas.findRegions("UI_momentum_arrow");
+		this.arrow = GameStateManager.uiAtlas.findRegions("UI_momentum_arrow");
 		
 		this.corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
 	}

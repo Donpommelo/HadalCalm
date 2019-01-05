@@ -5,12 +5,13 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
@@ -38,9 +39,9 @@ public class LaserRifle extends RangedWeapon {
 	
 	private final static int projDura = 1;
 	
-	private final static String weapSpriteId = "laserrifle";
-	private final static String weapEventSpriteId = "event_laserrifle";
-	private final static String projSpriteId = "orb_orange";
+	private final static Sprite projSprite = Sprite.ORB_ORANGE;
+	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
+	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -78,8 +79,8 @@ public class LaserRifle extends RangedWeapon {
 				}, user.getBody().getPosition(), endPt);
 			}
 			
-			Hitbox hbox = new HitboxImage(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
-					lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSpriteId) {
+			Hitbox hbox = new HitboxSprite(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
+					lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite) {
 				
 				@Override
 				public void create() {
@@ -99,7 +100,7 @@ public class LaserRifle extends RangedWeapon {
 	};
 	
 	public LaserRifle(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
 	}
 
 }

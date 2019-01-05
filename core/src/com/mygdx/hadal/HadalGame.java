@@ -23,14 +23,10 @@ import com.mygdx.hadal.audio.MusicPlayer;
  */
 public class HadalGame extends ApplicationAdapter {
 	
-	//Name of the game. Currently unused.
-	//private static final String TITLE = "Hadal Panic";
-	
 	public static int CONFIG_WIDTH;
 	public static int CONFIG_HEIGHT;
 	
 	//The main camera scales to the viewport size scaled to this for some reason.
-	//TODO: replace this with a constant aspect ratio?
 	private final static float BOX2DSCALE = 1.0f;
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
@@ -45,11 +41,11 @@ public class HadalGame extends ApplicationAdapter {
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;
     
-    public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_UI;
+    public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
-    private static int DEFAULT_WIDTH = 1080;
-	private static int DEFAULT_HEIGHT = 720;
+    private final static int DEFAULT_WIDTH = 1080;
+	private final static int DEFAULT_HEIGHT = 720;
     private Stage currentMenu;
     
     public static ShaderProgram shader;
@@ -81,15 +77,14 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    hud.zoom = 1 / BOX2DSCALE;
 	    
-	    shader = new ShaderProgram(Gdx.files.internal(
-	    		"shaders/flash-vert.glsl").readString(), 
+	    shader = new ShaderProgram(
+	    		Gdx.files.internal("shaders/flash-vert.glsl").readString(), 
 	    		Gdx.files.internal("shaders/flash-frag.glsl").readString());
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    musicPlayer = new MusicPlayer();
         
         gsm = new GameStateManager(this);
-		
 		gsm.addState(State.SPLASH, null);
 	}
 	
@@ -112,24 +107,23 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
 		currentMenu.draw();
-		
 	}
 	
 	/**
-	 * Run when the window resizes. We tell the gsm to delegate that update to the current state.
+	 * Run when the window resizes. We adjust each camera.
 	 */
 	@Override
 	public void resize (int width, int height) {
-		
-//		gsm.resize(width, height);
-		
 		viewportCamera.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
-		
 		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
-		
 		viewportUI.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
 	}
 	
+	/**
+	 * This is run when we add a new menu. (Usually when a new stage is added by a state)
+	 * We want to always have the player touching the new menu
+	 * @param menu
+	 */
 	public void newMenu(Stage menu) {
 		currentMenu = menu;
 		currentMenu.setViewport(viewportUI);
@@ -162,6 +156,11 @@ public class HadalGame extends ApplicationAdapter {
 		return hud;
 	}
 	
+	/**
+	 * Getter for the sprite camera
+	 * This is separate because box2d scale stuff
+	 * @return: the camera
+	 */
 	public OrthographicCamera getSprite() {
 		return sprite;
 	}

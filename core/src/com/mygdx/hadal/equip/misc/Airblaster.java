@@ -12,6 +12,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.HitboxFactory;
 
 public class Airblaster extends MeleeWeapon {
@@ -26,7 +27,6 @@ public class Airblaster extends MeleeWeapon {
 	private final static float knockback = 25.0f;
 	private final static float momentum = -60.0f;
 	
-	
 	private final static HitboxFactory onSwing = new HitboxFactory() {
 
 		@Override
@@ -38,13 +38,11 @@ public class Airblaster extends MeleeWeapon {
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
 			
-			user.getBodyData().statusProcTime(13, user.getBodyData(), 0.0f, null, tool, null);
-
+			user.getBodyData().statusProcTime(StatusProcTime.ON_AIRBLAST, user.getBodyData(), 0.0f, null, tool, null);
 		}
 	};
 	
 	public Airblaster(Schmuck user) {
 		super(user, name, swingCd, windup, momentum, onSwing);
 	}
-
 }

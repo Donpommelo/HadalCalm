@@ -4,10 +4,12 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -39,9 +41,9 @@ public class Scattergun extends RangedWeapon {
 	private final static int numProj = 11;
 	private final static int spread = 10;
 	
-	private final static String weapSpriteId = "scattergun";
-	private final static String weapEventSpriteId = "event_doublebarrel";
-	private final static String[] spriteId = {"debris_a", "debris_b", "debris_c", "debris_d"};
+	private final static Sprite[] spriteId = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+	private final static Sprite weaponSprite = Sprite.MT_SHOTGUN;
+	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -54,11 +56,11 @@ public class Scattergun extends RangedWeapon {
 				
 				Random generator = new Random();
 				int randomIndex = generator.nextInt(spriteId.length);
-				String projSprite = spriteId[randomIndex];
+				Sprite projSprite = spriteId[randomIndex];
 				
 				Vector2 newVelocity = new Vector2(startVelocity);
 				
-				HitboxImage hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, newVelocity.setAngle(newDegrees),
+				Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, newVelocity.setAngle(newDegrees),
 						filter, true, true, user, projSprite);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
@@ -70,6 +72,6 @@ public class Scattergun extends RangedWeapon {
 	};
 	
 	public Scattergun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
 	}
 }

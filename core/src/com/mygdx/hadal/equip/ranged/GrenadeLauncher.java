@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -31,8 +32,8 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static float explosionDamage = 60.0f;
 	private final static float explosionKnockback = 25.0f;
 
-	private final static String weapSpriteId = "grenadelauncher";
-	private final static String weapEventSpriteId = "event_grenadelauncher";
+	private final static Sprite weaponSprite = Sprite.MT_GRENADE;
+	private final static Sprite eventSprite = Sprite.P_GRENADE;
 
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -45,6 +46,6 @@ public class GrenadeLauncher extends RangedWeapon {
 	};
 	
 	public GrenadeLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
 	}
 }

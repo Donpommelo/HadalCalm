@@ -4,12 +4,9 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 
@@ -18,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxAnimated extends RangedHitbox {
+public class HitboxSprite extends RangedHitbox {
 	
 	//This is the animation of this sprite
 	protected Animation<TextureRegion> projectileSprite;
@@ -29,16 +26,11 @@ public class HitboxAnimated extends RangedHitbox {
 	/**
 	 * Same as normal hitbox man
 	 */
-	public HitboxAnimated(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, String spriteId) {
+	public HitboxSprite(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
+			Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
 		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, procEffects, creator);
 		
-		if (spriteId.equals("boom")) {
-			projectileSprite = new Animation<TextureRegion>(speed, 
-					((TextureAtlas) HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString())).findRegions(spriteId));
-		} else {
-			projectileSprite = new Animation<TextureRegion>(speed, GameStateManager.projectileAtlas.findRegions(spriteId));
-		}
+		projectileSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
 	}
 	
 	@Override
@@ -46,7 +38,6 @@ public class HitboxAnimated extends RangedHitbox {
 		super.controller(delta);
 		increaseAnimationTime(delta);
 	}
-	
 	
 	@Override
 	public void render(SpriteBatch batch) {
@@ -60,5 +51,4 @@ public class HitboxAnimated extends RangedHitbox {
 				width, height, 1, 1, 
 				(float) Math.toDegrees(body.getAngle()) + 180);
 	}	
-
 }

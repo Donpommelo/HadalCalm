@@ -38,8 +38,10 @@ public class Navigations extends HubEvent {
 		        
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-		        	state.getGsm().setLevel(selected);
+					state.getGsm().getRecord().setLevel(selected.name());
 		        	state.loadLevel(selected, true);
+		        	leave();
+		        	mouseOut();
 		        }
 		        
 		        @Override

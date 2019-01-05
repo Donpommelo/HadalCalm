@@ -22,23 +22,17 @@ public class MouseTracker extends HadalEntity {
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.EVENT, this);
-
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (0), (short) 0, true, hadalData);
-		
 	}
 
 	@Override
 	public void controller(float delta) {
 		tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(tmpVec3);
-
 		body.setTransform(tmpVec3.x / PPM, tmpVec3.y / PPM, 0);
 	}
 
 	@Override
-	public void render(SpriteBatch batch) {
-
-	}
-
+	public void render(SpriteBatch batch) {}
 }

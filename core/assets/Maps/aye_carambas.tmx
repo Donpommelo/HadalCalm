@@ -60,7 +60,7 @@
    <properties>
     <property name="align" type="int" value="2"/>
     <property name="particle_amb" value="EVENT_HOLO"/>
-    <property name="sprite" value="event_pyramid"/>
+    <property name="sprite" value="PYRAMID"/>
     <property name="triggeringId" value="portal0"/>
    </properties>
   </object>

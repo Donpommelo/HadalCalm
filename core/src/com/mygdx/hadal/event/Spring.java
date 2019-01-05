@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
@@ -56,7 +57,7 @@ public class Spring extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setEventSprite("event_spring");
+		setEventSprite(Sprite.SPRING);
 //		setScaleAlign(2);
 //		setScale(0.25f);
 	}

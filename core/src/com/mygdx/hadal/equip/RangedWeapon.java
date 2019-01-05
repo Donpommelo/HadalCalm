@@ -3,9 +3,12 @@ package com.mygdx.hadal.equip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.HitboxFactory;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
+
+import com.mygdx.hadal.effects.Sprite;
 
 /**
  * Ranged Weapons are weapons used by clicking somewhere on the screen to probably fire a projcetile or whatever in that direction.
@@ -52,8 +55,9 @@ public class RangedWeapon extends Equipable{
 	}
 	
 	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
-			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot, String spriteId, String spriteEventId) {
-		super(user, name, shootCd, shootDelay, spriteId, spriteEventId);
+			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot,
+			Sprite weaponSprite, Sprite eventSprite) {
+		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.reloadTime = reloadTime;
@@ -86,7 +90,7 @@ public class RangedWeapon extends Equipable{
 		this.x = x;
 		this.y = y;
 		
-		shooter.statusProcTime(7, null, delta, null, this, null);
+		shooter.statusProcTime(StatusProcTime.WHILE_SHOOTING, null, delta, null, this, null);
 	}
 	
 	/**
@@ -99,7 +103,7 @@ public class RangedWeapon extends Equipable{
 		//Check clip size. empty clip = reload instead. This makes reloading automatic.
 		if (clipLeft > 0) {
 			
-			shooter.statusProcTime(8, null, 0, null, this, null);
+			shooter.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, this, null);
 			
 			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
 			onShoot.makeHitbox(user, state, this, weaponVelo, 
@@ -141,7 +145,7 @@ public class RangedWeapon extends Equipable{
 		if (reloadCd > 0) {
 			reloadCd -= delta;
 			
-			user.getBodyData().statusProcTime(9, null, delta, null, this, null);
+			user.getBodyData().statusProcTime(StatusProcTime.WHILE_RELOADING, null, delta, null, this, null);
 			
 		} else {
 			
@@ -154,7 +158,7 @@ public class RangedWeapon extends Equipable{
 				clipLeft = getClipSize();
 				reloading = false;
 				
-				user.getBodyData().statusProcTime(10, null, 0, null, this, null);
+				user.getBodyData().statusProcTime(StatusProcTime.ON_RELOAD, null, 0, null, this, null);
 			}
 		}
 	}

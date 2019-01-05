@@ -1,4 +1,4 @@
-package com.mygdx.hadal.schmucks.bodies.enemies;
+package com.mygdx.hadal.retired;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.ScissorfishAttack;
 import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;

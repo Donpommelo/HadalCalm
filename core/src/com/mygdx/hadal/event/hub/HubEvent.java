@@ -32,6 +32,7 @@ public class HubEvent extends Event {
 	private final static int infoWidth = 300;
 	private final static int infoHeight = 300;
 	
+	protected static final float optionsWidthOuter = 440.0f;
 	protected static final float optionsWidth = 400.0f;
 	protected static final float optionsHeight = 30.0f;
 	
@@ -40,12 +41,12 @@ public class HubEvent extends Event {
 		this.tableInner = new Table();
 		this.tableOuter = new Table();
 		
-		tableOuter.add(new Text(HadalGame.assetManager, title, 0, 0)).width(optionsWidth).height(optionsHeight);
+		tableOuter.add(new Text(HadalGame.assetManager, title, 0, 0)).width(optionsWidthOuter).height(optionsHeight);
 		tableOuter.row();
 		this.options = new ScrollPane(tableInner, state.getGsm().getSkin());
 		options.setFadeScrollBars(false);
 		
-		tableOuter.add(options).width(optionsWidth).height(HadalGame.CONFIG_HEIGHT / 2);
+		tableOuter.add(options).width(optionsWidthOuter).height(HadalGame.CONFIG_HEIGHT / 2);
 		
 		extraInfo = new Text(HadalGame.assetManager, "", 0, 0) {
 			
@@ -101,13 +102,13 @@ public class HubEvent extends Event {
 		
 		tableOuter.setPosition(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4);
 		
-		tableOuter.setSize(optionsWidth, HadalGame.CONFIG_HEIGHT / 2);
+		tableOuter.setSize(optionsWidthOuter, HadalGame.CONFIG_HEIGHT / 2);
 		
 		state.getStage().setScrollFocus(options);
 		
 		state.getStage().addActor(tableOuter);
 		
-		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH - optionsWidth , HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
+		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH - optionsWidthOuter , HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
 		
 	}
 	
@@ -136,7 +137,7 @@ public class HubEvent extends Event {
 		
 		state.getStage().addActor(extraInfo);
 		
-		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH - optionsWidth - infoWidth, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
+		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH - optionsWidthOuter - infoWidth, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
 	}
 	
 	/**

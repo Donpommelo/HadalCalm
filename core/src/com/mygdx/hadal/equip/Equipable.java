@@ -2,12 +2,9 @@ package com.mygdx.hadal.equip;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -37,16 +34,14 @@ public abstract class Equipable {
 	//The amount of time it takes to reload this weapon. (default = 0 for non-ranged)
 	protected float reloadTime = 0;
 	
-	private TextureAtlas atlas;
-	private TextureRegion equipSprite;
-	private String eventSpriteId;
+	private Sprite equipSprite, eventSprite;
 	
 	protected Vector3 mouseLocation;
 	protected Vector2 weaponVelo;
 	
 	protected ArrayList<WeaponModifier> weaponMods;
 	
-	public Equipable(Schmuck user, String name, float useCd, float useDelay, String spriteId, String eventSpriteId) {
+	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
 		this.user = user;
 		this.name = name;
 		this.useCd = useCd;
@@ -56,9 +51,8 @@ public abstract class Equipable {
 		
 		this.weaponMods = new ArrayList<WeaponModifier>();
 		
-		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
-		equipSprite = atlas.findRegion(spriteId);
-		this.eventSpriteId = eventSpriteId;
+		this.equipSprite = equipSprite;
+		this.eventSprite = eventSprite;
 		
 		mouseLocation = new Vector3();
 		weaponVelo = new Vector2();
@@ -72,7 +66,7 @@ public abstract class Equipable {
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
 	 */
 	public Equipable(Schmuck user, String name, float useCd, float useDelay) {
-		this(user, name, useCd, useDelay, "default", "default");
+		this(user, name, useCd, useDelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	/**
@@ -128,12 +122,12 @@ public abstract class Equipable {
 		return useDelay;
 	}
 	
-	public TextureRegion getEquipSprite() {
+	public Sprite getWeaponSprite() {
 		return equipSprite;
 	}
 	
-	public String getEventSpriteId() {
-		return eventSpriteId;
+	public Sprite getEventSprite() {
+		return eventSprite;
 	}
 	
 	public float getReloadTime() {

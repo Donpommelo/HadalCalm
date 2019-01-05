@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextobjectid="66">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="66">
  <tileset firstgid="1" source="main.tsx"/>
- <layer name="Tile Layer 1" width="50" height="50">
+ <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
    eJzt2NsOwyAIBmB26LJT0vd/242LJcZoi6AgK3/C7epX24JbAWA9QF0mL4rhDfPnCv4NmC2HFwOm5vBkwJQc3gyY3OHRgEkdD+O1SBKOuRKOueLVcfrWM6n0m+vJ8YLteSo1no3WSM2exVNP3LNwDPkzq7WfNQt3H/IZR/N96zlfzeKQXvdfHVg34W9yrj3CoWXRcOR9qbUo372eDmpfai3KunrPVyMsFo4RFisHhmOp/Vd4N3RgWizSWW70+YNi6TGPapyj0FJ7ZnrN1BxHPtfOcFbhOEr9zvos6cWxwHbP56xF27EUriftNxhNR6vhV5S5TXIPNAzSotwD6gxvZdDY8yh/FYlEIpHIkfMBPyokDw==
   </data>
  </layer>
- <objectgroup name="collision-layer">
+ <objectgroup id="2" name="collision-layer">
   <properties>
    <property name="startX" type="int" value="21"/>
    <property name="startY" type="int" value="14"/>
@@ -18,7 +18,7 @@
    <polyline points="0,0 160,0 160,128 224,192 736,192 736,352 512,352 416,448 224,448 0,224 0,0"/>
   </object>
  </objectgroup>
- <objectgroup name="event-layer">
+ <objectgroup id="3" name="event-layer">
   <object id="9" name="Spring" type="Spring" x="1408" y="1024" width="32" height="32">
    <properties>
     <property name="springX" type="float" value="0"/>

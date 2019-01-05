@@ -276,20 +276,16 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	@Override
 	public Location<Vector2> newLocation() {
 		System.out.println("newLocation was run?");
-		return null;//new Location<Vector2>();
+		return null;
 	}
 	
 	@Override
 	public float getZeroLinearSpeedThreshold() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public void setZeroLinearSpeedThreshold(float value) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void setZeroLinearSpeedThreshold(float value) {}
 
 	@Override
 	public float getMaxLinearSpeed() {

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,7 +23,7 @@ public class TitleState extends GameState {
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor playOption, exitOption, quickPlayOption, controlOption;
+	private Actor playOption, exitOption, controlOption;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -40,25 +41,16 @@ public class TitleState extends GameState {
 				
 				int x = HadalGame.CONFIG_WIDTH - 200;
 				
-				playOption = new Text(HadalGame.assetManager, "PLAY", x, 340);
-				quickPlayOption = new Text(HadalGame.assetManager, "QUICK PLAY", x, 300);
-				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 260);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 220);
+				playOption = new Text(HadalGame.assetManager, "PLAY", x, 340, Color.BLACK);
+				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 300, Color.BLACK);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 260, Color.BLACK);
 				
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().addState(State.HUB, TitleState.class);
 			        }
 			    });
-				playOption.setScale(0.5f);
-				
-				quickPlayOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addState(State.PLAY, TitleState.class);
-			        }
-			    });
-				quickPlayOption.setScale(0.5f);
-			
+				playOption.setScale(0.5f);			
 
 				controlOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
@@ -75,7 +67,6 @@ public class TitleState extends GameState {
 				exitOption.setScale(0.5f);
 				
 				addActor(playOption);
-				addActor(quickPlayOption);
 				addActor(controlOption);
 				addActor(exitOption);
 			}

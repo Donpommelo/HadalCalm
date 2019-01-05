@@ -3,9 +3,8 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
@@ -78,11 +77,8 @@ public enum PlayerAction {
 	 * TODO: If fail to read file, reset to default?
 	 */
 	public static void retrieveKeys() {
-		JsonReader json;
 		JsonValue base;
-		
-		json = new JsonReader();
-		base = json.parse(Gdx.files.internal("save/Keybind.json"));
+		base = GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"));
 		
 		for (JsonValue d : base) {
 			PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
@@ -95,14 +91,12 @@ public enum PlayerAction {
 	public static void saveKeys() {		
 		Gdx.files.local("save/Keybind.json").writeString("", false);
 		
-		Json json = new Json();
-		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			map.put(a.name(), a.getKey());
 		}
 		
-		Gdx.files.local("save/Keybind.json").writeString(json.toJson(map), true);
+		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.json.toJson(map), true);
 	}
 }

@@ -43,7 +43,7 @@ public class TriggeredSpawner extends Prefabrication {
 		spawner.getProperties().put("align", 2);
 		spawner.getProperties().put("particle_std", "EVENT_HOLO");
 		spawner.getProperties().put("scale", 0.25f);
-		spawner.getProperties().put("sprite", "event_base");
+		spawner.getProperties().put("sprite", "BASE");
 		spawner.getProperties().put("triggeredId", spawnerId);
 		spawner.getProperties().put("triggeringId", pickupId);
 		
@@ -89,12 +89,12 @@ public class TriggeredSpawner extends Prefabrication {
 
 		switch (type) {
 		case 0:
-			pickup.getProperties().put("sprite", "event_fuel");
+			pickup.getProperties().put("sprite", "FUEL");
 			effect.getProperties().put("fuel", power);
 			pickupParticle.getProperties().put("particle", "PICKUP_ENERGY");
 			break;
 		case 1:
-			pickup.getProperties().put("sprite", "event_health");
+			pickup.getProperties().put("sprite", "MEDPAK");
 			effect.getProperties().put("hp", power);
 			pickupParticle.getProperties().put("particle", "PICKUP_HEALTH");
 			break;

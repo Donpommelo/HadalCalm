@@ -1,10 +1,12 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
@@ -38,9 +40,9 @@ public class ChargeBeam extends RangedWeapon {
 	private static int chargeStage = 0;
 	private static final float maxCharge = 1.5f;
 	
-	private final static String weapSpriteId = "chargebeam";
-	private final static String weapEventSpriteId = "event_chargebeam";
-	private final static String projSpriteId = "orb_yellow";
+	private final static Sprite projSprite = Sprite.ORB_YELLOW;
+	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
+	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -86,8 +88,8 @@ public class ChargeBeam extends RangedWeapon {
 			final float damageMultiplier2 = damageMultiplier;
 			final float kbMultiplier2 = kbMultiplier;
 			
-			HitboxImage hbox = new HitboxImage(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
-					filter, true, true, user, projSpriteId);
+			Hitbox hbox = new HitboxSprite(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
+					filter, true, true, user, projSprite);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
@@ -107,7 +109,7 @@ public class ChargeBeam extends RangedWeapon {
 	};
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
 	}
 	
 	@Override

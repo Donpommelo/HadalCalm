@@ -36,50 +36,50 @@ public class Status {
 		this(state, 0, n, d, true, true, i, i);
 	}
 	
-	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
+	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
 		float finalAmount = amount;
 		
 		switch(procTime) {
-		case 0:
+		case STAT_CHANGE:
 			statChanges();
 			break;
-		case 1:
+		case DEAL_DAMAGE:
 			finalAmount = onDealDamage(finalAmount, schmuck, tags);
 			break;
-		case 2:
+		case RECEIVE_DAMAGE:
 			finalAmount = onReceiveDamage(finalAmount, schmuck, tags);
 			break;
-		case 3:
+		case TIME_PASS:
 			timePassing(amount);
 			break;
-		case 4:
+		case ON_KILL:
 			onKill(schmuck);
 			break;
-		case 5:
+		case ON_DEATH:
 			onDeath(schmuck);
 			break;
-		case 6:
+		case ON_HEAL:
 			finalAmount = onHeal(finalAmount, schmuck, tags);
 			break;
-		case 7:
+		case WHILE_SHOOTING:
 			whileShooting(amount, tool);
 			break;
-		case 8:
+		case ON_SHOOT:
 			onShoot(tool);
 			break;
-		case 9:
+		case WHILE_RELOADING:
 			whileReloading(amount, tool);
 			break;
-		case 10:
+		case ON_RELOAD:
 			onReload(tool);
 			break;
-		case 11:
+		case HITBOX_CREATION:
 			onHitboxCreation(hbox);
 			break;
-		case 12:
+		case LEVEL_START:
 			levelStart();
 			break;
-		case 13:
+		case ON_AIRBLAST:
 			onAirBlast(tool);
 			break;
 		}

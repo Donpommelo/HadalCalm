@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -92,9 +93,9 @@ public class PickupArtifact extends Event {
 		
 		if (open) {
 			batch.setProjectionMatrix(state.sprite.combined);
-			state.font.getData().setScale(1.0f);
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 			float y = body.getPosition().y * PPM + height / 2;
-			state.font.draw(batch, artifact.getName(), body.getPosition().x * PPM - width / 2, y);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, artifact.getName(), body.getPosition().x * PPM - width / 2, y);
 		}
 	}
 	

@@ -7,11 +7,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxAnimated;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageExplosionStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
@@ -32,12 +32,16 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class WeaponUtils {
 
 	private static final float selfDamageReduction = 0.4f;
-	
+	private final static Sprite boomSprite = Sprite.BOOM;
+	private final static Sprite grenadeSprite = Sprite.GRENADE;
+	private final static Sprite torpedoSprite = Sprite.TORPEDO;
+	private final static Sprite beeSprite = Sprite.BEE;
+
 	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, Equipable tool,
 			int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxAnimated(state, x, y, explosionRadius, explosionRadius, 0, 0.4f, 1, 0, new Vector2(0, 0),
-				filter, true, false, user, "boom") {
+		Hitbox hbox = new HitboxSprite(state, x, y, explosionRadius, explosionRadius, 0, 0.4f, 1, 0, new Vector2(0, 0),
+				filter, true, false, user, boomSprite) {
 			
 			@Override
 			public void controller(float delta) {
@@ -59,8 +63,8 @@ public class WeaponUtils {
 			int dura, Vector2 startVelocity, boolean procEffects, 
 			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxImage(state, x, y, grenadeSize, grenadeSize, gravity, lifespan, dura, restitution, startVelocity,
-				filter, false, procEffects, user, "grenade");
+		Hitbox hbox = new HitboxSprite(state, x, y, grenadeSize, grenadeSize, gravity, lifespan, dura, restitution, startVelocity,
+				filter, false, procEffects, user, grenadeSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -75,8 +79,8 @@ public class WeaponUtils {
 			int dura, Vector2 startVelocity, boolean procEffects,
 			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxImage(state, x, y, rocketWidth, rocketHeight, gravity, lifespan, dura, 0, startVelocity,
-				filter, true, procEffects, user, "torpedo");
+		Hitbox hbox = new HitboxSprite(state, x, y, rocketWidth, rocketHeight, gravity, lifespan, dura, 0, startVelocity,
+				filter, true, procEffects, user, torpedoSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -106,8 +110,8 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread)));
 			
-			Hitbox hbox = new HitboxImage(state, x, y, torpedoWidth, torpedoHeight, 0, torpedoLifespan, 1, 0, startVelocity.setAngle(newDegrees),
-					filter, true, procEffects, user, "torpedo");
+			Hitbox hbox = new HitboxSprite(state, x, y, torpedoWidth, torpedoHeight, 0, torpedoLifespan, 1, 0, startVelocity.setAngle(newDegrees),
+					filter, true, procEffects, user, torpedoSprite);
 			
 			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
@@ -141,8 +145,8 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			Hitbox hbox = new HitboxAnimated(state, x, y, beeWidth, beeHeight, 0, beeLifespan, 1, 0, startVelocity.setAngle(newDegrees),
-					filter, false, procEffects, user, "bee") {
+			Hitbox hbox = new HitboxSprite(state, x, y, beeWidth, beeHeight, 0, beeLifespan, 1, 0, startVelocity.setAngle(newDegrees),
+					filter, false, procEffects, user, beeSprite) {
 				
 				@Override
 				public void render(SpriteBatch batch) {

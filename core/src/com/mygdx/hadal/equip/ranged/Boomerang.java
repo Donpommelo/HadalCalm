@@ -1,11 +1,12 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxImage;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -36,17 +37,17 @@ public class Boomerang extends RangedWeapon {
 
 	private final static int projDura = 1;
 	
-	private final static String weapSpriteId = "boomeranglauncher";
-	private final static String weapEventSpriteId = "event_boomerang";
-	private final static String projSpriteId = "boomerang";
+	private final static Sprite projSprite = Sprite.BOOMERANG;
+	private final static Sprite weaponSprite = Sprite.MT_BOOMERANG;
+	private final static Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
 		@Override
 		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
-			Hitbox hbox = new HitboxImage(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
-					(short) 0, false, true, user, projSpriteId);
+			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, 0, startVelocity,
+					(short) 0, false, true, user, projSprite);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -87,13 +88,11 @@ public class Boomerang extends RangedWeapon {
 						}
 					}
 				}
-
 			});	
 		}
 	};
 	
 	public Boomerang(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
 	}
-
 }

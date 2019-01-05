@@ -20,10 +20,11 @@ flags: {
 }
 equips: [
 	BOILER
-	SPEARGUN
 	TORPEDO_LAUNCHER
+	CHAIN_LIGHTNING
 ]
-artifact: TYPHON_FANG
-active: NAUTICAL_MINE
+artifact: ADMINISTRATOR_CARD
+active: FIREBALL
 character: MOREAU_FESTIVE
+level: LEVEL_3
 }

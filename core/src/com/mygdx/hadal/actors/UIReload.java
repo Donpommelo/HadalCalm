@@ -3,10 +3,8 @@ package com.mygdx.hadal.actors;
 import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -15,12 +13,10 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class UIReload extends AHadalActor{
+public class UIReload extends AHadalActor {
 
 	private Player player;
 	private PlayState state;
-	
-	private TextureAtlas atlas;
 	
 	private TextureRegion reload, reloadMeter, reloadBar;
 	
@@ -31,10 +27,9 @@ public class UIReload extends AHadalActor{
 		this.player = player;
 		this.state = state;
 		
-		this.atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.UIATLAS.toString());
-		this.reload = atlas.findRegion("UI_reload");
-		this.reloadMeter = atlas.findRegion("UI_reload_meter");
-		this.reloadBar = atlas.findRegion("UI_reload_bar");
+		this.reload = GameStateManager.uiAtlas.findRegion("UI_reload");
+		this.reloadMeter = GameStateManager.uiAtlas.findRegion("UI_reload_meter");
+		this.reloadBar = GameStateManager.uiAtlas.findRegion("UI_reload_bar");
 	}
 	
 	@Override

@@ -3,13 +3,12 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -18,13 +17,11 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class UIActives extends AHadalActor{
+public class UIActives extends AHadalActor {
 
 	private Player player;
 	private PlayState state;
 	private BitmapFont font;
-	
-	private TextureAtlas atlas;
 	
 	private TextureRegion base, ready, overlay;
 	
@@ -38,10 +35,9 @@ public class UIActives extends AHadalActor{
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
-		this.atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.UIATLAS.toString());
-		this.base = atlas.findRegion("UI_momentum_base");
-		this.ready = atlas.findRegion("UI_momentum_ready");
-		this.overlay = atlas.findRegion("UI_momentum_overlay");
+		this.base = GameStateManager.uiAtlas.findRegion("UI_momentum_base");
+		this.ready = GameStateManager.uiAtlas.findRegion("UI_momentum_ready");
+		this.overlay = GameStateManager.uiAtlas.findRegion("UI_momentum_overlay");
 		setWidth(base.getRegionWidth() * scale);
 		setHeight(base.getRegionHeight() * scale);
 		setX(HadalGame.CONFIG_WIDTH - getWidth());

@@ -6,6 +6,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.mygdx.hadal.effects.Sprite;
+
 /**
  * Melee weapons are weapons that create MeleeHitboxes that are attached to the user.
  * @author Zachary Tu
@@ -37,8 +39,8 @@ public class MeleeWeapon extends Equipable {
 	}
 	
 	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum,
-			HitboxFactory onSwing, String spriteId, String spriteEventId) {
-		super(user, name, swingcd, windup, spriteId, spriteEventId);
+			HitboxFactory onSwing, Sprite weaponSprite, Sprite eventSprite) {
+		super(user, name, swingcd, windup, weaponSprite, eventSprite);
 		this.momentum = momentum;
 		this.onSwing = onSwing;
 	}

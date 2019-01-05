@@ -5,12 +5,13 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.event.ai.Zone;
+import com.mygdx.hadal.retired.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.statuses.StatusProcTime;
 
 /**
  * Body data contains the stats and methods of any unit; player or enemy.
@@ -133,7 +134,7 @@ public class BodyData extends HadalData {
 		currentFuel = getMaxHp();		
 	}
 	
-	public float statusProcTime(int procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
+	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
 				
 		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
@@ -199,7 +200,7 @@ public class BodyData extends HadalData {
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
-		statusProcTime(0, null, 0, null, currentTool, null);
+		statusProcTime(StatusProcTime.STAT_CHANGE, null, 0, null, currentTool, null);
 		
 		currentHp = hpPercent * getMaxHp();
 	}
@@ -226,8 +227,8 @@ public class BodyData extends HadalData {
 		}
 		
 		if (procEffects) {
-			damage = perp.statusProcTime(1, this, damage, null, tool, null, tags);
-			damage = statusProcTime(2, perp, damage, null, currentTool, null, tags);
+			damage = perp.statusProcTime(StatusProcTime.DEAL_DAMAGE, this, damage, null, tool, null, tags);
+			damage = statusProcTime(StatusProcTime.RECEIVE_DAMAGE, perp, damage, null, currentTool, null, tags);
 		}
 				
 		currentHp -= damage;
@@ -260,7 +261,7 @@ public class BodyData extends HadalData {
 		float heal = baseheal;
 		
 		if (procEffects) {
-			heal = statusProcTime(6, this, heal, null, currentTool, null, tags);
+			heal = statusProcTime(StatusProcTime.ON_HEAL, this, heal, null, currentTool, null, tags);
 		}
 		
 		currentHp += heal;
@@ -274,8 +275,8 @@ public class BodyData extends HadalData {
 	 */
 	public void die(BodyData perp, Equipable tool) {
 		
-		perp.statusProcTime(4, this, 0, null, tool, null);
-		statusProcTime(5, perp, 0, null, currentTool, null);
+		perp.statusProcTime(StatusProcTime.ON_KILL, this, 0, null, tool, null);
+		statusProcTime(StatusProcTime.ON_DEATH, perp, 0, null, currentTool, null);
 		
 		schmuck.queueDeletion();
 	}

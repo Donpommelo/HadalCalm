@@ -1,4 +1,4 @@
-package com.mygdx.hadal.event.ai;
+package com.mygdx.hadal.retired;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
@@ -26,7 +27,7 @@ public class SpriteChanger extends Event {
 
 	private static final String name = "Sprite Changer";
 
-	private String newSprite;
+	private Sprite newSprite;
 	private String mode;
 	private boolean still;
 	private int frame;
@@ -36,7 +37,7 @@ public class SpriteChanger extends Event {
 	
 	public SpriteChanger(PlayState state, String sprite, String mode, boolean still, int frame, float speed, int align, float scale) {
 		super(state, name);
-		this.newSprite = sprite;
+		this.newSprite = Sprite.valueOf(sprite);
 		this.mode = mode;
 		this.still = still;
 		this.frame = frame;

@@ -3,7 +3,7 @@ EIGHT_BALL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: "8-Ball"
 	description: "Your Projectiles Become Large and Slow."
-    descriptionLong: "An inky black sphere made of smooth ivory and radiating with unfortunate energies. It is not for billiards, but rather; snooker."
+    descriptionLong: "An inky black sphere made of smooth ivory and radiating with unfortunate energies."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -14,7 +14,7 @@ ABYSSAL_INSIGNIA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Abyssal Insignia
 	description: "Enemies Explode on Death."
-    descriptionLong: "A twisted bone sigil used to worship the chaotic beings of the deep. It seems to have been created by something without opposable thumbs."
+    descriptionLong: "A twisted bone sigil used to worship the chaotic beings of the deep."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -25,7 +25,7 @@ ADMINISTRATOR_CARD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Administrator Card
 	description: "Get 3 Random Artifacts at the Start of Levels."
-    descriptionLong: "An simple and inornate identification card printed on sturdy plastic. Administrative figures carry these to access extra privileges."
+    descriptionLong: "Administrative figures carry these sturdy plastic cards to access extra privileges."
 	unlocked: true
 	tags: [
 		RELIQUARY,

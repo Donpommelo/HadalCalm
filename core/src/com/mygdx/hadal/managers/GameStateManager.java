@@ -38,14 +38,12 @@ public class GameStateManager {
 	private Skin skin;
 	private NinePatchDrawable dialogPatch, simplePatch;
 	private ScrollPaneStyle scrollStyle;
-	public static TextureAtlas particleAtlas, projectileAtlas;
-	//This is the player's currently selected loadout. (not equiped weapons after entering level)
-	private Loadout loadout;
-
-	//This is the player's currently selected level filename
-	private UnlockLevel level;
+	public static TextureAtlas particleAtlas, projectileAtlas, multitoolAtlas, eventAtlas, explosionAtlas, uiAtlas;
 	
 	private Record record;
+	
+	public static Json json = new Json();
+	public static JsonReader reader = new JsonReader();
 	
 	//This enum lists all the different types of gamestates.
 	public enum State {
@@ -69,16 +67,8 @@ public class GameStateManager {
 		
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
-		
 		UnlockManager.retrieveUnlocks();
-		
-		Json json = new Json();
-		JsonReader reader = new JsonReader();
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
-		
-		this.loadout = new Loadout(record);
-		
-		this.level = UnlockLevel.ARENA_1;
 	}
 	
 	public void loadAssets() {
@@ -94,14 +84,10 @@ public class GameStateManager {
 		
 		GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 		GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
-	}
-	
-	/**
-	 * Getter for the main game
-	 * @return: the game
-	 */
-	public HadalGame application() {
-		return app;
+		GameStateManager.multitoolAtlas = HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
+		GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
+		GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString());
+		GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
 	}
 	
 	/**
@@ -127,6 +113,12 @@ public class GameStateManager {
 			gs.dispose();
 		}
 		states.clear();
+		particleAtlas.dispose();
+		projectileAtlas.dispose();
+		multitoolAtlas.dispose();
+		eventAtlas.dispose();
+		uiAtlas.dispose();
+		explosionAtlas.dispose();
 	}
 	
 	/**
@@ -178,7 +170,6 @@ public class GameStateManager {
 	 * @param lastState: the state we expect to remove. ensures no double-removing
 	 */
 	public void removeState(Class<? extends GameState> lastState) {
-
 		if (!states.empty()) {
 			if (states.peek().getClass().equals(lastState)) {
 				states.pop().dispose();
@@ -196,18 +187,17 @@ public class GameStateManager {
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);
-		case PLAY: return new PlayState(this, loadout, level, true, null);
+		case PLAY: return new PlayState(this, record, true, null);
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
 		case CONTROL: return new ControlState(this);
 		case MENU: return new MenuState(this);
 		case HUB: 
 			if (record.getFlags().get("INTRO") < 2) {
-				this.loadout = new Loadout(UnlockEquip.NOTHING);
+				return new HubState(this, new Loadout(UnlockEquip.NOTHING));
 			} else {
-				this.loadout = new Loadout(record);
+				return new HubState(this, new Loadout(record));
 			}
-			return new HubState(this, loadout);
 		default:
 			break;
 		}
@@ -236,17 +226,5 @@ public class GameStateManager {
 	
 	public ScrollPaneStyle getScrollStyle() {
 		return scrollStyle;
-	}
-
-	public Loadout getLoadout() {
-		return loadout;
-	}
-
-	public UnlockLevel getLevel() {
-		return level;
-	}
-
-	public void setLevel(UnlockLevel level) {
-		this.level = level;
 	}
 }

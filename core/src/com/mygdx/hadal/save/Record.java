@@ -14,7 +14,7 @@ public class Record {
 	private Map<String, Integer> flags;
 	
 	private String[] equips;
-	private String artifact, active, character;
+	private String artifact, active, character, level;
 	
 	public Record() {
 		
@@ -96,6 +96,14 @@ public class Record {
 		this.character = character;
 		saveRecord();
 	}
-	
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+		saveRecord();
+	}
 	
 }

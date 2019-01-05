@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 * Basic template Actor class for game.
 * Used for ui + menus and stuff
 */
-public abstract class AHadalActor extends Actor{
+public abstract class AHadalActor extends Actor {
 
 	//Reference to asset manager for obtaining assets.
 	protected AssetManager assetManager;

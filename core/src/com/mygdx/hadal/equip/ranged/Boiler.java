@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -15,13 +16,13 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class Boiler extends RangedWeapon {
 
 	private final static String name = "Boiler";
-	private final static int clipSize = 80;
-	private final static float shootCd = 0.01f;
+	private final static int clipSize = 60;
+	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 7.5f;
-	private final static float recoil = 0.0f;
+	private final static float baseDamage = 8.0f;
+	private final static float recoil = 1.0f;
 	private final static float knockback = 2.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 150;
@@ -32,8 +33,8 @@ public class Boiler extends RangedWeapon {
 	
 	private final static int projDura = 3;
 	
-	private final static String weapSpriteId = "boiler";
-	private final static String weapEventSpriteId = "event_boiler";
+	private final static Sprite weaponSprite = Sprite.MT_BOILER;
+	private final static Sprite eventSprite = Sprite.P_BOILER;
 	
 	private final static HitboxFactory onShoot = new HitboxFactory() {
 
@@ -50,6 +51,6 @@ public class Boiler extends RangedWeapon {
 	};
 	
 	public Boiler(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weapSpriteId, weapEventSpriteId);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
 	}
 }

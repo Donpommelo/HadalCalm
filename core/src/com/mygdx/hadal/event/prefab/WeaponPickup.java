@@ -41,7 +41,7 @@ public class WeaponPickup extends Prefabrication {
 		spawner.setName("Dummy");
 		spawner.getProperties().put("align", 2);
 		spawner.getProperties().put("scale", 0.25f);
-		spawner.getProperties().put("sprite", "event_base");
+		spawner.getProperties().put("sprite", "BASE");
 		
 		TiledObjectUtil.parseTiledEvent(state, spawner);
 		TiledObjectUtil.parseTiledEvent(state, weapon);
