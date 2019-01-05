@@ -27,5 +27,4 @@ public class StatChangeStatus extends Status {
 	public void statChanges(){
 		inflicted.setStat(statNum, inflicted.getStat(statNum) + statIncrement);
 	}
-
 }

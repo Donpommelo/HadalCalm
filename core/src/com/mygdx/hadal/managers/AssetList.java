@@ -50,19 +50,6 @@ public enum AssetList {
 	
 	// Particle effects.
 	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),
-	BUBBLE_IMPACT("sprites/particle/bubble_impact.particle", null),
-	BUBBLE_TRAIL("sprites/particle/bubble_trail.particle", null),
-	IMPACT("sprites/particle/impact.particle", null),
-	SPARK_TRAIL("sprites/particle/spark_trail.particle", null),
-	POISON("sprites/particle/poison.particle", null),
-	EVENT_HOLO("sprites/particle/event_holo.particle", null),
-	PICKUP_ENERGY("sprites/particle/energy_pickup.particle", null),
-	PICKUP_HEALTH("sprites/particle/health_pickup.particle", null),
-	MOMENTUM("sprites/particle/momentum_freeze.particle", null),
-	PORTAL("sprites/particle/portal.particle", null),
-	SMOKE("sprites/particle/smoke_puff.particle", null),
-	EXPLOSION("sprites/particle/explosion.particle", null),
-	FIRE("sprites/particle/fire.particle", null),
 	
 	UIPATCHIMG("ui/window.png", Texture.class),
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),

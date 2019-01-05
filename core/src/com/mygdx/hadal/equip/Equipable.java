@@ -29,7 +29,7 @@ public abstract class Equipable {
 	protected boolean reloading;
 	
 	//Counter for how much longer this tool needs to be reloaded before it gets more ammo
-	protected float reloadCd;
+	protected float reloadCd = 0;
 	
 	//The amount of time it takes to reload this weapon. (default = 0 for non-ranged)
 	protected float reloadTime = 0;
@@ -47,7 +47,6 @@ public abstract class Equipable {
 		this.useCd = useCd;
 		this.useDelay = useDelay;
 		this.reloading = false;
-		this.reloadCd = 0;
 		
 		this.weaponMods = new ArrayList<WeaponModifier>();
 		

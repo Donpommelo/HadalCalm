@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -70,7 +71,7 @@ public class Schmuck extends HadalEntity {
 		super(state, w, h, startX, startY);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
-		impact = new ParticleEntity(state, this, "IMPACT", 1.0f, 0.0f, false);
+		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false);
 	}
 
 	/**

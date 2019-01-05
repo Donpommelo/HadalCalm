@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -100,7 +101,7 @@ public class PortalTouch extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.PORTAL);
-		setStandardParticle("MOMENTUM");
-		addAmbientParticle("PORTAL");
+		setStandardParticle(Particle.MOMENTUM);
+		addAmbientParticle(Particle.PORTAL);
 	}
 }

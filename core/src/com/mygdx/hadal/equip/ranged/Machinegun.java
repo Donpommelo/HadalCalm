@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -32,7 +33,7 @@ public class Machinegun extends RangedWeapon {
 	private final static float projectileSpeed = 40.0f;
 	private final static int projectileWidth = 96;
 	private final static int projectileHeight = 12;
-	private final static float lifespan = 0.75f;
+	private final static float lifespan = 0.50f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
@@ -54,7 +55,7 @@ public class Machinegun extends RangedWeapon {
 					filter, true, true, user, projSprite);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), "SPARK_TRAIL"));
+			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));	

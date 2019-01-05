@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.retired.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -39,13 +40,13 @@ public class BodyData extends HadalData {
 	 * 11: Bonus Jump Number
 	 * 12: Bonus Hover Power
 	 * 13: Hover Cost
-	 * 14: Bonus Airblast Power !
+	 * 14: Bonus Airblast Power
 	 * 15: Airblast Cost
-	 * 16: Bonus Airblast Recoil !
-	 * 17: Bonus Airblast Size !
+	 * 16: Bonus Airblast Recoil
+	 * 17: Bonus Airblast Size
 	 * 18: Active Item Charge Rate
 	 * 19: Active Item Max Charge
-	 * 20: 
+	 * 20: Active Item Power !
 	 * 21: Universal Damage Amplification
 	 * 22: Universal Damage Reduction
 	 * 23: Universal Knockback on Hit (to others)
@@ -196,13 +197,17 @@ public class BodyData extends HadalData {
 		
 		//Keep Hp% constant in case of changing max hp
 		float hpPercent = currentHp / getMaxHp();
-		
+
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
 		statusProcTime(StatusProcTime.STAT_CHANGE, null, 0, null, currentTool, null);
 		
 		currentHp = hpPercent * getMaxHp();
+		
+		if (currentTool instanceof RangedWeapon) {
+			((RangedWeapon) currentTool).setClipLeft();
+		}
 	}
 	
 	/**
@@ -525,11 +530,11 @@ public class BodyData extends HadalData {
 		buffedStats[19] = buff;
 	}
 	
-	public float getBonusMomentumCd() {
+	public float getBonusActivePower() {
 		return buffedStats[20];
 	}
 	
-	public void setBonusMomentumCd(float buff) {
+	public void setBonusActivePower(float buff) {
 		buffedStats[20] = buff;
 	}
 	

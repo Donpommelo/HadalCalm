@@ -5,6 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class NuclearPunchThrusters extends Artifact {
 
@@ -20,7 +21,7 @@ public class NuclearPunchThrusters extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 23, 0.5f, b)
+				new StatChangeStatus(state, Stats.KNOCKBACK, 0.6f, b)
 		);
 		return enchantment;
 	}

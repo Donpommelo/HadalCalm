@@ -7,6 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class TyphonFang extends Artifact {
 
@@ -24,7 +25,7 @@ public class TyphonFang extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 28, -0.75f, b), 
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, -0.75f, b), 
 				new Status(state, "", "", b) {
 			
 			@Override

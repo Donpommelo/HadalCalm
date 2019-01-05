@@ -5,6 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class EelskinCover extends Artifact {
 
@@ -20,8 +21,8 @@ public class EelskinCover extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 8, -0.60f, b), 
-				new StatChangeStatus(state, 9, -0.60f, b));
+				new StatChangeStatus(state, Stats.AIR_DRAG, -0.60f, b), 
+				new StatChangeStatus(state, Stats.GROUND_DRAG, -0.60f, b));
 		return enchantment;
 	}
 }

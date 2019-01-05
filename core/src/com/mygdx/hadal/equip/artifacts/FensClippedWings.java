@@ -5,6 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class FensClippedWings extends Artifact {
 
@@ -20,8 +21,8 @@ public class FensClippedWings extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 10, 0.2f, b), 
-				new StatChangeStatus(state, 11, 1, b));
+				new StatChangeStatus(state, Stats.JUMP_POW, 0.2f, b), 
+				new StatChangeStatus(state, Stats.JUMP_NUM, 1, b));
 		return enchantment;
 	}
 }

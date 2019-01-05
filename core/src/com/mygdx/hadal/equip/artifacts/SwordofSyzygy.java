@@ -5,11 +5,12 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class SwordofSyzygy extends Artifact {
 
 	private final static String name = "Sword of Syzygy";
-	private final static String descr = "+3 Projectile Pierce";
+	private final static String descr = "+5 Projectile Pierce. +15% Ranged Damage";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -20,7 +21,8 @@ public class SwordofSyzygy extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 34, 5.0f, b));
+				new StatChangeStatus(state, Stats.RANGED_PROJ_PIERCE, 5.0f, b),
+				new StatChangeStatus(state, Stats.RANGED_DAMAGE, 0.15f, b));
 		return enchantment;
 	}
 }

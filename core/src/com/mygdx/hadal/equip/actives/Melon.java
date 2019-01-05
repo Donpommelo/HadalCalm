@@ -5,6 +5,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.utils.Stats;
 
 public class Melon extends ActiveItem {
 
@@ -22,7 +23,6 @@ public class Melon extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		user.addStatus(new StatChangeStatus(state, duration, 2, power, user, user));
+		user.addStatus(new StatChangeStatus(state, duration, Stats.HP_REGEN, power, user, user));
 	}
-
 }

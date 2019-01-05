@@ -6,6 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class SeafoamTalisman extends Artifact {
 
@@ -21,12 +22,12 @@ public class SeafoamTalisman extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 27, 0.20f, b),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.20f, b),
 				new Status(state, name, descr, b) {
 
 					@Override
 					public void onHitboxCreation(Hitbox hbox) {
-						hbox.setGrav(-2.0f);
+						hbox.setGrav(-3.0f);
 					}
 			}
 		);

@@ -5,6 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class NiceShoes extends Artifact {
 
@@ -20,8 +21,8 @@ public class NiceShoes extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 4, 0.30f, b), 
-				new StatChangeStatus(state, 6, 0.50f, b));
+				new StatChangeStatus(state, Stats.GROUND_SPD, 0.30f, b), 
+				new StatChangeStatus(state, Stats.GROUND_ACCEL, 0.50f, b));
 		return enchantment;
 	}
 }

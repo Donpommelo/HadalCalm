@@ -423,6 +423,17 @@ PEPPER: {
 		RANDOM_POOL,
 	]
 }
+PIFFLER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Piffler
+	description: "Piffly Projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 PREHISTORIC_SYNAPSE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Prehistoric Synapse
@@ -525,6 +536,28 @@ SEAFOAM_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Seafoam Talisman
 	description: "+Ranged Attack Speed, Antigravity Projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SENESCENT_SHIELD: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Senescent Shield
+	description: "Deflective Projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+TEMPEST_TEAPOT: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Tempest Teapot
+	description: "+50% Airblast Knockback and Size."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

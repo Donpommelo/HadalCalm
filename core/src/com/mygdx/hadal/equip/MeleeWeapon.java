@@ -31,15 +31,14 @@ public class MeleeWeapon extends Equipable {
 	 * @param momentum: reverse recoil. Using a melee wepon will inch the user forwards by a force of this magnitude.
 	 * @param onSwing: This is a factory that creates a melee hitbox.
 	 */
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum,
-			HitboxFactory onSwing) {
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, HitboxFactory onSwing) {
 		super(user, name, swingcd, windup);
 		this.momentum = momentum;
 		this.onSwing = onSwing;
 	}
 	
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum,
-			HitboxFactory onSwing, Sprite weaponSprite, Sprite eventSprite) {
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, HitboxFactory onSwing, 
+			Sprite weaponSprite, Sprite eventSprite) {
 		super(user, name, swingcd, windup, weaponSprite, eventSprite);
 		this.momentum = momentum;
 		this.onSwing = onSwing;
@@ -80,7 +79,6 @@ public class MeleeWeapon extends Equipable {
 				faction);
 		
 		user.recoil(x, y, -momentum * (1 + shooter.getMeleeMomentum()));
-
 	}
 	
 	/**

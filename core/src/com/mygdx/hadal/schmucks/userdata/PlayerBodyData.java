@@ -39,6 +39,7 @@ public class PlayerBodyData extends BodyData {
 	
 	private int airblastCost = 30;
 	
+	private Loadout loadout;
 	private Equipable[] multitools;
 	private ArrayList<Artifact> artifacts;
 	private Artifact artifactStart;
@@ -51,23 +52,27 @@ public class PlayerBodyData extends BodyData {
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body);
 		this.player = body;
+		this.loadout = loadout;		
+		
+		currentHp = getMaxHp();
+		currentFuel = getMaxHp();
+		currentSlot = 0;
+	}
+	
+	public void initLoadout() {
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
 				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
 			}
 		}
-	
+		
+		setEquip();
+		
 		this.artifacts = new ArrayList<Artifact>();
 		artifactStart = addArtifact(loadout.artifact);
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
-		addStatus(new ActiveItemCharge(player.getState(), this));
-		
-		
-		currentHp = getMaxHp();
-		currentFuel = getMaxHp();
-		currentSlot = 0;
-		setEquip();
+		addStatus(new ActiveItemCharge(player.getState(), this));		
 	}
 	
 	/**
@@ -244,7 +249,7 @@ public class PlayerBodyData extends BodyData {
 	 * Add a new artifact. Return the new artifact
 	 */
 	public Artifact addArtifact(UnlockArtifact artifact) {
-		
+
 		Artifact newArtifact =  UnlocktoItem.getUnlock(artifact);
 		
 		for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {

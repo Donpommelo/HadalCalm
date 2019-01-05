@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -179,7 +180,7 @@ public class Event extends HadalEntity {
 		
 	}
 	
-	public void setStandardParticle(String particle) {
+	public void setStandardParticle(Particle particle) {
 		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false);
 	}
 
@@ -187,7 +188,7 @@ public class Event extends HadalEntity {
 		return standardParticle;
 	}
 
-	public void addAmbientParticle(String particle) {
+	public void addAmbientParticle(Particle particle) {
 		new ParticleEntity(state, this, particle, 0, 0, true);	
 	}
 

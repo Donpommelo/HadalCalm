@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
@@ -159,7 +160,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		
-		hoverBubbles = new ParticleEntity(state, this, "BUBBLE_TRAIL", 0.0f, 0.0f, false);
+		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false);
 		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
 		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
 		/*
@@ -183,8 +184,8 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			playerData.resetData(this, world);
 		}
-		
 		this.bodyData = playerData;
+		playerData.initLoadout();
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),

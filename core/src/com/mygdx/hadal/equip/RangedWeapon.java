@@ -16,8 +16,9 @@ import com.mygdx.hadal.effects.Sprite;
  * @author Zachary Tu
  *
  */
-public class RangedWeapon extends Equipable{
+public class RangedWeapon extends Equipable {
 
+	protected float clipPercent;
 	protected int clipSize;
 	protected int clipLeft;
 	
@@ -47,6 +48,7 @@ public class RangedWeapon extends Equipable{
 		super(user, name, shootCd, shootDelay);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
+		this.clipPercent = 1.0f;
 		this.reloadTime = reloadTime;
 		this.reloadAmount = reloadAmount;
 		this.recoil = recoil;
@@ -60,6 +62,7 @@ public class RangedWeapon extends Equipable{
 		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
+		this.clipPercent = 1.0f;
 		this.reloadTime = reloadTime;
 		this.reloadAmount = reloadAmount;
 		this.recoil = recoil;
@@ -112,10 +115,11 @@ public class RangedWeapon extends Equipable{
 					faction);
 			
 			clipLeft--;
+			clipPercent = (float)clipLeft / getClipSize();
 			
 			//If player fires in the middle of reloading, reset reload progress
 			reloading = false;
-			reloadCd = getReloadTime();
+			reloadCd = 0;
 			
 			//process weapon recoil.
 			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
@@ -123,7 +127,7 @@ public class RangedWeapon extends Equipable{
 		if (clipLeft <= 0) {
 			if (!reloading) {
 				reloading = true;
-				reloadCd = getReloadTime();
+				reloadCd = 0;
 			}
 		}
 	}
@@ -140,10 +144,10 @@ public class RangedWeapon extends Equipable{
 	 */
 	@Override
 	public void reload(float delta) {
-		
+
 		//Keep track of how long schmuck has been reloading. If done, get more ammo.
-		if (reloadCd > 0) {
-			reloadCd -= delta;
+		if (reloadCd < getReloadTime()) {
+			reloadCd += delta;
 			
 			user.getBodyData().statusProcTime(StatusProcTime.WHILE_RELOADING, null, delta, null, this, null);
 			
@@ -151,14 +155,17 @@ public class RangedWeapon extends Equipable{
 			
 			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
 			clipLeft += reloadAmount != 0 ? reloadAmount : getClipSize();
-			reloadCd = getReloadTime();
+			clipPercent = (float)clipLeft / getClipSize();
+
+			reloadCd = 0;
+
+			user.getBodyData().statusProcTime(StatusProcTime.ON_RELOAD, null, 0, null, this, null);
 
 			//If clip is full, finish reloading.
 			if (clipLeft >= getClipSize()) {
 				clipLeft = getClipSize();
+				clipPercent = 1.0f;
 				reloading = false;
-				
-				user.getBodyData().statusProcTime(StatusProcTime.ON_RELOAD, null, 0, null, this, null);
 			}
 		}
 	}
@@ -181,6 +188,7 @@ public class RangedWeapon extends Equipable{
 		if (clipLeft >= getClipSize()) {
 			clipLeft = getClipSize();
 		}
+		clipPercent = (float)clipLeft / getClipSize();
 	}
 	
 	@Override
@@ -189,7 +197,6 @@ public class RangedWeapon extends Equipable{
 	}
 	
 	public int getClipSize() {
-		
 		if (clipSize * user.getBodyData().getBonusClipSize() > 0 && clipSize * user.getBodyData().getBonusClipSize() < 1) {
 			return clipSize + 1;
 		} else {
@@ -200,9 +207,12 @@ public class RangedWeapon extends Equipable{
 	public int getClipLeft() {
 		return clipLeft;
 	}
+	
+	public void setClipLeft() {
+		clipLeft = (int) (clipPercent * getClipSize());
+	}
 
 	public HitboxFactory getOnShoot() {
 		return onShoot;
 	}
-
 }

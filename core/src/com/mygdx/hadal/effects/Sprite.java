@@ -84,28 +84,28 @@ public enum Sprite {
 
 	;
 	
-	private Array<? extends TextureRegion> frames;
+	private SpriteType type;
+	private String spriteId;
 	
 	Sprite(SpriteType type, String spriteId) {
-		switch (type) {
-		case EVENT:
-			this.frames = (GameStateManager.eventAtlas.findRegions(spriteId));
-			break;
-		case EXPLOSION:
-			this.frames = (GameStateManager.explosionAtlas.findRegions(spriteId));
-			break;
-		case PROJECTILE:
-			this.frames = (GameStateManager.projectileAtlas.findRegions(spriteId));
-			break;
-		case WEAPON:
-			this.frames = (GameStateManager.multitoolAtlas.findRegions(spriteId));
-		default:
-			break;
-		}
+		this.type = type;
+		this.spriteId = spriteId;
 	}
 
 	public Array<? extends TextureRegion> getFrames() {
-		return frames;
+		
+		switch (type) {
+		case EVENT:
+			return (GameStateManager.eventAtlas.findRegions(spriteId));
+		case EXPLOSION:
+			return (GameStateManager.explosionAtlas.findRegions(spriteId));
+		case PROJECTILE:
+			return (GameStateManager.projectileAtlas.findRegions(spriteId));
+		case WEAPON:
+			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
+		default:
+			return null;
+		}
 	}
 	
 	private enum SpriteType {

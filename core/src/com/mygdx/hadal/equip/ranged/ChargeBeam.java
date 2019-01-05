@@ -130,14 +130,4 @@ public class ChargeBeam extends RangedWeapon {
 		super.execute(state, bodyData);
 		chargeDura = 0;
 	}
-	
-	@Override
-	public String getText() {
-		if (reloading) {
-			return clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "% RELOADING";
-		} else {
-			return clipLeft + "/" + clipSize + " CHARGE: " + Math.round(chargeDura * 100 / maxCharge) + "%";
-
-		}
-	}
 }

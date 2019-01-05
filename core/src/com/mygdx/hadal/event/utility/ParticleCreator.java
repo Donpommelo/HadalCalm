@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.utility;
 
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -31,7 +32,7 @@ public class ParticleCreator extends Event {
 	
 	private ParticleEntity particles;
 	
-	public ParticleCreator(PlayState state, String particle, float duration, boolean startOn) {
+	public ParticleCreator(PlayState state, Particle particle, float duration, boolean startOn) {
 		super(state, name);
 		this.duration = duration;
 		this.on = startOn;

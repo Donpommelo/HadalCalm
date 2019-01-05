@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
@@ -40,7 +41,7 @@ public class CrownofThorns extends Artifact {
 						new Vector2(0, 0), true, inflicted.getSchmuck().getHitboxfilter(), inflicted.getSchmuck());
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, inflicted));
-				hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, inflicted, "SPARK_TRAIL"));
+				hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, inflicted, Particle.SPARK_TRAIL));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, inflicted, inflicted.getCurrentTool(),
 						baseDamage, knockback, DamageTypes.MELEE));
 			}

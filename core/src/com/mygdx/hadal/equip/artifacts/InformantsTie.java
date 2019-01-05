@@ -7,6 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class InformantsTie extends Artifact {
 
@@ -22,8 +23,8 @@ public class InformantsTie extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 30, -0.5f, b),
-				new StatChangeStatus(state, 33, 0.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, 0.5f, b),
 				new Status(state, name, descr, b) {
 
 			@Override

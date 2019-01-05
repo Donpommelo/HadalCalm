@@ -19,12 +19,12 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	BOILER
+	BOUNCING_BLADE
 	TORPEDO_LAUNCHER
-	CHAIN_LIGHTNING
+	SCRAPRIPPER
 ]
-artifact: ADMINISTRATOR_CARD
+artifact: PIFFLER
 active: FIREBALL
 character: MOREAU_FESTIVE
-level: LEVEL_3
+level: LEVEL_1
 }

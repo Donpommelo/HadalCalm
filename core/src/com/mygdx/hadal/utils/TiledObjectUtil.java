@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.event.hub.*;
@@ -151,7 +152,7 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Particle")) {
 			e = new ParticleCreator(state, 
-					object.getProperties().get("particle", String.class), 
+					Particle.valueOf(object.getProperties().get("particle", String.class)), 
 					object.getProperties().get("duration", 0.0f, float.class),
 					object.getProperties().get("startOn", false, Boolean.class));	
 		}
@@ -337,10 +338,10 @@ public class TiledObjectUtil {
 				e.setScaleAlign(object.getProperties().get("align", Integer.class));
 			}
 			if (object.getProperties().get("particle_amb", String.class) != null) {
-				e.addAmbientParticle(object.getProperties().get("particle_amb", String.class));
+				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)));
 			}
 			if (object.getProperties().get("particle_std", String.class) != null) {
-				e.setStandardParticle(object.getProperties().get("particle_std", String.class));
+				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));
 			}
 			
 			if (object.getProperties().get("default", true, Boolean.class)) {

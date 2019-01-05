@@ -6,6 +6,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class GomezsAmygdala extends Artifact {
 
@@ -41,10 +42,10 @@ public class GomezsAmygdala extends Artifact {
 					procCdCount -= procCd;
 					
 					inflicted.addStatus(new StatusComposite(state, dura, "Self-Preservatory", "Bonus Stats", false, true, perp, inflicted,
-							new StatChangeStatus(state, 4, 0.50f, inflicted),
-							new StatChangeStatus(state, 5, 0.50f, inflicted),
-							new StatChangeStatus(state, 21, 0.25f, inflicted),
-							new StatChangeStatus(state, 23, 0.25f, inflicted)
+							new StatChangeStatus(state, Stats.GROUND_SPD, 0.50f, inflicted),
+							new StatChangeStatus(state, Stats.AIR_SPD, 0.50f, inflicted),
+							new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.25f, inflicted),
+							new StatChangeStatus(state, Stats.KNOCKBACK, 0.25f, inflicted)
 							));
 				}
 				return damage;

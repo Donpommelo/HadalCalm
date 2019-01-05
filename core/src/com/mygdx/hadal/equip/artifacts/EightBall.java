@@ -5,6 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class EightBall extends Artifact {
 
@@ -20,10 +21,10 @@ public class EightBall extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 30, -0.5f, b),
-				new StatChangeStatus(state, 31, 1.5f, b),
-				new StatChangeStatus(state, 33, 1.25f, b),
-				new StatChangeStatus(state, 27, -2.0f, b));
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, 1.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, 1.25f, b),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -2.0f, b));
 		return enchantment;
 	}
 }

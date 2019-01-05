@@ -5,6 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.utils.Stats;
 
 public class BloodwoodsGlove extends Artifact {
 
@@ -20,9 +21,9 @@ public class BloodwoodsGlove extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, 27, -0.75f, b),
-				new StatChangeStatus(state, 28, -0.5f, b),
-				new StatChangeStatus(state, 18, 0.75f, b)
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -0.75f, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, -0.5f, b),
+				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, 0.75f, b)
 		);
 		return enchantment;
 	}

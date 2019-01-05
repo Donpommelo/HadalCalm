@@ -19,6 +19,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -82,7 +83,7 @@ public class Turret extends Enemy {
 		this.bodyData = new BodyData(this);
 		
 		//temp way of more Hp
-		this.bodyData.addStatus(new StatChangeStatus(state, 0, 225, bodyData));
+		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, 225, bodyData));
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 10, 0, true, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),

@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.melee;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.MeleeWeapon;
@@ -40,7 +41,7 @@ public class Scrapripper extends MeleeWeapon {
 					startAngle.nor().scl(hitboxSize / 4 / PPM), true, filter, user);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), "SPARK_TRAIL"));
+			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.MELEE));
 		}
 	};

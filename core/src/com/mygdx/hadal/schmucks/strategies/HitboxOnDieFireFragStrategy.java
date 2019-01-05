@@ -4,6 +4,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -11,7 +12,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-public class HitboxOnDieFireFragStrategy extends HitboxStrategy{
+public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 	
 	private int numFrag;
 	private Equipable tool;
@@ -51,8 +52,7 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy{
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, tool, baseDamage, knockback, DamageTypes.RANGED));
-			new ParticleEntity(state, hbox, "FIRE", 3.0f, 0.0f, true);
-
+			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true);
 		}
 	}
 }

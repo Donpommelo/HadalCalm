@@ -4,6 +4,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.utils.Stats;
 
 public class Melon extends Consumable {
 
@@ -22,7 +23,7 @@ public class Melon extends Consumable {
 	@Override
 	public void execute(PlayState state, BodyData bodyData) {
 		
-		bodyData.addStatus(new StatChangeStatus(state, duration, 2, power, bodyData, bodyData));
+		bodyData.addStatus(new StatChangeStatus(state, duration, Stats.HP_REGEN, power, bodyData, bodyData));
 		
 		super.execute(state, bodyData);
 	}

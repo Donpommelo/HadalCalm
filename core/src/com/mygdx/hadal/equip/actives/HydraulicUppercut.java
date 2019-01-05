@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -13,6 +14,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.utils.Stats;
 
 public class HydraulicUppercut extends ActiveItem {
 
@@ -37,7 +39,7 @@ public class HydraulicUppercut extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		user.addStatus(new Invulnerability(state, 0.5f, user, user));
-		user.addStatus(new StatChangeStatus(state, 0.5f, 9, 10.0f, user, user));
+		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 10.0f, user, user));
 
 		user.getPlayer().push(0, recoil);
 		
@@ -45,7 +47,7 @@ public class HydraulicUppercut extends ActiveItem {
 				new Vector2(0, 0), true, user.getPlayer().getHitboxfilter(), user.getPlayer());
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
-		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user , "SPARK_TRAIL"));
+		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.MELEE));
 	}
 

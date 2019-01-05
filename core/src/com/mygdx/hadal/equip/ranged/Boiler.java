@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -46,7 +47,7 @@ public class Boiler extends RangedWeapon {
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-			new ParticleEntity(state, hbox, "FIRE", 3.0f, 0.0f, true);
+			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true);
 		}
 	};
 	

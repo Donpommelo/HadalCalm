@@ -7,21 +7,22 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class GoodHealth extends Artifact {
+public class TempestTeapot extends Artifact {
 
-	private final static String name = "Good Health";
-	private final static String descr = "+25 Hp";
+	private final static String name = "Tempest Teapot";
+	private final static String descr = "+50% Airblast Knockback and Size.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public GoodHealth() {
+	public TempestTeapot() {
 		super(name, descr, descrLong, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.MAX_HP, 25, b)
+				new StatChangeStatus(state, Stats.BOOST_POW, 0.5f, b),
+				new StatChangeStatus(state, Stats.BOOST_SIZE, 0.5f, b)
 		);
 		return enchantment;
 	}

@@ -8,101 +8,100 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.WeaponModifier;
+import com.mygdx.hadal.utils.Stats;
 
 public enum WeaponMod {
 
 	PLUS_DAMAGE("+Damage", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 26, 0.25f, b);
+			return new StatChangeStatus(state, Stats.RANGED_DAMAGE, 0.25f, b);
 		}
 	},
 	
 	PLUS_ATK_SPD("+Attack Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 27, 0.25f, b);
+			return new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.25f, b);
 		}
 	},
 	
 	PLUS_RLD_SPD("+Reload Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 28, 0.25f, b);
+			return new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.25f, b);
 		}
 	},
 	
 	PLUS_ClIP("+Clip Size", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 29, 0.25f, b);
+			return new StatChangeStatus(state, Stats.RANGED_CLIP, 0.25f, b);
 		}
 	},
 	
 	PLUS_KB("+Knockback", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 23, 0.25f, b);
+			return new StatChangeStatus(state, Stats.KNOCKBACK, 0.25f, b);
 		}
 	},
 	
 //	PLUS_RUN_SPD("+Run Speed", "", 1, ModTag.RANDOM_POOL) {
 //		@Override
 //		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, 4, 0.2f, b);
+//			return new StatChangeStatus(state, Stats.GROUND_SPD, 0.2f, b);
 //		}
 //	},
 //	
 //	PLUS_DEF("+Defense", "", 1, ModTag.RANDOM_POOL) {
 //		@Override
 //		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, 22, 0.2f, b);
+//			return new StatChangeStatus(state, Stats.DAMAGE_RED, 0.2f, b);
 //		}
 //	},
 //	
 //	PLUS_JUMP("+1 Jump", "", 1, ModTag.RANDOM_POOL) {
 //		@Override
 //		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, 11, 1.0f, b);
+//			return new StatChangeStatus(state, Stats.JUMP_NUM, 1.0f, b);
 //		}
 //	},
 //	
 //	PLUS_HOVER("+Hover Power", "", 1, ModTag.RANDOM_POOL) {
 //		@Override
 //		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, 12, 0.25f, b);
+//			return new StatChangeStatus(state, Stats.HOVER_POW, 0.25f, b);
 //		}
 //	},
 	
 	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 31, 1.0f, b);
+			return new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, 1.0f, b);
 		}
 	},
 	
 	PLUS_PROJ_SPD("+Projectile Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 30, 0.25f, b);
+			return new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, 0.25f, b);
 		}
 	},
 	
 	PLUS_PROJ_RNG("+Range", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 33, 0.25f, b);
+			return new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, 0.25f, b);
 		}
 	},
 	
 	PLUS_PROJ_PIERCE("+Pierce", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, 34, 1.0f, b);
+			return new StatChangeStatus(state, Stats.RANGED_PROJ_PIERCE, 1.0f, b);
 		}
-	},
-	;
-	
+	},	
 	
 	;
 	
