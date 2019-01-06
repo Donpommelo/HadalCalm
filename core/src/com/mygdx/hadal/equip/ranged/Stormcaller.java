@@ -19,18 +19,18 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class Stormcaller extends RangedWeapon {
 
 	private final static String name = "Stormcaller";
-	private final static int clipSize = 4;
-	private final static float shootCd = 0.5f;
+	private final static int clipSize = 7;
+	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 25.0f;
-	private final static float recoil = 18.5f;
+	private final static float recoil = 15.0f;
 	private final static float knockback = 25.0f;
-	private final static float knockbackProj = 225.0f;
-	private final static float projectileSpeed = 5.0f;
+	private final static float knockbackProj = 100.0f;
+	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 200;
+	private final static int projectileHeight = 150;
 	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	
@@ -46,7 +46,7 @@ public class Stormcaller extends RangedWeapon {
 		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
 			
 			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, false, true, user, projSprite);
+					filter, true, true, user, projSprite);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));

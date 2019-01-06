@@ -24,8 +24,8 @@ public class Fireball extends ActiveItem {
 	private final static float maxCharge = 6.0f;
 	
 
-	private final static int projectileWidth = 100;
-	private final static int projectileHeight = 100;
+	private final static int projectileWidth = 50;
+	private final static int projectileHeight = 50;
 	private final static float lifespan = 5.0f;
 	private final static float gravity = 0;
 	private final static float projectileSpeed = 12.0f;

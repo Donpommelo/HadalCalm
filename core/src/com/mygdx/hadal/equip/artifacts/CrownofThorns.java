@@ -23,8 +23,8 @@ public class CrownofThorns extends Artifact {
 	private final static float swingCd = 1.5f;
 	private final static float backSwing = 1.0f;
 	private final static float baseDamage = 45.0f;
-	private final static int hitboxSize = 400;
-	private final static int swingArc = 400;
+	private final static int hitboxSize = 200;
+	private final static int swingArc = 200;
 	private final static float knockback = 40.0f;
 	
 	public CrownofThorns() {

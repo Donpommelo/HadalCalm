@@ -24,10 +24,10 @@ public class Iceberg extends RangedWeapon {
 	private final static float baseDamage = 50.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 15.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static int projectileWidth = 132;
 	private final static int projectileHeight = 130;
-	private final static float lifespan = 2.5f;
+	private final static float lifespan = 3.0f;
 	private final static float gravity = 10;
 	
 	private final static int projDura = 5;

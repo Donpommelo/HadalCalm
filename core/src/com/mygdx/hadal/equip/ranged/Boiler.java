@@ -17,17 +17,17 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class Boiler extends RangedWeapon {
 
 	private final static String name = "Boiler";
-	private final static int clipSize = 60;
+	private final static int clipSize = 50;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 2.2f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 8.0f;
 	private final static float recoil = 1.0f;
 	private final static float knockback = 2.0f;
-	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 150;
-	private final static int projectileHeight = 75;
+	private final static float projectileSpeed = 18.0f;
+	private final static int projectileWidth = 100;
+	private final static int projectileHeight = 50;
 	private final static float lifespan = 0.5f;
 	private final static float gravity = 0;
 	private final static float restitution = 0.0f;

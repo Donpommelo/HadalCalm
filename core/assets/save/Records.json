@@ -19,11 +19,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	BOUNCING_BLADE
+	STORMCALLER
 	TORPEDO_LAUNCHER
 	SCRAPRIPPER
 ]
-artifact: PIFFLER
+artifact: ANCHOR_TALISMAN
 active: FIREBALL
 character: MOREAU_FESTIVE
 level: LEVEL_1

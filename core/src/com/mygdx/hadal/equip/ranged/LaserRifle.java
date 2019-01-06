@@ -39,7 +39,7 @@ public class LaserRifle extends RangedWeapon {
 	
 	private final static int projDura = 1;
 	
-	private final static Sprite projSprite = Sprite.ORB_ORANGE;
+	private final static Sprite projSprite = Sprite.BULLET;
 	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
 	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
 	

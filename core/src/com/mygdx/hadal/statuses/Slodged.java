@@ -8,11 +8,11 @@ public class Slodged extends Status {
 	private static String name = "Slodged";
 	private static String descr = "Slowed";
 	
-	private final static float amp = 2.0f;
-	private final static float slow = 0.99f;
+	private float slow;
 	
-	public Slodged(PlayState state, float i, BodyData p, BodyData v) {
+	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v) {
 		super(state, i, name, descr, false, true, p, v);
+		this.slow = slow;
 	}
 	
 	@Override
@@ -20,10 +20,4 @@ public class Slodged extends Status {
 		inflicted.setBonusAirSpeed(-slow);
 		inflicted.setBonusGroundSpeed(-slow);
 	}
-	
-	@Override
-	public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-		return damage * amp;
-	}
-
 }

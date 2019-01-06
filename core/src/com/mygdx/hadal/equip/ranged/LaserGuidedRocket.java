@@ -25,14 +25,14 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static int clipSize = 1;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 2.5f;
+	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 10.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 3.0f;
-	private final static int projectileWidth = 100;
-	private final static int projectileHeight = 20;
+	private final static float projectileSpeed = 2.0f;
+	private final static int projectileWidth = 200;
+	private final static int projectileHeight = 40;
 	private final static float lifespan = 12.0f;
 	private final static float gravity = 0;
 	

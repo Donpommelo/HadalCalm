@@ -31,7 +31,7 @@ public class Scattergun extends RangedWeapon {
 	private final static float baseDamage = 11.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 2.5f;
-	private final static float projectileSpeed = 18.0f;
+	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 27;
 	private final static int projectileHeight = 27;
 	private final static float lifespan = 0.7f;

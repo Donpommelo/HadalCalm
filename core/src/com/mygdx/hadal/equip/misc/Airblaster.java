@@ -23,7 +23,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static float windup = 0.0f;
 	private final static float backSwing = 1.0f;
 	private final static float baseDamage = 0.0f;
-	private final static int hitboxSize = 300;
+	private final static int hitboxSize = 150;
 	private final static float knockback = 60.0f;
 	private final static float momentum = 40.0f;
 	

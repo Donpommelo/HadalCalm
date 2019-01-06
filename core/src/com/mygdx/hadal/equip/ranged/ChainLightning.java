@@ -21,8 +21,8 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class ChainLightning extends RangedWeapon {
 
 	private final static String name = "Chain Lightning";
-	private final static int clipSize = 3;
-	private final static float shootCd = 0.15f;
+	private final static int clipSize = 5;
+	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
@@ -30,13 +30,13 @@ public class ChainLightning extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float baseDamage = 20.0f;
 	private final static float knockback = 8.0f;
-	private final static float projectileSpeedStart = 30.0f;
+	private final static float projectileSpeedStart = 40.0f;
 	private final static int projectileWidth = 80;
 	private final static int projectileHeight = 80;
 	private final static float lifespan = 4.0f;
 	private final static float gravity = 0;
 	
-	private final static int projDura = 8;
+	private final static int projDura = 5;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
