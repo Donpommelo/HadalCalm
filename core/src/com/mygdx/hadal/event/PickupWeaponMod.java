@@ -1,11 +1,11 @@
 package com.mygdx.hadal.event;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -73,7 +73,7 @@ public class PickupWeaponMod extends Event {
 		
 		if (pool.equals("")) {
 			return WeaponMod.getUnlocks(tags)
-					.get(new Random().nextInt(WeaponMod.getUnlocks(tags).size)).name();
+					.get(GameStateManager.generator.nextInt(WeaponMod.getUnlocks(tags).size)).name();
 		}
 		
 		ArrayList<String> mods = new ArrayList<String>();
@@ -81,7 +81,7 @@ public class PickupWeaponMod extends Event {
 		for (String id : pool.split(",")) {
 			mods.add(id);
 		}
-		return mods.get(new Random().nextInt(mods.size()));
+		return mods.get(GameStateManager.generator.nextInt(mods.size()));
 	}
 	
 	public static ArrayList<WeaponMod> getRandMods(int modPow, ModTag... tags) {

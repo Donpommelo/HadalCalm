@@ -3,7 +3,6 @@ package com.mygdx.hadal.event;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
@@ -11,6 +10,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -118,7 +118,7 @@ public class PickupEquip extends Event {
 		
 		if (pool.equals("")) {
 			return UnlockEquip.getUnlocks(false, UnlockTag.RANDOM_POOL)
-					.get(new Random().nextInt(UnlockEquip.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
+					.get(GameStateManager.generator.nextInt(UnlockEquip.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
 		}
 		
 		ArrayList<String> weapons = new ArrayList<String>();
@@ -126,7 +126,7 @@ public class PickupEquip extends Event {
 		for (String id : pool.split(",")) {
 			weapons.add(id);
 		}
-		return weapons.get(new Random().nextInt(weapons.size()));
+		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
 
 	@Override

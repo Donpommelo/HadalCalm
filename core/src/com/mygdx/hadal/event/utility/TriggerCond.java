@@ -2,10 +2,10 @@ package com.mygdx.hadal.event.utility;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -33,7 +33,6 @@ public class TriggerCond extends Event {
 
 	private Map<String, Event> triggered = new HashMap<String, Event>();
 	private String condition;
-	Random generator = new Random();
 	
 	public TriggerCond(PlayState state, String start) {
 		super(state, name);
@@ -51,7 +50,7 @@ public class TriggerCond extends Event {
 				} else {
 					if (condition.equals("random")) {
 						Object[] values = triggered.values().toArray();
-						((Event)values[generator.nextInt(values.length)]).getEventData().onActivate(this);
+						((Event)values[GameStateManager.generator.nextInt(values.length)]).getEventData().onActivate(this);
 					} else {
 						if (triggered.get(condition) != null) {
 							triggered.get(condition).getEventData().onActivate(this);

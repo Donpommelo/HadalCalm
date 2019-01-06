@@ -52,7 +52,7 @@ public class Boomerang extends RangedWeapon {
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
-				float controllerCount = 0;
+				private float controllerCount = 0;
 				
 				@Override
 				public void create() {

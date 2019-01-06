@@ -29,10 +29,10 @@ public class RoyalJujubeBang extends Artifact {
 				
 				float boost = 1.0f;
 				
-				if (dist > 10) {
+				if (dist > 6) {
 					boost = 1.2f;
 				}
-				if (dist > 15) {
+				if (dist > 12) {
 					boost = 1.5f;
 					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.5f, 0, true);
 				}

@@ -30,7 +30,7 @@ public class Nematocydearm extends RangedWeapon {
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 60;
 	private final static int projectileHeight = 60;
-	private final static float lifespan = 2.0f;
+	private final static float lifespan = 1.5f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;

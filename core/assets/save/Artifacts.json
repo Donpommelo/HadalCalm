@@ -401,6 +401,17 @@ NUCLEAR_PUNCH_THRUSTERS: {
 		RANDOM_POOL,
 	]
 }
+ORIGIN_COIL: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Origin Coil
+	description: "Propulsive Projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 PELICAN_PLUSH_TOY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Pelican Plush Toy
@@ -499,10 +510,32 @@ ROYAL_JUJUBE_BANG: {
 		RANDOM_POOL,
 	]
 }
+SAMURAI_SHARK: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Samurai Shark
+	description: "Critical Projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 SHILLERS_BASIDIA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Shiller's Basidia
 	description: "Projectile Poison Trail."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SIMPLE_MIND: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Simple Mind
+	description: "Linear Projectiles."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

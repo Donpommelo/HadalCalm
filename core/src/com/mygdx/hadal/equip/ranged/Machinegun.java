@@ -33,7 +33,7 @@ public class Machinegun extends RangedWeapon {
 	private final static float projectileSpeed = 40.0f;
 	private final static int projectileWidth = 96;
 	private final static int projectileHeight = 12;
-	private final static float lifespan = 0.50f;
+	private final static float lifespan = 0.75f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;

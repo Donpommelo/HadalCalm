@@ -29,7 +29,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 50;
 	private final static int projectileHeight = 50;
-	private final static float lifespanx = 10.0f;
+	private final static float lifespanx = 5.0f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;

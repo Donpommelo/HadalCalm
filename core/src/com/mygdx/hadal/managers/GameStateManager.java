@@ -1,5 +1,6 @@
 package com.mygdx.hadal.managers;
 
+import java.util.Random;
 import java.util.Stack;
 
 import com.badlogic.gdx.Gdx;
@@ -39,7 +40,7 @@ public class GameStateManager {
 	private NinePatchDrawable dialogPatch, simplePatch;
 	private ScrollPaneStyle scrollStyle;
 	public static TextureAtlas particleAtlas, projectileAtlas, multitoolAtlas, eventAtlas, explosionAtlas, uiAtlas;
-	
+	public static Random generator;
 	private Record record;
 	
 	public static Json json = new Json();
@@ -88,6 +89,7 @@ public class GameStateManager {
 		GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 		GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString());
 		GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
+		generator = new Random();
 	}
 	
 	/**

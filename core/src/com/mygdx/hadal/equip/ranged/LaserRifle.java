@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -39,7 +40,8 @@ public class LaserRifle extends RangedWeapon {
 	
 	private final static int projDura = 1;
 	
-	private final static Sprite projSprite = Sprite.BULLET;
+	private final static Sprite[] projSprites = {Sprite.ORB_BLUE, Sprite.ORB_ORANGE, Sprite.ORB_PINK, Sprite.ORB_YELLOW, Sprite.ORB_RED};
+
 	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
 	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
@@ -78,6 +80,9 @@ public class LaserRifle extends RangedWeapon {
 					
 				}, user.getBody().getPosition(), endPt);
 			}
+			
+			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
+			Sprite projSprite = projSprites[randomIndex];
 			
 			Hitbox hbox = new HitboxSprite(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
 					lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite) {

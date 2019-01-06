@@ -3,12 +3,12 @@ package com.mygdx.hadal.event;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -108,7 +108,7 @@ public class PickupArtifact extends Event {
 		
 		if (pool.equals("")) {
 			return UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL)
-					.get(new Random().nextInt(UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
+					.get(GameStateManager.generator.nextInt(UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
 		}
 		
 		ArrayList<String> artifacts = new ArrayList<String>();
@@ -116,6 +116,6 @@ public class PickupArtifact extends Event {
 		for (String id : pool.split(",")) {
 			artifacts.add(id);
 		}
-		return artifacts.get(new Random().nextInt(artifacts.size()));
+		return artifacts.get(GameStateManager.generator.nextInt(artifacts.size()));
 	}
 }
