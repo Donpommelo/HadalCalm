@@ -193,7 +193,9 @@ public class Player extends PhysicsSchmuck {
 				
 		super.create();
 		
-		playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
+		if (state.isRealFite()) {
+			playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
+		}
 	}
 	
 	/**

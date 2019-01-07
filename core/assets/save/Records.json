@@ -19,11 +19,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	SPEARGUN
+	BEEGUN
 	STICKY_BOMB_LAUNCHER
 	LASER_GUIDED_ROCKET
 ]
-artifact: SIMPLE_MIND
+artifact: ORIGIN_COIL
 active: FIREBALL
 character: MOREAU_FESTIVE
 level: LEVEL_1

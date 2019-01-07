@@ -592,6 +592,10 @@ public class PlayState extends GameState {
 		this.zoomDesired = zoom;
 	}
 
+	public boolean isRealFite() {
+		return realFite;
+	}
+	
 	/**
 	 * Tentative tracker of player kill number.
 	 * @param i: Number to increase score by.
