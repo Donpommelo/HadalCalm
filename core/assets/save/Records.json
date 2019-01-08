@@ -19,11 +19,11 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	BEEGUN
+	BOILER
 	STICKY_BOMB_LAUNCHER
 	LASER_GUIDED_ROCKET
 ]
-artifact: ORIGIN_COIL
+artifact: GLUTTONOUS_GREY_GLOVE
 active: FIREBALL
 character: MOREAU_FESTIVE
 level: LEVEL_1

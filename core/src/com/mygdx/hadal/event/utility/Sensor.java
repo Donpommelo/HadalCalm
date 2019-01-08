@@ -1,5 +1,7 @@
 package com.mygdx.hadal.event.utility;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.Event;
@@ -10,6 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
  * A Sensor is an activating event that will activate a connected event when touching a speficied type of body.
@@ -31,11 +34,15 @@ public class Sensor extends Event {
 	private static final String name = "Sensor";
 
 	private short filter;
+	private boolean collision;
 	
-	public Sensor(PlayState state, int width, int height, int x, int y, boolean player, boolean hbox, boolean event, boolean enemy) {
+	public Sensor(PlayState state, int width, int height, int x, int y, boolean player, boolean hbox, boolean event, boolean enemy,
+			float gravity, boolean collision) {
 		super(state, name, width, height, x, y);
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0)
 				| (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+		this.gravity = gravity;
+		this.collision = collision;
 	}
 	
 	@Override
@@ -64,5 +71,11 @@ public class Sensor extends Event {
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
 				filter,	(short) 0, true, eventData);
+		
+		if (collision) {
+			body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 
+					new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, 0.0f, 1.0f,
+				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
+		}
 	}
 }

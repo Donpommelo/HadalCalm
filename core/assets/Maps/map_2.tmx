@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="215">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="217">
  <properties>
   <property name="triggeredId" value="win"/>
  </properties>
@@ -700,6 +700,12 @@
    <properties>
     <property name="prefabId" value="LeverActivateOnce"/>
     <property name="triggeringId" value="switch3"/>
+   </properties>
+  </object>
+  <object id="216" name="Warp" type="Warp" x="4736" y="1728" width="32" height="32">
+   <properties>
+    <property name="Level" value="LEVEL_2"/>
+    <property name="reset" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>

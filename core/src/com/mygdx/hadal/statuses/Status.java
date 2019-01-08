@@ -40,6 +40,12 @@ public class Status {
 		float finalAmount = amount;
 		
 		switch(procTime) {
+		case ON_INFLICT:
+			onInflict();
+			break;
+		case ON_REMOVE:
+			onRemove();
+			break;
 		case STAT_CHANGE:
 			statChanges();
 			break;
@@ -82,13 +88,17 @@ public class Status {
 		case ON_AIRBLAST:
 			onAirBlast(tool);
 			break;
+		default:
+			break;
 		}
 		return finalAmount;
 	}
 	
-	public void statChanges(){
-		
-	}
+	public void onInflict() {}
+	
+	public void onRemove() {}
+	
+	public void statChanges(){}
 	
 	public void timePassing(float delta) {
 		if (!perm) { 

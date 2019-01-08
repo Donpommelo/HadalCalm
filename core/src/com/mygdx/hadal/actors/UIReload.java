@@ -36,6 +36,9 @@ public class UIReload extends AHadalActor {
     public void draw(Batch batch, float alpha) {
 		batch.setProjectionMatrix(state.sprite.combined);
 
+		if (player.getBody() == null)
+			return;
+		
 		if (player.getPlayerData().getCurrentTool().isReloading() && player.isAlive()) {
 			
 			float x = (player.getBody().getPosition().x * PPM) - reload.getRegionWidth() * scale / 2;

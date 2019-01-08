@@ -60,6 +60,8 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void initLoadout() {
+		clearStatuses();
+		
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
@@ -84,24 +86,23 @@ public class PlayerBodyData extends BodyData {
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
 
-		clearStatuses();
-		
-		for (Equipable e : multitools) {
-			if (e != null) {
-				e.setUser(player);
-			}
-		}
-		for (Artifact a : artifacts) {
-			if (a != null) {
-				for (Status s : a.loadEnchantments(player.getState(), this)) {
-					addStatus(s);
-				}
-			}
-		}
-
-		//Eventually, this space might be used for a "intrinsic status" thing.
-		addStatus(new ActiveItemCharge(player.getState(), this));
-
+//		clearStatuses();
+//		
+//		for (Equipable e : multitools) {
+//			if (e != null) {
+//				e.setUser(player);
+//			}
+//		}
+//		for (Artifact a : artifacts) {
+//			if (a != null) {
+//				for (Status s : a.loadEnchantments(player.getState(), this)) {
+//					addStatus(s);
+//				}
+//			}
+//		}
+//
+//		//Eventually, this space might be used for a "intrinsic status" thing.
+//		addStatus(new ActiveItemCharge(player.getState(), this));
 	}
 	
 	/**

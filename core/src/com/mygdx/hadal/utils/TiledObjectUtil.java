@@ -97,7 +97,8 @@ public class TiledObjectUtil {
 			e = new Sensor(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("player", true, boolean.class), object.getProperties().get("hbox", false, boolean.class), 
-					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class));
+					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class),
+					object.getProperties().get("gravity", 0.0f, float.class), object.getProperties().get("collision", false, boolean.class));
 		}
 		if (object.getName().equals("Timer")) {
 			e = new Timer(state, object.getProperties().get("interval", float.class),

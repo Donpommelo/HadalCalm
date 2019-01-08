@@ -1,13 +1,14 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal.event.utility;
 
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
  * An EventDeleter. This Event will delete a specified event. very straightforwards.
  * 
- * Triggered Behavior: When triggered, this eventwill perform the deletion.
- * Triggering Behavior: The connected event is the one who will be deleted.
+ * Triggered Behavior: When triggered, this event will perform the deletion.
+ * Triggering Behavior: The event that triggers this is deleted, so the triggering behavior just chains to another event.
  *  
  * Fields: N/A
  * 
@@ -38,5 +39,4 @@ public class EventDeleter extends Event {
 			}
 		};
 	}
-	
 }

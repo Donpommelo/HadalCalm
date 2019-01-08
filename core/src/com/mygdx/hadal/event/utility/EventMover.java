@@ -1,6 +1,8 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.MovingPlatform;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;

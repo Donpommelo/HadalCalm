@@ -1,6 +1,8 @@
 package com.mygdx.hadal.statuses;
 
 public enum StatusProcTime {
+	ON_INFLICT,
+	ON_REMOVE,
 	STAT_CHANGE,
 	DEAL_DAMAGE,
 	RECEIVE_DAMAGE,

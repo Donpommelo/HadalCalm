@@ -196,7 +196,7 @@ public class RangedWeapon extends Equipable {
 		return useCd * (1 - user.getBodyData().getRangedFireRate());
 	}
 	
-	public int getClipSize() {
+	public int getClipSize() {		
 		if (clipSize * user.getBodyData().getBonusClipSize() > 0 && clipSize * user.getBodyData().getBonusClipSize() < 1) {
 			return clipSize + 1;
 		} else {

@@ -19,6 +19,11 @@ import com.mygdx.hadal.statuses.DamageTypes;
  * 
  * In this case, the Triggering Behavior would be to make the medpack despawn. 
  * 
+ * Also, as an added note, when this event chains, it inputs its activator event, not itself. This is kinda weird and arbitrary
+ * but makes it so that event deleters can more easily delete the medpack without the use of an extra alt-trigger.
+ * 
+ * I think that the repurcussions of this are probably minor, because this event will probably not be changed by downstream events.
+ * 
  * Fields:
  * 
  * hp: Change the player Hp by this amount. Optional. Default: 0.0f
@@ -73,7 +78,7 @@ public class PlayerChanger extends Event {
 				}
 				
 				if (activated && event.getConnectedEvent() != null) {
-					event.getConnectedEvent().getEventData().onActivate(this);
+					event.getConnectedEvent().getEventData().onActivate(activator);
 				}
 			}
 		};

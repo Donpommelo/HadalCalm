@@ -170,12 +170,14 @@ public class BodyData extends HadalData {
 	
 	public void addStatus(Status s) {
 		statuses.add(s);
+		statusProcTime(StatusProcTime.ON_INFLICT, null, 0, null, null, null);
 		calcStats();
 	}
 	
 	public void removeStatus(Status s) {
 		statuses.remove(s);
 		statusesChecked.remove(s);
+		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, null, null, null);
 		calcStats();
 	}
 	

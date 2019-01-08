@@ -1,5 +1,6 @@
-package com.mygdx.hadal.event;
+package com.mygdx.hadal.event.utility;
 
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
