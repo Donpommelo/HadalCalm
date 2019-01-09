@@ -86,23 +86,23 @@ public class PlayerBodyData extends BodyData {
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
 
-//		clearStatuses();
-//		
-//		for (Equipable e : multitools) {
-//			if (e != null) {
-//				e.setUser(player);
-//			}
-//		}
-//		for (Artifact a : artifacts) {
-//			if (a != null) {
-//				for (Status s : a.loadEnchantments(player.getState(), this)) {
-//					addStatus(s);
-//				}
-//			}
-//		}
-//
-//		//Eventually, this space might be used for a "intrinsic status" thing.
-//		addStatus(new ActiveItemCharge(player.getState(), this));
+		clearStatuses();
+		
+		for (Equipable e : multitools) {
+			if (e != null) {
+				e.setUser(player);
+			}
+		}
+		for (Artifact a : artifacts) {
+			if (a != null) {
+				for (Status s : a.loadEnchantments(player.getState(), this)) {
+					addStatus(s);
+				}
+			}
+		}
+
+		//Eventually, this space might be used for a "intrinsic status" thing.
+		addStatus(new ActiveItemCharge(player.getState(), this));
 	}
 	
 	/**

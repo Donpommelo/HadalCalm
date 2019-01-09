@@ -51,7 +51,7 @@ public class UIObjective extends AHadalActor {
 		float x = 500;
 		float y = 500;
 		
-		if (state.getObjectiveTarget() != null) {
+		if (state.getObjectiveTarget() != null && player.getBody() != null) {
 			
 			float xDist = (player.getBody().getPosition().x * PPM) - (state.getObjectiveTarget().getBody().getPosition().x * PPM);
 			float yDist = (player.getBody().getPosition().y * PPM) - (state.getObjectiveTarget().getBody().getPosition().y * PPM);		

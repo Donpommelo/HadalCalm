@@ -57,5 +57,4 @@ public class UIReload extends AHadalActor {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-
 }

@@ -181,11 +181,13 @@ public class Player extends PhysicsSchmuck {
 		
 		if (playerData == null) {
 			this.playerData = new PlayerBodyData(this, state.getLoadout());
+			this.bodyData = playerData;
+			playerData.initLoadout();
 		} else {
+			this.bodyData = playerData;
 			playerData.resetData(this, world);
 		}
-		this.bodyData = playerData;
-		playerData.initLoadout();
+		
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
