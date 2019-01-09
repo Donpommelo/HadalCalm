@@ -1,4 +1,15 @@
 {
+NUMBER_ONE_BOSS_MUG: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: #1 Boss Mug
+	description: "Occasionally drop Fuel on Kill."
+    descriptionLong: "Coffee mug belonging to the number 1 boss."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 EIGHT_BALL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: "8-Ball"
@@ -232,7 +243,7 @@ FRACTURE_PLATE: {
 GLUTTONOUS_GREY_GLOVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Gluttonous Grey Grove
-	description: "Heal on Kill. Cannot Heal From Medpaks."
+	description: "Occasionally drop a Medpak on Kill."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

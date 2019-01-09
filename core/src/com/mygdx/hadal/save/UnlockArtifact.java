@@ -9,6 +9,7 @@ import com.mygdx.hadal.equip.artifacts.*;
 
 public enum UnlockArtifact {
 	
+	NUMBER_ONE_BOSS_MUG(Number1BossMug.class),
 	EIGHT_BALL(EightBall.class),
 	ABYSSAL_INSIGNIA(AbyssalInsignia.class),
 	ADMINISTRATOR_CARD(AdministratorCard.class),

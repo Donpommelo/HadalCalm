@@ -14,18 +14,18 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class GluttonousGreyGlove extends Artifact {
+public class Number1BossMug extends Artifact {
 
-	private final static String name = "Gluttonous Grey Glove";
-	private final static String descr = "Occasionally drop a Medpak on Kill.";
+	private final static String name = "#1 Boss Mug";
+	private final static String descr = "Occasionally drop Fuel on Kill.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private static final float heal = 20.0f;
+	private static final float heal = 50.0f;
 	private static final int size = 64;
-	private static final float chance = 0.1f;
+	private static final float chance = 0.5f;
 	
-	public GluttonousGreyGlove() {
+	public Number1BossMug() {
 		super(name, descr, descrLong, statusNum);
 	}
 
@@ -46,15 +46,15 @@ public class GluttonousGreyGlove extends Artifact {
 							true, false, false, false, 1.0f, true);
 					
 					if (changer == null) {
-						changer = new PlayerChanger(state, heal, 0, 0);
+						changer = new PlayerChanger(state, 0, heal, 0);
 						deleter = new EventDeleter(state);
-						particles = new ParticleCreator(state, Particle.PICKUP_HEALTH, 2.0f, false);
+						particles = new ParticleCreator(state, Particle.PICKUP_ENERGY, 2.0f, false);
 					}
 					
 					medpak.setConnectedEvent(changer);
 					changer.setConnectedEvent(deleter);
 					deleter.setConnectedEvent(particles);
-					medpak.setEventSprite(Sprite.MEDPAK);
+					medpak.setEventSprite(Sprite.FUEL);
 					medpak.addAmbientParticle(Particle.EVENT_HOLO);
 				}
 			}
