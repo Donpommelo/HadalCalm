@@ -14,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.client.KryoClient;
 
 /**
  * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GamestateManager.
@@ -41,6 +43,9 @@ public class HadalGame extends ApplicationAdapter {
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;
     
+    public static KryoClient client;
+    public static KryoServer server;
+    
     public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
@@ -56,6 +61,7 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void create() {
+		
 		CONFIG_WIDTH = DEFAULT_WIDTH;
 		CONFIG_HEIGHT = DEFAULT_HEIGHT;
 		batch = new SpriteBatch();
@@ -86,6 +92,8 @@ public class HadalGame extends ApplicationAdapter {
         
         gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
+		
+		client = new KryoClient(gsm);
 	}
 	
 	/**

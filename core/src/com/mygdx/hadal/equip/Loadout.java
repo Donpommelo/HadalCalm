@@ -18,6 +18,8 @@ public class Loadout {
 	
 	public UnlockCharacter character;
 	
+	public Loadout() {}
+		
 	public Loadout(Record record) {
 		multitools = new UnlockEquip[numSlots];
 		multitools[0] = UnlockEquip.NOTHING;

@@ -55,7 +55,8 @@ public class GameStateManager {
 		GAMEOVER, 
 		VICTORY,
 		MENU,
-		HUB
+		HUB,
+		CLIENTPLAY
 	}
 	
 	/**
@@ -200,12 +201,17 @@ public class GameStateManager {
 			} else {
 				return new HubState(this, new Loadout(record));
 			}
+		case CLIENTPLAY: return new ClientState(this);
 		default:
 			break;
 		}
 		return null;
 	}
 	
+	public Stack<GameState> getStates() {
+		return states;
+	}
+
 	public HadalGame getApp() {
 		return app;
 	}

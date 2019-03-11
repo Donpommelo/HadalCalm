@@ -52,6 +52,7 @@ public class PlayState extends GameState {
 	
 	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
 	private Player player;
+	
 	private PlayerController controller;
 	
 	private Loadout loadout;
@@ -173,8 +174,9 @@ public class PlayState extends GameState {
 		
 		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
 		this.cameraTarget = player;
+
 		
-		controller = new PlayerController(player, this);	
+		controller = new PlayerController(player);	
 		
 		//Set up "save point" as starting point
 		this.safeX = startX;
@@ -232,7 +234,7 @@ public class PlayState extends GameState {
 	 * This is called when a player is created.
 	 */
 	public void resetController() {
-		controller = new PlayerController(player, this);
+		controller = new PlayerController(player);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		

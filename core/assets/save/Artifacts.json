@@ -46,7 +46,7 @@ ANARCHISTS_COOKBOOK: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook
 	description: "Periodically Spawns Bombs."
-    descriptionLong: "An ancient text printed on singed (and waterproof) pages. It doesn't actually teach how to cook."
+    descriptionLong: "An ancient text printed on singed (and waterproof) pages."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -79,7 +79,7 @@ BUCKET_OF_BATTERIES: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bucket of Batteries
 	description: "Projectiles Chain to Nearby Enemies."
-    descriptionLong: "A bucket filled with batteries floating in a dubious liquid. It imbues the holder with a crackling, unstable power."
+    descriptionLong: "A bucket filled with batteries floating in a dubious liquid."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -101,7 +101,7 @@ CLAWS_OF_FESTUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Claws of Festus
 	description: "Enables Wall-Climbing."
-    descriptionLong: "A pair of long, wirey clawed gloves, sharp enough to rend yet flexible enough to strangle. Once used for transmission of vibrations."
+    descriptionLong: "A pair of long, wirey clawed gloves, once used for transmission of vibrations."
 	unlocked: true
 	tags: [
 		RELIQUARY,

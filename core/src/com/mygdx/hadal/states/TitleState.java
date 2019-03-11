@@ -11,6 +11,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.server.KryoServer;
 
 /**
  * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
@@ -23,7 +24,7 @@ public class TitleState extends GameState {
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor playOption, exitOption, controlOption;
+	private Actor hostOption, joinOption, exitOption, controlOption;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -41,17 +42,32 @@ public class TitleState extends GameState {
 				
 				int x = HadalGame.CONFIG_WIDTH - 200;
 				
-				playOption = new Text(HadalGame.assetManager, "PLAY", x, 340, Color.BLACK);
-				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 300, Color.BLACK);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 260, Color.BLACK);
+				hostOption = new Text(HadalGame.assetManager, "HOST", x, 340, Color.BLACK);
+				joinOption = new Text(HadalGame.assetManager, "JOIN", x, 300, Color.BLACK);
+				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 260, Color.BLACK);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 220, Color.BLACK);
 				
-				playOption.addListener(new ClickListener() {
+				hostOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().addState(State.HUB, TitleState.class);
+			        	HadalGame.server = new KryoServer(getGsm());
 			        }
 			    });
-				playOption.setScale(0.5f);			
+				hostOption.setScale(0.5f);			
 
+				joinOption.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	HadalGame.client.init(false);
+			        	try {
+                            Thread.sleep(600);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
+			        	getGsm().addState(State.CLIENTPLAY, TitleState.class);
+			        }
+			    });
+				joinOption.setScale(0.5f);	
+				
 				controlOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().addState(State.CONTROL, TitleState.class);
@@ -66,7 +82,8 @@ public class TitleState extends GameState {
 			    });
 				exitOption.setScale(0.5f);
 				
-				addActor(playOption);
+				addActor(hostOption);
+				addActor(joinOption);
 				addActor(controlOption);
 				addActor(exitOption);
 			}

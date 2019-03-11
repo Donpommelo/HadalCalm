@@ -14,6 +14,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveStates;
@@ -94,6 +95,8 @@ public class Player extends PhysicsSchmuck {
 	private boolean hovering = false;
 	
 	private ParticleEntity hoverBubbles;
+	
+	private ActionController controller;
 	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
@@ -176,6 +179,8 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void create() {
+		
+		controller = new ActionController(this, state);
 		
 		state.resetController();
 		
@@ -583,5 +588,9 @@ public class Player extends PhysicsSchmuck {
 
 	public void setShooting(boolean shooting) {
 		this.shooting = shooting;
+	}
+
+	public ActionController getController() {
+		return controller;
 	}	
 }

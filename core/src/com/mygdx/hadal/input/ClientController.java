@@ -1,104 +1,98 @@
 package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.server.Packets;
 
 /**
  * The PlayerController controls the player using events to process various player actions.
  * @author Zachary Tu
  *
  */
-public class PlayerController implements InputProcessor {
-
-	private Player player;
+public class ClientController implements InputProcessor {
 	
-	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
-	
-	public PlayerController(Player player) {
-		this.player = player;
+	public ClientController() {
 	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
+
+		if (!HadalGame.client.client.isConnected()) return false;
 		
-		if (player == null) return true;
-
-		if (player.getPlayerData() == null) return true;
-
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			player.getController().keyDown(PlayerAction.WALK_LEFT);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.WALK_LEFT));
 		}
 		
 		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			player.getController().keyDown(PlayerAction.WALK_RIGHT);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.WALK_RIGHT));
 		}
 		
 		if (keycode == PlayerAction.JUMP.getKey()) {
-			player.getController().keyDown(PlayerAction.JUMP);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.JUMP));
 		}
 		
 		if (keycode == PlayerAction.CROUCH.getKey()) {
-			player.getController().keyDown(PlayerAction.CROUCH);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.CROUCH));
 		}
 		
 		if (keycode == PlayerAction.INTERACT.getKey()) {
-			player.getController().keyDown(PlayerAction.INTERACT);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.INTERACT));
 		}
 		
 		if (keycode == PlayerAction.FREEZE.getKey()) {
-			player.getController().keyDown(PlayerAction.FREEZE);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.FREEZE));
 		}
 		
 		if (keycode == PlayerAction.RELOAD.getKey()) {
-			player.getController().keyDown(PlayerAction.RELOAD);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.RELOAD));
 		}
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
-			player.getController().keyDown(PlayerAction.FIRE);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.FIRE));
 		}
 		
 		if (keycode == PlayerAction.BOOST.getKey()) {
-			player.getController().keyDown(PlayerAction.BOOST);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.BOOST));
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_LAST.getKey()) {
-			player.getController().keyDown(PlayerAction.SWITCH_TO_LAST);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_LAST));
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_1.getKey()) {
-			player.getController().keyDown(PlayerAction.SWITCH_TO_1);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_1));
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_2.getKey()) {
-			player.getController().keyDown(PlayerAction.SWITCH_TO_2);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_2));
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_3.getKey()) {
-			player.getController().keyDown(PlayerAction.SWITCH_TO_3);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_3));
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
-			player.getController().keyDown(PlayerAction.SWITCH_TO_4);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_4));
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_5.getKey()) {
-			player.getController().keyDown(PlayerAction.SWITCH_TO_5);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_5));
 		}
 		
 		if (keycode == PlayerAction.DIALOGUE.getKey()) {
-			player.getController().keyDown(PlayerAction.DIALOGUE);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.DIALOGUE));
 		}
 		
 		if (keycode == PlayerAction.PAUSE.getKey()) {
-			player.getController().keyDown(PlayerAction.PAUSE);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.PAUSE));
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {
-			player.getController().keyDown(PlayerAction.MO_CYCLE_UP);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.MO_CYCLE_UP));
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_DOWN.getKey()) {
-			player.getController().keyDown(PlayerAction.MO_CYCLE_DOWN);
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.MO_CYCLE_DOWN));
 		}
 		
 		return false;
@@ -107,22 +101,22 @@ public class PlayerController implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		
-		if (player == null) return true;
+		if (!HadalGame.client.client.isConnected()) return false;
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			player.getController().keyUp(PlayerAction.WALK_LEFT);
+			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.WALK_LEFT));
 		}
 		
 		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			player.getController().keyUp(PlayerAction.WALK_RIGHT);
+			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.WALK_RIGHT));
 		}
 		
 		if (keycode == PlayerAction.JUMP.getKey()) {
-			player.getController().keyUp(PlayerAction.JUMP);
+			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.JUMP));
 		}
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
-			player.getController().keyUp(PlayerAction.FIRE);
+			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.FIRE));
 		}
 				
 		return false;
@@ -160,13 +154,5 @@ public class PlayerController implements InputProcessor {
 		keyDown(amount * 1000);
 		keyUp(-amount * 1000);
 		return false;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
 	}
 }
