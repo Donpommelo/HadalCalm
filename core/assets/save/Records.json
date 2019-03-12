@@ -23,8 +23,8 @@ equips: [
 	STICKY_BOMB_LAUNCHER
 	TORPEDO_LAUNCHER
 ]
-artifact: NUMBER_ONE_BOSS_MUG
+artifact: EMAUDELINES_PRISM
 active: SPRING_LOADER
-character: MOREAU_FESTIVE
+character: TAKANORI
 level: LEVEL_1
 }

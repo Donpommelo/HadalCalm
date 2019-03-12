@@ -129,11 +129,11 @@ public class KryoClient {
         
         if (!reconnect) {
             
-        	InetAddress address = client.discoverHost(54777, 5000);
+//        	InetAddress address = client.discoverHost(54777, 5000);
         	
         	// Request the host from the user.
             String input = (String) JOptionPane.showInputDialog(null, "Host:", "Connect to game server", JOptionPane.QUESTION_MESSAGE,
-                    null, null, address.getHostAddress());
+                    null, null, "argh");
             if (input == null || input.trim().length() == 0) System.exit(1);
             hostIP = input.trim();
 
