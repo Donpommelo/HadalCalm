@@ -1,6 +1,7 @@
 package com.mygdx.hadal.client;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import javax.swing.JOptionPane;
 
@@ -22,7 +23,8 @@ import com.mygdx.hadal.states.TitleState;
 public class KryoClient {
 	
 	
-	int portSocket = 25565;
+	public static final int tcpPortSocket = 25565;
+	public static final int udpPortSocket = 54777;
 	String ipAddress = "localhost";
 	
 	public Client client;
@@ -126,9 +128,13 @@ public class KryoClient {
         });
         
         if (!reconnect) {
-            // Request the host from the user.
+            
+        	InetAddress address = client.discoverHost(54777, 5000);
+            System.out.println(address.getHostAddress());
+        	
+        	// Request the host from the user.
             String input = (String) JOptionPane.showInputDialog(null, "Host:", "Connect to game server", JOptionPane.QUESTION_MESSAGE,
-                    null, null, "localhost");
+                    null, null, address.getHostAddress());
             if (input == null || input.trim().length() == 0) System.exit(1);
             hostIP = input.trim();
 
@@ -145,7 +151,7 @@ public class KryoClient {
         new Thread("Connect") {
             public void run () {
                 try {
-                    client.connect(5000, hostIP, portSocket);
+                    client.connect(5000, hostIP,tcpPortSocket, udpPortSocket);
                     // Server communication after connection can go here, or in Listener#connected().
                 } catch (IOException ex) {
                     ex.printStackTrace();

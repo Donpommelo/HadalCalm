@@ -63,7 +63,7 @@ public class ClientState extends PlayState {
 	public void update(float delta) {
 		tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(tmpVec3);
-		HadalGame.client.client.sendTCP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
+		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
 		
 		//All entities that are set to be removed are removed.
 		for (String key : removeList.keySet()) {

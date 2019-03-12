@@ -297,7 +297,7 @@ public class PlayState extends GameState {
 			entity.controller(delta);
 			Object packet = entity.onServerSync();
 			if (packet != null) {
-				HadalGame.server.server.sendToAllTCP(packet);
+				HadalGame.server.server.sendToAllUDP(packet);
 			}
 		}
 		

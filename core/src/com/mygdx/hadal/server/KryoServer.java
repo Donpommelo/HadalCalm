@@ -11,14 +11,13 @@ import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
+import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 public class KryoServer {
-	
-	private static final int serverPort = 25565;
 	
 	public Server server;
 	public GameStateManager gsm;
@@ -85,7 +84,7 @@ public class KryoServer {
 		});
 		
 		try {
-			server.bind(serverPort);
+			server.bind(KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
