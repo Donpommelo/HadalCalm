@@ -2,8 +2,10 @@ package com.mygdx.hadal.states;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
@@ -36,6 +38,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -81,6 +84,8 @@ public class PlayState extends GameState {
 	private Set<HadalEntity> entities;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private Set<HadalEntity> hitboxes;
+	
+	private List<PacketEffect> packetEffects;
 	
 	//sourced effects from the world are attributed to this dummy.
 	private Enemy worldDummy;
@@ -150,9 +155,10 @@ public class PlayState extends GameState {
 		//Initialize sets to keep track of active entities
 		entities = new LinkedHashSet<HadalEntity>();
 		hitboxes = new LinkedHashSet<HadalEntity>();
-		removeList = Collections.synchronizedSet(new LinkedHashSet<HadalEntity>());
-		createList = Collections.synchronizedSet(new LinkedHashSet<HadalEntity>());
+		removeList = new LinkedHashSet<HadalEntity>();
+		createList = new LinkedHashSet<HadalEntity>();
 		
+		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, 1, 1, -1000, -1000);
@@ -266,7 +272,7 @@ public class PlayState extends GameState {
 		//Let AI process time step
 		GdxAI.getTimepiece().update(1 / 60f);
 		
-		//All entities that are set to be removed are removed.		
+		//All entities that are set to be removed are removed.
 		for (HadalEntity entity: removeList) {
 			entities.remove(entity);
 			hitboxes.remove(entity);
@@ -306,6 +312,13 @@ public class PlayState extends GameState {
 			if (packet != null) {
 				HadalGame.server.server.sendToAllUDP(packet);
 			}
+		}
+		
+		synchronized(packetEffects) {
+			for (PacketEffect effect: packetEffects) {
+				effect.execute();
+			}
+			packetEffects.clear();
 		}
 		
 		//Update the game camera and batch.
@@ -549,6 +562,12 @@ public class PlayState extends GameState {
 	 */
 	public void create(HadalEntity entity) {
 		createList.add(entity);
+	}
+	
+	public void addPacketEffect(PacketEffect effect) {
+		synchronized(packetEffects) {
+			packetEffects.add(effect);
+		}
 	}
 	
 	/**

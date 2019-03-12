@@ -26,5 +26,5 @@ equips: [
 artifact: EMAUDELINES_PRISM
 active: SPRING_LOADER
 character: TELEMACHUS
-level: LEVEL_2
+level: LEVEL_1
 }

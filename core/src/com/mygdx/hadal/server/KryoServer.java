@@ -42,7 +42,6 @@ public class KryoServer {
 
 				if (o instanceof Packets.PlayerConnect) {
 					Log.info("NEW CLIENT CONNECTED: " + c.getID());
-
 					Packets.PlayerConnect p = (Packets.PlayerConnect) o;
 					
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
@@ -103,27 +102,22 @@ public class KryoServer {
 		server.start();
 	}
 	
-	public void createNewClientPlayer(PlayState ps, int connId, Loadout loadout, PlayerBodyData data) {
-		Loadout argh;
-		if (loadout == null) {
-			Log.info("RECEIVED NULL LOADOUT FOR SOME REASON");
-			argh = new Loadout(gsm.getRecord());
-		} else {
-			argh = loadout;
-		}
-		
-		if (argh.multitools == null) {
-			Log.info("WHY IS THIS NULL ARGH");
-		}
-		
-		Player newPlayer = new Player(ps, (int)(ps.getStartX() * PPM), (int)(ps.getStartY() * PPM),
-        		argh, data);
-        MouseTracker newMouse = new MouseTracker(ps, false);
-        newPlayer.setMouse(newMouse);
-        players.put(connId, newPlayer);
-        mice.put(connId, newMouse);
-        
-        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
+	public void createNewClientPlayer(final PlayState ps, final int connId, final Loadout loadout, final PlayerBodyData data) {
+
+		ps.addPacketEffect(new PacketEffect() {
+
+			@Override
+			public void execute() {
+				Player newPlayer = new Player(ps, (int)(ps.getStartX() * PPM), (int)(ps.getStartY() * PPM),
+						loadout, data);
+		        MouseTracker newMouse = new MouseTracker(ps, false);
+		        newPlayer.setMouse(newMouse);
+		        players.put(connId, newPlayer);
+		        mice.put(connId, newMouse);
+		        
+		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));	
+			}
+		});
 	}
 	
 	public HashMap<Integer, Player> getPlayers() {

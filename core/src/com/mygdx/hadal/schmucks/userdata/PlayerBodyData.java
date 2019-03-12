@@ -7,7 +7,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.Empty;
 import com.mygdx.hadal.equip.Equipable;
@@ -64,9 +63,6 @@ public class PlayerBodyData extends BodyData {
 		clearStatuses();
 
 		//TODO Fix loadout sometimes being null here
-		if (loadout == null) {
-			Log.info("WHY IS LOADOUT NULL ARGH ");
-		}
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {

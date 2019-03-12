@@ -63,31 +63,35 @@ public class ClientState extends PlayState {
 		HadalGame.viewportCamera.unproject(tmpVec3);
 		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
 		
-		//All entities that are set to be removed are removed.
-		for (String key: removeList) {
-			HadalEntity entity = entities.get(key);
-			entities.remove(key);
-			if (entity != null) {
-				entity.dispose();
-			}
-			entity = hitboxes.get(key);
-			hitboxes.remove(key);
-			if (entity != null) {
-				entity.dispose();
-			}
-		}
-		removeList.clear();
 		
-		//All entities that are set to be added are added.
-		for (Object[] pair: createList) {
-			if (pair[2].equals(1)) {
-				hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
-			} else {
-				entities.put((String)pair[0], (HadalEntity)pair[1]);
+		//All entities that are set to be removed are removed.
+		synchronized(removeList) {
+			for (String key: removeList) {
+				HadalEntity entity = entities.get(key);
+				entities.remove(key);
+				if (entity != null) {
+					entity.dispose();
+				}
+				entity = hitboxes.get(key);
+				hitboxes.remove(key);
+				if (entity != null) {
+					entity.dispose();
+				}
 			}
-			((HadalEntity)pair[1]).create();
+			removeList.clear();
 		}
-		createList.clear();
+				
+		synchronized(createList) {
+			for (Object[] pair: createList) {
+				if (pair[2].equals(1)) {
+					hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
+				} else {
+					entities.put((String)pair[0], (HadalEntity)pair[1]);
+				}
+				((HadalEntity)pair[1]).create();
+			}
+			createList.clear();
+		}
 		
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
@@ -205,12 +209,16 @@ public class ClientState extends PlayState {
 	}
 	
 	public void addEntity(String entityId, HadalEntity entity, ObjectSyncLayers layer) {
-		Object[] packet = {entityId, entity, layer};
-		createList.add(packet);
+		synchronized(createList) {
+			Object[] packet = {entityId, entity, layer};
+			createList.add(packet);
+		}
 	}
 	
 	public void removeEntity(String entityId) {
-		removeList.add(entityId);
+		synchronized(removeList) {
+			removeList.add(entityId);
+		}
 	}
 
 	public void syncObject(String entityId, Object o) {

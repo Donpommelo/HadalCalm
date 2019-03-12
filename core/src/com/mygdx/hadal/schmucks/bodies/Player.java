@@ -196,7 +196,6 @@ public class Player extends PhysicsSchmuck {
 		state.resetController();
 		
 		if (playerData == null) {
-
 			this.playerData = new PlayerBodyData(this, startLoadout);
 			this.bodyData = playerData;
 			playerData.initLoadout();
