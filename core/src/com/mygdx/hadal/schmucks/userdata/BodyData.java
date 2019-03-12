@@ -730,5 +730,9 @@ public class BodyData extends HadalData {
 
 	public ArrayList<Status> getStatusesChecked() {
 		return statusesChecked;
-	}	
+	}
+
+	public void setCurrentTool(Equipable currentTool) {
+		this.currentTool = currentTool;
+	}
 }

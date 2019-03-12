@@ -63,7 +63,6 @@ public class TitleState extends GameState {
                         } catch (InterruptedException e1) {
                             e1.printStackTrace();
                         }
-			        	getGsm().addState(State.CLIENTPLAY, TitleState.class);
 			        }
 			    });
 				joinOption.setScale(0.5f);	

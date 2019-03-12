@@ -146,6 +146,8 @@ public class ClientController implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		
+		
 		return false;
 	}
 

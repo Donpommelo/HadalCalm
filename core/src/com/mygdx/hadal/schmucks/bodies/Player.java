@@ -2,13 +2,11 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
@@ -22,6 +20,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.statuses.artifact.ScalingScalesStatus;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -31,7 +30,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  *
  */
 public class Player extends PhysicsSchmuck {
-	
 	
 	private final static float playerDensity = 1.0f;
 	
@@ -53,6 +51,7 @@ public class Player extends PhysicsSchmuck {
 	public static final float scale = 0.15f;
 	
 	private final float spriteAnimationSpeed = 0.08f;
+	private String bodySprite;
 	
 	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
@@ -69,6 +68,7 @@ public class Player extends PhysicsSchmuck {
 	protected float interactCdCount = 0;
 	
 	private float attackAngle = 0;
+	private float attackAngleClient = 0;
 	
 	//user data
 	private PlayerBodyData playerData;
@@ -98,6 +98,9 @@ public class Player extends PhysicsSchmuck {
 	
 	private ActionController controller;
 	
+	//this exists so that schmucks can steer towards the mouse.
+	private MouseTracker mouse;
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -125,6 +128,9 @@ public class Player extends PhysicsSchmuck {
 		
 		setBodySprite(character.getSprite());
 		loadParticles();
+		
+		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
+		mouse = state.getMouse();
 	}
 	
 	/**
@@ -132,6 +138,8 @@ public class Player extends PhysicsSchmuck {
 	 * @param playerSprite
 	 */
 	public void setBodySprite(String playerSprite) {
+		bodySprite = playerSprite;
+		
 		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
 		bodyRunSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_run"));	
 		bodyStillSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_stand"));	
@@ -197,7 +205,7 @@ public class Player extends PhysicsSchmuck {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				Constants.PLAYER_HITBOX, false, playerData);
-				
+		
 		super.create();
 		
 		if (state.isRealFite()) {
@@ -315,14 +323,14 @@ public class Player extends PhysicsSchmuck {
 	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
 	 */
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.getCurrentTool(), Constants.PLAYER_HITBOX, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true);
+		useToolStart(delta, playerData.getCurrentTool(), Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, true);
 	}
 	
 	/**
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		useToolRelease(playerData.getCurrentTool(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
+		useToolRelease(playerData.getCurrentTool(), Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y);
 	}
 	
 	/**
@@ -333,7 +341,7 @@ public class Player extends PhysicsSchmuck {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
 				playerData.fuelSpend(playerData.getAirblastCost());
 				airblastCdCount = airblastCd;
-				useToolStart(0, airblast, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+				useToolStart(0, airblast, Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
 			}
 		}
 	}
@@ -352,7 +360,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		useToolStart(0, playerData.getActiveItem(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+		useToolStart(0, playerData.getActiveItem(), Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
 	}
 	
 	/**
@@ -389,7 +397,6 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
-	private Vector3 bodyPosition = new Vector3();
 	private float armConnectXReal;
 	private float headConnectXReal;
 	private float armRotateXReal;
@@ -397,15 +404,15 @@ public class Player extends PhysicsSchmuck {
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
 		
-		bodyPosition.set(body.getPosition().x,
-				body.getPosition().y, 0);
-		
-		camera.project(bodyPosition);
-		
 		//Determine player mouse location and hence where the arm should be angled.
-		attackAngle = (float)(Math.atan2(
-				bodyPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()),
-				bodyPosition.x - Gdx.input.getX()) * 180 / Math.PI);
+		if (mouse.getBody() != null) {
+			attackAngle = (float)(Math.atan2(
+					body.getPosition().y - mouse.getBody().getPosition().y,
+					body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI);
+		} else {
+			attackAngle = attackAngleClient;
+		}
+		
 		
 /*		for (ParticleEmitter p : hoverBubbles.getEffect().getEmitters()) {
 			p.getAngle().setHighMax(attackAngle);
@@ -531,6 +538,8 @@ public class Player extends PhysicsSchmuck {
 		if (flashingCount > 0) {
 			batch.setShader(null);
 		}
+		
+		
 	}
 	
 	public int getFreezeFrame(boolean reverse) {
@@ -538,6 +547,38 @@ public class Player extends PhysicsSchmuck {
 			return reverse ? 5 : 2;
 		} else {
 			return reverse ? 1 : 6;
+		}
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreatePlayer(entityID.toString(), playerData.getLoadout());
+	}
+	
+	@Override
+	public Object onServerSync() {
+		return new Packets.SyncPlayer(entityID.toString(), playerData.getLoadout(), body.getPosition(), 
+				(float)(Math.atan2(
+						body.getPosition().y - mouse.getBody().getPosition().y,
+						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
+				moveState, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
+				bodySprite);
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		Packets.SyncPlayer p = (Packets.SyncPlayer) o;
+		
+		body.setTransform(p.pos, 0);
+		attackAngleClient = p.attackAngle;
+		moveState = p.moveState;
+		grounded = p.grounded;
+		playerData.setCurrentSlot(p.currentSlot);
+		playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
+		setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
+		playerData.getCurrentTool().setClipLeft(p.currentClip);
+		if (!p.character.equals(bodySprite)) {
+			setBodySprite(p.character);
 		}
 	}
 	
@@ -550,6 +591,10 @@ public class Player extends PhysicsSchmuck {
 		return playerData;
 	}
 	
+	public void setAttackAngleClient(float attackAngleClient) {
+		this.attackAngleClient = attackAngleClient;
+	}
+
 	public void setToolSprite(TextureRegion sprite) {
 		toolSprite = sprite;
 	}
@@ -592,5 +637,13 @@ public class Player extends PhysicsSchmuck {
 
 	public ActionController getController() {
 		return controller;
-	}	
+	}
+	
+	public MouseTracker getMouse() {
+		return mouse;
+	}
+
+	public void setMouse(MouseTracker mouse) {
+		this.mouse = mouse;
+	}
 }

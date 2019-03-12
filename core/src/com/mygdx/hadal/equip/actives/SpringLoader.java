@@ -1,13 +1,13 @@
 package com.mygdx.hadal.equip.actives;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Spring;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+
+import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class SpringLoader extends ActiveItem {
 
@@ -27,11 +27,9 @@ public class SpringLoader extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
-		Vector3 mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		state.camera.unproject(mouse);
-		
 		new Spring(state, springRadius, springRadius,
-				(int)(mouse.x), (int)(mouse.y), 
+				(int)(user.getPlayer().getMouse().getBody().getPosition().x * PPM),
+				(int)(user.getPlayer().getMouse().getBody().getPosition().y * PPM), 
 				new Vector2(0, springPower), springDuration);
 	}
 

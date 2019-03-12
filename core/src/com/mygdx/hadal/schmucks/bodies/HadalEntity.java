@@ -1,5 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies;
 
+import java.util.UUID;
+
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
@@ -7,10 +9,10 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.SteeringUtil;
 
@@ -56,6 +58,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected void increaseAnimationTime(float i) { animationTime += i; }
 	protected float getAnimationTime() { return animationTime; }
 	
+	protected UUID entityID;
+	
 	/**
 	 * Constructor is called when an entity is created.
 	 * @param state: Current playstate
@@ -77,6 +81,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		this.height = h;
 		this.startX = startX;
 		this.startY = startY;
+		
+		this.entityID = UUID.randomUUID();
 		
 		//Queue this entity up for creating in the world next engine tick
 		state.create(this);
@@ -129,14 +135,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void recoil(int x, int y, float power) {
 		
-		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-				
-		camera.project(bodyScreenPosition);
+		float powerDiv = body.getPosition().dst(x, y) / power;
 		
-		float powerDiv = bodyScreenPosition.dst(x, y, 0) / power;
-		
-		float xImpulse = (bodyScreenPosition.x - x) / powerDiv;
-		float yImpulse = (bodyScreenPosition.y - y) / powerDiv;
+		float xImpulse = (body.getPosition().x - x) / powerDiv;
+		float yImpulse = (body.getPosition().y - y) / powerDiv;
 		
 		body.applyLinearImpulse(new Vector2(xImpulse, yImpulse), body.getWorldCenter(), true);
 	}
@@ -145,6 +147,29 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
 	}
 
+	public Object onServerCreate() {
+		return null;
+	}
+	
+	public Object onServerSync() {
+		if (body != null) {
+			return new Packets.SyncEntity(entityID.toString(), body.getPosition(), body.getAngle());
+		} else {
+			return null;
+		}
+	}
+	
+	public void onClientSync(Object o) {
+		Packets.SyncEntity p = (Packets.SyncEntity) o;
+		if (body != null) {
+			body.setTransform(p.pos, p.angle);
+		}
+	}
+	
+	public void clientController(float delta) {
+		increaseAnimationTime(delta);
+	}
+	
 	/**
 	 * Getter method for the entity's body.
 	 * @return: Entity's body.
@@ -177,6 +202,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return alive;
 	}
 	
+	public UUID getEntityID() {
+		return entityID;
+	}
+
 	public float getStartX() {
 		return startX;
 	}

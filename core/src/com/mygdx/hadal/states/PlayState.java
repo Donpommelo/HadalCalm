@@ -35,6 +35,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
@@ -51,26 +52,29 @@ import box2dLight.RayHandler;
 public class PlayState extends GameState {
 	
 	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
-	private Player player;
+	protected Player player;
 	
 	private PlayerController controller;
 	
 	private Loadout loadout;
 	
 	//These process and store the map parsed from the Tiled file.
-	private TiledMap map;
-	private OrthogonalTiledMapRenderer tmr;
+	protected TiledMap map;
+	protected OrthogonalTiledMapRenderer tmr;
     
     //rays will implement lighting.
-	private RayHandler rays;
+	protected RayHandler rays;
 	
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
-	private Box2DDebugRenderer b2dr;
-	private World world;
-	
+	protected Box2DDebugRenderer b2dr;
+	protected World world;
+
+	//This holds the mouse location
+	private MouseTracker mouse;
+
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	private Set<HadalEntity> removeList;
-	private Set<HadalEntity> createList;
+	protected Set<HadalEntity> removeList;
+	protected Set<HadalEntity> createList;
 	
 	//This is a set of all non-hitbox entities in the world
 	private Set<HadalEntity> entities;
@@ -80,14 +84,11 @@ public class PlayState extends GameState {
 	//sourced effects from the world are attributed to this dummy.
 	private Enemy worldDummy;
 	
-	//this exists so that schmucks can steer towards the mouse.
-	private MouseTracker mouse;
-	
 	//this is the current level
-	private UnlockLevel level;
+	protected UnlockLevel level;
 	
-	private HadalEntity cameraTarget;
-	private HadalEntity objectiveTarget;
+	protected HadalEntity cameraTarget;
+	protected HadalEntity objectiveTarget;
 	
 	private transitionState nextState;
 	
@@ -95,11 +96,11 @@ public class PlayState extends GameState {
 	private int startX, startY;
 	private int safeX, safeY;
 	private float saveZoom;
-	private HadalEntity saveCameraPoint;
+	protected HadalEntity saveCameraPoint;
 	
 	private boolean realFite;
 	
-	private PlayStateStage stage;
+	protected PlayStateStage stage;
 	
 	private UIPlay uiPlay;
 	private UIReload uiReload;
@@ -108,10 +109,10 @@ public class PlayState extends GameState {
 	private UIExtra uiExtra;
 	private UIStatuses uiStatus;
 	
-	private Texture bg, black;
+	protected Texture bg, black;
 	
-	private float fadeInitialDelay = 1.0f;
-	private float fadeLevel = 1f, fadeDelta = -0.015f;
+	protected float fadeInitialDelay = 1.0f;
+	protected float fadeLevel = 1f, fadeDelta = -0.015f;
 	private UnlockLevel nextLevel;
 	
 	/**
@@ -153,10 +154,8 @@ public class PlayState extends GameState {
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, 1, 1, -1000, -1000);
-		
-		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
-		mouse = new MouseTracker(this);
-		
+		mouse = new MouseTracker(this, true);
+
 		map = new TmxMapLoader().load(level.getMap());
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
@@ -265,6 +264,7 @@ public class PlayState extends GameState {
 			entities.remove(entity);
 			hitboxes.remove(entity);
 			entity.dispose();
+			HadalGame.server.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
 		}
 		removeList.clear();
 		
@@ -276,15 +276,29 @@ public class PlayState extends GameState {
 				entities.add(entity);
 			}
 			entity.create();
+			
+			Object packet = entity.onServerCreate();
+			if (packet != null) {
+				HadalGame.server.server.sendToAllTCP(packet);
+			}
 		}
 		createList.clear();
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		for (HadalEntity entity : hitboxes) {
 			entity.controller(delta);
+			Object packet = entity.onServerSync();
+			if (packet != null) {
+				HadalGame.server.server.sendToAllTCP(packet);
+			}
+			
 		}
 		for (HadalEntity entity : entities) {
 			entity.controller(delta);
+			Object packet = entity.onServerSync();
+			if (packet != null) {
+				HadalGame.server.server.sendToAllTCP(packet);
+			}
 		}
 		
 		//Update the game camera and batch.
@@ -362,7 +376,7 @@ public class PlayState extends GameState {
 	/**
 	 * This is called every update. This resets the camera zoom and makes it move towards the player.
 	 */
-	private void cameraUpdate() {
+	protected void cameraUpdate() {
 		
 		zoom = zoom + (zoomDesired - zoom) * 0.05f;
 		
@@ -476,6 +490,21 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	public void catchUpClient(int connId) {
+		for (HadalEntity entity : entities) {
+			Object packet = entity.onServerCreate();
+			if (packet != null) {
+				HadalGame.server.server.sendToTCP(connId, entity.onServerCreate());
+			}
+		}
+		for (HadalEntity entity : hitboxes) {
+			Object packet = entity.onServerCreate();
+			if (packet != null) {
+				HadalGame.server.server.sendToTCP(connId, entity.onServerCreate());
+			}
+		}
+	}
+	
 	public void gameOver(boolean won) {
 		if (won) {
 			nextState = transitionState.WIN;
@@ -508,7 +537,7 @@ public class PlayState extends GameState {
 	 */
 	public Player getPlayer() {
 		return player;
-	}	
+	}
 
 	public Loadout getLoadout() {
 		return loadout;
@@ -524,10 +553,6 @@ public class PlayState extends GameState {
 	
 	public Enemy getWorldDummy() {
 		return worldDummy;
-	}
-	
-	public MouseTracker getMouse() {
-		return mouse;
 	}
 
 	public UnlockLevel getLevel() {
@@ -580,6 +605,10 @@ public class PlayState extends GameState {
 	
 	public HadalEntity getObjectiveTarget() {
 		return objectiveTarget;
+	}
+	
+	public MouseTracker getMouse() {
+		return mouse;
 	}
 
 	public void setObjectiveTarget(HadalEntity objectiveTarget) {

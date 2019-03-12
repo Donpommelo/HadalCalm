@@ -4,14 +4,20 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.TitleState;
 
 public class KryoClient {
 	
@@ -24,6 +30,8 @@ public class KryoClient {
 	
 	public static String hostIP, name;
     public static final int timeout = 5000;
+    
+    public static String myId;
     
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
@@ -46,7 +54,74 @@ public class KryoClient {
             }
         	
         	public void received(Connection c, final Object o) {
+
+        		if (o instanceof Packets.LoadLevel) {
+            		Log.info("" + (o.getClass().getName()));
+
+        			final Packets.LoadLevel p = (Packets.LoadLevel) o;
+        			myId = p.yourId;
+        			Gdx.app.postRunnable(new Runnable() {
+        				
+                        @Override
+                        public void run() {
+                			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
+                        }
+                    });
+        		}
         		
+        		if (o instanceof Packets.CreateEntity) {
+        			Packets.CreateEntity p = (Packets.CreateEntity) o;
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, p.sprite));
+        			}
+        		}
+        		
+        		if (o instanceof Packets.DeleteEntity) {
+        			Packets.DeleteEntity p = (Packets.DeleteEntity) o;
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.removeEntity(p.entityID, null);
+        			}
+        		}
+        		
+        		if (o instanceof Packets.CreatePlayer) {
+
+        			Packets.CreatePlayer p = (Packets.CreatePlayer) o;
+            		Log.info("" + (o.getClass().getName()) + " " + p.entityID);
+
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				Log.info("" + p.entityID + " " + myId);
+        				
+        				if (!p.entityID.equals(myId)) {
+            				Player newPlayer = new Player(cs, 0, 0, p.loadout.character, null);
+            				cs.addEntity(p.entityID, newPlayer);
+        				} else {        					
+        					cs.addEntity(p.entityID, cs.getPlayer());
+        				}
+        			}
+        		}
+        		
+        		if (o instanceof Packets.SyncEntity) {
+        			Packets.SyncEntity p = (Packets.SyncEntity) o;
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.syncObject(p.entityID, p);
+        			}
+        		}
+        		
+        		if (o instanceof Packets.SyncPlayer) {
+        			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.syncObject(p.entityID, p);
+        			}
+        		}
         	}
         });
         

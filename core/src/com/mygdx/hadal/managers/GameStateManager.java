@@ -168,6 +168,16 @@ public class GameStateManager {
 		}
 	}
 	
+	public void addClientPlayState(UnlockLevel map, Loadout loadout, Class<? extends GameState> lastState) {
+		if (states.empty()) {
+			states.push(new ClientState(this, loadout, map));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new ClientState(this, loadout, map));
+			states.peek().show();
+		}
+	}
+	
 	/**
 	 * Remove the top state from the stack
 	 * @param lastState: the state we expect to remove. ensures no double-removing
@@ -201,7 +211,6 @@ public class GameStateManager {
 			} else {
 				return new HubState(this, new Loadout(record));
 			}
-		case CLIENTPLAY: return new ClientState(this);
 		default:
 			break;
 		}

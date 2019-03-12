@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
@@ -113,10 +112,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			float angleToTarget = target.getBody().getPosition().sub(getBody().getPosition()).angleRad();
 			
 			if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
-				Vector3 attack = new Vector3(target.getBody().getPosition().x, target.getBody().getPosition().y, 0);
-				camera.project(attack);
-
-				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)attack.x, (int)attack.y, true);
+				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.getBody().getPosition().x, (int)target.getBody().getPosition().y, true);
 			}			
 			break;
 		default:

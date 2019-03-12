@@ -11,7 +11,6 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 public class PlayerController implements InputProcessor {
 
 	private Player player;
-	
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
 	
 	public PlayerController(Player player) {

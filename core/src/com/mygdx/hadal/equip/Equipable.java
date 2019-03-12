@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -36,7 +35,6 @@ public abstract class Equipable {
 	
 	private Sprite equipSprite, eventSprite;
 	
-	protected Vector3 mouseLocation;
 	protected Vector2 weaponVelo;
 	
 	protected ArrayList<WeaponModifier> weaponMods;
@@ -53,7 +51,6 @@ public abstract class Equipable {
 		this.equipSprite = equipSprite;
 		this.eventSprite = eventSprite;
 		
-		mouseLocation = new Vector3();
 		weaponVelo = new Vector2();
 	}
 	
@@ -113,6 +110,13 @@ public abstract class Equipable {
 		
 	}
 
+	public int getClipLeft() {
+		return 0;
+	}
+	
+	public void setClipLeft(int clipLeft) {
+	}
+	
 	public float getUseCd() {
 		return useCd;
 	}

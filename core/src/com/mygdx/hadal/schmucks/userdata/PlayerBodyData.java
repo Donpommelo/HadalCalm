@@ -361,5 +361,13 @@ public class PlayerBodyData extends BodyData {
 
 	public int getCurrentSlot() {
 		return currentSlot;
+	}	
+		
+	public void setCurrentSlot(int currentSlot) {
+		this.currentSlot = currentSlot;
 	}
+
+	public Loadout getLoadout() {
+		return loadout;
+	}	
 }
