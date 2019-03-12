@@ -51,17 +51,23 @@ public class KryoClient {
         client.addListener(new Listener() {
         	
         	public void connected(Connection c) {
+        		Log.info("CLIENT CONNECTED");
                 Packets.PlayerConnect connected = new Packets.PlayerConnect(name, new Loadout(gsm.getRecord()));
                 client.sendTCP(connected);
             }
         	
         	public void received(Connection c, final Object o) {
 
-        		if (o instanceof Packets.LoadLevel) {
-            		Log.info("" + (o.getClass().getName()));
-
-        			final Packets.LoadLevel p = (Packets.LoadLevel) o;
+        		if (o instanceof Packets.NewClientPlayer) {
+        			final Packets.NewClientPlayer p = (Packets.NewClientPlayer) o;
+        			Log.info("CLIENT RECEIVED NEW ID: " + p.yourId);
         			myId = p.yourId;
+        		}
+        		
+        		if (o instanceof Packets.LoadLevel) {
+        			final Packets.LoadLevel p = (Packets.LoadLevel) o;
+            		Log.info("CLIENT LOADED LEVEL: " + p.level);
+
         			Gdx.app.postRunnable(new Runnable() {
         				
                         @Override
@@ -69,6 +75,16 @@ public class KryoClient {
                 			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
                         }
                     });
+        		}
+        		
+        		if (o instanceof Packets.ClientStartTransition) {
+        			Packets.ClientStartTransition p = (Packets.ClientStartTransition) o;
+        			Log.info("CLIENT INSTRUCTED TO TRANSITION: ");
+
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.gameOver(p.won);
+        			}
         		}
         		
         		if (o instanceof Packets.CreateEntity) {
@@ -92,18 +108,19 @@ public class KryoClient {
         		if (o instanceof Packets.CreatePlayer) {
 
         			Packets.CreatePlayer p = (Packets.CreatePlayer) o;
-            		Log.info("" + (o.getClass().getName()) + " " + p.entityID);
-
+            		
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				Log.info("CLIENT CREATED PLAYER: " + " " + p.entityID);
         				ClientState cs = (ClientState) gsm.getStates().peek();
-        				Log.info("" + p.entityID + " " + myId);
         				
         				if (!p.entityID.equals(myId)) {
-            				Player newPlayer = new Player(cs, 0, 0, p.loadout.character, null);
+            				Player newPlayer = new Player(cs, 0, 0, p.loadout, null);
             				cs.addEntity(p.entityID, newPlayer);
         				} else {        					
         					cs.addEntity(p.entityID, cs.getPlayer());
         				}
+        			} else {
+        				Log.info("CLIENT ATTEMPTED TO CREATE PLAYER: " + " " + p.entityID + " BUT WAS NOT LOADED YET.");
         			}
         		}
         		
@@ -129,11 +146,15 @@ public class KryoClient {
         
         if (!reconnect) {
             
-//        	InetAddress address = client.discoverHost(54777, 5000);
+        	InetAddress address = client.discoverHost(54777, 5000);
+        	String start = "IT PUTS INTO IP";
+        	if (address != null) {
+        		start = address.getHostAddress();
+        	}
         	
         	// Request the host from the user.
             String input = (String) JOptionPane.showInputDialog(null, "Host:", "Connect to game server", JOptionPane.QUESTION_MESSAGE,
-                    null, null, "argh");
+                    null, null, start);
             if (input == null || input.trim().length() == 0) System.exit(1);
             hostIP = input.trim();
 

@@ -25,6 +25,6 @@ equips: [
 ]
 artifact: EMAUDELINES_PRISM
 active: SPRING_LOADER
-character: TAKANORI
-level: LEVEL_1
+character: TELEMACHUS
+level: LEVEL_2
 }

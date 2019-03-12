@@ -25,23 +25,30 @@ public class ClientState extends PlayState {
 	private LinkedHashMap<String, HadalEntity> entities;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private LinkedHashMap<String, HadalEntity> hitboxes;
+	
 	//This is a set of all non-hitbox entities in the world
 	private LinkedHashMap<String, HadalEntity> removeList;
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private LinkedHashMap<String, HadalEntity> createList;
 
+	//
+	private LinkedHashMap<String, HadalEntity> removeTempList;
+	private LinkedHashMap<String, HadalEntity> createTempList;
+	
 	private ArrayList<Object[]> sync;
 	
 	private ClientController controller;
 	private Vector3 tmpVec3 = new Vector3();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
-		super(gsm, loadout, level, true, null);
+		super(gsm, loadout, level, false, null);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		removeList = new LinkedHashMap<String, HadalEntity>();
 		createList = new LinkedHashMap<String, HadalEntity>();
-		
+		removeTempList = new LinkedHashMap<String, HadalEntity>();
+		createTempList = new LinkedHashMap<String, HadalEntity>();
+
 		sync = new ArrayList<Object[]>();
 		
         HadalGame.client.client.sendTCP(new Packets.ClientLoaded());
@@ -66,21 +73,27 @@ public class ClientState extends PlayState {
 		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
 		
 		//All entities that are set to be removed are removed.
-		for (String key : removeList.keySet()) {
-			HadalEntity entity = entities.remove(key);
+		removeTempList.putAll(removeList);
+		removeList.clear();
+		for (String key: removeTempList.keySet()) {
+			HadalEntity entity = entities.get(key);
+			entities.remove(key);
 			if (entity != null) {
 				entity.dispose();
 			}
-			entity = hitboxes.remove(key);
+			entity = hitboxes.get(key);
+			hitboxes.remove(key);
 			if (entity != null) {
 				entity.dispose();
 			}
 		}
-		removeList.clear();
+		removeTempList.clear();
 		
-		//All entities that are set to be added are added.		
-		for (String key : createList.keySet()) {
-			HadalEntity entity = createList.get(key);
+		//All entities that are set to be added are added.
+		createTempList.putAll(createList);
+		createList.clear();
+		for (String key: createTempList.keySet()) {
+			HadalEntity entity = createTempList.get(key);
 			if (entity instanceof Hitbox) {
 				hitboxes.put(key, entity);
 			} else {
@@ -88,7 +101,7 @@ public class ClientState extends PlayState {
 			}
 			entity.create();
 		}
-		createList.clear();
+		createTempList.clear();
 		
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
@@ -126,7 +139,7 @@ public class ClientState extends PlayState {
 				fadeLevel += fadeDelta;
 				if (fadeLevel > 1f) {
 					fadeLevel = 1f;
-//					transitionState();
+					transitionState();
 				}
 			}
 		} else {
@@ -178,6 +191,31 @@ public class ClientState extends PlayState {
 			batch.setColor(1f, 1f, 1f, 1);
 			batch.end();
 		}
+	}
+	
+	@Override
+	public void transitionState() {
+		switch (nextState) {
+		case LOSE:
+			if (realFite) {
+				
+			} else {
+				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord())));
+				fadeDelta = -0.015f;
+			}
+			break;
+		case WIN:
+			
+			break;
+		case NEWLEVEL:
+			
+			break;
+		case NEXTSTAGE:
+			
+			break;
+		default:
+			break;
+		}	
 	}
 	
 	public void addEntity(String entityId, HadalEntity entity) {

@@ -16,12 +16,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIActives;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
-import com.mygdx.hadal.actors.UIReload;
+import com.mygdx.hadal.actors.UIPlayer;
 import com.mygdx.hadal.actors.UIStatuses;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
@@ -73,8 +74,12 @@ public class PlayState extends GameState {
 	private MouseTracker mouse;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	protected Set<HadalEntity> removeList;
-	protected Set<HadalEntity> createList;
+	private LinkedHashSet<HadalEntity> removeList;
+	private LinkedHashSet<HadalEntity> createList;
+	
+	//
+	private Set<HadalEntity> removeTempList;
+	private Set<HadalEntity> createTempList;
 	
 	//This is a set of all non-hitbox entities in the world
 	private Set<HadalEntity> entities;
@@ -90,7 +95,7 @@ public class PlayState extends GameState {
 	protected HadalEntity cameraTarget;
 	protected HadalEntity objectiveTarget;
 	
-	private transitionState nextState;
+	protected transitionState nextState;
 	
 	private float zoom, zoomDesired;
 	private int startX, startY;
@@ -98,12 +103,12 @@ public class PlayState extends GameState {
 	private float saveZoom;
 	protected HadalEntity saveCameraPoint;
 	
-	private boolean realFite;
+	protected boolean realFite;
 	
 	protected PlayStateStage stage;
 	
 	private UIPlay uiPlay;
-	private UIReload uiReload;
+	private UIPlayer uiPlayer;
 	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
@@ -149,6 +154,8 @@ public class PlayState extends GameState {
 		//Initialize sets to keep track of active entities
 		removeList = new LinkedHashSet<HadalEntity>();
 		createList = new LinkedHashSet<HadalEntity>();
+		removeTempList = new LinkedHashSet<HadalEntity>();
+		createTempList = new LinkedHashSet<HadalEntity>();
 		entities = new LinkedHashSet<HadalEntity>();
 		hitboxes = new LinkedHashSet<HadalEntity>();
 		
@@ -171,7 +178,7 @@ public class PlayState extends GameState {
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
 		
-		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout.character, old);
+		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout, old);
 		this.cameraTarget = player;
 
 		
@@ -208,8 +215,14 @@ public class PlayState extends GameState {
 			}
 		};
 		
-		uiPlay = new UIPlay(HadalGame.assetManager, this, player);
-		uiReload = new UIReload(HadalGame.assetManager, this, player);
+		if (uiPlay == null) {
+			uiPlay = new UIPlay(HadalGame.assetManager, this, player);
+		}
+
+		if (uiPlayer == null) {
+			uiPlayer = new UIPlayer(HadalGame.assetManager, this);
+		}
+		
 		uiActive = new UIActives(HadalGame.assetManager, this, player);
 		uiObjective = new UIObjective(HadalGame.assetManager, this, player);
 		uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
@@ -220,7 +233,7 @@ public class PlayState extends GameState {
 		
 		this.stage.addActor(uiPlay);
 		this.stage.addActor(uiActive);
-		this.stage.addActor(uiReload);
+		this.stage.addActor(uiPlayer);
 		this.stage.addActor(uiExtra);
 		this.stage.addActor(uiObjective);
 
@@ -244,7 +257,6 @@ public class PlayState extends GameState {
 		
 		uiPlay.setPlayer(player);
 		uiActive.setPlayer(player);
-		uiReload.setPlayer(player);
 	}
 	
 	/**
@@ -260,16 +272,22 @@ public class PlayState extends GameState {
 		GdxAI.getTimepiece().update(1 / 60f);
 		
 		//All entities that are set to be removed are removed.
-		for (HadalEntity entity : removeList) {
+		removeTempList.addAll(removeList);
+		removeList.clear();
+		
+		for (HadalEntity entity: removeTempList) {
 			entities.remove(entity);
 			hitboxes.remove(entity);
 			entity.dispose();
 			HadalGame.server.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
 		}
-		removeList.clear();
+		removeTempList.clear();
 		
-		//All entities that are set to be added are added.		
-		for (HadalEntity entity : createList) {
+		//All entities that are set to be added are added.
+		createTempList.addAll(createList);
+		createList.clear();
+		
+		for (HadalEntity entity: createTempList) {
 			if (entity instanceof Hitbox) {
 				hitboxes.add(entity);
 			} else {
@@ -282,7 +300,7 @@ public class PlayState extends GameState {
 				HadalGame.server.server.sendToAllTCP(packet);
 			}
 		}
-		createList.clear();
+		createTempList.clear();
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		for (HadalEntity entity : hitboxes) {
@@ -406,10 +424,10 @@ public class PlayState extends GameState {
 		for (HadalEntity hitbox : removeList) {
 			hitbox.dispose();
 		}
-		entities.clear();
-		hitboxes.clear();
-		createList.clear();
-		removeList.clear();
+//		entities.clear();
+//		hitboxes.clear();
+//		createList.clear();
+//		removeList.clear();
 		
 		world.dispose();
 		tmr.dispose();
@@ -424,10 +442,11 @@ public class PlayState extends GameState {
 	 * This is called when ending a playstate by winning, losing or moving to a new playstate
 	 */	
 	public void transitionState() {
-		getGsm().removeState(PlayState.class);
 		switch (nextState) {
 		case LOSE:
 			if (realFite) {
+				getGsm().removeState(PlayState.class);
+				getGsm().removeState(HubState.class);
 				gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			} else {
@@ -438,21 +457,23 @@ public class PlayState extends GameState {
 					resetCamera = true;
 				}
 				player = new Player(this, (int)(getSafeX() * PPM),
-						(int)(getSafeY() * PPM), loadout.character, null);
+						(int)(getSafeY() * PPM), loadout, null);
 				
 				controller.setPlayer(player);
 				
 				this.zoomDesired = saveZoom;
 				if (resetCamera) {
 					this.cameraTarget = player;
+					this.saveCameraPoint = player;
 				} else {
 					this.cameraTarget = saveCameraPoint;
 				}
-				
 				fadeDelta = -0.015f;
 			}
 			break;
 		case WIN:
+			getGsm().removeState(PlayState.class);
+			getGsm().removeState(HubState.class);
 			gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 			getGsm().addState(State.VICTORY, TitleState.class);
 			break;
@@ -490,6 +511,26 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	public void onPlayerDeath(Player player) {
+		if (player.equals(this.player)) {
+			gameOver(false);
+		} else {
+			for (int connId : HadalGame.server.getPlayers().keySet()) {
+				HadalGame.server.server.sendToTCP(connId, new Packets.ClientStartTransition());
+			}
+		}
+	}
+	
+	public void gameOver(boolean won) {
+		if (won) {
+			nextState = transitionState.WIN;
+		} else {
+			nextState = transitionState.LOSE;
+		}
+		fadeInitialDelay = 1.0f;
+		fadeDelta = 0.015f;
+	}
+	
 	public void catchUpClient(int connId) {
 		for (HadalEntity entity : entities) {
 			Object packet = entity.onServerCreate();
@@ -503,16 +544,6 @@ public class PlayState extends GameState {
 				HadalGame.server.server.sendToTCP(connId, entity.onServerCreate());
 			}
 		}
-	}
-	
-	public void gameOver(boolean won) {
-		if (won) {
-			nextState = transitionState.WIN;
-		} else {
-			nextState = transitionState.LOSE;
-		}
-		fadeInitialDelay = 1.0f;
-		fadeDelta = 0.015f;
 	}
 	
 	/**
@@ -611,6 +642,10 @@ public class PlayState extends GameState {
 		return mouse;
 	}
 
+	public UIPlayer getUiPlayer() {
+		return uiPlayer;
+	}
+
 	public void setObjectiveTarget(HadalEntity objectiveTarget) {
 		this.objectiveTarget = objectiveTarget;
 	}
@@ -635,7 +670,7 @@ public class PlayState extends GameState {
 		uiExtra.incrementScore(i);
 	}
 	
-	private enum transitionState {
+	protected enum transitionState {
 		LOSE,
 		WIN,
 		NEWLEVEL,

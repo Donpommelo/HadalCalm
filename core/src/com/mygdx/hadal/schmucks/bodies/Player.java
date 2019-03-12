@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
@@ -82,8 +82,6 @@ public class Player extends PhysicsSchmuck {
 	private TextureAtlas atlasBody;
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
 	
-	private TextureRegion reload, reloadMeter, reloadBar;
-	
 	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 	
 	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
@@ -105,6 +103,7 @@ public class Player extends PhysicsSchmuck {
 	//this exists so that schmucks can steer towards the mouse.
 	private MouseTracker mouse;
 	
+	private Loadout startLoadout;
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -114,7 +113,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, int x, int y, UnlockCharacter character, PlayerBodyData oldData) {
+	public Player(PlayState state, int x, int y, Loadout startLoadout, PlayerBodyData oldData) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
 		
 		airblast = new Airblaster(this);
@@ -126,16 +125,11 @@ public class Player extends PhysicsSchmuck {
 		
 		this.moveState = MoveStates.STAND;
 
-		if (oldData != null) {
-			this.playerData = oldData;
-		}
+		this.startLoadout = startLoadout;
+		this.playerData = oldData;
 		
-		setBodySprite(character.getSprite());
+		setBodySprite(startLoadout.character.getSprite());
 		loadParticles();
-		
-		this.reload = GameStateManager.uiAtlas.findRegion("UI_reload");
-		this.reloadMeter = GameStateManager.uiAtlas.findRegion("UI_reload_meter");
-		this.reloadBar = GameStateManager.uiAtlas.findRegion("UI_reload_bar");
 		
 		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
 		mouse = state.getMouse();
@@ -197,11 +191,12 @@ public class Player extends PhysicsSchmuck {
 	public void create() {
 		
 		controller = new ActionController(this, state);
-		
+		state.getUiPlayer().addPlayer(this);
 		state.resetController();
 		
 		if (playerData == null) {
-			this.playerData = new PlayerBodyData(this, state.getLoadout());
+
+			this.playerData = new PlayerBodyData(this, startLoadout);
 			this.bodyData = playerData;
 			playerData.initLoadout();
 		} else {
@@ -549,20 +544,6 @@ public class Player extends PhysicsSchmuck {
 		if (flashingCount > 0) {
 			batch.setShader(null);
 		}
-		
-//		if (getPlayerData().getCurrentTool().isReloading() && isAlive()) {
-//			
-//			float x = (getBody().getPosition().x * PPM) - reload.getRegionWidth() * scale / 2;
-//			float y = (getBody().getPosition().y * PPM) + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
-//			
-//			//Calculate reload progress
-//			float percent = reloadPercent;
-//			
-//			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * scale * percent, reloadBar.getRegionHeight() * scale);
-//			batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
-//			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
-//		}
-		
 	}
 	
 	public int getFreezeFrame(boolean reverse) {
@@ -578,6 +559,7 @@ public class Player extends PhysicsSchmuck {
 		return new Packets.CreatePlayer(entityID.toString(), playerData.getLoadout());
 	}
 	
+	//TODO: Fix nullpointer coming from here
 	@Override
 	public Object onServerSync() {
 		return new Packets.SyncPlayer(entityID.toString(), playerData.getLoadout(), body.getPosition(), 
@@ -611,6 +593,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
+		state.getUiPlayer().removePlayer(this);
 	}
 	
 	public PlayerBodyData getPlayerData() {

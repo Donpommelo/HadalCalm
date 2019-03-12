@@ -47,16 +47,38 @@ public class Packets {
 	
 	public static class LoadLevel {
 		public UnlockLevel level;
-		public String yourId;
 		public LoadLevel() {}
-		public LoadLevel(UnlockLevel level, String yourId) {
+		public LoadLevel(UnlockLevel level) {
 			this.level = level;
+		}
+	}
+	
+	public static class NewClientPlayer {
+		public String yourId;
+		public NewClientPlayer() {}
+		public NewClientPlayer(String yourId) {
 			this.yourId = yourId;
 		}
 	}
 	
 	public static class ClientLoaded {
 		public ClientLoaded() {}
+	}
+	
+	public static class ClientStartTransition {
+		public boolean won;
+		public ClientStartTransition() {}
+		public ClientStartTransition(boolean won) {
+			this.won = won;
+		}
+	}
+	
+	public static class ClientFinishTransition {
+		public Loadout loadout;
+		public ClientFinishTransition() {}
+		public ClientFinishTransition(Loadout loadout) {
+			this.loadout = loadout;
+		}
 	}
 	
 	public static class CreateEntity {
@@ -143,6 +165,9 @@ public class Packets {
     	kryo.register(MouseMove.class);
     	kryo.register(LoadLevel.class);
     	kryo.register(ClientLoaded.class);
+    	kryo.register(ClientStartTransition.class);
+    	kryo.register(ClientFinishTransition.class);
+    	kryo.register(NewClientPlayer.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(DeleteEntity.class);
     	kryo.register(CreatePlayer.class);

@@ -22,7 +22,7 @@ public class PlayerController implements InputProcessor {
 		
 		if (player == null) return true;
 
-		if (player.getPlayerData() == null) return true;
+		if (player.getController() == null) return true;
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			player.getController().keyDown(PlayerAction.WALK_LEFT);
@@ -108,6 +108,8 @@ public class PlayerController implements InputProcessor {
 		
 		if (player == null) return true;
 
+		if (player.getController() == null) return true;
+		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			player.getController().keyUp(PlayerAction.WALK_LEFT);
 		}

@@ -12,9 +12,11 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.client.KryoClient;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
 public class KryoServer {
@@ -36,24 +38,19 @@ public class KryoServer {
 		
 		server.addListener(new Listener() {
 			
-			
 			public void received(Connection c, Object o) {
 
 				if (o instanceof Packets.PlayerConnect) {
-					Log.info("" + (o.getClass().getName()));
+					Log.info("NEW CLIENT CONNECTED: " + c.getID());
 
 					Packets.PlayerConnect p = (Packets.PlayerConnect) o;
 					
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
                         PlayState ps = (PlayState) gsm.getStates().peek();
-                        Player newPlayer = new Player(ps, (int)(ps.getStartX() * PPM), (int)(ps.getStartY() * PPM),
-                        		p.loadout.character, null);
-                        MouseTracker newMouse = new MouseTracker(ps, false);
-                        newPlayer.setMouse(newMouse);
-                        players.put(c.getID(), newPlayer);
-                        mice.put(c.getID(), newMouse);
-                        
-                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), newPlayer.getEntityID().toString()));
+                        createNewClientPlayer(ps, c.getID(), p.loadout, null);                        
+                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel()));
+					} else {
+						Log.info("Server received PlayerConnect before entering PlayState!");
 					}
 				}
 				
@@ -73,11 +70,21 @@ public class KryoServer {
 				}
 				
 				if (o instanceof Packets.ClientLoaded) {
-					Log.info("" + (o.getClass().getName()));
+					Log.info("CLIENT LOADED: " + c.getID());
 
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
                         PlayState ps = (PlayState) gsm.getStates().peek();
                         ps.catchUpClient(c.getID());
+					}
+				}
+				
+				if (o instanceof Packets.ClientFinishTransition) {
+					Packets.ClientFinishTransition p = (Packets.ClientFinishTransition) o;
+					Log.info("CLIENT FINISHED TRANSITIONING");
+
+					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
+                        PlayState ps = (PlayState) gsm.getStates().peek();
+                        createNewClientPlayer(ps, c.getID(), p.loadout, null);
 					}
 				}
 			}
@@ -94,6 +101,37 @@ public class KryoServer {
 		server.start();
 	}
 	
+	public void createNewClientPlayer(PlayState ps, int connId, Loadout loadout, PlayerBodyData data) {
+		Loadout argh;
+		if (loadout == null) {
+			Log.info("RECEIVED NULL LOADOUT FOR SOME REASON");
+			argh = new Loadout(gsm.getRecord());
+		} else {
+			argh = loadout;
+		}
+		
+		if (argh.multitools == null) {
+			Log.info("WHY IS THIS NULL ARGH");
+		}
+		
+		Player newPlayer = new Player(ps, (int)(ps.getStartX() * PPM), (int)(ps.getStartY() * PPM),
+        		argh, data);
+        MouseTracker newMouse = new MouseTracker(ps, false);
+        newPlayer.setMouse(newMouse);
+        players.put(connId, newPlayer);
+        mice.put(connId, newMouse);
+        
+        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
+	}
+	
+	public HashMap<Integer, Player> getPlayers() {
+		return players;
+	}
+
+	public HashMap<Integer, MouseTracker> getMice() {
+		return mice;
+	}
+
 	private void registerPackets() {
 		Kryo kryo = server.getKryo();
 		Packets.allPackets(kryo);
