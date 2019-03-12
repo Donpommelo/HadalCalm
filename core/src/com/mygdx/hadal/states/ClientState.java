@@ -4,7 +4,10 @@ package com.mygdx.hadal.states;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -16,7 +19,6 @@ import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.server.Packets;
 
 public class ClientState extends PlayState {
@@ -26,14 +28,8 @@ public class ClientState extends PlayState {
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private LinkedHashMap<String, HadalEntity> hitboxes;
 	
-	//This is a set of all non-hitbox entities in the world
-	private LinkedHashMap<String, HadalEntity> removeList;
-	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
-	private LinkedHashMap<String, HadalEntity> createList;
-
-	//
-	private LinkedHashMap<String, HadalEntity> removeTempList;
-	private LinkedHashMap<String, HadalEntity> createTempList;
+	private Set<String> removeList;
+	private Set<Object[]> createList;
 	
 	private ArrayList<Object[]> sync;
 	
@@ -44,14 +40,9 @@ public class ClientState extends PlayState {
 		super(gsm, loadout, level, false, null);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
-		removeList = new LinkedHashMap<String, HadalEntity>();
-		createList = new LinkedHashMap<String, HadalEntity>();
-		removeTempList = new LinkedHashMap<String, HadalEntity>();
-		createTempList = new LinkedHashMap<String, HadalEntity>();
-
-		sync = new ArrayList<Object[]>();
-		
-        HadalGame.client.client.sendTCP(new Packets.ClientLoaded());
+		removeList = Collections.synchronizedSet(new LinkedHashSet<String>());
+		createList = Collections.synchronizedSet(new LinkedHashSet<Object[]>());
+		sync = new ArrayList<Object[]>();		
 	}
 	
 	@Override
@@ -73,9 +64,7 @@ public class ClientState extends PlayState {
 		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
 		
 		//All entities that are set to be removed are removed.
-		removeTempList.putAll(removeList);
-		removeList.clear();
-		for (String key: removeTempList.keySet()) {
+		for (String key: removeList) {
 			HadalEntity entity = entities.get(key);
 			entities.remove(key);
 			if (entity != null) {
@@ -87,21 +76,18 @@ public class ClientState extends PlayState {
 				entity.dispose();
 			}
 		}
-		removeTempList.clear();
+		removeList.clear();
 		
 		//All entities that are set to be added are added.
-		createTempList.putAll(createList);
-		createList.clear();
-		for (String key: createTempList.keySet()) {
-			HadalEntity entity = createTempList.get(key);
-			if (entity instanceof Hitbox) {
-				hitboxes.put(key, entity);
+		for (Object[] pair: createList) {
+			if (pair[2].equals(1)) {
+				hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
 			} else {
-				entities.put(key, entity);
+				entities.put((String)pair[0], (HadalEntity)pair[1]);
 			}
-			entity.create();
+			((HadalEntity)pair[1]).create();
 		}
-		createTempList.clear();
+		createList.clear();
 		
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
@@ -218,12 +204,13 @@ public class ClientState extends PlayState {
 		}	
 	}
 	
-	public void addEntity(String entityId, HadalEntity entity) {
-		createList.put(entityId, entity);
+	public void addEntity(String entityId, HadalEntity entity, ObjectSyncLayers layer) {
+		Object[] packet = {entityId, entity, layer};
+		createList.add(packet);
 	}
 	
-	public void removeEntity(String entityId, HadalEntity entity) {
-		removeList.put(entityId, entity);
+	public void removeEntity(String entityId) {
+		removeList.add(entityId);
 	}
 
 	public void syncObject(String entityId, Object o) {
@@ -252,5 +239,10 @@ public class ClientState extends PlayState {
 	@Override
 	public void dispose() {
 
+	}
+	
+	public enum ObjectSyncLayers {
+		STANDARD,
+		HBOX
 	}
 }

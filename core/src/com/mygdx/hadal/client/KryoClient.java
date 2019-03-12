@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
@@ -19,6 +20,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 
 public class KryoClient {
 	
@@ -73,6 +75,7 @@ public class KryoClient {
                         @Override
                         public void run() {
                 			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
+                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded());
                         }
                     });
         		}
@@ -92,7 +95,7 @@ public class KryoClient {
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, p.sprite));
+        				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, p.sprite), p.layer);
         			}
         		}
         		
@@ -101,7 +104,7 @@ public class KryoClient {
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.removeEntity(p.entityID, null);
+        				cs.removeEntity(p.entityID);
         			}
         		}
         		
@@ -115,9 +118,9 @@ public class KryoClient {
         				
         				if (!p.entityID.equals(myId)) {
             				Player newPlayer = new Player(cs, 0, 0, p.loadout, null);
-            				cs.addEntity(p.entityID, newPlayer);
+            				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
         				} else {        					
-        					cs.addEntity(p.entityID, cs.getPlayer());
+        					cs.addEntity(p.entityID, cs.getPlayer(), ObjectSyncLayers.STANDARD);
         				}
         			} else {
         				Log.info("CLIENT ATTEMPTED TO CREATE PLAYER: " + " " + p.entityID + " BUT WAS NOT LOADED YET.");

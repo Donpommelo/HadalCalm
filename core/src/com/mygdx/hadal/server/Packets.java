@@ -7,6 +7,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 
 public class Packets {
 
@@ -85,11 +86,13 @@ public class Packets {
 		public String entityID;
         public Vector2 size;
         public Sprite sprite;
+        public ObjectSyncLayers layer;
 		public CreateEntity() {}
-		public CreateEntity(String entityID, Vector2 size, Sprite sprite) {
+		public CreateEntity(String entityID, Vector2 size, Sprite sprite, ObjectSyncLayers layer) {
 			this.entityID = entityID;
             this.size = size;
             this.sprite = sprite;
+            this.layer = layer;
         }
 	}
 	

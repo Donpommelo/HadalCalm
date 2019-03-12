@@ -75,6 +75,8 @@ public class KryoServer {
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
                         PlayState ps = (PlayState) gsm.getStates().peek();
                         ps.catchUpClient(c.getID());
+					} else {
+						Log.info("CLIENT LOADED BEFORE SERVER. OOPS");
 					}
 				}
 				

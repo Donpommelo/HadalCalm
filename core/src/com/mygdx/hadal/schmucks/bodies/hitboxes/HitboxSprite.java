@@ -10,6 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 
 /**
  * A HitboxImage is a hitbox that is represented by an animation.
@@ -57,6 +58,6 @@ public class HitboxSprite extends RangedHitbox {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), sprite);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), sprite, ObjectSyncLayers.HBOX);
 	}
 }

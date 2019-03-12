@@ -2,6 +2,7 @@ package com.mygdx.hadal.states;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -16,7 +17,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIActives;
@@ -74,12 +74,8 @@ public class PlayState extends GameState {
 	private MouseTracker mouse;
 
 	//These represent the set of entities to be added to/removed from the world. This is necessary to ensure we do this between world steps.
-	private LinkedHashSet<HadalEntity> removeList;
-	private LinkedHashSet<HadalEntity> createList;
-	
-	//
-	private Set<HadalEntity> removeTempList;
-	private Set<HadalEntity> createTempList;
+	private Set<HadalEntity> removeList;
+	private Set<HadalEntity> createList;
 	
 	//This is a set of all non-hitbox entities in the world
 	private Set<HadalEntity> entities;
@@ -152,12 +148,11 @@ public class PlayState extends GameState {
 //		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities
-		removeList = new LinkedHashSet<HadalEntity>();
-		createList = new LinkedHashSet<HadalEntity>();
-		removeTempList = new LinkedHashSet<HadalEntity>();
-		createTempList = new LinkedHashSet<HadalEntity>();
 		entities = new LinkedHashSet<HadalEntity>();
 		hitboxes = new LinkedHashSet<HadalEntity>();
+		removeList = Collections.synchronizedSet(new LinkedHashSet<HadalEntity>());
+		createList = Collections.synchronizedSet(new LinkedHashSet<HadalEntity>());
+		
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, 1, 1, -1000, -1000);
@@ -271,23 +266,17 @@ public class PlayState extends GameState {
 		//Let AI process time step
 		GdxAI.getTimepiece().update(1 / 60f);
 		
-		//All entities that are set to be removed are removed.
-		removeTempList.addAll(removeList);
-		removeList.clear();
-		
-		for (HadalEntity entity: removeTempList) {
+		//All entities that are set to be removed are removed.		
+		for (HadalEntity entity: removeList) {
 			entities.remove(entity);
 			hitboxes.remove(entity);
 			entity.dispose();
 			HadalGame.server.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
 		}
-		removeTempList.clear();
+		removeList.clear();
 		
 		//All entities that are set to be added are added.
-		createTempList.addAll(createList);
-		createList.clear();
-		
-		for (HadalEntity entity: createTempList) {
+		for (HadalEntity entity: createList) {
 			if (entity instanceof Hitbox) {
 				hitboxes.add(entity);
 			} else {
@@ -300,7 +289,7 @@ public class PlayState extends GameState {
 				HadalGame.server.server.sendToAllTCP(packet);
 			}
 		}
-		createTempList.clear();
+		createList.clear();
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		for (HadalEntity entity : hitboxes) {
