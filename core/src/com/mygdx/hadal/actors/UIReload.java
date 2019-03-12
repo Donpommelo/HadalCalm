@@ -45,8 +45,7 @@ public class UIReload extends AHadalActor {
 			float y = (player.getBody().getPosition().y * PPM) + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
 			
 			//Calculate reload progress
-			float percent = player.getPlayerData().getCurrentTool().getReloadCd() / 
-					(player.getPlayerData().getCurrentTool().getReloadTime());
+			float percent = player.getReloadPercent();
 			
 			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * scale * percent, reloadBar.getRegionHeight() * scale);
 			batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);

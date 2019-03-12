@@ -82,6 +82,8 @@ public class Player extends PhysicsSchmuck {
 	private TextureAtlas atlasBody;
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
 	
+	private TextureRegion reload, reloadMeter, reloadBar;
+	
 	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 	
 	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
@@ -93,6 +95,8 @@ public class Player extends PhysicsSchmuck {
 	//Is the player currently shooting/hovering?
 	private boolean shooting = false;
 	private boolean hovering = false;
+	
+	private float reloadPercent;
 	
 	private ParticleEntity hoverBubbles;
 	
@@ -128,6 +132,10 @@ public class Player extends PhysicsSchmuck {
 		
 		setBodySprite(character.getSprite());
 		loadParticles();
+		
+		this.reload = GameStateManager.uiAtlas.findRegion("UI_reload");
+		this.reloadMeter = GameStateManager.uiAtlas.findRegion("UI_reload_meter");
+		this.reloadBar = GameStateManager.uiAtlas.findRegion("UI_reload_bar");
 		
 		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
 		mouse = state.getMouse();
@@ -255,6 +263,9 @@ public class Player extends PhysicsSchmuck {
 		if (playerData.getActiveItem().getStyle().equals(chargeStyle.byTime)) {
 			playerData.getActiveItem().gainCharge(delta);
 		}
+		
+		reloadPercent = getPlayerData().getCurrentTool().getReloadCd() / 
+				(getPlayerData().getCurrentTool().getReloadTime());
 		
 		//process cds
 		jumpCdCount-=delta;
@@ -539,6 +550,18 @@ public class Player extends PhysicsSchmuck {
 			batch.setShader(null);
 		}
 		
+//		if (getPlayerData().getCurrentTool().isReloading() && isAlive()) {
+//			
+//			float x = (getBody().getPosition().x * PPM) - reload.getRegionWidth() * scale / 2;
+//			float y = (getBody().getPosition().y * PPM) + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
+//			
+//			//Calculate reload progress
+//			float percent = reloadPercent;
+//			
+//			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * scale * percent, reloadBar.getRegionHeight() * scale);
+//			batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
+//			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
+//		}
 		
 	}
 	
@@ -562,6 +585,7 @@ public class Player extends PhysicsSchmuck {
 						body.getPosition().y - mouse.getBody().getPosition().y,
 						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
 				moveState, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
+				getPlayerData().getCurrentTool().isReloading(), reloadPercent,
 				bodySprite);
 	}
 	
@@ -577,6 +601,8 @@ public class Player extends PhysicsSchmuck {
 		playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
 		setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
 		playerData.getCurrentTool().setClipLeft(p.currentClip);
+		getPlayerData().getCurrentTool().setReloading(p.reloading);
+		reloadPercent = p.reloadPercent;
 		if (!p.character.equals(bodySprite)) {
 			setBodySprite(p.character);
 		}
@@ -633,6 +659,14 @@ public class Player extends PhysicsSchmuck {
 
 	public void setShooting(boolean shooting) {
 		this.shooting = shooting;
+	}
+	
+	public float getReloadPercent() {
+		return reloadPercent;
+	}
+
+	public void setReloadPercent(float reloadPercent) {
+		this.reloadPercent = reloadPercent;
 	}
 
 	public ActionController getController() {

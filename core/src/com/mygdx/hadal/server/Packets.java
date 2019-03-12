@@ -111,11 +111,13 @@ public class Packets {
         public boolean grounded;
         public int currentSlot;
         public int currentClip;
+        public boolean reloading;
+        public float reloadPercent;
         public String character;
         
 		public SyncPlayer() {}
 		public SyncPlayer(String entityID, Loadout loadout, Vector2 pos, float a, MoveStates moveState, Boolean grounded,
-				int currentSlot, int currentClip, String character) {
+				int currentSlot, int currentClip, boolean reloading, float reloadPercent, String character) {
             this.entityID = entityID;
             this.loadout = loadout;
             this.pos = pos;
@@ -124,6 +126,8 @@ public class Packets {
             this.grounded = grounded;
             this.currentSlot = currentSlot;
             this.currentClip = currentClip;
+            this.reloading = reloading;
+            this.reloadPercent = reloadPercent;
             this.character = character;
         }
 	}

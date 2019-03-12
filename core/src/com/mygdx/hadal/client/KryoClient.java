@@ -130,7 +130,6 @@ public class KryoClient {
         if (!reconnect) {
             
         	InetAddress address = client.discoverHost(54777, 5000);
-            System.out.println(address.getHostAddress());
         	
         	// Request the host from the user.
             String input = (String) JOptionPane.showInputDialog(null, "Host:", "Connect to game server", JOptionPane.QUESTION_MESSAGE,
