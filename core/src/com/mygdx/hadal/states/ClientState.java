@@ -37,7 +37,7 @@ public class ClientState extends PlayState {
 	private Vector3 tmpVec3 = new Vector3();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
-		super(gsm, loadout, level, false, null);
+		super(gsm, loadout, level, false, false, null);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		removeList = new LinkedHashSet<String>();
@@ -220,9 +220,13 @@ public class ClientState extends PlayState {
 		removeList.add(entityId);
 	}
 
-	public void syncObject(String entityId, Object o) {
+	public void syncEntity(String entityId, Object o) {
 		Object[] packet = {entityId, o};
 		sync.add(packet);
+	}
+	
+	public HadalEntity findEntity(String entityId) {
+		return entities.get(entityId);
 	}
 	
 	/**

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.esotericsoftware.minlog.Log;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
@@ -559,27 +558,15 @@ public class Player extends PhysicsSchmuck {
 		return new Packets.CreatePlayer(entityID.toString(), playerData.getLoadout());
 	}
 	
-	//TODO: Fix nullpointer coming from here
 	@Override
-	public Object onServerSync() {
-		
-		if (body == null) {
-			Log.info("Player tried to Sync, but Body was Null");
-			return null;
-		}
-		
-		if (mouse == null) {
-			Log.info("Player tried to Sync, but Mouse was Null");
-			return null;
-		}
-		
-		return new Packets.SyncPlayer(entityID.toString(), playerData.getLoadout(), body.getPosition(), 
+	public Object onServerSync() {		
+		return new Packets.SyncPlayer(entityID.toString(), body.getPosition(), 
 				(float)(Math.atan2(
 						body.getPosition().y - mouse.getBody().getPosition().y,
 						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
-				moveState, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
-				getPlayerData().getCurrentTool().isReloading(), reloadPercent,
-				bodySprite);
+				moveState, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getClipSize(),
+				playerData.getCurrentHp(), playerData.getMaxHp(), playerData.getCurrentFuel(), playerData.getMaxFuel(), playerData.getAirblastCost(),
+				getPlayerData().getCurrentTool().isReloading(), reloadPercent, bodySprite);
 	}
 	
 	@Override
@@ -594,6 +581,12 @@ public class Player extends PhysicsSchmuck {
 		playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
 		setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
 		playerData.getCurrentTool().setClipLeft(p.currentClip);
+		playerData.setCurrentHp(p.currentHp);
+		playerData.setCurrentFuel(p.currentFuel);
+		playerData.setOverrideMaxHp(p.maxHp);
+		playerData.setOverrideMaxFuel(p.maxFuel);
+		playerData.setOverrideClipSize(p.maxClip);
+		playerData.setOverrideAirblastCost(p.airblastCost);
 		getPlayerData().getCurrentTool().setReloading(p.reloading);
 		reloadPercent = p.reloadPercent;
 		if (!p.character.equals(bodySprite)) {
@@ -609,10 +602,6 @@ public class Player extends PhysicsSchmuck {
 	
 	public PlayerBodyData getPlayerData() {
 		return playerData;
-	}
-	
-	public void setAttackAngleClient(float attackAngleClient) {
-		this.attackAngleClient = attackAngleClient;
 	}
 
 	public void setToolSprite(TextureRegion sprite) {

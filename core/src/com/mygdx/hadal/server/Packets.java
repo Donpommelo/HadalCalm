@@ -126,35 +126,57 @@ public class Packets {
         }
 	}
 	
-	//TODO: transmit status/stat information
+	//TODO: transmit status information
 	public static class SyncPlayer {
 		public String entityID;
-		public Loadout loadout;
         public Vector2 pos;
         public float attackAngle;
         public MoveStates moveState;
         public boolean grounded;
         public int currentSlot;
         public int currentClip;
+        public int maxClip;
+        public float currentHp;
+        public float maxHp;
+        public float currentFuel;
+        public float maxFuel;
+        public float airblastCost;
         public boolean reloading;
         public float reloadPercent;
         public String character;
         
 		public SyncPlayer() {}
-		public SyncPlayer(String entityID, Loadout loadout, Vector2 pos, float a, MoveStates moveState, Boolean grounded,
-				int currentSlot, int currentClip, boolean reloading, float reloadPercent, String character) {
+		public SyncPlayer(String entityID, Vector2 pos, float a, MoveStates moveState, Boolean grounded,
+				int currentSlot, int currentClip, int maxClip, float currentHp, float maxHp, float currentFuel, float maxFuel,
+				float airblastCost, boolean reloading, float reloadPercent, String character) {
             this.entityID = entityID;
-            this.loadout = loadout;
             this.pos = pos;
             this.attackAngle = a;
             this.moveState = moveState;
             this.grounded = grounded;
             this.currentSlot = currentSlot;
             this.currentClip = currentClip;
+            this.maxClip = maxClip;
+            this.currentHp = currentHp;
+            this.maxHp = maxHp;
+            this.currentFuel = currentFuel;
+            this.maxFuel = maxFuel;
+            this.airblastCost = airblastCost;
+            
             this.reloading = reloading;
             this.reloadPercent = reloadPercent;
             this.character = character;
         }
+	}
+	
+	public static class SyncLoadout {
+		public String entityId;
+		public Loadout loadout;
+		public SyncLoadout() {}
+		public SyncLoadout(String entityId, Loadout loadout) {
+			this.entityId = entityId;
+			this.loadout = loadout;
+		}
 	}
 	
 	/**
@@ -176,5 +198,6 @@ public class Packets {
     	kryo.register(CreatePlayer.class);
     	kryo.register(SyncEntity.class);
     	kryo.register(SyncPlayer.class);
+    	kryo.register(SyncLoadout.class);
     }
 }

@@ -24,6 +24,7 @@ import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIActives;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
+import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.actors.UIPlayer;
 import com.mygdx.hadal.actors.UIStatuses;
 import com.mygdx.hadal.equip.Loadout;
@@ -105,6 +106,7 @@ public class PlayState extends GameState {
 	protected HadalEntity saveCameraPoint;
 	
 	protected boolean realFite;
+	protected boolean server;
 	
 	protected PlayStateStage stage;
 	
@@ -125,10 +127,11 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean realFite, PlayerBodyData old) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean realFite, boolean server, PlayerBodyData old) {
 		super(gsm);
 
 		this.realFite = realFite;
+		this.server = server;
 		
 		if (level.getLoadout() != null) {
 			this.loadout = level.getLoadout();
@@ -200,7 +203,7 @@ public class PlayState extends GameState {
 	 * This constructor is used for levels without a custom level/loadout.
 	 */
 	public PlayState(GameStateManager gsm, Record record, boolean realFite, PlayerBodyData old) {
-		this(gsm, new Loadout(record), UnlockLevel.valueOf(record.getLevel()), realFite, old);
+		this(gsm, new Loadout(record), UnlockLevel.valueOf(record.getLevel()), realFite, true, old);
 	}
 			
 	@Override
@@ -217,18 +220,16 @@ public class PlayState extends GameState {
 		};
 		
 		if (uiPlay == null) {
-			uiPlay = new UIPlay(HadalGame.assetManager, this, player);
-		}
-
-		if (uiPlayer == null) {
+			if (server) {
+				uiPlay = new UIPlay(HadalGame.assetManager, this, player);
+			} else {
+				uiPlay = new UIPlayClient(HadalGame.assetManager, this, player);
+			}
+			
 			uiPlayer = new UIPlayer(HadalGame.assetManager, this);
-		}
-		
-		uiActive = new UIActives(HadalGame.assetManager, this, player);
-		uiObjective = new UIObjective(HadalGame.assetManager, this, player);
-		uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
-		
-		if (uiExtra == null) {
+			uiActive = new UIActives(HadalGame.assetManager, this, player);
+			uiObjective = new UIObjective(HadalGame.assetManager, this, player);
+			uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
 		}
 		
@@ -459,7 +460,7 @@ public class PlayState extends GameState {
 					resetCamera = true;
 				}
 				player = new Player(this, (int)(getSafeX() * PPM),
-						(int)(getSafeY() * PPM), loadout, null);
+						(int)(getSafeY() * PPM), new Loadout(gsm.getRecord()), null);
 				
 				controller.setPlayer(player);
 				

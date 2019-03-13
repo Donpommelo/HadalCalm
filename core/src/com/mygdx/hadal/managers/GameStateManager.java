@@ -160,10 +160,10 @@ public class GameStateManager {
 	 */
 	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, true, old));
+			states.push(new PlayState(this, loadout, map, true, true, old));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, true, old));
+			states.push(new PlayState(this, loadout, map, true, true, old));
 			states.peek().show();
 		}
 	}

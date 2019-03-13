@@ -89,14 +89,6 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void reload(float delta) { reloading = false; }
-
-	/**
-	 * returns the weapon name
-	 */
-	@Override
-	public String getText() {
-		return "";
-	}
 	
 	@Override
 	public float getUseCd() {

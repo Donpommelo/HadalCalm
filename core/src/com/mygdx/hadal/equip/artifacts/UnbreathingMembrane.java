@@ -31,6 +31,7 @@ public class UnbreathingMembrane extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_CLIP, 1.0f, b),
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, 5.0f, b),
 				new Status(state, name, descr, b) {
+			
 					@Override
 					public void onReload(Equipable tool) {
 						if (this.inflicted instanceof PlayerBodyData) {

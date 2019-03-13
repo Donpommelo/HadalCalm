@@ -110,6 +110,13 @@ public enum UnlockEquip {
 	public void setUnlocked(boolean unlock) {
 		info.setUnlocked(unlock);
 	}
+	
+	public static UnlockEquip getUnlockFromEquip(Class<? extends Equipable> weapon) {
+		for (UnlockEquip unlock: UnlockEquip.values()) {
+			if (unlock.weapon.equals(weapon)) {
+				return unlock;
+			}
+		}
+		return null;
+	}
 }
-
-

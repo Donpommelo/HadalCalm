@@ -104,14 +104,6 @@ public class ActiveItem extends Equipable {
 		return (getMaxCharge() - currentCharge);
 	}
 
-	/**
-	 * returns the weapon name
-	 */
-	@Override
-	public String getText() {
-		return name;
-	}
-
 	public float getCurrentCharge() {
 		return currentCharge;
 	}

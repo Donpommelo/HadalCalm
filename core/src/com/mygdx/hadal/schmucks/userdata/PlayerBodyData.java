@@ -7,6 +7,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.Empty;
 import com.mygdx.hadal.equip.Equipable;
@@ -14,8 +15,11 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.statuses.ActiveItemCharge;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.WeaponModifier;
@@ -49,6 +53,11 @@ public class PlayerBodyData extends BodyData {
 	
 	private Player player;
 	
+	private float overrideMaxHp;
+	private float overrideMaxFuel;
+	private float overrideAirblastCost;
+	private int overrideClipSize;
+
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body);
 		this.player = body;
@@ -62,7 +71,6 @@ public class PlayerBodyData extends BodyData {
 	public void initLoadout() {
 		clearStatuses();
 
-		//TODO Fix loadout sometimes being null here
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
@@ -76,6 +84,25 @@ public class PlayerBodyData extends BodyData {
 		artifactStart = addArtifact(loadout.artifact);
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		addStatus(new ActiveItemCharge(player.getState(), this));		
+	}
+	
+	public void syncLoadout(Loadout loadout) {
+		for (int i = 0; i < loadout.multitools.length; i++) {
+			if (loadout.multitools[i] != null) {
+				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
+			}
+		}
+		
+		setEquip();
+		
+		if (artifactStart != null) {
+			for (Status s : artifactStart.getEnchantment()) {
+				removeStatus(s);
+			}
+		}
+		
+		artifactStart = addArtifact(loadout.artifact);
+		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 	}
 	
 	/**
@@ -174,6 +201,8 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public Equipable pickup(Equipable equip) {
 		
+		UnlockEquip unlock = UnlockEquip.getUnlockFromEquip(equip.getClass());
+		
 		for (WeaponModifier s : equip.getWeaponMods()) {
 			addStatus(s);
 		}
@@ -184,7 +213,10 @@ public class PlayerBodyData extends BodyData {
 				multitools[i].setUser(player);
 				currentSlot = i;
  				setEquip();
-				return null;
+ 				
+ 				loadout.multitools[currentSlot] = unlock;
+ 				HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+ 				return null;
 			}
 		}
 		
@@ -198,10 +230,16 @@ public class PlayerBodyData extends BodyData {
 		multitools[currentSlot].setUser(player);
 		setEquip();
 		
+		loadout.multitools[currentSlot] = unlock;
+		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+		
 		return old;
 	}
 	
 	public ActiveItem pickup(ActiveItem item) {
+		
+		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
+
 		if (activeItem == null || activeItem instanceof Empty) {
 			activeItem = item;
 			return null;
@@ -210,6 +248,9 @@ public class PlayerBodyData extends BodyData {
 		ActiveItem old = activeItem;
 		activeItem = item;
 		
+		loadout.activeItem = unlock;
+		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+
 		return old;
 	}
 	
@@ -229,6 +270,9 @@ public class PlayerBodyData extends BodyData {
 		
 		currentSlot = slot;
 		setEquip();
+		
+		loadout.multitools[currentSlot] = UnlockEquip.NOTHING;
+		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
 	}
 	
 	/**
@@ -245,6 +289,9 @@ public class PlayerBodyData extends BodyData {
 		}	
 		
 		artifactStart = addArtifact(artifact);
+		
+		loadout.artifact = artifact;
+		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
 	}
 	
 	/**
@@ -374,5 +421,38 @@ public class PlayerBodyData extends BodyData {
 
 	public Loadout getLoadout() {
 		return loadout;
+	}
+
+	public float getOverrideMaxHp() {
+		return overrideMaxHp;
+	}
+
+	public void setOverrideMaxHp(float overrideMaxHp) {
+		this.overrideMaxHp = overrideMaxHp;
+	}
+
+	public float getOverrideMaxFuel() {
+		return overrideMaxFuel;
+	}
+
+	public void setOverrideMaxFuel(float overrideMaxFuel) {
+		this.overrideMaxFuel = overrideMaxFuel;
+	}
+
+	public float getOverrideAirblastCost() {
+		return overrideAirblastCost;
+	}
+
+	public void setOverrideAirblastCost(float overrideAirblastCost) {
+		this.overrideAirblastCost = overrideAirblastCost;
+	}
+
+	public int getOverrideClipSize() {
+		return overrideClipSize;
+	}
+
+	public void setOverrideClipSize(int overrideClipSize) {
+		this.overrideClipSize = overrideClipSize;
 	}	
+
 }

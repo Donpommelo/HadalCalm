@@ -173,6 +173,11 @@ public class RangedWeapon extends Equipable {
 		return clipLeft + "/" + getClipSize();
 	}
 	
+	@Override
+	public String getTextClient(int overrideClipSize) {
+		return clipLeft + "/" + overrideClipSize;
+	};
+	
 	/**
 	 * helper method for gaining ammo. Not currently used, but could be useful for stuff that gives you free reloads
 	 * @param gained: amount of ammo to gain.
@@ -191,6 +196,7 @@ public class RangedWeapon extends Equipable {
 		return useCd * (1 - user.getBodyData().getRangedFireRate());
 	}
 	
+	@Override
 	public int getClipSize() {		
 		if (clipSize * user.getBodyData().getBonusClipSize() > 0 && clipSize * user.getBodyData().getBonusClipSize() < 1) {
 			return clipSize + 1;

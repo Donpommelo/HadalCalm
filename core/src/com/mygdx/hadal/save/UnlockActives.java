@@ -97,6 +97,12 @@ public enum UnlockActives {
 		info.setUnlocked(unlock);
 	}
 	
+	public static UnlockActives getUnlockFromActive(Class<? extends ActiveItem> active) {
+		for (UnlockActives unlock: UnlockActives.values()) {
+			if (unlock.active.equals(active)) {
+				return unlock;
+			}
+		}
+		return null;
+	}
 }
-
-

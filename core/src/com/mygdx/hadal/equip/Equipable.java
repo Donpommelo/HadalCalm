@@ -104,18 +104,27 @@ public abstract class Equipable {
 	 * Get the string representing the weapon in the ui.
 	 * @return
 	 */
-	public abstract String getText();
+	public String getText() {
+		return "";
+	};
+	
+	public String getTextClient(int overrideClipSize) {
+		return "";
+	};
 	
 	public void gainAmmo(int gained) {
 		
 	}
 
+	public int getClipSize() {
+		return 0;
+	}
+	
 	public int getClipLeft() {
 		return 0;
 	}
 	
-	public void setClipLeft(int clipLeft) {
-	}
+	public void setClipLeft(int clipLeft) {}
 	
 	public float getUseCd() {
 		return useCd;
