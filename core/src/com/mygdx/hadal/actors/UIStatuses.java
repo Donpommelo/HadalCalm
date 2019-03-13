@@ -51,7 +51,7 @@ public class UIStatuses {
 	/**
 	 * This method simply synchronizes the displayed statuses with the player's current statuses.
 	 */
-	public void syncStatus() {
+	private void syncStatus() {
 		clearStatus();
 		for (Status s : player.getPlayerData().getStatuses()) {
 			addStatus(s);
@@ -66,7 +66,7 @@ public class UIStatuses {
 	 * @param s: new Status
 	 * @return corresponding status tag
 	 */
-	public StatusTag addTag(Status s) {
+	private StatusTag addTag(Status s) {
 		StatusTag newTag = new StatusTag(assetManager, s);
 		newTag.setWidth(tagWidth);
 		newTag.setWidth(tagHeight);

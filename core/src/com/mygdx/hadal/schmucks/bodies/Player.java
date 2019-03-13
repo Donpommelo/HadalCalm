@@ -51,7 +51,6 @@ public class Player extends PhysicsSchmuck {
 	public static final float scale = 0.15f;
 	
 	private final float spriteAnimationSpeed = 0.08f;
-	private String bodySprite;
 	
 	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
@@ -140,7 +139,6 @@ public class Player extends PhysicsSchmuck {
 	 * @param playerSprite
 	 */
 	public void setBodySprite(String playerSprite) {
-		bodySprite = playerSprite;
 		
 		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
 		bodyRunSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_run"));	
@@ -161,7 +159,7 @@ public class Player extends PhysicsSchmuck {
 		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
 		this.gemHeight = gemSprite.getRegionHeight();
 		this.gemWidth = gemSprite.getRegionWidth();
-		
+
 		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
 		if (playerData != null) {
 			playerData.setEquip();
@@ -566,7 +564,7 @@ public class Player extends PhysicsSchmuck {
 						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
 				moveState, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getClipSize(),
 				playerData.getCurrentHp(), playerData.getMaxHp(), playerData.getCurrentFuel(), playerData.getMaxFuel(), playerData.getAirblastCost(),
-				getPlayerData().getCurrentTool().isReloading(), reloadPercent, bodySprite);
+				getPlayerData().getActiveItem().chargePercent(), getPlayerData().getCurrentTool().isReloading(), reloadPercent);
 	}
 	
 	@Override
@@ -587,11 +585,9 @@ public class Player extends PhysicsSchmuck {
 		playerData.setOverrideMaxFuel(p.maxFuel);
 		playerData.setOverrideClipSize(p.maxClip);
 		playerData.setOverrideAirblastCost(p.airblastCost);
+		getPlayerData().getActiveItem().setCurrentCharge(p.activeCharge * getPlayerData().getActiveItem().getMaxCharge());
 		getPlayerData().getCurrentTool().setReloading(p.reloading);
 		reloadPercent = p.reloadPercent;
-		if (!p.character.equals(bodySprite)) {
-			setBodySprite(p.character);
-		}
 	}
 	
 	@Override

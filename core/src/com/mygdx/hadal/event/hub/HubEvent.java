@@ -2,14 +2,17 @@ package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -70,10 +73,21 @@ public class HubEvent extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (!open && !eventData.getSchmucks().isEmpty()) {
-					enter();
-					open = true;
+				if (p.equals(state.getPlayer())) {
+					onActivate(this);
+				} else {
+					HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
 				}
+			}
+			
+			@Override
+			public void onActivate(EventData activator) {
+				if (open) {
+					leave();
+				} else {
+					enter();
+				}
+				open = !open;
 			}
 		};
 		
@@ -87,12 +101,24 @@ public class HubEvent extends Event {
 	 */
 	@Override
 	public void controller(float delta) {
-		if (open && eventData.getSchmucks().isEmpty()) {
-			leave();
-			open = false;
+		if (open) {
+			if(body.getPosition().dst(state.getPlayer().getBody().getPosition()) > 3) {
+				leave();
+				open = false;
+			}
 		}
 	}
 	
+	@Override
+	public void clientController(float delta) {
+		if (open) {
+			if(body.getPosition().dst(state.getPlayer().getBody().getPosition()) > 3) {
+				leave();
+				open = false;
+			}
+		}
+	}
+
 	/**
 	 * This is run when the player enters the event. Pull up an extra menu with options specified by the child.
 	 */
@@ -145,5 +171,10 @@ public class HubEvent extends Event {
 	 */
 	public void mouseOut() {
 		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreateEvent(entityID.toString(), new Vector2(width, height), blueprint);
 	}
 }

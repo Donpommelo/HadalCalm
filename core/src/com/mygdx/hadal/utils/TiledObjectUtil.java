@@ -81,9 +81,14 @@ public class TiledObjectUtil {
     	//atm, all events are just rectangles.
 		RectangleMapObject current = (RectangleMapObject)object;
 		Rectangle rect = current.getRectangle();
+		int sync = object.getProperties().get("sync", 0, int.class);
 		
 		if (object.getName().equals("Start")) {
 			state.setStart((int)rect.x, (int)rect.y);
+		}
+		
+		if (sync == 0 && !state.isServer()) {
+			return null;
 		}
 		
 		Event e = null;
@@ -353,7 +358,7 @@ public class TiledObjectUtil {
 			
 			e.setBlueprint(object);
 		}
-		
+
 		return e;
     }
     

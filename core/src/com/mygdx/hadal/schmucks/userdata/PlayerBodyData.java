@@ -103,6 +103,9 @@ public class PlayerBodyData extends BodyData {
 		
 		artifactStart = addArtifact(loadout.artifact);
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
+		player.setBodySprite(loadout.character.getSprite());
+		
+		this.loadout = loadout;
 	}
 	
 	/**
@@ -215,7 +218,7 @@ public class PlayerBodyData extends BodyData {
  				setEquip();
  				
  				loadout.multitools[currentSlot] = unlock;
- 				HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+ 				syncLoadoutChange();
  				return null;
 			}
 		}
@@ -231,7 +234,7 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		loadout.multitools[currentSlot] = unlock;
-		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+		syncLoadoutChange();
 		
 		return old;
 	}
@@ -249,7 +252,7 @@ public class PlayerBodyData extends BodyData {
 		activeItem = item;
 		
 		loadout.activeItem = unlock;
-		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+		syncLoadoutChange();
 
 		return old;
 	}
@@ -272,7 +275,7 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		loadout.multitools[currentSlot] = UnlockEquip.NOTHING;
-		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+		syncLoadoutChange();
 	}
 	
 	/**
@@ -291,7 +294,7 @@ public class PlayerBodyData extends BodyData {
 		artifactStart = addArtifact(artifact);
 		
 		loadout.artifact = artifact;
-		HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+		syncLoadoutChange();
 	}
 	
 	/**
@@ -321,22 +324,36 @@ public class PlayerBodyData extends BodyData {
 		calcStats();
 	}
 	
+	public void syncLoadoutChange() {
+		if (player.getState().isServer()) {
+			HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+		} else {
+			HadalGame.client.client.sendTCP(new Packets.SyncLoadout(null, loadout));
+		}
+	}
+	
 	@Override
 	public void addStatus(Status s) {
 		super.addStatus(s);
-		player.getState().getUiStatus().addStatus(s);
+		if (player.equals(player.getState().getPlayer())) {
+			player.getState().getUiStatus().addStatus(s);
+		}
 	}
 	
 	@Override
 	public void removeStatus(Status s) {
 		super.removeStatus(s);
-		player.getState().getUiStatus().removeStatus(s);
+		if (player.equals(player.getState().getPlayer())) {
+			player.getState().getUiStatus().removeStatus(s);
+		}
 	}
 	
 	public void clearStatuses() {
 		statuses.clear();
 		statusesChecked.clear();
-		player.getState().getUiStatus().clearStatus();
+		if (player.equals(player.getState().getPlayer())) {
+			player.getState().getUiStatus().clearStatus();
+		}
 	}
 	
 	public void fuelSpend(float cost) {

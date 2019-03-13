@@ -47,7 +47,7 @@ public class Event extends HadalEntity {
 	
     private final static float animationSpeed = 0.8f;
     
-    private MapObject blueprint;
+    protected MapObject blueprint;
     
     protected ParticleEntity standardParticle;
     

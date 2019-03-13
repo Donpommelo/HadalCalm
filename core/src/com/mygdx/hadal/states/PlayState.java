@@ -86,6 +86,9 @@ public class PlayState extends GameState {
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private Set<HadalEntity> hitboxes;
 	
+	protected Set<String> removeListClient;
+	protected Set<Object[]> createListClient;
+	
 	protected List<PacketEffect> packetEffects;
 	
 	//sourced effects from the world are attributed to this dummy.
@@ -160,6 +163,8 @@ public class PlayState extends GameState {
 		hitboxes = new LinkedHashSet<HadalEntity>();
 		removeList = new LinkedHashSet<HadalEntity>();
 		createList = new LinkedHashSet<HadalEntity>();
+		removeListClient = new LinkedHashSet<String>();
+		createListClient = new LinkedHashSet<Object[]>();
 		
 		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
@@ -670,7 +675,11 @@ public class PlayState extends GameState {
 	public boolean isRealFite() {
 		return realFite;
 	}
-	
+		
+	public boolean isServer() {
+		return server;
+	}
+
 	/**
 	 * Tentative tracker of player kill number.
 	 * @param i: Number to increase score by.

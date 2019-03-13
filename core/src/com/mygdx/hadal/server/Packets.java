@@ -1,5 +1,6 @@
 package com.mygdx.hadal.server;
 
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.effects.Sprite;
@@ -126,6 +127,26 @@ public class Packets {
         }
 	}
 	
+	public static class CreateEvent {
+		public String entityID;
+        public Vector2 pos;
+        public MapObject blueprint;
+		public CreateEvent() {}
+		public CreateEvent(String entityID, Vector2 pos, MapObject blueprint) {
+            this.entityID = entityID;
+            this.pos = pos;
+            this.blueprint = blueprint;
+        }
+	}
+	
+	public static class ActivateEvent {
+		public String entityID;
+		public ActivateEvent() {}
+		public ActivateEvent(String entityID) {
+            this.entityID = entityID;
+        }
+	}
+	
 	//TODO: transmit status information
 	public static class SyncPlayer {
 		public String entityID;
@@ -141,14 +162,14 @@ public class Packets {
         public float currentFuel;
         public float maxFuel;
         public float airblastCost;
+        public float activeCharge;
         public boolean reloading;
         public float reloadPercent;
-        public String character;
         
 		public SyncPlayer() {}
 		public SyncPlayer(String entityID, Vector2 pos, float a, MoveStates moveState, Boolean grounded,
 				int currentSlot, int currentClip, int maxClip, float currentHp, float maxHp, float currentFuel, float maxFuel,
-				float airblastCost, boolean reloading, float reloadPercent, String character) {
+				float airblastCost, float activeCharge, boolean reloading, float reloadPercent) {
             this.entityID = entityID;
             this.pos = pos;
             this.attackAngle = a;
@@ -162,10 +183,10 @@ public class Packets {
             this.currentFuel = currentFuel;
             this.maxFuel = maxFuel;
             this.airblastCost = airblastCost;
+            this.activeCharge = activeCharge;
             
             this.reloading = reloading;
             this.reloadPercent = reloadPercent;
-            this.character = character;
         }
 	}
 	
@@ -195,6 +216,8 @@ public class Packets {
     	kryo.register(NewClientPlayer.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(DeleteEntity.class);
+    	kryo.register(CreateEvent.class);
+    	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
     	kryo.register(SyncEntity.class);
     	kryo.register(SyncPlayer.class);

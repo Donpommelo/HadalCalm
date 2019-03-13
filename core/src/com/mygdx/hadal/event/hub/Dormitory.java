@@ -40,6 +40,8 @@ public class Dormitory extends HubEvent {
 				public void clicked(InputEvent e, float x, float y) {
 		        	state.getGsm().getRecord().setCharacter(selected.name());
 		        	state.getPlayer().setBodySprite(selected.getSprite());
+		        	state.getPlayer().getPlayerData().getLoadout().character = selected;
+		        	state.getPlayer().getPlayerData().syncLoadoutChange();
 		        }
 		        
 		        @Override

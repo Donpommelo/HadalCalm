@@ -3,6 +3,7 @@ package com.mygdx.hadal.input;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * The PlayerController controls the player using events to process various player actions.
@@ -11,7 +12,10 @@ import com.mygdx.hadal.server.Packets;
  */
 public class ClientController implements InputProcessor {
 	
-	public ClientController() {
+	private PlayState state;
+	
+	public ClientController(PlayState state) {
+		this.state = state;
 	}
 	
 	@Override
@@ -37,6 +41,9 @@ public class ClientController implements InputProcessor {
 		
 		if (keycode == PlayerAction.INTERACT.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.INTERACT));
+			if (state.getStage() != null) {
+				state.getStage().nextDialogue();
+			}
 		}
 		
 		if (keycode == PlayerAction.FREEZE.getKey()) {

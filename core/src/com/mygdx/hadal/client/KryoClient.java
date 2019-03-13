@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapObject;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -14,6 +15,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -22,6 +24,7 @@ import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
+import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 
 public class KryoClient {
@@ -155,6 +158,44 @@ public class KryoClient {
         			}
         		}
         		
+        		if (o instanceof Packets.CreateEvent) {
+        			final Packets.CreateEvent p = (Packets.CreateEvent) o;
+            		
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						MapObject blueprint = p.blueprint;
+        						blueprint.getProperties().put("sync", 1);
+        						Event event = TiledObjectUtil.parseTiledEvent(cs, blueprint);
+        						cs.addEntity(p.entityID, event, ObjectSyncLayers.STANDARD);
+            				}
+    					});
+        			}
+        		}
+        		
+        		if (o instanceof Packets.ActivateEvent) {
+        			final Packets.ActivateEvent p = (Packets.ActivateEvent) o;
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.addPacketEffect(new PacketEffect() {
+    					
+	    					@Override
+	    					public void execute() {
+	    						HadalEntity entity = cs.findEntity(p.entityID);
+	    						if (entity != null) {
+	    							if (entity instanceof Event) {
+	    								((Event)entity).getEventData().onActivate(null);
+	    							}
+	    						}
+	    					}
+    					});
+        			}
+        		}
+        		
         		if (o instanceof Packets.SyncEntity) {
         			Packets.SyncEntity p = (Packets.SyncEntity) o;
         			
@@ -175,6 +216,7 @@ public class KryoClient {
         		
         		if (o instanceof Packets.SyncLoadout) {
         			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
+        			Log.info("LOADOUT SYNC: " + p.entityId);
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				final ClientState cs = (ClientState) gsm.getStates().peek();
@@ -183,6 +225,8 @@ public class KryoClient {
 	    					@Override
 	    					public void execute() {
 	    						HadalEntity entity = cs.findEntity(p.entityId);
+	    	        			Log.info("LOADOUT SYNC ENTITY: " + entity);
+
 	    						if (entity != null) {
 	    							if (entity instanceof Player) {
 	    								((Player)entity).getPlayerData().syncLoadout(p.loadout);

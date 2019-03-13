@@ -22,9 +22,7 @@ public class InteractableEventData extends EventData {
 		if (fixB != null) {	
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
 				PlayerBodyData player = ((PlayerBodyData)fixB);
-				if (player.getPlayer().equals(event.getState().getPlayer())) {
-					player.getPlayer().setCurrentEvent(event);
-				}				
+				player.getPlayer().setCurrentEvent(event);			
 			}
 		}
 		super.onTouch(fixB);
@@ -35,10 +33,8 @@ public class InteractableEventData extends EventData {
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
 				PlayerBodyData player = ((PlayerBodyData)fixB);
-				if (player.getPlayer().equals(event.getState().getPlayer())) {
-					if (player.getPlayer().getCurrentEvent() == event) {
-						player.getPlayer().setCurrentEvent(null);
-					}
+				if (player.getPlayer().getCurrentEvent() == event) {
+					player.getPlayer().setCurrentEvent(null);
 				}
 			}
 		}

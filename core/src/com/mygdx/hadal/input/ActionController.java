@@ -65,7 +65,6 @@ public class ActionController {
 			}
 			
 			player.interact();
-			
 		}
 		
 		if (action == PlayerAction.FREEZE) {

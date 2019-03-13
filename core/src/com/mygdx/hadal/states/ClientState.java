@@ -5,8 +5,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -28,8 +26,7 @@ public class ClientState extends PlayState {
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private LinkedHashMap<String, HadalEntity> hitboxes;
 	
-	private Set<String> removeList;
-	private Set<Object[]> createList;
+	
 	
 	private ArrayList<Object[]> sync;
 	
@@ -40,14 +37,12 @@ public class ClientState extends PlayState {
 		super(gsm, loadout, level, false, false, null);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
-		removeList = new LinkedHashSet<String>();
-		createList = new LinkedHashSet<Object[]>();
 		sync = new ArrayList<Object[]>();		
 	}
 	
 	@Override
 	public void resetController() {
-		controller = new ClientController();
+		controller = new ClientController(this);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
@@ -59,13 +54,13 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void update(float delta) {
+				
 		tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(tmpVec3);
 		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
 		
-		
 		//All entities that are set to be removed are removed.
-		for (String key: removeList) {
+		for (String key: removeListClient) {
 			HadalEntity entity = entities.get(key);
 			entities.remove(key);
 			if (entity != null) {
@@ -77,9 +72,9 @@ public class ClientState extends PlayState {
 				entity.dispose();
 			}
 		}
-		removeList.clear();
+		removeListClient.clear();
 				
-		for (Object[] pair: createList) {
+		for (Object[] pair: createListClient) {
 			if (pair[2].equals(1)) {
 				hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
 			} else {
@@ -87,7 +82,7 @@ public class ClientState extends PlayState {
 			}
 			((HadalEntity)pair[1]).create();
 		}
-		createList.clear();
+		createListClient.clear();
 		
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
@@ -213,11 +208,11 @@ public class ClientState extends PlayState {
 	
 	public void addEntity(String entityId, HadalEntity entity, ObjectSyncLayers layer) {
 		Object[] packet = {entityId, entity, layer};
-		createList.add(packet);
+		createListClient.add(packet);
 	}
 	
 	public void removeEntity(String entityId) {
-		removeList.add(entityId);
+		removeListClient.add(entityId);
 	}
 
 	public void syncEntity(String entityId, Object o) {

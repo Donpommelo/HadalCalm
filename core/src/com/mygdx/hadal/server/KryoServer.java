@@ -4,6 +4,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -88,6 +89,15 @@ public class KryoServer {
                         createNewClientPlayer(ps, c.getID(), p.loadout, null);
 					}
 				}
+				
+				if (o instanceof Packets.SyncLoadout) {
+        			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
+        			Player player = players.get(c.getID());
+        			if (p != null) {
+        				player.getPlayerData().syncLoadout(p.loadout);
+        				player.getPlayerData().syncLoadoutChange();
+        			}
+        		}
 			}
 		});
 		
@@ -118,6 +128,15 @@ public class KryoServer {
 		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));	
 			}
 		});
+	}
+	
+	public void sendPacketToPlayer(Player p, Object o) {
+		for (Entry<Integer, Player> conn: players.entrySet()) {
+			if (conn.getValue().equals(p)) {
+				server.sendToTCP(conn.getKey(), o);
+				break;
+			}
+		}
 	}
 	
 	public HashMap<Integer, Player> getPlayers() {
