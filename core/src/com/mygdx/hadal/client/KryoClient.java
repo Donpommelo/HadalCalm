@@ -17,6 +17,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
@@ -81,47 +82,73 @@ public class KryoClient {
         		}
         		
         		if (o instanceof Packets.ClientStartTransition) {
-        			Packets.ClientStartTransition p = (Packets.ClientStartTransition) o;
+        			final Packets.ClientStartTransition p = (Packets.ClientStartTransition) o;
         			Log.info("CLIENT INSTRUCTED TO TRANSITION: ");
 
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.gameOver(p.won);
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						cs.gameOver(p.won);
+        					}
+        				});
         			}
         		}
         		
         		if (o instanceof Packets.CreateEntity) {
-        			Packets.CreateEntity p = (Packets.CreateEntity) o;
+        			final Packets.CreateEntity p = (Packets.CreateEntity) o;
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, p.sprite), p.layer);
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+                				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, p.sprite), p.layer);
+
+        					}
+        				});
         			}
         		}
         		
         		if (o instanceof Packets.DeleteEntity) {
-        			Packets.DeleteEntity p = (Packets.DeleteEntity) o;
+        			final Packets.DeleteEntity p = (Packets.DeleteEntity) o;
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.removeEntity(p.entityID);
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+                				cs.removeEntity(p.entityID);
+        					}
+        				});
         			}
         		}
         		
         		if (o instanceof Packets.CreatePlayer) {
-
-        			Packets.CreatePlayer p = (Packets.CreatePlayer) o;
+        			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
             		
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				Log.info("CLIENT CREATED PLAYER: " + " " + p.entityID);
-        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
         				
-        				if (!p.entityID.equals(myId)) {
-            				Player newPlayer = new Player(cs, 0, 0, p.loadout, null);
-            				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
-        				} else {        					
-        					cs.addEntity(p.entityID, cs.getPlayer(), ObjectSyncLayers.STANDARD);
-        				}
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						if (!p.entityID.equals(myId)) {
+                    				Player newPlayer = new Player(cs, 0, 0, p.loadout, null);
+                    				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
+                				} else {        					
+                					cs.addEntity(p.entityID, cs.getPlayer(), ObjectSyncLayers.STANDARD);
+                				}
+        					}
+        				});
+
+        				
         			} else {
         				Log.info("CLIENT ATTEMPTED TO CREATE PLAYER: " + " " + p.entityID + " BUT WAS NOT LOADED YET.");
         			}

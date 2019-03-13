@@ -85,7 +85,7 @@ public class PlayState extends GameState {
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private Set<HadalEntity> hitboxes;
 	
-	private List<PacketEffect> packetEffects;
+	protected List<PacketEffect> packetEffects;
 	
 	//sourced effects from the world are attributed to this dummy.
 	private Enemy worldDummy;
@@ -334,7 +334,7 @@ public class PlayState extends GameState {
 				}
 			} else if (fadeLevel < 1f && fadeDelta > 0f) {
 				fadeLevel += fadeDelta;
-				if (fadeLevel > 1f) {
+				if (fadeLevel >= 1f) {
 					fadeLevel = 1f;
 					transitionState();
 				}

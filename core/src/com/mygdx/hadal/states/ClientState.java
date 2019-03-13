@@ -4,7 +4,6 @@ package com.mygdx.hadal.states;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -19,6 +18,7 @@ import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 
 public class ClientState extends PlayState {
@@ -40,8 +40,8 @@ public class ClientState extends PlayState {
 		super(gsm, loadout, level, false, null);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
-		removeList = Collections.synchronizedSet(new LinkedHashSet<String>());
-		createList = Collections.synchronizedSet(new LinkedHashSet<Object[]>());
+		removeList = new LinkedHashSet<String>();
+		createList = new LinkedHashSet<Object[]>();
 		sync = new ArrayList<Object[]>();		
 	}
 	
@@ -65,33 +65,29 @@ public class ClientState extends PlayState {
 		
 		
 		//All entities that are set to be removed are removed.
-		synchronized(removeList) {
-			for (String key: removeList) {
-				HadalEntity entity = entities.get(key);
-				entities.remove(key);
-				if (entity != null) {
-					entity.dispose();
-				}
-				entity = hitboxes.get(key);
-				hitboxes.remove(key);
-				if (entity != null) {
-					entity.dispose();
-				}
+		for (String key: removeList) {
+			HadalEntity entity = entities.get(key);
+			entities.remove(key);
+			if (entity != null) {
+				entity.dispose();
 			}
-			removeList.clear();
+			entity = hitboxes.get(key);
+			hitboxes.remove(key);
+			if (entity != null) {
+				entity.dispose();
+			}
 		}
+		removeList.clear();
 				
-		synchronized(createList) {
-			for (Object[] pair: createList) {
-				if (pair[2].equals(1)) {
-					hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
-				} else {
-					entities.put((String)pair[0], (HadalEntity)pair[1]);
-				}
-				((HadalEntity)pair[1]).create();
+		for (Object[] pair: createList) {
+			if (pair[2].equals(1)) {
+				hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
+			} else {
+				entities.put((String)pair[0], (HadalEntity)pair[1]);
 			}
-			createList.clear();
+			((HadalEntity)pair[1]).create();
 		}
+		createList.clear();
 		
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
@@ -114,6 +110,13 @@ public class ClientState extends PlayState {
 			entity.clientController(delta);
 		}
 		
+		synchronized(packetEffects) {
+			for (PacketEffect effect: packetEffects) {
+				effect.execute();
+			}
+			packetEffects.clear();
+		}
+		
 		//Update the game camera and batch.
 		cameraUpdate();
 		tmr.setView(camera);
@@ -127,7 +130,7 @@ public class ClientState extends PlayState {
 				}
 			} else if (fadeLevel < 1f && fadeDelta > 0f) {
 				fadeLevel += fadeDelta;
-				if (fadeLevel > 1f) {
+				if (fadeLevel >= 1f) {
 					fadeLevel = 1f;
 					transitionState();
 				}
@@ -209,16 +212,12 @@ public class ClientState extends PlayState {
 	}
 	
 	public void addEntity(String entityId, HadalEntity entity, ObjectSyncLayers layer) {
-		synchronized(createList) {
-			Object[] packet = {entityId, entity, layer};
-			createList.add(packet);
-		}
+		Object[] packet = {entityId, entity, layer};
+		createList.add(packet);
 	}
 	
 	public void removeEntity(String entityId) {
-		synchronized(removeList) {
-			removeList.add(entityId);
-		}
+		removeList.add(entityId);
 	}
 
 	public void syncObject(String entityId, Object o) {
