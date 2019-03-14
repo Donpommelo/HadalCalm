@@ -81,14 +81,9 @@ public class TiledObjectUtil {
     	//atm, all events are just rectangles.
 		RectangleMapObject current = (RectangleMapObject)object;
 		Rectangle rect = current.getRectangle();
-		int sync = object.getProperties().get("sync", 0, int.class);
 		
 		if (object.getName().equals("Start")) {
 			state.setStart((int)rect.x, (int)rect.y);
-		}
-		
-		if (sync == 0 && !state.isServer()) {
-			return null;
 		}
 		
 		Event e = null;
@@ -322,8 +317,12 @@ public class TiledObjectUtil {
 		
 		//Extra, universal functions to change event sprite properties		
 		if (e != null) {
-			triggeringEvents.put(e, object.getProperties().get("triggeringId", "", String.class));
-			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), e);
+			if (object.getProperties().get("triggeringId", String.class) != null) {
+				triggeringEvents.put(e, object.getProperties().get("triggeringId", String.class));
+			}
+			if (object.getProperties().get("triggeredId",String.class) != null) {
+				triggeredEvents.put(object.getProperties().get("triggeredId", String.class), e);
+			}
 			
 			if (object.getProperties().get("sprite", String.class) != null) {
 				if (object.getProperties().get("frame", int.class) != null) {
@@ -342,6 +341,9 @@ public class TiledObjectUtil {
 			}
 			if (object.getProperties().get("align", Integer.class) != null) {
 				e.setScaleAlign(object.getProperties().get("align", Integer.class));
+			}
+			if (object.getProperties().get("sync", Integer.class) != null) {
+				e.setSyncType(object.getProperties().get("sync", Integer.class));
 			}
 			if (object.getProperties().get("particle_amb", String.class) != null) {
 				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)));
@@ -490,7 +492,7 @@ public class TiledObjectUtil {
     	MapObject blueprint = e.getBlueprint();
     	String triggeringId =  blueprint.getProperties().get("triggeringId", "", String.class);
     	String triggeredId =  blueprint.getProperties().get("triggeredId", "", String.class);
-    	
+
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("") && triggeringEvents.get(key).equals(triggeredId)) {
         		key.setConnectedEvent(e);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.states.PlayState;
@@ -61,7 +62,7 @@ public class SpawnerSchmuck extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				
 				if (activator.getEvent() instanceof TriggerAlt) {
 					limit += Integer.parseInt(((TriggerAlt)activator.getEvent()).getMessage());
@@ -130,7 +131,7 @@ public class SpawnerSchmuck extends Event {
 					}
 					
 					if (defeated) {
-						getConnectedEvent().eventData.onActivate(eventData);
+						getConnectedEvent().eventData.preActivate(eventData, null);
 					}
 				}
 			}

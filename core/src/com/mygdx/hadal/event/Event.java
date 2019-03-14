@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -13,6 +14,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -44,6 +46,7 @@ public class Event extends HadalEntity {
 	private int spriteHeight;
 	private float scale = 0.25f;
     private int scaleAlign = 0;
+    private int syncType = 0;
 	
     private final static float animationSpeed = 0.8f;
     
@@ -191,11 +194,6 @@ public class Event extends HadalEntity {
 	public void addAmbientParticle(Particle particle) {
 		new ParticleEntity(state, this, particle, 0, 0, true);	
 	}
-
-	@Override
-	public void queueDeletion() {
-		super.queueDeletion();
-	}
 	
 	@Override
 	public HadalData getHadalData() {
@@ -253,12 +251,32 @@ public class Event extends HadalEntity {
 		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}
 	
+	@Override
+	public Object onServerCreate() {
+		switch(syncType) {
+		case 0:
+			return null;
+		case 1:
+			return new Packets.CreateEvent(entityID.toString(), new Vector2(width, height), blueprint);
+		default:
+			return null;
+		}
+	}
+	
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
 
 	public void setScaleAlign(int scaleAlign) {
 		this.scaleAlign = scaleAlign;
+	}
+
+	public int getSyncType() {
+		return syncType;
+	}
+
+	public void setSyncType(int syncType) {
+		this.syncType = syncType;
 	}
 
 	public MapObject getBlueprint() {

@@ -8,6 +8,7 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -59,7 +60,11 @@ public class Sensor extends Event {
 				super.onTouch(fixB);
 				if (isAlive()) {
 					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().onActivate(this);
+						if (fixB instanceof PlayerBodyData) {
+							event.getConnectedEvent().getEventData().preActivate(this, ((PlayerBodyData)fixB).getPlayer());
+						} else {
+							event.getConnectedEvent().getEventData().preActivate(this, null);
+						}
 						
 						if (standardParticle != null) {
 							standardParticle.onForBurst(1.0f);

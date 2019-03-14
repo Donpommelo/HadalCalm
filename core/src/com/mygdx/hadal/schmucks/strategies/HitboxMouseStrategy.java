@@ -20,7 +20,6 @@ public class HitboxMouseStrategy extends HitboxStrategy {
 			hbox.setBehavior(new Seek<Vector2>(hbox, state.getPlayer()));
 		}
 		
-		
 		hbox.setMaxLinearSpeed(maxLinSpd);
 		hbox.setMaxLinearAcceleration(maxLinAcc);
 		hbox.setMaxAngularSpeed(maxAngSpd);

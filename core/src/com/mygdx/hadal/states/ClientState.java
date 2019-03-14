@@ -26,8 +26,6 @@ public class ClientState extends PlayState {
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private LinkedHashMap<String, HadalEntity> hitboxes;
 	
-	
-	
 	private ArrayList<Object[]> sync;
 	
 	private ClientController controller;
@@ -37,7 +35,9 @@ public class ClientState extends PlayState {
 		super(gsm, loadout, level, false, false, null);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
-		sync = new ArrayList<Object[]>();		
+		sync = new ArrayList<Object[]>();
+		
+		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), ObjectSyncLayers.STANDARD);
 	}
 	
 	@Override
@@ -188,6 +188,21 @@ public class ClientState extends PlayState {
 			if (realFite) {
 				
 			} else {
+				uiStatus.clearStatus();
+				
+				boolean resetCamera = false;
+				if (saveCameraPoint.equals(player)) {
+					resetCamera = true;
+				}
+				this.zoomDesired = saveZoom;
+				
+				if (resetCamera) {
+					this.cameraTarget = player;
+					this.saveCameraPoint = player;
+				} else {
+					this.cameraTarget = saveCameraPoint;
+				}
+				
 				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord())));
 				fadeDelta = -0.015f;
 			}

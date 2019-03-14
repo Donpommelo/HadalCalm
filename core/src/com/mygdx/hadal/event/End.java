@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -33,10 +34,9 @@ public class End extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				state.gameOver(won);
 			}
-			
 		};
 	}
 }

@@ -41,7 +41,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected float height, width;
 	protected float startX, startY;
 	
-	private boolean alive = true;
+	protected boolean alive = true;
 	
 	//The below fields are only used for steering entities. most things will ignore these
 	protected boolean tagged;
@@ -110,11 +110,13 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * Call this method to delete a body. NOT dispose().
 	 * This tells the playstate to remove this entity next engine tick.
 	 */
-	public void queueDeletion() {
+	public boolean queueDeletion() {
 		if (alive) {
 			alive = false;
 			state.destroy(this);
+			return true;
 		}
+		return false;
 	}
 	
 	/**

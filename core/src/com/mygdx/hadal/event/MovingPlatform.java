@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -50,7 +51,7 @@ public class MovingPlatform extends Event {
 		this.eventData = new EventData(this, UserDataTypes.WALL) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				event.setConnectedEvent(activator.getEvent());
 			}
 
@@ -84,7 +85,7 @@ public class MovingPlatform extends Event {
 						}
 					} else {
 												
-						getConnectedEvent().getConnectedEvent().getEventData().onActivate(eventData);
+						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
 						body.setTransform(getConnectedEvent().getBody().getPosition(), 0);
 						
 						if (getConnectedEvent().getConnectedEvent().getBody() != null) {

@@ -3,11 +3,13 @@ package com.mygdx.hadal.event.userdata;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 
 public class EventData extends HadalData {
 
@@ -43,7 +45,35 @@ public class EventData extends HadalData {
 		
 	}
 	
-	public void onActivate(EventData activator) {
+	public void preActivate(EventData activator, Player p) {
+		
+		if (p == null) {
+			onActivate(activator, p);
+			return;
+		}
+		
+		switch(event.getSyncType()) {
+		case 0:
+			onActivate(activator, p);
+			break;
+		case 1:
+			if (p.equals(event.getState().getPlayer())) {
+				onActivate(activator, p);
+			} else {
+				HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
+			}
+			break;
+		case 2:
+			onActivate(activator, p);
+			HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
+			break;
+		default:
+			onActivate(activator, p);
+			break;
+		}
+	}
+	
+	public void onActivate(EventData activator, Player p) {
 		
 	}
 	

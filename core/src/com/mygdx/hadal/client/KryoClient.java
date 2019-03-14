@@ -172,6 +172,7 @@ public class KryoClient {
         						blueprint.getProperties().put("sync", 1);
         						Event event = TiledObjectUtil.parseTiledEvent(cs, blueprint);
         						cs.addEntity(p.entityID, event, ObjectSyncLayers.STANDARD);
+        						TiledObjectUtil.parseTiledSingleTrigger(event);
             				}
     					});
         			}
@@ -188,7 +189,7 @@ public class KryoClient {
 	    						HadalEntity entity = cs.findEntity(p.entityID);
 	    						if (entity != null) {
 	    							if (entity instanceof Event) {
-	    								((Event)entity).getEventData().onActivate(null);
+	    								((Event)entity).getEventData().onActivate(null, null);
 	    							}
 	    						}
 	    					}

@@ -102,10 +102,12 @@ public class PlayState extends GameState {
 	
 	protected transitionState nextState;
 	
-	private float zoom, zoomDesired;
+	private float zoom;
+
+	protected float zoomDesired;
 	private int startX, startY;
 	private int safeX, safeY;
-	private float saveZoom;
+	protected float saveZoom;
 	protected HadalEntity saveCameraPoint;
 	
 	protected boolean realFite;
@@ -118,7 +120,7 @@ public class PlayState extends GameState {
 	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
-	private UIStatuses uiStatus;
+	protected UIStatuses uiStatus;
 	
 	protected Texture bg, black;
 	
@@ -180,9 +182,12 @@ public class PlayState extends GameState {
 		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", 0, Integer.class);
 		
 		TiledObjectUtil.clearEvents();
-		TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
-		TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
-		TiledObjectUtil.parseTiledTriggerLayer();
+		if (server) {
+			TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
+			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
+			TiledObjectUtil.parseTiledTriggerLayer();
+		}
+		
 		
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
@@ -190,7 +195,6 @@ public class PlayState extends GameState {
 		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout, old);
 		this.cameraTarget = player;
 
-		
 		controller = new PlayerController(player);	
 		
 		//Set up "save point" as starting point
@@ -464,6 +468,7 @@ public class PlayState extends GameState {
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
 				}
+				
 				player = new Player(this, (int)(getSafeX() * PPM),
 						(int)(getSafeY() * PPM), new Loadout(gsm.getRecord()), null);
 				
@@ -476,6 +481,7 @@ public class PlayState extends GameState {
 				} else {
 					this.cameraTarget = saveCameraPoint;
 				}
+
 				fadeDelta = -0.015f;
 			}
 			break;

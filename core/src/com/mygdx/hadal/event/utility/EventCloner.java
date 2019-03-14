@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.utility;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -32,7 +33,7 @@ public class EventCloner extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 										
 					if (event.getConnectedEvent().getBlueprint() != null) {
@@ -48,12 +49,10 @@ public class EventCloner extends Event {
 						TiledObjectUtil.parseTiledSingleTrigger(clone);
 					}
 				}
-				
 			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (0), (short) 0, true, eventData);
 	}
-	
 }

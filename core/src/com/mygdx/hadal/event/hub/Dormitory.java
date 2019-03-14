@@ -21,7 +21,6 @@ public class Dormitory extends HubEvent {
 
 	public Dormitory(PlayState state, int width, int height, int x, int y) {
 		super(state, name, width, height, x, y, title);
-	
 	}
 	
 	public void enter() {

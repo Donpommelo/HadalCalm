@@ -281,11 +281,10 @@ public class BodyData extends HadalData {
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
 	 */
 	public void die(BodyData perp, Equipable tool) {
-		
-		perp.statusProcTime(StatusProcTime.ON_KILL, this, 0, null, tool, null);
-		statusProcTime(StatusProcTime.ON_DEATH, perp, 0, null, currentTool, null);
-		
-		schmuck.queueDeletion();
+		if (schmuck.queueDeletion()) {
+			perp.statusProcTime(StatusProcTime.ON_KILL, this, 0, null, tool, null);
+			statusProcTime(StatusProcTime.ON_DEATH, perp, 0, null, currentTool, null);
+		}		
 	}
 	
 	public Equipable getCurrentTool() {

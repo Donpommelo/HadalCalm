@@ -2,7 +2,6 @@ package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -12,7 +11,6 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -73,15 +71,11 @@ public class HubEvent extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (p.equals(state.getPlayer())) {
-					onActivate(this);
-				} else {
-					HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
-				}
+				preActivate(null, p);
 			}
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (open) {
 					leave();
 				} else {
@@ -174,7 +168,7 @@ public class HubEvent extends Event {
 	}
 	
 	@Override
-	public Object onServerCreate() {
-		return new Packets.CreateEvent(entityID.toString(), new Vector2(width, height), blueprint);
+	public void loadDefaultProperties() {
+		setSyncType(1);
 	}
 }

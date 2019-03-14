@@ -3,6 +3,7 @@ package com.mygdx.hadal.event.utility;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -35,7 +36,7 @@ public class PositionDummy extends Event {
 		this.eventData = new InteractableEventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (standardParticle != null) {
 					standardParticle.onForBurst(1.0f);
 				}

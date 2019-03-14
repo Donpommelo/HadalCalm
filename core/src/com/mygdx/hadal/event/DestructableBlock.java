@@ -52,7 +52,7 @@ public class DestructableBlock extends Event {
 					event.queueDeletion();
 					
 					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().onActivate(this);
+						event.getConnectedEvent().getEventData().preActivate(this, null);
 					}
 				}
 			}

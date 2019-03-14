@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-
-
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
@@ -372,16 +370,17 @@ public class PlayerBodyData extends BodyData {
 	
 	@Override
 	public void die(BodyData perp, Equipable tool) {
-		
-		WeaponUtils.createExplosion(schmuck.getState(), schmuck.getBody().getPosition().x * PPM , schmuck.getBody().getPosition().y * PPM, 
-				schmuck, tool, 500, 0, 0, (short)0);
-		
-		schmuck.getState().onPlayerDeath(player);
-		
-		if (player.getMouse() != player.getState().getMouse()) {
-			player.getMouse().queueDeletion();
+		if (player.isAlive()) {
+			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getBody().getPosition().x * PPM , schmuck.getBody().getPosition().y * PPM, 
+					schmuck, tool, 500, 0, 0, (short)0);
+			
+			schmuck.getState().onPlayerDeath(player);
+			
+			if (player.getMouse() != player.getState().getMouse()) {
+				player.getMouse().queueDeletion();
+			}
+			super.die(perp, tool);
 		}
-		super.die(perp, tool);
 	}
 	
 	public Player getPlayer() {

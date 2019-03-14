@@ -54,13 +54,13 @@ public class PickupWeaponMod extends Event {
 					queueDeletion();
 					
 					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().onActivate(this);
+						event.getConnectedEvent().getEventData().preActivate(this, p);
 					}
 				}
 			}
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				on = !on;
 			}
 		};

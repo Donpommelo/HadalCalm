@@ -588,12 +588,15 @@ public class Player extends PhysicsSchmuck {
 		getPlayerData().getActiveItem().setCurrentCharge(p.activeCharge * getPlayerData().getActiveItem().getMaxCharge());
 		getPlayerData().getCurrentTool().setReloading(p.reloading);
 		reloadPercent = p.reloadPercent;
+		
+		
 	}
 	
 	@Override
 	public void dispose() {
 		super.dispose();
 		state.getUiPlayer().removePlayer(this);
+		playerData.setCurrentHp(0);
 	}
 	
 	public PlayerBodyData getPlayerData() {

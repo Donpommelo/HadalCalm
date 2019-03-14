@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.utility;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -34,7 +35,7 @@ public class CameraChanger extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 					state.setCameraTarget(event.getConnectedEvent());
 				} else {
@@ -43,5 +44,10 @@ public class CameraChanger extends Event {
 				state.setZoom(zoom);
 			}
 		};
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(1);
 	}
 }

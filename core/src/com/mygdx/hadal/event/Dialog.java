@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -32,7 +33,7 @@ public class Dialog extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 					state.getStage().addDialogue(id, this, event.getConnectedEvent().getEventData());
 				} else {
@@ -41,5 +42,10 @@ public class Dialog extends Event {
 				
 			}
 		};
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(1);
 	}
 }

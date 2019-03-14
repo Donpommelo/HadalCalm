@@ -140,7 +140,7 @@ public class DialogueBox extends AHadalActor {
 			
 			//If this dialogue is the last in a conversation, trigger the designated event.
 			if (dialogues.first().isEnd() && dialogues.first().getTrigger() != null && dialogues.first().getRadio() != null) {
-				dialogues.first().getTrigger().onActivate(dialogues.first().getRadio());
+				dialogues.first().getTrigger().onActivate(dialogues.first().getRadio(), null);
 			}
 			
 			dialogues.removeFirst();

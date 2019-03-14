@@ -3,6 +3,7 @@ package com.mygdx.hadal.event.utility;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -52,9 +53,9 @@ public class PlayerChanger extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				
-				PlayerBodyData data = state.getPlayer().getPlayerData();
+				PlayerBodyData data = p.getPlayerData();
 				boolean activated = false;
 				
 				if (data.getCurrentFuel() < data.getMaxFuel() && fuel > 0) {
@@ -63,12 +64,12 @@ public class PlayerChanger extends Event {
 				}
 				
 				if (data.getCurrentHp() < data.getMaxHp() && hp > 0) {
-					state.getPlayer().getPlayerData().regainHp(hp, state.getPlayer().getPlayerData(), true, DamageTypes.MEDPAK);
+					p.getPlayerData().regainHp(hp, p.getPlayerData(), true, DamageTypes.MEDPAK);
 					activated = true;
 				}
 				
 				if (hp < 0) {
-					state.getPlayer().getPlayerData().receiveDamage(-hp, new Vector2(0, 0), state.getWorldDummy().getBodyData(), null, false);
+					p.getPlayerData().receiveDamage(-hp, new Vector2(0, 0), state.getWorldDummy().getBodyData(), null, false);
 					activated = true;
 				}
 				
@@ -78,7 +79,7 @@ public class PlayerChanger extends Event {
 				}
 				
 				if (activated && event.getConnectedEvent() != null) {
-					event.getConnectedEvent().getEventData().onActivate(activator);
+					event.getConnectedEvent().getEventData().preActivate(activator, p);
 				}
 			}
 		};
