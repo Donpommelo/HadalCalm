@@ -549,10 +549,5 @@
     <property name="triggeringId" value="elevatorSwitchPulled"/>
    </properties>
   </object>
-  <object id="119" name="Sensor" type="Sensor" x="2464" y="1856" width="64" height="64">
-   <properties>
-    <property name="triggeringId" value="outOfBounds"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

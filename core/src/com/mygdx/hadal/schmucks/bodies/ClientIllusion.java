@@ -21,7 +21,9 @@ public class ClientIllusion extends HadalEntity {
 		
 	public ClientIllusion(PlayState state, float w, float h, Sprite sprite) {
 		super(state, w, h, 0, 0);
-		projectileSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
+		if (sprite != null) {
+			projectileSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
+		}
 	}
 
 	@Override
@@ -39,11 +41,13 @@ public class ClientIllusion extends HadalEntity {
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 
-		batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-				body.getPosition().x * PPM - width / 2, 
-				body.getPosition().y * PPM - height / 2, 
-				width / 2, height / 2,
-				width, height, 1, 1, 
-				(float) Math.toDegrees(body.getAngle()) + 180);
+		if (projectileSprite != null) {
+			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
+					body.getPosition().x * PPM - width / 2, 
+					body.getPosition().y * PPM - height / 2, 
+					width / 2, height / 2,
+					width, height, 1, 1, 
+					(float) Math.toDegrees(body.getAngle()) + 180);
+		}
 	}
 }

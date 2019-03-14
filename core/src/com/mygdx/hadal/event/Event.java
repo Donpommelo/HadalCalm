@@ -16,6 +16,8 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -255,8 +257,13 @@ public class Event extends HadalEntity {
 	public Object onServerCreate() {
 		switch(syncType) {
 		case 0:
-			return null;
+			if (body != null) {
+				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), null, ObjectSyncLayers.STANDARD);
+			} else {
+				return null;
+			}
 		case 1:
+		case 2:
 			return new Packets.CreateEvent(entityID.toString(), new Vector2(width, height), blueprint);
 		default:
 			return null;

@@ -14,11 +14,13 @@ import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
@@ -235,6 +237,32 @@ public class KryoClient {
 	    						}
 	    					}
     					});
+        			}
+        		}
+        		
+        		if (o instanceof Packets.CreateParticles) {
+        			final Packets.CreateParticles p = (Packets.CreateParticles) o;
+            		
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						ParticleEntity entity = new ParticleEntity(cs, 0, 0, Particle.valueOf(p.particle), 0, true);
+        						cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+            				}
+    					});
+        			}
+        		}
+        		
+        		if (o instanceof Packets.SyncParticles) {
+        			Packets.SyncParticles p = (Packets.SyncParticles) o;
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.syncEntity(p.entityID, p);
         			}
         		}
         	}

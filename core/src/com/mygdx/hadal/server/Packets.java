@@ -200,6 +200,28 @@ public class Packets {
 		}
 	}
 	
+	public static class CreateParticles {
+		public String entityID;
+		public String particle;
+		public CreateParticles() {}
+		public CreateParticles(String entityID, String particle) {
+			this.entityID = entityID;
+			this.particle = particle;
+		}
+	}
+	
+	public static class SyncParticles {
+		public String entityID;
+        public Vector2 pos;
+        public boolean on;
+		public SyncParticles() {}
+		public SyncParticles(String entityID, Vector2 pos, boolean on) {
+			this.entityID = entityID;
+			this.pos = pos;
+			this.on = on;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -222,5 +244,7 @@ public class Packets {
     	kryo.register(SyncEntity.class);
     	kryo.register(SyncPlayer.class);
     	kryo.register(SyncLoadout.class);
+    	kryo.register(CreateParticles.class);
+    	kryo.register(SyncParticles.class);
     }
 }
