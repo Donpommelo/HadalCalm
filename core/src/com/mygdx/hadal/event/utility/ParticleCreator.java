@@ -47,14 +47,17 @@ public class ParticleCreator extends Event {
 		
 		if (getConnectedEvent() != null) {
 			particles.setAttachedEntity(getConnectedEvent());
-		} else {
-			particles.setAttachedEntity(state.getPlayer());
 		}
 		
 		this.eventData = new EventData(this) {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
+				if (getConnectedEvent() != null) {
+					particles.setAttachedEntity(getConnectedEvent());
+				} else {
+					particles.setAttachedEntity(p);
+				}
 				
 				if (duration == 0) {
 					if (on) {

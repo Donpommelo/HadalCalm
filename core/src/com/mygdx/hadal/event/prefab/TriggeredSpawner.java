@@ -41,6 +41,7 @@ public class TriggeredSpawner extends Prefabrication {
 		spawner.getRectangle().set(x, y, width, height);
 		spawner.setName("EventMove");
 		spawner.getProperties().put("align", 2);
+		spawner.getProperties().put("sync", 2);
 		spawner.getProperties().put("particle_std", "EVENT_HOLO");
 		spawner.getProperties().put("scale", 0.25f);
 		spawner.getProperties().put("sprite", "BASE");
@@ -62,6 +63,7 @@ public class TriggeredSpawner extends Prefabrication {
 		pickup.getRectangle().set(0, 0, width, height);
 		pickup.setName("Sensor");
 		pickup.getProperties().put("align", 2);
+		pickup.getProperties().put("sync", 2);
 		pickup.getProperties().put("scale", 0.25f);
 		pickup.getProperties().put("triggeredId", pickupId);
 		pickup.getProperties().put("triggeringId", onTouchId);

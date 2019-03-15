@@ -205,8 +205,8 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				Constants.PLAYER_HITBOX, false, playerData);
+				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
+				hitboxfilter, false, playerData);
 		
 		super.create();
 		
@@ -328,14 +328,14 @@ public class Player extends PhysicsSchmuck {
 	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
 	 */
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.getCurrentTool(), Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, true);
+		useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, true);
 	}
 	
 	/**
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		useToolRelease(playerData.getCurrentTool(), Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y);
+		useToolRelease(playerData.getCurrentTool(), hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y);
 	}
 	
 	/**
@@ -346,7 +346,7 @@ public class Player extends PhysicsSchmuck {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
 				playerData.fuelSpend(playerData.getAirblastCost());
 				airblastCdCount = airblastCd;
-				useToolStart(0, airblast, Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
+				useToolStart(0, airblast, hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
 			}
 		}
 	}
@@ -365,7 +365,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		useToolStart(0, playerData.getActiveItem(), Constants.PLAYER_HITBOX, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
+		useToolStart(0, playerData.getActiveItem(), hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
 	}
 	
 	/**

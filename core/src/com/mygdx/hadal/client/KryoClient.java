@@ -24,6 +24,7 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
@@ -123,6 +124,40 @@ public class KryoClient {
         					public void execute() {
                 				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, p.sprite), p.layer);
 
+        					}
+        				});
+        			}
+        		}
+        		
+        		if (o instanceof Packets.CreateEnemy) {
+        			final Packets.CreateEnemy p = (Packets.CreateEnemy) o;
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						switch(p.type) {
+								case MISC:
+									break;
+								case SCISSORFISH:
+									cs.addEntity(p.entityID, new Scissorfish(cs, 0, 0), ObjectSyncLayers.STANDARD);
+									break;
+								case SPITTLEFISH:
+									cs.addEntity(p.entityID, new Spittlefish(cs, 0, 0), ObjectSyncLayers.STANDARD);
+									break;
+								case TORPEDOFISH:
+									cs.addEntity(p.entityID, new Torpedofish(cs, 0, 0), ObjectSyncLayers.STANDARD);
+									break;
+								case TURRET_FLAK:
+								case TURRET_VOLLEY:
+									cs.addEntity(p.entityID, new Turret(cs, 0, 0, p.type, 0), ObjectSyncLayers.STANDARD);
+									break;
+								default:
+									break;
+        						
+        						}
         					}
         				});
         			}

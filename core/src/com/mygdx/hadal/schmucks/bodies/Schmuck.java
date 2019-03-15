@@ -209,12 +209,6 @@ public class Schmuck extends HadalEntity {
 	}	
 	
 	@Override
-	public Object onServerCreate() {
-		//TODO: do;
-		return null;
-	}
-	
-	@Override
 	public void onServerSync() {
 		super.onServerSync();
 		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), 
@@ -276,5 +270,4 @@ public class Schmuck extends HadalEntity {
 	public boolean isGrounded() {
 		return grounded;
 	}
-	
 }

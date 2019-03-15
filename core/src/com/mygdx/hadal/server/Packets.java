@@ -8,6 +8,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.transitionState;
 
@@ -101,6 +102,16 @@ public class Packets {
             this.size = size;
             this.sprite = sprite;
             this.layer = layer;
+        }
+	}
+	
+	public static class CreateEnemy {
+		public String entityID;
+		public enemyType type;
+		public CreateEnemy() {}
+		public CreateEnemy(String entityID, enemyType type) {
+            this.entityID = entityID;
+            this.type = type;
         }
 	}
 	
@@ -252,10 +263,12 @@ public class Packets {
 	
 	public static class SyncParticles {
 		public String entityID;
+		public Vector2 pos;
         public boolean on;
 		public SyncParticles() {}
-		public SyncParticles(String entityID, boolean on) {
+		public SyncParticles(String entityID, Vector2 pos, boolean on) {
 			this.entityID = entityID;
+			this.pos = pos;
 			this.on = on;
 		}
 	}
@@ -276,6 +289,7 @@ public class Packets {
     	kryo.register(ClientFinishTransition.class);
     	kryo.register(NewClientPlayer.class);
     	kryo.register(CreateEntity.class);
+    	kryo.register(CreateEnemy.class);
     	kryo.register(DeleteEntity.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePoison.class);

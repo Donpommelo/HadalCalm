@@ -46,7 +46,7 @@ public class RunningEnemy extends Enemy {
 	 * @param y: enemy starting x position.
 	 */
 	public RunningEnemy(PlayState state, float width, float height, int x, int y) {
-		super(state, width, height, x, y);
+		super(state, width, height, x, y, enemyType.MISC);
 		
 		//default enemy weapon is a slow ranged projectile
 		this.weapon = new SpittlefishAttack(this);	
@@ -62,7 +62,7 @@ public class RunningEnemy extends Enemy {
 		this.bodyData = new BodyData(this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
-				Constants.ENEMY_HITBOX, false, bodyData);
+				hitboxfilter, false, bodyData);
 		
 		//ass super.create() if you want enemy to have feet that process groundedness
 	}
@@ -95,7 +95,7 @@ public class RunningEnemy extends Enemy {
 			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
 			camera.project(target);
 			
-			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
+			useToolStart(delta, weapon, hitboxfilter, (int)target.x, (int)target.y, true);
 			break;
 		}
 		

@@ -37,6 +37,7 @@ import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
@@ -171,7 +172,7 @@ public class PlayState extends GameState {
 		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new Enemy(this, 1, 1, -1000, -1000);
+		worldDummy = new Enemy(this, 1, 1, -1000, -1000, enemyType.MISC);
 		mouse = new MouseTracker(this, true);
 
 		map = new TmxMapLoader().load(level.getMap());

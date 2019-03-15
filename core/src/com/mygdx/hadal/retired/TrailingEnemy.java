@@ -68,7 +68,7 @@ public class TrailingEnemy extends Enemy {
 	 * @param y: enemy starting x position.
 	 */
 	public TrailingEnemy(PlayState state, float width, float height, int x, int y) {
-		super(state, width, height, x, y);
+		super(state, width, height, x, y, enemyType.MISC);
 		
 		//default enemy weapon is a slow ranged projectile
 		this.weapon = new ScissorfishAttack(this);	

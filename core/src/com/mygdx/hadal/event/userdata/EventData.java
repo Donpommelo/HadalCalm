@@ -67,7 +67,7 @@ public class EventData extends HadalData {
 			onActivate(activator, p);
 			HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
 			break;
-		default:
+		case 3:
 			onActivate(activator, p);
 			break;
 		}

@@ -117,7 +117,9 @@ public class ParticleEntity extends HadalEntity {
 
 	@Override
 	public void clientController(float delta) {
-		controller(delta);
+		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.NOSYNC)) {
+			controller(delta);			
+		}
 		if (attachedEntity == null && attachedId != null) {
 			attachedEntity = ((ClientState)state).findEntity(attachedId);
 		}
@@ -185,14 +187,22 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
-			HadalGame.server.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), on));
+			if (attachedEntity != null) {
+				Vector2 newPos = new Vector2(
+						attachedEntity.getBody().getPosition().x * PPM, 
+						attachedEntity.getBody().getPosition().y * PPM);
+				HadalGame.server.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
+			} else {
+				HadalGame.server.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), new Vector2(startX, startY), on));
+			}
 		}
 	}
 	
 	@Override
 	public void onClientSync(Object o) {
 		Packets.SyncParticles p = (Packets.SyncParticles) o;
-		
+		effect.setPosition(p.pos.x, p.pos.y);
+
 		if (p.on && (!on || effect.isComplete())) {
 			turnOn();
 		}

@@ -7,13 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.TurretAttack;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -40,6 +41,7 @@ public class Turret extends Enemy {
 	private float startAngle;
 	
 	private float shortestFraction;
+  	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
   	private turretState aiState;
@@ -59,8 +61,8 @@ public class Turret extends Enemy {
 	
 	private static final float scale = 0.5f;
 	
-	public Turret(PlayState state, int x, int y, String type, int startAngle) {
-		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2));		
+	public Turret(PlayState state, int x, int y, enemyType type, int startAngle) {
+		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2), type);		
 		this.angle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;
@@ -69,8 +71,21 @@ public class Turret extends Enemy {
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
 		turretBase = atlas.findRegion("base");
-		turretBarrel = atlas.findRegion(type);
-		fireAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions(type));
+		
+		String barrel = "";
+		switch(type) {
+		case TURRET_FLAK:
+			barrel = "flak";
+			break;
+		case TURRET_VOLLEY:
+			barrel = "volley";
+			break;
+		default:
+			break;
+		
+		}
+		turretBarrel = atlas.findRegion(barrel);
+		fireAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions(barrel));
 		
 		aiState = turretState.NOTSHOOTING;
 	}
@@ -87,7 +102,7 @@ public class Turret extends Enemy {
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 10, 0, true, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
-				Constants.ENEMY_HITBOX, false, bodyData);
+				hitboxfilter, false, bodyData);
 	}
 	
 	/**
@@ -108,8 +123,8 @@ public class Turret extends Enemy {
 			case SHOOTING:
 				
 				desiredAngle =  (float)(Math.atan2(
-						state.getPlayer().getBody().getPosition().y - body.getPosition().y ,
-						state.getPlayer().getBody().getPosition().x - body.getPosition().x) * 180 / Math.PI);
+						target.getBody().getPosition().y - body.getPosition().y ,
+						target.getBody().getPosition().x - body.getPosition().x) * 180 / Math.PI);
 
 				if (desiredAngle < 0) {
 					if (desiredAngle < -90) {
@@ -119,10 +134,7 @@ public class Turret extends Enemy {
 					}
 				}
 				
-				Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
-				camera.project(target);
-				
-				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
+				useToolStart(delta, weapon, hitboxfilter, (int)target.getBody().getPosition().x, (int)target.getBody().getPosition().y, true);
 				break;
 		}
 				
@@ -131,39 +143,56 @@ public class Turret extends Enemy {
 			aiCdCount += aiCd;
 			aiState = turretState.NOTSHOOTING;
 			
-			shortestFraction = 1.0f;
-			
-			if (getBody().getPosition().x != state.getPlayer().getBody().getPosition().x || 
-					getBody().getPosition().y != state.getPlayer().getBody().getPosition().y) {
-				world.rayCast(new RayCastCallback() {
+			world.QueryAABB((new QueryCallback() {
 
-					@Override
-					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-						if (fixture.getUserData() == null) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								closestFixture = fixture;
-								return fraction;
-							}
-						} else if (fixture.getUserData() instanceof PlayerBodyData) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								closestFixture = fixture;
-								return fraction;
-							}
-							
-						} 
-						return -1.0f;
+				@Override
+				public boolean reportFixture(Fixture fixture) {
+					if (fixture.getUserData() instanceof BodyData) {
+						homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+						shortestFraction = 1.0f;
+						
+						
+					  	if (body.getPosition().x != homeAttempt.getPosition().x || 
+					  			body.getPosition().y != homeAttempt.getPosition().y) {
+					  		world.rayCast(new RayCastCallback() {
+
+								@Override
+								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+									if (fixture.getUserData() == null) {
+										if (fraction < shortestFraction) {
+											shortestFraction = fraction;
+											closestFixture = fixture;
+											return fraction;
+										}
+									} else if (fixture.getUserData() instanceof BodyData) {
+										if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
+											if (fraction < shortestFraction) {
+												shortestFraction = fraction;
+												closestFixture = fixture;
+												return fraction;
+											}
+										}
+									} 
+									return -1.0f;
+								}
+								
+							}, body.getPosition(), homeAttempt.getPosition());
+							if (closestFixture != null) {
+								if (closestFixture.getUserData() instanceof BodyData) {
+									if (closestFixture.getUserData() instanceof PlayerBodyData ) {
+										target = ((PlayerBodyData)closestFixture.getUserData()).getEntity();
+										aiState = turretState.SHOOTING;
+									}
+								}
+							} 
+						}
 					}
-					
-				}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
-			}
-			
-			if (closestFixture != null) {
-				if (closestFixture.getUserData() instanceof PlayerBodyData ) {
-					aiState = turretState.SHOOTING;
+					return true;
 				}
-			}
+			}), 
+				body.getPosition().x - aiRadius, body.getPosition().y - aiRadius, 
+				body.getPosition().x + aiRadius, body.getPosition().y + aiRadius);					
+			
 		}
 		
 		aiCdCount -= delta;

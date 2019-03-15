@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
-import com.badlogic.gdx.ai.steer.behaviors.Evade;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,14 +10,16 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.MoveStates;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -33,7 +34,7 @@ public class FloatingEnemy extends SteeringEnemy {
     
     //moveCd determines how much time until the fish processes ai again.
     private static final float aiRoamCd = 0.75f;
-    private static final float aiChaseCd = 5.0f;
+    private static final float aiChaseCd = 3.0f;
     private float aiCdCount = 0;
     
     //Ai mode of the fish
@@ -41,7 +42,8 @@ public class FloatingEnemy extends SteeringEnemy {
   	
   	//These are used for raycasting to determing whether the player is in vision of the fish.
   	private float shortestFraction;
-  	private Fixture closestFixture;
+  	private Schmuck homeAttempt;
+	private Fixture closestFixture;
   	
   	private TextureAtlas atlas;
 	private TextureRegion fishSprite;
@@ -50,7 +52,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	
 	private float scale;
 
-	protected SteeringBehavior<Vector2> chase, escape, roam;
+	protected SteeringBehavior<Vector2> roam;
 	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -63,9 +65,9 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, String spriteId,
+	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, String spriteId, enemyType type,
 			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y,
+		super(state, hbWidth * scale, hbHeight * scale, x, y, type,
 				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad);
 		
 		this.width = width;
@@ -87,8 +89,6 @@ public class FloatingEnemy extends SteeringEnemy {
 	public void create() {
 		super.create();
 		
-		chase = new Pursue<Vector2>(this, state.getPlayer());
-		escape = new Evade<Vector2>(this, state.getPlayer());
 		roam = new Wander<Vector2>(this)
 				.setWanderOffset(100)
 				.setWanderRadius(100)
@@ -112,7 +112,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			float angleToTarget = target.getBody().getPosition().sub(getBody().getPosition()).angleRad();
 			
 			if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
-				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.getBody().getPosition().x, (int)target.getBody().getPosition().y, true);
+				useToolStart(delta, weapon, hitboxfilter, (int)target.getBody().getPosition().x, (int)target.getBody().getPosition().y, true);
 			}			
 			break;
 		default:
@@ -125,49 +125,61 @@ public class FloatingEnemy extends SteeringEnemy {
 		//When processing ai, fish attempt to raycast towards player.
 		if (aiCdCount < 0) {
 			aiCdCount += aiRoamCd;
+			
 			aiState = floatingState.ROAMING;
+			setTarget(state.getPlayer(), roam);
 			
-			shortestFraction = 1.0f;
-			
-			if (getBody().getPosition().x != state.getPlayer().getBody().getPosition().x || 
-					getBody().getPosition().y != state.getPlayer().getBody().getPosition().y) {
-				world.rayCast(new RayCastCallback() {
+			final HadalEntity me = this;
+			world.QueryAABB((new QueryCallback() {
 
-					@Override
-					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-						if (fixture.getUserData() == null) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								closestFixture = fixture;
-								return fraction;
-							}
-						} else if (fixture.getUserData() instanceof PlayerBodyData) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								closestFixture = fixture;
-								return fraction;
-							}
-							
-						} 
-						return -1.0f;
+				@Override
+				public boolean reportFixture(Fixture fixture) {
+					if (fixture.getUserData() instanceof BodyData) {
+						homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+						shortestFraction = 1.0f;
+						
+						
+					  	if (body.getPosition().x != homeAttempt.getPosition().x || 
+					  			body.getPosition().y != homeAttempt.getPosition().y) {
+					  		world.rayCast(new RayCastCallback() {
+
+								@Override
+								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+									if (fixture.getUserData() == null) {
+										if (fraction < shortestFraction) {
+											shortestFraction = fraction;
+											closestFixture = fixture;
+											return fraction;
+										}
+									} else if (fixture.getUserData() instanceof BodyData) {
+										if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
+											if (fraction < shortestFraction) {
+												shortestFraction = fraction;
+												closestFixture = fixture;
+												return fraction;
+											}
+										}
+									} 
+									return -1.0f;
+								}
+								
+							}, body.getPosition(), homeAttempt.getPosition());
+							if (closestFixture != null) {
+								if (closestFixture.getUserData() instanceof BodyData) {
+									aiState = floatingState.CHASING;
+									aiCdCount += aiChaseCd;
+
+									setTarget(((BodyData)closestFixture.getUserData()).getSchmuck(), 
+											new Pursue<Vector2>(me, ((BodyData)closestFixture.getUserData()).getSchmuck()));
+								}
+							} 
+						}
 					}
-					
-				}, getBody().getPosition(), target.getPosition());
-				
-				//If player is detected, begin chasing.
-				if (closestFixture != null) {
-					if (closestFixture.getUserData() instanceof PlayerBodyData ) {						
-						aiState = floatingState.CHASING;
-						aiCdCount += aiChaseCd;
-						setTarget(state.getPlayer(), chase);
-					} else {
-						setTarget(state.getPlayer(), roam);
-					}
-				} else {
-					setTarget(state.getPlayer(), roam);
+					return true;
 				}
-			}
-				
+			}), 
+				body.getPosition().x - aiRadius, body.getPosition().y - aiRadius, 
+				body.getPosition().x + aiRadius, body.getPosition().y + aiRadius);				
 		}
 		
 		//Fish must manually reload their singular weapon.

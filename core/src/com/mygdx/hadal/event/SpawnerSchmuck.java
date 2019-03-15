@@ -7,6 +7,7 @@ import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -93,10 +94,10 @@ public class SpawnerSchmuck extends Event {
 							spawns.add(new Torpedofish(state, randX, randY));
 							break;
 						case 5:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "flak", extraField));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_FLAK, extraField));
 							break;
 						case 6:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "volley", extraField));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField));
 							break;
 							
 						}

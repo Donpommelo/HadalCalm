@@ -20,11 +20,11 @@ flags: {
 }
 equips: [
 	TORPEDO_LAUNCHER
+	BOILER
 	NEMATOCYDEARM
-	LASER_GUIDED_ROCKET
 ]
 artifact: ANCHOR_TALISMAN
 active: FIREBALL
-character: MOREAU
-level: ARENA_1
+character: TELEMACHUS
+level: LEVEL_1
 }

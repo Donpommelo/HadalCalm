@@ -265,6 +265,7 @@ public class Event extends HadalEntity {
 			}
 		case 1:
 		case 2:
+		case 3:
 			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		default:
 			return null;
