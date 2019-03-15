@@ -206,6 +206,10 @@ public class PlayState extends GameState {
 		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
 		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
+		
+		if (server) {
+	        HadalGame.server.server.sendToAllTCP(new Packets.ServerLoaded());
+		}
 	}
 	
 	/**
@@ -503,36 +507,36 @@ public class PlayState extends GameState {
 	 * @param level: file of the new map
 	 * @param reset: should this warp reset the player's loadout/hp and stuff?
 	 */
-	public void loadLevel(UnlockLevel level, boolean reset) {
+	public void loadLevel(UnlockLevel level, transitionState state) {
+		
+		if (!server) {
+			return;
+		}
+		
 		if (nextLevel == null) {
 			nextLevel = level;
-			if (reset) {
-				nextState = transitionState.NEWLEVEL;
-			} else {
-				nextState = transitionState.NEXTSTAGE;
-			}
-			fadeDelta = 0.015f;
+			beginTransition(state);
 			
 			//TODO: player flash and particles
+			
+			HadalGame.server.server.sendToAllTCP(new Packets.ClientStartTransition(nextState));
 		}
 	}
 	
 	public void onPlayerDeath(Player player) {
 		if (player.equals(this.player)) {
-			gameOver(false);
+			beginTransition(transitionState.LOSE);
 		} else {
 			for (int connId : HadalGame.server.getPlayers().keySet()) {
-				HadalGame.server.server.sendToTCP(connId, new Packets.ClientStartTransition());
+				if (HadalGame.server.getPlayers().get(connId).equals(player)) {
+					HadalGame.server.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.LOSE));
+				}
 			}
 		}
 	}
 	
-	public void gameOver(boolean won) {
-		if (won) {
-			nextState = transitionState.WIN;
-		} else {
-			nextState = transitionState.LOSE;
-		}
+	public void beginTransition(transitionState state) {
+		nextState = state;
 		fadeInitialDelay = 1.0f;
 		fadeDelta = 0.015f;
 	}
@@ -686,7 +690,7 @@ public class PlayState extends GameState {
 		uiExtra.incrementScore(i);
 	}
 	
-	protected enum transitionState {
+	public enum transitionState {
 		LOSE,
 		WIN,
 		NEWLEVEL,

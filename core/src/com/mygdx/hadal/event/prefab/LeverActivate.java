@@ -46,7 +46,6 @@ public class LeverActivate extends Prefabrication {
 		
 		RectangleMapObject use = new RectangleMapObject();
 		use.setName("Multitrigger");
-		use.getProperties().put("sync", 2);
 		use.getProperties().put("triggeredId", multiId);
 		use.getProperties().put("triggeringId", triggeringId+ ","+ spriteId1);
 		

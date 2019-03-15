@@ -49,8 +49,8 @@ public class TitleState extends GameState {
 				
 				hostOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addState(State.HUB, TitleState.class);
 			        	HadalGame.server = new KryoServer(getGsm());
+			        	getGsm().addState(State.HUB, TitleState.class);
 			        }
 			    });
 				hostOption.setScale(0.5f);			

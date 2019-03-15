@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayState.transitionState;
 
 /**
  * An End event makes the game end with either a victory or loss.
@@ -35,7 +36,11 @@ public class End extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.gameOver(won);
+				if (won) {
+					state.beginTransition(transitionState.WIN);
+				} else {
+					state.beginTransition(transitionState.LOSE);
+				}
 			}
 		};
 	}

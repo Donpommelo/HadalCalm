@@ -75,6 +75,12 @@ public class KryoClient {
         			myId = p.yourId;
         		}
         		
+        		if (o instanceof Packets.ServerLoaded) {
+        			Log.info("SERVER LOADED");
+        			Packets.PlayerConnect connected = new Packets.PlayerConnect(name, new Loadout(gsm.getRecord()));
+                    client.sendTCP(connected);
+        		}
+        		
         		if (o instanceof Packets.LoadLevel) {
         			final Packets.LoadLevel p = (Packets.LoadLevel) o;
             		Log.info("CLIENT LOADED LEVEL: " + p.level);
@@ -83,6 +89,7 @@ public class KryoClient {
         				
                         @Override
                         public void run() {
+                        	gsm.removeState(ClientState.class);
                 			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
                 	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded());
                         }
@@ -99,7 +106,7 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						cs.gameOver(p.won);
+        						cs.beginTransition(p.state);
         					}
         				});
         			}

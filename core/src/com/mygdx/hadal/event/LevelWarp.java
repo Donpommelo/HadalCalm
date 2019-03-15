@@ -5,6 +5,7 @@ import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayState.transitionState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -41,7 +42,11 @@ public class LevelWarp extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				state.loadLevel(UnlockLevel.valueOf(level), reset);
+				if (reset) {
+					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEWLEVEL);
+				} else {
+					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEXTSTAGE);
+				}
 			}
 		};
 		

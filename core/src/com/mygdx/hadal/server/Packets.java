@@ -9,6 +9,7 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PlayState.transitionState;
 
 public class Packets {
 
@@ -20,6 +21,10 @@ public class Packets {
 			this.name = m;
 			this.loadout = loadout;
 		}
+	}
+	
+	public static class ServerLoaded {
+		public ServerLoaded() {}
 	}
 	
 	public static class KeyDown {
@@ -68,18 +73,20 @@ public class Packets {
 	}
 	
 	public static class ClientStartTransition {
-		public boolean won;
+		public transitionState state;
 		public ClientStartTransition() {}
-		public ClientStartTransition(boolean won) {
-			this.won = won;
+		public ClientStartTransition(transitionState state) {
+			this.state = state;
 		}
 	}
 	
 	public static class ClientFinishTransition {
 		public Loadout loadout;
+		public transitionState state;
 		public ClientFinishTransition() {}
-		public ClientFinishTransition(Loadout loadout) {
+		public ClientFinishTransition(Loadout loadout, transitionState state) {
 			this.loadout = loadout;
+			this.state = state;
 		}
 	}
 	
@@ -259,6 +266,7 @@ public class Packets {
      */
     public static void allPackets(Kryo kryo) {
     	kryo.register(PlayerConnect.class);
+    	kryo.register(ServerLoaded.class);
     	kryo.register(KeyDown.class);
     	kryo.register(KeyUp.class);
     	kryo.register(MouseMove.class);

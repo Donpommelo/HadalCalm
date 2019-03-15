@@ -8,6 +8,7 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.PlayState.transitionState;
 
 /**
  * The Navigations is a HubEvent that allows the player to begin a level.
@@ -39,7 +40,7 @@ public class Navigations extends HubEvent {
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
 					state.getGsm().getRecord().setLevel(selected.name());
-		        	state.loadLevel(selected, true);
+		        	state.loadLevel(selected, transitionState.NEWLEVEL);
 		        	leave();
 		        	mouseOut();
 		        }

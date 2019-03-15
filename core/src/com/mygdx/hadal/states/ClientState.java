@@ -186,7 +186,7 @@ public class ClientState extends PlayState {
 		case LOSE:
 			if (realFite) {
 				
-			} else {			
+			} else {	
 				boolean resetCamera = false;
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
@@ -200,18 +200,16 @@ public class ClientState extends PlayState {
 					this.cameraTarget = saveCameraPoint;
 				}
 				
-				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord())));
+				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
 				fadeDelta = -0.015f;
 			}
 			break;
 		case WIN:
-			
+			//TODO
 			break;
 		case NEWLEVEL:
-			
-			break;
 		case NEXTSTAGE:
-			
+			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
 			break;
 		default:
 			break;

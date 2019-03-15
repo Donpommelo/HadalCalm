@@ -93,6 +93,18 @@ public class KryoServer {
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
                         PlayState ps = (PlayState) gsm.getStates().peek();
                         createNewClientPlayer(ps, c.getID(), p.loadout, null);
+                        switch(p.state) {
+						case LOSE:
+							break;
+						case NEWLEVEL:
+						case NEXTSTAGE:
+	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel()));
+							break;
+						case WIN:
+							break;
+						default:
+							break;
+                        }
 					}
 				}
 				

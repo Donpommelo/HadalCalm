@@ -26,5 +26,5 @@ equips: [
 artifact: ANCHOR_TALISMAN
 active: FIREBALL
 character: MOREAU
-level: LEVEL_1
+level: ARENA_1
 }
