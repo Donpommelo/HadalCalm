@@ -160,10 +160,10 @@ public class GameStateManager {
 	 */
 	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, true, true, old));
+			states.push(new PlayState(this, loadout, map, true, old));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, true, true, old));
+			states.push(new PlayState(this, loadout, map, true, old));
 			states.peek().show();
 		}
 	}
@@ -200,7 +200,7 @@ public class GameStateManager {
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);
-		case PLAY: return new PlayState(this, record, true, null);
+		case PLAY: return new PlayState(this, record, false, null);
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
 		case CONTROL: return new ControlState(this);

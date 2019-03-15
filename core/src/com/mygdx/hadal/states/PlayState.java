@@ -111,7 +111,7 @@ public class PlayState extends GameState {
 	protected float saveZoom;
 	protected HadalEntity saveCameraPoint;
 	
-	protected boolean realFite;
+	protected boolean respawn, pvp;
 	protected boolean server;
 	
 	protected PlayStateStage stage;
@@ -133,10 +133,9 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean realFite, boolean server, PlayerBodyData old) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old) {
 		super(gsm);
 
-		this.realFite = realFite;
 		this.server = server;
 		
 		if (level.getLoadout() != null) {
@@ -179,6 +178,9 @@ public class PlayState extends GameState {
 		
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
+		this.respawn = map.getLayers().get("collision-layer").getProperties().get("respawn", false, Boolean.class);
+		this.pvp = map.getLayers().get("collision-layer").getProperties().get("pvp", false, Boolean.class);
+		
 		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", 0, Integer.class);
 		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", 0, Integer.class);
 		
@@ -217,7 +219,7 @@ public class PlayState extends GameState {
 	 * This constructor is used for levels without a custom level/loadout.
 	 */
 	public PlayState(GameStateManager gsm, Record record, boolean realFite, PlayerBodyData old) {
-		this(gsm, new Loadout(record), UnlockLevel.valueOf(record.getLevel()), realFite, true, old);
+		this(gsm, new Loadout(record), UnlockLevel.valueOf(record.getLevel()), true, old);
 	}
 			
 	@Override
@@ -455,12 +457,7 @@ public class PlayState extends GameState {
 	public void transitionState() {
 		switch (nextState) {
 		case LOSE:
-			if (realFite) {
-				getGsm().removeState(PlayState.class);
-				getGsm().removeState(HubState.class);
-				gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
-				getGsm().addState(State.GAMEOVER, TitleState.class);
-			} else {			
+			if (respawn) {
 				boolean resetCamera = false;
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
@@ -480,6 +477,11 @@ public class PlayState extends GameState {
 				}
 
 				fadeDelta = -0.015f;
+			} else {			
+				getGsm().removeState(PlayState.class);
+				getGsm().removeState(HubState.class);
+				gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
+				getGsm().addState(State.GAMEOVER, TitleState.class);
 			}
 			break;
 		case WIN:
@@ -578,6 +580,16 @@ public class PlayState extends GameState {
 			packetEffects.add(effect);
 		}
 	}
+		
+	public boolean isPvp() {
+		return pvp;
+	}
+
+	private static short nextFilter = -5;
+	public static short getPVPFilter() {
+		nextFilter--;
+		return nextFilter;
+	}
 	
 	/**
 	 * Getter for the player. This will return null if the player has not been spawned
@@ -675,8 +687,8 @@ public class PlayState extends GameState {
 		this.zoomDesired = zoom;
 	}
 
-	public boolean isRealFite() {
-		return realFite;
+	public boolean isRespawn() {
+		return respawn;
 	}
 		
 	public boolean isServer() {

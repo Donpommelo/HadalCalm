@@ -9,7 +9,7 @@ public class HubState extends PlayState {
 
 	
 	public HubState(GameStateManager gsm, Loadout loadout) {
-		super(gsm, loadout, UnlockLevel.HUB, false, true, null);
+		super(gsm, loadout, UnlockLevel.HUB, true, null);
 	}
 	
 	@Override

@@ -31,7 +31,7 @@ public class ClientState extends PlayState {
 	private Vector3 tmpVec3 = new Vector3();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
-		super(gsm, loadout, level, false, false, null);
+		super(gsm, loadout, level, false, null);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		sync = new ArrayList<Object[]>();
@@ -184,9 +184,7 @@ public class ClientState extends PlayState {
 	public void transitionState() {
 		switch (nextState) {
 		case LOSE:
-			if (realFite) {
-				
-			} else {	
+			if (respawn) {
 				boolean resetCamera = false;
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
@@ -202,6 +200,8 @@ public class ClientState extends PlayState {
 				
 				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
 				fadeDelta = -0.015f;
+			} else {	
+				
 			}
 			break;
 		case WIN:

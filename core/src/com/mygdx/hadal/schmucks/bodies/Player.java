@@ -116,7 +116,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param y: player starting x position.
 	 */
 	public Player(PlayState state, int x, int y, Loadout startLoadout, PlayerBodyData oldData) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
+		super(state, hbWidth * scale, hbHeight * scale, x, y, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
 		
 		airblast = new Airblaster(this);
 		
@@ -210,7 +210,7 @@ public class Player extends PhysicsSchmuck {
 		
 		super.create();
 		
-		if (state.isRealFite()) {
+		if (!state.isRespawn()) {
 			playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
 		}
 	}
