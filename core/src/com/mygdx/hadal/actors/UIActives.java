@@ -90,5 +90,4 @@ public class UIActives extends AHadalActor {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-
 }

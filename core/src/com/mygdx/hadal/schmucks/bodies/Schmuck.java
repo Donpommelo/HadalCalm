@@ -3,13 +3,16 @@ package com.mygdx.hadal.schmucks.bodies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatusProcTime;
@@ -71,7 +74,7 @@ public class Schmuck extends HadalEntity {
 		super(state, w, h, startX, startY);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
-		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false);
+		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, particleSyncType.TICKSYNC);
 	}
 
 	/**
@@ -138,6 +141,12 @@ public class Schmuck extends HadalEntity {
 		//Process statuses
 		bodyData.statusProcTime(StatusProcTime.TIME_PASS, null, delta, null, bodyData.getCurrentTool(), null);
 	}
+	
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		flashingCount-=delta;
+	}
 
 	/**
 	 * Draw the schmuck
@@ -198,6 +207,31 @@ public class Schmuck extends HadalEntity {
 	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
 		tool.release(state, bodyData);
 	}	
+	
+	@Override
+	public Object onServerCreate() {
+		//TODO: do;
+		return null;
+	}
+	
+	@Override
+	public void onServerSync() {
+		super.onServerSync();
+		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), 
+				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncSchmuck) {
+			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+			getBodyData().setCurrentHp(p.currentHp);
+			getBodyData().setCurrentFuel(p.currentFuel);
+			flashingCount = p.flashDuration;
+		} else {
+			super.onClientSync(o);
+		}
+	}
 	
 	@Override
 	public HadalData getHadalData() {

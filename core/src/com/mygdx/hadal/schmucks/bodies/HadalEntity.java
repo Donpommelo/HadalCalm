@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -125,6 +126,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void dispose() {
 		if (body != null) {
+			alive = false;
 			world.destroyBody(body);
 		}
 	}	
@@ -153,11 +155,9 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return null;
 	}
 	
-	public Object onServerSync() {
+	public void onServerSync() {
 		if (body != null) {
-			return new Packets.SyncEntity(entityID.toString(), body.getPosition(), body.getAngle());
-		} else {
-			return null;
+			HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), body.getPosition(), body.getAngle()));
 		}
 	}
 	

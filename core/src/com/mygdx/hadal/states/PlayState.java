@@ -26,7 +26,7 @@ import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.actors.UIPlayer;
-import com.mygdx.hadal.actors.UIStatuses;
+import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -120,7 +120,7 @@ public class PlayState extends GameState {
 	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
-	protected UIStatuses uiStatus;
+	protected UIArtifacts uiArtifact;
 	
 	protected Texture bg, black;
 	
@@ -238,7 +238,7 @@ public class PlayState extends GameState {
 			uiPlayer = new UIPlayer(HadalGame.assetManager, this);
 			uiActive = new UIActives(HadalGame.assetManager, this, player);
 			uiObjective = new UIObjective(HadalGame.assetManager, this, player);
-			uiStatus = new UIStatuses(HadalGame.assetManager, this, player);
+			uiArtifact = new UIArtifacts(HadalGame.assetManager, this, player);
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
 		}
 		
@@ -268,6 +268,7 @@ public class PlayState extends GameState {
 		
 		uiPlay.setPlayer(player);
 		uiActive.setPlayer(player);
+		uiArtifact.setPlayer(player);
 	}
 	
 	/**
@@ -310,18 +311,11 @@ public class PlayState extends GameState {
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		for (HadalEntity entity : hitboxes) {
 			entity.controller(delta);
-			Object packet = entity.onServerSync();
-			if (packet != null) {
-				HadalGame.server.server.sendToAllTCP(packet);
-			}
-			
+			entity.onServerSync();
 		}
 		for (HadalEntity entity : entities) {
 			entity.controller(delta);
-			Object packet = entity.onServerSync();
-			if (packet != null) {
-				HadalGame.server.server.sendToAllUDP(packet);
-			}
+			entity.onServerSync();
 		}
 		
 		synchronized(packetEffects) {
@@ -461,9 +455,7 @@ public class PlayState extends GameState {
 				getGsm().removeState(HubState.class);
 				gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 				getGsm().addState(State.GAMEOVER, TitleState.class);
-			} else {
-				uiStatus.clearStatus();
-				
+			} else {			
 				boolean resetCamera = false;
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
@@ -618,8 +610,8 @@ public class PlayState extends GameState {
 		return uiExtra;
 	}
 
-	public UIStatuses getUiStatus() {
-		return uiStatus;
+	public UIArtifacts getUiArtifact() {
+		return uiArtifact;
 	}
 	
 	public int getStartX() {

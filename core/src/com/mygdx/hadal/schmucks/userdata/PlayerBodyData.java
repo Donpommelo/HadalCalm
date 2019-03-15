@@ -80,6 +80,7 @@ public class PlayerBodyData extends BodyData {
 		
 		this.artifacts = new ArrayList<Artifact>();
 		artifactStart = addArtifact(loadout.artifact);
+
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		addStatus(new ActiveItemCharge(player.getState(), this));		
 	}
@@ -94,12 +95,14 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		if (artifactStart != null) {
+			artifacts.remove(artifactStart);
 			for (Status s : artifactStart.getEnchantment()) {
 				removeStatus(s);
 			}
 		}
 		
 		artifactStart = addArtifact(loadout.artifact);
+		
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		player.setBodySprite(loadout.character.getSprite());
 		
@@ -292,6 +295,11 @@ public class PlayerBodyData extends BodyData {
 		artifactStart = addArtifact(artifact);
 		
 		loadout.artifact = artifact;
+		
+		if (player.getState().getPlayer().equals(player)) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
+		
 		syncLoadoutChange();
 	}
 	
@@ -307,6 +315,9 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		artifacts.add(newArtifact);
+		if (player.getState().getPlayer().equals(player)) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
 		return newArtifact;
 	}
 	
@@ -330,28 +341,9 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	@Override
-	public void addStatus(Status s) {
-		super.addStatus(s);
-		if (player.equals(player.getState().getPlayer())) {
-			player.getState().getUiStatus().addStatus(s);
-		}
-	}
-	
-	@Override
-	public void removeStatus(Status s) {
-		super.removeStatus(s);
-		if (player.equals(player.getState().getPlayer())) {
-			player.getState().getUiStatus().removeStatus(s);
-		}
-	}
-	
 	public void clearStatuses() {
 		statuses.clear();
 		statusesChecked.clear();
-		if (player.equals(player.getState().getPlayer())) {
-			player.getState().getUiStatus().clearStatus();
-		}
 	}
 	
 	public void fuelSpend(float cost) {
@@ -421,6 +413,10 @@ public class PlayerBodyData extends BodyData {
 
 	public Equipable[] getMultitools() {
 		return multitools;
+	}
+	
+	public ArrayList<Artifact> getArtifacts() {
+		return artifacts;
 	}
 	
 	public ActiveItem getActiveItem() {

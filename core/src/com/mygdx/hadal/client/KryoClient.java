@@ -17,10 +17,12 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
@@ -180,6 +182,24 @@ public class KryoClient {
         			}
         		}
         		
+        		if (o instanceof Packets.CreatePoison) {
+        			final Packets.CreatePoison p = (Packets.CreatePoison) o;
+            		
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						Poison poison = new Poison(cs, (int)p.size.x, (int)p.size.y, (int)p.pos.x, (int)p.pos.y, 
+        								0, p.draw, (short)0);
+        						cs.addEntity(p.entityID, poison, ObjectSyncLayers.STANDARD);
+            				}
+    					});
+        			}
+        		}
+        		
         		if (o instanceof Packets.ActivateEvent) {
         			final Packets.ActivateEvent p = (Packets.ActivateEvent) o;
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
@@ -208,6 +228,15 @@ public class KryoClient {
         			}
         		}
         		
+        		if (o instanceof Packets.SyncSchmuck) {
+        			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.syncEntity(p.entityID, p);
+        			}
+        		}
+        		
         		if (o instanceof Packets.SyncPlayer) {
         			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
         			
@@ -228,8 +257,7 @@ public class KryoClient {
 	    					@Override
 	    					public void execute() {
 	    						HadalEntity entity = cs.findEntity(p.entityId);
-	    	        			Log.info("LOADOUT SYNC ENTITY: " + entity);
-
+	    						
 	    						if (entity != null) {
 	    							if (entity instanceof Player) {
 	    								((Player)entity).getPlayerData().syncLoadout(p.loadout);
@@ -250,8 +278,17 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						ParticleEntity entity = new ParticleEntity(cs, 0, 0, Particle.valueOf(p.particle), 0, true);
-        						cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+        						if (p.attached) {
+        							ParticleEntity entity = new ParticleEntity(cs, null,
+        									Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC);
+        							entity.setAttachedId(p.attachedID);
+        							cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+        						} else {
+        							ParticleEntity entity = new ParticleEntity(cs, p.pos.x, p.pos.y,
+        									Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
+            						cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+        						}
+        						
             				}
     					});
         			}

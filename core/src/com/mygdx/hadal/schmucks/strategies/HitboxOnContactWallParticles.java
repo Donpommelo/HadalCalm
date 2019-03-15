@@ -1,8 +1,11 @@
 package com.mygdx.hadal.schmucks.strategies;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -20,9 +23,15 @@ public class HitboxOnContactWallParticles extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
-			new ParticleEntity(state, hbox, effect, 1.0f, 0, true);
+			new ParticleEntity(state, 
+					(int)(this.hbox.getBody().getPosition().x * PPM), 
+					(int)(this.hbox.getBody().getPosition().y * PPM),
+					effect, 0.1f, true, particleSyncType.CREATESYNC);
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			new ParticleEntity(state, hbox, effect, 1.0f, 0, true);
+			new ParticleEntity(state, 
+					(int)(this.hbox.getBody().getPosition().x * PPM), 
+					(int)(this.hbox.getBody().getPosition().y * PPM),
+					effect, 0.1f, true, particleSyncType.CREATESYNC);
 		}
 	}
 }

@@ -2,7 +2,9 @@ package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 
 /**
  * A Ranged hitbox is really just a totally normal hitbox.
@@ -22,5 +24,10 @@ public class RangedHitbox extends Hitbox {
 				(int) (dura + creator.getBodyData().getProjectileDurability()), 
 				rest + creator.getBodyData().getProjectileBounciness(), 
 				startVelo.scl(1 + creator.getBodyData().getProjectileSpeed()), filter, sensor, procEffects, creator);
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), null, ObjectSyncLayers.HBOX);
 	}
 }

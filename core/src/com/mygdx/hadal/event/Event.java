@@ -13,6 +13,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -186,7 +187,7 @@ public class Event extends HadalEntity {
 	}
 	
 	public void setStandardParticle(Particle particle) {
-		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false);
+		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, particleSyncType.TICKSYNC);
 	}
 
 	public ParticleEntity getStandardParticle() {
@@ -194,7 +195,7 @@ public class Event extends HadalEntity {
 	}
 
 	public void addAmbientParticle(Particle particle) {
-		new ParticleEntity(state, this, particle, 0, 0, true);	
+		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.TICKSYNC);	
 	}
 	
 	@Override
@@ -264,7 +265,7 @@ public class Event extends HadalEntity {
 			}
 		case 1:
 		case 2:
-			return new Packets.CreateEvent(entityID.toString(), new Vector2(width, height), blueprint);
+			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		default:
 			return null;
 		}

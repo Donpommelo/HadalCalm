@@ -7,6 +7,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
@@ -56,7 +57,7 @@ public class ChainLightning extends RangedWeapon {
 			hbox.addStrategy(new HitboxOnContactChainStrategy(state, hbox, user.getBodyData(), projDura, filter));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 			
-			new ParticleEntity(state, hbox, Particle.SPARK_TRAIL, 3.0f, 0.0f, true);
+			new ParticleEntity(state, hbox, Particle.SPARK_TRAIL, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
 		}
 	};
 	

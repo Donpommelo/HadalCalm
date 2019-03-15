@@ -5,6 +5,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
@@ -55,7 +56,7 @@ public class Fireball extends ActiveItem {
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnDieFireFragStrategy(state, hbox, user, this, numFrag, user.getPlayer().getHitboxfilter()));
-			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true);
+			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
 			user.getPlayer().recoil(x, y, recoil);
 	}
 

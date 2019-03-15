@@ -49,7 +49,7 @@ public class UIPlay extends AHadalActor {
 	//Percent of Hp for low heal indication to appear
 	private static final float hpLowThreshold = 0.20f;
 	
-	protected float hpRatio, fuelRatio, fuelCutoffRatio;
+	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText;
 	private boolean mouseOver;
 
@@ -98,6 +98,7 @@ public class UIPlay extends AHadalActor {
 	public void calcVars() {
 		//Calc the ratios needed to draw the bars
 		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
+		hpMax = player.getPlayerData().getMaxHp();
 		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
 		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
 		weaponText = player.getPlayerData().getCurrentTool().getText();
@@ -152,7 +153,7 @@ public class UIPlay extends AHadalActor {
 		font.getData().setScale(0.5f);
 		font.draw(batch, weaponText, x + 48, y + 50);
 		font.getData().setScale(0.25f);
-		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)player.getPlayerData().getMaxHp(),
+		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)hpMax,
 				x + 155, y + 66);
 		
 		for (int i = 0; i < 4; i++) {

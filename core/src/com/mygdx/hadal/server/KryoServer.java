@@ -39,7 +39,7 @@ public class KryoServer {
 		
 		server.addListener(new Listener() {
 			
-			public void received(Connection c, Object o) {
+			public void received(final Connection c, Object o) {
 
 				if (o instanceof Packets.PlayerConnect) {
 					Log.info("NEW CLIENT CONNECTED: " + c.getID());
@@ -70,11 +70,17 @@ public class KryoServer {
 				}
 				
 				if (o instanceof Packets.ClientLoaded) {
-					Log.info("CLIENT LOADED: " + c.getID());
 
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
-                        PlayState ps = (PlayState) gsm.getStates().peek();
-                        ps.catchUpClient(c.getID());
+						final PlayState ps = (PlayState) gsm.getStates().peek();
+						ps.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+		                        ps.catchUpClient(c.getID());
+							}
+						});
+						
 					} else {
 						Log.info("CLIENT LOADED BEFORE SERVER. OOPS");
 					}

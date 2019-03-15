@@ -14,6 +14,7 @@ public class UIPlayClient extends UIPlay {
 	public void calcVars() {
 		//Calc the ratios needed to draw the bars
 		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getOverrideMaxHp();
+		hpMax = player.getPlayerData().getOverrideMaxHp();
 		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getOverrideMaxFuel();
 		fuelCutoffRatio = player.getPlayerData().getOverrideAirblastCost() / player.getPlayerData().getOverrideMaxFuel();
 		weaponText = player.getPlayerData().getCurrentTool().getTextClient(player.getPlayerData().getOverrideClipSize());

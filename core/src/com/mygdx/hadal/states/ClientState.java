@@ -1,6 +1,5 @@
 package com.mygdx.hadal.states;
 
-
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
@@ -187,9 +186,7 @@ public class ClientState extends PlayState {
 		case LOSE:
 			if (realFite) {
 				
-			} else {
-				uiStatus.clearStatus();
-				
+			} else {			
 				boolean resetCamera = false;
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
@@ -236,7 +233,12 @@ public class ClientState extends PlayState {
 	}
 	
 	public HadalEntity findEntity(String entityId) {
-		return entities.get(entityId);
+		HadalEntity entity = entities.get(entityId);
+		if (entity != null ) {
+			return entity;
+		} else {
+			return hitboxes.get(entityId);
+		} 
 	}
 	
 	/**

@@ -9,17 +9,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.statuses.Status;
 
 /**
- * A Status tag is a ui element that corresponds to a single visible status in the player's status bar.
+ * An Artifact tag is a ui element that corresponds to a single artifact in the player's inventory.
  * @author Zachary Tu
  *
  */
-public class StatusTag extends AHadalActor {
+public class ArtifactTag extends AHadalActor {
 
-	private Status status;
+	private Artifact artifact;
 	
 	private BitmapFont font;
 	
@@ -30,9 +30,9 @@ public class StatusTag extends AHadalActor {
 	
 	private boolean mouseOver;
 	
-	public StatusTag(AssetManager assetManager, Status status) {
+	public ArtifactTag(AssetManager assetManager, Artifact artifact) {
 		super(assetManager);
-		this.status = status;
+		this.artifact = artifact;
 		
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = Color.WHITE;
@@ -67,11 +67,7 @@ public class StatusTag extends AHadalActor {
          if (mouseOver) {
         	 font.setColor(color);
         	 font.getData().setScale(scale);
-        	 font.draw(batch, status.getName() + ": " + status.getDescr(), getX(), getY() - 25);
+        	 font.draw(batch, artifact.getName() + ": " + artifact.getDescr(), getX(), getY() - 25);
          }
     }
-
-	public Status getStatus() {
-		return status;
-	}
 }

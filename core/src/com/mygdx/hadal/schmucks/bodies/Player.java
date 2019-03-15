@@ -16,9 +16,12 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.statuses.artifact.ScalingScalesStatus;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.Constants;
@@ -171,7 +174,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void loadParticles() {
 		
-		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false);
+		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
 		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
 		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
 		/*
@@ -187,20 +190,19 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void create() {
-		
+		alive = true;
 		controller = new ActionController(this, state);
 		state.getUiPlayer().addPlayer(this);
 		state.resetController();
 		
 		if (playerData == null) {
-			this.playerData = new PlayerBodyData(this, startLoadout);
-			this.bodyData = playerData;
+			playerData = new PlayerBodyData(this, startLoadout);
+			bodyData = playerData;
 			playerData.initLoadout();
 		} else {
 			this.bodyData = playerData;
 			playerData.resetData(this, world);
 		}
-		
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
@@ -557,39 +559,39 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	@Override
-	public Object onServerSync() {		
-		return new Packets.SyncPlayer(entityID.toString(), body.getPosition(), 
+	public void onServerSync() {
+		super.onServerSync();
+		HadalGame.server.server.sendToAllUDP( new Packets.SyncPlayer(entityID.toString(),
 				(float)(Math.atan2(
 						body.getPosition().y - mouse.getBody().getPosition().y,
 						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
 				moveState, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getClipSize(),
-				playerData.getCurrentHp(), playerData.getMaxHp(), playerData.getCurrentFuel(), playerData.getMaxFuel(), playerData.getAirblastCost(),
-				getPlayerData().getActiveItem().chargePercent(), getPlayerData().getCurrentTool().isReloading(), reloadPercent);
+				playerData.getMaxHp(), playerData.getMaxFuel(), playerData.getAirblastCost(),
+				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent));
 	}
 	
 	@Override
 	public void onClientSync(Object o) {
-		Packets.SyncPlayer p = (Packets.SyncPlayer) o;
-		
-		body.setTransform(p.pos, 0);
-		attackAngleClient = p.attackAngle;
-		moveState = p.moveState;
-		grounded = p.grounded;
-		playerData.setCurrentSlot(p.currentSlot);
-		playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
-		setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
-		playerData.getCurrentTool().setClipLeft(p.currentClip);
-		playerData.setCurrentHp(p.currentHp);
-		playerData.setCurrentFuel(p.currentFuel);
-		playerData.setOverrideMaxHp(p.maxHp);
-		playerData.setOverrideMaxFuel(p.maxFuel);
-		playerData.setOverrideClipSize(p.maxClip);
-		playerData.setOverrideAirblastCost(p.airblastCost);
-		getPlayerData().getActiveItem().setCurrentCharge(p.activeCharge * getPlayerData().getActiveItem().getMaxCharge());
-		getPlayerData().getCurrentTool().setReloading(p.reloading);
-		reloadPercent = p.reloadPercent;
-		
-		
+		if (o instanceof Packets.SyncPlayer) {
+			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
+			
+			attackAngleClient = p.attackAngle;
+			moveState = p.moveState;
+			grounded = p.grounded;
+			playerData.setCurrentSlot(p.currentSlot);
+			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
+			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
+			playerData.getCurrentTool().setClipLeft(p.currentClip);
+			playerData.setOverrideMaxHp(p.maxHp);
+			playerData.setOverrideMaxFuel(p.maxFuel);
+			playerData.setOverrideClipSize(p.maxClip);
+			playerData.setOverrideAirblastCost(p.airblastCost);
+			playerData.getActiveItem().setCurrentCharge(p.activeCharge * playerData.getActiveItem().getMaxCharge());
+			playerData.getCurrentTool().setReloading(p.reloading);
+			reloadPercent = p.reloadPercent;	
+		} else {
+			super.onClientSync(o);
+		}
 	}
 	
 	@Override
@@ -597,6 +599,16 @@ public class Player extends PhysicsSchmuck {
 		super.dispose();
 		state.getUiPlayer().removePlayer(this);
 		playerData.setCurrentHp(0);
+	}
+	
+	@Override
+	public HadalData getHadalData() {
+		return playerData;
+	}
+	
+	@Override
+	public BodyData getBodyData() {
+		return playerData;
 	}
 	
 	public PlayerBodyData getPlayerData() {
