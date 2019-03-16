@@ -162,6 +162,7 @@ public class KryoServer {
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
         				final PauseState cs = (PauseState) gsm.getStates().peek();
         				cs.setToRemove(true);
+        				HadalGame.server.server.sendToAllExceptTCP(c.getID(), new Packets.Unpaused());
         			}
 				}
 			}
