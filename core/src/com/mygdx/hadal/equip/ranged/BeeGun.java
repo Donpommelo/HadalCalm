@@ -18,7 +18,7 @@ public class BeeGun extends RangedWeapon {
 	private final static float reloadTime = 2.1f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
-	private final static float projectileSpeedStart = 5.0f;
+	private final static float projectileSpeedStart = 4.0f;
 
 	private final static int spread = 45;
 	

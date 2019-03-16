@@ -120,7 +120,6 @@ public class ControlState extends GameState {
 		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		refreshBinds();
-
 	}
 	
 	public void refreshBinds() {
@@ -138,11 +137,17 @@ public class ControlState extends GameState {
 				
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
+					((Text)e.getListenerActor()).setText(action.name() + ":==   " + getKey(action.getKey()) + " <--");					
 					currentlyEditing = action;
 				}
 			});
+			
 			actionChoose.setScale(0.75f);
 			actions.addActor(actionChoose);
+		}
+		
+		if (options != null) {
+			options.remove();
 		}
 		
 		options = new ScrollPane(actions, getGsm().getSkin());

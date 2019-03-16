@@ -21,11 +21,11 @@ public class Boomerang extends RangedWeapon {
 
 	private final static String name = "Boomerang";
 	private final static int clipSize = 3;
-	private final static float shootCd = 1.25f;
+	private final static float shootCd = 1.0f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.8f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 25.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 25.0f;
@@ -33,7 +33,7 @@ public class Boomerang extends RangedWeapon {
 	private final static int projectileHeight = 90;
 	private final static float lifespanx = 5.0f;
 	private final static float gravity = 0;
-	private final static float returnAmp = 1.5f;
+	private final static float returnAmp = 1.25f;
 
 	private final static int projDura = 1;
 	

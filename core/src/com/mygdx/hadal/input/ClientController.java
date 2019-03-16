@@ -91,7 +91,8 @@ public class ClientController implements InputProcessor {
 		}
 		
 		if (keycode == PlayerAction.PAUSE.getKey()) {
-			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.PAUSE));
+			//TODO: what do for pause?
+//			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.PAUSE));
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {

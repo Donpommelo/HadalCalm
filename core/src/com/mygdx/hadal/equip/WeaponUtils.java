@@ -33,7 +33,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
  */
 public class WeaponUtils {
 
-	private static final float selfDamageReduction = 0.4f;
+	private static final float selfDamageReduction = 0.75f;
 	private final static Sprite boomSprite = Sprite.BOOM;
 	private final static Sprite grenadeSprite = Sprite.GRENADE;
 	private final static Sprite torpedoSprite = Sprite.TORPEDO;
@@ -97,9 +97,9 @@ public class WeaponUtils {
 	
 	private static final float torpedoBaseDamage = 5.0f;
 	private static final float torpedoBaseKnockback = 3.0f;
-	private static final float torpedoExplosionDamage = 20.0f;
+	private static final float torpedoExplosionDamage = 10.0f;
 	private static final float torpedoExplosionKnockback = 16.0f;
-	private static final int torpedoExplosionRadius = 100;
+	private static final int torpedoExplosionRadius = 150;
 	private static final int torpedoWidth = 75;
 	private static final int torpedoHeight = 15;
 	private static final float torpedoLifespan = 8.0f;
@@ -121,24 +121,24 @@ public class WeaponUtils {
 			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, torpedoExplosionRadius, torpedoExplosionDamage, torpedoExplosionKnockback, filter));
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), filter));
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-
 		}
 		
 		return null;
 	}
 	
-	private static final float beeBaseDamage = 14;
-	private static final float beeKnockback = 8.0f;
+	private static final float beeBaseDamage = 1.5f;
+	private static final float beeKnockback = 5.0f;
 	private static final int beeWidth = 23;
 	private static final int beeHeight = 21;
-	private static final float beeLifespan = 4.0f;
+	private static final int beeDurability = 0;
+	private static final float beeLifespan = 5.0f;
 	private static final float beeMaxLinSpd = 100;
 	private static final float beeMaxLinAcc = 1000;
-	private static final float beeMaxAngSpd = 180;
-	private static final float beeMaxAngAcc = 90;
-	private static final int beeBoundingRad = 500;
+	private static final float beeMaxAngSpd = 1080;
+	private static final float beeMaxAngAcc = 1080;
+	private static final int beeBoundingRad = 100;
 	private static final int beeDecelerationRadius = 0;
-	private final static float beeHomeRadius = 10;
+	private final static float beeHomeRadius = 1000;
 
 	public static Hitbox createBees(PlayState state, float x, float y, final Schmuck user, Equipable tool, int numBees, 
 			int spread, Vector2 startVelocity, boolean procEffects, short filter) {
@@ -147,7 +147,7 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, beeWidth, beeHeight, 0, beeLifespan, 1, 0, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new HitboxSprite(state, x, y, beeWidth, beeHeight, 0, beeLifespan, beeDurability, 0, startVelocity.setAngle(newDegrees),
 					filter, false, procEffects, user, beeSprite) {
 				
 				@Override
@@ -172,12 +172,10 @@ public class WeaponUtils {
 				}
 			};
 			
-			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, 
 					beeMaxAngSpd, beeMaxAngAcc, beeBoundingRad, beeDecelerationRadius, beeHomeRadius, filter));
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-
 		}
 		
 		return null;

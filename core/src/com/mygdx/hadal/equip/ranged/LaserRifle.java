@@ -24,18 +24,18 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class LaserRifle extends RangedWeapon {
 
 	private final static String name = "Laser Rifle";
-	private final static int clipSize = 18;
-	private final static float shootCd = 0.15f;
+	private final static int clipSize = 10;
+	private final static float shootCd = 0.4f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 18.0f;
 	private final static float recoil = 2.5f;
-	private final static float knockback = 7.5f;
+	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 2000;
 	private final static int projectileHeight = 48;
-	private final static float lifespan = 0.2f;
+	private final static float lifespan = 0.1f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;

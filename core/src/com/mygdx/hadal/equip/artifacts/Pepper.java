@@ -15,7 +15,7 @@ public class Pepper extends Artifact {
 	private final static int statusNum = 1;
 	
 	private final static float radius = 6.0f;
-	private final static float damage = 1.2f;
+	private final static float damage = 0.6f;
 	
 	public Pepper() {
 		super(name, descr, descrLong, statusNum);

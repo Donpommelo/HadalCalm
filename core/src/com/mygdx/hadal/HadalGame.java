@@ -46,7 +46,7 @@ public class HadalGame extends ApplicationAdapter {
     public static KryoClient client;
     public static KryoServer server;
     
-    public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
+    public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
     private final static int DEFAULT_WIDTH = 1080;

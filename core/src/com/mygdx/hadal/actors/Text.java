@@ -29,26 +29,9 @@ public class Text extends AHadalActor {
 		updateHitBox();
 	}
 	
-	public Text(AssetManager assetManager, String text, int x, int y, boolean title) {
-		this(assetManager, text, x, y);
-		if (title) {
-			font = HadalGame.SYSTEM_FONT_TITLE;
-			updateHitBox();
-		}
-	}
-	
 	public Text(AssetManager assetManager, String text, int x, int y, Color color) {
 		this(assetManager, text, x, y);
 		this.color = color;
-	}
-	
-	public Text(AssetManager assetManager, String text, int x, int y, Color color, boolean title) {
-		this(assetManager, text, x, y, color);
-		if (title) {
-			font = HadalGame.SYSTEM_FONT_TITLE;
-			font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-			updateHitBox();
-		}
 	}
 
 	@Override

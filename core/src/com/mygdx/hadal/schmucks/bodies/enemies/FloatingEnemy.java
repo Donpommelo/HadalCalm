@@ -20,6 +20,8 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -89,6 +91,8 @@ public class FloatingEnemy extends SteeringEnemy {
 	public void create() {
 		super.create();
 		
+		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, -40, bodyData));
+
 		roam = new Wander<Vector2>(this)
 				.setWanderOffset(100)
 				.setWanderRadius(100)

@@ -34,7 +34,7 @@ public class Fireball extends ActiveItem {
 	private final static int projDura = 1;
 	private final static int numFrag = 20;
 	
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 40.0f;
 	private final static float knockback = 40.0f;
 	private final static float recoil = 20.0f;
 	

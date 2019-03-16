@@ -16,7 +16,7 @@ public class TaintedWater extends ActiveItem {
 	private final static float maxCharge = 10.0f;
 	
 	private final static int poisonRadius = 300;
-	private final static float poisonDamage = 40/60f;
+	private final static float poisonDamage = 30/60f;
 	private final static float poisonDuration = 4.0f;
 	
 	public TaintedWater(Schmuck user) {
@@ -30,5 +30,4 @@ public class TaintedWater extends ActiveItem {
 				(int)(user.getSchmuck().getBody().getPosition().y * PPM), 
 				poisonDamage, poisonDuration, user.getSchmuck(), true, user.getSchmuck().getHitboxfilter());
 	}
-
 }

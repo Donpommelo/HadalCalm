@@ -265,7 +265,7 @@ GOMEZS_AMYGDALA: {
 GOOD_HEALTH: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Good Health
-	description: "+25 Hp."
+	description: "+25 Max Hp."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

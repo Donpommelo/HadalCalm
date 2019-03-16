@@ -17,7 +17,7 @@ public class OriginCoil extends Artifact {
 	private final static int statusNum = 1;
 	
 	private final static float slow = 0.02f;
-	private final static float boost = 50.0f;
+	private final static float boost = 75.0f;
 	private final static float delay = 0.25f;
 	
 	public OriginCoil() {

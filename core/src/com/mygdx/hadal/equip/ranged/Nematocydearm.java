@@ -19,25 +19,25 @@ import com.mygdx.hadal.utils.HitboxFactory;
 public class Nematocydearm extends RangedWeapon {
 
 	private final static String name = "Nematocydearm";
-	private final static int clipSize = 3;
+	private final static int clipSize = 2;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 40.0f;
+	private final static float baseDamage = 30.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 12.5f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 60;
-	private final static int projectileHeight = 60;
+	private final static int projectileWidth = 80;
+	private final static int projectileHeight = 80;
 	private final static float lifespan = 1.5f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
 		
 	private final static int poisonRadius = 250;
-	private final static float poisonDamage = 40/60f;
-	private final static float poisonDuration = 3.0f;
+	private final static float poisonDamage = 30/60f;
+	private final static float poisonDuration = 4.5f;
 
 	private final static Sprite projSprite = Sprite.SCRAP_C;
 	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;

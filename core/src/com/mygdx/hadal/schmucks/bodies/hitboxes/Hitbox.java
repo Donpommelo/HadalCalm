@@ -7,7 +7,9 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -169,6 +171,11 @@ public class Hitbox extends HadalEntity {
 				remove.add(strat);
 			}
 		}
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), null, ObjectSyncLayers.HBOX);
 	}
 	
 	public float getLifeSpan() {

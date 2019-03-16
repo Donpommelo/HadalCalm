@@ -26,7 +26,7 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 
 	private final static int projDura = 5;
 		
-	private final static float baseDamage = 12.0f;
+	private final static float baseDamage = 10.0f;
 	private final static float knockback = 5.0f;
 	
 	public HitboxOnDieFireFragStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, int numFrag, short filter) {

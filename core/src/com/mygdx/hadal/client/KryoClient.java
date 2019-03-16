@@ -1,9 +1,6 @@
 package com.mygdx.hadal.client;
 
-import java.io.IOException;
 import java.net.InetAddress;
-
-import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
@@ -345,43 +342,22 @@ public class KryoClient {
         			}
         		}
         	}
-        });
-        
-        if (!reconnect) {
-            
-        	InetAddress address = client.discoverHost(54777, 5000);
-        	String start = "IT PUTS INTO IP";
-        	if (address != null) {
-        		start = address.getHostAddress();
-        	}
-        	
-        	// Request the host from the user.
-            String input = (String) JOptionPane.showInputDialog(null, "Host:", "Connect to game server", JOptionPane.QUESTION_MESSAGE,
-                    null, null, start);
-            if (input == null || input.trim().length() == 0) System.exit(1);
-            hostIP = input.trim();
-
-            // Request the user's name.
-            input = (String) JOptionPane.showInputDialog(null, "Name:", "Connect to game server", JOptionPane.QUESTION_MESSAGE, null,
-                    null, "Test");
-            while (input == null || input.trim().length() == 0) {
-                input = (String) JOptionPane.showInputDialog(null, "Name can't be nothing. Try again:", "Connect to game server", JOptionPane.QUESTION_MESSAGE, null,
-                        null, "Test");
-            }
-            name = input.trim();
-        }
-        
-        new Thread("Connect") {
-            public void run () {
-                try {
-                    client.connect(5000, hostIP,tcpPortSocket, udpPortSocket);
-                    // Server communication after connection can go here, or in Listener#connected().
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showConfirmDialog(null, "Couldn't connect to server.", "Server connection issue", JOptionPane.OK_OPTION);
-                }
-            }
-        }.start();
+        });       
+	}
+	
+	public String searchServer() {
+		if (client == null) {
+			init(false);
+		}
+		
+		InetAddress address = client.discoverHost(54777, 5000);
+		
+		String start = "NO IP FOUND";
+    	if (address != null) {
+    		start = address.getHostAddress();
+    	}
+    	
+    	return start;
 	}
     
 	private void registerPackets() {

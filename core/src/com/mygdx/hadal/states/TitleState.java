@@ -1,14 +1,20 @@
 package com.mygdx.hadal.states;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
+import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.server.KryoServer;
@@ -24,7 +30,12 @@ public class TitleState extends GameState {
 	private Stage stage;
 	
 	//Temporary links to other modules for testing.
-	private Actor hostOption, joinOption, exitOption, controlOption;
+	private Table table;
+	private Text hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
+	private TextField enterIP;
+	
+	private final static float width = 1000;
+	private final static float height = 300;
 		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -40,53 +51,127 @@ public class TitleState extends GameState {
 			{
 				addActor(new TitleBackdrop(HadalGame.assetManager));
 				
-				int x = HadalGame.CONFIG_WIDTH - 200;
+				table = new Table();
+				table.setLayoutEnabled(true);
+				table.setPosition(HadalGame.CONFIG_WIDTH - width, 0);
+				table.setSize(width, height);
+				addActor(table);
 				
-				hostOption = new Text(HadalGame.assetManager, "HOST", x, 340, Color.BLACK);
-				joinOption = new Text(HadalGame.assetManager, "JOIN", x, 300, Color.BLACK);
-				controlOption = new Text(HadalGame.assetManager, "CONTROLS", x, 260, Color.BLACK);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", x, 220, Color.BLACK);
+				hostOption = new Text(HadalGame.assetManager, "HOST SERVER", 0, 0, Color.BLACK);
+				hostOption.setScale(0.5f);
+				joinOption = new Text(HadalGame.assetManager, "JOIN: ", 0, 0, Color.BLACK);
+				joinOption.setScale(0.5f);
+				searchOption = new Text(HadalGame.assetManager, "SEARCH?", 0, 0, Color.BLACK);
+				searchOption.setScale(0.5f);
+				controlOption = new Text(HadalGame.assetManager, "CONTROLS", 0, 0, Color.BLACK);
+				controlOption.setScale(0.5f);
+				exitOption = new Text(HadalGame.assetManager, "EXIT?", 0, 0, Color.BLACK);
+				exitOption.setScale(0.5f);
+				notifications = new Text(HadalGame.assetManager, "", 0, 0, Color.BLACK);
+				notifications.setScale(0.5f);
 				
 				hostOption.addListener(new ClickListener() {
+					
+					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	HadalGame.server = new KryoServer(getGsm());
+			        	if (HadalGame.server == null) {
+				        	HadalGame.server = new KryoServer(getGsm());
+			        	}
 			        	getGsm().addState(State.HUB, TitleState.class);
 			        }
 			    });
-				hostOption.setScale(0.5f);			
-
+				
 				joinOption.addListener(new ClickListener() {
+					
+					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	HadalGame.client.init(false);
-			        	try {
+						if (HadalGame.client.client == null) {
+							HadalGame.client.init(false);
+						}
+						new Thread("Connect") {
+				            public void run () {
+				                try {
+				                	HadalGame.client.client.connect(5000, enterIP.getText(),
+				                			KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
+				                    notifications.setText("CONNECTED TO SERVER: " + enterIP.getText());
+				                } catch (IOException ex) {
+				                    ex.printStackTrace();
+				                    notifications.setText("FAILED TO CONNECT TO SERVER!");
+				                }
+				            }
+				        }.start();
+				        
+				        try {
                             Thread.sleep(600);
                         } catch (InterruptedException e1) {
                             e1.printStackTrace();
                         }
 			        }
 			    });
-				joinOption.setScale(0.5f);	
 				
+				searchOption.addListener(new ClickListener() {
+					
+					@Override
+			        public void clicked(InputEvent e, float x, float y) {
+						notifications.setText("SEARCHING FOR SERVER...");
+						
+						new Thread("Search") {
+							
+							@Override
+				            public void run () {
+								enterIP.setText(HadalGame.client.searchServer());
+								if (enterIP.getText().equals("NO IP FOUND")) {
+									notifications.setText("SERVER NOT FOUND!");
+								} else {
+									notifications.setText("FOUND SERVER: " + enterIP.getText());
+								}
+				            }
+						}.start();
+						
+						try {
+                            Thread.sleep(600);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
+			        }
+			    });
+
 				controlOption.addListener(new ClickListener() {
+					
+					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().addState(State.CONTROL, TitleState.class);
 			        }
 			    });
-				controlOption.setScale(0.5f);
 				
 				exitOption.addListener(new ClickListener() {
+					
+					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 			        	Gdx.app.exit();
 			        }
 			    });
-				exitOption.setScale(0.5f);
 				
-				addActor(hostOption);
-				addActor(joinOption);
-				addActor(controlOption);
-				addActor(exitOption);
+				addCaptureListener(new InputListener() {
+					
+					@Override
+			         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+			            if (!(event.getTarget() instanceof TextField)) setKeyboardFocus(null);
+			            return false;
+			         }
+		         });
+				
+				enterIP = new TextField("", gsm.getSkin());
+				enterIP.setMessageText("ENTER IP");
+				
+				table.add(hostOption).row();
+				table.add(joinOption);
+				table.add(enterIP);
+				table.add(searchOption).row();
+				table.add(controlOption).row();
+				table.add(exitOption).row();
+				table.add(notifications).align(Align.bottomRight);
 			}
-			
 		};
 		app.newMenu(stage);
 	}
