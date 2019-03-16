@@ -50,10 +50,17 @@ public class KryoServer {
 				final PlayState ps = getPlayState();
 				
 				if (ps != null) {
-					Player p = players.get(c.getID());
-					if (p != null) {
-						p.getPlayerData().die(ps.getWorldDummy().getBodyData(), null);
-					}
+					final Player p = players.get(c.getID());
+
+					ps.addPacketEffect(new PacketEffect() {
+
+						@Override
+						public void execute() {
+							if (p != null) {
+								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), null);
+							}
+						}
+					});
 				}
 				
 				players.remove(c.getID());
