@@ -173,16 +173,7 @@ public class Player extends PhysicsSchmuck {
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
 	public void loadParticles() {
-		
 		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
-		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
-		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
-		/*
-		final ParticleEffect smoke = new ParticleEffect();
-		smoke.load(Gdx.files.internal(AssetList.SMOKE_PUFF.toString()), particleAtlas);
-		
-		jumpSmoke = new ParticleEntity(state, world, camera, rays, this, smoke, 3.0f);
-		jumpSmoke.turnOff();*/
 	}
 	
 	/**

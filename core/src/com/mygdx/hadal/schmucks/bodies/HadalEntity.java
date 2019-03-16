@@ -226,7 +226,9 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		if (!steeringOutput.linear.isZero()) {
 			Vector2 force;
 			if (this instanceof Schmuck) {
-				force = steeringOutput.linear.scl(delta).scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed());
+				force = steeringOutput.linear.scl(delta)
+						.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())
+						.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed());
 			} else {
 				force = steeringOutput.linear.scl(delta);
 			}
@@ -252,9 +254,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			float currentSpeedSquare = velocity.len2();
 			
 			if (this instanceof Schmuck) {
-				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed 
-						* (1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())
-						* (1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())) {
+				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
 					body.setLinearVelocity(velocity
 							.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
 							.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed()));

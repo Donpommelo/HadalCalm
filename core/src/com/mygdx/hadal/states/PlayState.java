@@ -334,7 +334,6 @@ public class PlayState extends GameState {
 		
 		//Update the game camera and batch.
 		cameraUpdate();
-		tmr.setView(camera);
 		
 		//process fade transitions
 		if (fadeInitialDelay <= 0f) {
@@ -370,6 +369,7 @@ public class PlayState extends GameState {
 		batch.end();
 		
 		//Render Tiled Map + world
+		tmr.setView(camera);
 		tmr.render();				
 
 		//Render debug lines for box2d objects.

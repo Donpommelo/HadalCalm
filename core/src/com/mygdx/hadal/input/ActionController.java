@@ -3,6 +3,7 @@ package com.mygdx.hadal.input;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.states.HubState;
 import com.mygdx.hadal.states.PlayState;
 
@@ -114,8 +115,19 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.PAUSE) {
-			state.getGsm().addState(State.MENU, PlayState.class);
-			state.getGsm().addState(State.MENU, HubState.class);
+			if (player.equals(state.getPlayer())) {
+				state.getGsm().addState(State.MENU, PlayState.class);
+				state.getGsm().addState(State.MENU, HubState.class);
+			} else {
+				state.addPacketEffect(new PacketEffect() {
+
+					@Override
+					public void execute() {
+						state.getGsm().addState(State.MENU, PlayState.class);
+						state.getGsm().addState(State.MENU, HubState.class);
+					}
+				});
+			}
 		}
 		
 		if (action == PlayerAction.MO_CYCLE_UP) {

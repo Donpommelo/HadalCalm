@@ -197,6 +197,7 @@ public class GameStateManager {
 	 * @return: A new instance of the gameState corresponding to the input enum
 	 */
 	public GameState getState(State state) {
+		
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);
@@ -204,7 +205,7 @@ public class GameStateManager {
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
 		case CONTROL: return new ControlState(this);
-		case MENU: return new MenuState(this);
+		case MENU: return new PauseState(this, ((PlayState)states.peek()));
 		case HUB: 
 			if (record.getFlags().get("INTRO") < 2) {
 				return new HubState(this, new Loadout(UnlockEquip.NOTHING));

@@ -41,10 +41,10 @@ public class Status {
 		
 		switch(procTime) {
 		case ON_INFLICT:
-			onInflict();
+			onInflict(status);
 			break;
 		case ON_REMOVE:
-			onRemove();
+			onRemove(status);
 			break;
 		case STAT_CHANGE:
 			statChanges();
@@ -94,9 +94,9 @@ public class Status {
 		return finalAmount;
 	}
 	
-	public void onInflict() {}
+	public void onInflict(Status s) {}
 	
-	public void onRemove() {}
+	public void onRemove(Status s) {}
 	
 	public void statChanges(){}
 	
@@ -151,5 +151,39 @@ public class Status {
 
 	public boolean isVisible() {
 		return visible;
-	}	
+	}
+
+	public BodyData getInflicter() {
+		return inflicter;
+	}
+
+	public void setInflicter(BodyData inflicter) {
+		this.inflicter = inflicter;
+	}
+
+	public BodyData getInflicted() {
+		return inflicted;
+	}
+
+	public void setInflicted(BodyData inflicted) {
+		this.inflicted = inflicted;
+	}
+	
+	public float getDuration() {
+		return duration;
+	}
+
+	public void setDuration(float duration) {
+		this.duration = duration;
+	}
+
+	public statusStackType getStackType() {
+		return statusStackType.ADD;
+	}
+	
+	public enum statusStackType {
+		ADD,
+		REPLACE,
+		IGNORE,
+	}
 }

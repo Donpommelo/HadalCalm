@@ -20,6 +20,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxHomingStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
 import com.mygdx.hadal.states.PlayState;
@@ -130,8 +131,8 @@ public class WeaponUtils {
 	private static final float beeKnockback = 5.0f;
 	private static final int beeWidth = 23;
 	private static final int beeHeight = 21;
-	private static final int beeDurability = 0;
-	private static final float beeLifespan = 5.0f;
+	private static final int beeDurability = 3;
+	private static final float beeLifespan = 4.0f;
 	private static final float beeMaxLinSpd = 100;
 	private static final float beeMaxLinAcc = 1000;
 	private static final float beeMaxAngSpd = 1080;
@@ -172,6 +173,7 @@ public class WeaponUtils {
 				}
 			};
 			
+			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, 
 					beeMaxAngSpd, beeMaxAngAcc, beeBoundingRad, beeDecelerationRadius, beeHomeRadius, filter));

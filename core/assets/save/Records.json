@@ -20,11 +20,11 @@ flags: {
 }
 equips: [
 	BEEGUN
-	SPEARGUN
+	BOILER
 	MACHINEGUN
 ]
-artifact: INFORMANTS_TIE
-active: FIREBALL
+artifact: ANCHOR_TALISMAN
+active: MELON
 character: TELEMACHUS
 level: LEVEL_1
 }

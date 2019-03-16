@@ -94,6 +94,7 @@ public class HadalGame extends ApplicationAdapter {
 		gsm.addState(State.SPLASH, null);
 		
 		client = new KryoClient(gsm);
+		server = new KryoServer(gsm);
 	}
 	
 	/**

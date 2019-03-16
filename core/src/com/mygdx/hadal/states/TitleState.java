@@ -12,12 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.server.KryoServer;
 
 /**
  * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
@@ -34,9 +34,10 @@ public class TitleState extends GameState {
 	private Text hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
 	private TextField enterIP;
 	
-	private final static float width = 1000;
-	private final static float height = 300;
-		
+	private final static int width = 500;
+	private final static int height = 150;
+	private final static int xOffset = 100;
+
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
@@ -50,10 +51,11 @@ public class TitleState extends GameState {
 		stage = new Stage() {
 			{
 				addActor(new TitleBackdrop(HadalGame.assetManager));
+				addActor(new MenuWindow(HadalGame.assetManager, gsm, HadalGame.CONFIG_WIDTH - width - xOffset, 0, width, height));
 				
 				table = new Table();
 				table.setLayoutEnabled(true);
-				table.setPosition(HadalGame.CONFIG_WIDTH - width, 0);
+				table.setPosition(HadalGame.CONFIG_WIDTH - width - xOffset, 0);
 				table.setSize(width, height);
 				addActor(table);
 				
@@ -74,9 +76,7 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	if (HadalGame.server == null) {
-				        	HadalGame.server = new KryoServer(getGsm());
-			        	}
+						HadalGame.server.init();
 			        	getGsm().addState(State.HUB, TitleState.class);
 			        }
 			    });
@@ -85,9 +85,7 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						if (HadalGame.client.client == null) {
-							HadalGame.client.init(false);
-						}
+						HadalGame.client.init(false);
 						new Thread("Connect") {
 				            public void run () {
 				                try {
@@ -164,13 +162,13 @@ public class TitleState extends GameState {
 				enterIP = new TextField("", gsm.getSkin());
 				enterIP.setMessageText("ENTER IP");
 				
-				table.add(hostOption).row();
-				table.add(joinOption);
+				table.add(hostOption).pad(5).expandY().row();
+				table.add(joinOption).expandY();
 				table.add(enterIP);
 				table.add(searchOption).row();
-				table.add(controlOption).row();
-				table.add(exitOption).row();
-				table.add(notifications).align(Align.bottomRight);
+				table.add(controlOption).expandY().row();
+				table.add(exitOption).expandY().row();
+				table.add(notifications).expandY().align(Align.bottomRight);
 			}
 		};
 		app.newMenu(stage);

@@ -169,15 +169,34 @@ public class BodyData extends HadalData {
 	}
 	
 	public void addStatus(Status s) {
-		statuses.add(s);
-		statusProcTime(StatusProcTime.ON_INFLICT, null, 0, null, null, null);
-		calcStats();
+		boolean added = false;
+		Status old = getStatus(s.getClass());
+		if (old != null) {
+			switch(s.getStackType()) {
+			case ADD:
+				added = true;
+				break;
+			case IGNORE:
+				break;
+			case REPLACE:
+				old.setDuration(s.getDuration());
+				break;			
+			}
+		} else {
+			added = true;
+		}
+		
+		if (added) {
+			statuses.add(s);
+			statusProcTime(StatusProcTime.ON_INFLICT, null, 0, s, null, null);
+			calcStats();
+		}
 	}
 	
 	public void removeStatus(Status s) {
+		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, s, null, null);
 		statuses.remove(s);
 		statusesChecked.remove(s);
-		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, null, null, null);
 		calcStats();
 	}
 	

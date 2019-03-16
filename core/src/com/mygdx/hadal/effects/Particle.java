@@ -8,7 +8,7 @@ public enum Particle {
 
 	BUBBLE_TRAIL(ParticleType.DEFAULT, "sprites/particle/bubble_trail.particle"),
 	BUBBLE_IMPACT(ParticleType.DEFAULT, "sprites/particle/bubble_impact.particle"),
-	CASING(ParticleType.DEFAULT, "sprites/particle/casings.particle"),
+	CASINGS(ParticleType.DEFAULT, "sprites/particle/casings.particle"),
 	IMPACT(ParticleType.DEFAULT, "sprites/particle/impact.particle"),
 	SPARK_TRAIL(ParticleType.DEFAULT, "sprites/particle/spark_trail.particle"),
 	POISON(ParticleType.DEFAULT, "sprites/particle/poison.particle"),

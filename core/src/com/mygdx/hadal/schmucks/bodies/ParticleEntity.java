@@ -168,6 +168,10 @@ public class ParticleEntity extends HadalEntity {
 		this.attachedEntity = attachedEntity;
 	}
 	
+	public void setDespawn(boolean despawn) {
+		this.despawn = despawn;
+	}
+
 	@Override
 	public Object onServerCreate() {
 		

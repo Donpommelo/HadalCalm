@@ -28,6 +28,14 @@ public class Packets {
 		public ServerLoaded() {}
 	}
 	
+	public static class Paused {
+		public Paused() {}
+	}
+	
+	public static class Unpaused {
+		public Unpaused() {}
+	}
+	
 	public static class KeyDown {
 		public PlayerAction action;
 		public KeyDown() {}
@@ -280,6 +288,8 @@ public class Packets {
     public static void allPackets(Kryo kryo) {
     	kryo.register(PlayerConnect.class);
     	kryo.register(ServerLoaded.class);
+    	kryo.register(Paused.class);
+    	kryo.register(Unpaused.class);
     	kryo.register(KeyDown.class);
     	kryo.register(KeyUp.class);
     	kryo.register(MouseMove.class);

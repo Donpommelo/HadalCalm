@@ -16,6 +16,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -28,6 +29,7 @@ import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.PauseState;
 
 public class KryoClient {
 	
@@ -59,12 +61,27 @@ public class KryoClient {
         
         client.addListener(new Listener() {
         	
+        	@Override
         	public void connected(Connection c) {
         		Log.info("CLIENT CONNECTED");
                 Packets.PlayerConnect connected = new Packets.PlayerConnect(name, new Loadout(gsm.getRecord()));
                 client.sendTCP(connected);
             }
         	
+        	@Override
+        	public void disconnected(Connection c) {
+        		Log.info("HOST DISCONNECTED");
+        		Gdx.app.postRunnable(new Runnable() {
+    				
+                    @Override
+                    public void run() {
+                    	gsm.removeState(PauseState.class);
+                    	gsm.removeState(ClientState.class);
+                    }
+                });
+            }
+        	
+        	@Override
         	public void received(Connection c, final Object o) {
 
         		if (o instanceof Packets.NewClientPlayer) {
@@ -77,6 +94,30 @@ public class KryoClient {
         			Log.info("SERVER LOADED");
         			Packets.PlayerConnect connected = new Packets.PlayerConnect(name, new Loadout(gsm.getRecord()));
                     client.sendTCP(connected);
+        		}
+        		
+        		if (o instanceof Packets.Paused) {
+        			Log.info("GAME PAUSED");
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+        				final ClientState cs = (ClientState) gsm.getStates().peek();
+        				cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						cs.getGsm().addState(State.MENU, ClientState.class);
+        					}
+        				});
+        			}
+        		}
+        		
+        		if (o instanceof Packets.Unpaused) {
+        			Log.info("GAME UNPAUSED");
+        			
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
+        				final PauseState cs = (PauseState) gsm.getStates().peek();
+        				cs.setToRemove(true);
+        			}
         		}
         		
         		if (o instanceof Packets.LoadLevel) {
@@ -98,24 +139,26 @@ public class KryoClient {
         			final Packets.ClientStartTransition p = (Packets.ClientStartTransition) o;
         			Log.info("CLIENT INSTRUCTED TO TRANSITION: ");
 
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
         						cs.beginTransition(p.state);
         					}
         				});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.CreateEntity) {
         			final Packets.CreateEntity p = (Packets.CreateEntity) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
@@ -123,15 +166,16 @@ public class KryoClient {
 
         					}
         				});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.CreateEnemy) {
         			final Packets.CreateEnemy p = (Packets.CreateEnemy) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
@@ -157,32 +201,32 @@ public class KryoClient {
         						}
         					}
         				});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.DeleteEntity) {
         			final Packets.DeleteEntity p = (Packets.DeleteEntity) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
                 				cs.removeEntity(p.entityID);
         					}
         				});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.CreatePlayer) {
         			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
             		
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				Log.info("CLIENT CREATED PLAYER: " + " " + p.entityID);
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
@@ -194,9 +238,7 @@ public class KryoClient {
                 				}
         					}
         				});
-
-        				
-        			} else {
+					} else {
         				Log.info("CLIENT ATTEMPTED TO CREATE PLAYER: " + " " + p.entityID + " BUT WAS NOT LOADED YET.");
         			}
         		}
@@ -204,10 +246,10 @@ public class KryoClient {
         		if (o instanceof Packets.CreateEvent) {
         			final Packets.CreateEvent p = (Packets.CreateEvent) o;
             		
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
@@ -218,16 +260,16 @@ public class KryoClient {
         						TiledObjectUtil.parseTiledSingleTrigger(event);
             				}
     					});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.CreatePoison) {
         			final Packets.CreatePoison p = (Packets.CreatePoison) o;
             		
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
@@ -236,15 +278,17 @@ public class KryoClient {
         						cs.addEntity(p.entityID, poison, ObjectSyncLayers.STANDARD);
             				}
     					});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.ActivateEvent) {
         			final Packets.ActivateEvent p = (Packets.ActivateEvent) o;
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addPacketEffect(new PacketEffect() {
-    					
+        			
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+	    					
 	    					@Override
 	    					public void execute() {
 	    						HadalEntity entity = cs.findEntity(p.entityID);
@@ -255,44 +299,48 @@ public class KryoClient {
 	    						}
 	    					}
     					});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.SyncEntity) {
         			Packets.SyncEntity p = (Packets.SyncEntity) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.syncEntity(p.entityID, p);
-        			}
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.syncEntity(p.entityID, p);
+					}
         		}
         		
         		if (o instanceof Packets.SyncSchmuck) {
         			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.syncEntity(p.entityID, p);
-        			}
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.syncEntity(p.entityID, p);
+					}
         		}
         		
         		if (o instanceof Packets.SyncPlayer) {
         			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.syncEntity(p.entityID, p);
-        			}
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.syncEntity(p.entityID, p);
+					}
         		}
         		
         		if (o instanceof Packets.SyncLoadout) {
         			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
         			Log.info("LOADOUT SYNC: " + p.entityId);
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.addPacketEffect(new PacketEffect() {
-    					
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+	    					
 	    					@Override
 	    					public void execute() {
 	    						HadalEntity entity = cs.findEntity(p.entityId);
@@ -304,16 +352,16 @@ public class KryoClient {
 	    						}
 	    					}
     					});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.CreateParticles) {
         			final Packets.CreateParticles p = (Packets.CreateParticles) o;
             		
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				final ClientState cs = (ClientState) gsm.getStates().peek();
-        				
-        				cs.addPacketEffect(new PacketEffect() {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
@@ -330,16 +378,17 @@ public class KryoClient {
         						
             				}
     					});
-        			}
+					}
         		}
         		
         		if (o instanceof Packets.SyncParticles) {
         			Packets.SyncParticles p = (Packets.SyncParticles) o;
         			
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-        				ClientState cs = (ClientState) gsm.getStates().peek();
-        				cs.syncEntity(p.entityID, p);
-        			}
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.syncEntity(p.entityID, p);
+					}
         		}
         	}
         });       
@@ -358,6 +407,17 @@ public class KryoClient {
     	}
     	
     	return start;
+	}
+	
+	public ClientState getClientState() {
+		
+		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
+			return (ClientState) gsm.getStates().peek();
+		}
+		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
+			return (ClientState)(((PauseState) gsm.getStates().peek()).getPs());
+		}
+		return null;
 	}
     
 	private void registerPackets() {
