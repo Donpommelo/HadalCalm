@@ -14,9 +14,11 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.TurretAttack;
 import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
@@ -44,8 +46,6 @@ public class Turret extends Enemy {
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
-  	private turretState aiState;
-
   	private TextureAtlas atlas;
 	private TextureRegion turretBase, turretBarrel;
 	private Animation<TextureRegion> fireAnimation;
@@ -87,7 +87,7 @@ public class Turret extends Enemy {
 		turretBarrel = atlas.findRegion(barrel);
 		fireAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions(barrel));
 		
-		aiState = turretState.NOTSHOOTING;
+		moveState = SchmuckMoveStates.TURRET_NOTSHOOTING;
 	}
 	
 	/**
@@ -116,11 +116,11 @@ public class Turret extends Enemy {
 		
 		angle = angle + (desiredAngle - angle) * 0.05f;
 		
-		switch(aiState) {
-			case NOTSHOOTING:
+		switch(moveState) {
+			case TURRET_NOTSHOOTING:
 				desiredAngle = startAngle;
 				break;
-			case SHOOTING:
+			case TURRET_SHOOTING:
 				
 				desiredAngle =  (float)(Math.atan2(
 						target.getBody().getPosition().y - body.getPosition().y ,
@@ -136,12 +136,14 @@ public class Turret extends Enemy {
 				
 				useToolStart(delta, weapon, hitboxfilter, (int)target.getBody().getPosition().x, (int)target.getBody().getPosition().y, true);
 				break;
+		default:
+			break;
 		}
 				
 		if (aiCdCount < 0) {
 		
 			aiCdCount += aiCd;
-			aiState = turretState.NOTSHOOTING;
+			moveState = SchmuckMoveStates.TURRET_NOTSHOOTING;
 			
 			world.QueryAABB((new QueryCallback() {
 
@@ -181,7 +183,7 @@ public class Turret extends Enemy {
 								if (closestFixture.getUserData() instanceof BodyData) {
 									if (closestFixture.getUserData() instanceof PlayerBodyData ) {
 										target = ((PlayerBodyData)closestFixture.getUserData()).getEntity();
-										aiState = turretState.SHOOTING;
+										moveState = SchmuckMoveStates.TURRET_SHOOTING;
 									}
 								}
 							} 
@@ -231,7 +233,7 @@ public class Turret extends Enemy {
 			rotationYReal = height - rotationY;
 		}
 		
-		if(aiState == turretState.NOTSHOOTING || weapon.isReloading()) {
+		if(moveState == SchmuckMoveStates.TURRET_NOTSHOOTING || weapon.isReloading()) {
 			batch.draw(turretBarrel, 
 					body.getPosition().x * PPM - hbWidth * scale / 2, 
 					(flip ? height * scale - 12 : 0) + body.getPosition().y * PPM - hbHeight * scale / 2, 
@@ -256,8 +258,23 @@ public class Turret extends Enemy {
 		}
 	}
 	
-	public enum turretState {
-		SHOOTING,
-		NOTSHOOTING
+	//Turrets send their attack angle as a body angle because I don't feel like making a specific packet for them.
+	//Just in case you were confused about this weird packet.
+	@Override
+	public void onServerSync() {
+		HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), body.getPosition(), angle));
+		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
+				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncEntity) {
+			Packets.SyncEntity p = (Packets.SyncEntity) o;
+			body.setTransform(p.pos, 0);
+			angle = p.angle;
+		} else {
+			super.onClientSync(o);
+		}
 	}
 }

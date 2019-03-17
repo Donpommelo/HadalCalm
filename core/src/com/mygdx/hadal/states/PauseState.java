@@ -29,6 +29,7 @@ public class PauseState extends GameState {
 	private final static int height = 200;
 	
 	private PlayState ps;
+	private String pauser;
 	
 	private boolean toRemove = false;
 		
@@ -36,12 +37,13 @@ public class PauseState extends GameState {
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
 	 */
-	public PauseState(final GameStateManager gsm, PlayState ps) {
+	public PauseState(final GameStateManager gsm, PlayState ps, String pauser) {
 		super(gsm);
 		this.ps = ps;
+		this.pauser = pauser;
 		
 		if (ps.isServer()) {
-			HadalGame.server.server.sendToAllTCP(new Packets.Paused());
+			HadalGame.server.server.sendToAllTCP(new Packets.Paused(pauser));
 		}
 	}
 
@@ -61,7 +63,7 @@ public class PauseState extends GameState {
 				table.setSize(width, height);
 				addActor(table);
 				
-				pause = new Text(HadalGame.assetManager, "GAME PAUSED", 0, 0, Color.WHITE);
+				pause = new Text(HadalGame.assetManager, "PAUSED BY \n" + pauser, 0, 0, Color.WHITE);
 				pause.setScale(0.5f);
 				
 				resumeOption = new Text(HadalGame.assetManager, "RESUME?", 0, 0, Color.WHITE);
@@ -73,9 +75,9 @@ public class PauseState extends GameState {
 			        	getGsm().removeState(PauseState.class);
 			        	
 			        	if (ps.isServer()) {
-	    					HadalGame.server.server.sendToAllTCP(new Packets.Unpaused());
+	    					HadalGame.server.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 	    				} else {
-	    					HadalGame.client.client.sendTCP(new Packets.Unpaused());
+	    					HadalGame.client.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 	    				}
 			        }
 			    });
@@ -89,7 +91,6 @@ public class PauseState extends GameState {
 	    					HadalGame.client.client.stop();
 	    				}
 			        	getGsm().removeState(PlayState.class);
-			        	getGsm().removeState(HubState.class);
 			        	getGsm().removeState(ClientState.class);
 			        }
 			    });
@@ -139,4 +140,8 @@ public class PauseState extends GameState {
 	public PlayState getPs() {
 		return ps;
 	}
+
+	public String getPauser() {
+		return pauser;
+	}	
 }

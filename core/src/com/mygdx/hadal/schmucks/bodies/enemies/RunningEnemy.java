@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -73,23 +73,23 @@ public class RunningEnemy extends Enemy {
 	@Override
 	public void controller(float delta) {
 		
-		moveState = MoveStates.STAND;
+		moveState = SchmuckMoveStates.STAND;
 		
 		switch(aiState) {
 		case ROAMING:
 			if (Math.random() > 0.5f) {
-				moveState = MoveStates.MOVE_RIGHT;
+				moveState = SchmuckMoveStates.MOVE_RIGHT;
 			} else {
-				moveState = MoveStates.MOVE_LEFT;
+				moveState = SchmuckMoveStates.MOVE_LEFT;
 			}
 			break;
 		case CHASING:
 			Vector2 player = state.getPlayer().getBody().getPosition();
 			
 			if (player.x > body.getPosition().x) {
-				moveState = MoveStates.MOVE_RIGHT;
+				moveState = SchmuckMoveStates.MOVE_RIGHT;
 			} else {
-				moveState = MoveStates.MOVE_LEFT;
+				moveState = SchmuckMoveStates.MOVE_LEFT;
 			}
 			
 			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);

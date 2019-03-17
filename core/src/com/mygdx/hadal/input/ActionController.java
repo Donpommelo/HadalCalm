@@ -1,10 +1,8 @@
 package com.mygdx.hadal.input;
 
-import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.PacketEffect;
-import com.mygdx.hadal.states.HubState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -35,18 +33,18 @@ public class ActionController {
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = true;
 			if (!rightDown) {
-				player.setMoveState(MoveStates.MOVE_LEFT);
+				player.setMoveState(SchmuckMoveStates.MOVE_LEFT);
 			} else {
-				player.setMoveState(MoveStates.STAND);
+				player.setMoveState(SchmuckMoveStates.STAND);
 			}
 		}
 		
 		if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = true;
 			if (!leftDown) {
-				player.setMoveState(MoveStates.MOVE_RIGHT);
+				player.setMoveState(SchmuckMoveStates.MOVE_RIGHT);
 			} else {
-				player.setMoveState(MoveStates.STAND);
+				player.setMoveState(SchmuckMoveStates.STAND);
 			}
 		}
 		
@@ -116,15 +114,13 @@ public class ActionController {
 		
 		if (action == PlayerAction.PAUSE) {
 			if (player.equals(state.getPlayer())) {
-				state.getGsm().addState(State.MENU, PlayState.class);
-				state.getGsm().addState(State.MENU, HubState.class);
+				state.getGsm().addPauseState(state, player.getName(), PlayState.class);
 			} else {
 				state.addPacketEffect(new PacketEffect() {
 
 					@Override
 					public void execute() {
-						state.getGsm().addState(State.MENU, PlayState.class);
-						state.getGsm().addState(State.MENU, HubState.class);
+						state.getGsm().addPauseState(state, player.getName(), PlayState.class);
 					}
 				});
 			}
@@ -148,18 +144,18 @@ public class ActionController {
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = false;
 			if (rightDown) {
-				player.setMoveState(MoveStates.MOVE_RIGHT);
+				player.setMoveState(SchmuckMoveStates.MOVE_RIGHT);
 			} else {
-				player.setMoveState(MoveStates.STAND);
+				player.setMoveState(SchmuckMoveStates.STAND);
 			}
 		}
 		
 		if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = false;
 			if (leftDown) {
-				player.setMoveState(MoveStates.MOVE_LEFT);
+				player.setMoveState(SchmuckMoveStates.MOVE_LEFT);
 			} else {
-				player.setMoveState(MoveStates.STAND);
+				player.setMoveState(SchmuckMoveStates.STAND);
 			}
 		}
 		

@@ -16,6 +16,8 @@ public class Record {
 	private String[] equips;
 	private String artifact, active, character, level;
 	
+	private String name;
+	
 	public Record() {
 		
 	}
@@ -105,5 +107,13 @@ public class Record {
 		this.level = level;
 		saveRecord();
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+		saveRecord();
+	}
 }

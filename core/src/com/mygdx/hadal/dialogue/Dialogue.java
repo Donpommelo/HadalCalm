@@ -24,22 +24,26 @@ public class Dialogue {
 	//This indicates the desired behaviour when a new dialog is added over this one. (True: override. False : placed after)
 	private boolean override;
 	
+	//This indicates whether to use a smaller window to display the text.
+	private boolean small;
+	
 	//These are the events that triggered and will be triggered by this dialogue respectively.
 	private EventData radio, trigger;
 	
-	//This is the duration in seconds that the dialogue will be active.This can be set to 0 for dialogues that need to be actively skipped
+	//This is the duration in seconds that the dialogue will be active. This can be set to 0 for dialogues that need to be actively skipped
 	private float duration;
 	
 	private Animation<TextureRegion> bust;
 	
 	private static final float speed = 0.1f;
 	
-	public Dialogue(String name, String text, String sprite, boolean end, boolean override, float duration, EventData radio, EventData trigger) {
+	public Dialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float duration, EventData radio, EventData trigger) {
 		this.name = name;
 		this.text = text;
 		this.sprite = sprite;
 		this.end = end;
 		this.override = override;
+		this.small = small;
 		this.duration = duration;
 		this.radio = radio;
 		this.trigger = trigger;
@@ -119,6 +123,14 @@ public class Dialogue {
 
 	public void setOverride(boolean override) {
 		this.override = override;
+	}
+	
+	public boolean isSmall() {
+		return small;
+	}
+
+	public void setSmall(boolean small) {
+		this.small = small;
 	}
 
 	public float getDuration() {

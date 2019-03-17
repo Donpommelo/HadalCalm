@@ -45,18 +45,18 @@ public class KryoServer {
 		server.addListener(new Listener() {
 			
 			@Override
-			public void disconnected(Connection c) {
+			public void disconnected(final Connection c) {
 				
 				final PlayState ps = getPlayState();
 				
 				if (ps != null) {
 					final Player p = players.get(c.getID());
-
 					ps.addPacketEffect(new PacketEffect() {
 
 						@Override
 						public void execute() {
 							if (p != null) {
+								addNotificationToAllExcept(ps, c.getID(), p.getName(), "PLAYER DISCONNECTED!");
 								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), null);
 							}
 						}
@@ -71,17 +71,103 @@ public class KryoServer {
 
 				if (o instanceof Packets.PlayerConnect) {
 					Log.info("NEW CLIENT CONNECTED: " + c.getID());
-					
 					Packets.PlayerConnect p = (Packets.PlayerConnect) o;
 					
 					final PlayState ps = getPlayState();
 					
 					if (ps != null) {
-						createNewClientPlayer(ps, c.getID(), p.loadout, null);                        
-                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel()));
+						if (p.firstTime) {
+							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
+						}
+						
+						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null);                        
+                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
 					} else {
 						Log.info("Server received PlayerConnect before entering PlayState!");
 					}
+				}
+				
+				
+				if (o instanceof Packets.ClientLoaded) {
+					final Packets.ClientLoaded p = (Packets.ClientLoaded) o;
+					
+					final PlayState ps = getPlayState();
+					
+					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
+						PauseState pss = ((PauseState)gsm.getStates().peek());
+						HadalGame.server.server.sendToTCP(c.getID(), new Packets.Paused(pss.getPauser()));
+					}
+					
+					if (ps != null) {
+						ps.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+								
+								if (p.firstTime) {
+									sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
+								}
+								
+		                        ps.catchUpClient(c.getID());
+							}
+						});
+					} else {
+						Log.info("CLIENT LOADED BEFORE SERVER. OOPS");
+					}
+				}
+				
+				if (o instanceof Packets.ClientFinishTransition) {
+					Packets.ClientFinishTransition p = (Packets.ClientFinishTransition) o;
+					Log.info("CLIENT FINISHED TRANSITIONING");
+
+					final PlayState ps = getPlayState();
+					String playerName = "";
+					Player player = players.get(c.getID());
+					if (player != null) {
+						playerName = player.getName();
+					}
+					
+					if (ps != null) {
+						createNewClientPlayer(ps, c.getID(), playerName, p.loadout, null);
+						
+						//TODO: logic for client transition upon won/lose
+                        switch(p.state) {
+						case LOSE:
+							break;
+						case NEWLEVEL:
+						case NEXTSTAGE:
+	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), false));
+							break;
+						case WIN:
+							break;
+						default:
+							break;
+                        }
+					} else {
+						Log.info("CLIENT FINISHED TRANSITIONING BEFORE SERVER");
+					}
+				}
+				
+				if (o instanceof Packets.SyncLoadout) {
+        			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
+        			Player player = players.get(c.getID());
+        			if (p != null) {
+        				player.getPlayerData().syncLoadout(p.loadout);
+        				player.getPlayerData().syncLoadoutChange();
+        			}
+        		}
+				
+				if (o instanceof Packets.Unpaused) {
+        			Log.info("GAME UNPAUSED");
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
+        				
+        				Player p = players.get(c.getID());
+        				if (p != null) {
+        					final PauseState cs = (PauseState) gsm.getStates().peek();
+            				cs.setToRemove(true);
+            				HadalGame.server.server.sendToAllExceptTCP(c.getID(), new Packets.Unpaused(p.getName()));
+        				}
+        			}
 				}
 				
 				if (o instanceof Packets.KeyDown) {
@@ -111,67 +197,6 @@ public class KryoServer {
 					}
 				}
 				
-				if (o instanceof Packets.ClientLoaded) {
-
-					final PlayState ps = getPlayState();
-					
-					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
-						HadalGame.server.server.sendToTCP(c.getID(), new Packets.Paused());
-					}
-					
-					if (ps != null) {
-						ps.addPacketEffect(new PacketEffect() {
-
-							@Override
-							public void execute() {
-		                        ps.catchUpClient(c.getID());
-							}
-						});
-					} else {
-						Log.info("CLIENT LOADED BEFORE SERVER. OOPS");
-					}
-				}
-				
-				if (o instanceof Packets.ClientFinishTransition) {
-					Packets.ClientFinishTransition p = (Packets.ClientFinishTransition) o;
-					Log.info("CLIENT FINISHED TRANSITIONING");
-
-					final PlayState ps = getPlayState();
-					
-					if (ps != null) {
-						createNewClientPlayer(ps, c.getID(), p.loadout, null);
-                        switch(p.state) {
-						case LOSE:
-							break;
-						case NEWLEVEL:
-						case NEXTSTAGE:
-	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel()));
-							break;
-						case WIN:
-							break;
-						default:
-							break;
-                        }
-					}
-				}
-				
-				if (o instanceof Packets.SyncLoadout) {
-        			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
-        			Player player = players.get(c.getID());
-        			if (p != null) {
-        				player.getPlayerData().syncLoadout(p.loadout);
-        				player.getPlayerData().syncLoadoutChange();
-        			}
-        		}
-				
-				if (o instanceof Packets.Unpaused) {
-        			Log.info("GAME UNPAUSED");
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
-        				final PauseState cs = (PauseState) gsm.getStates().peek();
-        				cs.setToRemove(true);
-        				HadalGame.server.server.sendToAllExceptTCP(c.getID(), new Packets.Unpaused());
-        			}
-				}
 			}
 		});
 		
@@ -186,14 +211,15 @@ public class KryoServer {
 		server.start();
 	}
 	
-	public void createNewClientPlayer(final PlayState ps, final int connId, final Loadout loadout, final PlayerBodyData data) {
+	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, 
+			final Loadout loadout, final PlayerBodyData data) {
 
 		ps.addPacketEffect(new PacketEffect() {
 
 			@Override
 			public void execute() {
 				Player newPlayer = new Player(ps, (int)(ps.getStartX() * PPM), (int)(ps.getStartY() * PPM),
-						loadout, data);
+						name, loadout, data);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);
@@ -222,6 +248,30 @@ public class KryoServer {
 			return ((PauseState) gsm.getStates().peek()).getPs();
 		}
 		return null;
+	}
+	
+	public void addNotification(PlayState ps, String name, String text) {
+		if (ps.getStage() != null) {
+			ps.getStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+		}
+	}
+	
+	public void sendNotification(PlayState ps, int connId, String name, String text) {
+        server.sendToTCP(connId, new Packets.Notification(name, text));	
+	}
+	
+	public void addNotificationToAll(PlayState ps, String name, String text) {
+		if (ps.getStage() != null) {
+			ps.getStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+	        server.sendToAllTCP(new Packets.Notification(name, text));	
+		}
+	}
+	
+	public void addNotificationToAllExcept(PlayState ps, int connId, String name, String text) {
+		if (ps.getStage() != null) {
+			ps.getStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+	        server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
+		}
 	}
 	
 	public HashMap<Integer, Player> getPlayers() {

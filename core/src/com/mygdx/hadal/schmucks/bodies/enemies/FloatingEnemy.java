@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -39,9 +39,6 @@ public class FloatingEnemy extends SteeringEnemy {
     private static final float aiChaseCd = 3.0f;
     private float aiCdCount = 0;
     
-    //Ai mode of the fish
-  	private floatingState aiState;
-  	
   	//These are used for raycasting to determing whether the player is in vision of the fish.
   	private float shortestFraction;
   	private Schmuck homeAttempt;
@@ -78,7 +75,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		this.hbHeight = hbHeight;
 		this.scale = scale;
 		
-		this.aiState = floatingState.ROAMING;
+		this.moveState = SchmuckMoveStates.FISH_ROAMING;
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
 		fishSprite = atlas.findRegion(spriteId);
@@ -107,10 +104,8 @@ public class FloatingEnemy extends SteeringEnemy {
 	@Override
 	public void controller(float delta) {
 		
-		moveState = MoveStates.STAND;
-		
-		switch (aiState) {
-		case CHASING:
+		switch (moveState) {
+		case FISH_CHASING:
 			
 			float bodyAngle = (float) (getBody().getAngle() + Math.PI / 2);
 			float angleToTarget = target.getBody().getPosition().sub(getBody().getPosition()).angleRad();
@@ -121,7 +116,6 @@ public class FloatingEnemy extends SteeringEnemy {
 			break;
 		default:
 			break;
-		
 		}
 		
 		super.controller(delta);
@@ -130,7 +124,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		if (aiCdCount < 0) {
 			aiCdCount += aiRoamCd;
 			
-			aiState = floatingState.ROAMING;
+			moveState = SchmuckMoveStates.FISH_ROAMING;
 			setTarget(state.getPlayer(), roam);
 			
 			final HadalEntity me = this;
@@ -170,7 +164,7 @@ public class FloatingEnemy extends SteeringEnemy {
 							}, body.getPosition(), homeAttempt.getPosition());
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
-									aiState = floatingState.CHASING;
+									moveState = SchmuckMoveStates.FISH_CHASING;
 									aiCdCount += aiChaseCd;
 
 									setTarget(((BodyData)closestFixture.getUserData()).getSchmuck(), 
@@ -232,7 +226,6 @@ public class FloatingEnemy extends SteeringEnemy {
 	}
 	
 	public enum floatingState {		CHASING,
-		ESCAPING,
 		ROAMING,
 	}
 }

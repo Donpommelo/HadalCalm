@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.ScissorfishAttack;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -110,7 +110,7 @@ public class TrailingEnemy extends Enemy {
 	@Override
 	public void controller(float delta) {
 		
-		moveState = MoveStates.STAND;
+		moveState = SchmuckMoveStates.STAND;
 		if (trailCountCount < 0 && aiState.equals(trailingState.TRAILING)) {
 			trailCountCount += trailCd;
 

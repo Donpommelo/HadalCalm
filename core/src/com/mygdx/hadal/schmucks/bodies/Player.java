@@ -15,7 +15,7 @@ import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
@@ -33,6 +33,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  *
  */
 public class Player extends PhysicsSchmuck {
+	
+	private String name;
 	
 	private final static float playerDensity = 1.0f;
 	
@@ -115,9 +117,9 @@ public class Player extends PhysicsSchmuck {
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, int x, int y, Loadout startLoadout, PlayerBodyData oldData) {
+	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
-		
+		this.name = name;
 		airblast = new Airblaster(this);
 		
 		toolSprite = GameStateManager.multitoolAtlas.findRegion("default");
@@ -125,7 +127,7 @@ public class Player extends PhysicsSchmuck {
 		this.toolHeight = toolSprite.getRegionHeight();
 		this.toolWidth = toolSprite.getRegionWidth();
 		
-		this.moveState = MoveStates.STAND;
+		this.moveState = SchmuckMoveStates.STAND;
 
 		this.startLoadout = startLoadout;
 		this.playerData = oldData;
@@ -436,7 +438,7 @@ public class Player extends PhysicsSchmuck {
 		
 		//This switch determins the total body y-offset to make the body bob up and down when running.
 		int yOffset = 0;
-		if (moveState.equals(MoveStates.MOVE_LEFT) || moveState.equals(MoveStates.MOVE_RIGHT)) {
+		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT) || moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
 			switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
 			case 0:
 			case 1:
@@ -488,7 +490,7 @@ public class Player extends PhysicsSchmuck {
 		
 		boolean reverse = false;
 		
-		if (moveState.equals(MoveStates.MOVE_LEFT)) {
+		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT)) {
 			
 			if (Math.abs(attackAngle) > 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
@@ -502,7 +504,7 @@ public class Player extends PhysicsSchmuck {
 					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
-		} else if (moveState.equals(MoveStates.MOVE_RIGHT)) {
+		} else if (moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
 			if (Math.abs(attackAngle) < 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
 				reverse = true;
@@ -546,7 +548,7 @@ public class Player extends PhysicsSchmuck {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), playerData.getLoadout());
+		return new Packets.CreatePlayer(entityID.toString(), name, playerData.getLoadout());
 	}
 	
 	@Override
@@ -664,5 +666,13 @@ public class Player extends PhysicsSchmuck {
 
 	public void setMouse(MouseTracker mouse) {
 		this.mouse = mouse;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

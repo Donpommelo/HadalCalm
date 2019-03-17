@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
@@ -45,6 +46,7 @@ public class GameStateManager {
 	
 	public static Json json = new Json();
 	public static JsonReader reader = new JsonReader();
+	public static JsonValue dialogs;
 	
 	//This enum lists all the different types of gamestates.
 	public enum State {
@@ -54,8 +56,7 @@ public class GameStateManager {
 		PLAY, 
 		GAMEOVER, 
 		VICTORY,
-		MENU,
-		HUB,
+		PAUSE,
 		CLIENTPLAY
 	}
 	
@@ -71,6 +72,7 @@ public class GameStateManager {
 		PlayerAction.retrieveKeys();
 		UnlockManager.retrieveUnlocks();
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
+		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 	}
 	
 	public void loadAssets() {
@@ -159,11 +161,18 @@ public class GameStateManager {
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
+		Loadout realLoadout;
+		if (record.getFlags().get("INTRO") < 2) {
+			realLoadout = new Loadout(UnlockEquip.NOTHING);
+		} else {
+			realLoadout = loadout;
+		}
+		
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, true, old));
+			states.push(new PlayState(this, realLoadout, map, true, old));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, true, old));
+			states.push(new PlayState(this, realLoadout, map, true, old));
 			states.peek().show();
 		}
 	}
@@ -174,6 +183,16 @@ public class GameStateManager {
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
 			states.push(new ClientState(this, loadout, map));
+			states.peek().show();
+		}
+	}
+	
+	public void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState) {
+		if (states.empty()) {
+			states.push(new PauseState(this, ps, pauser));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new PauseState(this, ps, pauser));
 			states.peek().show();
 		}
 	}
@@ -195,23 +214,17 @@ public class GameStateManager {
 	 * This is called upon adding a new state. It maps each state enum to the actual gameState that will be added to the stack
 	 * @param state: enum for the new type of state to be added
 	 * @return: A new instance of the gameState corresponding to the input enum
+	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
+	 * (PlayState, ClientState and PauseState)
 	 */
 	public GameState getState(State state) {
 		
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);
-		case PLAY: return new PlayState(this, record, false, null);
 		case GAMEOVER: return new GameoverState(this);
 		case VICTORY: return new VictoryState(this);
 		case CONTROL: return new ControlState(this);
-		case MENU: return new PauseState(this, ((PlayState)states.peek()));
-		case HUB: 
-			if (record.getFlags().get("INTRO") < 2) {
-				return new HubState(this, new Loadout(UnlockEquip.NOTHING));
-			} else {
-				return new HubState(this, new Loadout(record));
-			}
 		default:
 			break;
 		}

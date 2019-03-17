@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 
 /**
@@ -19,6 +22,8 @@ public class Text extends AHadalActor {
 	protected GlyphLayout layout;
 
 	protected float scale = 1.0f;
+	
+	private boolean mousedOver;
 
 	public Text(AssetManager assetManager, String text, int x, int y) {
 		super(assetManager, x, y);
@@ -26,6 +31,7 @@ public class Text extends AHadalActor {
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = HadalGame.DEFAULT_TEXT_COLOR;
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		mousedOver = false;
 		updateHitBox();
 	}
 	
@@ -36,9 +42,15 @@ public class Text extends AHadalActor {
 
 	@Override
     public void draw(Batch batch, float alpha) {
+		
+		if (mousedOver) {
+			//TODO
+		}
+		
 		 font.getData().setScale(scale);
 		 font.setColor(color);
          font.draw(batch, text, getX(), getY() + layout.height);
+         
          //Return scale and color to default values.
          font.getData().setScale(1.0f);
          font.setColor(HadalGame.DEFAULT_TEXT_COLOR);
@@ -52,6 +64,23 @@ public class Text extends AHadalActor {
 		setHeight(layout.height);
 		super.updateHitBox();
 		font.getData().setScale(1.0f);
+	}
+	
+	public void addMouseOverStuff() {
+		this.addListener(new ClickListener() {
+			
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+				super.enter(event, x, y, pointer, fromActor);
+				mousedOver = true;
+			}
+			
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+				super.exit(event, x, y, pointer, toActor);
+				mousedOver = false;
+			}
+		});
 	}
 	
 	public String getText() {

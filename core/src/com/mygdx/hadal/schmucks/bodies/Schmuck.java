@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -30,7 +30,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Schmuck extends HadalEntity {
 
 	//The current movestate of this schmuck
-	protected MoveStates moveState;
+	protected SchmuckMoveStates moveState;
 	
 	//Fixtures and user data
 	protected Fixture feet, rightSensor, leftSensor;
@@ -211,7 +211,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), 
+		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
 				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
 	}
 	
@@ -219,6 +219,7 @@ public class Schmuck extends HadalEntity {
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncSchmuck) {
 			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+			moveState = p.moveState;
 			getBodyData().setCurrentHp(p.currentHp);
 			getBodyData().setCurrentFuel(p.currentFuel);
 			flashingCount = p.flashDuration;
@@ -240,10 +241,10 @@ public class Schmuck extends HadalEntity {
 		return 0;
 	}
 	
-	public MoveStates getMoveState() {
+	public SchmuckMoveStates getMoveState() {
 		return moveState;
 	}
-	public void setMoveState(MoveStates moveState) {
+	public void setMoveState(SchmuckMoveStates moveState) {
 		this.moveState = moveState;
 	}
 	

@@ -20,6 +20,11 @@ public class PlayStateStage extends Stage {
 		dialogue.addDialogue(id, radio, trigger);
 	}
 	
+	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura,
+			EventData radio, EventData trigger) {
+		dialogue.addDialogue(name, text, sprite, end, override, small, dura, radio, trigger);
+	}
+	
 	public void nextDialogue() {
 		dialogue.nextDialogue();
 	}

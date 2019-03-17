@@ -18,7 +18,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class UIArtifacts {
 
-	public Player player;
+	private PlayState state;
+	private Player player;
 	
 	private AssetManager assetManager;
 	
@@ -30,15 +31,13 @@ public class UIArtifacts {
 	
 	public UIArtifacts(AssetManager assetManager, PlayState state, Player player) {
 		this.assetManager = assetManager;
+		this.state = state;
 		this.player = player;
 		this.table = new Table().left();
 		
 		this.artifacts = new ArrayList<ArtifactTag>();
 		
-		state.getStage().addActor(table);
-		table.setPosition(0, HadalGame.CONFIG_HEIGHT - 50);
-		table.setWidth(HadalGame.CONFIG_WIDTH);
-		table.setHeight(tagHeight);
+		addTable();
 		
 		//When the player unpauses the game, this ui is reloaded, so we must resync.
 		//When starting up normally, the player's data is not loaded yet, and we do not need to sync. 
@@ -53,8 +52,10 @@ public class UIArtifacts {
 	public void syncArtifact() {
 		table.clear();
 		artifacts.clear();
-		for (Artifact a : player.getPlayerData().getArtifacts()) {
-			artifacts.add(addTag(a));
+		if (player.getPlayerData() != null) {
+			for (Artifact a : player.getPlayerData().getArtifacts()) {
+				artifacts.add(addTag(a));
+			}
 		}
 	}
 	
@@ -73,5 +74,12 @@ public class UIArtifacts {
 	
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+	
+	public void addTable() {
+		state.getStage().addActor(table);
+		table.setPosition(0, HadalGame.CONFIG_HEIGHT - 50);
+		table.setWidth(HadalGame.CONFIG_WIDTH);
+		table.setHeight(tagHeight);
 	}
 }

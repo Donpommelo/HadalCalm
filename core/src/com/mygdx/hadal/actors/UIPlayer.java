@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -55,6 +56,11 @@ public class UIPlayer extends AHadalActor {
 				batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
 				batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
 			}
+			
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, player.getName(), 
+					player.getBody().getPosition().x * PPM - Player.hbWidth * Player.scale / 2, 
+					player.getBody().getPosition().y * PPM + Player.hbHeight * Player.scale / 2 + 15);
 		}
 	}
 	

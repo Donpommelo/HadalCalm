@@ -129,6 +129,8 @@ public class PlayState extends GameState {
 	protected float fadeLevel = 1f, fadeDelta = -0.015f;
 	private UnlockLevel nextLevel;
 	
+	private boolean serverLoaded = false;
+	
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
@@ -195,7 +197,7 @@ public class PlayState extends GameState {
 		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
 		
-		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), loadout, old);
+		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old);
 		this.cameraTarget = player;
 
 		controller = new PlayerController(player);	
@@ -209,10 +211,6 @@ public class PlayState extends GameState {
 		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
 		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
-		
-		if (server) {
-	        HadalGame.server.server.sendToAllTCP(new Packets.ServerLoaded());
-		}
 	}
 	
 	/**
@@ -250,10 +248,13 @@ public class PlayState extends GameState {
 		}
 		
 		this.stage.addActor(uiPlay);
-		this.stage.addActor(uiActive);
 		this.stage.addActor(uiPlayer);
-		this.stage.addActor(uiExtra);
+		this.stage.addActor(uiActive);
 		this.stage.addActor(uiObjective);
+		this.stage.addActor(uiExtra);
+		
+		uiArtifact.addTable();
+		uiArtifact.syncArtifact();
 
 		app.newMenu(stage);
 		resetController();
@@ -283,6 +284,11 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void update(float delta) {
+		
+		if (server && !serverLoaded) {
+	        serverLoaded = true;
+			HadalGame.server.server.sendToAllTCP(new Packets.ServerLoaded());
+		}
 		
 		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
 		world.step(1 / 60f, 6, 2);
@@ -464,7 +470,7 @@ public class PlayState extends GameState {
 				}
 				
 				player = new Player(this, (int)(getSafeX() * PPM),
-						(int)(getSafeY() * PPM), new Loadout(gsm.getRecord()), null);
+						(int)(getSafeY() * PPM), gsm.getRecord().getName(), new Loadout(gsm.getRecord()), null);
 				
 				controller.setPlayer(player);
 				
@@ -479,25 +485,21 @@ public class PlayState extends GameState {
 				fadeDelta = -0.015f;
 			} else {			
 				getGsm().removeState(PlayState.class);
-				getGsm().removeState(HubState.class);
 				gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			}
 			break;
 		case WIN:
 			getGsm().removeState(PlayState.class);
-			getGsm().removeState(HubState.class);
 			gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 			getGsm().addState(State.VICTORY, TitleState.class);
 			break;
 		case NEWLEVEL:
 			getGsm().removeState(PlayState.class);
-			getGsm().removeState(HubState.class);
-        	getGsm().addState(State.PLAY, TitleState.class);
+        	getGsm().addPlayState(UnlockLevel.valueOf(gsm.getRecord().getLevel()), new Loadout(gsm.getRecord()), null, TitleState.class);
 			break;
 		case NEXTSTAGE:
 			getGsm().removeState(PlayState.class);
-			getGsm().removeState(HubState.class);
 			getGsm().addPlayState(nextLevel, loadout, player.getPlayerData(), TitleState.class);
 			break;
 		default:

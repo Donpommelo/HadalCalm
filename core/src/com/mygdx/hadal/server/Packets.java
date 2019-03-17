@@ -7,7 +7,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.transitionState;
@@ -15,10 +15,12 @@ import com.mygdx.hadal.states.PlayState.transitionState;
 public class Packets {
 
 	public static class PlayerConnect {
+		public boolean firstTime;
 		public String name;
 		public Loadout loadout;
 		public PlayerConnect() {}
-		public PlayerConnect(String m, Loadout loadout) {
+		public PlayerConnect(boolean firstTime, String m, Loadout loadout) {
+			this.firstTime = firstTime;
 			this.name = m;
 			this.loadout = loadout;
 		}
@@ -29,11 +31,29 @@ public class Packets {
 	}
 	
 	public static class Paused {
+		public String pauser;
 		public Paused() {}
+		public Paused(String pauser) {
+			this.pauser = pauser;
+		}
 	}
 	
 	public static class Unpaused {
+		public String unpauser;
 		public Unpaused() {}
+		public Unpaused(String unpauser) {
+			this.unpauser = unpauser;
+		}
+	}
+	
+	public static class Notification {
+		public String name;
+		public String text;
+		public Notification() {}
+		public Notification(String name, String text) {
+			this.name = name;
+			this.text = text;
+		}
 	}
 	
 	public static class KeyDown {
@@ -63,9 +83,11 @@ public class Packets {
 	
 	public static class LoadLevel {
 		public UnlockLevel level;
+		public boolean firstTime;
 		public LoadLevel() {}
-		public LoadLevel(UnlockLevel level) {
+		public LoadLevel(UnlockLevel level, boolean firstTime) {
 			this.level = level;
+			this.firstTime = firstTime;
 		}
 	}
 	
@@ -78,7 +100,11 @@ public class Packets {
 	}
 	
 	public static class ClientLoaded {
+		public boolean firstTime;
 		public ClientLoaded() {}
+		public ClientLoaded(boolean firstTime) {
+			this.firstTime = firstTime;
+		}
 	}
 	
 	public static class ClientStartTransition {
@@ -133,10 +159,12 @@ public class Packets {
 	
 	public static class CreatePlayer {
 		public String entityID;
+		public String name;
 		public Loadout loadout;
 		public CreatePlayer() {}
-		public CreatePlayer(String entityID, Loadout loadout) {
+		public CreatePlayer(String entityID, String name, Loadout loadout) {
             this.entityID = entityID;
+            this.name = name;
             this.loadout = loadout;
         }
 	}
@@ -187,13 +215,15 @@ public class Packets {
 	
 	public static class SyncSchmuck {
 		public String entityID;
+		public SchmuckMoveStates moveState;
         public float currentHp;
         public float currentFuel;
         public float flashDuration;
 
 		public SyncSchmuck() {}
-		public SyncSchmuck(String entityID, float currentHp, float currentFuel, float flashDuration) {
+		public SyncSchmuck(String entityID, SchmuckMoveStates moveState, float currentHp, float currentFuel, float flashDuration) {
 			this.entityID = entityID;
+			this.moveState = moveState;
 			this.currentHp = currentHp;
 			this.currentFuel = currentFuel;
 			this.flashDuration = flashDuration;
@@ -203,7 +233,7 @@ public class Packets {
 	public static class SyncPlayer {
 		public String entityID;
         public float attackAngle;
-        public MoveStates moveState;
+        public SchmuckMoveStates moveState;
         public boolean grounded;
         public int currentSlot;
         public int currentClip;
@@ -216,7 +246,7 @@ public class Packets {
         public float reloadPercent;
         
 		public SyncPlayer() {}
-		public SyncPlayer(String entityID, float a, MoveStates moveState, Boolean grounded,
+		public SyncPlayer(String entityID, float a, SchmuckMoveStates moveState, Boolean grounded,
 				int currentSlot, int currentClip, int maxClip, float maxHp, float maxFuel,
 				float airblastCost, float activeCharge, boolean reloading, float reloadPercent) {
             this.entityID = entityID;
@@ -290,6 +320,7 @@ public class Packets {
     	kryo.register(ServerLoaded.class);
     	kryo.register(Paused.class);
     	kryo.register(Unpaused.class);
+    	kryo.register(Notification.class);
     	kryo.register(KeyDown.class);
     	kryo.register(KeyUp.class);
     	kryo.register(MouseMove.class);

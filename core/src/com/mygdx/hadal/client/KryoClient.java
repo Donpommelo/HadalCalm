@@ -16,7 +16,6 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -41,7 +40,7 @@ public class KryoClient {
 	public Client client;
 	public GameStateManager gsm;
 	
-	public static String hostIP, name;
+	public static String hostIP;
     public static final int timeout = 5000;
     
     public static String myId;
@@ -50,7 +49,7 @@ public class KryoClient {
     	this.gsm = gameStateManager;
     }
     	
-	public void init(boolean reconnect) {
+	public void init() {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
         KryoSerialization serialization = new KryoSerialization(kryo);
@@ -64,13 +63,17 @@ public class KryoClient {
         	@Override
         	public void connected(Connection c) {
         		Log.info("CLIENT CONNECTED");
-                Packets.PlayerConnect connected = new Packets.PlayerConnect(name, new Loadout(gsm.getRecord()));
-                client.sendTCP(connected);
+                client.sendTCP(new Packets.PlayerConnect(true, gsm.getRecord().getName(), new Loadout(gsm.getRecord())));
             }
         	
         	@Override
         	public void disconnected(Connection c) {
         		Log.info("HOST DISCONNECTED");
+        		final ClientState cs = getClientState();
+				
+				if (cs != null) {
+					addNotification(cs, "HOST", "SERVER DISCONNECTED!");
+				}
         		Gdx.app.postRunnable(new Runnable() {
     				
                     @Override
@@ -92,12 +95,12 @@ public class KryoClient {
         		
         		if (o instanceof Packets.ServerLoaded) {
         			Log.info("SERVER LOADED");
-        			Packets.PlayerConnect connected = new Packets.PlayerConnect(name, new Loadout(gsm.getRecord()));
+        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getRecord().getName(), new Loadout(gsm.getRecord()));
                     client.sendTCP(connected);
         		}
         		
         		if (o instanceof Packets.Paused) {
-        			Log.info("GAME PAUSED");
+        			final Packets.Paused p = (Packets.Paused) o;
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				final ClientState cs = (ClientState) gsm.getStates().peek();
@@ -105,19 +108,27 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						cs.getGsm().addState(State.MENU, ClientState.class);
+        						cs.getGsm().addPauseState(cs, p.pauser, ClientState.class);
         					}
         				});
         			}
         		}
         		
         		if (o instanceof Packets.Unpaused) {
-        			Log.info("GAME UNPAUSED");
-        			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
         				final PauseState cs = (PauseState) gsm.getStates().peek();
         				cs.setToRemove(true);
         			}
+        		}
+        		
+        		if (o instanceof Packets.Notification) {
+        			final Packets.Notification p = (Packets.Notification) o;
+        			
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						addNotification(cs, p.name, p.text);
+					}
         		}
         		
         		if (o instanceof Packets.LoadLevel) {
@@ -130,7 +141,7 @@ public class KryoClient {
                         public void run() {
                         	gsm.removeState(ClientState.class);
                 			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
-                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded());
+                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime));
                         }
                     });
         		}
@@ -231,7 +242,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						if (!p.entityID.equals(myId)) {
-                    				Player newPlayer = new Player(cs, 0, 0, p.loadout, null);
+                    				Player newPlayer = new Player(cs, 0, 0, p.name, p.loadout, null);
                     				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
                 				} else {        					
                 					cs.addEntity(p.entityID, cs.getPlayer(), ObjectSyncLayers.STANDARD);
@@ -396,7 +407,7 @@ public class KryoClient {
 	
 	public String searchServer() {
 		if (client == null) {
-			init(false);
+			init();
 		}
 		
 		InetAddress address = client.discoverHost(54777, 5000);
@@ -420,6 +431,10 @@ public class KryoClient {
 		return null;
 	}
     
+	public void addNotification(ClientState cs, String name, String text) {
+		cs.getStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+	}
+	
 	private void registerPackets() {
 		Kryo kryo = client.getKryo();
 		Packets.allPackets(kryo);

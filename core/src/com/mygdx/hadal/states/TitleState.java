@@ -16,8 +16,10 @@ import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.client.KryoClient;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.save.UnlockLevel;
 
 /**
  * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
@@ -31,11 +33,11 @@ public class TitleState extends GameState {
 	
 	//Temporary links to other modules for testing.
 	private Table table;
-	private Text hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
-	private TextField enterIP;
+	private Text nameDisplay, hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
+	private TextField enterName, enterIP;
 	
 	private final static int width = 500;
-	private final static int height = 150;
+	private final static int height = 180;
 	private final static int xOffset = 100;
 
 	/**
@@ -59,9 +61,12 @@ public class TitleState extends GameState {
 				table.setSize(width, height);
 				addActor(table);
 				
+				nameDisplay = new Text(HadalGame.assetManager, "YOUR NAME: ", 0, 0, Color.BLACK);
+				nameDisplay.setScale(0.5f);
 				hostOption = new Text(HadalGame.assetManager, "HOST SERVER", 0, 0, Color.BLACK);
 				hostOption.setScale(0.5f);
-				joinOption = new Text(HadalGame.assetManager, "JOIN: ", 0, 0, Color.BLACK);
+				hostOption.addMouseOverStuff();
+				joinOption = new Text(HadalGame.assetManager, "JOIN", 0, 0, Color.BLACK);
 				joinOption.setScale(0.5f);
 				searchOption = new Text(HadalGame.assetManager, "SEARCH?", 0, 0, Color.BLACK);
 				searchOption.setScale(0.5f);
@@ -71,13 +76,14 @@ public class TitleState extends GameState {
 				exitOption.setScale(0.5f);
 				notifications = new Text(HadalGame.assetManager, "", 0, 0, Color.BLACK);
 				notifications.setScale(0.5f);
-				
+
 				hostOption.addListener(new ClickListener() {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						gsm.getRecord().setName(enterName.getText());
 						HadalGame.server.init();
-			        	getGsm().addState(State.HUB, TitleState.class);
+			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
 			        }
 			    });
 				
@@ -85,7 +91,8 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						HadalGame.client.init(false);
+						gsm.getRecord().setName(enterName.getText());
+						HadalGame.client.init();
 						new Thread("Connect") {
 				            public void run () {
 				                try {
@@ -162,7 +169,13 @@ public class TitleState extends GameState {
 				enterIP = new TextField("", gsm.getSkin());
 				enterIP.setMessageText("ENTER IP");
 				
-				table.add(hostOption).pad(5).expandY().row();
+				enterName = new TextField("", gsm.getSkin());
+				enterName.setText(gsm.getRecord().getName());
+				enterName.setMessageText("ENTER NAME");
+				
+				table.add(nameDisplay).pad(5).expandY();
+				table.add(enterName).row();
+				table.add(hostOption).expandY().row();
 				table.add(joinOption).expandY();
 				table.add(enterIP);
 				table.add(searchOption).row();

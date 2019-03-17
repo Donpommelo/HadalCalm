@@ -3,7 +3,7 @@ scrap: 100
 scrip: 100
 hiScores: {
 	class: java.util.HashMap
-	TUTORIAL_1: 4
+	TUTORIAL_1: 5
 	NASU: 109
 	LEVEL_1: 64
 	LEVEL_2: 37
@@ -23,8 +23,9 @@ equips: [
 	BOILER
 	MACHINEGUN
 ]
-artifact: ANCHOR_TALISMAN
+artifact: CALL_OF_THE_VOID
 active: MELON
 character: TELEMACHUS
 level: LEVEL_1
+name: BODARDUS
 }
