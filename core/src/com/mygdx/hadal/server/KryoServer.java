@@ -150,11 +150,18 @@ public class KryoServer {
 				
 				if (o instanceof Packets.SyncLoadout) {
         			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
-        			Player player = players.get(c.getID());
-        			if (p != null) {
-        				player.getPlayerData().syncLoadout(p.loadout);
-        				player.getPlayerData().syncLoadoutChange();
-        			}
+        			final Player player = players.get(c.getID());
+        				final PlayState ps = getPlayState();
+        				if (ps != null && player != null) {
+        					ps.addPacketEffect(new PacketEffect() {
+        						
+        						@Override
+    							public void execute() {
+        							player.getPlayerData().syncLoadout(p.loadout);
+                    				player.getPlayerData().syncLoadoutChange();
+        						}
+            				});
+        				}
         		}
 				
 				if (o instanceof Packets.Unpaused) {
@@ -171,32 +178,44 @@ public class KryoServer {
 				}
 				
 				if (o instanceof Packets.KeyDown) {
+					final Packets.KeyDown p = (Packets.KeyDown) o;
 					final PlayState ps = getPlayState();
 					
 					if (ps != null && players.get(c.getID()) != null) {
-						Packets.KeyDown p = (Packets.KeyDown) o;
-						players.get(c.getID()).getController().keyDown(p.action);
+						
+						ps.addPacketEffect(new PacketEffect() {
+    						
+    						@Override
+							public void execute() {
+    							players.get(c.getID()).getController().keyDown(p.action);
+    						}
+        				});
 					}	
 				}
 				
 				if (o instanceof Packets.KeyUp) {
+					final Packets.KeyUp p = (Packets.KeyUp) o;
 					final PlayState ps = getPlayState();
 					
 					if (ps != null && players.get(c.getID()) != null) {
-						Packets.KeyUp p = (Packets.KeyUp) o;
-						players.get(c.getID()).getController().keyUp(p.action);
+						ps.addPacketEffect(new PacketEffect() {
+    						
+    						@Override
+							public void execute() {
+    							players.get(c.getID()).getController().keyUp(p.action);
+    						}
+        				});
 					}
 				}
 				
 				if (o instanceof Packets.MouseMove) {
+					final Packets.MouseMove p = (Packets.MouseMove) o;
 					final PlayState ps = getPlayState();
 					
 					if (ps != null && mice.get(c.getID()) != null) {
-						Packets.MouseMove p = (Packets.MouseMove) o;
 						mice.get(c.getID()).setDesiredLocation(p.x, p.y);
 					}
 				}
-				
 			}
 		});
 		

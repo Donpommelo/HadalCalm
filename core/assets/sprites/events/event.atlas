@@ -4,6 +4,13 @@ size: 2048,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+eggplant
+  rotate: false
+  xy: 2, 30
+  size: 154, 154
+  orig: 154, 154
+  offset: 0, 0
+  index: 0
 event_base
   rotate: false
   xy: 1736, 1744

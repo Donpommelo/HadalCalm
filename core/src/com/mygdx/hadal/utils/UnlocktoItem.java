@@ -12,7 +12,6 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
 public class UnlocktoItem {
 
-	
 	public static Equipable getUnlock(UnlockEquip unlock, Schmuck schmuck) {
 		try {
 			Equipable newWeapon = unlock.getWeapon().getConstructor(Schmuck.class).newInstance(schmuck);

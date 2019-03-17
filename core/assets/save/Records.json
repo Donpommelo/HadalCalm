@@ -24,8 +24,8 @@ equips: [
 	MACHINEGUN
 ]
 artifact: CALL_OF_THE_VOID
-active: MELON
+active: SPRING_LOADER
 character: TELEMACHUS
-level: LEVEL_1
-name: BODARDUS
+level: NASU
+name: MEEP
 }

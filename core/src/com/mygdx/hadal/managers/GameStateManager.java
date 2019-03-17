@@ -118,12 +118,24 @@ public class GameStateManager {
 			gs.dispose();
 		}
 		states.clear();
-		particleAtlas.dispose();
-		projectileAtlas.dispose();
-		multitoolAtlas.dispose();
-		eventAtlas.dispose();
-		uiAtlas.dispose();
-		explosionAtlas.dispose();
+		if (particleAtlas != null) {
+			particleAtlas.dispose();
+		}
+		if (projectileAtlas != null) {
+			projectileAtlas.dispose();
+		}
+		if (multitoolAtlas != null) {
+			multitoolAtlas.dispose();
+		}
+		if (eventAtlas != null) {
+			eventAtlas.dispose();
+		}
+		if (uiAtlas != null) {
+			uiAtlas.dispose();
+		}
+		if (explosionAtlas != null) {
+			explosionAtlas.dispose();
+		}
 	}
 	
 	/**

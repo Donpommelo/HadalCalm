@@ -13,9 +13,9 @@ import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.Poison;
+import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -27,6 +27,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PauseState;
 
@@ -284,13 +285,49 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						Poison poison = new Poison(cs, (int)p.size.x, (int)p.size.y, (int)p.pos.x, (int)p.pos.y, 
+        						Poison poison = new Poison(cs, (int)p.size.x, (int)p.size.y, (int)(p.pos.x), (int)(p.pos.y), 
         								0, p.draw, (short)0);
         						cs.addEntity(p.entityID, poison, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}
         		}
+        		
+        		if (o instanceof Packets.CreatePickup) {
+        			final Packets.CreatePickup p = (Packets.CreatePickup) o;
+            		
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						Event pickup = null;
+        						switch(p.type) {
+								case ACTIVE:
+									pickup = new PickupEquip(cs, (int)p.pos.x, (int)p.pos.y, 0, "");
+									break;
+								case ARTIFACT:
+									pickup = new PickupEquip(cs, (int)p.pos.x, (int)p.pos.y, 0, "");
+									break;
+								case MOD:
+									pickup = new PickupEquip(cs, (int)p.pos.x, (int)p.pos.y, 0, "");
+									break;
+								case WEAPON:
+									pickup = new PickupEquip(cs, (int)(p.pos.x), (int)(p.pos.y), 0, "");
+									((PickupEquip)pickup).setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.startPickup), null));
+									break;
+        						}
+        						
+        						if (pickup != null) {
+            						cs.addEntity(p.entityID, pickup, ObjectSyncLayers.STANDARD);
+        						}
+            				}
+    					});
+					}
+        		}
+        		
         		
         		if (o instanceof Packets.ActivateEvent) {
         			final Packets.ActivateEvent p = (Packets.ActivateEvent) o;
@@ -335,6 +372,16 @@ public class KryoClient {
         		
         		if (o instanceof Packets.SyncPlayer) {
         			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
+        			
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.syncEntity(p.entityID, p);
+					}
+        		}
+        		
+        		if (o instanceof Packets.SyncPickup) {
+        			Packets.SyncPickup p = (Packets.SyncPickup) o;
         			
         			final ClientState cs = getClientState();
 					

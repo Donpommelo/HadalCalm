@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.event.PickupType;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
@@ -205,6 +206,32 @@ public class Packets {
         }
 	}
 	
+	public static class CreatePickup {
+		public String entityID;
+        public Vector2 pos;
+        public PickupType type;
+        public String startPickup;
+        public CreatePickup() {}
+		public CreatePickup(String entityID, Vector2 pos, PickupType type, String startPickup) {
+			this.entityID = entityID;
+            this.pos = pos;
+            this.type = type;
+            this.startPickup = startPickup;
+		}
+	}
+	
+	public static class SyncPickup {
+		public String entityID;
+        public String startPickup;
+        public boolean open;
+        public SyncPickup() {}
+		public SyncPickup(String entityID, String startPickup, boolean open) {
+			this.entityID = entityID;
+            this.startPickup = startPickup;
+            this.open = open;
+		}
+	}
+	
 	public static class ActivateEvent {
 		public String entityID;
 		public ActivateEvent() {}
@@ -334,6 +361,8 @@ public class Packets {
     	kryo.register(DeleteEntity.class);
     	kryo.register(CreateEvent.class);
     	kryo.register(CreatePoison.class);
+    	kryo.register(CreatePickup.class);
+    	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
     	kryo.register(SyncLoadout.class);

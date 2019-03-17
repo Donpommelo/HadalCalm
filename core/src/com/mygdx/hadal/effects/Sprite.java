@@ -29,6 +29,7 @@ public enum Sprite {
 	FUEL(SpriteType.EVENT, "event_fuel"),
 	MEDPAK(SpriteType.EVENT, "event_health"),
 
+	NASU(SpriteType.EVENT, "eggplant"),
 	PYRAMID(SpriteType.EVENT, "event_pyramid"),
 	CUBE(SpriteType.EVENT, "event_cube"),
 	BASE(SpriteType.EVENT, "event_base"),

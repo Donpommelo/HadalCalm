@@ -2,11 +2,9 @@ package com.mygdx.hadal.input;
 
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * TODO:.
  * @author Zachary Tu
  *
  */
@@ -103,27 +101,17 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.SWITCH_TO_5) {
-			player.switchToSlot(4);
+			player.switchToSlot(5);
 		}
 		
 		if (action == PlayerAction.DIALOGUE) {
-			if (state.getStage() != null) {
+			if (state.getStage() != null && player.equals(state.getPlayer())) {
 				state.getStage().nextDialogue();
 			}
 		}
 		
 		if (action == PlayerAction.PAUSE) {
-			if (player.equals(state.getPlayer())) {
-				state.getGsm().addPauseState(state, player.getName(), PlayState.class);
-			} else {
-				state.addPacketEffect(new PacketEffect() {
-
-					@Override
-					public void execute() {
-						state.getGsm().addPauseState(state, player.getName(), PlayState.class);
-					}
-				});
-			}
+			state.getGsm().addPauseState(state, player.getName(), PlayState.class);
 		}
 		
 		if (action == PlayerAction.MO_CYCLE_UP) {

@@ -218,8 +218,7 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
 		}
 		if (object.getName().equals("Equip")) {
-			e = new PickupEquip(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupEquip(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("mods", 0, Integer.class),
 					object.getProperties().get("pool", "", String.class));
 		}
@@ -344,6 +343,9 @@ public class TiledObjectUtil {
 			}
 			if (object.getProperties().get("sync", Integer.class) != null) {
 				e.setSyncType(object.getProperties().get("sync", Integer.class));
+			}
+			if (object.getProperties().get("synced", boolean.class) != null) {
+				e.setSynced(object.getProperties().get("synced", boolean.class));
 			}
 			if (object.getProperties().get("particle_amb", String.class) != null) {
 				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)));

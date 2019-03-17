@@ -141,7 +141,7 @@ public class Poison extends Event {
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
-			return new Packets.CreatePoison(entityID.toString(), body.getPosition(), 
+			return new Packets.CreatePoison(entityID.toString(), body.getPosition().scl(PPM), 
 					new Vector2(width, height), draw);
 		} else {
 			return new Packets.CreateEvent(entityID.toString(), blueprint);

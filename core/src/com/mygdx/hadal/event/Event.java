@@ -53,9 +53,15 @@ public class Event extends HadalEntity {
 	
     private final static float animationSpeed = 0.8f;
     
+    public final static int defaultPickupEventSize = 96;
+    
     protected MapObject blueprint;
     
     protected ParticleEntity standardParticle;
+
+    //Does this event send a sync packet to client every engine tick?
+    //Default is no with the exception of moving platforms and connected events. (+specifically chosen events in the map, like nasu)
+    private boolean synced = false;
     
 	/**
 	 * Constructor for permanent events.
@@ -195,7 +201,7 @@ public class Event extends HadalEntity {
 	}
 
 	public void addAmbientParticle(Particle particle) {
-		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.TICKSYNC);	
+		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC);	
 	}
 	
 	@Override
@@ -272,6 +278,13 @@ public class Event extends HadalEntity {
 		}
 	}
 	
+	@Override
+	public void onServerSync() {
+		if (synced) {
+			super.onServerSync();
+		}
+	}
+	
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
@@ -286,6 +299,14 @@ public class Event extends HadalEntity {
 
 	public void setSyncType(int syncType) {
 		this.syncType = syncType;
+	}
+
+	public boolean isSynced() {
+		return synced;
+	}
+
+	public void setSynced(boolean synced) {
+		this.synced = synced;
 	}
 
 	public MapObject getBlueprint() {

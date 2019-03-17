@@ -30,7 +30,6 @@ public class WeaponPickup extends Prefabrication {
 		weapon.getRectangle().set(x, y, width, height);
 		weapon.setName("Equip");
 		weapon.getProperties().put("align", 2);
-		weapon.getProperties().put("particle_amb", "EVENT_HOLO");
 		weapon.getProperties().put("triggeredId", triggeredId);
 		weapon.getProperties().put("triggeringId", triggeringId);
 		weapon.getProperties().put("mods", mods);
@@ -40,6 +39,8 @@ public class WeaponPickup extends Prefabrication {
 		spawner.getRectangle().set(x, y, width, height);
 		spawner.setName("Dummy");
 		spawner.getProperties().put("align", 2);
+		spawner.getProperties().put("sync", 1);
+		spawner.getProperties().put("particle_amb", "EVENT_HOLO");
 		spawner.getProperties().put("scale", 0.25f);
 		spawner.getProperties().put("sprite", "BASE");
 		

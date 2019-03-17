@@ -43,6 +43,8 @@ public class MovingPlatform extends Event {
 		super(state, name, width, height, x, y);
 		this.speed = speed;
 		this.pause = pause;
+		
+		setSynced(true);
 	}
 
 	@Override
@@ -124,6 +126,7 @@ public class MovingPlatform extends Event {
 	public void addConnection(Event e) {
 		if (e != null) {
 			connected.add(e);
+			e.setSynced(true);
 		}
 	}
 
