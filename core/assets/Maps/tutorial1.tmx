@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextobjectid="65">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="66">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="../Images/tileset_1.png" width="192" height="128"/>
  </tileset>
- <layer name="Tile Layer 1" width="120" height="120">
+ <layer id="1" name="Tile Layer 1" width="120" height="120">
   <data encoding="base64" compression="zlib">
    eJzt3dtu3CAUhWG3adU2PV2k7/+sHV9YpRY4BvbeLJj/k7iJIoNZiWeAgdk2AAAAAAAAAAAAAAAAAAAAAAAAAADG+vAorwPLR/9bfGqfHuX3wPLN/xafWi7fn4/y4lx+beQb4Zzvnu2PwHrJ11eab1S2ab3k6+vo58hs03rJ19eofibfGOS7NvJdm2U/5+ZKSvMX5BvDsp9zY+nSdck3hle+xxzJ14B6V2M5Z/xn88n3vesdv/vW0fZV56495oxH5Tu6zYrSOQmr+eDSc7SlXXf6/ktHW1efu1Z97arJ16Ietfu3onp/5GtD9f7I14bq/ZGvDdX7I18bqvcXnW/P2Fl5DE2+WuN+a8+eb8/YOXIM3TrPaDmnaCkqXwsR/yO9zxm1PiTffB2184xK83PpM+h4rqi07UpkvrV1KL3+lp5BCm27Qr73kK99HT1tO56nLeO+3PvB9JmcFouxqWeJeI/amtMxPmhZ0+v52xi9V8mjKOY7qs6afCP2MKmse5d45lt6DkfkG70XQpVnvqVre+dLtv+sli/Z/s9yHaT0/vB87dLPa65Jtves8n6UbPMs1kEUCtkCAAAAAAAAAAAAAFY2+rstaoriPmh1M30+R32/iSKPc8p6y7E3kXz7Ke0TO3zf8hkrtXEWivnuchmrtXEGqvnuzhkrtlGdcr67NGPVNipTz3c3QxtVzdB3M7RR1Qx9N0MbVc3QdzO0UdUMfTdDG1XN0HcztFFVb9993mzXCq7Ox8ntF2bN4VpPvnu2V/utW9YKatc7+J++1prvOdu7awbvfefU3f3IzHnc05LvOds7e6utX0N5Tb6ntp9asm2pJ/p6q6o9X6Ul27Qe8o3V+vmN2vMuyHeMlvNVWs4yId+1ke/ayHdt5Ls28l2b9TmXqt/P86y8PkdPvhq8zrn0PPscAAAAAAAAgI+/XWw4Fg==
   </data>
  </layer>
- <objectgroup name="event-layer">
+ <objectgroup id="2" name="event-layer">
   <object id="2" name="Start" type="Start" x="256" y="1920" width="32" height="32"/>
   <object id="6" name="Timer" type="Timer" x="352" y="928" width="32" height="32">
    <properties>
@@ -202,11 +202,6 @@
     <property name="triggeringId" value="tutorial5DialogSensor"/>
    </properties>
   </object>
-  <object id="39" name="Active" type="Active" x="2688" y="1792" width="32" height="32">
-   <properties>
-    <property name="pool" value="FIREBALL"/>
-   </properties>
-  </object>
   <object id="40" name="Switch" type="Switch" x="3008" y="1792" width="32" height="32">
    <properties>
     <property name="triggeringId" value="portal0"/>
@@ -343,8 +338,14 @@
     <property name="triggeringId" value="switch0"/>
    </properties>
   </object>
+  <object id="65" name="Prefab" type="Prefab" x="2688" y="1728" width="96" height="96">
+   <properties>
+    <property name="pool" value="FIREBALL"/>
+    <property name="prefabId" value="Active"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup name="collision-layer">
+ <objectgroup id="3" name="collision-layer">
   <object id="4" x="160" y="2016">
    <polyline points="0,0 640,0 640,-96 736,-96 736,0 832,0 832,-192 928,-192 928,0 1312,0 1312,-192 1472,-192 1472,-288 1568,-288 1568,-800 1760,-800 1760,-704 1696,-704 1696,-192 2944,-192 2944,-352 2400,-352 2400,-608 1920,-608 1920,-992 1152,-992 1056,-896 1056,-608 448,-608 448,-128 352,-128 352,-256 0,-256 0,0"/>
   </object>

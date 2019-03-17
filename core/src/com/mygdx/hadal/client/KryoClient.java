@@ -13,9 +13,10 @@ import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -174,8 +175,7 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-                				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, p.sprite), p.layer);
-
+                				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, (int)p.pos.x, (int)p.pos.y, p.sprite), p.layer);
         					}
         				});
 					}
@@ -306,13 +306,16 @@ public class KryoClient {
         						Event pickup = null;
         						switch(p.type) {
 								case ACTIVE:
-									pickup = new PickupEquip(cs, (int)p.pos.x, (int)p.pos.y, 0, "");
+									pickup = new PickupActive(cs, (int)(p.pos.x), (int)(p.pos.y), "");
+									((PickupActive)pickup).setActive(UnlocktoItem.getUnlock(UnlockActives.valueOf(p.startPickup), null));
 									break;
 								case ARTIFACT:
-									pickup = new PickupEquip(cs, (int)p.pos.x, (int)p.pos.y, 0, "");
+									pickup = new PickupArtifact(cs, (int)p.pos.x, (int)p.pos.y, "");
+									((PickupArtifact)pickup).setArtifact(UnlockArtifact.valueOf(p.startPickup));
 									break;
 								case MOD:
-									pickup = new PickupEquip(cs, (int)p.pos.x, (int)p.pos.y, 0, "");
+									pickup = new PickupWeaponMod(cs, (int)p.pos.x, (int)p.pos.y, "");
+									((PickupWeaponMod)pickup).setWeaponMod(WeaponMod.valueOf(p.startPickup));
 									break;
 								case WEAPON:
 									pickup = new PickupEquip(cs, (int)(p.pos.x), (int)(p.pos.y), 0, "");
@@ -321,6 +324,7 @@ public class KryoClient {
         						}
         						
         						if (pickup != null) {
+        							pickup.loadDefaultProperties();
             						cs.addEntity(p.entityID, pickup, ObjectSyncLayers.STANDARD);
         						}
             				}

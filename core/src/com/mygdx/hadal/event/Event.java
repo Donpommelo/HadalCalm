@@ -265,7 +265,7 @@ public class Event extends HadalEntity {
 		switch(syncType) {
 		case 0:
 			if (body != null) {
-				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), null, ObjectSyncLayers.STANDARD);
+				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), body.getPosition().scl(PPM), null, ObjectSyncLayers.STANDARD);
 			} else {
 				return null;
 			}

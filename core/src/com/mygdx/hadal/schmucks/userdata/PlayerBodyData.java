@@ -79,12 +79,20 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		this.artifacts = new ArrayList<Artifact>();
-		artifactStart = addArtifact(loadout.artifact);
-
+		
+		replaceStartingArtifact(loadout.startifact);
+		
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
+		
 		addStatus(new ActiveItemCharge(player.getState(), this));		
 	}
 	
+	/**
+	 * This is called by both the server and client for players that receive a new loadout from the other.
+	 * We give the player the new loadout information.
+	 * 
+	 * @param loadout
+	 */
 	public void syncLoadout(Loadout loadout) {
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
@@ -94,19 +102,33 @@ public class PlayerBodyData extends BodyData {
 		
 		setEquip();
 		
+		for (Artifact a : artifacts) {
+			for (Status s: a.getEnchantment()) {
+				removeStatus(s);
+			}
+		}
+		artifacts.clear();
+		
+		for (UnlockArtifact unlock: loadout.artifacts) {
+			addArtifact(unlock);
+		}
+		
 		if (artifactStart != null) {
-			artifacts.remove(artifactStart);
 			for (Status s : artifactStart.getEnchantment()) {
 				removeStatus(s);
 			}
 		}
 		
-		artifactStart = addArtifact(loadout.artifact);
+		replaceStartingArtifact(loadout.startifact);
 		
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		player.setBodySprite(loadout.character.getSprite());
 		
 		this.loadout = loadout;
+		
+		if (player.equals((player.getState().getPlayer()))) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
 	}
 	
 	/**
@@ -118,6 +140,10 @@ public class PlayerBodyData extends BodyData {
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
 
+		currentHp = getMaxHp();
+		currentFuel = getMaxHp();
+		currentSlot = 0;
+		
 		clearStatuses();
 		
 		for (Equipable e : multitools) {
@@ -125,6 +151,7 @@ public class PlayerBodyData extends BodyData {
 				e.setUser(player);
 			}
 		}
+		
 		for (Artifact a : artifacts) {
 			if (a != null) {
 				for (Status s : a.loadEnchantments(player.getState(), this)) {
@@ -133,6 +160,12 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 
+		if (artifactStart != null) {
+			for (Status s : artifactStart.loadEnchantments(player.getState(), this)) {
+				addStatus(s);
+			}
+		}
+		
 		//Eventually, this space might be used for a "intrinsic status" thing.
 		addStatus(new ActiveItemCharge(player.getState(), this));
 	}
@@ -219,7 +252,7 @@ public class PlayerBodyData extends BodyData {
  				setEquip();
  				
  				loadout.multitools[currentSlot] = unlock;
- 				syncLoadoutChange();
+ 				syncServerLoadoutChange();
  				return null;
 			}
 		}
@@ -235,7 +268,7 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		loadout.multitools[currentSlot] = unlock;
-		syncLoadoutChange();
+		syncServerLoadoutChange();
 		
 		return old;
 	}
@@ -253,7 +286,7 @@ public class PlayerBodyData extends BodyData {
 		activeItem = item;
 		
 		loadout.activeItem = unlock;
-		syncLoadoutChange();
+		syncServerLoadoutChange();
 
 		return old;
 	}
@@ -276,31 +309,32 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		loadout.multitools[currentSlot] = UnlockEquip.NOTHING;
-		syncLoadoutChange();
+		syncServerLoadoutChange();
 	}
 	
 	/**
 	 * Replaces starting artifact with input artifact. This only runs in the loadout state.
 	 */
-	public void replaceSlot(UnlockArtifact artifact) {
-		
-		artifacts.clear();
-		
+	public void replaceStartingArtifact(UnlockArtifact artifact) {
 		if (artifactStart != null) {
 			for (Status s : artifactStart.getEnchantment()) {
 				removeStatus(s);
 			}
-		}	
+		}
 		
-		artifactStart = addArtifact(artifact);
+		artifactStart = UnlocktoItem.getUnlock(artifact);
 		
-		loadout.artifact = artifact;
+		for (Status s : artifactStart.loadEnchantments(player.getState(), this)) {
+			addStatus(s);
+		}
 		
-		if (player.getState().getPlayer().equals(player)) {
+		loadout.startifact = artifact;
+		
+		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
 		
-		syncLoadoutChange();
+		syncServerLoadoutChange();
 	}
 	
 	/**
@@ -310,14 +344,22 @@ public class PlayerBodyData extends BodyData {
 
 		Artifact newArtifact =  UnlocktoItem.getUnlock(artifact);
 		
-		for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
-			addStatus(s);
+		if (player.getState().isServer()) {
+			for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
+				addStatus(s);
+			}
 		}
 		
 		artifacts.add(newArtifact);
-		if (player.getState().getPlayer().equals(player)) {
+
+		loadout.artifacts.add(artifact);
+		
+		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
+		
+		syncServerLoadoutChange();
+		
 		return newArtifact;
 	}
 	
@@ -333,10 +375,14 @@ public class PlayerBodyData extends BodyData {
 		calcStats();
 	}
 	
-	public void syncLoadoutChange() {
+	public void syncServerLoadoutChange() {
 		if (player.getState().isServer()) {
 			HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
-		} else {
+		}
+	}
+	
+	public void syncClientLoadoutChange() {
+		if (!player.getState().isServer()) {
 			HadalGame.client.client.sendTCP(new Packets.SyncLoadout(null, loadout));
 		}
 	}
@@ -377,6 +423,10 @@ public class PlayerBodyData extends BodyData {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public Artifact getArtifactStart() {
+		return artifactStart;
 	}
 
 	public int getExtraJumps() {

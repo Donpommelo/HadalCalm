@@ -33,7 +33,6 @@ public class AdministratorCard extends Artifact {
 						((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact);
 					}
 				}
-				
 			}
 		});
 		return enchantment;

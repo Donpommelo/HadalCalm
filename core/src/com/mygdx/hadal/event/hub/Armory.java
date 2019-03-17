@@ -40,8 +40,9 @@ public class Armory extends HubEvent {
 				
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
-		        	state.getGsm().getRecord().setEquips(state.getPlayer().getPlayerData().getCurrentSlot(), selected.name());
 		        	state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
+		        	state.getGsm().getRecord().setEquips(state.getPlayer().getPlayerData().getCurrentSlot(), selected.name());
+		        	state.getPlayer().getPlayerData().syncClientLoadoutChange();
 		        }
 				
 				@Override

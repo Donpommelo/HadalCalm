@@ -19,8 +19,8 @@ public class ClientIllusion extends HadalEntity {
 	//Speed of the animation. Make this an input?
 	private float speed = 0.05f;
 		
-	public ClientIllusion(PlayState state, float w, float h, Sprite sprite) {
-		super(state, w, h, 0, 0);
+	public ClientIllusion(PlayState state, float w, float h, int x, int y, Sprite sprite) {
+		super(state, w, h, x, y);
 		if (sprite != null) {
 			projectileSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
 		}

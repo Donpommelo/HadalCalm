@@ -208,8 +208,10 @@ public class ClientState extends PlayState {
 			//TODO
 			break;
 		case NEWLEVEL:
-		case NEXTSTAGE:
 			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
+			break;
+		case NEXTSTAGE:
+			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(player.getPlayerData().getLoadout(), nextState));
 			break;
 		default:
 			break;

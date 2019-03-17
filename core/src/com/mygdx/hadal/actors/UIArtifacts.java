@@ -53,6 +53,11 @@ public class UIArtifacts {
 		table.clear();
 		artifacts.clear();
 		if (player.getPlayerData() != null) {
+			
+			if (player.getPlayerData().getArtifactStart() != null) {
+				artifacts.add(addTag(player.getPlayerData().getArtifactStart()));
+			}
+			
 			for (Artifact a : player.getPlayerData().getArtifacts()) {
 				artifacts.add(addTag(a));
 			}

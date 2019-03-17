@@ -1,7 +1,12 @@
 package com.mygdx.hadal.event;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
@@ -9,6 +14,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -33,18 +39,16 @@ public class PickupActive extends Event {
 
 	//This is the weapon that will be picked up when interacting with this event.
 	private ActiveItem item;
+	private UnlockActives unlock;
 	
 	private static final String name = "Item Pickup";
 
-	//Can this event be interacted with atm?
-	private boolean on;
-	
-	public PickupActive(PlayState state, int width, int height, int x, int y, String pool) {
-		super(state, name, width, height, x, y);
-		this.on = true;
+	public PickupActive(PlayState state, int x, int y, String pool) {
+		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
 		
 		//Set this pickup to a random weapon in the input pool
-		item = UnlocktoItem.getUnlock(UnlockActives.valueOf(getRandItemFromPool(pool)), null);
+		unlock = UnlockActives.valueOf(getRandItemFromPool(pool));
+		item = UnlocktoItem.getUnlock(unlock, null);
 	}
 	
 	@Override
@@ -53,30 +57,32 @@ public class PickupActive extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (isAlive() && on) {
+				preActivate(null, p);
+			}
+			
+			@Override
+			public void onActivate(EventData activator, Player p) {
+				if (isAlive()) {
 					
 					//If player inventory is full, replace their current weapon.
 					item.setUser(p);
 					ActiveItem temp = p.getPlayerData().pickup(item);
 					
+					
 					//If the player picks this up without dropping anything, delete this event.
 					if (temp == null) {
 						queueDeletion();
 					} else {
-						
-						//Otherwise set its weapon to the dropped weapon.
 						item = temp;
-					}
-					
-					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().preActivate(this, p);
 					}
 				}
 			}
 			
 			@Override
-			public void onActivate(EventData activator, Player p) {
-				on = !on;
+			public void preActivate(EventData activator, Player p) {
+				onActivate(activator, p);
+				HadalGame.server.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
+						UnlockActives.getUnlockFromActive(item.getClass()).toString()));
 			}
 		};
 		
@@ -105,12 +111,36 @@ public class PickupActive extends Event {
 	}
 
 	@Override
-	public String getText() {
-		if (on) {
-			return item.getName() + " (E TO TAKE)";
+	public void render(SpriteBatch batch) {
+		super.render(batch);
+		
+		batch.setProjectionMatrix(state.sprite.combined);
+		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+		float y = body.getPosition().y * PPM + height / 2;
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, item.getName(), body.getPosition().x * PPM - width / 2, y);
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreatePickup(entityID.toString(), body.getPosition().scl(PPM), PickupType.ACTIVE, unlock.toString());
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			setActive(UnlocktoItem.getUnlock(UnlockActives.valueOf(p.newPickup), null));
 		} else {
-			return item.getName() + ": LOCKED";
+			super.onClientSync(o);
 		}
 	}
-
+	
+	public void setActive(ActiveItem item) {
+		this.item = item;
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite(Sprite.CUBE);
+	}
 }

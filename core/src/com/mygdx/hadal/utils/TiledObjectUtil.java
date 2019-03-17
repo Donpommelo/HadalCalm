@@ -223,18 +223,15 @@ public class TiledObjectUtil {
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Artifact")) {
-			e = new PickupArtifact(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupArtifact(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Active")) {
-			e = new PickupActive(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupActive(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("WeaponMod")) {
-			e = new PickupWeaponMod(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupWeaponMod(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Dropthrough")) {
@@ -380,7 +377,7 @@ public class TiledObjectUtil {
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Spawner")) {
-    		p = new TimedSpawner(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerPickupTimed(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("interval", 1.0f, float.class),
 					object.getProperties().get("type", 0, int.class),
@@ -388,7 +385,7 @@ public class TiledObjectUtil {
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("SpawnerTriggered")) {
-    		p = new TriggeredSpawner(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerPickupTriggered(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("type", 0, int.class),
@@ -414,18 +411,38 @@ public class TiledObjectUtil {
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Weapon")) {
-    		p = new WeaponPickup(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeredBackId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("mods", 0, Integer.class),
 					object.getProperties().get("pool", "", String.class));
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Artifact")) {
-    		p = new ArtifactPickup(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerArtifact(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeredBackId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("pool", "", String.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Active")) {
+    		p = new SpawnerActiveItem(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeredBackId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("pool", "", String.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("WeaponMod")) {
+    		p = new SpawnerWeaponMod(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeredBackId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("pool", "", String.class));
     	}

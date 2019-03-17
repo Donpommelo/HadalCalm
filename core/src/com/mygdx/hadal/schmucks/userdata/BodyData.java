@@ -169,6 +169,11 @@ public class BodyData extends HadalData {
 	}
 	
 	public void addStatus(Status s) {
+		
+		if (!schmuck.getState().isServer()) {
+			return;
+		}
+		
 		boolean added = false;
 		Status old = getStatus(s.getClass());
 		if (old != null) {

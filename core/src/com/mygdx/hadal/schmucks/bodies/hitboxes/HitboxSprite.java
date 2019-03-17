@@ -58,6 +58,6 @@ public class HitboxSprite extends RangedHitbox {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), sprite, ObjectSyncLayers.HBOX);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), body.getPosition().scl(PPM), sprite, ObjectSyncLayers.HBOX);
 	}
 }

@@ -54,6 +54,8 @@ public class GluttonousGreyGlove extends Artifact {
 					medpak.setConnectedEvent(changer);
 					changer.setConnectedEvent(deleter);
 					deleter.setConnectedEvent(particles);
+					medpak.setSynced(true);
+//					medpak.setSyncType(3);
 					medpak.setEventSprite(Sprite.MEDPAK);
 					medpak.addAmbientParticle(Particle.EVENT_HOLO);
 				}

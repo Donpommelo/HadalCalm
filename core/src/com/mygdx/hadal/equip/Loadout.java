@@ -1,5 +1,7 @@
 package com.mygdx.hadal.equip;
 
+import java.util.ArrayList;
+
 import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -12,7 +14,8 @@ public class Loadout {
 	
 	public UnlockEquip[] multitools;
 	
-	public UnlockArtifact artifact;
+	public UnlockArtifact startifact;
+	public ArrayList<UnlockArtifact> artifacts;
 	
 	public UnlockActives activeItem;
 	
@@ -26,13 +29,15 @@ public class Loadout {
 		multitools[1] = UnlockEquip.NOTHING;
 		multitools[2] = UnlockEquip.NOTHING;
 		
+		artifacts = new ArrayList<UnlockArtifact>();
+		
 		for (int i = 0; i < numSlots; i++) {
 			if (record.getEquips().length > i) {
 				multitools[i] = UnlockEquip.valueOf(record.getEquips()[i]);
 			}
 		}
 		
-		artifact = UnlockArtifact.valueOf(record.getArtifact());
+		startifact = UnlockArtifact.valueOf(record.getArtifact());
 		activeItem = UnlockActives.valueOf(record.getActive());
 		character = UnlockCharacter.valueOf(record.getCharacter());
 	}
@@ -43,16 +48,17 @@ public class Loadout {
 		multitools[1] = UnlockEquip.NOTHING;
 		multitools[2] = UnlockEquip.NOTHING;
 		
+		artifacts = new ArrayList<UnlockArtifact>();
+
 		for (int i = 0; i < numSlots; i++) {
 			if (tools.length > i) {
 				multitools[i] = tools[i];
 			}
 		}
 		
-		artifact = UnlockArtifact.NOTHING;
+		startifact = UnlockArtifact.NOTHING;
 		activeItem = UnlockActives.NOTHING;
 		character = UnlockCharacter.MOREAU;
-
 	}
 	
 	public static int getNumSlots() {

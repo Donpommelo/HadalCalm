@@ -128,12 +128,14 @@ public class Packets {
 	
 	public static class CreateEntity {
 		public String entityID;
+		public Vector2 pos;
         public Vector2 size;
         public Sprite sprite;
         public ObjectSyncLayers layer;
 		public CreateEntity() {}
-		public CreateEntity(String entityID, Vector2 size, Sprite sprite, ObjectSyncLayers layer) {
+		public CreateEntity(String entityID, Vector2 size, Vector2 pos, Sprite sprite, ObjectSyncLayers layer) {
 			this.entityID = entityID;
+			this.pos = pos;
             this.size = size;
             this.sprite = sprite;
             this.layer = layer;
@@ -222,13 +224,11 @@ public class Packets {
 	
 	public static class SyncPickup {
 		public String entityID;
-        public String startPickup;
-        public boolean open;
+        public String newPickup;
         public SyncPickup() {}
-		public SyncPickup(String entityID, String startPickup, boolean open) {
+		public SyncPickup(String entityID, String newPickup) {
 			this.entityID = entityID;
-            this.startPickup = startPickup;
-            this.open = open;
+            this.newPickup = newPickup;
 		}
 	}
 	

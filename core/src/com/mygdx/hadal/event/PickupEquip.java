@@ -47,9 +47,6 @@ public class PickupEquip extends Event {
 
 	private ArrayList<WeaponMod> mods;
 
-	//Is the player standing in this event? Will display extra info
-	protected boolean open;
-
 	public PickupEquip(PlayState state, int x, int y, int modPow, String pool) {
 		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
 		
@@ -84,14 +81,11 @@ public class PickupEquip extends Event {
 					}
 					mods.clear();
 					
-					
-					equip = temp;
-					
 					//If the player picks this up without dropping anything, delete this event.
-					if (equip == null) {
+					if (temp == null) {
 						queueDeletion();
 					} else {
-						
+						equip = temp;
 						//Otherwise set its weapon to the dropped weapon.
 						setEventSprite(equip.getEventSprite());
 						
@@ -106,12 +100,27 @@ public class PickupEquip extends Event {
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
 				HadalGame.server.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
-						UnlockEquip.getUnlockFromEquip(equip.getClass()).toString(), open));
+						UnlockEquip.getUnlockFromEquip(equip.getClass()).toString()));
 			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreatePickup(entityID.toString(), body.getPosition().scl(PPM), PickupType.WEAPON, unlock.toString());
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
+		} else {
+			super.onClientSync(o);
+		}
 	}
 	
 	/**
@@ -133,47 +142,19 @@ public class PickupEquip extends Event {
 		}
 		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
-
-	@Override
-	public void controller(float delta) {
-		if (open && eventData.getSchmucks().isEmpty()) {
-			open = false;
-		}
-		if (!open && !eventData.getSchmucks().isEmpty()) {
-			open = true;
-		}
-	}
 	
 	@Override
 	public void render(SpriteBatch batch) {
 		super.render(batch);
 		
-		if (open) {
-			batch.setProjectionMatrix(state.sprite.combined);
-			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-			float y = body.getPosition().y * PPM + height / 2;
-			for (WeaponMod mod : mods) {
-				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
-				y += 15;
-			}
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), body.getPosition().x * PPM - width / 2, y);
+		batch.setProjectionMatrix(state.sprite.combined);
+		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+		float y = body.getPosition().y * PPM + height / 2;
+		for (WeaponMod mod : mods) {
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
+			y += 15;
 		}
-	}
-	
-	@Override
-	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), body.getPosition().scl(PPM), PickupType.WEAPON, unlock.toString());
-	}
-	
-	@Override
-	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncPickup) {
-			Packets.SyncPickup p = (Packets.SyncPickup) o;
-			setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.startPickup), null));
-			open = p.open;
-		} else {
-			super.onClientSync(o);
-		}
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), body.getPosition().x * PPM - width / 2, y);
 	}
 	
 	public Equipable getEquip() {

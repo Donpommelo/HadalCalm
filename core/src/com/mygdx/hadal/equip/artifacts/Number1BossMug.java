@@ -54,6 +54,8 @@ public class Number1BossMug extends Artifact {
 					medpak.setConnectedEvent(changer);
 					changer.setConnectedEvent(deleter);
 					deleter.setConnectedEvent(particles);
+					medpak.setSynced(true);
+//					medpak.setSyncType(3);
 					medpak.setEventSprite(Sprite.FUEL);
 					medpak.addAmbientParticle(Particle.EVENT_HOLO);
 				}

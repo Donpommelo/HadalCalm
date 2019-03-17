@@ -19,13 +19,13 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	BEEGUN
+	BOUNCING_BLADE
 	BOILER
-	MACHINEGUN
+	BOOMERANG
 ]
-artifact: CALL_OF_THE_VOID
-active: SPRING_LOADER
-character: TELEMACHUS
-level: NASU
+artifact: ADMINISTRATOR_CARD
+active: HYDRAULIC_UPPERCUT
+character: TAKANORI
+level: LEVEL_1
 name: MEEP
 }

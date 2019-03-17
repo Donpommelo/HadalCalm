@@ -122,23 +122,30 @@ public class KryoServer {
 
 					final PlayState ps = getPlayState();
 					String playerName = "";
+					PlayerBodyData data = null;
 					Player player = players.get(c.getID());
 					if (player != null) {
 						playerName = player.getName();
+						data = player.getPlayerData();
 					}
 					
 					if (ps != null) {
-						createNewClientPlayer(ps, c.getID(), playerName, p.loadout, null);
 						
 						//TODO: logic for client transition upon won/lose
                         switch(p.state) {
 						case LOSE:
+							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
 							break;
 						case NEWLEVEL:
+							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, null);
+	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), false));
+							break;
 						case NEXTSTAGE:
+							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
 	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), false));
 							break;
 						case WIN:
+							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
 							break;
 						default:
 							break;
@@ -158,7 +165,7 @@ public class KryoServer {
         						@Override
     							public void execute() {
         							player.getPlayerData().syncLoadout(p.loadout);
-                    				player.getPlayerData().syncLoadoutChange();
+                    				player.getPlayerData().syncServerLoadoutChange();
         						}
             				});
         				}

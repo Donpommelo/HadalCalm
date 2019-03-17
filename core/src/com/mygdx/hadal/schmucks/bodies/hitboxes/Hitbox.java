@@ -175,7 +175,7 @@ public class Hitbox extends HadalEntity {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), null, ObjectSyncLayers.HBOX);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height),  body.getPosition().scl(PPM), null, ObjectSyncLayers.HBOX);
 	}
 	
 	public float getLifeSpan() {
