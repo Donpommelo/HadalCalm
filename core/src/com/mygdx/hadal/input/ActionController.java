@@ -105,7 +105,7 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.DIALOGUE) {
-			if (state.getStage() != null && player.equals(state.getPlayer())) {
+			if (state.getStage() != null) {
 				state.getStage().nextDialogue();
 			}
 		}

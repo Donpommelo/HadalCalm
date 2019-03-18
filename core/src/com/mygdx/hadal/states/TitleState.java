@@ -163,7 +163,7 @@ public class TitleState extends GameState {
 				nameRand.addListener(new ClickListener() {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	enterName.setText(NameGenerator.generateFirstLast());
+			        	enterName.setText(NameGenerator.generateFirstLast(true));
 			        	notifications.setText("RANDOM NAME GENERATED!");
 			        }
 				});

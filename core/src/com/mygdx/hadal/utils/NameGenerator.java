@@ -33,10 +33,11 @@ public enum NameGenerator {
 	Y_START("y", "y", "start"),
 	Z_START("z", "z", "start"),
 
-	H_NEXT("h", "h", "g", "p", "r", "s", "t", "w"),
+	H_NEXT("h", "h", "g", "p", "s", "t", "w"),
 	L_NEXT("l", "l", "b", "c", "f", "g", "p", "s", "v"),
 	M_NEXT("m", "m", "s"),
 	N_NEXT("n", "n", "s"),
+	Q_NEXT("qu", "qu", "s"),
 	R_NEXT("r", "r", "b", "c", "d", "f", "g", "p"),
 	T_NEXT("t", "t", "s"),
 	W_NEXT("w", "w", "t"),
@@ -53,27 +54,40 @@ public enum NameGenerator {
 	RD("rd", "rd", "a", "e", "i", "o", "u"),
 	RG("rg", "rg", "a", "e", "i", "o", "u"),
 	RK("rk", "rk", "a", "e", "i", "o", "u"),
+	RL("rl", "rl", "a", "e", "i", "o", "u"),
 	RM("rm", "rm", "a", "e", "i", "o", "u"),
 	RN("rn", "rn", "a", "e", "i", "o", "u"),
 	RP("rp", "rp", "a", "e", "i", "o", "u"),
 	RT("rt", "rt", "a", "e", "i", "o", "u"),
 	CKLE("ckle", "le", "a", "e", "i", "o", "u"),
-	GLE("gle", "le", "a", "e", "i", "o", "u"),
+	GGLE("ggle", "le", "a", "e", "i", "o", "u"),
 	FFLE("ffle", "le", "a", "e", "i", "o", "u"),
-	DDLE("ffle", "le", "a", "e", "i", "o", "u"),
+	DDLE("ddle", "le", "a", "e", "i", "o", "u"),
+	PPLE("pple", "le", "a", "e", "i", "o", "u"),
 
-	_NOTHING_("", "end", "gg", "dge", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt", "le"),
+	_NOTHING_("", "end", "gg", "dge", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
 	ART("art", "end", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt"),
-	SWORTH("sworth", "end", "a", "e", "i", "o", "u", "gg", "dge", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt", "le"),
-	SBY("sby", "end", "a", "e", "i", "o", "u", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt", "le"),
-	DALE("dale", "end", "a", "e", "i", "o", "u", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt", "le"),
-	NUT("nut", "end", "gg", "dge", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt"),
-	BERRY("berry", "end", "gg", "dge", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt"),
+	SWORTH("sworth", "end", "a", "e", "i", "o", "u", "gg", "dge", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	BERG("berg", "end", "a", "e", "i", "o", "u", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	BERT("bert", "end", "a", "e", "i", "o", "u", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	BERRY("berry", "end", "gg", "dge", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt"),
+	BLATT("blatt", "end", "a", "e", "i", "o", "u", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	BOTTOMS("bottoms", "end", "a", "e", "i", "o", "u", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	DALE("dale", "end", "a", "e", "i", "o", "u", "gg", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	NUT("nut", "end", "gg", "dge", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt"),
+	SBY("sby", "end", "a", "e", "i", "o", "u", "gg", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	SMITH("smith", "end", "a", "e", "i", "o", "u", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt", "le"),
+	SON("son", "end", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt"),
+	TON("ton", "end", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt"),
+	INGTON("ington", "end", "rb", "rd", "rg", "rk", "rl", "rm", "rn", "rp", "rt"),
+
 	O("o", "end", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt"),
-	Y("y", "end", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt"),
-	GINS("gins", "end", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "le"),
+	Y("y", "end", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt", "le"),
+	R_END("r", "end", "le"),
+	GINS("gins", "end", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "le"),
 	KINS("kins", "end", "gg", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "le"),
 	
+	ACAMOLE("acamole", "end", "u"),
 	ADRUNNER("adrunner", "end", "o"),
 	ANUTBUTTER("anutbutter", "end", "e"),
 	ATMEAL("atmeal", "end", "o"),
@@ -89,18 +103,16 @@ public enum NameGenerator {
 	BANFOO("banfoo", "end", "a", "e", "i", "o", "u"),
 	BASTIAN("bastian", "end", "a", "e", "i", "o", "u"),
 	BEDIAH("bediah", "end", "a", "e", "i", "o", "u"),
-	BERT("bert", "end", "a", "e", "i", "o", "u"),
 	BISCUS("biscus", "end", "a", "e", "i", "o", "u"),
 	BISH("bish", "end", "a", "e", "i", "o", "u"),
 	BITHA("bitha", "end", "a", "e", "i", "o", "u"),
-	BLATT("blatt", "end", "a", "e", "i", "o", "u", "rb", "rd", "rg", "rk", "rm", "rn", "rp", "rt"),
-	BOTTOMS("bottoms", "end", "a", "e", "i", "o", "u"),
 	BRAXAS("braxas", "end", "a"),
 	BRINA("brina", "end", "a", "e", "i", "o", "u"),
 	BRUARY("bruary", "end", "a", "e", "i", "o", "u"),
 	
 	CANDCHEESE("candcheese", "end", "a"),
 	CAINE("caine", "end", "o"),
+	CARDO("cardo", "end", "a", "e", "i", "o", "u"),
 	CASTE("caste", "end", "a"),
 	CCIATELLO("cciatello", "end", "a", "e", "i", "o", "u"),
 	CCINI("ccini", "end", "a", "e", "i", "o", "u"),
@@ -112,7 +124,6 @@ public enum NameGenerator {
 	CKADEE("ckadee", "end", "a", "e", "i", "o", "u"),
 	CKER("cker", "end", "a", "e", "i", "o", "u"),
 	CKERAL("ckeral", "end", "a"),
-	CKLEBERG("ckleberg", "end", "a", "e", "i", "o", "u"),
 	CKHEART("ckheart", "end", "a", "e", "i", "o", "u"),
 	CKINGBIRD("ckingbird", "end", "a", "e", "i", "o", "u"),
 	CNICBASKET("cnicbasket", "end", "a", "e", "i", "o", "u"),
@@ -138,6 +149,7 @@ public enum NameGenerator {
 	EP("ep", "end", "e"),
 	EPAK("epak", "end", "e"),
 	EPLE("eple", "end", "e"),
+	ERIO("erio", "end", "e"),
 	ESESTEAK("esesteak", "end", "e"),
 	EZLEBUB("ezlebub", "end", "e"),
 	EZY("ezy", "end", "e"),
@@ -150,8 +162,10 @@ public enum NameGenerator {
 	
 	GARFREE("garfree", "end", "u"),
 	GARTH("garth", "end", "a", "e", "i", "o", "u"),
+	GATRON("gatron", "end", "a", "e", "i", "o", "u"),
 	GDALENA("gdalena", "end", "a", "e", "i", "o", "u"),
 	GDANOFF("gdanoff", "end", "a", "e", "i", "o", "u"),
+	GGER("gger", "end", "a", "e", "i", "o", "u"),
 	GGINBOTHAM("gginbotham", "end", "a", "e", "i", "o", "u"),
 	GGPLANT("ggplant", "end", "e"),
 	GHERTY("gherty", "end", "a", "e", "i", "o", "u"),
@@ -159,12 +173,15 @@ public enum NameGenerator {
 	GLODYTE("glodyte", "end", "a","o", "u"),
 	GMAC("gmac", "end", "e", "i"),
 	GMA("gmac", "end", "a", "e", "i", "o", "u"),
+	GOR("gor", "end", "a", "e", "i", "o", "u"),
+	GORY("gory", "end", "a", "e", "i", "o", "u"),
 	GUANA("guana", "end", "a", "e", "i", "o", "u"),
 	GUEL("guel", "end", "a", "e", "i", "o", "u"),
 
 	HAMMAD("hammad", "end", "a", "o", "u"),
 	HEMOTH("hemoth", "end", "e"),
 	
+	ID("id", "end", "o"),
 	INSLEY("insley", "end", "a"),
 	IQUIRI("iquiri", "end", "a"),
 	ISEDPORK("isedpork", "end", "a"),
@@ -177,6 +194,7 @@ public enum NameGenerator {
 	KEDPOTATO("kedpotato", "end", "a"),
 	KEEM("kedpotato", "end", "a"),
 	
+	LAFEL("lafel", "end", "a"),
 	LANDA("landa", "end", "a", "e", "i", "o", "u"),
 	LARIO("lario", "end", "a", "e", "i", "o", "u"),
 	LBATROSS("lbatross", "end", "a", "e", "i", "o", "u"),
@@ -200,6 +218,7 @@ public enum NameGenerator {
 	LYDE("lyde", "end", "a", "e", "i", "o", "u"),
 	
 	NALD("nald", "end", "a", "e", "i", "o", "u"),
+	NALDO("naldo", "end", "a", "e", "i", "o", "u"),
 	NANA("nana", "end", "a"),
 	NATHAN("nathan", "end", "a", "e", "i", "o", "u"),
 	NCHOVY("nchovy", "end", "a"),
@@ -219,6 +238,7 @@ public enum NameGenerator {
 	NEAPPLE("neapple", "end", "i"),
 	NESHRAM("neshram", "end", "a", "e", "i"),
 	NGFELLOW("ngfellow", "end", "a", "e", "i", "o", "u"),
+	NGA("nga", "end", "a", "e", "i", "o", "u"),
 	NGO("ngo", "end", "a", "e", "i", "o", "u"),
 	NJAMIN("njamin", "end", "a", "e", "i", "o", "u"),
 	NKLIN("nklin", "end", "a", "e", "i", "o", "u"),
@@ -242,6 +262,7 @@ public enum NameGenerator {
 	MBURGER("mburger", "end", "a", "e", "i", "o", "u"),
 	MINGO("mingo", "end", "a", "e", "i", "o", "u"),
 	MINGWAY("mingway", "end", "a", "e", "i", "o", "u"),
+	MONADE("monade", "end", "e"),
 	MPERNICKEL("mpernickel", "end", "a", "e", "i", "o", "u"),
 	MPH("mph", "end", "a", "e", "i", "o", "u"),
 	MPHODORUS("mphodorus", "end", "a", "e", "i", "o", "u"),
@@ -257,8 +278,10 @@ public enum NameGenerator {
 	OWULF("owulf", "end", "e"),
 
 	PHELIA("phelia", "end", "a", "e", "i", "o", "u"),
+	PHOMET("phomet", "end", "a"),
 	PPERONCINO("pperoncino", "end", "e"),
 	PPET("ppet", "end", "a", "e", "i", "o", "u"),
+	PPINGS("ppings", "end", "a", "e", "i", "o", "u"),
 	PPLEJACK("pplejack", "end", "a"),
 	PRIKA("prika", "end", "a"),
 
@@ -267,6 +290,7 @@ public enum NameGenerator {
 	RABEAU("rabeau", "end", "a", "e", "i", "o", "u"),
 	RARDO("rardo", "end", "a", "e", "i", "o", "u"),
 	RATIO("ratio", "end", "a", "e", "i", "o", "u"),
+	RCESTER("rcester", "end", "a", "e", "i", "o", "u"),
 	RDAMOM("rdamom", "end", "a"),
 	RDOCK("rdock", "end", "a", "e", "i", "o", "u"),
 	REAU("reau", "end", "a", "e", "i", "o", "u"),
@@ -277,19 +301,18 @@ public enum NameGenerator {
 	RGEON("rgeon", "end", "a", "e", "i", "o", "u"),
 	RGONZOLA("rgonzola", "end", "o"),
 	RJORAM("rjoram", "end", "a"),
-	RKY("rky", "end", "a", "e", "i", "o", "u"),
 	RLOS("rlos", "end", "a", "e", "i", "o", "u"),
 	RLOTTE("rlotte", "end", "a", "e", "i", "o", "u"),
 	RLOV("rlov", "end", "a", "e", "i", "o", "u"),
 	RLSBERG("rlsberg", "end", "a", "e", "i", "o", "u"),
-	RLTON("rlton", "end", "a", "e", "i", "o", "u"),
 	RMALADE("rmalade", "end", "a", "e", "i", "o", "u"),
 	RMELO("rmelo", "end", "a", "e", "i", "o", "u"),
 	RMESAN("rmesan", "end", "a"),
 	RNABUS("rnabus", "end", "a", "e", "i", "o", "u"),
-	RNADETTE("rnadette", "end", "a", "e", "i", "o", "u"),
+	RNAISE("rnaise", "end", "a", "e", "i", "o", "u"),
 	RNANDO("rnando", "end", "a", "e", "i", "o", "u"),
 	RNARD("rnard", "end", "a", "e", "i", "o", "u"),
+	RNFLAKES("rnflakes", "end", "o"),
 	RONICA("ronica", "end", "a", "e", "i", "o", "u"),
 	RPO("rpo", "end", "a", "e", "i", "o", "u"),
 	RRACUDA("rracuda", "end", "a"),
@@ -297,6 +320,7 @@ public enum NameGenerator {
 	RRITO("rrito", "end", "u"),
 	RROWAY("rroway", "end", "a", "e", "i", "o", "u"),
 	RSERADISH("rseradish", "end", "o"),
+	RSHMALLOW("arshmallow", "end", "a"),
 	RSULA("rsula", "end", "a", "e", "i", "o", "u"),
 	RTHOLOMEW("rtholomew", "end", "a", "e", "i", "o", "u"),
 	RTIER("rtier", "end", "a", "e", "i", "o", "u"),
@@ -307,8 +331,11 @@ public enum NameGenerator {
 
 	SABELLA("sabella", "end", "a", "e", "i", "o", "u"),
 	SADORA("sadora", "end", "a", "e", "i", "o", "u"),
+	SCARGOT("scargot", "end", "e"),
 	SCOE("scoe", "end", "a", "e", "i", "o", "u"),
+	SEIDON("seidon", "end", "o"),
 	SEVELT("sevelt", "end", "a", "e", "i", "o", "u"),
+	SHINI("shini", "end", "a", "e", "i", "o", "u"),
 	SHIRE("shire", "end", "a", "e", "i", "o", "u"),
 	SHMAEL("shmael", "end", "a", "e", "i", "o", "u"),
 	SHWACKER("shwacker", "end", "u"),
@@ -316,9 +343,12 @@ public enum NameGenerator {
 	SSINI("ssini", "end", "a", "e", "i", "o", "u"),
 	STARD("stard", "end", "a", "e", "i", "o", "u"),
 	STOPHER("stopher", "end", "a", "e", "i", "o", "u"),
+	STULE("stule", "end", "a", "e", "i", "o", "u"),
 
-	TCHOCOLATE("TCHOCOLATE", "end", "o"),
-	TERMELON("TERMELON", "end", "a"),
+	TATO("tato", "end", "a", "o"),
+	TATRON("tatron", "end", "a", "e", "i", "o", "u"),
+	TCHOCOLATE("tchocolate", "end", "o"),
+	TERMELON("termelon", "end", "a"),
 	THERFORD("therford", "end", "a", "e", "i", "o", "u"),
 	THIUM("thium", "end", "a", "e", "i", "o", "u"),
 	THRO("thro", "end", "a", "e", "i", "o", "u"),
@@ -326,9 +356,8 @@ public enum NameGenerator {
 	TICIA("ticia", "end", "a", "e", "i", "o", "u"),
 	TONIO("tonio", "end", "a", "e", "i", "o", "u"),
 	TTICELLI("tticelli", "end", "a", "e", "i", "o", "u"),
+	TTICINI("tticini", "end", "a", "e", "i", "o", "u"),
 	TTONCHOPS("ttonchops", "end", "o", "u"),
-
-	UCHMENOT("uchmenot", "end", "o"),
 
 	VACADO("vacado", "end", "a"),
 	VARIUS("varius", "end", "a", "e", "i", "o", "u"),
@@ -346,6 +375,7 @@ public enum NameGenerator {
 
 	XANNE("xanne", "end", "a", "e", "i", "o", "u"),
 	
+	YARDEE("yardee", "end", "o"),
 	YONNAISE("yonnaise", "end", "a"),
 
 	ZARUS("zarus", "end", "a", "e", "i", "o", "u"),
@@ -353,6 +383,7 @@ public enum NameGenerator {
 	ZEBEL("zebel", "end", "a", "e", "i", "o", "u"),
 	ZEKIEL("zekiel", "end", "a", "e", "i", "o", "u"),
 	ZERAC("zerac", "end", "a"),
+	ZZAPIE("zzapie", "end", "i"),
 	ZZERELLA("zzerella", "end", "a", "e", "i", "o", "u"),
 
 	;
@@ -366,7 +397,7 @@ public enum NameGenerator {
 		this.canFollow = canFollow;
 	}
 	
-	public static String generateFirstLast() {
+	public static String generateFirstLast(boolean alliteration) {
 		
 		ArrayList<NameGenerator> possibleNexts = new ArrayList<NameGenerator>();
 
@@ -379,10 +410,11 @@ public enum NameGenerator {
 		}
 		
 		int randomIndex = GameStateManager.generator.nextInt(possibleNexts.size());
-		NameGenerator next = possibleNexts.get(randomIndex);
+		NameGenerator next1 = possibleNexts.get(randomIndex);
+		NameGenerator next2 = alliteration ? possibleNexts.get(randomIndex) : possibleNexts.get(GameStateManager.generator.nextInt(possibleNexts.size()));
 		
-		String firstName = next.me + generateName(next.endTag);
-		String lastName = next.me + generateName(next.endTag);
+		String firstName = next1.me + generateName(next1.endTag);
+		String lastName = next2.me + generateName(next2.endTag);
 		
 		firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
 		lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
