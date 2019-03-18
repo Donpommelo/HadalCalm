@@ -19,13 +19,13 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	BOUNCING_BLADE
+	STORMCALLER
 	BOILER
 	BOOMERANG
 ]
-artifact: ADMINISTRATOR_CARD
+artifact: NUMBER_ONE_BOSS_MUG
 active: HYDRAULIC_UPPERCUT
 character: TAKANORI
-level: LEVEL_1
+level: NASU
 name: MEEP
 }

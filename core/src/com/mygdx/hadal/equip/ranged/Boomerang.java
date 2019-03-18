@@ -68,7 +68,7 @@ public class Boomerang extends RangedWeapon {
 								user.getBody().getPosition().y * PPM - hbox.getPosition().y * PPM);
 						hbox.getBody().applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getBody().getMass() * returnAmp), true);
 
-						controllerCount = 0;
+						controllerCount -= delta;
 					}
 				}
 				
@@ -76,11 +76,16 @@ public class Boomerang extends RangedWeapon {
 				public void onHit(HadalData fixB) {
 					if (fixB != null) {
 						if (fixB instanceof PlayerBodyData) {
-							if (hbox.getLifeSpan() < lifespanx - 0.25f) {
-								if (((PlayerBodyData)fixB).getCurrentTool() instanceof Boomerang) {
-									((Boomerang)((PlayerBodyData)fixB).getCurrentTool()).gainAmmo(1);
+							if (((PlayerBodyData)fixB).getPlayer().getHitboxfilter() == user.getHitboxfilter()) {
+								if (hbox.getLifeSpan() < lifespanx - 0.25f) {
+									if (((PlayerBodyData)fixB).getCurrentTool() instanceof Boomerang) {
+										((Boomerang)((PlayerBodyData)fixB).getCurrentTool()).gainAmmo(1);
+									}
+									this.hbox.queueDeletion();
 								}
-								this.hbox.queueDeletion();
+							} else {
+								fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+										user.getBodyData(), tool, true, DamageTypes.RANGED);
 							}
 						} else {
 							fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
@@ -93,6 +98,6 @@ public class Boomerang extends RangedWeapon {
 	};
 	
 	public Boomerang(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, onShoot, weaponSprite, eventSprite);
 	}
 }

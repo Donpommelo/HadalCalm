@@ -7,14 +7,14 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class RootBoots extends Artifact {
+public class TunicateTunic extends Artifact {
 
-	private final static String name = "Root-Boots";
+	private final static String name = "Tunicate Tunic";
 	private final static String descr = "+75% Knockback Resistance";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public RootBoots() {
+	public TunicateTunic() {
 		super(name, descr, descrLong, statusNum);
 	}
 

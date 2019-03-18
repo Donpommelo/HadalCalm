@@ -119,6 +119,18 @@ CHARGE_BEAM: {
 		RANGED,
 	]
 }
+FUGUN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Fugun
+	description: "Fires projectiles that create a damaging poison field upon contact with an enemy or wall."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 GRENADE_LAUNCHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Grenade Launcher
@@ -145,8 +157,8 @@ BEEGUN: {
 }
 NEMATOCYDEARM: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Nematocydearm
-	description: "Fires projectiles that create a damaging poison field upon contact with an enemy or wall."
+	name: Nemato Sidearm
+	description: "Fires Darts that lodge into walls."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

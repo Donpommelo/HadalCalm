@@ -7,14 +7,14 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class LoamskinTalisman extends Artifact {
+public class LoamskinAmulet extends Artifact {
 
-	private final static String name = "Loamskin Talisman";
+	private final static String name = "Loamskin Amulet";
 	private final static String descr = "+Hp Regen";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public LoamskinTalisman() {
+	public LoamskinAmulet() {
 		super(name, descr, descrLong, statusNum);
 	}
 

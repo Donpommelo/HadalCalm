@@ -553,23 +553,5 @@
     <property name="triggeringId" value="elevatorSwitchPulled"/>
    </properties>
   </object>
-  <object id="131" name="Prefab" type="Prefab" x="2400" y="1696" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="Artifact"/>
-   </properties>
-  </object>
-  <object id="133" name="Prefab" type="Prefab" x="1952" y="1728" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="Artifact"/>
-   </properties>
-  </object>
-  <object id="134" name="Prefab" type="Prefab" x="2336" y="1824" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="Artifact"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

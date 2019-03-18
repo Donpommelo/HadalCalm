@@ -19,7 +19,6 @@ import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
-import com.mygdx.hadal.statuses.artifact.ScalingScalesStatus;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -97,7 +96,7 @@ public class Player extends PhysicsSchmuck {
 	//Is the player currently shooting/hovering?
 	private boolean shooting = false;
 	private boolean hovering = false;
-	
+		
 	private float reloadPercent;
 	
 	private ParticleEntity hoverBubbles;
@@ -228,7 +227,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Determine if the player is in the air or on ground.
-		if (playerData.getStatus(ScalingScalesStatus.class) != null) {
+		if (scaling) {
 			grounded = feetData.getNumContacts() > 0 || leftData.getNumContacts() > 0 || rightData.getNumContacts() > 0;
 		} else {
 			grounded = feetData.getNumContacts() > 0;
@@ -558,7 +557,7 @@ public class Player extends PhysicsSchmuck {
 				(float)(Math.atan2(
 						body.getPosition().y - mouse.getBody().getPosition().y,
 						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
-				moveState, grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getClipSize(),
+				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getClipSize(),
 				playerData.getMaxHp(), playerData.getMaxFuel(), playerData.getAirblastCost(),
 				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent));
 	}
@@ -569,7 +568,6 @@ public class Player extends PhysicsSchmuck {
 			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
 			
 			attackAngleClient = p.attackAngle;
-			moveState = p.moveState;
 			grounded = p.grounded;
 			playerData.setCurrentSlot(p.currentSlot);
 			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);

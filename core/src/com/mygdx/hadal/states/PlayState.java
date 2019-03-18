@@ -296,15 +296,6 @@ public class PlayState extends GameState {
 		//Let AI process time step
 		GdxAI.getTimepiece().update(1 / 60f);
 		
-		//All entities that are set to be removed are removed.
-		for (HadalEntity entity: removeList) {
-			entities.remove(entity);
-			hitboxes.remove(entity);
-			entity.dispose();
-			HadalGame.server.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
-		}
-		removeList.clear();
-		
 		//All entities that are set to be added are added.
 		for (HadalEntity entity: createList) {
 			if (entity instanceof Hitbox) {
@@ -320,6 +311,17 @@ public class PlayState extends GameState {
 			}
 		}
 		createList.clear();
+				
+		//All entities that are set to be removed are removed.
+		for (HadalEntity entity: removeList) {
+			entities.remove(entity);
+			hitboxes.remove(entity);
+			entity.dispose();
+			HadalGame.server.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
+		}
+		removeList.clear();
+		
+		
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		for (HadalEntity entity : hitboxes) {

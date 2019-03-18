@@ -251,7 +251,7 @@ public class KryoServer {
 		        players.put(connId, newPlayer);
 		        mice.put(connId, newMouse);
 		        
-		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));	
+		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
 			}
 		});
 	}

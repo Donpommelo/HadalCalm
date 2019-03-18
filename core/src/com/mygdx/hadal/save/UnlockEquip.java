@@ -18,6 +18,7 @@ public enum UnlockEquip {
 	CHAIN_LIGHTNING(ChainLightning.class),
 	CHARGE_BEAM(ChargeBeam.class),
 	CR4PCANNON(Scattergun.class),
+	FUGUN(Fugun.class),
 	GRENADE_LAUNCHER(GrenadeLauncher.class),
 	ICEBERG(Iceberg.class),
 	IRON_BALL_LAUNCHER(IronBallLauncher.class),

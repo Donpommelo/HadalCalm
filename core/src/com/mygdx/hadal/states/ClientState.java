@@ -58,23 +58,8 @@ public class ClientState extends PlayState {
 		HadalGame.viewportCamera.unproject(tmpVec3);
 		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
 		
-		//All entities that are set to be removed are removed.
-		for (String key: removeListClient) {
-			HadalEntity entity = entities.get(key);
-			entities.remove(key);
-			if (entity != null) {
-				entity.dispose();
-			}
-			entity = hitboxes.get(key);
-			hitboxes.remove(key);
-			if (entity != null) {
-				entity.dispose();
-			}
-		}
-		removeListClient.clear();
-				
 		for (Object[] pair: createListClient) {
-			if (pair[2].equals(1)) {
+			if (pair[2].equals(ObjectSyncLayers.HBOX)) {
 				hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
 			} else {
 				entities.put((String)pair[0], (HadalEntity)pair[1]);
@@ -83,6 +68,17 @@ public class ClientState extends PlayState {
 		}
 		createListClient.clear();
 		
+		//All entities that are set to be removed are removed.
+		for (String key: removeListClient) {
+			HadalEntity entity = findEntity(key);
+			if (entity != null) {
+				entity.dispose();
+			}
+			entities.remove(key);
+			hitboxes.remove(key);
+		}
+		removeListClient.clear();
+				
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
 		 	if (p != null) {

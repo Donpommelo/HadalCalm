@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 
@@ -31,6 +32,9 @@ public class WorldContactListener implements ContactListener {
 			if (fixA.getType().equals(UserDataTypes.EVENT)) {
 				((EventData) fixA).onTouch(fixB);
 			}
+			if (fixA.getType().equals(UserDataTypes.FEET)) {
+				((FeetData) fixA).onStomp(fixB);
+			}
 			
 		}
 		if (fixB != null) {
@@ -41,8 +45,10 @@ public class WorldContactListener implements ContactListener {
 			if (fixB.getType().equals(UserDataTypes.EVENT)) {
 				((EventData) fixB).onTouch(fixA);
 			}
+			if (fixB.getType().equals(UserDataTypes.FEET)) {
+				((FeetData) fixB).onStomp(fixA);
+			}
 		}
-		
 	}
 
 	@Override

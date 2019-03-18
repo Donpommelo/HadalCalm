@@ -36,6 +36,8 @@ public class Schmuck extends HadalEntity {
 	protected Fixture feet, rightSensor, leftSensor;
 	protected FeetData feetData, rightData, leftData;
 	
+	protected boolean scaling, stomping;
+
 	//user data.
 	protected BodyData bodyData;
 	
@@ -88,11 +90,11 @@ public class Schmuck extends HadalEntity {
 		
 		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
 				new Vector2(1 / 2 / PPM,  - height / 2 / PPM), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY), hitboxfilter));
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY | Constants.BIT_PLAYER), hitboxfilter));
 		
 		feet.setUserData(feetData);
 		
-		this.leftData = new FeetData(UserDataTypes.FEET, this); 
+		this.leftData = new FeetData(UserDataTypes.SIDES, this); 
 		
 		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
 				new Vector2(-width / 2 / PPM,  0), true, 0, 0, 0, 0,
@@ -100,7 +102,7 @@ public class Schmuck extends HadalEntity {
 		
 		leftSensor.setUserData(leftData);
 		
-		this.rightData = new FeetData(UserDataTypes.FEET, this); 
+		this.rightData = new FeetData(UserDataTypes.SIDES, this); 
 		
 		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
 				new Vector2(width / 2 / PPM,  0), true, 0, 0, 0, 0,
@@ -241,6 +243,22 @@ public class Schmuck extends HadalEntity {
 		return 0;
 	}
 	
+	public boolean isScaling() {
+		return scaling;
+	}
+
+	public void setScaling(boolean scaling) {
+		this.scaling = scaling;
+	}
+
+	public boolean isStomping() {
+		return stomping;
+	}
+
+	public void setStomping(boolean stomping) {
+		this.stomping = stomping;
+	}
+
 	public SchmuckMoveStates getMoveState() {
 		return moveState;
 	}

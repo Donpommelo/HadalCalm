@@ -11,11 +11,8 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStickStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.HitboxFactory;
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class StickyBombLauncher extends RangedWeapon {
 
@@ -61,32 +58,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	};
 	
 	public StickyBombLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
-	}
-	
-	@Override
-	public void execute(PlayState state, BodyData shooter) {
-		//Check clip size. empty clip = reload instead. This makes reloading automatic.
-		if (clipLeft > 0 && weaponVelo != null) {
-			
-			shooter.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, this, null);
-			
-			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
-			onShoot.makeHitbox(user, state, this, weaponVelo, 
-					shooter.getSchmuck().getBody().getPosition().x * PPM, 
-					shooter.getSchmuck().getBody().getPosition().y * PPM, 
-					faction);
-			
-			clipLeft--;
-			clipPercent = (float)clipLeft / getClipSize();
-			
-			//If player fires in the middle of reloading, reset reload progress
-			reloading = false;
-			reloadCd = getReloadTime();
-			
-			//process weapon recoil.
-			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
-		} 
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, onShoot, weaponSprite, eventSprite);
 	}
 	
 	@Override

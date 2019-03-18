@@ -4,14 +4,14 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class ClawsofFestus extends Artifact {
+public class BrigglesBladedBoot extends Artifact {
 
-	private final static String name = "Claws of Festus";
-	private final static String descr = "Enables wall clinging.";
+	private final static String name = "Briggle's Bladed Boot";
+	private final static String descr = "Damage Enemies by Stompin";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	public ClawsofFestus() {
+	public BrigglesBladedBoot() {
 		super(name, descr, descrLong, statusNum);
 	}
 
@@ -21,12 +21,12 @@ public class ClawsofFestus extends Artifact {
 			
 			@Override
 			public void onInflict(Status s) {
-				inflicted.getSchmuck().setScaling(true);
+				inflicted.getSchmuck().setStomping(true);
 			}
 			
 			@Override
 			public void onRemove(Status s) {
-				inflicted.getSchmuck().setScaling(false);
+				inflicted.getSchmuck().setStomping(false);
 			}
 		};
 		return enchantment;

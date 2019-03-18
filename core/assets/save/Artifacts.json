@@ -75,6 +75,17 @@ BLOODWOODS_GLOVE: {
 		RANDOM_POOL,
 	]
 }
+BRIGGLES_BLADED_BOOT: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Briggle's Bladed Boot
+	description: "Painful Stomps."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 BUCKET_OF_BATTERIES: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bucket of Batteries
@@ -295,9 +306,9 @@ INFORMANTS_TIE: {
 		RANDOM_POOL,
 	]
 }
-LOAMSKIN_TALISMAN: {
+LOAMSKIN_AMULET: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Loamskin Talisman
+	name: Loamskin Amulet
 	description: "Passive Hp Regeneration."
     descriptionLong: "TEST"
 	unlocked: true
@@ -499,9 +510,9 @@ RING_OF_THE_LAMPREY: {
 		RANDOM_POOL,
 	]
 }
-ROOT_BOOTS: {
+TUNICATE_TUNIC: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Root Boots
+	name: Tunicate Tunic
 	description: "+Knockback Resistance."
     descriptionLong: "TEST"
 	unlocked: true
@@ -547,6 +558,17 @@ SIMPLE_MIND: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Simple Mind
 	description: "Linear Projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SIREN_CHIME: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Siren Chime
+	description: "Negative Knockback on Enemies."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

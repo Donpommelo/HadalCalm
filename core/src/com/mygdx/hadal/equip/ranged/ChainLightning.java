@@ -62,6 +62,6 @@ public class ChainLightning extends RangedWeapon {
 	};
 	
 	public ChainLightning(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, onShoot, weaponSprite, eventSprite);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, onShoot, weaponSprite, eventSprite);
 	}
 }

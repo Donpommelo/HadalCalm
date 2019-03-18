@@ -20,4 +20,8 @@ public class Slodged extends Status {
 		inflicted.setBonusAirSpeed(-slow);
 		inflicted.setBonusGroundSpeed(-slow);
 	}
+	
+	public statusStackType getStackType() {
+		return statusStackType.REPLACE;
+	}
 }

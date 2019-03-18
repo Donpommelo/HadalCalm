@@ -29,6 +29,8 @@ public class RangedWeapon extends Equipable {
 	
 	protected int x, y;
 	protected short faction;
+	
+	protected boolean autoreload;
 
 	/**
 	 * Ranged weapons, like most equipment, is constructed when creating tool spawns or default schmuck loadouts
@@ -57,14 +59,15 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
-			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot,
-			Sprite weaponSprite, Sprite eventSprite) {
+			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, boolean autoreload, 
+			HitboxFactory onShoot, Sprite weaponSprite, Sprite eventSprite) {
 		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.clipPercent = 1.0f;
 		this.reloadTime = reloadTime;
 		this.reloadAmount = reloadAmount;
+		this.autoreload = autoreload;
 		this.recoil = recoil;
 		this.projectileSpeed = projectileSpeed;
 		this.onShoot = onShoot;
@@ -119,7 +122,7 @@ public class RangedWeapon extends Equipable {
 			//process weapon recoil.
 			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
 		} 
-		if (clipLeft <= 0) {
+		if (clipLeft <= 0 && autoreload) {
 			if (!reloading) {
 				reloading = true;
 				reloadCd = 0;
