@@ -42,7 +42,7 @@ public class DialogueBox extends AHadalActor {
 	private static final int maxX = 800;
 	private static final int maxY = 150;
 	
-	private static final int maxXSmall = 600;
+	private static final int maxXSmall = 700;
 	private static final int maxYSmall = 80;
 	
 	//This float is the ratio of the max dimensions of the window before the text appears.

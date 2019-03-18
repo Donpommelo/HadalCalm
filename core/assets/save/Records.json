@@ -21,11 +21,11 @@ flags: {
 equips: [
 	POPPER
 	SLODGEGUN
-	SLODGEGUN
+	NEMATOCYDEARM
 ]
 artifact: NUMBER_ONE_BOSS_MUG
 active: MISSILE_POD
 character: TAKANORI
 level: LEVEL_1
-name: MEEP
+name: Woofus Whuwenhoek
 }
