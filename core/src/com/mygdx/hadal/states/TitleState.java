@@ -20,6 +20,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.utils.NameGenerator;
 
 /**
  * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
@@ -33,10 +34,10 @@ public class TitleState extends GameState {
 	
 	//Temporary links to other modules for testing.
 	private Table table;
-	private Text nameDisplay, hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
+	private Text nameDisplay, nameRand, hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
 	private TextField enterName, enterIP;
 	
-	private final static int width = 500;
+	private final static int width = 700;
 	private final static int height = 180;
 	private final static int xOffset = 100;
 
@@ -63,6 +64,8 @@ public class TitleState extends GameState {
 				
 				nameDisplay = new Text(HadalGame.assetManager, "YOUR NAME: ", 0, 0, Color.BLACK);
 				nameDisplay.setScale(0.5f);
+				nameRand = new Text(HadalGame.assetManager, "RANDOM?", 0, 0, Color.BLACK);
+				nameRand.setScale(0.5f);
 				hostOption = new Text(HadalGame.assetManager, "HOST SERVER", 0, 0, Color.BLACK);
 				hostOption.setScale(0.5f);
 				hostOption.addMouseOverStuff();
@@ -157,6 +160,14 @@ public class TitleState extends GameState {
 			        }
 			    });
 				
+				nameRand.addListener(new ClickListener() {
+					@Override
+			        public void clicked(InputEvent e, float x, float y) {
+			        	enterName.setText(NameGenerator.generateFirstLast());
+			        	notifications.setText("RANDOM NAME GENERATED!");
+			        }
+				});
+				
 				addCaptureListener(new InputListener() {
 					
 					@Override
@@ -174,7 +185,8 @@ public class TitleState extends GameState {
 				enterName.setMessageText("ENTER NAME");
 				
 				table.add(nameDisplay).pad(5).expandY();
-				table.add(enterName).row();
+				table.add(enterName).width(300);
+				table.add(nameRand).row();
 				table.add(hostOption).expandY().row();
 				table.add(joinOption).expandY();
 				table.add(enterIP);
