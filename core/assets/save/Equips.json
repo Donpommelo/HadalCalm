@@ -167,6 +167,18 @@ NEMATOCYDEARM: {
 		RANGED,
 	]
 }
+POPPER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Popper
+	description: "Fires projectiles that explode at a distance."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 SCRAPRIPPER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Scrapripper

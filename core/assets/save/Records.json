@@ -19,13 +19,13 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	STORMCALLER
-	BOILER
-	BOOMERANG
+	POPPER
+	SLODGEGUN
+	SLODGEGUN
 ]
 artifact: NUMBER_ONE_BOSS_MUG
-active: HYDRAULIC_UPPERCUT
+active: MISSILE_POD
 character: TAKANORI
-level: NASU
+level: LEVEL_1
 name: MEEP
 }

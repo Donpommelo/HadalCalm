@@ -26,6 +26,7 @@ public enum UnlockEquip {
 	LASER_RIFLE(LaserRifle.class),
 	MACHINEGUN(Machinegun.class),
 	NEMATOCYDEARM(Nematocydearm.class),
+	POPPER(Popper.class),
 	SLODGEGUN(SlodgeGun.class),
 	SPEARGUN(Speargun.class),
 	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class),

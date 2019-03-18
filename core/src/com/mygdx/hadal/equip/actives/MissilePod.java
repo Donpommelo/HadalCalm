@@ -23,5 +23,4 @@ public class MissilePod extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		user.addStatus(new LaunchingMissiles(state, duration, user, user));
 	}
-
 }
