@@ -301,6 +301,7 @@ public enum NameGenerator {
 	RFIELD("rfield", "end", "a", "e", "i", "o", "u"),
 	RGARET("rgaret", "end", "a", "e", "i", "o", "u"),
 	RGARITA("rgarita", "end", "a", "e", "i", "o", "u"),
+	RGARINE("rgarine", "end", "a"),
 	RGEON("rgeon", "end", "a", "e", "i", "o", "u"),
 	RGONZOLA("rgonzola", "end", "o"),
 	RJORAM("rjoram", "end", "a"),
@@ -363,6 +364,7 @@ public enum NameGenerator {
 	TTICELLI("tticelli", "end", "a", "e", "i", "o", "u"),
 	TTICINI("tticini", "end", "a", "e", "i", "o", "u"),
 	TTONCHOPS("ttonchops", "end", "o", "u"),
+	TTERCUPS("ttercups", "end", "o", "u"),
 
 	VACADO("vacado", "end", "a"),
 	VARIUS("varius", "end", "a", "e", "i", "o", "u"),

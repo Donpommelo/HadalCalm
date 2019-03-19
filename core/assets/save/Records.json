@@ -19,13 +19,13 @@ flags: {
 	TUTORIAL: 0
 }
 equips: [
-	POPPER
-	SLODGEGUN
-	NEMATOCYDEARM
+	BOILER
+	LASER_GUIDED_ROCKET
+	LASER_RIFLE
 ]
-artifact: NUMBER_ONE_BOSS_MUG
-active: MISSILE_POD
-character: MOREAU
+artifact: EMAUDELINES_PRISM
+active: HONEYCOMB
+character: TELEMACHUS
 level: LEVEL_1
-name: Fucciatello Fartrand
+name: Dincubus Doncubus
 }
