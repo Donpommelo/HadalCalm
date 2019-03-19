@@ -17,7 +17,7 @@ public enum UnlockActives {
 	HONEYCOMB(Honeycomb.class),
 	FIREBALL(Fireball.class),
 	MELON(Melon.class),
-	NOTHING(Empty.class),
+	NOTHING(NothingActive.class),
 	MISSILE_POD(MissilePod.class),
 	RELOADER(Reloader.class),
 	RESERVED_FUEL(ReservedFuel.class),

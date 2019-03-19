@@ -1,9 +1,10 @@
 package com.mygdx.hadal.save;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Json;
+import com.mygdx.hadal.managers.GameStateManager;
 
 public class Record {
 
@@ -43,8 +44,30 @@ public class Record {
 	}
 	
 	public void saveRecord() {
-		Json json = new Json();
-		Gdx.files.local("save/Records.json").writeString(json.prettyPrint(this), false);
+		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(this), false);
+	}
+	
+	public static void createNewRecord() {
+		Record newRecord = new Record();
+		newRecord.scrap = 0;
+		newRecord.scrip = 0;
+		newRecord.hiScores = new HashMap<String, Integer>();
+		
+		for (UnlockLevel level: UnlockLevel.values()) {
+			newRecord.hiScores.put(level.toString(), 0);
+		}
+		
+		newRecord.flags = new HashMap<String, Integer>();
+		newRecord.flags.put("INTRO", 0);
+		newRecord.flags.put("TUTORIAL", 0);
+		newRecord.equips = new String[] {"NOTHING", "NOTHING", "NOTHING"};
+		newRecord.artifact = "NOTHING";
+		newRecord.active = "NOTHING";
+		newRecord.character = "MOREAU";
+		newRecord.level = "LEVEL_1";
+		newRecord.name = "";
+		
+		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
 	}
 	
 	public int getScrap() {

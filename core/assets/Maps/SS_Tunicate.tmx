@@ -84,7 +84,7 @@
   <object id="10" name="Sensor" type="Sensor" x="1504" y="2048" width="32" height="32">
    <properties>
     <property name="hbox" type="bool" value="true"/>
-    <property name="player" type="bool" value="false"/>
+    <property name="player" type="bool" value="true"/>
     <property name="triggeredId" value="upbutton"/>
     <property name="triggeringId" value="uppressed"/>
    </properties>
@@ -92,7 +92,7 @@
   <object id="11" name="Sensor" type="Sensor" x="1632" y="2048" width="32" height="32">
    <properties>
     <property name="hbox" type="bool" value="true"/>
-    <property name="player" type="bool" value="false"/>
+    <property name="player" type="bool" value="true"/>
     <property name="triggeredId" value="downbutton"/>
     <property name="triggeringId" value="downpressed"/>
    </properties>

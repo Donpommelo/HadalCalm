@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.actives.Empty;
+import com.mygdx.hadal.equip.actives.NothingActive;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -176,7 +176,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void switchWeapon(int slot) {
 		if (multitools.length >= slot && schmuck.getShootDelayCount() <= 0) {
-			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof Nothing)) {
+			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
 				setEquip();
@@ -190,7 +190,7 @@ public class PlayerBodyData extends BodyData {
 	public void switchToLast() {
 		if (schmuck.getShootDelayCount() <= 0) {
 			if (lastSlot < multitools.length) {
-				if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof Nothing)) {
+				if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof NothingWeapon)) {
 					int tempSlot = lastSlot;
 					lastSlot = currentSlot;
 					currentSlot = tempSlot;
@@ -207,7 +207,7 @@ public class PlayerBodyData extends BodyData {
 	public void switchDown() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(currentSlot + i) % multitools.length] != null &&
-					!(multitools[(currentSlot + i) % multitools.length] instanceof Nothing)) {
+					!(multitools[(currentSlot + i) % multitools.length] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = (currentSlot + i) % multitools.length;
 				setEquip();
@@ -222,7 +222,7 @@ public class PlayerBodyData extends BodyData {
 	public void switchUp() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(multitools.length + (currentSlot - i)) % multitools.length] != null &&
-					!(multitools[(multitools.length + (currentSlot - i)) % multitools.length] instanceof Nothing)) {
+					!(multitools[(multitools.length + (currentSlot - i)) % multitools.length] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = (multitools.length + (currentSlot - i)) % multitools.length;
 				setEquip();
@@ -245,7 +245,7 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		for (int i = 0; i < Loadout.getNumSlots(); i++) {
-			if (multitools[i] == null || multitools[i] instanceof Nothing) {
+			if (multitools[i] == null || multitools[i] instanceof NothingWeapon) {
 				multitools[i] = equip;
 				multitools[i].setUser(player);
 				currentSlot = i;
@@ -277,7 +277,7 @@ public class PlayerBodyData extends BodyData {
 		
 		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
 
-		if (activeItem == null || activeItem instanceof Empty) {
+		if (activeItem == null || activeItem instanceof NothingActive) {
 			activeItem = item;
 			return null;
 		}
@@ -302,7 +302,7 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 		
-		multitools[slot] = new Nothing(player);
+		multitools[slot] = new NothingWeapon(player);
 		multitools[slot].setUser(player);
 		
 		currentSlot = slot;
@@ -418,6 +418,11 @@ public class PlayerBodyData extends BodyData {
 				player.getMouse().queueDeletion();
 			}
 			super.die(perp, tool);
+			
+			if (perp instanceof PlayerBodyData) {
+				Player p = (Player)perp.getSchmuck();
+				HadalGame.server.addNotificationToAll(player.getState(), "", player.getName() + " was killed by " + p.getName());
+			}
 		}
 	}
 	

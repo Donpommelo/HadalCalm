@@ -71,6 +71,10 @@ public class GameStateManager {
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
 		UnlockManager.retrieveUnlocks();
+		if (!Gdx.files.internal("save/Records.json").exists()) {
+			Record.createNewRecord();
+		}
+		
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 	}

@@ -71,7 +71,7 @@ public enum UnlockArtifact {
 	UNBREATHING_MEMBRANE(UnbreathingMembrane.class),
 	VOID_HYPONOME(VoidHyponome.class),
 
-	NOTHING(Nothing.class),
+	NOTHING(NothingArtifact.class),
 	;
 	
 	private Class<? extends Artifact> artifact;

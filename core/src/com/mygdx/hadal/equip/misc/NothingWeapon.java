@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.HitboxFactory;
 
-public class Nothing extends MeleeWeapon {
+public class NothingWeapon extends MeleeWeapon {
 
 	private final static String name = "Nothing";
 	private final static float swingCd = 0.5f;
@@ -25,7 +25,7 @@ public class Nothing extends MeleeWeapon {
 
 	};
 	
-	public Nothing(Schmuck user) {
+	public NothingWeapon(Schmuck user) {
 		super(user, name, swingCd, windup, momentum, onSwing);
 	}
 

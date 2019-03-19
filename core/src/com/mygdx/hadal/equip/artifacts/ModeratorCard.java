@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.PickupWeaponMod;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
@@ -33,7 +33,7 @@ public class ModeratorCard extends Artifact {
 				if (inflicted.getSchmuck() instanceof Player) {
 					
 					for (Equipable e : ((Player)inflicted.getSchmuck()).getPlayerData().getMultitools()) {
-						if (!(e instanceof Nothing)) {
+						if (!(e instanceof NothingWeapon)) {
 							for (int i = 0; i < 2; i++) {
 								WeaponMod mod = WeaponMod.valueOf(PickupWeaponMod.getRandModFromPool("", ModTag.RANDOM_POOL));
 								mod.acquireMod(((Player)inflicted.getSchmuck()).getPlayerData(), state, e);

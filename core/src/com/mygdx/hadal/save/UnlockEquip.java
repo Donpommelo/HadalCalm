@@ -35,7 +35,7 @@ public enum UnlockEquip {
 	
 	SCRAPRIPPER(Scrapripper.class),
 
-	NOTHING(Nothing.class),
+	NOTHING(NothingWeapon.class),
 	
 	;
 	

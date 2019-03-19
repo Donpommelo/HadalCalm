@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -159,7 +159,7 @@ public class UIPlay extends AHadalActor {
 		for (int i = 0; i < 4; i++) {
 			if (player.getPlayerData().getMultitools().length > i) {
 				
-				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof Nothing) {
+				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
 					batch.draw(itemNull.get(i), x, y, getWidth(), getHeight());
 				} else {
 					if (i == player.getPlayerData().getCurrentSlot()) {
