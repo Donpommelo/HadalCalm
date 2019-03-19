@@ -184,6 +184,14 @@ public class KryoServer {
         			}
 				}
 				
+				if (o instanceof Packets.Notification) {
+					final Packets.Notification p = (Packets.Notification) o;
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						addNotificationToAll(ps, p.name, p.text);
+					}
+				}
+				
 				if (o instanceof Packets.KeyDown) {
 					final Packets.KeyDown p = (Packets.KeyDown) o;
 					final PlayState ps = getPlayState();

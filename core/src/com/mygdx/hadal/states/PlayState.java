@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
+import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.actors.UIActives;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
@@ -131,6 +132,9 @@ public class PlayState extends GameState {
 	
 	private boolean serverLoaded = false;
 	
+	protected MessageWindow messageWindow;
+
+	
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
@@ -222,16 +226,19 @@ public class PlayState extends GameState {
 			
 	@Override
 	public void show() {
-		this.stage = new PlayStateStage(this) {
-			
-			//This precaution exists to prevent null pointer when player is not loaded in yet.
-			@Override
-			public void draw() {
-				if (player.getPlayerData() != null) {
-					super.draw();
+		
+		if (stage == null) {
+			this.stage = new PlayStateStage(this) {
+				
+				//This precaution exists to prevent null pointer when player is not loaded in yet.
+				@Override
+				public void draw() {
+					if (player.getPlayerData() != null) {
+						super.draw();
+					}
 				}
-			}
-		};
+			};
+		}
 		
 		if (uiPlay == null) {
 			if (server) {
@@ -245,6 +252,8 @@ public class PlayState extends GameState {
 			uiObjective = new UIObjective(HadalGame.assetManager, this, player);
 			uiArtifact = new UIArtifacts(HadalGame.assetManager, this, player);
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
+			
+			messageWindow = new MessageWindow(this);
 		}
 		
 		this.stage.addActor(uiPlay);
@@ -256,6 +265,8 @@ public class PlayState extends GameState {
 		uiArtifact.addTable();
 		uiArtifact.syncArtifact();
 
+		messageWindow.addTable();
+		
 		app.newMenu(stage);
 		resetController();
 	}
@@ -677,6 +688,10 @@ public class PlayState extends GameState {
 
 	public UIPlayer getUiPlayer() {
 		return uiPlayer;
+	}
+
+	public MessageWindow getMessageWindow() {
+		return messageWindow;
 	}
 
 	public void setObjectiveTarget(HadalEntity objectiveTarget) {

@@ -122,6 +122,10 @@ public class ActionController {
 			player.getPlayerData().switchDown();
 		}
 		
+		if (action == PlayerAction.MESSAGE_WINDOW) {
+			state.getMessageWindow().toggleWindow();
+		}
+
 		return false;
 	}
 

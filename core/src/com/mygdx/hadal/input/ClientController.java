@@ -102,6 +102,10 @@ public class ClientController implements InputProcessor {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.MO_CYCLE_DOWN));
 		}
 		
+		if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+			state.getMessageWindow().toggleWindow();
+		}
+		
 		return false;
 	}
 

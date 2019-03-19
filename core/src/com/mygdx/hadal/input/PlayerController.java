@@ -100,6 +100,10 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.MO_CYCLE_DOWN);
 		}
 		
+		if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+			player.getController().keyDown(PlayerAction.MESSAGE_WINDOW);
+		}
+		
 		return false;
 	}
 

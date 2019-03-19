@@ -25,7 +25,7 @@ public class PauseState extends GameState {
 	private Actor pause, resumeOption, exitOption;
 	private Table table;
 	
-	private final static int width = 250;
+	private final static int width = 275;
 	private final static int height = 200;
 	
 	private PlayState ps;
@@ -76,8 +76,11 @@ public class PauseState extends GameState {
 			        	
 			        	if (ps.isServer()) {
 	    					HadalGame.server.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+	    					HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
+	    					
 	    				} else {
 	    					HadalGame.client.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+	    					HadalGame.client.client.sendTCP(new Packets.Notification(ps.getPlayer().getName(), "UNPAUSED THE GAME!"));
 	    				}
 			        }
 			    });
