@@ -37,8 +37,8 @@ public class MessageWindow {
 	
 	public void toggleWindow() {
 		if (active) {
-			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, 0, .5f, Interpolation.pow5Out));
-			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, 0, .5f, Interpolation.pow5Out));
+			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height, .5f, Interpolation.pow5Out));
+			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height, .5f, Interpolation.pow5Out));
 			state.getStage().setKeyboardFocus(null);
 		} else {
 			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, 0, .5f, Interpolation.pow5Out));
@@ -68,15 +68,15 @@ public class MessageWindow {
 		
 		state.getStage().addActor(tableOuter);
 		state.getStage().addActor(tableInner);
-		tableOuter.setPosition(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 2 - height / 2);
+		tableOuter.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height);
 		tableOuter.setWidth(width);
 		tableOuter.setHeight(height);
-		tableInner.setPosition(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 2 - height / 2);
+		tableInner.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height);
 		tableInner.setWidth(width);
 		tableInner.setHeight(height);
 		tableOuter.add(new MenuWindow(HadalGame.assetManager, state.getGsm(),
-						HadalGame.CONFIG_WIDTH / 2 - width / 2, 
-						HadalGame.CONFIG_HEIGHT / 2 - height / 2, width, height));
+						0, 
+						0, width, height));
 		
 		enterMessage = new TextArea("", state.getGsm().getSkin());
 		enterMessage.setMessageText("ENTER MESSAGE");
@@ -108,5 +108,7 @@ public class MessageWindow {
 		tableInner.add(enterMessage).colspan(2).expand().fill().top().row();
 		tableInner.add(sendMessage).pad(15);
 		tableInner.add(backButton).pad(15);
+		
+		active = false;
 	}
 }

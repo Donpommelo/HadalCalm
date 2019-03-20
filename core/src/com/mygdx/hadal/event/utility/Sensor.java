@@ -58,6 +58,7 @@ public class Sensor extends Event {
 			@Override
 			public void onTouch(HadalData fixB) {
 				super.onTouch(fixB);
+				
 				if (isAlive()) {
 					if (event.getConnectedEvent() != null) {
 						if (fixB instanceof PlayerBodyData) {

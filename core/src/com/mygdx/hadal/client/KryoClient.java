@@ -267,9 +267,7 @@ public class KryoClient {
         					public void execute() {
         						MapObject blueprint = p.blueprint;
         						blueprint.getProperties().put("sync", 1);
-        						Event event = TiledObjectUtil.parseTiledEvent(cs, blueprint);
-        						cs.addEntity(p.entityID, event, ObjectSyncLayers.STANDARD);
-        						TiledObjectUtil.parseTiledSingleTrigger(event);
+        						cs.addEntity(p.entityID, TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint), ObjectSyncLayers.STANDARD);
             				}
     					});
 					}

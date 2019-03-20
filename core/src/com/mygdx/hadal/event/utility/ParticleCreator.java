@@ -39,7 +39,7 @@ public class ParticleCreator extends Event {
 		this.duration = duration;
 		this.on = startOn;
 		
-		particles = new ParticleEntity(state, state.getPlayer(), particle, 2.0f, 0.0f, on, particleSyncType.TICKSYNC);
+		particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, particleSyncType.TICKSYNC);
 	}
 	
 	@Override
@@ -53,12 +53,13 @@ public class ParticleCreator extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
+				
 				if (getConnectedEvent() != null) {
 					particles.setAttachedEntity(getConnectedEvent());
 				} else {
 					particles.setAttachedEntity(p);
 				}
-				
+								
 				if (duration == 0) {
 					if (on) {
 						particles.turnOff();

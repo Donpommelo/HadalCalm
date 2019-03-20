@@ -534,6 +534,12 @@ public class TiledObjectUtil {
     	}
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
+    
+    public static Event parseSingleEventWithTriggers(PlayState state, MapObject object) {
+    	Event e = parseTiledEvent(state, object);
+    	parseTiledSingleTrigger(e);
+    	return e;
+    }
 
     public static void clearEvents() {
     	triggeredEvents.clear();
