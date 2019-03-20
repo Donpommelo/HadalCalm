@@ -19,7 +19,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Slodged;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.HitboxFactory;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class SlodgeGun extends RangedWeapon {
@@ -49,95 +48,57 @@ public class SlodgeGun extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_SLODGEGUN;
 	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
-	private final static HitboxFactory onShoot = new HitboxFactory() {
-
-		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, final short filter) {
+	public SlodgeGun(Schmuck user) {
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+	}
+	
+	@Override
+	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+		if (!(user instanceof Player)) {
+			return;
+		}
+		final Equipable tool = this;
+		final Player p = (Player)user;
+		
+		p.getBodyData().addStatus(new Status(state, 0.75f, "", "", false, true, p.getBodyData(), p.getBodyData()) {
 			
-			if (!(user instanceof Player)) {
-				return;
-			}
+			private float procCdCount;
 			
-			final Player p = (Player)user;
-			
-			p.getBodyData().addStatus(new Status(state, 0.75f, "", "", false, true, p.getBodyData(), p.getBodyData()) {
+			@Override
+			public void timePassing(float delta) {
+				super.timePassing(delta);
 				
-				private float procCdCount;
+				if (p.getMouse() == null) {
+					return;
+				}
 				
-				@Override
-				public void timePassing(float delta) {
-					super.timePassing(delta);
-					
-					if (p.getMouse() == null) {
-						return;
-					}
-					
-					procCdCount += delta;
-					if (procCdCount >= procCd) {
-						procCdCount -= procCd;
-						Vector2 startVelocity = p.getMouse().getBody().getPosition().sub(inflicted.getSchmuck().getBody().getPosition()).scl(projectileSpeed);
-						Hitbox hbox = new HitboxSprite(state, 
-								inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-								inflicted.getSchmuck().getBody().getPosition().y * PPM, 
-								projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-								filter, true, true, user, projSprite);
-						hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-						hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-						hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-						hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-						hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-							
-							@Override
-							public void onHit(HadalData fixB) {
-								if (fixB != null) {
-									if (fixB instanceof BodyData) {
-										((BodyData)fixB).addStatus(new Slodged(state, slowDura, slow, user.getBodyData(), ((BodyData)fixB)));
-									}
+				procCdCount += delta;
+				if (procCdCount >= procCd) {
+					procCdCount -= procCd;
+					Vector2 startVelocity = p.getMouse().getBody().getPosition().sub(inflicted.getSchmuck().getBody().getPosition()).scl(projectileSpeed);
+					Hitbox hbox = new HitboxSprite(state, 
+							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
+							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
+							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+							filter, true, true, user, projSprite);
+					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+					hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+						
+						@Override
+						public void onHit(HadalData fixB) {
+							if (fixB != null) {
+								if (fixB instanceof BodyData) {
+									((BodyData)fixB).addStatus(new Slodged(state, slowDura, slow, user.getBodyData(), ((BodyData)fixB)));
 								}
 							}
-							
-						});
-					}
+						}
+						
+					});
 				}
-			});
-			
-//			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-//					filter, true, true, user, projSprite);
-//			
-//			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-//			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-//			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-//			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-//			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-//				
-//				@Override
-//				public void die() {
-//					
-//					Hitbox explosion = new Hitbox(state, 
-//							this.hbox.getBody().getPosition().x * PPM , 
-//							this.hbox.getBody().getPosition().y * PPM,	
-//							explosionRadius, explosionRadius, 0, .02f, 1, 0, new Vector2(0, 0),
-//							filter, true, false, user);
-//					
-//					explosion.addStrategy(new HitboxDefaultStrategy(state, explosion, user.getBodyData()));
-//					explosion.addStrategy(new HitboxStrategy(state, explosion, user.getBodyData()) {
-//						
-//						@Override
-//						public void onHit(HadalData fixB) {
-//							if (fixB != null) {
-//								if (fixB instanceof BodyData) {
-//									((BodyData)fixB).addStatus(new Slodged(state, slowDura, slow, user.getBodyData(), ((BodyData)fixB)));
-//								}
-//							}
-//						}
-//						
-//					});
-//				}
-//			});
-		}
-	};
-	
-	public SlodgeGun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, onShoot, weaponSprite, eventSprite);
+			}
+		});
 	}
 }

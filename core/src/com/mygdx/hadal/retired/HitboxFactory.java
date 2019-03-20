@@ -1,4 +1,4 @@
-package com.mygdx.hadal.utils;
+package com.mygdx.hadal.retired;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;

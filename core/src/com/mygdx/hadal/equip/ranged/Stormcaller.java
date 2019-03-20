@@ -13,7 +13,6 @@ import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.utils.HitboxFactory;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -42,42 +41,39 @@ public class Stormcaller extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
 	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
 	
-	private final static HitboxFactory onShoot = new HitboxFactory() {
-
-		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, final Equipable tool, Vector2 startVelocity, float x, float y, final short filter) {
-			
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-					filter, true, true, user, projSprite);
-			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-				
-				private float controllerCount = 0;
-				private int explosionSize = projectileHeight;
-				
-				@Override
-				public void controller(float delta) {
-					controllerCount+=delta;
-
-					if (controllerCount >= explosionInterval) {
-						Hitbox pulse = new HitboxSprite(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, explosionSize, explosionSize, 
-								gravity, explosionInterval, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite);
-						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
-						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-						
-						explosionSize += 5;
-						
-						controllerCount -= delta;
-					}
-				}
-			});
-		}
-	};
-	
 	public Stormcaller(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, onShoot, weaponSprite, eventSprite);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 
+	@Override
+	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+				filter, true, true, user, projSprite);
+		
+		final Equipable tool = this;
+		
+		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+			
+			private float controllerCount = 0;
+			private int explosionSize = projectileHeight;
+			
+			@Override
+			public void controller(float delta) {
+				controllerCount+=delta;
+
+				if (controllerCount >= explosionInterval) {
+					Hitbox pulse = new HitboxSprite(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, explosionSize, explosionSize, 
+							gravity, explosionInterval, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite);
+					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
+					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+					
+					explosionSize += 5;
+					
+					controllerCount -= delta;
+				}
+			}
+		});
+	}
 }

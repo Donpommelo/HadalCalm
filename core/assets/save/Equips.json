@@ -226,6 +226,30 @@ MACHINEGUN: {
 		RANGED,
 	]
 }
+MINIGUN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Minigun
+	description: "Heavy fire after spinning up."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+SNIPER_RIFLE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Sniper Rifle
+	description: "Long-Ranged weapon that can headshot."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 STICKY_BOMB_LAUNCHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: "Stickybomb-Launcher"
@@ -264,6 +288,30 @@ STORMCALLER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Stormcaller
 	description: "Fire a wide projectile that deflects enemy projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+UNDERMINER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Underminer
+	description: "Drills through walls and explodes."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+WAVE_CANNON: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Wave Cannon
+	description: "Fires a burst of wavy projectiles."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

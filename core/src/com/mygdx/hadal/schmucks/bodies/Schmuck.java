@@ -172,14 +172,14 @@ public class Schmuck extends HadalEntity {
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
 
-			//account for the tool's use delay.
-			shootDelayCount = tool.getUseDelay();
-			
 			//Register the tool targeting the input coordinates.
 			tool.mouseClicked(delta, state, bodyData, hitbox, x, y);
 			
 			//set the tool that will be executed after delay to input tool.
 			usedTool = tool;
+			
+			//account for the tool's use delay.
+			shootDelayCount = tool.getUseDelay();
 		}
 	}
 	

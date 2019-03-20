@@ -2,12 +2,10 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.HitboxFactory;
 
 public class TorpedoLauncher extends RangedWeapon {
 
@@ -34,18 +32,14 @@ public class TorpedoLauncher extends RangedWeapon {
 
 	private final static Sprite weaponSprite = Sprite.MT_TORPEDO;
 	private final static Sprite eventSprite = Sprite.P_TORPEDO;
-
-	private final static HitboxFactory onShoot = new HitboxFactory() {
-
-		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
-			
-			WeaponUtils.createTorpedo(state, x, y, user, tool, baseDamage, knockback, projectileWidth, projectileHeight, gravity, lifespan, projDura,
-					startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);
-		}
-	};
 	
 	public TorpedoLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, onShoot, weaponSprite, eventSprite);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+	}
+	
+	@Override
+	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+		WeaponUtils.createTorpedo(state, x, y, user, this, baseDamage, knockback, projectileWidth, projectileHeight, gravity, lifespan, projDura,
+				startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);
 	}
 }

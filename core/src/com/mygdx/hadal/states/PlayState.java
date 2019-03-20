@@ -261,7 +261,7 @@ public class PlayState extends GameState {
 		this.stage.addActor(uiActive);
 		this.stage.addActor(uiObjective);
 		this.stage.addActor(uiExtra);
-		
+
 		uiArtifact.addTable();
 		uiArtifact.syncArtifact();
 

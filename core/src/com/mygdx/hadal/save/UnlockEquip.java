@@ -25,16 +25,19 @@ public enum UnlockEquip {
 	LASER_GUIDED_ROCKET(LaserGuidedRocket.class),
 	LASER_RIFLE(LaserRifle.class),
 	MACHINEGUN(Machinegun.class),
+	MINIGUN(Minigun.class),
 	NEMATOCYDEARM(Nematocydearm.class),
 	POPPER(Popper.class),
+	SCRAPRIPPER(Scrapripper.class),
 	SLODGEGUN(SlodgeGun.class),
+	SNIPER_RIFLE(SniperRifle.class),
 	SPEARGUN(Speargun.class),
 	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class),
 	STORMCALLER(Stormcaller.class),
 	TORPEDO_LAUNCHER(TorpedoLauncher.class),
+	UNDERMINER(Underminer.class),
+	WAVE_CANNON(WaveCannon.class),
 	
-	SCRAPRIPPER(Scrapripper.class),
-
 	NOTHING(NothingWeapon.class),
 	
 	;

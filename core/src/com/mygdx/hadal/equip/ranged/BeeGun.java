@@ -2,12 +2,10 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.HitboxFactory;
 
 public class BeeGun extends RangedWeapon {
 
@@ -25,16 +23,12 @@ public class BeeGun extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_BEEGUN;
 	private final static Sprite eventSprite = Sprite.P_BEEGUN;
 	
-	private final static HitboxFactory onShoot = new HitboxFactory() {
-
-		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startVelocity, float x, float y, short filter) {
-			WeaponUtils.createBees(state, x, y, user, tool, 1, spread, startVelocity, true, filter);
-		}	
-	};
-	
 	public BeeGun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, onShoot, weaponSprite, eventSprite);
+		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 
+	@Override
+	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+		WeaponUtils.createBees(state, x, y, user, this, 1, spread, startVelocity, true, filter);
+	}
 }

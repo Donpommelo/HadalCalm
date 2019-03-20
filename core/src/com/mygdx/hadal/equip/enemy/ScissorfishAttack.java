@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.enemy;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -10,7 +9,6 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.utils.HitboxFactory;
 
 public class ScissorfishAttack extends MeleeWeapon {
 
@@ -24,22 +22,16 @@ public class ScissorfishAttack extends MeleeWeapon {
 	private final static float knockback = 22.5f;
 	private final static float momentum = 5.0f;
 	
-	
-	private final static HitboxFactory onSwing = new HitboxFactory() {
-
-		@Override
-		public void makeHitbox(final Schmuck user, PlayState state, Equipable tool, Vector2 startAngle, float x, float y, short filter) {
-			
-			Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startAngle, 
-					new Vector2(0, 0), true, filter, user);
-			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.MELEE));	
-		}
-	};
-	
 	public ScissorfishAttack(Schmuck user) {
-		super(user, name, swingCd, windup, momentum, onSwing);
+		super(user, name, swingCd, windup, momentum);
 	}
-
+	
+	@Override
+	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+		Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, weaponVelo, 
+				new Vector2(0, 0), true, filter, user);
+		
+		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.MELEE));	
+	}
 }

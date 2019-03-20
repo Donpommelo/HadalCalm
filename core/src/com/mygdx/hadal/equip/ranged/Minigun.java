@@ -14,36 +14,66 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.Slodged;
 
-public class Machinegun extends RangedWeapon {
+public class Minigun extends RangedWeapon {
 
-	private final static String name = "Machine Gun";
-	private final static int clipSize = 28;
-	private final static float shootCd = 0.05f;
+	private final static String name = "Minigun";
+	private final static int clipSize = 90;
+	private final static float shootCd = 0.03f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.8f;
+	private final static float reloadTime = 2.7f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 12.0f;
-	private final static float recoil = 1.25f;
-	private final static float knockback = 2.5f;
-	private final static float projectileSpeed = 40.0f;
-	private final static int projectileWidth = 96;
-	private final static int projectileHeight = 12;
-	private final static float lifespan = 0.75f;
-	private final static float gravity = 1;
+	private final static float baseDamage = 11.0f;
+	private final static float recoil = 0.25f;
+	private final static float knockback = 4.5f;
+	private final static float projectileSpeed = 25.0f;
+	private final static int projectileWidth = 120;
+	private final static int projectileHeight = 15;
+	private final static float lifespan = 1.20f;
+	private final static float gravity = 3;
 	
 	private final static int projDura = 1;
 	
-	private final static int spread = 5;
+	private final static int spread = 20;
 
 	private final static Sprite projSprite = Sprite.BULLET;
-	private final static Sprite weaponSprite = Sprite.MT_MACHINEGUN;
-	private final static Sprite eventSprite = Sprite.P_MACHINEGUN;
+	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
+	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	public Machinegun(Schmuck user) {
+	private static final float maxCharge = 1.0f;
+	private static final float selfSlowDura = 0.1f;
+	private static final float selfSlowMag = 0.80f;
+	private float chargeDura = 0.0f;
+	
+	public Minigun(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+	}
+	
+	@Override
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+		if (chargeDura < maxCharge && !reloading) {
+			chargeDura += (delta + shootCd);
+		}
+		if (!reloading) {
+			shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter));
+		}
+		super.mouseClicked(delta, state, shooter, faction, x, y);		
+	}
+
+	@Override
+	public void execute(PlayState state, BodyData shooter) {
+		if (chargeDura >= maxCharge) {
+			super.execute(state, shooter);
+		}
+	}
+	
+	@Override
+	public void release(PlayState state, BodyData bodyData) {
+		chargeDura = 0;
 	}
 	
 	@Override

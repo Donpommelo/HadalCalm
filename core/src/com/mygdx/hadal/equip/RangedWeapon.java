@@ -4,10 +4,10 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
-import com.mygdx.hadal.utils.HitboxFactory;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 
 /**
@@ -25,11 +25,7 @@ public class RangedWeapon extends Equipable {
 	protected int reloadAmount;
 	protected float recoil;
 	protected float projectileSpeed;
-	protected HitboxFactory onShoot;
-	
-	protected int x, y;
-	protected short faction;
-	
+
 	protected boolean autoreload;
 
 	/**
@@ -46,7 +42,7 @@ public class RangedWeapon extends Equipable {
 	 * @param onShoot: This is a factory that creates a hitbox
 	 */
 	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
-			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, HitboxFactory onShoot) {
+			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount) {
 		super(user, name, shootCd, shootDelay);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
@@ -55,12 +51,11 @@ public class RangedWeapon extends Equipable {
 		this.reloadAmount = reloadAmount;
 		this.recoil = recoil;
 		this.projectileSpeed = projectileSpeed;
-		this.onShoot = onShoot;
 	}
 	
 	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
 			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, boolean autoreload, 
-			HitboxFactory onShoot, Sprite weaponSprite, Sprite eventSprite) {
+			Sprite weaponSprite, Sprite eventSprite) {
 		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
@@ -70,7 +65,6 @@ public class RangedWeapon extends Equipable {
 		this.autoreload = autoreload;
 		this.recoil = recoil;
 		this.projectileSpeed = projectileSpeed;
-		this.onShoot = onShoot;
 	}
 
 	/**
@@ -106,11 +100,12 @@ public class RangedWeapon extends Equipable {
 			
 			shooter.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, this, null);
 			
-			//Generate the hitbox(s). This method's return is unused, so it may not return a hitbox or whatever at all.
-			onShoot.makeHitbox(user, state, this, weaponVelo, 
-					shooter.getSchmuck().getBody().getPosition().x * PPM + weaponVelo.x * 2,  
-					shooter.getSchmuck().getBody().getPosition().y * PPM + weaponVelo.y * 2, 
-					faction);
+			Vector2 projOffset = new Vector2(weaponVelo).nor().scl(15);
+			
+			//Shoot			
+			fire(state, user, weaponVelo, 
+					shooter.getSchmuck().getBody().getPosition().x * PPM + projOffset.x,  
+					shooter.getSchmuck().getBody().getPosition().y * PPM + projOffset.y, faction);
 			
 			clipLeft--;
 			clipPercent = (float)clipLeft / getClipSize();
@@ -121,7 +116,8 @@ public class RangedWeapon extends Equipable {
 			
 			//process weapon recoil.
 			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
-		} 
+		}
+		
 		if (clipLeft <= 0 && autoreload) {
 			if (!reloading) {
 				reloading = true;
@@ -220,9 +216,5 @@ public class RangedWeapon extends Equipable {
 
 	public void setClipLeft() {
 		clipLeft = (int) (clipPercent * getClipSize());
-	}
-
-	public HitboxFactory getOnShoot() {
-		return onShoot;
 	}
 }
