@@ -1,5 +1,8 @@
 package com.mygdx.hadal.states;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -9,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 
@@ -104,6 +108,59 @@ public class PauseState extends GameState {
 			}
 		};
 		app.newMenu(stage);
+		
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		
+		inputMultiplexer.addProcessor(stage);
+		inputMultiplexer.addProcessor(ps.getStage());
+		inputMultiplexer.addProcessor(new InputProcessor() {
+
+			@Override
+			public boolean keyDown(int keycode) {				
+				if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+					ps.getController().keyDown(keycode);
+				}
+				return false;
+			}
+
+			@Override
+			public boolean keyUp(int keycode) {
+				return false;
+			}
+
+			@Override
+			public boolean keyTyped(char character) {
+				return false;
+			}
+
+			@Override
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
+
+			@Override
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+				return false;
+			}
+
+			@Override
+			public boolean touchDragged(int screenX, int screenY, int pointer) {
+				return false;
+			}
+
+			@Override
+			public boolean mouseMoved(int screenX, int screenY) {
+				return false;
+			}
+
+			@Override
+			public boolean scrolled(int amount) {
+				return false;
+			}
+			
+		});
+		
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
 	/**
@@ -112,6 +169,10 @@ public class PauseState extends GameState {
 	@Override
 	public void update(float delta) {
 		ps.cameraUpdate();
+		
+		if (ps != null) {
+			ps.stage.act();
+		}
 		
 		if (toRemove) {
         	getGsm().removeState(PauseState.class);
@@ -125,6 +186,7 @@ public class PauseState extends GameState {
 	public void render() {
 		if (ps != null) {
 			ps.render();
+			ps.stage.draw();
 		}
 	}
 

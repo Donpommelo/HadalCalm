@@ -27,7 +27,6 @@ public class ClientState extends PlayState {
 	
 	private ArrayList<Object[]> sync;
 	
-	private ClientController controller;
 	private Vector3 tmpVec3 = new Vector3();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {

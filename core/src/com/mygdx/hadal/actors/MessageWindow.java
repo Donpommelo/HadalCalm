@@ -32,19 +32,18 @@ public class MessageWindow {
 		this.tableOuter = new Table().center();
 		this.tableInner = new Table().center();
 		
-//		table.setDebug(true);
 		addTable();
 	}
 	
 	public void toggleWindow() {
 		if (active) {
-			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
-			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
+			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, 0, .5f, Interpolation.pow5Out));
+			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, 0, .5f, Interpolation.pow5Out));
 			state.getStage().setKeyboardFocus(null);
 		} else {
-			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2, .5f, Interpolation.pow5Out));
-			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2, .5f, Interpolation.pow5Out));
-			state.getStage().setKeyboardFocus(tableInner);
+			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, 0, .5f, Interpolation.pow5Out));
+			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, 0, .5f, Interpolation.pow5Out));
+			state.getStage().setKeyboardFocus(enterMessage);
 		}
 		active = !active;
 	}

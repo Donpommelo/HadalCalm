@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -61,7 +62,7 @@ public class PlayState extends GameState {
 	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
 	protected Player player;
 	
-	private PlayerController controller;
+	protected InputProcessor controller;
 	
 	private Loadout loadout;
 	
@@ -485,7 +486,7 @@ public class PlayState extends GameState {
 				player = new Player(this, (int)(getSafeX() * PPM),
 						(int)(getSafeY() * PPM), gsm.getRecord().getName(), new Loadout(gsm.getRecord()), null);
 				
-				controller.setPlayer(player);
+				((PlayerController)controller).setPlayer(player);
 				
 				this.zoomDesired = saveZoom;
 				if (resetCamera) {
@@ -684,6 +685,10 @@ public class PlayState extends GameState {
 	
 	public MouseTracker getMouse() {
 		return mouse;
+	}
+
+	public InputProcessor getController() {
+		return controller;
 	}
 
 	public UIPlayer getUiPlayer() {
