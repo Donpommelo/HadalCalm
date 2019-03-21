@@ -35,7 +35,6 @@ public class ChargeBeam extends RangedWeapon {
 	
 	private final static int projDura = 5;
 	
-	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
 	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;

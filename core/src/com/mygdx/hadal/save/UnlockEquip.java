@@ -18,6 +18,7 @@ public enum UnlockEquip {
 	CHAIN_LIGHTNING(ChainLightning.class),
 	CHARGE_BEAM(ChargeBeam.class),
 	CR4PCANNON(Scattergun.class),
+	FLOUNDERBUSS(Flounderbuss.class),
 	FUGUN(Fugun.class),
 	GRENADE_LAUNCHER(GrenadeLauncher.class),
 	ICEBERG(Iceberg.class),
@@ -34,7 +35,9 @@ public enum UnlockEquip {
 	SPEARGUN(Speargun.class),
 	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class),
 	STORMCALLER(Stormcaller.class),
+	TESLA_COIL(TeslaCoil.class),
 	TORPEDO_LAUNCHER(TorpedoLauncher.class),
+	TRICK_GUN(TrickGun.class),
 	UNDERMINER(Underminer.class),
 	WAVE_CANNON(WaveCannon.class),
 	

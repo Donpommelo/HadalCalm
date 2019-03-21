@@ -23,7 +23,7 @@ public class BouncingBlade extends RangedWeapon {
 	private final static float baseDamage = 20.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 18.0f;
-	private final static float projectileSpeed = 45.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 75;
 	private final static float lifespan = 3.5f;
@@ -49,5 +49,6 @@ public class BouncingBlade extends RangedWeapon {
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallLoseDuraStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.setFriction(0);
 	}
 }

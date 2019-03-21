@@ -18,6 +18,10 @@ import com.mygdx.hadal.effects.Sprite;
  */
 public class RangedWeapon extends Equipable {
 
+	protected float ammoPercent;
+	protected int ammoSize;
+	protected int ammoLeft;
+	
 	protected float clipPercent;
 	protected int clipSize;
 	protected int clipLeft;

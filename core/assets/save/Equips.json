@@ -155,6 +155,18 @@ BEEGUN: {
 		RANGED,
 	]
 }
+FLOUNDERBUSS: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Flounderbuss
+	description: "Charge and release to fire a spray of projectiles."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 NEMATOCYDEARM: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nemato Sidearm
@@ -287,7 +299,31 @@ SLODGEGUN: {
 STORMCALLER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Stormcaller
-	description: "Fire a wide projectile that deflects enemy projectiles."
+	description: "Fire a projectile that expands as it travels."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+TESLA_COIL: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Tesla Coil
+	description: "Fire Pylons that connect to neighbors, forming an electrifying wall."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+TRICK_GUN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Trick Gun
+	description: "Click Twice to fire a projectile that changes its trajectory."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
