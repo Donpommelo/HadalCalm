@@ -77,27 +77,27 @@ public class SpawnerSchmuck extends Event {
 						switch(id) {
 						case 1:
 							if (Math.random() > 0.4f) {
-								spawns.add(new Scissorfish(state, randX, randY));
+								spawns.add(new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX));
 							} else if (Math.random() > 0.7f){
-								spawns.add(new Spittlefish(state, randX, randY));
+								spawns.add(new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX));
 							} else {
-								spawns.add(new Torpedofish(state, randX, randY));
+								spawns.add(new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX));
 							}
 							break;
 						case 2:
-							spawns.add(new Scissorfish(state, randX, randY));
+							spawns.add(new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX));
 							break;
 						case 3:
-							spawns.add(new Spittlefish(state, randX, randY));
+							spawns.add(new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX));
 							break;
 						case 4:
-							spawns.add(new Torpedofish(state, randX, randY));
+							spawns.add(new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX));
 							break;
 						case 5:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_FLAK, extraField));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_FLAK, extraField, Constants.ENEMY_HITBOX));
 							break;
 						case 6:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX));
 							break;
 							
 						}

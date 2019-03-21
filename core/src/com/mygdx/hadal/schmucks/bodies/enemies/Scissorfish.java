@@ -23,10 +23,10 @@ public class Scissorfish extends FloatingEnemy {
 	
 	private static final String spriteId = "scissorfish_swim";
 	
-	public Scissorfish(PlayState state, int x, int y) {
+	public Scissorfish(PlayState state, int x, int y, short filter) {
 		super(state, x, y, width, height, hbWidth, hbHeight, scale, spriteId, enemyType.SCISSORFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
-				boundingRadius, decelerationRadius);
+				boundingRadius, decelerationRadius, filter);
 		
 		this.weapon = new ScissorfishAttack(this);	
 	}

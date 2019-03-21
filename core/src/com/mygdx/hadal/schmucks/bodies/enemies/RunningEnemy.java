@@ -45,8 +45,8 @@ public class RunningEnemy extends Enemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public RunningEnemy(PlayState state, float width, float height, int x, int y) {
-		super(state, width, height, x, y, enemyType.MISC);
+	public RunningEnemy(PlayState state, float width, float height, int x, int y, short filter) {
+		super(state, width, height, x, y, enemyType.MISC, filter);
 		
 		//default enemy weapon is a slow ranged projectile
 		this.weapon = new SpittlefishAttack(this);	

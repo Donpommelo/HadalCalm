@@ -23,10 +23,10 @@ public class Torpedofish extends FloatingEnemy {
 	
 	private static final String spriteId = "torpedofish_swim";
 
-	public Torpedofish(PlayState state, int x, int y) {
+	public Torpedofish(PlayState state, int x, int y, short filter) {
 		super(state, x, y, width, height, hbWidth, hbHeight, scale, spriteId, enemyType.TORPEDOFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
-				boundingRadius, decelerationRadius);
+				boundingRadius, decelerationRadius, filter);
 		
 		this.weapon = new TorpedofishAttack(this);	
 	}

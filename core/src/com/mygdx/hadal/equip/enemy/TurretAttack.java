@@ -16,10 +16,10 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class TurretAttack extends RangedWeapon {
 
 	private final static String name = "Turret Gun";
-	private final static int clipSize = 5;
+	private final static int clipSize = 6;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.25f;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 20.0f;
 	private final static float recoil = 0.0f;
@@ -39,6 +39,7 @@ public class TurretAttack extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+		
 		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 				filter, true, true, user, projSprite);
 		

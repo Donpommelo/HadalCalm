@@ -27,6 +27,7 @@ import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
@@ -195,17 +196,17 @@ public class KryoClient {
 								case MISC:
 									break;
 								case SCISSORFISH:
-									cs.addEntity(p.entityID, new Scissorfish(cs, 0, 0), ObjectSyncLayers.STANDARD);
+									cs.addEntity(p.entityID, new Scissorfish(cs, 0, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
 									break;
 								case SPITTLEFISH:
-									cs.addEntity(p.entityID, new Spittlefish(cs, 0, 0), ObjectSyncLayers.STANDARD);
+									cs.addEntity(p.entityID, new Spittlefish(cs, 0, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
 									break;
 								case TORPEDOFISH:
-									cs.addEntity(p.entityID, new Torpedofish(cs, 0, 0), ObjectSyncLayers.STANDARD);
+									cs.addEntity(p.entityID, new Torpedofish(cs, 0, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
 									break;
 								case TURRET_FLAK:
 								case TURRET_VOLLEY:
-									cs.addEntity(p.entityID, new Turret(cs, 0, 0, p.type, 0), ObjectSyncLayers.STANDARD);
+									cs.addEntity(p.entityID, new Turret(cs, 0, 0, p.type, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
 									break;
 								default:
 									break;

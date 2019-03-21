@@ -15,8 +15,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SteeringEnemy extends Enemy {
 	
 	public SteeringEnemy(PlayState state, float width, float height, int x, int y, enemyType type, 
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad) {
-		super(state, width, height, x, y, type);
+			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter) {
+		super(state, width, height, x, y, type, filter);
 		
 		this.maxLinearSpeed = maxLinSpd;
 		this.maxLinearAcceleration = maxLinAcc;

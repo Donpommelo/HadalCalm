@@ -32,8 +32,8 @@ public class Enemy extends Schmuck {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Enemy(PlayState state, float width, float height, int x, int y, enemyType type) {
-		super(state, width, height, x, y, Constants.ENEMY_HITBOX);
+	public Enemy(PlayState state, float width, float height, int x, int y, enemyType type, short filter) {
+		super(state, width, height, x, y, filter);
 		this.type = type;
 	}
 	

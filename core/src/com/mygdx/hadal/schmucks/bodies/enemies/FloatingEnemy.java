@@ -65,9 +65,9 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param y: enemy starting x position.
 	 */
 	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, String spriteId, enemyType type,
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad) {
+			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, type,
-				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad);
+				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter);
 		
 		this.width = width;
 		this.height = height;

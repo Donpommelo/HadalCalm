@@ -16,9 +16,11 @@ public enum UnlockActives {
 	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
 	HONEYCOMB(Honeycomb.class),
 	FIREBALL(Fireball.class),
+	FISH_GANG(FishGang.class),
 	MELON(Melon.class),
 	NOTHING(NothingActive.class),
 	MISSILE_POD(MissilePod.class),
+	PORTABLE_TURRET(PortableTurret.class),
 	RELOADER(Reloader.class),
 	RESERVED_FUEL(ReservedFuel.class),
 

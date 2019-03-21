@@ -17,7 +17,6 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -61,8 +60,8 @@ public class Turret extends Enemy {
 	
 	private static final float scale = 0.5f;
 	
-	public Turret(PlayState state, int x, int y, enemyType type, int startAngle) {
-		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2), type);		
+	public Turret(PlayState state, int x, int y, enemyType type, int startAngle, short filter) {
+		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2), type, filter);		
 		this.angle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;
@@ -113,7 +112,6 @@ public class Turret extends Enemy {
 		
 		increaseAnimationTime(delta);
 
-		
 		angle = angle + (desiredAngle - angle) * 0.05f;
 		
 		switch(moveState) {
@@ -181,10 +179,8 @@ public class Turret extends Enemy {
 							}, body.getPosition(), homeAttempt.getPosition());
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
-									if (closestFixture.getUserData() instanceof PlayerBodyData ) {
-										target = ((PlayerBodyData)closestFixture.getUserData()).getEntity();
-										moveState = SchmuckMoveStates.TURRET_SHOOTING;
-									}
+									target = ((BodyData)closestFixture.getUserData()).getEntity();
+									moveState = SchmuckMoveStates.TURRET_SHOOTING;
 								}
 							} 
 						}
@@ -194,7 +190,6 @@ public class Turret extends Enemy {
 			}), 
 				body.getPosition().x - aiRadius, body.getPosition().y - aiRadius, 
 				body.getPosition().x + aiRadius, body.getPosition().y + aiRadius);					
-			
 		}
 		
 		aiCdCount -= delta;

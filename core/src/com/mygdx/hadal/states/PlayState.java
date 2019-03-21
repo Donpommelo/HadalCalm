@@ -48,6 +48,7 @@ import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.utils.CameraStyles;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 import box2dLight.RayHandler;
@@ -178,7 +179,7 @@ public class PlayState extends GameState {
 		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new Enemy(this, 1, 1, -1000, -1000, enemyType.MISC);
+		worldDummy = new Enemy(this, 1, 1, -1000, -1000, enemyType.MISC, Constants.ENEMY_HITBOX);
 		mouse = new MouseTracker(this, true);
 
 		map = new TmxMapLoader().load(level.getMap());

@@ -55,6 +55,8 @@ public class RangedWeapon extends Equipable {
 		this.reloadAmount = reloadAmount;
 		this.recoil = recoil;
 		this.projectileSpeed = projectileSpeed;
+		
+		this.autoreload = true;
 	}
 	
 	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 

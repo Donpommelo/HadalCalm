@@ -13,13 +13,12 @@ import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.StatusProcTime;
 
 public class TrickGun extends RangedWeapon {
 
 	private final static String name = "Trick Gun";
 	private final static int clipSize = 6;
-	private final static float shootCd = 0.2f;
+	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
@@ -51,7 +50,10 @@ public class TrickGun extends RangedWeapon {
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+	public void execute(PlayState state, BodyData shooter) {}
+	
+	@Override
+	public void release(PlayState state, BodyData bodyData) {
 		if (firstClicked) {
 			pos2.set(x, y);
 			firstClicked = false;
@@ -62,22 +64,10 @@ public class TrickGun extends RangedWeapon {
 			float yImpulse = -(pos1.y - pos2.y) / powerDiv;
 			vel2.set(xImpulse, yImpulse);
 			
+			super.execute(state, bodyData);
 		} else {
 			pos1.set(x, y);
 			firstClicked = true;
-		}
-		
-		this.faction = faction;
-		this.x = x;
-		this.y = y;
-		
-		shooter.statusProcTime(StatusProcTime.WHILE_SHOOTING, null, delta, null, this, null);
-	}
-	
-	@Override
-	public void execute(PlayState state, BodyData shooter) {
-		if (!firstClicked) {
-			super.execute(state, shooter);
 		}
 	}
 	

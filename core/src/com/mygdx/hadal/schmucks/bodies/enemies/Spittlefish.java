@@ -23,10 +23,10 @@ public class Spittlefish extends FloatingEnemy {
 	
 	private static final String spriteId = "spittlefish_swim";
 
-	public Spittlefish(PlayState state, int x, int y) {
+	public Spittlefish(PlayState state, int x, int y, short filter) {
 		super(state, x, y, width, height, hbWidth, hbHeight, scale, spriteId, enemyType.SPITTLEFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
-				boundingRadius, decelerationRadius);
+				boundingRadius, decelerationRadius, filter);
 		
 		this.weapon = new SpittlefishAttack(this);	
 	}
