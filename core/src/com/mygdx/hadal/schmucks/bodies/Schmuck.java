@@ -90,7 +90,7 @@ public class Schmuck extends HadalEntity {
 		
 		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
 				new Vector2(1 / 2 / PPM,  - height / 2 / PPM), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY | Constants.BIT_PLAYER), hitboxfilter));
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY | Constants.BIT_PLAYER | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
 		
 		feet.setUserData(feetData);
 		
@@ -98,7 +98,7 @@ public class Schmuck extends HadalEntity {
 		
 		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
 				new Vector2(-width / 2 / PPM,  0), true, 0, 0, 0, 0,
-				Constants.BIT_PLAYER, Constants.BIT_WALL, hitboxfilter));
+				Constants.BIT_PLAYER, (short)(Constants.BIT_WALL), hitboxfilter));
 		
 		leftSensor.setUserData(leftData);
 		

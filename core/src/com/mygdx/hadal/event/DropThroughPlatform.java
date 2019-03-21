@@ -45,9 +45,13 @@ public class DropThroughPlatform extends Event {
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
-						Filter filter = event.getBody().getFixtureList().get(0).getFilterData();
-						filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER);
-						event.getBody().getFixtureList().get(0).setFilterData(filter);
+						
+						Player p = ((Player)((FeetData) fixB).getEntity());
+						
+						Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
+						filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR |
+								Constants.BIT_PROJECTILE | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL);
+						p.getBody().getFixtureList().get(0).setFilterData(filter);
 						
 						((FeetData) fixB).setTerrain(this.event);
 					}
@@ -61,9 +65,12 @@ public class DropThroughPlatform extends Event {
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
-						Filter filter = event.getBody().getFixtureList().get(0).getFilterData();
-						filter.maskBits = (short) (Constants.BIT_SENSOR);
-						event.getBody().getFixtureList().get(0).setFilterData(filter);
+						Player p = ((Player)((FeetData) fixB).getEntity());
+						Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
+						filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR |
+								Constants.BIT_PROJECTILE | Constants.BIT_ENEMY);
+						p.getBody().getFixtureList().get(0).setFilterData(filter);
+						
 						((FeetData) fixB).setTerrain(null);
 					}
 				}
@@ -74,13 +81,14 @@ public class DropThroughPlatform extends Event {
 			 */
 			@Override
 			public void onInteract(Player p) {
-				Filter filter = event.getBody().getFixtureList().get(0).getFilterData();
-				filter.maskBits = (short) (Constants.BIT_SENSOR);
-				event.getBody().getFixtureList().get(0).setFilterData(filter);
+				Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
+				filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR |
+						Constants.BIT_PROJECTILE | Constants.BIT_ENEMY);
+				p.getBody().getFixtureList().get(0).setFilterData(filter);
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_WALL, 
-				(short) (Constants.BIT_SENSOR),	(short) 0, false, eventData);
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_DROPTHROUGHWALL, 
+				(short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER),	(short) 0, false, eventData);
 	}	
 }
