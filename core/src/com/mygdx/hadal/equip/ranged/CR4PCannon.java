@@ -18,7 +18,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-public class Scattergun extends RangedWeapon {
+public class CR4PCannon extends RangedWeapon {
 
 	private final static String name = "CR4P Cannon";
 	private final static int clipSize = 2;
@@ -44,7 +44,7 @@ public class Scattergun extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_SHOTGUN;
 	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
 	
-	public Scattergun(Schmuck user) {
+	public CR4PCannon(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	

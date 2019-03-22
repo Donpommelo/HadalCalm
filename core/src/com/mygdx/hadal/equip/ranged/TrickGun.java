@@ -25,7 +25,7 @@ public class TrickGun extends RangedWeapon {
 	private final static float baseDamage = 55.0f;
 	private final static float recoil = 16.0f;
 	private final static float knockback = 20.0f;
-	private final static float projectileSpeed = 20.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static int projectileWidth = 80;
 	private final static int projectileHeight = 80;
 	private final static float lifespan = 2.0f;
@@ -37,7 +37,7 @@ public class TrickGun extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float projectileSpeedAfter = 40.0f;
+	private final static float projectileSpeedAfter = 45.0f;
 
 	private boolean firstClicked = false;
 	private Vector2 pos1 = new Vector2(0, 0);
@@ -102,7 +102,9 @@ public class TrickGun extends RangedWeapon {
 			public void controller(float delta) {
 				if (!firstReached) {
 					if (startLocation.dst(hbox.getBody().getPosition()) >= distance) {
-						hbox.getBody().setLinearVelocity(pos2.sub(pos1).nor().scl(projectileSpeedAfter));
+						if (!pos2.equals(pos1)) {
+							hbox.getBody().setLinearVelocity(pos2.sub(pos1).nor().scl(projectileSpeedAfter));
+						}
 						firstReached = true;
 					}
 				}

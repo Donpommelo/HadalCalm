@@ -250,6 +250,18 @@ MINIGUN: {
 		RANGED,
 	]
 }
+MORAYGUN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Moraygun
+	description: "Shoots Moraybeams of concentrated light."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 SNIPER_RIFLE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Sniper Rifle
