@@ -40,8 +40,6 @@ public class UIExtra extends AHadalActor{
 		
 		//Default tags include score and hi-score.
 		uiTags = new ArrayList<UITag>();
-		uiTags.add(new UITag(uiType.SCORE, "", 0.4f));
-		uiTags.add(new UITag(uiType.HISCORE, "", 0.4f));
 	}
 	
 	@Override
@@ -50,45 +48,46 @@ public class UIExtra extends AHadalActor{
 
 		font.getData().setScale(0.4f);
 		
-		String text = "";
+		StringBuilder text = new StringBuilder();
 		
 		for (UITag tag : uiTags) {
 			switch(tag.getType()) {
 			case SCRAP:
-				text = text.concat("SCRAP: " + state.getGsm().getRecord().getScrap() + "\n");
+				text = text.append("SCRAP: " + state.getGsm().getRecord().getScrap() + "\n");
 				break;
 			case SCRIP:
-				text = text.concat("SCRIP: " + state.getGsm().getRecord().getScrip() + "\n");
+				text = text.append("SCRIP: " + state.getGsm().getRecord().getScrip() + "\n");
 				break;
 			case LIVES:
-				text = text.concat("LIVES: " + lives + "\n");
+				text = text.append("LIVES: " + lives + "\n");
 				break;
 			case SCORE:
-				text = text.concat("SCORE: " + score + "\n");
+				text = text.append("SCORE: " + score + "\n");
 				break;
 			case TIMER:
-				text = text.concat("TIMER: " + timer + " S\n");
+				text = text.append("TIMER: " + timer + " S\n");
 				break;
 			case HISCORE:
-				text = text.concat("HI-SCORE: " + state.getGsm().getRecord().getHiScores().get(state.getLevel().name()) + "\n");
+				text = text.append("HI-SCORE: " + state.getGsm().getRecord().getHiScores().get(state.getLevel().name()) + "\n");
 				break;
 			case VAR1:
-				text = text.concat(" " + extraVar1);
+				text = text.append(" " + extraVar1);
 				break;
 			case VAR2:
-				text = text.concat(" " + extraVar2);
+				text = text.append(" " + extraVar2);
 				break;
 			case MISC:
-				text = text.concat(tag.getMisc() + "\n");
+				text = text.append(tag.getMisc() + "\n");
 				break;
 			case EMPTY:
-				text = text.concat("\n");
+				text = text.append("\n");
 				break;
 			default:
 				break;
 			}	
 		}
-		font.draw(batch, text, HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y);
+		
+		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y);
 	}
 	
 	/**

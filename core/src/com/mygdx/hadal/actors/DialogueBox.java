@@ -25,6 +25,7 @@ public class DialogueBox extends AHadalActor {
 
 	//This is the scale that the text is drawn at.
 	private float scale = 0.5f;
+	private float scaleSmall = 0.3f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
 	private Queue<Dialogue> dialogues;
@@ -166,38 +167,37 @@ public class DialogueBox extends AHadalActor {
 	}
 	
 	@Override
-    public void draw(Batch batch, float alpha) {
-		
-		 font.getData().setScale(scale);
-		 
-		 if (dialogues.size != 0) {
+    public void draw(Batch batch, float alpha) {	 
+		if (dialogues.size != 0) {
 			 
-			 Dialogue first = dialogues.first();
-			 if (first.isSmall()) {
-				 gsm.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
+			Dialogue first = dialogues.first();
+			if (first.isSmall()) {
+				font.getData().setScale(scaleSmall);
+				gsm.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
-				 if (currX >= maxXSmall * textAppearThreshold) {
-			         font.draw(batch, first.getName() +": " + first.getText(), getX() + 20, getY() - 20, maxXSmall, -1, true);
-				 }
-			 } else {
-				 gsm.getDialogPatch().draw(batch, getX(), getY() - currY, currX, currY);
+				if (currX >= maxXSmall * textAppearThreshold) {
+					font.draw(batch, first.getName() +": " + first.getText(), getX() + 20, getY() - 20, maxXSmall, -1, true);
+				}
+			} else {
+				font.getData().setScale(scale);
+				gsm.getDialogPatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
-				 if (currX >= maxX * textAppearThreshold) {
-			         font.draw(batch, first.getName() +": " + first.getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
-				 }
+				if (currX >= maxX * textAppearThreshold) {
+			        font.draw(batch, first.getName() +": " + first.getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
+				}
 				 
-				 if (first.getBust() != null) {
-					 batch.draw((TextureRegion) first.getBust().getKeyFrame(animCdCount, true), 
+				if (first.getBust() != null) {
+					batch.draw((TextureRegion) first.getBust().getKeyFrame(animCdCount, true), 
 								getX() + 10, getY() - 130, 
 								100 / 2, 100 / 2,
 								120, 120, 1, 1, 0);
-				 }
-			 }
-		 }
+				}
+			}
+		}
 		 
-         //Return scale and color to default values.
-         font.getData().setScale(1.0f);
+	     //Return scale and color to default values.
+	     font.getData().setScale(1.0f);
     }	
 }

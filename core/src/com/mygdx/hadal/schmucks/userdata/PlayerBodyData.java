@@ -412,7 +412,7 @@ public class PlayerBodyData extends BodyData {
 			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getBody().getPosition().x * PPM , schmuck.getBody().getPosition().y * PPM, 
 					schmuck, tool, 500, 0, 0, (short)0);
 			
-			schmuck.getState().onPlayerDeath(player);
+			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
 			
 			if (player.getMouse() != player.getState().getMouse()) {
 				player.getMouse().queueDeletion();

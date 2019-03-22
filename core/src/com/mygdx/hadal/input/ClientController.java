@@ -106,6 +106,10 @@ public class ClientController implements InputProcessor {
 			state.getMessageWindow().toggleWindow();
 		}
 		
+		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+			state.getScoreWindow().setVisibility(true);
+		}
+		
 		return false;
 	}
 
@@ -128,6 +132,10 @@ public class ClientController implements InputProcessor {
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.FIRE));
+		}
+		
+		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+			state.getScoreWindow().setVisibility(false);
 		}
 				
 		return false;

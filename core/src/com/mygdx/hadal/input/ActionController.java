@@ -126,6 +126,10 @@ public class ActionController {
 			state.getMessageWindow().toggleWindow();
 		}
 
+		if (action == PlayerAction.SCORE_WINDOW) {
+			state.getScoreWindow().setVisibility(true);
+		}
+		
 		return false;
 	}
 
@@ -158,6 +162,10 @@ public class ActionController {
 		if (action == PlayerAction.FIRE) {
 			player.setShooting(false);
 			player.release();
+		}
+		
+		if (action == PlayerAction.SCORE_WINDOW) {
+			state.getScoreWindow().setVisibility(false);
 		}
 				
 		return false;

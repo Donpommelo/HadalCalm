@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.MessageWindow;
+import com.mygdx.hadal.actors.ScoreWindow;
 import com.mygdx.hadal.actors.UIActives;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
@@ -38,6 +39,7 @@ import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -135,6 +137,7 @@ public class PlayState extends GameState {
 	private boolean serverLoaded = false;
 	
 	protected MessageWindow messageWindow;
+	protected ScoreWindow scoreWindow;
 
 	
 	/**
@@ -256,6 +259,7 @@ public class PlayState extends GameState {
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
 			
 			messageWindow = new MessageWindow(this);
+			scoreWindow = new ScoreWindow(this);
 		}
 		
 		this.stage.addActor(uiPlay);
@@ -268,6 +272,7 @@ public class PlayState extends GameState {
 		uiArtifact.syncArtifact();
 
 		messageWindow.addTable();
+		scoreWindow.syncTable();
 		
 		app.newMenu(stage);
 		resetController();
@@ -543,7 +548,7 @@ public class PlayState extends GameState {
 		}
 	}
 	
-	public void onPlayerDeath(Player player) {
+	public void onPlayerDeath(Player player, Schmuck perp) {
 		if (player.equals(this.player)) {
 			beginTransition(transitionState.LOSE);
 		} else {
@@ -552,6 +557,12 @@ public class PlayState extends GameState {
 					HadalGame.server.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.LOSE));
 				}
 			}
+		}
+		
+		if (perp instanceof Player) {
+			HadalGame.server.registerKill((Player)perp, player);
+		} else {
+			HadalGame.server.registerKill(null, player);
 		}
 	}
 	
@@ -699,7 +710,11 @@ public class PlayState extends GameState {
 	public MessageWindow getMessageWindow() {
 		return messageWindow;
 	}
-
+	
+	public ScoreWindow getScoreWindow() {
+		return scoreWindow;
+	}
+	
 	public void setObjectiveTarget(HadalEntity objectiveTarget) {
 		this.objectiveTarget = objectiveTarget;
 	}

@@ -39,7 +39,7 @@ public class Text extends AHadalActor {
 		this(assetManager, text, x, y);
 		this.color = color;
 	}
-
+	
 	@Override
     public void draw(Batch batch, float alpha) {
 		

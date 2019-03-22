@@ -1,5 +1,7 @@
 package com.mygdx.hadal.server;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
@@ -235,6 +237,21 @@ public class Packets {
 		public ClientFinishTransition(Loadout loadout, transitionState state) {
 			this.loadout = loadout;
 			this.state = state;
+		}
+	}
+	
+	public static class SyncScore {
+		
+		public ArrayList<SavedPlayerFields> scores;
+		
+		public SyncScore() {}
+		
+		/**
+		 * This is sent from the server to the clients to give them their scores for all players
+		 * @param scores
+		 */
+		public SyncScore(ArrayList<SavedPlayerFields> scores) {
+			this.scores = scores;
 		}
 	}
 	
@@ -605,6 +622,7 @@ public class Packets {
     	kryo.register(ClientStartTransition.class);
     	kryo.register(ClientFinishTransition.class);
     	kryo.register(NewClientPlayer.class);
+    	kryo.register(SyncScore.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(CreateEnemy.class);
     	kryo.register(DeleteEntity.class);

@@ -97,7 +97,7 @@ public enum NameGenerator {
 	ATMEAL("atmeal", "end", "o"),
 	AZEBUCKET("azebucket", "end", "e"),
 	
-	BABAGANOUSH("babaganoush", "end", "a", "o", "u"),
+	BAGANOUSH("baganoush", "end", "a", "o", "u"),
 	BALANTE("balante", "end", "a", "e", "i", "o", "u"),
 	BAMA("bama", "end", "o"),
 	BBADON("bbadon", "end", "a", "e", "i", "o", "u"),

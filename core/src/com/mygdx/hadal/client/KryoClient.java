@@ -1,6 +1,7 @@
 package com.mygdx.hadal.client;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
@@ -25,6 +26,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.utils.Constants;
@@ -48,8 +50,11 @@ public class KryoClient {
     
     public static String myId;
     
+    public ArrayList<SavedPlayerFields> scores;
+    
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
+    	scores = new ArrayList<SavedPlayerFields>();
     }
     	
 	public void init() {
@@ -161,6 +166,23 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						cs.beginTransition(p.state);
+        					}
+        				});
+					}
+        		}
+        		
+        		if (o instanceof Packets.SyncScore) {
+        			final Packets.SyncScore p = (Packets.SyncScore) o;
+        			scores = p.scores;
+        			
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						cs.getScoreWindow().syncTable();
         					}
         				});
 					}

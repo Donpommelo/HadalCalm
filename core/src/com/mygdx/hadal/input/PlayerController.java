@@ -104,6 +104,10 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.MESSAGE_WINDOW);
 		}
 		
+		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+			player.getController().keyDown(PlayerAction.SCORE_WINDOW);
+		}
+		
 		return false;
 	}
 
@@ -129,7 +133,11 @@ public class PlayerController implements InputProcessor {
 		if (keycode == PlayerAction.FIRE.getKey()) {
 			player.getController().keyUp(PlayerAction.FIRE);
 		}
-				
+		
+		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+			player.getController().keyUp(PlayerAction.SCORE_WINDOW);
+		}	
+		
 		return false;
 	}
 

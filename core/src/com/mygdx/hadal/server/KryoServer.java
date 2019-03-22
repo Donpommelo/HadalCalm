@@ -29,6 +29,7 @@ public class KryoServer {
 	
 	private HashMap<Integer, Player> players;
 	private HashMap<Integer, MouseTracker> mice;
+	private HashMap<Integer, SavedPlayerFields> scores;
 	
 	public KryoServer(GameStateManager gameStateManager) {
 		this.gsm = gameStateManager;
@@ -41,6 +42,8 @@ public class KryoServer {
 		this.server = new Server(16384, 2048, serialization);
 		this.players = new HashMap<Integer, Player>();
 		this.mice = new HashMap<Integer, MouseTracker>();
+		this.scores = new HashMap<Integer, SavedPlayerFields>();
+		scores.put(0, new SavedPlayerFields());
 		
 		server.addListener(new Listener() {
 			
@@ -65,6 +68,8 @@ public class KryoServer {
 				
 				players.remove(c.getID());
 				mice.remove(c.getID());
+				scores.remove(c.getID());
+				ps.getScoreWindow().syncTable();
 			}
 			
 			public void received(final Connection c, Object o) {
@@ -258,7 +263,12 @@ public class KryoServer {
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);
 		        mice.put(connId, newMouse);
-		        
+		        if (scores.containsKey(connId)) {
+			        scores.put(connId, scores.get(connId));
+		        } else {
+			        scores.put(connId, new SavedPlayerFields());
+		        }
+		        ps.getScoreWindow().syncTable();
 		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
 			}
 		});
@@ -316,6 +326,50 @@ public class KryoServer {
 		return mice;
 	}
 
+	public HashMap<Integer, SavedPlayerFields> getScores() {
+		return scores;
+	}
+	
+	public void registerKill(Player perp, Player vic) {
+		
+		PlayState ps = getPlayState();
+		
+		if (ps != null) {
+			
+			if (perp != null) {
+				if (perp.equals(ps.getPlayer())) {
+					scores.get(0).registerKill();
+				}
+			}
+			
+			if (vic.equals(ps.getPlayer())) {
+				scores.get(0).registerDeath();
+			}
+			
+			for (Entry<Integer, Player> conn: players.entrySet()) {
+				if (conn.getValue().equals(vic)) {
+					if (scores.containsKey(conn.getKey())) {
+						scores.get(conn.getKey()).registerDeath();
+					}
+					break;
+				}
+			}
+			
+			if (perp != null) {
+				for (Entry<Integer, Player> conn: players.entrySet()) {
+					if (conn.getValue().equals(perp)) {
+						if (scores.containsKey(conn.getKey())) {
+							scores.get(conn.getKey()).registerKill();
+						}
+						break;
+					}
+				}
+			}
+			
+			ps.getScoreWindow().syncTable();
+		}
+	}
+	
 	private void registerPackets() {
 		Kryo kryo = server.getKryo();
 		Packets.allPackets(kryo);
