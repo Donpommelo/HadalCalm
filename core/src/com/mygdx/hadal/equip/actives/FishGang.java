@@ -15,13 +15,13 @@ public class FishGang extends ActiveItem {
 	private final static String name = "Fish Gang";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 20.0f;
+	private final static float maxCharge = 600.0f;
 	
 	private final static int numFish = 5;
 	private final static boolean spread = true;
 	
 	public FishGang(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamage);
 	}
 	
 	@Override

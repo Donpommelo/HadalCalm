@@ -20,7 +20,7 @@ public class PortableTurret extends ActiveItem {
 	private final static String name = "Portable Turret";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 20.0f;
+	private final static float maxCharge = 600.0f;
 	
 	private final static int projectileWidth = 70;
 	private final static float lifespan = 3.0f;
@@ -34,7 +34,7 @@ public class PortableTurret extends ActiveItem {
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
 	public PortableTurret(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamage);
 	}
 	
 	@Override

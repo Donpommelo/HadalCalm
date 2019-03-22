@@ -25,10 +25,10 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class TeslaCoil extends RangedWeapon {
 
 	private final static String name = "Tesla Coil";
-	private final static int clipSize = 3;
+	private final static int clipSize = 4;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.75f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 30.0f;
@@ -44,7 +44,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
 	private final static float radius = 11.0f;
-	private final static float activatedDuration = 1.5f;
+	private final static float activatedDuration = 3.0f;
 	private final static float pulseInterval = 0.1f;
 	private final static float pulseSpeed = 10.0f;
 	private final static int pulseSize = 30;

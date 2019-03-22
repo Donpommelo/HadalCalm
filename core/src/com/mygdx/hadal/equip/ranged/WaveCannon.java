@@ -16,10 +16,10 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class WaveCannon extends RangedWeapon {
 
 	private final static String name = "Wave Cannon";
-	private final static int clipSize = 8;
+	private final static int clipSize = 4;
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.1f;
+	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 25.0f;
 	private final static float recoil = 12.5f;
