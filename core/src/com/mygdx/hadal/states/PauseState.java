@@ -120,11 +120,18 @@ public class PauseState extends GameState {
 				if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
 					ps.getController().keyDown(keycode);
 				}
+				
+				if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+					ps.getScoreWindow().setVisibility(true);
+				}
 				return false;
 			}
 
 			@Override
 			public boolean keyUp(int keycode) {
+				if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+					ps.getScoreWindow().setVisibility(false);
+				}
 				return false;
 			}
 

@@ -48,7 +48,7 @@ public class Popper extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 	private final static Sprite fragSprite = Sprite.ORB_PINK;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.MT_DEFAULT;
+	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	public Popper(Schmuck user) {
 		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);

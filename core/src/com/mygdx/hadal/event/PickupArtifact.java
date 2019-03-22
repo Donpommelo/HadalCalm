@@ -9,6 +9,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -38,11 +39,14 @@ public class PickupArtifact extends Event {
 	
 	private static final String name = "Artifact Pickup";
 
+	private String pool;
+	
 	public PickupArtifact(PlayState state, int x, int y, String pool) {
 		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+		this.pool = pool;
 		
 		//Set this pickup to a random equip in the input pool
-		artifact = UnlockArtifact.valueOf(getRandArtfFromPool(pool));
+		setArtifact(UnlockArtifact.valueOf(getRandArtfFromPool(pool)));
 	}
 	
 	@Override
@@ -56,10 +60,20 @@ public class PickupArtifact extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (isAlive()) {
-					p.getPlayerData().addArtifact(artifact);
-					queueDeletion();
+				if (activator != null) {
+					if (activator.getEvent() instanceof TriggerAlt) {
+						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
+						if (msg.equals("roll")) {
+							setArtifact(UnlockArtifact.valueOf(getRandArtfFromPool(pool)));
+						} else {
+							setArtifact(UnlockArtifact.valueOf(getRandArtfFromPool(msg)));
+						}
+					}
+					return;
 				}
+				
+				p.getPlayerData().addArtifact(artifact);
+				setArtifact(UnlockArtifact.NOTHING);
 			}
 		};
 		
@@ -69,7 +83,9 @@ public class PickupArtifact extends Event {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
+		if (!artifact.equals(UnlockArtifact.NOTHING)) {
+			super.render(batch);
+		}
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
@@ -104,6 +120,16 @@ public class PickupArtifact extends Event {
 	
 	public void setArtifact(UnlockArtifact artifact) {
 		this.artifact = artifact;
+		
+		if (artifact.equals(UnlockArtifact.NOTHING)) {
+			if (standardParticle != null) {
+				standardParticle.turnOff();
+			}
+		} else {
+			if (standardParticle != null) {
+				standardParticle.turnOn();
+			}
+		}
 	}
 	
 	@Override

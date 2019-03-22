@@ -37,7 +37,6 @@ import com.mygdx.hadal.states.PauseState;
 
 public class KryoClient {
 	
-	
 	public static final int tcpPortSocket = 25565;
 	public static final int udpPortSocket = 54777;
 	String ipAddress = "localhost";

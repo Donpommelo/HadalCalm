@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.equip.actives.NothingActive;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -43,12 +45,15 @@ public class PickupActive extends Event {
 	
 	private static final String name = "Item Pickup";
 
+	private String pool;
+	
 	public PickupActive(PlayState state, int x, int y, String pool) {
 		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+		this.pool = pool;
 		
 		//Set this pickup to a random weapon in the input pool
 		unlock = UnlockActives.valueOf(getRandItemFromPool(pool));
-		item = UnlocktoItem.getUnlock(unlock, null);
+		setActive(UnlocktoItem.getUnlock(unlock, null));
 	}
 	
 	@Override
@@ -62,20 +67,29 @@ public class PickupActive extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (isAlive()) {
-					
-					//If player inventory is full, replace their current weapon.
-					item.setUser(p);
-					ActiveItem temp = p.getPlayerData().pickup(item);
-					
-					
-					//If the player picks this up without dropping anything, delete this event.
-					if (temp == null) {
-						queueDeletion();
-					} else {
-						item = temp;
+				
+				if (activator != null) {
+					if (activator.getEvent() instanceof TriggerAlt) {
+						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
+						if (msg.equals("roll")) {
+							unlock = UnlockActives.valueOf(getRandItemFromPool(pool));
+							setActive(UnlocktoItem.getUnlock(unlock, null));
+						} else {
+							unlock = UnlockActives.valueOf(getRandItemFromPool(pool));
+							setActive(UnlocktoItem.getUnlock(unlock, null));
+						}
 					}
+					return;
 				}
+				
+				if (item instanceof NothingActive) {
+					return;
+				}
+				
+				//If player inventory is full, replace their current weapon.
+				item.setUser(p);
+				ActiveItem temp = p.getPlayerData().pickup(item);
+				setActive(temp);
 			}
 			
 			@Override
@@ -112,7 +126,9 @@ public class PickupActive extends Event {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
+		if (!(item instanceof NothingActive)) {
+			super.render(batch);
+		}
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
@@ -137,6 +153,15 @@ public class PickupActive extends Event {
 	
 	public void setActive(ActiveItem item) {
 		this.item = item;
+		if (item instanceof NothingActive) {
+			if (standardParticle != null) {
+				standardParticle.turnOff();
+			}
+		} else {
+			if (standardParticle != null) {
+				standardParticle.turnOn();
+			}
+		}
 	}
 	
 	@Override

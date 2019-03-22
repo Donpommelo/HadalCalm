@@ -253,7 +253,7 @@ public class PlayerBodyData extends BodyData {
  				
  				loadout.multitools[currentSlot] = unlock;
  				syncServerLoadoutChange();
- 				return null;
+ 				return new NothingWeapon(player);
 			}
 		}
 		
@@ -279,7 +279,7 @@ public class PlayerBodyData extends BodyData {
 
 		if (activeItem == null || activeItem instanceof NothingActive) {
 			activeItem = item;
-			return null;
+			return new NothingActive(player);
 		}
 		
 		ActiveItem old = activeItem;

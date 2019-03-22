@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
@@ -47,16 +49,15 @@ public class PickupEquip extends Event {
 
 	private ArrayList<WeaponMod> mods;
 
+	private int modPow;
+	private String pool;
+	
 	public PickupEquip(PlayState state, int x, int y, int modPow, String pool) {
 		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+		this.modPow = modPow;
+		this.pool = pool;
 		
-		
-		//Set this pickup to a random weapon in the input pool
-		unlock = UnlockEquip.valueOf(getRandWeapFromPool(pool));
-		equip = UnlocktoItem.getUnlock(unlock, null);
-		
-		mods = new ArrayList<WeaponMod>();
-		mods.addAll(PickupWeaponMod.getRandMods(modPow, ModTag.RANDOM_POOL));
+		rollWeapon();
 	}
 	
 	@Override
@@ -70,29 +71,36 @@ public class PickupEquip extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (isAlive()) {
-					
-					//If player inventory is full, replace their current weapon.
-					equip.getWeaponMods().clear();
-					Equipable temp = p.getPlayerData().pickup(equip);
-					
-					for (WeaponMod mod : mods) {
-						mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
-					}
-					mods.clear();
-					
-					//If the player picks this up without dropping anything, delete this event.
-					if (temp == null) {
-						queueDeletion();
-					} else {
-						equip = temp;
-						//Otherwise set its weapon to the dropped weapon.
-						setEventSprite(equip.getEventSprite());
-						
-						for (WeaponModifier mod : equip.getWeaponMods()) {
-							mods.add(mod.getConstantMod());
+				
+				if (activator != null) {
+					if (activator.getEvent() instanceof TriggerAlt) {
+						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
+						if (msg.equals("roll")) {
+							rollWeapon();
+						} else {
+							unlock = UnlockEquip.valueOf(getRandWeapFromPool(msg));
+							setEquip(UnlocktoItem.getUnlock(unlock, null));
 						}
 					}
+					return;
+				}
+				
+				if (equip instanceof NothingWeapon) {
+					return;
+				}
+				
+				//If player inventory is full, replace their current weapon.
+				equip.getWeaponMods().clear();
+				Equipable temp = p.getPlayerData().pickup(equip);
+				
+				for (WeaponMod mod : mods) {
+					mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
+				}
+				mods.clear();
+				
+				setEquip(temp);
+				for (WeaponModifier mod : equip.getWeaponMods()) {
+					mods.add(mod.getConstantMod());
 				}
 			}
 			
@@ -143,9 +151,19 @@ public class PickupEquip extends Event {
 		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
 	
+	public void rollWeapon() {
+		unlock = UnlockEquip.valueOf(getRandWeapFromPool(pool));
+		setEquip(UnlocktoItem.getUnlock(unlock, null));
+		
+		mods = new ArrayList<WeaponMod>();
+		mods.addAll(PickupWeaponMod.getRandMods(modPow, ModTag.RANDOM_POOL));
+	}
+	
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
+		if (!(equip instanceof NothingWeapon)) {
+			super.render(batch);
+		}
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
@@ -164,6 +182,16 @@ public class PickupEquip extends Event {
 	public void setEquip(Equipable equip) {
 		this.equip = equip;
 		setEventSprite(equip.getEventSprite());
+		
+		if (equip instanceof NothingWeapon) {
+			if (standardParticle != null) {
+				standardParticle.turnOff();
+			}
+		} else {
+			if (standardParticle != null) {
+				standardParticle.turnOn();
+			}
+		}
 	}
 
 	public ArrayList<WeaponMod> getMods() {

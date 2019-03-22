@@ -414,7 +414,6 @@ public class TiledObjectUtil {
     		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
-					object.getProperties().get("triggeredBackId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("mods", 0, Integer.class),
 					object.getProperties().get("pool", "", String.class));
@@ -424,7 +423,6 @@ public class TiledObjectUtil {
     		p = new SpawnerArtifact(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
-					object.getProperties().get("triggeredBackId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("pool", "", String.class));
     	}
@@ -433,7 +431,6 @@ public class TiledObjectUtil {
     		p = new SpawnerActiveItem(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
-					object.getProperties().get("triggeredBackId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("pool", "", String.class));
     	}

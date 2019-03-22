@@ -12,15 +12,13 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class SpawnerWeapon extends Prefabrication {
 
-	private String triggeredToId, triggeredBackId, triggeringId;
+	private String triggeredId, triggeringId;
 	private int mods;
 	private String pool;
 	
-	public SpawnerWeapon(PlayState state, int width, int height, int x, int y, String triggeredToId, String triggeredBackId, 
-			String triggeringId, int mods, String pool) {
+	public SpawnerWeapon(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, int mods, String pool) {
 		super(state, width, height, x , y);
-		this.triggeredToId = triggeredToId;
-		this.triggeredBackId = triggeredBackId;
+		this.triggeredId = triggeredId;
 		this.triggeringId = triggeringId;
 		this.mods = mods;
 		this.pool = pool;
@@ -30,33 +28,30 @@ public class SpawnerWeapon extends Prefabrication {
 	public void generateParts() {
 		String pickupId = TiledObjectUtil.getPrefabTriggerId();
 		
-		RectangleMapObject spawner = new RectangleMapObject();
-		spawner.getRectangle().set(x, y, width, height);
-		spawner.setName("EventMove");
-		spawner.getProperties().put("sync", 3);
-		spawner.getProperties().put("scale", 0.25f);
-		spawner.getProperties().put("sprite", "BASE");
-		spawner.getProperties().put("triggeredId", triggeredToId);
-		spawner.getProperties().put("triggeringId", pickupId);
+		RectangleMapObject base = new RectangleMapObject();
+		base.getRectangle().set(x, y, width, height);
+		base.setName("Dummy");
+		base.getProperties().put("sync", 2);
+		base.getProperties().put("sprite", "BASE");
 		
-		RectangleMapObject back = new RectangleMapObject();
-		back.getRectangle().set(0, 0, width, height);
-		back.setName("EventMove");
-		back.getProperties().put("triggeredId", triggeredBackId);
-		back.getProperties().put("triggeringId", pickupId);
+		RectangleMapObject spawner = new RectangleMapObject();
+		spawner.setName("Alttrigger");
+		spawner.getProperties().put("message", "roll");
+		spawner.getProperties().put("triggeredId", triggeredId);
+		spawner.getProperties().put("triggeringId", pickupId);
 		
 		RectangleMapObject weapon = new RectangleMapObject();
 		weapon.getRectangle().set(x, y, width, height);
 		weapon.setName("Equip");
 		weapon.getProperties().put("synced", true);
-		weapon.getProperties().put("particle_amb", "EVENT_HOLO");
+		weapon.getProperties().put("particle_std", "EVENT_HOLO");
 		weapon.getProperties().put("triggeredId", pickupId);
 		weapon.getProperties().put("triggeringId", triggeringId);
 		weapon.getProperties().put("mods", mods);
 		weapon.getProperties().put("pool", pool);
 		
+		TiledObjectUtil.parseTiledEvent(state, base);
 		TiledObjectUtil.parseTiledEvent(state, spawner);
-		TiledObjectUtil.parseTiledEvent(state, back);
 		TiledObjectUtil.parseTiledEvent(state, weapon);
 	}
 }
