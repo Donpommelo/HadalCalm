@@ -200,7 +200,8 @@ public class ClientState extends PlayState {
 			}
 			break;
 		case WIN:
-			//TODO
+			scoreWindow.setVisibility(true);
+			getGsm().addVictoryState(this, ClientState.class);
 			break;
 		case NEWLEVEL:
 			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));

@@ -213,6 +213,16 @@ public class GameStateManager {
 		}
 	}
 	
+	public void addVictoryState(PlayState ps, Class<? extends GameState> lastState) {
+		if (states.empty()) {
+			states.push(new VictoryState(this, ps));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new VictoryState(this, ps));
+			states.peek().show();
+		}
+	}
+	
 	/**
 	 * Remove the top state from the stack
 	 * @param lastState: the state we expect to remove. ensures no double-removing
@@ -239,7 +249,6 @@ public class GameStateManager {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);
 		case GAMEOVER: return new GameoverState(this);
-		case VICTORY: return new VictoryState(this);
 		case CONTROL: return new ControlState(this);
 		default:
 			break;

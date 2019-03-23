@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="66">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="66">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
@@ -143,9 +143,10 @@
     <property name="var1" type="int" value="1"/>
    </properties>
   </object>
-  <object id="40" name="Limiter" type="Limiter" x="64" y="1376" width="32" height="32">
+  <object id="40" name="Prefab" type="Prefab" x="64" y="1376" width="32" height="32">
    <properties>
     <property name="count" type="int" value="1"/>
+    <property name="prefabId" value="Limiter"/>
     <property name="triggeredId" value="initLimiter"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>

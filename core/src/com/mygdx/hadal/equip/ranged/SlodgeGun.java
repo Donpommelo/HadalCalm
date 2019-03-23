@@ -25,9 +25,10 @@ public class SlodgeGun extends RangedWeapon {
 
 	private final static String name = "Slodge Gun";
 	private final static int clipSize = 1;
+	private final static int ammoSize = 22;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.25f;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 2.0f;
 	private final static float recoil = 16.0f;
@@ -49,7 +50,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
 	public SlodgeGun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

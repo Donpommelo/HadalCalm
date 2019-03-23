@@ -20,9 +20,10 @@ public class Boomerang extends RangedWeapon {
 
 	private final static String name = "Boomerang";
 	private final static int clipSize = 3;
+	private final static int ammoSize = 9;
 	private final static float shootCd = 1.0f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 25.0f;
 	private final static float recoil = 0.0f;
@@ -41,7 +42,7 @@ public class Boomerang extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public Boomerang(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override
@@ -83,7 +84,7 @@ public class Boomerang extends RangedWeapon {
 						if (((PlayerBodyData)fixB).getPlayer().getHitboxfilter() == user.getHitboxfilter()) {
 							if (hbox.getLifeSpan() < lifespanx - 0.25f) {
 								if (((PlayerBodyData)fixB).getCurrentTool() instanceof Boomerang) {
-									((Boomerang)((PlayerBodyData)fixB).getCurrentTool()).gainAmmo(1);
+									((Boomerang)((PlayerBodyData)fixB).getCurrentTool()).gainClip(1);
 								}
 								this.hbox.queueDeletion();
 							}

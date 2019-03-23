@@ -55,7 +55,8 @@ public class PlayerBodyData extends BodyData {
 	private float overrideMaxFuel;
 	private float overrideAirblastCost;
 	private int overrideClipSize;
-
+	private int overrideAmmoSize;
+	
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body);
 		this.player = body;
@@ -520,6 +521,13 @@ public class PlayerBodyData extends BodyData {
 
 	public void setOverrideClipSize(int overrideClipSize) {
 		this.overrideClipSize = overrideClipSize;
-	}	
+	}
 
+	public int getOverrideAmmoSize() {
+		return overrideAmmoSize;
+	}
+
+	public void setOverrideAmmoSize(int overrideAmmoSize) {
+		this.overrideAmmoSize = overrideAmmoSize;
+	}
 }

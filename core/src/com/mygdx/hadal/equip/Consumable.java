@@ -68,7 +68,7 @@ public class Consumable extends Equipable {
 		return chargesLeft + "";
 	}
 	
-	public void gainAmmo(int gained) {
+	public void gainClip(int gained) {
 		chargesLeft += gained;
 		if (chargesLeft > chargesMax) {
 			chargesLeft = chargesMax;

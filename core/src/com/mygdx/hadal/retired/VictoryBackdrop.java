@@ -1,10 +1,10 @@
-package com.mygdx.hadal.actors;
+package com.mygdx.hadal.retired;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.actors.AHadalActor;
 
 /**
  * Static background actor for title screen.
@@ -14,7 +14,6 @@ public class VictoryBackdrop extends AHadalActor{
 	
 	public VictoryBackdrop(AssetManager assetManager) {
 		super(assetManager);
-		backgroundTexture = getAssetManager().get(AssetList.VICTORY_CARD.toString());
 		backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 	}
 	

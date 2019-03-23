@@ -19,9 +19,10 @@ public class SniperRifle extends RangedWeapon {
 
 	private final static String name = "Sniper Rifle";
 	private final static int clipSize = 1;
+	private final static int ammoSize = 30;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.25f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 11.0f;
@@ -42,7 +43,7 @@ public class SniperRifle extends RangedWeapon {
 	private final static float restitution = 1.0f;
 
 	public SniperRifle(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

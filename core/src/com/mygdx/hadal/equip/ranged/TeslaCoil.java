@@ -26,9 +26,10 @@ public class TeslaCoil extends RangedWeapon {
 
 	private final static String name = "Tesla Coil";
 	private final static int clipSize = 4;
+	private final static int ammoSize = 40;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.1f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 30.0f;
@@ -53,7 +54,7 @@ public class TeslaCoil extends RangedWeapon {
 	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
 
 	public TeslaCoil(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

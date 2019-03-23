@@ -16,10 +16,11 @@ public class StickyBombLauncher extends RangedWeapon {
 
 	private final static String name = "Stickybomb Launcher";
 	private final static int clipSize = 6;
+	private final static int ammoSize = 66;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.75f;
-	private final static int reloadAmount = 1;
+	private final static float reloadTime = 1.6f;
+	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 50;
@@ -40,7 +41,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private Queue<Hitbox> bombsLaid = new Queue<Hitbox>();
 
 	public StickyBombLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, weaponSprite, eventSprite);
 	}
 	
 	@Override

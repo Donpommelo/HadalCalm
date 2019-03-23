@@ -23,9 +23,10 @@ public class Minigun extends RangedWeapon {
 
 	private final static String name = "Minigun";
 	private final static int clipSize = 90;
+	private final static int ammoSize = 450;
 	private final static float shootCd = 0.03f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.7f;
+	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 11.0f;
 	private final static float recoil = 0.25f;
@@ -50,7 +51,7 @@ public class Minigun extends RangedWeapon {
 	private float chargeDura = 0.0f;
 	
 	public Minigun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

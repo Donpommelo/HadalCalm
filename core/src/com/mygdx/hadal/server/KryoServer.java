@@ -61,15 +61,15 @@ public class KryoServer {
 							if (p != null) {
 								addNotificationToAllExcept(ps, c.getID(), p.getName(), "PLAYER DISCONNECTED!");
 								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), null);
+								
+								players.remove(c.getID());
+								mice.remove(c.getID());
+								scores.remove(c.getID());
+								ps.getScoreWindow().syncTable();
 							}
 						}
 					});
 				}
-				
-				players.remove(c.getID());
-				mice.remove(c.getID());
-				scores.remove(c.getID());
-				ps.getScoreWindow().syncTable();
 			}
 			
 			public void received(final Connection c, Object o) {
@@ -136,10 +136,8 @@ public class KryoServer {
 					
 					if (ps != null) {
 						
-						//TODO: logic for client transition upon won/lose
                         switch(p.state) {
 						case LOSE:
-							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
 							break;
 						case NEWLEVEL:
 							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, null);
@@ -150,7 +148,6 @@ public class KryoServer {
 	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), false));
 							break;
 						case WIN:
-							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
 							break;
 						default:
 							break;

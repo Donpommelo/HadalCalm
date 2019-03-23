@@ -18,6 +18,7 @@ public class TrickGun extends RangedWeapon {
 
 	private final static String name = "Trick Gun";
 	private final static int clipSize = 6;
+	private final static int ammoSize = 36;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
@@ -46,7 +47,7 @@ public class TrickGun extends RangedWeapon {
 	private Vector2 vel2 = new Vector2(0, 0);
 	
 	public TrickGun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

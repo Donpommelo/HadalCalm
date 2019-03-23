@@ -18,14 +18,15 @@ public class Fugun extends RangedWeapon {
 
 	private final static String name = "Fugun";
 	private final static int clipSize = 2;
+	private final static int ammoSize = 28;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 12.5f;
-	private final static float projectileSpeed = 25.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static int projectileWidth = 80;
 	private final static int projectileHeight = 80;
 	private final static float lifespan = 1.5f;
@@ -35,14 +36,14 @@ public class Fugun extends RangedWeapon {
 		
 	private final static int poisonRadius = 250;
 	private final static float poisonDamage = 30/60f;
-	private final static float poisonDuration = 4.5f;
+	private final static float poisonDuration = 4.0f;
 
 	private final static Sprite projSprite = Sprite.SCRAP_C;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	public Fugun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

@@ -94,4 +94,8 @@ public class ScoreWindow {
 	public void setVisibility(boolean visible) {
 		table.setVisible(visible);
 	}
+
+	public Table getTable() {
+		return table;
+	}
 }

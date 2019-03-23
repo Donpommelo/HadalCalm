@@ -18,6 +18,7 @@ public class TorpedofishAttack extends RangedWeapon {
 
 	private final static String name = "Torpedofish Torpedo";
 	private final static int clipSize = 1;
+	private final static int ammoSize = 1000;
 	private final static float shootCd = 1.5f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 0.2f;
@@ -40,7 +41,7 @@ public class TorpedofishAttack extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.ORB_RED;
 
 	public TorpedofishAttack(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount);
 	}
 	
 	@Override

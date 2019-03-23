@@ -25,9 +25,10 @@ public class Underminer extends RangedWeapon {
 
 	private final static String name = "Underminer";
 	private final static int clipSize = 3;
+	private final static int ammoSize = 36;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 25.0f;
 	private final static float recoil = 8.5f;
@@ -60,7 +61,7 @@ public class Underminer extends RangedWeapon {
 	private final static float fragSpeed = 40.0f;
 	
 	public Underminer(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

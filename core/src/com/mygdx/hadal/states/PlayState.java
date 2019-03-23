@@ -504,15 +504,12 @@ public class PlayState extends GameState {
 
 				fadeDelta = -0.015f;
 			} else {			
-				getGsm().removeState(PlayState.class);
-				gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			}
 			break;
 		case WIN:
-			getGsm().removeState(PlayState.class);
-			gsm.getRecord().updateScore(uiExtra.getScore(), level.name());
-			getGsm().addState(State.VICTORY, TitleState.class);
+			scoreWindow.setVisibility(true);
+			getGsm().addVictoryState(this, PlayState.class);
 			break;
 		case NEWLEVEL:
 			getGsm().removeState(PlayState.class);
@@ -566,10 +563,15 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	public void levelEnd(transitionState state) {
+		beginTransition(state);
+		HadalGame.server.server.sendToAllTCP(new Packets.ClientStartTransition(state));
+	}
+	
 	public void beginTransition(transitionState state) {
 		nextState = state;
 		fadeInitialDelay = 1.0f;
-		fadeDelta = 0.015f;
+		fadeDelta = 0.015f;		
 	}
 	
 	public void catchUpClient(int connId) {

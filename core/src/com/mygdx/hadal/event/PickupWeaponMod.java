@@ -10,6 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -39,8 +40,12 @@ public class PickupWeaponMod extends Event {
 	
 	private static final String name = "Weapon Mod Pickup";
 
+	private String pool;
+	
 	public PickupWeaponMod(PlayState state, int x, int y, String pool) {
 		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+		this.pool = pool;
+		
 		this.mod = WeaponMod.valueOf(getRandModFromPool(pool, ModTag.RANDOM_POOL));
 	}
 	
@@ -55,11 +60,15 @@ public class PickupWeaponMod extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (isAlive()) {
-					
-					mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
-					queueDeletion();
+				if (activator != null) {
+					if (activator.getEvent() instanceof TriggerAlt) {
+						setWeaponMod(WeaponMod.valueOf(getRandModFromPool(pool, ModTag.RANDOM_POOL)));
+					}
+					return;
 				}
+				
+				mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
+				setWeaponMod(null);
 			}
 		};
 		
@@ -69,12 +78,14 @@ public class PickupWeaponMod extends Event {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
-		
-		batch.setProjectionMatrix(state.sprite.combined);
-		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		float y = body.getPosition().y * PPM + height / 2;
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
+		if (mod != null) {
+			super.render(batch);
+			
+			batch.setProjectionMatrix(state.sprite.combined);
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+			float y = body.getPosition().y * PPM + height / 2;
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
+		}
 	}
 
 	@Override
@@ -115,6 +126,15 @@ public class PickupWeaponMod extends Event {
 	
 	public void setWeaponMod(WeaponMod mod) {
 		this.mod = mod;
+		if (mod == null) {
+			if (standardParticle != null) {
+				standardParticle.turnOff();
+			}
+		} else {
+			if (standardParticle != null) {
+				standardParticle.turnOn();
+			}
+		}
 	}
 	
 	@Override

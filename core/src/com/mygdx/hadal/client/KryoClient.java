@@ -29,6 +29,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
+import com.mygdx.hadal.states.VictoryState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -85,6 +86,7 @@ public class KryoClient {
     				
                     @Override
                     public void run() {
+                    	gsm.removeState(VictoryState.class);
                     	gsm.removeState(PauseState.class);
                     	gsm.removeState(ClientState.class);
                     }
@@ -146,6 +148,7 @@ public class KryoClient {
         				
                         @Override
                         public void run() {
+                        	gsm.removeState(VictoryState.class);
                         	gsm.removeState(ClientState.class);
                 			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
                 	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime));

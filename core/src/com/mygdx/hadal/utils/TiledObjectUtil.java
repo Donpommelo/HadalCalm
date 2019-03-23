@@ -39,8 +39,8 @@ public class TiledObjectUtil {
             if(object instanceof PolylineMapObject) {
                 shape = createPolyline((PolylineMapObject) object);
             } else {
-                continue;
-            }
+            	continue;
+        	}
 
             Body body;
             BodyDef bdef = new BodyDef();
@@ -439,7 +439,6 @@ public class TiledObjectUtil {
     		p = new SpawnerWeaponMod(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
-					object.getProperties().get("triggeredBackId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("pool", "", String.class));
     	}

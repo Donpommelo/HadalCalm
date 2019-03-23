@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public enum AssetList {
 
 	TITLE_CARD("HADAL_PANIC_3.jpg", Texture.class),
-	LOADOUT_CARD("LOADOUT_CARD.png", Texture.class),
 	GAME_OVER_CARD("GAME_OVER_CARD.png", Texture.class),
-	VICTORY_CARD("VICTORY_CARD.png", Texture.class),
 	
 	BUTLER_FONT("fonts/butler.fnt", null),
 	LEARNING_FONT("fonts/learning_curve.fnt", null),

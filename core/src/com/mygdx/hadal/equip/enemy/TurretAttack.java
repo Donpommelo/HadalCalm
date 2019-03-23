@@ -17,6 +17,7 @@ public class TurretAttack extends RangedWeapon {
 
 	private final static String name = "Turret Gun";
 	private final static int clipSize = 6;
+	private final static int ammoSize = 1000;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.25f;
 	private final static float reloadTime = 1.0f;
@@ -34,7 +35,7 @@ public class TurretAttack extends RangedWeapon {
 	private final static int projDura = 1;
 	
 	public TurretAttack(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount);
 	}
 	
 	@Override

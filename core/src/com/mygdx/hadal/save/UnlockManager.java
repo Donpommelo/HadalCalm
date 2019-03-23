@@ -119,7 +119,8 @@ public class UnlockManager {
 		CAMPAIGN,
 		ARENA,
 		NASU,
-		MISC
+		MISC,
+		PVP,
 	}
 	
 	public enum ModTag {

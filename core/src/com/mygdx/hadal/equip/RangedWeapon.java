@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip;
 
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
 
@@ -45,12 +46,15 @@ public class RangedWeapon extends Equipable {
 	 * @param reloadAmount: The amount of clip restored upon one reload
 	 * @param onShoot: This is a factory that creates a hitbox
 	 */
-	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
+	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, 
 			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount) {
 		super(user, name, shootCd, shootDelay);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.clipPercent = 1.0f;
+		this.ammoSize = ammoSize;
+		this.ammoLeft = ammoSize;
+		this.ammoPercent = 1.0f;
 		this.reloadTime = reloadTime;
 		this.reloadAmount = reloadAmount;
 		this.recoil = recoil;
@@ -59,13 +63,16 @@ public class RangedWeapon extends Equipable {
 		this.autoreload = true;
 	}
 	
-	public RangedWeapon(Schmuck user, String name, int clipSize, float reloadTime, float recoil, 
+	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, 
 			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, boolean autoreload, 
 			Sprite weaponSprite, Sprite eventSprite) {
 		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.clipPercent = 1.0f;
+		this.ammoSize = ammoSize;
+		this.ammoLeft = ammoSize;
+		this.ammoPercent = 1.0f;
 		this.reloadTime = reloadTime;
 		this.reloadAmount = reloadAmount;
 		this.autoreload = autoreload;
@@ -129,6 +136,14 @@ public class RangedWeapon extends Equipable {
 				reloading = true;
 				reloadCd = 0;
 			}
+			
+			if (ammoLeft <= 0) {
+				if (shooter instanceof PlayerBodyData) {
+					PlayerBodyData p = (PlayerBodyData)shooter;
+					p.emptySlot(p.getCurrentSlot());
+					p.switchDown();
+				}
+			}
 		}
 	}
 
@@ -154,7 +169,13 @@ public class RangedWeapon extends Equipable {
 		} else {
 			
 			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
-			clipLeft += reloadAmount != 0 ? reloadAmount : getClipSize();
+			int missingClip = getClipSize() - clipLeft;
+			int weaponReloadAmount = Math.min(missingClip, reloadAmount != 0 ? reloadAmount : getClipSize());
+			int clipToReload = Math.min(weaponReloadAmount, ammoLeft);
+			
+			ammoLeft -= clipToReload;
+			clipLeft += clipToReload;
+			
 			clipPercent = (float)clipLeft / getClipSize();
 
 			reloadCd = 0;
@@ -179,6 +200,11 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	@Override
+	public String getAmmoText() {
+		return ammoLeft + "";
+	}
+	
+	@Override
 	public String getTextClient(int overrideClipSize) {
 		return clipLeft + "/" + overrideClipSize;
 	};
@@ -188,7 +214,7 @@ public class RangedWeapon extends Equipable {
 	 * @param gained: amount of ammo to gain.
 	 */
 	@Override
-	public void gainAmmo(int gained) {
+	public void gainClip(int gained) {
 		clipLeft += gained;
 		if (clipLeft >= getClipSize()) {
 			clipLeft = getClipSize();
@@ -216,10 +242,20 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	@Override
+	public int getAmmoLeft() {
+		return ammoLeft;
+	}
+	
+	@Override
 	public void setClipLeft(int clipLeft) {
 		this.clipLeft = clipLeft;
 	}
 
+	@Override
+	public void setAmmoLeft(int ammoLeft) {
+		this.ammoLeft = ammoLeft;
+	}
+	
 	public void setClipLeft() {
 		clipLeft = (int) (clipPercent * getClipSize());
 	}

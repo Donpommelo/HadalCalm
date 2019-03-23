@@ -95,7 +95,7 @@ public class BodyData extends HadalData {
 	private float hpRegen = 0.0f;
 	
 	private int maxFuel = 100;
-	private float fuelRegen = 5.0f;
+	private float fuelRegen = 8.0f;
 	
 	protected float currentHp, currentFuel;
 
@@ -107,6 +107,8 @@ public class BodyData extends HadalData {
 	protected ArrayList<Status> statusesChecked;	
 	
 	protected Equipable currentTool;
+	
+	private BodyData lastDamagedBy;
 	
 	/**
 	 * This is created upon the create() method of any schmuck.
@@ -132,7 +134,9 @@ public class BodyData extends HadalData {
 		calcStats();
 
 		currentHp = getMaxHp();
-		currentFuel = getMaxHp();		
+		currentFuel = getMaxHp();
+		
+		lastDamagedBy = this;
 	}
 	
 	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
@@ -277,9 +281,14 @@ public class BodyData extends HadalData {
 		if (schmuck.isAlive()) {
 			schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
 		}
+		
+		if (!perp.equals(this)) {
+			lastDamagedBy = perp;
+		}
+		
 		if (currentHp <= 0) {
 			currentHp = 0;
-			die(perp, tool);
+			die(lastDamagedBy, tool);
 		}
 	}
 	

@@ -21,9 +21,10 @@ public class Machinegun extends RangedWeapon {
 
 	private final static String name = "Machine Gun";
 	private final static int clipSize = 28;
+	private final static int ammoSize = 300;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.8f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 12.0f;
 	private final static float recoil = 1.25f;
@@ -43,7 +44,7 @@ public class Machinegun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_MACHINEGUN;
 	
 	public Machinegun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

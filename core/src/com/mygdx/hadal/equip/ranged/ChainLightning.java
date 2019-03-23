@@ -20,10 +20,11 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class ChainLightning extends RangedWeapon {
 
 	private final static String name = "Chain Lightning";
-	private final static int clipSize = 5;
+	private final static int clipSize = 3;
+	private final static int ammoSize = 33;
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.4f;
+	private final static float reloadTime = 0.8f;
 	private final static int reloadAmount = 0;
 
 	private final static float recoil = 0.0f;
@@ -42,7 +43,7 @@ public class ChainLightning extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	public ChainLightning(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

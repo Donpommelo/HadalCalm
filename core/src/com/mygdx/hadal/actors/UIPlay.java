@@ -50,7 +50,7 @@ public class UIPlay extends AHadalActor {
 	private static final float hpLowThreshold = 0.20f;
 	
 	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
-	protected String weaponText;
+	protected String weaponText, ammoText;
 	private boolean mouseOver;
 
 	public UIPlay(AssetManager assetManager, PlayState state, Player player) {
@@ -102,6 +102,7 @@ public class UIPlay extends AHadalActor {
 		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
 		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
 		weaponText = player.getPlayerData().getCurrentTool().getText();
+		ammoText = player.getPlayerData().getCurrentTool().getAmmoText();
 	}
 	
 	@Override
@@ -151,8 +152,9 @@ public class UIPlay extends AHadalActor {
 		font.getData().setScale(0.25f);
 		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), x + 48, y + 90, 100, -1, true);
 		font.getData().setScale(0.5f);
-		font.draw(batch, weaponText, x + 48, y + 50);
+		font.draw(batch, weaponText, x + 48, y + 40);
 		font.getData().setScale(0.25f);
+		font.draw(batch, ammoText, x + 48, y + 60);
 		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)hpMax,
 				x + 155, y + 66);
 		

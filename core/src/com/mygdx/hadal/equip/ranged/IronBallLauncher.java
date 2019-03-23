@@ -15,9 +15,10 @@ public class IronBallLauncher extends RangedWeapon {
 
 	private final static String name = "Iron Ball Launcher";
 	private final static int clipSize = 1;
+	private final static int ammoSize = 25;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.25f;
-	private final static float reloadTime = 1.25f;
+	private final static float reloadTime = 0.9f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 45.0f;
 	private final static float recoil = 15.0f;
@@ -37,7 +38,7 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_IRONBALL;
 	
 	public IronBallLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

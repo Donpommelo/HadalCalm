@@ -18,9 +18,10 @@ public class Iceberg extends RangedWeapon {
 
 	private final static String name = "Iceberg";
 	private final static int clipSize = 5;
+	private final static int ammoSize = 75;
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0.15f;
-	private final static float reloadTime = 2.2f;
+	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 15.0f;
@@ -40,7 +41,7 @@ public class Iceberg extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_ICEBERG;
 	
 	public Iceberg(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

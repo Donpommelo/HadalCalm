@@ -11,9 +11,10 @@ public class GrenadeLauncher extends RangedWeapon {
 
 	private final static String name = "Grenade Launcher";
 	private final static int clipSize = 6;
+	private final static int ammoSize = 60;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.60f;
+	private final static float reloadTime = 0.30f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 15.0f;
 	private final static float recoil = 2.5f;
@@ -34,7 +35,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_GRENADE;
 	
 	public GrenadeLauncher(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

@@ -22,9 +22,10 @@ public class LaserGuidedRocket extends RangedWeapon {
 
 	private final static String name = "Laser-Guided Rocket";
 	private final static int clipSize = 1;
+	private final static int ammoSize = 20;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 1;
 	private final static float baseDamage = 20.0f;
 	private final static float recoil = 0.0f;
@@ -54,7 +55,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private static final int decelerationRadius = 0;
 	
 	public LaserGuidedRocket(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

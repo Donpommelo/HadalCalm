@@ -19,9 +19,10 @@ public class Speargun extends RangedWeapon {
 
 	private final static String name = "Harpoon Gun";
 	private final static int clipSize = 6;
+	private final static int ammoSize = 200;
 	private final static float shootCd = 0.2f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 7.5f;
@@ -39,7 +40,7 @@ public class Speargun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
 	
 	public Speargun(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

@@ -22,9 +22,10 @@ public class CR4PCannon extends RangedWeapon {
 
 	private final static String name = "CR4P Cannon";
 	private final static int clipSize = 2;
+	private final static int ammoSize = 32;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 7.0f;
 	private final static float recoil = 15.0f;
@@ -45,7 +46,7 @@ public class CR4PCannon extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	public CR4PCannon(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

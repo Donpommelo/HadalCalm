@@ -557,7 +557,8 @@ public class Player extends PhysicsSchmuck {
 				(float)(Math.atan2(
 						body.getPosition().y - mouse.getBody().getPosition().y,
 						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
-				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getClipSize(),
+				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
+				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
 				playerData.getMaxHp(), playerData.getMaxFuel(), playerData.getAirblastCost(),
 				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent));
 	}
@@ -576,6 +577,7 @@ public class Player extends PhysicsSchmuck {
 			playerData.setOverrideMaxHp(p.maxHp);
 			playerData.setOverrideMaxFuel(p.maxFuel);
 			playerData.setOverrideClipSize(p.maxClip);
+			playerData.setOverrideAmmoSize(p.currentAmmo);
 			playerData.setOverrideAirblastCost(p.airblastCost);
 			playerData.getActiveItem().setCurrentCharge(p.activeCharge * playerData.getActiveItem().getMaxCharge());
 			playerData.getCurrentTool().setReloading(p.reloading);

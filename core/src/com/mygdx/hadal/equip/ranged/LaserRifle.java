@@ -23,9 +23,10 @@ public class LaserRifle extends RangedWeapon {
 
 	private final static String name = "Laser Rifle";
 	private final static int clipSize = 10;
+	private final static int ammoSize = 60;
 	private final static float shootCd = 0.4f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 18.0f;
 	private final static float recoil = 2.5f;
@@ -47,7 +48,7 @@ public class LaserRifle extends RangedWeapon {
 	private Vector2 endPt = new Vector2(0, 0);
 	
 	public LaserRifle(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 
 	@Override

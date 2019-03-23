@@ -20,9 +20,10 @@ public class ChargeBeam extends RangedWeapon {
 
 	private final static String name = "Charge Beam";
 	private final static int clipSize = 5;
+	private final static int ammoSize = 35;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 2.25f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 18.0f;
 	private final static float recoil = 7.5f;
@@ -44,7 +45,7 @@ public class ChargeBeam extends RangedWeapon {
 	private int chargeStage = 0;
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
 	}
 	
 	@Override

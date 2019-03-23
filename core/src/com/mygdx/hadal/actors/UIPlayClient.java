@@ -18,5 +18,6 @@ public class UIPlayClient extends UIPlay {
 		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getOverrideMaxFuel();
 		fuelCutoffRatio = player.getPlayerData().getOverrideAirblastCost() / player.getPlayerData().getOverrideMaxFuel();
 		weaponText = player.getPlayerData().getCurrentTool().getTextClient(player.getPlayerData().getOverrideClipSize());
+		ammoText = player.getPlayerData().getOverrideAmmoSize() + "";
 	}
 }

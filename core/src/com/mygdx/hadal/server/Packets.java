@@ -489,6 +489,7 @@ public class Packets {
         public boolean grounded;
         public int currentSlot;
         public int currentClip;
+        public int currentAmmo;
         public int maxClip;
         public float maxHp;
         public float maxFuel;
@@ -505,13 +506,14 @@ public class Packets {
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
 		public SyncPlayer(String entityID, float a, Boolean grounded,
-				int currentSlot, int currentClip, int maxClip, float maxHp, float maxFuel,
+				int currentSlot, int currentClip, int currentAmmo, int maxClip, float maxHp, float maxFuel,
 				float airblastCost, float activeCharge, boolean reloading, float reloadPercent) {
             this.entityID = entityID;
             this.attackAngle = a;
             this.grounded = grounded;
             this.currentSlot = currentSlot;
             this.currentClip = currentClip;
+            this.currentAmmo = currentAmmo;
             this.maxClip = maxClip;
             this.maxHp = maxHp;
             this.maxFuel = maxFuel;

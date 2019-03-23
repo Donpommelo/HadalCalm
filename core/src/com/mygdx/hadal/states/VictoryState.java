@@ -4,13 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.actors.VictoryBackdrop;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.server.Packets;
 
 /**
  * The Gameover state appears when you lose.
@@ -21,55 +22,54 @@ public class VictoryState extends GameState {
 
 	private Stage stage;
 	
+	private PlayState ps;
+	
+	private final static int width = 800;
+	private final static int height = 600;
+	
 	//Temporary links to other modules for testing.
-	private Actor playOption, loadoutOption, exitOption;
-		
+	private Actor readyOption;
+	private Table table;
+	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
 	 */
-	public VictoryState(final GameStateManager gsm) {
+	public VictoryState(final GameStateManager gsm, PlayState ps) {
 		super(gsm);
+		this.ps = ps;
 	}
 	
 	@Override
 	public void show() {
 		stage = new Stage() {
 			{
-				addActor(new VictoryBackdrop(HadalGame.assetManager));
+				table = new Table();
+				table.setLayoutEnabled(true);
+				table.setPosition(
+						HadalGame.CONFIG_WIDTH / 2 - width / 2, 
+						HadalGame.CONFIG_HEIGHT / 2 - height / 2);
+				table.setSize(width, height);
+				addActor(table);
 				
-				playOption = new Text(HadalGame.assetManager, "PLAY AGAIN?", 150, HadalGame.CONFIG_HEIGHT - 180, Color.BLACK);
-				loadoutOption = new Text(HadalGame.assetManager, "LOADOUT?", 150, HadalGame.CONFIG_HEIGHT - 220, Color.BLACK);
-				exitOption = new Text(HadalGame.assetManager, "TITLE?", 150, HadalGame.CONFIG_HEIGHT - 260, Color.BLACK);
 				
-				playOption.addListener(new ClickListener() {
+				readyOption = new Text(HadalGame.assetManager, "RETURN TO LOADOUT?", 0, 0, Color.WHITE);
+				
+				readyOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(VictoryState.class);
-			        	getGsm().addPlayState(UnlockLevel.valueOf(gsm.getRecord().getLevel()), new Loadout(gsm.getRecord()),
-			        			null, TitleState.class);
-			        }
-			    });
-				playOption.setScale(0.5f);
-				
-				loadoutOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().removeState(VictoryState.class);
+			        	getGsm().removeState(PlayState.class);
 			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
+			        	HadalGame.server.server.sendToAllTCP(new Packets.LoadLevel(UnlockLevel.HUB, false));
 			        }
 			    });
-				loadoutOption.setScale(0.5f);
+				readyOption.setScale(0.5f);
 				
+				table.add(ps.getScoreWindow().getTable()).row();
 				
-				exitOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().removeState(VictoryState.class);
-			        }
-			    });
-				exitOption.setScale(0.5f);
-				
-				addActor(playOption);
-				addActor(loadoutOption);
-				addActor(exitOption);
+				if (ps.isServer()) {
+					table.add(readyOption);
+				}
 			}
 		};
 		app.newMenu(stage);
@@ -80,7 +80,6 @@ public class VictoryState extends GameState {
 	 */
 	@Override
 	public void update(float delta) {
-
 	}
 
 	/**

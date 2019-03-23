@@ -86,4 +86,15 @@ ARENA_1: {
 		NAVIGATIONS,
 	]
 }
+DM_GULLY: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: DM_GULLY
+	description: TEMP
+	unlocked: true
+	tags: [
+		ARENA,
+		NAVIGATIONS,
+        PVP,
+	]
+}
 }

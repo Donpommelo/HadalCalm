@@ -47,7 +47,7 @@ public class Piffler extends Artifact {
 				if (this.inflicted instanceof PlayerBodyData) {
 					if (((PlayerBodyData)this.inflicted).getCurrentTool() instanceof RangedWeapon) {
 						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData)this.inflicted).getCurrentTool();
-						weapon.gainAmmo((int)(weapon.getClipSize()));
+						weapon.gainClip((int)(weapon.getClipSize()));
 					}
 				}
 			}
