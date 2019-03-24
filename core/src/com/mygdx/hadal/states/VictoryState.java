@@ -3,6 +3,7 @@ package com.mygdx.hadal.states;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -58,6 +59,15 @@ public class VictoryState extends GameState {
 		}
 		
 		Collections.sort(scores, new SortByScores());
+		if (ps.isServer()) {
+			int winningScore = scores.get(0).getScore();
+			for (Entry<Integer, SavedPlayerFields> player: HadalGame.server.getScores().entrySet()) {
+				if (player.getValue().getScore() == winningScore) {
+					player.getValue().getWin();
+				}
+			}
+		}
+		
 		ready = new HashMap<SavedPlayerFields, Boolean>();
 		for (SavedPlayerFields score: scores) {
 			ready.put(score, false);

@@ -51,7 +51,8 @@ public class ScoreWindow {
 		table.add(new Text(HadalGame.assetManager, "PLAYER", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
 		table.add(new Text(HadalGame.assetManager, "KILLS", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
 		table.add(new Text(HadalGame.assetManager, "DEATH", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text(HadalGame.assetManager, "SCORE", 0, 0, Color.WHITE)).padBottom(50).row();
+		table.add(new Text(HadalGame.assetManager, "SCORE", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
+		table.add(new Text(HadalGame.assetManager, "WINS", 0, 0, Color.WHITE)).padBottom(50).row();
 		
 		if (state.isServer()) {
 			
@@ -65,11 +66,13 @@ public class ScoreWindow {
 				Text kills = new Text(HadalGame.assetManager, field.getKills() + " ", 0, 0, Color.WHITE);
 				Text death = new Text(HadalGame.assetManager, field.getDeaths() + " ", 0, 0, Color.WHITE);
 				Text points = new Text(HadalGame.assetManager, field.getScore() + " ", 0, 0, Color.WHITE);
+				Text wins = new Text(HadalGame.assetManager, field.getWins() + " ", 0, 0, Color.WHITE);
 					
 				table.add(name).padBottom(25);
 				table.add(kills).padBottom(25);
 				table.add(death).padBottom(25);
-				table.add(points).padBottom(25).row();
+				table.add(points).padBottom(25);
+				table.add(wins).padBottom(25).row();
 				
 				scoresToSend.add(field);
 				HadalGame.server.server.sendToAllTCP(new Packets.SyncScore(scoresToSend));
@@ -82,11 +85,13 @@ public class ScoreWindow {
 				Text kills = new Text(HadalGame.assetManager, score.getKills() + " ", 0, 0, Color.WHITE);
 				Text death = new Text(HadalGame.assetManager, score.getDeaths() + " ", 0, 0, Color.WHITE);
 				Text points = new Text(HadalGame.assetManager, score.getScore() + " ", 0, 0, Color.WHITE);
+				Text wins = new Text(HadalGame.assetManager, score.getWins() + " ", 0, 0, Color.WHITE);
 					
 				table.add(name).padBottom(25);
 				table.add(kills).padBottom(25);
 				table.add(death).padBottom(25);
-				table.add(points).padBottom(25).row();
+				table.add(points).padBottom(25);
+				table.add(wins).padBottom(25).row();
 			}
 		}
 	}

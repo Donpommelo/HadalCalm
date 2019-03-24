@@ -61,8 +61,8 @@ public class SavedPlayerFields {
 		return wins;
 	}
 
-	public void setWins(int wins) {
-		this.wins = wins;
+	public void getWin() {
+		wins++;
 	}
 
 	public int getKills() {
