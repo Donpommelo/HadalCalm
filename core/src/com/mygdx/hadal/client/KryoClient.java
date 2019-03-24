@@ -354,7 +354,8 @@ public class KryoClient {
         						if (!p.entityID.equals(myId)) {
                     				Player newPlayer = new Player(cs, 0, 0, p.name, p.loadout, null);
                     				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
-                				} else {        					
+                				} else {
+                					cs.getPlayer().setStartLoadout(p.loadout);
                 					cs.addEntity(p.entityID, cs.getPlayer(), ObjectSyncLayers.STANDARD);
                 				}
         					}

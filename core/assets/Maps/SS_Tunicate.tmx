@@ -21,12 +21,6 @@
   <object id="78" x="2176" y="2560">
    <polyline points="-480,288 -480,352 -448,352 -416,320 -160,320 -160,288 -64,192 0,192 0,128"/>
   </object>
-  <object id="142" name="Prefab" type="Prefab" x="2016" y="1920" width="96" height="96">
-   <properties>
-    <property name="prefabId" value="Artifact"/>
-    <property name="triggeredId" value="a1"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
   <object id="1" name="Timer" type="Timer" x="64" y="320" width="32" height="32">

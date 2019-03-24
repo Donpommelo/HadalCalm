@@ -173,7 +173,7 @@ public class Player extends PhysicsSchmuck {
 		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
 		if (playerData != null) {
 			playerData.setEquip();
-		}		
+		}
 	}
 	
 	/**
@@ -199,9 +199,11 @@ public class Player extends PhysicsSchmuck {
 			playerData = new PlayerBodyData(this, startLoadout);
 			bodyData = playerData;
 			playerData.initLoadout();
+			playerData.syncLoadout(startLoadout);
 		} else {
 			this.bodyData = playerData;
 			playerData.resetData(this, world);
+			playerData.syncLoadout(startLoadout);
 		}
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
@@ -685,6 +687,14 @@ public class Player extends PhysicsSchmuck {
 		return controller;
 	}
 	
+	public Loadout getStartLoadout() {
+		return startLoadout;
+	}
+
+	public void setStartLoadout(Loadout startLoadout) {
+		this.startLoadout = startLoadout;
+	}
+
 	public MouseTracker getMouse() {
 		return mouse;
 	}

@@ -61,6 +61,23 @@ public class Loadout {
 		character = UnlockCharacter.MOREAU;
 	}
 	
+	public Loadout(Loadout old) {
+		multitools = new UnlockEquip[numSlots];
+		multitools[0] = old.multitools[0];
+		multitools[1] = old.multitools[1];
+		multitools[2] = old.multitools[2];
+		
+		artifacts = new ArrayList<UnlockArtifact>();
+
+		for (UnlockArtifact artifact: old.artifacts) {
+			artifacts.add(artifact);
+		}
+		
+		startifact = old.startifact;
+		activeItem = old.activeItem;
+		character = old.character;
+	}
+	
 	public static int getNumSlots() {
 		return numSlots;
 	}

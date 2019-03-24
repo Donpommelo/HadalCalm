@@ -74,7 +74,7 @@ public class PlayerBodyData extends BodyData {
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body);
 		this.player = body;
-		this.loadout = loadout;		
+		this.loadout = new Loadout(loadout);		
 		
 		currentHp = getMaxHp();
 		currentFuel = getMaxHp();
@@ -113,9 +113,12 @@ public class PlayerBodyData extends BodyData {
 	 * @param loadout: The new loadout for the player
 	 */
 	public void syncLoadout(Loadout loadout) {
-		for (int i = 0; i < loadout.multitools.length; i++) {
+		
+		Loadout newLoadout = new Loadout(loadout);
+		
+		for (int i = 0; i < newLoadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
-				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
+				multitools[i] = UnlocktoItem.getUnlock(newLoadout.multitools[i], player);
 			}
 		}
 		
@@ -128,7 +131,7 @@ public class PlayerBodyData extends BodyData {
 		}
 		artifacts.clear();
 		
-		for (UnlockArtifact unlock: loadout.artifacts) {
+		for (UnlockArtifact unlock: newLoadout.artifacts) {
 			addArtifact(unlock);
 		}
 		
@@ -138,12 +141,12 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 		
-		replaceStartingArtifact(loadout.startifact);
+		replaceStartingArtifact(newLoadout.startifact);
 		
-		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
-		player.setBodySprite(loadout.character.getSprite());
+		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
+		player.setBodySprite(newLoadout.character.getSprite());
 		
-		this.loadout = loadout;
+		this.loadout = newLoadout;
 		
 		//If this is the player being controlled by the user, update artifact ui
 		if (player.equals((player.getState().getPlayer()))) {
