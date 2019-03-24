@@ -23,24 +23,30 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.utils.NameGenerator;
 
 /**
- * The TitleState is created upon initializing the game and will display an image and allow the player to play or exit.
- * TODO: Eventually, this might be where we initialize game data + assets + player change settings.
+ * The TitleState is created upon initializing the game and will display an image.
+ * This state also gives options to host, join a server as well as set player's name, change settngs and exit.
  * @author Zachary Tu
  *
  */
 public class TitleState extends GameState {
 
-	private Stage stage;
-	
-	//Temporary links to other modules for testing.
+	//This table contains the options for the title.
 	private Table table;
+	
+	//These are all of the display and buttons visible to the player.
 	private Text nameDisplay, nameRand, hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
+	
+	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
 	
+	//Dimentions and position of the title menu
 	private final static int width = 700;
 	private final static int height = 180;
 	private final static int xOffset = 100;
 
+	//This boolean determines if connection was attempted. Used to avoid multiple connections.
+	private boolean connectAttempted = false;
+	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
@@ -84,8 +90,14 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						
+						//Save current name into records.
 						gsm.getRecord().setName(enterName.getText());
+						
+						//Start up the server
 						HadalGame.server.init();
+						
+						//Enter the Hub State.
 			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
 			        }
 			    });
@@ -94,26 +106,37 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						
+						//If the player is already trying to connect, don't do anything
+						if (connectAttempted) {
+							return;
+						}
+						connectAttempted = true;
+						
+						//Save current name into records.
 						gsm.getRecord().setName(enterName.getText());
+						
+						//Start up the Client
 						HadalGame.client.init();
+						
+						//Attempt to connect to the chosen ip
 						new Thread("Connect") {
 				            public void run () {
-				                try {
+				                
+				            	//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+				            	try {
 				                	HadalGame.client.client.connect(5000, enterIP.getText(),
 				                			KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
-				                    notifications.setText("CONNECTED TO SERVER: " + enterIP.getText());
+				                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
 				                } catch (IOException ex) {
 				                    ex.printStackTrace();
-				                    notifications.setText("FAILED TO CONNECT TO SERVER!");
+				                    setNotification("FAILED TO CONNECT TO SERVER!");
 				                }
+				            	
+				            	//Let the player attempt to connect again after finishing
+				            	connectAttempted = false;
 				            }
 				        }.start();
-				        
-				        try {
-                            Thread.sleep(600);
-                        } catch (InterruptedException e1) {
-                            e1.printStackTrace();
-                        }
 			        }
 			    });
 				
@@ -121,29 +144,37 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						notifications.setText("SEARCHING FOR SERVER...");
+						setNotification("SEARCHING FOR SERVER...");
+						
+						//If the player is already trying to connect, don't do anything
+						if (connectAttempted) {
+							return;
+						}
+						connectAttempted = true;
 						
 						new Thread("Search") {
 							
 							@Override
 				            public void run () {
+								
+								//Search network for nearby hosts
 								enterIP.setText(HadalGame.client.searchServer());
+								
+								//Set notification according to result
 								if (enterIP.getText().equals("NO IP FOUND")) {
-									notifications.setText("SERVER NOT FOUND!");
+									setNotification("SERVER NOT FOUND!");
 								} else {
-									notifications.setText("FOUND SERVER: " + enterIP.getText());
+									setNotification("FOUND SERVER: " + enterIP.getText());
 								}
+								
+								//Let the player attempt to connect again after finishing
+				            	connectAttempted = false;
 				            }
 						}.start();
-						
-						try {
-                            Thread.sleep(600);
-                        } catch (InterruptedException e1) {
-                            e1.printStackTrace();
-                        }
 			        }
 			    });
 
+				//Control Option leads player to control state to change controls (and eventually other settings)
 				controlOption.addListener(new ClickListener() {
 					
 					@Override
@@ -152,6 +183,7 @@ public class TitleState extends GameState {
 			        }
 			    });
 				
+				//Exit Option closes the game
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
@@ -160,14 +192,16 @@ public class TitleState extends GameState {
 			        }
 			    });
 				
+				//Name Rand button generates a random name for the player
 				nameRand.addListener(new ClickListener() {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 			        	enterName.setText(NameGenerator.generateFirstLast(true));
-			        	notifications.setText("RANDOM NAME GENERATED!");
+			        	setNotification("RANDOM NAME GENERATED!");
 			        }
 				});
 				
+				//If the player clicks outside of a text field, the field should be deselected
 				addCaptureListener(new InputListener() {
 					
 					@Override
@@ -199,28 +233,22 @@ public class TitleState extends GameState {
 		app.newMenu(stage);
 	}
 
-	/**
-	 * 
-	 */
 	@Override
-	public void update(float delta) {
+	public void update(float delta) {}
 
-	}
-
-	/**
-	 * This state will draw the image.
-	 */
 	@Override
-	public void render() {
-		
-	}
+	public void render() {}
 
-	/**
-	 * Delete the image texture.
-	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
 	}
-
+	
+	/**
+	 * This method changes the text notification displayed in the title state
+	 * @param notification: new text
+	 */
+	public void setNotification(String notification) {
+		notifications.setText(notification);
+	}
 }

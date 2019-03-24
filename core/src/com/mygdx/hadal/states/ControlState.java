@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -16,13 +15,20 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * The Control State allows the player to change their key bindings.
+ * @author Zachary Tu
+ *
+ */
 public class ControlState extends GameState {
-	private Stage stage;
 	
-	private Actor exitOption, saveOption, resetOption;
+	//These are all of the display and buttons visible to the player.
+	private Text exitOption, saveOption, resetOption;
 	
+	//This scrollpane holds the options for key bindings
 	private ScrollPane options;
 	
+	//This is the option that the player has selected to change
 	private PlayerAction currentlyEditing;
 	
 	public ControlState(GameStateManager gsm) {
@@ -70,6 +76,8 @@ public class ControlState extends GameState {
 
 			@Override
 			public boolean keyDown(int keycode) {
+				
+				//If the player is currently editing an action, bind it to the pressed key
 				if (currentlyEditing != null) {
 					currentlyEditing.setKey(keycode);
 					refreshBinds();
@@ -122,6 +130,9 @@ public class ControlState extends GameState {
 		refreshBinds();
 	}
 	
+	/**
+	 * This is called whenever a bind is changed to update the ui.
+	 */
 	public void refreshBinds() {
 		VerticalGroup actions = new VerticalGroup()
 				.space(10)
@@ -137,6 +148,8 @@ public class ControlState extends GameState {
 				
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
+					
+					//Clicking any option will highlight it and designate it as the next to update.
 					((Text)e.getListenerActor()).setText(action.name() + ":==   " + getKey(action.getKey()) + " <--");					
 					currentlyEditing = action;
 				}
@@ -159,6 +172,11 @@ public class ControlState extends GameState {
 		stage.setScrollFocus(options);
 	}
 	
+	/**
+	 * This converts a keycode to s readable string
+	 * @param keycode: key to read
+	 * @return: string to return 
+	 */
 	public String getKey(int keycode) {
 		
 		if (keycode == 0) {
@@ -185,18 +203,13 @@ public class ControlState extends GameState {
 	}
 	
 	@Override
-	public void update(float delta) {
-		
-	}
+	public void update(float delta) {}
 
 	@Override
-	public void render() {
-
-	}
+	public void render() {}
 	
 	@Override
 	public void dispose() {
 		stage.dispose();		
 	}
-
 }

@@ -18,16 +18,25 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 
+/**
+ * This is a version of the playstate that is provided for Clients.
+ * No processing of physics and stuff like that is done here. Instead, everything is done based on instructions by the server.
+ * @author Zachary Tu
+ *
+ */
 public class ClientState extends PlayState {
 	
-	//This is a set of all non-hitbox entities in the world
+	//This is a set of all non-hitbox entities in the world mapped from their entityId
 	private LinkedHashMap<String, HadalEntity> entities;
-	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
+	
+	//This is a set of all hitboxes mapped from their unique entityId
 	private LinkedHashMap<String, HadalEntity> hitboxes;
 	
+	//This is a list of sync instructions. It contains [entityId, object to be synced]
 	private ArrayList<Object[]> sync;
 	
-	private Vector3 tmpVec3 = new Vector3();
+	//This contains the position of the client's mouse, to be sent to the server
+	private Vector3 mousePosition = new Vector3();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
 		super(gsm, loadout, level, false, null);
@@ -35,11 +44,14 @@ public class ClientState extends PlayState {
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		sync = new ArrayList<Object[]>();
 		
+		//Add a world dummy to the client's world.
 		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), ObjectSyncLayers.STANDARD);
 	}
 	
 	@Override
 	public void resetController() {
+		
+		//Whenever the controller is reset, the client gets a new client controller.
 		controller = new ClientController(this);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -52,11 +64,13 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void update(float delta) {
-				
-		tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-		HadalGame.viewportCamera.unproject(tmpVec3);
-		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)tmpVec3.x, (int)tmpVec3.y));
 		
+		//Send mouse position to the server.
+		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+		HadalGame.viewportCamera.unproject(mousePosition);
+		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)mousePosition.x, (int)mousePosition.y));
+		
+		//All entities that are set to be created are created and assigned their entityId
 		for (Object[] pair: createListClient) {
 			if (pair[2].equals(ObjectSyncLayers.HBOX)) {
 				hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
@@ -77,7 +91,8 @@ public class ClientState extends PlayState {
 			hitboxes.remove(key);
 		}
 		removeListClient.clear();
-				
+		
+		//All sync instructions are carried out.
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
 		 	if (p != null) {
@@ -92,6 +107,7 @@ public class ClientState extends PlayState {
 		 	}
 		}
 		
+		//While most objects don't do any processing on client side, the clientController is run for the exceptions.
 		for (HadalEntity entity : hitboxes.values()) {
 			entity.clientController(delta);
 		}
@@ -99,6 +115,8 @@ public class ClientState extends PlayState {
 			entity.clientController(delta);
 		}
 		
+		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
+		//to run here. This way, they will be carried out at a predictable time.
 		synchronized(packetEffects) {
 			for (PacketEffect effect: packetEffects) {
 				effect.execute();
@@ -110,15 +128,24 @@ public class ClientState extends PlayState {
 		cameraUpdate();
 		tmr.setView(camera);
 		 
-		//process fade transitions
+		//If we are in the delay period of a transition, decrement the delay
 		if (fadeInitialDelay <= 0f) {
+			
 			if (fadeLevel > 0f && fadeDelta < 0f) {
+				
+				//If we are fading in and not done yet, decrease fade.
 				fadeLevel += fadeDelta;
+				
+				//If we just finished fading in, set fade to 0
 				if (fadeLevel < 0f) {
 					fadeLevel = 0f;
 				}
 			} else if (fadeLevel < 1f && fadeDelta > 0f) {
+				
+				//If we are fading out and not done yet, increase fade.
 				fadeLevel += fadeDelta;
+				
+				//If we just finished fading out, set fade to 1 and do a transition
 				if (fadeLevel >= 1f) {
 					fadeLevel = 1f;
 					transitionState();
@@ -150,6 +177,7 @@ public class ClientState extends PlayState {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
+		//render all of the entities in the world
 		for (HadalEntity hitbox : hitboxes.values()) {
 			hitbox.render(batch);
 		}
@@ -180,6 +208,8 @@ public class ClientState extends PlayState {
 		switch (nextState) {
 		case LOSE:
 			if (respawn) {
+				
+				//reset the player's camera to saved values
 				boolean resetCamera = false;
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
@@ -193,22 +223,31 @@ public class ClientState extends PlayState {
 					this.cameraTarget = saveCameraPoint;
 				}
 				
+				//Inform the server that we have finished transitioning to tell them to make us a new player.
 				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
+				
+				//Make the screen fade back in
 				fadeDelta = -0.015f;
 				
+				//Make nextState null so we can transition again
 				nextState = null;
 			} else {	
-				
+				//TODO: what is the client's behavior in non-respawn levels?
 			}
 			break;
 		case WIN:
-			scoreWindow.setVisibility(true);
+			
+			//Go to a results screen
 			getGsm().addVictoryState(this, ClientState.class);
 			break;
 		case NEWLEVEL:
+			
+			//Tell the server that we are ready to be sent to a new level with a given loadout (from records)
 			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
 			break;
 		case NEXTSTAGE:
+			
+			//Tell the server that we are ready to be sent to a new level with our current loadout
 			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(player.getPlayerData().getLoadout(), nextState));
 			break;
 		default:
@@ -216,20 +255,40 @@ public class ClientState extends PlayState {
 		}	
 	}
 	
+	/**
+	 * This is called whenever the client is told to add an object to its world.
+	 * @param entityId: The unique id of the new entity
+	 * @param entity: The entity to be added
+	 * @param layer: is this layer a hitbox (rendered underneath) or not?
+	 */
 	public void addEntity(String entityId, HadalEntity entity, ObjectSyncLayers layer) {
 		Object[] packet = {entityId, entity, layer};
 		createListClient.add(packet);
 	}
 	
+	/**
+	 * This is called whenever the client is told to remove an object from the world.
+	 * @param entityId: The unique id of the object to be removed.
+	 */
 	public void removeEntity(String entityId) {
 		removeListClient.add(entityId);
 	}
 
+	/**
+	 * This is called whenever the client is told to synchronize an object from the world.
+	 * @param entityId: The unqie id of the object to be synchronized
+	 * @param o: The SyncEntity Packet to use to sychronize the object
+	 */
 	public void syncEntity(String entityId, Object o) {
 		Object[] packet = {entityId, o};
 		sync.add(packet);
 	}
 	
+	/**
+	 * This looks at the entities in the world and returns the one with the given id. 
+	 * @param entityId: Unique id of he object to find
+	 * @return: THe found object (or null if nonexistent)
+	 */
 	public HadalEntity findEntity(String entityId) {
 		HadalEntity entity = entities.get(entityId);
 		if (entity != null ) {
@@ -240,28 +299,20 @@ public class ClientState extends PlayState {
 	}
 	
 	/**
-	 * This method is called by entities to be added to the set of entities to be deleted next engine tick.
-	 * @param entity: delet this
+	 * The destroy and create methods do nothing for the client. 
+	 * Objects cannot be created and destroyed in this way for the client, only by calling add and remove Entity.
 	 */
 	@Override
-	public void destroy(HadalEntity entity) {
-
-	}
+	public void destroy(HadalEntity entity) {}
+	
+	@Override
+	public void create(HadalEntity entity) {}
 	
 	/**
-	 * This method is called by entities to be added to the set of entities to be created next engine tick.
-	 * @param entity: entity to be created
+	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.
+	 * @author Zachary Tu
+	 *
 	 */
-	@Override
-	public void create(HadalEntity entity) {
-
-	}
-	
-	@Override
-	public void dispose() {
-
-	}
-	
 	public enum ObjectSyncLayers {
 		STANDARD,
 		HBOX

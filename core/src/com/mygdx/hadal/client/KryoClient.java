@@ -36,27 +36,37 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PauseState;
 
+/**
+ * This is the client of the game
+ * @author Zachary Tu
+ *
+ */
 public class KryoClient {
 	
+	//Static fields for ports to be used
 	public static final int tcpPortSocket = 25565;
 	public static final int udpPortSocket = 54777;
-	String ipAddress = "localhost";
 	
+	//Me Client
 	public Client client;
-	public GameStateManager gsm;
 	
-	public static String hostIP;
-    public static final int timeout = 5000;
+	//This is the gsm of the client
+	public GameStateManager gsm;
     
+	//This is the id of the client's player
     public static String myId;
     
+    //This is a list of scores for display purposes
     public ArrayList<SavedPlayerFields> scores;
     
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
     	scores = new ArrayList<SavedPlayerFields>();
     }
-    	
+    
+    /**
+	 * This is called upon starting a new client. initialize client and whatever
+	 */
 	public void init() {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
@@ -68,12 +78,18 @@ public class KryoClient {
         
         client.addListener(new Listener() {
         	
+        	/**
+        	 * Upon connecting to server, send a playerConnect packet with out name and loadout
+        	 */
         	@Override
         	public void connected(Connection c) {
         		Log.info("CLIENT CONNECTED");
                 client.sendTCP(new Packets.PlayerConnect(true, gsm.getRecord().getName(), new Loadout(gsm.getRecord())));
             }
         	
+        	/**
+        	 * Upon disconnecting to server, return to title state
+        	 */
         	@Override
         	public void disconnected(Connection c) {
         		Log.info("HOST DISCONNECTED");
@@ -96,18 +112,30 @@ public class KryoClient {
         	@Override
         	public void received(Connection c, final Object o) {
 
+        		/*
+        		 * The Server has seen our connect request and created a new Player for us.
+        		 * We receive the id of our new player.
+        		 */
         		if (o instanceof Packets.NewClientPlayer) {
         			final Packets.NewClientPlayer p = (Packets.NewClientPlayer) o;
         			Log.info("CLIENT RECEIVED NEW ID: " + p.yourId);
         			myId = p.yourId;
         		}
         		
+        		/*
+        		 * The Server has finished loading its play state.
+        		 * If we haven't connected to the world yet, we send a message now.
+        		 */
         		if (o instanceof Packets.ServerLoaded) {
         			Log.info("SERVER LOADED");
         			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getRecord().getName(), new Loadout(gsm.getRecord()));
                     client.sendTCP(connected);
         		}
         		
+        		/*
+        		 * The game has been paused. (By server or any client)
+        		 * We go to the pause state.
+        		 */
         		if (o instanceof Packets.Paused) {
         			final Packets.Paused p = (Packets.Paused) o;
         			
@@ -123,6 +151,10 @@ public class KryoClient {
         			}
         		}
         		
+        		/*
+        		 * The game has been unpaused. (By server or any client)
+        		 * We return to the ClientState
+        		 */
         		if (o instanceof Packets.Unpaused) {
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
         				final PauseState cs = (PauseState) gsm.getStates().peek();
@@ -130,6 +162,10 @@ public class KryoClient {
         			}
         		}
         		
+        		/*
+        		 * We have received a notification from the server.
+        		 * Display the notification
+        		 */
         		if (o instanceof Packets.Notification) {
         			final Packets.Notification p = (Packets.Notification) o;
         			
@@ -140,6 +176,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server informs us that a player is ready in the results screen.
+        		 * Update that player's readiness in the results screen
+        		 */
         		if (o instanceof Packets.ClientReady) {
         			final Packets.ClientReady p = (Packets.ClientReady) o;
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof VictoryState) {
@@ -154,6 +194,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server has created our Player and tells us to load the level.
+        		 * Load the level and tell the server we finished.
+        		 */
         		if (o instanceof Packets.LoadLevel) {
         			final Packets.LoadLevel p = (Packets.LoadLevel) o;
             		Log.info("CLIENT LOADED LEVEL: " + p.level);
@@ -170,6 +214,10 @@ public class KryoClient {
                     });
         		}
         		
+        		/*
+        		 * The Server tells us to transition to a new state
+        		 * Begin transitioning to the specified state.
+        		 */
         		if (o instanceof Packets.ClientStartTransition) {
         			final Packets.ClientStartTransition p = (Packets.ClientStartTransition) o;
         			Log.info("CLIENT INSTRUCTED TO TRANSITION: ");
@@ -187,6 +235,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server tells us the new score after scores change.
+        		 * Update our scores to the ones specified
+        		 */
         		if (o instanceof Packets.SyncScore) {
         			final Packets.SyncScore p = (Packets.SyncScore) o;
         			scores = p.scores;
@@ -204,6 +256,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server tells us to create a new entity.
+        		 * Create a Client Illusion with the speified dimentions
+        		 */
         		if (o instanceof Packets.CreateEntity) {
         			final Packets.CreateEntity p = (Packets.CreateEntity) o;
         			
@@ -220,6 +276,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server tells us to create a new enemy entity
+        		 * Create the enemy based on server spefications
+        		 */
         		if (o instanceof Packets.CreateEnemy) {
         			final Packets.CreateEnemy p = (Packets.CreateEnemy) o;
         			
@@ -255,6 +315,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server tells us to delete an entity
+        		 * Delete the entity
+        		 */
         		if (o instanceof Packets.DeleteEntity) {
         			final Packets.DeleteEntity p = (Packets.DeleteEntity) o;
         			
@@ -271,6 +335,12 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The server tells us to create a new player
+        		 * Create the player, unless it is ourselves(based on our given id)
+        		 * If the player is ourselves, we attach our state's player (ourselves) to the entity.
+        		 * Essentially, we create new "other players" but always reuser our state's player for ourselves
+        		 */
         		if (o instanceof Packets.CreatePlayer) {
         			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
             		
@@ -294,6 +364,10 @@ public class KryoClient {
         			}
         		}
         		
+        		/*
+        		 * The Server tells us to create a new event
+        		 * We create the event using its provided map object blueprint
+        		 */
         		if (o instanceof Packets.CreateEvent) {
         			final Packets.CreateEvent p = (Packets.CreateEvent) o;
             		
@@ -312,6 +386,9 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * Event Creation for specific Poison event.
+        		 */
         		if (o instanceof Packets.CreatePoison) {
         			final Packets.CreatePoison p = (Packets.CreatePoison) o;
             		
@@ -330,6 +407,9 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * Event Creation for specific Pickup event.
+        		 */
         		if (o instanceof Packets.CreatePickup) {
         			final Packets.CreatePickup p = (Packets.CreatePickup) o;
             		
@@ -369,7 +449,10 @@ public class KryoClient {
 					}
         		}
         		
-        		
+        		/*
+        		 * The server has activated an event.
+        		 * If we have a copy of that event in our world, we want to activate it as well.
+        		 */
         		if (o instanceof Packets.ActivateEvent) {
         			final Packets.ActivateEvent p = (Packets.ActivateEvent) o;
         			
@@ -391,6 +474,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * SyncEntity packets are received for each synced entity every engine tick.
+        		 * Sync the specified entity.
+        		 */
         		if (o instanceof Packets.SyncEntity) {
         			Packets.SyncEntity p = (Packets.SyncEntity) o;
         			
@@ -431,6 +518,20 @@ public class KryoClient {
 					}
         		}
         		
+        		if (o instanceof Packets.SyncParticles) {
+        			Packets.SyncParticles p = (Packets.SyncParticles) o;
+        			
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.syncEntity(p.entityID, p);
+					}
+        		}
+        		
+        		/*
+        		 * The Server tells us that a player changed their loadout.
+        		 * Change their loadout on the client side
+        		 */
         		if (o instanceof Packets.SyncLoadout) {
         			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
         			Log.info("LOADOUT SYNC: " + p.entityId);
@@ -454,6 +555,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server tells us to create a particle entity.
+        		 * Create the designated particles and attatch it accordingly
+        		 */
         		if (o instanceof Packets.CreateParticles) {
         			final Packets.CreateParticles p = (Packets.CreateParticles) o;
             		
@@ -474,25 +579,20 @@ public class KryoClient {
         									Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
             						cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
         						}
-        						
             				}
     					});
 					}
         		}
         		
-        		if (o instanceof Packets.SyncParticles) {
-        			Packets.SyncParticles p = (Packets.SyncParticles) o;
-        			
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.syncEntity(p.entityID, p);
-					}
-        		}
+        		
         	}
         });       
 	}
 	
+	/**
+	 * Search for nearby servers.
+	 * @return: The address of the server if found and a "Nope" otherwise
+	 */
 	public String searchServer() {
 		if (client == null) {
 			init();
@@ -508,6 +608,10 @@ public class KryoClient {
     	return start;
 	}
 	
+	/**
+	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause.
+	 * @return: The current clientstate
+	 */
 	public ClientState getClientState() {
 		
 		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
@@ -519,8 +623,14 @@ public class KryoClient {
 		return null;
 	}
     
+	/**
+	 * This adds a notification to the client's dialog box
+	 * @param cs: Clients current clientstate
+	 * @param name: name giving the notification
+	 * @param text: notification text
+	 */
 	public void addNotification(ClientState cs, String name, String text) {
-		cs.getStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+		cs.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
 	}
 	
 	private void registerPackets() {

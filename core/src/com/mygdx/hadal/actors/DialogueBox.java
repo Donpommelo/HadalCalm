@@ -113,7 +113,7 @@ public class DialogueBox extends AHadalActor {
 			}
 		}
 		
-		JsonValue dialog = GameStateManager.dialogs.get(id);
+		JsonValue dialog = GameStateManager.getDialogs().get(id);
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {

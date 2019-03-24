@@ -6,7 +6,6 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Json;
@@ -25,6 +24,7 @@ import com.mygdx.hadal.states.*;
 
 /**
  * The GameStateManager manages a stack of game states. This delegates logic to the current game state.
+ * For some reason, we are also making it stores everal public fields like the game record and atlases.
  * @author Zachary Tu
  *
  */
@@ -36,17 +36,23 @@ public class GameStateManager {
 	//Stack of GameStates. These are all the states that the player has opened in that order.
 	private Stack<GameState> states;
 	
-	//temp skin for ui windows
+	//skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.
 	private Skin skin;
 	private NinePatchDrawable dialogPatch, simplePatch;
-	private ScrollPaneStyle scrollStyle;
 	public static TextureAtlas particleAtlas, projectileAtlas, multitoolAtlas, eventAtlas, explosionAtlas, uiAtlas;
-	public static Random generator;
+	
+	//This is a stored list of all the dialog in the game, read from json file.
+	private static JsonValue dialogs;
+	
+	//This is the player's record. This stores player info.
 	private Record record;
 	
+	//Json reader here. Use this instead of creating new ones elsewhere.
 	public static Json json = new Json();
 	public static JsonReader reader = new JsonReader();
-	public static JsonValue dialogs;
+	
+	//Not sure if this is a sensible thing to do, but we have an rng here so I don't need to make one whenever elsewhere
+	public static Random generator;
 	
 	//This enum lists all the different types of gamestates.
 	public enum State {
@@ -75,10 +81,17 @@ public class GameStateManager {
 			Record.createNewRecord();
 		}
 		
+		//Load player records and game dialogs, also from json
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
+		
+		generator = new Random();
 	}
 	
+	/**
+	 * This loads several assets like atlases, skins and patches.
+	 * This is called by initmanager after the atlases have been loaded.
+	 */
 	public void loadAssets() {
 		BitmapFont font24 = new BitmapFont();
 		this.skin = new Skin();
@@ -88,7 +101,6 @@ public class GameStateManager {
 		
 		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
 		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
-		this.scrollStyle = new ScrollPaneStyle(dialogPatch, dialogPatch, dialogPatch, dialogPatch, dialogPatch);
 		
 		GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
 		GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
@@ -96,7 +108,6 @@ public class GameStateManager {
 		GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
 		GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString());
 		GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
-		generator = new Random();
 	}
 	
 	/**
@@ -122,6 +133,8 @@ public class GameStateManager {
 			gs.dispose();
 		}
 		states.clear();
+		
+		//Also dispose of atlases.
 		if (particleAtlas != null) {
 			particleAtlas.dispose();
 		}
@@ -156,6 +169,7 @@ public class GameStateManager {
 	/**
 	 * This is run when we change the current state.
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
+	 * Due to states getting more different fields, this should only be used for simple states.
 	 * @param state: The new state
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
@@ -170,13 +184,15 @@ public class GameStateManager {
 	}
 	
 	/**
-	 * This is a addState eclusively for special playstates.
+	 * This is a addState exclusively for special playstates.
 	 * @param map: level the new playstate will load
 	 * @param loadout: loadout that the player will enter the playstate with
 	 * @param old: old playerdata to persist stuff like equips/hp/whatever
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
+		
+		//We check player progress here to know whether we should give the player their normal loadout or not (if tutorial)
 		Loadout realLoadout;
 		if (record.getFlags().get("INTRO") < 2) {
 			realLoadout = new Loadout(UnlockEquip.NOTHING);
@@ -193,6 +209,12 @@ public class GameStateManager {
 		}
 	}
 	
+	/**
+	 * This is called by clients as an addPlayState for ClientStates.
+	 * @param map: level the new playstate will load
+	 * @param loadout: loadout that the player will enter the playstate with
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 */
 	public void addClientPlayState(UnlockLevel map, Loadout loadout, Class<? extends GameState> lastState) {
 		if (states.empty()) {
 			states.push(new ClientState(this, loadout, map));
@@ -203,6 +225,12 @@ public class GameStateManager {
 		}
 	}
 	
+	/**
+	 * Called when game is paused. This adds a PauseState to the stack
+	 * @param ps: This is the playstate we are putting the pausestate on
+	 * @param pauser: This is the name of the player that paused the game
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 */
 	public void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState) {
 		if (states.empty()) {
 			states.push(new PauseState(this, ps, pauser));
@@ -213,6 +241,11 @@ public class GameStateManager {
 		}
 	}
 	
+	/**
+	 * This is called at the end of levels to display the results of the game
+	 * @param ps: This is the playstate we are putting the victorystate on
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 */
 	public void addVictoryState(PlayState ps, Class<? extends GameState> lastState) {
 		if (states.empty()) {
 			states.push(new VictoryState(this, ps));
@@ -241,7 +274,7 @@ public class GameStateManager {
 	 * @param state: enum for the new type of state to be added
 	 * @return: A new instance of the gameState corresponding to the input enum
 	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
-	 * (PlayState, ClientState and PauseState)
+	 * Only used for: (TITLE, SPLASH, GAMEOVER and CONTROL)
 	 */
 	public GameState getState(State state) {
 		
@@ -264,6 +297,10 @@ public class GameStateManager {
 		return app;
 	}
 	
+	public static JsonValue getDialogs() {
+		return dialogs;
+	}
+
 	public Record getRecord() {
 		return record;
 	}
@@ -278,9 +315,5 @@ public class GameStateManager {
 	
 	public NinePatchDrawable getSimplePatch() {
 		return simplePatch;
-	}
-	
-	public ScrollPaneStyle getScrollStyle() {
-		return scrollStyle;
 	}
 }

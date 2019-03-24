@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,22 +22,27 @@ import com.mygdx.hadal.server.Packets;
  */
 public class PauseState extends GameState {
 
-	private Stage stage;
-	
-	//Temporary links to other modules for testing.
-	private Actor pause, resumeOption, exitOption;
+	//This table contains the ui elements of the pause screen
 	private Table table;
 	
+	//These are all of the display and buttons visible to the player.
+	private Text pause, resumeOption, exitOption;
+	
+	//This is the playstate that the pause state must be placed on top of.
+	private PlayState ps;
+	
+	//This is the name of the player who paused
+	private String pauser;
+	
+	//This determines whether the pause state should be removed or not next engine tick.
+	private boolean toRemove = false;
+	
+	//Dimentions of the pause menu
 	private final static int width = 275;
 	private final static int height = 200;
 	
-	private PlayState ps;
-	private String pauser;
-	
-	private boolean toRemove = false;
-		
 	/**
-	 * Constructor will be called once upon initialization of the StateManager.
+	 * Constructor will be called whenever a player pauses.
 	 * @param gsm
 	 */
 	public PauseState(final GameStateManager gsm, PlayState ps, String pauser) {
@@ -46,6 +50,7 @@ public class PauseState extends GameState {
 		this.ps = ps;
 		this.pauser = pauser;
 		
+		//When the server pauses, it sends a message to all clients to pause them as well.
 		if (ps.isServer()) {
 			HadalGame.server.server.sendToAllTCP(new Packets.Paused(pauser));
 		}
@@ -79,10 +84,13 @@ public class PauseState extends GameState {
 			        	getGsm().removeState(PauseState.class);
 			        	
 			        	if (ps.isServer()) {
-	    					HadalGame.server.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			        		
+			        		//If the server unpauses, send a message and notification to all players to unpause.
+			        		HadalGame.server.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 	    					HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
-	    					
 	    				} else {
+	    					
+	    					//If a client unpauses, tell the server so it can echo it to everyone else
 	    					HadalGame.client.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 	    					HadalGame.client.client.sendTCP(new Packets.Notification(ps.getPlayer().getName(), "UNPAUSED THE GAME!"));
 	    				}
@@ -91,6 +99,8 @@ public class PauseState extends GameState {
 				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
+			        	
+			        	//Exiting returns to the title state and stops the server/client, disconnecting.
 			        	getGsm().removeState(PauseState.class);
 			        	if (ps.isServer()) {
 	    					HadalGame.server.server.stop();
@@ -109,10 +119,11 @@ public class PauseState extends GameState {
 		};
 		app.newMenu(stage);
 		
+		//We get the playstate's input processor so users can send messages + view score when paused
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
 		inputMultiplexer.addProcessor(stage);
-		inputMultiplexer.addProcessor(ps.getStage());
+		inputMultiplexer.addProcessor(ps.getPlayStateStage());
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
 			@Override
@@ -164,47 +175,44 @@ public class PauseState extends GameState {
 			public boolean scrolled(int amount) {
 				return false;
 			}
-			
 		});
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
-	/**
-	 * 
-	 */
 	@Override
 	public void update(float delta) {
-		ps.cameraUpdate();
+		
+		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
 		
 		if (ps != null) {
+			ps.cameraUpdate();
 			ps.stage.act();
 		}
 		
+		//If the state has been unpaused, remove it
 		if (toRemove) {
         	getGsm().removeState(PauseState.class);
 		}
 	}
 
-	/**
-	 * This state will draw the image.
-	 */
 	@Override
 	public void render() {
+		
+		//Render the playstate and playstate ui underneath
 		if (ps != null) {
 			ps.render();
+			ps.stage.getViewport().apply();
 			ps.stage.draw();
 		}
 	}
 
-	/**
-	 * Delete the image texture.
-	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
 	}
 
+	//This is called when the pause state is designated to be removed.
 	public void setToRemove(boolean toRemove) {
 		this.toRemove = toRemove;
 	}

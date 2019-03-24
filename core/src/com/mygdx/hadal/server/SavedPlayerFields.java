@@ -1,7 +1,16 @@
 package com.mygdx.hadal.server;
 
+/**
+ * This represents saved fields for a player.
+ * @author Zachary Tu
+ *
+ */
 public class SavedPlayerFields {
+	
+	//Player's name
 	private String name;
+	
+	//Player's stored stats
 	private int wins, kills, deaths, killStreak, deathStreak, score;
 	
 	public SavedPlayerFields() {
@@ -22,6 +31,9 @@ public class SavedPlayerFields {
 		return kills + "/" + deaths;
 	}
 	
+	/**
+	 * This is called when this player kills another player
+	 */
 	public void registerKill() {
 		kills++;
 		killStreak++;
@@ -30,6 +42,9 @@ public class SavedPlayerFields {
 		deathStreak = 0;
 	}
 	
+	/**
+	 * This is called when this player dies
+	 */
 	public void registerDeath() {
 		deaths++;
 		deathStreak++;
@@ -41,6 +56,9 @@ public class SavedPlayerFields {
 		killStreak = 0;
 	}
 
+	/**
+	 * Upon a new level, reset stats
+	 */
 	public void newLevelReset() {
 		this.kills = 0;
 		this.deaths = 0;
@@ -105,5 +123,3 @@ public class SavedPlayerFields {
 		this.score = score;
 	}
 }
-
-

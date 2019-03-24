@@ -19,8 +19,6 @@ import com.mygdx.hadal.save.UnlockLevel;
  */
 public class GameoverState extends GameState{
 
-	private Stage stage;
-	
 	//Temporary links to other modules for testing.
 	private Actor playOption, loadoutOption, exitOption;
 		

@@ -36,7 +36,6 @@ import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -65,8 +64,10 @@ public class PlayState extends GameState {
 	//This is an entity representing the player. Atm, player is not initialized here, but rather by a "Player Spawn" event in the map.
 	protected Player player;
 	
+	//This is the player's controller that receives inputs
 	protected InputProcessor controller;
 	
+	//This is the loadout that the player starts off with when they enter the playstate
 	private Loadout loadout;
 	
 	//These process and store the map parsed from the Tiled file.
@@ -92,9 +93,11 @@ public class PlayState extends GameState {
 	//This is a set of all hitboxes. This is separate to draw hitboxes underneath other bodies
 	private Set<HadalEntity> hitboxes;
 	
+	//These sets are used by the Client for removing/adding entities.
 	protected Set<String> removeListClient;
 	protected Set<Object[]> createListClient;
 	
+	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
 	protected List<PacketEffect> packetEffects;
 	
 	//sourced effects from the world are attributed to this dummy.
@@ -103,42 +106,64 @@ public class PlayState extends GameState {
 	//this is the current level
 	protected UnlockLevel level;
 	
+	//This is the entity that the camera tries to focus on
 	protected HadalEntity cameraTarget;
+	
+	//If there is an objective target that has a display if offscreen, this is that entity.
 	protected HadalEntity objectiveTarget;
 	
+	//This is the next state that we transition to if we are transitioning
 	protected transitionState nextState;
 	
+	//The current zoom of the camera
 	private float zoom;
 
+	//This is the zoom that the camera will lerp towards
 	protected float zoomDesired;
+	
+	//Starting position of players spawning into the world
 	private int startX, startY;
+	
+	//If a player respawns, they will respawn at the coordinates of this safe point instead.
 	private int safeX, safeY;
+	
+	//If a player respawns, these are the zoom and camera target that will be set.
 	protected float saveZoom;
 	protected HadalEntity saveCameraPoint;
 	
+	//Do players respawn after dying? Can players hurt each other? Is this a practice lecel (like the hub?)
 	protected boolean respawn, pvp, practice;
+	
+	//Is this playstate the server?
 	protected boolean server;
 	
-	protected PlayStateStage stage;
-	
+	//Various play state ui elements
 	private UIPlay uiPlay;
 	private UIPlayer uiPlayer;
 	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
 	protected UIArtifacts uiArtifact;
-	
-	protected Texture bg, black;
-	
-	protected float fadeInitialDelay = 1.0f;
-	protected float fadeLevel = 1f, fadeDelta = -0.015f;
-	private UnlockLevel nextLevel;
-	
-	private boolean serverLoaded = false;
-	
 	protected MessageWindow messageWindow;
 	protected ScoreWindow scoreWindow;
-
+	
+	//Background and black screen used for transitions
+	protected Texture bg, black;
+	
+	//This is the amount of time between transition called for and fading actually beginning.
+	protected float fadeInitialDelay = 1.0f;
+	
+	//This is the how faded the black screen is
+	protected float fadeLevel = 1.0f;
+			
+	//This is how much the fade changes every engine tick
+	protected float fadeDelta = -0.015f;
+	
+	//If we are transitioning to another level, this is that level.
+	private UnlockLevel nextLevel;
+	
+	//Has the server finished loading yet?
+	private boolean serverLoaded = false;
 	
 	/**
 	 * Constructor is called upon player beginning a game.
@@ -149,6 +174,7 @@ public class PlayState extends GameState {
 
 		this.server = server;
 		
+		//If this level has a designated loadout, use it. Otherwise use the input loadout.
 		if (level.getLoadout() != null) {
 			this.loadout = level.getLoadout();
 		} else {
@@ -171,42 +197,45 @@ public class PlayState extends GameState {
 		b2dr = new Box2DDebugRenderer();
 //		b2dr.setDrawBodies(false);
 		
-		//Initialize sets to keep track of active entities
+		//Initialize sets to keep track of active entities and packet effects
 		entities = new LinkedHashSet<HadalEntity>();
 		hitboxes = new LinkedHashSet<HadalEntity>();
 		removeList = new LinkedHashSet<HadalEntity>();
 		createList = new LinkedHashSet<HadalEntity>();
 		removeListClient = new LinkedHashSet<String>();
 		createListClient = new LinkedHashSet<Object[]>();
-		
 		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Enemy(this, 1, 1, -1000, -1000, enemyType.MISC, Constants.ENEMY_HITBOX);
+		
+		//The mouse tracker is the player's mouse position
 		mouse = new MouseTracker(this, true);
 
+		//load map
 		map = new TmxMapLoader().load(level.getMap());
-		
 		tmr = new OrthogonalTiledMapRenderer(map);
-		
+
+		//Get map settings from the collision layer of the map
 		this.respawn = map.getLayers().get("collision-layer").getProperties().get("respawn", false, Boolean.class);
 		this.pvp = map.getLayers().get("collision-layer").getProperties().get("pvp", false, Boolean.class);
 		this.practice = map.getLayers().get("collision-layer").getProperties().get("practice", false, Boolean.class);
-		
 		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", 0, Integer.class);
 		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", 0, Integer.class);
-		
+		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
+		this.zoomDesired = zoom;	
+
+		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
 		TiledObjectUtil.clearEvents();
+		
+		//Only the server processes collision objects, events and triggers
 		if (server) {
 			TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
 			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 			TiledObjectUtil.parseTiledTriggerLayer();
 		}
 		
-		
-		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
-		this.zoomDesired = zoom;	
-		
+		//Create the player and make the camera focus on it
 		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old);
 		this.cameraTarget = player;
 
@@ -221,13 +250,6 @@ public class PlayState extends GameState {
 		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
 		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
-	}
-	
-	/**
-	 * This constructor is used for levels without a custom level/loadout.
-	 */
-	public PlayState(GameStateManager gsm, Record record, boolean realFite, PlayerBodyData old) {
-		this(gsm, new Loadout(record), UnlockLevel.valueOf(record.getLevel()), true, old);
 	}
 			
 	@Override
@@ -246,6 +268,7 @@ public class PlayState extends GameState {
 			};
 		}
 		
+		//If ui elements have not been created, create them. (upon first showing the state)
 		if (uiPlay == null) {
 			if (server) {
 				uiPlay = new UIPlay(HadalGame.assetManager, this, player);
@@ -263,6 +286,7 @@ public class PlayState extends GameState {
 			scoreWindow = new ScoreWindow(this);
 		}
 		
+		//Add and sync ui elements in case of unpause or new playState
 		this.stage.addActor(uiPlay);
 		this.stage.addActor(uiPlayer);
 		this.stage.addActor(uiActive);
@@ -304,6 +328,7 @@ public class PlayState extends GameState {
 	@Override
 	public void update(float delta) {
 		
+		//On the very first tick, server tells all clients that it is loaded
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
 			HadalGame.server.server.sendToAllTCP(new Packets.ServerLoaded());
@@ -324,6 +349,7 @@ public class PlayState extends GameState {
 			}
 			entity.create();
 			
+			//Upon creating an entity, tell the clients so they can follow suit (if the entity calls for it)
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
 				HadalGame.server.server.sendToAllTCP(packet);
@@ -336,13 +362,14 @@ public class PlayState extends GameState {
 			entities.remove(entity);
 			hitboxes.remove(entity);
 			entity.dispose();
+			
+			//Upon deleting an entity, tell the clients so they can follow suit.
 			HadalGame.server.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
 		}
 		removeList.clear();
 		
-		
-		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
+		//We also send client a sync packet if the entity requires.
 		for (HadalEntity entity : hitboxes) {
 			entity.controller(delta);
 			entity.onServerSync();
@@ -352,6 +379,8 @@ public class PlayState extends GameState {
 			entity.onServerSync();
 		}
 		
+		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
+		//to run here. This way, they will be carried out at a predictable time.
 		synchronized(packetEffects) {
 			for (PacketEffect effect: packetEffects) {
 				effect.execute();
@@ -362,15 +391,24 @@ public class PlayState extends GameState {
 		//Update the game camera and batch.
 		cameraUpdate();
 		
-		//process fade transitions
+		//If we are in the delay period of a transition, decrement the delay
 		if (fadeInitialDelay <= 0f) {
+			
 			if (fadeLevel > 0f && fadeDelta < 0f) {
+				
+				//If we are fading in and not done yet, decrease fade.
 				fadeLevel += fadeDelta;
+				
+				//If we just finished fading in, set fade to 0
 				if (fadeLevel < 0f) {
 					fadeLevel = 0f;
 				}
 			} else if (fadeLevel < 1f && fadeDelta > 0f) {
+				
+				//If we are fading out and not done yet, increase fade.
 				fadeLevel += fadeDelta;
+				
+				//If we just finished fading out, set fade to 1 and do a transition
 				if (fadeLevel >= 1f) {
 					fadeLevel = 1f;
 					transitionState();
@@ -432,7 +470,7 @@ public class PlayState extends GameState {
 	}	
 	
 	/**
-	 * This is called every update. This resets the camera zoom and makes it move towards the player.
+	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
 	protected void cameraUpdate() {
 		
@@ -464,10 +502,6 @@ public class PlayState extends GameState {
 		for (HadalEntity hitbox : removeList) {
 			hitbox.dispose();
 		}
-//		entities.clear();
-//		hitboxes.clear();
-//		createList.clear();
-//		removeList.clear();
 		
 		world.dispose();
 		tmr.dispose();
@@ -485,11 +519,14 @@ public class PlayState extends GameState {
 		switch (nextState) {
 		case LOSE:
 			if (respawn) {
+				
+				//reset the player's camera to saved values
 				boolean resetCamera = false;
 				if (saveCameraPoint.equals(player)) {
 					resetCamera = true;
 				}
 				
+				//Create a new player
 				player = new Player(this, (int)(getSafeX() * PPM),
 						(int)(getSafeY() * PPM), gsm.getRecord().getName(), new Loadout(gsm.getRecord()), null);
 				
@@ -503,21 +540,31 @@ public class PlayState extends GameState {
 					this.cameraTarget = saveCameraPoint;
 				}
 
+				//Make the screen fade back in
 				fadeDelta = -0.015f;
+				
+				//Make nextState null so we can transition again
 				nextState = null;
-			} else {			
+			} else {
+				
+				//If no respawn, get a gameover screen
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			}
 			break;
 		case WIN:
-			scoreWindow.setVisibility(true);
+			
+			//Transition to results state
 			getGsm().addVictoryState(this, PlayState.class);
 			break;
 		case NEWLEVEL:
+			
+			//remove this state and add a new play state with a fresh loadout
 			getGsm().removeState(PlayState.class);
         	getGsm().addPlayState(UnlockLevel.valueOf(gsm.getRecord().getLevel()), new Loadout(gsm.getRecord()), null, TitleState.class);
 			break;
 		case NEXTSTAGE:
+			
+			//remove this state and add a new play state with the player's current loadout and stats
 			getGsm().removeState(PlayState.class);
 			getGsm().addPlayState(nextLevel, loadout, player.getPlayerData(), TitleState.class);
 			break;
@@ -533,24 +580,35 @@ public class PlayState extends GameState {
 	 */
 	public void loadLevel(UnlockLevel level, transitionState state) {
 		
+		//The client should never run this; instead transitioning when the server tells it to.
 		if (!server) {
 			return;
 		}
 		
 		if (nextLevel == null) {
+			
+			//begin transitioning to the designated next level
 			nextLevel = level;
 			beginTransition(state);
 			
-			//TODO: player flash and particles
-			
+			//Server tells clients to begin a transition to the new state
 			HadalGame.server.server.sendToAllTCP(new Packets.ClientStartTransition(nextState));
 		}
 	}
 	
+	/**
+	 * This is called whenever a player is killed. This is only called by the server.
+	 * @param player: The player that dies
+	 * @param perp: the schmuck that killed
+	 */
 	public void onPlayerDeath(Player player, Schmuck perp) {
 		if (player.equals(this.player)) {
+			
+			//When the host dies, we begin a transition to the lose state
 			beginTransition(transitionState.LOSE);
 		} else {
+			
+			//If a client dies, we tell them to transition to a lose state.
 			for (int connId : HadalGame.server.getPlayers().keySet()) {
 				if (HadalGame.server.getPlayers().get(connId).equals(player)) {
 					HadalGame.server.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.LOSE));
@@ -558,6 +616,7 @@ public class PlayState extends GameState {
 			}
 		}
 		
+		//Register the kill for score keeping purposes
 		if (perp instanceof Player) {
 			HadalGame.server.registerKill((Player)perp, player);
 		} else {
@@ -565,12 +624,22 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	/**
+	 * This is called when a level ends. Only called by the server. Begi na transition and tell all clients to follow suit.
+	 * @param state: Is it ending as a gameover or a results screen?
+	 */
 	public void levelEnd(transitionState state) {
 		beginTransition(state);
 		HadalGame.server.server.sendToAllTCP(new Packets.ClientStartTransition(state));
 	}
 	
+	/**
+	 * This is called whenever we transition to a new state. Begin transition and set new state.
+	 * @param state: The state we are transitioning towards
+	 */
 	public void beginTransition(transitionState state) {
+		
+		//If we are already transitioning to a new results state, do not do this
 		if (nextState == null) {
 			nextState = state;
 			fadeInitialDelay = 1.0f;
@@ -578,6 +647,10 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	/**
+	 * This is called by the server when a new client connects. We catch up the client by making them create all existing entities.
+	 * @param connId: connId of the new client
+	 */
 	public void catchUpClient(int connId) {
 		for (HadalEntity entity : entities) {
 			Object packet = entity.onServerCreate();
@@ -609,6 +682,10 @@ public class PlayState extends GameState {
 		createList.add(entity);
 	}
 	
+	/**
+	 * Add a new packet effect as a result of receiving a packet.
+	 * @param effect
+	 */
 	public void addPacketEffect(PacketEffect effect) {
 		synchronized(packetEffects) {
 			packetEffects.add(effect);
@@ -623,6 +700,9 @@ public class PlayState extends GameState {
 		return practice;
 	}
 	
+	/**
+	 * This is used for pvp levels. When a player is spawned, they will get their hitbox filter here so they can hit each other.
+	 */
 	private static short nextFilter = -5;
 	public static short getPVPFilter() {
 		nextFilter--;
@@ -657,9 +737,9 @@ public class PlayState extends GameState {
 		return level;
 	}
 	
-	public PlayStateStage getStage() {
-		return stage;
-	}	
+	public PlayStateStage getPlayStateStage() {
+		return (PlayStateStage) stage;
+	}
 	
 	public UIExtra getUiExtra() {
 		return uiExtra;

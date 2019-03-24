@@ -11,14 +11,13 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
 
 /**
- * TODO: docs
+ * This is the very first called state of the game. This is pretty much a loading screen where the AssetManager is loaded.
+ * After loading is complete, we automatically transition into the Title Screen.
  * @author Zachary Tu
  *
  */
 public class InitState extends GameState {
 
-	private Stage stage;
-		
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
@@ -31,6 +30,7 @@ public class InitState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
+				//Our only actor here is a loading screen image
 				addActor(new LoadingBackdrop(HadalGame.assetManager));
 			}
 		};
@@ -38,6 +38,9 @@ public class InitState extends GameState {
 		loadAssets();
 	}
 
+	/**
+	 * This is where we load all of the assets of the game. Done upon this state being shown.
+	 */
 	private void loadAssets() {		
 		HadalGame.SYSTEM_FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
 		HadalGame.SYSTEM_FONT_SPRITE = new BitmapFont();
@@ -56,25 +59,18 @@ public class InitState extends GameState {
 	@Override
 	public void update(float delta) {
 		if (HadalGame.assetManager.update()) {
+			
+			//If we are done loading, do to title state and set up gsm assets (static atlases and stuff like that)
 			getGsm().loadAssets();
 			getGsm().addState(State.TITLE, InitState.class);
 		}
 	}
 
-	/**
-	 * This state will draw the image.
-	 */
 	@Override
-	public void render() {
-		
-	}
+	public void render() {}
 
-	/**
-	 * Delete the image texture.
-	 */
 	@Override
 	public void dispose() {
 		stage.dispose();
 	}
-
 }

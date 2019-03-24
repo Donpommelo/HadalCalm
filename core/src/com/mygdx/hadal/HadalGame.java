@@ -33,16 +33,19 @@ public class HadalGame extends ApplicationAdapter {
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, sprite, hud;
+	public static FitViewport viewportCamera, viewportSprite, viewportUI;
+
+	//This is the batch used to render stuff
 	private SpriteBatch batch;
 
 	//This is the Gamestate Manager. It manages the current game state.
 	private GameStateManager gsm;
 	
-	public static FitViewport viewportCamera, viewportSprite, viewportUI;
-	
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;
-    
+    public static ShaderProgram shader;
+
+    //Client and server for networking are static fields in the main game
     public static KryoClient client;
     public static KryoServer server;
     
@@ -51,9 +54,9 @@ public class HadalGame extends ApplicationAdapter {
  
     private final static int DEFAULT_WIDTH = 1080;
 	private final static int DEFAULT_HEIGHT = 720;
+	
+	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
-    
-    public static ShaderProgram shader;
     
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
@@ -67,17 +70,12 @@ public class HadalGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		
 		camera = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-		
 	    sprite = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    
 	    hud = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    
 		viewportCamera = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, camera);
 	    viewportCamera.apply();
-
 	    viewportSprite = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, sprite);
 	    viewportSprite.apply();	    
-	    
 	    viewportUI = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, hud);
 	    viewportUI.apply();
 	    
