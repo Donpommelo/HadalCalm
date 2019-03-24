@@ -16,9 +16,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  *
  */
 public class Enemy extends Schmuck {
-				
+	
+	//This is the entity this enemy is trying to attack
 	protected HadalEntity target;
+	
+	//This is the type of enemy
 	protected enemyType type;
+	
+	//This is the range that the enemy will be able to detect targets
     protected static final float aiRadius = 2000;
 
 	/**
@@ -48,6 +53,9 @@ public class Enemy extends Schmuck {
 				hitboxfilter, false, bodyData);
 	}
 	
+	/**
+	 * When created i nthe server, tell the client what kind of enemy was reated to sync
+	 */
 	@Override
 	public Object onServerCreate() {
 		return new Packets.CreateEnemy(entityID.toString(), type);

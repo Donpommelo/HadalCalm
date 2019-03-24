@@ -403,7 +403,10 @@ public enum NameGenerator {
 
 	;
 	
+	//This name and the end of this name fragment
 	private String me, endTag;
+	
+	//A list of name fragments that this name fragment can follow.
 	private String[] canFollow;
 	
 	NameGenerator(String me, String endTag, String... canFollow) {
@@ -412,6 +415,11 @@ public enum NameGenerator {
 		this.canFollow = canFollow;
 	}
 	
+	/**
+	 * This generates a first and last name.
+	 * @param alliteration: Should the 2 names have the same first letter?
+	 * @return
+	 */
 	public static String generateFirstLast(boolean alliteration) {
 		
 		ArrayList<NameGenerator> possibleNexts = new ArrayList<NameGenerator>();
@@ -436,10 +444,19 @@ public enum NameGenerator {
 		return firstName + " " + lastName;
 	}
 	
+	/**
+	 * Base Case for recursive name generation.
+	 * Start with a name fragment with a "start" tag
+	 */
 	public static String generateName() {
 		return generateName("start");
 	}
 	
+	/**
+	 * Recursive case. Randomly select a valid next name fragment
+	 * @param prev: The name so far
+	 * @return: The generated name fragment, plus the rest of the name
+	 */
 	public static String generateName(String prev) {
 		
 		ArrayList<NameGenerator> possibleNexts = new ArrayList<NameGenerator>();

@@ -41,16 +41,30 @@ public class PlayerBodyData extends BodyData {
 	
 	private int airblastCost = 30;
 	
+	//This is the player's current loadout
 	private Loadout loadout;
+	
+	//This is a list of the player's weapons
 	private Equipable[] multitools;
+	
+	//This is a list of the player's artifacts
 	private ArrayList<Artifact> artifacts;
+	
+	//This is the artifact that the player starts off with
 	private Artifact artifactStart;
+	
+	//This is the player's active item
 	private ActiveItem activeItem;
+	
+	//This is the slot number of the player's currently selected weapon
 	private int currentSlot = 0;
+	
+	//This is the player's last used slot. (Used for switch-to-last-slot button)
 	private int lastSlot = 1;
 	
 	private Player player;
 	
+	//Override stats are used by the client to display i nthe ui instead of actually having the real server stats.
 	private float overrideMaxHp;
 	private float overrideMaxFuel;
 	private float overrideAirblastCost;
@@ -67,24 +81,28 @@ public class PlayerBodyData extends BodyData {
 		currentSlot = 0;
 	}
 	
+	/**
+	 * This is called when creating a brand new player with a starting loadout
+	 */
 	public void initLoadout() {
 		clearStatuses();
 
+		//Acquire weapons from loadout
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
 				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
 			}
 		}
-		
 		setEquip();
-		
+
+		//Reset artifacts list and acquire starting artifact
 		this.artifacts = new ArrayList<Artifact>();
 		
 		replaceStartingArtifact(loadout.startifact);
 		
+		//Acquire active item and acquire charge status
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
-		
 		addStatus(new ActiveItemCharge(player.getState(), this));		
 	}
 	
@@ -92,7 +110,7 @@ public class PlayerBodyData extends BodyData {
 	 * This is called by both the server and client for players that receive a new loadout from the other.
 	 * We give the player the new loadout information.
 	 * 
-	 * @param loadout
+	 * @param loadout: The new loadout for the player
 	 */
 	public void syncLoadout(Loadout loadout) {
 		for (int i = 0; i < loadout.multitools.length; i++) {
@@ -127,13 +145,14 @@ public class PlayerBodyData extends BodyData {
 		
 		this.loadout = loadout;
 		
+		//If this is the player being controlled by the user, update artifact ui
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
 	}
 	
 	/**
-	 * This is run when transitioning the player into a new map/world
+	 * This is run when transitioning the player into a new map/world or respawning
 	 * @param newPlayer
 	 */
 	public void resetData(Player newPlayer, World newWorld) {
@@ -235,7 +254,7 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * Player picks up new weapon.
 	 * @param equip: The new equip to switch in. Replaces current slot if inventory is full.
-	 * @return: If a weapon is dropped to make room for new weapon, return it, otherwise return null.
+	 * @return: If a weapon is dropped to make room for new weapon, return it, otherwise return a Nothing Weapon.
 	 */
 	public Equipable pickup(Equipable equip) {
 		
@@ -274,6 +293,11 @@ public class PlayerBodyData extends BodyData {
 		return old;
 	}
 	
+	/**
+	 * Player picks up a new Active Item. 
+	 * @param item: Old item if nonempty and a Nothing Item otherwise
+	 * @return
+	 */
 	public ActiveItem pickup(ActiveItem item) {
 		
 		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
@@ -293,7 +317,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * empties a slot. Used when using last charge of consumable weapon.
+	 * empties a slot. Used when using last charge of consumable weapon or running out of ammunition
 	 */
 	public void emptySlot(int slot) {
 		
@@ -365,6 +389,27 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
+	 * Remove a designated artifact. This is only used in specific interactions.
+	 */
+	public void removeArtifact(UnlockArtifact unlock, Artifact artifact) {
+		
+		if (player.getState().isServer()) {
+			for (Status s : artifact.loadEnchantments(player.getState(), this)) {
+				removeStatus(s);
+			}
+		}
+		
+		artifacts.remove(artifact);
+		loadout.artifacts.remove(unlock);
+		
+		if (player.equals((player.getState().getPlayer()))) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
+		
+		syncServerLoadoutChange();
+	}
+	
+	/**
 	 * This helper function is called when weapon switching to ensure the correct weapon sprite is drawn and that the 
 	 * current weapon is kept track of.
 	 */
@@ -376,12 +421,18 @@ public class PlayerBodyData extends BodyData {
 		calcStats();
 	}
 	
+	/**
+	 * This is called when a loadout changes on the server side. Send message to all clients announcing change
+	 */
 	public void syncServerLoadoutChange() {
 		if (player.getState().isServer()) {
 			HadalGame.server.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
 		}
 	}
 	
+	/**
+	 * This is called when a loadout changes on the client side.(Through hub event) Send message to all server announcing change
+	 */
 	public void syncClientLoadoutChange() {
 		if (!player.getState().isServer()) {
 			HadalGame.client.client.sendTCP(new Packets.SyncLoadout(null, loadout));
@@ -420,6 +471,7 @@ public class PlayerBodyData extends BodyData {
 			}
 			super.die(perp, tool);
 			
+			//Send death notification to all players
 			if (perp instanceof PlayerBodyData) {
 				Player p = (Player)perp.getSchmuck();
 				HadalGame.server.addNotificationToAll(player.getState(), player.getName(),  "was killed by " + p.getName());

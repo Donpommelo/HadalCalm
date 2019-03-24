@@ -528,7 +528,7 @@ public class PlayState extends GameState {
 				
 				//Create a new player
 				player = new Player(this, (int)(getSafeX() * PPM),
-						(int)(getSafeY() * PPM), gsm.getRecord().getName(), new Loadout(gsm.getRecord()), null);
+						(int)(getSafeY() * PPM), gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData());
 				
 				((PlayerController)controller).setPlayer(player);
 				

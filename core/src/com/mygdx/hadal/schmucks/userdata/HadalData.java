@@ -66,5 +66,4 @@ public class HadalData {
 	public void setEntity(HadalEntity entity) {
 		this.entity = entity;
 	}
-	
 }

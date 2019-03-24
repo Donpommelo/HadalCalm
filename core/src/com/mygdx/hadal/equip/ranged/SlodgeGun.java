@@ -61,7 +61,7 @@ public class SlodgeGun extends RangedWeapon {
 		final Equipable tool = this;
 		final Player p = (Player)user;
 		
-		p.getBodyData().addStatus(new Status(state, 0.75f, "", "", false, true, p.getBodyData(), p.getBodyData()) {
+		p.getBodyData().addStatus(new Status(state, 0.75f, "", "", false, p.getBodyData(), p.getBodyData()) {
 			
 			private float procCdCount;
 			

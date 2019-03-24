@@ -5,6 +5,8 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * The Action Controller receives actions from a player controller or packets from clients and uses them to make a player 
+ * perform actions.
  * @author Zachary Tu
  *
  */

@@ -12,9 +12,16 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+/**
+ * A Client Illusion is an eneity created by the client as a default for a synced entity.
+ * This entity does nothing itself but display a sprite and sync position/angle data from the server.
+ * @author Zachary Tu
+ *
+ */
 public class ClientIllusion extends HadalEntity {
 	
-	private Animation<TextureRegion> projectileSprite;
+	//This is the sprite that will be displayed
+	private Animation<TextureRegion> illusionSprite;
 	
 	//Speed of the animation. Make this an input?
 	private float speed = 0.05f;
@@ -22,7 +29,7 @@ public class ClientIllusion extends HadalEntity {
 	public ClientIllusion(PlayState state, float w, float h, int x, int y, Sprite sprite) {
 		super(state, w, h, x, y);
 		if (sprite != null) {
-			projectileSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
+			illusionSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
 		}
 	}
 
@@ -41,8 +48,8 @@ public class ClientIllusion extends HadalEntity {
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 
-		if (projectileSprite != null) {
-			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
+		if (illusionSprite != null) {
+			batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true), 
 					body.getPosition().x * PPM - width / 2, 
 					body.getPosition().y * PPM - height / 2, 
 					width / 2, height / 2,

@@ -36,6 +36,7 @@ public class Schmuck extends HadalEntity {
 	protected Fixture feet, rightSensor, leftSensor;
 	protected FeetData feetData, rightData, leftData;
 	
+	//These track whether the schmuck has specific artifacts equipped.
 	protected boolean scaling, stomping;
 
 	//user data.
@@ -57,8 +58,10 @@ public class Schmuck extends HadalEntity {
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	protected float controllerCount = 0;
 	
+	//This particle is triggered upon receiving damage
 	public ParticleEntity impact;
 
+	//This is the filter of this unit and hitboxes it spawns
 	protected short hitboxfilter;
 
 	/**
@@ -154,9 +157,7 @@ public class Schmuck extends HadalEntity {
 	 * Draw the schmuck
 	 */
 	@Override
-	public void render(SpriteBatch batch) {
-		
-	}
+	public void render(SpriteBatch batch) {}
 
 	/**
 	 * This method is called when a schmuck wants to use a tool.
@@ -210,6 +211,10 @@ public class Schmuck extends HadalEntity {
 		tool.release(state, bodyData);
 	}	
 	
+	/**
+	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
+	 * This packet updates movestate, hp, fuel and flashingness
+	 */
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
@@ -217,6 +222,9 @@ public class Schmuck extends HadalEntity {
 				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
 	}
 	
+	/**
+	 * The client schmuck receives the packet sent above and updates the provided fields.
+	 */
 	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncSchmuck) {

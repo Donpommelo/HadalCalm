@@ -70,6 +70,12 @@ public class PickupWeaponMod extends Event {
 				mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
 				setWeaponMod(null);
 			}
+			
+			@Override
+			public void preActivate(EventData activator, Player p) {
+				onActivate(activator, p);
+				HadalGame.server.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), mod.toString()));
+			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
@@ -91,6 +97,16 @@ public class PickupWeaponMod extends Event {
 	@Override
 	public Object onServerCreate() {
 		return new Packets.CreatePickup(entityID.toString(), body.getPosition().scl(PPM), PickupType.MOD, mod.toString());
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			setWeaponMod(WeaponMod.valueOf(p.newPickup));
+		} else {
+			super.onClientSync(o);
+		}
 	}
 	
 	public static String getRandModFromPool(String pool, ModTag... tags) {

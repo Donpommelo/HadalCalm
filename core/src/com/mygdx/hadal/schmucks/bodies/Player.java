@@ -33,10 +33,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Player extends PhysicsSchmuck {
 	
+	//Name of the player as chosen in the Title screen
 	private String name;
 	
 	private final static float playerDensity = 1.0f;
 	
+	//Dimension of player sprite parts.
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
 		
@@ -54,6 +56,14 @@ public class Player extends PhysicsSchmuck {
 		
 	public static final float scale = 0.15f;
 	
+	private TextureAtlas atlasBody;
+	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
+	
+	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
+	
+	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
+	toolHeight, toolWidth, gemHeight, gemWidth;
+	
 	private final float spriteAnimationSpeed = 0.08f;
 	
 	//counters for various cooldowns.
@@ -70,6 +80,7 @@ public class Player extends PhysicsSchmuck {
 	protected float interactCd = 0.15f;
 	protected float interactCdCount = 0;
 	
+	//This is the angle that the player's arm is pointing
 	private float attackAngle = 0;
 	private float attackAngleClient = 0;
 	
@@ -82,30 +93,25 @@ public class Player extends PhysicsSchmuck {
 	//Equipment that the player has built in to their toolset.
 	private Airblaster airblast;
 	
-	private TextureAtlas atlasBody;
-	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
-	
-	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
-	
-	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
-	toolHeight, toolWidth, gemHeight, gemWidth;
-	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	private float controllerCount = 0;
 	
 	//Is the player currently shooting/hovering?
 	private boolean shooting = false;
 	private boolean hovering = false;
-		
+	
+	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
 	private float reloadPercent;
 	
 	private ParticleEntity hoverBubbles;
 	
+	//This is the controller that causes this player to perform actions
 	private ActionController controller;
 	
 	//this exists so that schmucks can steer towards the mouse.
 	private MouseTracker mouse;
 	
+	//This is the loadout that this player starts with.
 	private Loadout startLoadout;
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
@@ -187,6 +193,8 @@ public class Player extends PhysicsSchmuck {
 		state.getUiPlayer().addPlayer(this);
 		state.resetController();
 		
+		//If null, this indicate sthat this is a newlyspawned player. Create new data for it with the provided loadout.
+		//Otherwise, take the input data and reset it to match the new world.
 		if (playerData == null) {
 			playerData = new PlayerBodyData(this, startLoadout);
 			bodyData = playerData;
@@ -202,6 +210,7 @@ public class Player extends PhysicsSchmuck {
 		
 		super.create();
 		
+		//Activate on-spawn effects
 		if (!state.isPractice()) {
 			playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
 		}
@@ -537,6 +546,11 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	/**
+	 * When the player is in the air, their animation freezes. This gets the fram for that
+	 * @param reverse: which direction is the player facing
+	 * @return
+	 */
 	public int getFreezeFrame(boolean reverse) {
 		if (Math.abs(body.getLinearVelocity().x) > Math.abs(body.getLinearVelocity().y)) {
 			return reverse ? 5 : 2;
@@ -545,11 +559,19 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	/**
+	 * This is called by the server when the player is created. Sends a packet to clients to instruct them to build a new player
+	 * with the desired name and loadout
+	 */
 	@Override
 	public Object onServerCreate() {
 		return new Packets.CreatePlayer(entityID.toString(), name, playerData.getLoadout());
 	}
 	
+	/**
+	 * This is called every engine tick. The server player sends a packet to the corresponding client player.
+	 * This packet updates mouse location, groundedness, loadout and stat information
+	 */
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
@@ -563,6 +585,9 @@ public class Player extends PhysicsSchmuck {
 				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent));
 	}
 	
+	/**
+	 * The client Player receives the packet sent above and updates the provided fields.
+	 */
 	@Override
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncPlayer) {

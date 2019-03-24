@@ -77,9 +77,15 @@ public class TiledObjectUtil {
     	}
     }
     
+    /**
+     * This parses a single tiled map object into an event
+     * @param state: The playstate that the event will be placed into
+     * @param object: The map object to parse
+     * @return
+     */
     public static Event parseTiledEvent(PlayState state, MapObject object) {
-    	//atm, all events are just rectangles.
-		RectangleMapObject current = (RectangleMapObject)object;
+		
+    	RectangleMapObject current = (RectangleMapObject)object;
 		Rectangle rect = current.getRectangle();
 		
 		if (object.getName().equals("Start")) {
@@ -363,6 +369,12 @@ public class TiledObjectUtil {
 		return e;
     }
     
+    /**
+     * Generate a prefrab combination of events
+     * @param state: Playstate the events will be created in
+     * @param object: MapObject of the prefab
+     * @param rect: dimensions of the prefab
+     */
     public static void genPrefab(PlayState state, MapObject object, Rectangle rect) {
     	
     	Prefabrication p = null;
@@ -460,15 +472,19 @@ public class TiledObjectUtil {
     	}
     }
     
-    
+    /*
+     * When a prefab is created, its triggerIds are generated dynamically using this to ensure that there are no repeats.
+     */
     public static int nextId = 0;
-    
     public static String getPrefabTriggerId() {
     	String id = "prefabTriggerId" + nextId;
     	nextId++;
     	return id;
     }
     
+    /**
+     * This parses the triggers of all events that have been added to any of the trigger lists
+     */
     public static void parseTiledTriggerLayer() {
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("")) {
@@ -503,6 +519,10 @@ public class TiledObjectUtil {
     	}    
     }
     
+    /**
+     * This parses a single event's triggers and updates existing events with connections.
+     * @param e: Event to add triggers for
+     */
     public static void parseTiledSingleTrigger(Event e) {
     	MapObject blueprint = e.getBlueprint();
     	String triggeringId =  blueprint.getProperties().get("triggeringId", "", String.class);
@@ -531,12 +551,21 @@ public class TiledObjectUtil {
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
     
+    /**
+     * Add a single event to the world, alongside triggers
+     * @param state: Playstate to add event to
+     * @param object: Map object of the event t oadd.
+     * @return: The newly created event
+     */
     public static Event parseSingleEventWithTriggers(PlayState state, MapObject object) {
     	Event e = parseTiledEvent(state, object);
     	parseTiledSingleTrigger(e);
     	return e;
     }
 
+    /**
+     * Clear all trigger lists. This is done upon initializing a playstate to clear previous triggers.
+     */
     public static void clearEvents() {
     	triggeredEvents.clear();
     	triggeringEvents.clear();

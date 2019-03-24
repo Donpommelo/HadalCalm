@@ -16,7 +16,7 @@ public class LaunchingMissiles extends Status {
 	private float procCd = .1f;
 	
 	public LaunchingMissiles(PlayState state, float i, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, true, p, v);
+		super(state, i, name, descr, false, p, v);
 	}
 	
 	@Override
@@ -31,5 +31,4 @@ public class LaunchingMissiles extends Status {
 		}
 		procCdCount += delta;
 	}
-
 }

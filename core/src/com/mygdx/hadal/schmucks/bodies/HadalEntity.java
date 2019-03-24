@@ -59,6 +59,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected void increaseAnimationTime(float i) { animationTime += i; }
 	protected float getAnimationTime() { return animationTime; }
 	
+	//This is the id that clients use to track synchronized entities
 	protected UUID entityID;
 	
 	/**
@@ -151,16 +152,28 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
 	}
 
+	/**
+	 * This is called when the entity is created to return a packet to be sent to the client
+	 * Default: no packet is sent for unsynced entities
+	 */
 	public Object onServerCreate() {
 		return null;
 	}
 	
+	/**
+	 * This is called every engine tick to send a packet syncing this entity.
+	 * Default: Track entity's position and angle if it has a body
+	 */
 	public void onServerSync() {
 		if (body != null) {
 			HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), body.getPosition(), body.getAngle()));
 		}
 	}
 	
+	/**
+	 * This is called when the client receives the above packet.
+	 * Set the entity's body data
+	 */
 	public void onClientSync(Object o) {
 		Packets.SyncEntity p = (Packets.SyncEntity) o;
 		if (body != null) {
@@ -168,6 +181,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		}
 	}
 	
+	/**
+	 * This is a replacement to controller() that is run for clients.
+	 * This is used for things that have to process stuff for the client, and not just server-side
+	 */
 	public void clientController(float delta) {
 		increaseAnimationTime(delta);
 	}

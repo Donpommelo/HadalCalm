@@ -56,6 +56,9 @@ public class HitboxSprite extends RangedHitbox {
 				(float) Math.toDegrees(body.getAngle()) + 180);
 	}
 	
+	/**
+	 * As Default: Upon created, the hitbox tells the client to create a client illusion tracking it with a sprite
+	 */
 	@Override
 	public Object onServerCreate() {
 		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), body.getPosition().scl(PPM), sprite, ObjectSyncLayers.HBOX);

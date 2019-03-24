@@ -4,7 +4,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
 /**
- * The PlayerController controls the player using events to process various player actions.
+ * The PlayerController controls the player using key events to process various player actions.
+ * The Player Controller is used by the host in a playstate to map their keystrokes to the playercontroller
  * @author Zachary Tu
  *
  */

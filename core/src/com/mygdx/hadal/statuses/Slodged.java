@@ -11,7 +11,7 @@ public class Slodged extends Status {
 	private float slow;
 	
 	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, true, p, v);
+		super(state, i, name, descr, false, p, v);
 		this.slow = slow;
 	}
 	

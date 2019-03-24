@@ -14,7 +14,7 @@ public class Poisoned extends Status {
 	private ParticleEntity poison;
 	
 	public Poisoned(PlayState state, float i, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, true, p, v);
+		super(state, i, name, descr, false, p, v);
 	}
 	
 	@Override

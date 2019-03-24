@@ -10,32 +10,36 @@ public class Status {
 	//References to game fields.
 	protected PlayState state;
 	
+	//How long until the status (if temporary) is removed
 	protected float duration;
-	protected String name, descr;
-	protected boolean perm, visible;
 	
+	//Name and description of the status
+	protected String name, descr;
+	
+	//Is this status removed when its duration expires?
+	protected boolean perm;
+	
+	//The Data of the Schmuck that received/inflicted this status.
 	protected BodyData inflicter, inflicted;
 	
-	public Status(PlayState state, float i, String n, String d, Boolean perm, Boolean vis, BodyData p, BodyData v){
+	public Status(PlayState state, float i, String n, String d, Boolean perm, BodyData p, BodyData v){
 		this.state = state;
-
 		this.duration=i;
 		this.name = n;
 		this.descr = d;
 		this.perm = perm;
-		this.visible = vis;
 		this.inflicter = p;
 		this.inflicted = v;
 	}
 	
-	public Status(PlayState state, String n, String d, Boolean vis, BodyData i) {
-		this(state, 0, n, d, true, vis, i, i);
-	}
-	
 	public Status(PlayState state, String n, String d, BodyData i) {
-		this(state, 0, n, d, true, true, i, i);
+		this(state, 0, n, d, true, i, i);
 	}
 	
+	/**
+	 * Each status runs this at any Status Proc Time. This triggers the effects of statuses
+	 * Each input is some information that a specific proc time needs to process.
+	 */
 	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
 		float finalAmount = amount;
 		
@@ -94,12 +98,27 @@ public class Status {
 		return finalAmount;
 	}
 	
+	/**
+	 * This is run when any status is inflicted. (Not just this one)
+	 * @param s: Inflicted Status
+	 */
 	public void onInflict(Status s) {}
 	
+	/**
+	 * This is run when this status is removed. (Not just this one)
+	 * @param s: Removed Status
+	 */
 	public void onRemove(Status s) {}
 	
+	/**
+	 * This is called to calculate a schmuck's buffed stats
+	 */
 	public void statChanges(){}
 	
+	/**
+	 * This is called evey engine tick. Base Behavior: decrement duration and remove if 0 for temporary events.
+	 * @param delta: The amount of time passed.
+	 */
 	public void timePassing(float delta) {
 		if (!perm) { 
 			duration -= delta;
@@ -134,23 +153,12 @@ public class Status {
 	
 	public void onAirBlast(Equipable tool) {}
 
-	
 	public String getName() {
 		return name;
 	}
 		
 	public String getDescr() {
 		return descr;
-	}
-
-	public void reset(PlayState state, BodyData inflicted, BodyData inflicter) {
-		this.state = state;
-		this.inflicted = inflicted;
-		this.inflicter = inflicter;
-	}
-
-	public boolean isVisible() {
-		return visible;
 	}
 
 	public BodyData getInflicter() {
@@ -177,6 +185,10 @@ public class Status {
 		this.duration = duration;
 	}
 
+	/**
+	 * This determines the behavior is this status is added to a schmuckwho already has it.
+	 * @return: stack behavior
+	 */
 	public statusStackType getStackType() {
 		return statusStackType.ADD;
 	}

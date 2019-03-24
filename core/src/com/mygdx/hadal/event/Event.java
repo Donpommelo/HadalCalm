@@ -42,13 +42,22 @@ public class Event extends HadalEntity {
 	private boolean temporary;
 	private float duration;
 	
+	//Is this event affected by gravity?
 	protected float gravity = 0.0f;
 	
+	//Event sprite and rendering information
 	private Animation<TextureRegion> eventSprite;
 	private int spriteWidth;
 	private int spriteHeight;
 	private float scale = 0.25f;
     private int scaleAlign = 0;
+    
+    /* How will this event be synced?
+     * 0: Create a client illusion if it has a body
+     * 1: Create this event for clients. When activated on server, activate it for all players.
+     * 2: Create this event for clients. When activated on server, activate it for the user who activated it.
+     * 3: Create this event for clients. When activated on server, activate it for the server only.
+     */
     private int syncType = 0;
 	
     private final static float animationSpeed = 0.8f;
@@ -260,6 +269,9 @@ public class Event extends HadalEntity {
 		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}
 	
+	/**
+	 * When this event is created, tell the client to create an illusion or event, depending on the syncType
+	 */
 	@Override
 	public Object onServerCreate() {
 		switch(syncType) {

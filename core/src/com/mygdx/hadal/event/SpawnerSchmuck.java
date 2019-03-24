@@ -42,8 +42,13 @@ public class SpawnerSchmuck extends Event {
 	
 	private float controllerCount = 0;
 
+	//Have the spawned enemies been defeated yet?
 	private boolean defeated = false;
+	
+	//Should the spawned mob be spawned with spread?
 	private boolean spread;
+	
+	//Extra field for enemies that require more information (like turret subtypes)
 	private int extraField;
 	
 	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, 
@@ -137,6 +142,5 @@ public class SpawnerSchmuck extends Event {
 				}
 			}
 		}
-		
 	}
 }

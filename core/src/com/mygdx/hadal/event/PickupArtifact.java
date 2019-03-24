@@ -75,6 +75,12 @@ public class PickupArtifact extends Event {
 				p.getPlayerData().addArtifact(artifact);
 				setArtifact(UnlockArtifact.NOTHING);
 			}
+			
+			@Override
+			public void preActivate(EventData activator, Player p) {
+				onActivate(activator, p);
+				HadalGame.server.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), artifact.toString()));
+			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
@@ -96,6 +102,16 @@ public class PickupArtifact extends Event {
 	@Override
 	public Object onServerCreate() {
 		return new Packets.CreatePickup(entityID.toString(), body.getPosition().scl(PPM), PickupType.ARTIFACT, artifact.toString());
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			setArtifact(UnlockArtifact.valueOf(p.newPickup));
+		} else {
+			super.onClientSync(o);
+		}
 	}
 	
 	/**

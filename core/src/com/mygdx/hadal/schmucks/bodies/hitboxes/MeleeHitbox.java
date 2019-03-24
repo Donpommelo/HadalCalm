@@ -50,5 +50,4 @@ public class MeleeHitbox extends Hitbox {
 			queueDeletion();
 		}
 	}
-
 }

@@ -13,10 +13,20 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+/**
+ * A mouse tracker is tied to a player and track's that player's mouse pointer
+ * @author Zachary Tu
+ *
+ */
 public class MouseTracker extends HadalEntity {
 	
+	//This tracks the location of the user's (host) mouse
 	private Vector3 tmpVec3 = new Vector3();
+	
+	//This tracks the location of a client mouse sent by packet
 	private Vector2 desiredLocation = new Vector2();
+	
+	//Whether this player is the host or not
 	private boolean server;
 	
 	public MouseTracker(PlayState state, boolean server) {

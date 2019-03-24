@@ -6,10 +6,11 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * When touched, this event will be set as a save point for the player. In certain circumstances, the player may be warped back
- * to the last save point.
+ * When touched, this event will set as a save point for the player its connected event. 
+ * In certain circumstances, the player may be warped back to the last save point, such as respawning.
  * 
- * 
+ * Triggered Behavior: Set the playstate's save point.
+ * Triggering Behavior: This event will be the new save point
  * 
  * @author Zachary Tu
  *

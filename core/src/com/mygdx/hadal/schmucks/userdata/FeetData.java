@@ -7,8 +7,13 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
 public class FeetData extends HadalData {
 
+	//This is a hardcoded silly way of implementing the one effect that activates uponstepping on an enemy.
 	private static float stompDamage = 15.0f;
+	
+	//This is the event we are standing on, if existant
 	private Event terrain;
+	
+	//This is the haver of the foot
 	private Schmuck footHaver;
 	
 	public FeetData(UserDataTypes type, Schmuck entity) {
@@ -24,6 +29,10 @@ public class FeetData extends HadalData {
 		this.terrain = terrain;
 	}
 	
+	/**
+	 * This triggers upon stomping on an enemy. Damage them if a specific artifact is equipped.
+	 * @param fixB
+	 */
 	public void onStomp(HadalData fixB) {
 		if (footHaver.isStomping()) {
 			if (fixB instanceof BodyData) {

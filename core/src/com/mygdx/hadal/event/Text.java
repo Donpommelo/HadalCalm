@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * An info flag displays text whe nthe player walks over it. This is a temporary means of information until more sophisticated ui is done
+ * An info flag displays text when the player walks over it. This is a temporary means of information until more sophisticated ui is done
  *
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A

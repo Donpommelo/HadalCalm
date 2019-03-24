@@ -173,6 +173,9 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * As Default: Upon created, the hitbox tells the client to create a client illusion tracking it
+	 */
 	@Override
 	public Object onServerCreate() {
 		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height),  body.getPosition().scl(PPM), null, ObjectSyncLayers.HBOX);
@@ -249,5 +252,4 @@ public class Hitbox extends HadalEntity {
 	public void setCreator(Schmuck creator) {
 		this.creator = creator;
 	}
-	
 }

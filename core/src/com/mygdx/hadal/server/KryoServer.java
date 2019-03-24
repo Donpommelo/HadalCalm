@@ -185,7 +185,7 @@ public class KryoServer {
 						case LOSE:
 							
 							//Create a new player for the client (atm, this is just on respawn)
-							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
+							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), data);
 							break;
 						case NEWLEVEL:
 							

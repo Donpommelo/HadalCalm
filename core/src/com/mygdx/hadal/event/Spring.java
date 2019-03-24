@@ -58,7 +58,5 @@ public class Spring extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.SPRING);
-//		setScaleAlign(2);
-//		setScale(0.25f);
 	}
 }

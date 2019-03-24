@@ -108,6 +108,7 @@ public class BodyData extends HadalData {
 	
 	protected Equipable currentTool;
 	
+	//This is the last schumck who damaged this entity. Used for kill credit
 	private BodyData lastDamagedBy;
 	
 	/**
@@ -172,6 +173,10 @@ public class BodyData extends HadalData {
 		return finalAmount;		
 	}
 	
+	/**
+	 * Add a status to this schmuck
+	 * @param s: Status to add
+	 */
 	public void addStatus(Status s) {
 		
 		if (!schmuck.getState().isServer()) {
@@ -282,6 +287,7 @@ public class BodyData extends HadalData {
 			schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
 		}
 		
+		//Give credit for kills to last schmuck (besides self) who damaged this schmuck
 		if (!perp.equals(this)) {
 			lastDamagedBy = perp;
 		}

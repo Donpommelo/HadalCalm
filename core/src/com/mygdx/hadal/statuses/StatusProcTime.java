@@ -1,5 +1,10 @@
 package com.mygdx.hadal.statuses;
 
+/**
+ * These represent all of the parts of the game where a status can activate
+ * @author Zachary Tu
+ *
+ */
 public enum StatusProcTime {
 	ON_INFLICT,
 	ON_REMOVE,
@@ -17,5 +22,4 @@ public enum StatusProcTime {
 	HITBOX_CREATION,
 	LEVEL_START,
 	ON_AIRBLAST,
-	
 }

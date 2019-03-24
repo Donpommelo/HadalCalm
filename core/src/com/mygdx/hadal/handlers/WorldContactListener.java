@@ -24,6 +24,7 @@ public class WorldContactListener implements ContactListener {
 		
 		//When 2 fixtures collide, increment their number of contacts.
 		//Projectiles and events should register hits.
+		//Feet should register stomps
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
 			if (fixA.getType().equals(UserDataTypes.HITBOX)) {
@@ -71,13 +72,8 @@ public class WorldContactListener implements ContactListener {
 	}
 
 	@Override
-	public void preSolve(Contact contact, Manifold oldManifold) {
-		
-	}
+	public void preSolve(Contact contact, Manifold oldManifold) {}
 
 	@Override
-	public void postSolve(Contact contact, ContactImpulse impulse) {
-		
-	}
-
+	public void postSolve(Contact contact, ContactImpulse impulse) {}
 }

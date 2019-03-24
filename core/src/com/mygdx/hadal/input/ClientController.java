@@ -6,7 +6,8 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * The PlayerController controls the player using events to process various player actions.
+ * The ClientController controls the player using events to process various player actions.
+ * The Client Controller is used by the client in a clientstate to map their keystrokes to packets sent to the server
  * @author Zachary Tu
  *
  */
@@ -165,8 +166,6 @@ public class ClientController implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		
-		
 		return false;
 	}
 

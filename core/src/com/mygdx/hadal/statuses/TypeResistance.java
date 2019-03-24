@@ -13,13 +13,13 @@ public class TypeResistance extends Status {
 	private DamageTypes resisted;
 	
 	public TypeResistance(PlayState state, float i, float power, DamageTypes resisted, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, true, p, v);
+		super(state, i, name, descr, false, p, v);
 		this.resisted = resisted;
 		this.power = power;
 	}
 	
 	public TypeResistance(PlayState state, float power, DamageTypes resisted, BodyData i) {
-		super(state, name, descr, false, i);
+		super(state, name, descr, i);
 		this.resisted = resisted;
 		this.power = power;
 	}
@@ -31,5 +31,4 @@ public class TypeResistance extends Status {
 		}
 		return damage;
 	}
-
 }

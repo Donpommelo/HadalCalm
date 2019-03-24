@@ -14,7 +14,7 @@ public class Ablaze extends Status {
 	private ParticleEntity fire;
 	
 	public Ablaze(PlayState state, float i, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, true, p, v);
+		super(state, i, name, descr, false, p, v);
 	}
 	
 	@Override

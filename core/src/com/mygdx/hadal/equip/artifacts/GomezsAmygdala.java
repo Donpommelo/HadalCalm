@@ -41,7 +41,7 @@ public class GomezsAmygdala extends Artifact {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount -= procCd;
 					
-					inflicted.addStatus(new StatusComposite(state, dura, "Self-Preservatory", "Bonus Stats", false, true, perp, inflicted,
+					inflicted.addStatus(new StatusComposite(state, dura, "Self-Preservatory", "Bonus Stats", false, perp, inflicted,
 							new StatChangeStatus(state, Stats.GROUND_SPD, 0.50f, inflicted),
 							new StatChangeStatus(state, Stats.AIR_SPD, 0.50f, inflicted),
 							new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.25f, inflicted),

@@ -81,9 +81,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 
 	@Override
-	public void create() {
-		
-	}
+	public void create() {}
 
 	@Override
 	public void controller(float delta) {
@@ -127,6 +125,10 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 
+	/**
+	 * Client ParticleEntites will run normally if set to Create or No Sync
+	 * If attached to an entity that hasn't bee nsent over yet, wait until it exists and then attach
+	 */
 	@Override
 	public void clientController(float delta) {
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.NOSYNC)) {
@@ -184,6 +186,9 @@ public class ParticleEntity extends HadalEntity {
 		this.despawn = despawn;
 	}
 
+	/**
+	 * When created on the server, tell clients to create if create or tick sync.
+	 */
 	@Override
 	public Object onServerCreate() {
 		
@@ -200,6 +205,9 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * For particles that are tick synced, send over location to clients as well as whether it is on or not
+	 */
 	@Override
 	public void onServerSync() {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
@@ -214,6 +222,9 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * For Client Particle entities, sync position and on if the server sends over the packes (if Tick synced)
+	 */
 	@Override
 	public void onClientSync(Object o) {
 		Packets.SyncParticles p = (Packets.SyncParticles) o;

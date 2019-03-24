@@ -34,8 +34,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Poison extends Event {
 	
 	private float controllerCount = 0;
+	
+	//Damage done by the poison
 	private float dps;
+	
+	//If created by an dude, this is that dude
 	private Schmuck perp;
+	
+	//Is the poison on? Should it be drawn? Should random particles be spawned in its vicinity?
 	private boolean on, draw, randomParticles;
 	
 	private static final String name = "Poison";
@@ -122,6 +128,9 @@ public class Poison extends Event {
 		super.controller(delta);
 	}
 	
+	/**
+	 * Client Poison should randomly spawn poison particles itself to avoid overhead.
+	 */
 	@Override
 	public void clientController(float delta) {
 		if (on) {
@@ -138,6 +147,9 @@ public class Poison extends Event {
 		}
 	}
 	
+	/**
+	 * When server creates poison, clients are told to create the poison in their own worlds
+	 */
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
