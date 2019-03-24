@@ -106,7 +106,7 @@
    <properties>
     <property name="change" type="int" value="1"/>
     <property name="tags" value="TIMER"/>
-    <property name="timer" type="float" value="300"/>
+    <property name="timer" type="float" value="180"/>
     <property name="triggeredId" value="uiTimer"/>
    </properties>
   </object>
@@ -125,7 +125,7 @@
   </object>
   <object id="25" name="Timer" type="Timer" x="32" y="320" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="300"/>
+    <property name="interval" type="float" value="180"/>
     <property name="triggeringId" value="timeOver"/>
    </properties>
   </object>

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.PlayState;
@@ -27,8 +26,17 @@ public class ScoreWindow {
 		this.state = state;
 		
 		this.table = new Table().center();
-		syncTable();
+		
 		table.setVisible(false);
+		
+		if (state.isServer()) {
+			for (SavedPlayerFields score: HadalGame.server.getScores().values()) {
+				score.newLevelReset();
+				syncTable();
+			}
+		} else {
+			syncTable();
+		}
 	}
 	
 	public void syncTable() {
@@ -49,29 +57,21 @@ public class ScoreWindow {
 			
 			ArrayList<SavedPlayerFields> scoresToSend = new ArrayList<SavedPlayerFields>();
 			
-			for (Entry<Integer, SavedPlayerFields> score: HadalGame.server.getScores().entrySet()) {
-				Player p = HadalGame.server.getPlayers().get(score.getKey());
-				if (score.getKey() == 0) {
-					p = state.getPlayer();
-				}
-				
+			for (Entry<Integer, SavedPlayerFields> score: HadalGame.server.getScores().entrySet()) {			
 				SavedPlayerFields field = score.getValue();
-				if (p != null) {
-					Text name = new Text(HadalGame.assetManager, p.getName(), 0, 0, Color.WHITE);
-					name.setScale(scale);
+				Text name = new Text(HadalGame.assetManager, field.getName(), 0, 0, Color.WHITE);
+				name.setScale(scale);
+				
+				Text kills = new Text(HadalGame.assetManager, field.getKills() + " ", 0, 0, Color.WHITE);
+				Text death = new Text(HadalGame.assetManager, field.getDeaths() + " ", 0, 0, Color.WHITE);
+				Text points = new Text(HadalGame.assetManager, field.getScore() + " ", 0, 0, Color.WHITE);
 					
-					Text kills = new Text(HadalGame.assetManager, field.getKills() + " ", 0, 0, Color.WHITE);
-					Text death = new Text(HadalGame.assetManager, field.getDeaths() + " ", 0, 0, Color.WHITE);
-					Text points = new Text(HadalGame.assetManager, field.getScore() + " ", 0, 0, Color.WHITE);
-						
-					table.add(name).padBottom(25);
-					table.add(kills).padBottom(25);
-					table.add(death).padBottom(25);
-					table.add(points).padBottom(25).row();
-					
-					field.setName(p.getName());
-					scoresToSend.add(field);
-				}
+				table.add(name).padBottom(25);
+				table.add(kills).padBottom(25);
+				table.add(death).padBottom(25);
+				table.add(points).padBottom(25).row();
+				
+				scoresToSend.add(field);
 				HadalGame.server.server.sendToAllTCP(new Packets.SyncScore(scoresToSend));
 			}
 		} else {

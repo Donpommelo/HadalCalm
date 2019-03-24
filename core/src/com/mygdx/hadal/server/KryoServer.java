@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
@@ -21,6 +22,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PauseState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.VictoryState;
 
 public class KryoServer {
 	
@@ -43,7 +45,7 @@ public class KryoServer {
 		this.players = new HashMap<Integer, Player>();
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
-		scores.put(0, new SavedPlayerFields());
+		scores.put(0, new SavedPlayerFields(gsm.getRecord().getName()));
 		
 		server.addListener(new Listener() {
 			
@@ -68,6 +70,17 @@ public class KryoServer {
 								ps.getScoreWindow().syncTable();
 							}
 						}
+					});
+				}
+				
+				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof VictoryState) {
+					final VictoryState vs =  (VictoryState) gsm.getStates().peek();
+					Gdx.app.postRunnable(new Runnable() {
+        				
+                        @Override
+                        public void run() {
+                        	vs.readyPlayer(c.getID());
+                        }
 					});
 				}
 			}
@@ -138,6 +151,7 @@ public class KryoServer {
 						
                         switch(p.state) {
 						case LOSE:
+							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
 							break;
 						case NEWLEVEL:
 							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, null);
@@ -191,6 +205,19 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						addNotificationToAll(ps, p.name, p.text);
+					}
+				}
+				
+				if (o instanceof Packets.ClientReady) {
+					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof VictoryState) {
+						final VictoryState vs =  (VictoryState) gsm.getStates().peek();
+						Gdx.app.postRunnable(new Runnable() {
+	        				
+	                        @Override
+	                        public void run() {
+	                        	vs.readyPlayer(c.getID());
+	                        }
+						});
 					}
 				}
 				
@@ -263,7 +290,7 @@ public class KryoServer {
 		        if (scores.containsKey(connId)) {
 			        scores.put(connId, scores.get(connId));
 		        } else {
-			        scores.put(connId, new SavedPlayerFields());
+			        scores.put(connId, new SavedPlayerFields(name));
 		        }
 		        ps.getScoreWindow().syncTable();
 		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));

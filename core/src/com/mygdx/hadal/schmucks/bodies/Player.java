@@ -202,7 +202,7 @@ public class Player extends PhysicsSchmuck {
 		
 		super.create();
 		
-		if (!state.isRespawn()) {
+		if (!state.isPractice()) {
 			playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
 		}
 	}

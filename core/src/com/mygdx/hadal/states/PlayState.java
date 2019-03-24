@@ -116,7 +116,7 @@ public class PlayState extends GameState {
 	protected float saveZoom;
 	protected HadalEntity saveCameraPoint;
 	
-	protected boolean respawn, pvp;
+	protected boolean respawn, pvp, practice;
 	protected boolean server;
 	
 	protected PlayStateStage stage;
@@ -191,6 +191,7 @@ public class PlayState extends GameState {
 		
 		this.respawn = map.getLayers().get("collision-layer").getProperties().get("respawn", false, Boolean.class);
 		this.pvp = map.getLayers().get("collision-layer").getProperties().get("pvp", false, Boolean.class);
+		this.practice = map.getLayers().get("collision-layer").getProperties().get("practice", false, Boolean.class);
 		
 		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", 0, Integer.class);
 		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", 0, Integer.class);
@@ -503,6 +504,7 @@ public class PlayState extends GameState {
 				}
 
 				fadeDelta = -0.015f;
+				nextState = null;
 			} else {			
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			}
@@ -569,9 +571,11 @@ public class PlayState extends GameState {
 	}
 	
 	public void beginTransition(transitionState state) {
-		nextState = state;
-		fadeInitialDelay = 1.0f;
-		fadeDelta = 0.015f;		
+		if (nextState == null) {
+			nextState = state;
+			fadeInitialDelay = 1.0f;
+			fadeDelta = 0.015f;	
+		}
 	}
 	
 	public void catchUpClient(int connId) {
@@ -615,6 +619,10 @@ public class PlayState extends GameState {
 		return pvp;
 	}
 
+	public boolean isPractice() {
+		return practice;
+	}
+	
 	private static short nextFilter = -5;
 	public static short getPVPFilter() {
 		nextFilter--;

@@ -140,6 +140,20 @@ public class KryoClient {
 					}
         		}
         		
+        		if (o instanceof Packets.ClientReady) {
+        			final Packets.ClientReady p = (Packets.ClientReady) o;
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof VictoryState) {
+						final VictoryState vs =  (VictoryState) gsm.getStates().peek();
+						Gdx.app.postRunnable(new Runnable() {
+	        				
+	                        @Override
+	                        public void run() {
+	                        	vs.readyPlayer(p.playerId);
+	                        }
+						});
+					}
+        		}
+        		
         		if (o instanceof Packets.LoadLevel) {
         			final Packets.LoadLevel p = (Packets.LoadLevel) o;
             		Log.info("CLIENT LOADED LEVEL: " + p.level);

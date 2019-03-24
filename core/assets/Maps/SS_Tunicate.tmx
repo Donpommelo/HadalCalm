@@ -8,6 +8,7 @@
  </layer>
  <objectgroup id="2" name="collision-layer">
   <properties>
+   <property name="practice" type="bool" value="true"/>
    <property name="pvp" type="bool" value="true"/>
    <property name="respawn" type="bool" value="true"/>
   </properties>

@@ -195,6 +195,8 @@ public class ClientState extends PlayState {
 				
 				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
 				fadeDelta = -0.015f;
+				
+				nextState = null;
 			} else {	
 				
 			}

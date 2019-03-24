@@ -1,11 +1,16 @@
 package com.mygdx.hadal.server;
 
 public class SavedPlayerFields {
-
 	private String name;
-	private int kills, deaths, killStreak, deathStreak, score;
+	private int wins, kills, deaths, killStreak, deathStreak, score;
 	
 	public SavedPlayerFields() {
+		this("");
+	}
+	
+	public SavedPlayerFields(String name) {
+		this.name = name;
+		this.wins = 0;
 		this.kills = 0;
 		this.deaths = 0;
 		this.killStreak = 0;
@@ -36,12 +41,28 @@ public class SavedPlayerFields {
 		killStreak = 0;
 	}
 
+	public void newLevelReset() {
+		this.kills = 0;
+		this.deaths = 0;
+		this.killStreak = 0;
+		this.deathStreak = 0;
+		this.score = 0;
+	}
+	
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getWins() {
+		return wins;
+	}
+
+	public void setWins(int wins) {
+		this.wins = wins;
 	}
 
 	public int getKills() {
@@ -84,3 +105,5 @@ public class SavedPlayerFields {
 		this.score = score;
 	}
 }
+
+

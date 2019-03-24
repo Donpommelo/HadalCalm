@@ -103,6 +103,19 @@ public class Packets {
 		}
 	}
 	
+	public static class ClientReady {
+		
+		public int playerId;
+		
+		/**
+		 * This is sent from the client to the server at the results screen to indicate the client is ready to return.
+		 */
+		public ClientReady() {}
+		public ClientReady(int playerId) {
+			this.playerId = playerId;
+		}
+	}
+	
 	public static class KeyDown {
 		public PlayerAction action;
 		public KeyDown() {}
@@ -616,6 +629,7 @@ public class Packets {
     	kryo.register(Paused.class);
     	kryo.register(Unpaused.class);
     	kryo.register(Notification.class);
+    	kryo.register(ClientReady.class);
     	kryo.register(KeyDown.class);
     	kryo.register(KeyUp.class);
     	kryo.register(MouseMove.class);
