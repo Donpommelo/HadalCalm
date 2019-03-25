@@ -563,6 +563,30 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	public void createGibs() {
+		if (alive) {
+			new Ragdoll(state, headWidth * scale, headHeight * scale, 
+					(int)(body.getPosition().x * PPM), 
+					(int)(body.getPosition().y * PPM), (TextureRegion) headSprite.getKeyFrame(animationTime, true), body.getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, bodyWidth * scale, bodyHeight * scale, 
+					(int)(body.getPosition().x * PPM), 
+					(int)(body.getPosition().y * PPM), (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), body.getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, armWidth * scale, armHeight * scale, 
+					(int)(body.getPosition().x * PPM), 
+					(int)(body.getPosition().y * PPM), armSprite, body.getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, bodyBackWidth * scale, bodyBackHeight * scale, 
+					(int)(body.getPosition().x * PPM), 
+					(int)(body.getPosition().y * PPM), bodyBackSprite, body.getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, toolWidth * scale, toolHeight * scale, 
+					(int)(body.getPosition().x * PPM), 
+					(int)(body.getPosition().y * PPM), toolSprite, body.getLinearVelocity(), 5.0f);
+		}
+	}
+	
 	/**
 	 * This is called by the server when the player is created. Sends a packet to clients to instruct them to build a new player
 	 * with the desired name and loadout

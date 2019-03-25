@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="66">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="70">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
@@ -167,22 +167,37 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="63" name="Prefab" type="Prefab" x="736" y="1088" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="Weapon"/>
-   </properties>
-  </object>
-  <object id="64" name="Prefab" type="Prefab" x="800" y="640" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="Weapon"/>
-   </properties>
-  </object>
   <object id="65" name="Prefab" type="Prefab" x="1408" y="320" width="96" height="96">
    <properties>
     <property name="mods" type="int" value="1"/>
     <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="66" name="Prefab" type="Prefab" x="736" y="1088" width="96" height="96">
+   <properties>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="67" name="Prefab" type="Prefab" x="832" y="640" width="96" height="96">
+   <properties>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="68" name="Multitrigger" type="Multitrigger" x="992" y="1408" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3"/>
+   </properties>
+  </object>
+  <object id="69" name="Timer" type="Timer" x="928" y="1408" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="30"/>
+    <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
  </objectgroup>

@@ -546,8 +546,8 @@ public class PlayState extends GameState {
 				//Make nextState null so we can transition again
 				nextState = null;
 			} else {
-				
 				//If no respawn, get a gameover screen
+				getGsm().removeState(PlayState.class);
 				getGsm().addState(State.GAMEOVER, TitleState.class);
 			}
 			break;

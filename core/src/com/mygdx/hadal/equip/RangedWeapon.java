@@ -182,8 +182,8 @@ public class RangedWeapon extends Equipable {
 
 			user.getBodyData().statusProcTime(StatusProcTime.ON_RELOAD, null, 0, null, this, null);
 
-			//If clip is full, finish reloading.
-			if (clipLeft >= getClipSize()) {
+			//If clip is full or out of ammo, finish reloading.
+			if (clipLeft >= getClipSize() || ammoLeft == 0) {
 				clipLeft = getClipSize();
 				clipPercent = 1.0f;
 				reloading = false;

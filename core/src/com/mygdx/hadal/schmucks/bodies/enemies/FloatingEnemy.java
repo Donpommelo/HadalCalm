@@ -17,6 +17,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -223,6 +224,16 @@ public class FloatingEnemy extends SteeringEnemy {
 		if (flashingCount > 0) {
 			batch.setShader(null);
 		}
+	}
+	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
+					(int)(body.getPosition().x * PPM), 
+					(int)(body.getPosition().y * PPM), fishSprite, body.getLinearVelocity(), 0.5f);
+		}
+		return super.queueDeletion();
 	}
 	
 	public enum floatingState {		CHASING,

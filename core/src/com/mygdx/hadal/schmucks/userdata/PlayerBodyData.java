@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
@@ -10,7 +8,6 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.NothingActive;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockActives;
@@ -464,8 +461,8 @@ public class PlayerBodyData extends BodyData {
 	@Override
 	public void die(BodyData perp, Equipable tool) {
 		if (player.isAlive()) {
-			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getBody().getPosition().x * PPM , schmuck.getBody().getPosition().y * PPM, 
-					schmuck, tool, 500, 0, 0, (short)0);
+			
+			player.createGibs();
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
 			
