@@ -23,7 +23,7 @@ public class LaserRifle extends RangedWeapon {
 
 	private final static String name = "Laser Rifle";
 	private final static int clipSize = 10;
-	private final static int ammoSize = 60;
+	private final static int ammoSize = 40;
 	private final static float shootCd = 0.4f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;

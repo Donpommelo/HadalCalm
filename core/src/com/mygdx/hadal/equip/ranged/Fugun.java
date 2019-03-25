@@ -18,7 +18,7 @@ public class Fugun extends RangedWeapon {
 
 	private final static String name = "Fugun";
 	private final static int clipSize = 2;
-	private final static int ammoSize = 28;
+	private final static int ammoSize = 16;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.2f;

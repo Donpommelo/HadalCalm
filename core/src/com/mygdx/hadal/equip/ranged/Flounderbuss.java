@@ -23,14 +23,14 @@ public class Flounderbuss extends RangedWeapon {
 
 	private final static String name = "Flounderbuss";
 	private final static int clipSize = 1;
-	private final static int ammoSize = 18;
+	private final static int ammoSize = 12;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 10.0f;
 	private final static float recoil = 30.0f;
-	private final static float knockback = 8.0f;
+	private final static float knockback = 9.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 35;
 	private final static int projectileHeight = 35;
@@ -43,12 +43,12 @@ public class Flounderbuss extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 2.0f;
+	private static final float maxCharge = 1.8f;
 	private float chargeDura = 0.0f;
 
 	private final static int maxNumProj = 30;
-	private final static int spread = 45;
-	private final static float veloSpread = 5.0f;
+	private final static int spread = 40;
+	private final static float veloSpread = 4.0f;
 	
 	public Flounderbuss(Schmuck user) {
 		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);

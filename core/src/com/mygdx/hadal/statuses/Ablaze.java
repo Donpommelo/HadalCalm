@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -13,8 +14,13 @@ public class Ablaze extends Status {
 	
 	private ParticleEntity fire;
 	
-	public Ablaze(PlayState state, float i, BodyData p, BodyData v) {
+	private float damage;
+	private float procCdCount;
+	private float procCd = .5f;
+	
+	public Ablaze(PlayState state, float i, BodyData p, BodyData v, float damage) {
 		super(state, i, name, descr, false, p, v);
+		this.damage = damage;
 	}
 	
 	@Override
@@ -30,6 +36,16 @@ public class Ablaze extends Status {
 			fire.setDespawn(true);
 			fire.turnOff();
 		}
+	}
+	
+	@Override
+	public void timePassing(float delta) {
+		super.timePassing(delta);
+		if (procCdCount >= procCd) {
+			procCdCount -= procCd;
+			inflicted.receiveDamage(damage, new Vector2(0, 0), inflicter, null, false);
+		}
+		procCdCount += delta;
 	}
 	
 	public statusStackType getStackType() {

@@ -15,7 +15,7 @@ public class IronBallLauncher extends RangedWeapon {
 
 	private final static String name = "Iron Ball Launcher";
 	private final static int clipSize = 1;
-	private final static int ammoSize = 25;
+	private final static int ammoSize = 24;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.25f;
 	private final static float reloadTime = 0.9f;

@@ -5,9 +5,11 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -23,8 +25,12 @@ public class UIPlayer extends AHadalActor {
 	private PlayState state;
 	
 	private TextureRegion reload, reloadMeter, reloadBar;
+	private Texture empty, full;
 	
 	private float scale = 0.40f;
+	private float hpScale = 0.40f;
+	
+	private boolean server;
 	
 	public UIPlayer(AssetManager assetManager, PlayState state) {
 		super(assetManager);
@@ -34,6 +40,11 @@ public class UIPlayer extends AHadalActor {
 		this.reload = GameStateManager.uiAtlas.findRegion("UI_reload");
 		this.reloadMeter = GameStateManager.uiAtlas.findRegion("UI_reload_meter");
 		this.reloadBar = GameStateManager.uiAtlas.findRegion("UI_reload_bar");
+		
+		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
+		this.full = new Texture(AssetList.HEART_FULL.toString());
+		
+		server = state.isServer();
 	}
 	
 	@Override
@@ -55,6 +66,32 @@ public class UIPlayer extends AHadalActor {
 				batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * scale * percent, reloadBar.getRegionHeight() * scale);
 				batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
 				batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
+			}
+			
+			if (player.isAlive()) {
+				
+				float x = (player.getBody().getPosition().x * PPM) - Player.hbWidth * Player.scale - empty.getWidth() * hpScale + 10;
+				float y = (player.getBody().getPosition().y * PPM) + Player.hbHeight * Player.scale / 2 - 5;
+				
+				float hpRatio = 0.0f;
+				
+				if (server) {
+					hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
+				} else {
+					hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getOverrideMaxHp();
+				}
+				
+				
+				batch.draw(empty, x - empty.getWidth() / 2 * hpScale, y - empty.getHeight() / 2 * hpScale,
+		                empty.getWidth() / 2, empty.getHeight() / 2,
+		                empty.getWidth(), empty.getHeight(),
+		                hpScale, hpScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
+
+		        batch.draw(full, x - full.getWidth() / 2 * hpScale, y - full.getHeight() / 2 * hpScale - (int)(full.getHeight() * (1 - hpRatio) * hpScale),
+		                full.getWidth() / 2, full.getHeight() / 2,
+		                full.getWidth(), full.getHeight(),
+		                hpScale, hpScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
+		                full.getWidth(), full.getHeight(), false, false);
 			}
 			
 			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);

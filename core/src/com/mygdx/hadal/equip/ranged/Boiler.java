@@ -19,7 +19,7 @@ public class Boiler extends RangedWeapon {
 
 	private final static String name = "Boiler";
 	private final static int clipSize = 40;
-	private final static int ammoSize = 240;
+	private final static int ammoSize = 120;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
@@ -36,6 +36,9 @@ public class Boiler extends RangedWeapon {
 	
 	private final static int projDura = 3;
 	
+	private final static float fireDuration = 4.0f;
+	private final static float fireDamage = 3.0f;
+	
 	private final static Sprite weaponSprite = Sprite.MT_BOILER;
 	private final static Sprite eventSprite = Sprite.P_BOILER;
 	
@@ -50,7 +53,7 @@ public class Boiler extends RangedWeapon {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitStatusStrategy(state, hbox, user.getBodyData(), 
-				new Ablaze(state, 2.0f, user.getBodyData(), user.getBodyData())));
+				new Ablaze(state, fireDuration, user.getBodyData(), user.getBodyData(), fireDamage)));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 		new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
 	}

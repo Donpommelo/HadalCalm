@@ -60,6 +60,8 @@ public enum AssetList {
 	ANCHORATLAS("ui/anchor_logo.atlas", TextureAtlas.class),
 	ANCHORDARK("ui/anchor_logo_dark.png", Texture.class),
 	ANCHORDARKATLAS("ui/anchor_logo_dark.atlas", TextureAtlas.class),
+	HEART_EMPTY("ui/heart_meter.png", Texture.class),
+	HEART_FULL("ui/heart_gauge.png", Texture.class),
 	
 	PELICAN("sprites/busts/portrait_pelican.png", Texture.class),
 	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),

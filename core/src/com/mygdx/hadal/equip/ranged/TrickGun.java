@@ -17,8 +17,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class TrickGun extends RangedWeapon {
 
 	private final static String name = "Trick Gun";
-	private final static int clipSize = 6;
-	private final static int ammoSize = 36;
+	private final static int clipSize = 5;
+	private final static int ammoSize = 24;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;

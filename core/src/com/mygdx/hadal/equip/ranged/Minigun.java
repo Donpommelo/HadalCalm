@@ -23,19 +23,19 @@ public class Minigun extends RangedWeapon {
 
 	private final static String name = "Minigun";
 	private final static int clipSize = 90;
-	private final static int ammoSize = 450;
+	private final static int ammoSize = 270;
 	private final static float shootCd = 0.03f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 11.0f;
 	private final static float recoil = 0.25f;
-	private final static float knockback = 4.5f;
-	private final static float projectileSpeed = 25.0f;
+	private final static float knockback = 6.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static int projectileWidth = 120;
 	private final static int projectileHeight = 15;
 	private final static float lifespan = 1.20f;
-	private final static float gravity = 3;
+	private final static float gravity = 2;
 	
 	private final static int projDura = 1;
 	

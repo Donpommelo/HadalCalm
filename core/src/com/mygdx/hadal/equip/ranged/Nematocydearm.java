@@ -17,18 +17,18 @@ public class Nematocydearm extends RangedWeapon {
 
 	private final static String name = "Nemato Sidearm";
 	private final static int clipSize = 6;
-	private final static int ammoSize = 100;
+	private final static int ammoSize = 48;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.3f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 20.0f;
+	private final static float baseDamage = 25.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static int projectileWidth = 96;
-	private final static int projectileHeight = 12;
-	private final static float lifespan = 10.0f;
+	private final static int projectileWidth = 120;
+	private final static int projectileHeight = 15;
+	private final static float lifespan = 12.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;

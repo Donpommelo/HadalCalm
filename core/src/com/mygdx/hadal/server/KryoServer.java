@@ -188,19 +188,12 @@ public class KryoServer {
 							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), data);
 							break;
 						case NEWLEVEL:
-							
-							//Create a new player for the client and tell them to load new level with new data
-							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, null);
-	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), false));
+							//No need to send anything. The client is told to load the new level when the server finishes
 							break;
 						case NEXTSTAGE:
-							
-							//Create a new player for the client and tell them to load new level with old data
-							createNewClientPlayer(ps, c.getID(), playerName, p.loadout, data);
-	                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), false));
+							//No need to send anything. The client is told to load the new level when the server finishes
 							break;
 						case WIN:
-							
 							//No need to send anything. The client can transition to a results state themselves
 							break;
 						default:

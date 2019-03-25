@@ -20,7 +20,7 @@ public class Stormcaller extends RangedWeapon {
 
 	private final static String name = "Stormcaller";
 	private final static int clipSize = 4;
-	private final static int ammoSize = 24;
+	private final static int ammoSize = 16;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
