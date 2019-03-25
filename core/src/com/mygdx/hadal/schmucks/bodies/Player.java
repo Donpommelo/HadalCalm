@@ -284,7 +284,7 @@ public class Player extends PhysicsSchmuck {
 				//Player will continuously do small upwards bursts that cost fuel.
 				playerData.fuelSpend(playerData.getHoverCost());
 				jumpCdCount = hoverCd;
-				push(0, playerData.getHoverPower());
+				pushMomentumMitigation(0, playerData.getHoverPower());
 				
 				hoverBubbles.onForBurst(0.5f);
 			}
@@ -298,16 +298,14 @@ public class Player extends PhysicsSchmuck {
 		if (grounded) {
 			if (jumpCdCount < 0) {
 				jumpCdCount = jumpCd;
-				push(0, playerData.getJumpPower());
-//				jumpSmoke.turnOn();
+				pushMomentumMitigation(0, playerData.getJumpPower());
 			}
 		} else {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
 				if (jumpCdCount < 0) {
 					jumpCdCount = jumpCd;
 					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);;
-					push(0, playerData.getJumpPower());
-//					jumpSmoke.turnOn();
+					pushMomentumMitigation(0, playerData.getJumpPower());
 				}
 			}
 		}

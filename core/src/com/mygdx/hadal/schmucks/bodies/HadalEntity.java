@@ -152,6 +152,15 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
 	}
 
+	public void pushMomentumMitigation(float impulseX, float impulseY) {
+		
+		if (body.getLinearVelocity().y < 0) {
+			body.setLinearVelocity(body.getLinearVelocity().x, 0);
+		}
+		
+		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
+	}
+	
 	/**
 	 * This is called when the entity is created to return a packet to be sent to the client
 	 * Default: no packet is sent for unsynced entities
