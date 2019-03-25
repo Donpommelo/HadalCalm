@@ -69,10 +69,10 @@ public class EventData extends HadalData {
 	public void preActivate(EventData activator, Player p) {
 		
 		//Events that have no responsible player are just activated as normal
-		if (p == null) {
-			onActivate(activator, p);
-			return;
-		}
+//		if (p == null) {
+//			onActivate(activator, p);
+//			return;
+//		}
 		
 		//Otherwise, activation depends on event eync type
 		switch(event.getSyncType()) {
@@ -80,15 +80,20 @@ public class EventData extends HadalData {
 			onActivate(activator, p);
 			break;
 		case 1:
-			if (p.equals(event.getState().getPlayer())) {
+			
+			if (p == null) {
 				onActivate(activator, p);
 			} else {
-				HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
+				if (p.equals(event.getState().getPlayer())) {
+					onActivate(activator, p);
+				} else {
+					HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
+				}
 			}
 			break;
 		case 2:
 			onActivate(activator, p);
-			HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
+			HadalGame.server.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString()));
 			break;
 		case 3:
 			onActivate(activator, p);
