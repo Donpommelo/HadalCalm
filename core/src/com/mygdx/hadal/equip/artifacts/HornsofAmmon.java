@@ -30,7 +30,7 @@ public class HornsofAmmon extends Artifact {
 				if (damage > threshold) {
 					if (inflicted.getStatus(Invulnerability.class) == null) {
 						inflicted.receiveDamage(damage, new Vector2(0, 0), perp, inflicted.getCurrentTool(), false, tags);
-						inflicted.addStatus(new Invulnerability(state, 0.5f, inflicted, inflicted));
+						inflicted.addStatus(new Invulnerability(state, 2.0f, inflicted, inflicted));
 						return 0;
 					}					
 				}

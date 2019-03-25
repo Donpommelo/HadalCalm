@@ -39,7 +39,8 @@ public class GameStateManager {
 	//skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.
 	private Skin skin;
 	private NinePatchDrawable dialogPatch, simplePatch;
-	public static TextureAtlas particleAtlas, projectileAtlas, multitoolAtlas, eventAtlas, explosionAtlas, uiAtlas;
+	public static TextureAtlas projectileAtlas, multitoolAtlas, eventAtlas, explosionAtlas, uiAtlas;
+	public static TextureAtlas particleAtlas, particleTOTLCAtlas, partycleAtlas;
 	
 	//This is a stored list of all the dialog in the game, read from json file.
 	private static JsonValue dialogs;
@@ -103,6 +104,8 @@ public class GameStateManager {
 		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
 		
 		GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
+		GameStateManager.particleTOTLCAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_TOTLC_ATLAS.toString());
+		GameStateManager.partycleAtlas = HadalGame.assetManager.get(AssetList.PARTYCLE_ATLAS.toString());
 		GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
 		GameStateManager.multitoolAtlas = HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
 		GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());

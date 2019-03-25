@@ -87,7 +87,7 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    musicPlayer = new MusicPlayer();
-        
+	    
         gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
 		

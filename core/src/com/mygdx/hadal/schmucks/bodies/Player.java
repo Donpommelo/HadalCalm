@@ -18,6 +18,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -205,6 +206,9 @@ public class Player extends PhysicsSchmuck {
 			playerData.resetData(this, world);
 			playerData.syncLoadout(startLoadout);
 		}
+		
+		//Temp invuln on spawn
+		playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),

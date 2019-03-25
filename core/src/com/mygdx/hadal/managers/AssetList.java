@@ -47,7 +47,9 @@ public enum AssetList {
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
 	
 	// Particle effects.
-	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),
+	PARTICLE_ATLAS("particles/particles.atlas", TextureAtlas.class),
+	PARTICLE_TOTLC_ATLAS("particles/particles_totlc.atlas", TextureAtlas.class),
+	PARTYCLE_ATLAS("particles/partycles.atlas", TextureAtlas.class),
 	
 	UIPATCHIMG("ui/window.png", Texture.class),
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),

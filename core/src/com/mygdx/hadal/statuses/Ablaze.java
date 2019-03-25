@@ -24,15 +24,8 @@ public class Ablaze extends Status {
 	}
 	
 	@Override
-	public void onInflict(Status s) {
-		if (s.equals(this)) {
-			fire = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
-		}
-	}
-	
-	@Override
 	public void onRemove(Status s) {
-		if (s.equals(this) && fire != null) {
+		if (s.equals(this)) {
 			fire.setDespawn(true);
 			fire.turnOff();
 		}
@@ -46,6 +39,10 @@ public class Ablaze extends Status {
 			inflicted.receiveDamage(damage, new Vector2(0, 0), inflicter, null, false);
 		}
 		procCdCount += delta;
+		
+		if (fire == null) {
+			fire = new ParticleEntity(state, inflicted.getSchmuck(), Particle.FIRE, duration, 0.0f, true, particleSyncType.TICKSYNC);
+		}
 	}
 	
 	public statusStackType getStackType() {

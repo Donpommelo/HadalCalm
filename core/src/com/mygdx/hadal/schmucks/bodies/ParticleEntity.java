@@ -127,7 +127,7 @@ public class ParticleEntity extends HadalEntity {
 
 	/**
 	 * Client ParticleEntites will run normally if set to Create or No Sync
-	 * If attached to an entity that hasn't bee nsent over yet, wait until it exists and then attach
+	 * If attached to an entity that hasn't been sent over yet, wait until it exists and then attach
 	 */
 	@Override
 	public void clientController(float delta) {

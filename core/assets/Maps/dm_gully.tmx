@@ -142,13 +142,13 @@
   </object>
   <object id="28" name="Timer" type="Timer" x="32" y="384" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="10"/>
+    <property name="interval" type="float" value="30"/>
     <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
   <object id="29" name="Timer" type="Timer" x="32" y="448" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="30"/>
+    <property name="interval" type="float" value="60"/>
     <property name="triggeringId" value="spawnArtifacts"/>
    </properties>
   </object>
