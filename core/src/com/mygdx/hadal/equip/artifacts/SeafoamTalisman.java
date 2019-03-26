@@ -11,7 +11,7 @@ import com.mygdx.hadal.utils.Stats;
 public class SeafoamTalisman extends Artifact {
 
 	private final static String name = "Seafoam Talisman";
-	private final static String descr = "+Ranged Attack Speed, Antigravity Projectiles";
+	private final static String descr = "+Ranged Attack Speed, Reload Speed, Antigravity Projectiles";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -23,6 +23,7 @@ public class SeafoamTalisman extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.20f, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.20f, b),
 				new Status(state, name, descr, b) {
 
 					@Override

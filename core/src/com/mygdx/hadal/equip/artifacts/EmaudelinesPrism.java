@@ -25,8 +25,8 @@ public class EmaudelinesPrism extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -2.0f, b),
-				new StatChangeStatus(state, Stats.RANGED_DAMAGE, -0.25f, b),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -2.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_DAMAGE, -0.30f, b),
 				new Status(state, name, descr, b) {
 			
 			@Override

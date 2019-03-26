@@ -108,7 +108,6 @@ public class WeaponUtils {
 	private static final int torpedoHeight = 15;
 	private static final float torpedoLifespan = 8.0f;
 	
-	
 	public static Hitbox createHomingTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
 			int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		

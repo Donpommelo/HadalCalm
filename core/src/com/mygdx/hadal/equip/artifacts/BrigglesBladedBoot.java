@@ -7,7 +7,7 @@ import com.mygdx.hadal.statuses.Status;
 public class BrigglesBladedBoot extends Artifact {
 
 	private final static String name = "Briggle's Bladed Boot";
-	private final static String descr = "Damage Enemies by Stompin";
+	private final static String descr = "Damage Enemies by Stomping";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	

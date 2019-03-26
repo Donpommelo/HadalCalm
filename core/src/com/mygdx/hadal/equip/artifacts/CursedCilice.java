@@ -9,7 +9,7 @@ import com.mygdx.hadal.statuses.Status;
 public class CursedCilice extends Artifact {
 
 	private final static String name = "Cursed Cilice";
-	private final static String descr = "Taking damage regenerates Fuel.";
+	private final static String descr = "Taking Damage rRgenerates Fuel.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	

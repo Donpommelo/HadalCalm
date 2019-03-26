@@ -44,7 +44,7 @@ public class HitboxData extends HadalData {
 		
 		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && !(hbox instanceof MeleeHitbox)) {
 			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
-			filter.groupIndex = (short) perp.getSchmuck().getHitboxfilter();
+			filter.groupIndex = (short)0;
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 		}
 	}

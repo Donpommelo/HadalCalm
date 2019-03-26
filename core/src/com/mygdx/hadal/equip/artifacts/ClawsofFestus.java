@@ -7,7 +7,7 @@ import com.mygdx.hadal.statuses.Status;
 public class ClawsofFestus extends Artifact {
 
 	private final static String name = "Claws of Festus";
-	private final static String descr = "Enables wall clinging.";
+	private final static String descr = "Enables Wall Clinging";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	

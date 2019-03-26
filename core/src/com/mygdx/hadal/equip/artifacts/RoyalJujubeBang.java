@@ -34,7 +34,7 @@ public class RoyalJujubeBang extends Artifact {
 					boost = 1.2f;
 				}
 				if (dist > 12) {
-					boost = 1.5f;
+					boost = 1.75f;
 					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.5f, 0, true, particleSyncType.CREATESYNC);
 				}
 

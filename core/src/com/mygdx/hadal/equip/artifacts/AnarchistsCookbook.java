@@ -38,7 +38,7 @@ public class AnarchistsCookbook extends Artifact {
 		enchantment[0] = new Status(state, name, descr, b) {
 			
 			private float procCdCount;
-			private float procCd = .5f;
+			private float procCd = .75f;
 			
 			@Override
 			public void timePassing(float delta) {
