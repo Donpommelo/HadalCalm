@@ -12,6 +12,13 @@ import com.mygdx.hadal.utils.Stats;
 
 public enum WeaponMod {
 	
+	NOTHING("Nothing", "", 1) {
+		@Override
+		public Status retrieveMod(BodyData b, PlayState state) {
+			return new StatChangeStatus(state, Stats.RANGED_DAMAGE, 0.0f, b);
+		}
+	},
+	
 	PLUS_DAMAGE("+Damage", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {

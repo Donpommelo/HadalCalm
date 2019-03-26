@@ -20,6 +20,7 @@ public class Ablaze extends Status {
 	
 	public Ablaze(PlayState state, float i, BodyData p, BodyData v, float damage) {
 		super(state, i, name, descr, false, p, v);
+		this.procCdCount = 0;
 		this.damage = damage;
 	}
 	

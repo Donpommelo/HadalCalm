@@ -15,7 +15,7 @@ public class AnarchistsCookbook extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float baseDamage = 8.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float knockback = 0.0f;
 	private final static int projectileWidth = 40;
 	private final static float lifespan = 3.0f;
@@ -25,7 +25,7 @@ public class AnarchistsCookbook extends Artifact {
 	private final static int projDura = 1;
 		
 	private final static int explosionRadius = 300;
-	private final static float explosionDamage = 60.0f;
+	private final static float explosionDamage = 40.0f;
 	private final static float explosionKnockback = 25.0f;
 	
 	public AnarchistsCookbook() {

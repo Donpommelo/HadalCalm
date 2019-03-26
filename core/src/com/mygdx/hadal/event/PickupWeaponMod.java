@@ -68,7 +68,7 @@ public class PickupWeaponMod extends Event {
 				}
 				
 				mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
-				setWeaponMod(null);
+				setWeaponMod(WeaponMod.NOTHING);
 			}
 			
 			@Override
@@ -84,7 +84,7 @@ public class PickupWeaponMod extends Event {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		if (mod != null) {
+		if (!mod.equals(WeaponMod.NOTHING)) {
 			super.render(batch);
 			
 			batch.setProjectionMatrix(state.sprite.combined);
@@ -142,7 +142,7 @@ public class PickupWeaponMod extends Event {
 	
 	public void setWeaponMod(WeaponMod mod) {
 		this.mod = mod;
-		if (mod == null) {
+		if (mod.equals(WeaponMod.NOTHING)) {
 			if (standardParticle != null) {
 				standardParticle.turnOff();
 			}
