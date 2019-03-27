@@ -12,46 +12,70 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.Slodged;
 import com.mygdx.hadal.statuses.Status;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-public class SlodgeGun extends RangedWeapon {
+public class ColaCannon extends RangedWeapon {
 
-	private final static String name = "Slodge Gun";
+	private final static String name = "Cola Cannon";
 	private final static int clipSize = 1;
-	private final static int ammoSize = 14;
-	private final static float shootCd = 0.1f;
-	private final static float shootDelay = 0.25f;
-	private final static float reloadTime = 1.0f;
+	private final static int ammoSize = 12;
+	private final static float shootCd = 0.0f;
+	private final static float shootDelay = 0.0f;
+	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 2.0f;
+	private final static float baseDamage = 7.0f;
 	private final static float recoil = 16.0f;
-	private final static float knockback = 5.0f;
-	private final static float projectileSpeed = 3.0f;
+	private final static float knockback = 3.5f;
+	private final static float projectileSpeed = 45.0f;
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 75;
 	private final static float lifespan = 4.0f;
-	private final static float gravity = 3;
+	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
 	private final static float procCd = .05f;
+	private final static float fireDuration = 1.6f;
+	private final static float maxCharge = 200.0f;
+	private final static float minVelo = 9.0f;
+	private final static float minDuration = 0.5f;
 
-	private final static float slowDura = 4.0f;
-	private final static float slow = 0.75f;
-	private final static float fireDuration = 0.75f;
-
-	private final static Sprite projSprite = Sprite.SCRAP_C;
-	private final static Sprite weaponSprite = Sprite.MT_SLODGEGUN;
-	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
+	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
+	private final static Sprite eventSprite = Sprite.MT_DEFAULT;
 	
-	public SlodgeGun(Schmuck user) {
+	private float chargeAmount;
+	private Vector2 lastMouse = new Vector2(0, 0);
+	
+	public ColaCannon(Schmuck user) {
 		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+	}
+	
+	@Override
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+		if (chargeAmount < maxCharge && !reloading) {
+			chargeAmount += lastMouse.dst(x, y);
+			if (chargeAmount > maxCharge) {
+				chargeAmount = maxCharge;
+			}
+		}
+		
+		lastMouse = new Vector2(x, y);
+		super.mouseClicked(delta, state, shooter, faction, x, y);
+	}
+	
+	@Override
+	public void execute(PlayState state, BodyData shooter) {
+
+	}
+	
+	@Override
+	public void release(PlayState state, BodyData bodyData) {
+		super.execute(state, bodyData);
+		chargeAmount = 0;
 	}
 	
 	@Override
@@ -62,9 +86,13 @@ public class SlodgeGun extends RangedWeapon {
 		final Equipable tool = this;
 		final Player p = (Player)user;
 		
-		p.getBodyData().addStatus(new Status(state, fireDuration, "", "", false, p.getBodyData(), p.getBodyData()) {
+		final float duration = fireDuration * chargeAmount / maxCharge + minDuration;
+		final float velocity = projectileSpeed * chargeAmount / maxCharge + minVelo;
+		
+		p.getBodyData().addStatus(new Status(state, duration, "", "", false, p.getBodyData(), p.getBodyData()) {
 			
 			private float procCdCount;
+			private float currentVelocity = velocity;
 			
 			@Override
 			public void timePassing(float delta) {
@@ -77,7 +105,13 @@ public class SlodgeGun extends RangedWeapon {
 				procCdCount += delta;
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					Vector2 startVelocity = p.getMouse().getBody().getPosition().sub(inflicted.getSchmuck().getBody().getPosition()).scl(projectileSpeed);
+					
+					if (currentVelocity > minVelo) {
+						currentVelocity -= 1.0f;
+					}
+					
+					Vector2 startVelocity = p.getMouse().getBody().getPosition()
+							.sub(inflicted.getSchmuck().getBody().getPosition()).nor().scl(currentVelocity);
 					Hitbox hbox = new HitboxSprite(state, 
 							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
 							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
@@ -87,18 +121,6 @@ public class SlodgeGun extends RangedWeapon {
 					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-						
-						@Override
-						public void onHit(HadalData fixB) {
-							if (fixB != null) {
-								if (fixB instanceof BodyData) {
-									((BodyData)fixB).addStatus(new Slodged(state, slowDura, slow, user.getBodyData(), ((BodyData)fixB)));
-								}
-							}
-						}
-						
-					});
 				}
 			}
 		});

@@ -277,6 +277,10 @@ public class Schmuck extends HadalEntity {
 	public float getShootCdCount() {
 		return shootCdCount;
 	}
+	
+	public void setShootCdCount(float shootCdCount) {
+		this.shootCdCount = shootCdCount;
+	}
 
 	public float getShootDelayCount() {
 		return shootDelayCount;

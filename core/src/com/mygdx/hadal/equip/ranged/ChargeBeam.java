@@ -19,18 +19,18 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class ChargeBeam extends RangedWeapon {
 
 	private final static String name = "Charge Beam";
-	private final static int clipSize = 5;
-	private final static int ammoSize = 20;
+	private final static int clipSize = 4;
+	private final static int ammoSize = 16;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.3f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 18.0f;
 	private final static float recoil = 7.5f;
 	private final static float knockback = 22.5f;
 	private final static float projectileSpeed = 16.0f;
-	private final static int projectileWidth = 30;
-	private final static int projectileHeight = 30;
+	private final static int projectileWidth = 32;
+	private final static int projectileHeight = 32;
 	private final static float lifespan = 1.5f;
 	private final static float gravity = 0;
 	

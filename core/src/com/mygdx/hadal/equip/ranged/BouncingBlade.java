@@ -16,7 +16,7 @@ public class BouncingBlade extends RangedWeapon {
 
 	private final static String name = "Bouncing Blades";
 	private final static int clipSize = 8;
-	private final static int ammoSize = 32;
+	private final static int ammoSize = 30;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.2f;

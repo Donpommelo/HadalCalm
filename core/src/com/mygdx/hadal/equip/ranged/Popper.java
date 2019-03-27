@@ -23,7 +23,7 @@ public class Popper extends RangedWeapon {
 
 	private final static String name = "Popper";
 	private final static int clipSize = 1;
-	private final static int ammoSize = 18;
+	private final static int ammoSize = 12;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.2f;
 	private final static float reloadTime = 0.4f;
@@ -35,7 +35,7 @@ public class Popper extends RangedWeapon {
 	private final static int projectileWidth = 120;
 	private final static int projectileHeight = 120;
 	private final static float lifespan = 0.3f;
-	private final static float gravity = 10.0f;
+	private final static float gravity = 6.0f;
 	
 	private final static int projDura = 1;
 	

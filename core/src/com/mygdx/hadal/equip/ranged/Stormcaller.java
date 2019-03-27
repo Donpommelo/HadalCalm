@@ -19,13 +19,13 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Stormcaller extends RangedWeapon {
 
 	private final static String name = "Stormcaller";
-	private final static int clipSize = 4;
-	private final static int ammoSize = 16;
+	private final static int clipSize = 3;
+	private final static int ammoSize = 12;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 4.5f;
+	private final static float baseDamage = 4.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 15.0f;
@@ -37,6 +37,7 @@ public class Stormcaller extends RangedWeapon {
 	private final static int projDura = 1;
 	
 	private final static float explosionInterval = 1/60f;
+	private final static int explosionMaxSize = 200;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
@@ -70,7 +71,9 @@ public class Stormcaller extends RangedWeapon {
 					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 					
-					explosionSize += 5;
+					if (explosionSize <= explosionMaxSize) {
+						explosionSize += 5;
+					}
 					
 					controllerCount -= delta;
 				}

@@ -21,7 +21,7 @@ public class ChainLightning extends RangedWeapon {
 
 	private final static String name = "Chain Lightning";
 	private final static int clipSize = 3;
-	private final static int ammoSize = 21;
+	private final static int ammoSize = 20;
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 0.8f;

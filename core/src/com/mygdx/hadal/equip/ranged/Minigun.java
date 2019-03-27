@@ -45,9 +45,9 @@ public class Minigun extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 1.0f;
+	private static final float maxCharge = 0.8f;
 	private static final float selfSlowDura = 0.1f;
-	private static final float selfSlowMag = 0.80f;
+	private static final float selfSlowMag = 0.75f;
 	private float chargeDura = 0.0f;
 	
 	public Minigun(Schmuck user) {

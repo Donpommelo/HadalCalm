@@ -137,7 +137,9 @@ public class Turret extends Enemy {
 		default:
 			break;
 		}
-				
+		
+		super.controller(delta);
+		
 		if (aiCdCount < 0) {
 		
 			aiCdCount += aiCd;
@@ -193,9 +195,6 @@ public class Turret extends Enemy {
 		}
 		
 		aiCdCount -= delta;
-		shootCdCount-=delta;
-		shootDelayCount-=delta;
-		flashingCount-=delta;
 		
 		//If the delay on using a tool just ended, use the tool.
 		if (shootDelayCount <= 0 && usedTool != null) {

@@ -19,7 +19,7 @@ public class SniperRifle extends RangedWeapon {
 
 	private final static String name = "Sniper Rifle";
 	private final static int clipSize = 1;
-	private final static int ammoSize = 20;
+	private final static int ammoSize = 18;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
@@ -27,7 +27,7 @@ public class SniperRifle extends RangedWeapon {
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 11.0f;
 	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 50.0f;
+	private final static float projectileSpeed = 55.0f;
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 12;
 	private final static float lifespan = 1.0f;

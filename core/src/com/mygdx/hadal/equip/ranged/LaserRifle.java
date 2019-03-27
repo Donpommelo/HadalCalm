@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -15,6 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -22,15 +24,15 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class LaserRifle extends RangedWeapon {
 
 	private final static String name = "Laser Rifle";
-	private final static int clipSize = 10;
-	private final static int ammoSize = 40;
+	private final static int clipSize = 9;
+	private final static int ammoSize = 30;
 	private final static float shootCd = 0.4f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 18.0f;
 	private final static float recoil = 2.5f;
-	private final static float knockback = 20.0f;
+	private final static float knockback = 16.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 2000;
 	private final static int projectileHeight = 48;
@@ -53,7 +55,7 @@ public class LaserRifle extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
-		
+		final Equipable tool = this;
 		endPt = new Vector2(user.getBody().getPosition()).add(startVelocity.nor().scl(projectileWidth));
 		shortestFraction = 1.0f;
 		
@@ -104,5 +106,13 @@ public class LaserRifle extends RangedWeapon {
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+			@Override
+			public void onHit(HadalData fixB) {
+				if (fixB != null) {
+					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, tool, false);
+				}
+			}
+		});
 	}
 }

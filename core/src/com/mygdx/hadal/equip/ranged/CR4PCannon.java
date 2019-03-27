@@ -22,7 +22,7 @@ public class CR4PCannon extends RangedWeapon {
 
 	private final static String name = "CR4P Cannon";
 	private final static int clipSize = 2;
-	private final static int ammoSize = 22;
+	private final static int ammoSize = 18;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.2f;

@@ -59,6 +59,18 @@ BOOMERANG: {
 		RANGED,
 	]
 }
+COLACANNON: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Cola Cannon
+	description: "Click and drag mouse to charge. Release to fire."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 CR4PCANNON: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Cr4p Cannon
@@ -171,6 +183,18 @@ NEMATOCYDEARM: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nemato Sidearm
 	description: "Fires Darts that lodge into walls."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+PEARL_REVOLVER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Pearl Revolver
+	description: "Fires quick projectiles. Rapidly tap to fire faster."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

@@ -14,6 +14,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Temporary;
 
 public class PortableTurret extends ActiveItem {
 
@@ -30,6 +31,7 @@ public class PortableTurret extends ActiveItem {
 	private final static int projDura = 1;
 
 	private final static float projectileSpeed = 12.0f;
+	private final static float turretLifespan = 10.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
@@ -62,10 +64,16 @@ public class PortableTurret extends ActiveItem {
 			@Override
 			public void die() {
 				new Turret(state, (int)(hbox.getPosition().x * PPM), (int)(hbox.getPosition().y * PPM - projectileWidth / 4),
-						enemyType.TURRET_FLAK, faceRight ? 0 : 180, hbox.getFilter());
+						enemyType.TURRET_FLAK, faceRight ? 0 : 180, hbox.getFilter()) {
+					
+					@Override
+					public void create() {
+						super.create();
+						bodyData.addStatus(new Temporary(state, turretLifespan, bodyData, bodyData, turretLifespan));
+					}
+				};
 			}
 		});
-		
 		hbox.setFriction(1.0f);
 	}
 }
