@@ -147,36 +147,13 @@ public class HadalGame extends ApplicationAdapter {
 		batch.dispose();
 	}
 	
-	/**
-	 * Getter for the main game camera
-	 * @return: the camera
-	 */
-	public OrthographicCamera getCamera() {
-		return camera;
-	}
+	public void toggleFullscreen() {};
 	
-	/**
-	 * Getter for the hud camera
-	 * @return: the camera
-	 */
-	public OrthographicCamera getHud() {
-		return hud;
-	}
+	public OrthographicCamera getCamera() {return camera;}
 	
-	/**
-	 * Getter for the sprite camera
-	 * This is separate because box2d scale stuff
-	 * @return: the camera
-	 */
-	public OrthographicCamera getSprite() {
-		return sprite;
-	}
+	public OrthographicCamera getHud() {return hud;}
+	
+	public OrthographicCamera getSprite() {return sprite;}
 
-	/**
-	 * Getter for the main game sprite batch
-	 * @return: the batch
-	 */
-	public SpriteBatch getBatch() {
-		return batch;
-	}
+	public SpriteBatch getBatch() {return batch;}
 }

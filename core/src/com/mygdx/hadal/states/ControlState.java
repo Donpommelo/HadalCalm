@@ -1,6 +1,8 @@
 package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.Graphics.Monitor;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -23,7 +25,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class ControlState extends GameState {
 	
 	//These are all of the display and buttons visible to the player.
-	private Text exitOption, saveOption, resetOption;
+	private Text exitOption, saveOption, resetOption, windowOption;
 	
 	//This scrollpane holds the options for key bindings
 	private ScrollPane options;
@@ -64,9 +66,26 @@ public class ControlState extends GameState {
 			    });
 				resetOption.setScale(0.5f);
 				
+				windowOption = new Text(HadalGame.assetManager, "FULLSCREEN?", 100, HadalGame.CONFIG_HEIGHT - 380, Color.WHITE);
+				windowOption.addListener(new ClickListener() {
+					
+					@Override
+			        public void clicked(InputEvent e, float x, float y) {
+			        	Monitor currMonitor = Gdx.graphics.getMonitor();
+			        	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
+			        	if (Gdx.graphics.isFullscreen()) {
+			        		Gdx.graphics.setWindowedMode(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+			        	} else {
+			        		Gdx.graphics.setFullscreenMode(displayMode);
+			        	}
+			        }
+			    });
+				windowOption.setScale(0.5f);
+				
 				addActor(exitOption);
 				addActor(saveOption);
 				addActor(resetOption);
+				addActor(windowOption);
 			}
 		};
 		app.newMenu(stage);

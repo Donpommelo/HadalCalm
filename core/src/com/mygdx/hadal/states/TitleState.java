@@ -34,7 +34,7 @@ public class TitleState extends GameState {
 	private Table table;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text nameDisplay, nameRand, hostOption, joinOption, exitOption, controlOption, searchOption, notifications;
+	private Text nameDisplay, nameRand, hostOption, joinOption, exitOption, settingsOption, searchOption, notifications;
 	
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
@@ -79,8 +79,8 @@ public class TitleState extends GameState {
 				joinOption.setScale(0.5f);
 				searchOption = new Text(HadalGame.assetManager, "SEARCH?", 0, 0, Color.BLACK);
 				searchOption.setScale(0.5f);
-				controlOption = new Text(HadalGame.assetManager, "CONTROLS", 0, 0, Color.BLACK);
-				controlOption.setScale(0.5f);
+				settingsOption = new Text(HadalGame.assetManager, "SETTINGS", 0, 0, Color.BLACK);
+				settingsOption.setScale(0.5f);
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 0, 0, Color.BLACK);
 				exitOption.setScale(0.5f);
 				notifications = new Text(HadalGame.assetManager, "", 0, 0, Color.BLACK);
@@ -175,7 +175,7 @@ public class TitleState extends GameState {
 			    });
 
 				//Control Option leads player to control state to change controls (and eventually other settings)
-				controlOption.addListener(new ClickListener() {
+				settingsOption.addListener(new ClickListener() {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
@@ -225,7 +225,7 @@ public class TitleState extends GameState {
 				table.add(joinOption).expandY();
 				table.add(enterIP);
 				table.add(searchOption).row();
-				table.add(controlOption).expandY().row();
+				table.add(settingsOption).expandY().row();
 				table.add(exitOption).expandY().row();
 				table.add(notifications).expandY().align(Align.bottomRight);
 			}

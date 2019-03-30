@@ -16,6 +16,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * This ui element appears above the player's head when they are reloading to indicate reload progress
+ * It also contains other player information like player hp and name
  * @author Zachary Tu
  *
  */
