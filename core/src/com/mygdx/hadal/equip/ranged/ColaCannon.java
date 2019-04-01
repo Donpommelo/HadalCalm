@@ -22,14 +22,14 @@ public class ColaCannon extends RangedWeapon {
 
 	private final static String name = "Cola Cannon";
 	private final static int clipSize = 1;
-	private final static int ammoSize = 12;
+	private final static int ammoSize = 14;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 7.0f;
-	private final static float recoil = 16.0f;
-	private final static float knockback = 3.5f;
+	private final static float recoil = 18.0f;
+	private final static float knockback = 4.5f;
 	private final static float projectileSpeed = 45.0f;
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 75;
