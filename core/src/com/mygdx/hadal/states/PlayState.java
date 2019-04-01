@@ -568,6 +568,9 @@ public class PlayState extends GameState {
 			getGsm().removeState(PlayState.class);
 			getGsm().addPlayState(nextLevel, loadout, player.getPlayerData(), TitleState.class);
 			break;
+		case TITLE:
+			getGsm().removeState(PlayState.class);
+			break;
 		default:
 			break;
 		}	
@@ -638,13 +641,24 @@ public class PlayState extends GameState {
 	 * @param state: The state we are transitioning towards
 	 */
 	public void beginTransition(transitionState state) {
-		
+
 		//If we are already transitioning to a new results state, do not do this
 		if (nextState == null) {
 			nextState = state;
 			fadeInitialDelay = 1.0f;
 			fadeDelta = 0.015f;	
 		}
+	}
+	
+	public void returnToTitle() {
+		if (server) {
+			HadalGame.server.server.stop();
+		} else {
+			HadalGame.client.client.stop();
+		}
+		nextState = transitionState.TITLE;
+		fadeInitialDelay = 1.0f;
+		fadeDelta = 0.015f;	
 	}
 	
 	/**
@@ -837,6 +851,7 @@ public class PlayState extends GameState {
 		LOSE,
 		WIN,
 		NEWLEVEL,
-		NEXTSTAGE
+		NEXTSTAGE,
+		TITLE
 	}
 }

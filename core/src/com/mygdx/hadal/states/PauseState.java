@@ -102,13 +102,7 @@ public class PauseState extends GameState {
 			        	
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
 			        	getGsm().removeState(PauseState.class);
-			        	if (ps.isServer()) {
-	    					HadalGame.server.server.stop();
-	    				} else {
-	    					HadalGame.client.client.stop();
-	    				}
-			        	getGsm().removeState(PlayState.class);
-			        	getGsm().removeState(ClientState.class);
+			        	ps.returnToTitle();
 			        }
 			    });
 				

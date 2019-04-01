@@ -96,7 +96,7 @@ public class KryoClient {
         		final ClientState cs = getClientState();
 				
 				if (cs != null) {
-					addNotification(cs, "HOST", "SERVER DISCONNECTED!");
+					addNotification(cs, "HOST", "DISCONNECTED!");
 				}
         		Gdx.app.postRunnable(new Runnable() {
     				
@@ -104,7 +104,7 @@ public class KryoClient {
                     public void run() {
                     	gsm.removeState(VictoryState.class);
                     	gsm.removeState(PauseState.class);
-                    	gsm.removeState(ClientState.class);
+                    	cs.returnToTitle();
                     }
                 });
             }

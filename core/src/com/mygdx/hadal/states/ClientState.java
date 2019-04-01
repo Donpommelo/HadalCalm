@@ -250,6 +250,9 @@ public class ClientState extends PlayState {
 			//Tell the server that we are ready to be sent to a new level with our current loadout
 			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(player.getPlayerData().getLoadout(), nextState));
 			break;
+		case TITLE:
+			getGsm().removeState(ClientState.class);
+			break;
 		default:
 			break;
 		}	
