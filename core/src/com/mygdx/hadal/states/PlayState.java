@@ -394,7 +394,7 @@ public class PlayState extends GameState {
 		//If we are in the delay period of a transition, decrement the delay
 		if (fadeInitialDelay <= 0f) {
 			
-			if (fadeLevel > 0f && fadeDelta < 0f) {
+			if (fadeDelta < 0f) {
 				
 				//If we are fading in and not done yet, decrease fade.
 				fadeLevel += fadeDelta;
@@ -402,8 +402,9 @@ public class PlayState extends GameState {
 				//If we just finished fading in, set fade to 0
 				if (fadeLevel < 0f) {
 					fadeLevel = 0f;
+					fadeDelta = 0;
 				}
-			} else if (fadeLevel < 1f && fadeDelta > 0f) {
+			} else if (fadeDelta > 0f) {
 				
 				//If we are fading out and not done yet, increase fade.
 				fadeLevel += fadeDelta;
@@ -411,6 +412,7 @@ public class PlayState extends GameState {
 				//If we just finished fading out, set fade to 1 and do a transition
 				if (fadeLevel >= 1f) {
 					fadeLevel = 1f;
+					fadeDelta = 0;
 					transitionState();
 				}
 			}
