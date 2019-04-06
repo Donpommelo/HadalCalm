@@ -74,9 +74,9 @@ public class Popper extends RangedWeapon {
 				controllerCount+=delta;
 
 				if (controllerCount >= 1/60f) {
-					Vector2 force = new Vector2(hbox.getLinearVelocity().nor().scl(-hbox.getBody().getMass() * projectileSpeed * 4).x,
-							-Math.abs(hbox.getLinearVelocity().nor().scl(hbox.getBody().getMass() * projectileSpeed * 5).y));
-					hbox.getBody().applyForceToCenter(force, true);
+					Vector2 force = new Vector2(hbox.getLinearVelocity().nor().scl(-hbox.getMass() * projectileSpeed * 4).x,
+							-Math.abs(hbox.getLinearVelocity().nor().scl(hbox.getMass() * projectileSpeed * 5).y));
+					hbox.applyForceToCenter(force);
 					controllerCount -= delta;
 				}
 			}

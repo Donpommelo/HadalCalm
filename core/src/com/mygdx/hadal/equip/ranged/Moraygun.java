@@ -73,10 +73,10 @@ public class Moraygun extends RangedWeapon {
 						controllerCount -= moveInterval;
 						if (numMoves >= num) {
 							if ((numMoves - num) % (Math.abs(numX) + Math.abs(numY)) < Math.abs(numX)) {
-								hbox.getBody().setTransform(hbox.getPosition()
+								hbox.setTransform(hbox.getPosition()
 										.add(projectileWidth / PPM / 2 * Math.signum(numX), 0), 0);
 							} else {
-								hbox.getBody().setTransform(hbox.getPosition()
+								hbox.setTransform(hbox.getPosition()
 										.add(0, projectileHeight / PPM / 2 * Math.signum(numY)), 0);
 							}
 						}

@@ -145,8 +145,8 @@ public class TrailingEnemy extends Enemy {
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
 			
-			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(body.getMass());
-			body.applyLinearImpulse(force, body.getWorldCenter(), true);
+			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(getMass());
+			applyLinearImpulse(force);
 		}
 		
 		switch (aiState) {

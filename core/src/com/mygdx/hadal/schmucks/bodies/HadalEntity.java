@@ -150,7 +150,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		float xImpulse = (getPosition().x - x) / powerDiv;
 		float yImpulse = (getPosition().y - y) / powerDiv;
 		
-		body.applyLinearImpulse(new Vector2(xImpulse, yImpulse), body.getWorldCenter(), true);
+		applyLinearImpulse(new Vector2(xImpulse, yImpulse));
 	}
 	
 	public void push(float impulseX, float impulseY) {
@@ -159,7 +159,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			return;
 		}
 		
-		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
+		applyLinearImpulse(new Vector2(impulseX, impulseY));
 	}
 
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
@@ -169,10 +169,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		}
 		
 		if (getLinearVelocity().y < 0) {
-			body.setLinearVelocity(getLinearVelocity().x, 0);
+			setLinearVelocity(getLinearVelocity().x, 0);
 		}
 		
-		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
+		applyLinearImpulse(new Vector2(impulseX, impulseY));
 	}
 	
 	/**
@@ -189,7 +189,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void onServerSync() {
 		if (body != null) {
-			HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getAngle()));
+			HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getOrientation()));
 		}
 	}
 	
@@ -200,7 +200,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	public void onClientSync(Object o) {
 		Packets.SyncEntity p = (Packets.SyncEntity) o;
 		if (body != null) {
-			body.setTransform(p.pos, p.angle);
+			setTransform(p.pos, p.angle);
 		}
 	}
 	
@@ -272,7 +272,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			} else {
 				force = steeringOutput.linear.scl(delta);
 			}
-			body.applyForceToCenter(force, true);
+			applyForceToCenter(force);
 			anyAcceleration = true;
 		}
 		
@@ -283,8 +283,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			Vector2 linVel = getLinearVelocity();
 			if (!linVel.isZero()) {
 				float newOrientation = vectorToAngle(linVel);
-				body.setAngularVelocity((newOrientation - getAngularVelocity()) * delta);
-				body.setTransform(getPosition(), newOrientation);
+				setAngularVelocity((newOrientation - getAngularVelocity()) * delta);
+				setTransform(getPosition(), newOrientation);
 			}
 		}
 		
@@ -295,18 +295,18 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			
 			if (this instanceof Schmuck) {
 				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-					body.setLinearVelocity(velocity
+					setLinearVelocity(velocity
 							.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
 							.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed()));
 				}
 			} else {
 				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-					body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
+					setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
 				}
 			}
 			
-			if (body.getAngularVelocity() > maxAngularSpeed) {
-				body.setAngularVelocity(maxAngularSpeed);
+			if (getAngularVelocity() > maxAngularSpeed) {
+				setAngularVelocity(maxAngularSpeed);
 			}
 		}
 	}
@@ -331,7 +331,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 
 	@Override
 	public void setOrientation(float orientation) {
-		body.setTransform(getPosition(), orientation);
+		setTransform(getPosition(), orientation);
 	}
 
 	@Override
@@ -443,7 +443,65 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return steeringOutput;
 	}
 	
+	public float getMass() {
+		return body.getMass();
+	}
+	
 	public void setSteeringOutput(SteeringAcceleration<Vector2> steeringOutput) {
 		this.steeringOutput = steeringOutput;
-	}	
+	}
+	
+	public void setTransform(Vector2 position, float angle) {
+		if (alive && body != null) {
+			body.setTransform(position, angle);
+		}
+	}
+	
+	public void setTransform(float vX, float vY, float angle) {
+		if (alive && body != null) {
+			body.setTransform(vX, vY, angle);
+		}
+	}
+	
+	public void setLinearVelocity (Vector2 position) {
+		if (alive && body != null) {
+			body.setLinearVelocity(position);
+		}
+	}
+	
+	public void setLinearVelocity(float vX, float vY) {
+		if (alive && body != null) {
+			body.setLinearVelocity(vX, vY);
+		}
+	}
+	
+	public void setAngularVelocity(float omega) {
+		if (alive && body != null) {
+			body.setAngularVelocity(omega);
+		}
+	}
+	
+	public void setGravityScale(float scale) {
+		if (alive && body != null) {
+			body.setGravityScale(scale);
+		}
+	}
+	
+	public void applyLinearImpulse(Vector2 impulse) {
+		if (alive && body != null) {
+			body.applyLinearImpulse(impulse, body.getLocalCenter(), true);
+		}
+	}
+	
+	public void applyForceToCenter(Vector2 force) {
+		if (alive && body != null) {
+			body.applyForceToCenter(force, true);
+		}
+	}
+	
+	public void applyForceToCenter(float forceX, float forceY) {
+		if (alive && body != null) {
+			body.applyForceToCenter(forceX, forceY, true);
+		}
+	}
 }

@@ -44,7 +44,7 @@ public class MeleeHitbox extends Hitbox {
 			queueDeletion();
 		} else {
 			Vector2 hbLocation = creator.getPosition().add(center);
-			this.body.setTransform(hbLocation, startVelo.angleRad());
+			setTransform(hbLocation, startVelo.angleRad());
 		}
 		
 		lifeSpan -= delta;

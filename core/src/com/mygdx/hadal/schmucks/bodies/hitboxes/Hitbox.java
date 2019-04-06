@@ -97,7 +97,7 @@ public class Hitbox extends HadalEntity {
 		this.body = BodyBuilder.createBox(world, startX, startY, width , height , grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 				filter, true, data);
-		this.body.setLinearVelocity(startVelo);
+		setLinearVelocity(startVelo);
 		
 		if (!sensor) {
 			body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 

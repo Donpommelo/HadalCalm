@@ -51,7 +51,7 @@ public class WeaponUtils {
 			
 			@Override
 			public void controller(float delta) {
-				this.body.setLinearVelocity(0, 0);
+				setLinearVelocity(0, 0);
 				super.controller(delta);
 			}
 		};
@@ -158,7 +158,7 @@ public class WeaponUtils {
 				
 					boolean flip = false;
 					
-					if (body.getAngle() < 0) {
+					if (getOrientation() < 0) {
 						flip = true;
 					}
 					
@@ -170,7 +170,7 @@ public class WeaponUtils {
 							width / 2, 
 							(flip ? -1 : 1) * height / 2,
 							width, (flip ? -1 : 1) * height, 1, 1, 
-							(float) Math.toDegrees(body.getAngle()) - 90);
+							(float) Math.toDegrees(getOrientation()) - 90);
 
 				}
 			};

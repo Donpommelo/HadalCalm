@@ -50,12 +50,12 @@ public class Ragdoll extends HadalEntity {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0.5f, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_WALL), (short) 0, false, hadalData);
 		
-		body.setAngularVelocity(startAngle * veloAmp);
+		setAngularVelocity(startAngle * veloAmp);
 		
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 		Vector2 newVelocity = new Vector2(startVelo);
 		
-		body.setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
+		setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class Ragdoll extends HadalEntity {
 					getPosition().y * PPM - height / 2, 
 					width / 2, height / 2,
 					width, height, 1, 1, 
-					(float) Math.toDegrees(body.getAngle()) + 180);
+					(float) Math.toDegrees(getOrientation()) + 180);
 		}
 	}
 }

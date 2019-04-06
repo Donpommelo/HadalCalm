@@ -61,7 +61,7 @@
   <object id="23" name="Multitrigger" type="Multitrigger" x="2944" y="992" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="hpspawn2,turret1,hpspawn3,spawntimer1,spawntimer2,spawntimer3,a1,a2,a3,objective1,startTimer"/>
+    <property name="triggeringId" value="hpspawn2,turret1,hpspawn3,spawntimer1,spawntimer2,spawntimer3,a1,a2,a3,startTimer"/>
    </properties>
   </object>
   <object id="26" name="TouchPortal" type="TouchPortal" x="4224" y="2048" width="96" height="96">
@@ -442,17 +442,6 @@
     <property name="triggeredId" value="savept1"/>
    </properties>
   </object>
-  <object id="170" name="Objective" type="Objective" x="3008" y="992" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="objective1"/>
-    <property name="triggeringId" value="test1"/>
-   </properties>
-  </object>
-  <object id="171" name="Dummy" type="Dummy" x="4768" y="1056" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="test1"/>
-   </properties>
-  </object>
   <object id="179" name="Prefab" type="Prefab" x="3936" y="1600" width="96" height="160">
    <properties>
     <property name="prefabId" value="Door"/>
@@ -633,18 +622,6 @@
    <properties>
     <property name="prefabId" value="LeverActivateOnce"/>
     <property name="triggeringId" value="switch3"/>
-   </properties>
-  </object>
-  <object id="216" name="Warp" type="Warp" x="4736" y="1728" width="32" height="32">
-   <properties>
-    <property name="Level" value="LEVEL_2"/>
-    <property name="reset" type="bool" value="false"/>
-   </properties>
-  </object>
-  <object id="218" name="Prefab" type="Prefab" x="4416" y="1632" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="WeaponMod"/>
    </properties>
   </object>
   <object id="219" name="Prefab" type="Prefab" x="4256" y="1632" width="96" height="96">

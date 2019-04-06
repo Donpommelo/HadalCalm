@@ -61,7 +61,7 @@ public class Text extends Event {
 			HadalGame.SYSTEM_FONT_UI.getData().setScale(0.60f);
 			if (getConnectedEvent() != null) {
 				if (getConnectedEvent().getBody() != null) {
-					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getConnectedEvent().getPosition().x * PPM, getConnectedEvent().getBody().getPosition().y * PPM);
+					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getConnectedEvent().getPosition().x * PPM, getConnectedEvent().getPosition().y * PPM);
 				} else {
 					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPosition().x * PPM, getPosition().y * PPM);
 				}

@@ -104,7 +104,7 @@ public class TrickGun extends RangedWeapon {
 				if (!firstReached) {
 					if (startLocation.dst(hbox.getPosition()) >= distance) {
 						if (!pos2.equals(pos1)) {
-							hbox.getBody().setLinearVelocity(pos2.sub(pos1).nor().scl(projectileSpeedAfter));
+							hbox.setLinearVelocity(pos2.sub(pos1).nor().scl(projectileSpeedAfter));
 						}
 						firstReached = true;
 					}

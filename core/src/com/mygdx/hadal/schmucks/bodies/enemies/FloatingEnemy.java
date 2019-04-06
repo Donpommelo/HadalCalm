@@ -108,7 +108,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		switch (moveState) {
 		case FISH_CHASING:
 			if (target.isAlive()) {
-				float bodyAngle = (float) (getBody().getAngle() + Math.PI / 2);
+				float bodyAngle = (float) (getOrientation() + Math.PI / 2);
 				float angleToTarget = target.getPosition().sub(getPosition()).angleRad();
 				
 				if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
@@ -196,7 +196,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	
 	@Override
 	public float getAttackAngle() {
-		return (float) (body.getAngle() + Math.PI / 2);
+		return (float) (getOrientation() + Math.PI / 2);
 	}
 	
 	/**
@@ -207,7 +207,7 @@ public class FloatingEnemy extends SteeringEnemy {
 
 		boolean flip = false;
 		
-		if (body.getAngle() < 0) {
+		if (getOrientation() < 0) {
 			flip = true;
 		}
 		
@@ -223,7 +223,7 @@ public class FloatingEnemy extends SteeringEnemy {
 				hbHeight * scale / 2, 
 				(flip ? -1 : 1) * hbWidth * scale / 2,
 				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
-				(float) Math.toDegrees(body.getAngle()) - 90);
+				(float) Math.toDegrees(getOrientation()) - 90);
 
 		if (flashingCount > 0) {
 			batch.setShader(null);

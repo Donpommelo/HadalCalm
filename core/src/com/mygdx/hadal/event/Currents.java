@@ -56,10 +56,9 @@ public class Currents extends Event {
 			controllerCount = 0;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.getBody().applyLinearImpulse(vec, entity.getBody().getWorldCenter(), true);
+				entity.applyLinearImpulse(vec);
 			}
 		}
-		
 	}
 	
 	@Override

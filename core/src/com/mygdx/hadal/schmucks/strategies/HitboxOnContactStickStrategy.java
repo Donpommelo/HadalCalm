@@ -30,7 +30,7 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 				if (fixB.getType().equals(UserDataTypes.BODY) && stickToDudes) {
 					stuckToDude = true;
 					target = fixB.getEntity();
-					angle = hbox.getBody().getAngle();
+					angle = hbox.getOrientation();
 					location = new Vector2(
 							hbox.getPosition().x - target.getPosition().x, 
 							hbox.getPosition().y - target.getPosition().y);		
@@ -38,14 +38,14 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
 					stuckToWall = true;
 					target = fixB.getEntity();
-					angle = hbox.getBody().getAngle();
+					angle = hbox.getOrientation();
 					location = new Vector2(
 							hbox.getPosition().x - target.getPosition().x, 
 							hbox.getPosition().y - target.getPosition().y);		
 				}
 			} else if (stickToWalls) {
 				stuckToWall = true;
-				angle = hbox.getBody().getAngle();
+				angle = hbox.getOrientation();
 				location = new Vector2(hbox.getPosition());
 			}
 		}
@@ -54,10 +54,10 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 	@Override
 	public void controller(float delta) {
 		if (stuckToWall && target == null && location != null) {
-			hbox.getBody().setTransform(location, angle);
+			hbox.setTransform(location, angle);
 		} else if ((stuckToDude || stuckToWall) && target != null && location != null) {
 			if (target.isAlive()) {
-				hbox.getBody().setTransform(target.getPosition().add(location), angle);
+				hbox.setTransform(target.getPosition().add(location), angle);
 			} else {
 				stuckToDude = false;
 			}

@@ -477,26 +477,26 @@ public class Player extends PhysicsSchmuck {
 		
 		//Draw a bunch of stuff
 		batch.draw(toolSprite, 
-				(flip ? toolWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
+				(flip ? toolWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
 				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(bodyBackSprite, 
-				(flip ? bodyBackWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
+				(flip ? bodyBackWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 		
 		batch.draw(armSprite, 
-				(flip ? armWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
+				(flip ? armWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
 				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(playerData.getActiveItem().isReady() ? gemSprite : gemInactiveSprite, 
-				(flip ? gemWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
+				(flip ? gemWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
@@ -512,8 +512,8 @@ public class Player extends PhysicsSchmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else if (moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
@@ -525,23 +525,23 @@ public class Player extends PhysicsSchmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
 			bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			batch.draw(grounded ? (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true) : 
 					(TextureRegion) bodyRunSprite.getKeyFrame(getFreezeFrame(reverse)), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		}
 		
 		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTime, true), 
-				(flip ? headWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
+				(flip ? headWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 		

@@ -48,7 +48,7 @@ public class OriginCoil extends Artifact {
 							controllerCount+=delta;
 
 							if (controllerCount >= 1/60f) {
-								hbox.getBody().applyForceToCenter(hbox.getStartVelo().nor().scl(hbox.getBody().getMass() * boost), true);
+								hbox.applyForceToCenter(hbox.getStartVelo().nor().scl(hbox.getMass() * boost));
 								controllerCount = 0;
 							}
 						}

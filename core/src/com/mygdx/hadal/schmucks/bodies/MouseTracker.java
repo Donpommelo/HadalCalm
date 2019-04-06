@@ -46,9 +46,9 @@ public class MouseTracker extends HadalEntity {
 		if (server) {
 			tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			HadalGame.viewportCamera.unproject(tmpVec3);
-			body.setTransform(tmpVec3.x / PPM, tmpVec3.y / PPM, 0);
+			setTransform(tmpVec3.x / PPM, tmpVec3.y / PPM, 0);
 		} else {
-			body.setTransform(desiredLocation.x / PPM, desiredLocation.y / PPM, 0);
+			setTransform(desiredLocation.x / PPM, desiredLocation.y / PPM, 0);
 		}
 	}
 

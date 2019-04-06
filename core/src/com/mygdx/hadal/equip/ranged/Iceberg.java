@@ -57,7 +57,7 @@ public class Iceberg extends RangedWeapon {
 			
 			@Override
 			public void create() {
-				hbox.getBody().setTransform(hbox.getPosition(), 0);
+				hbox.setTransform(hbox.getPosition(), 0);
 			}
 			
 			@Override
@@ -70,7 +70,7 @@ public class Iceberg extends RangedWeapon {
 				if (controllerCount >= 1/60f) {
 					
 					if (hbox.getLinearVelocity().x == 0) {
-						hbox.getBody().setLinearVelocity(-lastX, hbox.getLinearVelocity().y);
+						hbox.setLinearVelocity(-lastX, hbox.getLinearVelocity().y);
 					}
 					
 					lastX = hbox.getLinearVelocity().x;
@@ -79,7 +79,7 @@ public class Iceberg extends RangedWeapon {
 			
 			@Override
 			public void push(float impulseX, float impulseY) {
-				hbox.getBody().applyLinearImpulse(new Vector2(impulseX, impulseY).scl(0.2f), hbox.getBody().getWorldCenter(), true);
+				hbox.applyLinearImpulse(new Vector2(impulseX, impulseY).scl(0.2f));
 			}
 			
 			@Override

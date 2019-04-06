@@ -53,7 +53,7 @@ public class HitboxSprite extends RangedHitbox {
 				getPosition().y * PPM - height / 2, 
 				width / 2, height / 2,
 				width, height, 1, 1, 
-				(float) Math.toDegrees(body.getAngle()) + 180);
+				(float) Math.toDegrees(getOrientation()) + 180);
 	}
 	
 	/**

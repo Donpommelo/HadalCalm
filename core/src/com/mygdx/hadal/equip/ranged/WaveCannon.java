@@ -67,7 +67,7 @@ public class WaveCannon extends RangedWeapon {
 
 				float wobble = amplitude * (float)Math.cos(frequency * elapsed) * frequency;
 
-				hbox.getBody().setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
+				hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
 			}
 		});
 		
@@ -91,9 +91,8 @@ public class WaveCannon extends RangedWeapon {
 
 				float wobble = -amplitude * (float)Math.cos(frequency * elapsed) * frequency;
 
-				hbox.getBody().setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
+				hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
 			}
 		});
-		
 	}
 }

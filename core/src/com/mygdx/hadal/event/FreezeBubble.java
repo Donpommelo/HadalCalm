@@ -51,7 +51,7 @@ public class FreezeBubble extends Event {
 			controllerCount = 0;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.getBody().setLinearVelocity(0, 0);
+				entity.setLinearVelocity(0, 0);
 			}
 		}
 		super.controller(delta);

@@ -60,7 +60,7 @@ public class Boomerang extends RangedWeapon {
 			
 			@Override
 			public void create() {
-				hbox.getBody().setAngularVelocity(5);
+				hbox.setAngularVelocity(5);
 			}
 			
 			@Override
@@ -71,7 +71,7 @@ public class Boomerang extends RangedWeapon {
 					Vector2 diff = new Vector2(user.getPosition().x * PPM - hbox.getPosition().x * PPM, 
 							user.getPosition().y * PPM - hbox.getPosition().y * PPM);
 					
-					hbox.getBody().applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getBody().getMass() * returnAmp), true);
+					hbox.applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getMass() * returnAmp));
 
 					controllerCount -= 1/60f;
 				}

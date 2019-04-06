@@ -77,45 +77,38 @@ public class MovingPlatform extends Event {
 					
 					//If no more connected events, make the platform and all connected events stop moving.
 					if (getConnectedEvent().getConnectedEvent() == null) {
-						body.setLinearVelocity(0, 0);
+						setLinearVelocity(0, 0);
 						
 						//Move all connected events by same amount.
 						for (Event e : connected) {
-							if (e.getBody() != null && e.isAlive()) {
-								e.getBody().setLinearVelocity(0, 0);
-							}
+							e.setLinearVelocity(0, 0);
 						}
 					} else {
 												
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
-						body.setTransform(getConnectedEvent().getPosition(), 0);
+						setTransform(getConnectedEvent().getPosition(), 0);
 						
 						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());
 						} else {
 							if (pause) {
-								body.setLinearVelocity(0, 0);
+								setLinearVelocity(0, 0);
 
 								for (Event e : connected) {
-									if (e.getBody() != null && e.isAlive()) {
-										e.getBody().setLinearVelocity(0, 0);
-									}
+									e.setLinearVelocity(0, 0);
 								}
 							}
-							
 							setConnectedEvent(null);
 						}
 					}
 				} else {
 					
 					//Continually move towards connected event.				
-					body.setLinearVelocity(dist.nor().scl(speed));
+					setLinearVelocity(dist.nor().scl(speed));
 					
 					//Move all connected events by same amount.
 					for (Event e : connected) {
-						if (e.getBody() != null && e.isAlive()) {
-							e.getBody().setLinearVelocity(dist.nor().scl(speed));
-						}
+						e.setLinearVelocity(dist.nor().scl(speed));
 					}
 				}
 			}

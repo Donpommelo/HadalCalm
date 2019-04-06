@@ -93,8 +93,8 @@ public class Underminer extends RangedWeapon {
 				if (fixB == null) {
 					if (!activated) {
 						activated = true;
-						hbox.getBody().setLinearVelocity(hbox.getLinearVelocity().nor().scl(activatedSpeed));
-						hbox.getBody().setGravityScale(0);
+						hbox.setLinearVelocity(hbox.getLinearVelocity().nor().scl(activatedSpeed));
+						hbox.setGravityScale(0);
 						invuln = 0.1f;
 					} else {
 						if (invuln <= 0) {

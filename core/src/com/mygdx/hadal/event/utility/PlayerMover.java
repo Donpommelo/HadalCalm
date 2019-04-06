@@ -51,7 +51,7 @@ public class PlayerMover extends Event {
 		if (moving) {
 			if (getConnectedEvent().getBody() != null) {
 				moving = false;
-				state.getPlayer().getBody().setTransform(getConnectedEvent().getPosition(), 0);
+				state.getPlayer().setTransform(getConnectedEvent().getPosition(), 0);
 				
 				if (getConnectedEvent().getStandardParticle() != null) {
 					getConnectedEvent().getStandardParticle().onForBurst(1.0f);

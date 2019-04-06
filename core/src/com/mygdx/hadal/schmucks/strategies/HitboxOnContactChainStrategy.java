@@ -76,7 +76,7 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 								
 								if (closestFixture != null) {
 									if (closestFixture.getUserData() instanceof BodyData) {
-										hbox.getBody().setLinearVelocity(closestFixture.getBody().getPosition()
+										hbox.setLinearVelocity(closestFixture.getBody().getPosition()
 												.sub(hbox.getPosition())
 														.nor().scl(60));
 									}

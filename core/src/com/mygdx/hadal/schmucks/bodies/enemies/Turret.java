@@ -268,7 +268,7 @@ public class Turret extends Enemy {
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncEntity) {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
-			body.setTransform(p.pos, 0);
+			setTransform(p.pos, 0);
 			angle = p.angle;
 		} else {
 			super.onClientSync(o);

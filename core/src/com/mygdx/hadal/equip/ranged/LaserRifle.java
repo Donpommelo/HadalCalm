@@ -99,7 +99,7 @@ public class LaserRifle extends RangedWeapon {
 				//Rotate hitbox to match angle of fire.
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
 				Vector2 newPosition = getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
-				this.body.setTransform(newPosition.x, newPosition.y, newAngle);
+				setTransform(newPosition.x, newPosition.y, newAngle);
 			}
 		};
 		
