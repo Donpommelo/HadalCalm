@@ -27,7 +27,7 @@ public class HydraulicUppercut extends ActiveItem {
 
 	private final static float swingCd = 1.5f;
 	private final static float backSwing = 1.0f;
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 40.0f;
 	private final static int hitboxSize = 125;
 	private final static int swingArc = 125;
 	private final static float knockback = 75.0f;

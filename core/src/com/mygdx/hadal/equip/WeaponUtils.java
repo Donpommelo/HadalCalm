@@ -99,9 +99,9 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
-	private static final float torpedoBaseDamage = 5.0f;
+	private static final float torpedoBaseDamage = 3.0f;
 	private static final float torpedoBaseKnockback = 3.0f;
-	private static final float torpedoExplosionDamage = 10.0f;
+	private static final float torpedoExplosionDamage = 7.5f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
 	private static final int torpedoWidth = 75;

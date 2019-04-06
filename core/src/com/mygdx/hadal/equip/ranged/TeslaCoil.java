@@ -29,7 +29,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final static int ammoSize = 20;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.1f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 40.0f;
