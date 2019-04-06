@@ -126,7 +126,6 @@ public class ClientState extends PlayState {
 		
 		//Update the game camera and batch.
 		cameraUpdate();
-		tmr.setView(camera);
 		 
 		//If we are in the delay period of a transition, decrement the delay
 		if (fadeInitialDelay <= 0f) {
@@ -168,6 +167,7 @@ public class ClientState extends PlayState {
 		batch.end();
 		
 		//Render Tiled Map + world
+		tmr.setView(camera);
 		tmr.render();				
 
 		//Render debug lines for box2d objects.
