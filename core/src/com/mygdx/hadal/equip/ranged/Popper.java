@@ -88,7 +88,7 @@ public class Popper extends RangedWeapon {
 					Vector2 newVelocity = new Vector2(startVelocity);
 					
 					Hitbox frag = new HitboxSprite(state, 
-							hbox.getBody().getPosition().x * PPM, hbox.getBody().getPosition().y * PPM,
+							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,
 							fragWidth, fragHeight, gravity, fragLifespan, projDura, 0, newVelocity.setAngle(newDegrees),
 							filter, true, true, user, fragSprite);
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));

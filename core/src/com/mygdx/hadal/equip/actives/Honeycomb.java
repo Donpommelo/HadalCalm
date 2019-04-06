@@ -23,8 +23,8 @@ public class Honeycomb extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		WeaponUtils.createBees(state, 
-				user.getSchmuck().getBody().getPosition().x * PPM, 
-				user.getSchmuck().getBody().getPosition().y * PPM, 
+				user.getSchmuck().getPosition().x * PPM, 
+				user.getSchmuck().getPosition().y * PPM, 
 				user.getSchmuck(), user.getCurrentTool(), 5, 180, new Vector2(1, 1), false, user.getSchmuck().getHitboxfilter());
 	}
 

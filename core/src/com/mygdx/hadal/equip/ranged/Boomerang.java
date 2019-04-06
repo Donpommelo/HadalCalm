@@ -68,8 +68,8 @@ public class Boomerang extends RangedWeapon {
 				controllerCount+=delta;
 
 				if (controllerCount >= 1/60f) {
-					Vector2 diff = new Vector2(user.getBody().getPosition().x * PPM - hbox.getPosition().x * PPM, 
-							user.getBody().getPosition().y * PPM - hbox.getPosition().y * PPM);
+					Vector2 diff = new Vector2(user.getPosition().x * PPM - hbox.getPosition().x * PPM, 
+							user.getPosition().y * PPM - hbox.getPosition().y * PPM);
 					
 					hbox.getBody().applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getBody().getMass() * returnAmp), true);
 
@@ -89,11 +89,11 @@ public class Boomerang extends RangedWeapon {
 								this.hbox.queueDeletion();
 							}
 						} else {
-							fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+							fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback), 
 									user.getBodyData(), tool, true, DamageTypes.RANGED);
 						}
 					} else {
-						fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback), 
+						fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback), 
 								user.getBodyData(), tool, true, DamageTypes.RANGED);
 					}
 				}

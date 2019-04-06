@@ -22,7 +22,7 @@ public class HitboxBouncyStrategy extends HitboxStrategy{
 	public void controller(float delta) {
 		if (!removed) {
 			removed = true;
-			if (hbox.isSensor()) {
+			if (hbox.isSensor() && hbox.isAlive()) {
 				hbox.getBody().createFixture(FixtureBuilder.createFixtureDef(hbox.getWidth() / 2 - 2, hbox.getHeight() / 2 - 2, 
 						new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, hbox.getRest(), hbox.getFriction(),
 						Constants.BIT_SENSOR, Constants.BIT_WALL, hbox.getFilter()));

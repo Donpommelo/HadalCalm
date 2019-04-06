@@ -129,7 +129,12 @@ public class Hitbox extends HadalEntity {
 	}
 	
 	@Override
-	public void push(float impulseX, float impulseY) {		
+	public void push(float impulseX, float impulseY) {
+		
+		if (!alive) {
+			return;
+		}
+		
 		for (HitboxStrategy s : strategies) {
 			s.push(impulseX, impulseY);
 		}
@@ -137,12 +142,22 @@ public class Hitbox extends HadalEntity {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		
+		if (!alive) {
+			return;
+		}
+		
 		for (HitboxStrategy s : strategies) {
 			s.render(batch);
 		}
 	}
 	
 	public void die() {
+		
+		if (!alive) {
+			return;
+		}
+		
 		for (HitboxStrategy s : strategies) {
 			s.die();
 		}
@@ -178,7 +193,7 @@ public class Hitbox extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height),  body.getPosition().scl(PPM), null, ObjectSyncLayers.HBOX);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), null, ObjectSyncLayers.HBOX);
 	}
 	
 	public float getLifeSpan() {

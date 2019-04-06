@@ -147,43 +147,43 @@ public class Event extends HadalEntity {
 			switch (scaleAlign) {
 			case 0:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - width / 2,
-	                    body.getPosition().y * PPM - height / 2,
+	                    getPosition().x * PPM - width / 2,
+	                    getPosition().y * PPM - height / 2,
 	                    width / 2, height / 2,
 	                    width, height, 1, 1, 0);
 				break;
 			case 1:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
-	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    getPosition().x * PPM - spriteWidth * scale / 2,
+	                    getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 2:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
-	                    body.getPosition().y * PPM - height / 2,
+	                    getPosition().x * PPM - spriteWidth * scale / 2,
+	                    getPosition().y * PPM - height / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 3:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
-	                    body.getPosition().y * PPM + height / 2,
+	                    getPosition().x * PPM - spriteWidth * scale / 2,
+	                    getPosition().y * PPM + height / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 4:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - width / 2,
-	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    getPosition().x * PPM - width / 2,
+	                    getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 5:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM + width / 2,
-	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    getPosition().x * PPM + width / 2,
+	                    getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
@@ -193,7 +193,7 @@ public class Event extends HadalEntity {
 		if (body != null) {			
 			batch.setProjectionMatrix(state.sprite.combined);
 			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(0.60f);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, getText(), body.getPosition().x * PPM, body.getPosition().y * PPM);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, getText(), getPosition().x * PPM, getPosition().y * PPM);
 		}
 	}
 	
@@ -277,7 +277,7 @@ public class Event extends HadalEntity {
 		switch(syncType) {
 		case 0:
 			if (body != null) {
-				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), body.getPosition().scl(PPM), null, ObjectSyncLayers.STANDARD);
+				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), null, ObjectSyncLayers.STANDARD);
 			} else {
 				return null;
 			}

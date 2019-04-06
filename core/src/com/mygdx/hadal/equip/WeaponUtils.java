@@ -165,8 +165,8 @@ public class WeaponUtils {
 					batch.setProjectionMatrix(state.sprite.combined);
 
 					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-							body.getPosition().x * PPM - width / 2, 
-							(flip ? height : 0) + body.getPosition().y * PPM - height / 2, 
+							getPosition().x * PPM - width / 2, 
+							(flip ? height : 0) + getPosition().y * PPM - height / 2, 
 							width / 2, 
 							(flip ? -1 : 1) * height / 2,
 							width, (flip ? -1 : 1) * height, 1, 1, 

@@ -58,8 +58,8 @@ public class TractorBeam extends ActiveItem {
 		final Equipable tool = this;
 		
 		Hitbox hbox = new HitboxSprite(state, 
-				user.getPlayer().getBody().getPosition().x * PPM, 
-				user.getPlayer().getBody().getPosition().y * PPM,
+				user.getPlayer().getPosition().x * PPM, 
+				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileHeight, gravity, lifespan, projDura, 1, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite) {
 			
@@ -104,7 +104,7 @@ public class TractorBeam extends ActiveItem {
 											}
 
 											if (fixB.getType().equals(UserDataTypes.BODY)) {
-												fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback),
+												fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback),
 														creator, tool, true, DamageTypes.RANGED);
 											}
 										} else {

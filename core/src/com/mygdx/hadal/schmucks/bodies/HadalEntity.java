@@ -129,6 +129,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		if (body != null) {
 			alive = false;
 			world.destroyBody(body);
+	//		body = null;
 		}
 	}	
 	
@@ -140,22 +141,35 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void recoil(int x, int y, float power) {
 		
-		float powerDiv = body.getPosition().dst(x, y) / power;
+		if (!alive) {
+			return;
+		}
 		
-		float xImpulse = (body.getPosition().x - x) / powerDiv;
-		float yImpulse = (body.getPosition().y - y) / powerDiv;
+		float powerDiv = getPosition().dst(x, y) / power;
+		
+		float xImpulse = (getPosition().x - x) / powerDiv;
+		float yImpulse = (getPosition().y - y) / powerDiv;
 		
 		body.applyLinearImpulse(new Vector2(xImpulse, yImpulse), body.getWorldCenter(), true);
 	}
 	
 	public void push(float impulseX, float impulseY) {
+		
+		if (!alive) {
+			return;
+		}
+		
 		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
 	}
 
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
 		
-		if (body.getLinearVelocity().y < 0) {
-			body.setLinearVelocity(body.getLinearVelocity().x, 0);
+		if (!alive) {
+			return;
+		}
+		
+		if (getLinearVelocity().y < 0) {
+			body.setLinearVelocity(getLinearVelocity().x, 0);
 		}
 		
 		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
@@ -175,7 +189,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void onServerSync() {
 		if (body != null) {
-			HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), body.getPosition(), body.getAngle()));
+			HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getAngle()));
 		}
 	}
 	
@@ -270,13 +284,13 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			if (!linVel.isZero()) {
 				float newOrientation = vectorToAngle(linVel);
 				body.setAngularVelocity((newOrientation - getAngularVelocity()) * delta);
-				body.setTransform(body.getPosition(), newOrientation);
+				body.setTransform(getPosition(), newOrientation);
 			}
 		}
 		
 		if (anyAcceleration) {
 			
-			Vector2 velocity = body.getLinearVelocity();
+			Vector2 velocity = getLinearVelocity();
 			float currentSpeedSquare = velocity.len2();
 			
 			if (this instanceof Schmuck) {
@@ -317,7 +331,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 
 	@Override
 	public void setOrientation(float orientation) {
-		body.setTransform(body.getPosition(), orientation);
+		body.setTransform(getPosition(), orientation);
 	}
 
 	@Override

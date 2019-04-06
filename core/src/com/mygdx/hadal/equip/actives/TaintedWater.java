@@ -26,8 +26,8 @@ public class TaintedWater extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {		
 		new Poison(state, poisonRadius, poisonRadius,
-				(int)(user.getSchmuck().getBody().getPosition().x * PPM), 
-				(int)(user.getSchmuck().getBody().getPosition().y * PPM), 
+				(int)(user.getSchmuck().getPosition().x * PPM), 
+				(int)(user.getSchmuck().getPosition().y * PPM), 
 				poisonDamage, poisonDuration, user.getSchmuck(), true, user.getSchmuck().getHitboxfilter());
 	}
 }

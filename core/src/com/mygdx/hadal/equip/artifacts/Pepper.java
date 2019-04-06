@@ -49,8 +49,8 @@ public class Pepper extends Artifact {
 							return true;
 						}
 					}, 
-					inflicted.getSchmuck().getBody().getPosition().x - radius, inflicted.getSchmuck().getBody().getPosition().y - radius, 
-					inflicted.getSchmuck().getBody().getPosition().x + radius, inflicted.getSchmuck().getBody().getPosition().y + radius);		
+					inflicted.getSchmuck().getPosition().x - radius, inflicted.getSchmuck().getPosition().y - radius, 
+					inflicted.getSchmuck().getPosition().x + radius, inflicted.getSchmuck().getPosition().y + radius);		
 				}
 			}
 		};

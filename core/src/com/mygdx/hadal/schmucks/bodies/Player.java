@@ -333,14 +333,14 @@ public class Player extends PhysicsSchmuck {
 	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
 	 */
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, true);
+		useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, true);
 	}
 	
 	/**
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		useToolRelease(playerData.getCurrentTool(), hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y);
+		useToolRelease(playerData.getCurrentTool(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y);
 	}
 	
 	/**
@@ -351,7 +351,7 @@ public class Player extends PhysicsSchmuck {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
 				playerData.fuelSpend(playerData.getAirblastCost());
 				airblastCdCount = airblastCd;
-				useToolStart(0, airblast, hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
+				useToolStart(0, airblast, hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, false);
 			}
 		}
 	}
@@ -370,7 +370,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		useToolStart(0, playerData.getActiveItem(), hitboxfilter, (int)mouse.getBody().getPosition().x, (int)mouse.getBody().getPosition().y, false);
+		useToolStart(0, playerData.getActiveItem(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, false);
 	}
 	
 	/**
@@ -417,8 +417,8 @@ public class Player extends PhysicsSchmuck {
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {
 			attackAngle = (float)(Math.atan2(
-					body.getPosition().y - mouse.getBody().getPosition().y,
-					body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI);
+					getPosition().y - mouse.getPosition().y,
+					getPosition().x - mouse.getPosition().x) * 180 / Math.PI);
 		} else {
 			attackAngle = attackAngleClient;
 		}
@@ -556,7 +556,7 @@ public class Player extends PhysicsSchmuck {
 	 * @return
 	 */
 	public int getFreezeFrame(boolean reverse) {
-		if (Math.abs(body.getLinearVelocity().x) > Math.abs(body.getLinearVelocity().y)) {
+		if (Math.abs(getLinearVelocity().x) > Math.abs(getLinearVelocity().y)) {
 			return reverse ? 5 : 2;
 		} else {
 			return reverse ? 1 : 6;
@@ -566,24 +566,24 @@ public class Player extends PhysicsSchmuck {
 	public void createGibs() {
 		if (alive) {
 			new Ragdoll(state, headWidth * scale, headHeight * scale, 
-					(int)(body.getPosition().x * PPM), 
-					(int)(body.getPosition().y * PPM), (TextureRegion) headSprite.getKeyFrame(animationTime, true), body.getLinearVelocity(), 5.0f);
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), (TextureRegion) headSprite.getKeyFrame(animationTime, true), getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, bodyWidth * scale, bodyHeight * scale, 
-					(int)(body.getPosition().x * PPM), 
-					(int)(body.getPosition().y * PPM), (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), body.getLinearVelocity(), 5.0f);
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, armWidth * scale, armHeight * scale, 
-					(int)(body.getPosition().x * PPM), 
-					(int)(body.getPosition().y * PPM), armSprite, body.getLinearVelocity(), 5.0f);
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), armSprite, getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, bodyBackWidth * scale, bodyBackHeight * scale, 
-					(int)(body.getPosition().x * PPM), 
-					(int)(body.getPosition().y * PPM), bodyBackSprite, body.getLinearVelocity(), 5.0f);
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), bodyBackSprite, getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, toolWidth * scale, toolHeight * scale, 
-					(int)(body.getPosition().x * PPM), 
-					(int)(body.getPosition().y * PPM), toolSprite, body.getLinearVelocity(), 5.0f);
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), toolSprite, getLinearVelocity(), 5.0f);
 		}
 	}
 	
@@ -605,8 +605,8 @@ public class Player extends PhysicsSchmuck {
 		super.onServerSync();
 		HadalGame.server.server.sendToAllUDP( new Packets.SyncPlayer(entityID.toString(),
 				(float)(Math.atan2(
-						body.getPosition().y - mouse.getBody().getPosition().y,
-						body.getPosition().x - mouse.getBody().getPosition().x) * 180 / Math.PI),
+						getPosition().y - mouse.getPosition().y,
+						getPosition().x - mouse.getPosition().x) * 180 / Math.PI),
 				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
 				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
 				playerData.getMaxHp(), playerData.getMaxFuel(), playerData.getAirblastCost(),

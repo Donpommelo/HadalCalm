@@ -25,8 +25,8 @@ public class LaunchingMissiles extends Status {
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
 			WeaponUtils.createHomingTorpedo(state, 
-					inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-					inflicted.getSchmuck().getBody().getPosition().y * PPM,
+					inflicted.getSchmuck().getPosition().x * PPM, 
+					inflicted.getSchmuck().getPosition().y * PPM,
 					inflicted.getSchmuck(), inflicted.getCurrentTool(), 1, 15, new Vector2(0, 1), false, inflicted.getSchmuck().getHitboxfilter());
 		}
 		procCdCount += delta;

@@ -106,7 +106,7 @@ public class Underminer extends RangedWeapon {
 			
 			@Override
 			public void die() {
-				WeaponUtils.createExplosion(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
+				WeaponUtils.createExplosion(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 
 						creator.getSchmuck(), tool, explosionRadius, explosionDamage, explosionKnockback, filter);
 				
 				for (int i = 0; i < numProj; i++) {
@@ -114,7 +114,7 @@ public class Underminer extends RangedWeapon {
 					Vector2 newVelocity = new Vector2(startVelocity);
 					
 					Hitbox frag = new HitboxSprite(state, 
-							hbox.getBody().getPosition().x * PPM, hbox.getBody().getPosition().y * PPM,
+							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,
 							fragWidth, fragHeight, gravity, fragLifespan, projDura, 0, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees),
 							filter, true, true, user, fragSprite);
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));

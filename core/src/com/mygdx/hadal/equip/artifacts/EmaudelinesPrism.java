@@ -33,14 +33,14 @@ public class EmaudelinesPrism extends Artifact {
 			public void onShoot(Equipable tool) {				
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
 						new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
-						inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-						inflicted.getSchmuck().getBody().getPosition().y * PPM,
+						inflicted.getSchmuck().getPosition().x * PPM, 
+						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
 				
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
 						new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
-						inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-						inflicted.getSchmuck().getBody().getPosition().y * PPM,
+						inflicted.getSchmuck().getPosition().x * PPM, 
+						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
 			}
 		});

@@ -42,8 +42,8 @@ public class RedTideTalisman extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					new Poison(state, poisonRadius, poisonRadius,
-							(int)(vic.getSchmuck().getBody().getPosition().x * PPM), 
-							(int)(vic.getSchmuck().getBody().getPosition().y * PPM), 
+							(int)(vic.getSchmuck().getPosition().x * PPM), 
+							(int)(vic.getSchmuck().getPosition().y * PPM), 
 							poisonDamage, poisonDuration, inflicter.getSchmuck(), true, inflicter.getSchmuck().getHitboxfilter());
 				}
 			}

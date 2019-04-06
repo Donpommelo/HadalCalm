@@ -29,8 +29,8 @@ public class MuddlingCup extends Artifact {
 			@Override
 			public void onAirBlast(Equipable tool) {
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), tool.getWeaponVelo().scl(projSpeed),
-						inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-						inflicted.getSchmuck().getBody().getPosition().y * PPM,
+						inflicted.getSchmuck().getPosition().x * PPM, 
+						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
 			}
 		});

@@ -84,15 +84,15 @@ public class RunningEnemy extends Enemy {
 			}
 			break;
 		case CHASING:
-			Vector2 player = state.getPlayer().getBody().getPosition();
+			Vector2 player = state.getPlayer().getPosition();
 			
-			if (player.x > body.getPosition().x) {
+			if (player.x > getPosition().x) {
 				moveState = SchmuckMoveStates.MOVE_RIGHT;
 			} else {
 				moveState = SchmuckMoveStates.MOVE_LEFT;
 			}
 			
-			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
+			Vector3 target = new Vector3(state.getPlayer().getPosition().x, state.getPlayer().getPosition().y, 0);
 			camera.project(target);
 			
 			useToolStart(delta, weapon, hitboxfilter, (int)target.x, (int)target.y, true);
@@ -110,8 +110,8 @@ public class RunningEnemy extends Enemy {
 			
 			shortestFraction = 1.0f;
 			
-			if (getBody().getPosition().x != state.getPlayer().getBody().getPosition().x || 
-					getBody().getPosition().y != state.getPlayer().getBody().getPosition().y) {
+			if (getPosition().x != state.getPlayer().getPosition().x || 
+					getPosition().y != state.getPlayer().getPosition().y) {
 				world.rayCast(new RayCastCallback() {
 
 					@Override
@@ -133,7 +133,7 @@ public class RunningEnemy extends Enemy {
 						return -1.0f;
 					}
 					
-				}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+				}, getPosition(), state.getPlayer().getPosition());
 			}
 			
 			if (closestFixture != null) {

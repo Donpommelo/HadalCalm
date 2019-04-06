@@ -77,10 +77,10 @@ public class SlodgeGun extends RangedWeapon {
 				procCdCount += delta;
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					Vector2 startVelocity = p.getMouse().getBody().getPosition().sub(inflicted.getSchmuck().getBody().getPosition()).scl(projectileSpeed);
+					Vector2 startVelocity = p.getMouse().getPosition().sub(inflicted.getSchmuck().getPosition()).scl(projectileSpeed);
 					Hitbox hbox = new HitboxSprite(state, 
-							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
+							inflicted.getSchmuck().getPosition().x * PPM, 
+							inflicted.getSchmuck().getPosition().y * PPM, 
 							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 							filter, true, true, user, projSprite);
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

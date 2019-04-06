@@ -62,8 +62,8 @@ public class WaveCannon extends RangedWeapon {
 			public void controller(float delta) {
 				elapsed += delta;
 				
-				float c = (float)(Math.cos(hbox.getBody().getLinearVelocity().angleRad()));
-				float s = (float)(Math.sin(hbox.getBody().getLinearVelocity().angleRad()));
+				float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
+				float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 
 				float wobble = amplitude * (float)Math.cos(frequency * elapsed) * frequency;
 
@@ -86,8 +86,8 @@ public class WaveCannon extends RangedWeapon {
 			public void controller(float delta) {
 				elapsed += delta;
 				
-				float c = (float)(Math.cos(hbox.getBody().getLinearVelocity().angleRad()));
-				float s = (float)(Math.sin(hbox.getBody().getLinearVelocity().angleRad()));
+				float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
+				float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 
 				float wobble = -amplitude * (float)Math.cos(frequency * elapsed) * frequency;
 

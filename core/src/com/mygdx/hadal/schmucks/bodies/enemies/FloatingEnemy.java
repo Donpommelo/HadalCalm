@@ -107,13 +107,17 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		switch (moveState) {
 		case FISH_CHASING:
-			
-			float bodyAngle = (float) (getBody().getAngle() + Math.PI / 2);
-			float angleToTarget = target.getBody().getPosition().sub(getBody().getPosition()).angleRad();
-			
-			if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
-				useToolStart(delta, weapon, hitboxfilter, (int)target.getBody().getPosition().x, (int)target.getBody().getPosition().y, true);
-			}			
+			if (target.isAlive()) {
+				float bodyAngle = (float) (getBody().getAngle() + Math.PI / 2);
+				float angleToTarget = target.getPosition().sub(getPosition()).angleRad();
+				
+				if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
+					useToolStart(delta, weapon, hitboxfilter, (int)target.getPosition().x, (int)target.getPosition().y, true);
+				}
+			} else {
+				moveState = SchmuckMoveStates.FISH_ROAMING;
+				setTarget(state.getPlayer(), roam);
+			}
 			break;
 		default:
 			break;
@@ -138,8 +142,8 @@ public class FloatingEnemy extends SteeringEnemy {
 						shortestFraction = 1.0f;
 						
 						
-					  	if (body.getPosition().x != homeAttempt.getPosition().x || 
-					  			body.getPosition().y != homeAttempt.getPosition().y) {
+					  	if (getPosition().x != homeAttempt.getPosition().x || 
+					  			getPosition().y != homeAttempt.getPosition().y) {
 					  		world.rayCast(new RayCastCallback() {
 
 								@Override
@@ -162,7 +166,7 @@ public class FloatingEnemy extends SteeringEnemy {
 									return -1.0f;
 								}
 								
-							}, body.getPosition(), homeAttempt.getPosition());
+							}, getPosition(), homeAttempt.getPosition());
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
 									moveState = SchmuckMoveStates.FISH_CHASING;
@@ -177,8 +181,8 @@ public class FloatingEnemy extends SteeringEnemy {
 					return true;
 				}
 			}), 
-				body.getPosition().x - aiRadius, body.getPosition().y - aiRadius, 
-				body.getPosition().x + aiRadius, body.getPosition().y + aiRadius);				
+				getPosition().x - aiRadius, getPosition().y - aiRadius, 
+				getPosition().x + aiRadius, getPosition().y + aiRadius);				
 		}
 		
 		//Fish must manually reload their singular weapon.
@@ -214,8 +218,8 @@ public class FloatingEnemy extends SteeringEnemy {
 		}
 		
 		batch.draw(fishSprite, 
-				body.getPosition().x * PPM - hbHeight * scale / 2, 
-				(flip ? height * scale : 0) + body.getPosition().y * PPM - hbWidth * scale / 2, 
+				getPosition().x * PPM - hbHeight * scale / 2, 
+				(flip ? height * scale : 0) + getPosition().y * PPM - hbWidth * scale / 2, 
 				hbHeight * scale / 2, 
 				(flip ? -1 : 1) * hbWidth * scale / 2,
 				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
@@ -230,8 +234,8 @@ public class FloatingEnemy extends SteeringEnemy {
 	public boolean queueDeletion() {
 		if (alive) {
 			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
-					(int)(body.getPosition().x * PPM), 
-					(int)(body.getPosition().y * PPM), fishSprite, body.getLinearVelocity(), 0.5f);
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), fishSprite, getLinearVelocity(), 0.5f);
 		}
 		return super.queueDeletion();
 	}

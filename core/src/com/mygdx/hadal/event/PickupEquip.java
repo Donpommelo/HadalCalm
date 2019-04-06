@@ -118,7 +118,7 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), body.getPosition().scl(PPM), PickupType.WEAPON, unlock.toString());
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.WEAPON, unlock.toString());
 	}
 	
 	@Override
@@ -167,12 +167,12 @@ public class PickupEquip extends Event {
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		float y = body.getPosition().y * PPM + height / 2;
+		float y = getPosition().y * PPM + height / 2;
 		for (WeaponMod mod : mods) {
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), getPosition().x * PPM - width / 2, y);
 			y += 15;
 		}
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), body.getPosition().x * PPM - width / 2, y);
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPosition().x * PPM - width / 2, y);
 	}
 	
 	public Equipable getEquip() {

@@ -21,8 +21,8 @@ public class HitboxOnDieParticles extends HitboxStrategy {
 	@Override
 	public void die() {
 		new ParticleEntity(state, 
-				(int)(this.hbox.getBody().getPosition().x * PPM), 
-				(int)(this.hbox.getBody().getPosition().y * PPM),
+				(int)(this.hbox.getPosition().x * PPM), 
+				(int)(this.hbox.getPosition().y * PPM),
 				effect, 1.0f, true, particleSyncType.CREATESYNC);
 	}
 }

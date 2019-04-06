@@ -74,8 +74,8 @@ public class Ragdoll extends HadalEntity {
 
 		if (illusionSprite != null) {
 			batch.draw(illusionSprite, 
-					body.getPosition().x * PPM - width / 2, 
-					body.getPosition().y * PPM - height / 2, 
+					getPosition().x * PPM - width / 2, 
+					getPosition().y * PPM - height / 2, 
 					width / 2, height / 2,
 					width, height, 1, 1, 
 					(float) Math.toDegrees(body.getAngle()) + 180);

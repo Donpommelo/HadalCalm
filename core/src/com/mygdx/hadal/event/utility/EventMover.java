@@ -69,12 +69,12 @@ public class EventMover extends Event {
 				getConnectedEvent().getBody().setGravityScale(gravity);
 			}
 			
-			Vector2 dist = new Vector2(getBody().getPosition().sub(getConnectedEvent().getBody().getPosition()));
-			getConnectedEvent().getBody().setTransform(getBody().getPosition(), 0);
+			Vector2 dist = new Vector2(getPosition().sub(getConnectedEvent().getPosition()));
+			getConnectedEvent().getBody().setTransform(getPosition(), 0);
 			
 			if (getConnectedEvent() instanceof MovingPlatform) {
 				for (Event connect : ((MovingPlatform)getConnectedEvent()).getConnected()) {
-					connect.getBody().setTransform(connect.getBody().getPosition().add(dist), 0);
+					connect.getBody().setTransform(connect.getPosition().add(dist), 0);
 				}
 			}
 			

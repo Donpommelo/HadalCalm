@@ -32,21 +32,21 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 					target = fixB.getEntity();
 					angle = hbox.getBody().getAngle();
 					location = new Vector2(
-							hbox.getBody().getPosition().x - target.getPosition().x, 
-							hbox.getBody().getPosition().y - target.getPosition().y);		
+							hbox.getPosition().x - target.getPosition().x, 
+							hbox.getPosition().y - target.getPosition().y);		
 				}
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
 					stuckToWall = true;
 					target = fixB.getEntity();
 					angle = hbox.getBody().getAngle();
 					location = new Vector2(
-							hbox.getBody().getPosition().x - target.getPosition().x, 
-							hbox.getBody().getPosition().y - target.getPosition().y);		
+							hbox.getPosition().x - target.getPosition().x, 
+							hbox.getPosition().y - target.getPosition().y);		
 				}
 			} else if (stickToWalls) {
 				stuckToWall = true;
 				angle = hbox.getBody().getAngle();
-				location = new Vector2(hbox.getBody().getPosition());
+				location = new Vector2(hbox.getPosition());
 			}
 		}
 	}

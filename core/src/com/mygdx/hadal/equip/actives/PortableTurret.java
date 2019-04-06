@@ -45,8 +45,8 @@ public class PortableTurret extends ActiveItem {
 		final boolean faceRight = weaponVelo.x > 0;
 		
 		Hitbox hbox = new HitboxSprite(state, 
-				user.getPlayer().getBody().getPosition().x * PPM, 
-				user.getPlayer().getBody().getPosition().y * PPM,
+				user.getPlayer().getPosition().x * PPM, 
+				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileWidth, gravity, lifespan, projDura, restitution, 
 				new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), 
 				false, false, user.getPlayer(), projSprite);
@@ -56,7 +56,7 @@ public class PortableTurret extends ActiveItem {
 			
 			@Override
 			public void controller(float delta) {
-				if (hbox.getBody().getLinearVelocity().isZero()) {
+				if (hbox.getLinearVelocity().isZero()) {
 					hbox.die();
 				}
 			}

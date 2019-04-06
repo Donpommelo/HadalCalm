@@ -46,8 +46,8 @@ public class Fireball extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 			
 		RangedHitbox hbox = new RangedHitbox(state, 
-				user.getPlayer().getBody().getPosition().x * PPM, 
-				user.getPlayer().getBody().getPosition().y * PPM,
+				user.getPlayer().getPosition().x * PPM, 
+				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), true, true, user.getPlayer());
 		

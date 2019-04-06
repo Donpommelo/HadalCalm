@@ -31,8 +31,8 @@ public class Number1BossMug extends Artifact {
 			public void onKill(BodyData vic) {
 				if (GameStateManager.generator.nextFloat() <= chance || vic instanceof PlayerBodyData) {
 					
-					WeaponUtils.createPickup(state, 0, heal, (int)(vic.getSchmuck().getBody().getPosition().x * PPM), 
-							(int)(vic.getSchmuck().getBody().getPosition().y * PPM));
+					WeaponUtils.createPickup(state, 0, heal, (int)(vic.getSchmuck().getPosition().x * PPM), 
+							(int)(vic.getSchmuck().getPosition().y * PPM));
 				}
 			}
 		};

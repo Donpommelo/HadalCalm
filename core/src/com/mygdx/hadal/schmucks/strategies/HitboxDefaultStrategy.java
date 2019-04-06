@@ -28,9 +28,9 @@ public class HitboxDefaultStrategy extends HitboxStrategy{
 			hbox.die();
 		}
 		
-		if (adjustAngle) {
-			hbox.getBody().setTransform(hbox.getBody().getPosition().x, hbox.getBody().getPosition().y, 
-					(float)(Math.atan2(hbox.getBody().getLinearVelocity().y , hbox.getBody().getLinearVelocity().x)));
+		if (adjustAngle && hbox.isAlive()) {
+			hbox.getBody().setTransform(hbox.getPosition().x, hbox.getPosition().y, 
+					(float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
 		}
 	}
 

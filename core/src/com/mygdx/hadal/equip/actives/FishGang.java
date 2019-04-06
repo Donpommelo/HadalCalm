@@ -29,8 +29,8 @@ public class FishGang extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		for (int i = 0; i < numFish; i++) {
-			int randX = (int) (user.getPlayer().getBody().getPosition().x * PPM + (spread ? (int)( (Math.random() - 0.5) * 100) : 0));
-			int randY = (int) (user.getPlayer().getBody().getPosition().y * PPM + (spread ? (int)( (Math.random() - 0.5) * 100) : 0));
+			int randX = (int) (user.getPlayer().getPosition().x * PPM + (spread ? (int)( (Math.random() - 0.5) * 100) : 0));
+			int randY = (int) (user.getPlayer().getPosition().y * PPM + (spread ? (int)( (Math.random() - 0.5) * 100) : 0));
 			if (Math.random() > 0.4f) {
 				new Scissorfish(state, randX, randY, user.getPlayer().getHitboxfilter()) {
 					

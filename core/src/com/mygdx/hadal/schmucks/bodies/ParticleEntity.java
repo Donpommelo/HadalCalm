@@ -75,7 +75,7 @@ public class ParticleEntity extends HadalEntity {
 		
 		if (attachedEntity != null) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				this.effect.setPosition(attachedEntity.getBody().getPosition().x * PPM, attachedEntity.getBody().getPosition().y * PPM);
+				this.effect.setPosition(attachedEntity.getPosition().x * PPM, attachedEntity.getPosition().y * PPM);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ public class ParticleEntity extends HadalEntity {
 	public void controller(float delta) {
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				effect.setPosition(attachedEntity.getBody().getPosition().x * PPM, attachedEntity.getBody().getPosition().y * PPM);
+				effect.setPosition(attachedEntity.getPosition().x * PPM, attachedEntity.getPosition().y * PPM);
 			} else {
 				if (!attached) {
 					despawn = true;
@@ -214,8 +214,8 @@ public class ParticleEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					Vector2 newPos = new Vector2(
-							attachedEntity.getBody().getPosition().x * PPM, 
-							attachedEntity.getBody().getPosition().y * PPM);
+							attachedEntity.getPosition().x * PPM, 
+							attachedEntity.getPosition().y * PPM);
 					HadalGame.server.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 				}
 			} else {

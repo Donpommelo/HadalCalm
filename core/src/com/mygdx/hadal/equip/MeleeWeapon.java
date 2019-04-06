@@ -44,10 +44,10 @@ public class MeleeWeapon extends Equipable {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 		
-		float powerDiv = shooter.getSchmuck().getBody().getPosition().dst(x, y);
+		float powerDiv = shooter.getSchmuck().getPosition().dst(x, y);
 		
-		float xImpulse = -(shooter.getSchmuck().getBody().getPosition().x - x) / powerDiv;
-		float yImpulse = -(shooter.getSchmuck().getBody().getPosition().y - y) / powerDiv;
+		float xImpulse = -(shooter.getSchmuck().getPosition().x - x) / powerDiv;
+		float yImpulse = -(shooter.getSchmuck().getPosition().y - y) / powerDiv;
 
 		weaponVelo.set(xImpulse, yImpulse);
 		this.faction = faction;
@@ -61,7 +61,7 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		fire(state, user, weaponVelo, user.getBody().getPosition().x * PPM, user.getBody().getPosition().y * PPM, faction);
+		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
 		user.recoil(x, y, -momentum * (1 + shooter.getMeleeMomentum()));
 	}
 	

@@ -70,7 +70,7 @@ public class MovingPlatform extends Event {
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			if (getConnectedEvent().getBody() != null) {
-				Vector2 dist = getConnectedEvent().getBody().getPosition().sub(body.getPosition()).scl(PPM);
+				Vector2 dist = getConnectedEvent().getPosition().sub(getPosition()).scl(PPM);
 
 				//If this platform is close enough to its connected event, move to the next event in the chain.
 				if ((int)dist.len2() <= 1) {
@@ -88,7 +88,7 @@ public class MovingPlatform extends Event {
 					} else {
 												
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
-						body.setTransform(getConnectedEvent().getBody().getPosition(), 0);
+						body.setTransform(getConnectedEvent().getPosition(), 0);
 						
 						if (getConnectedEvent().getConnectedEvent().getBody() != null) {
 							setConnectedEvent(getConnectedEvent().getConnectedEvent());

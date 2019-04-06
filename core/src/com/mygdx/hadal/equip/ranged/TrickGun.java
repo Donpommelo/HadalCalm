@@ -75,10 +75,10 @@ public class TrickGun extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
 		
-		float powerDiv = user.getBody().getPosition().dst(pos1.x, pos1.y) / projectileSpeed;
+		float powerDiv = user.getPosition().dst(pos1.x, pos1.y) / projectileSpeed;
 		
-		float xImpulse = -(user.getBody().getPosition().x - pos1.x) / powerDiv;
-		float yImpulse = -(user.getBody().getPosition().y - pos1.y) / powerDiv;
+		float xImpulse = -(user.getPosition().x - pos1.x) / powerDiv;
+		float yImpulse = -(user.getPosition().y - pos1.y) / powerDiv;
 		vel1.set(xImpulse, yImpulse);
 		
 		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, vel1,
@@ -95,14 +95,14 @@ public class TrickGun extends RangedWeapon {
 			
 			@Override
 			public void create() {
-				this.startLocation = new Vector2(hbox.getBody().getPosition());
+				this.startLocation = new Vector2(hbox.getPosition());
 				this.distance = startLocation.dst(pos1);
 			}
 			
 			@Override
 			public void controller(float delta) {
 				if (!firstReached) {
-					if (startLocation.dst(hbox.getBody().getPosition()) >= distance) {
+					if (startLocation.dst(hbox.getPosition()) >= distance) {
 						if (!pos2.equals(pos1)) {
 							hbox.getBody().setLinearVelocity(pos2.sub(pos1).nor().scl(projectileSpeedAfter));
 						}

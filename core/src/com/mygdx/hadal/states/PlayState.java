@@ -482,8 +482,8 @@ public class PlayState extends GameState {
 		sprite.zoom = zoom;
 		if (cameraTarget != null) {
 			if (cameraTarget.getBody() != null) {
-				CameraStyles.lerpToTarget(camera, cameraTarget.getBody().getPosition().scl(PPM));
-				CameraStyles.lerpToTarget(sprite, cameraTarget.getBody().getPosition().scl(PPM));
+				CameraStyles.lerpToTarget(camera, cameraTarget.getPosition().scl(PPM));
+				CameraStyles.lerpToTarget(sprite, cameraTarget.getPosition().scl(PPM));
 			}
 		}
 	}

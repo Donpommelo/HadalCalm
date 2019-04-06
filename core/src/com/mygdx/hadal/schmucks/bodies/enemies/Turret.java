@@ -120,19 +120,22 @@ public class Turret extends Enemy {
 				break;
 			case TURRET_SHOOTING:
 				
-				desiredAngle =  (float)(Math.atan2(
-						target.getBody().getPosition().y - body.getPosition().y ,
-						target.getBody().getPosition().x - body.getPosition().x) * 180 / Math.PI);
+				if (target.isAlive()) {
+					desiredAngle =  (float)(Math.atan2(
+							target.getPosition().y - getPosition().y ,
+							target.getPosition().x - getPosition().x) * 180 / Math.PI);
 
-				if (desiredAngle < 0) {
-					if (desiredAngle < -90) {
-						desiredAngle = 180;
-					} else {
-						desiredAngle = 0;
+					if (desiredAngle < 0) {
+						if (desiredAngle < -90) {
+							desiredAngle = 180;
+						} else {
+							desiredAngle = 0;
+						}
 					}
+					
+					useToolStart(delta, weapon, hitboxfilter, (int)target.getPosition().x, (int)target.getPosition().y, true);
 				}
 				
-				useToolStart(delta, weapon, hitboxfilter, (int)target.getBody().getPosition().x, (int)target.getBody().getPosition().y, true);
 				break;
 		default:
 			break;
@@ -154,8 +157,8 @@ public class Turret extends Enemy {
 						shortestFraction = 1.0f;
 						
 						
-					  	if (body.getPosition().x != homeAttempt.getPosition().x || 
-					  			body.getPosition().y != homeAttempt.getPosition().y) {
+					  	if (getPosition().x != homeAttempt.getPosition().x || 
+					  			getPosition().y != homeAttempt.getPosition().y) {
 					  		world.rayCast(new RayCastCallback() {
 
 								@Override
@@ -178,7 +181,7 @@ public class Turret extends Enemy {
 									return -1.0f;
 								}
 								
-							}, body.getPosition(), homeAttempt.getPosition());
+							}, getPosition(), homeAttempt.getPosition());
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
 									target = ((BodyData)closestFixture.getUserData()).getEntity();
@@ -190,8 +193,8 @@ public class Turret extends Enemy {
 					return true;
 				}
 			}), 
-				body.getPosition().x - aiRadius, body.getPosition().y - aiRadius, 
-				body.getPosition().x + aiRadius, body.getPosition().y + aiRadius);					
+				getPosition().x - aiRadius, getPosition().y - aiRadius, 
+				getPosition().x + aiRadius, getPosition().y + aiRadius);					
 		}
 		
 		aiCdCount -= delta;
@@ -229,21 +232,21 @@ public class Turret extends Enemy {
 		
 		if(moveState == SchmuckMoveStates.TURRET_NOTSHOOTING || weapon.isReloading()) {
 			batch.draw(turretBarrel, 
-					body.getPosition().x * PPM - hbWidth * scale / 2, 
-					(flip ? height * scale - 12 : 0) + body.getPosition().y * PPM - hbHeight * scale / 2, 
+					getPosition().x * PPM - hbWidth * scale / 2, 
+					(flip ? height * scale - 12 : 0) + getPosition().y * PPM - hbHeight * scale / 2, 
 					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
 					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
 		} else {
 			batch.draw(fireAnimation.getKeyFrame(getAnimationTime(), true), 
-					body.getPosition().x * PPM - hbWidth * scale / 2, 
-					(flip ? height * scale - 12: 0) + body.getPosition().y * PPM - hbHeight * scale / 2, 
+					getPosition().x * PPM - hbWidth * scale / 2, 
+					(flip ? height * scale - 12: 0) + getPosition().y * PPM - hbHeight * scale / 2, 
 					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
 					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
 		}
 		
 		batch.draw(turretBase, 
-				body.getPosition().x * PPM - hbWidth * scale / 2, 
-				body.getPosition().y * PPM - hbHeight * scale / 2, 
+				getPosition().x * PPM - hbWidth * scale / 2, 
+				getPosition().y * PPM - hbHeight * scale / 2, 
 				0, 0,
 				width * scale, height * scale, 1, 1, 0.0f);	
 		
@@ -256,7 +259,7 @@ public class Turret extends Enemy {
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {
-		HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), body.getPosition(), angle));
+		HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), angle));
 		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
 				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
 	}

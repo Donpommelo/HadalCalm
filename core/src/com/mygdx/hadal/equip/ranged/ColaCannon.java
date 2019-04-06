@@ -45,7 +45,7 @@ public class ColaCannon extends RangedWeapon {
 
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.MT_DEFAULT;
+	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private float chargeAmount;
 	private Vector2 lastMouse = new Vector2(0, 0);
@@ -110,11 +110,11 @@ public class ColaCannon extends RangedWeapon {
 						currentVelocity -= 1.0f;
 					}
 					
-					Vector2 startVelocity = p.getMouse().getBody().getPosition()
-							.sub(inflicted.getSchmuck().getBody().getPosition()).nor().scl(currentVelocity);
+					Vector2 startVelocity = p.getMouse().getPosition()
+							.sub(inflicted.getSchmuck().getPosition()).nor().scl(currentVelocity);
 					Hitbox hbox = new HitboxSprite(state, 
-							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
+							inflicted.getSchmuck().getPosition().x * PPM, 
+							inflicted.getSchmuck().getPosition().y * PPM, 
 							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 							filter, true, true, user, projSprite);
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

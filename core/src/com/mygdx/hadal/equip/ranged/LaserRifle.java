@@ -56,10 +56,10 @@ public class LaserRifle extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
 		final Equipable tool = this;
-		endPt = new Vector2(user.getBody().getPosition()).add(startVelocity.nor().scl(projectileWidth));
+		endPt = new Vector2(user.getPosition()).add(startVelocity.nor().scl(projectileWidth));
 		shortestFraction = 1.0f;
 		
-		if (user.getBody().getPosition().x != endPt.x || user.getBody().getPosition().y != endPt.y) {
+		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
 
@@ -83,7 +83,7 @@ public class LaserRifle extends RangedWeapon {
 					return -1.0f;
 				}
 				
-			}, user.getBody().getPosition(), endPt);
+			}, user.getPosition(), endPt);
 		}
 		
 		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
@@ -98,7 +98,7 @@ public class LaserRifle extends RangedWeapon {
 				
 				//Rotate hitbox to match angle of fire.
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
-				Vector2 newPosition = this.body.getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
+				Vector2 newPosition = getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
 				this.body.setTransform(newPosition.x, newPosition.y, newAngle);
 			}
 		};

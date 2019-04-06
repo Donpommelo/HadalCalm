@@ -92,7 +92,7 @@ public class TrailingEnemy extends Enemy {
 					if (aiState.equals(trailingState.ROAMING)) {
 						aiState = trailingState.WALLHUGGING;
 						aiCdCount = aiCd;
-						wallhug = getBody().getLinearVelocity().nor().scl(moveMag / 2).rotate(45);
+						wallhug = getLinearVelocity().nor().scl(moveMag / 2).rotate(45);
 					}
 				}
 			}
@@ -119,12 +119,12 @@ public class TrailingEnemy extends Enemy {
 			
 			if (target != null) {
 				if (target.getBody() != null) {
-					desiredXVel = target.getBody().getPosition().x > getBody().getPosition().x ? maxTrailSpeed : -maxTrailSpeed;
-					desiredYVel = target.getBody().getPosition().y > getBody().getPosition().y ? maxTrailSpeed : -maxTrailSpeed;
+					desiredXVel = target.getPosition().x > getPosition().x ? maxTrailSpeed : -maxTrailSpeed;
+					desiredYVel = target.getPosition().y > getPosition().y ? maxTrailSpeed : -maxTrailSpeed;
 				}
 			}
 
-			Vector2 currentVel = body.getLinearVelocity();
+			Vector2 currentVel = getLinearVelocity();
 			
 			float accelX = 0.0f;
 			float accelY = 0.0f;
@@ -152,21 +152,21 @@ public class TrailingEnemy extends Enemy {
 		switch (aiState) {
 		case ROAMING:
 			direction = new Vector2(
-					state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
-					state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag);			
+					state.getPlayer().getPosition().x - getPosition().x,
+					state.getPlayer().getPosition().y - getPosition().y).nor().scl(moveMag);			
 			break;
 		case WALLHUGGING:
 			direction = wallhug;
 			break;
 		case CHASING:
-			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
+			Vector3 target = new Vector3(state.getPlayer().getPosition().x, state.getPlayer().getPosition().y, 0);
 			camera.project(target);
 			
 			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
 			
 			direction = new Vector2(
-					state.getPlayer().getBody().getPosition().x - getBody().getPosition().x,
-					state.getPlayer().getBody().getPosition().y - getBody().getPosition().y).nor().scl(moveMag / 8);			
+					state.getPlayer().getPosition().x - getPosition().x,
+					state.getPlayer().getPosition().y - getPosition().y).nor().scl(moveMag / 8);			
 			break;
 		default:
 			break;
@@ -190,8 +190,8 @@ public class TrailingEnemy extends Enemy {
 			
 			shortestFraction = 1.0f;
 			
-			if (getBody().getPosition().x != state.getPlayer().getBody().getPosition().x || 
-					getBody().getPosition().y != state.getPlayer().getBody().getPosition().y) {
+			if (getPosition().x != state.getPlayer().getPosition().x || 
+					getPosition().y != state.getPlayer().getPosition().y) {
 				world.rayCast(new RayCastCallback() {
 
 					@Override
@@ -213,7 +213,7 @@ public class TrailingEnemy extends Enemy {
 						return -1.0f;
 					}
 					
-				}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+				}, getPosition(), state.getPlayer().getPosition());
 				
 				if (closestFixture != null) {
 					if (closestFixture.getUserData() instanceof PlayerBodyData ) {

@@ -70,8 +70,8 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 						homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
 						shortestFraction = 1.0f;
 						
-					  	if (hbox.getBody().getPosition().x != homeAttempt.getPosition().x || 
-					  			hbox.getBody().getPosition().y != homeAttempt.getPosition().y) {
+					  	if (hbox.getPosition().x != homeAttempt.getPosition().x || 
+					  			hbox.getPosition().y != homeAttempt.getPosition().y) {
 					  		hbox.getWorld().rayCast(new RayCastCallback() {
 
 								@Override
@@ -94,7 +94,7 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 									return -1.0f;
 								}
 								
-							}, hbox.getBody().getPosition(), homeAttempt.getPosition());	
+							}, hbox.getPosition(), homeAttempt.getPosition());	
 							
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
@@ -110,8 +110,8 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 				}
 				
 			}, 
-			hbox.getBody().getPosition().x - radius, hbox.getBody().getPosition().y - radius, 
-			hbox.getBody().getPosition().x + radius, hbox.getBody().getPosition().y + radius);
+			hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
+			hbox.getPosition().x + radius, hbox.getPosition().y + radius);
 		}
 	}	
 }

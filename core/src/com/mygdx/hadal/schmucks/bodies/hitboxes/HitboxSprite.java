@@ -49,8 +49,8 @@ public class HitboxSprite extends RangedHitbox {
 		batch.setProjectionMatrix(state.sprite.combined);
 
 		batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-				body.getPosition().x * PPM - width / 2, 
-				body.getPosition().y * PPM - height / 2, 
+				getPosition().x * PPM - width / 2, 
+				getPosition().y * PPM - height / 2, 
 				width / 2, height / 2,
 				width, height, 1, 1, 
 				(float) Math.toDegrees(body.getAngle()) + 180);
@@ -61,6 +61,6 @@ public class HitboxSprite extends RangedHitbox {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), body.getPosition().scl(PPM), sprite, ObjectSyncLayers.HBOX);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.HBOX);
 	}
 }

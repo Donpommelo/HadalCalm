@@ -24,7 +24,7 @@ public class PhysicsSchmuck extends Schmuck {
 		if (controllerCount >= 1/60f) {
 			controllerCount -= 1/60f;
 						
-			Vector2 currentVel = body.getLinearVelocity();
+			Vector2 currentVel = getLinearVelocity();
 			float desiredXVel = 0.0f;
 			float desiredYVel = 0.0f;
 			

@@ -87,10 +87,10 @@ public class RangedWeapon extends Equipable {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 		
-		float powerDiv = shooter.getSchmuck().getBody().getPosition().dst(x, y) / projectileSpeed;
+		float powerDiv = shooter.getSchmuck().getPosition().dst(x, y) / projectileSpeed;
 		
-		float xImpulse = -(shooter.getSchmuck().getBody().getPosition().x - x) / powerDiv;
-		float yImpulse = -(shooter.getSchmuck().getBody().getPosition().y - y) / powerDiv;
+		float xImpulse = -(shooter.getSchmuck().getPosition().x - x) / powerDiv;
+		float yImpulse = -(shooter.getSchmuck().getPosition().y - y) / powerDiv;
 		weaponVelo.set(xImpulse, yImpulse);
 		
 		//Also store the recoil vector and filter.
@@ -117,8 +117,8 @@ public class RangedWeapon extends Equipable {
 			
 			//Shoot			
 			fire(state, user, weaponVelo, 
-					shooter.getSchmuck().getBody().getPosition().x * PPM + projOffset.x,  
-					shooter.getSchmuck().getBody().getPosition().y * PPM + projOffset.y, faction);
+					shooter.getSchmuck().getPosition().x * PPM + projOffset.x,  
+					shooter.getSchmuck().getPosition().y * PPM + projOffset.y, faction);
 			
 			clipLeft--;
 			clipPercent = (float)clipLeft / getClipSize();

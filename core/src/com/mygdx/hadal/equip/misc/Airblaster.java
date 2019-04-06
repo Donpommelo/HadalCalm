@@ -34,7 +34,7 @@ public class Airblaster extends MeleeWeapon {
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		fire(state, user, weaponVelo, user.getBody().getPosition().x * PPM, user.getBody().getPosition().y * PPM, faction);
+		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
 		user.recoil(x, y, momentum * (1 + shooter.getMeleeMomentum()) * (1 + shooter.getBonusAirblastRecoil()));
 	}
 	
@@ -49,11 +49,14 @@ public class Airblaster extends MeleeWeapon {
 				knockback * (1 + user.getBodyData().getBonusAirblastPower()), 
 				DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+			
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.HITBOX)){
-						hbox.getBody().setLinearVelocity(startVelocity);
+						if (((Hitbox)fixB.getEntity()).isAlive()) {
+							((Hitbox)fixB.getEntity()).getBody().setLinearVelocity(startVelocity.nor().scl(((Hitbox)fixB.getEntity()).getBody().getLinearVelocity()));
+						}
 					}
 				}
 			}

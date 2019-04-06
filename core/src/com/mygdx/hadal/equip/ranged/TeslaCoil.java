@@ -131,15 +131,15 @@ public class TeslaCoil extends RangedWeapon {
 				return true;
 			}
 		},
-		hbox.getBody().getPosition().x - radius, hbox.getBody().getPosition().y - radius, 
-		hbox.getBody().getPosition().x + radius, hbox.getBody().getPosition().y + radius);
+		hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
+		hbox.getPosition().x + radius, hbox.getPosition().y + radius);
 	}
 	
 	public void coilPairActivated(final PlayState state, final Hitbox hbox1, final Hitbox hbox2) {
 		
 		final TeslaCoil tool = this;
-		final Vector2 pos1 = new Vector2(hbox1.getBody().getPosition().scl(PPM));
-		final Vector2 pos2 = new Vector2(hbox2.getBody().getPosition().scl(PPM));
+		final Vector2 pos1 = new Vector2(hbox1.getPosition().scl(PPM));
+		final Vector2 pos2 = new Vector2(hbox2.getPosition().scl(PPM));
 		
 		hbox1.setLifeSpan(activatedDuration);
 		hbox2.setLifeSpan(activatedDuration);
@@ -177,7 +177,7 @@ public class TeslaCoil extends RangedWeapon {
 							super.create();
 							//Rotate hitbox to match angle of fire.
 							float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
-							Vector2 newPosition = this.body.getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
+							Vector2 newPosition = getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
 							this.body.setTransform(newPosition.x, newPosition.y, newAngle);
 						}
 					};

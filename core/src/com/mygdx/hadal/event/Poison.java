@@ -119,8 +119,8 @@ public class Poison extends Event {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
-					int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
+					int randX = (int) ((Math.random() * width) - (width / 2) + getPosition().x * PPM);
+					int randY = (int) ((Math.random() * height) - (height / 2) + getPosition().y * PPM);
 					new ParticleEntity(state, randX, randY, Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
 				}
 			}
@@ -138,8 +138,8 @@ public class Poison extends Event {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
-					int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
+					int randX = (int) ((Math.random() * width) - (width / 2) + getPosition().x * PPM);
+					int randY = (int) ((Math.random() * height) - (height / 2) + getPosition().y * PPM);
 					ParticleEntity poison = new ParticleEntity(state, randX, randY, Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
 					((ClientState)state).addEntity(poison.getEntityID().toString(), poison, ObjectSyncLayers.STANDARD);
 				}
@@ -153,7 +153,7 @@ public class Poison extends Event {
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
-			return new Packets.CreatePoison(entityID.toString(), body.getPosition().scl(PPM), 
+			return new Packets.CreatePoison(entityID.toString(), getPosition().scl(PPM), 
 					new Vector2(width, height), draw);
 		} else {
 			return new Packets.CreateEvent(entityID.toString(), blueprint);

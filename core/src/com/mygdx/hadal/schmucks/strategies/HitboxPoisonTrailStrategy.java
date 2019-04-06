@@ -39,7 +39,7 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 			poisonCdCount = poisonCd;
 			
 			new Poison(state, poisonRadius, poisonRadius,
-					(int)(this.hbox.getBody().getPosition().x * PPM), 
+					(int)(this.hbox.getPosition().x * PPM), 
 					(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, creator.getSchmuck(), false, filter);
 		}
 		poisonCdCount -= delta;

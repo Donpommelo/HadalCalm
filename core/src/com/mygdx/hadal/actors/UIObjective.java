@@ -53,8 +53,8 @@ public class UIObjective extends AHadalActor {
 		
 		if (state.getObjectiveTarget() != null && player.getBody() != null) {
 			
-			float xDist = (player.getBody().getPosition().x * PPM) - (state.getObjectiveTarget().getBody().getPosition().x * PPM);
-			float yDist = (player.getBody().getPosition().y * PPM) - (state.getObjectiveTarget().getBody().getPosition().y * PPM);		
+			float xDist = (player.getPosition().x * PPM) - (state.getObjectiveTarget().getPosition().x * PPM);
+			float yDist = (player.getPosition().y * PPM) - (state.getObjectiveTarget().getPosition().y * PPM);		
 			
 			if (Math.abs(xDist) > HadalGame.CONFIG_WIDTH / 2 || Math.abs(yDist) > HadalGame.CONFIG_HEIGHT / 2) {
 				Vector2 toObjective = new Vector2(xDist, yDist);
@@ -79,8 +79,8 @@ public class UIObjective extends AHadalActor {
 				}	
 			} else {
 				batch.setProjectionMatrix(state.sprite.combined);
-				x = state.getObjectiveTarget().getBody().getPosition().x * PPM;
-				y = state.getObjectiveTarget().getBody().getPosition().y * PPM;
+				x = state.getObjectiveTarget().getPosition().x * PPM;
+				y = state.getObjectiveTarget().getPosition().y * PPM;
 			}
 			
 			batch.draw(base, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);

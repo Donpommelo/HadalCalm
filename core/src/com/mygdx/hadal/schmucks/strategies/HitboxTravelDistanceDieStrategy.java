@@ -18,14 +18,14 @@ public class HitboxTravelDistanceDieStrategy extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		this.startLocation = new Vector2(hbox.getBody().getPosition());
+		this.startLocation = new Vector2(hbox.getPosition());
 		this.distance = startLocation.dst(endLocation);
 	}
 	
 	@Override
 	public void controller(float delta) {
 
-		if (startLocation.dst(hbox.getBody().getPosition()) >= distance) {
+		if (startLocation.dst(hbox.getPosition()) >= distance) {
 			hbox.die();
 		}
 	}

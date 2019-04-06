@@ -58,8 +58,8 @@ public class UIPlayer extends AHadalActor {
 			
 			if (player.getPlayerData().getCurrentTool().isReloading() && player.isAlive()) {
 				
-				float x = (player.getBody().getPosition().x * PPM) - reload.getRegionWidth() * scale / 2;
-				float y = (player.getBody().getPosition().y * PPM) + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
+				float x = (player.getPosition().x * PPM) - reload.getRegionWidth() * scale / 2;
+				float y = (player.getPosition().y * PPM) + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
 				
 				//Calculate reload progress
 				float percent = player.getReloadPercent();
@@ -71,8 +71,8 @@ public class UIPlayer extends AHadalActor {
 			
 			if (player.isAlive()) {
 				
-				float x = (player.getBody().getPosition().x * PPM) - Player.hbWidth * Player.scale - empty.getWidth() * hpScale + 10;
-				float y = (player.getBody().getPosition().y * PPM) + Player.hbHeight * Player.scale / 2 - 5;
+				float x = (player.getPosition().x * PPM) - Player.hbWidth * Player.scale - empty.getWidth() * hpScale + 10;
+				float y = (player.getPosition().y * PPM) + Player.hbHeight * Player.scale / 2 - 5;
 				
 				float hpRatio = 0.0f;
 				
@@ -97,8 +97,8 @@ public class UIPlayer extends AHadalActor {
 			
 			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, player.getName(), 
-					player.getBody().getPosition().x * PPM - Player.hbWidth * Player.scale / 2, 
-					player.getBody().getPosition().y * PPM + Player.hbHeight * Player.scale / 2 + 15);
+					player.getPosition().x * PPM - Player.hbWidth * Player.scale / 2, 
+					player.getPosition().y * PPM + Player.hbHeight * Player.scale / 2 + 15);
 		}
 	}
 	

@@ -28,8 +28,8 @@ public class SpringLoader extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
 		new Spring(state, springRadius, springRadius,
-				(int)(user.getPlayer().getMouse().getBody().getPosition().x * PPM),
-				(int)(user.getPlayer().getMouse().getBody().getPosition().y * PPM), 
+				(int)(user.getPlayer().getMouse().getPosition().x * PPM),
+				(int)(user.getPlayer().getMouse().getPosition().y * PPM), 
 				new Vector2(0, springPower), springDuration);
 	}
 

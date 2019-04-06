@@ -464,7 +464,7 @@ public class PlayerBodyData extends BodyData {
 	public void die(BodyData perp, Equipable tool) {
 		if (player.isAlive()) {
 			
-			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getBody().getPosition().x * PPM , schmuck.getBody().getPosition().y * PPM, 
+			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getPosition().x * PPM , schmuck.getPosition().y * PPM, 
 					schmuck, tool, 500, 0, 0, (short)0);
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());

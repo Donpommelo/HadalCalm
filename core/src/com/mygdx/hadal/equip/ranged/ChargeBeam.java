@@ -115,7 +115,7 @@ public class ChargeBeam extends RangedWeapon {
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					fixB.receiveDamage(baseDamage * damageMultiplier2, 
-							this.hbox.getBody().getLinearVelocity().nor().scl(knockback * kbMultiplier2), 
+							this.hbox.getLinearVelocity().nor().scl(knockback * kbMultiplier2), 
 							user.getBodyData(), tool, true, DamageTypes.RANGED);
 				}
 			}

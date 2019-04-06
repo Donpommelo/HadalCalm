@@ -44,8 +44,8 @@ public class ClockwiseCage extends Artifact {
 					if (echoCdCount <= 0) {
 						echoing = false;
 						echoTool.fire(state, inflicted.getSchmuck(), angle,
-								inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-								inflicted.getSchmuck().getBody().getPosition().y * PPM,
+								inflicted.getSchmuck().getPosition().x * PPM, 
+								inflicted.getSchmuck().getPosition().y * PPM,
 								inflicted.getSchmuck().getHitboxfilter());
 					}
 				}

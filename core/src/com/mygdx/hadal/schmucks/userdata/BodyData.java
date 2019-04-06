@@ -253,6 +253,10 @@ public class BodyData extends HadalData {
 	@Override
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
 		
+		if (!schmuck.isAlive()) {
+			return;
+		}
+		
 		float damage = basedamage;
 		
 		damage -= basedamage * (getDamageReduc());
@@ -283,9 +287,8 @@ public class BodyData extends HadalData {
 		
 		kbScale -= getKnockbackReduc();
 		kbScale += perp.getKnockbackAmp();
-		if (schmuck.isAlive()) {
-			schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
-		}
+		
+		schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
 		
 		//Give credit for kills to last schmuck (besides self) who damaged this schmuck
 		if (!perp.equals(this)) {

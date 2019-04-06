@@ -43,8 +43,8 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 			float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));
 
 			Hitbox hbox = new Hitbox(state, 
-					this.hbox.getBody().getPosition().x * PPM, 
-					this.hbox.getBody().getPosition().y * PPM,
+					this.hbox.getPosition().x * PPM, 
+					this.hbox.getPosition().y * PPM,
 					projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, 
 					this.hbox.getLinearVelocity().setAngle(newDegrees),
 					filter, true, true, creator.getSchmuck());

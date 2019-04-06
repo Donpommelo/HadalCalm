@@ -48,8 +48,8 @@ public class NauticalMine extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
 		Hitbox hbox = new HitboxSprite(state, 
-				user.getPlayer().getBody().getPosition().x * PPM, 
-				user.getPlayer().getBody().getPosition().y * PPM,
+				user.getPlayer().getPosition().x * PPM, 
+				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileWidth, gravity, lifespan, projDura, restitution, 
 				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), 
 				false, false, user.getPlayer(), projSprite);

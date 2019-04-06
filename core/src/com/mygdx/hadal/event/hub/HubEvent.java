@@ -96,7 +96,7 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open) {
-			if(body.getPosition().dst(state.getPlayer().getBody().getPosition()) > 3) {
+			if(getPosition().dst(state.getPlayer().getPosition()) > 3) {
 				leave();
 				open = false;
 			}
@@ -106,7 +106,7 @@ public class HubEvent extends Event {
 	@Override
 	public void clientController(float delta) {
 		if (open) {
-			if(body.getPosition().dst(state.getPlayer().getBody().getPosition()) > 3) {
+			if(getPosition().dst(state.getPlayer().getPosition()) > 3) {
 				leave();
 				open = false;
 			}

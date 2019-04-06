@@ -24,13 +24,13 @@ public class HitboxOnContactWallParticles extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
 			new ParticleEntity(state, 
-					(int)(this.hbox.getBody().getPosition().x * PPM), 
-					(int)(this.hbox.getBody().getPosition().y * PPM),
+					(int)(this.hbox.getPosition().x * PPM), 
+					(int)(this.hbox.getPosition().y * PPM),
 					effect, 0.1f, true, particleSyncType.CREATESYNC);
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
 			new ParticleEntity(state, 
-					(int)(this.hbox.getBody().getPosition().x * PPM), 
-					(int)(this.hbox.getBody().getPosition().y * PPM),
+					(int)(this.hbox.getPosition().x * PPM), 
+					(int)(this.hbox.getPosition().y * PPM),
 					effect, 0.1f, true, particleSyncType.CREATESYNC);
 		}
 	}

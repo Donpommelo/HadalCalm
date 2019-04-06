@@ -38,16 +38,16 @@ public class AbyssalInsignia extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				releaseVengefulSpirits(state, new Vector2(
-						(vic.getSchmuck().getBody().getPosition().x * PPM), 
-						(vic.getSchmuck().getBody().getPosition().y * PPM)), 
+						(vic.getSchmuck().getPosition().x * PPM), 
+						(vic.getSchmuck().getPosition().y * PPM)), 
 						inflicted, inflicted.getSchmuck().getHitboxfilter());
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
 				releaseVengefulSpirits(state, new Vector2(
-						(inflicted.getSchmuck().getBody().getPosition().x * PPM), 
-						(inflicted.getSchmuck().getBody().getPosition().y * PPM)), 
+						(inflicted.getSchmuck().getPosition().x * PPM), 
+						(inflicted.getSchmuck().getPosition().y * PPM)), 
 						inflicted, inflicted.getSchmuck().getHitboxfilter());
 			}
 		};

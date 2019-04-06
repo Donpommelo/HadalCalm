@@ -45,8 +45,8 @@ public class AnarchistsCookbook extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					WeaponUtils.createGrenade(state,
-							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-							inflicted.getSchmuck().getBody().getPosition().y * PPM,
+							inflicted.getSchmuck().getPosition().x * PPM, 
+							inflicted.getSchmuck().getPosition().y * PPM,
 							inflicted.getSchmuck(), inflicted.getCurrentTool(), 
 							baseDamage, knockback, projectileWidth, gravity, lifespan, restitution, projDura, 
 							new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());

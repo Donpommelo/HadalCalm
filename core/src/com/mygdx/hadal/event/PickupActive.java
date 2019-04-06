@@ -132,13 +132,13 @@ public class PickupActive extends Event {
 		
 		batch.setProjectionMatrix(state.sprite.combined);
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		float y = body.getPosition().y * PPM + height / 2;
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, item.getName(), body.getPosition().x * PPM - width / 2, y);
+		float y = getPosition().y * PPM + height / 2;
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, item.getName(), getPosition().x * PPM - width / 2, y);
 	}
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), body.getPosition().scl(PPM), PickupType.ACTIVE, unlock.toString());
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.ACTIVE, unlock.toString());
 	}
 	
 	@Override
