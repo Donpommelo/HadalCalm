@@ -129,8 +129,8 @@ public class WeaponUtils {
 		return null;
 	}
 	
-	private static final float beeBaseDamage = 1.5f;
-	private static final float beeKnockback = 5.0f;
+	private static final float beeBaseDamage = 2.5f;
+	private static final float beeKnockback = 7.5f;
 	private static final int beeWidth = 23;
 	private static final int beeHeight = 21;
 	private static final int beeDurability = 3;

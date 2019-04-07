@@ -28,7 +28,7 @@ public class ChainLightning extends RangedWeapon {
 	private final static int reloadAmount = 0;
 
 	private final static float recoil = 0.0f;
-	private final static float baseDamage = 15.0f;
+	private final static float baseDamage = 20.0f;
 	private final static float knockback = 8.0f;
 	private final static float projectileSpeedStart = 50.0f;
 	private final static int projectileWidth = 80;

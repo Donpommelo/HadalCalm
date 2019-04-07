@@ -28,12 +28,12 @@ public class Boomerang extends RangedWeapon {
 	private final static float baseDamage = 25.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 25.0f;
+	private final static float projectileSpeed = 35.0f;
 	private final static int projectileWidth = 90;
 	private final static int projectileHeight = 90;
 	private final static float lifespanx = 4.0f;
 	private final static float gravity = 0;
-	private final static float returnAmp = 1.1f;
+	private final static float returnAmp = 1.0f;
 
 	private final static int projDura = 1;
 	

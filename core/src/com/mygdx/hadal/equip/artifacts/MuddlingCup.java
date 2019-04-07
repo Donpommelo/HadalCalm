@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -28,7 +29,7 @@ public class MuddlingCup extends Artifact {
 			
 			@Override
 			public void onAirBlast(Equipable tool) {
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), tool.getWeaponVelo().scl(projSpeed),
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), new Vector2(tool.getWeaponVelo()).scl(projSpeed),
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
