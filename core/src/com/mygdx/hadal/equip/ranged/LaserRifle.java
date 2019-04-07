@@ -2,6 +2,8 @@ package com.mygdx.hadal.equip.ranged;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -24,19 +26,19 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class LaserRifle extends RangedWeapon {
 
 	private final static String name = "Laser Rifle";
-	private final static int clipSize = 9;
+	private final static int clipSize = 6;
 	private final static int ammoSize = 30;
-	private final static float shootCd = 0.4f;
+	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 18.0f;
+	private final static float baseDamage = 20.0f;
 	private final static float recoil = 2.5f;
 	private final static float knockback = 16.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 2000;
 	private final static int projectileHeight = 48;
-	private final static float lifespan = 0.1f;
+	private final static float lifespan = 0.5f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
@@ -100,6 +102,23 @@ public class LaserRifle extends RangedWeapon {
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
 				Vector2 newPosition = getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
+			}
+			
+			@Override
+			public void render(SpriteBatch batch) {
+				
+				float transparency = Math.max(0, this.getLifeSpan() / lifespan);
+				batch.setProjectionMatrix(state.sprite.combined);
+				batch.setColor(1f, 1f, 1f, transparency);
+				
+				batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
+						getPosition().x * PPM - width / 2, 
+						getPosition().y * PPM - height / 2, 
+						width / 2, height / 2,
+						width, height, 1, 1, 
+						(float) Math.toDegrees(getOrientation()) + 180);
+				
+				batch.setColor(1f, 1f, 1f, 1);
 			}
 		};
 		

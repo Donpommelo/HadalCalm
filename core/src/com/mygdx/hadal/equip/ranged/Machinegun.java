@@ -24,12 +24,12 @@ public class Machinegun extends RangedWeapon {
 	private final static int ammoSize = 90;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 12.0f;
+	private final static float baseDamage = 10.0f;
 	private final static float recoil = 1.25f;
 	private final static float knockback = 2.5f;
-	private final static float projectileSpeed = 40.0f;
+	private final static float projectileSpeed = 70.0f;
 	private final static int projectileWidth = 96;
 	private final static int projectileHeight = 12;
 	private final static float lifespan = 0.75f;

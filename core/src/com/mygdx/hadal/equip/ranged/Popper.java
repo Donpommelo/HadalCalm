@@ -23,28 +23,33 @@ public class Popper extends RangedWeapon {
 
 	private final static String name = "Popper";
 	private final static int clipSize = 1;
-	private final static int ammoSize = 12;
+	private final static int ammoSize = 22;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.2f;
-	private final static float reloadTime = 0.4f;
+	private final static float reloadTime = 0.6f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 18.0f;
 	private final static float knockback = 15.0f;
-	private final static float projectileSpeed = 50.0f;
-	private final static int projectileWidth = 120;
-	private final static int projectileHeight = 120;
+	private final static float projectileSpeed = 80.0f;
+	private final static int projectileWidth = 90;
+	private final static int projectileHeight = 90;
 	private final static float lifespan = 0.3f;
-	private final static float gravity = 6.0f;
+	private final static float gravity = 5.0f;
 	
-	private final static int projDura = 1;
+	private final static int projDura = 3;
 	
-	private final static int numProj = 20;
-	private final static int spread = 60;
-	private final static int fragWidth = 40;
-	private final static int fragHeight = 40;
-	private final static float fragLifespan = 0.25f;
-	private final static float fragDamage = 3.0f;
+	private final static int numProj = 15;
+	private final static int spread = 20;
+	private final static float fragSpeed = 30.0f;
+	private final static int fragWidth = 30;
+	private final static int fragHeight = 30;
+	private final static float fragLifespan = 3.0f;
+	private final static float fragDamage = 5.0f;
+	private final static float fragGravity = 7.5f;
+
+	private final static float projDampen = 8.0f;
+	private final static float fragDampen = 10.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 	private final static Sprite fragSprite = Sprite.ORB_PINK;
@@ -67,30 +72,30 @@ public class Popper extends RangedWeapon {
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
-			private float controllerCount = 0;
-			
 			@Override
-			public void controller(float delta) {
-				controllerCount+=delta;
-
-				if (controllerCount >= 1/60f) {
-					Vector2 force = new Vector2(hbox.getLinearVelocity().nor().scl(-hbox.getMass() * projectileSpeed * 4).x,
-							-Math.abs(hbox.getLinearVelocity().nor().scl(hbox.getMass() * projectileSpeed * 5).y));
-					hbox.applyForceToCenter(force);
-					controllerCount -= delta;
-				}
+			public void create() {
+				super.create();
+				hbox.getBody().setLinearDamping(projDampen);
 			}
 			
 			@Override
 			public void die() {
 				for (int i = 0; i < numProj; i++) {
-					float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-					Vector2 newVelocity = new Vector2(startVelocity);
+					float newDegrees = (float) (new Vector2(0, 1).angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+					Vector2 newVelocity = new Vector2(0, 1).nor().scl(fragSpeed);
 					
 					Hitbox frag = new HitboxSprite(state, 
 							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,
-							fragWidth, fragHeight, gravity, fragLifespan, projDura, 0, newVelocity.setAngle(newDegrees),
-							filter, true, true, user, fragSprite);
+							fragWidth, fragHeight, fragGravity, fragLifespan, projDura, 0, newVelocity.setAngle(newDegrees),
+							filter, true, true, user, fragSprite) {
+						
+						@Override
+						public void create() {
+							super.create();
+							hbox.getBody().setLinearDamping(fragDampen);
+						}
+					};
+					
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactWallDieStrategy(state, frag, user.getBodyData()));

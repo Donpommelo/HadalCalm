@@ -17,18 +17,18 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Moraygun extends RangedWeapon {
 
 	private final static String name = "Moraygun";
-	private final static int clipSize = 3;
-	private final static int ammoSize = 18;
-	private final static float shootCd = 0.4f;
+	private final static int clipSize = 7;
+	private final static int ammoSize = 21;
+	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 9.0f;
+	private final static float baseDamage = 6.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeedStart = 300.0f;
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 75;
+	private final static int projectileWidth = 45;
+	private final static int projectileHeight = 45;
 	private final static float lifespan = 4.5f;
 	private final static float gravity = 0.0f;
 	
@@ -38,8 +38,8 @@ public class Moraygun extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
-	private final static int numProj = 5;
-	private final static float moveInterval = 0.05f;
+	private final static int numProj = 6;
+	private final static float moveInterval = 0.04f;
 	
 	public Moraygun(Schmuck user) {
 		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);

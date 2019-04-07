@@ -37,7 +37,7 @@ public class Underminer extends RangedWeapon {
 	private final static int projectileWidth = 80;
 	private final static int projectileHeight = 80;
 	private final static float lifespan = 3.5f;
-	private final static float gravity = 3;
+	private final static float gravity = 2;
 	
 	private final static int projDura = 2;
 	
@@ -46,7 +46,7 @@ public class Underminer extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float activatedSpeed = 4.0f;
+	private final static float activatedSpeed = 10.0f;
 
 	private final static int explosionRadius = 400;
 	private final static float explosionDamage = 40.0f;

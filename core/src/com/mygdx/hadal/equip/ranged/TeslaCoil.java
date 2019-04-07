@@ -27,12 +27,12 @@ public class TeslaCoil extends RangedWeapon {
 	private final static String name = "Tesla Coil";
 	private final static int clipSize = 4;
 	private final static int ammoSize = 20;
-	private final static float shootCd = 0.1f;
+	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
-	private final static float projectileSpeed = 40.0f;
+	private final static float projectileSpeed = 60.0f;
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 75;
 	private final static float lifespan = 5.0f;
@@ -45,11 +45,11 @@ public class TeslaCoil extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
 	private final static float radius = 11.0f;
-	private final static float activatedDuration = 3.0f;
+	private final static float activatedDuration = 1.5f;
 	private final static float pulseInterval = 0.1f;
 	private final static float pulseSpeed = 10.0f;
 	private final static int pulseSize = 30;
-	private final static float pulseDamage = 6.0f;
+	private final static float pulseDamage = 9.0f;
 	
 	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
 
