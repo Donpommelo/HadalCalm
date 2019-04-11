@@ -28,6 +28,7 @@ public enum UnlockArtifact {
 	DEPLORABLE_APPARATUS(DeplorableApparatus.class),
 	EELSKIN_COVER(EelskinCover.class),
 	EMAUDELINES_PRISM(EmaudelinesPrism.class),
+	EXTRA_ROW_OF_TEETH(ExtraRowofTeeth.class),
 	FARADAYS_CAGE(FaradaysCage.class),
 	FENS_CLIPPED_WINGS(FensClippedWings.class),
 	FORAGERS_HIVE(ForagersHive.class),

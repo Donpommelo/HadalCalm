@@ -21,6 +21,17 @@ EIGHT_BALL: {
 		RANDOM_POOL,
 	]
 }
+EXTRA_ROW_OF_TEETH: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: "Extra Row of Teeth"
+	description: "+Clip Size"
+    descriptionLong: ""
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 ABYSSAL_INSIGNIA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Abyssal Insignia
