@@ -184,7 +184,6 @@ public class VictoryState extends GameState {
 			getGsm().removeState(VictoryState.class);
 	    	getGsm().removeState(PlayState.class);
 	    	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
-	    	HadalGame.server.server.sendToAllTCP(new Packets.LoadLevel(UnlockLevel.HUB, false));
 		}
 	}
 	

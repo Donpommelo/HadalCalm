@@ -339,7 +339,7 @@ public class KryoClient {
         		 * The server tells us to create a new player
         		 * Create the player, unless it is ourselves(based on our given id)
         		 * If the player is ourselves, we attach our state's player (ourselves) to the entity.
-        		 * Essentially, we create new "other players" but always reuser our state's player for ourselves
+        		 * Essentially, we create new "other players" but always reuse our state's player for ourselves
         		 */
         		if (o instanceof Packets.CreatePlayer) {
         			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
