@@ -535,7 +535,7 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.SyncLoadout) {
         			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
-        			Log.info("LOADOUT SYNC: " + p.entityId);
+        			Log.info("LOADOUT SYNC: " + p.entityID);
         			
         			final ClientState cs = getClientState();
 					
@@ -544,7 +544,7 @@ public class KryoClient {
 	    					
 	    					@Override
 	    					public void execute() {
-	    						HadalEntity entity = cs.findEntity(p.entityId);
+	    						HadalEntity entity = cs.findEntity(p.entityID);
 	    						
 	    						if (entity != null) {
 	    							if (entity instanceof Player) {
@@ -585,7 +585,26 @@ public class KryoClient {
 					}
         		}
         		
-        		
+        		if (o instanceof Packets.SyncCamera) {
+        			final Packets.SyncCamera p = (Packets.SyncCamera) o;
+            		
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+								cs.setZoom(p.zoom);
+								if (p.entityID == null) {
+									cs.setCameraTarget(cs.getPlayer());
+								} else {
+									cs.setCameraTarget(cs.findEntity(p.entityID));
+								}
+							}
+						});
+					}
+        		}
         	}
         });       
 	}

@@ -209,20 +209,6 @@ public class ClientState extends PlayState {
 		case LOSE:
 			if (respawn) {
 				
-				//reset the player's camera to saved values
-				boolean resetCamera = false;
-				if (saveCameraPoint.equals(player)) {
-					resetCamera = true;
-				}
-				this.zoomDesired = saveZoom;
-				
-				if (resetCamera) {
-					this.cameraTarget = player;
-					this.saveCameraPoint = player;
-				} else {
-					this.cameraTarget = saveCameraPoint;
-				}
-				
 				//Inform the server that we have finished transitioning to tell them to make us a new player.
 				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
 				

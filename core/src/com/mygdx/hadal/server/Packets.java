@@ -539,7 +539,7 @@ public class Packets {
 	}
 	
 	public static class SyncLoadout {
-		public String entityId;
+		public String entityID;
 		public Loadout loadout;
 		public SyncLoadout() {}
 		
@@ -555,7 +555,7 @@ public class Packets {
 		 * @param loadout: Player's new loadout
 		 */
 		public SyncLoadout(String entityId, Loadout loadout) {
-			this.entityId = entityId;
+			this.entityID = entityId;
 			this.loadout = loadout;
 		}
 	}
@@ -619,6 +619,18 @@ public class Packets {
 		}
 	}
 	
+	public static class SyncCamera {
+		public String entityID;
+		public float zoom;
+
+		public SyncCamera() {}
+		
+		public SyncCamera(String entityID, float zoom) {
+			this.entityID = entityID;
+			this.zoom = zoom;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -654,5 +666,6 @@ public class Packets {
     	kryo.register(SyncSchmuck.class);
     	kryo.register(SyncPlayer.class);
     	kryo.register(SyncParticles.class);
+    	kryo.register(SyncCamera.class);
     }
 }

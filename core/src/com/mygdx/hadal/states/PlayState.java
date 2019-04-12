@@ -125,14 +125,9 @@ public class PlayState extends GameState {
 	//Starting position of players spawning into the world
 	private int startX, startY;
 	
-	//If a player respawns, they will respawn at the coordinates of this safe point instead.
-	private int safeX, safeY;
-	
+	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
+	//That savepoint contains zoom and camera target that will be set.
 	private ArrayList<SavePoint> savePoints;
-	
-	//If a player respawns, these are the zoom and camera target that will be set.
-	protected float saveZoom;
-	protected HadalEntity saveCameraPoint;
 	
 	//Do players respawn after dying? Can players hurt each other? Is this a practice level (like the hub?)
 	protected boolean respawn, pvp, practice;
@@ -244,14 +239,9 @@ public class PlayState extends GameState {
 
 		controller = new PlayerController(player);	
 		
-		this.savePoints = new ArrayList<SavePoint>();
-		savePoints.add(new SavePoint(new Vector2(startX, startY), zoomDesired, cameraTarget));
-		
 		//Set up "save point" as starting point
-		this.safeX = startX;
-		this.safeY = startY;
-		this.saveZoom = zoomDesired;
-		this.saveCameraPoint = cameraTarget;
+		this.savePoints = new ArrayList<SavePoint>();
+		savePoints.add(new SavePoint(new Vector2(startX, startY), zoomDesired, null));
 		
 		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
@@ -530,24 +520,28 @@ public class PlayState extends GameState {
 		case LOSE:
 			if (respawn) {
 				
+				SavePoint getSave = getSavePoint();
+				
 				//reset the player's camera to saved values
 				boolean resetCamera = false;
-				if (saveCameraPoint.equals(player)) {
+				if (getSave.getZoomPoint() == null) {
 					resetCamera = true;
 				}
 				
 				//Create a new player
-				player = new Player(this, (int)(getSafeX() * PPM),
-						(int)(getSafeY() * PPM), gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData());
+				player = new Player(this, 
+						(int)(getSave.getLocation().x * PPM),
+						(int)(getSave.getLocation().y * PPM), 
+						gsm.getRecord().getName(), 
+						player.getPlayerData().getLoadout(), player.getPlayerData());
 				
 				((PlayerController)controller).setPlayer(player);
 				
-				this.zoomDesired = saveZoom;
+				this.zoomDesired = getSave.getZoom();
 				if (resetCamera) {
 					this.cameraTarget = player;
-					this.saveCameraPoint = player;
 				} else {
-					this.cameraTarget = saveCameraPoint;
+					this.cameraTarget = getSave.getZoomPoint();
 				}
 
 				//Make the screen fade back in
@@ -787,20 +781,20 @@ public class PlayState extends GameState {
 		this.startX = (int) (x / PPM);
 		this.startY = (int) (y / PPM);
 	}
-
-	public void setSafe(int x, int y) {
-		this.safeX = x;
-		this.safeY = y;
-		this.saveZoom = zoomDesired;
-		this.saveCameraPoint = cameraTarget;
+	
+	public SavePoint getSavePoint() {
+		if (savePoints.isEmpty()) {
+			return new SavePoint(new Vector2(startX, startY), zoomDesired, null);
+		}
+		int randomIndex = GameStateManager.generator.nextInt(savePoints.size());
+		return savePoints.get(randomIndex);
 	}
 	
-	public int getSafeX() {
-		return safeX;
-	}
-
-	public int getSafeY() {
-		return safeY;
+	public void addSavePoint(Vector2 pos, float zoom, HadalEntity target, boolean clear) {
+		if (clear) {
+			savePoints.clear();
+		}
+		savePoints.add(new SavePoint(pos, zoom, target));
 	}
 
 	public void setCameraTarget(HadalEntity cameraTarget) {

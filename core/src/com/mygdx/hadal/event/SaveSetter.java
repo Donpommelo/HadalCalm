@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -19,8 +20,13 @@ public class SaveSetter extends Event {
 
 	private static final String name = "Save Point";
 
-	public SaveSetter(PlayState state) {
+	private float zoom;
+	private boolean clear;
+	
+	public SaveSetter(PlayState state, float zoom, boolean clear) {
 		super(state, name);
+		this.zoom = zoom;
+		this.clear = clear;
 	}
 	
 	@Override
@@ -30,7 +36,8 @@ public class SaveSetter extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
-					state.setSafe((int)event.getConnectedEvent().getPosition().x, (int)event.getConnectedEvent().getPosition().y);
+					state.addSavePoint(new Vector2(event.getConnectedEvent().getPosition().x, event.getConnectedEvent().getPosition().y),
+							zoom, null, clear);
 				}
 			}
 		};

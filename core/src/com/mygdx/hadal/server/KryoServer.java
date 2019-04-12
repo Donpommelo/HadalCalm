@@ -17,6 +17,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -49,7 +50,7 @@ public class KryoServer {
 	/**
 	 * This is called upon starting a new server. initialize server and tracked client data 
 	 */
-	public void init() {
+	public void init(boolean start) {
 		Kryo kryo = new Kryo();
 		kryo.setReferences(true);
 		KryoSerialization serialization = new KryoSerialization(kryo);
@@ -58,6 +59,10 @@ public class KryoServer {
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
 		scores.put(0, new SavedPlayerFields(gsm.getRecord().getName()));
+		
+		if (!start) {
+			return;
+		}
 		
 		server.addListener(new Listener() {
 			
@@ -183,7 +188,6 @@ public class KryoServer {
 					if (ps != null) {
                         switch(p.state) {
 						case LOSE:
-							
 							//Create a new player for the client (atm, this is just on respawn)
 							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), data);
 							break;
@@ -352,9 +356,10 @@ public class KryoServer {
 
 			@Override
 			public void execute() {
+				SavePoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = new Player(ps, (int)(ps.getStartX() * PPM), (int)(ps.getStartY() * PPM),
+				Player newPlayer = new Player(ps, (int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM),
 						name, loadout, data);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
@@ -373,6 +378,14 @@ public class KryoServer {
 		        
 		        //Inform the client that their new player has been created and give them their new id
 		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
+		        
+		        String zoomPointID = null;
+		        
+		        if (newSave.getZoomPoint() != null) {
+		        	zoomPointID = newSave.getZoomPoint().getEntityID().toString();
+		        }
+		        
+		        server.sendToTCP(connId, new Packets.SyncCamera(zoomPointID, newSave.getZoom()));
 			}
 		});
 	}

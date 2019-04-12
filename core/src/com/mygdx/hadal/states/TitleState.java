@@ -97,7 +97,7 @@ public class TitleState extends GameState {
 						gsm.getRecord().setName(enterName.getText());
 						
 						//Start up the server
-						HadalGame.server.init();
+						HadalGame.server.init(true);
 						
 						//Enter the Hub State.
 			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
@@ -113,7 +113,7 @@ public class TitleState extends GameState {
 						gsm.getRecord().setName(enterName.getText());
 						
 						//Start up the server
-						HadalGame.server.init();
+						HadalGame.server.init(false);
 						
 						//Enter the Hub State.
 			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
