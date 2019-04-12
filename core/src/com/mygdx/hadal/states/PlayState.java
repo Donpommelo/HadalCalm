@@ -46,6 +46,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.stages.PlayStateStage;
+import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -127,11 +128,13 @@ public class PlayState extends GameState {
 	//If a player respawns, they will respawn at the coordinates of this safe point instead.
 	private int safeX, safeY;
 	
+	private ArrayList<SavePoint> savePoints;
+	
 	//If a player respawns, these are the zoom and camera target that will be set.
 	protected float saveZoom;
 	protected HadalEntity saveCameraPoint;
 	
-	//Do players respawn after dying? Can players hurt each other? Is this a practice lecel (like the hub?)
+	//Do players respawn after dying? Can players hurt each other? Is this a practice level (like the hub?)
 	protected boolean respawn, pvp, practice;
 	
 	//Is this playstate the server?
@@ -241,6 +244,9 @@ public class PlayState extends GameState {
 
 		controller = new PlayerController(player);	
 		
+		this.savePoints = new ArrayList<SavePoint>();
+		savePoints.add(new SavePoint(new Vector2(startX, startY), zoomDesired, cameraTarget));
+		
 		//Set up "save point" as starting point
 		this.safeX = startX;
 		this.safeY = startY;
@@ -331,7 +337,7 @@ public class PlayState extends GameState {
 		//On the very first tick, server tells all clients that it is loaded
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
-			HadalGame.server.server.sendToAllTCP(new Packets.ServerLoaded());
+			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
 		}
 		
 		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
@@ -352,7 +358,7 @@ public class PlayState extends GameState {
 			//Upon creating an entity, tell the clients so they can follow suit (if the entity calls for it)
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.server.sendToAllTCP(packet);
+				HadalGame.server.sendToAllTCP(packet);
 			}
 		}
 		createList.clear();
@@ -364,19 +370,21 @@ public class PlayState extends GameState {
 			entity.dispose();
 			
 			//Upon deleting an entity, tell the clients so they can follow suit.
-			HadalGame.server.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
+			HadalGame.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
 		}
 		removeList.clear();
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		//We also send client a sync packet if the entity requires.
-		for (HadalEntity entity : hitboxes) {
-			entity.controller(delta);
-			entity.onServerSync();
-		}
-		for (HadalEntity entity : entities) {
-			entity.controller(delta);
-			entity.onServerSync();
+		if (HadalGame.server.getServer() != null) {
+			for (HadalEntity entity : hitboxes) {
+				entity.controller(delta);
+				entity.onServerSync();
+			}
+			for (HadalEntity entity : entities) {
+				entity.controller(delta);
+				entity.onServerSync();
+			}
 		}
 		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
@@ -597,7 +605,7 @@ public class PlayState extends GameState {
 			beginTransition(state);
 			
 			//Server tells clients to begin a transition to the new state
-			HadalGame.server.server.sendToAllTCP(new Packets.ClientStartTransition(nextState));
+			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState));
 		}
 	}
 	
@@ -616,7 +624,7 @@ public class PlayState extends GameState {
 			//If a client dies, we tell them to transition to a lose state.
 			for (int connId : HadalGame.server.getPlayers().keySet()) {
 				if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-					HadalGame.server.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.LOSE));
+					HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.LOSE));
 				}
 			}
 		}
@@ -635,7 +643,7 @@ public class PlayState extends GameState {
 	 */
 	public void levelEnd(transitionState state) {
 		beginTransition(state);
-		HadalGame.server.server.sendToAllTCP(new Packets.ClientStartTransition(state));
+		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(state));
 	}
 	
 	/**
@@ -654,7 +662,9 @@ public class PlayState extends GameState {
 	
 	public void returnToTitle() {
 		if (server) {
-			HadalGame.server.server.stop();
+			if (HadalGame.server.getServer() != null) {
+				HadalGame.server.getServer().stop();
+			}
 		} else {
 			HadalGame.client.client.stop();
 		}
@@ -671,13 +681,13 @@ public class PlayState extends GameState {
 		for (HadalEntity entity : entities) {
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.server.sendToTCP(connId, entity.onServerCreate());
+				HadalGame.server.sendToTCP(connId, entity.onServerCreate());
 			}
 		}
 		for (HadalEntity entity : hitboxes) {
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.server.sendToTCP(connId, entity.onServerCreate());
+				HadalGame.server.sendToTCP(connId, entity.onServerCreate());
 			}
 		}
 	}

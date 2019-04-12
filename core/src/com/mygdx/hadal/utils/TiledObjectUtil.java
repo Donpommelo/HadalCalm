@@ -271,7 +271,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("filter", (short)0, short.class));
 		}
 		if (object.getName().equals("Save")) {
-			e = new SavePoint(state);
+			e = new SaveSetter(state);
 		}
 		if (object.getName().equals("Text")) {
 			e = new Text(state, (int)rect.width, (int)rect.height, 

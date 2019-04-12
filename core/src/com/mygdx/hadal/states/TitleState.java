@@ -34,14 +34,14 @@ public class TitleState extends GameState {
 	private Table table;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text nameDisplay, nameRand, hostOption, joinOption, exitOption, settingsOption, searchOption, notifications;
+	private Text nameDisplay, nameRand, hostOption, singleOption, joinOption, exitOption, settingsOption, searchOption, notifications;
 	
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
 	
 	//Dimentions and position of the title menu
 	private final static int width = 700;
-	private final static int height = 180;
+	private final static int height = 240;
 	private final static int xOffset = 100;
 
 	//This boolean determines if connection was attempted. Used to avoid multiple connections.
@@ -75,6 +75,8 @@ public class TitleState extends GameState {
 				hostOption = new Text(HadalGame.assetManager, "HOST SERVER", 0, 0, Color.BLACK);
 				hostOption.setScale(0.5f);
 				hostOption.addMouseOverStuff();
+				singleOption = new Text(HadalGame.assetManager, "SINGLE PLAYER", 0, 0, Color.BLACK);
+				singleOption.setScale(0.5f);
 				joinOption = new Text(HadalGame.assetManager, "JOIN", 0, 0, Color.BLACK);
 				joinOption.setScale(0.5f);
 				searchOption = new Text(HadalGame.assetManager, "SEARCH?", 0, 0, Color.BLACK);
@@ -87,6 +89,22 @@ public class TitleState extends GameState {
 				notifications.setScale(0.5f);
 
 				hostOption.addListener(new ClickListener() {
+					
+					@Override
+			        public void clicked(InputEvent e, float x, float y) {
+						
+						//Save current name into records.
+						gsm.getRecord().setName(enterName.getText());
+						
+						//Start up the server
+						HadalGame.server.init();
+						
+						//Enter the Hub State.
+			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
+			        }
+			    });
+				
+				singleOption.addListener(new ClickListener() {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
@@ -221,6 +239,7 @@ public class TitleState extends GameState {
 				table.add(nameDisplay).pad(5).expandY();
 				table.add(enterName).width(300);
 				table.add(nameRand).row();
+				table.add(singleOption).expandY().row();
 				table.add(hostOption).expandY().row();
 				table.add(joinOption).expandY();
 				table.add(enterIP);

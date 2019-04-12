@@ -15,11 +15,11 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class SavePoint extends Event {
+public class SaveSetter extends Event {
 
 	private static final String name = "Save Point";
 
-	public SavePoint(PlayState state) {
+	public SaveSetter(PlayState state) {
 		super(state, name);
 	}
 	

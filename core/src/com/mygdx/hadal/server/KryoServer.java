@@ -32,7 +32,7 @@ import com.mygdx.hadal.states.VictoryState;
 public class KryoServer {
 	
 	//Me server
-	public Server server;
+	private Server server;
 	
 	//This is the gsm of the server
 	public GameStateManager gsm;
@@ -123,7 +123,7 @@ public class KryoServer {
 						}
 						
 						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null);                        
-                        server.sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
+                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
 					} else {
 						Log.info("Server received PlayerConnect before entering PlayState!");
 					}
@@ -141,7 +141,7 @@ public class KryoServer {
 					//If we are paused, inform the connected client we are paused.
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
 						PauseState pss = ((PauseState)gsm.getStates().peek());
-						HadalGame.server.server.sendToTCP(c.getID(), new Packets.Paused(pss.getPauser()));
+						HadalGame.server.sendToTCP(c.getID(), new Packets.Paused(pss.getPauser()));
 					}
 					
 					if (ps != null) {
@@ -239,7 +239,7 @@ public class KryoServer {
         				if (p != null) {
         					final PauseState cs = (PauseState) gsm.getStates().peek();
             				cs.setToRemove(true);
-            				HadalGame.server.server.sendToAllExceptTCP(c.getID(), new Packets.Unpaused(p.getName()));
+            				HadalGame.server.sendToAllExceptTCP(c.getID(), new Packets.Unpaused(p.getName()));
         				}
         			}
 				}
@@ -383,6 +383,11 @@ public class KryoServer {
 	 * @param o: packet to send
 	 */
 	public void sendPacketToPlayer(Player p, Object o) {
+		
+		if (server == null) {
+			return;
+		}
+		
 		for (Entry<Integer, Player> conn: players.entrySet()) {
 			if (conn.getValue().equals(p)) {
 				server.sendToTCP(conn.getKey(), o);
@@ -426,7 +431,9 @@ public class KryoServer {
 	 * @param text: notification text
 	 */
 	public void sendNotification(PlayState ps, int connId, String name, String text) {
-        server.sendToTCP(connId, new Packets.Notification(name, text));	
+		if (server != null) {
+			server.sendToTCP(connId, new Packets.Notification(name, text));	
+		}
 	}
 	
 	/**
@@ -436,7 +443,7 @@ public class KryoServer {
 	 * @param text: notification text
 	 */
 	public void addNotificationToAll(PlayState ps, String name, String text) {
-		if (ps.getPlayStateStage() != null) {
+		if (ps.getPlayStateStage() != null && server != null) {
 			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
 	        server.sendToAllTCP(new Packets.Notification(name, text));	
 		}
@@ -450,7 +457,7 @@ public class KryoServer {
 	 * @param text: notification text
 	 */
 	public void addNotificationToAllExcept(PlayState ps, int connId, String name, String text) {
-		if (ps.getPlayStateStage() != null) {
+		if (ps.getPlayStateStage() != null && server != null) {
 			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
 	        server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
 		}
@@ -509,6 +516,38 @@ public class KryoServer {
 		Packets.allPackets(kryo);
 	}
 	
+	public void sendToAllTCP(Object p) {
+		if (server != null) {
+			server.sendToAllTCP(p);
+		}
+	}
+	
+	public void sendToAllExceptTCP(int connId, Object p) {
+		if (server != null) {
+			server.sendToAllExceptTCP(connId, p);
+		}
+	}
+	
+	public void sendToTCP(int connId, Object p) {
+		if (server != null) {
+			server.sendToTCP(connId, p);
+		}
+	}
+	
+	public void sendToAllUDP(Object p) {
+		if (server != null) {
+			server.sendToAllUDP(p);
+		}
+	}
+	
+	public Server getServer() {
+		return server;
+	}
+
+	public void setServer(Server server) {
+		this.server = server;
+	}
+
 	public HashMap<Integer, Player> getPlayers() {
 		return players;
 	}

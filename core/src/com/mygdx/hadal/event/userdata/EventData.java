@@ -93,7 +93,7 @@ public class EventData extends HadalData {
 			break;
 		case 2:
 			onActivate(activator, p);
-			HadalGame.server.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString()));
+			HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString()));
 			break;
 		case 3:
 			onActivate(activator, p);

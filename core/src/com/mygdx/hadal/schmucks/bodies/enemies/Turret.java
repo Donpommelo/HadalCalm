@@ -259,8 +259,8 @@ public class Turret extends Enemy {
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {
-		HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), angle));
-		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
+		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), angle));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
 				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
 	}
 	

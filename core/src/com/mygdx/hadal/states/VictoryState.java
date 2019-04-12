@@ -159,7 +159,7 @@ public class VictoryState extends GameState {
 			SavedPlayerFields field = HadalGame.server.getScores().get(playerId);
 			if (field != null) {
 				ready.put(field, true);
-				HadalGame.server.server.sendToAllTCP(new Packets.ClientReady(scores.indexOf(field)));
+				HadalGame.server.sendToAllTCP(new Packets.ClientReady(scores.indexOf(field)));
 			}
 		} else {
 			

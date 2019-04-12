@@ -603,7 +603,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		HadalGame.server.server.sendToAllUDP( new Packets.SyncPlayer(entityID.toString(),
+		HadalGame.server.sendToAllUDP( new Packets.SyncPlayer(entityID.toString(),
 				(float)(Math.atan2(
 						getPosition().y - mouse.getPosition().y,
 						getPosition().x - mouse.getPosition().x) * 180 / Math.PI),

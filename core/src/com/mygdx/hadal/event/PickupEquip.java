@@ -107,7 +107,7 @@ public class PickupEquip extends Event {
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
 						UnlockEquip.getUnlockFromEquip(equip.getClass()).toString()));
 			}
 		};

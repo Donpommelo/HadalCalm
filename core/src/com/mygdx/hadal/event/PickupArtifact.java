@@ -79,7 +79,7 @@ public class PickupArtifact extends Event {
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), artifact.toString()));
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), artifact.toString()));
 			}
 		};
 		

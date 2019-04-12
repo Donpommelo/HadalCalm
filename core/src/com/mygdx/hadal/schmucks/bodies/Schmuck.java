@@ -218,7 +218,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		HadalGame.server.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
 				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
 	}
 	

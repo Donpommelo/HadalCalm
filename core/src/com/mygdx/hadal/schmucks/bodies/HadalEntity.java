@@ -189,7 +189,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void onServerSync() {
 		if (body != null) {
-			HadalGame.server.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getOrientation()));
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getOrientation()));
 		}
 	}
 	

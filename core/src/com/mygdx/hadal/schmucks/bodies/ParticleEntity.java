@@ -216,10 +216,10 @@ public class ParticleEntity extends HadalEntity {
 					Vector2 newPos = new Vector2(
 							attachedEntity.getPosition().x * PPM, 
 							attachedEntity.getPosition().y * PPM);
-					HadalGame.server.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
+					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 				}
 			} else {
-				HadalGame.server.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), new Vector2(startX, startY), on));
+				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), new Vector2(startX, startY), on));
 			}
 		}
 	}

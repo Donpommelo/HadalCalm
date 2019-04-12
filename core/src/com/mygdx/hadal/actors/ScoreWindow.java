@@ -75,7 +75,7 @@ public class ScoreWindow {
 				table.add(wins).padBottom(25).row();
 				
 				scoresToSend.add(field);
-				HadalGame.server.server.sendToAllTCP(new Packets.SyncScore(scoresToSend));
+				HadalGame.server.sendToAllTCP(new Packets.SyncScore(scoresToSend));
 			}
 		} else {
 			for (SavedPlayerFields score: HadalGame.client.scores) {				
