@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="55">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="56">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="4" name="Tile Layer 1" width="60" height="60">
   <data encoding="base64" compression="zlib">
@@ -69,7 +69,7 @@
   <object id="19" name="Multitrigger" type="Multitrigger" x="160" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
-    <property name="triggeringId" value="w1,w2"/>
+    <property name="triggeringId" value="w1,w2,w3"/>
    </properties>
   </object>
   <object id="20" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
@@ -166,6 +166,12 @@
     <property name="triggeredId" value="save2"/>
     <property name="triggeringId" value="point2"/>
     <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+  <object id="55" name="Prefab" type="Prefab" x="864" y="544" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
    </properties>
   </object>
  </objectgroup>

@@ -42,25 +42,6 @@ public class Loadout {
 		character = UnlockCharacter.valueOf(record.getCharacter());
 	}
 	
-	public Loadout(UnlockEquip... tools) {
-		multitools = new UnlockEquip[numSlots];
-		multitools[0] = UnlockEquip.NOTHING;
-		multitools[1] = UnlockEquip.NOTHING;
-		multitools[2] = UnlockEquip.NOTHING;
-		
-		artifacts = new ArrayList<UnlockArtifact>();
-
-		for (int i = 0; i < numSlots; i++) {
-			if (tools.length > i) {
-				multitools[i] = tools[i];
-			}
-		}
-		
-		startifact = UnlockArtifact.NOTHING;
-		activeItem = UnlockActives.NOTHING;
-		character = UnlockCharacter.MOREAU;
-	}
-	
 	public Loadout(Loadout old) {
 		multitools = new UnlockEquip[numSlots];
 		multitools[0] = old.multitools[0];

@@ -48,10 +48,7 @@ public class SavedPlayerFields {
 	public void registerDeath() {
 		deaths++;
 		deathStreak++;
-		
-		if (score > 0) {
-			score--;
-		}
+		score--;
 		
 		killStreak = 0;
 	}

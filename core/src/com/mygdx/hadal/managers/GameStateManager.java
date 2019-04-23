@@ -16,7 +16,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.Record;
-import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -195,19 +194,11 @@ public class GameStateManager {
 	 */
 	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
 		
-		//We check player progress here to know whether we should give the player their normal loadout or not (if tutorial)
-		Loadout realLoadout;
-		if (record.getFlags().get("INTRO") < 2) {
-			realLoadout = new Loadout(UnlockEquip.NOTHING);
-		} else {
-			realLoadout = loadout;
-		}
-		
 		if (states.empty()) {
-			states.push(new PlayState(this, realLoadout, map, true, old));
+			states.push(new PlayState(this, loadout, map, true, old));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, realLoadout, map, true, old));
+			states.push(new PlayState(this, loadout, map, true, old));
 			states.peek().show();
 		}
 	}

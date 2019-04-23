@@ -359,7 +359,7 @@ public class KryoServer {
 				SavePoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = new Player(ps, (int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM),
+				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM),
 						name, loadout, data);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);

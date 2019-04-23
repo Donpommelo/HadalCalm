@@ -36,6 +36,9 @@ import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.save.UnlockActives;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -69,7 +72,9 @@ public class PlayState extends GameState {
 	protected InputProcessor controller;
 	
 	//This is the loadout that the player starts off with when they enter the playstate
-	private Loadout loadout;
+	private UnlockEquip[] mapMultitools;
+	private UnlockArtifact mapStartifact;
+	private UnlockActives mapActiveItem;
 	
 	//These process and store the map parsed from the Tiled file.
 	protected TiledMap map;
@@ -172,12 +177,10 @@ public class PlayState extends GameState {
 
 		this.server = server;
 		
-		//If this level has a designated loadout, use it. Otherwise use the input loadout.
-		if (level.getLoadout() != null) {
-			this.loadout = level.getLoadout();
-		} else {
-			this.loadout = loadout;
-		}
+		//Maps can have a set loadout. This will override the loadout given as an input to the playstate.
+		this.mapMultitools = level.getMultitools();
+		this.mapStartifact = level.getStartifact();
+		this.mapActiveItem = level.getActiveItem();
 		this.level = level;
         
         //Initialize box2d world and related stuff
@@ -234,7 +237,7 @@ public class PlayState extends GameState {
 		}
 		
 		//Create the player and make the camera focus on it
-		this.player = new Player(this, (int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old);
+		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old);
 		this.cameraTarget = player;
 
 		controller = new PlayerController(player);	
@@ -529,7 +532,7 @@ public class PlayState extends GameState {
 				}
 				
 				//Create a new player
-				player = new Player(this, 
+				player = createPlayer( 
 						(int)(getSave.getLocation().x * PPM),
 						(int)(getSave.getLocation().y * PPM), 
 						gsm.getRecord().getName(), 
@@ -570,7 +573,7 @@ public class PlayState extends GameState {
 			
 			//remove this state and add a new play state with the player's current loadout and stats
 			getGsm().removeState(PlayState.class);
-			getGsm().addPlayState(nextLevel, loadout, player.getPlayerData(), TitleState.class);
+			getGsm().addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class);
 			break;
 		case TITLE:
 			getGsm().removeState(PlayState.class);
@@ -601,6 +604,29 @@ public class PlayState extends GameState {
 			//Server tells clients to begin a transition to the new state
 			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState));
 		}
+	}
+	
+	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old) {
+		
+		Loadout newLoadout = new Loadout(altLoadout);
+		
+		if (mapMultitools != null) {
+			for (int i = 0; i < Loadout.getNumSlots(); i++) {
+				if (mapMultitools.length > i) {
+					newLoadout.multitools[i] = mapMultitools[i];
+				}
+			}
+		}
+		
+		if (mapStartifact != null) {
+			newLoadout.startifact = mapStartifact;
+		}
+		
+		if (mapActiveItem != null) {
+			newLoadout.activeItem = mapActiveItem;
+		}
+		
+		return new Player(this, x, y, gsm.getRecord().getName(), newLoadout, old);
 	}
 	
 	/**
@@ -735,10 +761,6 @@ public class PlayState extends GameState {
 	 */
 	public Player getPlayer() {
 		return player;
-	}
-
-	public Loadout getLoadout() {
-		return loadout;
 	}
 	
 	public World getWorld() {
