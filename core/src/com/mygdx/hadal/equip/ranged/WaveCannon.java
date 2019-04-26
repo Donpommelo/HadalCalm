@@ -8,6 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
@@ -18,13 +19,13 @@ public class WaveCannon extends RangedWeapon {
 	private final static String name = "Wave Cannon";
 	private final static int clipSize = 5;
 	private final static int ammoSize = 15;
-	private final static float shootCd = 0.5f;
+	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 25.0f;
 	private final static float recoil = 12.5f;
-	private final static float knockback = 24.0f;
+	private final static float knockback = 28.0f;
 	private final static float projectileSpeed = 40.0f;
 	private final static int projectileWidth = 30;
 	private final static int projectileHeight = 30;
@@ -52,6 +53,7 @@ public class WaveCannon extends RangedWeapon {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
