@@ -16,11 +16,9 @@ import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.client.KryoClient;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.utils.NameGenerator;
 
 /**
@@ -103,7 +101,7 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.MULTI;
 						
 						//Enter the Hub State.
-			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
+			        	getGsm().gotoHubState();
 			        }
 			    });
 				
@@ -121,7 +119,7 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
-			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
+						getGsm().gotoHubState();
 			        }
 			    });
 				

@@ -52,7 +52,7 @@ public class GameoverState extends GameState{
 				loadoutOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(GameoverState.class);
-			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
+			        	getGsm().gotoHubState();
 			        }
 			    });
 				loadoutOption.setScale(0.5f);

@@ -271,6 +271,16 @@ public class GameStateManager {
 		}
 	}
 	
+	public void gotoHubState() {
+		if (currentMode == Mode.SINGLE) {
+			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class);
+		}
+		
+		if (currentMode == Mode.MULTI) {
+			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class);
+		}
+	}
+	
 	/**
 	 * This is called upon adding a new state. It maps each state enum to the actual gameState that will be added to the stack
 	 * @param state: enum for the new type of state to be added

@@ -12,9 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SortByScores;
@@ -183,7 +181,7 @@ public class VictoryState extends GameState {
 			
 			getGsm().removeState(VictoryState.class);
 	    	getGsm().removeState(PlayState.class);
-	    	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
+	    	getGsm().gotoHubState();
 		}
 	}
 	

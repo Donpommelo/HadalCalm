@@ -13,7 +13,10 @@ import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.Mode;
+import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.PlayState.transitionState;
 
 /**
  * The PauseState is pulled up by pausing in game.
@@ -26,7 +29,7 @@ public class PauseState extends GameState {
 	private Table table;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text pause, resumeOption, exitOption;
+	private Text pause, resumeOption, hubOption, exitOption;
 	
 	//This is the playstate that the pause state must be placed on top of.
 	private PlayState ps;
@@ -38,8 +41,8 @@ public class PauseState extends GameState {
 	private boolean toRemove = false;
 	
 	//Dimentions of the pause menu
-	private final static int width = 275;
-	private final static int height = 200;
+	private final static int width = 300;
+	private final static int height = 240;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
@@ -76,7 +79,7 @@ public class PauseState extends GameState {
 				pause.setScale(0.5f);
 				
 				resumeOption = new Text(HadalGame.assetManager, "RESUME?", 0, 0, Color.WHITE);
-
+				hubOption = new Text(HadalGame.assetManager, "RETURN?", 0, 0, Color.WHITE);
 				exitOption = new Text(HadalGame.assetManager, "EXIT?", 0, 0, Color.WHITE);
 				
 				resumeOption.addListener(new ClickListener() {
@@ -97,6 +100,24 @@ public class PauseState extends GameState {
 			        }
 			    });
 				
+				hubOption.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	getGsm().removeState(PauseState.class);
+			        	
+			        	if (ps.isServer()) {
+			        		//If the server unpauses, send a message and notification to all players to unpause.
+			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			        		
+			        		if (GameStateManager.currentMode == Mode.SINGLE) {
+				        		ps.loadLevel(UnlockLevel.HUB, transitionState.NEXTSTAGE);
+				        	}
+				        	if (GameStateManager.currentMode == Mode.MULTI) {
+				        		ps.loadLevel(UnlockLevel.HUB_MULTI, transitionState.NEXTSTAGE);
+				        	}
+	    				}
+			        }
+			    });
+				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	
@@ -108,6 +129,10 @@ public class PauseState extends GameState {
 				
 				table.add(pause).pad(5).expand().top().row();
 				table.add(resumeOption).expand().row();
+				
+				if (ps.isServer()) {
+					table.add(hubOption).expand().row();
+				}
 				table.add(exitOption).expand().row();
 			}
 		};
