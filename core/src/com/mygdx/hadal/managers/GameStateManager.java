@@ -54,6 +54,8 @@ public class GameStateManager {
 	//Not sure if this is a sensible thing to do, but we have an rng here so I don't need to make one whenever elsewhere
 	public static Random generator;
 	
+	public static Mode currentMode = Mode.SINGLE;
+	
 	//This enum lists all the different types of gamestates.
 	public enum State {
 		SPLASH,
@@ -64,6 +66,12 @@ public class GameStateManager {
 		VICTORY,
 		PAUSE,
 		CLIENTPLAY
+	}
+	
+	//These are the modes of the game
+	public enum Mode {
+		SINGLE,
+		MULTI
 	}
 	
 	/**

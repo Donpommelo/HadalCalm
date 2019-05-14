@@ -66,6 +66,15 @@ HUB: {
 		MISC,
 	]
 }
+HUB_MULTI: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: HUB
+	description: TEMP
+	unlocked: true
+	tags: [
+		MISC,
+	]
+}
 ARENA_2: {
 	class: com.mygdx.hadal.save.InfoLevel
 	name: ARENA_2

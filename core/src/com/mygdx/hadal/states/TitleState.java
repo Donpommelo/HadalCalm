@@ -18,6 +18,7 @@ import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.utils.NameGenerator;
@@ -99,6 +100,8 @@ public class TitleState extends GameState {
 						//Start up the server
 						HadalGame.server.init(true);
 						
+						GameStateManager.currentMode = Mode.MULTI;
+						
 						//Enter the Hub State.
 			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);
 			        }
@@ -114,6 +117,8 @@ public class TitleState extends GameState {
 						
 						//Start up the server
 						HadalGame.server.init(false);
+						
+						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
 			        	getGsm().addPlayState(UnlockLevel.HUB, new Loadout(gsm.getRecord()), null, TitleState.class);

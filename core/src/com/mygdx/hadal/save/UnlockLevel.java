@@ -8,6 +8,7 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 public enum UnlockLevel {
 
 	HUB("Maps/SS_Tunicate.tmx"),
+	HUB_MULTI("Maps/SS_Tunicate_Multi.tmx"),
 	TUTORIAL_1("Maps/tutorial1.tmx", UnlockArtifact.NOTHING, UnlockActives.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
 	ARENA_1("Maps/arena_1.tmx"),
 	ARENA_2("Maps/arena_2.tmx"),
