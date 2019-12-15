@@ -54,7 +54,7 @@ public class Enemy extends Schmuck {
 	}
 	
 	/**
-	 * When created i nthe server, tell the client what kind of enemy was reated to sync
+	 * When created in the server, tell the client what kind of enemy was reated to sync
 	 */
 	@Override
 	public Object onServerCreate() {
@@ -85,6 +85,7 @@ public class Enemy extends Schmuck {
 		TORPEDOFISH,
 		TURRET_FLAK,
 		TURRET_VOLLEY,
-		MISC,
+		MISC, 
+		BOSS,
 	}
 }

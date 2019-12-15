@@ -24,6 +24,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -305,6 +306,9 @@ public class KryoClient {
 								case TURRET_FLAK:
 								case TURRET_VOLLEY:
 									cs.addEntity(p.entityID, new Turret(cs, 0, 0, p.type, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
+									break;
+								case BOSS:
+									cs.addEntity(p.entityID, new Boss(cs, 0, 0, enemyType.BOSS, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
 									break;
 								default:
 									break;

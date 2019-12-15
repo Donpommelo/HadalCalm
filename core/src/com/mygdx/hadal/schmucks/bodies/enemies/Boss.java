@@ -108,7 +108,7 @@ public class Boss extends Enemy {
 				hitboxfilter, false, bodyData);
 		
 		//temp way of more Hp
-		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1000, bodyData));
+		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, 2000, bodyData));
 
 	}
 
@@ -211,7 +211,7 @@ public class Boss extends Enemy {
 	private static final int defaultSpinSpeed = 40;
 	private static final int charge1Speed = 40;
 	private static final int charge2Speed = 30;
-	private static final int defaultMeleeDamage = 8;
+	private static final int defaultMeleeDamage = 12;
 	private static final int defaultMeleeKB = 50;
 	
 	private void chargeAttack1() {
