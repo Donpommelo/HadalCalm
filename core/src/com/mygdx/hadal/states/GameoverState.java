@@ -8,8 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.GameoverBackdrop;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.save.UnlockLevel;
 
 /**
  * The Gameover state appears when you lose.
@@ -18,8 +19,6 @@ import com.mygdx.hadal.managers.GameStateManager.State;
  */
 public class GameoverState extends GameState{
 
-	private Stage stage;
-	
 	//Temporary links to other modules for testing.
 	private Actor playOption, loadoutOption, exitOption;
 		
@@ -44,7 +43,8 @@ public class GameoverState extends GameState{
 				playOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(GameoverState.class);
-			        	getGsm().addState(State.PLAY, TitleState.class);
+			        	getGsm().addPlayState(UnlockLevel.valueOf(gsm.getRecord().getLevel()), new Loadout(gsm.getRecord()),
+			        			null, TitleState.class);
 			        }
 			    });
 				playOption.setScale(0.5f);
@@ -52,7 +52,7 @@ public class GameoverState extends GameState{
 				loadoutOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(GameoverState.class);
-			        	getGsm().addState(State.HUB, TitleState.class);
+			        	getGsm().gotoHubState();
 			        }
 			    });
 				loadoutOption.setScale(0.5f);

@@ -27,8 +27,8 @@ public class HitboxDamageExplosionStrategy extends HitboxStrategy{
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			Vector2 kb = new Vector2(fixB.getEntity().getBody().getPosition().x - this.hbox.getBody().getPosition().x,
-					fixB.getEntity().getBody().getPosition().y - this.hbox.getBody().getPosition().y);
+			Vector2 kb = new Vector2(fixB.getEntity().getPosition().x - this.hbox.getPosition().x,
+					fixB.getEntity().getPosition().y - this.hbox.getPosition().y);
 			
 			if (fixB.equals(creator)) {
 				fixB.receiveDamage(baseDamage * selfDamageReduction, kb.nor().scl(knockback), 

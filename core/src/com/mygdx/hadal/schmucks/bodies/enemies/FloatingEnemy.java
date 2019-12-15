@@ -3,23 +3,26 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
-import com.badlogic.gdx.ai.steer.behaviors.Evade;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.schmucks.MoveStates;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -34,15 +37,13 @@ public class FloatingEnemy extends SteeringEnemy {
     
     //moveCd determines how much time until the fish processes ai again.
     private static final float aiRoamCd = 0.75f;
-    private static final float aiChaseCd = 5.0f;
+    private static final float aiChaseCd = 3.0f;
     private float aiCdCount = 0;
     
-    //Ai mode of the fish
-  	private floatingState aiState;
-  	
   	//These are used for raycasting to determing whether the player is in vision of the fish.
   	private float shortestFraction;
-  	private Fixture closestFixture;
+  	private Schmuck homeAttempt;
+	private Fixture closestFixture;
   	
   	private TextureAtlas atlas;
 	private TextureRegion fishSprite;
@@ -51,7 +52,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	
 	private float scale;
 
-	protected SteeringBehavior<Vector2> chase, escape, roam;
+	protected SteeringBehavior<Vector2> roam;
 	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -64,10 +65,10 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, String spriteId,
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y,
-				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad);
+	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, String spriteId, enemyType type,
+			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter) {
+		super(state, hbWidth * scale, hbHeight * scale, x, y, type,
+				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter);
 		
 		this.width = width;
 		this.height = height;
@@ -75,7 +76,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		this.hbHeight = hbHeight;
 		this.scale = scale;
 		
-		this.aiState = floatingState.ROAMING;
+		this.moveState = SchmuckMoveStates.FISH_ROAMING;
 		
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
 		fishSprite = atlas.findRegion(spriteId);
@@ -88,8 +89,8 @@ public class FloatingEnemy extends SteeringEnemy {
 	public void create() {
 		super.create();
 		
-		chase = new Pursue<Vector2>(this, state.getPlayer());
-		escape = new Evade<Vector2>(this, state.getPlayer());
+		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, -40, bodyData));
+
 		roam = new Wander<Vector2>(this)
 				.setWanderOffset(100)
 				.setWanderRadius(100)
@@ -104,24 +105,22 @@ public class FloatingEnemy extends SteeringEnemy {
 	@Override
 	public void controller(float delta) {
 		
-		moveState = MoveStates.STAND;
-		
-		switch (aiState) {
-		case CHASING:
-			
-			float bodyAngle = (float) (getBody().getAngle() + Math.PI / 2);
-			float angleToTarget = target.getBody().getPosition().sub(getBody().getPosition()).angleRad();
-			
-			if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
-				Vector3 attack = new Vector3(target.getBody().getPosition().x, target.getBody().getPosition().y, 0);
-				camera.project(attack);
-
-				useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)attack.x, (int)attack.y, true);
-			}			
+		switch (moveState) {
+		case FISH_CHASING:
+			if (target.isAlive()) {
+				float bodyAngle = (float) (getOrientation() + Math.PI / 2);
+				float angleToTarget = target.getPosition().sub(getPosition()).angleRad();
+				
+				if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
+					useToolStart(delta, weapon, hitboxfilter, (int)target.getPosition().x, (int)target.getPosition().y, true);
+				}
+			} else {
+				moveState = SchmuckMoveStates.FISH_ROAMING;
+				setTarget(state.getPlayer(), roam);
+			}
 			break;
 		default:
 			break;
-		
 		}
 		
 		super.controller(delta);
@@ -129,49 +128,61 @@ public class FloatingEnemy extends SteeringEnemy {
 		//When processing ai, fish attempt to raycast towards player.
 		if (aiCdCount < 0) {
 			aiCdCount += aiRoamCd;
-			aiState = floatingState.ROAMING;
 			
-			shortestFraction = 1.0f;
+			moveState = SchmuckMoveStates.FISH_ROAMING;
+			setTarget(state.getPlayer(), roam);
 			
-			if (getBody().getPosition().x != state.getPlayer().getBody().getPosition().x || 
-					getBody().getPosition().y != state.getPlayer().getBody().getPosition().y) {
-				world.rayCast(new RayCastCallback() {
+			final HadalEntity me = this;
+			world.QueryAABB((new QueryCallback() {
 
-					@Override
-					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-						if (fixture.getUserData() == null) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								closestFixture = fixture;
-								return fraction;
-							}
-						} else if (fixture.getUserData() instanceof PlayerBodyData) {
-							if (fraction < shortestFraction) {
-								shortestFraction = fraction;
-								closestFixture = fixture;
-								return fraction;
-							}
-							
-						} 
-						return -1.0f;
+				@Override
+				public boolean reportFixture(Fixture fixture) {
+					if (fixture.getUserData() instanceof BodyData) {
+						homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+						shortestFraction = 1.0f;
+						
+						
+					  	if (getPosition().x != homeAttempt.getPosition().x || 
+					  			getPosition().y != homeAttempt.getPosition().y) {
+					  		world.rayCast(new RayCastCallback() {
+
+								@Override
+								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+									if (fixture.getUserData() == null) {
+										if (fraction < shortestFraction) {
+											shortestFraction = fraction;
+											closestFixture = fixture;
+											return fraction;
+										}
+									} else if (fixture.getUserData() instanceof BodyData) {
+										if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
+											if (fraction < shortestFraction) {
+												shortestFraction = fraction;
+												closestFixture = fixture;
+												return fraction;
+											}
+										}
+									} 
+									return -1.0f;
+								}
+								
+							}, getPosition(), homeAttempt.getPosition());
+							if (closestFixture != null) {
+								if (closestFixture.getUserData() instanceof BodyData) {
+									moveState = SchmuckMoveStates.FISH_CHASING;
+									aiCdCount += aiChaseCd;
+
+									setTarget(((BodyData)closestFixture.getUserData()).getSchmuck(), 
+											new Pursue<Vector2>(me, ((BodyData)closestFixture.getUserData()).getSchmuck()));
+								}
+							} 
+						}
 					}
-					
-				}, getBody().getPosition(), target.getPosition());
-				
-				//If player is detected, begin chasing.
-				if (closestFixture != null) {
-					if (closestFixture.getUserData() instanceof PlayerBodyData ) {						
-						aiState = floatingState.CHASING;
-						aiCdCount += aiChaseCd;
-						setTarget(state.getPlayer(), chase);
-					} else {
-						setTarget(state.getPlayer(), roam);
-					}
-				} else {
-					setTarget(state.getPlayer(), roam);
+					return true;
 				}
-			}
-				
+			}), 
+				getPosition().x - aiRadius, getPosition().y - aiRadius, 
+				getPosition().x + aiRadius, getPosition().y + aiRadius);				
 		}
 		
 		//Fish must manually reload their singular weapon.
@@ -185,7 +196,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	
 	@Override
 	public float getAttackAngle() {
-		return (float) (body.getAngle() + Math.PI / 2);
+		return (float) (getOrientation() + Math.PI / 2);
 	}
 	
 	/**
@@ -196,7 +207,7 @@ public class FloatingEnemy extends SteeringEnemy {
 
 		boolean flip = false;
 		
-		if (body.getAngle() < 0) {
+		if (getOrientation() < 0) {
 			flip = true;
 		}
 		
@@ -207,20 +218,29 @@ public class FloatingEnemy extends SteeringEnemy {
 		}
 		
 		batch.draw(fishSprite, 
-				body.getPosition().x * PPM - hbHeight * scale / 2, 
-				(flip ? height * scale : 0) + body.getPosition().y * PPM - hbWidth * scale / 2, 
+				getPosition().x * PPM - hbHeight * scale / 2, 
+				(flip ? height * scale : 0) + getPosition().y * PPM - hbWidth * scale / 2, 
 				hbHeight * scale / 2, 
 				(flip ? -1 : 1) * hbWidth * scale / 2,
 				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
-				(float) Math.toDegrees(body.getAngle()) - 90);
+				(float) Math.toDegrees(getOrientation()) - 90);
 
 		if (flashingCount > 0) {
 			batch.setShader(null);
 		}
 	}
 	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), fishSprite, getLinearVelocity(), 0.5f);
+		}
+		return super.queueDeletion();
+	}
+	
 	public enum floatingState {		CHASING,
-		ESCAPING,
 		ROAMING,
 	}
 }

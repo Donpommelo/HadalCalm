@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -12,8 +13,12 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 /**
@@ -37,19 +42,35 @@ public class Event extends HadalEntity {
 	private boolean temporary;
 	private float duration;
 	
+	//Is this event affected by gravity?
 	protected float gravity = 0.0f;
 	
+	//Event sprite and rendering information
 	private Animation<TextureRegion> eventSprite;
 	private int spriteWidth;
 	private int spriteHeight;
 	private float scale = 0.25f;
     private int scaleAlign = 0;
+    
+    /* How will this event be synced?
+     * 0: Create a client illusion if it has a body
+     * 1: Create this event for clients. When activated on server, activate it for all players.
+     * 2: Create this event for clients. When activated on server, activate it for the user who activated it.
+     * 3: Create this event for clients. When activated on server, activate it for the server only.
+     */
+    private int syncType = 0;
 	
     private final static float animationSpeed = 0.8f;
     
-    private MapObject blueprint;
+    public final static int defaultPickupEventSize = 96;
+    
+    protected MapObject blueprint;
     
     protected ParticleEntity standardParticle;
+
+    //Does this event send a sync packet to client every engine tick?
+    //Default is no with the exception of moving platforms and connected events. (+specifically chosen events in the map, like nasu)
+    private boolean synced = false;
     
 	/**
 	 * Constructor for permanent events.
@@ -126,43 +147,43 @@ public class Event extends HadalEntity {
 			switch (scaleAlign) {
 			case 0:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - width / 2,
-	                    body.getPosition().y * PPM - height / 2,
+	                    getPosition().x * PPM - width / 2,
+	                    getPosition().y * PPM - height / 2,
 	                    width / 2, height / 2,
 	                    width, height, 1, 1, 0);
 				break;
 			case 1:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
-	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    getPosition().x * PPM - spriteWidth * scale / 2,
+	                    getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 2:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
-	                    body.getPosition().y * PPM - height / 2,
+	                    getPosition().x * PPM - spriteWidth * scale / 2,
+	                    getPosition().y * PPM - height / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 3:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - spriteWidth * scale / 2,
-	                    body.getPosition().y * PPM + height / 2,
+	                    getPosition().x * PPM - spriteWidth * scale / 2,
+	                    getPosition().y * PPM + height / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 4:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM - width / 2,
-	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    getPosition().x * PPM - width / 2,
+	                    getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case 5:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    body.getPosition().x * PPM + width / 2,
-	                    body.getPosition().y * PPM - spriteHeight * scale / 2,
+	                    getPosition().x * PPM + width / 2,
+	                    getPosition().y * PPM - spriteHeight * scale / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
@@ -172,7 +193,7 @@ public class Event extends HadalEntity {
 		if (body != null) {			
 			batch.setProjectionMatrix(state.sprite.combined);
 			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(0.60f);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, getText(), body.getPosition().x * PPM, body.getPosition().y * PPM);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, getText(), getPosition().x * PPM, getPosition().y * PPM);
 		}
 	}
 	
@@ -181,7 +202,7 @@ public class Event extends HadalEntity {
 	}
 	
 	public void setStandardParticle(Particle particle) {
-		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false);
+		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, particleSyncType.TICKSYNC);
 	}
 
 	public ParticleEntity getStandardParticle() {
@@ -189,12 +210,7 @@ public class Event extends HadalEntity {
 	}
 
 	public void addAmbientParticle(Particle particle) {
-		new ParticleEntity(state, this, particle, 0, 0, true);	
-	}
-
-	@Override
-	public void queueDeletion() {
-		super.queueDeletion();
+		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC);	
 	}
 	
 	@Override
@@ -253,12 +269,56 @@ public class Event extends HadalEntity {
 		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}
 	
+	/**
+	 * When this event is created, tell the client to create an illusion or event, depending on the syncType
+	 */
+	@Override
+	public Object onServerCreate() {
+		switch(syncType) {
+		case 0:
+			if (body != null) {
+				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), null, ObjectSyncLayers.STANDARD);
+			} else {
+				return null;
+			}
+		case 1:
+		case 2:
+		case 3:
+			return new Packets.CreateEvent(entityID.toString(), blueprint);
+		default:
+			return null;
+		}
+	}
+	
+	@Override
+	public void onServerSync() {
+		if (synced) {
+			super.onServerSync();
+		}
+	}
+	
 	public void setScale(float scale) {
 		this.scale = scale;
 	}
 
 	public void setScaleAlign(int scaleAlign) {
 		this.scaleAlign = scaleAlign;
+	}
+
+	public int getSyncType() {
+		return syncType;
+	}
+
+	public void setSyncType(int syncType) {
+		this.syncType = syncType;
+	}
+
+	public boolean isSynced() {
+		return synced;
+	}
+
+	public void setSynced(boolean synced) {
+		this.synced = synced;
 	}
 
 	public MapObject getBlueprint() {

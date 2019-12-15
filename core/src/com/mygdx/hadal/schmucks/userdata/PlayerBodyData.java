@@ -1,21 +1,22 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-
-
 import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.actives.Empty;
+import com.mygdx.hadal.equip.actives.NothingActive;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.statuses.ActiveItemCharge;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.WeaponModifier;
@@ -39,46 +40,121 @@ public class PlayerBodyData extends BodyData {
 	
 	private int airblastCost = 30;
 	
+	//This is the player's current loadout
 	private Loadout loadout;
+	
+	//This is a list of the player's weapons
 	private Equipable[] multitools;
+	
+	//This is a list of the player's artifacts
 	private ArrayList<Artifact> artifacts;
+	
+	//This is the artifact that the player starts off with
 	private Artifact artifactStart;
+	
+	//This is the player's active item
 	private ActiveItem activeItem;
+	
+	//This is the slot number of the player's currently selected weapon
 	private int currentSlot = 0;
+	
+	//This is the player's last used slot. (Used for switch-to-last-slot button)
 	private int lastSlot = 1;
 	
 	private Player player;
 	
+	//Override stats are used by the client to display i nthe ui instead of actually having the real server stats.
+	private float overrideMaxHp;
+	private float overrideMaxFuel;
+	private float overrideAirblastCost;
+	private int overrideClipSize;
+	private int overrideAmmoSize;
+	
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body);
 		this.player = body;
-		this.loadout = loadout;		
+		this.loadout = new Loadout(loadout);		
 		
 		currentHp = getMaxHp();
 		currentFuel = getMaxHp();
 		currentSlot = 0;
 	}
 	
+	/**
+	 * This is called when creating a brand new player with a starting loadout
+	 */
 	public void initLoadout() {
 		clearStatuses();
-		
+
+		//Acquire weapons from loadout
 		this.multitools = new Equipable[loadout.multitools.length];
 		for (int i = 0; i < loadout.multitools.length; i++) {
 			if (loadout.multitools[i] != null) {
 				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
 			}
 		}
-		
 		setEquip();
-		
+
+		//Reset artifacts list and acquire starting artifact
 		this.artifacts = new ArrayList<Artifact>();
-		artifactStart = addArtifact(loadout.artifact);
+		
+		replaceStartingArtifact(loadout.startifact);
+		
+		//Acquire active item and acquire charge status
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		addStatus(new ActiveItemCharge(player.getState(), this));		
 	}
 	
 	/**
-	 * This is run when transitioning the player into a new map/world
+	 * This is called by both the server and client for players that receive a new loadout from the other.
+	 * We give the player the new loadout information.
+	 * 
+	 * @param loadout: The new loadout for the player
+	 */
+	public void syncLoadout(Loadout loadout) {
+		
+		Loadout newLoadout = new Loadout(loadout);
+		
+		for (int i = 0; i < newLoadout.multitools.length; i++) {
+			if (loadout.multitools[i] != null) {
+				multitools[i] = UnlocktoItem.getUnlock(newLoadout.multitools[i], player);
+			}
+		}
+		
+		setEquip();
+		
+		for (Artifact a : artifacts) {
+			for (Status s: a.getEnchantment()) {
+				removeStatus(s);
+			}
+		}
+		artifacts.clear();
+		
+		for (UnlockArtifact unlock: newLoadout.artifacts) {
+			addArtifact(unlock);
+		}
+		
+		if (artifactStart != null) {
+			for (Status s : artifactStart.getEnchantment()) {
+				removeStatus(s);
+			}
+		}
+		
+		replaceStartingArtifact(newLoadout.startifact);
+		
+		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
+		player.setBodySprite(newLoadout.character.getSprite());
+		
+		this.loadout = newLoadout;
+		
+		//If this is the player being controlled by the user, update artifact ui
+		if (player.equals((player.getState().getPlayer()))) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
+	}
+	
+	/**
+	 * This is run when transitioning the player into a new map/world or respawning
 	 * @param newPlayer
 	 */
 	public void resetData(Player newPlayer, World newWorld) {
@@ -86,6 +162,10 @@ public class PlayerBodyData extends BodyData {
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
 
+		currentHp = getMaxHp();
+		currentFuel = getMaxHp();
+		currentSlot = 0;
+		
 		clearStatuses();
 		
 		for (Equipable e : multitools) {
@@ -93,6 +173,7 @@ public class PlayerBodyData extends BodyData {
 				e.setUser(player);
 			}
 		}
+		
 		for (Artifact a : artifacts) {
 			if (a != null) {
 				for (Status s : a.loadEnchantments(player.getState(), this)) {
@@ -101,6 +182,12 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 
+		if (artifactStart != null) {
+			for (Status s : artifactStart.loadEnchantments(player.getState(), this)) {
+				addStatus(s);
+			}
+		}
+		
 		//Eventually, this space might be used for a "intrinsic status" thing.
 		addStatus(new ActiveItemCharge(player.getState(), this));
 	}
@@ -111,7 +198,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void switchWeapon(int slot) {
 		if (multitools.length >= slot && schmuck.getShootDelayCount() <= 0) {
-			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof Nothing)) {
+			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
 				setEquip();
@@ -125,7 +212,7 @@ public class PlayerBodyData extends BodyData {
 	public void switchToLast() {
 		if (schmuck.getShootDelayCount() <= 0) {
 			if (lastSlot < multitools.length) {
-				if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof Nothing)) {
+				if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof NothingWeapon)) {
 					int tempSlot = lastSlot;
 					lastSlot = currentSlot;
 					currentSlot = tempSlot;
@@ -142,7 +229,7 @@ public class PlayerBodyData extends BodyData {
 	public void switchDown() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(currentSlot + i) % multitools.length] != null &&
-					!(multitools[(currentSlot + i) % multitools.length] instanceof Nothing)) {
+					!(multitools[(currentSlot + i) % multitools.length] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = (currentSlot + i) % multitools.length;
 				setEquip();
@@ -157,7 +244,7 @@ public class PlayerBodyData extends BodyData {
 	public void switchUp() {
 		for (int i = 1; i <= multitools.length; i++) {
 			if (multitools[(multitools.length + (currentSlot - i)) % multitools.length] != null &&
-					!(multitools[(multitools.length + (currentSlot - i)) % multitools.length] instanceof Nothing)) {
+					!(multitools[(multitools.length + (currentSlot - i)) % multitools.length] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = (multitools.length + (currentSlot - i)) % multitools.length;
 				setEquip();
@@ -169,21 +256,26 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * Player picks up new weapon.
 	 * @param equip: The new equip to switch in. Replaces current slot if inventory is full.
-	 * @return: If a weapon is dropped to make room for new weapon, return it, otherwise return null.
+	 * @return: If a weapon is dropped to make room for new weapon, return it, otherwise return a Nothing Weapon.
 	 */
 	public Equipable pickup(Equipable equip) {
+		
+		UnlockEquip unlock = UnlockEquip.getUnlockFromEquip(equip.getClass());
 		
 		for (WeaponModifier s : equip.getWeaponMods()) {
 			addStatus(s);
 		}
 		
 		for (int i = 0; i < Loadout.getNumSlots(); i++) {
-			if (multitools[i] == null || multitools[i] instanceof Nothing) {
+			if (multitools[i] == null || multitools[i] instanceof NothingWeapon) {
 				multitools[i] = equip;
 				multitools[i].setUser(player);
 				currentSlot = i;
  				setEquip();
-				return null;
+ 				
+ 				loadout.multitools[currentSlot] = unlock;
+ 				syncServerLoadoutChange();
+ 				return new NothingWeapon(player);
 			}
 		}
 		
@@ -197,23 +289,37 @@ public class PlayerBodyData extends BodyData {
 		multitools[currentSlot].setUser(player);
 		setEquip();
 		
-		return old;
-	}
-	
-	public ActiveItem pickup(ActiveItem item) {
-		if (activeItem == null || activeItem instanceof Empty) {
-			activeItem = item;
-			return null;
-		}
-		
-		ActiveItem old = activeItem;
-		activeItem = item;
+		loadout.multitools[currentSlot] = unlock;
+		syncServerLoadoutChange();
 		
 		return old;
 	}
 	
 	/**
-	 * empties a slot. Used when using last charge of consumable weapon.
+	 * Player picks up a new Active Item. 
+	 * @param item: Old item if nonempty and a Nothing Item otherwise
+	 * @return
+	 */
+	public ActiveItem pickup(ActiveItem item) {
+		
+		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
+
+		if (activeItem == null || activeItem instanceof NothingActive) {
+			activeItem = item;
+			return new NothingActive(player);
+		}
+		
+		ActiveItem old = activeItem;
+		activeItem = item;
+		
+		loadout.activeItem = unlock;
+		syncServerLoadoutChange();
+
+		return old;
+	}
+	
+	/**
+	 * empties a slot. Used when using last charge of consumable weapon or running out of ammunition
 	 */
 	public void emptySlot(int slot) {
 		
@@ -223,27 +329,39 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 		
-		multitools[slot] = new Nothing(player);
+		multitools[slot] = new NothingWeapon(player);
 		multitools[slot].setUser(player);
 		
 		currentSlot = slot;
 		setEquip();
+		
+		loadout.multitools[currentSlot] = UnlockEquip.NOTHING;
+		syncServerLoadoutChange();
 	}
 	
 	/**
 	 * Replaces starting artifact with input artifact. This only runs in the loadout state.
 	 */
-	public void replaceSlot(UnlockArtifact artifact) {
-		
-		artifacts.clear();
-		
+	public void replaceStartingArtifact(UnlockArtifact artifact) {
 		if (artifactStart != null) {
 			for (Status s : artifactStart.getEnchantment()) {
 				removeStatus(s);
 			}
-		}	
+		}
 		
-		artifactStart = addArtifact(artifact);
+		artifactStart = UnlocktoItem.getUnlock(artifact);
+		
+		for (Status s : artifactStart.loadEnchantments(player.getState(), this)) {
+			addStatus(s);
+		}
+		
+		loadout.startifact = artifact;
+		
+		if (player.equals((player.getState().getPlayer()))) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
+		
+		syncServerLoadoutChange();
 	}
 	
 	/**
@@ -253,12 +371,44 @@ public class PlayerBodyData extends BodyData {
 
 		Artifact newArtifact =  UnlocktoItem.getUnlock(artifact);
 		
-		for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
-			addStatus(s);
+		if (player.getState().isServer()) {
+			for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
+				addStatus(s);
+			}
 		}
 		
 		artifacts.add(newArtifact);
+
+		loadout.artifacts.add(artifact);
+		
+		if (player.equals((player.getState().getPlayer()))) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
+		
+		syncServerLoadoutChange();
+		
 		return newArtifact;
+	}
+	
+	/**
+	 * Remove a designated artifact. This is only used in specific interactions.
+	 */
+	public void removeArtifact(UnlockArtifact unlock, Artifact artifact) {
+		
+		if (player.getState().isServer()) {
+			for (Status s : artifact.loadEnchantments(player.getState(), this)) {
+				removeStatus(s);
+			}
+		}
+		
+		artifacts.remove(artifact);
+		loadout.artifacts.remove(unlock);
+		
+		if (player.equals((player.getState().getPlayer()))) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
+		
+		syncServerLoadoutChange();
 	}
 	
 	/**
@@ -273,22 +423,27 @@ public class PlayerBodyData extends BodyData {
 		calcStats();
 	}
 	
-	@Override
-	public void addStatus(Status s) {
-		super.addStatus(s);
-		player.getState().getUiStatus().addStatus(s);
+	/**
+	 * This is called when a loadout changes on the server side. Send message to all clients announcing change
+	 */
+	public void syncServerLoadoutChange() {
+		if (player.getState().isServer()) {
+			HadalGame.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+		}
 	}
 	
-	@Override
-	public void removeStatus(Status s) {
-		super.removeStatus(s);
-		player.getState().getUiStatus().removeStatus(s);
+	/**
+	 * This is called when a loadout changes on the client side.(Through hub event) Send message to all server announcing change
+	 */
+	public void syncClientLoadoutChange() {
+		if (!player.getState().isServer()) {
+			HadalGame.client.client.sendTCP(new Packets.SyncLoadout(null, loadout));
+		}
 	}
 	
 	public void clearStatuses() {
 		statuses.clear();
 		statusesChecked.clear();
-		player.getState().getUiStatus().clearStatus();
 	}
 	
 	public void fuelSpend(float cost) {
@@ -307,16 +462,32 @@ public class PlayerBodyData extends BodyData {
 	
 	@Override
 	public void die(BodyData perp, Equipable tool) {
-		
-		WeaponUtils.createExplosion(schmuck.getState(), schmuck.getBody().getPosition().x * PPM , schmuck.getBody().getPosition().y * PPM, 
-				schmuck, tool, 500, 0, 0, (short)0);
-		
-		schmuck.getState().gameOver(false);
-		super.die(perp, tool);
+		if (player.isAlive()) {
+			
+			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getPosition().x * PPM , schmuck.getPosition().y * PPM, 
+					schmuck, tool, 500, 0, 0, (short)0);
+			
+			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
+			
+			if (player.getMouse() != player.getState().getMouse()) {
+				player.getMouse().queueDeletion();
+			}
+			super.die(perp, tool);
+			
+			//Send death notification to all players
+			if (perp instanceof PlayerBodyData) {
+				Player p = (Player)perp.getSchmuck();
+				HadalGame.server.addNotificationToAll(player.getState(), player.getName(),  "was killed by " + p.getName());
+			}
+		}
 	}
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public Artifact getArtifactStart() {
+		return artifactStart;
 	}
 
 	public int getExtraJumps() {
@@ -355,11 +526,63 @@ public class PlayerBodyData extends BodyData {
 		return multitools;
 	}
 	
+	public ArrayList<Artifact> getArtifacts() {
+		return artifacts;
+	}
+	
 	public ActiveItem getActiveItem() {
 		return activeItem;
 	}
 
 	public int getCurrentSlot() {
 		return currentSlot;
+	}	
+		
+	public void setCurrentSlot(int currentSlot) {
+		this.currentSlot = currentSlot;
+	}
+
+	public Loadout getLoadout() {
+		return loadout;
+	}
+
+	public float getOverrideMaxHp() {
+		return overrideMaxHp;
+	}
+
+	public void setOverrideMaxHp(float overrideMaxHp) {
+		this.overrideMaxHp = overrideMaxHp;
+	}
+
+	public float getOverrideMaxFuel() {
+		return overrideMaxFuel;
+	}
+
+	public void setOverrideMaxFuel(float overrideMaxFuel) {
+		this.overrideMaxFuel = overrideMaxFuel;
+	}
+
+	public float getOverrideAirblastCost() {
+		return overrideAirblastCost;
+	}
+
+	public void setOverrideAirblastCost(float overrideAirblastCost) {
+		this.overrideAirblastCost = overrideAirblastCost;
+	}
+
+	public int getOverrideClipSize() {
+		return overrideClipSize;
+	}
+
+	public void setOverrideClipSize(int overrideClipSize) {
+		this.overrideClipSize = overrideClipSize;
+	}
+
+	public int getOverrideAmmoSize() {
+		return overrideAmmoSize;
+	}
+
+	public void setOverrideAmmoSize(int overrideAmmoSize) {
+		this.overrideAmmoSize = overrideAmmoSize;
 	}
 }

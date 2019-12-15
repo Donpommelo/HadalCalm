@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -70,10 +71,17 @@ public class HubEvent extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (!open && !eventData.getSchmucks().isEmpty()) {
+				preActivate(null, p);
+			}
+			
+			@Override
+			public void onActivate(EventData activator, Player p) {
+				if (open) {
+					leave();
+				} else {
 					enter();
-					open = true;
 				}
+				open = !open;
 			}
 		};
 		
@@ -87,12 +95,24 @@ public class HubEvent extends Event {
 	 */
 	@Override
 	public void controller(float delta) {
-		if (open && eventData.getSchmucks().isEmpty()) {
-			leave();
-			open = false;
+		if (open) {
+			if(getPosition().dst(state.getPlayer().getPosition()) > 3) {
+				leave();
+				open = false;
+			}
 		}
 	}
 	
+	@Override
+	public void clientController(float delta) {
+		if (open) {
+			if(getPosition().dst(state.getPlayer().getPosition()) > 3) {
+				leave();
+				open = false;
+			}
+		}
+	}
+
 	/**
 	 * This is run when the player enters the event. Pull up an extra menu with options specified by the child.
 	 */
@@ -145,5 +165,10 @@ public class HubEvent extends Event {
 	 */
 	public void mouseOut() {
 		extraInfo.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT / 4, .75f, Interpolation.pow5Out));
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(1);
 	}
 }

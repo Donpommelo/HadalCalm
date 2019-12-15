@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -15,9 +16,16 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  *
  */
 public class Enemy extends Schmuck {
-				
+	
+	//This is the entity this enemy is trying to attack
 	protected HadalEntity target;
 	
+	//This is the type of enemy
+	protected enemyType type;
+	
+	//This is the range that the enemy will be able to detect targets
+    protected static final float aiRadius = 2000;
+
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
 	 * @param state: current gameState
@@ -29,8 +37,9 @@ public class Enemy extends Schmuck {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Enemy(PlayState state, float width, float height, int x, int y) {
-		super(state, width, height, x, y, Constants.ENEMY_HITBOX);
+	public Enemy(PlayState state, float width, float height, int x, int y, enemyType type, short filter) {
+		super(state, width, height, x, y, filter);
+		this.type = type;
 	}
 	
 	/**
@@ -41,7 +50,15 @@ public class Enemy extends Schmuck {
 		this.bodyData = new BodyData(this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
-				Constants.ENEMY_HITBOX, false, bodyData);
+				hitboxfilter, false, bodyData);
+	}
+	
+	/**
+	 * When created i nthe server, tell the client what kind of enemy was reated to sync
+	 */
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreateEnemy(entityID.toString(), type);
 	}
 	
 	/**
@@ -60,5 +77,14 @@ public class Enemy extends Schmuck {
 	public void setTarget(HadalEntity target, SteeringBehavior<Vector2> behavior) {
 		super.setBehavior(behavior);
 		this.target = target;
+	}
+	
+	public enum enemyType {
+		SCISSORFISH,
+		SPITTLEFISH,
+		TORPEDOFISH,
+		TURRET_FLAK,
+		TURRET_VOLLEY,
+		MISC,
 	}
 }

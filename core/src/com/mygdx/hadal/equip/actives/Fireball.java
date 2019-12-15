@@ -5,6 +5,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
@@ -33,7 +34,7 @@ public class Fireball extends ActiveItem {
 	private final static int projDura = 1;
 	private final static int numFrag = 20;
 	
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 40.0f;
 	private final static float knockback = 40.0f;
 	private final static float recoil = 20.0f;
 	
@@ -44,19 +45,19 @@ public class Fireball extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 			
-			RangedHitbox hbox = new RangedHitbox(state, 
-					user.getPlayer().getBody().getPosition().x * PPM, 
-					user.getPlayer().getBody().getPosition().y * PPM,
-					projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, this.weaponVelo.scl(projectileSpeed),
-					user.getPlayer().getHitboxfilter(), true, true, user.getPlayer());
-			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
-			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));
-			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
-			hbox.addStrategy(new HitboxOnDieFireFragStrategy(state, hbox, user, this, numFrag, user.getPlayer().getHitboxfilter()));
-			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true);
-			user.getPlayer().recoil(x, y, recoil);
+		RangedHitbox hbox = new RangedHitbox(state, 
+				user.getPlayer().getPosition().x * PPM, 
+				user.getPlayer().getPosition().y * PPM,
+				projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, this.weaponVelo.scl(projectileSpeed),
+				user.getPlayer().getHitboxfilter(), true, true, user.getPlayer());
+		
+		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
+		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));
+		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxOnDieFireFragStrategy(state, hbox, user, this, numFrag, user.getPlayer().getHitboxfilter()));
+		new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+		user.getPlayer().recoil(x, y, recoil);
 	}
 
 }

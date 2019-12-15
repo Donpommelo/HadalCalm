@@ -44,7 +44,9 @@ public class HadalData {
 	 *TODO: include the source of damage
 	 */
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
-		getEntity().push(knockback.x, knockback.y);
+		if (getEntity().isAlive()) {
+			getEntity().push(knockback.x, knockback.y);
+		}
 	}
 	
 	public int getNumContacts() {
@@ -66,5 +68,4 @@ public class HadalData {
 	public void setEntity(HadalEntity entity) {
 		this.entity = entity;
 	}
-	
 }

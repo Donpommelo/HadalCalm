@@ -27,7 +27,7 @@ public class HitboxOnDieExplodeStrategy extends HitboxStrategy{
 	
 	@Override
 	public void die() {
-		WeaponUtils.createExplosion(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
+		WeaponUtils.createExplosion(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 
 				creator.getSchmuck(), tool, explosionRadius, explosionDamage, explosionKnockback, filter);
 	}
 }

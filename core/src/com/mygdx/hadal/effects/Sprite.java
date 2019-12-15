@@ -29,6 +29,7 @@ public enum Sprite {
 	FUEL(SpriteType.EVENT, "event_fuel"),
 	MEDPAK(SpriteType.EVENT, "event_health"),
 
+	NASU(SpriteType.EVENT, "eggplant"),
 	PYRAMID(SpriteType.EVENT, "event_pyramid"),
 	CUBE(SpriteType.EVENT, "event_cube"),
 	BASE(SpriteType.EVENT, "event_base"),
@@ -103,6 +104,10 @@ public enum Sprite {
 			return (GameStateManager.projectileAtlas.findRegions(spriteId));
 		case WEAPON:
 			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
+		case FISH:
+			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
+		case TURRET:
+			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
 		default:
 			return null;
 		}
@@ -112,6 +117,8 @@ public enum Sprite {
 		PROJECTILE,
 		EXPLOSION,
 		EVENT,
-		WEAPON
+		WEAPON,
+		FISH,
+		TURRET,
 	}
 }

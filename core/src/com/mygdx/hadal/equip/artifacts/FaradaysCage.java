@@ -38,7 +38,7 @@ public class FaradaysCage extends Artifact {
 				}
 				return damage;
 			}
-		};;
+		};
 		return enchantment;
 	}
 }

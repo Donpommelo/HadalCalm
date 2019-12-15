@@ -1,9 +1,9 @@
 {
 NUMBER_ONE_BOSS_MUG: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: #1 Boss Mug
-	description: "Occasionally drop Fuel on Kill."
-    descriptionLong: "Coffee mug belonging to the number 1 boss."
+	name: "#1 Boss Mug"
+	description: "Occasionally Drop Fuel on Kill"
+    descriptionLong: "Coffee mug belonging to the #1 boss."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -13,8 +13,19 @@ NUMBER_ONE_BOSS_MUG: {
 EIGHT_BALL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: "8-Ball"
-	description: "Your Projectiles Become Large and Slow."
-    descriptionLong: "An inky black sphere made of smooth ivory and radiating with unfortunate energies."
+	description: "Your Projectiles Become Large and Slow"
+    descriptionLong: "An inky black sphere made of smooth ivory, radiating with unfortunate energies."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+EXTRA_ROW_OF_TEETH: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: "Extra Row of Teeth"
+	description: "+Clip Size"
+    descriptionLong: ""
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -24,7 +35,7 @@ EIGHT_BALL: {
 ABYSSAL_INSIGNIA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Abyssal Insignia
-	description: "Enemies Explode on Death."
+	description: "Release Vengeful Spirit Upon Killing or Dying"
     descriptionLong: "A twisted bone sigil used to worship the chaotic beings of the deep."
 	unlocked: true
 	tags: [
@@ -35,7 +46,7 @@ ABYSSAL_INSIGNIA: {
 ADMINISTRATOR_CARD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Administrator Card
-	description: "Get 3 Random Artifacts at the Start of Levels."
+	description: "Get 3 Random Artifacts when entering a level"
     descriptionLong: "Administrative figures carry these sturdy plastic cards to access extra privileges."
 	unlocked: true
 	tags: [
@@ -45,8 +56,8 @@ ADMINISTRATOR_CARD: {
 ANARCHISTS_COOKBOOK: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook
-	description: "Periodically Spawns Bombs."
-    descriptionLong: "An ancient text printed on singed (and waterproof) pages. It doesn't actually teach how to cook."
+	description: "Periodically Spawns Bombs"
+    descriptionLong: "An ancient text printed on singed (and waterproof) pages."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -56,7 +67,7 @@ ANARCHISTS_COOKBOOK: {
 ANCHOR_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anchor Talisman
-	description: "Damage Reduction When Grounded."
+	description: "Damage Reduction When Grounded"
     descriptionLong: "A pendant depicting the company insignia; a sturdy anchor. "
 	unlocked: true
 	tags: [
@@ -67,8 +78,19 @@ ANCHOR_TALISMAN: {
 BLOODWOODS_GLOVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bloodwood's Glove
-	description: "Slower Reload and Fire Speed. Lower Active Cooldowns."
+	description: "Lower Active Item Cooldowns"
     descriptionLong: "A glove once worn by an esteemed company researcher. It appears to be in pristine condition."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+BRIGGLES_BLADED_BOOT: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Briggle's Bladed Boot
+	description: "Deal Damage When Landing on Enemies"
+    descriptionLong: "Footwear once belonging to an ancient general, known for being armed to the feet."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -78,8 +100,8 @@ BLOODWOODS_GLOVE: {
 BUCKET_OF_BATTERIES: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Bucket of Batteries
-	description: "Projectiles Chain to Nearby Enemies."
-    descriptionLong: "A bucket filled with batteries floating in a dubious liquid. It imbues the holder with a crackling, unstable power."
+	description: "Projectiles Chain to Nearby Enemies"
+    descriptionLong: "A bucket filled with batteries floating in a dubious liquid."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -89,7 +111,7 @@ BUCKET_OF_BATTERIES: {
 CALL_OF_THE_VOID: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Call of the Void
-	description: "Deal and Receive 40% More Damage."
+	description: "Inflict and Receive 40% More Damage"
     descriptionLong: "A sinister mark that allows its bearer to channel their innate desire for the unseen."
 	unlocked: true
 	tags: [
@@ -100,8 +122,8 @@ CALL_OF_THE_VOID: {
 CLAWS_OF_FESTUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Claws of Festus
-	description: "Enables Wall-Climbing."
-    descriptionLong: "A pair of long, wirey clawed gloves, sharp enough to rend yet flexible enough to strangle. Once used for transmission of vibrations."
+	description: "Enables Wall-Climbing"
+    descriptionLong: "A pair of long, wiry clawed gloves, once used for transmission of vibrations."
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -111,7 +133,7 @@ CLAWS_OF_FESTUS: {
 CLOCKWISE_CAGE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Clockwise Cage
-	description: "Projectile Echo."
+	description: "Occasionally Fire an Extra Projectile"
     descriptionLong: "A round metal birdcage occupied by a temporarily improbable bird. It looks familiar."
 	unlocked: true
 	tags: [
@@ -122,7 +144,7 @@ CLOCKWISE_CAGE: {
 CONFIDENCE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Confidence
-	description: "+50% Damage at Max Hp."
+	description: "+50% Damage at Max Hp"
     descriptionLong: "The sense of certainty that all will end well. Fragile and fleeting."
 	unlocked: true
 	tags: [
@@ -133,7 +155,7 @@ CONFIDENCE: {
 CROWN_OF_THORNS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Crown of Thorns
-	description: "Perform a Melee Attack After Reloading."
+	description: "Perform a Melee Attack After Reloading"
     descriptionLong: "Thorny headgear of nondiscriminatory wrath. To be worn on the outside of the helmet."
 	unlocked: true
 	tags: [
@@ -144,7 +166,7 @@ CROWN_OF_THORNS: {
 CURSED_CILICE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Cursed Cilice
-	description: "Receiving Damage Regenerates Fuel."
+	description: "Receiving Damage Regenerates Fuel"
     descriptionLong: "A bristle-lined band worn around the leg. For those who believe that pain builds character."
 	unlocked: true
 	tags: [
@@ -155,7 +177,7 @@ CURSED_CILICE: {
 CURIOUS_SAUCE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Curious Sauce
-	description: "Your Projectiles Become Bouncy."
+	description: "Your Projectiles Become Bouncy"
     descriptionLong: "A jar of perplexing and unstudied substance."
 	unlocked: true
 	tags: [
@@ -166,7 +188,7 @@ CURIOUS_SAUCE: {
 DEPLORABLE_APPARATUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Deplorable Apparatus
-	description: "-Max Hp. High Hp Regen."
+	description: "-Max Hp, High Hp Regen"
     descriptionLong: "A rusty, surgically-attached machine. Grants life whether the bearer wants it or not."
 	unlocked: true
 	tags: [
@@ -177,7 +199,7 @@ DEPLORABLE_APPARATUS: {
 EELSKIN_COVER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Eelskin Cover
-	description: "Reduces Drag."
+	description: "Reduces Drag"
     descriptionLong: "Slick coat that lets its wearer slide through the water slimily."
 	unlocked: true
 	tags: [
@@ -188,8 +210,8 @@ EELSKIN_COVER: {
 EMAUDELINES_PRISM: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Emaudeline's Prism
-	description: "Projectile Split-Shot."
-    descriptionLong: "TEST"
+	description: "Projectile Split-Shot"
+    descriptionLong: "A crystalline prism, splitting light into a "
 	unlocked: true
 	tags: [
 		RELIQUARY,
@@ -199,7 +221,7 @@ EMAUDELINES_PRISM: {
 FARADAYS_CAGE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Faraday's Cage
-	description: "Diverts Incoming Damage to Fuel."
+	description: "Diverts Incoming Damage to Fuel"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -210,7 +232,7 @@ FARADAYS_CAGE: {
 FENS_CLIPPED_WINGS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Fen's Clipped Wings
-	description: "+1 Jump. Improved Jumps."
+	description: "+1 Jump, Improved Jumps"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -221,7 +243,7 @@ FENS_CLIPPED_WINGS: {
 FORAGERS_HIVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Forager's Hive
-	description: "Receiving Damage Releases Bees."
+	description: "Receiving Damage Releases Bees"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -232,7 +254,7 @@ FORAGERS_HIVE: {
 FRACTURE_PLATE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Fracture Plate
-	description: "Blocks an Instance of Damage Every 8 Seconds."
+	description: "Blocks an Instance of Damage Every 8 Seconds"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -243,7 +265,7 @@ FRACTURE_PLATE: {
 GLUTTONOUS_GREY_GLOVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Gluttonous Grey Grove
-	description: "Occasionally drop a Medpak on Kill."
+	description: "Occasionally drop a Medpak on Kill"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -254,7 +276,7 @@ GLUTTONOUS_GREY_GLOVE: {
 GOMEZS_AMYGDALA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Gomez's Amygdala
-	description: "Receiving Damage Temporarily Boosts Speed and Damage."
+	description: "Receiving Damage Temporarily Boosts Speed and Damage"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -265,7 +287,7 @@ GOMEZS_AMYGDALA: {
 GOOD_HEALTH: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Good Health
-	description: "+25 Hp."
+	description: "+25 Max Hp"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -276,7 +298,7 @@ GOOD_HEALTH: {
 HORNS_OF_AMMON: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Horns of Ammon
-	description: "Receiving Damage Grants Brief Invulnerability."
+	description: "Receiving Damage Grants Brief Invulnerability"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -287,7 +309,7 @@ HORNS_OF_AMMON: {
 INFORMANTS_TIE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name:Informant's Tie
-	description: "Homing Projectiles."
+	description: "Homing Projectiles"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -295,10 +317,10 @@ INFORMANTS_TIE: {
 		RANDOM_POOL,
 	]
 }
-LOAMSKIN_TALISMAN: {
+LOAMSKIN_AMULET: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Loamskin Talisman
-	description: "Passive Hp Regeneration."
+	name: Loamskin Amulet
+	description: "Passive Hp Regeneration"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -309,7 +331,7 @@ LOAMSKIN_TALISMAN: {
 MANGROVE_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Mangrove Talisman
-	description: "Poison Resistance."
+	description: "Poison Resistance"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -320,7 +342,7 @@ MANGROVE_TALISMAN: {
 MASK_OF_SYMPATHY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Mask of Sympathy
-	description: "Reflects Incoming Damage."
+	description: "Reflects Incoming Damage"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -331,7 +353,7 @@ MASK_OF_SYMPATHY: {
 MATTER_UNIVERSALIZER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Matter Universalizer
-	description: "Inflicting Damage Restores Fuel."
+	description: "Inflicting Damage Restores Fuel"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -342,7 +364,7 @@ MATTER_UNIVERSALIZER: {
 MODERATOR_CARD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Moderator Card
-	description: "Upgrade Weapons at the Start of Level."
+	description: "Upgrade Weapons at the Start of Level"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -352,7 +374,7 @@ MODERATOR_CARD: {
 MOON_FLUTHER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Moon Fluther
-	description: "Improved Hovering."
+	description: "Improved Hovering"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -363,7 +385,7 @@ MOON_FLUTHER: {
 MOUTHBREATHER_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Mouthbreather Talisman
-	description: "Negates Self-Damage."
+	description: "Negates Self-Damage"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -374,7 +396,7 @@ MOUTHBREATHER_TALISMAN: {
 MUDDLING_CUP: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Muddling Cup
-	description: "Airblasting Fires Currently Held Weapon."
+	description: "Airblasting Fires Currently Held Weapon"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -385,7 +407,7 @@ MUDDLING_CUP: {
 NICE_SHOES: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nice Shoes
-	description: "Increased Ground Speed."
+	description: "Increased Ground Speed"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -396,7 +418,7 @@ NICE_SHOES: {
 NOTHING: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: NOTHING
-	description: "Doesn't Do Much."
+	description: "Doesn't Do Much"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: []
@@ -404,7 +426,7 @@ NOTHING: {
 NUCLEAR_PUNCH_THRUSTERS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nuclear Punch Thrusters
-	description: "Increased Knockback on Attacks."
+	description: "Increased Knockback on Attacks"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -415,7 +437,7 @@ NUCLEAR_PUNCH_THRUSTERS: {
 ORIGIN_COIL: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Origin Coil
-	description: "Propulsive Projectiles."
+	description: "Propulsive Projectiles"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -426,7 +448,7 @@ ORIGIN_COIL: {
 PELICAN_PLUSH_TOY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Pelican Plush Toy
-	description: "Improved Healing."
+	description: "Improved Healing"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -437,7 +459,7 @@ PELICAN_PLUSH_TOY: {
 PEPPER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Pepper
-	description: "Damages Nearby Enemies."
+	description: "Damages Nearby Enemies"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -448,7 +470,7 @@ PEPPER: {
 PIFFLER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Piffler
-	description: "Piffly Projectiles."
+	description: "Piffly Projectiles"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -459,7 +481,7 @@ PIFFLER: {
 PREHISTORIC_SYNAPSE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Prehistoric Synapse
-	description: "Delays Incoming Damage."
+	description: "Delays Incoming Damage"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -470,7 +492,7 @@ PREHISTORIC_SYNAPSE: {
 RED_TIDE_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Red Tide Talisman
-	description: "Creates Poison Cloud on Kill."
+	description: "Creates Poison Cloud on Kill"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -481,7 +503,7 @@ RED_TIDE_TALISMAN: {
 RING_OF_TESTING: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Ring of Testing
-	description: "Test Things."
+	description: "Test Things"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -491,7 +513,7 @@ RING_OF_TESTING: {
 RING_OF_THE_LAMPREY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Ring of the Lamprey
-	description: "Lifesteal."
+	description: "Lifesteal"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -499,10 +521,10 @@ RING_OF_THE_LAMPREY: {
 		RANDOM_POOL,
 	]
 }
-ROOT_BOOTS: {
+TUNICATE_TUNIC: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Root Boots
-	description: "+Knockback Resistance."
+	name: Tunicate Tunic
+	description: "+Knockback Resistance"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -513,7 +535,7 @@ ROOT_BOOTS: {
 ROYAL_JUJUBE_BANG: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Royal Jujube Bang
-	description: "Bonus Damage Against Distant Targets."
+	description: "Bonus Damage Against Distant Targets"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -524,7 +546,7 @@ ROYAL_JUJUBE_BANG: {
 SAMURAI_SHARK: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Samurai Shark
-	description: "Critical Projectiles."
+	description: "Critical Projectiles"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -535,7 +557,7 @@ SAMURAI_SHARK: {
 SHILLERS_BASIDIA: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Shiller's Basidia
-	description: "Projectile Poison Trail."
+	description: "Projectile Poison Trail"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -546,7 +568,18 @@ SHILLERS_BASIDIA: {
 SIMPLE_MIND: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Simple Mind
-	description: "Linear Projectiles."
+	description: "Linear Projectiles"
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SIREN_CHIME: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Siren Chime
+	description: "Reverse Knockback on Enemies"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -557,7 +590,7 @@ SIMPLE_MIND: {
 SKIPPERS_BOX_OF_FUN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Skipper's Box of Fun
-	description: "Reroll Weapons When Emptying Clip."
+	description: "Reroll Weapons When Emptying Clip"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -568,7 +601,7 @@ SKIPPERS_BOX_OF_FUN: {
 SWORD_OF_SYZYGY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Sword of Syzygy
-	description: "+Projectile Pierce."
+	description: "+Projectile Pierce"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -579,7 +612,7 @@ SWORD_OF_SYZYGY: {
 SEAFOAM_TALISMAN: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Seafoam Talisman
-	description: "+Ranged Attack Speed, Antigravity Projectiles."
+	description: "+Ranged Attack Speed, Antigravity Projectiles"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -590,7 +623,7 @@ SEAFOAM_TALISMAN: {
 SENESCENT_SHIELD: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Senescent Shield
-	description: "Deflective Projectiles."
+	description: "Deflective Projectiles"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -601,7 +634,7 @@ SENESCENT_SHIELD: {
 TEMPEST_TEAPOT: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Tempest Teapot
-	description: "+50% Airblast Knockback and Size."
+	description: "+50% Airblast Knockback and Size"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -612,7 +645,7 @@ TEMPEST_TEAPOT: {
 TRIGGER_FINGER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Trigger Finger
-	description: "Bonus Ranged Attack Speed."
+	description: "+Ranged Attack Speed, +Reload Speed"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -623,7 +656,7 @@ TRIGGER_FINGER: {
 TYPHON_FANG: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Typhon Fang
-	description: "-50% Reload Speed. Refill 50% Clip on Kill."
+	description: "-50% Reload Speed. Refill 50% Clip on Kill"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -634,7 +667,7 @@ TYPHON_FANG: {
 UNBREATHING_MEMBRANE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Unbreathing Membrane
-	description: "Slows User. +Clip Size and Recoil."
+	description: "Slows User. +Clip Size and Recoil"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -645,7 +678,7 @@ UNBREATHING_MEMBRANE: {
 VOID_HYPONOME: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Void Hyponome
-	description: "Reduced Airblast Cost."
+	description: "Reduced Airblast Cost"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

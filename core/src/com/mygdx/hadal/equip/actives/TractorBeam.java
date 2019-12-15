@@ -28,7 +28,8 @@ public class TractorBeam extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 10.0f;
 	
-	private final static float baseDamage = 25.0f;
+	private final static float primaryDamage = 12.0f;
+	private final static float secondaryDamage = 6.0f;
 	private final static float knockback = 35.0f;
 	private final static float projectileSpeed = 30.0f;
 	private final static int projectileWidth = 120;
@@ -58,8 +59,8 @@ public class TractorBeam extends ActiveItem {
 		final Equipable tool = this;
 		
 		Hitbox hbox = new HitboxSprite(state, 
-				user.getPlayer().getBody().getPosition().x * PPM, 
-				user.getPlayer().getBody().getPosition().y * PPM,
+				user.getPlayer().getPosition().x * PPM, 
+				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileHeight, gravity, lifespan, projDura, 1, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite) {
 			
@@ -99,16 +100,16 @@ public class TractorBeam extends ActiveItem {
 										if (fixB != null && track.getTarget().getBody() != null) {
 
 											if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-												track.getTarget().getHadalData().receiveDamage(baseDamage, new Vector2(0, 0),
+												track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0),
 														creator, tool, true, DamageTypes.RANGED);
 											}
 
 											if (fixB.getType().equals(UserDataTypes.BODY)) {
-												fixB.receiveDamage(baseDamage, this.hbox.getBody().getLinearVelocity().nor().scl(knockback),
+												fixB.receiveDamage(primaryDamage, this.hbox.getLinearVelocity().nor().scl(knockback),
 														creator, tool, true, DamageTypes.RANGED);
 											}
 										} else {
-											track.getTarget().getHadalData().receiveDamage(baseDamage, new Vector2(0, 0),
+											track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0),
 													creator, tool, true, DamageTypes.RANGED);
 										}
 									}

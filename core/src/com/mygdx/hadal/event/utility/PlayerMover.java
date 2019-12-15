@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.utility;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -34,7 +35,7 @@ public class PlayerMover extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 					moving = true;
 				}
@@ -50,7 +51,7 @@ public class PlayerMover extends Event {
 		if (moving) {
 			if (getConnectedEvent().getBody() != null) {
 				moving = false;
-				state.getPlayer().getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
+				state.getPlayer().setTransform(getConnectedEvent().getPosition(), 0);
 				
 				if (getConnectedEvent().getStandardParticle() != null) {
 					getConnectedEvent().getStandardParticle().onForBurst(1.0f);

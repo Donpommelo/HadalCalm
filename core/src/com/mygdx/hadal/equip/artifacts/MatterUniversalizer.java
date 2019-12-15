@@ -13,7 +13,7 @@ public class MatterUniversalizer extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final float amount = 0.25f;
+	private final float amount = 0.4f;
 	
 	public MatterUniversalizer() {
 		super(name, descr, descrLong, statusNum);

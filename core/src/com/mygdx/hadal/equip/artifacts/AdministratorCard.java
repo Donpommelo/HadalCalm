@@ -1,5 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import java.util.ArrayList;
+
 import com.mygdx.hadal.event.PickupArtifact;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -24,16 +26,29 @@ public class AdministratorCard extends Artifact {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new Status(state, name, descr, b) {
 			
+			private ArrayList<Artifact> artifacts = new ArrayList<Artifact>();
+			private ArrayList<UnlockArtifact> unlocks = new ArrayList<UnlockArtifact>();
+			
 			@Override
 			public void levelStart() {
 				
 				if (inflicted.getSchmuck() instanceof Player) {
 					for (int i = 0; i < 3; i++) {
 						UnlockArtifact artifact = UnlockArtifact.valueOf(PickupArtifact.getRandArtfFromPool(""));
-						((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact);
+						
+						unlocks.add(artifact);
+						artifacts.add(((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact));
 					}
 				}
-				
+			}
+			
+			@Override
+			public void onDeath(BodyData perp) {
+				for (int i = 0; i < artifacts.size(); i++) {
+					((Player)inflicted.getSchmuck()).getPlayerData().removeArtifact(unlocks.get(i), artifacts.get(i));
+				}
+				unlocks.clear();
+				artifacts.clear();
 			}
 		});
 		return enchantment;

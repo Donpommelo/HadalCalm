@@ -24,7 +24,7 @@ public class PhysicsSchmuck extends Schmuck {
 		if (controllerCount >= 1/60f) {
 			controllerCount -= 1/60f;
 						
-			Vector2 currentVel = body.getLinearVelocity();
+			Vector2 currentVel = getLinearVelocity();
 			float desiredXVel = 0.0f;
 			float desiredYVel = 0.0f;
 			
@@ -66,8 +66,8 @@ public class PhysicsSchmuck extends Schmuck {
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
 			
-			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(body.getMass());
-			body.applyLinearImpulse(force, body.getWorldCenter(), true);
+			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(getMass());
+			applyLinearImpulse(force);
 		}
 	}
 }

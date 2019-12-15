@@ -17,23 +17,34 @@ public enum UnlockEquip {
 	BOUNCING_BLADE(BouncingBlade.class),
 	CHAIN_LIGHTNING(ChainLightning.class),
 	CHARGE_BEAM(ChargeBeam.class),
-	CR4PCANNON(Scattergun.class),
+	COLACANNON(ColaCannon.class),
+	CR4PCANNON(CR4PCannon.class),
+	FLOUNDERBUSS(Flounderbuss.class),
+	FUGUN(Fugun.class),
 	GRENADE_LAUNCHER(GrenadeLauncher.class),
 	ICEBERG(Iceberg.class),
 	IRON_BALL_LAUNCHER(IronBallLauncher.class),
 	LASER_GUIDED_ROCKET(LaserGuidedRocket.class),
 	LASER_RIFLE(LaserRifle.class),
 	MACHINEGUN(Machinegun.class),
+	MINIGUN(Minigun.class),
+	MORAYGUN(Moraygun.class),
 	NEMATOCYDEARM(Nematocydearm.class),
+	PEARL_REVOLVER(PearlRevolver.class),
+	POPPER(Popper.class),
+	SCRAPRIPPER(Scrapripper.class),
 	SLODGEGUN(SlodgeGun.class),
+	SNIPER_RIFLE(SniperRifle.class),
 	SPEARGUN(Speargun.class),
 	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class),
 	STORMCALLER(Stormcaller.class),
+	TESLA_COIL(TeslaCoil.class),
 	TORPEDO_LAUNCHER(TorpedoLauncher.class),
+	TRICK_GUN(TrickGun.class),
+	UNDERMINER(Underminer.class),
+	WAVE_CANNON(WaveCannon.class),
 	
-	SCRAPRIPPER(Scrapripper.class),
-
-	NOTHING(Nothing.class),
+	NOTHING(NothingWeapon.class),
 	
 	;
 	
@@ -110,6 +121,13 @@ public enum UnlockEquip {
 	public void setUnlocked(boolean unlock) {
 		info.setUnlocked(unlock);
 	}
+	
+	public static UnlockEquip getUnlockFromEquip(Class<? extends Equipable> weapon) {
+		for (UnlockEquip unlock: UnlockEquip.values()) {
+			if (unlock.weapon.equals(weapon)) {
+				return unlock;
+			}
+		}
+		return null;
+	}
 }
-
-

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -45,8 +45,8 @@ public class RunningEnemy extends Enemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public RunningEnemy(PlayState state, float width, float height, int x, int y) {
-		super(state, width, height, x, y);
+	public RunningEnemy(PlayState state, float width, float height, int x, int y, short filter) {
+		super(state, width, height, x, y, enemyType.MISC, filter);
 		
 		//default enemy weapon is a slow ranged projectile
 		this.weapon = new SpittlefishAttack(this);	
@@ -62,7 +62,7 @@ public class RunningEnemy extends Enemy {
 		this.bodyData = new BodyData(this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
-				Constants.ENEMY_HITBOX, false, bodyData);
+				hitboxfilter, false, bodyData);
 		
 		//ass super.create() if you want enemy to have feet that process groundedness
 	}
@@ -73,29 +73,29 @@ public class RunningEnemy extends Enemy {
 	@Override
 	public void controller(float delta) {
 		
-		moveState = MoveStates.STAND;
+		moveState = SchmuckMoveStates.STAND;
 		
 		switch(aiState) {
 		case ROAMING:
 			if (Math.random() > 0.5f) {
-				moveState = MoveStates.MOVE_RIGHT;
+				moveState = SchmuckMoveStates.MOVE_RIGHT;
 			} else {
-				moveState = MoveStates.MOVE_LEFT;
+				moveState = SchmuckMoveStates.MOVE_LEFT;
 			}
 			break;
 		case CHASING:
-			Vector2 player = state.getPlayer().getBody().getPosition();
+			Vector2 player = state.getPlayer().getPosition();
 			
-			if (player.x > body.getPosition().x) {
-				moveState = MoveStates.MOVE_RIGHT;
+			if (player.x > getPosition().x) {
+				moveState = SchmuckMoveStates.MOVE_RIGHT;
 			} else {
-				moveState = MoveStates.MOVE_LEFT;
+				moveState = SchmuckMoveStates.MOVE_LEFT;
 			}
 			
-			Vector3 target = new Vector3(state.getPlayer().getBody().getPosition().x, state.getPlayer().getBody().getPosition().y, 0);
+			Vector3 target = new Vector3(state.getPlayer().getPosition().x, state.getPlayer().getPosition().y, 0);
 			camera.project(target);
 			
-			useToolStart(delta, weapon, Constants.ENEMY_HITBOX, (int)target.x, (int)target.y, true);
+			useToolStart(delta, weapon, hitboxfilter, (int)target.x, (int)target.y, true);
 			break;
 		}
 		
@@ -110,8 +110,8 @@ public class RunningEnemy extends Enemy {
 			
 			shortestFraction = 1.0f;
 			
-			if (getBody().getPosition().x != state.getPlayer().getBody().getPosition().x || 
-					getBody().getPosition().y != state.getPlayer().getBody().getPosition().y) {
+			if (getPosition().x != state.getPlayer().getPosition().x || 
+					getPosition().y != state.getPlayer().getPosition().y) {
 				world.rayCast(new RayCastCallback() {
 
 					@Override
@@ -133,7 +133,7 @@ public class RunningEnemy extends Enemy {
 						return -1.0f;
 					}
 					
-				}, getBody().getPosition(), state.getPlayer().getBody().getPosition());
+				}, getPosition(), state.getPlayer().getPosition());
 			}
 			
 			if (closestFixture != null) {

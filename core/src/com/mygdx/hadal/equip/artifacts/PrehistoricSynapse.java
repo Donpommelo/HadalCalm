@@ -13,7 +13,7 @@ public class PrehistoricSynapse extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float degen = 5.0f;
+	private final static float degen = 8.0f;
 	
 	public PrehistoricSynapse() {
 		super(name, descr, descrLong, statusNum);

@@ -25,7 +25,7 @@ public class HitboxDamageStandardStrategy extends HitboxStrategy{
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			fixB.receiveDamage(baseDamage, hbox.getBody().getLinearVelocity().nor().scl(knockback), creator, tool, true, tags);
+			fixB.receiveDamage(baseDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, tool, true, tags);
 		}
 	}
 }

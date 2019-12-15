@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * An info flag displays text whe nthe player walks over it. This is a temporary means of information until more sophisticated ui is done
+ * An info flag displays text when the player walks over it. This is a temporary means of information until more sophisticated ui is done
  *
  * Triggered Behavior: N/A
  * Triggering Behavior: N/A
@@ -61,12 +61,12 @@ public class Text extends Event {
 			HadalGame.SYSTEM_FONT_UI.getData().setScale(0.60f);
 			if (getConnectedEvent() != null) {
 				if (getConnectedEvent().getBody() != null) {
-					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getConnectedEvent().getBody().getPosition().x * PPM, getConnectedEvent().getBody().getPosition().y * PPM);
+					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getConnectedEvent().getPosition().x * PPM, getConnectedEvent().getPosition().y * PPM);
 				} else {
-					HadalGame.SYSTEM_FONT_UI.draw(batch, text, body.getPosition().x * PPM, body.getPosition().y * PPM);
+					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPosition().x * PPM, getPosition().y * PPM);
 				}
 			} else {
-				HadalGame.SYSTEM_FONT_UI.draw(batch, text, body.getPosition().x * PPM, body.getPosition().y * PPM);
+				HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPosition().x * PPM, getPosition().y * PPM);
 			}
 		}
 	}

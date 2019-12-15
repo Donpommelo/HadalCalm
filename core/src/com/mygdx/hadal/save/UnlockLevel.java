@@ -3,13 +3,13 @@ package com.mygdx.hadal.save;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 
 public enum UnlockLevel {
 
 	HUB("Maps/SS_Tunicate.tmx"),
-	TUTORIAL_1("Maps/tutorial1.tmx"),
+	HUB_MULTI("Maps/SS_Tunicate_Multi.tmx"),
+	TUTORIAL_1("Maps/tutorial1.tmx", UnlockArtifact.NOTHING, UnlockActives.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
 	ARENA_1("Maps/arena_1.tmx"),
 	ARENA_2("Maps/arena_2.tmx"),
 	LEVEL_1("Maps/map_2.tmx"),
@@ -17,15 +17,21 @@ public enum UnlockLevel {
 	LEVEL_3("Maps/aye_carambas.tmx"),
 	NASU("Maps/nasu.tmx"),
 	DONT_FALL("Maps/DontFall.tmx"),
+	DM_GULLY("Maps/dm_gully.tmx", null, null, UnlockEquip.SPEARGUN, UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING),
 	
 	;
 	private String map;
-	private Loadout loadout;
 	private InfoLevel info;
 	
-	UnlockLevel(String map, Loadout loadout) {
+	private UnlockEquip[] multitools;
+	private UnlockArtifact startifact;
+	private UnlockActives activeItem;
+	
+	UnlockLevel(String map, UnlockArtifact startifact, UnlockActives activeItem, UnlockEquip... multitools) {
 		this(map);
-		this.loadout = loadout;
+		this.startifact = startifact;
+		this.activeItem = activeItem;
+		this.multitools = multitools;
 	}
 	
 	UnlockLevel(String map) {
@@ -74,10 +80,6 @@ public enum UnlockLevel {
 	public String getMap() {
 		return map;
 	}
-	
-	public Loadout getLoadout() {
-		return loadout;
-	}
 
 	public boolean isUnlocked() {
 		return info.isUnlocked();
@@ -99,4 +101,27 @@ public enum UnlockLevel {
 		info.setUnlocked(unlock);
 	}
 
+	public UnlockEquip[] getMultitools() {
+		return multitools;
+	}
+
+	public void setMultitools(UnlockEquip[] multitools) {
+		this.multitools = multitools;
+	}
+
+	public UnlockArtifact getStartifact() {
+		return startifact;
+	}
+
+	public void setStartifact(UnlockArtifact startifact) {
+		this.startifact = startifact;
+	}
+
+	public UnlockActives getActiveItem() {
+		return activeItem;
+	}
+
+	public void setActiveItem(UnlockActives activeItem) {
+		this.activeItem = activeItem;
+	}	
 }

@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.utility;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -41,7 +42,7 @@ public class Timer extends Event {
 		this.eventData = new EventData(this){
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				
 				
 				if (activator.getEvent() instanceof TriggerAlt) {
@@ -71,7 +72,7 @@ public class Timer extends Event {
 			if (timeCount >= interval) {
 				timeCount = 0;
 				if (getConnectedEvent() != null) {
-					getConnectedEvent().getEventData().onActivate(eventData);
+					getConnectedEvent().getEventData().preActivate(eventData, null);
 				}
 			}
 		}

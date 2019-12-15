@@ -33,7 +33,7 @@ public class TyphonFang extends Artifact {
 				if (this.inflicted instanceof PlayerBodyData) {
 					if (((PlayerBodyData)this.inflicted).getCurrentTool() instanceof RangedWeapon) {
 						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData)this.inflicted).getCurrentTool();
-						weapon.gainAmmo((int)(weapon.getClipSize() * cliprefill));
+						weapon.gainClip((int)(weapon.getClipSize() * cliprefill));
 					}
 				}
 			}

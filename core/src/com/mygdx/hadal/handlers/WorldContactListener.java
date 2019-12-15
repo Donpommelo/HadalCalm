@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
 
@@ -23,6 +24,7 @@ public class WorldContactListener implements ContactListener {
 		
 		//When 2 fixtures collide, increment their number of contacts.
 		//Projectiles and events should register hits.
+		//Feet should register stomps
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
 			if (fixA.getType().equals(UserDataTypes.HITBOX)) {
@@ -30,6 +32,9 @@ public class WorldContactListener implements ContactListener {
 			}
 			if (fixA.getType().equals(UserDataTypes.EVENT)) {
 				((EventData) fixA).onTouch(fixB);
+			}
+			if (fixA.getType().equals(UserDataTypes.FEET)) {
+				((FeetData) fixA).onStomp(fixB);
 			}
 			
 		}
@@ -41,8 +46,10 @@ public class WorldContactListener implements ContactListener {
 			if (fixB.getType().equals(UserDataTypes.EVENT)) {
 				((EventData) fixB).onTouch(fixA);
 			}
+			if (fixB.getType().equals(UserDataTypes.FEET)) {
+				((FeetData) fixB).onStomp(fixA);
+			}
 		}
-		
 	}
 
 	@Override
@@ -65,13 +72,8 @@ public class WorldContactListener implements ContactListener {
 	}
 
 	@Override
-	public void preSolve(Contact contact, Manifold oldManifold) {
-		
-	}
+	public void preSolve(Contact contact, Manifold oldManifold) {}
 
 	@Override
-	public void postSolve(Contact contact, ContactImpulse impulse) {
-		
-	}
-
+	public void postSolve(Contact contact, ContactImpulse impulse) {}
 }

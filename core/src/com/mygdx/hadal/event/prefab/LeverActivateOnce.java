@@ -35,6 +35,7 @@ public class LeverActivateOnce extends Prefabrication {
 		base.setName("Dummy");
 		base.getProperties().put("sprite", "BASE_GREEN");
 		base.getProperties().put("align", 2);
+		base.getProperties().put("sync", 2);
 		base.getProperties().put("triggeredId", baseId);
 
 		RectangleMapObject lever = new RectangleMapObject();
@@ -44,6 +45,7 @@ public class LeverActivateOnce extends Prefabrication {
 		lever.getProperties().put("still", true);
 		lever.getProperties().put("frame", 0);
 		lever.getProperties().put("align", 2);
+		lever.getProperties().put("sync", 2);
 		lever.getProperties().put("particle_std", "MOMENTUM");
 		lever.getProperties().put("triggeredId", leverId);
 		lever.getProperties().put("triggeringId", condId);
@@ -72,7 +74,7 @@ public class LeverActivateOnce extends Prefabrication {
 		sprite1.getProperties().put("mode", "NORMAL");
 		sprite1.getProperties().put("speed", 0.02f);
 		sprite1.getProperties().put("align", 2);
-
+		sprite1.getProperties().put("sync", 2);
 		sprite1.getProperties().put("triggeredId", spriteId1);
 		sprite1.getProperties().put("triggeringId", leverId);
 		
@@ -80,7 +82,7 @@ public class LeverActivateOnce extends Prefabrication {
 		sprite2.setName("SpriteChange");
 		sprite2.getProperties().put("newSprite", "BASE_RED");
 		sprite2.getProperties().put("align", 2);
-
+		sprite2.getProperties().put("sync", 2);
 		sprite2.getProperties().put("triggeredId", spriteId2);
 		sprite2.getProperties().put("triggeringId", baseId);
 		
@@ -91,6 +93,5 @@ public class LeverActivateOnce extends Prefabrication {
 		TiledObjectUtil.parseTiledEvent(state, use);
 		TiledObjectUtil.parseTiledEvent(state, sprite1);
 		TiledObjectUtil.parseTiledEvent(state, sprite2);
-
 	}
 }

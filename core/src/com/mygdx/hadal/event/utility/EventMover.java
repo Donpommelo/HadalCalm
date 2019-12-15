@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.MovingPlatform;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -47,7 +48,7 @@ public class EventMover extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 					if (event.getConnectedEvent().getBody() != null) {
 						moving = true;
@@ -65,15 +66,15 @@ public class EventMover extends Event {
 		if (moving) {
 			moving = false;
 			if (gravity != -1) {
-				getConnectedEvent().getBody().setGravityScale(gravity);
+				getConnectedEvent().setGravityScale(gravity);
 			}
 			
-			Vector2 dist = new Vector2(getBody().getPosition().sub(getConnectedEvent().getBody().getPosition()));
-			getConnectedEvent().getBody().setTransform(getBody().getPosition(), 0);
+			Vector2 dist = new Vector2(getPosition().sub(getConnectedEvent().getPosition()));
+			getConnectedEvent().setTransform(getPosition(), 0);
 			
 			if (getConnectedEvent() instanceof MovingPlatform) {
 				for (Event connect : ((MovingPlatform)getConnectedEvent()).getConnected()) {
-					connect.getBody().setTransform(connect.getBody().getPosition().add(dist), 0);
+					connect.setTransform(connect.getPosition().add(dist), 0);
 				}
 			}
 			
@@ -82,5 +83,4 @@ public class EventMover extends Event {
 			}
 		}
 	}
-	
 }

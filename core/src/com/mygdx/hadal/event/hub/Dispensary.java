@@ -39,8 +39,9 @@ public class Dispensary extends HubEvent {
 				
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
-		        	state.getGsm().getRecord().setActive(selected.name());
 		        	state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
+		        	state.getGsm().getRecord().setActive(selected.name());
+		        	state.getPlayer().getPlayerData().syncClientLoadoutChange();
 		        }
 				
 				@Override

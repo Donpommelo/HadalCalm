@@ -2,25 +2,28 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.schmucks.MoveStates;
+import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatusProcTime;
-import com.mygdx.hadal.statuses.artifact.ScalingScalesStatus;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -31,9 +34,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Player extends PhysicsSchmuck {
 	
+	//Name of the player as chosen in the Title screen
+	private String name;
 	
 	private final static float playerDensity = 1.0f;
 	
+	//Dimension of player sprite parts.
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
 		
@@ -51,6 +57,14 @@ public class Player extends PhysicsSchmuck {
 		
 	public static final float scale = 0.15f;
 	
+	private TextureAtlas atlasBody;
+	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
+	
+	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
+	
+	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
+	toolHeight, toolWidth, gemHeight, gemWidth;
+	
 	private final float spriteAnimationSpeed = 0.08f;
 	
 	//counters for various cooldowns.
@@ -67,7 +81,9 @@ public class Player extends PhysicsSchmuck {
 	protected float interactCd = 0.15f;
 	protected float interactCdCount = 0;
 	
+	//This is the angle that the player's arm is pointing
 	private float attackAngle = 0;
+	private float attackAngleClient = 0;
 	
 	//user data
 	private PlayerBodyData playerData;
@@ -78,14 +94,6 @@ public class Player extends PhysicsSchmuck {
 	//Equipment that the player has built in to their toolset.
 	private Airblaster airblast;
 	
-	private TextureAtlas atlasBody;
-	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
-	
-	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
-	
-	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
-	toolHeight, toolWidth, gemHeight, gemWidth;
-	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	private float controllerCount = 0;
 	
@@ -93,8 +101,19 @@ public class Player extends PhysicsSchmuck {
 	private boolean shooting = false;
 	private boolean hovering = false;
 	
+	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
+	private float reloadPercent;
+	
 	private ParticleEntity hoverBubbles;
 	
+	//This is the controller that causes this player to perform actions
+	private ActionController controller;
+	
+	//this exists so that schmucks can steer towards the mouse.
+	private MouseTracker mouse;
+	
+	//This is the loadout that this player starts with.
+	private Loadout startLoadout;
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -104,9 +123,9 @@ public class Player extends PhysicsSchmuck {
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, int x, int y, UnlockCharacter character, PlayerBodyData oldData) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y, Constants.PLAYER_HITBOX);
-		
+	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData) {
+		super(state, hbWidth * scale, hbHeight * scale, x, y, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
+		this.name = name;
 		airblast = new Airblaster(this);
 		
 		toolSprite = GameStateManager.multitoolAtlas.findRegion("default");
@@ -114,14 +133,16 @@ public class Player extends PhysicsSchmuck {
 		this.toolHeight = toolSprite.getRegionHeight();
 		this.toolWidth = toolSprite.getRegionWidth();
 		
-		this.moveState = MoveStates.STAND;
+		this.moveState = SchmuckMoveStates.STAND;
 
-		if (oldData != null) {
-			this.playerData = oldData;
-		}
+		this.startLoadout = startLoadout;
+		this.playerData = oldData;
 		
-		setBodySprite(character.getSprite());
+		setBodySprite(startLoadout.character.getSprite());
 		loadParticles();
+		
+		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
+		mouse = state.getMouse();
 	}
 	
 	/**
@@ -129,6 +150,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param playerSprite
 	 */
 	public void setBodySprite(String playerSprite) {
+		
 		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
 		bodyRunSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_run"));	
 		bodyStillSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_stand"));	
@@ -148,27 +170,18 @@ public class Player extends PhysicsSchmuck {
 		this.bodyBackHeight = bodyBackSprite.getRegionHeight();
 		this.gemHeight = gemSprite.getRegionHeight();
 		this.gemWidth = gemSprite.getRegionWidth();
-		
+
 		//This line is used when the player swaps skins in loadout screen. It ensures the tool sprite is properly aligned.
 		if (playerData != null) {
 			playerData.setEquip();
-		}		
+		}
 	}
 	
 	/**
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
 	public void loadParticles() {
-		
-		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false);
-		hoverBubbles.getEffect().findEmitter("bubble0").setContinuous(false);
-		hoverBubbles.getEffect().findEmitter("bubble0").duration = 10;
-		/*
-		final ParticleEffect smoke = new ParticleEffect();
-		smoke.load(Gdx.files.internal(AssetList.SMOKE_PUFF.toString()), particleAtlas);
-		
-		jumpSmoke = new ParticleEntity(state, world, camera, rays, this, smoke, 3.0f);
-		jumpSmoke.turnOff();*/
+		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
 	}
 	
 	/**
@@ -176,26 +189,35 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void create() {
-		
+		alive = true;
+		controller = new ActionController(this, state);
+		state.getUiPlayer().addPlayer(this);
 		state.resetController();
 		
+		//If null, this indicate sthat this is a newlyspawned player. Create new data for it with the provided loadout.
+		//Otherwise, take the input data and reset it to match the new world.
 		if (playerData == null) {
-			this.playerData = new PlayerBodyData(this, state.getLoadout());
-			this.bodyData = playerData;
+			playerData = new PlayerBodyData(this, startLoadout);
+			bodyData = playerData;
 			playerData.initLoadout();
+			playerData.syncLoadout(startLoadout);
 		} else {
 			this.bodyData = playerData;
 			playerData.resetData(this, world);
+			playerData.syncLoadout(startLoadout);
 		}
 		
+		//Temp invuln on spawn
+		playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-				Constants.PLAYER_HITBOX, false, playerData);
-				
+				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
+				hitboxfilter, false, playerData);
+		
 		super.create();
 		
-		if (state.isRealFite()) {
+		//Activate on-spawn effects
+		if (!state.isPractice()) {
 			playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
 		}
 	}
@@ -220,7 +242,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Determine if the player is in the air or on ground.
-		if (playerData.getStatus(ScalingScalesStatus.class) != null) {
+		if (scaling) {
 			grounded = feetData.getNumContacts() > 0 || leftData.getNumContacts() > 0 || rightData.getNumContacts() > 0;
 		} else {
 			grounded = feetData.getNumContacts() > 0;
@@ -243,6 +265,9 @@ public class Player extends PhysicsSchmuck {
 			playerData.getActiveItem().gainCharge(delta);
 		}
 		
+		reloadPercent = getPlayerData().getCurrentTool().getReloadCd() / 
+				(getPlayerData().getCurrentTool().getReloadTime());
+		
 		//process cds
 		jumpCdCount-=delta;
 		fastFallCdCount-=delta;
@@ -263,7 +288,7 @@ public class Player extends PhysicsSchmuck {
 				//Player will continuously do small upwards bursts that cost fuel.
 				playerData.fuelSpend(playerData.getHoverCost());
 				jumpCdCount = hoverCd;
-				push(0, playerData.getHoverPower());
+				pushMomentumMitigation(0, playerData.getHoverPower());
 				
 				hoverBubbles.onForBurst(0.5f);
 			}
@@ -277,16 +302,14 @@ public class Player extends PhysicsSchmuck {
 		if (grounded) {
 			if (jumpCdCount < 0) {
 				jumpCdCount = jumpCd;
-				push(0, playerData.getJumpPower());
-//				jumpSmoke.turnOn();
+				pushMomentumMitigation(0, playerData.getJumpPower());
 			}
 		} else {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
 				if (jumpCdCount < 0) {
 					jumpCdCount = jumpCd;
 					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);;
-					push(0, playerData.getJumpPower());
-//					jumpSmoke.turnOn();
+					pushMomentumMitigation(0, playerData.getJumpPower());
 				}
 			}
 		}
@@ -310,14 +333,14 @@ public class Player extends PhysicsSchmuck {
 	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
 	 */
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.getCurrentTool(), Constants.PLAYER_HITBOX, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true);
+		useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, true);
 	}
 	
 	/**
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		useToolRelease(playerData.getCurrentTool(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY());
+		useToolRelease(playerData.getCurrentTool(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y);
 	}
 	
 	/**
@@ -328,7 +351,7 @@ public class Player extends PhysicsSchmuck {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
 				playerData.fuelSpend(playerData.getAirblastCost());
 				airblastCdCount = airblastCd;
-				useToolStart(0, airblast, Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+				useToolStart(0, airblast, hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, false);
 			}
 		}
 	}
@@ -347,7 +370,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		useToolStart(0, playerData.getActiveItem(), Constants.PLAYER_HITBOX, Gdx.input.getX() , Gdx.graphics.getHeight() - Gdx.input.getY(), false);
+		useToolStart(0, playerData.getActiveItem(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, false);
 	}
 	
 	/**
@@ -384,7 +407,6 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
-	private Vector3 bodyPosition = new Vector3();
 	private float armConnectXReal;
 	private float headConnectXReal;
 	private float armRotateXReal;
@@ -392,15 +414,15 @@ public class Player extends PhysicsSchmuck {
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(state.sprite.combined);
 		
-		bodyPosition.set(body.getPosition().x,
-				body.getPosition().y, 0);
-		
-		camera.project(bodyPosition);
-		
 		//Determine player mouse location and hence where the arm should be angled.
-		attackAngle = (float)(Math.atan2(
-				bodyPosition.y - (Gdx.graphics.getHeight() - Gdx.input.getY()),
-				bodyPosition.x - Gdx.input.getX()) * 180 / Math.PI);
+		if (mouse.getBody() != null) {
+			attackAngle = (float)(Math.atan2(
+					getPosition().y - mouse.getPosition().y,
+					getPosition().x - mouse.getPosition().x) * 180 / Math.PI);
+		} else {
+			attackAngle = attackAngleClient;
+		}
+		
 		
 /*		for (ParticleEmitter p : hoverBubbles.getEffect().getEmitters()) {
 			p.getAngle().setHighMax(attackAngle);
@@ -428,7 +450,7 @@ public class Player extends PhysicsSchmuck {
 		
 		//This switch determins the total body y-offset to make the body bob up and down when running.
 		int yOffset = 0;
-		if (moveState.equals(MoveStates.MOVE_LEFT) || moveState.equals(MoveStates.MOVE_RIGHT)) {
+		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT) || moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
 			switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
 			case 0:
 			case 1:
@@ -455,32 +477,32 @@ public class Player extends PhysicsSchmuck {
 		
 		//Draw a bunch of stuff
 		batch.draw(toolSprite, 
-				(flip ? toolWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
+				(flip ? toolWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
 				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(bodyBackSprite, 
-				(flip ? bodyBackWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
+				(flip ? bodyBackWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 		
 		batch.draw(armSprite, 
-				(flip ? armWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
+				(flip ? armWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
 				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(playerData.getActiveItem().isReady() ? gemSprite : gemInactiveSprite, 
-				(flip ? gemWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
+				(flip ? gemWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
 		boolean reverse = false;
 		
-		if (moveState.equals(MoveStates.MOVE_LEFT)) {
+		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT)) {
 			
 			if (Math.abs(attackAngle) > 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
@@ -490,11 +512,11 @@ public class Player extends PhysicsSchmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
-		} else if (moveState.equals(MoveStates.MOVE_RIGHT)) {
+		} else if (moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
 			if (Math.abs(attackAngle) < 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
 				reverse = true;
@@ -503,23 +525,23 @@ public class Player extends PhysicsSchmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
 			bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			batch.draw(grounded ? (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true) : 
 					(TextureRegion) bodyRunSprite.getKeyFrame(getFreezeFrame(reverse)), 
-					(flip ? bodyWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					body.getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		}
 		
 		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTime, true), 
-				(flip ? headWidth * scale : 0) + body.getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
-				body.getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
+				(flip ? headWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
+				getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 		
@@ -528,23 +550,117 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	/**
+	 * When the player is in the air, their animation freezes. This gets the fram for that
+	 * @param reverse: which direction is the player facing
+	 * @return
+	 */
 	public int getFreezeFrame(boolean reverse) {
-		if (Math.abs(body.getLinearVelocity().x) > Math.abs(body.getLinearVelocity().y)) {
+		if (Math.abs(getLinearVelocity().x) > Math.abs(getLinearVelocity().y)) {
 			return reverse ? 5 : 2;
 		} else {
 			return reverse ? 1 : 6;
 		}
 	}
 	
+	public void createGibs() {
+		if (alive) {
+			new Ragdoll(state, headWidth * scale, headHeight * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), (TextureRegion) headSprite.getKeyFrame(animationTime, true), getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, bodyWidth * scale, bodyHeight * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, armWidth * scale, armHeight * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), armSprite, getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, bodyBackWidth * scale, bodyBackHeight * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), bodyBackSprite, getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, toolWidth * scale, toolHeight * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), toolSprite, getLinearVelocity(), 5.0f);
+		}
+	}
+	
+	/**
+	 * This is called by the server when the player is created. Sends a packet to clients to instruct them to build a new player
+	 * with the desired name and loadout
+	 */
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreatePlayer(entityID.toString(), name, playerData.getLoadout());
+	}
+	
+	/**
+	 * This is called every engine tick. The server player sends a packet to the corresponding client player.
+	 * This packet updates mouse location, groundedness, loadout and stat information
+	 */
+	@Override
+	public void onServerSync() {
+		super.onServerSync();
+		HadalGame.server.sendToAllUDP( new Packets.SyncPlayer(entityID.toString(),
+				(float)(Math.atan2(
+						getPosition().y - mouse.getPosition().y,
+						getPosition().x - mouse.getPosition().x) * 180 / Math.PI),
+				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
+				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
+				playerData.getMaxHp(), playerData.getMaxFuel(), playerData.getAirblastCost(),
+				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent));
+	}
+	
+	/**
+	 * The client Player receives the packet sent above and updates the provided fields.
+	 */
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPlayer) {
+			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
+			
+			attackAngleClient = p.attackAngle;
+			grounded = p.grounded;
+			playerData.setCurrentSlot(p.currentSlot);
+			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
+			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
+			playerData.getCurrentTool().setClipLeft(p.currentClip);
+			playerData.setOverrideMaxHp(p.maxHp);
+			playerData.setOverrideMaxFuel(p.maxFuel);
+			playerData.setOverrideClipSize(p.maxClip);
+			playerData.setOverrideAmmoSize(p.currentAmmo);
+			playerData.setOverrideAirblastCost(p.airblastCost);
+			playerData.getActiveItem().setCurrentCharge(p.activeCharge * playerData.getActiveItem().getMaxCharge());
+			playerData.getCurrentTool().setReloading(p.reloading);
+			reloadPercent = p.reloadPercent;	
+		} else {
+			super.onClientSync(o);
+		}
+	}
+	
 	@Override
 	public void dispose() {
 		super.dispose();
+		state.getUiPlayer().removePlayer(this);
+		playerData.setCurrentHp(0);
+	}
+	
+	@Override
+	public HadalData getHadalData() {
+		return playerData;
+	}
+	
+	@Override
+	public BodyData getBodyData() {
+		return playerData;
 	}
 	
 	public PlayerBodyData getPlayerData() {
 		return playerData;
 	}
-	
+
 	public void setToolSprite(TextureRegion sprite) {
 		toolSprite = sprite;
 	}
@@ -583,5 +699,41 @@ public class Player extends PhysicsSchmuck {
 
 	public void setShooting(boolean shooting) {
 		this.shooting = shooting;
-	}	
+	}
+	
+	public float getReloadPercent() {
+		return reloadPercent;
+	}
+
+	public void setReloadPercent(float reloadPercent) {
+		this.reloadPercent = reloadPercent;
+	}
+
+	public ActionController getController() {
+		return controller;
+	}
+	
+	public Loadout getStartLoadout() {
+		return startLoadout;
+	}
+
+	public void setStartLoadout(Loadout startLoadout) {
+		this.startLoadout = startLoadout;
+	}
+
+	public MouseTracker getMouse() {
+		return mouse;
+	}
+
+	public void setMouse(MouseTracker mouse) {
+		this.mouse = mouse;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

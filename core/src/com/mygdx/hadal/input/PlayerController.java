@@ -1,29 +1,21 @@
 package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.InputProcessor;
-import com.mygdx.hadal.managers.GameStateManager.State;
-import com.mygdx.hadal.schmucks.MoveStates;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.states.HubState;
-import com.mygdx.hadal.states.PlayState;
 
 /**
- * The PlayerController controls the player using events to process various player actions.
+ * The PlayerController controls the player using key events to process various player actions.
+ * The Player Controller is used by the host in a playstate to map their keystrokes to the playercontroller
  * @author Zachary Tu
  *
  */
 public class PlayerController implements InputProcessor {
 
 	private Player player;
-	private PlayState state;
-	
 	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
-	private boolean leftDown = false;
-	private boolean rightDown = false;
 	
-	public PlayerController(Player player, PlayState state) {
+	public PlayerController(Player player) {
 		this.player = player;
-		this.state = state;
 	}
 	
 	@Override
@@ -31,102 +23,90 @@ public class PlayerController implements InputProcessor {
 		
 		if (player == null) return true;
 
-		if (player.getPlayerData() == null) return true;
+		if (player.getController() == null) return true;
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			leftDown = true;
-			if (!rightDown) {
-				player.setMoveState(MoveStates.MOVE_LEFT);
-			} else {
-				player.setMoveState(MoveStates.STAND);
-			}
+			player.getController().keyDown(PlayerAction.WALK_LEFT);
 		}
 		
 		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			rightDown = true;
-			if (!leftDown) {
-				player.setMoveState(MoveStates.MOVE_RIGHT);
-			} else {
-				player.setMoveState(MoveStates.STAND);
-			}
+			player.getController().keyDown(PlayerAction.WALK_RIGHT);
 		}
 		
 		if (keycode == PlayerAction.JUMP.getKey()) {
-			player.setHovering(true);
-			player.jump();
+			player.getController().keyDown(PlayerAction.JUMP);
 		}
 		
 		if (keycode == PlayerAction.CROUCH.getKey()) {
-			player.fastFall();
+			player.getController().keyDown(PlayerAction.CROUCH);
 		}
 		
 		if (keycode == PlayerAction.INTERACT.getKey()) {
-			//ATM, event interaction also advances dialog
-			if (state.getStage() != null) {
-				state.getStage().nextDialogue();
-			}
-			
-			player.interact();
-			
+			player.getController().keyDown(PlayerAction.INTERACT);
 		}
 		
 		if (keycode == PlayerAction.FREEZE.getKey()) {
-			player.activeItem();
+			player.getController().keyDown(PlayerAction.FREEZE);
 		}
 		
 		if (keycode == PlayerAction.RELOAD.getKey()) {
-			player.reload();
+			player.getController().keyDown(PlayerAction.RELOAD);
 		}
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
-			player.setShooting(true);
+			player.getController().keyDown(PlayerAction.FIRE);
 		}
 		
 		if (keycode == PlayerAction.BOOST.getKey()) {
-			player.airblast();
+			player.getController().keyDown(PlayerAction.BOOST);
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_LAST.getKey()) {
-			player.switchToLast();
+			player.getController().keyDown(PlayerAction.SWITCH_TO_LAST);
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_1.getKey()) {
-			player.switchToSlot(1);
+			player.getController().keyDown(PlayerAction.SWITCH_TO_1);
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_2.getKey()) {
-			player.switchToSlot(2);
+			player.getController().keyDown(PlayerAction.SWITCH_TO_2);
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_3.getKey()) {
-			player.switchToSlot(3);
+			player.getController().keyDown(PlayerAction.SWITCH_TO_3);
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
-			player.switchToSlot(4);
+			player.getController().keyDown(PlayerAction.SWITCH_TO_4);
 		}
 		
 		if (keycode == PlayerAction.SWITCH_TO_5.getKey()) {
-			player.switchToSlot(4);
+			player.getController().keyDown(PlayerAction.SWITCH_TO_5);
 		}
 		
 		if (keycode == PlayerAction.DIALOGUE.getKey()) {
-			if (state.getStage() != null) {
-				state.getStage().nextDialogue();
-			}
+			player.getController().keyDown(PlayerAction.DIALOGUE);
 		}
 		
 		if (keycode == PlayerAction.PAUSE.getKey()) {
-			state.getGsm().addState(State.MENU, PlayState.class);
-			state.getGsm().addState(State.MENU, HubState.class);
+			player.getController().keyDown(PlayerAction.PAUSE);
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {
-			player.getPlayerData().switchUp();
+			player.getController().keyDown(PlayerAction.MO_CYCLE_UP);
 		}
 		
 		if (keycode == PlayerAction.MO_CYCLE_DOWN.getKey()) {
-			player.getPlayerData().switchDown();
+			player.getController().keyDown(PlayerAction.MO_CYCLE_DOWN);
+		}
+		
+		if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+			player.getController().keyDown(PlayerAction.MESSAGE_WINDOW);
+		}
+		
+		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+			player.getController().keyDown(PlayerAction.SCORE_WINDOW);
 		}
 		
 		return false;
@@ -137,33 +117,28 @@ public class PlayerController implements InputProcessor {
 		
 		if (player == null) return true;
 
+		if (player.getController() == null) return true;
+		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
-			leftDown = false;
-			if (rightDown) {
-				player.setMoveState(MoveStates.MOVE_RIGHT);
-			} else {
-				player.setMoveState(MoveStates.STAND);
-			}
+			player.getController().keyUp(PlayerAction.WALK_LEFT);
 		}
 		
 		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
-			rightDown = false;
-			if (leftDown) {
-				player.setMoveState(MoveStates.MOVE_LEFT);
-			} else {
-				player.setMoveState(MoveStates.STAND);
-			}
+			player.getController().keyUp(PlayerAction.WALK_RIGHT);
 		}
 		
 		if (keycode == PlayerAction.JUMP.getKey()) {
-			player.setHovering(false);
+			player.getController().keyUp(PlayerAction.JUMP);
 		}
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
-			player.setShooting(false);
-			player.release();
+			player.getController().keyUp(PlayerAction.FIRE);
 		}
-				
+		
+		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+			player.getController().keyUp(PlayerAction.SCORE_WINDOW);
+		}	
+		
 		return false;
 	}
 

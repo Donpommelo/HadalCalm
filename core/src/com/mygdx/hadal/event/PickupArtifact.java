@@ -6,12 +6,15 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -36,18 +39,14 @@ public class PickupArtifact extends Event {
 	
 	private static final String name = "Artifact Pickup";
 
-	//Can this event be interacted with atm?
-	private boolean on;
+	private String pool;
 	
-	//Is the player standing in this event? Will display extra info
-	protected boolean open;
-
-	public PickupArtifact(PlayState state, int width, int height, int x, int y, String pool) {
-		super(state, name, width, height, x, y);
-		this.on = true;
+	public PickupArtifact(PlayState state, int x, int y, String pool) {
+		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+		this.pool = pool;
 		
 		//Set this pickup to a random equip in the input pool
-		artifact = UnlockArtifact.valueOf(getRandArtfFromPool(pool));
+		setArtifact(UnlockArtifact.valueOf(getRandArtfFromPool(pool)));
 	}
 	
 	@Override
@@ -56,20 +55,31 @@ public class PickupArtifact extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (isAlive() && on) {
-					
-					p.getPlayerData().addArtifact(artifact);
-					
-					queueDeletion();
-					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().onActivate(this);
-					}
-				}
+				preActivate(null, p);
 			}
 			
 			@Override
-			public void onActivate(EventData activator) {
-				on = !on;
+			public void onActivate(EventData activator, Player p) {
+				if (activator != null) {
+					if (activator.getEvent() instanceof TriggerAlt) {
+						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
+						if (msg.equals("roll")) {
+							setArtifact(UnlockArtifact.valueOf(getRandArtfFromPool(pool)));
+						} else {
+							setArtifact(UnlockArtifact.valueOf(getRandArtfFromPool(msg)));
+						}
+					}
+					return;
+				}
+				
+				p.getPlayerData().addArtifact(artifact);
+				setArtifact(UnlockArtifact.NOTHING);
+			}
+			
+			@Override
+			public void preActivate(EventData activator, Player p) {
+				onActivate(activator, p);
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), artifact.toString()));
 			}
 		};
 		
@@ -78,24 +88,29 @@ public class PickupArtifact extends Event {
 	}
 	
 	@Override
-	public void controller(float delta) {
-		if (open && eventData.getSchmucks().isEmpty()) {
-			open = false;
+	public void render(SpriteBatch batch) {
+		if (!artifact.equals(UnlockArtifact.NOTHING)) {
+			super.render(batch);
 		}
-		if (!open && !eventData.getSchmucks().isEmpty()) {
-			open = true;
-		}
+		
+		batch.setProjectionMatrix(state.sprite.combined);
+		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+		float y = getPosition().y * PPM + height / 2;
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, artifact.getName(), getPosition().x * PPM - width / 2, y);
 	}
 	
 	@Override
-	public void render(SpriteBatch batch) {
-		super.render(batch);
-		
-		if (open) {
-			batch.setProjectionMatrix(state.sprite.combined);
-			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-			float y = body.getPosition().y * PPM + height / 2;
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, artifact.getName(), body.getPosition().x * PPM - width / 2, y);
+	public Object onServerCreate() {
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.ARTIFACT, artifact.toString());
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			setArtifact(UnlockArtifact.valueOf(p.newPickup));
+		} else {
+			super.onClientSync(o);
 		}
 	}
 	
@@ -117,5 +132,24 @@ public class PickupArtifact extends Event {
 			artifacts.add(id);
 		}
 		return artifacts.get(GameStateManager.generator.nextInt(artifacts.size()));
+	}
+	
+	public void setArtifact(UnlockArtifact artifact) {
+		this.artifact = artifact;
+		
+		if (artifact.equals(UnlockArtifact.NOTHING)) {
+			if (standardParticle != null) {
+				standardParticle.turnOff();
+			}
+		} else {
+			if (standardParticle != null) {
+				standardParticle.turnOn();
+			}
+		}
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite(Sprite.CUBE);
 	}
 }

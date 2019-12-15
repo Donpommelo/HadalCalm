@@ -14,8 +14,8 @@ public class Pepper extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float radius = 6.0f;
-	private final static float damage = 1.2f;
+	private final static float radius = 5.0f;
+	private final static float damage = 0.8f;
 	
 	public Pepper() {
 		super(name, descr, descrLong, statusNum);
@@ -49,8 +49,8 @@ public class Pepper extends Artifact {
 							return true;
 						}
 					}, 
-					inflicted.getSchmuck().getBody().getPosition().x - radius, inflicted.getSchmuck().getBody().getPosition().y - radius, 
-					inflicted.getSchmuck().getBody().getPosition().x + radius, inflicted.getSchmuck().getBody().getPosition().y + radius);		
+					inflicted.getSchmuck().getPosition().x - radius, inflicted.getSchmuck().getPosition().y - radius, 
+					inflicted.getSchmuck().getPosition().x + radius, inflicted.getSchmuck().getPosition().y + radius);		
 				}
 			}
 		};

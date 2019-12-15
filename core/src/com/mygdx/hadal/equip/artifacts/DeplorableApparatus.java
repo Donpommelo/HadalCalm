@@ -21,7 +21,7 @@ public class DeplorableApparatus extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.MAX_HP, -60f, b), 
+				new StatChangeStatus(state, Stats.MAX_HP, -50f, b), 
 				new StatChangeStatus(state, Stats.HP_REGEN, 8.0f, b));
 		return enchantment;
 	}

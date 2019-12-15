@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="217">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="224">
  <properties>
   <property name="triggeredId" value="win"/>
  </properties>
@@ -61,7 +61,7 @@
   <object id="23" name="Multitrigger" type="Multitrigger" x="2944" y="992" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="hpspawn2,turret1,hpspawn3,spawntimer1,spawntimer2,spawntimer3,a1,a2,a3,objective1,startTimer"/>
+    <property name="triggeringId" value="hpspawn2,turret1,hpspawn3,spawntimer1,spawntimer2,spawntimer3,a1,a2,a3,startTimer"/>
    </properties>
   </object>
   <object id="26" name="TouchPortal" type="TouchPortal" x="4224" y="2048" width="96" height="96">
@@ -328,30 +328,6 @@
     <property name="triggeringId" value="reward2"/>
    </properties>
   </object>
-  <object id="80" name="Multitrigger" type="Multitrigger" x="5056" y="3040" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="reward2"/>
-    <property name="triggeringId" value="a1,a2,a3"/>
-   </properties>
-  </object>
-  <object id="83" name="Multitrigger" type="Multitrigger" x="4896" y="3040" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="lockrewards2"/>
-    <property name="triggeringId" value="a1,a2,a3"/>
-   </properties>
-  </object>
-  <object id="85" name="Multitrigger" type="Multitrigger" x="4192" y="1504" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="lockrewards0"/>
-    <property name="triggeringId" value="w1,w2,w3"/>
-   </properties>
-  </object>
-  <object id="95" name="Multitrigger" type="Multitrigger" x="4960" y="1504" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="lockrewards1"/>
-    <property name="triggeringId" value="w4,w5,w6"/>
-   </properties>
-  </object>
   <object id="96" name="Sensor" type="Sensor" x="4768" y="4034" width="128" height="32">
    <properties>
     <property name="triggeringId" value="spawnLimiter2"/>
@@ -466,20 +442,6 @@
     <property name="triggeredId" value="savept1"/>
    </properties>
   </object>
-  <object id="170" name="Objective" type="Objective" x="3008" y="992" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="objective1"/>
-    <property name="triggeringId" value="test1"/>
-   </properties>
-  </object>
-  <object id="171" name="Dummy" type="Dummy" x="4768" y="1056" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="test1"/>
-   </properties>
-  </object>
-  <object id="172" name="WeaponMod" type="WeaponMod" x="3360" y="2336" width="32" height="32"/>
-  <object id="174" name="Active" type="Active" x="4288" y="1696" width="32" height="32"/>
-  <object id="175" name="WeaponMod" type="WeaponMod" x="4480" y="1696" width="32" height="32"/>
   <object id="179" name="Prefab" type="Prefab" x="3936" y="1600" width="96" height="160">
    <properties>
     <property name="prefabId" value="Door"/>
@@ -580,48 +542,24 @@
    <properties>
     <property name="mods" type="int" value="1"/>
     <property name="prefabId" value="Weapon"/>
-    <property name="triggeredId" value="w1"/>
-    <property name="triggeringId" value="lockrewards0"/>
    </properties>
   </object>
-  <object id="193" name="Prefab" type="Prefab" x="4288" y="1376" width="96" height="96">
+  <object id="193" name="Prefab" type="Prefab" x="4384" y="1376" width="96" height="96">
    <properties>
     <property name="mods" type="int" value="1"/>
     <property name="prefabId" value="Weapon"/>
-    <property name="triggeredId" value="w2"/>
-    <property name="triggeringId" value="lockrewards0"/>
-   </properties>
-  </object>
-  <object id="194" name="Prefab" type="Prefab" x="4384" y="1376" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="Weapon"/>
-    <property name="triggeredId" value="w3"/>
-    <property name="triggeringId" value="lockrewards0"/>
    </properties>
   </object>
   <object id="195" name="Prefab" type="Prefab" x="4960" y="1376" width="96" height="96">
    <properties>
     <property name="mods" type="int" value="1"/>
     <property name="prefabId" value="Weapon"/>
-    <property name="triggeredId" value="w4"/>
-    <property name="triggeringId" value="lockrewards1"/>
-   </properties>
-  </object>
-  <object id="196" name="Prefab" type="Prefab" x="5056" y="1376" width="96" height="96">
-   <properties>
-    <property name="mods" type="int" value="1"/>
-    <property name="prefabId" value="Weapon"/>
-    <property name="triggeredId" value="w5"/>
-    <property name="triggeringId" value="lockrewards1"/>
    </properties>
   </object>
   <object id="197" name="Prefab" type="Prefab" x="5152" y="1376" width="96" height="96">
    <properties>
     <property name="mods" type="int" value="1"/>
     <property name="prefabId" value="Weapon"/>
-    <property name="triggeredId" value="w6"/>
-    <property name="triggeringId" value="lockrewards1"/>
    </properties>
   </object>
   <object id="198" name="Prefab" type="Prefab" x="3008" y="2272" width="96" height="96">
@@ -630,25 +568,9 @@
     <property name="prefabId" value="Weapon"/>
    </properties>
   </object>
-  <object id="199" name="Prefab" type="Prefab" x="4736" y="2880" width="96" height="96">
+  <object id="200" name="Prefab" type="Prefab" x="4992" y="2880" width="96" height="96">
    <properties>
     <property name="prefabId" value="Artifact"/>
-    <property name="triggeredId" value="a1"/>
-    <property name="triggeringId" value="lockrewards2"/>
-   </properties>
-  </object>
-  <object id="200" name="Prefab" type="Prefab" x="4896" y="2880" width="96" height="96">
-   <properties>
-    <property name="prefabId" value="Artifact"/>
-    <property name="triggeredId" value="a2"/>
-    <property name="triggeringId" value="lockrewards2"/>
-   </properties>
-  </object>
-  <object id="201" name="Prefab" type="Prefab" x="5056" y="2880" width="96" height="96">
-   <properties>
-    <property name="prefabId" value="Artifact"/>
-    <property name="triggeredId" value="a3"/>
-    <property name="triggeringId" value="lockrewards2"/>
    </properties>
   </object>
   <object id="202" name="Prefab" type="Prefab" x="7552" y="2880" width="96" height="96">
@@ -702,10 +624,16 @@
     <property name="triggeringId" value="switch3"/>
    </properties>
   </object>
-  <object id="216" name="Warp" type="Warp" x="4736" y="1728" width="32" height="32">
+  <object id="219" name="Prefab" type="Prefab" x="4256" y="1632" width="96" height="96">
    <properties>
-    <property name="Level" value="LEVEL_2"/>
-    <property name="reset" type="bool" value="false"/>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="Active"/>
+   </properties>
+  </object>
+  <object id="220" name="Prefab" type="Prefab" x="3360" y="2272" width="96" height="96">
+   <properties>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="WeaponMod"/>
    </properties>
   </object>
  </objectgroup>

@@ -25,7 +25,7 @@ public class HitboxOnDieSummonRocketsStrategy extends HitboxStrategy{
 	
 	@Override
 	public void die() {
-		WeaponUtils.createHomingTorpedo(state, this.hbox.getBody().getPosition().x * PPM , this.hbox.getBody().getPosition().y * PPM, 
+		WeaponUtils.createHomingTorpedo(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 
 				creator.getSchmuck(), tool, numTorp, 60, new Vector2(0, 1), false, filter);	
 	}
 }

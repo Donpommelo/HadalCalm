@@ -12,6 +12,6 @@ public class HitboxStaticStrategy extends HitboxStrategy{
 	
 	@Override
 	public void controller(float delta) {
-		hbox.getBody().setLinearVelocity(0, 0);
+		hbox.setLinearVelocity(0, 0);
 	}
 }

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="56">
+ <tileset firstgid="1" source="main.tsx"/>
+ <layer id="4" name="Tile Layer 1" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztmdtugzAQRJ0mtGlz6UP6/99a/IDkrBDY3lmYRHOkeYkS4wNmWZyUhBBCCCGEEFEMY36I8hns+jfmlyj3IGdG1yjn0vU25kiSe4Czdb0CxkRxSVhnZtcJlPNQjMHqOuF1foXraul1jnI9pOfn5gdo3BLrnLPkPJjvfgPncgocu/c4kXP6Ss/PkjNw7BIW362I8N3iXuwlwpdlHdjznlP2vGv1ttYj+l6sXT92vjZrzxaW69a7zlr7Ixbf2vUz59vSM7D41mLn29ofvbpv63zt7x9pm32TXtC+0xrJye5szlG+Ze3Y09nuFdr9Ja8v07ugfZeZi9eXpV7VuL6Lb60ruj7vsffd4oqqV3N5LHzu3R9cqkc23npl+zi7N1J7Lrz7g73x3n9z+0ER1xnhiqo3l5VjeJ1RrijfjMd5qZ4hXdG9wppzbUp/Vle0MzLRPSCT81b9bnbe+7/QHJbeXgghhBBCCPEe/APKIidw
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <properties>
+   <property name="pvp" type="bool" value="true"/>
+   <property name="respawn" type="bool" value="true"/>
+   <property name="zoom" type="float" value="1.2"/>
+  </properties>
+  <object id="44" x="960" y="896">
+   <polyline points="224,-64 384,-64 384,32 224,32 224,-64"/>
+  </object>
+  <object id="45" x="896" y="704">
+   <polyline points="-64,-64 96,-64 96,32 -64,32 -64,-64"/>
+  </object>
+  <object id="46" x="768" y="864">
+   <polyline points="-352,-96 -192,-96 -192,0 -352,0 -352,-96"/>
+  </object>
+  <object id="47" x="608" y="1024">
+   <polyline points="-352,-352 -192,-512 896,-512 1056,-352 1056,-224 896,-224 896,32 800,32 640,192 544,192 384,352 288,352 256,320 160,320 0,160 -352,160 -352,96 -320,64 -192,64 -288,-32 -352,-32 -352,-352"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="5" name="Save" type="Save" x="288" y="128" width="32" height="32">
+   <properties>
+    <property name="clear" type="bool" value="false"/>
+    <property name="triggeredId" value="save1"/>
+    <property name="triggeringId" value="point1"/>
+    <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+  <object id="6" name="Start" type="Start" x="1536" y="640" width="32" height="32"/>
+  <object id="8" name="Timer" type="Timer" x="96" y="32" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="9" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="spawnWeapons,spawnArtifacts,uiObjective,uiTimer,startTimer,save1,save2,save3"/>
+   </properties>
+  </object>
+  <object id="13" name="Prefab" type="Prefab" x="288" y="1088" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="14" name="Prefab" type="Prefab" x="1152" y="1120" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="17" name="Prefab" type="Prefab" x="896" y="1280" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Artifact"/>
+    <property name="triggeredId" value="a1"/>
+   </properties>
+  </object>
+  <object id="19" name="Multitrigger" type="Multitrigger" x="160" y="96" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3"/>
+   </properties>
+  </object>
+  <object id="20" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnArtifacts"/>
+    <property name="triggeringId" value="a1"/>
+   </properties>
+  </object>
+  <object id="21" name="UI" type="UI" x="224" y="32" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="misc">Fight!
+</property>
+    <property name="tags" value="MISC"/>
+    <property name="triggeredId" value="uiObjective"/>
+   </properties>
+  </object>
+  <object id="22" name="UI" type="UI" x="288" y="32" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="tags" value="TIMER"/>
+    <property name="timer" type="float" value="180"/>
+    <property name="triggeredId" value="uiTimer"/>
+   </properties>
+  </object>
+  <object id="23" name="Timer" type="Timer" x="32" y="256" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeringId" value="minussecond"/>
+   </properties>
+  </object>
+  <object id="24" name="UI" type="UI" x="96" y="256" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="timer" type="float" value="-1"/>
+    <property name="triggeredId" value="minussecond"/>
+   </properties>
+  </object>
+  <object id="25" name="Timer" type="Timer" x="32" y="320" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="180"/>
+    <property name="triggeringId" value="timeOver"/>
+   </properties>
+  </object>
+  <object id="26" name="Multitrigger" type="Multitrigger" x="96" y="320" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="timeOver"/>
+    <property name="triggeringId" value="win"/>
+   </properties>
+  </object>
+  <object id="27" name="End" type="End" x="160" y="320" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="win"/>
+   </properties>
+  </object>
+  <object id="28" name="Timer" type="Timer" x="32" y="384" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="30"/>
+    <property name="triggeringId" value="spawnWeapons"/>
+   </properties>
+  </object>
+  <object id="29" name="Timer" type="Timer" x="32" y="448" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="60"/>
+    <property name="triggeringId" value="spawnArtifacts"/>
+   </properties>
+  </object>
+  <object id="50" name="Dummy" type="Dummy" x="512" y="640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point1"/>
+   </properties>
+  </object>
+  <object id="51" name="Dummy" type="Dummy" x="1216" y="640" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point2"/>
+   </properties>
+  </object>
+  <object id="52" name="Dummy" type="Dummy" x="896" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point3"/>
+   </properties>
+  </object>
+  <object id="53" name="Save" type="Save" x="416" y="128" width="32" height="32">
+   <properties>
+    <property name="clear" type="bool" value="false"/>
+    <property name="triggeredId" value="save3"/>
+    <property name="triggeringId" value="point3"/>
+    <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+  <object id="54" name="Save" type="Save" x="352" y="128" width="32" height="32">
+   <properties>
+    <property name="clear" type="bool" value="false"/>
+    <property name="triggeredId" value="save2"/>
+    <property name="triggeringId" value="point2"/>
+    <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+  <object id="55" name="Prefab" type="Prefab" x="864" y="544" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

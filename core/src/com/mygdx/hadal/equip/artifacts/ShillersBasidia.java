@@ -13,7 +13,6 @@ public class ShillersBasidia extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	
 	public ShillersBasidia() {
 		super(name, descr, descrLong, statusNum);
 	}
@@ -23,13 +22,12 @@ public class ShillersBasidia extends Artifact {
 		enchantment[0] = new Status(state, name, descr, b) {
 			
 			private float procCdCount;
-			private float procCd = .25f;
+			private float procCd = .20f;
 			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
 					procCdCount += delta;
-
 				}
 			}
 
@@ -37,7 +35,7 @@ public class ShillersBasidia extends Artifact {
 			public void onHitboxCreation(Hitbox hbox) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, 60, 20 / 60f, 1.5f, b.getSchmuck().getHitboxfilter()));
+					hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, 60, 20 / 60f, 2.0f, b.getSchmuck().getHitboxfilter()));
 				}
 			}
 		};

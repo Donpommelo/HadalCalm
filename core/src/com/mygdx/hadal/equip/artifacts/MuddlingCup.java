@@ -2,9 +2,8 @@ package com.mygdx.hadal.equip.artifacts;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -13,7 +12,7 @@ import com.mygdx.hadal.statuses.StatusComposite;
 public class MuddlingCup extends Artifact {
 
 	private final static String name = "Muddling Cup";
-	private final static String descr = "Fires Shots When Airblasting";
+	private final static String descr = "Fires Weapon When Airblasting";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -30,14 +29,10 @@ public class MuddlingCup extends Artifact {
 			
 			@Override
 			public void onAirBlast(Equipable tool) {
-				
-				if (inflicted.getCurrentTool() instanceof RangedWeapon && inflicted.getSchmuck() instanceof Player) {
-					((RangedWeapon)inflicted.getCurrentTool()).getOnShoot().makeHitbox(inflicted.getSchmuck(), state, tool, 
-							tool.getWeaponVelo().scl(projSpeed),
-							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
-							inflicted.getSchmuck().getHitboxfilter());
-				}
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), new Vector2(tool.getWeaponVelo()).scl(projSpeed),
+						inflicted.getSchmuck().getPosition().x * PPM, 
+						inflicted.getSchmuck().getPosition().y * PPM,
+						inflicted.getSchmuck().getHitboxfilter());
 			}
 		});
 		return enchantment;

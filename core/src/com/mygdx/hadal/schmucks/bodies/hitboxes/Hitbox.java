@@ -7,7 +7,9 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -95,7 +97,7 @@ public class Hitbox extends HadalEntity {
 		this.body = BodyBuilder.createBox(world, startX, startY, width , height , grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 				filter, true, data);
-		this.body.setLinearVelocity(startVelo);
+		setLinearVelocity(startVelo);
 		
 		if (!sensor) {
 			body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 
@@ -127,7 +129,12 @@ public class Hitbox extends HadalEntity {
 	}
 	
 	@Override
-	public void push(float impulseX, float impulseY) {		
+	public void push(float impulseX, float impulseY) {
+		
+		if (!alive) {
+			return;
+		}
+		
 		for (HitboxStrategy s : strategies) {
 			s.push(impulseX, impulseY);
 		}
@@ -135,12 +142,22 @@ public class Hitbox extends HadalEntity {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		
+		if (!alive) {
+			return;
+		}
+		
 		for (HitboxStrategy s : strategies) {
 			s.render(batch);
 		}
 	}
 	
 	public void die() {
+		
+		if (!alive) {
+			return;
+		}
+		
 		for (HitboxStrategy s : strategies) {
 			s.die();
 		}
@@ -169,6 +186,14 @@ public class Hitbox extends HadalEntity {
 				remove.add(strat);
 			}
 		}
+	}
+	
+	/**
+	 * As Default: Upon created, the hitbox tells the client to create a client illusion tracking it
+	 */
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), null, ObjectSyncLayers.HBOX);
 	}
 	
 	public float getLifeSpan() {
@@ -242,5 +267,4 @@ public class Hitbox extends HadalEntity {
 	public void setCreator(Schmuck creator) {
 		this.creator = creator;
 	}
-	
 }

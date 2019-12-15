@@ -8,11 +8,11 @@ import com.mygdx.hadal.statuses.Status;
 public class AnchorTalisman extends Artifact {
 
 	private final static String name = "Anchor Talisman";
-	private final static String descr = "Damage Resistance When Grounded";
+	private final static String descr = "+60% Damage Resistance When Grounded";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float res = 0.5f;
+	private final static float res = 0.4f;
 	
 	public AnchorTalisman() {
 		super(name, descr, descrLong, statusNum);

@@ -30,7 +30,9 @@ public enum PlayerAction {
 	SWITCH_TO_4(Input.Keys.NUM_4),
 	SWITCH_TO_5(Input.Keys.NUM_5),
 	MO_CYCLE_UP(-1000),
-	MO_CYCLE_DOWN(1000);
+	MO_CYCLE_DOWN(1000),
+	MESSAGE_WINDOW(Input.Keys.SHIFT_LEFT),
+	SCORE_WINDOW(Input.Keys.TAB);
 	
 	private int key;
 	
@@ -70,6 +72,8 @@ public enum PlayerAction {
 		SWITCH_TO_5.setKey(Input.Keys.NUM_5);
 		MO_CYCLE_UP.setKey(-1000);
 		MO_CYCLE_DOWN.setKey(1000);
+		MESSAGE_WINDOW.setKey(Input.Keys.SHIFT_LEFT);
+		SCORE_WINDOW.setKey(Input.Keys.TAB);
 	}
 	
 	/**

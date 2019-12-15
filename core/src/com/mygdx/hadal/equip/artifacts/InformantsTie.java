@@ -23,13 +23,14 @@ public class InformantsTie extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.5f, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, 0.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.75f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, 0.75f, b),
 				new Status(state, name, descr, b) {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new HitboxHomingStrategy(state, hbox, b, inflicted.getSchmuck().getHitboxfilter()));
+				hbox.setGrav(0.0f);
 			}
 		});
 		

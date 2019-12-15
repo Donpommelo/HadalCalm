@@ -21,7 +21,6 @@ public class Dormitory extends HubEvent {
 
 	public Dormitory(PlayState state, int width, int height, int x, int y) {
 		super(state, name, width, height, x, y, title);
-	
 	}
 	
 	public void enter() {
@@ -40,6 +39,9 @@ public class Dormitory extends HubEvent {
 				public void clicked(InputEvent e, float x, float y) {
 		        	state.getGsm().getRecord().setCharacter(selected.name());
 		        	state.getPlayer().setBodySprite(selected.getSprite());
+		        	state.getPlayer().getPlayerData().getLoadout().character = selected;
+		        	state.getPlayer().getPlayerData().syncServerLoadoutChange();
+		        	state.getPlayer().getPlayerData().syncClientLoadoutChange();
 		        }
 		        
 		        @Override

@@ -14,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
+import com.mygdx.hadal.server.KryoServer;
 import com.mygdx.hadal.audio.MusicPlayer;
+import com.mygdx.hadal.client.KryoClient;
 
 /**
  * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GamestateManager.
@@ -31,24 +33,30 @@ public class HadalGame extends ApplicationAdapter {
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, sprite, hud;
+	public static FitViewport viewportCamera, viewportSprite, viewportUI;
+
+	//This is the batch used to render stuff
 	private SpriteBatch batch;
 
 	//This is the Gamestate Manager. It manages the current game state.
 	private GameStateManager gsm;
 	
-	public static FitViewport viewportCamera, viewportSprite, viewportUI;
-	
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;
+    public static ShaderProgram shader;
+
+    //Client and server for networking are static fields in the main game
+    public static KryoClient client;
+    public static KryoServer server;
     
-    public static BitmapFont SYSTEM_FONT_TITLE, SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
+    public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
     private final static int DEFAULT_WIDTH = 1080;
 	private final static int DEFAULT_HEIGHT = 720;
+	
+	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
-    
-    public static ShaderProgram shader;
     
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
@@ -56,22 +64,18 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void create() {
+		
 		CONFIG_WIDTH = DEFAULT_WIDTH;
 		CONFIG_HEIGHT = DEFAULT_HEIGHT;
 		batch = new SpriteBatch();
 		
 		camera = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-		
 	    sprite = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    
 	    hud = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    
 		viewportCamera = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, camera);
 	    viewportCamera.apply();
-
 	    viewportSprite = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, sprite);
 	    viewportSprite.apply();	    
-	    
 	    viewportUI = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, hud);
 	    viewportUI.apply();
 	    
@@ -83,9 +87,12 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    musicPlayer = new MusicPlayer();
-        
+	    
         gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
+		
+		client = new KryoClient(gsm);
+		server = new KryoServer(gsm);
 	}
 	
 	/**
@@ -140,36 +147,13 @@ public class HadalGame extends ApplicationAdapter {
 		batch.dispose();
 	}
 	
-	/**
-	 * Getter for the main game camera
-	 * @return: the camera
-	 */
-	public OrthographicCamera getCamera() {
-		return camera;
-	}
+	public void toggleFullscreen() {};
 	
-	/**
-	 * Getter for the hud camera
-	 * @return: the camera
-	 */
-	public OrthographicCamera getHud() {
-		return hud;
-	}
+	public OrthographicCamera getCamera() {return camera;}
 	
-	/**
-	 * Getter for the sprite camera
-	 * This is separate because box2d scale stuff
-	 * @return: the camera
-	 */
-	public OrthographicCamera getSprite() {
-		return sprite;
-	}
+	public OrthographicCamera getHud() {return hud;}
+	
+	public OrthographicCamera getSprite() {return sprite;}
 
-	/**
-	 * Getter for the main game sprite batch
-	 * @return: the batch
-	 */
-	public SpriteBatch getBatch() {
-		return batch;
-	}
+	public SpriteBatch getBatch() {return batch;}
 }

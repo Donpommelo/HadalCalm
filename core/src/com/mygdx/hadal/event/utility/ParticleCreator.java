@@ -4,6 +4,8 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -37,7 +39,7 @@ public class ParticleCreator extends Event {
 		this.duration = duration;
 		this.on = startOn;
 		
-		particles = new ParticleEntity(state, state.getPlayer(), particle, 2.0f, 0.0f, on);
+		particles = new ParticleEntity(state, null, particle, 0.0f, 0.0f, on, particleSyncType.TICKSYNC);
 	}
 	
 	@Override
@@ -45,15 +47,19 @@ public class ParticleCreator extends Event {
 		
 		if (getConnectedEvent() != null) {
 			particles.setAttachedEntity(getConnectedEvent());
-		} else {
-			particles.setAttachedEntity(state.getPlayer());
 		}
 		
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				
+				if (getConnectedEvent() != null) {
+					particles.setAttachedEntity(getConnectedEvent());
+				} else {
+					particles.setAttachedEntity(p);
+				}
+								
 				if (duration == 0) {
 					if (on) {
 						particles.turnOff();

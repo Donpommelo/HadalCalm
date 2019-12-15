@@ -6,7 +6,6 @@ import com.mygdx.hadal.HadalGame;
 
 public class DesktopLauncher {
 	
-	//Name of the game. Currently unused.
 	private static final String TITLE = "Hadal Panic";
 	private final static int DEFAULT_WIDTH = 1080;
 	private final static int DEFAULT_HEIGHT = 720;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -35,11 +36,11 @@ public class TriggerMulti extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				for (Event e : triggered) {
 					if (e != null) {
 						if (e.getEventData() != null) {
-							e.getEventData().onActivate(this);
+							e.getEventData().preActivate(this, p);
 						}
 					}
 				}

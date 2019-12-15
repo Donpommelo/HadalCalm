@@ -47,8 +47,8 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 							chainAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
 							shortestFraction = 1.0f;
 							
-						  	if (hbox.getBody().getPosition().x != chainAttempt.getPosition().x || 
-						  			hbox.getBody().getPosition().y != chainAttempt.getPosition().y) {
+						  	if (hbox.getPosition().x != chainAttempt.getPosition().x || 
+						  			hbox.getPosition().y != chainAttempt.getPosition().y) {
 						  		hbox.getWorld().rayCast(new RayCastCallback() {
 
 									@Override
@@ -72,12 +72,12 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 										return -1.0f;
 									}
 									
-								}, hbox.getBody().getPosition(), chainAttempt.getPosition());	
+								}, hbox.getPosition(), chainAttempt.getPosition());	
 								
 								if (closestFixture != null) {
 									if (closestFixture.getUserData() instanceof BodyData) {
-										hbox.getBody().setLinearVelocity(closestFixture.getBody().getPosition()
-												.sub(hbox.getBody().getPosition())
+										hbox.setLinearVelocity(closestFixture.getBody().getPosition()
+												.sub(hbox.getPosition())
 														.nor().scl(60));
 									}
 								}	
@@ -87,8 +87,8 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 					}
 					
 				}, 
-				hbox.getBody().getPosition().x - radius, hbox.getBody().getPosition().y - radius, 
-				hbox.getBody().getPosition().x + radius, hbox.getBody().getPosition().y + radius);						
+				hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
+				hbox.getPosition().x + radius, hbox.getPosition().y + radius);						
 			}
 		}
 		if (hbox.getDura() <= 0 && hbox.isAlive()) {

@@ -45,7 +45,7 @@ public class Spring extends Event {
 			@Override
 			public void onTouch(HadalData fixB) {
 				if (fixB != null) {
-					fixB.getEntity().getBody().applyLinearImpulse(vec, fixB.getEntity().getBody().getWorldCenter(), true);
+					fixB.getEntity().pushMomentumMitigation(vec.x, vec.y);
 				}
 			}
 		};
@@ -58,7 +58,5 @@ public class Spring extends Event {
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.SPRING);
-//		setScaleAlign(2);
-//		setScale(0.25f);
 	}
 }

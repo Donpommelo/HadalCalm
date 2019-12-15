@@ -1,13 +1,20 @@
 package com.mygdx.hadal.event;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -33,12 +40,12 @@ public class PickupWeaponMod extends Event {
 	
 	private static final String name = "Weapon Mod Pickup";
 
-	//Can this event be interacted with atm?
-	private boolean on;
-
-	public PickupWeaponMod(PlayState state, int width, int height, int x, int y, String pool) {
-		super(state, name, width, height, x, y);
-		this.on = true;
+	private String pool;
+	
+	public PickupWeaponMod(PlayState state, int x, int y, String pool) {
+		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+		this.pool = pool;
+		
 		this.mod = WeaponMod.valueOf(getRandModFromPool(pool, ModTag.RANDOM_POOL));
 	}
 	
@@ -48,27 +55,60 @@ public class PickupWeaponMod extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (isAlive() && on) {
-					
-					mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
-					queueDeletion();
-					
-					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().onActivate(this);
-					}
-				}
+				preActivate(null, p);
 			}
 			
 			@Override
-			public void onActivate(EventData activator) {
-				on = !on;
+			public void onActivate(EventData activator, Player p) {
+				if (activator != null) {
+					if (activator.getEvent() instanceof TriggerAlt) {
+						setWeaponMod(WeaponMod.valueOf(getRandModFromPool(pool, ModTag.RANDOM_POOL)));
+					}
+					return;
+				}
+				
+				mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
+				setWeaponMod(WeaponMod.NOTHING);
+			}
+			
+			@Override
+			public void preActivate(EventData activator, Player p) {
+				onActivate(activator, p);
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), mod.toString()));
 			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
+	
+	@Override
+	public void render(SpriteBatch batch) {
+		if (!mod.equals(WeaponMod.NOTHING)) {
+			super.render(batch);
+			
+			batch.setProjectionMatrix(state.sprite.combined);
+			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+			float y = getPosition().y * PPM + height / 2;
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), getPosition().x * PPM - width / 2, y);
+		}
+	}
 
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.MOD, mod.toString());
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			setWeaponMod(WeaponMod.valueOf(p.newPickup));
+		} else {
+			super.onClientSync(o);
+		}
+	}
+	
 	public static String getRandModFromPool(String pool, ModTag... tags) {
 		
 		if (pool.equals("")) {
@@ -100,12 +140,21 @@ public class PickupWeaponMod extends Event {
 		return mods;
 	}
 	
-	@Override
-	public String getText() {
-		if (on) {
-			return mod.toString() + " (E TO TAKE)";
+	public void setWeaponMod(WeaponMod mod) {
+		this.mod = mod;
+		if (mod.equals(WeaponMod.NOTHING)) {
+			if (standardParticle != null) {
+				standardParticle.turnOff();
+			}
 		} else {
-			return mod.toString() + ": LOCKED";
+			if (standardParticle != null) {
+				standardParticle.turnOn();
+			}
 		}
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite(Sprite.CUBE);
 	}
 }

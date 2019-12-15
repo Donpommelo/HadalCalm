@@ -23,7 +23,7 @@ public class NauticalMine extends ActiveItem {
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 11.0f;
 	
-	private final static float baseDamage = 8.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float knockback = 0.0f;
 	private final static int projectileWidth = 250;
 	private final static float lifespan = 5.0f;
@@ -33,7 +33,7 @@ public class NauticalMine extends ActiveItem {
 	private final static int projDura = 1;
 		
 	private final static int explosionRadius = 500;
-	private final static float explosionDamage = 100.0f;
+	private final static float explosionDamage = 45.0f;
 	private final static float explosionKnockback = 40.0f;
 	
 	private final static float projectileSpeed = 5.0f;
@@ -48,8 +48,8 @@ public class NauticalMine extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
 		Hitbox hbox = new HitboxSprite(state, 
-				user.getPlayer().getBody().getPosition().x * PPM, 
-				user.getPlayer().getBody().getPosition().y * PPM,
+				user.getPlayer().getPosition().x * PPM, 
+				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileWidth, gravity, lifespan, projDura, restitution, 
 				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), 
 				false, false, user.getPlayer(), projSprite);

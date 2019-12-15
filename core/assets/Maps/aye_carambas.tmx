@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="150" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="103">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="150" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="104">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="140">
@@ -8,7 +8,6 @@
   </data>
  </layer>
  <objectgroup id="2" name="event-layer">
-  <object id="6" name="WeaponMod" type="WeaponMod" x="1184" y="1152" width="96" height="96"/>
   <object id="7" name="Poison" type="Poison" x="1344" y="1312" width="1888" height="96">
    <properties>
     <property name="Damage" type="float" value="1"/>
@@ -470,6 +469,12 @@
   <object id="96" name="Sensor" type="Sensor" x="2752" y="2944" width="1120" height="384">
    <properties>
     <property name="triggeringId" value="zone1enter"/>
+   </properties>
+  </object>
+  <object id="103" name="Prefab" type="Prefab" x="1184" y="1152" width="96" height="96">
+   <properties>
+    <property name="mods" type="int" value="1"/>
+    <property name="prefabId" value="WeaponMod"/>
    </properties>
   </object>
  </objectgroup>

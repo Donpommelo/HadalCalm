@@ -16,9 +16,11 @@ public enum UnlockActives {
 	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
 	HONEYCOMB(Honeycomb.class),
 	FIREBALL(Fireball.class),
+	FISH_GANG(FishGang.class),
 	MELON(Melon.class),
-	NOTHING(Empty.class),
+	NOTHING(NothingActive.class),
 	MISSILE_POD(MissilePod.class),
+	PORTABLE_TURRET(PortableTurret.class),
 	RELOADER(Reloader.class),
 	RESERVED_FUEL(ReservedFuel.class),
 
@@ -97,6 +99,12 @@ public enum UnlockActives {
 		info.setUnlocked(unlock);
 	}
 	
+	public static UnlockActives getUnlockFromActive(Class<? extends ActiveItem> active) {
+		for (UnlockActives unlock: UnlockActives.values()) {
+			if (unlock.active.equals(active)) {
+				return unlock;
+			}
+		}
+		return null;
+	}
 }
-
-

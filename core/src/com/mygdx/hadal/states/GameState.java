@@ -2,6 +2,7 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -18,6 +19,9 @@ public abstract class GameState {
 	protected HadalGame app;
 	protected SpriteBatch batch;
 	public OrthographicCamera camera, sprite, hud;
+	
+	//This is the stage that is displayed for this state
+	protected Stage stage;
 	
 	/**
 	 * This constructor is run when the player switches GameState to a new State.
@@ -70,5 +74,9 @@ public abstract class GameState {
 
 	public GameStateManager getGsm() {
 		return gsm;
+	}
+
+	public Stage getStage() {
+		return stage;
 	}
 }

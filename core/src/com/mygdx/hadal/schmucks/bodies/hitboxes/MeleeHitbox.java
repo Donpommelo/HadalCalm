@@ -37,12 +37,14 @@ public class MeleeHitbox extends Hitbox {
 				
 		super.controller(delta);
 		
-		Vector2 hbLocation = creator.getBody().getPosition().add(center);
-		this.body.setTransform(hbLocation, startVelo.angleRad());
 		
-		//Melee hboxes should not persist after owner's disposal
+		
+		//Melee hboxes should not persist after owner's disposal. Otherwise, track location
 		if (!creator.isAlive()) {
 			queueDeletion();
+		} else {
+			Vector2 hbLocation = creator.getPosition().add(center);
+			setTransform(hbLocation, startVelo.angleRad());
 		}
 		
 		lifeSpan -= delta;
@@ -50,5 +52,4 @@ public class MeleeHitbox extends Hitbox {
 			queueDeletion();
 		}
 	}
-
 }

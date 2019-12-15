@@ -12,12 +12,12 @@ import com.mygdx.hadal.utils.Stats;
 public class OriginCoil extends Artifact {
 
 	private final static String name = "Origin Coil";
-	private final static String descr = "Propulsive Projectiles";
+	private final static String descr = "Propulsive Projectiles, +Reload Speed";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
 	private final static float slow = 0.02f;
-	private final static float boost = 50.0f;
+	private final static float boost = 75.0f;
 	private final static float delay = 0.25f;
 	
 	public OriginCoil() {
@@ -48,7 +48,7 @@ public class OriginCoil extends Artifact {
 							controllerCount+=delta;
 
 							if (controllerCount >= 1/60f) {
-								hbox.getBody().applyForceToCenter(hbox.getStartVelo().nor().scl(hbox.getBody().getMass() * boost), true);
+								hbox.applyForceToCenter(hbox.getStartVelo().nor().scl(hbox.getMass() * boost));
 								controllerCount = 0;
 							}
 						}

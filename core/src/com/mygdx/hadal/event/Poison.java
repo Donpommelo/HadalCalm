@@ -6,7 +6,12 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -29,8 +34,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Poison extends Event {
 	
 	private float controllerCount = 0;
+	
+	//Damage done by the poison
 	private float dps;
+	
+	//If created by an dude, this is that dude
 	private Schmuck perp;
+	
+	//Is the poison on? Should it be drawn? Should random particles be spawned in its vicinity?
 	private boolean on, draw, randomParticles;
 	
 	private static final String name = "Poison";
@@ -51,7 +62,7 @@ public class Poison extends Event {
 		randomParticles = width > 100;
 		
 		if (!randomParticles && draw) {
-			new ParticleEntity(state, this, Particle.POISON, 0, 0, on);
+			new ParticleEntity(state, this, Particle.POISON, 0, 0, on, particleSyncType.CREATESYNC);
 		}
 	}
 	
@@ -70,7 +81,7 @@ public class Poison extends Event {
 		randomParticles = width > 100;
 		
 		if (!randomParticles && draw) {
-			new ParticleEntity(state, this, Particle.POISON, 1.5f, 0, on);
+			new ParticleEntity(state, this, Particle.POISON, 1.5f, 0, on, particleSyncType.CREATESYNC);
 		}
 	}
 	
@@ -80,7 +91,7 @@ public class Poison extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				on = !on;
 			}
 		};
@@ -108,12 +119,44 @@ public class Poison extends Event {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((Math.random() * width) - (width / 2) + body.getPosition().x * PPM);
-					int randY = (int) ((Math.random() * height) - (height / 2) + body.getPosition().y * PPM);
-					new ParticleEntity(state, randX, randY, Particle.POISON, 1.5f, true);
+					int randX = (int) ((Math.random() * width) - (width / 2) + getPosition().x * PPM);
+					int randY = (int) ((Math.random() * height) - (height / 2) + getPosition().y * PPM);
+					new ParticleEntity(state, randX, randY, Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
 				}
 			}
 		}
 		super.controller(delta);
+	}
+	
+	/**
+	 * Client Poison should randomly spawn poison particles itself to avoid overhead.
+	 */
+	@Override
+	public void clientController(float delta) {
+		if (on) {
+			if (randomParticles && draw) {
+				currPoisonSpawnTimer += delta;
+				while (currPoisonSpawnTimer >= spawnTimerLimit) {
+					currPoisonSpawnTimer -= spawnTimerLimit;
+					int randX = (int) ((Math.random() * width) - (width / 2) + getPosition().x * PPM);
+					int randY = (int) ((Math.random() * height) - (height / 2) + getPosition().y * PPM);
+					ParticleEntity poison = new ParticleEntity(state, randX, randY, Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
+					((ClientState)state).addEntity(poison.getEntityID().toString(), poison, ObjectSyncLayers.STANDARD);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * When server creates poison, clients are told to create the poison in their own worlds
+	 */
+	@Override
+	public Object onServerCreate() {
+		if (blueprint == null) {
+			return new Packets.CreatePoison(entityID.toString(), getPosition().scl(PPM), 
+					new Vector2(width, height), draw);
+		} else {
+			return new Packets.CreateEvent(entityID.toString(), blueprint);
+		}
 	}
 }

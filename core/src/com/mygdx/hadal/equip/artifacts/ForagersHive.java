@@ -43,8 +43,8 @@ public class ForagersHive extends Artifact {
 					procCdCount -= procCd;
 					
 					WeaponUtils.createBees(state, 
-							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
+							inflicted.getSchmuck().getPosition().x * PPM, 
+							inflicted.getSchmuck().getPosition().y * PPM, 
 							inflicted.getSchmuck(), inflicted.getCurrentTool(), numBees, 180, 
 							new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
 				}

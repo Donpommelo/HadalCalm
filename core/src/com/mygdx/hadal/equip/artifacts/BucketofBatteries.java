@@ -12,7 +12,7 @@ import com.mygdx.hadal.utils.Stats;
 public class BucketofBatteries extends Artifact {
 
 	private final static String name = "Bucket of Batteries";
-	private final static String descr = "Projectiles chain";
+	private final static String descr = "Projectile Chain";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	

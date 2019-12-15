@@ -39,8 +39,8 @@ public class TiledObjectUtil {
             if(object instanceof PolylineMapObject) {
                 shape = createPolyline((PolylineMapObject) object);
             } else {
-                continue;
-            }
+            	continue;
+        	}
 
             Body body;
             BodyDef bdef = new BodyDef();
@@ -77,9 +77,15 @@ public class TiledObjectUtil {
     	}
     }
     
+    /**
+     * This parses a single tiled map object into an event
+     * @param state: The playstate that the event will be placed into
+     * @param object: The map object to parse
+     * @return
+     */
     public static Event parseTiledEvent(PlayState state, MapObject object) {
-    	//atm, all events are just rectangles.
-		RectangleMapObject current = (RectangleMapObject)object;
+		
+    	RectangleMapObject current = (RectangleMapObject)object;
 		Rectangle rect = current.getRectangle();
 		
 		if (object.getName().equals("Start")) {
@@ -218,24 +224,20 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), power);
 		}
 		if (object.getName().equals("Equip")) {
-			e = new PickupEquip(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupEquip(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("mods", 0, Integer.class),
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Artifact")) {
-			e = new PickupArtifact(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupArtifact(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Active")) {
-			e = new PickupActive(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupActive(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("WeaponMod")) {
-			e = new PickupWeaponMod(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+			e = new PickupWeaponMod(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Dropthrough")) {
@@ -269,7 +271,8 @@ public class TiledObjectUtil {
 					object.getProperties().get("filter", (short)0, short.class));
 		}
 		if (object.getName().equals("Save")) {
-			e = new SavePoint(state);
+			e = new SaveSetter(state, object.getProperties().get("zoom", 1.0f, float.class),
+					object.getProperties().get("clear", true, boolean.class));
 		}
 		if (object.getName().equals("Text")) {
 			e = new Text(state, (int)rect.width, (int)rect.height, 
@@ -317,8 +320,12 @@ public class TiledObjectUtil {
 		
 		//Extra, universal functions to change event sprite properties		
 		if (e != null) {
-			triggeringEvents.put(e, object.getProperties().get("triggeringId", "", String.class));
-			triggeredEvents.put(object.getProperties().get("triggeredId", "", String.class), e);
+			if (object.getProperties().get("triggeringId", String.class) != null) {
+				triggeringEvents.put(e, object.getProperties().get("triggeringId", String.class));
+			}
+			if (object.getProperties().get("triggeredId",String.class) != null) {
+				triggeredEvents.put(object.getProperties().get("triggeredId", String.class), e);
+			}
 			
 			if (object.getProperties().get("sprite", String.class) != null) {
 				if (object.getProperties().get("frame", int.class) != null) {
@@ -338,6 +345,12 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("align", Integer.class) != null) {
 				e.setScaleAlign(object.getProperties().get("align", Integer.class));
 			}
+			if (object.getProperties().get("sync", Integer.class) != null) {
+				e.setSyncType(object.getProperties().get("sync", Integer.class));
+			}
+			if (object.getProperties().get("synced", boolean.class) != null) {
+				e.setSynced(object.getProperties().get("synced", boolean.class));
+			}
 			if (object.getProperties().get("particle_amb", String.class) != null) {
 				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)));
 			}
@@ -353,10 +366,16 @@ public class TiledObjectUtil {
 			
 			e.setBlueprint(object);
 		}
-		
+
 		return e;
     }
     
+    /**
+     * Generate a prefrab combination of events
+     * @param state: Playstate the events will be created in
+     * @param object: MapObject of the prefab
+     * @param rect: dimensions of the prefab
+     */
     public static void genPrefab(PlayState state, MapObject object, Rectangle rect) {
     	
     	Prefabrication p = null;
@@ -371,7 +390,7 @@ public class TiledObjectUtil {
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Spawner")) {
-    		p = new TimedSpawner(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerPickupTimed(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("interval", 1.0f, float.class),
 					object.getProperties().get("type", 0, int.class),
@@ -379,7 +398,7 @@ public class TiledObjectUtil {
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("SpawnerTriggered")) {
-    		p = new TriggeredSpawner(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerPickupTriggered(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("type", 0, int.class),
@@ -405,7 +424,7 @@ public class TiledObjectUtil {
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Weapon")) {
-    		p = new WeaponPickup(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
@@ -414,7 +433,23 @@ public class TiledObjectUtil {
     	}
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Artifact")) {
-    		p = new ArtifactPickup(state, (int)rect.width, (int)rect.height, 
+    		p = new SpawnerArtifact(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("pool", "", String.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Active")) {
+    		p = new SpawnerActiveItem(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("pool", "", String.class));
+    	}
+    	
+    	if (object.getProperties().get("prefabId", "", String.class).equals("WeaponMod")) {
+    		p = new SpawnerWeaponMod(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
@@ -438,15 +473,19 @@ public class TiledObjectUtil {
     	}
     }
     
-    
+    /*
+     * When a prefab is created, its triggerIds are generated dynamically using this to ensure that there are no repeats.
+     */
     public static int nextId = 0;
-    
     public static String getPrefabTriggerId() {
     	String id = "prefabTriggerId" + nextId;
     	nextId++;
     	return id;
     }
     
+    /**
+     * This parses the triggers of all events that have been added to any of the trigger lists
+     */
     public static void parseTiledTriggerLayer() {
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("")) {
@@ -481,11 +520,15 @@ public class TiledObjectUtil {
     	}    
     }
     
+    /**
+     * This parses a single event's triggers and updates existing events with connections.
+     * @param e: Event to add triggers for
+     */
     public static void parseTiledSingleTrigger(Event e) {
     	MapObject blueprint = e.getBlueprint();
     	String triggeringId =  blueprint.getProperties().get("triggeringId", "", String.class);
     	String triggeredId =  blueprint.getProperties().get("triggeredId", "", String.class);
-    	
+
     	for (Event key : triggeringEvents.keySet()) {
     		if (!triggeringEvents.get(key).equals("") && triggeringEvents.get(key).equals(triggeredId)) {
         		key.setConnectedEvent(e);
@@ -508,7 +551,22 @@ public class TiledObjectUtil {
     	}
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
+    
+    /**
+     * Add a single event to the world, alongside triggers
+     * @param state: Playstate to add event to
+     * @param object: Map object of the event t oadd.
+     * @return: The newly created event
+     */
+    public static Event parseSingleEventWithTriggers(PlayState state, MapObject object) {
+    	Event e = parseTiledEvent(state, object);
+    	parseTiledSingleTrigger(e);
+    	return e;
+    }
 
+    /**
+     * Clear all trigger lists. This is done upon initializing a playstate to clear previous triggers.
+     */
     public static void clearEvents() {
     	triggeredEvents.clear();
     	triggeringEvents.clear();

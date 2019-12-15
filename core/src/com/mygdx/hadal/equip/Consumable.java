@@ -27,8 +27,8 @@ public class Consumable extends Equipable {
 	public void mouseClicked(float delta, PlayState state, BodyData bodyData, short faction, int x, int y) {
 		//Convert body coordinates into screen coordinates to calc a starting velocity for the projectile.
 		Vector3 bodyScreenPosition = new Vector3(
-				bodyData.getSchmuck().getBody().getPosition().x,
-				bodyData.getSchmuck().getBody().getPosition().y, 0);
+				bodyData.getSchmuck().getPosition().x,
+				bodyData.getSchmuck().getPosition().y, 0);
 		state.camera.project(bodyScreenPosition);
 		
 		float powerDiv = bodyScreenPosition.dst(x, y, 0);
@@ -68,7 +68,7 @@ public class Consumable extends Equipable {
 		return chargesLeft + "";
 	}
 	
-	public void gainAmmo(int gained) {
+	public void gainClip(int gained) {
 		chargesLeft += gained;
 		if (chargesLeft > chargesMax) {
 			chargesLeft = chargesMax;

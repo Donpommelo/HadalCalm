@@ -20,7 +20,7 @@ public class Reloader extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		for (Equipable e : user.getMultitools()) {
-			e.gainAmmo(100);
+			e.gainClip(100);
 		}
 	}
 }

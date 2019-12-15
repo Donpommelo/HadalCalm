@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -36,10 +35,12 @@ public abstract class Equipable {
 	
 	private Sprite equipSprite, eventSprite;
 	
-	protected Vector3 mouseLocation;
-	protected Vector2 weaponVelo;
+	protected Vector2 weaponVelo = new Vector2();
 	
-	protected ArrayList<WeaponModifier> weaponMods;
+	protected int x, y;
+	protected short faction;
+	
+	protected ArrayList<WeaponModifier> weaponMods = new ArrayList<WeaponModifier>();
 	
 	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
 		this.user = user;
@@ -48,13 +49,8 @@ public abstract class Equipable {
 		this.useDelay = useDelay;
 		this.reloading = false;
 		
-		this.weaponMods = new ArrayList<WeaponModifier>();
-		
 		this.equipSprite = equipSprite;
 		this.eventSprite = eventSprite;
-		
-		mouseLocation = new Vector3();
-		weaponVelo = new Vector2();
 	}
 	
 	/**
@@ -81,8 +77,9 @@ public abstract class Equipable {
 	public abstract void mouseClicked(float delta, PlayState state, BodyData bodyData, short faction, int x, int y);
 	
 	/**
-	 * This method is called useDelay seconds after mouseClicked(). This involves the tool actually firing off in a direction
-	 * that should be set in mouseClicked().
+	 * This method is called useDelay seconds after mouseClicked(). 
+	 * This involves the tool actually firing off in a direction by calling fire(), usually.
+	 * that should be set in mouseClicked() and ammo calculations.
 	 * @param state: The play state
 	 * @param bodyData: user data of he schmuck using this tool
 	 */
@@ -95,24 +92,75 @@ public abstract class Equipable {
 	 * @param bodyData: user data of he schmuck using this tool
 	 */
 	abstract public void release(PlayState state, BodyData bodyData);
-
+	
 	/**
 	 * This method will be called every engine tick if the player is reloading.
 	 * If the weapon is reloadable, this method will probably count down some timer and add ammo when done.
 	 * @param delta: elapsed time in seconds since last engine tick
 	 */
 	public abstract void reload(float delta);
+
+	
+	/*
+	 * This method is used within a weapon itself to use its own fields. The version underneath is for weapons fired as a result of some other effect.
+	 */
+	public void fire(PlayState state, Schmuck user, Vector2 startVelocity) {
+		fire(state, user, startVelocity, x, y, faction);
+	}
+
+	/**
+	 * This is the method called when a weapon actually fires off. This usually involves shooty stuff.
+	 * This is abstracted away from execute for weapons that fire weirdly (like charge weapons)
+	 * @param state: state the weapon is fired in. Playstate often used for creating new hitboxes
+	 * @param user: This is the guy who shot this weapon. If a weapon is fired by the map, use the WorldDummy
+	 * @param startVelocity: The starting directional velocity of a projectile spawned. Typically vector pointing to mouse.
+	 * @param x: x coordinate of the target. (screen coordinates)
+	 * @param y: y coordinate of the target. (screen coordinates) 
+	 * @param filter: this is the hitbox filter that decides who gets hit by this
+	 * @param procEffects: Does firing this shot activate on-shoot effects?
+	 */
+	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {}
 	
 	/**
 	 * Get the string representing the weapon in the ui.
 	 * @return
 	 */
-	public abstract String getText();
+	public String getText() {
+		return "";
+	};
 	
-	public void gainAmmo(int gained) {
+	/**
+	 * Get an extra string representing the weapon in the ui.
+	 * @return
+	 */
+	public String getAmmoText() {
+		return "";
+	};
+	
+	public String getTextClient(int overrideClipSize) {
+		return "";
+	};
+	
+	public void gainClip(int gained) {
 		
 	}
 
+	public int getClipSize() {
+		return 0;
+	}
+	
+	public int getClipLeft() {
+		return 0;
+	}
+	
+	public int getAmmoLeft() {
+		return 0;
+	}
+	
+	public void setClipLeft(int clipLeft) {}
+	
+	public void setAmmoLeft(int clipLeft) {}
+	
 	public float getUseCd() {
 		return useCd;
 	}

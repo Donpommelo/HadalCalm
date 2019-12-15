@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.misc.Nothing;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -23,7 +23,7 @@ import com.mygdx.hadal.statuses.WeaponModifier;
  */
 public class UIPlay extends AHadalActor {
 
-	private Player player;
+	protected Player player;
 	private PlayState state;
 	private BitmapFont font;
 	
@@ -49,8 +49,8 @@ public class UIPlay extends AHadalActor {
 	//Percent of Hp for low heal indication to appear
 	private static final float hpLowThreshold = 0.20f;
 	
-	private float hpRatio, fuelRatio, fuelCutoffRatio;
-	
+	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
+	protected String weaponText, ammoText;
 	private boolean mouseOver;
 
 	public UIPlay(AssetManager assetManager, PlayState state, Player player) {
@@ -95,14 +95,21 @@ public class UIPlay extends AHadalActor {
 		});
 	}
 	
+	public void calcVars() {
+		//Calc the ratios needed to draw the bars
+		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
+		hpMax = player.getPlayerData().getMaxHp();
+		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
+		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
+		weaponText = player.getPlayerData().getCurrentTool().getText();
+		ammoText = player.getPlayerData().getCurrentTool().getAmmoText();
+	}
+	
 	@Override
     public void draw(Batch batch, float alpha) {
 		batch.setProjectionMatrix(state.hud.combined);
 
-		//Calc the ratios needed to draw the bars
-		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
-		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
-		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
+		calcVars();
 		
 		//This code makes the hp bar delay work.
 		if (hpDelayed > hpRatio) {
@@ -145,15 +152,16 @@ public class UIPlay extends AHadalActor {
 		font.getData().setScale(0.25f);
 		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), x + 48, y + 90, 100, -1, true);
 		font.getData().setScale(0.5f);
-		font.draw(batch, player.getPlayerData().getCurrentTool().getText(), x + 48, y + 50);
+		font.draw(batch, weaponText, x + 48, y + 40);
 		font.getData().setScale(0.25f);
-		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)player.getPlayerData().getMaxHp(),
+		font.draw(batch, ammoText, x + 48, y + 60);
+		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)hpMax,
 				x + 155, y + 66);
 		
 		for (int i = 0; i < 4; i++) {
 			if (player.getPlayerData().getMultitools().length > i) {
 				
-				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof Nothing) {
+				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
 					batch.draw(itemNull.get(i), x, y, getWidth(), getHeight());
 				} else {
 					if (i == player.getPlayerData().getCurrentSlot()) {

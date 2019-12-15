@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextobjectid="56">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="56">
  <tileset firstgid="1" source="main.tsx"/>
- <layer name="Tile Layer 1" width="40" height="40">
+ <layer id="1" name="Tile Layer 1" width="40" height="40">
   <data encoding="base64" compression="zlib">
    eJztzjEKwCAQBVHBNNrk/rcNqaOBMC4amQe/W9hJSZLinYtsp74cPNJXXm5HORp/e+x7so+xj7GPsY+xj7GPsY+xj9m5714NXuvnl74Z+2ufJI10AXZ5FME=
   </data>
  </layer>
- <objectgroup name="collision-layer">
+ <objectgroup id="2" name="collision-layer">
   <object id="8" x="320" y="960">
    <polyline points="-64,0 704,0 704,-640 -64,-640 -64,0"/>
   </object>
  </objectgroup>
- <objectgroup name="event-layer">
+ <objectgroup id="3" name="event-layer">
   <object id="2" name="Timer" type="Timer" x="32" y="32" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="0"/>
@@ -189,6 +189,8 @@
     <property name="event" type="bool" value="true"/>
     <property name="gravity" type="float" value="0.2"/>
     <property name="hbox" type="bool" value="true"/>
+    <property name="sprite" value="NASU"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="target"/>
     <property name="triggeringId" value="eventDelete"/>
    </properties>

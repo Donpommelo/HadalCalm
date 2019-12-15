@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -40,8 +42,13 @@ public class SpawnerSchmuck extends Event {
 	
 	private float controllerCount = 0;
 
+	//Have the spawned enemies been defeated yet?
 	private boolean defeated = false;
+	
+	//Should the spawned mob be spawned with spread?
 	private boolean spread;
+	
+	//Extra field for enemies that require more information (like turret subtypes)
 	private int extraField;
 	
 	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, 
@@ -61,7 +68,7 @@ public class SpawnerSchmuck extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				
 				if (activator.getEvent() instanceof TriggerAlt) {
 					limit += Integer.parseInt(((TriggerAlt)activator.getEvent()).getMessage());
@@ -75,27 +82,27 @@ public class SpawnerSchmuck extends Event {
 						switch(id) {
 						case 1:
 							if (Math.random() > 0.4f) {
-								spawns.add(new Scissorfish(state, randX, randY));
+								spawns.add(new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX));
 							} else if (Math.random() > 0.7f){
-								spawns.add(new Spittlefish(state, randX, randY));
+								spawns.add(new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX));
 							} else {
-								spawns.add(new Torpedofish(state, randX, randY));
+								spawns.add(new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX));
 							}
 							break;
 						case 2:
-							spawns.add(new Scissorfish(state, randX, randY));
+							spawns.add(new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX));
 							break;
 						case 3:
-							spawns.add(new Spittlefish(state, randX, randY));
+							spawns.add(new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX));
 							break;
 						case 4:
-							spawns.add(new Torpedofish(state, randX, randY));
+							spawns.add(new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX));
 							break;
 						case 5:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "flak", extraField));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_FLAK, extraField, Constants.ENEMY_HITBOX));
 							break;
 						case 6:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), "volley", extraField));
+							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX));
 							break;
 							
 						}
@@ -130,11 +137,10 @@ public class SpawnerSchmuck extends Event {
 					}
 					
 					if (defeated) {
-						getConnectedEvent().eventData.onActivate(eventData);
+						getConnectedEvent().eventData.preActivate(eventData, null);
 					}
 				}
 			}
 		}
-		
 	}
 }

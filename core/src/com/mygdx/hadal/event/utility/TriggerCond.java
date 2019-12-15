@@ -6,6 +6,7 @@ import java.util.Map;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -44,16 +45,16 @@ public class TriggerCond extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				if (activator.getEvent() instanceof TriggerAlt) {
 					condition = ((TriggerAlt)activator.getEvent()).getMessage();
 				} else {
 					if (condition.equals("random")) {
 						Object[] values = triggered.values().toArray();
-						((Event)values[GameStateManager.generator.nextInt(values.length)]).getEventData().onActivate(this);
+						((Event)values[GameStateManager.generator.nextInt(values.length)]).getEventData().preActivate(this, p);
 					} else {
 						if (triggered.get(condition) != null) {
-							triggered.get(condition).getEventData().onActivate(this);
+							triggered.get(condition).getEventData().preActivate(this, p);
 						}
 					}	
 				}

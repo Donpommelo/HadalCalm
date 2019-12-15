@@ -22,7 +22,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * N/A
  * 
- * 
  * @author Zachary Tu
  *
  */
@@ -68,7 +67,7 @@ public class PortalTouch extends Event {
 				for (HadalEntity s : eventData.getSchmucks()) {
 					if (!justTeleported.contains(s)) {
 						((PortalTouch)getConnectedEvent()).getJustTeleported().add(s);
-						s.getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
+						s.setTransform(getConnectedEvent().getPosition(), 0);
 						
 						if (getConnectedEvent().getStandardParticle() != null) {
 							getConnectedEvent().getStandardParticle().onForBurst(1.0f);
@@ -78,7 +77,7 @@ public class PortalTouch extends Event {
 			} else {
 				for (HadalEntity s : eventData.getSchmucks()) {
 					if (!justTeleported.contains(s)) {
-						s.getBody().setTransform(getConnectedEvent().getBody().getPosition(), 0);
+						s.setTransform(getConnectedEvent().getPosition(), 0);
 						
 						if (getConnectedEvent().getStandardParticle() != null) {
 							getConnectedEvent().getStandardParticle().onForBurst(1.0f);

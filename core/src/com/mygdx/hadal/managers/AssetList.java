@@ -6,10 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public enum AssetList {
 
 	TITLE_CARD("HADAL_PANIC_3.jpg", Texture.class),
-	MENU_CARD("MENU_CARD.png", Texture.class),
-	LOADOUT_CARD("LOADOUT_CARD.png", Texture.class),
 	GAME_OVER_CARD("GAME_OVER_CARD.png", Texture.class),
-	VICTORY_CARD("VICTORY_CARD.png", Texture.class),
+	
 	BUTLER_FONT("fonts/butler.fnt", null),
 	LEARNING_FONT("fonts/learning_curve.fnt", null),
 	FIXEDSYS_FONT("fonts/fixedsys.fnt", null),
@@ -49,7 +47,9 @@ public enum AssetList {
 	EVENT_ATL("sprites/events/event.atlas", TextureAtlas.class),
 	
 	// Particle effects.
-	PARTICLE_ATLAS("sprites/particle/particles.atlas", TextureAtlas.class),
+	PARTICLE_ATLAS("particles/particles.atlas", TextureAtlas.class),
+	PARTICLE_TOTLC_ATLAS("particles/particles_totlc.atlas", TextureAtlas.class),
+	PARTYCLE_ATLAS("particles/partycles.atlas", TextureAtlas.class),
 	
 	UIPATCHIMG("ui/window.png", Texture.class),
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),
@@ -62,6 +62,8 @@ public enum AssetList {
 	ANCHORATLAS("ui/anchor_logo.atlas", TextureAtlas.class),
 	ANCHORDARK("ui/anchor_logo_dark.png", Texture.class),
 	ANCHORDARKATLAS("ui/anchor_logo_dark.atlas", TextureAtlas.class),
+	HEART_EMPTY("ui/heart_meter.png", Texture.class),
+	HEART_FULL("ui/heart_gauge.png", Texture.class),
 	
 	PELICAN("sprites/busts/portrait_pelican.png", Texture.class),
 	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),

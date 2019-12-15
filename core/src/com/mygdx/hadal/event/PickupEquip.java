@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Constants;
@@ -40,26 +43,21 @@ public class PickupEquip extends Event {
 
 	//This is the weapon that will be picked up when interacting with this event.
 	private Equipable equip;
+	private UnlockEquip unlock;
 	
 	private static final String name = "Equip Pickup";
 
-	//Can this event be interacted with atm?
-	private boolean on;
-	
 	private ArrayList<WeaponMod> mods;
 
-	//Is the player standing in this event? Will display extra info
-	protected boolean open;
-
-	public PickupEquip(PlayState state, int width, int height, int x, int y, int modPow, String pool) {
-		super(state, name, width, height, x, y);
-		this.on = true;
+	private int modPow;
+	private String pool;
+	
+	public PickupEquip(PlayState state, int x, int y, int modPow, String pool) {
+		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+		this.modPow = modPow;
+		this.pool = pool;
 		
-		//Set this pickup to a random weapon in the input pool
-		equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(getRandWeapFromPool(pool)), null);
-		
-		mods = new ArrayList<WeaponMod>();
-		mods.addAll(PickupWeaponMod.getRandMods(modPow, ModTag.RANDOM_POOL));
+		rollWeapon();
 	}
 	
 	@Override
@@ -68,45 +66,69 @@ public class PickupEquip extends Event {
 			
 			@Override
 			public void onInteract(Player p) {
-				if (isAlive() && on) {
-					
-					//If player inventory is full, replace their current weapon.
-					equip.getWeaponMods().clear();
-					Equipable temp = p.getPlayerData().pickup(equip);
-					
-					for (WeaponMod mod : mods) {
-						mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
-					}
-					mods.clear();
-					
-					//If the player picks this up without dropping anything, delete this event.
-					if (temp == null) {
-						queueDeletion();
-					} else {
-						
-						//Otherwise set its weapon to the dropped weapon.
-						equip = temp;
-						setEventSprite(equip.getEventSprite());
-						
-						for (WeaponModifier mod : equip.getWeaponMods()) {
-							mods.add(mod.getConstantMod());
+				preActivate(null, p);
+			}
+			
+			@Override
+			public void onActivate(EventData activator, Player p) {
+				
+				if (activator != null) {
+					if (activator.getEvent() instanceof TriggerAlt) {
+						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
+						if (msg.equals("roll")) {
+							rollWeapon();
+						} else {
+							unlock = UnlockEquip.valueOf(getRandWeapFromPool(msg));
+							setEquip(UnlocktoItem.getUnlock(unlock, null));
 						}
 					}
-					
-					if (event.getConnectedEvent() != null) {
-						event.getConnectedEvent().getEventData().onActivate(this);
-					}
+					return;
+				}
+				
+				if (equip instanceof NothingWeapon) {
+					return;
+				}
+				
+				//If player inventory is full, replace their current weapon.
+				equip.getWeaponMods().clear();
+				Equipable temp = p.getPlayerData().pickup(equip);
+				
+				for (WeaponMod mod : mods) {
+					mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
+				}
+				mods.clear();
+				
+				setEquip(temp);
+				for (WeaponModifier mod : equip.getWeaponMods()) {
+					mods.add(mod.getConstantMod());
 				}
 			}
 			
 			@Override
-			public void onActivate(EventData activator) {
-				on = !on;
+			public void preActivate(EventData activator, Player p) {
+				onActivate(activator, p);
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
+						UnlockEquip.getUnlockFromEquip(equip.getClass()).toString()));
 			}
 		};
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.WEAPON, unlock.toString());
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncPickup) {
+			Packets.SyncPickup p = (Packets.SyncPickup) o;
+			setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
+		} else {
+			super.onClientSync(o);
+		}
 	}
 	
 	/**
@@ -128,35 +150,48 @@ public class PickupEquip extends Event {
 		}
 		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
-
-	@Override
-	public void controller(float delta) {
-		if (open && eventData.getSchmucks().isEmpty()) {
-			open = false;
-		}
-		if (!open && !eventData.getSchmucks().isEmpty()) {
-			open = true;
-		}
+	
+	public void rollWeapon() {
+		unlock = UnlockEquip.valueOf(getRandWeapFromPool(pool));
+		setEquip(UnlocktoItem.getUnlock(unlock, null));
+		
+		mods = new ArrayList<WeaponMod>();
+		mods.addAll(PickupWeaponMod.getRandMods(modPow, ModTag.RANDOM_POOL));
 	}
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
-		
-		if (open) {
-			batch.setProjectionMatrix(state.sprite.combined);
-			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-			float y = body.getPosition().y * PPM + height / 2;
-			for (WeaponMod mod : mods) {
-				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), body.getPosition().x * PPM - width / 2, y);
-				y += 15;
-			}
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), body.getPosition().x * PPM - width / 2, y);
+		if (!(equip instanceof NothingWeapon)) {
+			super.render(batch);
 		}
+		
+		batch.setProjectionMatrix(state.sprite.combined);
+		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+		float y = getPosition().y * PPM + height / 2;
+		for (WeaponMod mod : mods) {
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), getPosition().x * PPM - width / 2, y);
+			y += 15;
+		}
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPosition().x * PPM - width / 2, y);
 	}
 	
 	public Equipable getEquip() {
 		return equip;
+	}
+
+	public void setEquip(Equipable equip) {
+		this.equip = equip;
+		setEventSprite(equip.getEventSprite());
+		
+		if (equip instanceof NothingWeapon) {
+			if (standardParticle != null) {
+				standardParticle.turnOff();
+			}
+		} else {
+			if (standardParticle != null) {
+				standardParticle.turnOn();
+			}
+		}
 	}
 
 	public ArrayList<WeaponMod> getMods() {

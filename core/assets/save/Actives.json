@@ -128,4 +128,26 @@ RESERVED_FUEL: {
 		RANDOM_POOL,
 	]
 }
+PORTABLE_TURRET: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Portable Turret
+	description: "Fire a projectile that creates a Turret where it lands."
+    descriptionLong: "TEMP."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+FISH_GANG: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Fish Gang
+	description: "Summon a Fish Gang."
+    descriptionLong: "TEMP."
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 }

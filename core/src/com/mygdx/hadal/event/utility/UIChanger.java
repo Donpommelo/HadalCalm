@@ -6,6 +6,7 @@ import com.mygdx.hadal.actors.UITag;
 import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -72,7 +73,7 @@ public class UIChanger extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onActivate(EventData activator) {
+			public void onActivate(EventData activator, Player p) {
 				state.getUiExtra().changeTypes(changeType, tags);
 				state.getUiExtra().incrementLives(livesIncr);
 				state.getUiExtra().incrementScore(scoreIncr);
@@ -81,5 +82,10 @@ public class UIChanger extends Event {
 				state.getUiExtra().incrementVar2(var2Incr);
 			}
 		};
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(2);
 	}
 }

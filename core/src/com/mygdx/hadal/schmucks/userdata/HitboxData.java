@@ -38,13 +38,16 @@ public class HitboxData extends HadalData {
 	
 	@Override
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
+		if (!hbox.isAlive())
+			return;
+		
 		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && !(hbox instanceof MeleeHitbox)) {
 			super.receiveDamage(basedamage, knockback, perp, tool, procEffects, tags);
 		}
 		
-		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && !(hbox instanceof MeleeHitbox)) {
+		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && !(hbox instanceof MeleeHitbox) && hbox.isAlive()) {
 			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
-			filter.groupIndex = (short) perp.getSchmuck().getHitboxfilter();
+			filter.groupIndex = (short)0;
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 		}
 	}
@@ -55,6 +58,9 @@ public class HitboxData extends HadalData {
 	 * @param fixB: The fixture the hitbox collides with.
 	 */
 	public void onHit(HadalData fixB) {
+		if (!hbox.isAlive())
+			return;
+		
 		for (HitboxStrategy s : hbox.getStrategies()) {
 			s.onHit(fixB);
 		}

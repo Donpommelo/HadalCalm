@@ -1,5 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies;
 
+import java.util.UUID;
+
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
@@ -7,10 +9,11 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.SteeringUtil;
 
@@ -39,7 +42,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected float height, width;
 	protected float startX, startY;
 	
-	private boolean alive = true;
+	protected boolean alive = true;
 	
 	//The below fields are only used for steering entities. most things will ignore these
 	protected boolean tagged;
@@ -55,6 +58,9 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected float animationTime = 0;
 	protected void increaseAnimationTime(float i) { animationTime += i; }
 	protected float getAnimationTime() { return animationTime; }
+	
+	//This is the id that clients use to track synchronized entities
+	protected UUID entityID;
 	
 	/**
 	 * Constructor is called when an entity is created.
@@ -77,6 +83,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		this.height = h;
 		this.startX = startX;
 		this.startY = startY;
+		
+		this.entityID = UUID.randomUUID();
 		
 		//Queue this entity up for creating in the world next engine tick
 		state.create(this);
@@ -104,11 +112,13 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * Call this method to delete a body. NOT dispose().
 	 * This tells the playstate to remove this entity next engine tick.
 	 */
-	public void queueDeletion() {
+	public boolean queueDeletion() {
 		if (alive) {
 			alive = false;
 			state.destroy(this);
+			return true;
 		}
+		return false;
 	}
 	
 	/**
@@ -117,7 +127,9 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void dispose() {
 		if (body != null) {
+			alive = false;
 			world.destroyBody(body);
+	//		body = null;
 		}
 	}	
 	
@@ -129,22 +141,77 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void recoil(int x, int y, float power) {
 		
-		Vector3 bodyScreenPosition = new Vector3(body.getPosition().x, body.getPosition().y, 0);
-				
-		camera.project(bodyScreenPosition);
+		if (!alive) {
+			return;
+		}
 		
-		float powerDiv = bodyScreenPosition.dst(x, y, 0) / power;
+		float powerDiv = getPosition().dst(x, y) / power;
 		
-		float xImpulse = (bodyScreenPosition.x - x) / powerDiv;
-		float yImpulse = (bodyScreenPosition.y - y) / powerDiv;
+		float xImpulse = (getPosition().x - x) / powerDiv;
+		float yImpulse = (getPosition().y - y) / powerDiv;
 		
-		body.applyLinearImpulse(new Vector2(xImpulse, yImpulse), body.getWorldCenter(), true);
+		applyLinearImpulse(new Vector2(xImpulse, yImpulse));
 	}
 	
 	public void push(float impulseX, float impulseY) {
-		body.applyLinearImpulse(new Vector2(impulseX, impulseY), body.getWorldCenter(), true);
+		
+		if (!alive) {
+			return;
+		}
+		
+		applyLinearImpulse(new Vector2(impulseX, impulseY));
 	}
 
+	public void pushMomentumMitigation(float impulseX, float impulseY) {
+		
+		if (!alive) {
+			return;
+		}
+		
+		if (getLinearVelocity().y < 0) {
+			setLinearVelocity(getLinearVelocity().x, 0);
+		}
+		
+		applyLinearImpulse(new Vector2(impulseX, impulseY));
+	}
+	
+	/**
+	 * This is called when the entity is created to return a packet to be sent to the client
+	 * Default: no packet is sent for unsynced entities
+	 */
+	public Object onServerCreate() {
+		return null;
+	}
+	
+	/**
+	 * This is called every engine tick to send a packet syncing this entity.
+	 * Default: Track entity's position and angle if it has a body
+	 */
+	public void onServerSync() {
+		if (body != null) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getOrientation()));
+		}
+	}
+	
+	/**
+	 * This is called when the client receives the above packet.
+	 * Set the entity's body data
+	 */
+	public void onClientSync(Object o) {
+		Packets.SyncEntity p = (Packets.SyncEntity) o;
+		if (body != null) {
+			setTransform(p.pos, p.angle);
+		}
+	}
+	
+	/**
+	 * This is a replacement to controller() that is run for clients.
+	 * This is used for things that have to process stuff for the client, and not just server-side
+	 */
+	public void clientController(float delta) {
+		increaseAnimationTime(delta);
+	}
+	
 	/**
 	 * Getter method for the entity's body.
 	 * @return: Entity's body.
@@ -177,6 +244,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return alive;
 	}
 	
+	public UUID getEntityID() {
+		return entityID;
+	}
+
 	public float getStartX() {
 		return startX;
 	}
@@ -195,11 +266,13 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		if (!steeringOutput.linear.isZero()) {
 			Vector2 force;
 			if (this instanceof Schmuck) {
-				force = steeringOutput.linear.scl(delta).scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed());
+				force = steeringOutput.linear.scl(delta)
+						.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())
+						.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed());
 			} else {
 				force = steeringOutput.linear.scl(delta);
 			}
-			body.applyForceToCenter(force, true);
+			applyForceToCenter(force);
 			anyAcceleration = true;
 		}
 		
@@ -210,32 +283,30 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			Vector2 linVel = getLinearVelocity();
 			if (!linVel.isZero()) {
 				float newOrientation = vectorToAngle(linVel);
-				body.setAngularVelocity((newOrientation - getAngularVelocity()) * delta);
-				body.setTransform(body.getPosition(), newOrientation);
+				setAngularVelocity((newOrientation - getAngularVelocity()) * delta);
+				setTransform(getPosition(), newOrientation);
 			}
 		}
 		
 		if (anyAcceleration) {
 			
-			Vector2 velocity = body.getLinearVelocity();
+			Vector2 velocity = getLinearVelocity();
 			float currentSpeedSquare = velocity.len2();
 			
 			if (this instanceof Schmuck) {
-				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed 
-						* (1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())
-						* (1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())) {
-					body.setLinearVelocity(velocity
+				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+					setLinearVelocity(velocity
 							.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
 							.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed()));
 				}
 			} else {
 				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-					body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
+					setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
 				}
 			}
 			
-			if (body.getAngularVelocity() > maxAngularSpeed) {
-				body.setAngularVelocity(maxAngularSpeed);
+			if (getAngularVelocity() > maxAngularSpeed) {
+				setAngularVelocity(maxAngularSpeed);
 			}
 		}
 	}
@@ -260,7 +331,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 
 	@Override
 	public void setOrientation(float orientation) {
-		body.setTransform(body.getPosition(), orientation);
+		setTransform(getPosition(), orientation);
 	}
 
 	@Override
@@ -372,7 +443,65 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return steeringOutput;
 	}
 	
+	public float getMass() {
+		return body.getMass();
+	}
+	
 	public void setSteeringOutput(SteeringAcceleration<Vector2> steeringOutput) {
 		this.steeringOutput = steeringOutput;
-	}	
+	}
+	
+	public void setTransform(Vector2 position, float angle) {
+		if (alive && body != null) {
+			body.setTransform(position, angle);
+		}
+	}
+	
+	public void setTransform(float vX, float vY, float angle) {
+		if (alive && body != null) {
+			body.setTransform(vX, vY, angle);
+		}
+	}
+	
+	public void setLinearVelocity (Vector2 position) {
+		if (alive && body != null) {
+			body.setLinearVelocity(position);
+		}
+	}
+	
+	public void setLinearVelocity(float vX, float vY) {
+		if (alive && body != null) {
+			body.setLinearVelocity(vX, vY);
+		}
+	}
+	
+	public void setAngularVelocity(float omega) {
+		if (alive && body != null) {
+			body.setAngularVelocity(omega);
+		}
+	}
+	
+	public void setGravityScale(float scale) {
+		if (alive && body != null) {
+			body.setGravityScale(scale);
+		}
+	}
+	
+	public void applyLinearImpulse(Vector2 impulse) {
+		if (alive && body != null) {
+			body.applyLinearImpulse(impulse, body.getLocalCenter(), true);
+		}
+	}
+	
+	public void applyForceToCenter(Vector2 force) {
+		if (alive && body != null) {
+			body.applyForceToCenter(force, true);
+		}
+	}
+	
+	public void applyForceToCenter(float forceX, float forceY) {
+		if (alive && body != null) {
+			body.applyForceToCenter(forceX, forceY, true);
+		}
+	}
 }

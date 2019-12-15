@@ -95,7 +95,7 @@ public class BodyData extends HadalData {
 	private float hpRegen = 0.0f;
 	
 	private int maxFuel = 100;
-	private float fuelRegen = 5.0f;
+	private float fuelRegen = 8.0f;
 	
 	protected float currentHp, currentFuel;
 
@@ -107,6 +107,9 @@ public class BodyData extends HadalData {
 	protected ArrayList<Status> statusesChecked;	
 	
 	protected Equipable currentTool;
+	
+	//This is the last schumck who damaged this entity. Used for kill credit
+	private BodyData lastDamagedBy;
 	
 	/**
 	 * This is created upon the create() method of any schmuck.
@@ -132,7 +135,9 @@ public class BodyData extends HadalData {
 		calcStats();
 
 		currentHp = getMaxHp();
-		currentFuel = getMaxHp();		
+		currentFuel = getMaxHp();
+		
+		lastDamagedBy = this;
 	}
 	
 	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
@@ -168,16 +173,44 @@ public class BodyData extends HadalData {
 		return finalAmount;		
 	}
 	
+	/**
+	 * Add a status to this schmuck
+	 * @param s: Status to add
+	 */
 	public void addStatus(Status s) {
-		statuses.add(s);
-		statusProcTime(StatusProcTime.ON_INFLICT, null, 0, null, null, null);
-		calcStats();
+		
+		if (!schmuck.getState().isServer()) {
+			return;
+		}
+		
+		boolean added = false;
+		Status old = getStatus(s.getClass());
+		if (old != null) {
+			switch(s.getStackType()) {
+			case ADD:
+				added = true;
+				break;
+			case IGNORE:
+				break;
+			case REPLACE:
+				old.setDuration(s.getDuration());
+				break;			
+			}
+		} else {
+			added = true;
+		}
+		
+		if (added) {
+			statuses.add(s);
+			statusProcTime(StatusProcTime.ON_INFLICT, null, 0, s, null, null);
+			calcStats();
+		}
 	}
 	
 	public void removeStatus(Status s) {
+		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, s, null, null);
 		statuses.remove(s);
 		statusesChecked.remove(s);
-		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, null, null, null);
 		calcStats();
 	}
 	
@@ -220,6 +253,10 @@ public class BodyData extends HadalData {
 	@Override
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
 		
+		if (!schmuck.isAlive()) {
+			return;
+		}
+		
 		float damage = basedamage;
 		
 		damage -= basedamage * (getDamageReduc());
@@ -250,12 +287,17 @@ public class BodyData extends HadalData {
 		
 		kbScale -= getKnockbackReduc();
 		kbScale += perp.getKnockbackAmp();
-		if (schmuck.isAlive()) {
-			schmuck.getBody().applyLinearImpulse(knockback.scl(kbScale), schmuck.getBody().getLocalCenter(), true);
+		
+		schmuck.applyLinearImpulse(knockback.scl(kbScale));
+		
+		//Give credit for kills to last schmuck (besides self) who damaged this schmuck
+		if (!perp.equals(this)) {
+			lastDamagedBy = perp;
 		}
+		
 		if (currentHp <= 0) {
 			currentHp = 0;
-			die(perp, tool);
+			die(lastDamagedBy, tool);
 		}
 	}
 	
@@ -281,11 +323,10 @@ public class BodyData extends HadalData {
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
 	 */
 	public void die(BodyData perp, Equipable tool) {
-		
-		perp.statusProcTime(StatusProcTime.ON_KILL, this, 0, null, tool, null);
-		statusProcTime(StatusProcTime.ON_DEATH, perp, 0, null, currentTool, null);
-		
-		schmuck.queueDeletion();
+		if (schmuck.queueDeletion()) {
+			perp.statusProcTime(StatusProcTime.ON_KILL, this, 0, null, tool, null);
+			statusProcTime(StatusProcTime.ON_DEATH, perp, 0, null, currentTool, null);
+		}		
 	}
 	
 	public Equipable getCurrentTool() {
@@ -724,11 +765,7 @@ public class BodyData extends HadalData {
 		buffedStats[43] = buff;
 	}
 
-	public ArrayList<Status> getStatuses() {
-		return statuses;
+	public void setCurrentTool(Equipable currentTool) {
+		this.currentTool = currentTool;
 	}
-
-	public ArrayList<Status> getStatusesChecked() {
-		return statusesChecked;
-	}	
 }

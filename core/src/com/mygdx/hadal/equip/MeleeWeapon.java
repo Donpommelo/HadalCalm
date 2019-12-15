@@ -3,7 +3,7 @@ package com.mygdx.hadal.equip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.HitboxFactory;
+
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.mygdx.hadal.effects.Sprite;
@@ -17,11 +17,6 @@ public class MeleeWeapon extends Equipable {
 
 	protected float momentum;
 	
-	protected HitboxFactory onSwing;
-
-	protected int x, y;
-	protected short faction;
-	
 	/**
 	 * 
 	 * @param user: Schmuck that is using this tool.
@@ -31,17 +26,15 @@ public class MeleeWeapon extends Equipable {
 	 * @param momentum: reverse recoil. Using a melee wepon will inch the user forwards by a force of this magnitude.
 	 * @param onSwing: This is a factory that creates a melee hitbox.
 	 */
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, HitboxFactory onSwing) {
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum) {
 		super(user, name, swingcd, windup);
 		this.momentum = momentum;
-		this.onSwing = onSwing;
 	}
 	
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, HitboxFactory onSwing, 
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, 
 			Sprite weaponSprite, Sprite eventSprite) {
 		super(user, name, swingcd, windup, weaponSprite, eventSprite);
 		this.momentum = momentum;
-		this.onSwing = onSwing;
 	}
 
 	/**
@@ -50,16 +43,11 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
-
-		mouseLocation.set(shooter.getSchmuck().getBody().getPosition().x,
-				shooter.getSchmuck().getBody().getPosition().y, 0);
 		
-		state.camera.project(mouseLocation);
+		float powerDiv = shooter.getSchmuck().getPosition().dst(x, y);
 		
-		float powerDiv = mouseLocation.dst(x, y, 0);
-		
-		float xImpulse = -(mouseLocation.x - x) / powerDiv;
-		float yImpulse = -(mouseLocation.y - y) / powerDiv;
+		float xImpulse = -(shooter.getSchmuck().getPosition().x - x) / powerDiv;
+		float yImpulse = -(shooter.getSchmuck().getPosition().y - y) / powerDiv;
 
 		weaponVelo.set(xImpulse, yImpulse);
 		this.faction = faction;
@@ -73,11 +61,7 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		onSwing.makeHitbox(user, state, this, weaponVelo, 
-				shooter.getSchmuck().getBody().getPosition().x * PPM, 
-				shooter.getSchmuck().getBody().getPosition().y * PPM, 
-				faction);
-		
+		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
 		user.recoil(x, y, -momentum * (1 + shooter.getMeleeMomentum()));
 	}
 	
@@ -94,14 +78,6 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void reload(float delta) { reloading = false; }
-
-	/**
-	 * returns the weapon name
-	 */
-	@Override
-	public String getText() {
-		return "";
-	}
 	
 	@Override
 	public float getUseCd() {

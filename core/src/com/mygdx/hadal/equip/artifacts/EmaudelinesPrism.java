@@ -4,7 +4,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -26,25 +25,23 @@ public class EmaudelinesPrism extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -2.0f, b),
-				new StatChangeStatus(state, Stats.RANGED_DAMAGE, -0.25f, b),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -2.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_DAMAGE, -0.30f, b),
 				new Status(state, name, descr, b) {
 			
 			@Override
-			public void onShoot(Equipable tool) {
-				if (tool instanceof RangedWeapon) {
-					
-					((RangedWeapon)tool).getOnShoot().makeHitbox(inflicted.getSchmuck(), state, tool, 
-							new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
-							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
-							inflicted.getSchmuck().getHitboxfilter());
-					((RangedWeapon)tool).getOnShoot().makeHitbox(inflicted.getSchmuck(), state, tool, 
-							new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
-							inflicted.getSchmuck().getBody().getPosition().x * PPM, 
-							inflicted.getSchmuck().getBody().getPosition().y * PPM, 
-							inflicted.getSchmuck().getHitboxfilter());
-				}
+			public void onShoot(Equipable tool) {				
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
+						new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
+						inflicted.getSchmuck().getPosition().x * PPM, 
+						inflicted.getSchmuck().getPosition().y * PPM,
+						inflicted.getSchmuck().getHitboxfilter());
+				
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
+						new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
+						inflicted.getSchmuck().getPosition().x * PPM, 
+						inflicted.getSchmuck().getPosition().y * PPM,
+						inflicted.getSchmuck().getHitboxfilter());
 			}
 		});
 		return enchantment;

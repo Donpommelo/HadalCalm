@@ -18,18 +18,26 @@ public class LoadingBackdrop extends AHadalActor{
 	//This is the animation of this sprite
 	private Animation<TextureRegion> loading;
 	
-	private float progress, width, height;
+	//precentage of assets loaded.
+	private float progress;
+	
+	//width and height of image
+	private float width, height;
 	
 	public LoadingBackdrop(AssetManager assetManager) {
 		super(assetManager);
 		atlas = new TextureAtlas("ui/anchor_logo.atlas");
 		loading = new Animation<TextureRegion>(0.08f, atlas.findRegions("anchor_logo"));
+		
+		//This image takes up the whole screen.
 		this.width = loading.getKeyFrame(0).getRegionWidth();
 		this.height = loading.getKeyFrame(0).getRegionHeight();
 	}
 	
 	@Override
     public void draw(Batch batch, float alpha) {
+		
+		//Draw the animation at the percentage of progress
         progress = assetManager.getProgress();
         batch.draw((TextureRegion) loading.getKeyFrame(progress * loading.getAnimationDuration(), true), 
         		(HadalGame.CONFIG_WIDTH - width) / 2, (HadalGame.CONFIG_HEIGHT - height) / 2, width, height);

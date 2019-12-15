@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.strategies;
 
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
-import com.badlogic.gdx.ai.steer.behaviors.Seek;
+import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -70,8 +70,8 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 						homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
 						shortestFraction = 1.0f;
 						
-					  	if (hbox.getBody().getPosition().x != homeAttempt.getPosition().x || 
-					  			hbox.getBody().getPosition().y != homeAttempt.getPosition().y) {
+					  	if (hbox.getPosition().x != homeAttempt.getPosition().x || 
+					  			hbox.getPosition().y != homeAttempt.getPosition().y) {
 					  		hbox.getWorld().rayCast(new RayCastCallback() {
 
 								@Override
@@ -94,13 +94,13 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 									return -1.0f;
 								}
 								
-							}, hbox.getBody().getPosition(), homeAttempt.getPosition());	
+							}, hbox.getPosition(), homeAttempt.getPosition());	
 							
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
 									
 									homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
-									Seek<Vector2> seek = new Seek<Vector2>(hbox, homing);
+									Pursue<Vector2> seek = new Pursue<Vector2>(hbox, homing);
 									hbox.setBehavior(seek);
 								}
 							}	
@@ -110,8 +110,8 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 				}
 				
 			}, 
-			hbox.getBody().getPosition().x - radius, hbox.getBody().getPosition().y - radius, 
-			hbox.getBody().getPosition().x + radius, hbox.getBody().getPosition().y + radius);
+			hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
+			hbox.getPosition().x + radius, hbox.getPosition().y + radius);
 		}
 	}	
 }

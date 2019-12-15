@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.Stats;
 public class BloodwoodsGlove extends Artifact {
 
 	private final static String name = "Bloodwood's Glove";
-	private final static String descr = "Slower Reload and Fire Speed. Lower Active Cooldowns";
+	private final static String descr = "Lower Active Item Cooldown";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -20,10 +20,8 @@ public class BloodwoodsGlove extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -0.75f, b),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, -0.5f, b),
-				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, 0.75f, b)
+		enchantment[0] = new StatusComposite(state, name, descr, b,
+				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, 0.40f, b)
 		);
 		return enchantment;
 	}

@@ -24,7 +24,7 @@ public class HitboxOnHitTrackStrategy extends HitboxStrategy{
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
 				tracked = true;
 				target = fixB.getEntity();	
-				hbox.getBody().setLinearVelocity(0, 0);
+				hbox.setLinearVelocity(0, 0);
 			}
 		}
 	}
@@ -34,9 +34,9 @@ public class HitboxOnHitTrackStrategy extends HitboxStrategy{
 		if (tracked && target != null) {
 			if (target.isAlive() && target.getBody() != null) {
 				if (override) {
-					target.getBody().setTransform(hbox.getPosition(), 0);
+					target.setTransform(hbox.getPosition(), 0);
 				} else {
-					hbox.getBody().setTransform(target.getPosition(), 0);
+					hbox.setTransform(target.getPosition(), 0);
 				}
 			} else {
 				hbox.die();
