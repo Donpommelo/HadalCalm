@@ -131,7 +131,8 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Dummy")) {
 			e = new PositionDummy(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("dummyId", "", String.class));
 		}
 		if (object.getName().equals("UI")) {
 			

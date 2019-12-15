@@ -15,4 +15,7 @@ public enum SchmuckMoveStates {
 	
 	TURRET_SHOOTING,
 	TURRET_NOTSHOOTING,
+	
+	BOSS_WAITING,
+	BOSS_ATTACKING
 }

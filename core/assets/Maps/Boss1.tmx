@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="23">
+ <layer id="1" name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="6" x="288" y="1472">
+   <polyline points="0,0 1056,0 1056,-704 0,-704 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="3" name="Start" type="Start" x="544" y="1376" width="32" height="32"/>
+  <object id="4" name="Dummy" type="Dummy" x="416" y="896" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="0"/>
+   </properties>
+  </object>
+  <object id="5" name="Dummy" type="Dummy" x="800" y="896" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="1"/>
+   </properties>
+  </object>
+  <object id="10" name="SchmuckSpawn" type="SchmuckSpawn" x="992" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" type="int" value="7"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="spawn0"/>
+   </properties>
+  </object>
+  <object id="11" name="Timer" type="Timer" x="96" y="32" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="initLimiter"/>
+   </properties>
+  </object>
+  <object id="12" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="initLimiter"/>
+    <property name="triggeringId" value="startTimer,spawn0,camera1"/>
+   </properties>
+  </object>
+  <object id="13" name="Camera" type="Camera" x="224" y="32" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="zoom" type="float" value="1.5"/>
+   </properties>
+  </object>
+  <object id="14" name="Dropthrough" type="Dropthrough" x="448" y="1152" width="256" height="16"/>
+  <object id="15" name="Dropthrough" type="Dropthrough" x="928" y="1152" width="256" height="16"/>
+  <object id="16" name="Dummy" type="Dummy" x="1184" y="896" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="2"/>
+   </properties>
+  </object>
+  <object id="17" name="Dummy" type="Dummy" x="416" y="1088" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="3"/>
+   </properties>
+  </object>
+  <object id="18" name="Dummy" type="Dummy" x="800" y="1088" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="4"/>
+   </properties>
+  </object>
+  <object id="19" name="Dummy" type="Dummy" x="1184" y="1088" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="5"/>
+   </properties>
+  </object>
+  <object id="20" name="Dummy" type="Dummy" x="416" y="1312" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="6"/>
+   </properties>
+  </object>
+  <object id="21" name="Dummy" type="Dummy" x="800" y="1312" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="7"/>
+   </properties>
+  </object>
+  <object id="22" name="Dummy" type="Dummy" x="1184" y="1312" width="32" height="32">
+   <properties>
+    <property name="dummyId" value="8"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

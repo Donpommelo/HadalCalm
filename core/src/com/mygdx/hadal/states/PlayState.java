@@ -4,6 +4,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,7 @@ import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.actors.UIPlayer;
 import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
@@ -133,6 +135,9 @@ public class PlayState extends GameState {
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
 	//That savepoint contains zoom and camera target that will be set.
 	private ArrayList<SavePoint> savePoints;
+	
+	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
+	private HashMap<String, PositionDummy> dummyPoints;
 	
 	//Do players respawn after dying? Can players hurt each other? Is this a practice level (like the hub?)
 	protected boolean respawn, pvp, practice;
@@ -244,8 +249,11 @@ public class PlayState extends GameState {
 		
 		//Set up "save point" as starting point
 		this.savePoints = new ArrayList<SavePoint>();
-		savePoints.add(new SavePoint(new Vector2(startX, startY), zoomDesired, null));
+		savePoints.add(new SavePoint(new Vector2(startX, startY), zoomDesired, null));		
 		
+		//Set up dummy points (AI rally points)
+		this.dummyPoints = new HashMap<String, PositionDummy>();
+				
 		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
 		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
@@ -819,6 +827,14 @@ public class PlayState extends GameState {
 		savePoints.add(new SavePoint(pos, zoom, target));
 	}
 
+	public PositionDummy getDummyPoint(String id) {
+		return dummyPoints.get(id);
+	}
+	
+	public void addDummyPoint(PositionDummy dummy, String id) {
+		dummyPoints.put(id, dummy);
+	}
+	
 	public void setCameraTarget(HadalEntity cameraTarget) {
 		this.cameraTarget = cameraTarget;
 	}

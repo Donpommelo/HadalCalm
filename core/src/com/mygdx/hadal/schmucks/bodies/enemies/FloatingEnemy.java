@@ -239,8 +239,4 @@ public class FloatingEnemy extends SteeringEnemy {
 		}
 		return super.queueDeletion();
 	}
-	
-	public enum floatingState {		CHASING,
-		ROAMING,
-	}
 }

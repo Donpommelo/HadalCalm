@@ -106,4 +106,13 @@ DM_GULLY: {
         PVP,
 	]
 }
+BOSS1: {
+	class: com.mygdx.hadal.save.InfoLevel
+	name: BOSS1
+	description: TEMP
+	unlocked: true
+	tags: [
+		NAVIGATIONS,
+	]
+}
 }

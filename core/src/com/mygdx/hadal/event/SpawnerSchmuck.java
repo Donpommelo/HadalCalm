@@ -104,7 +104,9 @@ public class SpawnerSchmuck extends Event {
 						case 6:
 							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX));
 							break;
-							
+						case 7:
+							spawns.add(new Boss1Test(state, randX, (int) (randY - height / 2), enemyType.MISC, Constants.ENEMY_HITBOX));
+							break;
 						}
 					}
 				}

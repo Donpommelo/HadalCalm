@@ -18,6 +18,7 @@ public enum UnlockLevel {
 	NASU("Maps/nasu.tmx"),
 	DONT_FALL("Maps/DontFall.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx", null, null, UnlockEquip.SPEARGUN, UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING),
+	BOSS1("Maps/Boss1.tmx"),
 	
 	;
 	private String map;

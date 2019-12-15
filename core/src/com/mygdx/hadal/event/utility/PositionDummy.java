@@ -26,9 +26,12 @@ public class PositionDummy extends Event {
 
 	private static final String name = "Position Dummy";
 
+	private String id;
 	
-	public PositionDummy(PlayState state, int width, int height, int x, int y) {
+	public PositionDummy(PlayState state, int width, int height, int x, int y, String id) {
 		super(state, name, width, height, x, y);
+		
+		this.id = id;
 	}
 	
 	@Override
@@ -45,5 +48,9 @@ public class PositionDummy extends Event {
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) 0, (short) 0, true, eventData);
+		
+		if (!id.equals("")) {
+			state.addDummyPoint(this, id);
+		}
 	}
 }
