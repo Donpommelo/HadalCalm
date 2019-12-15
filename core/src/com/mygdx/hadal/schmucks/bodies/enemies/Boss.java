@@ -2,6 +2,8 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -16,7 +18,6 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -32,16 +33,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Zachary Tu
  *
  */
-public class Boss1Test extends Enemy {
+public class Boss extends Enemy {
 				
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	protected Equipable weapon;
     
-    private static final float aiAttackCd = 7.0f;
+    private static final float aiAttackCd = 2.0f;
     private float aiAttackCdCount = 0.0f;
-    
-    private static final float aiDelayCd = 3.0f;
-    private float aiDelayCdCount = 100;
+    private float aiActionCdCount = 0.0f;
     
     private float angle;
 	private float desiredAngle;
@@ -66,12 +65,14 @@ public class Boss1Test extends Enemy {
 	
 	private static final String spriteId = "torpedofish_swim";
 	
-	private static final int moveSpeed = 20;
-	
-	private BossAttack currentAttack;
-	private static final BossAttack[] attacks = {BossAttack.SPAWN_ADDS, BossAttack.CHARGE, BossAttack.FIRE_SPIN};
+	private int moveSpeed = defaultSpeed;
+	private int spinSpeed;
 	
 	private Event movementTarget;
+	
+	private ArrayList<BossAction> actions;
+	private BossAction currentAction;
+	private BossState currentState;
 	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -84,7 +85,7 @@ public class Boss1Test extends Enemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Boss1Test(PlayState state, int x, int y, enemyType type, short filter) {
+	public Boss(PlayState state, int x, int y, enemyType type, short filter) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, type, filter);
 		this.angle = 0;
 		this.desiredAngle = 0;
@@ -92,8 +93,8 @@ public class Boss1Test extends Enemy {
 		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
 		fishSprite = atlas.findRegion(spriteId);
 		
-		this.moveState = SchmuckMoveStates.BOSS_WAITING;
-		this.currentAttack = BossAttack.SPAWN_ADDS;
+		this.actions = new ArrayList<BossAction>();
+		this.currentState = BossState.TRACKING_PLAYER;
 	}
 	
 	/**
@@ -125,22 +126,28 @@ public class Boss1Test extends Enemy {
 				if ((int)dist.len2() <= 100) {
 					setLinearVelocity(0, 0);
 					movementTarget = null;
+					
+					aiActionCdCount = 0;
+					currentAction = null;
+					
 				} else {
 					setLinearVelocity(dist.nor().scl(moveSpeed));
 				}
 			}
 		}
 		
-		switch (moveState) {
-		case BOSS_WAITING:
-			if (target != null) {
-				
-				angle = angle + (desiredAngle - angle) * 0.02f;
-				
-				setOrientation((float) ((angle + 270) * Math.PI / 180));
-				
+		angle = angle + (desiredAngle - angle) * 0.02f;
+		setOrientation((float) ((angle + 270) * Math.PI / 180));
+		
+		switch(currentState) {
+			
+		case SPINNING:
+			desiredAngle += spinSpeed;
+			break;
+		case TRACKING_PLAYER:
+			if (target != null) {				
 				if (target.isAlive()) {
-					desiredAngle =  (float)(Math.atan2(
+					desiredAngle = (float)(Math.atan2(
 							target.getPosition().y - getPosition().y ,
 							target.getPosition().x - getPosition().x) * 180 / Math.PI);
 				}
@@ -148,88 +155,146 @@ public class Boss1Test extends Enemy {
 			break;
 		default:
 			break;
+		
+		}
+		
+		if (aiActionCdCount > 0) {
+			aiActionCdCount -= delta;
+		} else {
+			if (aiAttackCdCount > 0) {
+				aiAttackCdCount -= delta;
+			}
 		}
 		
 		if (aiAttackCdCount <= 0) {
-			aiAttackCdCount = 100;
-			
+			aiAttackCdCount = aiAttackCd;
 			acquireTarget();
 			attackInitiate();
 		}
-		
-		if (aiDelayCdCount <= 0) {
-			attackExecute();
+
+		if (aiActionCdCount <= 0 || currentAction == null) {
+			if (!actions.isEmpty()) {
+				currentAction = actions.remove(0);
+				aiActionCdCount = currentAction.getDuration();
+				
+				currentAction.execute();
+			} else {
+				if (aiAttackCdCount <= 0) {
+					aiAttackCdCount = aiAttackCd;
+					currentState = BossState.TRACKING_PLAYER;
+				}
+			}
 		}
-		
-		//process cooldowns
-		aiAttackCdCount -= delta;
-		aiDelayCdCount -= delta;
 	}
 	
 	public void attackInitiate() {
-		aiDelayCdCount = aiDelayCd;
 		
-//		int randomIndex = GameStateManager.generator.nextInt(attacks.length);
+		int randomIndex = GameStateManager.generator.nextInt(4);
 		
-		currentAttack = attacks[1];
-		
-		switch(currentAttack) {
-		case CHARGE:
-			int start = GameStateManager.generator.nextInt(6);
-			switch(start) {
-			case 0:
-				BossUtils.moveToDummy(state, this, "0");
-				break;
-			case 1:
-				BossUtils.moveToDummy(state, this, "2");
-				break;
-			case 2:
-				BossUtils.moveToDummy(state, this, "3");
-				break;
-			case 3:
-				BossUtils.moveToDummy(state, this, "5");
-				break;
-			case 4:
-				BossUtils.moveToDummy(state, this, "6");
-				break;
-			case 5:
-				BossUtils.moveToDummy(state, this, "8");
-				break;
-			}
-			
-		case SPAWN_ADDS:
+		switch(randomIndex) {
+		case 0: 
+			chargeAttack1();
 			break;
-		case FIRE_SPIN:
-			BossUtils.moveToDummy(state, this, "4");
+		case 1: 
+			chargeAttack2();
 			break;
-		default:
+		case 2: 
+			spawnAdds();
+			break;
+		case 3: 
+			fireBreath();
 			break;
 		}
 	}
 	
-	private static final int chargeSpeed = 40;
-	private static final int numAdds = 3;
-	private static final int addsSpread = 20;
-	public void attackExecute() {
-		aiDelayCdCount = 100;
-		aiAttackCdCount = aiAttackCd;
-
-		switch(currentAttack) {
-		case CHARGE:
-			BossUtils.charge(state, this, target, chargeSpeed, 1, 10.0f);
+	private static final int defaultSpeed = 20;
+	private static final int defaultSpinSpeed = 40;
+	private static final int charge1Speed = 40;
+	private static final int charge2Speed = 30;
+	private static final int defaultMeleeDamage = 8;
+	private static final int defaultMeleeKB = 50;
+	
+	private void chargeAttack1() {
+		BossUtils.moveToRandomCorner(state, this, defaultSpeed);
+		BossUtils.changeTrackingState(this, BossState.SPINNING, defaultSpinSpeed, 0.75f);
+		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		BossUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
+		BossUtils.meleeAttack(state, this, defaultMeleeDamage,defaultMeleeKB, target, 1.5f);
+	}
+	
+	private void chargeAttack2() {
+		int corner = BossUtils.moveToRandomCorner(state, this, defaultSpeed);
+		BossUtils.changeTrackingState(this, BossState.SPINNING, defaultSpinSpeed, 0.2f);
+		BossUtils.meleeAttack(state, this, defaultMeleeDamage, defaultMeleeKB, target, 2.25f);
+		switch (corner) {
+		case 0:
+			BossUtils.moveToDummy(state, this, "2", charge2Speed);
+			BossUtils.moveToDummy(state, this, "8", charge2Speed);
+			BossUtils.moveToDummy(state, this, "6", charge2Speed);
+			BossUtils.moveToDummy(state, this, "0", charge2Speed);
 			break;
-		case SPAWN_ADDS:
-			for (int i = 0; i < numAdds; i++) {
-				BossUtils.spawnAdds(state, (int)(getPosition().x * PPM), (int)(getPosition().y * PPM), enemyType.TORPEDOFISH, numAdds, addsSpread);
+		case 1:
+			BossUtils.moveToDummy(state, this, "8", charge2Speed);
+			BossUtils.moveToDummy(state, this, "6", charge2Speed);
+			BossUtils.moveToDummy(state, this, "0", charge2Speed);
+			BossUtils.moveToDummy(state, this, "2", charge2Speed);
+			break;
+		case 2:
+			BossUtils.moveToDummy(state, this, "0", charge2Speed);
+			BossUtils.moveToDummy(state, this, "2", charge2Speed);
+			BossUtils.moveToDummy(state, this, "8", charge2Speed);
+			BossUtils.moveToDummy(state, this, "6", charge2Speed);
+			break;
+		case 3:
+			BossUtils.moveToDummy(state, this, "6", charge2Speed);
+			BossUtils.moveToDummy(state, this, "0", charge2Speed);
+			BossUtils.moveToDummy(state, this, "2", charge2Speed);
+			BossUtils.moveToDummy(state, this, "8", charge2Speed);
+			break;
+		}
+		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+	}
+	
+	private static final int numAdds = 3;
+	private void spawnAdds() {
+		BossUtils.moveToDummy(state, this, "4", defaultSpeed);
+		BossUtils.changeTrackingState(this, BossState.SPINNING, defaultSpinSpeed, 0.75f);
+		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		for (int i = 0; i < numAdds; i++) {
+			BossUtils.spawnAdds(state, this, enemyType.TORPEDOFISH, 1, 1.5f);
+		}
+	}
+	
+	private static final int fireballDamage = 1;
+	private static final int burnDamage = 1;
+	private static final int fireSpeed = 12;
+	private static final int fireKB = 10;
+	private static final int fireSize = 50;
+	private static final float fireLifespan = 1.5f;
+	private static final float burnDuration = 4.0f;
+
+	private static final int fireballNumber = 30;
+	private static final float fireballInterval = 0.75f;
+	
+	private void fireBreath() {
+		int wall = BossUtils.moveToRandomWall(state, this, defaultSpeed);
+		
+		switch (wall) {
+		case 0 :
+			BossUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.0f);
+			BossUtils.changeTrackingState(this, BossState.FREE, 90.0f, 0.0f);
+			for (int i = 0; i < fireballNumber; i++) {
+				BossUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, 0, fireLifespan, burnDuration, fireballInterval);
 			}
 			break;
-		case FIRE_SPIN:
-			
-			break;
-		default:
-			break;
-		
+		case 1: 
+			BossUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.0f);
+			BossUtils.changeTrackingState(this, BossState.FREE, -270.0f, 0.0f);
+			for (int i = 0; i < fireballNumber; i++) {
+				BossUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, 0, fireLifespan, burnDuration, fireballInterval);
+			}
 		}
+		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	public void acquireTarget() {
@@ -329,9 +394,45 @@ public class Boss1Test extends Enemy {
 		this.movementTarget = movementTarget;
 	}
 
+	public ArrayList<BossAction> getActions() {
+		return actions;
+	}
+
+	public void setCurrentState(BossState currentState) {
+		this.currentState = currentState;
+	}
+	
+	public float getAngle() {
+		return angle;
+	}
+
+	public void setAngle(float angle) {
+		this.angle = angle;
+	}
+
+	public void setDesiredAngle(float desiredAngle) {
+		this.desiredAngle = desiredAngle;
+	}
+
+	public void setMoveSpeed(int moveSpeed) {
+		this.moveSpeed = moveSpeed;
+	}
+
+	public void setSpinSpeed(int spinSpeed) {
+		this.spinSpeed = spinSpeed;
+	}
+
 	public enum BossAttack {
 		SPAWN_ADDS,
-		CHARGE,
+		CHARGE1,
+		CHARGE2,
 		FIRE_SPIN
+	}
+	
+	public enum BossState {
+		TRACKING_PLAYER,
+		LOCKED,
+		FREE,
+		SPINNING
 	}
 }

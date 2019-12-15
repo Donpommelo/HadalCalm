@@ -22,7 +22,7 @@ public class SpittlefishAttack extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 0.5f;
 	private final static int reloadAmount = 6;
-	private final static float baseDamage = 10.0f;
+	private final static float baseDamage = 7.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeed = 12.0f;
