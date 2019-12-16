@@ -634,7 +634,7 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		return new Player(this, x, y, gsm.getRecord().getName(), newLoadout, old);
+		return new Player(this, x, y, name, newLoadout, old);
 	}
 	
 	/**

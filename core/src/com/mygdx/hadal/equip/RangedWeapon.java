@@ -147,6 +147,10 @@ public class RangedWeapon extends Equipable {
 	@Override
 	public void reload(float delta) {
 
+		//Reloading cancels charge
+		charging = false;
+		chargeCd = 0;
+		
 		//Keep track of how long schmuck has been reloading. If done, get more ammo.
 		if (reloadCd < getReloadTime()) {
 			reloadCd += delta;

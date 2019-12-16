@@ -21,11 +21,11 @@ public class Scrapripper extends MeleeWeapon {
 
 	private final static String name = "Scrap-Ripper";
 	private final static float swingCd = 0.25f;
-	private final static float windup = 0.2f;
-	private final static float backSwing = 0.6f;
+	private final static float windup = 0.0f;
+	private final static float backSwing = 0.4f;
 	private final static float baseDamage = 30.0f;
-	private final static int hitboxSize = 210;
-	private final static int swingArc = 140;
+	private final static int hitboxSize = 120;
+	private final static int swingArc = 120;
 	private final static float knockback = 25.0f;
 	private final static float momentum = 7.5f;
 	
@@ -39,7 +39,7 @@ public class Scrapripper extends MeleeWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
 		Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, startVelocity, 
-				startVelocity.nor().scl(hitboxSize / 4 / PPM), true, filter, user);
+				startVelocity.nor().scl(hitboxSize / 2 / PPM), true, filter, user);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

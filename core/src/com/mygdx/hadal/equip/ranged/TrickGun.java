@@ -1,11 +1,14 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -19,27 +22,26 @@ public class TrickGun extends RangedWeapon {
 
 	private final static String name = "Trick Gun";
 	private final static int clipSize = 5;
-	private final static int ammoSize = 24;
+	private final static int ammoSize = 28;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.0f;
+	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 55.0f;
 	private final static float recoil = 16.0f;
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 80;
-	private final static int projectileHeight = 80;
+	private final static int projectileWidth = 45;
+	private final static int projectileHeight = 45;
 	private final static float lifespan = 2.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
 	
-	private final static Sprite projSprite = Sprite.ORB_PINK;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float projectileSpeedAfter = 45.0f;
+	private final static float projectileSpeedAfter = 55.0f;
 
 	private boolean firstClicked = false;
 	private Vector2 pos1 = new Vector2(0, 0);
@@ -82,13 +84,15 @@ public class TrickGun extends RangedWeapon {
 		float yImpulse = -(user.getPosition().y - pos1.y) / powerDiv;
 		vel1.set(xImpulse, yImpulse);
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, vel1,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, vel1,
+				filter, true, true, user);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		new ParticleEntity(state, hbox, Particle.LASER_PULSE, 2.0f, 0.0f, true, particleSyncType.CREATESYNC);
+
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private boolean firstReached = false;

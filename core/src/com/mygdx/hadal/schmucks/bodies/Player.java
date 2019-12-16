@@ -451,7 +451,7 @@ public class Player extends PhysicsSchmuck {
 			attackAngle = attackAngle + 180;
 		}
 		
-		//This switch determins the total body y-offset to make the body bob up and down when running.
+		//This switch determines the total body y-offset to make the body bob up and down when running.
 		int yOffset = 0;
 		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT) || moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
 			switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
@@ -629,8 +629,6 @@ public class Player extends PhysicsSchmuck {
 			playerData.setCurrentSlot(p.currentSlot);
 			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
-//			playerData.getCurrentTool().setClipLeft(p.currentClip);
-//			playerData.getCurrentTool().setAmmoLeft(p.currentAmmo);
 			playerData.setOverrideMaxHp(p.maxHp);
 			playerData.setOverrideMaxFuel(p.maxFuel);
 			playerData.setOverrideClipSize(p.maxClip);

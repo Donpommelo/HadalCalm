@@ -24,20 +24,20 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class Underminer extends RangedWeapon {
 
 	private final static String name = "Underminer";
-	private final static int clipSize = 3;
-	private final static int ammoSize = 17;
-	private final static float shootCd = 0.25f;
+	private final static int clipSize = 4;
+	private final static int ammoSize = 18;
+	private final static float shootCd = 0.2f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 35.0f;
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
-	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 80;
-	private final static int projectileHeight = 80;
+	private final static float projectileSpeed = 30.0f;
+	private final static int projectileWidth = 60;
+	private final static int projectileHeight = 60;
 	private final static float lifespan = 3.5f;
-	private final static float gravity = 2;
+	private final static float gravity = 4;
 	
 	private final static int projDura = 2;
 	

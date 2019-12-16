@@ -47,6 +47,13 @@ public enum WeaponMod {
 		}
 	},
 	
+	PLUS_AMMO("+Ammo Capacity", "", 1, ModTag.RANDOM_POOL) {
+		@Override
+		public Status retrieveMod(BodyData b, PlayState state) {
+			return new StatChangeStatus(state, Stats.AMMO_CAPACITY, 0.25f, b);
+		}
+	},
+	
 	PLUS_KB("+Knockback", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
@@ -54,19 +61,19 @@ public enum WeaponMod {
 		}
 	},
 	
-//	PLUS_RUN_SPD("+Run Speed", "", 1, ModTag.RANDOM_POOL) {
-//		@Override
-//		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, Stats.GROUND_SPD, 0.2f, b);
-//		}
-//	},
-//	
-//	PLUS_DEF("+Defense", "", 1, ModTag.RANDOM_POOL) {
-//		@Override
-//		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, Stats.DAMAGE_RED, 0.2f, b);
-//		}
-//	},
+	PLUS_RUN_SPD("+Run Speed", "", 1, ModTag.RANDOM_POOL) {
+		@Override
+		public Status retrieveMod(BodyData b, PlayState state) {
+			return new StatChangeStatus(state, Stats.GROUND_SPD, 0.2f, b);
+		}
+	},
+	
+	PLUS_DEF("+Defense", "", 1, ModTag.RANDOM_POOL) {
+		@Override
+		public Status retrieveMod(BodyData b, PlayState state) {
+			return new StatChangeStatus(state, Stats.DAMAGE_RED, 0.2f, b);
+		}
+	},
 //	
 //	PLUS_JUMP("+1 Jump", "", 1, ModTag.RANDOM_POOL) {
 //		@Override
@@ -81,13 +88,13 @@ public enum WeaponMod {
 //			return new StatChangeStatus(state, Stats.HOVER_POW, 0.25f, b);
 //		}
 //	},
-	
-	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
-		@Override
-		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, 0.5f, b);
-		}
-	},
+//	
+//	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
+//		@Override
+//		public Status retrieveMod(BodyData b, PlayState state) {
+//			return new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, 0.5f, b);
+//		}
+//	},
 	
 	PLUS_PROJ_SPD("+Projectile Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override

@@ -1,10 +1,13 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
@@ -28,7 +31,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float baseDamage = 18.0f;
 	private final static float recoil = 7.5f;
 	private final static float knockback = 25.0f;
-	private final static float projectileSpeed = 18.0f;
+	private final static float projectileSpeed = 35.0f;
 	private final static int projectileWidth = 32;
 	private final static int projectileHeight = 32;
 	private final static float lifespan = 1.5f;
@@ -40,7 +43,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
 	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;
 	
-	private static final float maxCharge = 1.0f;
+	private static final float maxCharge = 0.5f;
 	private int chargeStage = 0;
 	
 	public ChargeBeam(Schmuck user) {
@@ -81,21 +84,21 @@ public class ChargeBeam extends RangedWeapon {
 			chargeStage = 0;
 		}
 		
-		float sizeMultiplier = 2;
-		float speedMultiplier = 2.5f;
+		float sizeMultiplier = 1.5f;
+		float speedMultiplier = 1.0f;
 		float damageMultiplier = 2.5f;
 		float kbMultiplier = 2;
 
 		switch(chargeStage) {
 		case 2:
-			sizeMultiplier = 5.0f;
-			speedMultiplier = 4.5f;
-			damageMultiplier = 4.5f;
-			kbMultiplier = 4.0f;
+			sizeMultiplier = 3.5f;
+			speedMultiplier = 3.0f;
+			damageMultiplier = 5.0f;
+			kbMultiplier = 4.5f;
 			break;
 		case 1:
-			sizeMultiplier = 3.5f;
-			speedMultiplier = 3.5f;
+			sizeMultiplier = 2.5f;
+			speedMultiplier = 2.0f;
 			damageMultiplier = 3.5f;
 			kbMultiplier = 3.0f;
 			break;
@@ -121,5 +124,9 @@ public class ChargeBeam extends RangedWeapon {
 				}
 			}
 		});
+		
+		if (chargeStage == 2) {
+			new ParticleEntity(state, hbox, Particle.LIGHTNING, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -12,6 +13,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnDieParticles;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -31,35 +33,36 @@ public class ColaCannon extends RangedWeapon {
 	private final static float recoil = 18.0f;
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeed = 45.0f;
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 75;
+	private final static int projectileWidth = 60;
+	private final static int projectileHeight = 60;
 	private final static float lifespan = 4.0f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
 	private final static float procCd = .05f;
 	private final static float fireDuration = 1.6f;
-	private final static float maxCharge = 200.0f;
 	private final static float minVelo = 9.0f;
 	private final static float minDuration = 0.5f;
 
-	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private final static Sprite projSprite = Sprite.SPIT;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private float chargeAmount;
+	private final static float maxCharge = 200.0f;
+
 	private Vector2 lastMouse = new Vector2(0, 0);
 	
 	public ColaCannon(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, maxCharge);
 	}
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
-		if (chargeAmount < maxCharge && !reloading) {
-			chargeAmount += lastMouse.dst(x, y);
-			if (chargeAmount > maxCharge) {
-				chargeAmount = maxCharge;
+		charging = true;
+		if (chargeCd < maxCharge && !reloading) {
+			chargeCd += lastMouse.dst(x, y);
+			if (chargeCd > maxCharge) {
+				chargeCd = maxCharge;
 			}
 		}
 		
@@ -75,7 +78,8 @@ public class ColaCannon extends RangedWeapon {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		super.execute(state, bodyData);
-		chargeAmount = 0;
+		charging = false;
+		chargeCd = 0;
 	}
 	
 	@Override
@@ -86,8 +90,8 @@ public class ColaCannon extends RangedWeapon {
 		final Equipable tool = this;
 		final Player p = (Player)user;
 		
-		final float duration = fireDuration * chargeAmount / maxCharge + minDuration;
-		final float velocity = projectileSpeed * chargeAmount / maxCharge + minVelo;
+		final float duration = fireDuration * chargeCd / maxCharge + minDuration;
+		final float velocity = projectileSpeed * chargeCd / maxCharge + minVelo;
 		
 		p.getBodyData().addStatus(new Status(state, duration, "", "", false, p.getBodyData(), p.getBodyData()) {
 			
@@ -120,6 +124,7 @@ public class ColaCannon extends RangedWeapon {
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+					hbox.addStrategy(new HitboxOnDieParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_IMPACT));
 					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 				}
 			}

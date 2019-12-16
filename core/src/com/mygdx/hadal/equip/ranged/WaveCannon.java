@@ -18,7 +18,7 @@ public class WaveCannon extends RangedWeapon {
 
 	private final static String name = "Wave Cannon";
 	private final static int clipSize = 5;
-	private final static int ammoSize = 15;
+	private final static int ammoSize = 18;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;

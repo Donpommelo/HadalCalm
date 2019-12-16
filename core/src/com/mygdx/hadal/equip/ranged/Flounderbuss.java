@@ -26,7 +26,7 @@ public class Flounderbuss extends RangedWeapon {
 	private final static int ammoSize = 13;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.0f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 10.0f;
 	private final static float recoil = 30.0f;
@@ -43,9 +43,9 @@ public class Flounderbuss extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 1.8f;
+	private static final float maxCharge = 0.8f;
 
-	private final static int maxNumProj = 30;
+	private final static int maxNumProj = 35;
 	private final static int spread = 40;
 	private final static float veloSpread = 4.0f;
 	

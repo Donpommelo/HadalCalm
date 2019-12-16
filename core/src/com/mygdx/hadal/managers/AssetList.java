@@ -48,8 +48,9 @@ public enum AssetList {
 	
 	// Particle effects.
 	PARTICLE_ATLAS("particles/particles.atlas", TextureAtlas.class),
-	PARTICLE_TOTLC_ATLAS("particles/particles_totlc.atlas", TextureAtlas.class),
-	PARTYCLE_ATLAS("particles/partycles.atlas", TextureAtlas.class),
+	PARTICLE_TOTLC_ATLAS("particles/totlc/particles_totlc.atlas", TextureAtlas.class),
+	PARTYCLE_ATLAS("particles/totlc/partycles.atlas", TextureAtlas.class),
+	STAR_PARTICLE("particles/totlc/star_particles.atlas", TextureAtlas.class),
 	
 	UIPATCHIMG("ui/window.png", Texture.class),
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),
@@ -70,8 +71,17 @@ public enum AssetList {
 	
 	BACKGROUND1("under_da_sea.jpg", Texture.class),
 	BACKGROUND2("under_da_sea_no_rocks.jpg", Texture.class),
-    BLACK("black.png", Texture.class);
+    BLACK("black.png", Texture.class),
 	
+	//misc stuff from totlc
+	EXCLAMATION_ATLAS("particles/totlc/exclamation_mark.atlas", TextureAtlas.class),
+	EXCLAMATION_MARK("particles/totlc/exclamation_mark.png", Texture.class),
+	IMPACT_ATLAS("particles/totlc/impact.atlas", TextureAtlas.class),
+	
+	STAR_SHOT_ATLAS("particles/totlc/star_shot.atlas", TextureAtlas.class),
+	STAR_SHOT("particles/totlc/star_shot.png", Texture.class),
+	
+	;
 	//Enum constructor and methods.
 	private String pathname;
     private Class<?> type;

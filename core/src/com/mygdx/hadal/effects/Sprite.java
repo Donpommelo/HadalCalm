@@ -83,6 +83,10 @@ public enum Sprite {
 	P_STORMCALLER(SpriteType.EVENT, "event_stormcaller"),
 	P_TORPEDO(SpriteType.EVENT, "event_torpedo"),
 
+	//Misc stuff from totlc
+	IMPACT(SpriteType.IMPACT, "impact"),
+	EXCLAMATION(SpriteType.EXCLAMATION, "exclamation"),
+	STAR(SpriteType.STAR, "star"),
 	;
 	
 	private SpriteType type;
@@ -108,6 +112,12 @@ public enum Sprite {
 			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
 		case TURRET:
 			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
+		case IMPACT:
+			return (GameStateManager.impactAtlas.findRegions(spriteId));
+		case EXCLAMATION:
+			return (GameStateManager.exclamationAtlas.findRegions(spriteId));
+		case STAR:
+			return (GameStateManager.starShotAtlas.findRegions(spriteId));
 		default:
 			return null;
 		}
@@ -120,5 +130,9 @@ public enum Sprite {
 		WEAPON,
 		FISH,
 		TURRET,
+		IMPACT,
+		EXCLAMATION,
+		STAR,
+		TOTLC
 	}
 }

@@ -129,7 +129,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		if (body != null) {
 			alive = false;
 			world.destroyBody(body);
-	//		body = null;
 		}
 	}	
 	

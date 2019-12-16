@@ -21,11 +21,11 @@ public class PearlRevolver extends RangedWeapon {
 	private final static String name = "Pearl Revolver";
 	private final static int clipSize = 6;
 	private final static int ammoSize = 36;
-	private final static float shootCd = 0.6f;
+	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 40.0f;
 	private final static float recoil = 5.0f;
 	private final static float knockback = 7.5f;
 	private final static float projectileSpeed = 45.0f;

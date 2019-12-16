@@ -226,9 +226,9 @@ SCRAPRIPPER: {
 		MELEE,
 	]
 }
-CHAIN_LIGHTNING: {
+MAELSTROM: {
 	class: com.mygdx.hadal.save.InfoItem
-	name: Chain Lightning
+	name: Maelstrom
 	description: "Fire a projectile that bounces between enemies upon contact."
     descriptionLong: "TEST"
 	unlocked: true
