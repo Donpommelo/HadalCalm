@@ -44,20 +44,20 @@ public class Flounderbuss extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private static final float maxCharge = 1.8f;
-	private float chargeDura = 0.0f;
 
 	private final static int maxNumProj = 30;
 	private final static int spread = 40;
 	private final static float veloSpread = 4.0f;
 	
 	public Flounderbuss(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, maxCharge);
 	}
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
-		if (chargeDura < maxCharge && !reloading) {
-			chargeDura+=delta;
+		charging = true;
+		if (chargeCd< maxCharge && !reloading) {
+			chargeCd += delta;
 		}
 		super.mouseClicked(delta, state, shooter, faction, x, y);
 	}
@@ -70,12 +70,13 @@ public class Flounderbuss extends RangedWeapon {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		super.execute(state, bodyData);
-		chargeDura = 0;
+		charging = false;
+		chargeCd = 0;
 	}
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		for (int i = 0; i < maxNumProj * chargeDura / maxCharge; i++) {
+		for (int i = 0; i < maxNumProj * chargeCd / maxCharge; i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			

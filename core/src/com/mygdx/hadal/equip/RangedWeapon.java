@@ -45,28 +45,10 @@ public class RangedWeapon extends Equipable {
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
 	 * @param reloadAmount: The amount of clip restored upon one reload
 	 * @param onShoot: This is a factory that creates a hitbox
-	 */
-	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, 
-			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount) {
-		super(user, name, shootCd, shootDelay);
-		this.clipSize = clipSize;
-		this.clipLeft = clipSize;
-		this.clipPercent = 1.0f;
-		this.ammoSize = ammoSize;
-		this.ammoLeft = ammoSize;
-		this.ammoPercent = 1.0f;
-		this.reloadTime = reloadTime;
-		this.reloadAmount = reloadAmount;
-		this.recoil = recoil;
-		this.projectileSpeed = projectileSpeed;
-		
-		this.autoreload = true;
-	}
-	
-	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, 
-			float projectileSpeed, float shootCd, float shootDelay, int reloadAmount, boolean autoreload, 
-			Sprite weaponSprite, Sprite eventSprite) {
-		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite);
+	 */	
+	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
+			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float chargeTime) {
+		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite, chargeTime);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.clipPercent = 1.0f;
@@ -78,6 +60,11 @@ public class RangedWeapon extends Equipable {
 		this.autoreload = autoreload;
 		this.recoil = recoil;
 		this.projectileSpeed = projectileSpeed;
+	}
+	
+	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
+			boolean autoreload, Sprite weaponSprite, Sprite eventSprite) {
+		this(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, autoreload, weaponSprite, eventSprite, 1);
 	}
 
 	/**

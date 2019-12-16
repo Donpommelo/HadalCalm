@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip;
 
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -21,7 +22,7 @@ public class ActiveItem extends Equipable {
 	private chargeStyle style;	
 	
 	public ActiveItem(Schmuck user, String name, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
-		super(user, name, usecd, usedelay);
+		super(user, name, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.maxCharge = maxCharge;
 		this.currentCharge = maxCharge;
 		this.style = chargeStyle;

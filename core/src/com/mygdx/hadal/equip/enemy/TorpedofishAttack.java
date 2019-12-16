@@ -41,7 +41,7 @@ public class TorpedofishAttack extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.ORB_RED;
 
 	public TorpedofishAttack(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override

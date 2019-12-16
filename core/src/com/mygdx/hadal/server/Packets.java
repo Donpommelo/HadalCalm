@@ -510,6 +510,8 @@ public class Packets {
         public float activeCharge;
         public boolean reloading;
         public float reloadPercent;
+        public boolean charging;
+        public float chargePercent;
         
 		public SyncPlayer() {}
 		
@@ -520,7 +522,7 @@ public class Packets {
 		 */
 		public SyncPlayer(String entityID, float a, Boolean grounded,
 				int currentSlot, int currentClip, int currentAmmo, int maxClip, float maxHp, float maxFuel,
-				float airblastCost, float activeCharge, boolean reloading, float reloadPercent) {
+				float airblastCost, float activeCharge, boolean reloading, float reloadPercent, boolean charging, float chargePercent) {
             this.entityID = entityID;
             this.attackAngle = a;
             this.grounded = grounded;
@@ -535,6 +537,8 @@ public class Packets {
             
             this.reloading = reloading;
             this.reloadPercent = reloadPercent;
+            this.charging = charging;
+            this.chargePercent = chargePercent;
         }
 	}
 	

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.enemy;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -23,7 +24,7 @@ public class ScissorfishAttack extends MeleeWeapon {
 	private final static float momentum = 5.0f;
 	
 	public ScissorfishAttack(Schmuck user) {
-		super(user, name, swingCd, windup, momentum);
+		super(user, name, swingCd, windup, momentum, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override

@@ -69,6 +69,19 @@ public class UIPlayer extends AHadalActor {
 				batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
 			}
 			
+			if (player.getPlayerData().getCurrentTool().isCharging() && player.isAlive()) {
+				
+				float x = (player.getPosition().x * PPM) - reload.getRegionWidth() * scale / 2;
+				float y = (player.getPosition().y * PPM) + reload.getRegionHeight() * scale + Player.hbHeight * Player.scale / 2;
+				
+				//Calculate charge progress
+				float percent = player.getChargePercent();
+				
+				batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * scale * percent, reloadBar.getRegionHeight() * scale);
+	//			batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
+				batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
+			}
+			
 			if (player.isAlive()) {
 				
 				float x = (player.getPosition().x * PPM) - Player.hbWidth * Player.scale - empty.getWidth() * hpScale + 10;

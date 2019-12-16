@@ -45,8 +45,8 @@ import com.mygdx.hadal.states.PauseState;
 public class KryoClient {
 	
 	//Static fields for ports to be used
-	public static final int tcpPortSocket = 443;
-	public static final int udpPortSocket = 80;
+	public static final int tcpPortSocket = 25565;
+	public static final int udpPortSocket = 54777;
 	
 	//Me Client
 	public Client client;

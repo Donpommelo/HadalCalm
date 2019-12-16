@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.misc;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -29,7 +30,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static float momentum = 40.0f;
 	
 	public Airblaster(Schmuck user) {
-		super(user, name, swingCd, windup, momentum);
+		super(user, name, swingCd, windup, momentum, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override

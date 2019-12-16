@@ -25,16 +25,14 @@ public class MeleeWeapon extends Equipable {
 	 * @param windup: The delay between pressing the button for this tool and it activating. 
 	 * @param momentum: reverse recoil. Using a melee wepon will inch the user forwards by a force of this magnitude.
 	 * @param onSwing: This is a factory that creates a melee hitbox.
-	 */
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum) {
-		super(user, name, swingcd, windup);
+	 */	
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, Sprite weaponSprite, Sprite eventSprite, float chargeTime) {
+		super(user, name, swingcd, windup, weaponSprite, eventSprite, chargeTime);
 		this.momentum = momentum;
 	}
 	
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, 
-			Sprite weaponSprite, Sprite eventSprite) {
-		super(user, name, swingcd, windup, weaponSprite, eventSprite);
-		this.momentum = momentum;
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, Sprite weaponSprite, Sprite eventSprite) {
+		this(user, name, swingcd, windup, momentum, weaponSprite, eventSprite, 1);
 	}
 
 	/**

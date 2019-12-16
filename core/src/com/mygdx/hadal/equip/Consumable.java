@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -18,7 +19,7 @@ public class Consumable extends Equipable {
 	protected short faction;
 	
 	public Consumable(Schmuck user, String name, float useCd, float useDelay, int charges) {
-		super(user, name, useCd, useDelay);
+		super(user, name, useCd, useDelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.chargesMax = charges;
 		this.chargesLeft = chargesMax;
 	}

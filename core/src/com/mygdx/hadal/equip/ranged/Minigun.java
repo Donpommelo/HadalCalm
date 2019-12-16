@@ -48,16 +48,16 @@ public class Minigun extends RangedWeapon {
 	private static final float maxCharge = 0.6f;
 	private static final float selfSlowDura = 0.1f;
 	private static final float selfSlowMag = 0.75f;
-	private float chargeDura = 0.0f;
 	
 	public Minigun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, maxCharge);
 	}
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
-		if (chargeDura < maxCharge && !reloading) {
-			chargeDura += (delta + shootCd);
+		charging = true;
+		if (chargeCd < maxCharge && !reloading) {
+			chargeCd += (delta + shootCd);
 		}
 		if (!reloading) {
 			shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter));
@@ -67,14 +67,15 @@ public class Minigun extends RangedWeapon {
 
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (chargeDura >= maxCharge) {
+		if (chargeCd >= maxCharge) {
 			super.execute(state, shooter);
 		}
 	}
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
-		chargeDura = 0;
+		chargeCd = 0;
+		charging = false;
 	}
 	
 	@Override

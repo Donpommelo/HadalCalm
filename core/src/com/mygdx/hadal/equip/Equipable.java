@@ -33,6 +33,15 @@ public abstract class Equipable {
 	//The amount of time it takes to reload this weapon. (default = 0 for non-ranged)
 	protected float reloadTime = 0;
 	
+	//Whether this tool is currently in the process of charging or not.
+	protected boolean charging;
+	
+	//Counter for how much longer this tool needs to be charged before it will be at max charge
+	protected float chargeCd = 0;
+	
+	//The amount of time it takes to charge this weapon. (default = 0 for non-charge equips)
+	protected float chargeTime = 0;
+		
 	private Sprite equipSprite, eventSprite;
 	
 	protected Vector2 weaponVelo = new Vector2();
@@ -42,17 +51,6 @@ public abstract class Equipable {
 	
 	protected ArrayList<WeaponModifier> weaponMods = new ArrayList<WeaponModifier>();
 	
-	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
-		this.user = user;
-		this.name = name;
-		this.useCd = useCd;
-		this.useDelay = useDelay;
-		this.reloading = false;
-		
-		this.equipSprite = equipSprite;
-		this.eventSprite = eventSprite;
-	}
-	
 	/**
 	 * Equipables are constructed when creating tool spawns or default schmuck loadouts
 	 * @param user: Schmuck that is using this tool.
@@ -60,8 +58,21 @@ public abstract class Equipable {
 	 * @param useCd: The delay after using this tool before you can use a tool again.
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
 	 */
-	public Equipable(Schmuck user, String name, float useCd, float useDelay) {
-		this(user, name, useCd, useDelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
+		this.user = user;
+		this.name = name;
+		this.useCd = useCd;
+		this.useDelay = useDelay;
+		this.reloading = false;
+		this.charging = false;
+		this.chargeTime = chargeTime;
+		
+		this.equipSprite = equipSprite;
+		this.eventSprite = eventSprite;
+	}
+
+	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
+		this(user, name, useCd, useDelay, equipSprite, eventSprite, 0);
 	}
 	
 	/**
@@ -177,9 +188,7 @@ public abstract class Equipable {
 		return eventSprite;
 	}
 	
-	public float getReloadTime() {
-		return reloadTime * (1 - user.getBodyData().getReloadRate());
-	}
+	
 	
 	public String getName() {
 		return name;
@@ -211,6 +220,34 @@ public abstract class Equipable {
 
 	public float getReloadCd() {
 		return reloadCd;
+	}
+	
+	public void setReloadCd(float reloadCd) {
+		this.reloadCd = reloadCd;
+	}
+
+	public float getReloadTime() {
+		return reloadTime * (1 - user.getBodyData().getReloadRate());
+	}
+
+	public boolean isCharging() {
+		return charging;
+	}
+
+	public void setCharging(boolean charging) {
+		this.charging = charging;
+	}
+	
+	public float getChargeCd() {
+		return chargeCd;
+	}
+	
+	public void setChargeCd(float chargeCd) {
+		this.chargeCd = chargeCd;
+	}
+	
+	public float getChargeTime() {
+		return chargeTime;
 	}
 
 	public ArrayList<WeaponModifier> getWeaponMods() {

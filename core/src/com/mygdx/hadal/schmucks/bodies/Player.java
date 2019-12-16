@@ -104,6 +104,9 @@ public class Player extends PhysicsSchmuck {
 	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
 	private float reloadPercent;
 	
+	//This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
+	private float chargePercent;
+		
 	private ParticleEntity hoverBubbles;
 	
 	//This is the controller that causes this player to perform actions
@@ -265,8 +268,8 @@ public class Player extends PhysicsSchmuck {
 			playerData.getActiveItem().gainCharge(delta);
 		}
 		
-		reloadPercent = getPlayerData().getCurrentTool().getReloadCd() / 
-				(getPlayerData().getCurrentTool().getReloadTime());
+		reloadPercent = getPlayerData().getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
+		chargePercent = getPlayerData().getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
 		
 		//process cds
 		jumpCdCount-=delta;
@@ -610,7 +613,7 @@ public class Player extends PhysicsSchmuck {
 				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
 				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
 				playerData.getMaxHp(), playerData.getMaxFuel(), playerData.getAirblastCost(),
-				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent));
+				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent));
 	}
 	
 	/**
@@ -634,7 +637,9 @@ public class Player extends PhysicsSchmuck {
 			playerData.setOverrideAirblastCost(p.airblastCost);
 			playerData.getActiveItem().setCurrentCharge(p.activeCharge * playerData.getActiveItem().getMaxCharge());
 			playerData.getCurrentTool().setReloading(p.reloading);
-			reloadPercent = p.reloadPercent;	
+			reloadPercent = p.reloadPercent;
+			playerData.getCurrentTool().setCharging(p.charging);
+			chargePercent = p.chargePercent;
 		} else {
 			super.onClientSync(o);
 		}
@@ -707,6 +712,14 @@ public class Player extends PhysicsSchmuck {
 
 	public void setReloadPercent(float reloadPercent) {
 		this.reloadPercent = reloadPercent;
+	}
+
+	public float getChargePercent() {
+		return chargePercent;
+	}
+
+	public void setChargePercent(float chargePercent) {
+		this.chargePercent = chargePercent;
 	}
 
 	public ActionController getController() {

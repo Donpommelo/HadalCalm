@@ -35,7 +35,7 @@ public class TurretAttack extends RangedWeapon {
 	private final static int projDura = 1;
 	
 	public TurretAttack(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override

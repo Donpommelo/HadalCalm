@@ -41,17 +41,17 @@ public class ChargeBeam extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;
 	
 	private static final float maxCharge = 1.0f;
-	private float chargeDura = 0.0f;
 	private int chargeStage = 0;
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, maxCharge);
 	}
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
-		if (chargeDura < maxCharge && !reloading) {
-			chargeDura+=delta;
+		charging = true;
+		if (chargeCd < maxCharge && !reloading) {
+			chargeCd += delta;
 		}
 		super.mouseClicked(delta, state, shooter, faction, x, y);
 	}
@@ -64,17 +64,18 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		super.execute(state, bodyData);
-		chargeDura = 0;
+		charging = false;
+		chargeCd = 0;
 	}
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
 		final Equipable tool = this;
 		
-		if (chargeDura >= maxCharge) {
+		if (chargeCd >= maxCharge) {
 			chargeStage = 2;
 		}
-		else if (chargeDura >= maxCharge / 2) {
+		else if (chargeCd >= maxCharge / 2) {
 			chargeStage = 1;
 		} else {
 			chargeStage = 0;
