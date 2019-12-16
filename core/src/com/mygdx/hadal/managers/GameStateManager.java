@@ -62,7 +62,6 @@ public class GameStateManager {
 		CONTROL,
 		TITLE,
 		PLAY, 
-		GAMEOVER, 
 		VICTORY,
 		PAUSE,
 		CLIENTPLAY
@@ -251,15 +250,15 @@ public class GameStateManager {
 	
 	/**
 	 * This is called at the end of levels to display the results of the game
-	 * @param ps: This is the playstate we are putting the victorystate on
+	 * @param ps: This is the playstate we are putting the resultsstate on
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addVictoryState(PlayState ps, Class<? extends GameState> lastState) {
+	public void addResultsState(PlayState ps, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new VictoryState(this, ps));
+			states.push(new ResultsState(this, ps));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new VictoryState(this, ps));
+			states.push(new ResultsState(this, ps));
 			states.peek().show();
 		}
 	}
@@ -299,7 +298,6 @@ public class GameStateManager {
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);
-		case GAMEOVER: return new GameoverState(this);
 		case CONTROL: return new ControlState(this);
 		default:
 			break;

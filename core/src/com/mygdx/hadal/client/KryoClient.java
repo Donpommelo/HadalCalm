@@ -30,7 +30,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
-import com.mygdx.hadal.states.VictoryState;
+import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -103,9 +103,14 @@ public class KryoClient {
     				
                     @Override
                     public void run() {
-                    	gsm.removeState(VictoryState.class);
+                    	gsm.removeState(ResultsState.class);
                     	gsm.removeState(PauseState.class);
-                    	cs.returnToTitle();
+                    	
+                    	if (cs != null) {
+                    		cs.returnToTitle();
+                    	} else {
+                    		gsm.removeState(ClientState.class);
+                    	}
                     }
                 });
             }
@@ -183,8 +188,8 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.ClientReady) {
         			final Packets.ClientReady p = (Packets.ClientReady) o;
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof VictoryState) {
-						final VictoryState vs =  (VictoryState) gsm.getStates().peek();
+        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
+						final ResultsState vs =  (ResultsState) gsm.getStates().peek();
 						Gdx.app.postRunnable(new Runnable() {
 	        				
 	                        @Override
@@ -207,7 +212,7 @@ public class KryoClient {
         				
                         @Override
                         public void run() {
-                        	gsm.removeState(VictoryState.class);
+                        	gsm.removeState(ResultsState.class);
                         	gsm.removeState(ClientState.class);
                 			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
                 	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime));

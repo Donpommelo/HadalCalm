@@ -37,9 +37,9 @@ public class End extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (won) {
-					state.levelEnd(transitionState.WIN);
+					state.levelEnd(transitionState.RESULTS);
 				} else {
-					state.levelEnd(transitionState.LOSE);
+					state.levelEnd(transitionState.RESPAWN);
 				}
 			}
 		};

@@ -1,4 +1,4 @@
-package com.mygdx.hadal.states;
+package com.mygdx.hadal.retired;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,6 +11,8 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.states.GameState;
+import com.mygdx.hadal.states.TitleState;
 
 /**
  * The Gameover state appears when you lose.

@@ -22,7 +22,7 @@ import com.mygdx.hadal.server.SortByScores;
  * @author Zachary Tu
  *
  */
-public class VictoryState extends GameState {
+public class ResultsState extends GameState {
 
 	//This table contains the options for the title.
 	private Table table;
@@ -49,7 +49,7 @@ public class VictoryState extends GameState {
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
 	 */
-	public VictoryState(final GameStateManager gsm, PlayState ps) {
+	public ResultsState(final GameStateManager gsm, PlayState ps) {
 		super(gsm);
 		this.ps = ps;
 		
@@ -179,7 +179,7 @@ public class VictoryState extends GameState {
 		//When the server is ready, we return to hub and tell all clients to do the same.
 		if (reddy && ps.isServer()) {
 			
-			getGsm().removeState(VictoryState.class);
+			getGsm().removeState(ResultsState.class);
 	    	getGsm().removeState(PlayState.class);
 	    	getGsm().gotoHubState();
 		}

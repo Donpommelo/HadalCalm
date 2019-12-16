@@ -37,7 +37,6 @@ import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockEquip;
@@ -50,6 +49,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
@@ -528,48 +528,50 @@ public class PlayState extends GameState {
 	 */	
 	public void transitionState() {
 		switch (nextState) {
-		case LOSE:
-			if (respawn) {
-				
-				SavePoint getSave = getSavePoint();
-				
-				//reset the player's camera to saved values
-				boolean resetCamera = false;
-				if (getSave.getZoomPoint() == null) {
-					resetCamera = true;
-				}
-				
-				//Create a new player
-				player = createPlayer( 
-						(int)(getSave.getLocation().x * PPM),
-						(int)(getSave.getLocation().y * PPM), 
-						gsm.getRecord().getName(), 
-						player.getPlayerData().getLoadout(), player.getPlayerData());
-				
-				((PlayerController)controller).setPlayer(player);
-				
-				this.zoomDesired = getSave.getZoom();
-				if (resetCamera) {
-					this.cameraTarget = player;
-				} else {
-					this.cameraTarget = getSave.getZoomPoint();
-				}
-
-				//Make the screen fade back in
-				fadeDelta = -0.015f;
-				
-				//Make nextState null so we can transition again
-				nextState = null;
-			} else {
-				//If no respawn, get a gameover screen
-				getGsm().removeState(PlayState.class);
-				getGsm().addState(State.GAMEOVER, TitleState.class);
-			}
-			break;
-		case WIN:
+		case RESPAWN:
+			SavePoint getSave = getSavePoint();
 			
-			//Transition to results state
-			getGsm().addVictoryState(this, PlayState.class);
+			//reset the player's camera to saved values
+			boolean resetCamera = false;
+			if (getSave.getZoomPoint() == null) {
+				resetCamera = true;
+			}
+			
+			//Create a new player
+			player = createPlayer( 
+					(int)(getSave.getLocation().x * PPM),
+					(int)(getSave.getLocation().y * PPM), 
+					gsm.getRecord().getName(), 
+					player.getPlayerData().getLoadout(), player.getPlayerData());
+			
+			((PlayerController)controller).setPlayer(player);
+			
+			this.zoomDesired = getSave.getZoom();
+			if (resetCamera) {
+				this.cameraTarget = player;
+			} else {
+				this.cameraTarget = getSave.getZoomPoint();
+			}
+
+			//Make the screen fade back in
+			fadeDelta = -0.015f;
+			
+			//Make nextState null so we can transition again
+			nextState = null;
+			break;
+		case RESULTS:
+
+			//get a results screen
+			getGsm().addResultsState(this, PlayState.class);
+			break;
+		case SPECTATOR:
+			//When ded but other players alive, spectate a player
+			
+			//Make the screen fade back in
+			fadeDelta = -0.015f;
+			
+			//Make nextState null so we can transition again
+			nextState = null;
 			break;
 		case NEWLEVEL:
 			
@@ -643,19 +645,6 @@ public class PlayState extends GameState {
 	 * @param perp: the schmuck that killed
 	 */
 	public void onPlayerDeath(Player player, Schmuck perp) {
-		if (player.equals(this.player)) {
-			
-			//When the host dies, we begin a transition to the lose state
-			beginTransition(transitionState.LOSE);
-		} else {
-			
-			//If a client dies, we tell them to transition to a lose state.
-			for (int connId : HadalGame.server.getPlayers().keySet()) {
-				if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-					HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.LOSE));
-				}
-			}
-		}
 		
 		//Register the kill for score keeping purposes
 		if (perp instanceof Player) {
@@ -663,10 +652,53 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.server.registerKill(null, player);
 		}
+				
+		if (!respawn) {
+			
+			//check if all players are out
+			boolean allded = true;
+			for (SavedPlayerFields f: HadalGame.server.getScores().values()) {
+				if (f.isAlive()) {
+					allded = false;
+					break;
+				}
+			}
+			if (allded) {
+				nextState = transitionState.RESULTS;
+				fadeInitialDelay = 0.5f;
+				fadeDelta = 0.015f;
+				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(transitionState.RESULTS));
+			} else {
+				if (this.player.equals(player)) {
+					beginTransition(transitionState.SPECTATOR);
+				} else {
+					//If a client dies, we tell them to transition to a respawn state.
+					for (int connId : HadalGame.server.getPlayers().keySet()) {
+						if (HadalGame.server.getPlayers().get(connId).equals(player)) {
+							HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.SPECTATOR));
+						}
+					}
+				}
+			}
+		} else {
+			if (this.player.equals(player)) {
+				
+				//Transition to the host respawning
+				beginTransition(transitionState.RESPAWN);
+			} else {
+				
+				//If a client dies, we tell them to transition to a respawn state.
+				for (int connId : HadalGame.server.getPlayers().keySet()) {
+					if (HadalGame.server.getPlayers().get(connId).equals(player)) {
+						HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.RESPAWN));
+					}
+				}
+			}
+		}
 	}
 	
 	/**
-	 * This is called when a level ends. Only called by the server. Begi na transition and tell all clients to follow suit.
+	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
 	 * @param state: Is it ending as a gameover or a results screen?
 	 */
 	public void levelEnd(transitionState state) {
@@ -683,7 +715,7 @@ public class PlayState extends GameState {
 		//If we are already transitioning to a new results state, do not do this
 		if (nextState == null) {
 			nextState = state;
-			fadeInitialDelay = 1.0f;
+			fadeInitialDelay = 0.5f;
 			fadeDelta = 0.015f;	
 		}
 	}
@@ -697,7 +729,7 @@ public class PlayState extends GameState {
 			HadalGame.client.client.stop();
 		}
 		nextState = transitionState.TITLE;
-		fadeInitialDelay = 1.0f;
+		fadeInitialDelay = 0.5f;
 		fadeDelta = 0.015f;	
 	}
 	
@@ -892,8 +924,9 @@ public class PlayState extends GameState {
 	}
 	
 	public enum transitionState {
-		LOSE,
-		WIN,
+		RESPAWN,
+		RESULTS,
+		SPECTATOR,
 		NEWLEVEL,
 		NEXTSTAGE,
 		TITLE

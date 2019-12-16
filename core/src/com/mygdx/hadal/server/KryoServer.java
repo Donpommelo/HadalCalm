@@ -23,7 +23,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PauseState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.VictoryState;
+import com.mygdx.hadal.states.ResultsState;
 
 /**
  * This is the server of the game.
@@ -58,6 +58,7 @@ public class KryoServer {
 		this.players = new HashMap<Integer, Player>();
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
+		
 		scores.put(0, new SavedPlayerFields(gsm.getRecord().getName()));
 		
 		if (!start) {
@@ -98,8 +99,8 @@ public class KryoServer {
 				/**
 				 * If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
 				 */
-				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof VictoryState) {
-					final VictoryState vs =  (VictoryState) gsm.getStates().peek();
+				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
+					final ResultsState vs =  (ResultsState) gsm.getStates().peek();
 					Gdx.app.postRunnable(new Runnable() {
         				
                         @Override
@@ -187,7 +188,7 @@ public class KryoServer {
 					
 					if (ps != null) {
                         switch(p.state) {
-						case LOSE:
+						case RESPAWN:
 							//Create a new player for the client (atm, this is just on respawn)
 							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), data);
 							break;
@@ -196,9 +197,6 @@ public class KryoServer {
 							break;
 						case NEXTSTAGE:
 							//No need to send anything. The client is told to load the new level when the server finishes
-							break;
-						case WIN:
-							//No need to send anything. The client can transition to a results state themselves
 							break;
 						default:
 							break;
@@ -265,8 +263,8 @@ public class KryoServer {
 				 * Ready that player in the results state.
 				 */
 				if (o instanceof Packets.ClientReady) {
-					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof VictoryState) {
-						final VictoryState vs =  (VictoryState) gsm.getStates().peek();
+					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
+						final ResultsState vs =  (ResultsState) gsm.getStates().peek();
 						Gdx.app.postRunnable(new Runnable() {
 	        				
 	                        @Override

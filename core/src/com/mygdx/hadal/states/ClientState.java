@@ -206,25 +206,27 @@ public class ClientState extends PlayState {
 	@Override
 	public void transitionState() {
 		switch (nextState) {
-		case LOSE:
-			if (respawn) {
-				
-				//Inform the server that we have finished transitioning to tell them to make us a new player.
-				HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
-				
-				//Make the screen fade back in
-				fadeDelta = -0.015f;
-				
-				//Make nextState null so we can transition again
-				nextState = null;
-			} else {	
-				//TODO: what is the client's behavior in non-respawn levels?
-			}
-			break;
-		case WIN:
+		case RESPAWN:
+			//Inform the server that we have finished transitioning to tell them to make us a new player.
+			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
 			
-			//Go to a results screen
-			getGsm().addVictoryState(this, ClientState.class);
+			//Make the screen fade back in
+			fadeDelta = -0.015f;
+			
+			//Make nextState null so we can transition again
+			nextState = null;
+			break;
+		case RESULTS:
+			getGsm().addResultsState(this, ClientState.class);
+			break;
+		case SPECTATOR:
+			//When ded but other players alive, spectate a player
+			
+			//Make the screen fade back in
+			fadeDelta = -0.015f;
+			
+			//Make nextState null so we can transition again
+			nextState = null;
 			break;
 		case NEWLEVEL:
 			
