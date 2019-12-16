@@ -79,7 +79,7 @@ public class PickupArtifact extends Event {
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), artifact.toString()));
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), artifact.toString(), null));
 			}
 		};
 		
@@ -101,7 +101,7 @@ public class PickupArtifact extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.ARTIFACT, artifact.toString());
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.ARTIFACT, artifact.toString(), null);
 	}
 	
 	@Override

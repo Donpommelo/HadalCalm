@@ -68,13 +68,7 @@ public class EventData extends HadalData {
 	 */
 	public void preActivate(EventData activator, Player p) {
 		
-		//Events that have no responsible player are just activated as normal
-//		if (p == null) {
-//			onActivate(activator, p);
-//			return;
-//		}
-		
-		//Otherwise, activation depends on event eync type
+		//activation depends on event eync type
 		switch(event.getSyncType()) {
 		case 0:
 			onActivate(activator, p);

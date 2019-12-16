@@ -107,8 +107,7 @@ public class PickupEquip extends Event {
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(),
-						UnlockEquip.getUnlockFromEquip(equip.getClass()).toString()));
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString(), mods));
 			}
 		};
 		
@@ -118,7 +117,7 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.WEAPON, unlock.toString());
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.WEAPON, unlock.toString(), mods);
 	}
 	
 	@Override
@@ -126,6 +125,7 @@ public class PickupEquip extends Event {
 		if (o instanceof Packets.SyncPickup) {
 			Packets.SyncPickup p = (Packets.SyncPickup) o;
 			setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
+			mods = p.mods;
 		} else {
 			super.onClientSync(o);
 		}
@@ -196,6 +196,10 @@ public class PickupEquip extends Event {
 
 	public ArrayList<WeaponMod> getMods() {
 		return mods;
+	}
+	
+	public void setMods(ArrayList<WeaponMod> mods) {
+		this.mods = mods;
 	}
 
 	@Override

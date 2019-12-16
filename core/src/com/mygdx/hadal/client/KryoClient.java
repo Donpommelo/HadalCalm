@@ -442,6 +442,7 @@ public class KryoClient {
 								case WEAPON:
 									pickup = new PickupEquip(cs, (int)(p.pos.x), (int)(p.pos.y), 0, "");
 									((PickupEquip)pickup).setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.startPickup), null));
+									((PickupEquip)pickup).setMods(p.mods);
 									break;
         						}
         						

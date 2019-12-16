@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.PickupType;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockActives;
@@ -418,6 +419,7 @@ public class Packets {
         public Vector2 pos;
         public PickupType type;
         public String startPickup;
+        public ArrayList<WeaponMod> mods;
         public CreatePickup() {}
         
         /**
@@ -429,17 +431,19 @@ public class Packets {
          * @param type: Type of Pickup (Weapon, Artifact, Active Item, Weapon Mod)
          * @param startPickup: The enum name of what pickup it starts with.
          */
-		public CreatePickup(String entityID, Vector2 pos, PickupType type, String startPickup) {
+		public CreatePickup(String entityID, Vector2 pos, PickupType type, String startPickup, ArrayList<WeaponMod> mods) {
 			this.entityID = entityID;
             this.pos = pos;
             this.type = type;
             this.startPickup = startPickup;
+            this.mods = mods;
 		}
 	}
 	
 	public static class SyncPickup {
 		public String entityID;
         public String newPickup;
+        public ArrayList<WeaponMod> mods;
         public SyncPickup() {}
         
         /**
@@ -449,9 +453,10 @@ public class Packets {
          * @param entityID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
          */
-		public SyncPickup(String entityID, String newPickup) {
+		public SyncPickup(String entityID, String newPickup, ArrayList<WeaponMod> mods) {
 			this.entityID = entityID;
             this.newPickup = newPickup;
+            this.mods = mods;
 		}
 	}
 	
@@ -507,6 +512,7 @@ public class Packets {
         public int currentSlot;
         public int currentClip;
         public int currentAmmo;
+        public ArrayList<WeaponMod> mods;
         public int maxClip;
         public float maxHp;
         public float maxFuel;
@@ -526,7 +532,7 @@ public class Packets {
 		 */
 		public SyncPlayer(String entityID, float a, Boolean grounded,
 				int currentSlot, int currentClip, int currentAmmo, int maxClip, float maxHp, float maxFuel,
-				float airblastCost, float activeCharge, boolean reloading, float reloadPercent, boolean charging, float chargePercent) {
+				float airblastCost, float activeCharge, boolean reloading, float reloadPercent, boolean charging, float chargePercent, ArrayList<WeaponMod> mods) {
             this.entityID = entityID;
             this.attackAngle = a;
             this.grounded = grounded;
@@ -543,6 +549,7 @@ public class Packets {
             this.reloadPercent = reloadPercent;
             this.charging = charging;
             this.chargePercent = chargePercent;
+            this.mods = mods;
         }
 	}
 	

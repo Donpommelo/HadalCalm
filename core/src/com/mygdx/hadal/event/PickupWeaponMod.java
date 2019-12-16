@@ -74,7 +74,7 @@ public class PickupWeaponMod extends Event {
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), mod.toString()));
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), mod.toString(), null));
 			}
 		};
 		
@@ -96,7 +96,7 @@ public class PickupWeaponMod extends Event {
 
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.MOD, mod.toString());
+		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.MOD, mod.toString(), null);
 	}
 	
 	@Override

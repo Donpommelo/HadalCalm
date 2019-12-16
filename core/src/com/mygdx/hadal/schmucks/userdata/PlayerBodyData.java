@@ -12,6 +12,7 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -71,6 +72,7 @@ public class PlayerBodyData extends BodyData {
 	private int overrideClipSize;
 	private int overrideClipLeft;
 	private int overrideAmmoSize;
+	private ArrayList<WeaponMod> overrideWeaponMods = new ArrayList<WeaponMod>();
 	
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body);
@@ -642,5 +644,13 @@ public class PlayerBodyData extends BodyData {
 
 	public void setOverrideAmmoSize(int overrideAmmoSize) {
 		this.overrideAmmoSize = overrideAmmoSize;
+	}
+
+	public ArrayList<WeaponMod> getOverrideWeaponMods() {
+		return overrideWeaponMods;
+	}
+
+	public void setOverrideWeaponMods(ArrayList<WeaponMod> overrideWeaponMods) {
+		this.overrideWeaponMods = overrideWeaponMods;
 	}
 }

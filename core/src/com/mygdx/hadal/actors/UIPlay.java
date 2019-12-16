@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -51,6 +52,8 @@ public class UIPlay extends AHadalActor {
 	
 	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText, ammoText;
+	
+	//display extra info (weapon mods) when moused over
 	private boolean mouseOver;
 
 	public UIPlay(AssetManager assetManager, PlayState state, Player player) {
@@ -175,10 +178,18 @@ public class UIPlay extends AHadalActor {
 		
 		if (mouseOver) {
 			int yOffset = 0;
-			for(WeaponModifier s : player.getPlayerData().getCurrentTool().getWeaponMods()) {
-				font.getData().setScale(0.25f);
-				font.draw(batch, s.getName(), x + 25, y + 150 + yOffset, 250, -1, true);
-				yOffset += 25;
+			if (state.isServer()) {
+				for(WeaponModifier s : player.getPlayerData().getCurrentTool().getWeaponMods()) {
+					font.getData().setScale(0.25f);
+					font.draw(batch, s.getName(), x + 25, y + 150 + yOffset, 250, -1, true);
+					yOffset += 25;
+				}
+			} else {
+				for(WeaponMod s : player.getPlayerData().getOverrideWeaponMods()) {
+					font.getData().setScale(0.25f);
+					font.draw(batch, s.getName(), x + 25, y + 150 + yOffset, 250, -1, true);
+					yOffset += 25;
+				}
 			}
 		}
 	}

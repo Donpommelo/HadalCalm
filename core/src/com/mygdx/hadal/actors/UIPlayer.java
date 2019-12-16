@@ -78,10 +78,10 @@ public class UIPlayer extends AHadalActor {
 				float percent = player.getChargePercent();
 				
 				batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * scale * percent, reloadBar.getRegionHeight() * scale);
-	//			batch.draw(reload, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
 				batch.draw(reloadMeter, x, y, reload.getRegionWidth() * scale, reload.getRegionHeight() * scale);
 			}
 			
+			//This draws a heart by the player's sprite to indicate hp remaining
 			if (player.isAlive()) {
 				
 				float x = (player.getPosition().x * PPM) - Player.hbWidth * Player.scale - empty.getWidth() * hpScale + 10;
