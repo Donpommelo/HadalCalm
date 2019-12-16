@@ -13,6 +13,7 @@ public enum UnlockArtifact {
 	EIGHT_BALL(EightBall.class),
 	ABYSSAL_INSIGNIA(AbyssalInsignia.class),
 	ADMINISTRATOR_CARD(AdministratorCard.class),
+	AMMO_DRUM(AmmoDrum.class),
 	ANARCHISTS_COOKBOOK(AnarchistsCookbook.class),
 	ANCHOR_TALISMAN(AnchorTalisman.class),
 	BLOODWOODS_GLOVE(BloodwoodsGlove.class),

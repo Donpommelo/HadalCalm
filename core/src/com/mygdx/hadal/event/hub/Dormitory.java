@@ -37,11 +37,14 @@ public class Dormitory extends HubEvent {
 		        
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-		        	state.getGsm().getRecord().setCharacter(selected.name());
-		        	state.getPlayer().setBodySprite(selected.getSprite());
-		        	state.getPlayer().getPlayerData().getLoadout().character = selected;
-		        	state.getPlayer().getPlayerData().syncServerLoadoutChange();
-		        	state.getPlayer().getPlayerData().syncClientLoadoutChange();
+					if (state.isServer()) {
+						state.getGsm().getRecord().setCharacter(selected.name());
+			        	state.getPlayer().setBodySprite(selected.getSprite());
+			        	state.getPlayer().getPlayerData().getLoadout().character = selected;
+			        	state.getPlayer().getPlayerData().syncServerLoadoutChange();
+					} else {
+						state.getPlayer().getPlayerData().syncClientLoadoutChangeCharacter(selected);
+					}
 		        }
 		        
 		        @Override

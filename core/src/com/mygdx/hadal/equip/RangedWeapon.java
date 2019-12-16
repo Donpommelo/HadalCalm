@@ -124,7 +124,7 @@ public class RangedWeapon extends Equipable {
 				reloadCd = 0;
 			}
 			
-			if (ammoLeft <= 0) {
+			if (getAmmoLeft() <= 0) {
 				if (shooter instanceof PlayerBodyData) {
 					PlayerBodyData p = (PlayerBodyData)shooter;
 					p.emptySlot(p.getCurrentSlot());
@@ -158,8 +158,8 @@ public class RangedWeapon extends Equipable {
 			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
 			int missingClip = getClipSize() - clipLeft;
 			int weaponReloadAmount = Math.min(missingClip, reloadAmount != 0 ? reloadAmount : getClipSize());
-			int clipToReload = Math.min(weaponReloadAmount, ammoLeft);
-			
+			int clipToReload = Math.min(weaponReloadAmount, getAmmoLeft());
+
 			ammoLeft -= clipToReload;
 			clipLeft += clipToReload;
 			
@@ -169,10 +169,15 @@ public class RangedWeapon extends Equipable {
 
 			user.getBodyData().statusProcTime(StatusProcTime.ON_RELOAD, null, 0, null, this, null);
 
-			//If clip is full or out of ammo, finish reloading.
-			if (clipLeft >= getClipSize() || ammoLeft == 0) {
+			//If clip is full finish reloading.
+			if (clipLeft >= getClipSize()) {
 				clipLeft = getClipSize();
 				clipPercent = 1.0f;
+				reloading = false;
+			}
+			
+			//If out of ammo finish reloading.
+			if (getAmmoLeft() <= 0) {
 				reloading = false;
 			}
 		}
@@ -188,13 +193,8 @@ public class RangedWeapon extends Equipable {
 	
 	@Override
 	public String getAmmoText() {
-		return ammoLeft + "";
+		return getAmmoLeft() + "";
 	}
-	
-	@Override
-	public String getTextClient(int overrideClipSize) {
-		return clipLeft + "/" + overrideClipSize;
-	};
 	
 	/**
 	 * helper method for gaining ammo. Not currently used, but could be useful for stuff that gives you free reloads
@@ -230,7 +230,7 @@ public class RangedWeapon extends Equipable {
 	
 	@Override
 	public int getAmmoLeft() {
-		return ammoLeft;
+		return (int) (ammoLeft * (1 + user.getBodyData().getAmmoCapacity()));
 	}
 	
 	@Override

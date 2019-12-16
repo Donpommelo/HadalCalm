@@ -629,10 +629,12 @@ public class Player extends PhysicsSchmuck {
 			playerData.setCurrentSlot(p.currentSlot);
 			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
-			playerData.getCurrentTool().setClipLeft(p.currentClip);
+//			playerData.getCurrentTool().setClipLeft(p.currentClip);
+//			playerData.getCurrentTool().setAmmoLeft(p.currentAmmo);
 			playerData.setOverrideMaxHp(p.maxHp);
 			playerData.setOverrideMaxFuel(p.maxFuel);
 			playerData.setOverrideClipSize(p.maxClip);
+			playerData.setOverrideClipLeft(p.currentClip);
 			playerData.setOverrideAmmoSize(p.currentAmmo);
 			playerData.setOverrideAirblastCost(p.airblastCost);
 			playerData.getActiveItem().setCurrentCharge(p.activeCharge * playerData.getActiveItem().getMaxCharge());

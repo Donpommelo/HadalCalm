@@ -148,10 +148,6 @@ public abstract class Equipable {
 		return "";
 	};
 	
-	public String getTextClient(int overrideClipSize) {
-		return "";
-	};
-	
 	public void gainClip(int gained) {
 		
 	}

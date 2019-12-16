@@ -47,4 +47,5 @@ public class Stats {
 	public static final int MELEE_RANGE = 41;
 	public static final int MELEE_ARC_SIZE = 42;
 	public static final int MELEE_MOMENTUM = 43;
+	public static final int AMMO_CAPACITY = 44;
 }

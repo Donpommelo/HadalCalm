@@ -537,8 +537,8 @@ public class KryoClient {
         		 * The Server tells us that a player changed their loadout.
         		 * Change their loadout on the client side
         		 */
-        		if (o instanceof Packets.SyncLoadout) {
-        			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
+        		if (o instanceof Packets.SyncServerLoadout) {
+        			final Packets.SyncServerLoadout p = (Packets.SyncServerLoadout) o;
         			Log.info("LOADOUT SYNC: " + p.entityID);
         			
         			final ClientState cs = getClientState();

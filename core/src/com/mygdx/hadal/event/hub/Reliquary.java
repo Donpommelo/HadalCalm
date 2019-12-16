@@ -39,9 +39,12 @@ public class Reliquary extends HubEvent {
 				
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
-		        	state.getPlayer().getPlayerData().replaceStartingArtifact(selected);
-		        	state.getGsm().getRecord().setArtifact(selected.name());
-		        	state.getPlayer().getPlayerData().syncClientLoadoutChange();
+					if (state.isServer()) {
+						state.getPlayer().getPlayerData().replaceStartingArtifact(selected);
+			        	state.getGsm().getRecord().setArtifact(selected.name());
+					} else {
+						state.getPlayer().getPlayerData().syncClientLoadoutChangeArtifact(selected);
+					}
 		        }
 				
 				@Override

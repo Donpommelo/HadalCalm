@@ -53,6 +53,17 @@ ADMINISTRATOR_CARD: {
 		RELIQUARY,
 	]
 }
+AMMO_DRUM: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Ammo Drum
+	description: "+25% Ammo Capacity"
+    descriptionLong: "More bullet."
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 ANARCHISTS_COOKBOOK: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook

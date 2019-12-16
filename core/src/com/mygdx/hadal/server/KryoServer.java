@@ -215,20 +215,20 @@ public class KryoServer {
 				 * The Client has changed their loadout (in the hub because anywhere else is handled server side)
 				 * Find the client changing and update their player loadout
 				 */
-				if (o instanceof Packets.SyncLoadout) {
-        			final Packets.SyncLoadout p = (Packets.SyncLoadout) o;
+				if (o instanceof Packets.SyncClientLoadout) {
+        			final Packets.SyncClientLoadout p = (Packets.SyncClientLoadout) o;
         			final Player player = players.get(c.getID());
-        				final PlayState ps = getPlayState();
-        				if (ps != null && player != null) {
-        					ps.addPacketEffect(new PacketEffect() {
-        						
-        						@Override
-    							public void execute() {
-        							player.getPlayerData().syncLoadout(p.loadout);
-                    				player.getPlayerData().syncServerLoadoutChange();
-        						}
-            				});
-        				}
+    				final PlayState ps = getPlayState();
+    				if (ps != null && player != null) {
+    					ps.addPacketEffect(new PacketEffect() {
+    						
+    						@Override
+							public void execute() {
+    							player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifact, p.active, p.character);
+                				player.getPlayerData().syncServerLoadoutChange();
+    						}
+        				});
+    				}
         		}
 				
 				/*

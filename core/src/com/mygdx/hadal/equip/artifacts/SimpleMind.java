@@ -25,6 +25,7 @@ public class SimpleMind extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_CLIP, 0.5f, b),
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.5f, b),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.5f, b),
+				new StatChangeStatus(state, Stats.AMMO_CAPACITY, 0.5f, b),
 				new Status(state, name, descr, b) {
 			
 			@Override

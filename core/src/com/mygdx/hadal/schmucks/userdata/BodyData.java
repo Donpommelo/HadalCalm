@@ -765,6 +765,14 @@ public class BodyData extends HadalData {
 		buffedStats[43] = buff;
 	}
 
+	public float getAmmoCapacity() {
+		return buffedStats[44];
+	}
+	
+	public void setAmmoCapacity(float buff) {
+		buffedStats[44] = buff;
+	}
+	
 	public void setCurrentTool(Equipable currentTool) {
 		this.currentTool = currentTool;
 	}

@@ -9,6 +9,10 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.PickupType;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.save.UnlockActives;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockCharacter;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
@@ -542,25 +546,45 @@ public class Packets {
         }
 	}
 	
-	public static class SyncLoadout {
+	public static class SyncServerLoadout {
 		public String entityID;
 		public Loadout loadout;
-		public SyncLoadout() {}
+		public SyncServerLoadout() {}
 		
 		/**
 		 * A SyncLoadout is sent from the Server to the Client when any Player in the world changes their loadout.
 		 * Upon receiving this packet, clients adjust their versions of that Player to have the new loadout.
-		 * This is also sent from Client to the Server when a Loadout change is made on the Clients end.
-		 * This happens when clients change loadout in hub events. Server should adjust their version of the Player and echo changes
-		 * to other Clients.
 		 * 
 		 * 
 		 * @param entityId: ID of the player to change
 		 * @param loadout: Player's new loadout
 		 */
-		public SyncLoadout(String entityId, Loadout loadout) {
+		public SyncServerLoadout(String entityId, Loadout loadout) {
 			this.entityID = entityId;
 			this.loadout = loadout;
+		}
+	}
+	
+	public static class SyncClientLoadout {
+
+		public UnlockEquip equip;
+		public UnlockArtifact artifact;
+		public UnlockActives active;
+		public UnlockCharacter character;
+		
+		public SyncClientLoadout() {}
+		
+		/**
+		 * A SyncClientWeapon is sent from the Client to the Server when the client attempts to change their loadout in the hub.
+		 * 
+		 * @param entityId: ID of the player to change
+		 * @param loadout: Player's new loadout
+		 */
+		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifact, UnlockActives active, UnlockCharacter character) {
+			this.equip = equip;
+			this.artifact = artifact;
+			this.active = active;
+			this.character = character;
 		}
 	}
 	
@@ -664,7 +688,8 @@ public class Packets {
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);
     	kryo.register(CreatePlayer.class);
-    	kryo.register(SyncLoadout.class);
+    	kryo.register(SyncServerLoadout.class);
+    	kryo.register(SyncClientLoadout.class);
     	kryo.register(CreateParticles.class);
     	kryo.register(SyncEntity.class);
     	kryo.register(SyncSchmuck.class);

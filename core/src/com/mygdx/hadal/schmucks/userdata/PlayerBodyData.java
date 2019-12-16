@@ -14,6 +14,7 @@ import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
@@ -68,6 +69,7 @@ public class PlayerBodyData extends BodyData {
 	private float overrideMaxFuel;
 	private float overrideAirblastCost;
 	private int overrideClipSize;
+	private int overrideClipLeft;
 	private int overrideAmmoSize;
 	
 	public PlayerBodyData(Player body, Loadout loadout) {
@@ -106,7 +108,8 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * This is called by both the server and client for players that receive a new loadout from the other.
+	 * This is called by the client for players that receive a new loadout from the server.
+	 * This is also used when initiating a new player with a fresh loadout.
 	 * We give the player the new loadout information.
 	 * 
 	 * @param loadout: The new loadout for the player
@@ -150,6 +153,30 @@ public class PlayerBodyData extends BodyData {
 		//If this is the player being controlled by the user, update artifact ui
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
+		}
+	}
+	
+	/**
+	 * This is run when the server receives a request from a client to make a change to their loadout.
+	 * @param loadout
+	 */
+	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifact, UnlockActives active, UnlockCharacter character) {
+		
+		if (equip != null) {
+			pickup(UnlocktoItem.getUnlock(equip, getPlayer()));
+		}
+		
+		if (artifact != null) {
+			replaceStartingArtifact(artifact);
+		}
+		
+		if (active != null) {
+			pickup(UnlocktoItem.getUnlock(active, getPlayer()));
+		}
+		
+		if (character != null) {
+			getPlayer().setBodySprite(character.getSprite());
+        	getPlayer().getPlayerData().getLoadout().character = character;
 		}
 	}
 	
@@ -433,16 +460,34 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void syncServerLoadoutChange() {
 		if (player.getState().isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncLoadout(player.getEntityID().toString(), loadout));
+			HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID().toString(), loadout));
 		}
 	}
 	
 	/**
-	 * This is called when a loadout changes on the client side.(Through hub event) Send message to all server announcing change
+	 * These are called when a loadout changes on the client side.(Through hub event) Send message to all server announcing change
 	 */
-	public void syncClientLoadoutChange() {
+	public void syncClientLoadoutChangeWeapon(UnlockEquip equip) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncLoadout(null, loadout));
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null));
+		}
+	}
+	
+	public void syncClientLoadoutChangeArtifact(UnlockArtifact artifact) {
+		if (!player.getState().isServer()) {
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null));
+		}
+	}
+	
+	public void syncClientLoadoutChangeActive(UnlockActives active) {
+		if (!player.getState().isServer()) {
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, active, null));
+		}
+	}
+	
+	public void syncClientLoadoutChangeCharacter(UnlockCharacter character) {
+		if (!player.getState().isServer()) {
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, character));
 		}
 	}
 	
@@ -581,6 +626,14 @@ public class PlayerBodyData extends BodyData {
 
 	public void setOverrideClipSize(int overrideClipSize) {
 		this.overrideClipSize = overrideClipSize;
+	}
+
+	public int getOverrideClipLeft() {
+		return overrideClipLeft;
+	}
+
+	public void setOverrideClipLeft(int overrideClipLeft) {
+		this.overrideClipLeft = overrideClipLeft;
 	}
 
 	public int getOverrideAmmoSize() {
