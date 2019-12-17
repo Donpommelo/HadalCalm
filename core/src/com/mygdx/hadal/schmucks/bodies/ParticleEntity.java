@@ -203,7 +203,7 @@ public class ParticleEntity extends HadalEntity {
 		
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(0,0), 
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(), 
 						true, particle.toString(), on, linger, lifespan);
 			} else {
 				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startX, startY), 
@@ -217,18 +217,18 @@ public class ParticleEntity extends HadalEntity {
 	/**
 	 * For particles that are tick synced, send over location to clients as well as whether it is on or not
 	 */
+	private Vector2 newPos = new Vector2();
 	@Override
 	public void onServerSync() {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
-					Vector2 newPos = new Vector2(
-							attachedEntity.getPosition().x * PPM, 
-							attachedEntity.getPosition().y * PPM);
+					newPos.set(attachedEntity.getPosition().x * PPM, attachedEntity.getPosition().y * PPM);
 					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 				}
 			} else {
-				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), new Vector2(startX, startY), on));
+				newPos.set(startX, startY);
+				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 			}
 		}
 	}

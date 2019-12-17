@@ -11,7 +11,6 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
@@ -22,6 +21,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.utils.Constants;
 
 public class LaserRifle extends RangedWeapon {
 
@@ -49,16 +49,16 @@ public class LaserRifle extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
 	private float shortestFraction;
-	private Vector2 endPt = new Vector2(0, 0);
 	
 	public LaserRifle(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
 	}
 
+	private Vector2 endPt = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
 		final Equipable tool = this;
-		endPt = new Vector2(user.getPosition()).add(startVelocity.nor().scl(projectileWidth));
+		endPt.set(user.getPosition()).add(startVelocity.nor().scl(projectileWidth));
 		shortestFraction = 1.0f;
 		
 		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
@@ -68,18 +68,10 @@ public class LaserRifle extends RangedWeapon {
 				@Override
 				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 					
-					if (fixture.getUserData() == null) {
+					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
 						if (fraction < shortestFraction) {
 							shortestFraction = fraction;
 							return fraction;
-						}
-					} else {
-						if (fixture.getUserData() instanceof HadalData) {
-							if (((HadalData)fixture.getUserData()).getType() == UserDataTypes.WALL && 
-									fraction < shortestFraction) {
-								shortestFraction = fraction;
-								return fraction;
-							}
 						}
 					}
 					return -1.0f;
@@ -91,7 +83,7 @@ public class LaserRifle extends RangedWeapon {
 		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 		Sprite projSprite = projSprites[randomIndex];
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM + 100), projectileHeight, gravity, 
+		Hitbox hbox = new HitboxSprite(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM), projectileHeight, gravity, 
 				lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite) {
 			
 			@Override

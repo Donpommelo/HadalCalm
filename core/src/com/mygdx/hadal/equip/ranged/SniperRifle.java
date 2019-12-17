@@ -43,7 +43,7 @@ public class SniperRifle extends RangedWeapon {
 	private final static float restitution = 1.0f;
 
 	public SniperRifle(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override

@@ -30,7 +30,7 @@ public class HadalData {
 	 */
 	public HadalData(UserDataTypes type, HadalEntity entity) {
 		this.type = type;
-		this.setEntity(entity);
+		this.entity = entity;
 		this.numContacts = 0;
 	}
 

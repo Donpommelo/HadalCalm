@@ -46,8 +46,7 @@ public class WeaponUtils {
 	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, Equipable tool,
 			int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, explosionRadius, explosionRadius, 0, 0.4f, 1, 0, new Vector2(0, 0),
-				filter, true, false, user, boomSprite) {
+		Hitbox hbox = new HitboxSprite(state, x, y, explosionRadius, explosionRadius, 0, 0.4f, 1, 0, new Vector2(0, 0), filter, true, false, user, boomSprite) {
 			
 			@Override
 			public void controller(float delta) {

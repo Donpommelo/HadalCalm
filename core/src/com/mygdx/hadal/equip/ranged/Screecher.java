@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
@@ -22,6 +21,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.utils.Constants;
 
 public class Screecher extends RangedWeapon {
 
@@ -51,16 +51,18 @@ public class Screecher extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private float shortestFraction;
-	private Vector2 endPt = new Vector2(0, 0);
+	
 	
 	public Screecher(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
 	}
 
+	private Vector2 endPt = new Vector2();
+	private Vector2 newPosition = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
 		final Equipable tool = this;
-		endPt = new Vector2(user.getPosition()).add(startVelocity.nor().scl(range));
+		endPt.set(user.getPosition()).add(startVelocity.nor().scl(range));
 		shortestFraction = 1.0f;
 		
 		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
@@ -70,17 +72,14 @@ public class Screecher extends RangedWeapon {
 				@Override
 				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 					
-					if (fixture.getUserData() == null) {
+					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
 						if (fraction < shortestFraction) {
 							shortestFraction = fraction;
 							return fraction;
 						}
 					} else {
 						if (fixture.getUserData() instanceof HadalData) {
-							if (((HadalData)fixture.getUserData()).getType() == UserDataTypes.WALL && fraction < shortestFraction) {
-								shortestFraction = fraction;
-								return fraction;
-							} else if (fixture.getUserData() instanceof BodyData && fraction < shortestFraction) {
+							if (fixture.getUserData() instanceof BodyData && fraction < shortestFraction) {
 								if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
 									shortestFraction = fraction;
 									return fraction;
@@ -94,11 +93,11 @@ public class Screecher extends RangedWeapon {
 			}, user.getPosition(), endPt);
 		}
 		
-		Vector2 newPosition = new Vector2(x, y).add(startVelocity.nor().scl(range * shortestFraction * PPM));
+		newPosition.set(user.getPosition()).scl(PPM).add(startVelocity.nor().scl(range * shortestFraction * PPM));
 		
 		Hitbox hbox = new HitboxSprite(state, newPosition.x + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), newPosition.y + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)),
 				projectileWidth, projectileHeight, gravity, 
-				lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite);
+				lifespan, projDura, 0, new Vector2(), filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));

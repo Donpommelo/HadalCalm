@@ -55,7 +55,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private static final int decelerationRadius = 0;
 	
 	public LaserGuidedRocket(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override

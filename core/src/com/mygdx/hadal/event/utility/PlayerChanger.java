@@ -69,7 +69,7 @@ public class PlayerChanger extends Event {
 				}
 				
 				if (hp < 0) {
-					p.getPlayerData().receiveDamage(-hp, new Vector2(0, 0), state.getWorldDummy().getBodyData(), null, false);
+					p.getPlayerData().receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), null, false);
 					activated = true;
 				}
 				

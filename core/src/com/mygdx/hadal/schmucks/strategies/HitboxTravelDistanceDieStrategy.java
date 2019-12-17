@@ -8,7 +8,8 @@ import com.mygdx.hadal.states.PlayState;
 
 public class HitboxTravelDistanceDieStrategy extends HitboxStrategy {
 	
-	private Vector2 startLocation, endLocation;
+	private Vector2 startLocation = new Vector2();
+	private Vector2 endLocation;
 	private float distance;
 	
 	public HitboxTravelDistanceDieStrategy(PlayState state, Hitbox proj, BodyData user, Vector2 endLocation) {
@@ -18,7 +19,7 @@ public class HitboxTravelDistanceDieStrategy extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		this.startLocation = new Vector2(hbox.getPosition());
+		this.startLocation.set(hbox.getPosition());
 		this.distance = startLocation.dst(endLocation);
 	}
 	

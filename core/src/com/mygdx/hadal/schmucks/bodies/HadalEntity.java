@@ -41,7 +41,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected float height, width;
 	protected float startX, startY;
 	
-	protected boolean alive = true;
+	protected boolean alive = true, destroyed = false;
 	
 	//The below fields are only used for steering entities. most things will ignore these
 	protected boolean tagged;
@@ -124,7 +124,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * This is where the body is actually deleted
 	 */
 	public void dispose() {
-		if (body != null) {
+		if (body != null && destroyed == false) {
+			destroyed = true;
 			alive = false;
 			world.destroyBody(body);
 		}
@@ -136,6 +137,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * @param y: y position in screen coordinates
 	 * @param power: Magnitude of impulse
 	 */
+	private Vector2 impulse = new Vector2();
 	public void recoil(int x, int y, float power) {
 		
 		if (!alive) {
@@ -147,7 +149,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		float xImpulse = (getPosition().x - x) / powerDiv;
 		float yImpulse = (getPosition().y - y) / powerDiv;
 		
-		applyLinearImpulse(new Vector2(xImpulse, yImpulse));
+		applyLinearImpulse(impulse.set(xImpulse, yImpulse));
 	}
 	
 	public void push(float impulseX, float impulseY) {
@@ -156,7 +158,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			return;
 		}
 		
-		applyLinearImpulse(new Vector2(impulseX, impulseY));
+		applyLinearImpulse(impulse.set(impulseX, impulseY));
 	}
 
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
@@ -169,7 +171,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			setLinearVelocity(getLinearVelocity().x, 0);
 		}
 		
-		applyLinearImpulse(new Vector2(impulseX, impulseY));
+		applyLinearImpulse(impulse.set(impulseX, impulseY));
 	}
 	
 	/**

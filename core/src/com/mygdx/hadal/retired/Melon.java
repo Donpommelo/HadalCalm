@@ -1,5 +1,4 @@
-package com.mygdx.hadal.equip.misc;
-import com.mygdx.hadal.equip.Consumable;
+package com.mygdx.hadal.retired;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;

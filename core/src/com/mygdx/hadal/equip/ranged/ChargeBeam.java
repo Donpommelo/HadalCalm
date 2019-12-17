@@ -32,8 +32,8 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float recoil = 7.5f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 35.0f;
-	private final static int projectileWidth = 32;
-	private final static int projectileHeight = 32;
+	private final static int projectileWidth = 64;
+	private final static int projectileHeight = 64;
 	private final static float lifespan = 1.5f;
 	private final static float gravity = 0;
 	
@@ -47,7 +47,7 @@ public class ChargeBeam extends RangedWeapon {
 	private int chargeStage = 0;
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth * 2, maxCharge);
 	}
 	
 	@Override
@@ -84,20 +84,20 @@ public class ChargeBeam extends RangedWeapon {
 			chargeStage = 0;
 		}
 		
-		float sizeMultiplier = 1.5f;
+		float sizeMultiplier = 1.0f;
 		float speedMultiplier = 1.0f;
 		float damageMultiplier = 2.5f;
 		float kbMultiplier = 2;
 
 		switch(chargeStage) {
 		case 2:
-			sizeMultiplier = 3.5f;
+			sizeMultiplier = 2.0f;
 			speedMultiplier = 3.0f;
 			damageMultiplier = 5.0f;
 			kbMultiplier = 4.5f;
 			break;
 		case 1:
-			sizeMultiplier = 2.5f;
+			sizeMultiplier = 1.5f;
 			speedMultiplier = 2.0f;
 			damageMultiplier = 3.5f;
 			kbMultiplier = 3.0f;

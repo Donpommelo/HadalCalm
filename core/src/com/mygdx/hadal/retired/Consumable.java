@@ -1,8 +1,9 @@
-package com.mygdx.hadal.equip;
+package com.mygdx.hadal.retired;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;

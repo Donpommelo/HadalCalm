@@ -43,7 +43,7 @@ public class Boiler extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BOILER;
 	
 	public Boiler(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override

@@ -61,15 +61,13 @@ public class Underminer extends RangedWeapon {
 	private final static float fragSpeed = 40.0f;
 	
 	public Underminer(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
-		float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
-				filter, true, true, user, projSprite);
+		
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity, filter, true, true, user, projSprite);
 		
 		final Equipable tool = this;
 		
@@ -104,6 +102,7 @@ public class Underminer extends RangedWeapon {
 				}
 			}
 			
+			private Vector2 newVelocity = new Vector2();
 			@Override
 			public void die() {
 				WeaponUtils.createExplosion(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 
@@ -111,7 +110,8 @@ public class Underminer extends RangedWeapon {
 				
 				for (int i = 0; i < numProj; i++) {
 					float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-					Vector2 newVelocity = new Vector2(startVelocity);
+					
+					newVelocity.set(startVelocity);
 					
 					Hitbox frag = new HitboxSprite(state, 
 							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,

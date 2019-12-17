@@ -29,16 +29,18 @@ public class EmaudelinesPrism extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_DAMAGE, -0.30f, b),
 				new Status(state, name, descr, b) {
 			
+			private Vector2 projAngle1 = new Vector2();
+			private Vector2 projAngle2= new Vector2();
 			@Override
 			public void onShoot(Equipable tool) {				
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
-						new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
+						projAngle1.set(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
 				
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
-						new Vector2(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
+						projAngle2.set(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());

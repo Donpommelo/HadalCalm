@@ -19,7 +19,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Slodged;
 import com.mygdx.hadal.statuses.Status;
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class SlodgeGun extends RangedWeapon {
 
@@ -51,7 +50,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
 	public SlodgeGun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override
@@ -78,9 +77,8 @@ public class SlodgeGun extends RangedWeapon {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					Vector2 startVelocity = p.getMouse().getPosition().sub(inflicted.getSchmuck().getPosition()).scl(projectileSpeed);
-					Hitbox hbox = new HitboxSprite(state, 
-							inflicted.getSchmuck().getPosition().x * PPM, 
-							inflicted.getSchmuck().getPosition().y * PPM, 
+					Vector2 startPosition = inflicted.getSchmuck().getProjectileOrigin(startVelocity, projectileSize);
+					Hitbox hbox = new HitboxSprite(state, startPosition.x, startPosition.y, 
 							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 							filter, true, true, user, projSprite);
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

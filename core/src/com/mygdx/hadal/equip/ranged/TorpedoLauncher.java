@@ -35,7 +35,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_TORPEDO;
 	
 	public TorpedoLauncher(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override

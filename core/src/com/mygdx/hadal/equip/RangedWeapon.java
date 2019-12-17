@@ -6,8 +6,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 
@@ -28,6 +26,7 @@ public class RangedWeapon extends Equipable {
 	protected int clipLeft;
 	
 	protected int reloadAmount;
+	protected int projectileSize;
 	protected float recoil;
 	protected float projectileSpeed;
 
@@ -44,10 +43,14 @@ public class RangedWeapon extends Equipable {
 	 * @param shootCd: The delay after using this tool before you can use a tool again.
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
 	 * @param reloadAmount: The amount of clip restored upon one reload
-	 * @param onShoot: This is a factory that creates a hitbox
+	 * @param autoreload: Does this weapon automaticall begin reloading when at 0 clip? (exceptions for weapons that perform special actions on reload.)
+	 * @param weaponSprite: The weapon's multitool weapon
+	 * @param eventSprite: The weapon's pickup event sprite
+	 * @param chargeTime: The wepaon's max charge amount (only used for charge weapons)
+	 * @param projectileSize: The wepaon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
 	 */	
 	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
-			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float chargeTime) {
+			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, int projectileSize, float chargeTime) {
 		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite, chargeTime);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
@@ -60,11 +63,12 @@ public class RangedWeapon extends Equipable {
 		this.autoreload = autoreload;
 		this.recoil = recoil;
 		this.projectileSpeed = projectileSpeed;
+		this.projectileSize = projectileSize;
 	}
 	
 	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
-			boolean autoreload, Sprite weaponSprite, Sprite eventSprite) {
-		this(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, autoreload, weaponSprite, eventSprite, 1);
+			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, int projectileSize) {
+		this(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, autoreload, weaponSprite, eventSprite, projectileSize, 1);
 	}
 
 	/**
@@ -92,6 +96,7 @@ public class RangedWeapon extends Equipable {
 	 * This is run after the weapon's shootDelay to actually fire.
 	 * Here, the stored velo, recoil, filter are used to generate a projectile
 	 */
+	private Vector2 projOrigin = new Vector2();
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		
@@ -100,12 +105,10 @@ public class RangedWeapon extends Equipable {
 			
 			shooter.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, this, null);
 			
-			Vector2 projOffset = new Vector2(weaponVelo).nor().scl(15);
+			projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize));
 			
 			//Shoot			
-			fire(state, user, weaponVelo, 
-					shooter.getSchmuck().getPosition().x * PPM + projOffset.x,  
-					shooter.getSchmuck().getPosition().y * PPM + projOffset.y, faction);
+			fire(state, user, weaponVelo, projOrigin.x, projOrigin.y, faction);
 			
 			clipLeft--;
 			clipPercent = (float)clipLeft / getClipSize();

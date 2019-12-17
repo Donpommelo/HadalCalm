@@ -158,7 +158,7 @@ public class Turret extends Enemy {
 
 								@Override
 								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-									if (fixture.getUserData() == null) {
+									if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
 										if (fraction < shortestFraction) {
 											shortestFraction = fraction;
 											closestFixture = fixture;

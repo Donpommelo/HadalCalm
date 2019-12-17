@@ -44,7 +44,7 @@ public class Stormcaller extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
 	
 	public Stormcaller(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class Stormcaller extends RangedWeapon {
 
 				if (controllerCount >= explosionInterval) {
 					Hitbox pulse = new HitboxSprite(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, explosionSize, explosionSize, 
-							gravity, explosionInterval, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite);
+							gravity, explosionInterval, projDura, 0, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 					

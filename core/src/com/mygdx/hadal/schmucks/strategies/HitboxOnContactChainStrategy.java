@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Constants;
 
 public class HitboxOnContactChainStrategy extends HitboxStrategy{
 	
@@ -53,7 +54,7 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 
 									@Override
 									public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-										if (fixture.getUserData() == null) {
+										if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
 											if (fraction < shortestFraction) {
 												shortestFraction = fraction;
 												closestFixture = fixture;

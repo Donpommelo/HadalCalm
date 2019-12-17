@@ -168,13 +168,7 @@ public class Boss extends Enemy {
 
 							@Override
 							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-								if (fixture.getUserData() == null) {
-									if (fraction < shortestFraction) {
-										shortestFraction = fraction;
-										closestFixture = fixture;
-										return fraction;
-									}
-								} else if (fixture.getUserData() instanceof BodyData) {
+								if (fixture.getUserData() instanceof BodyData) {
 									if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
 										if (fraction < shortestFraction) {
 											shortestFraction = fraction;

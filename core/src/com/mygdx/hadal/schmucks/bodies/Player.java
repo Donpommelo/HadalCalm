@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -646,6 +649,39 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			super.onClientSync(o);
 		}
+	}
+	
+	private float shortestFraction;
+	private Vector2 originPt = new Vector2();
+	private Vector2 endPt = new Vector2();
+	private Vector2 offset = new Vector2();
+	private final static float spawnDist = 1.1f;
+	
+	@Override
+	public Vector2 getProjectileOrigin(Vector2 startVelo, int projSize) {
+		
+		offset.set(startVelo);
+		endPt.set(getPosition()).add(offset.nor().scl(spawnDist + projSize / 2 /PPM));
+		shortestFraction = 1.0f;
+		
+		if (getPosition().x != endPt.x || getPosition().y != endPt.y) {
+
+			state.getWorld().rayCast(new RayCastCallback() {
+
+				@Override
+				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+					
+					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL && fraction < shortestFraction) {
+							shortestFraction = fraction;
+							return fraction;
+					}
+					return -1.0f;
+				}
+				
+			}, getPosition(), endPt);
+		}
+		originPt.set(getPosition());
+		return originPt.add(offset.nor().scl((spawnDist + projSize / 2 /PPM) * shortestFraction)).scl(PPM);
 	}
 	
 	@Override

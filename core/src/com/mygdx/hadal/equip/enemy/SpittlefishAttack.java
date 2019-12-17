@@ -36,7 +36,7 @@ public class SpittlefishAttack extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.SPIT;
 	
 	public SpittlefishAttack(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileWidth);
 	}
 
 	@Override

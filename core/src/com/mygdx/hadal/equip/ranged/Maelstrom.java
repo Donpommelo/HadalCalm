@@ -42,7 +42,7 @@ public class Maelstrom extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	public Maelstrom(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override

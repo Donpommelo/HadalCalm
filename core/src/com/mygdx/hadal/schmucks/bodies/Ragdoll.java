@@ -45,6 +45,7 @@ public class Ragdoll extends HadalEntity {
 		}
 	}
 
+	private Vector2 newVelocity = new Vector2();
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
@@ -54,7 +55,7 @@ public class Ragdoll extends HadalEntity {
 		setAngularVelocity(startAngle * veloAmp);
 		
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-		Vector2 newVelocity = new Vector2(startVelo);
+		newVelocity.set(startVelo);
 		
 		setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
 	}

@@ -83,7 +83,6 @@
   <object id="24" name="Sensor" type="Sensor" x="256" y="1056" width="768" height="32">
    <properties>
     <property name="event" type="bool" value="true"/>
-    <property name="oneTime" type="bool" value="false"/>
     <property name="player" type="bool" value="false"/>
     <property name="triggeringId" value="onMiss"/>
    </properties>

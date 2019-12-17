@@ -41,7 +41,7 @@ public class Iceberg extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_ICEBERG;
 	
 	public Iceberg(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override
@@ -77,9 +77,10 @@ public class Iceberg extends RangedWeapon {
 				}
 			}
 			
+			private Vector2 impulse = new Vector2();
 			@Override
 			public void push(float impulseX, float impulseY) {
-				hbox.applyLinearImpulse(new Vector2(impulseX, impulseY).scl(0.2f));
+				hbox.applyLinearImpulse(impulse.set(impulseX, impulseY).scl(0.2f));
 			}
 			
 			@Override

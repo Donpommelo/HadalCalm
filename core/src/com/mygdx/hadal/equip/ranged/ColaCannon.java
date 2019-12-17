@@ -18,7 +18,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class ColaCannon extends RangedWeapon {
 
@@ -50,10 +49,10 @@ public class ColaCannon extends RangedWeapon {
 	
 	private final static float maxCharge = 200.0f;
 
-	private Vector2 lastMouse = new Vector2(0, 0);
+	private Vector2 lastMouse = new Vector2();
 	
 	public ColaCannon(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth, maxCharge);
 	}
 	
 	@Override
@@ -66,7 +65,7 @@ public class ColaCannon extends RangedWeapon {
 			}
 		}
 		
-		lastMouse = new Vector2(x, y);
+		lastMouse.set(x, y);
 		super.mouseClicked(delta, state, shooter, faction, x, y);
 	}
 	
@@ -114,11 +113,10 @@ public class ColaCannon extends RangedWeapon {
 						currentVelocity -= 1.0f;
 					}
 					
-					Vector2 startVelocity = p.getMouse().getPosition()
-							.sub(inflicted.getSchmuck().getPosition()).nor().scl(currentVelocity);
-					Hitbox hbox = new HitboxSprite(state, 
-							inflicted.getSchmuck().getPosition().x * PPM, 
-							inflicted.getSchmuck().getPosition().y * PPM, 
+					Vector2 startVelocity = p.getMouse().getPosition().sub(inflicted.getSchmuck().getPosition()).nor().scl(currentVelocity);
+					Vector2 startPosition = inflicted.getSchmuck().getProjectileOrigin(startVelocity, projectileSize);
+					
+					Hitbox hbox = new HitboxSprite(state, startPosition.x, startPosition.y,
 							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 							filter, true, true, user, projSprite);
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

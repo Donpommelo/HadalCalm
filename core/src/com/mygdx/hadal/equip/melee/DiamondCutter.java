@@ -67,12 +67,13 @@ public class DiamondCutter extends MeleeWeapon {
 					hbox.setAngularVelocity(spinSpeed);
 				}
 				
+				private Vector2 projOffset = new Vector2();
 				@Override
 				public void controller(float delta) {
 					float xImpulse = -(shooter.getSchmuck().getPosition().x - ((Player)shooter.getSchmuck()).getMouse().getPosition().x);
 					float yImpulse = -(shooter.getSchmuck().getPosition().y - ((Player)shooter.getSchmuck()).getMouse().getPosition().y);
 							
-					Vector2 projOffset = new Vector2(xImpulse, yImpulse).nor().scl(range);
+					projOffset.set(xImpulse, yImpulse).nor().scl(range);
 					hbox.setTransform(
 							shooter.getSchmuck().getPosition().x + projOffset.x / PPM,  
 							shooter.getSchmuck().getPosition().y + projOffset.y / PPM,

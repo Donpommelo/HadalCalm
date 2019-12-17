@@ -36,7 +36,7 @@ public class FeetData extends HadalData {
 	public void onStomp(HadalData fixB) {
 		if (footHaver.isStomping()) {
 			if (fixB instanceof BodyData) {
-				fixB.receiveDamage(stompDamage, new Vector2(0, 0), footHaver.getBodyData(), null, true);
+				fixB.receiveDamage(stompDamage, new Vector2(), footHaver.getBodyData(), null, true);
 			}
 		}
 	}

@@ -15,6 +15,7 @@ public class PhysicsSchmuck extends Schmuck {
 		super(state, w, h, startX, startY, hitboxFilter);
 	}
 	
+	private Vector2 force = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -66,7 +67,7 @@ public class PhysicsSchmuck extends Schmuck {
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
 			
-			Vector2 force = new Vector2(newX - currentVel.x, newY - currentVel.y).scl(getMass());
+			force.set(newX - currentVel.x, newY - currentVel.y).scl(getMass());
 			applyLinearImpulse(force);
 		}
 	}

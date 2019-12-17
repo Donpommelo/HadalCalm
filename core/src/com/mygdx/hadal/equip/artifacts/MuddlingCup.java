@@ -27,9 +27,10 @@ public class MuddlingCup extends Artifact {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new Status(state, name, descr, b) {
 			
+			private Vector2 projAngle = new Vector2();
 			@Override
 			public void onAirBlast(Equipable tool) {
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), new Vector2(tool.getWeaponVelo()).scl(projSpeed),
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle.set(tool.getWeaponVelo()).scl(projSpeed),
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());

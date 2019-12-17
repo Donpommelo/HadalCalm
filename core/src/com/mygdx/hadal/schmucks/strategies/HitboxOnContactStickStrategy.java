@@ -13,7 +13,7 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 	private boolean stickToWalls, stickToDudes, stuckToWall, stuckToDude;
 	private float angle;
 	private HadalEntity target;
-	private Vector2 location;
+	private Vector2 location = new Vector2();
 	
 	public HitboxOnContactStickStrategy(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {
 		super(state, proj, user);
@@ -31,7 +31,7 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 					stuckToDude = true;
 					target = fixB.getEntity();
 					angle = hbox.getOrientation();
-					location = new Vector2(
+					location.set(
 							hbox.getPosition().x - target.getPosition().x, 
 							hbox.getPosition().y - target.getPosition().y);		
 				}
@@ -39,14 +39,14 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 					stuckToWall = true;
 					target = fixB.getEntity();
 					angle = hbox.getOrientation();
-					location = new Vector2(
+					location.set(
 							hbox.getPosition().x - target.getPosition().x, 
 							hbox.getPosition().y - target.getPosition().y);		
 				}
 			} else if (stickToWalls) {
 				stuckToWall = true;
 				angle = hbox.getOrientation();
-				location = new Vector2(hbox.getPosition());
+				location.set(hbox.getPosition());
 			}
 		}
 	}

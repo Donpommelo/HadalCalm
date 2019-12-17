@@ -44,13 +44,13 @@ public class TrickGun extends RangedWeapon {
 	private final static float projectileSpeedAfter = 55.0f;
 
 	private boolean firstClicked = false;
-	private Vector2 pos1 = new Vector2(0, 0);
-	private Vector2 pos2 = new Vector2(0, 0);
-	private Vector2 vel1 = new Vector2(0, 0);
-	private Vector2 vel2 = new Vector2(0, 0);
+	private Vector2 pos1 = new Vector2();
+	private Vector2 pos2 = new Vector2();
+	private Vector2 vel1 = new Vector2();
+	private Vector2 vel2 = new Vector2();
 	
 	public TrickGun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override
@@ -96,12 +96,12 @@ public class TrickGun extends RangedWeapon {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private boolean firstReached = false;
-			private Vector2 startLocation;
+			private Vector2 startLocation = new Vector2();
 			private float distance;
 			
 			@Override
 			public void create() {
-				this.startLocation = new Vector2(hbox.getPosition());
+				this.startLocation.set(hbox.getPosition());
 				this.distance = startLocation.dst(pos1);
 			}
 			

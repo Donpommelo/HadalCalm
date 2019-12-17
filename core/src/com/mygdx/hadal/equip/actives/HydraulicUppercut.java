@@ -43,8 +43,7 @@ public class HydraulicUppercut extends ActiveItem {
 
 		user.getPlayer().push(0, recoil);
 		
-		Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, new Vector2(0, 0), 
-				new Vector2(0, 0), true, user.getPlayer().getHitboxfilter(), user.getPlayer());
+		Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, new Vector2(0, 0), new Vector2(0, 0), true, user.getPlayer().getHitboxfilter(), user.getPlayer());
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));

@@ -21,6 +21,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -145,7 +146,7 @@ public class FloatingEnemy extends SteeringEnemy {
 
 								@Override
 								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-									if (fixture.getUserData() == null) {
+									if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL && fraction < shortestFraction) {
 										if (fraction < shortestFraction) {
 											shortestFraction = fraction;
 											closestFixture = fixture;

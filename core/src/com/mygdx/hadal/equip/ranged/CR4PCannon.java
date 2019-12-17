@@ -46,9 +46,10 @@ public class CR4PCannon extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	public CR4PCannon(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
+	private Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
 		for (int i = 0; i < numProj; i++) {
@@ -58,7 +59,7 @@ public class CR4PCannon extends RangedWeapon {
 			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 			Sprite projSprite = projSprites[randomIndex];
 			
-			Vector2 newVelocity = new Vector2(startVelocity);
+			newVelocity.set(startVelocity);
 			
 			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, newVelocity.setAngle(newDegrees),
 					filter, true, true, user, projSprite);

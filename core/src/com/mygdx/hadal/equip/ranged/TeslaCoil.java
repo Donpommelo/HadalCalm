@@ -54,7 +54,7 @@ public class TeslaCoil extends RangedWeapon {
 	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
 
 	public TeslaCoil(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override
@@ -69,13 +69,13 @@ public class TeslaCoil extends RangedWeapon {
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
-			private Vector2 startLocation;
+			private Vector2 startLocation = new Vector2();
 			private float distance;
 			private boolean activated = false;
 			
 			@Override
 			public void create() {
-				this.startLocation = new Vector2(hbox.getPosition());
+				this.startLocation.set(hbox.getPosition());
 				this.distance = startLocation.dst(endLocation);
 			}
 			
@@ -144,10 +144,10 @@ public class TeslaCoil extends RangedWeapon {
 		hbox1.setLifeSpan(activatedDuration);
 		hbox2.setLifeSpan(activatedDuration);
 		
-		Hitbox new1 = new Hitbox(state, pos1.x, pos1.y, projectileWidth, projectileHeight, gravity, activatedDuration, projDura, 0, new Vector2(0, 0),
+		Hitbox new1 = new Hitbox(state, pos1.x, pos1.y, projectileWidth, projectileHeight, gravity, activatedDuration, projDura, 0, new Vector2(),
 				hbox1.getFilter(), true, true, user);
 		
-		final Vector2 startVelocity = new Vector2(0, 0);
+		final Vector2 startVelocity = new Vector2();
 		
 		float powerDiv = pos1.dst(pos2) / pulseSpeed;
 		
@@ -170,7 +170,7 @@ public class TeslaCoil extends RangedWeapon {
 					controllerCount -= pulseInterval;
 					Hitbox pulse = new HitboxSprite(state, pos1.x, pos1.y,
 							(int) (pos1.dst(pos2) * 2), pulseSize, gravity, 
-							pulseInterval, projDura, 0, new Vector2(0, 0), hbox.getFilter(), true, true, user, projSprite) {
+							pulseInterval, projDura, 0, new Vector2(), hbox.getFilter(), true, true, user, projSprite) {
 						
 						@Override
 						public void create() {

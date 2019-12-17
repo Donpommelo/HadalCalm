@@ -25,7 +25,7 @@ public class BeeGun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BEEGUN;
 	
 	public BeeGun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 23);
 	}
 
 	@Override

@@ -32,14 +32,14 @@ public class Minigun extends RangedWeapon {
 	private final static float recoil = 0.25f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static int projectileWidth = 120;
-	private final static int projectileHeight = 15;
+	private final static int projectileWidth = 96;
+	private final static int projectileHeight = 12;
 	private final static float lifespan = 1.20f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
 	
-	private final static int spread = 20;
+	private final static int spread = 10;
 
 	private final static Sprite projSprite = Sprite.BULLET;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -50,7 +50,7 @@ public class Minigun extends RangedWeapon {
 	private static final float selfSlowMag = 0.75f;
 	
 	public Minigun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth, maxCharge);
 	}
 	
 	@Override

@@ -43,7 +43,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float moveInterval = 0.04f;
 	
 	public Moraygun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class Moraygun extends RangedWeapon {
 		final int numY = (int) (startVelocity.y / projectileHeight);
 		
 		for (int i = 0; i < numProj; i++) {
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, new Vector2(0, 0),
+			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, new Vector2(),
 					filter, true, true, user, projSprite);
 			
 			final int num = i;

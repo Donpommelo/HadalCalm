@@ -238,6 +238,10 @@ public class Schmuck extends HadalEntity {
 		}
 	}
 	
+	public Vector2 getProjectileOrigin(Vector2 startVelo, int projSize) {
+		return body.getPosition().scl(PPM);
+	}
+	
 	@Override
 	public HadalData getHadalData() {
 		return bodyData;

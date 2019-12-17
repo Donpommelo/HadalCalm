@@ -40,6 +40,7 @@ public class UIObjective extends AHadalActor {
 	}
 	
 	private float x, y, angle;
+	private Vector2 toObjective = new Vector2();
 	@Override
     public void draw(Batch batch, float alpha) {
 
@@ -52,7 +53,7 @@ public class UIObjective extends AHadalActor {
 			float yDist = (player.getPosition().y * PPM) - (state.getObjectiveTarget().getPosition().y * PPM);		
 			
 			if (Math.abs(xDist) > HadalGame.CONFIG_WIDTH / 2 || Math.abs(yDist) > HadalGame.CONFIG_HEIGHT / 2) {
-				Vector2 toObjective = new Vector2(xDist, yDist);
+				toObjective.set(xDist, yDist);
 				
 				angle = SteeringUtil.vectorToAngle(toObjective);
 				

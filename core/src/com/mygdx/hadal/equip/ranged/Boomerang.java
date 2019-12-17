@@ -45,7 +45,7 @@ public class Boomerang extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public Boomerang(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
 	}
 	
 	@Override
@@ -61,6 +61,7 @@ public class Boomerang extends RangedWeapon {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float controllerCount = 0;
+			private Vector2 diff = new Vector2();
 			
 			@Override
 			public void create() {
@@ -72,7 +73,7 @@ public class Boomerang extends RangedWeapon {
 				controllerCount+=delta;
 
 				if (controllerCount >= 1/60f) {
-					Vector2 diff = new Vector2(user.getPosition().x * PPM - hbox.getPosition().x * PPM, 
+					diff.set(user.getPosition().x * PPM - hbox.getPosition().x * PPM, 
 							user.getPosition().y * PPM - hbox.getPosition().y * PPM);
 					
 					hbox.applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getMass() * returnAmp));

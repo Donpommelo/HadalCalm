@@ -61,6 +61,7 @@ public class EventMover extends Event {
 				(short) (0), (short) 0, true, eventData);
 	}
 	
+	private Vector2 dist = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (moving) {
@@ -69,7 +70,7 @@ public class EventMover extends Event {
 				getConnectedEvent().setGravityScale(gravity);
 			}
 			
-			Vector2 dist = new Vector2(getPosition().sub(getConnectedEvent().getPosition()));
+			dist.set(getPosition().sub(getConnectedEvent().getPosition()));
 			getConnectedEvent().setTransform(getPosition(), 0);
 			
 			if (getConnectedEvent() instanceof MovingPlatform) {
