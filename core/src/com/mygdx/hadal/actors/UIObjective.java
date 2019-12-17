@@ -32,9 +32,9 @@ public class UIObjective extends AHadalActor {
 		this.player = player;
 		this.state = state;
 		
-		this.base = Sprite.UI_MO_BASE.getFrames().first();
-		this.ready = Sprite.UI_MO_READY.getFrames().first();
-		this.overlay = Sprite.UI_MO_OVERLAY.getFrames().first();
+		this.base = Sprite.UI_MO_BASE.getFrame();
+		this.ready = Sprite.UI_MO_READY.getFrame();
+		this.overlay = Sprite.UI_MO_OVERLAY.getFrame();
 		
 		this.corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
 	}

@@ -1,20 +1,20 @@
 package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.managers.AssetList;
+import com.mygdx.hadal.effects.Sprite;
 
 public enum UnlockCharacter {
 
-	MOREAU(AssetList.PLAYER_MOREAU_ATL.toString()),
-	TELEMACHUS(AssetList.PLAYER_TELE_ATL.toString()),
-	TAKANORI(AssetList.PLAYER_TAKA_ATL.toString()),
-	MOREAU_FESTIVE(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString())
+	MOREAU(Sprite.SpriteType.MOREAU),
+	TELEMACHUS(Sprite.SpriteType.TELEMACHUS),
+	TAKANORI(Sprite.SpriteType.TAKANORI),
+	MOREAU_FESTIVE(Sprite.SpriteType.MOREAU_FESTIVE)
 	;
 	
-	private String sprite;
+	private Sprite.SpriteType sprite;
 	private InfoCharacter info;
 	
-	UnlockCharacter(String sprite) {
+	UnlockCharacter(Sprite.SpriteType sprite) {
 		this.sprite = sprite;
 	}
 
@@ -38,11 +38,7 @@ public enum UnlockCharacter {
 		this.info = info;
 	}
 
-	public void setSprite(String sprite) {
-		this.sprite = sprite;
-	}
-
-	public String getSprite() {
+	public Sprite.SpriteType getSprite() {
 		return sprite;
 	}
 	

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.enemy.TorpedofishAttack;
 import com.mygdx.hadal.states.PlayState;
 
@@ -21,10 +22,10 @@ public class Torpedofish extends FloatingEnemy {
 	private static final int boundingRadius = 500;
 	private static final int decelerationRadius = 100;
 	
-	private static final String spriteId = "torpedofish_swim";
+	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 
 	public Torpedofish(PlayState state, int x, int y, short filter) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, spriteId, enemyType.TORPEDOFISH,
+		super(state, x, y, width, height, hbWidth, hbHeight, scale, sprite, enemyType.TORPEDOFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
 				boundingRadius, decelerationRadius, filter);
 		

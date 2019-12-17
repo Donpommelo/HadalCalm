@@ -6,18 +6,18 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
@@ -61,15 +61,11 @@ public class Player extends PhysicsSchmuck {
 		
 	public static final float scale = 0.15f;
 	
-	private TextureAtlas atlasBody;
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
-	
 	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 	
 	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
 	toolHeight, toolWidth, gemHeight, gemWidth;
-	
-	private final float spriteAnimationSpeed = 0.08f;
 	
 	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
@@ -135,7 +131,7 @@ public class Player extends PhysicsSchmuck {
 		this.name = name;
 		airblast = new Airblaster(this);
 		
-		toolSprite = GameStateManager.multitoolAtlas.findRegion("default");
+		toolSprite = Sprite.MT_DEFAULT.getFrame();
 		
 		this.toolHeight = toolSprite.getRegionHeight();
 		this.toolWidth = toolSprite.getRegionWidth();
@@ -145,7 +141,7 @@ public class Player extends PhysicsSchmuck {
 		this.startLoadout = startLoadout;
 		this.playerData = oldData;
 		
-		setBodySprite(startLoadout.character.getSprite());
+		setBodySprite(startLoadout.character);
 		loadParticles();
 		
 		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
@@ -156,16 +152,15 @@ public class Player extends PhysicsSchmuck {
 	 * This method prepares the player sprite from various texture regions.
 	 * @param playerSprite
 	 */
-	public void setBodySprite(String playerSprite) {
-		
-		atlasBody = (TextureAtlas) HadalGame.assetManager.get(playerSprite);
-		bodyRunSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_run"));	
-		bodyStillSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("body_stand"));	
-		bodyBackSprite = atlasBody.findRegion("body_background");
-		armSprite = atlasBody.findRegion("arm");
-		headSprite = new Animation<TextureRegion>(spriteAnimationSpeed, atlasBody.findRegions("head"));	
-		gemSprite = atlasBody.findRegion("gem_active");
-		gemInactiveSprite = atlasBody.findRegion("gem_inactive");
+	public void setBodySprite(UnlockCharacter character) {
+
+		bodyRunSprite =  new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_run").getFrames());	
+		bodyStillSprite =  new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "body_stand").getFrames());	
+		bodyBackSprite = Sprite.getCharacterSprites(character.getSprite(), "body_background").getFrame();
+		armSprite = Sprite.getCharacterSprites(character.getSprite(), "arm").getFrame();
+		headSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, Sprite.getCharacterSprites(character.getSprite(), "head").getFrames());	
+		gemSprite = Sprite.getCharacterSprites(character.getSprite(), "gem_active").getFrame();
+		gemInactiveSprite = Sprite.getCharacterSprites(character.getSprite(), "gem_inactive").getFrame();
 		
 		this.armWidth = armSprite.getRegionWidth();
 		this.armHeight = armSprite.getRegionHeight();
@@ -429,13 +424,6 @@ public class Player extends PhysicsSchmuck {
 			attackAngle = attackAngleClient;
 		}
 		
-		
-/*		for (ParticleEmitter p : hoverBubbles.getEffect().getEmitters()) {
-			p.getAngle().setHighMax(attackAngle);
-            p.getAngle().setHighMin(attackAngle);
-            p.getAngle().setLow(attackAngle, attackAngle);
-		}*/
-		
 		boolean flip = false;
 		
 		if (Math.abs(attackAngle) > 90) {
@@ -573,23 +561,27 @@ public class Player extends PhysicsSchmuck {
 		if (alive) {
 			new Ragdoll(state, headWidth * scale, headHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), (TextureRegion) headSprite.getKeyFrame(animationTime, true), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, bodyWidth * scale, bodyHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, armWidth * scale, armHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), armSprite, getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, bodyBackWidth * scale, bodyBackHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), bodyBackSprite, getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), 5.0f);
+			
+			new Ragdoll(state, gemWidth * scale, gemHeight * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), 5.0f);
 			
 			new Ragdoll(state, toolWidth * scale, toolHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), toolSprite, getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), 5.0f);
 		}
 	}
 	
@@ -638,7 +630,7 @@ public class Player extends PhysicsSchmuck {
 			grounded = p.grounded;
 			playerData.setCurrentSlot(p.currentSlot);
 			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
-			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrames().get(0));
+			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
 			playerData.setOverrideMaxHp(p.maxHp);
 			playerData.setOverrideMaxFuel(p.maxFuel);
 			playerData.setOverrideClipSize(p.maxClip);

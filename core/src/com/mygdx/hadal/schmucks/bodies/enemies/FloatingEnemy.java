@@ -5,19 +5,18 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -45,8 +44,7 @@ public class FloatingEnemy extends SteeringEnemy {
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
-  	private TextureAtlas atlas;
-	private TextureRegion fishSprite;
+	protected Animation<? extends TextureRegion> sprite;
 	
 	private int width, height, hbWidth, hbHeight;
 	
@@ -65,7 +63,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, String spriteId, enemyType type,
+	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, Sprite sprite, enemyType type,
 			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, type,
 				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter);
@@ -78,8 +76,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		this.moveState = SchmuckMoveStates.FISH_ROAMING;
 		
-		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
-		fishSprite = atlas.findRegion(spriteId);
+		this.sprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
 	}
 	
 	/**
@@ -194,11 +191,6 @@ public class FloatingEnemy extends SteeringEnemy {
 		aiCdCount -= delta;
 	}
 	
-	@Override
-	public float getAttackAngle() {
-		return (float) (getOrientation() + Math.PI / 2);
-	}
-	
 	/**
 	 * draws enemy
 	 */
@@ -215,7 +207,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			batch.setShader(HadalGame.shader);
 		}
 		
-		batch.draw(fishSprite, 
+		batch.draw((TextureRegion) sprite.getKeyFrame(animationTime, true), 
 				getPosition().x * PPM - hbHeight * scale / 2, 
 				(flip ? height * scale : 0) + getPosition().y * PPM - hbWidth * scale / 2, 
 				hbHeight * scale / 2, 
@@ -226,15 +218,5 @@ public class FloatingEnemy extends SteeringEnemy {
 		if (flashingCount > 0) {
 			batch.setShader(null);
 		}
-	}
-	
-	@Override
-	public boolean queueDeletion() {
-		if (alive) {
-			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), fishSprite, getLinearVelocity(), 0.5f);
-		}
-		return super.queueDeletion();
 	}
 }

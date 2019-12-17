@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.World;
@@ -9,7 +8,6 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.NothingActive;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.melee.Fisticuffs;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -149,7 +147,7 @@ public class PlayerBodyData extends BodyData {
 		replaceStartingArtifact(newLoadout.startifact);
 		
 		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
-		player.setBodySprite(newLoadout.character.getSprite());
+		player.setBodySprite(newLoadout.character);
 		
 		this.loadout = newLoadout;
 		
@@ -178,7 +176,7 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		if (character != null) {
-			getPlayer().setBodySprite(character.getSprite());
+			getPlayer().setBodySprite(character);
         	getPlayer().getPlayerData().getLoadout().character = character;
 		}
 	}
@@ -463,7 +461,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void setEquip() {
 		currentTool = multitools[currentSlot];
-		player.setToolSprite(currentTool.getWeaponSprite().getFrames().get(0));
+		player.setToolSprite(currentTool.getWeaponSprite().getFrame());
 		
 		currentTool.setReloading(false);
 		currentTool.setCharging(false);
@@ -533,8 +531,10 @@ public class PlayerBodyData extends BodyData {
 	public void die(BodyData perp, Equipable tool) {
 		if (player.isAlive()) {
 			
-			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getPosition().x * PPM , schmuck.getPosition().y * PPM, 
-					schmuck, tool, 500, 0, 0, (short)0);
+//			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getPosition().x * PPM , schmuck.getPosition().y * PPM, 
+//					schmuck, tool, 500, 0, 0, (short)0);
+			
+			player.createGibs();
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
 			

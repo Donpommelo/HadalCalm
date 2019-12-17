@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.managers.AssetList;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -38,9 +38,9 @@ public class UIPlayer extends AHadalActor {
 		this.players = new ArrayList<Player>();
 		this.state = state;
 		
-		this.reload = GameStateManager.uiAtlas.findRegion("UI_reload");
-		this.reloadMeter = GameStateManager.uiAtlas.findRegion("UI_reload_meter");
-		this.reloadBar = GameStateManager.uiAtlas.findRegion("UI_reload_bar");
+		this.reload = Sprite.UI_RELOAD.getFrame();
+		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
+		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
 		
 		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
 		this.full = new Texture(AssetList.HEART_FULL.toString());

@@ -27,6 +27,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * event: Boolean that describes whether this sensor touches events. Optional. Default: false
  * enemy: Boolean that describes whether this sensor touches enemies. Optional. Default: false
  * gravity: float that determines the gravity of the object. Optional. Default: 0.0f. Currently only used for falling targets in NASU
+ * collision: Do we add a collision hbox to this event? This is used on dynamically spawned pickups so they can have gravity while not pasing through walls.
  * @author Zachary Tu
  *
  */
@@ -37,8 +38,7 @@ public class Sensor extends Event {
 	private short filter;
 	private boolean collision;
 	
-	public Sensor(PlayState state, int width, int height, int x, int y, boolean player, boolean hbox, boolean event, boolean enemy,
-			float gravity, boolean collision) {
+	public Sensor(PlayState state, int width, int height, int x, int y, boolean player, boolean hbox, boolean event, boolean enemy,	float gravity, boolean collision) {
 		super(state, name, width, height, x, y);
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 		this.gravity = gravity;

@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
@@ -34,13 +35,13 @@ public class Ragdoll extends HadalEntity {
 	private Vector2 startVelo;
 	private float startAngle;
 	
-	public Ragdoll(PlayState state, float w, float h, int x, int y, TextureRegion sprite, Vector2 startVelo, float duration) {
+	public Ragdoll(PlayState state, float w, float h, int x, int y, Sprite sprite, Vector2 startVelo, float duration) {
 		super(state, w, h, x, y);
 		this.startVelo = startVelo;
 		this.startAngle = baseAngle;
 		this.ragdollDuration = duration;
 		if (sprite != null) {
-			illusionSprite = sprite;
+			illusionSprite = sprite.getFrame();
 		}
 	}
 

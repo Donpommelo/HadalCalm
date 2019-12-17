@@ -61,13 +61,14 @@ public class UIPlay extends AHadalActor {
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
-		this.main = Sprite.UI_MAIN_OVERLAY.getFrames().first();
-		this.reloading = Sprite.UI_MAIN_RELOAD.getFrames().first();
-		this.hp = Sprite.UI_MAIN_HEALTHBAR.getFrames().first();
-		this.hpLow = Sprite.UI_MAIN_HEALTH_LOW.getFrames().first();
-		this.hpMissing = Sprite.UI_MAIN_HEALTH_MISSING.getFrames().first();
-		this.fuel = Sprite.UI_MAIN_FUELBAR.getFrames().first();
-		this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrames().first();
+		this.main = Sprite.UI_MAIN_OVERLAY.getFrame();
+		this.reloading = Sprite.UI_MAIN_RELOAD.getFrame();
+		this.hp = Sprite.UI_MAIN_HEALTHBAR.getFrame();
+		this.hpLow = Sprite.UI_MAIN_HEALTH_LOW.getFrame();
+		this.hpMissing = Sprite.UI_MAIN_HEALTH_MISSING.getFrame();
+		this.fuel = Sprite.UI_MAIN_FUELBAR.getFrame();
+		this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrame();
+		
 		this.itemNull = Sprite.UI_MAIN_NULL.getFrames();
 		this.itemSelect = Sprite.UI_MAIN_SELECTED.getFrames();
 		this.itemUnselect = Sprite.UI_MAIN_UNSELECTED.getFrames();

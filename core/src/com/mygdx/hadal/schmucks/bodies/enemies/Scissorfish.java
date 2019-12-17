@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.enemy.ScissorfishAttack;
 import com.mygdx.hadal.states.PlayState;
 
@@ -21,10 +22,10 @@ public class Scissorfish extends FloatingEnemy {
 	private static final int boundingRadius = 500;
 	private static final int decelerationRadius = 0;
 	
-	private static final String spriteId = "scissorfish_swim";
+	private static final Sprite sprite = Sprite.FISH_SCISSOR;
 	
 	public Scissorfish(PlayState state, int x, int y, short filter) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, spriteId, enemyType.SCISSORFISH,
+		super(state, x, y, width, height, hbWidth, hbHeight, scale, sprite, enemyType.SCISSORFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
 				boundingRadius, decelerationRadius, filter);
 		

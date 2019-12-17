@@ -37,9 +37,9 @@ public class ArtifactTag extends AHadalActor {
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = Color.WHITE;
 		
-		this.base = Sprite.UI_MO_BASE.getFrames().first();
-		this.ready = Sprite.UI_MO_READY.getFrames().first();
-		this.overlay = Sprite.UI_MO_OVERLAY.getFrames().first();
+		this.base = Sprite.UI_MO_BASE.getFrame();
+		this.ready = Sprite.UI_MO_READY.getFrame();
+		this.overlay = Sprite.UI_MO_OVERLAY.getFrame();
 		
 		mouseOver = false;
 		

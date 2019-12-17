@@ -1,5 +1,6 @@
 package com.mygdx.hadal.managers;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
@@ -38,7 +39,9 @@ public class GameStateManager {
 	//skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.
 	private Skin skin;
 	private NinePatchDrawable dialogPatch, simplePatch;
-	public static TextureAtlas projectileAtlas, multitoolAtlas, eventAtlas, explosionAtlas, uiAtlas;
+	
+	private static ArrayList<TextureAtlas> atlases = new ArrayList<TextureAtlas>();
+	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
 	public static TextureAtlas particleAtlas, particleTOTLCAtlas, partycleAtlas, starAtlas, exclamationAtlas, impactAtlas, starShotAtlas;
 	
 	//This is a stored list of all the dialog in the game, read from json file.
@@ -109,20 +112,22 @@ public class GameStateManager {
 		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
 		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
 		
-		GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString());
+		atlases.add(GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString()));
 		
-		GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
-		GameStateManager.multitoolAtlas = HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
-		GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
-		GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString());
-		GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
+		atlases.add(GameStateManager.projectileAtlas = HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString()));
+		atlases.add(GameStateManager.multitoolAtlas = HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString()));
+		atlases.add(GameStateManager.fishAtlas = HadalGame.assetManager.get(AssetList.FISH_ATL.toString()));
+		atlases.add(GameStateManager.turretAtlas = HadalGame.assetManager.get(AssetList.TURRET_ATL.toString()));
+		atlases.add(GameStateManager.eventAtlas = HadalGame.assetManager.get(AssetList.EVENT_ATL.toString()));
+		atlases.add(GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
+		atlases.add(GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
 		
-		GameStateManager.particleTOTLCAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_TOTLC_ATLAS.toString());
-		GameStateManager.partycleAtlas = HadalGame.assetManager.get(AssetList.PARTYCLE_ATLAS.toString());
-		GameStateManager.starAtlas = HadalGame.assetManager.get(AssetList.STAR_PARTICLE.toString());
-		GameStateManager.exclamationAtlas = HadalGame.assetManager.get(AssetList.EXCLAMATION_ATLAS.toString());
-		GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString());
-		GameStateManager.starShotAtlas = HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString());
+		atlases.add(GameStateManager.particleTOTLCAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_TOTLC_ATLAS.toString()));
+		atlases.add(GameStateManager.partycleAtlas = HadalGame.assetManager.get(AssetList.PARTYCLE_ATLAS.toString()));
+		atlases.add(GameStateManager.starAtlas = HadalGame.assetManager.get(AssetList.STAR_PARTICLE.toString()));
+		atlases.add(GameStateManager.exclamationAtlas = HadalGame.assetManager.get(AssetList.EXCLAMATION_ATLAS.toString()));
+		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString()));
+		atlases.add(GameStateManager.starShotAtlas = HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString()));
 	}
 	
 	/**
@@ -149,25 +154,10 @@ public class GameStateManager {
 		}
 		states.clear();
 		
-		//Also dispose of atlases.
-		if (particleAtlas != null) {
-			particleAtlas.dispose();
+		for (TextureAtlas atlas: atlases) {
+			atlas.dispose();
 		}
-		if (projectileAtlas != null) {
-			projectileAtlas.dispose();
-		}
-		if (multitoolAtlas != null) {
-			multitoolAtlas.dispose();
-		}
-		if (eventAtlas != null) {
-			eventAtlas.dispose();
-		}
-		if (uiAtlas != null) {
-			uiAtlas.dispose();
-		}
-		if (explosionAtlas != null) {
-			explosionAtlas.dispose();
-		}
+		atlases.clear();
 	}
 	
 	/**

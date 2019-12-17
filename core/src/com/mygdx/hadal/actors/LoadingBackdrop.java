@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * Background actor for initializing screen.
@@ -27,7 +28,7 @@ public class LoadingBackdrop extends AHadalActor{
 	public LoadingBackdrop(AssetManager assetManager) {
 		super(assetManager);
 		atlas = new TextureAtlas("ui/anchor_logo.atlas");
-		loading = new Animation<TextureRegion>(0.08f, atlas.findRegions("anchor_logo"));
+		loading = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, atlas.findRegions("anchor_logo"));
 		
 		//This image takes up the whole screen.
 		this.width = loading.getKeyFrame(0).getRegionWidth();

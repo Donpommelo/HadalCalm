@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -87,7 +88,9 @@ public class DropThroughPlatform extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_DROPTHROUGHWALL, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_DROPTHROUGHWALL, 
 				(short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER),	(short) 0, false, eventData);
+		
+		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}	
 }

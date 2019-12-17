@@ -23,9 +23,6 @@ public class HitboxSprite extends RangedHitbox {
 	protected Animation<TextureRegion> projectileSprite;
 	private Sprite sprite;
 	
-	//Speed of the animation. Make this an input?
-	private float speed = 0.05f;
-	
 	/**
 	 * Same as normal hitbox man
 	 */
@@ -34,7 +31,7 @@ public class HitboxSprite extends RangedHitbox {
 		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, procEffects, creator);
 		
 		this.sprite = sprite;
-		projectileSprite = new Animation<TextureRegion>(speed, sprite.getFrames());
+		projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
 	}
 	
 	@Override

@@ -32,9 +32,9 @@ public class UIActives extends AHadalActor {
 		this.player = player;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
-		this.base = Sprite.UI_MO_BASE.getFrames().first();
-		this.ready = Sprite.UI_MO_READY.getFrames().first();
-		this.overlay = Sprite.UI_MO_OVERLAY.getFrames().first();
+		this.base = Sprite.UI_MO_BASE.getFrame();
+		this.ready = Sprite.UI_MO_READY.getFrame();
+		this.overlay = Sprite.UI_MO_OVERLAY.getFrame();
 		setWidth(base.getRegionWidth() * scale);
 		setHeight(base.getRegionHeight() * scale);
 		setX(HadalGame.CONFIG_WIDTH - getWidth());

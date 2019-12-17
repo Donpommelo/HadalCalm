@@ -172,6 +172,9 @@ public class PlayState extends GameState {
 	//Has the server finished loading yet?
 	private boolean serverLoaded = false;
 	
+	//global variables
+	public static final float spriteAnimationSpeed = 0.08f;
+	
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager

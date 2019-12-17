@@ -295,7 +295,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("pause", false, boolean.class));
 			platformConnections.put((MovingPlatform)e, object.getProperties().get("connections", "", String.class));
 		}
-		
+		if (object.getName().equals("Semiperm")) {
+			e = new SemipermWall(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("player", false, boolean.class), object.getProperties().get("hbox", false, boolean.class), 
+					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class));
+		}
 		if (object.getName().equals("Armory")) {
 			e = new Armory(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));

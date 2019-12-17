@@ -1,8 +1,10 @@
 package com.mygdx.hadal.effects;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.AssetList;
 
 public enum Sprite {
 
@@ -83,6 +85,14 @@ public enum Sprite {
 	P_STORMCALLER(SpriteType.EVENT, "event_stormcaller"),
 	P_TORPEDO(SpriteType.EVENT, "event_torpedo"),
 
+	FISH_SCISSOR(SpriteType.FISH, "scissorfish_swim"),
+	FISH_SPITTLE(SpriteType.FISH, "spittlefish_swim"),
+	FISH_TORPEDO(SpriteType.FISH, "torpedofish_swim"),
+	
+	TURRET_BASE(SpriteType.TURRET, "base"),
+	TURRET_FLAK(SpriteType.TURRET, "flak"),
+	TURRET_VOLLEY(SpriteType.TURRET, "volley"),
+	
 	//ui
 	UI_MAIN_OVERLAY(SpriteType.UI, "UI_main_overlay"),
 	UI_MAIN_RELOAD(SpriteType.UI, "UI_main_reloading"),
@@ -100,6 +110,41 @@ public enum Sprite {
 	UI_MO_OVERLAY(SpriteType.UI, "UI_momentum_overlay"),
 	UI_MO_ARROW(SpriteType.UI, "UI_momentum_arrow"),
 
+	UI_RELOAD(SpriteType.UI, "UI_reload"),
+	UI_RELOAD_METER(SpriteType.UI, "UI_reload_meter"),
+	UI_RELOAD_BAR(SpriteType.UI, "UI_reload_bar"),
+
+	MOREAU_RUN(SpriteType.MOREAU, "body_run"),
+	MOREAU_STILL(SpriteType.MOREAU, "body_stand"),
+	MOREAU_BACK(SpriteType.MOREAU, "body_background"),
+	MOREAU_HEAD(SpriteType.MOREAU, "head"),
+	MOREAU_ARM(SpriteType.MOREAU, "arm"),
+	MOREAU_GEM_ON(SpriteType.MOREAU, "gem_active"),
+	MOREAU_GEM_OFF(SpriteType.MOREAU, "gem_inactive"),
+	
+	TELEMACHUS_RUN(SpriteType.TELEMACHUS, "body_run"),
+	TELEMACHUS_STILL(SpriteType.TELEMACHUS, "body_stand"),
+	TELEMACHUS_BACK(SpriteType.TELEMACHUS, "body_background"),
+	TELEMACHUS_HEAD(SpriteType.TELEMACHUS, "head"),
+	TELEMACHUS_ARM(SpriteType.TELEMACHUS, "arm"),
+	TELEMACHUS_GEM_ON(SpriteType.TELEMACHUS, "gem_active"),
+	TELEMACHUS_GEM_OFF(SpriteType.TELEMACHUS, "gem_inactive"),
+	
+	TAKANORI_RUN(SpriteType.TAKANORI, "body_run"),
+	TAKANORI_STILL(SpriteType.TAKANORI, "body_stand"),
+	TAKANORI_BACK(SpriteType.TAKANORI, "body_background"),
+	TAKANORI_HEAD(SpriteType.TAKANORI, "head"),
+	TAKANORI_ARM(SpriteType.TAKANORI, "arm"),
+	TAKANORI_GEM_ON(SpriteType.TAKANORI, "gem_active"),
+	TAKANORI_GEM_OFF(SpriteType.TAKANORI, "gem_inactive"),
+	
+	MOREAU_FESTIVE_RUN(SpriteType.MOREAU_FESTIVE, "body_run"),
+	MOREAU_FESTIVE_STILL(SpriteType.MOREAU_FESTIVE, "body_stand"),
+	MOREAU_FESTIVE_BACK(SpriteType.MOREAU_FESTIVE, "body_background"),
+	MOREAU_FESTIVE_HEAD(SpriteType.MOREAU_FESTIVE, "head"),
+	MOREAU_FESTIVE_ARM(SpriteType.MOREAU_FESTIVE, "arm"),
+	MOREAU_FESTIVE_GEM_ON(SpriteType.MOREAU_FESTIVE, "gem_active"),
+	MOREAU_FESTIVE_GEM_OFF(SpriteType.MOREAU_FESTIVE, "gem_inactive"),
 	
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
@@ -119,43 +164,61 @@ public enum Sprite {
 	public Array<? extends TextureRegion> getFrames() {
 		
 		if (frames == null) {
-			switch (type) {
-			case EVENT:
-				frames = GameStateManager.eventAtlas.findRegions(spriteId);
-				break;
-			case EXPLOSION:
-				frames = GameStateManager.explosionAtlas.findRegions(spriteId);
-				break;
-			case PROJECTILE:
-				frames = GameStateManager.projectileAtlas.findRegions(spriteId);
-				break;
-			case WEAPON:
-				frames = GameStateManager.multitoolAtlas.findRegions(spriteId);
-				break;
-			case FISH:
-				frames = GameStateManager.multitoolAtlas.findRegions(spriteId);
-				break;
-			case TURRET:
-				frames = GameStateManager.multitoolAtlas.findRegions(spriteId);
-				break;
-			case IMPACT:
-				frames = GameStateManager.impactAtlas.findRegions(spriteId);
-				break;
-			case EXCLAMATION:
-				frames = GameStateManager.exclamationAtlas.findRegions(spriteId);
-				break;
-			case STAR:
-				frames = GameStateManager.starShotAtlas.findRegions(spriteId);
-				break;
-			case UI:
-				frames = GameStateManager.uiAtlas.findRegions(spriteId);
-				break;
-			}
+			frames = getAtlas(type).findRegions(spriteId);
 		}
+		
 		return frames;
 	}
 	
-	private enum SpriteType {
+	public TextureRegion getFrame() {
+		return getFrames().get(0);
+	}
+	
+	public static TextureAtlas getAtlas(SpriteType type) {
+		switch (type) {
+		case EVENT:
+			return HadalGame.assetManager.get(AssetList.EVENT_ATL.toString());
+		case EXPLOSION:
+			return HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString());
+		case PROJECTILE:
+			return HadalGame.assetManager.get(AssetList.PROJ_1_ATL.toString());
+		case WEAPON:
+			return HadalGame.assetManager.get(AssetList.MULTITOOL_ATL.toString());
+		case FISH:
+			return HadalGame.assetManager.get(AssetList.FISH_ATL.toString());
+		case TURRET:
+			return HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
+		case IMPACT:
+			return HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString());
+		case EXCLAMATION:
+			return HadalGame.assetManager.get(AssetList.EXCLAMATION_ATLAS.toString());
+		case STAR:
+			return HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString());
+		case UI:
+			return HadalGame.assetManager.get(AssetList.UI_ATL.toString());
+		case MOREAU:
+			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_ATL.toString());
+		case TAKANORI:
+			return HadalGame.assetManager.get(AssetList.PLAYER_TAKA_ATL.toString());
+		case TELEMACHUS:
+			return HadalGame.assetManager.get(AssetList.PLAYER_TELE_ATL.toString());
+		case MOREAU_FESTIVE:
+			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString());
+		default:
+			return null;
+		}
+	}
+	
+	public static Sprite getCharacterSprites(SpriteType character, String part) {
+		for (Sprite s: Sprite.values() ) {
+			if (s.type.equals(character) && s.spriteId.equals(part)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
+	public enum SpriteType {
 		PROJECTILE,
 		EXPLOSION,
 		EVENT,
@@ -166,5 +229,10 @@ public enum Sprite {
 		EXCLAMATION,
 		STAR,
 		UI,
+		
+		MOREAU,
+		TAKANORI,
+		TELEMACHUS,
+		MOREAU_FESTIVE
 	}
 }

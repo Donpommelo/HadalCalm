@@ -4,16 +4,15 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.TurretAttack;
-import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -45,9 +44,7 @@ public class Turret extends Enemy {
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
-  	private TextureAtlas atlas;
-	private TextureRegion turretBase, turretBarrel;
-	private Animation<TextureRegion> fireAnimation;
+	protected Animation<? extends TextureRegion> turretBase, turretBarrel;
 	
 	private static final int width = 528;
 	private static final int height = 252;
@@ -60,6 +57,10 @@ public class Turret extends Enemy {
 	
 	private static final float scale = 0.5f;
 	
+	private static final Sprite base = Sprite.TURRET_BASE;
+	private static final Sprite flak = Sprite.TURRET_FLAK;
+	private static final Sprite volley = Sprite.TURRET_VOLLEY;
+	
 	public Turret(PlayState state, int x, int y, enemyType type, int startAngle, short filter) {
 		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2), type, filter);		
 		this.angle = 0;
@@ -68,24 +69,18 @@ public class Turret extends Enemy {
 		
 		this.weapon = new TurretAttack(this);
 		
-		atlas = (TextureAtlas) HadalGame.assetManager.get(AssetList.TURRET_ATL.toString());
-		turretBase = atlas.findRegion("base");
+		this.turretBase = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, base.getFrames());
 		
-		String barrel = "";
 		switch(type) {
 		case TURRET_FLAK:
-			barrel = "flak";
+			this.turretBarrel = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, flak.getFrames());
 			break;
 		case TURRET_VOLLEY:
-			barrel = "volley";
+			this.turretBarrel = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, volley.getFrames());
 			break;
 		default:
 			break;
-		
 		}
-		turretBarrel = atlas.findRegion(barrel);
-		fireAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions(barrel));
-		
 		moveState = SchmuckMoveStates.TURRET_NOTSHOOTING;
 	}
 	
@@ -229,20 +224,20 @@ public class Turret extends Enemy {
 		}
 		
 		if(moveState == SchmuckMoveStates.TURRET_NOTSHOOTING || weapon.isReloading()) {
-			batch.draw(turretBarrel, 
+			batch.draw((TextureRegion) turretBarrel.getKeyFrame(0, true), 
 					getPosition().x * PPM - hbWidth * scale / 2, 
 					(flip ? height * scale - 12 : 0) + getPosition().y * PPM - hbHeight * scale / 2, 
 					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
 					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
 		} else {
-			batch.draw(fireAnimation.getKeyFrame(getAnimationTime(), true), 
+			batch.draw((TextureRegion) turretBarrel.getKeyFrame(animationTime, true), 
 					getPosition().x * PPM - hbWidth * scale / 2, 
 					(flip ? height * scale - 12: 0) + getPosition().y * PPM - hbHeight * scale / 2, 
 					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
 					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
 		}
 		
-		batch.draw(turretBase, 
+		batch.draw((TextureRegion) turretBase.getKeyFrame(animationTime, true), 
 				getPosition().x * PPM - hbWidth * scale / 2, 
 				getPosition().y * PPM - hbHeight * scale / 2, 
 				0, 0,

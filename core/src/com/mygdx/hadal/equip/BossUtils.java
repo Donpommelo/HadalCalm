@@ -16,9 +16,10 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
-import com.mygdx.hadal.schmucks.bodies.enemies.Boss1;
-import com.mygdx.hadal.schmucks.bodies.enemies.Boss1.BossState;
+import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
 import com.mygdx.hadal.schmucks.bodies.enemies.BossAction;
+import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating;
+import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating.BossState;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
@@ -30,7 +31,7 @@ import com.mygdx.hadal.utils.Constants;
 
 public class BossUtils {
 
-	public static void moveToDummy(final PlayState state, final Boss1 boss, final String dummyId, final int speed) {
+	public static void moveToDummy(final PlayState state, final Boss boss, final String dummyId, final int speed) {
 		
 		boss.getActions().add(new BossAction(boss, 10.0f) {
 			
@@ -47,22 +48,22 @@ public class BossUtils {
 		});
 	}
 	
-	public static void changeTrackingState(Boss1 boss, final BossState state, final float angle, float duration) {
+	public static void changeTrackingState(final BossFloating bossFloating, final BossState state, final float angle, float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		bossFloating.getActions().add(new BossAction(bossFloating, duration) {
 			
 			@Override
 			public void execute() {
-				boss.setCurrentState(state);
-				boss.setAngle(normalizeAngle((int) boss.getAngle()));
+				bossFloating.setCurrentState(state);
+				bossFloating.setAngle(normalizeAngle((int) bossFloating.getAngle()));
 				switch (state) {
 				case FREE:
-					boss.setDesiredAngle(angle);
+					bossFloating.setDesiredAngle(angle);
 				case SPINNING:
-					boss.setSpinSpeed((int)angle);
+					bossFloating.setSpinSpeed((int)angle);
 					break;
 				case LOCKED:
-					boss.setAngle(angle);
+					bossFloating.setAngle(angle);
 					break;
 				case TRACKING_PLAYER:
 					break;
@@ -74,7 +75,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void spawnAdds(final PlayState state, Boss1 boss, final enemyType type, final int amount, float duration) {
+	public static void spawnAdds(final PlayState state, Boss boss, final enemyType type, final int amount, float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -100,7 +101,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void moveToPlayer(final PlayState state, Boss1 boss, final HadalEntity target, final int moveSpeed, final float duration) {
+	public static void moveToPlayer(final PlayState state, Boss boss, final HadalEntity target, final int moveSpeed, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -112,7 +113,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void meleeAttack(final PlayState state, Boss1 boss, final float damage, final float knockback, final HadalEntity target, final float duration) {
+	public static void meleeAttack(final PlayState state, Boss boss, final float damage, final float knockback, final HadalEntity target, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, 0) {
 			
@@ -130,7 +131,7 @@ public class BossUtils {
 		});
 	}
 
-	public static void fireball(final PlayState state, Boss1 boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size, final float gravity, 
+	public static void fireball(final PlayState state, Boss boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size, final float gravity, 
 			final float lifespan, final float fireDuration, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, 0) {
@@ -138,7 +139,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, gravity, lifespan, 3, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAngle()),
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, gravity, lifespan, 3, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
@@ -150,7 +151,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static int moveToRandomCorner(PlayState state, Boss1 boss, int speed) {
+	public static int moveToRandomCorner(PlayState state, Boss boss, int speed) {
 		int rand = GameStateManager.generator.nextInt(4);
 		switch(rand) {
 		case 0:
@@ -170,7 +171,7 @@ public class BossUtils {
 		return rand;
 	}
 	
-	public static int moveToRandomWall(PlayState state, Boss1 boss, int speed) {
+	public static int moveToRandomWall(PlayState state, Boss boss, int speed) {
 		int rand = GameStateManager.generator.nextInt(2);
 		switch(rand) {
 		case 0:
