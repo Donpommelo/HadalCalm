@@ -83,10 +83,46 @@ CR4PCANNON: {
 		RANGED,
 	]
 }
+DIAMOND_CUTTER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Diamond Cutter
+	description: "Extends a spinning blade."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+FISTICUFFS: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Fisticuffs
+	description: "punch"
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 LASER_GUIDED_ROCKET: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Laser-Guided Rocket
 	description: "Fires a missile that will home in towards your mouse position."
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+SCREECHER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Screecher
+	description: "Fires invisible, instantaneous sonic waves."
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [

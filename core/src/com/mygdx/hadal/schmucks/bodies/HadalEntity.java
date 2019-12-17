@@ -2,6 +2,8 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import java.util.UUID;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
@@ -16,8 +18,6 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.SteeringUtil;
-
-import box2dLight.RayHandler;
 
 /**
  * A HadalEntity is enything in the Game world that does stuff.
@@ -34,7 +34,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected PlayState state;
 	protected World world;
 	protected OrthographicCamera camera;
-	protected RayHandler rays;
 	
 	//Fields common to all entities.
 	protected Body body;
@@ -77,7 +76,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		this.state = state;
 		this.camera = state.camera;
 		this.world = state.getWorld();
-		this.rays = state.getRays();
 		
 		this.width = w;
 		this.height = h;
@@ -212,6 +210,23 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	}
 	
 	/**
+	 * Is this entity on the screen?
+	 * @return
+	 */
+	public boolean isVisible() {
+		if (body == null) {
+			return false;
+		} else {
+			if (camera.frustum.pointInFrustum(body.getPosition().x * PPM + width, body.getPosition().y * PPM + height, 0) || 
+					camera.frustum.pointInFrustum(body.getPosition().x * PPM - width, body.getPosition().y * PPM - height, 0)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	/**
 	 * Getter method for the entity's body.
 	 * @return: Entity's body.
 	 */
@@ -233,10 +248,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 
 	public OrthographicCamera getCamera() {
 		return camera;
-	}
-
-	public RayHandler getRays() {
-		return rays;
 	}
 
 	public boolean isAlive() {

@@ -58,8 +58,6 @@ import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
-import box2dLight.RayHandler;
-
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
  * @author Zachary Tu
@@ -81,9 +79,6 @@ public class PlayState extends GameState {
 	//These process and store the map parsed from the Tiled file.
 	protected TiledMap map;
 	protected OrthogonalTiledMapRenderer tmr;
-    
-    //rays will implement lighting.
-	protected RayHandler rays;
 	
 	//world manages the Box2d world and physics. b2dr renders debug lines for testing
 	protected Box2DDebugRenderer b2dr;
@@ -117,6 +112,10 @@ public class PlayState extends GameState {
 	//This is the entity that the camera tries to focus on
 	protected HadalEntity cameraTarget;
 	
+	//These are the bounds of the camera movement
+	private float[] cameraBounds = {0.0f, 0.0f, 0.0f, 0.0f};
+	private boolean[] cameraBounded = {false, false, false, false};
+	
 	//If there is an objective target that has a display if offscreen, this is that entity.
 	protected HadalEntity objectiveTarget;
 	
@@ -139,7 +138,7 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private HashMap<String, PositionDummy> dummyPoints;
 	
-	//Do players respawn after dying? Can players hurt each other? Is this a practice level (like the hub?)
+	//Do players respawn after dying? Can players hurt each other? Is this a practice level (like the hub?) atm this only makes start-of-level effects not activate.
 	protected boolean respawn, pvp, practice;
 	
 	//Is this playstate the server?
@@ -192,13 +191,6 @@ public class PlayState extends GameState {
 		world = new World(new Vector2(0, -9.81f), false);
 		world.setContactListener(new WorldContactListener());
 		World.setVelocityThreshold(0);
-		
-		rays = new RayHandler(world);
-        rays.setAmbientLight(1.0f);
-        rays.setCulling(false);
-        
- //       RayHandler.useDiffuseLight(true);
-        rays.setCombinedMatrix(camera);
 
 		b2dr = new Box2DDebugRenderer();
 //		b2dr.setDrawBodies(false);
@@ -452,27 +444,26 @@ public class PlayState extends GameState {
 		b2dr.render(world, camera.combined.scl(PPM));
 		
 		//Iterate through entities in the world to render
-		batch.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(sprite.combined);
 		batch.begin();
 
 		for (HadalEntity hitbox : hitboxes) {
-			hitbox.render(batch);
+			if (hitbox.isVisible()) {
+				hitbox.render(batch);
+			}
 		}
 		for (HadalEntity schmuck : entities) {
-			schmuck.render(batch);
+			if (schmuck.isVisible()) {
+				schmuck.render(batch);
+			}
 		}
 
 		batch.end();
 		
-		//Render lighting
-		rays.setCombinedMatrix(camera);
-		rays.updateAndRender();
-		
 		//Render fade transitions
 		if (fadeLevel > 0) {
-			batch.setProjectionMatrix(camera.combined);
-			batch.begin();
 			batch.setProjectionMatrix(hud.combined);
+			batch.begin();
 			batch.setColor(1f, 1f, 1f, fadeLevel);
 			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 			batch.setColor(1f, 1f, 1f, 1);
@@ -483,6 +474,7 @@ public class PlayState extends GameState {
 	/**
 	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
+	Vector2 tmpVector2 = new Vector2();
 	protected void cameraUpdate() {
 		
 		zoom = zoom + (zoomDesired - zoom) * 0.05f;
@@ -490,9 +482,30 @@ public class PlayState extends GameState {
 		camera.zoom = zoom;
 		sprite.zoom = zoom;
 		if (cameraTarget != null) {
+			
 			if (cameraTarget.getBody() != null && cameraTarget.isAlive()) {
-				CameraStyles.lerpToTarget(camera, cameraTarget.getPosition().scl(PPM));
-				CameraStyles.lerpToTarget(sprite, cameraTarget.getPosition().scl(PPM));
+				
+				tmpVector2.set(cameraTarget.getPosition());
+				
+				if (cameraBounded[0] && tmpVector2.x > cameraBounds[0]) {
+					tmpVector2.x = cameraBounds[0];
+				}
+				
+				if (cameraBounded[1] && tmpVector2.x < cameraBounds[1]) {
+					tmpVector2.x = cameraBounds[1];
+				}		
+				
+				if (cameraBounded[2] && tmpVector2.y > cameraBounds[2]) {
+					tmpVector2.y = cameraBounds[2];
+				}
+				
+				if (cameraBounded[3] && tmpVector2.y < cameraBounds[3]) {
+					tmpVector2.y = cameraBounds[3];
+				}
+				
+				tmpVector2.scl(PPM);
+				CameraStyles.lerpToTarget(camera, tmpVector2);
+				CameraStyles.lerpToTarget(sprite, tmpVector2);
 			}
 		}
 	}
@@ -517,7 +530,6 @@ public class PlayState extends GameState {
 		world.dispose();
 		tmr.dispose();
 		map.dispose();
-		rays.dispose();
 		if (stage != null) {
 			stage.dispose();
 		}
@@ -807,10 +819,6 @@ public class PlayState extends GameState {
 		return world;
 	}
 	
-	public RayHandler getRays() {
-		return rays;
-	}
-	
 	public Enemy getWorldDummy() {
 		return worldDummy;
 	}
@@ -871,6 +879,14 @@ public class PlayState extends GameState {
 		this.cameraTarget = cameraTarget;
 	}
 	
+	public float[] getCameraBounds() {
+		return cameraBounds;
+	}
+
+	public boolean[] getCameraBounded() {
+		return cameraBounded;
+	}
+
 	public HadalEntity getObjectiveTarget() {
 		return objectiveTarget;
 	}

@@ -313,7 +313,7 @@ public class KryoClient {
 									cs.addEntity(p.entityID, new Turret(cs, 0, 0, p.type, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
 									break;
 								case BOSS:
-									cs.addEntity(p.entityID, new Boss(cs, 0, 0, enemyType.BOSS, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
+									cs.addEntity(p.entityID, new Boss1(cs, 0, 0, enemyType.BOSS, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
 									break;
 								default:
 									break;

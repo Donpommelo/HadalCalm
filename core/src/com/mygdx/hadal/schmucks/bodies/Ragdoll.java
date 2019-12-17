@@ -70,8 +70,6 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		batch.setProjectionMatrix(state.sprite.combined);
-
 		if (illusionSprite != null) {
 			batch.draw(illusionSprite, 
 					getPosition().x * PPM - width / 2, 

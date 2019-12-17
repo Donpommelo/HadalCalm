@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -93,6 +94,8 @@ public class HadalGame extends ApplicationAdapter {
 		
 		client = new KryoClient(gsm);
 		server = new KryoServer(gsm);
+		
+		GLProfiler.enable();
 	}
 	
 	/**
@@ -114,6 +117,14 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
 		currentMenu.draw();
+		
+//		System.out.println(
+//	            "  Drawcalls: " + GLProfiler.drawCalls +
+//	            ", Calls: " + GLProfiler.calls +
+//	            ", TextureBindings: " + GLProfiler.textureBindings +
+//	            ", ShaderSwitches:  " + GLProfiler.shaderSwitches +
+//	            ", vertexCount: " + GLProfiler.vertexCount.value);
+//		GLProfiler.reset();
 	}
 	
 	/**

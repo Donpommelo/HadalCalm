@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="66">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="66">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" name="main" tilewidth="32" tileheight="32" tilecount="24" columns="6">
   <image source="../Images/tileset_1.png" width="192" height="128"/>
  </tileset>
  <layer id="1" name="Tile Layer 1" width="120" height="120">
   <data encoding="base64" compression="zlib">
-   eJzt3dtu3CAUhWG3adU2PV2k7/+sHV9YpRY4BvbeLJj/k7iJIoNZiWeAgdk2AAAAAAAAAAAAAAAAAAAAAAAAAADG+vAorwPLR/9bfGqfHuX3wPLN/xafWi7fn4/y4lx+beQb4Zzvnu2PwHrJ11eab1S2ab3k6+vo58hs03rJ19eofibfGOS7NvJdm2U/5+ZKSvMX5BvDsp9zY+nSdck3hle+xxzJ14B6V2M5Z/xn88n3vesdv/vW0fZV56495oxH5Tu6zYrSOQmr+eDSc7SlXXf6/ktHW1efu1Z97arJ16Ietfu3onp/5GtD9f7I14bq/ZGvDdX7I18bqvcXnW/P2Fl5DE2+WuN+a8+eb8/YOXIM3TrPaDmnaCkqXwsR/yO9zxm1PiTffB2184xK83PpM+h4rqi07UpkvrV1KL3+lp5BCm27Qr73kK99HT1tO56nLeO+3PvB9JmcFouxqWeJeI/amtMxPmhZ0+v52xi9V8mjKOY7qs6afCP2MKmse5d45lt6DkfkG70XQpVnvqVre+dLtv+sli/Z/s9yHaT0/vB87dLPa65Jtves8n6UbPMs1kEUCtkCAAAAAAAAAAAAAFY2+rstaoriPmh1M30+R32/iSKPc8p6y7E3kXz7Ke0TO3zf8hkrtXEWivnuchmrtXEGqvnuzhkrtlGdcr67NGPVNipTz3c3QxtVzdB3M7RR1Qx9N0MbVc3QdzO0UdUMfTdDG1XN0HcztFFVb9993mzXCq7Ox8ntF2bN4VpPvnu2V/utW9YKatc7+J++1prvOdu7awbvfefU3f3IzHnc05LvOds7e6utX0N5Tb6ntp9asm2pJ/p6q6o9X6Ul27Qe8o3V+vmN2vMuyHeMlvNVWs4yId+1ke/ayHdt5Ls28l2b9TmXqt/P86y8PkdPvhq8zrn0PPscAAAAAAAAgI+/XWw4Fg==
+   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
   </data>
  </layer>
  <objectgroup id="2" name="event-layer">
   <object id="2" name="Start" type="Start" x="256" y="1920" width="32" height="32"/>
   <object id="6" name="Timer" type="Timer" x="352" y="928" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0.5"/>
+    <property name="interval" type="float" value="1"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>

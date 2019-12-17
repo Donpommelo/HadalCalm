@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="23">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="25">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt2LkKgDAQRdFxARdQC/1//NQEbW0m4ZER7oFXDuS2MQMAAAAAANDq8taA650dY94RcEthx5Y3BNhe2eG9Uyl9Dx0adNChQAcdCnTQoUAHHQp00KFABx0KdLx3pz3/X3frXZUd0ebtmKz939vXZmfH3yTM6SIZ
+   eAHtmEsKQjEAxPyBH1AXen88qhV8G1eTgFhkhO4STQdXXa366QJdoAt0gS7QBbpAF+gCXaALdIEu0AW6wHcXWI+vP014NvDau8FfJzxHeY/z8LYTnMt7U3sP6sG5Ynz5f9Ae68VhELQ91oN5MW57rBeHQdD2WA/mxbjtsV4cBkHbYz2YF+O2x3pxGARtj/VgXozbHuvFYRC0PdaDeTFue6wXh0HQ9lgP5sW47bFeHAZB22M9mBfjtsd6cRgEbY/1YF6M2x7rxWEQtD3Wg3kxbnusF4dB0PZYD+bFuO2xXhwGQduzeLfxe+M97vHrcx8dr/c0+14y21scvcd+3H2G97fPhsPo+ufPE8zpIhk=
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -41,7 +41,7 @@
   <object id="12" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="startTimer,spawn0,camera1"/>
+    <property name="triggeringId" value="startTimer,spawn0,camera1,bounds1,bounds2"/>
    </properties>
   </object>
   <object id="13" name="Camera" type="Camera" x="224" y="32" width="32" height="32">
@@ -85,6 +85,20 @@
   <object id="22" name="Dummy" type="Dummy" x="1184" y="1312" width="32" height="32">
    <properties>
     <property name="dummyId" value="8"/>
+   </properties>
+  </object>
+  <object id="23" name="Bounds" type="Bounds" x="480" y="960" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="24" name="Bounds" type="Bounds" x="1120" y="1248" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
  </objectgroup>

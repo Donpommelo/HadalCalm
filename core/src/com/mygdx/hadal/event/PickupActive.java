@@ -129,7 +129,6 @@ public class PickupActive extends Event {
 			super.render(batch);
 		}
 		
-		batch.setProjectionMatrix(state.sprite.combined);
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 		float y = getPosition().y * PPM + height / 2;
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, item.getName(), getPosition().x * PPM - width / 2, y);

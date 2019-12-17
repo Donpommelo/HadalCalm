@@ -41,8 +41,7 @@ public class UIChanger extends Event {
 	private float timerIncr;
 	private String miscTag;
 	
-	public UIChanger(PlayState state, String types, int changeType, int livesIncr, int scoreIncr, int var1Incr, int var2Incr,
-			float timerIncr, String misc) {
+	public UIChanger(PlayState state, String types, int changeType, int livesIncr, int scoreIncr, int var1Incr, int var2Incr, float timerIncr, String misc) {
 		super(state, name);
 		this.changeType = changeType;
 		this.livesIncr = livesIncr;

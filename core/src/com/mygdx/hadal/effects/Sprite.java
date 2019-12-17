@@ -86,7 +86,7 @@ public enum Sprite {
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
 	EXCLAMATION(SpriteType.EXCLAMATION, "exclamation"),
-	STAR(SpriteType.STAR, "star"),
+	STAR(SpriteType.STAR, "starshot"),
 	;
 	
 	private SpriteType type;

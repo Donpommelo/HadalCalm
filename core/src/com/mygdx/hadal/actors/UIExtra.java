@@ -23,8 +23,10 @@ public class UIExtra extends AHadalActor{
 	private BitmapFont font;
 	
 	//Default starting location of window.
-	private final static int x = 200;
+	private final static int x = 150;
 	private final static int y = 10;
+	
+	private final static float scale = 0.25f;
 	
 	//List of tags that are to be displayed
 	private ArrayList<UITag> uiTags;
@@ -46,8 +48,6 @@ public class UIExtra extends AHadalActor{
     public void draw(Batch batch, float alpha) {
 		batch.setProjectionMatrix(state.hud.combined);
 
-		font.getData().setScale(0.4f);
-		
 		StringBuilder text = new StringBuilder();
 		
 		for (UITag tag : uiTags) {
@@ -86,8 +86,8 @@ public class UIExtra extends AHadalActor{
 				break;
 			}	
 		}
-		
-		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y);
+		font.getData().setScale(scale);
+		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y, x, -1, true);
 	}
 	
 	/**

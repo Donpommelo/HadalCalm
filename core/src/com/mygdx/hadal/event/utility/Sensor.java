@@ -40,8 +40,7 @@ public class Sensor extends Event {
 	public Sensor(PlayState state, int width, int height, int x, int y, boolean player, boolean hbox, boolean event, boolean enemy,
 			float gravity, boolean collision) {
 		super(state, name, width, height, x, y);
-		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0)
-				| (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 		this.gravity = gravity;
 		this.collision = collision;
 	}

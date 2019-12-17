@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState.transitionState;
  * 
  * 
  * Fields:
- * won: boolean that determines if the player wins or not. Optional. Default: true
+ * text: text that will appear in the results screen
  * 
  * @author Zachary Tu
  *
@@ -22,11 +22,11 @@ public class End extends Event {
 
 	private static final String name = "VICTORY";
 
-	private boolean won;
+//	private String text;
 	
-	public End(PlayState state, boolean won) {
+	public End(PlayState state, String text) {
 		super(state, name);
-		this.won = won;
+//		this.text = text;
 	}
 	
 	@Override
@@ -36,11 +36,7 @@ public class End extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (won) {
-					state.levelEnd(transitionState.RESULTS);
-				} else {
-					state.levelEnd(transitionState.RESPAWN);
-				}
+				state.levelEnd(transitionState.RESULTS);
 			}
 		};
 	}

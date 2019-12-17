@@ -149,6 +149,14 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Camera")) {
 			e = new CameraChanger(state, object.getProperties().get("zoom", 1.0f, float.class));
 		}
+		if (object.getName().equals("Bounds")) {
+			e = new CameraBounder(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("right", false, boolean.class),
+					object.getProperties().get("left", false, boolean.class),
+					object.getProperties().get("up", false, boolean.class),
+					object.getProperties().get("down", false, boolean.class));
+		}
 		if (object.getName().equals("Objective")) {
 			e = new ObjectiveChanger(state);
 		}
@@ -253,7 +261,7 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));
 		}
 		if (object.getName().equals("End")) {
-			e = new End(state, object.getProperties().get("won", true, boolean.class));
+			e = new End(state, object.getProperties().get("text", "", String.class));
 		}
 		if (object.getName().equals("Destr_Obj")) {
 			e = new DestructableBlock(state, (int)rect.width, (int)rect.height, 

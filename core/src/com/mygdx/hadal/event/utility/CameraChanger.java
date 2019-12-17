@@ -48,6 +48,6 @@ public class CameraChanger extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(1);
+		setSyncType(2);
 	}
 }

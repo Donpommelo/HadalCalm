@@ -165,7 +165,6 @@ public class PickupEquip extends Event {
 			super.render(batch);
 		}
 		
-		batch.setProjectionMatrix(state.sprite.combined);
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 		float y = getPosition().y * PPM + height / 2;
 		for (WeaponMod mod : mods) {

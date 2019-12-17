@@ -139,6 +139,16 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 	
+	
+	/**
+	 * Is this entity on the screen?
+	 * @return
+	 */
+	@Override
+	public boolean isVisible() {
+		return camera.frustum.boundsInFrustum(effect.getBoundingBox());
+	}
+	
 	public void turnOn() {
 		on = true;
 		effect.start();
@@ -156,7 +166,6 @@ public class ParticleEntity extends HadalEntity {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.setProjectionMatrix(state.sprite.combined);
 		effect.draw(batch, Gdx.graphics.getDeltaTime());
 	}
 	

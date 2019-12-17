@@ -24,7 +24,7 @@ public class EventCloner extends Event {
 	private static final String name = "Event Spawner";
 
 	public EventCloner(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y, "event_base", 0.25f, 2);
+		super(state, name, width, height, x, y, 2);
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
+import com.mygdx.hadal.equip.melee.Fisticuffs;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.save.UnlockActives;
@@ -358,7 +359,7 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 		
-		multitools[slot] = new NothingWeapon(player);
+		multitools[slot] = new Fisticuffs(player);
 		multitools[slot].setUser(player);
 		
 		currentSlot = slot;

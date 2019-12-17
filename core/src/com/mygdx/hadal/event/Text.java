@@ -57,7 +57,6 @@ public class Text extends Event {
 	public void render(SpriteBatch batch) {
 		
 		if (open) {
-			batch.setProjectionMatrix(state.sprite.combined);
 			HadalGame.SYSTEM_FONT_UI.getData().setScale(0.60f);
 			if (getConnectedEvent() != null) {
 				if (getConnectedEvent().getBody() != null) {

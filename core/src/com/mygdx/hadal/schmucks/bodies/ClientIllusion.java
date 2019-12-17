@@ -46,8 +46,6 @@ public class ClientIllusion extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		batch.setProjectionMatrix(state.sprite.combined);
-
 		if (illusionSprite != null) {
 			batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true), 
 					getPosition().x * PPM - width / 2, 

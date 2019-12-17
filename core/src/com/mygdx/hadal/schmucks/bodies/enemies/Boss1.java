@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.BossUtils;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -33,11 +32,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Zachary Tu
  *
  */
-public class Boss extends Enemy {
+public class Boss1 extends Enemy {
 				
-	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
-	protected Equipable weapon;
-    
     private static final float aiAttackCd = 2.0f;
     private float aiAttackCdCount = 0.0f;
     private float aiActionCdCount = 0.0f;
@@ -85,7 +81,7 @@ public class Boss extends Enemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Boss(PlayState state, int x, int y, enemyType type, short filter) {
+	public Boss1(PlayState state, int x, int y, enemyType type, short filter) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, type, filter);
 		this.angle = 0;
 		this.desiredAngle = 0;
@@ -357,8 +353,6 @@ public class Boss extends Enemy {
 			flip = true;
 		}
 		
-		batch.setProjectionMatrix(state.sprite.combined);
-
 		if (flashingCount > 0) {
 			batch.setShader(HadalGame.shader);
 		}

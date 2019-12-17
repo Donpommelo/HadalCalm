@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="56">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="56">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztzjEKwCAQBVHBNNrk/rcNqaOBMC4amQe/W9hJSZLinYtsp74cPNJXXm5HORp/e+x7so+xj7GPsY+xj7GPsY+xj9m5714NXuvnl74Z+2ufJI10AXZ5FME=
+   eAHt1zsKgDAURNGANtq4/92atCEXBjH44QZS+BjieLDQUlwKKKDAfIGj3uINm570Dd1aB1qjfksNz9yje6b9NgreOF/rWX1HOr7P2a8U/ehtyeb6ZU6U0o9ksrl+mROl9COZbK5f5kQp/Ugmm+uXOVHqz37te3+fvPt/inZNa5R9YvbVftTbuQIKKHBF4AR2eRTB
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -14,7 +14,7 @@
  <objectgroup id="3" name="event-layer">
   <object id="2" name="Timer" type="Timer" x="32" y="32" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0"/>
+    <property name="interval" type="float" value="1"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>
@@ -33,6 +33,7 @@
   </object>
   <object id="5" name="Dummy" type="Dummy" x="624" y="624" width="32" height="32">
    <properties>
+    <property name="sync" type="int" value="1"/>
     <property name="triggeredId" value="mapCenter"/>
    </properties>
   </object>
@@ -111,7 +112,6 @@
   <object id="28" name="End" type="End" x="288" y="1120" width="32" height="32">
    <properties>
     <property name="triggeredId" value="lose"/>
-    <property name="won" type="bool" value="false"/>
    </properties>
   </object>
   <object id="29" name="Multitrigger" type="Multitrigger" x="608" y="160" width="32" height="32">

@@ -46,8 +46,6 @@ public class HitboxSprite extends RangedHitbox {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		batch.setProjectionMatrix(state.sprite.combined);
-
 		batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
 				getPosition().x * PPM - width / 2, 
 				getPosition().y * PPM - height / 2, 

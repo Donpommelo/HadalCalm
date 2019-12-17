@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="119">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="119">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt2zkKw0AQAEH5AB+J//9bKzYSxsF6W1AFE4vZTjXLAgD84rTOc/Kch295HNd1XpPnMXzL49jqcRk8euz77PGPt9Fjnx4terTo0aJHy4weM755FHq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiR4v/GVr0aNGjRY8WPVr0aNGjZeseZ/R9mh773Ku13Jbx92nf5j58SwAAgG1vQIIW0w==
+   eAHtm7sKg2AYQ3uDXpa+/9vWTh8EhzrYE+QUhD8gJjlZHOrp5E8CEpCABCQggS0EzsvNL/i6bAl88HtvS783fD0PznhLvbU9rssD9rxyf/eYxXKPf7Bxj+GfJ/dIIqx2D5Z/urtHEmG1e7D8053Yg/DM3q2aYEN4tvLPXAQbwjN7t2qCDeHZyj9zEWwIz+zdqgk2hGcr/8xFsCE8s3erJtgQnq38MxfBhvDM3q2aYEN4tvLPXAQbwjN7t2qCDeHZyj9zEWwIz+zdqgk2hGcr/8xFsCE8s3erJtgQnq38MxfBhvDM3q2aYEN4tvLPXAQbwjN7t2qCDeHZyj9zEWz8P1yuMNo9hkXDyT0aVpgM7jEsGk7u0bDCZHCPYdFwco+GFSZD7vF9F937+zXfd4d/ntb2SF576398A5S9W/V9Cbbnt2m/PPvRCsdcEpCABCQgAQlIQAISkMDhCXwAQIIW0w==
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -116,7 +116,7 @@
   </object>
   <object id="24" name="Timer" type="Timer" x="2016" y="0" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0"/>
+    <property name="interval" type="float" value="1"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>
@@ -451,6 +451,7 @@
   </object>
   <object id="85" name="Dummy" type="Dummy" x="2544" y="720" width="32" height="32">
    <properties>
+    <property name="sync" type="int" value="1"/>
     <property name="triggeredId" value="mapCenter"/>
    </properties>
   </object>

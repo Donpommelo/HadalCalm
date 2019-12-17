@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="143">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="144">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="120">
   <data encoding="base64" compression="zlib">
-   eJzt2tlu4yAAQFHP3tkfZv7/W1tUWXUdJwYMhoRzJN6aLr71BkwTAAAAAAAAAAAAAAAAAGf58jJ+FB5fT/0LHkdo8bfC+Ddpkiq0+D+9Hr/fL+NTofFn0iTVusWvgt/756RJipotZprEWd4varWYaXLbGefFmibbWrSYaXLp89SmxUyT9+Ye3xv+Dpq86aFHoMmrXnoEmvTVIxi9SW89gpGb9NgjGLXJ3CP8zeu58Y87n/2w8ZmSY34vGqnJ3GNr7J0ztz5rrj7Pt+n6vHhqj5Jz8+bq38TeU5Y9zEHWk9qjxRxkb88fNaX2OPPY9Po8WJMefdGjL3rUkfu+Nr+H6VHW0fc1PcpaPo/mvHu17HFtb2Tsuduj3OPV+v6xXNPPPXd7dI89YlqM1mOe03oq9HVb9q5He9fYnJ/ZWq/3vr1zoNVel9p67DFqi6Blj9zr0aO2CFr1GPkcuKVFDy2uS+2xnl/JWT9ft1hfl0ZtEaT2WM+vHF0/H/lc2NKyhxaXbu3l2dtfc7SHFpfOmt9dj73+e/elR7W1l6fG/G7pzryXs99Hj3py9vvEnG965EnpEfMctdw3pUe6lB6xx3bUvWwl1OgRhCb3unbRUq0e5NGjL7E9wvuNa099Pa4rjqxmjzBHP+p8Sa6a+6o8X6Wrta/KnG+e0j20OCa2R+z+eS2OiV3HCutXj7iPsDcp6yb+9wEAAAAAAAAAAAAA7ssz158jLA==
+   eAHtmulyozAQBtk7e//Yff9nDVPkK4MKrBkhIQKdKpeMo7NbknV4GPiDAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAIGjCHwZC/pR+fX1qMpfrBxz8bfB69+YJ05incVc/H9z8XsMP1V6/XnLEycjCOdf6uKXM50n2s8xEk48pKY4LV2oFjgRiefh/PvC5qia4yItGScpkeXzEeNiWeIw4CQlMj33cKGa4EQkHuHn8a2ta1vPUY8Sl+9wsuQhH9+XHx/6hJMH7jP4sNrgZHJyFh84OZ8PnAzDmcbH1EPuPXed0cedx4l82Blferb+UR12I/ywkibNY8+zzjRtPX6XM0j5WDtbz62Bn6Vdy2/vZ3dw8m3se+l5us5goz5qns1v1ekOTtLpSP0+4qP1/v7O+5Ooj9Yu1F/mTnJ9RWmuEEZ9HMnGW7creFAbvG32xlO+NcIeZdao9548vG32xttTlzRtjzLTOhz97G2zN17N+vcos1b9S/dr2oflvhd6sOlRZi0fqnvpPgwftUxM+chHdJ8W3Q/mvJW0yu6R185avGO3pMzWaeQjysubzhsv2s75nf7W2I62KVqHFvFLeXnTeeNF2uZxYY7u5ENnWi8ZkN54a9nk5qPcHJur21qZvT9r0X9rtCk3Bo46f6nRlkgeZ/RxVxfmraeP0vmo5e9UI325RdxePu48Bp557OEDF9tGoj7S85WS+3Pt17RvSNdJV56Ptk1M/4n6UHyxzK3x0/hKp/Cq66Qc963/i1eOq9Irvnjm0qXxlc5CXIjqIxSvtd/yPDsbEtc9Pu48Lz0MLN/Jh/hGw1IfOf+576VlK67zpPOM9Lczuefo+W5tz9cxUKclGlel4yPnJ5dvnVZcJ5eoj3RNm44/jTd5wkesr0R8eNZR899NmRN8tPPhZTt34k0Tq/V1Y0fGR4StObG57D3eXfS03cpHzza957LxcS57Xh+2v2Huae/O66N9TSjBCLT0YWf6dz0vKe1drXzYXRXrq7iVFj7MBWe+cReWorYPXJR5UCqvj/R+d+1OxT5jXIhsWSgfuXsMuyvPnSWyHi5zME8VuTeh78/J8R4CEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAAAQgAAEIQAACEIAABCAAAQhAAAIQgAAEIAABCEAAAhCAwPkJvALXnyMs
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -25,7 +25,7 @@
  <objectgroup id="3" name="event-layer">
   <object id="1" name="Timer" type="Timer" x="64" y="320" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0"/>
+    <property name="interval" type="float" value="1"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>
@@ -33,7 +33,7 @@
   <object id="2" name="Multitrigger" type="Multitrigger" x="128" y="320" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="intro0Case,intro1Case,intro2Case,intro3Case,startTimer,intro0Capsule"/>
+    <property name="triggeringId" value="intro0Case,intro1Case,intro2Case,intro3Case,startTimer,intro0Capsule,ui1"/>
    </properties>
   </object>
   <object id="3" name="Dialog" type="Dialog" x="320" y="320" width="32" height="32">
@@ -552,6 +552,12 @@
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="elevatorSwitchPulled"/>
+   </properties>
+  </object>
+  <object id="143" name="UI" type="UI" x="640" y="320" width="32" height="32">
+   <properties>
+    <property name="tags" value="SCRAP,SCRIP"/>
+    <property name="triggeredId" value="ui1"/>
    </properties>
   </object>
  </objectgroup>

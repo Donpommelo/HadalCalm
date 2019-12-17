@@ -10,7 +10,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -54,8 +53,8 @@ public class Event extends HadalEntity {
     
     /* How will this event be synced?
      * 0: Create a client illusion if it has a body
-     * 1: Create this event for clients. When activated on server, activate it for all players.
-     * 2: Create this event for clients. When activated on server, activate it for the user who activated it.
+     * 1: Create this event for clients. When activated on server, activate it for the user who activated it.
+     * 2: Create this event for clients. When activated on server, activate it for all players.
      * 3: Create this event for clients. When activated on server, activate it for the server only.
      */
     private int syncType = 0;
@@ -80,22 +79,6 @@ public class Event extends HadalEntity {
 		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
-	}
-	
-	/**
-	 * Events with sprites
-	 */
-	public Event(PlayState state, String name, int width, int height, int x, int y, String sprite, float scale, int scaleAlign) {
-		super(state, width, height, x, y);
-		this.name = name;
-		this.temporary = false;
-		this.duration = 0;
-		this.scale = scale;
-		this.scaleAlign = scaleAlign;
-		
-		eventSprite = new Animation<TextureRegion>(animationSpeed, GameStateManager.eventAtlas.findRegions(sprite));
-		spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
-		spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
 	}
 	
 	/**
@@ -143,7 +126,7 @@ public class Event extends HadalEntity {
 	public void render(SpriteBatch batch) {
 		
 		if (eventSprite != null) {
-			batch.setProjectionMatrix(state.sprite.combined);
+
 			switch (scaleAlign) {
 			case 0:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
@@ -191,7 +174,7 @@ public class Event extends HadalEntity {
 		}
 		
 		if (body != null) {			
-			batch.setProjectionMatrix(state.sprite.combined);
+
 			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(0.60f);
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, getText(), getPosition().x * PPM, getPosition().y * PPM);
 		}

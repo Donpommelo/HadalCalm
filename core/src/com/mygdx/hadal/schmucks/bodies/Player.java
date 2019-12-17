@@ -419,7 +419,6 @@ public class Player extends PhysicsSchmuck {
 	private float armRotateXReal;
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.setProjectionMatrix(state.sprite.combined);
 		
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {

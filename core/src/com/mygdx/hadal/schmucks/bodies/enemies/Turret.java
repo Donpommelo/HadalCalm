@@ -212,8 +212,6 @@ public class Turret extends Enemy {
 	@Override
 	public void render(SpriteBatch batch) {
 
-		batch.setProjectionMatrix(state.sprite.combined);
-		
 		if (flashingCount > 0) {
 			batch.setShader(HadalGame.shader);
 		}

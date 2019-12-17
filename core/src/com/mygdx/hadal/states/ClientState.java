@@ -174,28 +174,27 @@ public class ClientState extends PlayState {
 		b2dr.render(world, camera.combined.scl(PPM));
 		
 		//Iterate through entities in the world to render
-		batch.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(sprite.combined);
 		batch.begin();
 		
 		//render all of the entities in the world
 		for (HadalEntity hitbox : hitboxes.values()) {
-			hitbox.render(batch);
+			if (hitbox.isVisible()) {
+				hitbox.render(batch);
+			}
 		}
 		for (HadalEntity schmuck : entities.values()) {
-			schmuck.render(batch);
+			if (schmuck.isVisible()) {
+				schmuck.render(batch);
+			}
 		}
 
 		batch.end();
-
-		//Render lighting
-		rays.setCombinedMatrix(camera);
-		rays.updateAndRender();
 		
 		//Render fade transitions
 		if (fadeLevel > 0) {
-			batch.setProjectionMatrix(camera.combined);
-			batch.begin();
 			batch.setProjectionMatrix(hud.combined);
+			batch.begin();
 			batch.setColor(1f, 1f, 1f, fadeLevel);
 			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 			batch.setColor(1f, 1f, 1f, 1);

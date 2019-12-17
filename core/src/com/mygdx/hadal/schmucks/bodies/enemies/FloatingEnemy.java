@@ -211,8 +211,6 @@ public class FloatingEnemy extends SteeringEnemy {
 			flip = true;
 		}
 		
-		batch.setProjectionMatrix(state.sprite.combined);
-
 		if (flashingCount > 0) {
 			batch.setShader(HadalGame.shader);
 		}
