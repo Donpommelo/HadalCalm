@@ -217,7 +217,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		if (body == null) {
 			return false;
 		} else {
-			if (camera.frustum.pointInFrustum(body.getPosition().x * PPM + width, body.getPosition().y * PPM + height, 0) || 
+			if (
+					camera.frustum.pointInFrustum(body.getPosition().x * PPM + width, body.getPosition().y * PPM + height, 0) || 
+					camera.frustum.pointInFrustum(body.getPosition().x * PPM - width, body.getPosition().y * PPM + height, 0) ||
+					camera.frustum.pointInFrustum(body.getPosition().x * PPM + width, body.getPosition().y * PPM - height, 0) ||
 					camera.frustum.pointInFrustum(body.getPosition().x * PPM - width, body.getPosition().y * PPM - height, 0)) {
 				return true;
 			} else {

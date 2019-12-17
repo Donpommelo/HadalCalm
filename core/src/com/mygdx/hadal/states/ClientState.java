@@ -167,7 +167,7 @@ public class ClientState extends PlayState {
 		batch.end();
 		
 		//Render Tiled Map + world
-		tmr.setView(camera);
+		tmr.setView(sprite);
 		tmr.render();				
 
 		//Render debug lines for box2d objects.

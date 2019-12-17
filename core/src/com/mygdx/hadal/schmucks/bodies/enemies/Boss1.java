@@ -261,7 +261,7 @@ public class Boss1 extends Enemy {
 		}
 	}
 	
-	private static final int fireballDamage = 1;
+	private static final int fireballDamage = 2;
 	private static final int burnDamage = 1;
 	private static final int fireSpeed = 12;
 	private static final int fireKB = 10;
