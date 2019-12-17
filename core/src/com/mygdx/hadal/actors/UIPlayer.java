@@ -112,6 +112,8 @@ public class UIPlayer extends AHadalActor {
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, player.getName(), 
 					player.getPosition().x * PPM - Player.hbWidth * Player.scale / 2, 
 					player.getPosition().y * PPM + Player.hbHeight * Player.scale / 2 + 15);
+			
+			batch.setProjectionMatrix(state.hud.combined);
 		}
 	}
 	

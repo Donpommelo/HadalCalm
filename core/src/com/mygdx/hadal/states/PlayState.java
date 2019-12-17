@@ -276,7 +276,7 @@ public class PlayState extends GameState {
 			}
 			
 			uiPlayer = new UIPlayer(HadalGame.assetManager, this);
-			uiActive = new UIActives(HadalGame.assetManager, this, player);
+			uiActive = new UIActives(HadalGame.assetManager, player);
 			uiObjective = new UIObjective(HadalGame.assetManager, this, player);
 			uiArtifact = new UIArtifacts(HadalGame.assetManager, this, player);
 			uiExtra = new UIExtra(HadalGame.assetManager, this);
@@ -334,7 +334,7 @@ public class PlayState extends GameState {
 		}
 		
 		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
-		world.step(1 / 60f, 6, 2);
+		world.step(1 / 60f, 8, 3);
 		
 		//Let AI process time step
 		GdxAI.getTimepiece().update(1 / 60f);
@@ -437,7 +437,7 @@ public class PlayState extends GameState {
 		batch.end();
 		
 		//Render Tiled Map + world
-		tmr.setView(camera);
+		tmr.setView(sprite);
 		tmr.render();				
 
 		//Render debug lines for box2d objects.

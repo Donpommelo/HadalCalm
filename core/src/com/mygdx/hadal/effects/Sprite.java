@@ -83,6 +83,24 @@ public enum Sprite {
 	P_STORMCALLER(SpriteType.EVENT, "event_stormcaller"),
 	P_TORPEDO(SpriteType.EVENT, "event_torpedo"),
 
+	//ui
+	UI_MAIN_OVERLAY(SpriteType.UI, "UI_main_overlay"),
+	UI_MAIN_RELOAD(SpriteType.UI, "UI_main_reloading"),
+	UI_MAIN_HEALTHBAR(SpriteType.UI, "UI_main_healthbar"),
+	UI_MAIN_HEALTH_LOW(SpriteType.UI, "UI_main_health_low"),
+	UI_MAIN_HEALTH_MISSING(SpriteType.UI, "UI_main_healthmissing"),
+	UI_MAIN_FUELBAR(SpriteType.UI, "UI_main_fuelbar"),
+	UI_MAIN_FUEL_CUTOFF(SpriteType.UI, "UI_main_fuel_cutoff"),
+	UI_MAIN_NULL(SpriteType.UI, "UI_main_null"),
+	UI_MAIN_SELECTED(SpriteType.UI, "UI_main_selected"),
+	UI_MAIN_UNSELECTED(SpriteType.UI, "UI_main_unselected"),
+
+	UI_MO_BASE(SpriteType.UI, "UI_momentum_base"),
+	UI_MO_READY(SpriteType.UI, "UI_momentum_ready"),
+	UI_MO_OVERLAY(SpriteType.UI, "UI_momentum_overlay"),
+	UI_MO_ARROW(SpriteType.UI, "UI_momentum_arrow"),
+
+	
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
 	EXCLAMATION(SpriteType.EXCLAMATION, "exclamation"),
@@ -91,6 +109,7 @@ public enum Sprite {
 	
 	private SpriteType type;
 	private String spriteId;
+	private Array<? extends TextureRegion> frames;
 	
 	Sprite(SpriteType type, String spriteId) {
 		this.type = type;
@@ -99,28 +118,41 @@ public enum Sprite {
 
 	public Array<? extends TextureRegion> getFrames() {
 		
-		switch (type) {
-		case EVENT:
-			return (GameStateManager.eventAtlas.findRegions(spriteId));
-		case EXPLOSION:
-			return (GameStateManager.explosionAtlas.findRegions(spriteId));
-		case PROJECTILE:
-			return (GameStateManager.projectileAtlas.findRegions(spriteId));
-		case WEAPON:
-			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
-		case FISH:
-			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
-		case TURRET:
-			return (GameStateManager.multitoolAtlas.findRegions(spriteId));
-		case IMPACT:
-			return (GameStateManager.impactAtlas.findRegions(spriteId));
-		case EXCLAMATION:
-			return (GameStateManager.exclamationAtlas.findRegions(spriteId));
-		case STAR:
-			return (GameStateManager.starShotAtlas.findRegions(spriteId));
-		default:
-			return null;
+		if (frames == null) {
+			switch (type) {
+			case EVENT:
+				frames = GameStateManager.eventAtlas.findRegions(spriteId);
+				break;
+			case EXPLOSION:
+				frames = GameStateManager.explosionAtlas.findRegions(spriteId);
+				break;
+			case PROJECTILE:
+				frames = GameStateManager.projectileAtlas.findRegions(spriteId);
+				break;
+			case WEAPON:
+				frames = GameStateManager.multitoolAtlas.findRegions(spriteId);
+				break;
+			case FISH:
+				frames = GameStateManager.multitoolAtlas.findRegions(spriteId);
+				break;
+			case TURRET:
+				frames = GameStateManager.multitoolAtlas.findRegions(spriteId);
+				break;
+			case IMPACT:
+				frames = GameStateManager.impactAtlas.findRegions(spriteId);
+				break;
+			case EXCLAMATION:
+				frames = GameStateManager.exclamationAtlas.findRegions(spriteId);
+				break;
+			case STAR:
+				frames = GameStateManager.starShotAtlas.findRegions(spriteId);
+				break;
+			case UI:
+				frames = GameStateManager.uiAtlas.findRegions(spriteId);
+				break;
+			}
 		}
+		return frames;
 	}
 	
 	private enum SpriteType {
@@ -133,6 +165,6 @@ public enum Sprite {
 		IMPACT,
 		EXCLAMATION,
 		STAR,
-		TOTLC
+		UI,
 	}
 }

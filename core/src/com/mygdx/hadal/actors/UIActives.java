@@ -8,9 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.states.PlayState;
 
 /**
  * UIMomentum appears in the bottom right screen and displays information about the player's momentum freezing cd and stored momentums
@@ -20,24 +19,22 @@ import com.mygdx.hadal.states.PlayState;
 public class UIActives extends AHadalActor {
 
 	private Player player;
-	private PlayState state;
 	private BitmapFont font;
 	
 	private TextureRegion base, ready, overlay;
 	
-	private float scale = 0.75f;
+	private static final float scale = 0.75f;
 
 	private boolean mouseOver;
 
-	public UIActives(AssetManager assetManager, PlayState state, Player player) {
+	public UIActives(AssetManager assetManager, Player player) {
 		super(assetManager);
 		this.player = player;
-		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
-		this.base = GameStateManager.uiAtlas.findRegion("UI_momentum_base");
-		this.ready = GameStateManager.uiAtlas.findRegion("UI_momentum_ready");
-		this.overlay = GameStateManager.uiAtlas.findRegion("UI_momentum_overlay");
+		this.base = Sprite.UI_MO_BASE.getFrames().first();
+		this.ready = Sprite.UI_MO_READY.getFrames().first();
+		this.overlay = Sprite.UI_MO_OVERLAY.getFrames().first();
 		setWidth(base.getRegionWidth() * scale);
 		setHeight(base.getRegionHeight() * scale);
 		setX(HadalGame.CONFIG_WIDTH - getWidth());
@@ -62,8 +59,6 @@ public class UIActives extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.setProjectionMatrix(state.hud.combined);
-
 		batch.draw(base, getX(), getY(), getWidth(), getHeight());
 		
 		font.getData().setScale(0.25f);

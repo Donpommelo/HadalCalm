@@ -3,16 +3,15 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.mods.WeaponMod;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.WeaponModifier;
@@ -29,7 +28,7 @@ public class UIPlay extends AHadalActor {
 	private BitmapFont font;
 	
 	private TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
-	private Array<AtlasRegion> itemNull, itemSelect, itemUnselect;
+	private Array<? extends TextureRegion> itemNull, itemSelect, itemUnselect;
 	
 	private float scale = 0.50f;
 	private static final int x = 0;
@@ -62,17 +61,16 @@ public class UIPlay extends AHadalActor {
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
-		this.main = GameStateManager.uiAtlas.findRegion("UI_main_overlay");
-		this.reloading = GameStateManager.uiAtlas.findRegion("UI_main_reloading");
-		this.reloading = GameStateManager.uiAtlas.findRegion("UI_main_reloading");
-		this.hp = GameStateManager.uiAtlas.findRegion("UI_main_healthbar");
-		this.hpLow = GameStateManager.uiAtlas.findRegion("UI_main_health_low");
-		this.hpMissing = GameStateManager.uiAtlas.findRegion("UI_main_healthmissing");
-		this.fuel = GameStateManager.uiAtlas.findRegion("UI_main_fuelbar");
-		this.fuelCutoff = GameStateManager.uiAtlas.findRegion("UI_main_fuel_cutoff");
-		this.itemNull = GameStateManager.uiAtlas.findRegions("UI_main_null");
-		this.itemSelect = GameStateManager.uiAtlas.findRegions("UI_main_selected");
-		this.itemUnselect = GameStateManager.uiAtlas.findRegions("UI_main_unselected");
+		this.main = Sprite.UI_MAIN_OVERLAY.getFrames().first();
+		this.reloading = Sprite.UI_MAIN_RELOAD.getFrames().first();
+		this.hp = Sprite.UI_MAIN_HEALTHBAR.getFrames().first();
+		this.hpLow = Sprite.UI_MAIN_HEALTH_LOW.getFrames().first();
+		this.hpMissing = Sprite.UI_MAIN_HEALTH_MISSING.getFrames().first();
+		this.fuel = Sprite.UI_MAIN_FUELBAR.getFrames().first();
+		this.fuelCutoff = Sprite.UI_MAIN_FUEL_CUTOFF.getFrames().first();
+		this.itemNull = Sprite.UI_MAIN_NULL.getFrames();
+		this.itemSelect = Sprite.UI_MAIN_SELECTED.getFrames();
+		this.itemUnselect = Sprite.UI_MAIN_UNSELECTED.getFrames();
 		
 		this.hpRatio = 1.0f;
 		this.fuelRatio = 1.0f;

@@ -31,7 +31,7 @@ public class Fisticuffs extends MeleeWeapon {
 	private final static int projDura = 5;
 	private final static Sprite projSprite = Sprite.IMPACT;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.MT_DEFAULT;
+	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private final static float range = 50.0f;
 	

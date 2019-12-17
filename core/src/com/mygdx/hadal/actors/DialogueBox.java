@@ -166,11 +166,13 @@ public class DialogueBox extends AHadalActor {
 		}
 	}
 	
+	
+	private Dialogue first;
 	@Override
     public void draw(Batch batch, float alpha) {	 
 		if (dialogues.size != 0) {
 			 
-			Dialogue first = dialogues.first();
+			first = dialogues.first();
 			if (first.isSmall()) {
 				font.getData().setScale(scaleSmall);
 				gsm.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);

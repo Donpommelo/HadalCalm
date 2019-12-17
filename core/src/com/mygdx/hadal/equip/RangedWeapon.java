@@ -128,7 +128,6 @@ public class RangedWeapon extends Equipable {
 				if (shooter instanceof PlayerBodyData) {
 					PlayerBodyData p = (PlayerBodyData)shooter;
 					p.emptySlot(p.getCurrentSlot());
-					p.switchDown();
 				}
 			}
 		}

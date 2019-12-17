@@ -359,14 +359,30 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 		
-		multitools[slot] = new Fisticuffs(player);
+		multitools[slot] = new NothingWeapon(player);
 		multitools[slot].setUser(player);
 		
 		currentSlot = slot;
 		setEquip();
 		
 		loadout.multitools[currentSlot] = UnlockEquip.NOTHING;
+		
+		boolean allEmpty = true;
+		for (int i = 0; i < multitools.length; i++) {
+			if (!loadout.multitools[i].equals(UnlockEquip.NOTHING)) {
+				allEmpty = false;
+			}
+		}
+		
+		if (allEmpty) {
+			multitools[0] = new Fisticuffs(player);
+			multitools[0].setUser(player);
+			switchWeapon(1);
+		}
+		
 		syncServerLoadoutChange();
+		
+		switchDown();
 	}
 	
 	/**

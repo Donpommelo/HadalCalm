@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * An Artifact tag is a ui element that corresponds to a single artifact in the player's inventory.
@@ -37,9 +37,9 @@ public class ArtifactTag extends AHadalActor {
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = Color.WHITE;
 		
-		this.base = GameStateManager.uiAtlas.findRegion("UI_momentum_base");
-		this.ready = GameStateManager.uiAtlas.findRegion("UI_momentum_ready");
-		this.overlay = GameStateManager.uiAtlas.findRegion("UI_momentum_overlay");
+		this.base = Sprite.UI_MO_BASE.getFrames().first();
+		this.ready = Sprite.UI_MO_READY.getFrames().first();
+		this.overlay = Sprite.UI_MO_OVERLAY.getFrames().first();
 		
 		mouseOver = false;
 		

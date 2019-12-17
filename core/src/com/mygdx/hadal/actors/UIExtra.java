@@ -44,11 +44,11 @@ public class UIExtra extends AHadalActor{
 		uiTags = new ArrayList<UITag>();
 	}
 	
+	private StringBuilder text = new StringBuilder();
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.setProjectionMatrix(state.hud.combined);
-
-		StringBuilder text = new StringBuilder();
+		
+		text.setLength(0);
 		
 		for (UITag tag : uiTags) {
 			switch(tag.getType()) {

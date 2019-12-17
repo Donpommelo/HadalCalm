@@ -3,12 +3,10 @@ package com.mygdx.hadal.actors;
 import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.SteeringUtil;
@@ -24,7 +22,6 @@ public class UIObjective extends AHadalActor {
 	private PlayState state;
 	
 	private TextureRegion base, ready, overlay;
-	private Array<AtlasRegion> arrow;
 	
 	private float scale = 0.25f;
 	
@@ -35,21 +32,19 @@ public class UIObjective extends AHadalActor {
 		this.player = player;
 		this.state = state;
 		
-		this.base = GameStateManager.uiAtlas.findRegion("UI_momentum_base");
-		this.ready = GameStateManager.uiAtlas.findRegion("UI_momentum_ready");
-		this.overlay = GameStateManager.uiAtlas.findRegion("UI_momentum_overlay");
-		
-		this.arrow = GameStateManager.uiAtlas.findRegions("UI_momentum_arrow");
+		this.base = Sprite.UI_MO_BASE.getFrames().first();
+		this.ready = Sprite.UI_MO_READY.getFrames().first();
+		this.overlay = Sprite.UI_MO_OVERLAY.getFrames().first();
 		
 		this.corner = SteeringUtil.vectorToAngle(new Vector2(HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT));
 	}
 	
+	private float x, y, angle;
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.setProjectionMatrix(state.hud.combined);
 
-		float x = 500;
-		float y = 500;
+		x = 500;
+		y = 500;
 		
 		if (state.getObjectiveTarget() != null && player.getBody() != null) {
 			
@@ -59,7 +54,7 @@ public class UIObjective extends AHadalActor {
 			if (Math.abs(xDist) > HadalGame.CONFIG_WIDTH / 2 || Math.abs(yDist) > HadalGame.CONFIG_HEIGHT / 2) {
 				Vector2 toObjective = new Vector2(xDist, yDist);
 				
-				float angle = SteeringUtil.vectorToAngle(toObjective);
+				angle = SteeringUtil.vectorToAngle(toObjective);
 				
 				if (angle < corner && angle > -(Math.PI + corner)) {
 					x = (float) (base.getRegionWidth() * scale);
@@ -86,16 +81,13 @@ public class UIObjective extends AHadalActor {
 			batch.draw(base, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 			batch.draw(ready, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 			batch.draw(overlay, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
-			batch.draw(arrow.get(0), x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale / 2, base.getRegionHeight() * scale / 2,
-					base.getRegionWidth() * scale, base.getRegionWidth() * scale, 1, 1, 0);
+			
+			batch.setProjectionMatrix(state.hud.combined);
+
 		}
-		
-		//ARGHARGHARGHARGHARGH
-		batch.setProjectionMatrix(state.hud.combined);
 	}
 
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-
 }

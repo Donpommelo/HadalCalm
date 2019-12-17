@@ -238,7 +238,6 @@ public class Event extends HadalEntity {
 	}
 	
 	public void setEventSprite(Sprite sprite, boolean still, int frame, float speed, PlayMode mode) {
-		
 		if (still) {
 			this.eventSprite = new Animation<TextureRegion>(speed, sprite.getFrames().get(frame));
 		} else {
