@@ -64,12 +64,12 @@ public class PlayerChanger extends Event {
 				}
 				
 				if (data.getCurrentHp() < data.getMaxHp() && hp > 0) {
-					p.getPlayerData().regainHp(hp, p.getPlayerData(), true, DamageTypes.MEDPAK);
+					data.regainHp(hp, p.getPlayerData(), true, DamageTypes.MEDPAK);
 					activated = true;
 				}
 				
 				if (hp < 0) {
-					p.getPlayerData().receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), null, false);
+					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), null, false);
 					activated = true;
 				}
 				

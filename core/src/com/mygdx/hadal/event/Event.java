@@ -45,6 +45,7 @@ public class Event extends HadalEntity {
 	protected float gravity = 0.0f;
 	
 	//Event sprite and rendering information
+	private Sprite sprite;
 	private Animation<TextureRegion> eventSprite;
 	private int spriteWidth;
 	private int spriteHeight;
@@ -238,6 +239,9 @@ public class Event extends HadalEntity {
 	}
 	
 	public void setEventSprite(Sprite sprite, boolean still, int frame, float speed, PlayMode mode) {
+		
+		this.sprite = sprite; 
+		
 		if (still) {
 			this.eventSprite = new Animation<TextureRegion>(speed, sprite.getFrames().get(frame));
 		} else {
@@ -259,7 +263,7 @@ public class Event extends HadalEntity {
 		switch(syncType) {
 		case 0:
 			if (body != null) {
-				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), null, ObjectSyncLayers.STANDARD);
+				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD);
 			} else {
 				return null;
 			}

@@ -16,7 +16,7 @@ public class Number1BossMug extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private static final float heal = 50.0f;
+	private static final int heal = 50;
 	private static final float chance = 0.5f;
 	
 	public Number1BossMug() {
@@ -31,7 +31,7 @@ public class Number1BossMug extends Artifact {
 			public void onKill(BodyData vic) {
 				if (GameStateManager.generator.nextFloat() <= chance || vic instanceof PlayerBodyData) {
 					
-					WeaponUtils.createPickup(state, 0, heal, (int)(vic.getSchmuck().getPosition().x * PPM), 
+					WeaponUtils.createPickup(state, WeaponUtils.pickupTypes.FUEL, heal, (int)(vic.getSchmuck().getPosition().x * PPM), 
 							(int)(vic.getSchmuck().getPosition().y * PPM));
 				}
 			}

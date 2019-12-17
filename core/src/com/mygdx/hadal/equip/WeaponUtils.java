@@ -6,11 +6,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -25,9 +26,13 @@ import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.utils.TiledObjectUtil;
+import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
  * This util contains several shortcuts for hitbox-spawning effects for weapons or other items.
@@ -182,91 +187,85 @@ public class WeaponUtils {
 		return null;
 	}
 	
-	/*
-	 * NEVER USE THESE IDS AGAIN FOR ANY EVENT ANYWHERE
-	 */
-	private final static String genericHpDeleterID = "genericHpDeleterID";
-	private final static String genericHpChangerID = "genericHpChangerID";
-	private final static String genericHpParticleID = "genericHpParticleID";
-	
-	private final static String genericFuelDeleterID = "genericFuelDeleterID";
-	private final static String genericFuelChangerID = "genericFuelChangerID";
-	private final static String genericFuelParticleID = "genericFuelParticleID";
-	
-	private static Event hpChanger, fuelChanger;
-	
 	public static final int pickupSize = 64;
+	public static void createPickup(PlayState state, final pickupTypes type, final int power, int x, int y) {
+
+		Event pickup = new Sensor(state, pickupSize, pickupSize, x, y, true, false, false, false, 1.0f, true) {
+			
+			@Override
+			public void create() {
+				
+				this.eventData = new EventData(this) {
+					
+					@Override
+					public void onTouch(HadalData fixB) {
+						super.onTouch(fixB);
+						
+						if (isAlive() && fixB instanceof PlayerBodyData) {
+							
+							
+							PlayerBodyData player = ((PlayerBodyData)fixB);
+							switch(type) {
+							case AMMO:
+								if (player.getCurrentTool().getClipLeft() < player.getCurrentTool().getClipSize()) {
+									player.getCurrentTool().gainClip(power);
+									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
+									event.queueDeletion();
+								}
+								break;
+							case FUEL:
+								if (player.getCurrentFuel() < player.getMaxFuel()) {
+									player.fuelGain(power);
+									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
+									event.queueDeletion();
+								}
+								break;
+							case HEALTH:
+								if (player.getCurrentHp() < player.getMaxHp()) {
+									player.regainHp(power, player, true, DamageTypes.MEDPAK);
+									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
+									event.queueDeletion();
+								}
+								break;
+							default:
+								break;
+							}
+						}
+					}
+				};
+				this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
+						(short)Constants.BIT_PLAYER, (short) 0, true, eventData);
+				
+				body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 
+						new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, 0.0f, 1.0f,
+					Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
+			}
+		};
+		
+		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
+		pickup.setScaleAlign(2);
+		pickup.setSyncType(0);
+		pickup.setSynced(true);
+		pickup.setScale(0.25f);
+		
+		switch(type) {
+		case AMMO:
+			pickup.setEventSprite(Sprite.FUEL);
+			break;
+		case FUEL:
+			pickup.setEventSprite(Sprite.FUEL);
+			break;
+		case HEALTH:
+			pickup.setEventSprite(Sprite.MEDPAK);
+			break;
+		default:
+			break;
+		}
+	}
 	
-	public static void createPickup(PlayState state, int type, float power, int x, int y) {
-
-		RectangleMapObject pickup = new RectangleMapObject();
-		pickup.getRectangle().set(x, y, pickupSize, pickupSize);
-		pickup.setName("Sensor");
-		pickup.getProperties().put("align", 2);
-		pickup.getProperties().put("sync", 3);
-		pickup.getProperties().put("synced", true);
-		pickup.getProperties().put("scale", 0.25f);
-		pickup.getProperties().put("gravity", 1.0f);
-		pickup.getProperties().put("player", true);
-		pickup.getProperties().put("collision", true);
-		pickup.getProperties().put("particle_amb", "EVENT_HOLO");
-
-		if (type == 0) {
-			pickup.getProperties().put("triggeringId", genericFuelChangerID);
-			pickup.getProperties().put("sprite", "FUEL");
-		}
-
-		if (type == 1) {
-			pickup.getProperties().put("triggeringId", genericHpChangerID);
-			pickup.getProperties().put("sprite", "MEDPAK");
-		}
-		
-		if (hpChanger == null && type == 1) {
-			RectangleMapObject changer = new RectangleMapObject();
-			changer.setName("Player");
-			changer.getProperties().put("hp", power);
-			changer.getProperties().put("triggeredId", genericHpChangerID);
-			changer.getProperties().put("triggeringId", genericHpDeleterID);
-			
-			RectangleMapObject deleter = new RectangleMapObject();
-			deleter.setName("EventDelete");
-			deleter.getProperties().put("triggeredId", genericHpDeleterID);
-			deleter.getProperties().put("triggeringId", genericHpParticleID);
-			
-			RectangleMapObject pickupParticle = new RectangleMapObject();
-			pickupParticle.setName("Particle");
-			pickupParticle.getProperties().put("duration", 2.0f);
-			pickupParticle.getProperties().put("particle", "PICKUP_HEALTH");
-			pickupParticle.getProperties().put("triggeredId", genericHpParticleID);
-			
-			hpChanger = TiledObjectUtil.parseSingleEventWithTriggers(state, changer);
-			TiledObjectUtil.parseSingleEventWithTriggers(state, deleter);
-			TiledObjectUtil.parseSingleEventWithTriggers(state, pickupParticle);
-		}
-		
-		if (fuelChanger == null && type == 0) {
-			RectangleMapObject changer = new RectangleMapObject();
-			changer.setName("Player");
-			changer.getProperties().put("fuel", power);
-			changer.getProperties().put("triggeredId", genericFuelChangerID);
-			changer.getProperties().put("triggeringId", genericFuelDeleterID);
-			
-			RectangleMapObject deleter = new RectangleMapObject();
-			deleter.setName("EventDelete");
-			deleter.getProperties().put("triggeredId", genericFuelDeleterID);
-			deleter.getProperties().put("triggeringId", genericFuelParticleID);
-			
-			RectangleMapObject pickupParticle = new RectangleMapObject();
-			pickupParticle.setName("Particle");
-			pickupParticle.getProperties().put("duration", 2.0f);
-			pickupParticle.getProperties().put("particle", "PICKUP_ENERGY");
-			pickupParticle.getProperties().put("triggeredId", genericFuelParticleID);
-			
-			fuelChanger = TiledObjectUtil.parseSingleEventWithTriggers(state, changer);
-			TiledObjectUtil.parseSingleEventWithTriggers(state, deleter);
-			TiledObjectUtil.parseSingleEventWithTriggers(state, pickupParticle);
-		}
-		
-		TiledObjectUtil.parseSingleEventWithTriggers(state, pickup);
+	public enum pickupTypes {
+		HEALTH,
+		FUEL,
+		AMMO
 	}
 }

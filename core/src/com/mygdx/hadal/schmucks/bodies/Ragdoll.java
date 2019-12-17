@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -23,6 +25,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Ragdoll extends HadalEntity {
 	
 	//This is the sprite that will be displayed
+	private Sprite sprite;
 	private TextureRegion illusionSprite;
 	
 	private final static int spread = 60;
@@ -40,6 +43,7 @@ public class Ragdoll extends HadalEntity {
 		this.startVelo = startVelo;
 		this.startAngle = baseAngle;
 		this.ragdollDuration = duration;
+		this.sprite = sprite;
 		if (sprite != null) {
 			illusionSprite = sprite.getFrame();
 		}
@@ -80,5 +84,13 @@ public class Ragdoll extends HadalEntity {
 					width, height, 1, 1, 
 					(float) Math.toDegrees(getOrientation()) + 180);
 		}
+	}
+	
+	/**
+	 * As Default: Upon created, the frag tells the client to create a client illusion tracking it
+	 */
+	@Override
+	public Object onServerCreate() {
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD);
 	}
 }

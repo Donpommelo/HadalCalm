@@ -16,8 +16,8 @@ public class GluttonousGreyGlove extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private static final float heal = 20.0f;
-	private static final float chance = 0.2f;
+	private static final int heal = 20;
+	private static final float chance = 1.0f;
 	
 	public GluttonousGreyGlove() {
 		super(name, descr, descrLong, statusNum);
@@ -30,7 +30,7 @@ public class GluttonousGreyGlove extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				if (GameStateManager.generator.nextFloat() <= chance || vic instanceof PlayerBodyData) {
-					WeaponUtils.createPickup(state, 1, heal, (int)(vic.getSchmuck().getPosition().x * PPM), 
+					WeaponUtils.createPickup(state, WeaponUtils.pickupTypes.HEALTH, heal, (int)(vic.getSchmuck().getPosition().x * PPM), 
 							(int)(vic.getSchmuck().getPosition().y * PPM));
 				}
 			}
