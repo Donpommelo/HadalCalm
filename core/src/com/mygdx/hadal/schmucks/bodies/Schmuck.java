@@ -89,6 +89,10 @@ public class Schmuck extends HadalEntity {
 	 */
 	@Override
 	public void create() {
+		
+		if (!state.isServer())
+			return;
+		
 		this.feetData = new FeetData(UserDataTypes.FEET, this); 
 		
 		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 

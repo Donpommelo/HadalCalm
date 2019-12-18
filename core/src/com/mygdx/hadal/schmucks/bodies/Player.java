@@ -214,6 +214,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void create() {
 		alive = true;
+		destroyed = false;
 		controller = new ActionController(this, state);
 		state.resetController();
 		

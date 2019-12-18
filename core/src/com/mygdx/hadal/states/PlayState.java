@@ -863,7 +863,7 @@ public class PlayState extends GameState {
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	public World getWorld() {
 		return world;
 	}
