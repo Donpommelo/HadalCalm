@@ -109,10 +109,10 @@ public class PauseState extends GameState {
 			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 			        		
 			        		if (GameStateManager.currentMode == Mode.SINGLE) {
-				        		ps.loadLevel(UnlockLevel.HUB, transitionState.NEXTSTAGE);
+				        		ps.loadLevel(UnlockLevel.HUB, transitionState.NEWLEVEL);
 				        	}
 				        	if (GameStateManager.currentMode == Mode.MULTI) {
-				        		ps.loadLevel(UnlockLevel.HUB_MULTI, transitionState.NEXTSTAGE);
+				        		ps.loadLevel(UnlockLevel.HUB_MULTI, transitionState.NEWLEVEL);
 				        	}
 	    				}
 			        }

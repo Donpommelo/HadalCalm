@@ -564,7 +564,7 @@
   </object>
   <object id="145" name="Sensor" type="Sensor" x="15168" y="2688" width="32" height="32">
    <properties>
-    <property name="align" type="int" value="2"/>
+    <property name="align" value="CENTER_BOTTOM"/>
     <property name="scale" type="float" value="0.25"/>
     <property name="sprite" value="MEDPAK"/>
     <property name="triggeredId" value="hp1"/>
@@ -592,7 +592,7 @@
   </object>
   <object id="149" name="Sensor" type="Sensor" x="15168" y="2752" width="32" height="32">
    <properties>
-    <property name="align" type="int" value="2"/>
+    <property name="align" value="CENTER_BOTTOM"/>
     <property name="scale" type="float" value="0.25"/>
     <property name="sprite" value="MEDPAK"/>
     <property name="triggeredId" value="hp2"/>
@@ -615,7 +615,7 @@
   </object>
   <object id="153" name="Sensor" type="Sensor" x="15168" y="2816" width="32" height="32">
    <properties>
-    <property name="align" type="int" value="2"/>
+    <property name="align" value="CENTER_BOTTOM"/>
     <property name="scale" type="float" value="0.25"/>
     <property name="sprite" value="MEDPAK"/>
     <property name="triggeredId" value="hp3"/>
@@ -638,7 +638,7 @@
   </object>
   <object id="156" name="Sensor" type="Sensor" x="15168" y="2880" width="32" height="32">
    <properties>
-    <property name="align" type="int" value="2"/>
+    <property name="align" value="CENTER_BOTTOM"/>
     <property name="scale" type="float" value="0.25"/>
     <property name="sprite" value="FUEL"/>
     <property name="triggeredId" value="fuel1"/>
@@ -659,7 +659,6 @@
     <property name="triggeringId" value="delete"/>
    </properties>
   </object>
-  <object id="159" name="WeaponMod" type="WeaponMod" x="1728" y="2048" width="32" height="32"/>
   <object id="160" name="Prefab" type="Prefab" x="3776" y="1696" width="96" height="160">
    <properties>
     <property name="prefabId" value="Door"/>
@@ -813,7 +812,7 @@
     <property name="triggeringId" value="redirect3"/>
    </properties>
   </object>
-  <object id="186" name="Warp" type="Warp" x="768" y="2144" width="32" height="32">
+  <object id="186" name="Warp" type="Warp" x="736" y="2112" width="64" height="64">
    <properties>
     <property name="level" value="LEVEL_1"/>
    </properties>

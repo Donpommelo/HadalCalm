@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -82,7 +83,7 @@ public class Ragdoll extends HadalEntity {
 					getPosition().y * PPM - height / 2, 
 					width / 2, height / 2,
 					width, height, 1, 1, 
-					(float) Math.toDegrees(getOrientation()) + 180);
+					(float) Math.toDegrees(getOrientation()));
 		}
 	}
 	
@@ -91,6 +92,6 @@ public class Ragdoll extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD, alignType.CENTER);
 	}
 }

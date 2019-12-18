@@ -78,7 +78,7 @@
   </object>
   <object id="17" name="Prefab" type="Prefab" x="1120" y="1408" width="96" height="608">
    <properties>
-    <property name="align" type="int" value="0"/>
+    <property name="align" value="CENTER_BOTTOM"/>
     <property name="point1" value="leftRoomCenter"/>
     <property name="prefabId" value="Camera"/>
     <property name="zoom1" type="float" value="1"/>

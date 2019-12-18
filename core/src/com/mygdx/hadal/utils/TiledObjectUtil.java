@@ -203,7 +203,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("still", false, boolean.class),
 					object.getProperties().get("frame", 0, int.class),
 					object.getProperties().get("speed", 0.8f, float.class), 
-					object.getProperties().get("align", -1, int.class),
+					object.getProperties().get("align", "NONE", String.class),
 					object.getProperties().get("scale", -1.0f, float.class));	
 		}
 		if (object.getName().equals("QuestChange")) {
@@ -360,7 +360,7 @@ public class TiledObjectUtil {
 				e.setScale(object.getProperties().get("scale", float.class));
 			}
 			if (object.getProperties().get("align", Integer.class) != null) {
-				e.setScaleAlign(object.getProperties().get("align", Integer.class));
+				e.setScaleAlign(object.getProperties().get("align", String.class));
 			}
 			
 			if (object.getProperties().get("sync", String.class) != null) {

@@ -28,7 +28,7 @@ public class LeverActivate extends Prefabrication {
 		RectangleMapObject base = new RectangleMapObject();
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
-		base.getProperties().put("align", 2);
+		base.getProperties().put("align", "CENTER_BOTTOM");
 		base.getProperties().put("sync", "ALL");
 		base.getProperties().put("sprite", "BASE_GREEN");
 		
@@ -38,7 +38,7 @@ public class LeverActivate extends Prefabrication {
 		lever.getProperties().put("sprite", "LEVER");
 		lever.getProperties().put("still", true);
 		lever.getProperties().put("frame", 0);
-		lever.getProperties().put("align", 2);
+		lever.getProperties().put("align", "CENTER_BOTTOM");
 		lever.getProperties().put("sync", "ALL");
 		lever.getProperties().put("particle_std", "MOMENTUM");
 		lever.getProperties().put("triggeredId", leverId);
@@ -55,7 +55,7 @@ public class LeverActivate extends Prefabrication {
 		sprite1.getProperties().put("still", false);
 		sprite1.getProperties().put("mode", "NORMAL");
 		sprite1.getProperties().put("speed", 0.02f);
-		sprite1.getProperties().put("align", 2);
+		sprite1.getProperties().put("align", "CENTER_BOTTOM");
 		sprite1.getProperties().put("sync", "ALL");
 		sprite1.getProperties().put("triggeredId", spriteId1);
 		sprite1.getProperties().put("triggeringId", leverId);

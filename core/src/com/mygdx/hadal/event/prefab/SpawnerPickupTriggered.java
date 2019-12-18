@@ -61,7 +61,7 @@ public class SpawnerPickupTriggered extends Prefabrication {
 		RectangleMapObject pickup = new RectangleMapObject();
 		pickup.getRectangle().set(0, 0, width, height);
 		pickup.setName("Sensor");
-		pickup.getProperties().put("align", 2);
+		pickup.getProperties().put("align", "CENTER_BOTTOM");
 		pickup.getProperties().put("sync", "SERVER");
 		pickup.getProperties().put("synced", true);
 		pickup.getProperties().put("scale", 0.25f);

@@ -33,10 +33,10 @@ public class SpriteChanger extends Event {
 	private boolean still;
 	private int frame;
 	private float speed;
-	private int align;
+	private String align;
 	private float scale;
 	
-	public SpriteChanger(PlayState state, String sprite, String mode, boolean still, int frame, float speed, int align, float scale) {
+	public SpriteChanger(PlayState state, String sprite, String mode, boolean still, int frame, float speed, String align, float scale) {
 		super(state, name);
 		this.newSprite = Sprite.valueOf(sprite);
 		this.mode = mode;
@@ -57,7 +57,7 @@ public class SpriteChanger extends Event {
 				if (event.getConnectedEvent() != null) {
 					event.getConnectedEvent().setEventSprite(newSprite, still, frame, speed, PlayMode.valueOf(mode));
 					
-					if (align != -1) {
+					if (align != "NONE") {
 						event.getConnectedEvent().setScaleAlign(align);
 					}
 					

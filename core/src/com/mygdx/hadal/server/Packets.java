@@ -16,6 +16,7 @@ import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.transitionState;
@@ -284,6 +285,8 @@ public class Packets {
         public Vector2 size;
         public Sprite sprite;
         public ObjectSyncLayers layer;
+        public alignType align;
+        
 		public CreateEntity() {}
 		
 		/**
@@ -295,12 +298,13 @@ public class Packets {
 		 * @param sprite: entity's sprite
 		 * @param layer: Hitbox or Standard layer? (Hitboxes are rendered underneath other entities)
 		 */
-		public CreateEntity(String entityID, Vector2 size, Vector2 pos, Sprite sprite, ObjectSyncLayers layer) {
+		public CreateEntity(String entityID, Vector2 size, Vector2 pos, Sprite sprite, ObjectSyncLayers layer, alignType align) {
 			this.entityID = entityID;
 			this.pos = pos;
             this.size = size;
             this.sprite = sprite;
             this.layer = layer;
+            this.align = align;
         }
 	}
 	

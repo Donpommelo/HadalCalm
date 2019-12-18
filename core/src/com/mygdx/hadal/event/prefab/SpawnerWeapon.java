@@ -33,6 +33,7 @@ public class SpawnerWeapon extends Prefabrication {
 		base.setName("Dummy");
 		base.getProperties().put("sync", "ALL");
 		base.getProperties().put("sprite", "BASE");
+		base.getProperties().put("align", "CENTER_BOTTOM");
 		
 		RectangleMapObject spawner = new RectangleMapObject();
 		spawner.setName("Alttrigger");

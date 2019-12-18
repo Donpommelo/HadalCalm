@@ -10,6 +10,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -50,7 +51,8 @@ public class Event extends HadalEntity {
 	private int spriteWidth;
 	private int spriteHeight;
 	private float scale = 0.25f;
-    private int scaleAlign = 0;
+   
+	private alignType scaleAlign = alignType.CENTER_BOTTOM;
     
     /* How will this event be synced?
      * ILLUSION: Create a client illusion if it has a body
@@ -129,47 +131,28 @@ public class Event extends HadalEntity {
 		if (eventSprite != null) {
 
 			switch (scaleAlign) {
-			case 0:
+			case CENTER:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
+	                    getPosition().x * PPM - spriteWidth * scale / 2,
+	                    getPosition().y * PPM - spriteHeight * scale / 2,
+	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
+	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+				break;
+			case CENTER_STRETCH:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    getPosition().x * PPM - width / 2,
 	                    getPosition().y * PPM - height / 2,
 	                    width / 2, height / 2,
 	                    width, height, 1, 1, 0);
 				break;
-			case 1:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    getPosition().x * PPM - spriteWidth * scale / 2,
-	                    getPosition().y * PPM - spriteHeight * scale / 2,
-	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
-	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
-				break;
-			case 2:
+			case CENTER_BOTTOM:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
 	                    getPosition().x * PPM - spriteWidth * scale / 2,
 	                    getPosition().y * PPM - height / 2,
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
-			case 3:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    getPosition().x * PPM - spriteWidth * scale / 2,
-	                    getPosition().y * PPM + height / 2,
-	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
-	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
-				break;
-			case 4:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    getPosition().x * PPM - width / 2,
-	                    getPosition().y * PPM - spriteHeight * scale / 2,
-	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
-	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
-				break;
-			case 5:
-				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-	                    getPosition().x * PPM + width / 2,
-	                    getPosition().y * PPM - spriteHeight * scale / 2,
-	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
-	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
+			default:
 				break;
 			}            
 		}
@@ -251,8 +234,8 @@ public class Event extends HadalEntity {
 		
 		animationTime = 0;
 
-		this.spriteWidth = eventSprite.getKeyFrame(animationTime).getRegionWidth();
-		this.spriteHeight = eventSprite.getKeyFrame(animationTime).getRegionHeight();
+		this.spriteWidth = eventSprite.getKeyFrame(0).getRegionWidth();
+		this.spriteHeight = eventSprite.getKeyFrame(0).getRegionHeight();
 	}
 	
 	/**
@@ -263,7 +246,7 @@ public class Event extends HadalEntity {
 		switch(syncType) {
 		case ILLUSION:
 			if (body != null) {
-				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD);
+				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD, alignType.CENTER_BOTTOM);
 			} else {
 				return null;
 			}
@@ -287,8 +270,8 @@ public class Event extends HadalEntity {
 		this.scale = scale;
 	}
 
-	public void setScaleAlign(int scaleAlign) {
-		this.scaleAlign = scaleAlign;
+	public void setScaleAlign(String scaleAlign) {
+		this.scaleAlign = alignType.valueOf(scaleAlign);
 	}
 
 	public eventSyncTypes getSyncType() {

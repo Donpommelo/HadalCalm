@@ -244,7 +244,7 @@ public class WeaponUtils {
 		};
 		
 		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
-		pickup.setScaleAlign(2);
+		pickup.setScaleAlign("CENTER_BOTTOM");
 		pickup.setSyncType(eventSyncTypes.ILLUSION);
 		pickup.setSynced(true);
 		pickup.setScale(0.25f);
