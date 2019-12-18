@@ -235,7 +235,7 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						cs.beginTransition(p.state);
+        						cs.beginTransition(p.state, p.override, p.resultsText);
         					}
         				});
 					}
@@ -370,7 +370,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						if (!p.entityID.equals(myId)) {
-                    				Player newPlayer = cs.createPlayer(0, 0, p.name, p.loadout, null);
+                    				Player newPlayer = cs.createPlayer(0, 0, p.name, p.loadout, null, true);
                     				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);

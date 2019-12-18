@@ -39,7 +39,8 @@ public class ResultsState extends GameState {
 	//This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private HashMap<SavedPlayerFields, Boolean> ready;
 	
-
+	private String text;
+	
 	//Dimentions and position of the results menu
 	private final static int width = 1000;
 	private final static int height = 600;
@@ -49,8 +50,9 @@ public class ResultsState extends GameState {
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
 	 */
-	public ResultsState(final GameStateManager gsm, PlayState ps) {
+	public ResultsState(final GameStateManager gsm, String text, PlayState ps) {
 		super(gsm);
+		this.text = text;
 		this.ps = ps;
 		
 		//First, we obtain the list of scores, depending on whether we are the server or client.
@@ -105,6 +107,7 @@ public class ResultsState extends GameState {
 	public void syncScoreTable() {
 		table.clear();
 		
+		table.add(new Text(HadalGame.assetManager, text, 0, 0, Color.WHITE)).padBottom(50).row();
 		table.add(new Text(HadalGame.assetManager, "PLAYER", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
 		table.add(new Text(HadalGame.assetManager, "KILLS", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
 		table.add(new Text(HadalGame.assetManager, "DEATH", 0, 0, Color.WHITE)).padBottom(50).padRight(20);

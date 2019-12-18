@@ -195,13 +195,13 @@ public class GameStateManager {
 	 * @param old: old playerdata to persist stuff like equips/hp/whatever
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState) {
+	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState, boolean reset) {
 		
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, true, old));
+			states.push(new PlayState(this, loadout, map, true, old, reset));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, true, old));
+			states.push(new PlayState(this, loadout, map, true, old, reset));
 			states.peek().show();
 		}
 	}
@@ -243,12 +243,12 @@ public class GameStateManager {
 	 * @param ps: This is the playstate we are putting the resultsstate on
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addResultsState(PlayState ps, Class<? extends GameState> lastState) {
+	public void addResultsState(PlayState ps, String text, Class<? extends GameState> lastState) {
 		if (states.empty()) {
-			states.push(new ResultsState(this, ps));
+			states.push(new ResultsState(this, text, ps));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new ResultsState(this, ps));
+			states.push(new ResultsState(this, text, ps));
 			states.peek().show();
 		}
 	}
@@ -268,11 +268,11 @@ public class GameStateManager {
 	
 	public void gotoHubState() {
 		if (currentMode == Mode.SINGLE) {
-			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class);
+			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class, true);
 		}
 		
 		if (currentMode == Mode.MULTI) {
-			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class);
+			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class, true);
 		}
 	}
 	

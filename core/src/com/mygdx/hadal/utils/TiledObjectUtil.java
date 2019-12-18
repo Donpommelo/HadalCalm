@@ -274,7 +274,7 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Warp")) {
 			e = new LevelWarp(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("Level", String.class), object.getProperties().get("reset", true, Boolean.class));
+					object.getProperties().get("level", String.class), object.getProperties().get("reset", false, Boolean.class));
 		}
 		if (object.getName().equals("Poison")) {
 			e = new Poison(state, (int)rect.width, (int)rect.height, 

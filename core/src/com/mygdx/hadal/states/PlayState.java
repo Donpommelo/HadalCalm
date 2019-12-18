@@ -155,20 +155,30 @@ public class PlayState extends GameState {
 	//Background and black screen used for transitions
 	protected Texture bg, black;
 	
-	//This is the amount of time between transition called for and fading actually beginning.
-	protected float fadeInitialDelay = 1.0f;
+	private final static float defaultTransitionDelay = 0.5f;
+	private final static float defaultFadeInSpeed = -0.015f;
+	private final static float defaultFadeOutSpeed = 0.015f;
 	
-	//This is the how faded the black screen is
+	//This is the amount of time between transition called for and fading actually beginning.
+	protected float fadeInitialDelay = defaultTransitionDelay;
+	
+	//This is the how faded the black screen is. (starts off black)
 	protected float fadeLevel = 1.0f;
 			
-	//This is how much the fade changes every engine tick
-	protected float fadeDelta = -0.015f;
+	//This is how much the fade changes every engine tick (starts out fading in)
+	protected float fadeDelta = defaultFadeInSpeed;
 	
 	//If we are transitioning to another level, this is that level.
 	private UnlockLevel nextLevel;
 	
+	//If we are transitioning to a results screen, this is the displayed text;
+	protected String resultsText;
+	
 	//Has the server finished loading yet?
 	private boolean serverLoaded = false;
+	
+	//Do players connecting to this have their hp/ammo/etc reset?
+	private boolean reset;
 	
 	//global variables
 	public static final float spriteAnimationSpeed = 0.08f;
@@ -177,7 +187,7 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old, boolean reset) {
 		super(gsm);
 
 		this.server = server;
@@ -235,8 +245,9 @@ public class PlayState extends GameState {
 		}
 		
 		//Create the player and make the camera focus on it
-		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old);
+		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old, reset);
 		this.cameraTarget = player;
+		this.reset = reset;
 
 		controller = new PlayerController(player);	
 		
@@ -553,7 +564,7 @@ public class PlayState extends GameState {
 					(int)(getSave.getLocation().x * PPM),
 					(int)(getSave.getLocation().y * PPM), 
 					gsm.getRecord().getName(), 
-					player.getPlayerData().getLoadout(), player.getPlayerData());
+					player.getPlayerData().getLoadout(), player.getPlayerData(), true);
 			
 			((PlayerController)controller).setPlayer(player);
 			
@@ -565,7 +576,7 @@ public class PlayState extends GameState {
 			}
 
 			//Make the screen fade back in
-			fadeDelta = -0.015f;
+			fadeDelta = defaultFadeInSpeed;
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -573,13 +584,13 @@ public class PlayState extends GameState {
 		case RESULTS:
 
 			//get a results screen
-			getGsm().addResultsState(this, PlayState.class);
+			getGsm().addResultsState(this, resultsText, PlayState.class);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
 			
 			//Make the screen fade back in
-			fadeDelta = -0.015f;
+			fadeDelta = defaultFadeInSpeed;
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -588,13 +599,13 @@ public class PlayState extends GameState {
 			
 			//remove this state and add a new play state with a fresh loadout
 			getGsm().removeState(PlayState.class);
-        	getGsm().addPlayState(UnlockLevel.valueOf(gsm.getRecord().getLevel()), new Loadout(gsm.getRecord()), null, TitleState.class);
+        	getGsm().addPlayState(nextLevel, new Loadout(gsm.getRecord()), null, TitleState.class, true);
 			break;
 		case NEXTSTAGE:
 			
 			//remove this state and add a new play state with the player's current loadout and stats
 			getGsm().removeState(PlayState.class);
-			getGsm().addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class);
+			getGsm().addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false);
 			break;
 		case TITLE:
 			getGsm().removeState(PlayState.class);
@@ -620,14 +631,21 @@ public class PlayState extends GameState {
 			
 			//begin transitioning to the designated next level
 			nextLevel = level;
-			beginTransition(state);
+			beginTransition(state, false, "");
 			
 			//Server tells clients to begin a transition to the new state
-			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState));
+			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, ""));
 		}
 	}
 	
-	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old) {
+	/**This creates a player to occupy the playestate
+	 * @param x, y coordinates of the player's starting location
+	 * @param name player name
+	 * @param altLoadout the player's loadout
+	 * @param old player's olf playerdata if retaining old values.
+	 * @return
+	 */
+	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old, boolean reset) {
 		
 		Loadout newLoadout = new Loadout(altLoadout);
 		
@@ -647,7 +665,7 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		return new Player(this, x, y, name, newLoadout, old);
+		return new Player(this, x, y, name, newLoadout, old, reset);
 	}
 	
 	/**
@@ -675,18 +693,20 @@ public class PlayState extends GameState {
 				}
 			}
 			if (allded) {
-				nextState = transitionState.RESULTS;
-				fadeInitialDelay = 0.5f;
-				fadeDelta = 0.015f;
-				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(transitionState.RESULTS));
+				
+				resultsText = getGameOverText();
+				
+				beginTransition(transitionState.RESULTS, true, getGameOverText());
+				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(transitionState.RESULTS, true, getGameOverText()));
 			} else {
 				if (this.player.equals(player)) {
-					beginTransition(transitionState.SPECTATOR);
+					beginTransition(transitionState.SPECTATOR, false, "");
 				} else {
-					//If a client dies, we tell them to transition to a respawn state.
+					
+					//If a client dies, we tell them to transition to a spectator state.
 					for (int connId : HadalGame.server.getPlayers().keySet()) {
 						if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-							HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.SPECTATOR));
+							HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.SPECTATOR, false, ""));
 						}
 					}
 				}
@@ -695,13 +715,13 @@ public class PlayState extends GameState {
 			if (this.player.equals(player)) {
 				
 				//Transition to the host respawning
-				beginTransition(transitionState.RESPAWN);
+				beginTransition(transitionState.RESPAWN, false, "");
 			} else {
 				
 				//If a client dies, we tell them to transition to a respawn state.
 				for (int connId : HadalGame.server.getPlayers().keySet()) {
 					if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-						HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.RESPAWN));
+						HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.RESPAWN, false, ""));
 					}
 				}
 			}
@@ -712,25 +732,30 @@ public class PlayState extends GameState {
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
 	 * @param state: Is it ending as a gameover or a results screen?
 	 */
-	public void levelEnd(transitionState state) {
-		beginTransition(state);
-		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(state));
+	public void levelEnd(String text) {
+		beginTransition(transitionState.RESULTS, false, text);
+		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(transitionState.RESULTS, false, text));
 	}
 	
 	/**
 	 * This is called whenever we transition to a new state. Begin transition and set new state.
 	 * @param state: The state we are transitioning towards
+	 * @param override: Does this transition override other transitions?
 	 */
-	public void beginTransition(transitionState state) {
+	public void beginTransition(transitionState state, boolean override, String resultsText) {
 
-		//If we are already transitioning to a new results state, do not do this
-		if (nextState == null) {
+		//If we are already transitioning to a new results state, do not do this unless we tell it to override
+		if (nextState == null || override) {
+			this.resultsText = resultsText;
 			nextState = state;
-			fadeInitialDelay = 0.5f;
-			fadeDelta = 0.015f;	
+			fadeInitialDelay = defaultTransitionDelay;
+			fadeDelta = defaultFadeOutSpeed;	
 		}
 	}
 	
+	/**
+	 * Return to the title screen after a disconnect or selecting return in the pause menu. Overrides other transitions.
+	 */
 	public void returnToTitle() {
 		if (server) {
 			if (HadalGame.server.getServer() != null) {
@@ -739,20 +764,34 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.client.client.stop();
 		}
-		nextState = transitionState.TITLE;
-		fadeInitialDelay = 0.5f;
-		fadeDelta = 0.015f;	
+		beginTransition(transitionState.TITLE, true, "");
 	}
 	
+	/**
+	 * This sets the game's boss, filling the boss ui.
+	 * @param enemy: THis is the boss whose hp will be used for the boss hp bar
+	 */
 	public void setBoss(Enemy enemy) {
 		uiPlay.setBoss(enemy, enemy.getName());
 	}
 	
+	/**
+	 * This is called when the boss is defeated, clearing its hp bar from the ui.
+	 * We also have to tell the client to do the same.
+	 */
 	public void clearBoss() {
 		uiPlay.clearBoss();
 		if (server) {
 			HadalGame.server.sendToAllTCP(new Packets.SyncBoss());
 		}
+	}
+	
+	/**
+	 * This gives a line of text on game over.
+	 * @return
+	 */
+	public String getGameOverText() {
+		return "YOU DED";
 	}
 	
 	/**
@@ -799,7 +838,7 @@ public class PlayState extends GameState {
 			packetEffects.add(effect);
 		}
 	}
-		
+	
 	public boolean isPvp() {
 		return pvp;
 	}
@@ -937,6 +976,10 @@ public class PlayState extends GameState {
 		return server;
 	}
 
+	public boolean isReset() {
+		return reset;
+	}
+	
 	/**
 	 * Tentative tracker of player kill number.
 	 * @param i: Number to increase score by.

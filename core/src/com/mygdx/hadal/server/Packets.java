@@ -42,6 +42,7 @@ public class Packets {
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param m: Client's selected name and name of their new Player.
 		 * @param loadout: Client's loadout. 
+		 * @param reset: in the case of a level transition, should the client's player data be reset
 		 */
 		public PlayerConnect(boolean firstTime, String name, Loadout loadout) {
 			this.firstTime = firstTime;
@@ -222,6 +223,8 @@ public class Packets {
 	
 	public static class ClientStartTransition {
 		public transitionState state;
+		public boolean override;
+		public String resultsText;
 		public ClientStartTransition() {}
 		
 		/**
@@ -230,8 +233,10 @@ public class Packets {
 		 * Clients receiving this begin fading to black the same way the Server does.
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
 		 */
-		public ClientStartTransition(transitionState state) {
+		public ClientStartTransition(transitionState state, boolean override, String resultsText) {
 			this.state = state;
+			this.override = override;
+			this.resultsText = resultsText;
 		}
 	}
 	

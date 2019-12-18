@@ -127,6 +127,10 @@ public class Player extends PhysicsSchmuck {
 	
 	//This is the loadout that this player starts with.
 	private Loadout startLoadout;
+	
+	//should we reset this player's playerData stuff upon creation
+	private boolean reset;
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -136,7 +140,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
 	 */
-	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData) {
+	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData, boolean reset) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -150,6 +154,7 @@ public class Player extends PhysicsSchmuck {
 
 		this.startLoadout = startLoadout;
 		this.playerData = oldData;
+		this.reset = reset;
 		
 		setBodySprite(startLoadout.character);
 		loadParticles();
@@ -212,17 +217,16 @@ public class Player extends PhysicsSchmuck {
 		controller = new ActionController(this, state);
 		state.resetController();
 		
-		//If null, this indicate sthat this is a newlyspawned player. Create new data for it with the provided loadout.
+		//If resetting, this indicates that this is a newlyspawned or respawned player. Create new data for it with the provided loadout.
 		//Otherwise, take the input data and reset it to match the new world.
-		if (playerData == null) {
+		if (reset) {
 			playerData = new PlayerBodyData(this, startLoadout);
 			bodyData = playerData;
 			playerData.initLoadout();
 			playerData.syncLoadout(startLoadout);
 		} else {
-			this.bodyData = playerData;
 			playerData.resetData(this, world);
-			playerData.syncLoadout(startLoadout);
+			this.bodyData = playerData;
 		}
 		
 		//Temp invuln on spawn
@@ -752,7 +756,6 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
-		playerData.setCurrentHp(0);
 	}
 	
 	@Override

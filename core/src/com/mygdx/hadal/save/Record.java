@@ -15,7 +15,7 @@ public class Record {
 	private Map<String, Integer> flags;
 	
 	private String[] equips;
-	private String artifact, active, character, level;
+	private String artifact, active, character;
 	
 	private String name;
 	
@@ -64,7 +64,6 @@ public class Record {
 		newRecord.artifact = "NOTHING";
 		newRecord.active = "NOTHING";
 		newRecord.character = "MOREAU";
-		newRecord.level = "LEVEL_1";
 		newRecord.name = "";
 		
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
@@ -119,15 +118,6 @@ public class Record {
 
 	public void setCharacter(String character) {
 		this.character = character;
-		saveRecord();
-	}
-
-	public String getLevel() {
-		return level;
-	}
-
-	public void setLevel(String level) {
-		this.level = level;
 		saveRecord();
 	}
 

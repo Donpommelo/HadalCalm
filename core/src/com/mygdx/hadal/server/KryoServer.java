@@ -123,12 +123,18 @@ public class KryoServer {
 					
 					final PlayState ps = getPlayState();
 					
+					
 					if (ps != null) {
 						if (p.firstTime) {
 							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
 						}
+						final Player player = players.get(c.getID());
+						if (player != null) {
+							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset());                        
+						} else {
+							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true);                        
+						}
 						
-						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null);                        
                         sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
 					} else {
 						Log.info("Server received PlayerConnect before entering PlayState!");
@@ -179,18 +185,16 @@ public class KryoServer {
 					//acquire the client's name and data
 					final PlayState ps = getPlayState();
 					String playerName = "";
-					PlayerBodyData data = null;
 					Player player = players.get(c.getID());
 					if (player != null) {
 						playerName = player.getName();
-						data = player.getPlayerData();
 					}
 					
 					if (ps != null) {
                         switch(p.state) {
 						case RESPAWN:
 							//Create a new player for the client (atm, this is just on respawn)
-							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), data);
+							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), null, true);
 							break;
 						case NEWLEVEL:
 							//No need to send anything. The client is told to load the new level when the server finishes
@@ -351,8 +355,7 @@ public class KryoServer {
 	 * @param loadout: The loadout of the new player
 	 * @param data: The player data of the new player.
 	 */
-	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, 
-			final Loadout loadout, final PlayerBodyData data) {
+	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset) {
 
 		ps.addPacketEffect(new PacketEffect() {
 
@@ -361,8 +364,7 @@ public class KryoServer {
 				SavePoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM),
-						name, loadout, data);
+				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM), name, loadout, data, reset);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);

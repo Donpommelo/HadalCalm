@@ -39,7 +39,7 @@ public class ClientState extends PlayState {
 	private Vector3 mousePosition = new Vector3();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
-		super(gsm, loadout, level, false, null);
+		super(gsm, loadout, level, false, null, true);
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		sync = new ArrayList<Object[]>();
@@ -216,7 +216,7 @@ public class ClientState extends PlayState {
 			nextState = null;
 			break;
 		case RESULTS:
-			getGsm().addResultsState(this, ClientState.class);
+			getGsm().addResultsState(this, resultsText, ClientState.class);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player

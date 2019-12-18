@@ -45,7 +45,7 @@
   <object id="9" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,spawnArtifacts,uiObjective,uiTimer,startTimer,save1,save2,save3"/>
+    <property name="triggeringId" value="spawnWeapons,uiObjective,uiTimer,startTimer,save1,save2,save3"/>
    </properties>
   </object>
   <object id="13" name="Prefab" type="Prefab" x="288" y="1088" width="96" height="96">
@@ -60,22 +60,10 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="17" name="Prefab" type="Prefab" x="896" y="1280" width="96" height="96">
-   <properties>
-    <property name="prefabId" value="Artifact"/>
-    <property name="triggeredId" value="a1"/>
-   </properties>
-  </object>
   <object id="19" name="Multitrigger" type="Multitrigger" x="160" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2,w3"/>
-   </properties>
-  </object>
-  <object id="20" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="spawnArtifacts"/>
-    <property name="triggeringId" value="a1"/>
    </properties>
   </object>
   <object id="21" name="UI" type="UI" x="224" y="32" width="32" height="32">

@@ -192,9 +192,9 @@ public class PlayerBodyData extends BodyData {
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
 
-		currentHp = getMaxHp();
-		currentFuel = getMaxHp();
-		currentSlot = 0;
+//		currentHp = getMaxHp();
+//		currentFuel = getMaxHp();
+//		currentSlot = 0;
 		
 		clearStatuses();
 		
