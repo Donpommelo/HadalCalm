@@ -64,7 +64,7 @@ public class PortableTurret extends ActiveItem {
 			@Override
 			public void die() {
 				new Turret(state, (int)(hbox.getPosition().x * PPM), (int)(hbox.getPosition().y * PPM - projectileWidth / 4),
-						enemyType.TURRET_FLAK, faceRight ? 0 : 180, hbox.getFilter()) {
+						enemyType.TURRET_FLAK, faceRight ? 0 : 180, hbox.getFilter(), null) {
 					
 					@Override
 					public void create() {

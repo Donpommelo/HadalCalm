@@ -282,14 +282,16 @@ public class KryoServer {
 				if (o instanceof Packets.KeyDown) {
 					final Packets.KeyDown p = (Packets.KeyDown) o;
 					final PlayState ps = getPlayState();
-					
-					if (ps != null && players.get(c.getID()) != null) {
+					final Player player = players.get(c.getID());
+					if (ps != null && player != null) {
 						
 						ps.addPacketEffect(new PacketEffect() {
     						
     						@Override
 							public void execute() {
-    							players.get(c.getID()).getController().keyDown(p.action);
+    							if (player.getController() != null) {
+    								player.getController().keyDown(p.action);
+    							}
     						}
         				});
 					}	
@@ -302,13 +304,15 @@ public class KryoServer {
 				if (o instanceof Packets.KeyUp) {
 					final Packets.KeyUp p = (Packets.KeyUp) o;
 					final PlayState ps = getPlayState();
-					
-					if (ps != null && players.get(c.getID()) != null) {
+					final Player player = players.get(c.getID());
+					if (ps != null && player != null) {
 						ps.addPacketEffect(new PacketEffect() {
     						
     						@Override
 							public void execute() {
-    							players.get(c.getID()).getController().keyUp(p.action);
+    							if (player.getController() != null) {
+    								player.getController().keyUp(p.action);
+    							}
     						}
         				});
 					}
@@ -321,9 +325,9 @@ public class KryoServer {
 				if (o instanceof Packets.MouseMove) {
 					final Packets.MouseMove p = (Packets.MouseMove) o;
 					final PlayState ps = getPlayState();
-					
-					if (ps != null && mice.get(c.getID()) != null) {
-						mice.get(c.getID()).setDesiredLocation(p.x, p.y);
+					final MouseTracker mouse = mice.get(c.getID());
+					if (ps != null && mouse != null) {
+						mouse.setDesiredLocation(p.x, p.y);
 					}
 				}
 			}

@@ -33,7 +33,7 @@ public class UIArtifacts {
 		this.assetManager = assetManager;
 		this.state = state;
 		this.player = player;
-		this.table = new Table().left();
+		this.table = new Table().left().top();
 		
 		this.artifacts = new ArrayList<ArtifactTag>();
 		
@@ -74,6 +74,7 @@ public class UIArtifacts {
 		newTag.setWidth(tagWidth);
 		newTag.setWidth(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);
+		table.row();
 		return newTag;
 	}
 	

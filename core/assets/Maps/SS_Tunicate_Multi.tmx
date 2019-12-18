@@ -187,7 +187,7 @@
   </object>
   <object id="50" name="Dummy" type="Dummy" x="1152" y="2112" width="32" height="32">
    <properties>
-    <property name="sync" type="int" value="1"/>
+    <property name="sync" value="USER"/>
     <property name="triggeredId" value="leftRoomCenter"/>
    </properties>
   </object>
@@ -251,7 +251,7 @@
   <object id="115" name="Prefab" type="Prefab" x="1728" y="2720" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
-    <property name="triggeringId" value="elevatorSwitchPulled"/>
+    <property name="triggeringId" value="setfloor1"/>
    </properties>
   </object>
  </objectgroup>

@@ -13,14 +13,13 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.enemy.TurretAttack;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -33,6 +32,7 @@ public class Turret extends Enemy {
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
 
+	private static final int baseHp = 200;
 	private static final float aiCd = 0.25f;
 	private float aiCdCount = 0;
 	    
@@ -61,8 +61,8 @@ public class Turret extends Enemy {
 	private static final Sprite flak = Sprite.TURRET_FLAK;
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
-	public Turret(PlayState state, int x, int y, enemyType type, int startAngle, short filter) {
-		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2), type, filter);		
+	public Turret(PlayState state, int x, int y, enemyType type, int startAngle, short filter, SpawnerSchmuck spawner) {
+		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2), type, filter, baseHp, spawner);		
 		this.angle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;
@@ -89,10 +89,7 @@ public class Turret extends Enemy {
 	 */
 	@Override
 	public void create() {
-		this.bodyData = new BodyData(this);
-		
-		//temp way of more Hp
-		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, 100, bodyData));
+		super.create();
 		
 		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 10, 0, true, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),

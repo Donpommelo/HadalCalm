@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.Event.eventSyncTypes;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -244,7 +245,7 @@ public class WeaponUtils {
 		
 		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		pickup.setScaleAlign(2);
-		pickup.setSyncType(0);
+		pickup.setSyncType(eventSyncTypes.ILLUSION);
 		pickup.setSynced(true);
 		pickup.setScale(0.25f);
 		

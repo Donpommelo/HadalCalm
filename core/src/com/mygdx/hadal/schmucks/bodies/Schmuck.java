@@ -113,10 +113,6 @@ public class Schmuck extends HadalEntity {
 		
 		rightSensor.setUserData(rightData);
 		
-		//Creates a pad at bottom of player with friction. I hate drop-through platforms.
-		this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height, 
-				new Vector2(1 / 2 / PPM,  -1 / PPM), false, 0, 0, 0, 1,
-				Constants.BIT_PLAYER, Constants.BIT_WALL, hitboxfilter));
 		this.hadalData = bodyData;
 	}
 

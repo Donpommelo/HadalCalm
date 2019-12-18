@@ -77,6 +77,7 @@ public class PickupEquip extends Event {
 						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
 						if (msg.equals("roll")) {
 							rollWeapon();
+							standardParticle.turnOn();
 						} else {
 							unlock = UnlockEquip.valueOf(getRandWeapFromPool(msg));
 							setEquip(UnlocktoItem.getUnlock(unlock, null));

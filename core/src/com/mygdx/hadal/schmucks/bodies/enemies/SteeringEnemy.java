@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -15,8 +15,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SteeringEnemy extends Enemy {
 	
 	public SteeringEnemy(PlayState state, float width, float height, int x, int y, enemyType type, 
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter) {
-		super(state, width, height, x, y, type, filter);
+			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter, int baseHp, SpawnerSchmuck spawner) {
+		super(state, width, height, x, y, type, filter, baseHp, spawner);
 		
 		this.maxLinearSpeed = maxLinSpd;
 		this.maxLinearAcceleration = maxLinAcc;
@@ -33,7 +33,8 @@ public class SteeringEnemy extends Enemy {
 
 	@Override
 	public void create() {
-		this.bodyData = new BodyData(this);
+		super.create();
+		
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 1, 0f, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				hitboxfilter, false, bodyData);

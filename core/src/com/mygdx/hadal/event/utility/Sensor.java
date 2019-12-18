@@ -3,11 +3,14 @@ package com.mygdx.hadal.event.utility;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -45,6 +48,11 @@ public class Sensor extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this) {
+			
+			@Override
+			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
+				//this event should receive no kb from attacks.
+			}
 			
 			@Override
 			public void onTouch(HadalData fixB) {

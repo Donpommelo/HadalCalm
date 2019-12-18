@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.*;
+import com.mygdx.hadal.event.Event.eventSyncTypes;
 import com.mygdx.hadal.event.hub.*;
 import com.mygdx.hadal.event.prefab.*;
 import com.mygdx.hadal.event.utility.*;
@@ -178,7 +179,9 @@ public class TiledObjectUtil {
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
 					object.getProperties().get("enemyId", int.class), object.getProperties().get("amount", 1, int.class), 
 					object.getProperties().get("spread", true, boolean.class),
-					object.getProperties().get("extra", 0, int.class));	
+					object.getProperties().get("extra", 0, int.class),
+					object.getProperties().get("boss", false, boolean.class),
+					object.getProperties().get("bossname", "", String.class));	
 		}
 		
 		if (object.getName().equals("EventClone")) {
@@ -359,9 +362,11 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("align", Integer.class) != null) {
 				e.setScaleAlign(object.getProperties().get("align", Integer.class));
 			}
-			if (object.getProperties().get("sync", Integer.class) != null) {
-				e.setSyncType(object.getProperties().get("sync", Integer.class));
+			
+			if (object.getProperties().get("sync", String.class) != null) {
+				e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", "ILLUSION", String.class)));
 			}
+			
 			if (object.getProperties().get("synced", boolean.class) != null) {
 				e.setSynced(object.getProperties().get("synced", boolean.class));
 			}

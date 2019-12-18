@@ -169,6 +169,6 @@ public class HubEvent extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(1);
+		setSyncType(eventSyncTypes.USER);
 	}
 }

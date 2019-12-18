@@ -296,28 +296,37 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
+        						
+        						Enemy enemy = null;
         						switch(p.type) {
 								case MISC:
 									break;
 								case SCISSORFISH:
-									cs.addEntity(p.entityID, new Scissorfish(cs, 0, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
+									enemy = new Scissorfish(cs, 0, 0, Constants.ENEMY_HITBOX, null);
 									break;
 								case SPITTLEFISH:
-									cs.addEntity(p.entityID, new Spittlefish(cs, 0, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
+									enemy = new Spittlefish(cs, 0, 0, Constants.ENEMY_HITBOX, null);
 									break;
 								case TORPEDOFISH:
-									cs.addEntity(p.entityID, new Torpedofish(cs, 0, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
+									enemy = new Torpedofish(cs, 0, 0, Constants.ENEMY_HITBOX, null);
 									break;
 								case TURRET_FLAK:
 								case TURRET_VOLLEY:
-									cs.addEntity(p.entityID, new Turret(cs, 0, 0, p.type, 0, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
+									enemy = new Turret(cs, 0, 0, p.type, 0, Constants.ENEMY_HITBOX, null);
 									break;
 								case BOSS:
-									cs.addEntity(p.entityID, new Boss1(cs, 0, 0, enemyType.BOSS, Constants.ENEMY_HITBOX), ObjectSyncLayers.STANDARD);
+									enemy = new Boss1(cs, 0, 0, enemyType.BOSS, Constants.ENEMY_HITBOX, null);
 									break;
 								default:
 									break;
         						
+        						}
+        						if (enemy != null) {
+        							cs.addEntity(p.entityID, enemy, ObjectSyncLayers.STANDARD);
+        							if (p.boss) {
+        								enemy.setName(p.name);
+            							cs.setBoss(enemy);
+            						}
         						}
         					}
         				});
@@ -389,7 +398,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						MapObject blueprint = p.blueprint;
-        						blueprint.getProperties().put("sync", 1);
+        						blueprint.getProperties().put("sync", "USER");
         						cs.addEntity(p.entityID, TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint), ObjectSyncLayers.STANDARD);
             				}
     					});
@@ -595,6 +604,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The Server tells us to focus out camera on a specific location or ourselves
+        		 * This is run upon spawning a new player to ensure their camera is centered correctly. 
+        		 */
         		if (o instanceof Packets.SyncCamera) {
         			final Packets.SyncCamera p = (Packets.SyncCamera) o;
             		
@@ -611,6 +624,22 @@ public class KryoClient {
 								} else {
 									cs.setCameraTarget(cs.findEntity(p.entityID));
 								}
+							}
+						});
+					}
+        		}
+        		/*
+        		 * The Server tells us to despawn a boss. (spawning is taken care of in the CreateEnemy packet)
+        		 */
+        		if (o instanceof Packets.SyncBoss) {
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+								cs.clearBoss();
 							}
 						});
 					}

@@ -70,10 +70,10 @@ public class EventData extends HadalData {
 		
 		//activation depends on event eync type
 		switch(event.getSyncType()) {
-		case 0:
+		case ILLUSION:
 			onActivate(activator, p);
 			break;
-		case 1:
+		case USER:
 			
 			if (p == null) {
 				onActivate(activator, p);
@@ -85,11 +85,11 @@ public class EventData extends HadalData {
 				}
 			}
 			break;
-		case 2:
+		case ALL:
 			onActivate(activator, p);
 			HadalGame.server.sendToAllTCP(new Packets.ActivateEvent(event.getEntityID().toString()));
 			break;
-		case 3:
+		case SERVER:
 			onActivate(activator, p);
 			break;
 		}

@@ -26,7 +26,7 @@ public class Ragdoll extends HadalEntity {
 	
 	//This is the sprite that will be displayed
 	private Sprite sprite;
-	private TextureRegion illusionSprite;
+	private TextureRegion ragdollSprite;
 	
 	private final static int spread = 60;
 	
@@ -45,7 +45,7 @@ public class Ragdoll extends HadalEntity {
 		this.ragdollDuration = duration;
 		this.sprite = sprite;
 		if (sprite != null) {
-			illusionSprite = sprite.getFrame();
+			ragdollSprite = sprite.getFrame();
 		}
 	}
 
@@ -76,8 +76,8 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		if (illusionSprite != null) {
-			batch.draw(illusionSprite, 
+		if (ragdollSprite != null) {
+			batch.draw(ragdollSprite, 
 					getPosition().x * PPM - width / 2, 
 					getPosition().y * PPM - height / 2, 
 					width / 2, height / 2,

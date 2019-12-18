@@ -302,16 +302,22 @@ public class Packets {
 	public static class CreateEnemy {
 		public String entityID;
 		public enemyType type;
+		public boolean boss;
+		public String name;
 		public CreateEnemy() {}
 		
 		/**
 		 * A CreateEnemy is sent from the Server to the Client to tell the Client to create a new Enemy.
 		 * @param entityID: ID of the new Enemy.
 		 * @param type: Enemy Type
+		 * @param boss: is this a boss enemy?
+		 * @param name: if a boss, what name shows up in the ui?
 		 */
-		public CreateEnemy(String entityID, enemyType type) {
+		public CreateEnemy(String entityID, enemyType type, boolean boss, String name) {
             this.entityID = entityID;
             this.type = type;
+            this.boss = boss;
+            this.name = name;
         }
 	}
 	
@@ -660,10 +666,26 @@ public class Packets {
 
 		public SyncCamera() {}
 		
+		/**
+		 * A SyncCamera is sent from the Server to the Client when the client respawns.
+		 * This is done incase the client's camera has changed target/zoom before dying and needs to respaen with a different target/zoom matching their spawn location.
+		 * @param entityID: The entity that the client's camera should focus on. Focus on self if entityId is null
+		 * @param zoom: How much should the client's camera be zoomed in
+		 */
 		public SyncCamera(String entityID, float zoom) {
 			this.entityID = entityID;
 			this.zoom = zoom;
 		}
+	}
+	
+	public static class SyncBoss {
+
+		/**
+		 * A SyncBoss is sent from the Server to the Client whenever a boss is despawned.
+		 * The client updates their ui to represent this.
+		 * ATM, boss spawnings is handled by the regular enemySpawn packet, so this is a simple ping
+		 */
+		public SyncBoss() {}
 	}
 	
 	/**
@@ -703,5 +725,6 @@ public class Packets {
     	kryo.register(SyncPlayer.class);
     	kryo.register(SyncParticles.class);
     	kryo.register(SyncCamera.class);
+    	kryo.register(SyncBoss.class);
     }
 }

@@ -89,14 +89,14 @@ public class CameraPanZone extends Prefabrication {
 		camera1.getProperties().put("zoom", zoom1);
 		camera1.getProperties().put("triggeredId", zoom1Id);
 		camera1.getProperties().put("default", false);
-		camera1.getProperties().put("sync", 1);
+		camera1.getProperties().put("sync", "USER");
 		
 		RectangleMapObject camera2 = new RectangleMapObject();
 		camera2.setName("Camera");
 		camera2.getProperties().put("zoom", zoom2);
 		camera2.getProperties().put("triggeredId", zoom2Id);
 		camera2.getProperties().put("default", false);
-		camera2.getProperties().put("sync", 1);
+		camera2.getProperties().put("sync", "USER");
 
 		switch(align) {
 		case 0:

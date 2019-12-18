@@ -2,9 +2,12 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 
 public class Spittlefish extends FloatingEnemy {
+
+	private final static int baseHp = 100;
 
 	private static final int width = 197;
 	private static final int height = 76;
@@ -24,10 +27,10 @@ public class Spittlefish extends FloatingEnemy {
 	
 	private static final Sprite sprite = Sprite.FISH_SPITTLE;
 
-	public Spittlefish(PlayState state, int x, int y, short filter) {
+	public Spittlefish(PlayState state, int x, int y, short filter, SpawnerSchmuck spawner) {
 		super(state, x, y, width, height, hbWidth, hbHeight, scale, sprite, enemyType.SPITTLEFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
-				boundingRadius, decelerationRadius, filter);
+				boundingRadius, decelerationRadius, filter, baseHp, spawner);
 		
 		this.weapon = new SpittlefishAttack(this);	
 	}

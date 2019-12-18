@@ -6,7 +6,6 @@ import java.util.Arrays;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.retired.Zone;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -91,7 +90,6 @@ public class BodyData extends HadalData {
 	private float airYDeaccel = 0.01f;
 	
 	//Hp and regen
-	private int maxHp = 100;
 	private float hpRegen = 0.0f;
 	
 	private int maxFuel = 100;
@@ -100,8 +98,6 @@ public class BodyData extends HadalData {
 	protected float currentHp, currentFuel;
 
 	private final static float flashDuration = 0.08f;
-	
-	private Zone currentZone;
 	
 	protected ArrayList<Status> statuses;
 	protected ArrayList<Status> statusesChecked;	
@@ -117,7 +113,7 @@ public class BodyData extends HadalData {
 	 * @param world
 	 * @param schmuck
 	 */
-	public BodyData(Schmuck schmuck) {
+	public BodyData(Schmuck schmuck, int maxHp) {
 		super(UserDataTypes.BODY, schmuck);
 		this.schmuck = schmuck;	
 		
@@ -391,14 +387,6 @@ public class BodyData extends HadalData {
 
 	public void setCurrentFuel(float currentFuel) {
 		this.currentFuel = currentFuel;
-	}
-
-	public Zone getCurrentZone() {
-		return currentZone;
-	}
-
-	public void setCurrentZone(Zone currentZone) {
-		this.currentZone = currentZone;
 	}
 
 	public float getStat(int index) {

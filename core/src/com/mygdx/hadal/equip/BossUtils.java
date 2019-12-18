@@ -85,13 +85,13 @@ public class BossUtils {
 				for (int i = 0; i < amount; i++) {
 					switch (type) {
 					case SCISSORFISH:
-						new Scissorfish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX);
+						new Scissorfish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX, null);
 						break;
 					case SPITTLEFISH:
-						new Spittlefish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX);
+						new Spittlefish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX, null);
 						break;
 					case TORPEDOFISH:
-						new Torpedofish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX);
+						new Torpedofish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX, null);
 						break;
 					default:
 						break;

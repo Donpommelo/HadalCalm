@@ -11,12 +11,11 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -27,7 +26,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Boss extends Enemy {
 				
-	protected int hp, moveSpeed;
+	protected int moveSpeed;
 	private float attackCd;
     private float aiAttackCdCount = 0.0f;
     private float aiActionCdCount = 0.0f;
@@ -60,8 +59,9 @@ public class Boss extends Enemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Boss(PlayState state, int x, int y, int width, int height, int hbWidth, int hbHeight, float scale, enemyType type, short filter, int hp, int moveSpeed, float attackCd, Sprite sprite) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y, type, filter);
+	public Boss(PlayState state, int x, int y, int width, int height, int hbWidth, int hbHeight, float scale, enemyType type, short filter, int baseHp, int moveSpeed, float attackCd,
+			SpawnerSchmuck spawner, Sprite sprite) {
+		super(state, hbWidth * scale, hbHeight * scale, x, y, type, filter, baseHp, spawner);
 		this.width = width;
 		this.height = height;
 		this.hbWidth = hbWidth;
@@ -69,9 +69,7 @@ public class Boss extends Enemy {
 		this.scale = scale;
 		
 		this.attackCd = attackCd;
-		this.hp = hp;
 		this.moveSpeed = moveSpeed;
-		
 		this.sprite = sprite;
 		
 		this.actions = new ArrayList<BossAction>();
@@ -82,14 +80,11 @@ public class Boss extends Enemy {
 	 */
 	@Override
 	public void create() {
-		this.bodyData = new BodyData(this);
+		super.create();
 		
 		this.body = BodyBuilder.createBox(world, startX, startY,  hbWidth * scale, hbHeight * scale, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, bodyData);
-		
-		//temp way of more Hp
-		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, hp, bodyData));
 	}
 
 	/**

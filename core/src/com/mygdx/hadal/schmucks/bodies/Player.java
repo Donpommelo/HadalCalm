@@ -4,6 +4,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -20,6 +21,7 @@ import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -63,12 +65,17 @@ public class Player extends PhysicsSchmuck {
 	private static final int armRotateY = 50;
 		
 	public static final float scale = 0.15f;
+	public static final float uiScale = 0.4f;
+	
 	
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
 	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 	
 	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
 	toolHeight, toolWidth, gemHeight, gemWidth;
+	
+	private TextureRegion reload, reloadMeter, reloadBar;
+	private Texture empty, full;
 	
 	//counters for various cooldowns.
 	private float hoverCd = 0.08f;
@@ -149,6 +156,13 @@ public class Player extends PhysicsSchmuck {
 		
 		//This schmuck trackes mouse location. Used for projectiles that home towards mouse.
 		mouse = state.getMouse();
+		
+		this.reload = Sprite.UI_RELOAD.getFrame();
+		this.reloadMeter = Sprite.UI_RELOAD_METER.getFrame();
+		this.reloadBar = Sprite.UI_RELOAD_BAR.getFrame();
+		
+		this.empty = new Texture(AssetList.HEART_EMPTY.toString());
+		this.full = new Texture(AssetList.HEART_FULL.toString());
 	}
 	
 	/**
@@ -196,7 +210,6 @@ public class Player extends PhysicsSchmuck {
 	public void create() {
 		alive = true;
 		controller = new ActionController(this, state);
-		state.getUiPlayer().addPlayer(this);
 		state.resetController();
 		
 		//If null, this indicate sthat this is a newlyspawned player. Create new data for it with the provided loadout.
@@ -498,7 +511,7 @@ public class Player extends PhysicsSchmuck {
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
 		boolean reverse = false;
-		
+
 		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT)) {
 			
 			if (Math.abs(attackAngle) > 90) {
@@ -545,6 +558,58 @@ public class Player extends PhysicsSchmuck {
 		if (flashingCount > 0) {
 			batch.setShader(null);
 		}
+		
+		//render player ui
+		if (playerData.getCurrentTool().isReloading()) {
+			
+			float x = (getPosition().x * PPM) - reload.getRegionWidth() * uiScale / 2;
+			float y = (getPosition().y * PPM) + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
+			
+			//Calculate reload progress
+			float percent = getReloadPercent();
+			
+			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * uiScale * percent, reloadBar.getRegionHeight() * uiScale);
+			batch.draw(reload, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+		}
+		
+		if (playerData.getCurrentTool().isCharging()) {
+			
+			float x = (getPosition().x * PPM) - reload.getRegionWidth() * uiScale / 2;
+			float y = (getPosition().y * PPM) + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
+			
+			//Calculate charge progress
+			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * uiScale * chargePercent, reloadBar.getRegionHeight() * uiScale);
+			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+		}
+		
+		//This draws a heart by the player's sprite to indicate hp remaining
+		float x = (getPosition().x * PPM) - Player.hbWidth * scale - empty.getWidth() * uiScale + 10;
+		float y = (getPosition().y * PPM) + Player.hbHeight * scale / 2 - 5;
+		
+		float hpRatio = 0.0f;
+		
+		if (state.isServer()) {
+			hpRatio = playerData.getCurrentHp() / playerData.getMaxHp();
+		} else {
+			hpRatio = playerData.getCurrentHp() / playerData.getOverrideMaxHp();
+		}
+		
+		batch.draw(empty, x - empty.getWidth() / 2 * uiScale, y - empty.getHeight() / 2 * uiScale,
+                empty.getWidth() / 2, empty.getHeight() / 2,
+                empty.getWidth(), empty.getHeight(),
+                uiScale, uiScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
+
+        batch.draw(full, x - full.getWidth() / 2 * uiScale, y - full.getHeight() / 2 * uiScale - (int)(full.getHeight() * (1 - hpRatio) * uiScale),
+                full.getWidth() / 2, full.getHeight() / 2,
+                full.getWidth(), full.getHeight(),
+                uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
+                full.getWidth(), full.getHeight(), false, false);
+		
+		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name, 
+				getPosition().x * PPM - Player.hbWidth * Player.scale / 2, 
+				getPosition().y * PPM + Player.hbHeight * Player.scale / 2 + 15);
 	}
 	
 	/**
@@ -687,7 +752,6 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
-		state.getUiPlayer().removePlayer(this);
 		playerData.setCurrentHp(0);
 	}
 	

@@ -46,6 +46,6 @@ public class Dialog extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(1);
+		setSyncType(eventSyncTypes.USER);
 	}
 }

@@ -31,7 +31,7 @@ public class SpawnerWeapon extends Prefabrication {
 		RectangleMapObject base = new RectangleMapObject();
 		base.getRectangle().set(x, y, width, height);
 		base.setName("Dummy");
-		base.getProperties().put("sync", 2);
+		base.getProperties().put("sync", "ALL");
 		base.getProperties().put("sprite", "BASE");
 		
 		RectangleMapObject spawner = new RectangleMapObject();

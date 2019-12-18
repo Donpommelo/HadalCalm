@@ -30,6 +30,8 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  */
 public class PlayerBodyData extends BodyData {
 	
+	private final static int baseHp = 100;
+	
 	private int numExtraJumps = 1;
 	private int extraJumpsUsed = 0;
 	private float jumpPow = 25.0f;
@@ -74,7 +76,7 @@ public class PlayerBodyData extends BodyData {
 	private ArrayList<WeaponMod> overrideWeaponMods = new ArrayList<WeaponMod>();
 	
 	public PlayerBodyData(Player body, Loadout loadout) {
-		super(body);
+		super(body, baseHp);
 		this.player = body;
 		this.loadout = new Loadout(loadout);		
 		

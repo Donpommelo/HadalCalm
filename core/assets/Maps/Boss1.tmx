@@ -26,6 +26,8 @@
   <object id="10" name="SchmuckSpawn" type="SchmuckSpawn" x="992" y="1344" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="true"/>
+    <property name="bossname" value="slightly larger fish"/>
     <property name="enemyId" type="int" value="7"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="spawn0"/>

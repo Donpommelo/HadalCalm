@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.BossUtils;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
@@ -13,7 +14,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Boss1 extends BossFloating {
 				
-    private static final float aiAttackCd = 2.0f;
+    private static final float aiAttackCd = 2.4f;
 	
 	private static final int width = 250;
 	private static final int height = 161;
@@ -40,8 +41,8 @@ public class Boss1 extends BossFloating {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Boss1(PlayState state, int x, int y, enemyType type, short filter) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, sprite);
+	public Boss1(PlayState state, int x, int y, enemyType type, short filter, SpawnerSchmuck spawner) {
+		super(state, x, y, width, height, hbWidth, hbHeight, scale, type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, spawner, sprite);
 	}
 
 	@Override

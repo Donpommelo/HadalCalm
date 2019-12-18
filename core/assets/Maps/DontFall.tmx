@@ -451,7 +451,7 @@
   </object>
   <object id="85" name="Dummy" type="Dummy" x="2544" y="720" width="32" height="32">
    <properties>
-    <property name="sync" type="int" value="1"/>
+    <property name="sync" value="USER"/>
     <property name="triggeredId" value="mapCenter"/>
    </properties>
   </object>

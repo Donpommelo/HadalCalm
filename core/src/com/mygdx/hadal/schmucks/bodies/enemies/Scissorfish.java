@@ -2,9 +2,12 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.enemy.ScissorfishAttack;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 
 public class Scissorfish extends FloatingEnemy {
+
+	private final static int baseHp = 100;
 
 	private static final int width = 288;
 	private static final int height = 119;
@@ -24,10 +27,10 @@ public class Scissorfish extends FloatingEnemy {
 	
 	private static final Sprite sprite = Sprite.FISH_SCISSOR;
 	
-	public Scissorfish(PlayState state, int x, int y, short filter) {
+	public Scissorfish(PlayState state, int x, int y, short filter, SpawnerSchmuck spawner) {
 		super(state, x, y, width, height, hbWidth, hbHeight, scale, sprite, enemyType.SCISSORFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
-				boundingRadius, decelerationRadius, filter);
+				boundingRadius, decelerationRadius, filter, baseHp, spawner);
 		
 		this.weapon = new ScissorfishAttack(this);	
 	}

@@ -126,7 +126,7 @@ public class ClientState extends PlayState {
 		
 		//Update the game camera and batch.
 		cameraUpdate();
-		 
+		
 		//If we are in the delay period of a transition, decrement the delay
 		if (fadeInitialDelay <= 0f) {
 			

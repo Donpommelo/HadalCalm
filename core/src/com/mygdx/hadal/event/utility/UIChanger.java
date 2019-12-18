@@ -85,6 +85,6 @@ public class UIChanger extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(2);
+		setSyncType(eventSyncTypes.ALL);
 	}
 }

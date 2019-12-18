@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event;
 
-import java.util.ArrayList;
-
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -38,12 +36,8 @@ public class SpawnerSchmuck extends Event {
 	
 	private static final String name = "Schmuck Spawner";
 
-	private ArrayList<Schmuck> spawns;
-	
-	private float controllerCount = 0;
-
-	//Have the spawned enemies been defeated yet?
-	private boolean defeated = false;
+	//this is the amount of enemies left
+	private int amountLeft = 0;
 	
 	//Should the spawned mob be spawned with spread?
 	private boolean spread;
@@ -51,8 +45,11 @@ public class SpawnerSchmuck extends Event {
 	//Extra field for enemies that require more information (like turret subtypes)
 	private int extraField;
 	
-	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, 
-			Boolean spread, int extraField) {
+	//is this enemy a boss enemy and if so, what is its name?
+	private boolean boss;
+	private String bossName;
+	
+	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, Boolean spread, int extraField, boolean boss, String bossName) {
 		super(state, name, width, height, x, y);
 		this.id = schmuckId;
 		this.limit = limit;
@@ -60,7 +57,8 @@ public class SpawnerSchmuck extends Event {
 		this.spawnY = y;
 		this.spread = spread;
 		this.extraField = extraField;
-		this.spawns = new ArrayList<Schmuck>();
+		this.boss = boss;
+		this.bossName = bossName;
 	}
 	
 	@Override
@@ -73,40 +71,47 @@ public class SpawnerSchmuck extends Event {
 				if (activator.getEvent() instanceof TriggerAlt) {
 					limit += Integer.parseInt(((TriggerAlt)activator.getEvent()).getMessage());
 				} else {
-					defeated = false;
 					
 					for (int i = 0; i < limit; i++) {
+						
+						Enemy enemy = null;
 						
 						int randX = spawnX + (spread ? (int)( (Math.random() - 0.5) * 100) : 0);
 						int randY = spawnY + (spread ? (int)( (Math.random() - 0.5) * 100) : 0);
 						switch(id) {
 						case 1:
 							if (Math.random() > 0.4f) {
-								spawns.add(new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX));
+								enemy = new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							} else if (Math.random() > 0.7f){
-								spawns.add(new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX));
+								enemy = new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							} else {
-								spawns.add(new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX));
+								enemy = new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							}
 							break;
 						case 2:
-							spawns.add(new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX));
+							enemy = new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 3:
-							spawns.add(new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX));
+							enemy = new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 4:
-							spawns.add(new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX));
+							enemy = new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 5:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_FLAK, extraField, Constants.ENEMY_HITBOX));
+							enemy = new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_FLAK, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 6:
-							spawns.add(new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX));
+							enemy = new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 7:
-							spawns.add(new Boss1(state, randX, (int) (randY - height / 2), enemyType.BOSS, Constants.ENEMY_HITBOX));
+							enemy = new Boss1(state, randX, (int) (randY - height / 2), enemyType.BOSS, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
+						}
+						amountLeft++;
+						if (boss) {
+							enemy.setBoss(true);
+							enemy.setName(bossName);
+							state.setBoss(enemy);
 						}
 					}
 				}
@@ -117,31 +122,14 @@ public class SpawnerSchmuck extends Event {
 				(short) (0), (short) 0, true, eventData);
 	}
 	
-	@Override
-	public void controller(float delta) {
-		
-		if (!defeated && getConnectedEvent() != null) {
-			controllerCount+=delta;
-			if (controllerCount >= 1f) {
-				controllerCount = 0;
-				
-				if (!spawns.isEmpty()) {
-					
-					defeated = true;
-					
-					for (Schmuck s : spawns) {
-						
-						if (s.getBodyData() != null) {
-							if (s.getBodyData().getCurrentHp() > 0) {
-								defeated = false;
-							}
-						}
-					}
-					
-					if (defeated) {
-						getConnectedEvent().eventData.preActivate(eventData, null);
-					}
-				}
+	public void onDeath(Schmuck schmuck) {
+		amountLeft--;
+		if (amountLeft <= 0) {
+			if (getConnectedEvent() != null) {
+				getConnectedEvent().eventData.preActivate(eventData, null);
+			}
+			if (boss) {
+				state.clearBoss();
 			}
 		}
 	}

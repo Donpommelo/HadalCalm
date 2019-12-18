@@ -15,14 +15,14 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -45,7 +45,8 @@ public class FloatingEnemy extends SteeringEnemy {
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
-	protected Animation<? extends TextureRegion> sprite;
+	private Sprite sprite;
+	protected Animation<? extends TextureRegion> fishSprite;
 	
 	private int width, height, hbWidth, hbHeight;
 	
@@ -65,9 +66,9 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param y: enemy starting x position.
 	 */
 	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, Sprite sprite, enemyType type,
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter) {
+			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter, int baseHp, SpawnerSchmuck spawner) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, type,
-				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter);
+				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter, baseHp, spawner);
 		
 		this.width = width;
 		this.height = height;
@@ -77,7 +78,8 @@ public class FloatingEnemy extends SteeringEnemy {
 		
 		this.moveState = SchmuckMoveStates.FISH_ROAMING;
 		
-		this.sprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+		this.sprite = sprite;
+		this.fishSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
 	}
 	
 	/**
@@ -87,8 +89,6 @@ public class FloatingEnemy extends SteeringEnemy {
 	public void create() {
 		super.create();
 		
-		this.bodyData.addStatus(new StatChangeStatus(state, Stats.MAX_HP, -40, bodyData));
-
 		roam = new Wander<Vector2>(this)
 				.setWanderOffset(100)
 				.setWanderRadius(100)
@@ -208,7 +208,7 @@ public class FloatingEnemy extends SteeringEnemy {
 			batch.setShader(HadalGame.shader);
 		}
 		
-		batch.draw((TextureRegion) sprite.getKeyFrame(animationTime, true), 
+		batch.draw((TextureRegion) fishSprite.getKeyFrame(animationTime, true), 
 				getPosition().x * PPM - hbHeight * scale / 2, 
 				(flip ? height * scale : 0) + getPosition().y * PPM - hbWidth * scale / 2, 
 				hbHeight * scale / 2, 
@@ -219,5 +219,15 @@ public class FloatingEnemy extends SteeringEnemy {
 		if (flashingCount > 0) {
 			batch.setShader(null);
 		}
+	}
+	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
+					(int)(getPosition().x * PPM), 
+					(int)(getPosition().y * PPM), sprite, getLinearVelocity(), 0.5f);
+		}
+		return super.queueDeletion();
 	}
 }

@@ -53,12 +53,12 @@ public class Event extends HadalEntity {
     private int scaleAlign = 0;
     
     /* How will this event be synced?
-     * 0: Create a client illusion if it has a body
-     * 1: Create this event for clients. When activated on server, activate it for the user who activated it.
-     * 2: Create this event for clients. When activated on server, activate it for all players.
-     * 3: Create this event for clients. When activated on server, activate it for the server only.
+     * ILLUSION: Create a client illusion if it has a body
+     * USER: Create this event for clients. When activated on server, activate it for the user who activated it.
+     * ALL: Create this event for clients. When activated on server, activate it for all players.
+     * SERVER: Create this event for clients. When activated on server, activate it for the server only.
      */
-    private int syncType = 0;
+    private eventSyncTypes syncType = eventSyncTypes.ILLUSION;
 	
     private final static float animationSpeed = 0.8f;
     
@@ -194,7 +194,7 @@ public class Event extends HadalEntity {
 	}
 
 	public void addAmbientParticle(Particle particle) {
-		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC);	
+		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.TICKSYNC);	
 	}
 	
 	@Override
@@ -261,15 +261,15 @@ public class Event extends HadalEntity {
 	@Override
 	public Object onServerCreate() {
 		switch(syncType) {
-		case 0:
+		case ILLUSION:
 			if (body != null) {
 				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD);
 			} else {
 				return null;
 			}
-		case 1:
-		case 2:
-		case 3:
+		case USER:
+		case ALL:
+		case SERVER:
 			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		default:
 			return null;
@@ -291,11 +291,11 @@ public class Event extends HadalEntity {
 		this.scaleAlign = scaleAlign;
 	}
 
-	public int getSyncType() {
+	public eventSyncTypes getSyncType() {
 		return syncType;
 	}
 
-	public void setSyncType(int syncType) {
+	public void setSyncType(eventSyncTypes syncType) {
 		this.syncType = syncType;
 	}
 
@@ -313,5 +313,12 @@ public class Event extends HadalEntity {
 
 	public void setBlueprint(MapObject blueprint) {
 		this.blueprint = blueprint;
+	}
+
+	public enum eventSyncTypes {
+		ILLUSION,
+		USER,
+		ALL,
+		SERVER
 	}
 }

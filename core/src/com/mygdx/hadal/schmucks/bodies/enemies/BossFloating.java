@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.PlayState;
 
@@ -36,8 +37,9 @@ public class BossFloating extends Boss {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public BossFloating(PlayState state, int x, int y, int width, int height, int hbWidth, int hbHeight, float scale, enemyType type, short filter, int hp, int moveSpeed, int spinSpeed, float attackCd, Sprite sprite) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, type, filter, hp, moveSpeed, attackCd, sprite);
+	public BossFloating(PlayState state, int x, int y, int width, int height, int hbWidth, int hbHeight, float scale, enemyType type, short filter, int hp, int moveSpeed, int spinSpeed, float attackCd, 
+			SpawnerSchmuck spawner, Sprite sprite) {
+		super(state, x, y, width, height, hbWidth, hbHeight, scale, type, filter, hp, moveSpeed, attackCd, spawner, sprite);
 		
 		this.angle = 0;
 		this.desiredAngle = 0;

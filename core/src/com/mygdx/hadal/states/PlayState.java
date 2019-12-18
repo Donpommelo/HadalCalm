@@ -29,7 +29,6 @@ import com.mygdx.hadal.actors.UIActives;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIPlayClient;
-import com.mygdx.hadal.actors.UIPlayer;
 import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.utility.PositionDummy;
@@ -146,7 +145,6 @@ public class PlayState extends GameState {
 	
 	//Various play state ui elements
 	private UIPlay uiPlay;
-	private UIPlayer uiPlayer;
 	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
@@ -208,7 +206,7 @@ public class PlayState extends GameState {
 		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new Enemy(this, 1, 1, -1000, -1000, enemyType.MISC, Constants.ENEMY_HITBOX);
+		worldDummy = new Enemy(this, 1, 1, -1000, -1000, enemyType.MISC, Constants.ENEMY_HITBOX, 100, null);
 		
 		//The mouse tracker is the player's mouse position
 		mouse = new MouseTracker(this, true);
@@ -278,7 +276,6 @@ public class PlayState extends GameState {
 				uiPlay = new UIPlayClient(HadalGame.assetManager, this, player);
 			}
 			
-			uiPlayer = new UIPlayer(HadalGame.assetManager, this);
 			uiActive = new UIActives(HadalGame.assetManager, player);
 			uiObjective = new UIObjective(HadalGame.assetManager, this, player);
 			uiArtifact = new UIArtifacts(HadalGame.assetManager, this, player);
@@ -290,7 +287,6 @@ public class PlayState extends GameState {
 		
 		//Add and sync ui elements in case of unpause or new playState
 		this.stage.addActor(uiPlay);
-		this.stage.addActor(uiPlayer);
 		this.stage.addActor(uiActive);
 		this.stage.addActor(uiObjective);
 		this.stage.addActor(uiExtra);
@@ -748,6 +744,17 @@ public class PlayState extends GameState {
 		fadeDelta = 0.015f;	
 	}
 	
+	public void setBoss(Enemy enemy) {
+		uiPlay.setBoss(enemy, enemy.getName());
+	}
+	
+	public void clearBoss() {
+		uiPlay.clearBoss();
+		if (server) {
+			HadalGame.server.sendToAllTCP(new Packets.SyncBoss());
+		}
+	}
+	
 	/**
 	 * This is called by the server when a new client connects. We catch up the client by making them create all existing entities.
 	 * @param connId: connId of the new client
@@ -841,7 +848,7 @@ public class PlayState extends GameState {
 	public UIArtifacts getUiArtifact() {
 		return uiArtifact;
 	}
-	
+
 	public int getStartX() {
 		return startX;
 	}
@@ -900,10 +907,6 @@ public class PlayState extends GameState {
 
 	public InputProcessor getController() {
 		return controller;
-	}
-
-	public UIPlayer getUiPlayer() {
-		return uiPlayer;
 	}
 
 	public MessageWindow getMessageWindow() {

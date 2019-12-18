@@ -32,7 +32,7 @@ public class FishGang extends ActiveItem {
 			int randX = (int) (user.getPlayer().getPosition().x * PPM + (spread ? (int)( (Math.random() - 0.5) * 100) : 0));
 			int randY = (int) (user.getPlayer().getPosition().y * PPM + (spread ? (int)( (Math.random() - 0.5) * 100) : 0));
 			if (Math.random() > 0.4f) {
-				new Scissorfish(state, randX, randY, user.getPlayer().getHitboxfilter()) {
+				new Scissorfish(state, randX, randY, user.getPlayer().getHitboxfilter(), null) {
 					
 					@Override
 					public void create() {
@@ -42,7 +42,7 @@ public class FishGang extends ActiveItem {
 				};
 				
 			} else if (Math.random() > 0.7f){
-				new Spittlefish(state, randX, randY, user.getPlayer().getHitboxfilter()) {
+				new Spittlefish(state, randX, randY, user.getPlayer().getHitboxfilter(), null) {
 					
 					@Override
 					public void create() {
@@ -51,7 +51,7 @@ public class FishGang extends ActiveItem {
 					}
 				};
 			} else {
-				new Torpedofish(state, randX, randY, user.getPlayer().getHitboxfilter()){
+				new Torpedofish(state, randX, randY, user.getPlayer().getHitboxfilter(), null){
 					
 					@Override
 					public void create() {

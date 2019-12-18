@@ -13,6 +13,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.WeaponModifier;
 
@@ -30,12 +31,23 @@ public class UIPlay extends AHadalActor {
 	private TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
 	private Array<? extends TextureRegion> itemNull, itemSelect, itemUnselect;
 	
-	private float scale = 0.50f;
-	private static final int x = 0;
-	private static final int y = 0;
+	private float mainScale = 0.50f;
+	private static final int mainX = 0;
+	private static final int mainY = 0;
+	
+	private static final int barX = 155;
+	private static final int hpBarY = 50;
+	private static final int fuelBarY = 22;
+	
+	private static final int bossX = 50;
+	private static final int bossNameY = 700;
+	private static final int bossBarY = 660;
+	private static final int bossBarWidth = 1500;
+	private static final int bossBarHeight = 30;
 	
 	//This variable manages the delay of hp decreasing after receiving damage
 	private static final float hpCatchup = 0.01f;
+	private static final float bossHpCatchup = 0.002f;
 	
 	private float hpDelayed = 1.0f;
 	
@@ -51,6 +63,12 @@ public class UIPlay extends AHadalActor {
 	
 	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText, ammoText;
+	
+	private boolean bossFight = false;
+	private Schmuck boss;
+	private String bossName;
+	private float bossHpDelayed = 1.0f;
+	private float bossHpRatio;
 	
 	//display extra info (weapon mods) when moused over
 	private boolean mouseOver;
@@ -77,8 +95,8 @@ public class UIPlay extends AHadalActor {
 		this.fuelRatio = 1.0f;
 		this.fuelCutoffRatio = 1.0f;
 		
-		setWidth(main.getRegionWidth() * scale);
-		setHeight(main.getRegionHeight() * scale);
+		setWidth(main.getRegionWidth() * mainScale);
+		setHeight(main.getRegionHeight() * mainScale);
 		
 		mouseOver = false;
 		
@@ -97,6 +115,10 @@ public class UIPlay extends AHadalActor {
 		});
 	}
 	
+	/**
+	 * This is run every update to keep track of the info displayed in this ui.
+	 * This is in a separate method b/c so client's version (UIPlayClient) can use some overridden values
+	 */
 	public void calcVars() {
 		//Calc the ratios needed to draw the bars
 		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
@@ -120,9 +142,9 @@ public class UIPlay extends AHadalActor {
 			hpDelayed = hpRatio;
 		}
 		
-		batch.draw(hpMissing, x + 155, y + 50, hp.getRegionWidth() * scale * hpDelayed, hp.getRegionHeight() * scale);
-		batch.draw(hp, x + 155, y + 50, hp.getRegionWidth() * scale * hpRatio, hp.getRegionHeight() * scale);
-		batch.draw(fuel, x + 155, y + 22, fuel.getRegionWidth() * scale * fuelRatio, fuel.getRegionHeight() * scale);
+		batch.draw(hpMissing, mainX + barX, mainY + hpBarY, hp.getRegionWidth() * mainScale * hpDelayed, hp.getRegionHeight() * mainScale);
+		batch.draw(hp, mainX + barX, mainY + hpBarY, hp.getRegionWidth() * mainScale * hpRatio, hp.getRegionHeight() * mainScale);
+		batch.draw(fuel, mainX + barX, mainY + fuelBarY, fuel.getRegionWidth() * mainScale * fuelRatio, fuel.getRegionHeight() * mainScale);
 		
 		//This makes low Hp indicator blink at low health
 		if (hpRatio <= hpLowThreshold) {
@@ -138,55 +160,72 @@ public class UIPlay extends AHadalActor {
 		}
 		
 		if (blinking) {
-			batch.draw(hpLow, x, y, getWidth(), getHeight());
+			batch.draw(hpLow, mainX, mainY, getWidth(), getHeight());
 		}
 		
-		batch.draw(main, x, y, getWidth(), getHeight());
+		batch.draw(main, mainX, mainY, getWidth(), getHeight());
 		
-		batch.draw(fuelCutoff, x + 155 + fuelCutoffRatio * fuel.getRegionWidth() * scale, y + 22,
-				fuelCutoff.getRegionWidth() * scale, fuelCutoff.getRegionHeight() * scale);
+		batch.draw(fuelCutoff, mainX + barX + fuelCutoffRatio * fuel.getRegionWidth() * mainScale, mainY + fuelBarY,
+				fuelCutoff.getRegionWidth() * mainScale, fuelCutoff.getRegionHeight() * mainScale);
 
 		
 		if (player.getPlayerData().getCurrentTool().isReloading()) {
-			batch.draw(reloading, x, y, getWidth(), getHeight());
+			batch.draw(reloading, mainX, mainY, getWidth(), getHeight());
 		}
 
 		font.getData().setScale(0.25f);
-		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), x + 48, y + 90, 100, -1, true);
+		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), mainX + 48, mainY + 90, 100, -1, true);
 		font.getData().setScale(0.5f);
-		font.draw(batch, weaponText, x + 48, y + 40);
+		font.draw(batch, weaponText, mainX + 48, mainY + 40);
 		font.getData().setScale(0.25f);
-		font.draw(batch, ammoText, x + 48, y + 60);
+		font.draw(batch, ammoText, mainX + 48, mainY + 60);
 		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)hpMax,
-				x + 155, y + 66);
+				mainX + 155, mainY + 66);
 		
 		for (int i = 0; i < 4; i++) {
 			if (player.getPlayerData().getMultitools().length > i) {
 				
 				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
-					batch.draw(itemNull.get(i), x, y, getWidth(), getHeight());
+					batch.draw(itemNull.get(i), mainX, mainY, getWidth(), getHeight());
 				} else {
 					if (i == player.getPlayerData().getCurrentSlot()) {
-						batch.draw(itemSelect.get(i), x, y, getWidth(), getHeight());
+						batch.draw(itemSelect.get(i), mainX, mainY, getWidth(), getHeight());
 					} else {
-						batch.draw(itemUnselect.get(i), x, y, getWidth(), getHeight());
+						batch.draw(itemUnselect.get(i), mainX, mainY, getWidth(), getHeight());
 					}
 				}	
 			}
 		}
 		
+		//Draw boss hp bar, if existant
+		if (bossFight && boss.getBody() != null) {
+			font.draw(batch, bossName, bossX, bossNameY);
+			//This code makes the hp bar delay work.
+			if (bossHpDelayed > bossHpRatio) {
+				bossHpDelayed -= bossHpCatchup;
+			} else {
+				bossHpDelayed = bossHpRatio;
+			}
+			
+			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getMaxHp();
+			
+			batch.draw(hpMissing, bossX, bossBarY, bossBarWidth * mainScale * bossHpDelayed, bossBarHeight * mainScale);
+			batch.draw(hp, bossX, bossBarY, bossBarWidth * mainScale * bossHpRatio, bossBarHeight * mainScale);
+		}
+		
+		//Draw weapon mod info if moused over
 		if (mouseOver) {
 			int yOffset = 0;
 			if (state.isServer()) {
 				for(WeaponModifier s : player.getPlayerData().getCurrentTool().getWeaponMods()) {
 					font.getData().setScale(0.25f);
-					font.draw(batch, s.getName(), x + 25, y + 150 + yOffset, 250, -1, true);
+					font.draw(batch, s.getName(), mainX + 25, mainY + 150 + yOffset, 250, -1, true);
 					yOffset += 25;
 				}
 			} else {
 				for(WeaponMod s : player.getPlayerData().getOverrideWeaponMods()) {
 					font.getData().setScale(0.25f);
-					font.draw(batch, s.getName(), x + 25, y + 150 + yOffset, 250, -1, true);
+					font.draw(batch, s.getName(), mainX + 25, mainY + 150 + yOffset, 250, -1, true);
 					yOffset += 25;
 				}
 			}
@@ -196,5 +235,14 @@ public class UIPlay extends AHadalActor {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-
+	
+	public void setBoss(Schmuck boss, String name) {
+		this.boss = boss;
+		bossFight = true;
+		bossName = name;
+	}
+	
+	public void clearBoss() {
+		bossFight = false;
+	}
 }

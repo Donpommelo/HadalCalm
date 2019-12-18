@@ -636,16 +636,5 @@
     <property name="prefabId" value="WeaponMod"/>
    </properties>
   </object>
-  <object id="224" name="Objective" type="Objective" x="4288" y="1120" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="objective"/>
-    <property name="triggeringId" value="test"/>
-   </properties>
-  </object>
-  <object id="225" name="Dummy" type="Dummy" x="4384" y="960" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="test"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
