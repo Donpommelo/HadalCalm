@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="550" height="125" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="187">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="550" height="125" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="189">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="8" name="Tile Layer 1" width="550" height="125">
   <data encoding="base64" compression="zlib">
@@ -7,10 +7,6 @@
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
-  <properties>
-   <property name="startX" type="int" value="19"/>
-   <property name="startY" type="int" value="171"/>
-  </properties>
   <object id="1" x="480" y="2176">
    <polyline points="0,0 896,0 992,-96 1728,-96 1728,-320 2144,-320 2240,-224 2592,-224 2592,-320 2688,-320 2688,-224 3296,-224 3296,-320 3392,-320 3392,-224 3712,-224 3904,-32 4576,-32 4672,64 4864,64 4960,-32 5440,-32 5696,-288 5952,-288 5952,-416 6112,-576 6112,-288 6272,-288 6272,-576 6432,-576 6432,-288 6592,-288 6592,-704 6752,-704 6752,-288 6912,-288 6912,-448 7072,-448 7072,-288 7232,-288 7232,-1024 7392,-1024 7392,288 9920,288 9920,-1056 10336,-1056 10336,-640 10912,-640 10912,-64 11328,352 11200,480 11200,960 13792,960 13792,128 14144,128 14144,-672 14432,-672 14432,128 16032,128 16032,320 16320,320 16320,-128 15104,-128 15104,-704 14912,-896 13440,-896 13248,-704 13248,800 12576,800 12576,736 12800,736 12800,608 12352,608 12352,800 11616,800 11616,480 11072,-64 11072,-800 10496,-800 10496,-1120 10528,-1120 10560,-1152 10560,-1792 6400,-1792 6080,-1472 5184,-1472 4864,-1152 3552,-1152 3552,-896 3392,-736 3392,-480 3296,-480 3296,-896 2592,-1600 192,-1600 0,-1408 0,0"/>
   </object>
@@ -548,6 +544,7 @@
   </object>
   <object id="119" name="Sensor" type="Sensor" x="16640" y="2464" width="32" height="32">
    <properties>
+    <property name="sprite" value="PYRAMID"/>
     <property name="triggeringId" value="winLimiter"/>
    </properties>
   </object>
@@ -815,6 +812,12 @@
   <object id="186" name="Warp" type="Warp" x="736" y="2112" width="64" height="64">
    <properties>
     <property name="level" value="LEVEL_1"/>
+    <property name="startId" value="test"/>
+   </properties>
+  </object>
+  <object id="188" name="Start" type="Start" x="736" y="2112" width="32" height="32">
+   <properties>
+    <property name="startId" value="test"/>
    </properties>
   </object>
  </objectgroup>

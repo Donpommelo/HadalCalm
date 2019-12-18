@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -63,4 +64,9 @@ public class DestructableBlock extends Event {
 				(short) 0, false, eventData);
 	}
 
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
+		setScaleAlign("CENTER_STRETCH");
+	}
 }

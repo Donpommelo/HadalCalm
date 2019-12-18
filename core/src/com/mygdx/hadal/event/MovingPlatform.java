@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -114,6 +115,12 @@ public class MovingPlatform extends Event {
 			}
 			
 		} 
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
+		setScaleAlign("CENTER_STRETCH");
 	}
 	
 	public void addConnection(Event e) {

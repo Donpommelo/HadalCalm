@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="70">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="70">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt2NsOwyAIBmB26LJT0vd/242LJcZoi6AgK3/C7epX24JbAWA9QF0mL4rhDfPnCv4NmC2HFwOm5vBkwJQc3gyY3OHRgEkdD+O1SBKOuRKOueLVcfrWM6n0m+vJ8YLteSo1no3WSM2exVNP3LNwDPkzq7WfNQt3H/IZR/N96zlfzeKQXvdfHVg34W9yrj3CoWXRcOR9qbUo372eDmpfai3KunrPVyMsFo4RFisHhmOp/Vd4N3RgWizSWW70+YNi6TGPapyj0FJ7ZnrN1BxHPtfOcFbhOEr9zvos6cWxwHbP56xF27EUriftNxhNR6vhV5S5TXIPNAzSotwD6gxvZdDY8yh/FYlEIpHIkfMBPyokDw==
+   eAHtmNkKAyEMRacr3aD//7c1D4GLVI1xXNJGGJSOY3JuYpS+t217/8FzCowrP5IYvALD6u0cHMyxWGAgjXMcVhhyHJYYUhzWGL5xWGSIOe70g9GG+9w55gfR4zE/BuiB1XgcAsQDHryTWNrnz8CAvsdjZDxi4BYcl1iYzcKZWGLRMMQ5OyqeKRYNA6Ud1gyK6cj9FtvWMqzE0apfrEnreqSNtKHtVru4FteKq9SRxnlouwcH8YxgGcFBLHgu1Y4ldW9PjlT94xzT9pI82ZODUrwHywyOHiyzOLQsqf8rb7Rgoe2dV2iuJsdazl+y2ZOD1pewtDKM4GCWVM7swaDliO+1dB5IajzZ69U0eYXf8JkgqSm9GGhd9EnqC34ziuMSfM3dA9gP6lflIAb0szRekaOWgRlzseN3PBd7qQZBWnHTMqBfmjFz5nrpHX4WQw13jpPf1aznc+vqx0i9xJvPJ7oCroAr4Aq4Aj+owAc/KiQP
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
-  <properties>
-   <property name="startX" type="int" value="21"/>
-   <property name="startY" type="int" value="14"/>
-  </properties>
   <object id="1" x="64" y="1152">
    <polyline points="0,0 288,0 288,-160 480,-160 480,32 768,32 800,64 1088,64 1248,-96 1472,-96 1472,-576 1344,-704 1344,-736 1472,-736 1472,-1088 192,-1088 0,-896 0,-672 128,-672 128,-640 0,-512 0,0"/>
   </object>

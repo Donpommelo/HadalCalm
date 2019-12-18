@@ -28,11 +28,13 @@ public class LevelWarp extends Event {
 	private static final String name = "Level Warp";
 
 	private String level;
+	private String startId;
 	private boolean reset;
 	
-	public LevelWarp(PlayState state, int width, int height, int x, int y, String level, boolean reset) {
+	public LevelWarp(PlayState state, int width, int height, int x, int y, String level, boolean reset, String startId) {
 		super(state, name, width, height, x, y);
 		this.level = level;
+		this.startId = startId;
 		this.reset = reset;
 	}
 	
@@ -43,9 +45,9 @@ public class LevelWarp extends Event {
 			@Override
 			public void onInteract(Player p) {
 				if (reset) {
-					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEWLEVEL);
+					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEWLEVEL, false, startId);
 				} else {
-					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEXTSTAGE);
+					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEXTSTAGE, true, startId);
 				}
 			}
 		};

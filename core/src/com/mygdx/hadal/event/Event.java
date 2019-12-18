@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -156,12 +155,6 @@ public class Event extends HadalEntity {
 				break;
 			}            
 		}
-		
-		if (body != null) {			
-
-			HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(0.60f);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, getText(), getPosition().x * PPM, getPosition().y * PPM);
-		}
 	}
 	
 	public void loadDefaultProperties() {
@@ -246,7 +239,7 @@ public class Event extends HadalEntity {
 		switch(syncType) {
 		case ILLUSION:
 			if (body != null) {
-				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD, alignType.CENTER_BOTTOM);
+				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD, scaleAlign);
 			} else {
 				return null;
 			}

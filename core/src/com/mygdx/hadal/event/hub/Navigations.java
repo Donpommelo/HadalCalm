@@ -39,7 +39,7 @@ public class Navigations extends HubEvent {
 		        
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-		        	state.loadLevel(selected, transitionState.NEWLEVEL);
+		        	state.loadLevel(selected, transitionState.NEWLEVEL, false, "");
 		        	leave();
 		        	mouseOut();
 		        }

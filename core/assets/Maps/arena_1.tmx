@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="138">
- <properties>
-  <property name="startX" type="int" value="18"/>
-  <property name="startY" type="int" value="35"/>
-  <property name="zoom" type="float" value="0.4"/>
- </properties>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="138">
  <tileset firstgid="1" source="main.tsx"/>
- <layer name="Tile Layer 1" width="100" height="80">
+ <layer id="1" name="Tile Layer 1" width="100" height="80">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
- <objectgroup name="collision-layer">
-  <properties>
-   <property name="startX" type="int" value="18"/>
-   <property name="startY" type="int" value="45"/>
-  </properties>
+ <objectgroup id="2" name="collision-layer">
   <object id="1" x="159.75" y="1856.25">
    <polyline points="0,0 127.75,-0.5 0.25,127.75 0.25,543.75 32.25,575.75 480.25,575.75 576.25,671.75 768.25,671.75 768.25,575.75 800.25,543.75 800.25,511.75 832.25,479.75 960.25,479.75 960.25,543.75 928.25,543.75 928.25,671.75 1088.25,671.75 1088.25,543.75 1056.25,543.75 1056.25,479.75 1216.25,479.75 1408.25,287.75 2752.25,287.75 2880.25,159.75 2880.25,31.75 2912.25,-0.25 3008.25,-0.25 3008.25,-640.25 2976.25,-672.25 2976.25,-928.25 2944.25,-960.25 2944.25,-1056.25 2880.25,-1120.25 2752.25,-1120.25 2720.25,-1152.25 2720.25,-1600.25 2656.25,-1664.25 1696.25,-1664.25 1472.25,-1440.25 1472.25,-672.25 896.25,-672.25 896.25,-576.25 864.25,-576.25 864.25,-672.25 896.25,-704.25 1184.25,-704.25 1248.25,-768.25 1248.25,-800.25 1280.25,-832.25 1280.25,-864.25 1312.25,-896.25 1312.25,-992.25 1344.25,-1024.25 1344.25,-1120.25 1376.25,-1152.25 1376.25,-1248.25 1408.25,-1280.25 1408.25,-1376.25 1440.25,-1408.25 1440.25,-1792.25 1408.25,-1824.25 96.25,-1824.25 64.25,-1792.25 64.25,-1408.25 96.25,-1376.25 96.25,-1280.25 128.25,-1248.25 128.25,-1152.25 160.25,-1120.25 160.25,-1024.25 192.25,-992.25 192.25,-896.25 224.25,-864.25 224.25,-832.25 256.25,-800.25 256.25,-768.25 320.25,-704.25 608.25,-704.25 640.25,-672.25 640.25,-576.25 608.25,-576.25 608.25,-640.25 224.25,-640.25 0.25,-416.25 0.25,-0.25"/>
   </object>
@@ -53,7 +44,7 @@
    <polyline points="0,0 160,0 160,96 0,96 0,0"/>
   </object>
  </objectgroup>
- <objectgroup name="event-layer">
+ <objectgroup id="3" name="event-layer">
   <object id="19" name="Current" type="Current" x="1568" y="1888" width="512" height="256">
    <properties>
     <property name="currentX" type="float" value="1.25"/>

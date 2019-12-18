@@ -634,27 +634,27 @@ public class Player extends PhysicsSchmuck {
 		if (alive) {
 			new Ragdoll(state, headWidth * scale, headHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), 5.0f, false);
 			
 			new Ragdoll(state, bodyWidth * scale, bodyHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), 5.0f, false);
 			
 			new Ragdoll(state, armWidth * scale, armHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), 5.0f, false);
 			
 			new Ragdoll(state, bodyBackWidth * scale, bodyBackHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), 5.0f, false);
 			
 			new Ragdoll(state, gemWidth * scale, gemHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), 5.0f, false);
 			
 			new Ragdoll(state, toolWidth * scale, toolHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), 5.0f);
+					(int)(getPosition().y * PPM), playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), 5.0f, false);
 		}
 	}
 	

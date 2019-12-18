@@ -161,17 +161,6 @@ public class GameStateManager {
 	}
 	
 	/**
-	 * This is run when the window resizes.
-	 * @param w: new width of the screen.
-	 * @param h: new height of the screen.
-	 */
-	public void resize(int w, int h) {
-		for (Object state : states.toArray()) {
-			((GameState) state).resize(w, h);
-		};
-	}
-	
-	/**
 	 * This is run when we change the current state.
 	 * This code adds the new input state, replacing and disposing the previous state if existent.
 	 * Due to states getting more different fields, this should only be used for simple states.
@@ -195,13 +184,13 @@ public class GameStateManager {
 	 * @param old: old playerdata to persist stuff like equips/hp/whatever
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState, boolean reset) {
+	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState, boolean reset, String startId) {
 		
 		if (states.empty()) {
-			states.push(new PlayState(this, loadout, map, true, old, reset));
+			states.push(new PlayState(this, loadout, map, true, old, reset, startId));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PlayState(this, loadout, map, true, old, reset));
+			states.push(new PlayState(this, loadout, map, true, old, reset, startId));
 			states.peek().show();
 		}
 	}
@@ -268,11 +257,11 @@ public class GameStateManager {
 	
 	public void gotoHubState() {
 		if (currentMode == Mode.SINGLE) {
-			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class, true);
+			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class, true, "");
 		}
 		
 		if (currentMode == Mode.MULTI) {
-			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class, true);
+			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class, true, "");
 		}
 	}
 	

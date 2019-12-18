@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="229">
- <properties>
-  <property name="triggeredId" value="win"/>
- </properties>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="400" height="300" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="231">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="400" height="300">
   <data encoding="base64" compression="zlib">
@@ -10,10 +7,6 @@
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
-  <properties>
-   <property name="startX" type="int" value="146"/>
-   <property name="startY" type="int" value="275"/>
-  </properties>
   <object id="1" x="3904" y="192">
    <polyline points="0,0 32,-32 1600,-32 1632,0 1632,576 1600,608 1600,704 1568,736 1568,832 1536,864 1536,960 1504,992 1504,1088 1472,1120 1472,1152 1440,1184 1440,1216 1376,1280 1024,1280 896,1408 896,1600 704,1600 640,1536 288,1536 256,1568 -384,1568 -384,1952 -608,1952 -608,2016 -320,2016 -96,1792 256,1792 256,1696 320,1632 640,1632 704,1696 704,1760 736,1792 928,1792 1024,1696 1344,1696 1344,2240 1664,2560 2048,2560 1920,2688 1728,2688 1632,2784 672,2784 672,2944 1632,2944 1760,2816 2048,2816 2048,3392 1888,3392 1888,3840 1120,3840 1120,3648 992,3648 992,3872 1152,4032 1152,4320 1728,4320 1824,4416 2304,4416 2496,4224 2496,4032 2688,3840 2688,2432 4352,2432 4352,2784 4224,2784 4224,3008 5120,3008 5120,6848 3168,6848 3168,6464 2848,6464 2848,5984 3840,5984 4160,5664 4800,5664 4800,5408 3840,4448 3840,3648 4288,3200 4288,3168 4064,3168 4064,2784 3296,2784 3296,3616 3456,3776 3456,5824 1824,5824 1824,4736 1696,4608 1536,4608 1408,4480 448,4480 448,4384 704,4384 704,4032 864,3872 864,3520 1248,3520 1248,3712 1760,3712 1760,3392 1312,3392 1312,3168 1024,3168 1024,3392 448,3392 448,2560 672,2560 992,2240 992,1952 -64,1952 -288,2176 -896,2176 -896,2048 -768,2048 -768,1952 -1056,1952 -1056,1152 -384,1152 -384,1408 256,1408 320,1344 640,1344 672,1312 640,1280 256,1280 192,1216 192,1184 160,1152 160,1120 128,1088 128,992 96,960 96,864 64,832 64,736 32,704 32,608 0,576 0,0"/>
   </object>
@@ -423,6 +416,7 @@
   </object>
   <object id="137" name="Sensor" type="Sensor" x="6816" y="6624" width="32" height="32">
    <properties>
+    <property name="sprite" value="PYRAMID"/>
     <property name="triggeringId" value="winLimiter"/>
    </properties>
   </object>
@@ -640,6 +634,12 @@
    <properties>
     <property name="align" value="CENTER"/>
     <property name="level" value="LEVEL_2"/>
+    <property name="startId" value="test"/>
+   </properties>
+  </object>
+  <object id="230" name="Start" type="Start" x="4672" y="1728" width="32" height="32">
+   <properties>
+    <property name="startId" value="test"/>
    </properties>
   </object>
  </objectgroup>

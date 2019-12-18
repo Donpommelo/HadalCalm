@@ -1,13 +1,16 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
@@ -27,14 +30,14 @@ public class SlodgeGun extends RangedWeapon {
 	private final static int ammoSize = 21;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.25f;
-	private final static float reloadTime = 1.0f;
+	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 3.0f;
 	private final static float recoil = 16.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 3.0f;
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 75;
+	private final static int projectileWidth = 50;
+	private final static int projectileHeight = 50;
 	private final static float lifespan = 4.0f;
 	private final static float gravity = 3;
 	
@@ -45,7 +48,6 @@ public class SlodgeGun extends RangedWeapon {
 	private final static float slow = 0.75f;
 	private final static float fireDuration = 0.75f;
 
-	private final static Sprite projSprite = Sprite.SCRAP_C;
 	private final static Sprite weaponSprite = Sprite.MT_SLODGEGUN;
 	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
@@ -78,13 +80,14 @@ public class SlodgeGun extends RangedWeapon {
 					procCdCount -= procCd;
 					Vector2 startVelocity = p.getMouse().getPosition().sub(inflicted.getSchmuck().getPosition()).scl(projectileSpeed);
 					Vector2 startPosition = inflicted.getSchmuck().getProjectileOrigin(startVelocity, projectileSize);
-					Hitbox hbox = new HitboxSprite(state, startPosition.x, startPosition.y, 
+					Hitbox hbox = new RangedHitbox(state, startPosition.x, startPosition.y, 
 							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-							filter, true, true, user, projSprite);
+							filter, true, true, user);
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+					new ParticleEntity(state, hbox, Particle.SHADOW_PATH, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 						
 						@Override

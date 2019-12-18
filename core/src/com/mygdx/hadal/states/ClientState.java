@@ -39,7 +39,7 @@ public class ClientState extends PlayState {
 	private Vector3 mousePosition = new Vector3();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
-		super(gsm, loadout, level, false, null, true);
+		super(gsm, loadout, level, false, null, true, "");
 		entities = new LinkedHashMap<String, HadalEntity>();
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		sync = new ArrayList<Object[]>();

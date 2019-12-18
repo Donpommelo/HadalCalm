@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="143">
+ <properties>
+  <property name="practice" type="bool" value="true"/>
+  <property name="pvp" type="bool" value="true"/>
+  <property name="respawn" type="bool" value="true"/>
+ </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="120">
   <data encoding="base64" compression="zlib">
@@ -7,11 +12,6 @@
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
-  <properties>
-   <property name="practice" type="bool" value="true"/>
-   <property name="pvp" type="bool" value="true"/>
-   <property name="respawn" type="bool" value="true"/>
-  </properties>
   <object id="35" x="2176" y="2688">
    <polyline points="0,0 -64,0 -64,32 -160,128 -480,128 -480,160 -704,160 -704,-480 -864,-480 -864,-384 -1152,-384 -1152,-736 -800,-736 -800,-640 -704,-640 -704,-1120 -864,-1120 -864,-1312 -672,-1504 -96,-1504 288,-1120 -480,-1120 -480,-640 -384,-640 -384,-960 -320,-1024 384,-1024 448,-960 448,-768 288,-768 192,-672 32,-672 -64,-576 -224,-576 -320,-480 -480,-480 -480,-32 -416,-32 -416,-192 -384,-224 -160,-224 -64,-128 0,-128"/>
   </object>
@@ -42,16 +42,20 @@
   </object>
   <object id="10" name="Sensor" type="Sensor" x="1504" y="2048" width="32" height="32">
    <properties>
+    <property name="align" value="CENTER_STRETCH"/>
     <property name="hbox" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
+    <property name="sprite" value="ORB_RED"/>
     <property name="triggeredId" value="upbutton"/>
     <property name="triggeringId" value="uppressed"/>
    </properties>
   </object>
   <object id="11" name="Sensor" type="Sensor" x="1632" y="2048" width="32" height="32">
    <properties>
+    <property name="align" value="CENTER_STRETCH"/>
     <property name="hbox" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
+    <property name="sprite" value="ORB_RED"/>
     <property name="triggeredId" value="downbutton"/>
     <property name="triggeringId" value="downpressed"/>
    </properties>

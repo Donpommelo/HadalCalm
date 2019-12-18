@@ -39,12 +39,15 @@ public class Ragdoll extends HadalEntity {
 	private Vector2 startVelo;
 	private float startAngle;
 	
-	public Ragdoll(PlayState state, float w, float h, int x, int y, Sprite sprite, Vector2 startVelo, float duration) {
+	private boolean sensor;
+	
+	public Ragdoll(PlayState state, float w, float h, int x, int y, Sprite sprite, Vector2 startVelo, float duration, boolean sensor) {
 		super(state, w, h, x, y);
 		this.startVelo = startVelo;
 		this.startAngle = baseAngle;
 		this.ragdollDuration = duration;
 		this.sprite = sprite;
+		this.sensor = sensor;
 		if (sprite != null) {
 			ragdollSprite = sprite.getFrame();
 		}
@@ -55,7 +58,7 @@ public class Ragdoll extends HadalEntity {
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0.5f, false, false, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_WALL), (short) 0, false, hadalData);
+				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) 0, sensor, hadalData);
 		
 		setAngularVelocity(startAngle * veloAmp);
 		

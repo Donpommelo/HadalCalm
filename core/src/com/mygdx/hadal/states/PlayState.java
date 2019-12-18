@@ -19,6 +19,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
@@ -108,6 +109,9 @@ public class PlayState extends GameState {
 	//this is the current level
 	protected UnlockLevel level;
 	
+	//This is the id of the start event that we will be spawning on
+	private String startId;
+	
 	//This is the entity that the camera tries to focus on
 	protected HadalEntity cameraTarget;
 	
@@ -170,6 +174,7 @@ public class PlayState extends GameState {
 	
 	//If we are transitioning to another level, this is that level.
 	private UnlockLevel nextLevel;
+	private String nextStartId;
 	
 	//If we are transitioning to a results screen, this is the displayed text;
 	protected String resultsText;
@@ -187,7 +192,7 @@ public class PlayState extends GameState {
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
 	 */
-	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old, boolean reset) {
+	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old, boolean reset, String startId) {
 		super(gsm);
 
 		this.server = server;
@@ -197,6 +202,7 @@ public class PlayState extends GameState {
 		this.mapStartifact = level.getStartifact();
 		this.mapActiveItem = level.getActiveItem();
 		this.level = level;
+		this.startId = startId;
         
         //Initialize box2d world and related stuff
 		world = new World(new Vector2(0, -9.81f), false);
@@ -204,7 +210,7 @@ public class PlayState extends GameState {
 		World.setVelocityThreshold(0);
 
 		b2dr = new Box2DDebugRenderer();
-//		b2dr.setDrawBodies(false);
+		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities and packet effects
 		entities = new LinkedHashSet<HadalEntity>();
@@ -226,12 +232,10 @@ public class PlayState extends GameState {
 		tmr = new OrthogonalTiledMapRenderer(map);
 
 		//Get map settings from the collision layer of the map
-		this.respawn = map.getLayers().get("collision-layer").getProperties().get("respawn", false, Boolean.class);
-		this.pvp = map.getLayers().get("collision-layer").getProperties().get("pvp", false, Boolean.class);
-		this.practice = map.getLayers().get("collision-layer").getProperties().get("practice", false, Boolean.class);
-		this.startX = map.getLayers().get("collision-layer").getProperties().get("startX", 0, Integer.class);
-		this.startY = map.getLayers().get("collision-layer").getProperties().get("startY", 0, Integer.class);
-		this.zoom = map.getLayers().get("collision-layer").getProperties().get("zoom", 1.0f, float.class);
+		this.respawn = map.getProperties().get("respawn", false, Boolean.class);
+		this.pvp = map.getProperties().get("pvp", false, Boolean.class);
+		this.practice = map.getProperties().get("practice", false, Boolean.class);
+		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
 
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
@@ -247,8 +251,15 @@ public class PlayState extends GameState {
 		//Create the player and make the camera focus on it
 		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old, reset);
 		this.cameraTarget = player;
+		this.camera.position.set(new Vector3(startX * PPM, startY * PPM, 0));
+		this.sprite.position.set(new Vector3(startX * PPM, startY * PPM, 0));
 		this.reset = reset;
 
+		if (!reset) {
+			fadeLevel = 0;
+			fadeDelta = 0.0f;
+		}
+		
 		controller = new PlayerController(player);	
 		
 		//Set up "save point" as starting point
@@ -486,7 +497,6 @@ public class PlayState extends GameState {
 	 */
 	Vector2 tmpVector2 = new Vector2();
 	protected void cameraUpdate() {
-		
 		zoom = zoom + (zoomDesired - zoom) * 0.05f;
 		
 		camera.zoom = zoom;
@@ -599,13 +609,13 @@ public class PlayState extends GameState {
 			
 			//remove this state and add a new play state with a fresh loadout
 			getGsm().removeState(PlayState.class);
-        	getGsm().addPlayState(nextLevel, new Loadout(gsm.getRecord()), null, TitleState.class, true);
+        	getGsm().addPlayState(nextLevel, new Loadout(gsm.getRecord()), null, TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
 			
 			//remove this state and add a new play state with the player's current loadout and stats
 			getGsm().removeState(PlayState.class);
-			getGsm().addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false);
+			getGsm().addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
 			getGsm().removeState(PlayState.class);
@@ -618,9 +628,10 @@ public class PlayState extends GameState {
 	/**
 	 * transition from one playstate to another with a new level.
 	 * @param level: file of the new map
-	 * @param reset: should this warp reset the player's loadout/hp and stuff?
+	 * @param state: this will either be newlevel or next stage to determine whether we reset hp
+	 * @param instane: do we transition to the next area quickly?
 	 */
-	public void loadLevel(UnlockLevel level, transitionState state) {
+	public void loadLevel(UnlockLevel level, transitionState state, boolean instant, String nextStartId) {
 		
 		//The client should never run this; instead transitioning when the server tells it to.
 		if (!server) {
@@ -629,12 +640,21 @@ public class PlayState extends GameState {
 		
 		if (nextLevel == null) {
 			
-			//begin transitioning to the designated next level
-			nextLevel = level;
-			beginTransition(state, false, "");
-			
-			//Server tells clients to begin a transition to the new state
-			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, ""));
+			if (instant) {
+				
+				//remove this state and add a new play state with the player's current loadout and stats
+				getGsm().removeState(PlayState.class);
+				getGsm().addPlayState(level, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
+				
+			} else {
+				//begin transitioning to the designated next level
+				nextLevel = level;
+				this.nextStartId = nextStartId;
+				beginTransition(state, false, "");
+				
+				//Server tells clients to begin a transition to the new state
+				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, ""));
+			}
 		}
 	}
 	
@@ -876,6 +896,14 @@ public class PlayState extends GameState {
 		return level;
 	}
 	
+	public String getStartId() {
+		return startId;
+	}
+
+	public void setStartId(String startId) {
+		this.startId = startId;
+	}
+
 	public PlayStateStage getPlayStateStage() {
 		return (PlayStateStage) stage;
 	}

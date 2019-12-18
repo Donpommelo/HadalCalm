@@ -41,22 +41,6 @@ public abstract class GameState {
 	}
 	
 	/**
-	 * Default behaviour for resizing screen includes resetting the main camera.
-	 * @param w: Width of new screen
-	 * @param h: height of the new screen
-	 */
-	public void resize(int w, int h) {
-		camera.setToOrtho(false, w, h);
-		camera.update();
-		
-		sprite.setToOrtho(false, w, h);
-		sprite.update();
-		
-		hud.setToOrtho(false, w, h);
-		hud.update();
-	}
-	
-	/**
 	 * This will be run every engine tick and will process game logic.
 	 * @param delta: elapsed time in seconds since last engine tick.
 	 */

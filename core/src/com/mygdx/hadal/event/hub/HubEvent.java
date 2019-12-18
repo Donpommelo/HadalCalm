@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
@@ -169,6 +170,7 @@ public class HubEvent extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
+		setEventSprite(Sprite.PYRAMID);
 		setSyncType(eventSyncTypes.USER);
 	}
 }

@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -54,5 +55,11 @@ public class AirblastableRock extends Event {
 		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 50, 0, false, true, Constants.BIT_WALL, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
+		setScaleAlign("CENTER_STRETCH");
 	}
 }

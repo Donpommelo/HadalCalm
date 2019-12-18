@@ -226,7 +226,7 @@ public class FloatingEnemy extends SteeringEnemy {
 		if (alive) {
 			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), sprite, getLinearVelocity(), 0.5f);
+					(int)(getPosition().y * PPM), sprite, getLinearVelocity(), 0.5f, false);
 		}
 		return super.queueDeletion();
 	}

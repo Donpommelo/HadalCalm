@@ -394,6 +394,7 @@
   </object>
   <object id="75" name="Sensor" type="Sensor" x="4032" y="3616" width="32" height="32">
    <properties>
+    <property name="sprite" value="PYRAMID"/>
     <property name="triggeringId" value="winLimiter"/>
    </properties>
   </object>

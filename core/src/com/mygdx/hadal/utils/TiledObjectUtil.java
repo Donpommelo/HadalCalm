@@ -90,7 +90,9 @@ public class TiledObjectUtil {
 		Rectangle rect = current.getRectangle();
 		
 		if (object.getName().equals("Start")) {
-			state.setStart((int)rect.x, (int)rect.y);
+			if (state.getStartId().equals(object.getProperties().get("startId", "", String.class))) {
+				state.setStart((int)rect.x, (int)rect.y);
+			}
 		}
 		
 		Event e = null;
@@ -274,7 +276,9 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Warp")) {
 			e = new LevelWarp(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("level", String.class), object.getProperties().get("reset", false, Boolean.class));
+					object.getProperties().get("level", String.class), 
+					object.getProperties().get("reset", false, Boolean.class), 
+					object.getProperties().get("startId", "", String.class));
 		}
 		if (object.getName().equals("Poison")) {
 			e = new Poison(state, (int)rect.width, (int)rect.height, 

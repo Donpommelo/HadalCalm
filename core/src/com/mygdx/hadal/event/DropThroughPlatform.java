@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
@@ -93,4 +94,10 @@ public class DropThroughPlatform extends Event {
 		
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}	
+	
+	@Override
+	public void loadDefaultProperties() {
+		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
+		setScaleAlign("CENTER_STRETCH");
+	}
 }
