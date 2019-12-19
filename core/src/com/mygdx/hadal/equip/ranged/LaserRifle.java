@@ -59,7 +59,6 @@ public class LaserRifle extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
 		final Equipable tool = this;
-		
 		float distance = projectileWidth * (1 + user.getBodyData().getProjectileLifespan());
 		
 		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
@@ -90,13 +89,15 @@ public class LaserRifle extends RangedWeapon {
 		Hitbox hbox = new HitboxSprite(state, x, y, (int) (distance * shortestFraction * 2 * PPM), projectileHeight, gravity, 
 				lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite) {
 			
+			Vector2 newPosition = new Vector2(0, 0);
+			
 			@Override
 			public void create() {
 				super.create();
-				
+
 				//Rotate hitbox to match angle of fire.
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
-				Vector2 newPosition = getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
+				newPosition.set(getPosition()).add(startVelocity.nor().scl(width / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
 				
 				this.body.setType(BodyDef.BodyType.StaticBody);

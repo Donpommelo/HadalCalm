@@ -30,22 +30,21 @@ public class EmaudelinesPrism extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -2.5f, b),
 				new Status(state, name, descr, b) {
 			
-			private Vector2 projAngle = new Vector2();
-			private Vector2 projVelo= new Vector2();
-			
+			private Vector2 projVelo = new Vector2();
+			private Vector2 projAngle1 = new Vector2();
+			private Vector2 projAngle2 = new Vector2();
 			@Override
-			public void onShoot(Equipable tool) {				
+			public void onShoot(Equipable tool) {	
 				projVelo.set(tool.getWeaponVelo());
-				projAngle.set(projVelo).setAngle(tool.getWeaponVelo().angle() + spread);
+				projAngle1.set(projVelo).setAngle(projVelo.angle() + spread);
+				projAngle2.set(projVelo).setAngle(projVelo.angle() - spread);
 				
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle,
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle1,
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
 				
-				projAngle.set(projVelo).setAngle(tool.getWeaponVelo().angle() - spread);
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
-						projAngle.set(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle2,
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());

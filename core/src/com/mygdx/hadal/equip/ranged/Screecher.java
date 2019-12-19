@@ -106,6 +106,7 @@ public class Screecher extends RangedWeapon {
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+			
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
