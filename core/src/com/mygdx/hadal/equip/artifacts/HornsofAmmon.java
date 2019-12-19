@@ -14,7 +14,8 @@ public class HornsofAmmon extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float threshold = 2.5f;
+	private final static float threshold = 5.0f;
+	private final static float invulnDura = 1.0f;
 	
 	public HornsofAmmon() {
 		super(name, descr, descrLong, statusNum);
@@ -30,7 +31,7 @@ public class HornsofAmmon extends Artifact {
 				if (damage > threshold) {
 					if (inflicted.getStatus(Invulnerability.class) == null) {
 						inflicted.receiveDamage(damage, new Vector2(0, 0), perp, inflicted.getCurrentTool(), false, tags);
-						inflicted.addStatus(new Invulnerability(state, 2.0f, inflicted, inflicted));
+						inflicted.addStatus(new Invulnerability(state, invulnDura, inflicted, inflicted));
 						return 0;
 					}					
 				}

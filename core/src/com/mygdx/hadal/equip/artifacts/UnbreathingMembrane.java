@@ -26,6 +26,8 @@ public class UnbreathingMembrane extends Artifact {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, Stats.GROUND_SPD, -0.75f, b), 
 				new StatChangeStatus(state, Stats.GROUND_ACCEL, -0.75f, b),
+				new StatChangeStatus(state, Stats.AIR_SPD, -0.75f, b), 
+				new StatChangeStatus(state, Stats.AIR_ACCEL, -0.75f, b),
 				new StatChangeStatus(state, Stats.JUMP_POW, -0.75f, b),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.8f, b),
 				new StatChangeStatus(state, Stats.RANGED_CLIP, 1.0f, b),
@@ -37,7 +39,7 @@ public class UnbreathingMembrane extends Artifact {
 						if (this.inflicted instanceof PlayerBodyData) {
 							if (((PlayerBodyData)this.inflicted).getCurrentTool() instanceof RangedWeapon) {
 								RangedWeapon weapon = (RangedWeapon)((PlayerBodyData)this.inflicted).getCurrentTool();
-								weapon.gainClip((int)(weapon.getClipSize()));
+								weapon.gainAmmo(1.0f);
 							}
 						}
 					}

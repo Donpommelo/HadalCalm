@@ -5,6 +5,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
@@ -26,19 +27,19 @@ import com.mygdx.hadal.utils.Constants;
 public class LaserRifle extends RangedWeapon {
 
 	private final static String name = "Laser Rifle";
-	private final static int clipSize = 6;
-	private final static int ammoSize = 30;
-	private final static float shootCd = 0.5f;
+	private final static int clipSize = 12;
+	private final static int ammoSize = 60;
+	private final static float shootCd = 0.2f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 20.0f;
+	private final static float baseDamage = 14.0f;
 	private final static float recoil = 2.5f;
-	private final static float knockback = 16.0f;
+	private final static float knockback = 12.0f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 2000;
+	private final static int projectileWidth = 20;
 	private final static int projectileHeight = 48;
-	private final static float lifespan = 0.5f;
+	private final static float lifespan = 0.25f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
@@ -58,7 +59,10 @@ public class LaserRifle extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
 		final Equipable tool = this;
-		endPt.set(user.getPosition()).add(startVelocity.nor().scl(projectileWidth));
+		
+		float distance = projectileWidth * (1 + user.getBodyData().getProjectileLifespan());
+		
+		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
 		shortestFraction = 1.0f;
 		
 		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
@@ -83,7 +87,7 @@ public class LaserRifle extends RangedWeapon {
 		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 		Sprite projSprite = projSprites[randomIndex];
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, (int) (projectileWidth * shortestFraction * 2 * PPM), projectileHeight, gravity, 
+		Hitbox hbox = new HitboxSprite(state, x, y, (int) (distance * shortestFraction * 2 * PPM), projectileHeight, gravity, 
 				lifespan, projDura, 0, new Vector2(0, 0), filter, true, true, user, projSprite) {
 			
 			@Override
@@ -94,12 +98,14 @@ public class LaserRifle extends RangedWeapon {
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
 				Vector2 newPosition = getPosition().add(startVelocity.nor().scl(width / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
+				
+				this.body.setType(BodyDef.BodyType.StaticBody);
 			}
 			
 			@Override
 			public void render(SpriteBatch batch) {
 				
-				float transparency = Math.max(0, this.getLifeSpan() / lifespan);
+				float transparency = Math.max(0, this.getLifeSpan() / this.getMaxLifespan());
 
 				batch.setColor(1f, 1f, 1f, transparency);
 				
@@ -115,8 +121,8 @@ public class LaserRifle extends RangedWeapon {
 		};
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
-		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			@Override
 			public void onHit(HadalData fixB) {

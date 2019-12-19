@@ -3,10 +3,8 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -20,8 +18,8 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.statuses.Slodged;
-import com.mygdx.hadal.statuses.Status;
 
 public class SlodgeGun extends RangedWeapon {
 
@@ -35,7 +33,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static float baseDamage = 3.0f;
 	private final static float recoil = 16.0f;
 	private final static float knockback = 5.0f;
-	private final static float projectileSpeed = 3.0f;
+	private final static float projectileSpeed = 15.0f;
 	private final static int projectileWidth = 50;
 	private final static int projectileHeight = 50;
 	private final static float lifespan = 4.0f;
@@ -57,51 +55,32 @@ public class SlodgeGun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		if (!(user instanceof Player)) {
-			return;
-		}
-		final Equipable tool = this;
-		final Player p = (Player)user;
 		
-		p.getBodyData().addStatus(new Status(state, fireDuration, "", "", false, p.getBodyData(), p.getBodyData()) {
-			
-			private float procCdCount;
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
+				filter, true, true, user);
+		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		new ParticleEntity(state, hbox, Particle.SHADOW_PATH, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override
-			public void timePassing(float delta) {
-				super.timePassing(delta);
-				
-				if (p.getMouse() == null) {
-					return;
-				}
-				
-				procCdCount += delta;
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
-					Vector2 startVelocity = p.getMouse().getPosition().sub(inflicted.getSchmuck().getPosition()).scl(projectileSpeed);
-					Vector2 startPosition = inflicted.getSchmuck().getProjectileOrigin(startVelocity, projectileSize);
-					Hitbox hbox = new RangedHitbox(state, startPosition.x, startPosition.y, 
-							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-							filter, true, true, user);
-					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-					new ParticleEntity(state, hbox, Particle.SHADOW_PATH, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
-					hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-						
-						@Override
-						public void onHit(HadalData fixB) {
-							if (fixB != null) {
-								if (fixB instanceof BodyData) {
-									((BodyData)fixB).addStatus(new Slodged(state, slowDura, slow, user.getBodyData(), ((BodyData)fixB)));
-								}
-							}
-						}
-						
-					});
+			public void onHit(HadalData fixB) {
+				if (fixB != null) {
+					if (fixB instanceof BodyData) {
+						((BodyData)fixB).addStatus(new Slodged(state, slowDura, slow, user.getBodyData(), ((BodyData)fixB)));
+					}
 				}
 			}
+			
 		});
+	}
+	
+	@Override
+	public void execute(PlayState state, BodyData shooter) {
+		if (processClip(state, shooter)) {
+			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileWidth, procCd));
+		}
 	}
 }

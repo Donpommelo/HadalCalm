@@ -111,22 +111,14 @@ public abstract class Equipable {
 	 */
 	public abstract void reload(float delta);
 
-	
-	/*
-	 * This method is used within a weapon itself to use its own fields. The version underneath is for weapons fired as a result of some other effect.
-	 */
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity) {
-		fire(state, user, startVelocity, x, y, faction);
-	}
-
 	/**
 	 * This is the method called when a weapon actually fires off. This usually involves shooty stuff.
 	 * This is abstracted away from execute for weapons that fire weirdly (like charge weapons)
 	 * @param state: state the weapon is fired in. Playstate often used for creating new hitboxes
 	 * @param user: This is the guy who shot this weapon. If a weapon is fired by the map, use the WorldDummy
 	 * @param startVelocity: The starting directional velocity of a projectile spawned. Typically vector pointing to mouse.
-	 * @param x: x coordinate of the target. (screen coordinates)
-	 * @param y: y coordinate of the target. (screen coordinates) 
+	 * @param x: x coordinate of the hbox to spawn. (screen coordinates)
+	 * @param y: y coordinate of the hbox to spawn. (screen coordinates) 
 	 * @param filter: this is the hitbox filter that decides who gets hit by this
 	 * @param procEffects: Does firing this shot activate on-shoot effects?
 	 */
@@ -148,15 +140,19 @@ public abstract class Equipable {
 		return "";
 	};
 	
-	public void gainClip(int gained) {
-		
-	}
+	public void gainClip(int gained) {}
 
 	public int getClipSize() {
 		return 0;
 	}
 	
 	public int getClipLeft() {
+		return 0;
+	}
+	
+	public void gainAmmo(float gainedPercent) {}
+	
+	public int getAmmoSize() {
 		return 0;
 	}
 	

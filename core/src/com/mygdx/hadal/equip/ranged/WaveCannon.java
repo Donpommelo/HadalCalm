@@ -29,7 +29,7 @@ public class WaveCannon extends RangedWeapon {
 	private final static float projectileSpeed = 40.0f;
 	private final static int projectileWidth = 30;
 	private final static int projectileHeight = 30;
-	private final static float lifespan = 2.50f;
+	private final static float lifespan = 0.6f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;

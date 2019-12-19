@@ -16,7 +16,7 @@ public class GluttonousGreyGlove extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private static final int heal = 20;
+	private static final float heal = 20.0f;
 	private static final float chance = 0.2f;
 	
 	public GluttonousGreyGlove() {

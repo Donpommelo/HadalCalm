@@ -34,7 +34,7 @@ public class Flounderbuss extends RangedWeapon {
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 35;
 	private final static int projectileHeight = 35;
-	private final static float lifespan = 2.5f;
+	private final static float lifespan = 1.2f;
 	private final static float gravity = 3;
 	
 	private final static int projDura = 1;

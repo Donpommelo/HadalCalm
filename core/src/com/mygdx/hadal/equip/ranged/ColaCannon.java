@@ -3,9 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
@@ -17,7 +15,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxOnDieParticles;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.statuses.FiringWeapon;
 
 public class ColaCannon extends RangedWeapon {
 
@@ -34,12 +32,13 @@ public class ColaCannon extends RangedWeapon {
 	private final static float projectileSpeed = 45.0f;
 	private final static int projectileWidth = 60;
 	private final static int projectileHeight = 60;
-	private final static float lifespan = 4.0f;
+	private final static float lifespan = 1.0f;
 	private final static float gravity = 1;
 	
 	private final static int projDura = 1;
 	private final static float procCd = .05f;
 	private final static float fireDuration = 1.6f;
+	private final static float veloDeprec = 1.0f;
 	private final static float minVelo = 9.0f;
 	private final static float minDuration = 0.5f;
 
@@ -70,62 +69,30 @@ public class ColaCannon extends RangedWeapon {
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
-
-	}
+	public void execute(PlayState state, BodyData shooter) {}
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
-		super.execute(state, bodyData);
-		charging = false;
-		chargeCd = 0;
+		if (processClip(state, bodyData)) {
+			final float duration = fireDuration * chargeCd / maxCharge + minDuration;
+			final float velocity = projectileSpeed * chargeCd / maxCharge + minVelo;
+			
+			bodyData.addStatus(new FiringWeapon(state, duration, bodyData, bodyData, velocity, minVelo, veloDeprec, projectileWidth, procCd));
+			
+			charging = false;
+			chargeCd = 0;
+		}
 	}
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		if (!(user instanceof Player)) {
-			return;
-		}
-		final Equipable tool = this;
-		final Player p = (Player)user;
 		
-		final float duration = fireDuration * chargeCd / maxCharge + minDuration;
-		final float velocity = projectileSpeed * chargeCd / maxCharge + minVelo;
+		Hitbox hbox = new HitboxSprite(state, x, y,	projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity, filter, true, true, user, projSprite);
 		
-		p.getBodyData().addStatus(new Status(state, duration, "", "", false, p.getBodyData(), p.getBodyData()) {
-			
-			private float procCdCount;
-			private float currentVelocity = velocity;
-			
-			@Override
-			public void timePassing(float delta) {
-				super.timePassing(delta);
-				
-				if (p.getMouse() == null) {
-					return;
-				}
-				
-				procCdCount += delta;
-				if (procCdCount >= procCd) {
-					procCdCount -= procCd;
-					
-					if (currentVelocity > minVelo) {
-						currentVelocity -= 1.0f;
-					}
-					
-					Vector2 startVelocity = p.getMouse().getPosition().sub(inflicted.getSchmuck().getPosition()).nor().scl(currentVelocity);
-					Vector2 startPosition = inflicted.getSchmuck().getProjectileOrigin(startVelocity, projectileSize);
-					
-					Hitbox hbox = new HitboxSprite(state, startPosition.x, startPosition.y,
-							projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-							filter, true, true, user, projSprite);
-					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-					hbox.addStrategy(new HitboxOnDieParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_IMPACT));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
-				}
-			}
-		});
+		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new HitboxOnDieParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_IMPACT));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 	}
 }

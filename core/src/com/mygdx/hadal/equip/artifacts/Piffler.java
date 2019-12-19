@@ -29,12 +29,11 @@ public class Piffler extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.5f, b),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.4f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.6f, b),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.6f, b),
 				new StatChangeStatus(state, Stats.RANGED_CLIP, 1.0f, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, -0.6f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, -0.75f, b),
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, -0.8f, b),
-				new StatChangeStatus(state, Stats.AMMO_CAPACITY, 0.5f, b),
 				new Status(state, name, descr, b) {
 			
 			@Override
@@ -48,7 +47,7 @@ public class Piffler extends Artifact {
 				if (this.inflicted instanceof PlayerBodyData) {
 					if (((PlayerBodyData)this.inflicted).getCurrentTool() instanceof RangedWeapon) {
 						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData)this.inflicted).getCurrentTool();
-						weapon.gainClip((int)(weapon.getClipSize()));
+						weapon.gainAmmo(1.0f);
 					}
 				}
 			}

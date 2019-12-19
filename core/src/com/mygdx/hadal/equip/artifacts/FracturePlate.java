@@ -1,5 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -15,6 +18,8 @@ public class FracturePlate extends Artifact {
 	private float procCdCount = 0;
 	private float cd = 8.0f;
 	
+	private float particleDura = 1.0f;
+	
 	public FracturePlate() {
 		super(name, descr, descrLong, statusNum);
 	}
@@ -22,6 +27,7 @@ public class FracturePlate extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, name, descr, b) {
+			
 			
 			@Override
 			public void timePassing(float delta) {
@@ -33,6 +39,8 @@ public class FracturePlate extends Artifact {
 				if (damage > 0 && procCdCount <= 0) {
 					procCdCount = cd;
 					damage = 0;
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 0.0f, particleDura, true, particleSyncType.TICKSYNC);
+
 				}
 				return damage;
 			}

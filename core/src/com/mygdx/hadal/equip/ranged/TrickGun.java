@@ -30,10 +30,10 @@ public class TrickGun extends RangedWeapon {
 	private final static float baseDamage = 55.0f;
 	private final static float recoil = 16.0f;
 	private final static float knockback = 20.0f;
-	private final static float projectileSpeed = 30.0f;
+	private final static float projectileSpeed = 25.0f;
 	private final static int projectileWidth = 45;
 	private final static int projectileHeight = 45;
-	private final static float lifespan = 2.0f;
+	private final static float lifespan = 1.5f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;
@@ -54,13 +54,21 @@ public class TrickGun extends RangedWeapon {
 	}
 	
 	@Override
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+		super.mouseClicked(delta, state, shooter, faction, x, y);
+		if (!firstClicked) {
+			pos1.set(x, y);
+			firstClicked = true;
+		}
+	}
+	
+	@Override
 	public void execute(PlayState state, BodyData shooter) {}
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		if (firstClicked) {
 			pos2.set(x, y);
-			firstClicked = false;
 			
 			float powerDiv = pos1.dst(pos2) / projectileSpeed;
 			
@@ -68,54 +76,60 @@ public class TrickGun extends RangedWeapon {
 			float yImpulse = -(pos1.y - pos2.y) / powerDiv;
 			vel2.set(xImpulse, yImpulse);
 			
-			super.execute(state, bodyData);
-		} else {
-			pos1.set(x, y);
-			firstClicked = true;
+			powerDiv = user.getPosition().dst(pos1.x, pos1.y) / projectileSpeed;
+			
+			xImpulse = -(user.getPosition().x - pos1.x) / powerDiv;
+			yImpulse = -(user.getPosition().y - pos1.y) / powerDiv;
+			vel1.set(xImpulse, yImpulse);
+			
+			this.setWeaponVelo(vel1);
+			
+			super.execute(state, bodyData);			
+			
+			firstClicked = false;
 		}
 	}
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
 		
-		float powerDiv = user.getPosition().dst(pos1.x, pos1.y) / projectileSpeed;
-		
-		float xImpulse = -(user.getPosition().x - pos1.x) / powerDiv;
-		float yImpulse = -(user.getPosition().y - pos1.y) / powerDiv;
-		vel1.set(xImpulse, yImpulse);
-		
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, vel1,
-				filter, true, true, user);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity, filter, true, true, user);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 		new ParticleEntity(state, hbox, Particle.LASER_PULSE, 2.0f, 0.0f, true, particleSyncType.TICKSYNC);
+		
+		//This extra check of firstClicked makes sure effects that autofire this gun work (like muddling cup)
+		if (firstClicked) {
 
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-			
-			private boolean firstReached = false;
-			private Vector2 startLocation = new Vector2();
-			private float distance;
-			
-			@Override
-			public void create() {
-				this.startLocation.set(hbox.getPosition());
-				this.distance = startLocation.dst(pos1);
-			}
-			
-			@Override
-			public void controller(float delta) {
-				if (!firstReached) {
-					if (startLocation.dst(hbox.getPosition()) >= distance) {
-						if (!pos2.equals(pos1)) {
-							hbox.setLinearVelocity(pos2.sub(pos1).nor().scl(projectileSpeedAfter));
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+				
+				private boolean firstReached = false;
+				private Vector2 startLocation = new Vector2();
+				private float distance;
+				private Vector2 target = new Vector2();
+				
+				@Override
+				public void create() {
+					this.startLocation.set(hbox.getPosition());
+					this.distance = startLocation.dst(pos1);
+				}
+				
+				@Override
+				public void controller(float delta) {
+					if (!firstReached) {
+						if (startLocation.dst(hbox.getPosition()) >= distance) {
+							if (!pos2.equals(pos1)) {
+								target.set(pos2).sub(hbox.getPosition());
+								hbox.setLinearVelocity(target.nor().scl(projectileSpeedAfter));
+							}
+							firstReached = true;
 						}
-						firstReached = true;
 					}
 				}
-			}
-		});
+			});
+		}
 	}
 }

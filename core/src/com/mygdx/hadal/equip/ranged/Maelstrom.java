@@ -33,7 +33,7 @@ public class Maelstrom extends RangedWeapon {
 	private final static float projectileSpeedStart = 50.0f;
 	private final static int projectileWidth = 60;
 	private final static int projectileHeight = 60;
-	private final static float lifespan = 1.5f;
+	private final static float lifespan = 1.0f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 5;

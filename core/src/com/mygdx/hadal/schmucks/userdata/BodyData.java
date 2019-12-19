@@ -238,6 +238,7 @@ public class BodyData extends HadalData {
 		
 		if (currentTool instanceof RangedWeapon) {
 			((RangedWeapon) currentTool).setClipLeft();
+			((RangedWeapon) currentTool).setAmmoLeft();
 		}
 	}
 	

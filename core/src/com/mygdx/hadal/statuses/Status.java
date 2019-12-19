@@ -24,7 +24,7 @@ public class Status {
 	
 	public Status(PlayState state, float i, String n, String d, Boolean perm, BodyData p, BodyData v){
 		this.state = state;
-		this.duration=i;
+		this.duration = i;
 		this.name = n;
 		this.descr = d;
 		this.perm = perm;

@@ -189,7 +189,7 @@ public class WeaponUtils {
 	}
 	
 	public static final int pickupSize = 64;
-	public static void createPickup(PlayState state, final pickupTypes type, final int power, int x, int y) {
+	public static void createPickup(PlayState state, final pickupTypes type, final float power, int x, int y) {
 
 		Event pickup = new Sensor(state, pickupSize, pickupSize, x, y, true, false, false, false, 1.0f, true) {
 			
@@ -208,11 +208,9 @@ public class WeaponUtils {
 							PlayerBodyData player = ((PlayerBodyData)fixB);
 							switch(type) {
 							case AMMO:
-								if (player.getCurrentTool().getClipLeft() < player.getCurrentTool().getClipSize()) {
-									player.getCurrentTool().gainClip(power);
-									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
-									event.queueDeletion();
-								}
+								player.getCurrentTool().gainAmmo(power);
+								new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
+								event.queueDeletion();
 								break;
 							case FUEL:
 								if (player.getCurrentFuel() < player.getMaxFuel()) {

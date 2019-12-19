@@ -18,6 +18,8 @@ public class EmaudelinesPrism extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
+	private final static int spread = 30;
+	
 	public EmaudelinesPrism() {
 		super(name, descr, descrLong, statusNum);
 	}
@@ -26,21 +28,24 @@ public class EmaudelinesPrism extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, -2.5f, b),
-				new StatChangeStatus(state, Stats.RANGED_DAMAGE, -0.30f, b),
 				new Status(state, name, descr, b) {
 			
-			private Vector2 projAngle1 = new Vector2();
-			private Vector2 projAngle2= new Vector2();
+			private Vector2 projAngle = new Vector2();
+			private Vector2 projVelo= new Vector2();
+			
 			@Override
 			public void onShoot(Equipable tool) {				
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
-						projAngle1.set(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() + 20),
+				projVelo.set(tool.getWeaponVelo());
+				projAngle.set(projVelo).setAngle(tool.getWeaponVelo().angle() + spread);
+				
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle,
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
 				
+				projAngle.set(projVelo).setAngle(tool.getWeaponVelo().angle() - spread);
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), 
-						projAngle2.set(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
+						projAngle.set(tool.getWeaponVelo()).setAngle(tool.getWeaponVelo().angle() - 20),
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());

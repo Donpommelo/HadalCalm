@@ -8,9 +8,11 @@ import com.mygdx.hadal.statuses.Status;
 public class MouthbreatherTalisman extends Artifact {
 
 	private final static String name = "Mouthbreather Talisman";
-	private final static String descr = "Negates Self-Damage.";
+	private final static String descr = "Reduces Self-Damage.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	
+	private final static float reduction = 0.1f;
 	
 	public MouthbreatherTalisman() {
 		super(name, descr, descrLong, statusNum);
@@ -23,7 +25,7 @@ public class MouthbreatherTalisman extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 				if (perp.equals(inflicted)) {
-					return 0;				
+					return damage * reduction;				
 				}
 				return damage;
 			}

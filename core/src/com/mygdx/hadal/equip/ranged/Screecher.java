@@ -36,7 +36,7 @@ public class Screecher extends RangedWeapon {
 	private final static float recoil = 1.5f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 10.0f;
-	private final static int range = 1000;
+	private final static int range = 20;
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 100;
 	private final static float lifespan = 0.5f;
@@ -62,7 +62,10 @@ public class Screecher extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
 		final Equipable tool = this;
-		endPt.set(user.getPosition()).add(startVelocity.nor().scl(range));
+		
+		float distance = range * (1 + user.getBodyData().getProjectileLifespan());
+		
+		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
 		shortestFraction = 1.0f;
 		
 		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
@@ -93,7 +96,7 @@ public class Screecher extends RangedWeapon {
 			}, user.getPosition(), endPt);
 		}
 		
-		newPosition.set(user.getPosition()).scl(PPM).add(startVelocity.nor().scl(range * shortestFraction * PPM));
+		newPosition.set(user.getPosition()).scl(PPM).add(startVelocity.nor().scl(distance * shortestFraction * PPM));
 		
 		Hitbox hbox = new HitboxSprite(state, newPosition.x + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), newPosition.y + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)),
 				projectileWidth, projectileHeight, gravity, 

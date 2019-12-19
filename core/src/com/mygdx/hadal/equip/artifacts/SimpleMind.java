@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -31,10 +32,19 @@ public class SimpleMind extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.setGrav(0.0f);
-				if (hbox.getStartVelo().x > 0) {
-					hbox.setStartVelo(hbox.getStartVelo().setAngle(0));
+//				if (hbox.getStartVelo().x > 0) {
+//					hbox.setStartVelo(hbox.getStartVelo().setAngle(0));
+//				} else {
+//					hbox.setStartVelo(hbox.getStartVelo().setAngle(180));
+//				}
+			}
+			
+			@Override
+			public void onShoot(Equipable tool) {
+				if (tool.getWeaponVelo().x > 0) {
+					tool.setWeaponVelo(tool.getWeaponVelo().setAngle(0));
 				} else {
-					hbox.setStartVelo(hbox.getStartVelo().setAngle(180));
+					tool.setWeaponVelo(tool.getWeaponVelo().setAngle(180));
 				}
 			}
 		});

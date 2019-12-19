@@ -31,7 +31,7 @@ public class Stormcaller extends RangedWeapon {
 	private final static float projectileSpeed = 15.0f;
 	private final static int projectileWidth = 20;
 	private final static int projectileHeight = 20;
-	private final static float lifespan = 2.5f;
+	private final static float lifespan = 1.8f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 1;

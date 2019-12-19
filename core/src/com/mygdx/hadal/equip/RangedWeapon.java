@@ -100,15 +100,27 @@ public class RangedWeapon extends Equipable {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		
-		//Check clip size. empty clip = reload instead. This makes reloading automatic.
-		if (clipLeft > 0) {
-			
+		//if we are able to fire, shoot gun
+		if (processClip(state, shooter)) {
 			shooter.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, this, null);
 			
 			projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize));
 			
 			//Shoot			
 			fire(state, user, weaponVelo, projOrigin.x, projOrigin.y, faction);
+		}
+	}
+
+	/**
+	 * This process the clip/ammo info of the weapon firing
+	 * @return: boolean of whether the shot was successful or not
+	 */
+	public boolean processClip(PlayState state, BodyData shooter) {
+		
+		boolean shotSuccessful = clipLeft > 0;
+		
+		//Check clip size. empty clip = reload instead. This makes reloading automatic.
+		if (shotSuccessful) {
 			
 			clipLeft--;
 			clipPercent = (float)clipLeft / getClipSize();
@@ -134,8 +146,10 @@ public class RangedWeapon extends Equipable {
 				}
 			}
 		}
+		
+		return shotSuccessful;
 	}
-
+	
 	/**
 	 * Default behaviour for releasing mouse is nothing.
 	 * Override this in charge weapons or other weapons that care about mouse release.
@@ -170,7 +184,8 @@ public class RangedWeapon extends Equipable {
 			clipLeft += clipToReload;
 			
 			clipPercent = (float)clipLeft / getClipSize();
-
+			ammoPercent = (float)ammoLeft / getAmmoSize();
+			
 			reloadCd = 0;
 
 			user.getBodyData().statusProcTime(StatusProcTime.ON_RELOAD, null, 0, null, this, null);
@@ -235,8 +250,22 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	@Override
+	public void gainAmmo(float gainedPercent) {
+		ammoLeft += gainedPercent * ammoSize;
+		if (ammoLeft >= getAmmoSize()) {
+			ammoLeft = getAmmoSize();
+		}
+		ammoPercent = (float)ammoLeft / getAmmoSize();
+	}
+	
+	@Override
+	public int getAmmoSize() {		
+		return (int) (ammoSize  * (1 + user.getBodyData().getAmmoCapacity()));
+	}
+	
+	@Override
 	public int getAmmoLeft() {
-		return (int) (ammoLeft * (1 + user.getBodyData().getAmmoCapacity()));
+		return ammoLeft;
 	}
 	
 	@Override
@@ -251,5 +280,9 @@ public class RangedWeapon extends Equipable {
 	
 	public void setClipLeft() {
 		clipLeft = (int) (clipPercent * getClipSize());
+	}
+	
+	public void setAmmoLeft() {
+		ammoLeft = (int) (ammoPercent * getAmmoSize());
 	}
 }

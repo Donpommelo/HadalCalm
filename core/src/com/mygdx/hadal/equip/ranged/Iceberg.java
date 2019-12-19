@@ -29,7 +29,7 @@ public class Iceberg extends RangedWeapon {
 	private final static float projectileSpeed = 33.0f;
 	private final static int projectileWidth = 132;
 	private final static int projectileHeight = 130;
-	private final static float lifespan = 4.0f;
+	private final static float lifespan = 3.0f;
 	private final static float gravity = 10;
 	
 	private final static int projDura = 5;

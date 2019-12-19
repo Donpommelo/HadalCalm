@@ -1,10 +1,12 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -14,9 +16,12 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 public class SkippersBoxofFun extends Artifact {
 
 	private final static String name = "Skipper's Box of Fun";
-	private final static String descr = "Weapon Rerolling";
+	private final static String descr = "Rerolls weapon every 10 seconds";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	
+	private final static float procCd = 10.0f;
+	private final static float particleDura = 1.0f;
 	
 	public SkippersBoxofFun() {
 		super(name, descr, descrLong, statusNum);
@@ -27,16 +32,19 @@ public class SkippersBoxofFun extends Artifact {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new Status(state, name, descr, b) {
 			
+			private float procCdCount;
+			
 			@Override
-			public void onShoot(Equipable tool) {
+			public void timePassing(float delta) {
 				
-				if (tool instanceof RangedWeapon && inflicted.getSchmuck() instanceof Player) {
+				if (procCdCount >= procCd) {
+					procCdCount -= procCd;
+					Equipable equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(PickupEquip.getRandWeapFromPool("")), null);
+					((Player)inflicted.getSchmuck()).getPlayerData().pickup(equip);
 					
-					if (((RangedWeapon)tool).getClipLeft() == 1) {
-						Equipable equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(PickupEquip.getRandWeapFromPool("")), null);
-						((Player)inflicted.getSchmuck()).getPlayerData().pickup(equip);
-					}
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE_TOTLC, 0.0f, particleDura, true, particleSyncType.TICKSYNC);
 				}
+				procCdCount += delta;
 			}
 		});
 		return enchantment;

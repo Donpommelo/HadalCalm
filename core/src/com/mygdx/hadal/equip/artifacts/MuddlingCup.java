@@ -12,7 +12,7 @@ import com.mygdx.hadal.statuses.StatusComposite;
 public class MuddlingCup extends Artifact {
 
 	private final static String name = "Muddling Cup";
-	private final static String descr = "Fires Weapon When Airblasting";
+	private final static String descr = "Fire weapon When Airblasting";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
@@ -30,10 +30,13 @@ public class MuddlingCup extends Artifact {
 			private Vector2 projAngle = new Vector2();
 			@Override
 			public void onAirBlast(Equipable tool) {
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle.set(tool.getWeaponVelo()).scl(projSpeed),
+				
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle.set(tool.getWeaponVelo()).scl(projSpeed * PPM),
 						inflicted.getSchmuck().getPosition().x * PPM, 
 						inflicted.getSchmuck().getPosition().y * PPM,
 						inflicted.getSchmuck().getHitboxfilter());
+				
+				
 			}
 		});
 		return enchantment;

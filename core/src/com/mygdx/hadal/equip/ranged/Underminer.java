@@ -103,6 +103,7 @@ public class Underminer extends RangedWeapon {
 			}
 			
 			private Vector2 newVelocity = new Vector2();
+			
 			@Override
 			public void die() {
 				WeaponUtils.createExplosion(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 

@@ -57,7 +57,7 @@ public class AbyssalInsignia extends Artifact {
 	
 	private void releaseVengefulSpirits(PlayState state, Vector2 pos, BodyData creator, short filter) {		
 		Hitbox hbox = new Hitbox(state, (int)pos.x, (int)pos.y, (int)spiritSize, (int)spiritSize, 0, spiritLifespan, 1, 0, 
-				new Vector2(0, 0), filter, true, true, creator.getSchmuck());
+				new Vector2(), filter, true, true, creator.getSchmuck());
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, creator));

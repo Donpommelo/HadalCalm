@@ -52,6 +52,7 @@ public class PearlRevolver extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+		
 		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
 				filter, true, true, user, projSprite);
 		

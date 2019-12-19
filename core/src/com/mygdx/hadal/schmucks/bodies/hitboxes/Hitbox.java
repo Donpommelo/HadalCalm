@@ -34,7 +34,7 @@ public class Hitbox extends HadalEntity {
 	protected Vector2 startVelo;
 		
 	//lifespan is the time in seconds that the hitbox will exist before timing out.
-	protected float lifeSpan;
+	protected float maxLifespan, lifeSpan;
 	
 	//filter describes the type of body the hitbox will register a hit on .(player, enemy or neutral)
 	protected short filter;
@@ -69,6 +69,7 @@ public class Hitbox extends HadalEntity {
 			Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator) {
 		super(state, width, height, x, y);
 		this.grav = grav;
+		this.maxLifespan = lifespan;
 		this.lifeSpan = lifespan;
 		this.filter = filter;
 		this.sensor = sensor;
@@ -195,6 +196,10 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public Object onServerCreate() {
 		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), null, ObjectSyncLayers.HBOX, alignType.HITBBOX);
+	}
+	
+	public float getMaxLifespan() {
+		return maxLifespan;
 	}
 	
 	public float getLifeSpan() {

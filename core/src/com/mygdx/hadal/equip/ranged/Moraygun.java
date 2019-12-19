@@ -3,14 +3,15 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -30,7 +31,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float projectileSpeedStart = 300.0f;
 	private final static int projectileWidth = 45;
 	private final static int projectileHeight = 45;
-	private final static float lifespan = 4.5f;
+	private final static float lifespan = 1.5f;
 	private final static float gravity = 0.0f;
 	
 	private final static int projDura = 1;
@@ -61,7 +62,21 @@ public class Moraygun extends RangedWeapon {
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+				
+				@Override
+				public void onHit(HadalData fixB) {
+					if (fixB == null) {
+						hbox.setDura(0);
+					} else if (fixB.getType().equals(UserDataTypes.WALL)){
+						hbox.setDura(0);
+					}
+					if (hbox.getDura() <= 0 && hbox.isAlive()) {
+						hbox.die();
+					}
+				}
+			});
+			
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				private float controllerCount = 0;

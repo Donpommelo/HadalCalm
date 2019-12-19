@@ -12,12 +12,12 @@ import com.mygdx.hadal.statuses.Status;
 public class Number1BossMug extends Artifact {
 
 	private final static String name = "#1 Boss Mug";
-	private final static String descr = "Occasionally drop Fuel on Kill.";
+	private final static String descr = "Occasionally drops Ammo on Kill.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private static final int heal = 50;
-	private static final float chance = 0.5f;
+	private static final float ammo = 0.2f;
+	private static final float chance = 1.0f;
 	
 	public Number1BossMug() {
 		super(name, descr, descrLong, statusNum);
@@ -31,7 +31,7 @@ public class Number1BossMug extends Artifact {
 			public void onKill(BodyData vic) {
 				if (GameStateManager.generator.nextFloat() <= chance || vic instanceof PlayerBodyData) {
 					
-					WeaponUtils.createPickup(state, WeaponUtils.pickupTypes.FUEL, heal, (int)(vic.getSchmuck().getPosition().x * PPM), 
+					WeaponUtils.createPickup(state, WeaponUtils.pickupTypes.AMMO, ammo, (int)(vic.getSchmuck().getPosition().x * PPM), 
 							(int)(vic.getSchmuck().getPosition().y * PPM));
 				}
 			}

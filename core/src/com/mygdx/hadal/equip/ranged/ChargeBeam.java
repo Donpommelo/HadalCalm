@@ -32,9 +32,9 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float recoil = 7.5f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 35.0f;
-	private final static int projectileWidth = 64;
-	private final static int projectileHeight = 64;
-	private final static float lifespan = 1.5f;
+	private final static int projectileWidth = 56;
+	private final static int projectileHeight = 56;
+	private final static float lifespan = 0.6f;
 	private final static float gravity = 0;
 	
 	private final static int projDura = 5;
