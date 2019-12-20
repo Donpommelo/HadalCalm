@@ -95,9 +95,4 @@ public class PlayerChanger extends Event {
 			}
 		};
 	}
-	
-	@Override
-	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.USER);
-	}
 }

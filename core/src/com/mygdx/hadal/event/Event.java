@@ -238,6 +238,7 @@ public class Event extends HadalEntity {
 	public Object onServerCreate() {
 		switch(syncType) {
 		case ILLUSION:
+		case SERVER:
 			if (body != null) {
 				return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD, scaleAlign);
 			} else {
@@ -245,7 +246,6 @@ public class Event extends HadalEntity {
 			}
 		case USER:
 		case ALL:
-		case SERVER:
 			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		default:
 			return null;
@@ -273,10 +273,6 @@ public class Event extends HadalEntity {
 
 	public void setSyncType(eventSyncTypes syncType) {
 		this.syncType = syncType;
-	}
-
-	public boolean isSynced() {
-		return synced;
 	}
 
 	public void setSynced(boolean synced) {
