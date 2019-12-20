@@ -17,16 +17,9 @@ public class UITag {
 	//If this tag is of the "MISC" type, this variable will hold the string to be displayed. Otherwise, this will be "".
 	private String misc;
 	
-	//This is the size of the displayed text.
-	private float scale;
-	
-	//Default text size.
-	private static final float defScale = 0.25f;
-	
-	public UITag(uiType type, String misc, float scale) {
+	public UITag(uiType type, String misc) {
 		this.type = type;
 		this.misc = misc;
-		this.scale = scale;
 	}
 	
 	/**
@@ -34,7 +27,7 @@ public class UITag {
 	 * @param type: type of the new tag.
 	 */
 	public UITag(uiType type) {
-		this(type, "", defScale);
+		this(type, "");
 	}
 
 	/**
@@ -72,14 +65,6 @@ public class UITag {
 	public void setMisc(String misc) {
 		this.misc = misc;
 	}
-
-	public float getScale() {
-		return scale;
-	}
-
-	public void setScale(float scale) {
-		this.scale = scale;
-	}
 	
 	/**
 	 * These are the various types of tags that can be added/removed from the UI.
@@ -89,12 +74,10 @@ public class UITag {
 	public enum uiType {
 		SCORE,
 		HISCORE,
+		WINS,
 		SCRAP,
-		SCRIP,
 		LIVES,
 		TIMER,
-		VAR1,
-		VAR2,
 		MISC,
 		EMPTY
 	}

@@ -61,7 +61,7 @@ public class ResultsState extends GameState {
 		if (ps.isServer()) {
 			scores = new ArrayList<SavedPlayerFields>(HadalGame.server.getScores().values());
 		} else {
-			scores = HadalGame.client.scores;
+			scores = new ArrayList<SavedPlayerFields>(HadalGame.client.getScores().values());
 		}
 		
 		//Then, we sort according to score and give the winner(s) a win.
@@ -70,7 +70,7 @@ public class ResultsState extends GameState {
 			int winningScore = scores.get(0).getScore();
 			for (Entry<Integer, SavedPlayerFields> player: HadalGame.server.getScores().entrySet()) {
 				if (player.getValue().getScore() == winningScore) {
-					player.getValue().getWin();
+					player.getValue().win();
 				}
 			}
 		}

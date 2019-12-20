@@ -82,15 +82,6 @@ public class Enemy extends Schmuck {
 	public Object onServerCreate() {
 		return new Packets.CreateEnemy(entityID.toString(), type, isBoss, name);
 	}
-	
-	/**
-	 * Deletes enemy. Currently also increments game score.
-	 */
-	@Override
-	public void dispose() {
-		state.incrementScore(1);
-		super.dispose();
-	}
 
 	public HadalEntity getTarget() {
 		return target;

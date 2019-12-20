@@ -35,8 +35,8 @@ public class Quartermaster extends HubEvent {
 				
 				itemChoose.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	if (state.getGsm().getRecord().getScrip() >= selected.getCost()) {
-				        	state.getGsm().getRecord().incrementScrip(-selected.getCost());
+			        	if (state.getGsm().getRecord().getScrap() >= selected.getCost()) {
+				        	state.getGsm().getRecord().incrementScrap(-selected.getCost());
 				        	selected.setUnlocked(true);
 				        	leave();
 			        	}

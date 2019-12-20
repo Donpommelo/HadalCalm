@@ -1,6 +1,7 @@
 package com.mygdx.hadal.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
@@ -32,7 +33,6 @@ public class Packets {
 	public static class PlayerConnect {
 		public boolean firstTime;
 		public String name;
-		public Loadout loadout;
 		public PlayerConnect() {}
 		
 		/**
@@ -45,10 +45,9 @@ public class Packets {
 		 * @param loadout: Client's loadout. 
 		 * @param reset: in the case of a level transition, should the client's player data be reset
 		 */
-		public PlayerConnect(boolean firstTime, String name, Loadout loadout) {
+		public PlayerConnect(boolean firstTime, String name) {
 			this.firstTime = firstTime;
 			this.name = name;
-			this.loadout = loadout;
 		}
 	}
 	
@@ -208,6 +207,8 @@ public class Packets {
 	
 	public static class ClientLoaded {
 		public boolean firstTime;
+		public String name;
+		public Loadout loadout;
 		public ClientLoaded() {}
 		
 		/**
@@ -217,8 +218,10 @@ public class Packets {
 		 * 
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 */
-		public ClientLoaded(boolean firstTime) {
+		public ClientLoaded(boolean firstTime, String name, Loadout loadout) {
 			this.firstTime = firstTime;
+			this.name = name;
+			this.loadout = loadout;
 		}
 	}
 	
@@ -266,7 +269,7 @@ public class Packets {
 	
 	public static class SyncScore {
 		
-		public ArrayList<SavedPlayerFields> scores;
+		public HashMap<Integer, SavedPlayerFields> scores;
 		
 		public SyncScore() {}
 		
@@ -274,7 +277,7 @@ public class Packets {
 		 * This is sent from the server to the clients to give them their scores for all players
 		 * @param scores
 		 */
-		public SyncScore(ArrayList<SavedPlayerFields> scores) {
+		public SyncScore(HashMap<Integer, SavedPlayerFields> scores) {
 			this.scores = scores;
 		}
 	}
@@ -697,6 +700,20 @@ public class Packets {
 		public SyncBoss() {}
 	}
 	
+	public static class SyncUI {
+		public String uiTags;
+		
+		public SyncUI() {}
+		/**
+		 * A SyncBoss is sent from the Server to the Client whenever a boss is despawned.
+		 * The client updates their ui to represent this.
+		 * ATM, boss spawnings is handled by the regular enemySpawn packet, so this is a simple ping
+		 */
+		public SyncUI(String uiTags) {
+			this.uiTags = uiTags;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -735,5 +752,6 @@ public class Packets {
     	kryo.register(SyncParticles.class);
     	kryo.register(SyncCamera.class);
     	kryo.register(SyncBoss.class);
+    	kryo.register(SyncUI.class);
     }
 }

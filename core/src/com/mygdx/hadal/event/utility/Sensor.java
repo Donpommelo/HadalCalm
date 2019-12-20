@@ -6,8 +6,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -62,6 +64,10 @@ public class Sensor extends Event {
 					if (event.getConnectedEvent() != null) {
 						if (fixB instanceof PlayerBodyData) {
 							event.getConnectedEvent().getEventData().preActivate(this, ((PlayerBodyData)fixB).getPlayer());
+						} else if (fixB instanceof HitboxData) {
+							if (((HitboxData)fixB).getHbox().getCreator().getBodyData() instanceof PlayerBodyData) {
+								event.getConnectedEvent().getEventData().preActivate(this, ((Player)((HitboxData)fixB).getHbox().getCreator()));
+							}
 						} else {
 							event.getConnectedEvent().getEventData().preActivate(this, null);
 						}

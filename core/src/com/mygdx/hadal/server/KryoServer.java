@@ -124,16 +124,9 @@ public class KryoServer {
 					
 					final PlayState ps = getPlayState();
 					
-					
 					if (ps != null) {
 						if (p.firstTime) {
 							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
-						}
-						final Player player = players.get(c.getID());
-						if (player != null) {
-							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), true);                        
-						} else {
-							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, true);                        
 						}
 						
                         sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
@@ -156,17 +149,22 @@ public class KryoServer {
 						PauseState pss = ((PauseState)gsm.getStates().peek());
 						HadalGame.server.sendToTCP(c.getID(), new Packets.Paused(pss.getPauser()));
 					}
+					if (p.firstTime) {
+						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
+					}
+					
+					final Player player = players.get(c.getID());
+					if (player != null) {
+						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), true);                        
+					} else {
+						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, true);                        
+					}
 					
 					if (ps != null) {
 						ps.addPacketEffect(new PacketEffect() {
 
 							@Override
 							public void execute() {
-								
-								if (p.firstTime) {
-									sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
-								}
-								
 		                        ps.catchUpClient(c.getID());
 							}
 						});
@@ -365,7 +363,7 @@ public class KryoServer {
 				SavePoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM), name, loadout, data, reset, firstTime);
+				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM), name, loadout, data, connId, reset, firstTime);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);
@@ -387,6 +385,7 @@ public class KryoServer {
 		        Vector2 zoomPos = newSave.getZoomLocation();
 		        
 		        server.sendToTCP(connId, new Packets.SyncCamera(zoomPos, newSave.getZoom()));
+		        server.sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags()));
 			}
 		});
 	}
@@ -481,10 +480,12 @@ public class KryoServer {
 	 * This is called when a layer is killed to update score information
 	 * @param perp: player that kills
 	 * @param vic: player that gets killed
+	 * @return: whether this death was the victim's last life
 	 */
-	public void registerKill(Player perp, Player vic) {
+	public boolean registerKill(Player perp, Player vic, boolean lives) {
 		
 		PlayState ps = getPlayState();
+		boolean outOfLives = false;
 		
 		if (ps != null) {
 			
@@ -497,6 +498,9 @@ public class KryoServer {
 			
 			if (vic.equals(ps.getPlayer())) {
 				scores.get(0).registerDeath();
+				if (lives && scores.get(0).getLives() <= 0) {
+					outOfLives = true;
+				}
 			}
 			
 			//Otherwise, update score of client matching the players involved
@@ -504,6 +508,10 @@ public class KryoServer {
 				if (conn.getValue().equals(vic)) {
 					if (scores.containsKey(conn.getKey())) {
 						scores.get(conn.getKey()).registerDeath();
+						
+						if (lives && scores.get(conn.getKey()).getLives() <= 0) {
+							outOfLives = true;
+						}
 					}
 					break;
 				}
@@ -523,6 +531,7 @@ public class KryoServer {
 			//Sync score window to show updated kda and score
 			ps.getScoreWindow().syncTable();
 		}
+		return outOfLives;
 	}
 	
 	private void registerPackets() {

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.client;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
@@ -55,14 +55,16 @@ public class KryoClient {
 	public GameStateManager gsm;
     
 	//This is the id of the client's player
-    public static String myId;
+    public static String myID;
     
     //This is a list of scores for display purposes
-    public ArrayList<SavedPlayerFields> scores;
+    public HashMap<Integer, SavedPlayerFields> scores;
+    
+    public int connID;
     
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
-    	scores = new ArrayList<SavedPlayerFields>();
+    	scores = new HashMap<Integer, SavedPlayerFields>();
     }
     
     /**
@@ -85,7 +87,8 @@ public class KryoClient {
         	@Override
         	public void connected(Connection c) {
         		Log.info("CLIENT CONNECTED");
-                client.sendTCP(new Packets.PlayerConnect(true, gsm.getRecord().getName(), new Loadout(gsm.getRecord())));
+                client.sendTCP(new Packets.PlayerConnect(true, gsm.getRecord().getName()));
+                connID = c.getID();
             }
         	
         	/**
@@ -133,7 +136,7 @@ public class KryoClient {
                         	gsm.removeState(ResultsState.class);
                         	gsm.removeState(ClientState.class);
                 			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
-                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime));
+                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime, gsm.getRecord().getName(), new Loadout(gsm.getRecord())));
                         }
                     });
         		}
@@ -145,7 +148,7 @@ public class KryoClient {
         		if (o instanceof Packets.NewClientPlayer) {
         			final Packets.NewClientPlayer p = (Packets.NewClientPlayer) o;
         			Log.info("CLIENT RECEIVED NEW ID: " + p.yourId);
-        			myId = p.yourId;
+        			myID = p.yourId;
         		}
         		
         		/*
@@ -154,7 +157,7 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.ServerLoaded) {
         			Log.info("SERVER LOADED");
-        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getRecord().getName(), new Loadout(gsm.getRecord()));
+        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getRecord().getName());
                     client.sendTCP(connected);
         		}
         		
@@ -247,7 +250,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.SyncScore) {
         			final Packets.SyncScore p = (Packets.SyncScore) o;
-        			scores = p.scores;
         			
         			final ClientState cs = getClientState();
 					
@@ -256,6 +258,7 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
+        						scores = p.scores;
         						cs.getScoreWindow().syncTable();
         					}
         				});
@@ -369,8 +372,8 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						if (!p.entityID.equals(myId)) {
-                    				Player newPlayer = cs.createPlayer(0, 0, p.name, p.loadout, null, true, true);
+        						if (!p.entityID.equals(myID)) {
+                    				Player newPlayer = cs.createPlayer(0, 0, p.name, p.loadout, null, 0, true, true);
                     				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);
@@ -637,6 +640,25 @@ public class KryoClient {
 								cs.clearBoss();
 							}
 						});
+					} else {
+						Log.info("CS NOT LOADED");
+					}
+        		}
+        		if (o instanceof Packets.SyncUI) {
+        			final Packets.SyncUI p = (Packets.SyncUI) o;
+        			
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+								cs.getUiExtra().changeTypes(p.uiTags, true);
+							}
+						});
+					} else {
+						Log.info("CS NOT LOADED");
 					}
         		}
         	}
@@ -690,5 +712,9 @@ public class KryoClient {
 	private void registerPackets() {
 		Kryo kryo = client.getKryo();
 		Packets.allPackets(kryo);
+	}
+	
+	public HashMap<Integer, SavedPlayerFields> getScores() {
+		return scores;
 	}
 }

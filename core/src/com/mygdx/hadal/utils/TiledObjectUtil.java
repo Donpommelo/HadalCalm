@@ -138,16 +138,16 @@ public class TiledObjectUtil {
 					object.getProperties().get("dummyId", "", String.class));
 		}
 		if (object.getName().equals("UI")) {
-			
 			e = new UIChanger(state,
-					object.getProperties().get("tags", String.class),
-					object.getProperties().get("change", 0, Integer.class),
-					object.getProperties().get("lives", 0, Integer.class), 
-					object.getProperties().get("score", 0, Integer.class),
-					object.getProperties().get("var1", 0, Integer.class),
-					object.getProperties().get("var2", 0, Integer.class),
+					object.getProperties().get("tags", "", String.class),
+					object.getProperties().get("clear", false, boolean.class));
+		}
+		if (object.getName().equals("Game")) {
+			e = new GameChanger(state,
+					object.getProperties().get("lives", 0, int.class), 
+					object.getProperties().get("score", 0, int.class),
 					object.getProperties().get("timer", 0.0f, float.class),
-					object.getProperties().get("misc", "", String.class));
+					object.getProperties().get("timerIncr", 0, int.class));
 		}
 		if (object.getName().equals("Camera")) {
 			e = new CameraChanger(state, object.getProperties().get("zoom", 1.0f, float.class));
@@ -167,7 +167,8 @@ public class TiledObjectUtil {
 			e = new PlayerChanger(state,
 					object.getProperties().get("hp", 0.0f, float.class), 
 					object.getProperties().get("fuel", 0.0f, float.class), 
-					object.getProperties().get("scrap", 0, Integer.class));
+					object.getProperties().get("ammo", 0.0f, float.class), 
+					object.getProperties().get("scrap", 0, int.class));
 		}
 		if (object.getName().equals("Particle")) {
 			e = new ParticleCreator(state, 
@@ -175,7 +176,6 @@ public class TiledObjectUtil {
 					object.getProperties().get("duration", 0.0f, float.class),
 					object.getProperties().get("startOn", false, Boolean.class));	
 		}
-		
 		if (object.getName().equals("SchmuckSpawn")) {
 			e = new SpawnerSchmuck(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
@@ -185,7 +185,6 @@ public class TiledObjectUtil {
 					object.getProperties().get("boss", false, boolean.class),
 					object.getProperties().get("bossname", "", String.class));	
 		}
-		
 		if (object.getName().equals("EventClone")) {
 			e = new EventCloner(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2));	
@@ -239,7 +238,7 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Equip")) {
 			e = new PickupEquip(state, (int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("mods", 0, Integer.class),
+					object.getProperties().get("mods", 0, int.class),
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Artifact")) {
@@ -271,7 +270,7 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Destr_Obj")) {
 			e = new DestructableBlock(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
-					object.getProperties().get("Hp", 100, Integer.class));
+					object.getProperties().get("Hp", 100, int.class));
 		}
 		if (object.getName().equals("Warp")) {
 			e = new LevelWarp(state, (int)rect.width, (int)rect.height, 
@@ -365,7 +364,7 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("scale", float.class) != null) {
 				e.setScale(object.getProperties().get("scale", float.class));
 			}
-			if (object.getProperties().get("align", Integer.class) != null) {
+			if (object.getProperties().get("align", int.class) != null) {
 				e.setScaleAlign(object.getProperties().get("align", String.class));
 			}
 			
@@ -453,7 +452,7 @@ public class TiledObjectUtil {
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
-					object.getProperties().get("mods", 0, Integer.class),
+					object.getProperties().get("mods", 0, int.class),
 					object.getProperties().get("pool", "", String.class));
     	}
     	

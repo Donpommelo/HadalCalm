@@ -36,7 +36,7 @@
   <object id="6" name="Start" type="Start" x="1536" y="640" width="32" height="32"/>
   <object id="8" name="Timer" type="Timer" x="96" y="32" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="1"/>
+    <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>
@@ -44,7 +44,7 @@
   <object id="9" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,uiObjective,uiTimer,startTimer,save1,save2,save3"/>
+    <property name="triggeringId" value="spawnWeapons,ui1,startTimer,save1,save2,save3"/>
    </properties>
   </object>
   <object id="13" name="Prefab" type="Prefab" x="288" y="1088" width="96" height="96">
@@ -67,19 +67,8 @@
   </object>
   <object id="21" name="UI" type="UI" x="224" y="32" width="32" height="32">
    <properties>
-    <property name="change" type="int" value="1"/>
-    <property name="misc">Fight!
-</property>
-    <property name="tags" value="MISC"/>
-    <property name="triggeredId" value="uiObjective"/>
-   </properties>
-  </object>
-  <object id="22" name="UI" type="UI" x="288" y="32" width="32" height="32">
-   <properties>
-    <property name="change" type="int" value="1"/>
-    <property name="tags" value="TIMER"/>
-    <property name="timer" type="float" value="180"/>
-    <property name="triggeredId" value="uiTimer"/>
+    <property name="tags" value="Fight!,EMPTY,TIMER"/>
+    <property name="triggeredId" value="ui1"/>
    </properties>
   </object>
   <object id="23" name="Timer" type="Timer" x="32" y="256" width="32" height="32">

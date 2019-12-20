@@ -13,7 +13,7 @@
   <object id="2" name="Start" type="Start" x="256" y="1920" width="32" height="32"/>
   <object id="6" name="Timer" type="Timer" x="352" y="928" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="1"/>
+    <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>

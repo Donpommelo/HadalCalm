@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="148">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="151">
  <properties>
   <property name="practice" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
@@ -256,6 +256,25 @@
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="setfloor1"/>
+   </properties>
+  </object>
+  <object id="148" name="Timer" type="Timer" x="224" y="384" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="149" name="Multitrigger" type="Multitrigger" x="288" y="384" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,ui1"/>
+   </properties>
+  </object>
+  <object id="150" name="UI" type="UI" x="352" y="384" width="32" height="32">
+   <properties>
+    <property name="tags" value="THE TUNICATE,EMPTY,WINS,SCRAP"/>
+    <property name="triggeredId" value="ui1"/>
    </properties>
   </object>
  </objectgroup>

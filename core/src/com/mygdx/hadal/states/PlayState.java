@@ -141,8 +141,13 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private HashMap<String, PositionDummy> dummyPoints;
 	
-	//Do players respawn after dying? Can players hurt each other? Is this a practice level (like the hub?) atm this only makes start-of-level effects not activate.
+	//Do players respawn after dying? 
+	//Can players hurt each other? 
+	//Is this a practice level (like the hub?) atm this only makes start-of-level effects not activate.
 	protected boolean respawn, pvp, practice;
+	
+	//How many lives do we start with (if 0, no lives system in this level)
+	protected int lives;
 	
 	//Is this playstate the server?
 	protected boolean server;
@@ -235,6 +240,7 @@ public class PlayState extends GameState {
 		this.respawn = map.getProperties().get("respawn", false, Boolean.class);
 		this.pvp = map.getProperties().get("pvp", false, Boolean.class);
 		this.practice = map.getProperties().get("practice", false, Boolean.class);
+		this.lives = map.getProperties().get("lives", 0, int.class);
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
 
@@ -249,7 +255,7 @@ public class PlayState extends GameState {
 		}
 		
 		//Create the player and make the camera focus on it
-		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old, reset, true);
+		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old, 0, reset, true);
 		this.camera.position.set(new Vector3(startX * PPM, startY * PPM, 0));
 		this.sprite.position.set(new Vector3(startX * PPM, startY * PPM, 0));
 		this.reset = reset;
@@ -412,6 +418,9 @@ public class PlayState extends GameState {
 		//Update the game camera and batch.
 		cameraUpdate();
 		
+		//Increment the game timer, if exists
+		uiExtra.incrementTimer(delta);
+		
 		//If we are in the delay period of a transition, decrement the delay
 		if (fadeInitialDelay <= 0f) {
 			
@@ -570,7 +579,7 @@ public class PlayState extends GameState {
 					(int)(getSave.getLocation().x * PPM),
 					(int)(getSave.getLocation().y * PPM), 
 					gsm.getRecord().getName(), 
-					player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
+					player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true, false);
 			
 			((PlayerController)controller).setPlayer(player);
 			
@@ -657,7 +666,7 @@ public class PlayState extends GameState {
 	 * @param old player's olf playerdata if retaining old values.
 	 * @return
 	 */
-	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old, boolean reset, boolean firstTime) {
+	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset, boolean firstTime) {
 		
 		Loadout newLoadout = new Loadout(altLoadout);
 		
@@ -677,7 +686,7 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		return new Player(this, x, y, name, newLoadout, old, reset, firstTime);
+		return new Player(this, x, y, name, newLoadout, old, connID, reset, firstTime);
 	}
 	
 	/**
@@ -687,14 +696,16 @@ public class PlayState extends GameState {
 	 */
 	public void onPlayerDeath(Player player, Schmuck perp) {
 		
+		boolean outOfLives;
+		
 		//Register the kill for score keeping purposes
 		if (perp instanceof Player) {
-			HadalGame.server.registerKill((Player)perp, player);
+			outOfLives = HadalGame.server.registerKill((Player)perp, player, lives != 0);
 		} else {
-			HadalGame.server.registerKill(null, player);
+			outOfLives = HadalGame.server.registerKill(null, player, lives != 0);
 		}
 				
-		if (!respawn) {
+		if (!respawn || outOfLives) {
 			
 			//check if all players are out
 			boolean allded = true;
@@ -1000,14 +1011,10 @@ public class PlayState extends GameState {
 		return reset;
 	}
 	
-	/**
-	 * Tentative tracker of player kill number.
-	 * @param i: Number to increase score by.
-	 */
-	public void incrementScore(int i) {
-		uiExtra.incrementScore(i);
+	public int getLives() {
+		return lives;
 	}
-	
+
 	public enum transitionState {
 		RESPAWN,
 		RESULTS,

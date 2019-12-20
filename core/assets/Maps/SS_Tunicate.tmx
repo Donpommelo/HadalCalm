@@ -25,7 +25,7 @@
  <objectgroup id="3" name="event-layer">
   <object id="1" name="Timer" type="Timer" x="64" y="320" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="1"/>
+    <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="onceAtStart"/>
    </properties>
@@ -560,7 +560,7 @@
   </object>
   <object id="143" name="UI" type="UI" x="640" y="320" width="32" height="32">
    <properties>
-    <property name="tags" value="SCRAP,SCRIP"/>
+    <property name="tags" value="THE TUNICATE,EMPTY,SCRAP"/>
     <property name="triggeredId" value="ui1"/>
    </properties>
   </object>

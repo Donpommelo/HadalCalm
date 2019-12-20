@@ -1,14 +1,14 @@
 package com.mygdx.hadal.actors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
+import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -32,8 +32,8 @@ public class UIExtra extends AHadalActor{
 	private ArrayList<UITag> uiTags;
 	
 	//These variables are all fields that are displayed in the default tags for the ui
-	private int score, lives, extraVar1, extraVar2;
-	private float timer;
+	private int scrap, score, lives, wins, hiscore;
+	private float timer, timerIncr;
 	
 	public UIExtra(AssetManager assetManager, PlayState state) {
 		super(assetManager);
@@ -53,10 +53,7 @@ public class UIExtra extends AHadalActor{
 		for (UITag tag : uiTags) {
 			switch(tag.getType()) {
 			case SCRAP:
-				text = text.append("SCRAP: " + state.getGsm().getRecord().getScrap() + "\n");
-				break;
-			case SCRIP:
-				text = text.append("SCRIP: " + state.getGsm().getRecord().getScrip() + "\n");
+				text = text.append("SCRAP: " + scrap + "\n");
 				break;
 			case LIVES:
 				text = text.append("LIVES: " + lives + "\n");
@@ -64,17 +61,14 @@ public class UIExtra extends AHadalActor{
 			case SCORE:
 				text = text.append("SCORE: " + score + "\n");
 				break;
+			case WINS:
+				text = text.append("WINS: " + wins + "\n");
+				break;
 			case TIMER:
 				text = text.append("TIMER: " + timer + " S\n");
 				break;
 			case HISCORE:
-				text = text.append("HI-SCORE: " + state.getGsm().getRecord().getHiScores().get(state.getLevel().name()) + "\n");
-				break;
-			case VAR1:
-				text = text.append(" " + extraVar1);
-				break;
-			case VAR2:
-				text = text.append(" " + extraVar2);
+				text = text.append("HI-SCORE: " + hiscore + "\n");
 				break;
 			case MISC:
 				text = text.append(tag.getMisc() + "\n");
@@ -89,93 +83,103 @@ public class UIExtra extends AHadalActor{
 		font.getData().setScale(scale);
 		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y, x, -1, true);
 	}
-	
-	/**
-	 * This method is called when you want to change the tags in the ui.
-	 * This method receives a varargs input of types. This is used for default tags.
-	 * 
-	 * Also, for all changeTypes methods changeType indicates the id of the change intended
-	 * -1: remove
-	 * 0: set
-	 * 1: add
-	 */
-	public void changeTypes(int changeType, uiType... types) {
-		
-		ArrayList<UITag> tags = new ArrayList<UITag>();
-		
-		for (uiType type : types) {
-			tags.add(new UITag(type));
-		}
-		
-		changeTypes(changeType, tags);
-	}
 
-	/*
-	 * This methid is like the one above except for varargs of tags, not types. Needed whe nadding MISc tags with extra fields.
-	 */
-	public void changeTypes(int changeType, UITag... tags) {
-		changeTypes(changeType, Arrays.asList(tags));
-	}
-	
 	/*
 	 * This is where we actually, remove, set or add tags
 	 */
-	public void changeTypes(int changeType, List<UITag> tags) {
+	public void changeTypes(String tags, boolean clear) {
 		
-		if (changeType == 0) {
+		if (clear) {
 			uiTags.clear();
 		}
 		
-		for (UITag tag : tags) {
-			switch(changeType) {
-			case -1:
-				uiTags.remove(tag);
-				break;
-			case 0:
-			case 1:
-				uiTags.add(tag);
-				break;
+		for (String type : tags.split(",")) {
+			
+			boolean found = false;
+			
+			for (UITag.uiType tag: UITag.uiType.values()) {
+				if (tag.name().equals(type)) {
+					found = true;
+					uiTags.add(new UITag(tag));
+				}
+			}
+			
+			if (!found) {
+				uiTags.add(new UITag(uiType.MISC, type));
 			}
 		}
 	}
+	
+	private StringBuilder tags = new StringBuilder();
+	public String getCurrentTags() {
+		tags.setLength(0);
+		
+		for (UITag tag : uiTags) {
+			if (tag.getType().equals(uiType.MISC)) {
+				tags.append(tag.getMisc() + ",");
+			} else {
+				tags.append(tag.getType().toString() + ",");
+			}
+		}
+		return tags.toString();
+	}
 
-	public int getScore() {
-		return score;
+	public void syncData() {
+		scrap = state.getGsm().getRecord().getScrap();
+		hiscore = state.getGsm().getRecord().getHiScores().get(state.getLevel().name());
+		
+		SavedPlayerFields field = null;
+		
+		if (state.isServer()) {
+			field = HadalGame.server.getScores().get(0);
+		} else {
+			field = HadalGame.client.getScores().get(HadalGame.client.connID);
+		}
+		
+		if (field != null) {
+			score = field.getScore();
+			wins = field.getWins();
+			lives = field.getLives();
+		}
 	}
 	
-	public void incrementScore(int i) {
-		score += i;
+	public void changeFields(Player p, int score, int lives, float timerSet, float timerIncrement) {
+		
+		SavedPlayerFields field = null;
+		
+		if (p == null) {
+			for (SavedPlayerFields eachField: HadalGame.server.getScores().values()) {
+				eachField.setScore(eachField.getScore() + score);
+				eachField.setLives(eachField.getLives() + lives);
+				
+				if (eachField.getLives() <= 0) {
+					state.levelEnd("GAME OVER");
+					break;
+				}
+			}
+		} else {
+			field = HadalGame.server.getScores().get(p.getConnID());	
+			if (field != null) {
+				field.setScore(field.getScore() + score);
+				field.setLives(field.getLives() + lives);
+				
+				if (field.getLives() <= 0) {
+					p.getPlayerData().die(state.getWorldDummy().getBodyData(), null);
+				}
+			}
+		}
+		
+		timer = timerSet;
+		timerIncr = timerIncrement;
+		
+		state.getScoreWindow().syncTable();
 	}
 	
-	public int getLives() {
-		return lives;
+	public void incrementTimer(float delta) {
+		timer += (timerIncr * delta);
 	}
-
-	public void incrementLives(int lives) {
-		this.lives += lives;
-	}
-
+	
 	public float getTimer() {
 		return timer;
-	}
-
-	public void incrementTimer(float timer) {
-		this.timer += timer;
-	}
-	
-	public float getVar1() {
-		return extraVar1;
-	}
-
-	public void incrementVar1(int var1) {
-		this.extraVar1 += var1;
-	}
-	
-	public float getVar2() {
-		return extraVar2;
-	}
-
-	public void incrementVar2(int var2) {
-		this.extraVar2 += var2;
 	}
 }

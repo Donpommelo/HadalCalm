@@ -9,7 +9,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class Record {
 
 	private int scrap;
-	private int scrip;
 	
 	private Map<String, Integer> hiScores;
 	private Map<String, Integer> flags;
@@ -24,12 +23,7 @@ public class Record {
 	}
 	
 	public void incrementScrap(int amount) {
-		scrip = scrap + amount;
-		saveRecord();
-	}
-	
-	public void incrementScrip(int amount) {
-		scrip = scrip + amount;
+		scrap = scrap + amount;
 		saveRecord();
 	}
 	
@@ -50,7 +44,6 @@ public class Record {
 	public static void createNewRecord() {
 		Record newRecord = new Record();
 		newRecord.scrap = 0;
-		newRecord.scrip = 0;
 		newRecord.hiScores = new HashMap<String, Integer>();
 		
 		for (UnlockLevel level: UnlockLevel.values()) {
@@ -71,10 +64,6 @@ public class Record {
 	
 	public int getScrap() {
 		return scrap;
-	}
-
-	public int getScrip() {
-		return scrip;
 	}
 
 	public Map<String, Integer> getHiScores() {

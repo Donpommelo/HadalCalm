@@ -128,6 +128,9 @@ public class Player extends PhysicsSchmuck {
 	//This is the loadout that this player starts with.
 	private Loadout startLoadout;
 	
+	//This is the connection id of the player (0 if server)
+	private int connID;
+	
 	//should we reset this player's playerData stuff upon creation
 	private boolean reset;
 		
@@ -139,7 +142,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param startLoadout: This is the player's starting loadout
 	 * 
 	 */
-	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData, boolean reset, boolean firstTime) {
+	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, boolean firstTime) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -153,6 +156,7 @@ public class Player extends PhysicsSchmuck {
 
 		this.startLoadout = startLoadout;
 		this.playerData = oldData;
+		this.connID = connID;
 		this.reset = reset;
 		
 		setBodySprite(startLoadout.character);
@@ -852,8 +856,8 @@ public class Player extends PhysicsSchmuck {
 	public String getName() {
 		return name;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public int getConnID() {
+		return connID;
 	}
 }

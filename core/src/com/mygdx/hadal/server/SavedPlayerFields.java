@@ -1,5 +1,7 @@
 package com.mygdx.hadal.server;
 
+import com.mygdx.hadal.states.PlayState;
+
 /**
  * This represents saved fields for a player.
  * @author Zachary Tu
@@ -11,7 +13,7 @@ public class SavedPlayerFields {
 	private String name;
 	
 	//Player's stored stats
-	private int wins, kills, deaths, killStreak, deathStreak, score;
+	private int wins, kills, deaths, score, lives;
 	private boolean alive;
 	
 	public SavedPlayerFields() {
@@ -23,9 +25,8 @@ public class SavedPlayerFields {
 		this.wins = 0;
 		this.kills = 0;
 		this.deaths = 0;
-		this.killStreak = 0;
-		this.deathStreak = 0;
 		this.score = 0;
+		this.lives = 0;
 		
 		this.alive = true;
 	}
@@ -39,10 +40,7 @@ public class SavedPlayerFields {
 	 */
 	public void registerKill() {
 		kills++;
-		killStreak++;
 		score++;
-		
-		deathStreak = 0;
 	}
 	
 	/**
@@ -50,24 +48,22 @@ public class SavedPlayerFields {
 	 */
 	public void registerDeath() {
 		deaths++;
-		deathStreak++;
 		score--;
-		
-		killStreak = 0;
-		
 		alive = false;
+		
+		if (lives != 0) {
+			lives--;
+		}
 	}
 
 	/**
 	 * Upon a new level, reset stats
 	 */
-	public void newLevelReset() {
+	public void newLevelReset(PlayState state) {
 		this.kills = 0;
 		this.deaths = 0;
-		this.killStreak = 0;
-		this.deathStreak = 0;
 		this.score = 0;
-		
+		this.lives = state.getLives();
 		alive = true;
 	}
 	
@@ -75,15 +71,11 @@ public class SavedPlayerFields {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public int getWins() {
 		return wins;
 	}
 
-	public void getWin() {
+	public void win() {
 		wins++;
 	}
 
@@ -91,32 +83,8 @@ public class SavedPlayerFields {
 		return kills;
 	}
 
-	public void setKills(int kills) {
-		this.kills = kills;
-	}
-
 	public int getDeaths() {
 		return deaths;
-	}
-
-	public void setDeaths(int deaths) {
-		this.deaths = deaths;
-	}
-
-	public int getKillStreak() {
-		return killStreak;
-	}
-
-	public void setKillStreak(int killStreak) {
-		this.killStreak = killStreak;
-	}
-
-	public int getDeathStreak() {
-		return deathStreak;
-	}
-
-	public void setDeathStreak(int deathStreak) {
-		this.deathStreak = deathStreak;
 	}
 
 	public int getScore() {
@@ -125,6 +93,14 @@ public class SavedPlayerFields {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+
+	public void setLives(int lives) {
+		this.lives = lives;
 	}
 
 	public boolean isAlive() {

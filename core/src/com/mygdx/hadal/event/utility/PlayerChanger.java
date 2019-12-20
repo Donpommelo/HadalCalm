@@ -38,14 +38,15 @@ public class PlayerChanger extends Event {
 
 	private static final String name = "Player Changer";
 	
-	private float hp, fuel;
+	private float hp, fuel, ammo;
 	private int scrap;
 	
-	public PlayerChanger(PlayState state, float hp, float fuel, int scrap) {
+	public PlayerChanger(PlayState state, float hp, float fuel, float ammo, int scrap) {
 		super(state, name);
 		this.hp = hp;
 		this.fuel = fuel;
 		this.scrap = scrap;
+		this.ammo = ammo;
 	}
 	
 	@Override
@@ -68,13 +69,23 @@ public class PlayerChanger extends Event {
 					activated = true;
 				}
 				
+				if (data.getCurrentTool().getAmmoLeft() < data.getCurrentTool().getAmmoSize() && ammo > 0) {
+					data.getCurrentTool().gainAmmo(ammo);
+					activated = true;
+				}				
+				
 				if (hp < 0) {
 					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), null, false);
 					activated = true;
 				}
 				
 				if (scrap > 0) {
-					state.getGsm().getRecord().incrementScrip(scrap);
+					state.getGsm().getRecord().incrementScrap(scrap);
+					activated = true;
+				}
+				
+				if (ammo < 0) {
+					data.getCurrentTool().gainAmmo(ammo);
 					activated = true;
 				}
 				
@@ -83,5 +94,10 @@ public class PlayerChanger extends Event {
 				}
 			}
 		};
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(eventSyncTypes.USER);
 	}
 }
