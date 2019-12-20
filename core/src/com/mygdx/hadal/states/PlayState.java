@@ -113,7 +113,7 @@ public class PlayState extends GameState {
 	private String startId;
 	
 	//This is the entity that the camera tries to focus on
-	protected HadalEntity cameraTarget;
+	protected Vector2 cameraTarget;
 	
 	//These are the bounds of the camera movement
 	private float[] cameraBounds = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -210,7 +210,7 @@ public class PlayState extends GameState {
 		World.setVelocityThreshold(0);
 
 		b2dr = new Box2DDebugRenderer();
-//		b2dr.setDrawBodies(false);
+		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities and packet effects
 		entities = new LinkedHashSet<HadalEntity>();
@@ -249,8 +249,7 @@ public class PlayState extends GameState {
 		}
 		
 		//Create the player and make the camera focus on it
-		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old, reset);
-		this.cameraTarget = player;
+		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old, reset, true);
 		this.camera.position.set(new Vector3(startX * PPM, startY * PPM, 0));
 		this.sprite.position.set(new Vector3(startX * PPM, startY * PPM, 0));
 		this.reset = reset;
@@ -264,7 +263,7 @@ public class PlayState extends GameState {
 		
 		//Set up "save point" as starting point
 		this.savePoints = new ArrayList<SavePoint>();
-		savePoints.add(new SavePoint(new Vector2(startX, startY), zoomDesired, null));		
+		savePoints.add(new SavePoint(new Vector2(startX, startY), null, zoomDesired));		
 		
 		//Set up dummy points (AI rally points)
 		this.dummyPoints = new HashMap<String, PositionDummy>();
@@ -501,33 +500,36 @@ public class PlayState extends GameState {
 		
 		camera.zoom = zoom;
 		sprite.zoom = zoom;
-		if (cameraTarget != null) {
-			
-			if (cameraTarget.getBody() != null && cameraTarget.isAlive()) {
-				
-				tmpVector2.set(cameraTarget.getPosition());
-				
-				if (cameraBounded[0] && tmpVector2.x > cameraBounds[0]) {
-					tmpVector2.x = cameraBounds[0];
-				}
-				
-				if (cameraBounded[1] && tmpVector2.x < cameraBounds[1]) {
-					tmpVector2.x = cameraBounds[1];
-				}		
-				
-				if (cameraBounded[2] && tmpVector2.y > cameraBounds[2]) {
-					tmpVector2.y = cameraBounds[2];
-				}
-				
-				if (cameraBounded[3] && tmpVector2.y < cameraBounds[3]) {
-					tmpVector2.y = cameraBounds[3];
-				}
-				
-				tmpVector2.scl(PPM);
-				CameraStyles.lerpToTarget(camera, tmpVector2);
-				CameraStyles.lerpToTarget(sprite, tmpVector2);
+		
+		if (cameraTarget == null) {
+			if (player.getBody() != null && player.isAlive()) {
+				tmpVector2.set(player.getPosition());
+			} else {
+				return;
 			}
+		} else {
+			tmpVector2.set(cameraTarget);
 		}
+		
+		if (cameraBounded[0] && tmpVector2.x > cameraBounds[0]) {
+			tmpVector2.x = cameraBounds[0];
+		}
+		
+		if (cameraBounded[1] && tmpVector2.x < cameraBounds[1]) {
+			tmpVector2.x = cameraBounds[1];
+		}		
+		
+		if (cameraBounded[2] && tmpVector2.y > cameraBounds[2]) {
+			tmpVector2.y = cameraBounds[2];
+		}
+		
+		if (cameraBounded[3] && tmpVector2.y < cameraBounds[3]) {
+			tmpVector2.y = cameraBounds[3];
+		}
+		
+		tmpVector2.scl(PPM);
+		CameraStyles.lerpToTarget(camera, tmpVector2);
+		CameraStyles.lerpToTarget(sprite, tmpVector2);
 	}
 	
 	/**
@@ -563,27 +565,17 @@ public class PlayState extends GameState {
 		case RESPAWN:
 			SavePoint getSave = getSavePoint();
 			
-			//reset the player's camera to saved values
-			boolean resetCamera = false;
-			if (getSave.getZoomPoint() == null) {
-				resetCamera = true;
-			}
-			
 			//Create a new player
 			player = createPlayer( 
 					(int)(getSave.getLocation().x * PPM),
 					(int)(getSave.getLocation().y * PPM), 
 					gsm.getRecord().getName(), 
-					player.getPlayerData().getLoadout(), player.getPlayerData(), true);
+					player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
 			
 			((PlayerController)controller).setPlayer(player);
 			
+			this.cameraTarget = getSave.getZoomLocation();
 			this.zoomDesired = getSave.getZoom();
-			if (resetCamera) {
-				this.cameraTarget = player;
-			} else {
-				this.cameraTarget = getSave.getZoomPoint();
-			}
 
 			//Make the screen fade back in
 			fadeDelta = defaultFadeInSpeed;
@@ -665,7 +657,7 @@ public class PlayState extends GameState {
 	 * @param old player's olf playerdata if retaining old values.
 	 * @return
 	 */
-	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old, boolean reset) {
+	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old, boolean reset, boolean firstTime) {
 		
 		Loadout newLoadout = new Loadout(altLoadout);
 		
@@ -685,7 +677,7 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		return new Player(this, x, y, name, newLoadout, old, reset);
+		return new Player(this, x, y, name, newLoadout, old, reset, firstTime);
 	}
 	
 	/**
@@ -931,17 +923,17 @@ public class PlayState extends GameState {
 	
 	public SavePoint getSavePoint() {
 		if (savePoints.isEmpty()) {
-			return new SavePoint(new Vector2(startX, startY), zoomDesired, null);
+			return new SavePoint(new Vector2(startX, startY), null, zoomDesired);
 		}
 		int randomIndex = GameStateManager.generator.nextInt(savePoints.size());
 		return savePoints.get(randomIndex);
 	}
 	
-	public void addSavePoint(Vector2 pos, float zoom, HadalEntity target, boolean clear) {
+	public void addSavePoint(Vector2 pos, Vector2 zoomPos, float zoom, boolean clear) {
 		if (clear) {
 			savePoints.clear();
 		}
-		savePoints.add(new SavePoint(pos, zoom, target));
+		savePoints.add(new SavePoint(pos, zoomPos, zoom));
 	}
 
 	public PositionDummy getDummyPoint(String id) {
@@ -952,7 +944,7 @@ public class PlayState extends GameState {
 		dummyPoints.put(id, dummy);
 	}
 	
-	public void setCameraTarget(HadalEntity cameraTarget) {
+	public void setCameraTarget(Vector2 cameraTarget) {
 		this.cameraTarget = cameraTarget;
 	}
 	

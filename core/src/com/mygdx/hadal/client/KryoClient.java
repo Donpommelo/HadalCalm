@@ -119,6 +119,26 @@ public class KryoClient {
         	public void received(Connection c, final Object o) {
 
         		/*
+        		 * The Server has created our Player and tells us to load the level.
+        		 * Load the level and tell the server we finished.
+        		 */
+        		if (o instanceof Packets.LoadLevel) {
+        			final Packets.LoadLevel p = (Packets.LoadLevel) o;
+            		Log.info("CLIENT LOADED LEVEL: " + p.level);
+
+        			Gdx.app.postRunnable(new Runnable() {
+        				
+                        @Override
+                        public void run() {
+                        	gsm.removeState(ResultsState.class);
+                        	gsm.removeState(ClientState.class);
+                			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
+                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime));
+                        }
+                    });
+        		}
+        		
+        		/*
         		 * The Server has seen our connect request and created a new Player for us.
         		 * We receive the id of our new player.
         		 */
@@ -198,26 +218,6 @@ public class KryoClient {
 	                        }
 						});
 					}
-        		}
-        		
-        		/*
-        		 * The Server has created our Player and tells us to load the level.
-        		 * Load the level and tell the server we finished.
-        		 */
-        		if (o instanceof Packets.LoadLevel) {
-        			final Packets.LoadLevel p = (Packets.LoadLevel) o;
-            		Log.info("CLIENT LOADED LEVEL: " + p.level);
-
-        			Gdx.app.postRunnable(new Runnable() {
-        				
-                        @Override
-                        public void run() {
-                        	gsm.removeState(ResultsState.class);
-                        	gsm.removeState(ClientState.class);
-                			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
-                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime));
-                        }
-                    });
         		}
         		
         		/*
@@ -370,7 +370,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						if (!p.entityID.equals(myId)) {
-                    				Player newPlayer = cs.createPlayer(0, 0, p.name, p.loadout, null, true);
+                    				Player newPlayer = cs.createPlayer(0, 0, p.name, p.loadout, null, true, true);
                     				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);
@@ -477,7 +477,6 @@ public class KryoClient {
         			final Packets.ActivateEvent p = (Packets.ActivateEvent) o;
         			
         			final ClientState cs = getClientState();
-					
 					if (cs != null) {
 						cs.addPacketEffect(new PacketEffect() {
 	    					
@@ -619,11 +618,7 @@ public class KryoClient {
 							@Override
 							public void execute() {
 								cs.setZoom(p.zoom);
-								if (p.entityID == null) {
-									cs.setCameraTarget(cs.getPlayer());
-								} else {
-									cs.setCameraTarget(cs.findEntity(p.entityID));
-								}
+								cs.setCameraTarget(p.zoomPos);
 							}
 						});
 					}

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
@@ -130,9 +131,9 @@ public class KryoServer {
 						}
 						final Player player = players.get(c.getID());
 						if (player != null) {
-							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset());                        
+							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), true);                        
 						} else {
-							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true);                        
+							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, true);                        
 						}
 						
                         sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
@@ -194,7 +195,7 @@ public class KryoServer {
                         switch(p.state) {
 						case RESPAWN:
 							//Create a new player for the client (atm, this is just on respawn)
-							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), null, true);
+							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), null, true, false);
 							break;
 						case NEWLEVEL:
 							//No need to send anything. The client is told to load the new level when the server finishes
@@ -355,7 +356,7 @@ public class KryoServer {
 	 * @param loadout: The loadout of the new player
 	 * @param data: The player data of the new player.
 	 */
-	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset) {
+	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset, final boolean firstTime) {
 
 		ps.addPacketEffect(new PacketEffect() {
 
@@ -364,7 +365,7 @@ public class KryoServer {
 				SavePoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM), name, loadout, data, reset);
+				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM), name, loadout, data, reset, firstTime);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);
@@ -383,13 +384,9 @@ public class KryoServer {
 		        //Inform the client that their new player has been created and give them their new id
 		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
 		        
-		        String zoomPointID = null;
+		        Vector2 zoomPos = newSave.getZoomLocation();
 		        
-		        if (newSave.getZoomPoint() != null) {
-		        	zoomPointID = newSave.getZoomPoint().getEntityID().toString();
-		        }
-		        
-		        server.sendToTCP(connId, new Packets.SyncCamera(zoomPointID, newSave.getZoom()));
+		        server.sendToTCP(connId, new Packets.SyncCamera(zoomPos, newSave.getZoom()));
 			}
 		});
 	}

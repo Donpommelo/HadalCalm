@@ -77,7 +77,7 @@ public class ColaCannon extends RangedWeapon {
 			final float duration = fireDuration * chargeCd / maxCharge + minDuration;
 			final float velocity = projectileSpeed * chargeCd / maxCharge + minVelo;
 			
-			bodyData.addStatus(new FiringWeapon(state, duration, bodyData, bodyData, velocity, minVelo, veloDeprec, projectileWidth, procCd));
+			bodyData.addStatus(new FiringWeapon(state, duration, bodyData, bodyData, velocity, minVelo, veloDeprec, projectileWidth, procCd, this));
 			
 			charging = false;
 			chargeCd = 0;

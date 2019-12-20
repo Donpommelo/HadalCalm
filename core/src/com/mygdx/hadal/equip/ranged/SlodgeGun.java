@@ -80,7 +80,7 @@ public class SlodgeGun extends RangedWeapon {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		if (processClip(state, shooter)) {
-			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileWidth, procCd));
+			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileWidth, procCd, this));
 		}
 	}
 }

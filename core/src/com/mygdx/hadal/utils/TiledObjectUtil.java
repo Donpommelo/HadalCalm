@@ -287,7 +287,9 @@ public class TiledObjectUtil {
 					object.getProperties().get("filter", (short)0, short.class));
 		}
 		if (object.getName().equals("Save")) {
-			e = new SaveSetter(state, object.getProperties().get("zoom", 1.0f, float.class),
+			e = new SaveSetter(state, (int)rect.width, (int)rect.height, 
+					(int)(rect.x + rect.width / 2), (int)(rect.y + rect.height / 2), 
+					object.getProperties().get("zoom", 1.0f, float.class),
 					object.getProperties().get("clear", true, boolean.class));
 		}
 		if (object.getName().equals("Text")) {

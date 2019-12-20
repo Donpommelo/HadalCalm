@@ -26,11 +26,10 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="5" name="Save" type="Save" x="288" y="128" width="32" height="32">
+  <object id="5" name="Save" type="Save" x="480" y="672" width="32" height="32">
    <properties>
     <property name="clear" type="bool" value="false"/>
     <property name="triggeredId" value="save1"/>
-    <property name="triggeringId" value="point1"/>
     <property name="zoom" type="float" value="1.2"/>
    </properties>
   </object>
@@ -125,34 +124,17 @@
     <property name="triggeringId" value="spawnArtifacts"/>
    </properties>
   </object>
-  <object id="50" name="Dummy" type="Dummy" x="512" y="640" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="point1"/>
-   </properties>
-  </object>
-  <object id="51" name="Dummy" type="Dummy" x="1216" y="640" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="point2"/>
-   </properties>
-  </object>
-  <object id="52" name="Dummy" type="Dummy" x="896" y="544" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="point3"/>
-   </properties>
-  </object>
-  <object id="53" name="Save" type="Save" x="416" y="128" width="32" height="32">
+  <object id="53" name="Save" type="Save" x="1248" y="736" width="32" height="32">
    <properties>
     <property name="clear" type="bool" value="false"/>
     <property name="triggeredId" value="save3"/>
-    <property name="triggeringId" value="point3"/>
     <property name="zoom" type="float" value="1.2"/>
    </properties>
   </object>
-  <object id="54" name="Save" type="Save" x="352" y="128" width="32" height="32">
+  <object id="54" name="Save" type="Save" x="896" y="544" width="32" height="32">
    <properties>
     <property name="clear" type="bool" value="false"/>
     <property name="triggeredId" value="save2"/>
-    <property name="triggeringId" value="point2"/>
     <property name="zoom" type="float" value="1.2"/>
    </properties>
   </object>

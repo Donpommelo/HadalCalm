@@ -31,7 +31,7 @@ public class ClockwiseCage extends Artifact {
 			private float echoCdCount;
 			private float echoCd = 0.25f;
 			private Equipable echoTool;
-			private Vector2 angle;
+			private Vector2 angle = new Vector2();
 			
 			@Override
 			public void timePassing(float delta) {
@@ -43,6 +43,7 @@ public class ClockwiseCage extends Artifact {
 					
 					if (echoCdCount <= 0) {
 						echoing = false;
+						
 						echoTool.fire(state, inflicted.getSchmuck(), angle,
 								inflicted.getSchmuck().getPosition().x * PPM, 
 								inflicted.getSchmuck().getPosition().y * PPM,
@@ -59,7 +60,7 @@ public class ClockwiseCage extends Artifact {
 					echoing = true;
 					echoCdCount = echoCd;
 					echoTool = tool;
-					angle = tool.getWeaponVelo();
+					angle.set(tool.getWeaponVelo());
 				}
 			}
 		};

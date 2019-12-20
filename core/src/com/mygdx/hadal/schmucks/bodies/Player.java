@@ -130,17 +130,16 @@ public class Player extends PhysicsSchmuck {
 	
 	//should we reset this player's playerData stuff upon creation
 	private boolean reset;
-	
+		
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
 	 * @param x: player starting x position.
 	 * @param y: player starting x position.
+	 * @param startLoadout: This is the player's starting loadout
+	 * 
 	 */
-	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData, boolean reset) {
+	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData, boolean reset, boolean firstTime) {
 		super(state, hbWidth * scale, hbHeight * scale, x, y, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -630,27 +629,28 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	private final static float gibDuration = 3.0f;
 	public void createGibs() {
 		if (alive) {
 			new Ragdoll(state, headWidth * scale, headHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), 5.0f, false);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, false);
 			
 			new Ragdoll(state, bodyWidth * scale, bodyHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), 5.0f, false);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, false);
 			
 			new Ragdoll(state, armWidth * scale, armHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), 5.0f, false);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, false);
 			
 			new Ragdoll(state, bodyBackWidth * scale, bodyBackHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), 5.0f, false);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, false);
 			
 			new Ragdoll(state, gemWidth * scale, gemHeight * scale, 
 					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), 5.0f, false);
+					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, false);
 			
 			new Ragdoll(state, toolWidth * scale, toolHeight * scale, 
 					(int)(getPosition().x * PPM), 

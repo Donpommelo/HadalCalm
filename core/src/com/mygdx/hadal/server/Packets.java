@@ -670,7 +670,7 @@ public class Packets {
 	}
 	
 	public static class SyncCamera {
-		public String entityID;
+		public Vector2 zoomPos;
 		public float zoom;
 
 		public SyncCamera() {}
@@ -678,11 +678,11 @@ public class Packets {
 		/**
 		 * A SyncCamera is sent from the Server to the Client when the client respawns.
 		 * This is done incase the client's camera has changed target/zoom before dying and needs to respaen with a different target/zoom matching their spawn location.
-		 * @param entityID: The entity that the client's camera should focus on. Focus on self if entityId is null
+		 * @param zoomPos: The location that the client's camera should focus on. Focus on self if null
 		 * @param zoom: How much should the client's camera be zoomed in
 		 */
-		public SyncCamera(String entityID, float zoom) {
-			this.entityID = entityID;
+		public SyncCamera(Vector2 zoomPos, float zoom) {
+			this.zoomPos = zoomPos;
 			this.zoom = zoom;
 		}
 	}

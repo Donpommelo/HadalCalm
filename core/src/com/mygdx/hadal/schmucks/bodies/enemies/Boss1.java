@@ -153,11 +153,4 @@ public class Boss1 extends BossFloating {
 		}
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 	}
-
-	public enum BossAttack {
-		SPAWN_ADDS,
-		CHARGE1,
-		CHARGE2,
-		FIRE_SPIN
-	}
 }

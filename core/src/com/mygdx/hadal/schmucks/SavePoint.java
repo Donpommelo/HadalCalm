@@ -1,18 +1,17 @@
 package com.mygdx.hadal.schmucks;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 
 public class SavePoint {
 
 	private Vector2 location;
+	private Vector2 zoomLocation;
 	private float zoom;
-	private HadalEntity zoomPoint;
 	
-	public SavePoint(Vector2 location, float zoom, HadalEntity zoomPoint) {
+	public SavePoint(Vector2 location, Vector2 zoomLocation, float zoom) {
 		this.location = location;
+		this.zoomLocation = zoomLocation;
 		this.zoom = zoom;
-		this.zoomPoint = zoomPoint;
 	}
 
 	public Vector2 getLocation() {
@@ -22,6 +21,14 @@ public class SavePoint {
 	public void setLocation(Vector2 location) {
 		this.location = location;
 	}
+	
+	public Vector2 getZoomLocation() {
+		return zoomLocation;
+	}
+
+	public void setZoomLocation(Vector2 zoomLocation) {
+		this.zoomLocation = zoomLocation;
+	}
 
 	public float getZoom() {
 		return zoom;
@@ -29,14 +36,5 @@ public class SavePoint {
 
 	public void setZoom(float zoom) {
 		this.zoom = zoom;
-	}
-
-	public HadalEntity getZoomPoint() {
-		return zoomPoint;
-	}
-
-	public void setZoomPoint(HadalEntity zoomPoint) {
-		this.zoomPoint = zoomPoint;
-	}
-	
+	}	
 }

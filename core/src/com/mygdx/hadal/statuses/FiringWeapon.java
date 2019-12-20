@@ -2,6 +2,7 @@ package com.mygdx.hadal.statuses;
 
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -20,7 +21,9 @@ public class FiringWeapon extends Status {
 	private int projSize;
 	private Vector2 projOrigin = new Vector2();
 	
-	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, int projSize, float procCd) {
+	private Equipable tool;
+	
+	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, int projSize, float procCd, Equipable tool) {
 		super(state, i, name, descr, false, p, v);
 		this.minVelo = minVelo;
 		this.veloDeprec = veloDeprec;
@@ -28,12 +31,17 @@ public class FiringWeapon extends Status {
 		this.procCd = procCd;
 		
 		this.currentVelo = projVelo;
+		this.tool = tool;
 	}
 	
 	@Override
 	public void timePassing(float delta) {
 		
 		super.timePassing(delta);
+		
+		if (!inflicted.getCurrentTool().equals(tool)) {
+			return;
+		}
 		
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;

@@ -124,22 +124,28 @@
   </object>
   <object id="27" name="Sensor" type="Sensor" x="2464" y="1536" width="32" height="32">
    <properties>
+    <property name="align" value="CENTER_STRETCH"/>
     <property name="hbox" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
+    <property name="sprite" value="ORB_RED"/>
     <property name="triggeringId" value="delete"/>
    </properties>
   </object>
   <object id="28" name="Sensor" type="Sensor" x="2240" y="1472" width="32" height="32">
    <properties>
+    <property name="align" value="CENTER_STRETCH"/>
     <property name="hbox" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
+    <property name="sprite" value="ORB_RED"/>
     <property name="triggeringId" value="delete"/>
    </properties>
   </object>
   <object id="29" name="Sensor" type="Sensor" x="2336" y="1728" width="32" height="32">
    <properties>
+    <property name="align" value="CENTER_STRETCH"/>
     <property name="hbox" type="bool" value="true"/>
     <property name="player" type="bool" value="false"/>
+    <property name="sprite" value="ORB_RED"/>
     <property name="triggeringId" value="delete"/>
    </properties>
   </object>
