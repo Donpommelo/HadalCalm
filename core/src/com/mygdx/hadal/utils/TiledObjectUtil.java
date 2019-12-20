@@ -147,7 +147,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("lives", 0, int.class), 
 					object.getProperties().get("score", 0, int.class),
 					object.getProperties().get("timer", 0.0f, float.class),
-					object.getProperties().get("timerIncr", 0, int.class));
+					object.getProperties().get("timerIncr", 0.0f, float.class));
 		}
 		if (object.getName().equals("Camera")) {
 			e = new CameraChanger(state, object.getProperties().get("zoom", 1.0f, float.class));
@@ -505,6 +505,15 @@ public class TiledObjectUtil {
     	String id = "prefabTriggerId" + nextId;
     	nextId++;
     	return id;
+    }
+    
+    private final static String globalTimer = "runOnGlobalTimerConclude";
+    public static void parseDesignatedEvents(PlayState state) {
+    	for (String key : triggeredEvents.keySet()) {
+    		if (key.equals(globalTimer)) {
+    			state.setGlobalTimer(triggeredEvents.get(key));
+    		}
+    	}
     }
     
     /**

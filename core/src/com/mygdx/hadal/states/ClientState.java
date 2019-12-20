@@ -127,6 +127,9 @@ public class ClientState extends PlayState {
 		//Update the game camera and batch.
 		cameraUpdate();
 		
+		//Increment the game timer, if exists
+		getUiExtra().incrementTimer(delta);
+				
 		//If we are in the delay period of a transition, decrement the delay
 		if (fadeInitialDelay <= 0f) {
 			

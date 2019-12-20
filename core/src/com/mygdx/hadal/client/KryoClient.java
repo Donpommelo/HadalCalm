@@ -655,6 +655,8 @@ public class KryoClient {
 							@Override
 							public void execute() {
 								cs.getUiExtra().changeTypes(p.uiTags, true);
+								cs.getUiExtra().setTimer(p.timer);
+								cs.getUiExtra().setTimerIncr(p.timerIncr);
 							}
 						});
 					} else {

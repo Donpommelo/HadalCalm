@@ -32,6 +32,7 @@ import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -193,6 +194,9 @@ public class PlayState extends GameState {
 	//global variables
 	public static final float spriteAnimationSpeed = 0.08f;
 	
+	//Special designated events parsed from map
+	private Event globalTimer;
+	
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
@@ -252,6 +256,7 @@ public class PlayState extends GameState {
 			TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
 			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 			TiledObjectUtil.parseTiledTriggerLayer();
+			TiledObjectUtil.parseDesignatedEvents(this);
 		}
 		
 		//Create the player and make the camera focus on it
@@ -870,6 +875,14 @@ public class PlayState extends GameState {
 		return practice;
 	}
 	
+	public Event getGlobalTimer() {
+		return globalTimer;
+	}
+
+	public void setGlobalTimer(Event globalTimer) {
+		this.globalTimer = globalTimer;
+	}
+
 	/**
 	 * This is used for pvp levels. When a player is spawned, they will get their hitbox filter here so they can hit each other.
 	 */

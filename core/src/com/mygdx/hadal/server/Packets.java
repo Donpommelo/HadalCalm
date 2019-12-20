@@ -702,15 +702,21 @@ public class Packets {
 	
 	public static class SyncUI {
 		public String uiTags;
+		public float timer;
+		public float timerIncr;
 		
 		public SyncUI() {}
 		/**
-		 * A SyncBoss is sent from the Server to the Client whenever a boss is despawned.
-		 * The client updates their ui to represent this.
-		 * ATM, boss spawnings is handled by the regular enemySpawn packet, so this is a simple ping
+		 * A SyncUI is sent from the Server to the Client whenever the ui is updated.
+		 * The client updates their ui to represent the changes.
+		 * @param uiTags: list of ui elements to add
+		 * @param timer: what to set the global game timer to
+		 * @param timerIncr: How much should the timer be incrementing by (probably +-1 or 0)
 		 */
-		public SyncUI(String uiTags) {
+		public SyncUI(String uiTags, float timer, float timerIncr) {
 			this.uiTags = uiTags;
+			this.timer = timer;
+			this.timerIncr = timerIncr;
 		}
 	}
 	

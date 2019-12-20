@@ -19,10 +19,10 @@ public class GameChanger extends Event {
 
 	private static final String name = "Game Changer";
 
-	private int scoreIncr, livesIncr, timerIncr;
-	private float timerSet;
+	private int scoreIncr, livesIncr;
+	private float timerSet, timerIncr;
 	
-	public GameChanger(PlayState state, int lives, int score, float timerSet, int timerIncr) {
+	public GameChanger(PlayState state, int lives, int score, float timerSet, float timerIncr) {
 		super(state, name);
 		this.livesIncr = lives;
 		this.scoreIncr = score;

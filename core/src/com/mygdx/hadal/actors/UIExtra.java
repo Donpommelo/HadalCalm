@@ -65,7 +65,7 @@ public class UIExtra extends AHadalActor{
 				text = text.append("WINS: " + wins + "\n");
 				break;
 			case TIMER:
-				text = text.append("TIMER: " + timer + " S\n");
+				text = text.append("TIMER: " + (int)timer + " S\n");
 				break;
 			case HISCORE:
 				text = text.append("HI-SCORE: " + hiscore + "\n");
@@ -152,7 +152,7 @@ public class UIExtra extends AHadalActor{
 				eachField.setScore(eachField.getScore() + score);
 				eachField.setLives(eachField.getLives() + lives);
 				
-				if (eachField.getLives() <= 0) {
+				if (eachField.getLives() <= 0 && state.getLives() != 0) {
 					state.levelEnd("GAME OVER");
 					break;
 				}
@@ -163,7 +163,7 @@ public class UIExtra extends AHadalActor{
 				field.setScore(field.getScore() + score);
 				field.setLives(field.getLives() + lives);
 				
-				if (field.getLives() <= 0) {
+				if (field.getLives() <= 0 && state.getLives() != 0) {
 					p.getPlayerData().die(state.getWorldDummy().getBodyData(), null);
 				}
 			}
@@ -177,9 +177,27 @@ public class UIExtra extends AHadalActor{
 	
 	public void incrementTimer(float delta) {
 		timer += (timerIncr * delta);
+		
+		if (timer <= 0 && timerIncr < 0) {
+			if (state.getGlobalTimer() != null) {
+				state.getGlobalTimer().getEventData().preActivate(null, null);
+			}
+		}
 	}
-	
+
 	public float getTimer() {
 		return timer;
+	}
+
+	public void setTimer(float timer) {
+		this.timer = timer;
+	}
+
+	public float getTimerIncr() {
+		return timerIncr;
+	}
+
+	public void setTimerIncr(float timerIncr) {
+		this.timerIncr = timerIncr;
 	}
 }

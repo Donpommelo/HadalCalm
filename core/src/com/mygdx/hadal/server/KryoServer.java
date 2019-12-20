@@ -385,7 +385,7 @@ public class KryoServer {
 		        Vector2 zoomPos = newSave.getZoomLocation();
 		        
 		        server.sendToTCP(connId, new Packets.SyncCamera(zoomPos, newSave.getZoom()));
-		        server.sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags()));
+		        server.sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
 			}
 		});
 	}

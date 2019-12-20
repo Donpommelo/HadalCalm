@@ -27,9 +27,9 @@ public class Record {
 		saveRecord();
 	}
 	
-	public boolean updateScore(int score, String level) {
-		if (score > hiScores.get(level)) {
-			hiScores.put(level, score);
+	public boolean updateScore(int score, UnlockLevel level) {
+		if (score > hiScores.get(level.getName())) {
+			hiScores.put(level.getName(), score);
 			
 			saveRecord();
 			return true;
