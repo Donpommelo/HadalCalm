@@ -11,7 +11,7 @@ public class BeeGun extends RangedWeapon {
 
 	private final static String name = "Bee Gun";
 	private final static int clipSize = 24;
-	private final static int ammoSize = 80;
+	private final static int ammoSize = 96;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;

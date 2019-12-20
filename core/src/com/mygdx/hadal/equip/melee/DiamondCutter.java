@@ -34,7 +34,7 @@ public class DiamondCutter extends MeleeWeapon {
 
 	private final static Sprite projSprite = Sprite.BUZZSAW;
 	
-	private final static float baseDamage = 2.5f;
+	private final static float baseDamage = 4.0f;
 	private final static float knockback = 0.0f;
 
 	private final static float range = 75.0f;
@@ -108,6 +108,8 @@ public class DiamondCutter extends MeleeWeapon {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		held = false;
-		hbox.die();
+		if (hbox != null) {
+			hbox.die();
+		}
 	}
 }

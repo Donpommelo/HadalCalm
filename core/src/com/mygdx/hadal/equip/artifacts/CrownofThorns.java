@@ -37,8 +37,8 @@ public class CrownofThorns extends Artifact {
 			
 			@Override
 			public void onReload(Equipable tool) {
-				Hitbox hbox = new MeleeHitbox(state, 0, 0, hitboxSize, swingArc, swingCd, backSwing, new Vector2(0, 0), 
-						new Vector2(0, 0), true, inflicted.getSchmuck().getHitboxfilter(), inflicted.getSchmuck());
+				Hitbox hbox = new MeleeHitbox(state, 0, 0, hitboxSize, swingArc, swingCd, backSwing, new Vector2(), new Vector2(), 
+						true, inflicted.getSchmuck().getHitboxfilter(), inflicted.getSchmuck());
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, inflicted));
 				hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, inflicted, Particle.SPARK_TRAIL));

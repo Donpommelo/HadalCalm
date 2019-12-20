@@ -58,7 +58,7 @@ public class BossFloating extends Boss {
 	public void controller(float delta) {		
 		super.controller(delta);
 		
-		angle = angle + (desiredAngle - angle) * 0.02f;
+		angle = angle + (desiredAngle - angle) * 0.04f;
 		setOrientation((float) ((angle + 270) * Math.PI / 180));
 		
 		switch(currentState) {

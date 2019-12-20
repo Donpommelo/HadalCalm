@@ -21,7 +21,7 @@ public class Machinegun extends RangedWeapon {
 
 	private final static String name = "Machine Gun";
 	private final static int clipSize = 28;
-	private final static int ammoSize = 90;
+	private final static int ammoSize = 100;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;

@@ -33,7 +33,7 @@ public class BossUtils {
 
 	public static void moveToDummy(final PlayState state, final Boss boss, final String dummyId, final int speed) {
 		
-		boss.getActions().add(new BossAction(boss, 10.0f) {
+		boss.getActions().add(new BossAction(boss, speed) {
 			
 			@Override
 			public void execute() {
@@ -59,6 +59,7 @@ public class BossUtils {
 				switch (state) {
 				case FREE:
 					bossFloating.setDesiredAngle(angle);
+					break;
 				case SPINNING:
 					bossFloating.setSpinSpeed((int)angle);
 					break;
@@ -107,8 +108,25 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 dist = target.getPosition().sub(boss.getPosition()).scl(PPM);
+				Vector2 dist = target.getPosition().sub(boss.getPosition());
 				boss.setLinearVelocity(dist.nor().scl(moveSpeed));
+			}
+		});
+	}
+	
+	public static void trackPlayerXY(final PlayState state, Boss boss, final HadalEntity target, final int moveSpeed, final float duration, final boolean x) {
+		
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				boss.setMovementTarget(null);
+				Vector2 dist = target.getPosition().sub(boss.getPosition());
+				if (x) {
+					boss.setLinearVelocity(new Vector2(dist.nor().scl(moveSpeed).x, 0));
+				} else {
+					boss.setLinearVelocity(new Vector2(0, dist.nor().scl(moveSpeed).y));
+				}
 			}
 		});
 	}
@@ -120,10 +138,31 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				Vector2 dist = target.getPosition().sub(boss.getPosition()).scl(PPM);
-				
-				Hitbox hbox = new MeleeHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, (int)boss.getHeight(), (int)boss.getWidth(), duration, duration, dist, 
-						new Vector2(0, 0), true, boss.getHitboxfilter(), boss);
+				Hitbox hbox = new MeleeHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, (int)boss.getHeight() + 10, (int)boss.getWidth() + 10, duration, duration, 
+						new Vector2(), new Vector2(), true, boss.getHitboxfilter(), boss) {
+					
+					/**
+					 * This just makes sure the melee hitbox tracks the position of the user.
+					 */
+					@Override
+					public void controller(float delta) {
+								
+						super.controller(delta);
+						
+						//Melee hboxes should not persist after owner's disposal. Otherwise, track location
+						if (!creator.isAlive()) {
+							queueDeletion();
+						} else {
+							Vector2 hbLocation = creator.getPosition().add(center);
+							setTransform(hbLocation, (float) (boss.getBody().getAngle() +  Math.PI / 2));
+						}
+						
+						lifeSpan -= delta;
+						if (lifeSpan <= 0) {
+							queueDeletion();
+						}
+					}
+				};
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, damage, knockback, DamageTypes.MELEE));	
@@ -134,7 +173,7 @@ public class BossUtils {
 	public static void fireball(final PlayState state, Boss boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size, final float gravity, 
 			final float lifespan, final float fireDuration, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, 0) {
+		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
 			public void execute() {
@@ -147,6 +186,23 @@ public class BossUtils {
 						new Ablaze(state, fireDuration, boss.getBodyData(), boss.getBodyData(), fireDamage)));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+			}
+		});
+	}
+	
+	public static void horizLaser(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+		
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, 0, lifespan, 3, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+						boss.getHitboxfilter(), false, true, boss);
+				
+				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+				new ParticleEntity(state, hbox, Particle.LASER_PULSE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
 			}
 		});
 	}

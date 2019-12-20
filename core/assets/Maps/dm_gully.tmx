@@ -59,7 +59,7 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="19" name="Multitrigger" type="Multitrigger" x="160" y="96" width="32" height="32">
+  <object id="19" name="Multitrigger" type="Multitrigger" x="288" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2,w3"/>
