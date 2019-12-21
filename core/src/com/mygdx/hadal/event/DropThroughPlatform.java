@@ -49,12 +49,14 @@ public class DropThroughPlatform extends Event {
 						
 						Player p = ((Player)((FeetData) fixB).getEntity());
 						
-						Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
-						filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR |
-								Constants.BIT_PROJECTILE | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL);
-						p.getBody().getFixtureList().get(0).setFilterData(filter);
-						
-						((FeetData) fixB).setTerrain(this.event);
+						if (!p.isFastFalling()) {
+							Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
+							filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR |
+									Constants.BIT_PROJECTILE | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL);
+							p.getBody().getFixtureList().get(0).setFilterData(filter);
+							
+							((FeetData) fixB).setTerrain(this.event);
+						}
 					}
 				}
 			}

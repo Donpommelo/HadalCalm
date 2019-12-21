@@ -54,7 +54,7 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.CROUCH) {
-			player.fastFall();
+			player.setFastFalling(true);
 		}
 		
 		if (action == PlayerAction.INTERACT) {
@@ -159,6 +159,10 @@ public class ActionController {
 		
 		if (action == PlayerAction.JUMP) {
 			player.setHovering(false);
+		}
+		
+		if (action == PlayerAction.CROUCH) {
+			player.setFastFalling(false);
 		}
 		
 		if (action == PlayerAction.FIRE) {

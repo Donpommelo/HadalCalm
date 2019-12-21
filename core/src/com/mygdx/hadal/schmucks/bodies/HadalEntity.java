@@ -167,7 +167,11 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			return;
 		}
 		
-		if (getLinearVelocity().y < 0) {
+		if (getLinearVelocity().y < 0 && impulseY > 0) {
+			setLinearVelocity(getLinearVelocity().x, 0);
+		}
+		
+		if (getLinearVelocity().y > 0 && impulseY < 0) {
 			setLinearVelocity(getLinearVelocity().x, 0);
 		}
 		

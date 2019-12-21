@@ -142,7 +142,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new MeleeHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, (int)boss.getHeight() + 10, (int)boss.getWidth() + 10, duration, duration, 
+				Hitbox hbox = new MeleeHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, (int)boss.getHeight(), (int)boss.getWidth(), duration, duration, 
 						new Vector2(), new Vector2(), true, boss.getHitboxfilter(), boss) {
 					
 					/**
@@ -261,7 +261,7 @@ public class BossUtils {
 	private final static Sprite[] debrisSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
 	public static void fallingDebris(final PlayState state, Boss boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getSecondaryActions().add(new BossAction(boss, duration) {
 			
 			@Override
 			public void execute() {

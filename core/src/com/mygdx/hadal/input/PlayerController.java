@@ -131,6 +131,10 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyUp(PlayerAction.JUMP);
 		}
 		
+		if (keycode == PlayerAction.CROUCH.getKey()) {
+			player.getController().keyUp(PlayerAction.CROUCH);
+		}
+		
 		if (keycode == PlayerAction.FIRE.getKey()) {
 			player.getController().keyUp(PlayerAction.FIRE);
 		}

@@ -36,7 +36,7 @@ public class PlayerBodyData extends BodyData {
 	private int extraJumpsUsed = 0;
 	private float jumpPow = 25.0f;
 	
-	private float fastFallPow = 35.0f;
+	private float fastFallPow = 12.0f;
 
 	private int hoverCost = 5;
 	private float hoverPow = 5.0f;

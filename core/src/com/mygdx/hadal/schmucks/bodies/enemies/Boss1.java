@@ -20,7 +20,9 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Boss1 extends BossFloating {
 				
-    private static final float aiAttackCd = 2.4f;
+    private static final float aiAttackCd = 3.0f;
+    private static final float aiAttackCd2 = 2.2f;
+    private static final float aiAttackCd3 = 1.5f;
 	
 	private static final int width = 250;
 	private static final int height = 161;
@@ -30,11 +32,15 @@ public class Boss1 extends BossFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 3500;
+	private static final int hp = 4200;
 	private static final int moveSpeed = 20;
 	private static final int spinSpeed = 40;
 	
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
+	
+	private int phase = 1;
+	private static final float phaseThreshold2 = 0.70f;
+	private static final float phaseThreshold3 = 0.35f;
 	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
@@ -55,45 +61,117 @@ public class Boss1 extends BossFloating {
 	@Override
 	public void attackInitiate() {
 		
-		int randomIndex = GameStateManager.generator.nextInt(10);
+		attackNum++;
 		
-		if (attackNum % 10 == 0) {
-			spawnAdds();
-		} else {
-			switch(randomIndex) {
-			case 0: 
-				chargeAttack1();
-				break;
-			case 1: 
-				chargeAttack2();
-				break;
-			case 2: 
-				horizontalLaser();
-				break;
-			case 3: 
-				rotatingLaser();
-				break;
-			case 4: 
-				fireBreath();
-				break;
-			case 5: 
-				bouncyBall();
-				break;
-			case 6: 
-				vengefulSpirit();
-				break;
-			case 7: 
-				fallingDebris();
-				break;
-			case 8: 
-				sweepingLaser();
-				break;
-			case 9:
-				poisonCloud();
-				break;
+		if (phase == 1) {
+			if (bodyData.getCurrentHp() <= phaseThreshold2 * bodyData.getMaxHp()) {
+				phase = 2;
+				setAttackCd(aiAttackCd2);
+				spawnAdds();
+			} else {
+				int randomIndex = GameStateManager.generator.nextInt(4);
+				switch(randomIndex) {
+				case 0: 
+					chargeAttack1();
+					break;
+				case 1: 
+					chargeAttack2();
+					break;
+				case 2: 
+					fireBreath();
+					break;
+				case 3: 
+					fallingDebris();
+					break;
+				}
 			}
 		}
-		attackNum++;
+		
+		if (phase == 2) {
+			if (bodyData.getCurrentHp() <= phaseThreshold3 * bodyData.getMaxHp()) {
+				phase = 3;
+				setAttackCd(aiAttackCd3);
+				spawnAdds();
+			} else if (attackNum % 2 == 0) {
+				int randomIndex = GameStateManager.generator.nextInt(5);
+				switch(randomIndex) {
+				case 0: 
+					chargeAttack1();
+					break;
+				case 1: 
+					chargeAttack2();
+					break;
+				case 2: 
+					fireBreath();
+					break;
+				case 3: 
+					horizontalLaser();
+					break;
+				case 4: 
+					sweepingLaser();
+					break;
+				}
+			} else {
+				int randomIndex = GameStateManager.generator.nextInt(4);
+				switch(randomIndex) {
+				case 0: 
+					bouncyBall();
+					break;
+				case 1: 
+					vengefulSpirit();
+					break;
+				case 2: 
+					poisonCloud();
+					break;
+				case 3: 
+					fallingDebris();
+					break;
+				}
+			}
+		}
+		
+		if (phase == 3) {
+			if (attackNum % 2 == 0) {
+				int randomIndex = GameStateManager.generator.nextInt(6);
+				switch(randomIndex) {
+				case 0: 
+					chargeAttack1();
+					break;
+				case 1: 
+					chargeAttack2();
+					break;
+				case 2: 
+					fireBreath();
+					break;
+				case 3: 
+					sweepingLaser();
+					break;
+				case 4: 
+					horizontalLaser();
+					break;
+				case 5:
+					rotatingLaser();
+					break;
+				}
+			} else {
+				int randomIndex = GameStateManager.generator.nextInt(4);
+				switch(randomIndex) {
+				case 0: 
+					bouncyBall();
+					break;
+				case 1: 
+					vengefulSpirit();
+					break;
+				case 2: 
+					fallingDebris();
+					break;
+				case 3: 
+					poisonCloud();
+					break;
+				}
+			}
+			fallingDebrisPassive();
+		}
 	}
 	
 	private static final int charge1Speed = 35;
@@ -180,8 +258,8 @@ public class Boss1 extends BossFloating {
 	
 	private static final float laser1Interval = 0.03f;
 	private static final int laser1Amount = 40;
-	private static final float laser1Damage = 4.0f;
-	private static final float laserKnockback = 15.0f;
+	private static final float laser1Damage = 6.0f;
+	private static final float laserKnockback = 5.0f;
 	private static final float laser1Speed = 55.0f;
 	private static final int laserSize = 30;
 	private static final float laserLifespan = 1.2f;
@@ -214,10 +292,10 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
-	private static final float rotateSpeed = 2.0f;
-	private static final float laser2Interval = 0.03f;
+	private static final float rotateSpeed = 1.8f;
+	private static final float laser2Interval = 0.04f;
 	private static final int laser2Amount = 110;
-	private static final float laser2Damage = 5.0f;
+	private static final float laser2Damage = 4.0f;
 	private static final float laser2Speed = 15.0f;
 	
 	private void rotatingLaser() {
@@ -239,11 +317,11 @@ public class Boss1 extends BossFloating {
 	}
 	
 	private static final int laser3Amount = 40;
-	private static final float laser3Damage = 5.0f;
-	private static final float laser3Knockback = 7.5f;
+	private static final float laser3Damage = 7.5f;
+	private static final float laser3Knockback = 1.0f;
 	private static final float laser3Speed = 55.0f;
 	private static final int explosionNumber = 4;
-	private static final float explosionDamage = 25.0f;
+	private static final float explosionDamage = 35.0f;
 	private static final float explosionKnockback = 35.0f;
 	private static final int explosionRadius = 500;
 	private static final float explosionInterval = 0.25f;
@@ -279,11 +357,11 @@ public class Boss1 extends BossFloating {
 	
 	private static final int numBalls = 3;
 	private static final int spread = 15;
-	private static final float ballDamage = 15.0f;
+	private static final float ballDamage = 12.0f;
 	private static final float ballSpeed = 10.0f;
 	private static final float ballKnockback = 12.0f;
 	private static final int ballSize = 120;
-	private static final float ballLifespan = 7.5f;
+	private static final float ballLifespan = 7.0f;
 	private static final float ballInterval= 0.75f;
 	
 	private void bouncyBall() {
@@ -307,7 +385,7 @@ public class Boss1 extends BossFloating {
 	
 	private static final float spiritDamage= 13.0f;
 	private static final float spiritKnockback= 25.0f;
-	private static final float spiritLifespan= 7.5f;
+	private static final float spiritLifespan= 7.0f;
 	private Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
@@ -324,11 +402,11 @@ public class Boss1 extends BossFloating {
 	}
 	
 	private static final int numPoison = 7;
-	private static final float poisonInterval = 0.6f;
-	private static final float poisonDamage= 0.40f;
+	private static final float poisonInterval = 0.75f;
+	private static final float poisonDamage= 0.5f;
 	private static final int poisonWidth= 150;
 	private static final int poisonHeight = 280;
-	private static final float poisonDuration = 11.0f;
+	private static final float poisonDuration = 7.0f;
 	
 	private void poisonCloud() {
 		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed);
@@ -345,7 +423,7 @@ public class Boss1 extends BossFloating {
 						BossUtils.floorHeight(state) + poisonHeight / 2), poisonInterval);
 			}
 		}
-		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
+		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private static final int numAdds = 3;
@@ -359,17 +437,24 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
 	}
 	
-	private static final int numDebris = 60;
-	private static final float debrisInterval = 0.075f;
-	private static final float debrisDamage= 11.0f;
+	private static final int numDebris = 30;
+	private static final int numDebrisPassive = 10;
+	private static final float debrisInterval = 0.25f;
+	private static final float debrisDamage= 7.0f;
 	private static final int debrisSize= 60;
 	private static final float debrisKnockback= 15.0f;
 	private static final float debrisLifespan= 3.0f;
 	private void fallingDebris() {
-		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.0f);
+		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 1.0f);
 		for (int i = 0; i < numDebris; i++) {
 			BossUtils.fallingDebris(state, this, debrisDamage, debrisSize, debrisKnockback, debrisLifespan, debrisInterval);
 		}
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+	}
+	
+	private void fallingDebrisPassive() {
+		for (int i = 0; i < numDebrisPassive; i++) {
+			BossUtils.fallingDebris(state, this, debrisDamage, debrisSize, debrisKnockback, debrisLifespan, debrisInterval);
+		}
 	}
 }

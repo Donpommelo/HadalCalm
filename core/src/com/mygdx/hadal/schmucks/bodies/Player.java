@@ -82,7 +82,7 @@ public class Player extends PhysicsSchmuck {
 	private float jumpCd = 0.25f;
 	private float jumpCdCount = 0;
 	
-	private float fastFallCd = 0.25f;
+	private float fastFallCd = 0.08f;
 	private float fastFallCdCount = 0;
 	
 	private float airblastCd = 0.25f;
@@ -107,9 +107,10 @@ public class Player extends PhysicsSchmuck {
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
 	private float controllerCount = 0;
 	
-	//Is the player currently shooting/hovering?
+	//Is the player currently shooting/hovering/fastfalling?
 	private boolean shooting = false;
 	private boolean hovering = false;
+	private boolean fastFalling = false;
 	
 	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
 	private float reloadPercent;
@@ -261,6 +262,9 @@ public class Player extends PhysicsSchmuck {
 			if (hovering) {
 				hover();
 			}
+			if (fastFalling) {
+				fastFall();
+			}
 		}
 		
 		if (shooting) {
@@ -347,7 +351,7 @@ public class Player extends PhysicsSchmuck {
 	public void fastFall() {
 		if (fastFallCdCount < 0) {
 			fastFallCdCount = fastFallCd;
-			push(0, -playerData.getFastFallPower());
+			pushMomentumMitigation(0, -playerData.getFastFallPower());
 		}
 		if (feetData.getTerrain() != null) {
 			feetData.getTerrain().getEventData().onInteract(this);
@@ -807,6 +811,14 @@ public class Player extends PhysicsSchmuck {
 
 	public void setHovering(boolean hovering) {
 		this.hovering = hovering;
+	}
+
+	public boolean isFastFalling() {
+		return fastFalling;
+	}
+
+	public void setFastFalling(boolean fastFalling) {
+		this.fastFalling = fastFalling;
 	}
 
 	public boolean isShooting() {

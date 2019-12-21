@@ -12,7 +12,7 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="event-layer">
-  <object id="3" name="Start" type="Start" x="544" y="1376" width="32" height="32"/>
+  <object id="3" name="Start" type="Start" x="416" y="1344" width="32" height="32"/>
   <object id="4" name="Dummy" type="Dummy" x="416" y="896" width="32" height="32">
    <properties>
     <property name="dummyId" value="0"/>
@@ -103,7 +103,7 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="25" name="Prefab" type="Prefab" x="512" y="1056" width="96" height="96">
+  <object id="25" name="Prefab" type="Prefab" x="512" y="1376" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
@@ -115,7 +115,7 @@
     <property name="triggeringId" value="w1"/>
    </properties>
   </object>
-  <object id="27" name="Prefab" type="Prefab" x="1024" y="1056" width="96" height="96">
+  <object id="27" name="Prefab" type="Prefab" x="992" y="1376" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="40"/>
     <property name="power" type="float" value="25"/>

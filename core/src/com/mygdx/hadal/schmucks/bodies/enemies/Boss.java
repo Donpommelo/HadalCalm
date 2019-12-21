@@ -30,6 +30,7 @@ public class Boss extends Enemy {
 	private float attackCd;
     private float aiAttackCdCount = 0.0f;
     private float aiActionCdCount = 0.0f;
+    private float aiSecondaryActionCdCount = 0.0f;
 	
   	//These are used for raycasting to determing whether the player is in vision of the fish.
   	private float shortestFraction;
@@ -45,6 +46,9 @@ public class Boss extends Enemy {
 	
 	private ArrayList<BossAction> actions;
 	private BossAction currentAction;
+	
+	private ArrayList<BossAction> secondaryActions;
+	private BossAction currentSecondaryAction;
 	
 	protected Sprite sprite;
 	
@@ -73,6 +77,7 @@ public class Boss extends Enemy {
 		this.sprite = sprite;
 		
 		this.actions = new ArrayList<BossAction>();
+		this.secondaryActions = new ArrayList<BossAction>();
 	}
 	
 	/**
@@ -118,6 +123,9 @@ public class Boss extends Enemy {
 				aiAttackCdCount -= delta;
 			}
 		}
+		if (aiSecondaryActionCdCount > 0) {
+			aiSecondaryActionCdCount -= delta;
+		}
 		
 		if (aiAttackCdCount <= 0) {
 			aiAttackCdCount = attackCd;
@@ -134,6 +142,19 @@ public class Boss extends Enemy {
 			} else {
 				if (aiAttackCdCount <= 0) {
 					aiAttackCdCount = attackCd;
+				}
+			}
+		}
+		
+		if (aiSecondaryActionCdCount <= 0 || currentSecondaryAction == null) {
+			if (!secondaryActions.isEmpty()) {
+				currentSecondaryAction = secondaryActions.remove(0);
+				aiSecondaryActionCdCount = currentSecondaryAction.getDuration();
+				
+				currentSecondaryAction.execute();
+			} else {
+				if (aiSecondaryActionCdCount <= 0) {
+					aiSecondaryActionCdCount = attackCd;
 				}
 			}
 		}
@@ -206,6 +227,14 @@ public class Boss extends Enemy {
 		return actions;
 	}
 
+	public ArrayList<BossAction> getSecondaryActions() {
+		return secondaryActions;
+	}
+
+	public void setSecondaryActions(ArrayList<BossAction> secondaryActions) {
+		this.secondaryActions = secondaryActions;
+	}
+
 	public float getAttackAngle() {
 		return attackAngle;
 	}
@@ -213,5 +242,9 @@ public class Boss extends Enemy {
 	public void setAttackAngle(float attackAngle) {
 		this.attackAngle = attackAngle;
 	}
-	
+
+
+	public void setAttackCd(float attackCd) {
+		this.attackCd = attackCd;
+	}	
 }
