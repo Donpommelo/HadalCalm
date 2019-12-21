@@ -30,11 +30,6 @@ public class BouncingBlade extends RangedWeapon {
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 75;
 	private final static float lifespan = 3.5f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 5;
-	
-	private final static float restitution = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.BUZZSAW;
 	private final static Sprite weaponSprite = Sprite.MT_BLADEGUN;
@@ -46,13 +41,13 @@ public class BouncingBlade extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-				filter, false, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, projSprite);
+		hbox.setDurability(5);
+		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new HitboxOnContactWallLoseDuraStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
-		hbox.setFriction(0);
 	}
 }

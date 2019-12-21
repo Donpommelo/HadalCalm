@@ -13,6 +13,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -27,9 +28,6 @@ import java.util.ArrayList;
  */
 public class Hitbox extends HadalEntity {
 
-	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
-	protected float grav;
-	
 	//Initial velocity of the hitbox
 	protected Vector2 startVelo;
 		
@@ -39,14 +37,17 @@ public class Hitbox extends HadalEntity {
 	//filter describes the type of body the hitbox will register a hit on .(player, enemy or neutral)
 	protected short filter;
 	
+	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
+	protected float gravity = 0.0f;
+		
 	//durability is the number of things the hitbox can hit before disappearing.
-	protected int dura;
+	protected int durability = 1;
 	
 	//restitution is the hitbox bounciness.
-	protected float rest;
+	protected float restitution = 0.0f;
 	
 	//friction is the hitbox slipperyness.
-	protected float friction = 1.0f;
+	protected float friction = 0.0f;
 		
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	protected boolean sensor;
@@ -65,16 +66,12 @@ public class Hitbox extends HadalEntity {
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * @param : pretty much the same as the fields above.
 	 */
-	public Hitbox(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator) {
+	public Hitbox(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator) {
 		super(state, width, height, x, y);
-		this.grav = grav;
 		this.maxLifespan = lifespan;
 		this.lifeSpan = lifespan;
 		this.filter = filter;
 		this.sensor = sensor;
-		this.dura = dura;		
-		this.rest = rest;
 		this.creator = creator;
 		
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
@@ -96,14 +93,14 @@ public class Hitbox extends HadalEntity {
 
 		this.data = new HitboxData(state, this);
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width , height , grav, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width , height, gravity, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 				filter, true, data);
 		setLinearVelocity(startVelo);
-		
+
 		if (!sensor) {
 			body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 
-					new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, rest, friction,
+					new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, restitution, friction,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
 		}
 	}
@@ -210,14 +207,29 @@ public class Hitbox extends HadalEntity {
 		this.lifeSpan = lifeSpan;
 	}
 
-	public int getDura() {
-		return dura;
+	public void lowerDurability() {
+		this.durability--;;
+		if (durability <= 0) {
+			die();
+		}
+	}
+	
+	public void setDurability(int durability) {
+		this.durability = (int) (durability + creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY));
+	}
+	
+	public void setRestitution(float restitution) {
+		this.restitution = (int) (restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION));
+	}
+	
+	public void setGravity(float gravity) {
+		this.gravity = (int) (gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY));
 	}
 
-	public void setDura(int dura) {
-		this.dura = dura;
+	public void setFriction(float friction) {
+		this.friction = friction;
 	}
-
+	
 	public short getFilter() {
 		return filter;
 	}
@@ -226,36 +238,12 @@ public class Hitbox extends HadalEntity {
 		this.filter = filter;
 	}
 
-	public float getGrav() {
-		return grav;
-	}
-
-	public void setGrav(float grav) {
-		this.grav = grav;
-	}
-
 	public Vector2 getStartVelo() {
 		return startVelo;
 	}
 
 	public void setStartVelo(Vector2 startVelo) {
 		this.startVelo = startVelo;
-	}
-
-	public float getRest() {
-		return rest;
-	}
-
-	public void setRest(float rest) {
-		this.rest = rest;
-	}
-	
-	public float getFriction() {
-		return friction;
-	}
-
-	public void setFriction(float friction) {
-		this.friction = friction;
 	}
 
 	public boolean isSensor() {

@@ -21,6 +21,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.statuses.ActiveItemCharge;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.WeaponModifier;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 /**
@@ -79,9 +80,6 @@ public class PlayerBodyData extends BodyData {
 		super(body, baseHp);
 		this.player = body;
 		this.loadout = new Loadout(loadout);		
-		
-		currentHp = getMaxHp();
-		currentFuel = getMaxHp();
 		currentSlot = 0;
 	}
 	
@@ -524,17 +522,14 @@ public class PlayerBodyData extends BodyData {
 	
 	public void fuelGain(float fuelRegen) {
 		currentFuel += fuelRegen;
-		if (currentFuel > getMaxFuel()) {
-			currentFuel = getMaxFuel();
+		if (currentFuel > getStat(Stats.MAX_FUEL)) {
+			currentFuel = getStat(Stats.MAX_FUEL);
 		}
 	}
 	
 	@Override
 	public void die(BodyData perp, Equipable tool) {
 		if (player.isAlive()) {
-			
-//			WeaponUtils.createExplosion(schmuck.getState(), schmuck.getPosition().x * PPM , schmuck.getPosition().y * PPM, 
-//					schmuck, tool, 500, 0, 0, (short)0);
 			
 			player.createGibs();
 			
@@ -562,27 +557,27 @@ public class PlayerBodyData extends BodyData {
 	}
 
 	public int getExtraJumps() {
-		return numExtraJumps + (int)getBonusJumpNum();
+		return numExtraJumps + (int)getStat(Stats.JUMP_NUM);
 	}
 	
 	public float getJumpPower() {
-		return jumpPow * (1 + getBonusJumpPower());
+		return jumpPow * (1 + getStat(Stats.JUMP_POW));
 	}
 	
 	public float getFastFallPower() {
-		return fastFallPow;
+		return fastFallPow * (1 + getStat(Stats.FASTFALL_POW));
 	}
 	
 	public float getHoverPower() {
-		return hoverPow * (1 + getBonusHoverPower());
+		return hoverPow * (1 + getStat(Stats.HOVER_POW));
 	}
 	
 	public float getHoverCost() {
-		return hoverCost * (1 + getBonusHoverCost());
+		return hoverCost * (1 + getStat(Stats.HOVER_COST));
 	}
 
 	public float getAirblastCost() {
-		return airblastCost * (1 + getBonusAirblastCost());
+		return airblastCost * (1 + getStat(Stats.BOOST_COST));
 	}
 	
 	public int getExtraJumpsUsed() {

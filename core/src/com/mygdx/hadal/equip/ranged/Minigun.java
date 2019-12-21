@@ -35,9 +35,6 @@ public class Minigun extends RangedWeapon {
 	private final static int projectileWidth = 96;
 	private final static int projectileHeight = 12;
 	private final static float lifespan = 1.20f;
-	private final static float gravity = 1;
-	
-	private final static int projDura = 1;
 	
 	private final static int spread = 10;
 
@@ -56,7 +53,7 @@ public class Minigun extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 		charging = true;
-		if (chargeCd < maxCharge && !reloading) {
+		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += (delta + shootCd);
 		}
 		if (!reloading) {
@@ -67,7 +64,8 @@ public class Minigun extends RangedWeapon {
 
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (chargeCd >= maxCharge) {
+		if (chargeCd >= getChargeTime()) {
+			chargeCd = getChargeTime();
 			super.execute(state, shooter);
 		}
 	}
@@ -82,8 +80,8 @@ public class Minigun extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
 		float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity.setAngle(newDegrees),
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

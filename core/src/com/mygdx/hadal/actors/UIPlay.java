@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.WeaponModifier;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * This is the main ui element. It displays player loadout, hp, fuel.
@@ -121,10 +122,10 @@ public class UIPlay extends AHadalActor {
 	 */
 	public void calcVars() {
 		//Calc the ratios needed to draw the bars
-		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getMaxHp();
-		hpMax = player.getPlayerData().getMaxHp();
-		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getMaxFuel();
-		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getMaxFuel();
+		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
+		hpMax = player.getPlayerData().getStat(Stats.MAX_HP);
+		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getStat(Stats.MAX_FUEL);
+		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getStat(Stats.MAX_FUEL);
 		weaponText = player.getPlayerData().getCurrentTool().getText();
 		ammoText = player.getPlayerData().getCurrentTool().getAmmoText();
 	}
@@ -207,7 +208,7 @@ public class UIPlay extends AHadalActor {
 				bossHpDelayed = bossHpRatio;
 			}
 			
-			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getMaxHp();
+			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
 			
 			batch.draw(hpMissing, bossX, bossBarY, bossBarWidth * mainScale * bossHpDelayed, bossBarHeight * mainScale);
 			batch.draw(hp, bossX, bossBarY, bossBarWidth * mainScale * bossHpRatio, bossBarHeight * mainScale);

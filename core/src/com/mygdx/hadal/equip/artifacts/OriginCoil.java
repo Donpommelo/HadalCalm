@@ -27,13 +27,13 @@ public class OriginCoil extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, 1.0f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, 1.0f, b),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.50f, b),
 				new Status(state, name, descr, b) {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.setGrav(0.0f);
+				hbox.setGravity(0.0f);
 				hbox.setStartVelo(hbox.getStartVelo().scl(slow));
 				hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 					

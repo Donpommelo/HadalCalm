@@ -15,14 +15,14 @@ public enum WeaponMod {
 	NOTHING("Nothing", "", 1) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, Stats.RANGED_DAMAGE, 0.0f, b);
+			return new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.0f, b);
 		}
 	},
 	
 	PLUS_DAMAGE("+Damage", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, Stats.RANGED_DAMAGE, 0.25f, b);
+			return new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.25f, b);
 		}
 	},
 	
@@ -57,7 +57,7 @@ public enum WeaponMod {
 	PLUS_KB("+Knockback", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, Stats.KNOCKBACK, 0.25f, b);
+			return new StatChangeStatus(state, Stats.KNOCKBACK_AMP, 0.25f, b);
 		}
 	},
 	
@@ -71,7 +71,7 @@ public enum WeaponMod {
 	PLUS_DEF("+Defense", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, Stats.DAMAGE_RED, 0.2f, b);
+			return new StatChangeStatus(state, Stats.DAMAGE_RES, 0.2f, b);
 		}
 	},
 //	
@@ -106,14 +106,14 @@ public enum WeaponMod {
 	PLUS_PROJ_RNG("+Range", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, Stats.RANGED_PROJ_DURA, 0.25f, b);
+			return new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, 0.25f, b);
 		}
 	},
 	
 	PLUS_PROJ_PIERCE("+Pierce", "", 1, ModTag.RANDOM_POOL) {
 		@Override
 		public Status retrieveMod(BodyData b, PlayState state) {
-			return new StatChangeStatus(state, Stats.RANGED_PROJ_PIERCE, 1.0f, b);
+			return new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, 1.0f, b);
 		}
 	},	
 	

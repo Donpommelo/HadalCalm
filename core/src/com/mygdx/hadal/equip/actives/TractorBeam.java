@@ -35,9 +35,6 @@ public class TractorBeam extends ActiveItem {
 	private final static int projectileWidth = 120;
 	private final static int projectileHeight = 120;
 	private final static float lifespan = 4.0f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 	
 	private static final float maxLinSpd = 600;
 	private static final float maxLinAcc = 3000;
@@ -61,7 +58,7 @@ public class TractorBeam extends ActiveItem {
 		Hitbox hbox = new HitboxSprite(state, 
 				user.getPlayer().getPosition().x * PPM, 
 				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileHeight, gravity, lifespan, projDura, 1, this.weaponVelo.scl(projectileSpeed),
+				projectileWidth, projectileHeight, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite) {
 			
 			@Override
@@ -70,6 +67,7 @@ public class TractorBeam extends ActiveItem {
 				this.body.getFixtureList().get(1).setUserData(data);	
 			}
 		};
+		hbox.setRestitution(1.0f);
 		
 		final HitboxOnContactWallDieStrategy start = new HitboxOnContactWallDieStrategy(state, hbox, user);
 		final HitboxOnHitTrackStrategy track = new HitboxOnHitTrackStrategy(state, hbox, user, true);

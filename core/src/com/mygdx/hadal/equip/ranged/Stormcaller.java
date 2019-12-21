@@ -32,9 +32,6 @@ public class Stormcaller extends RangedWeapon {
 	private final static int projectileWidth = 20;
 	private final static int projectileHeight = 20;
 	private final static float lifespan = 1.8f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 	
 	private final static float explosionInterval = 1/60f;
 	private final static int explosionMaxSize = 200;
@@ -49,8 +46,7 @@ public class Stormcaller extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		final Equipable tool = this;
 		
@@ -67,7 +63,7 @@ public class Stormcaller extends RangedWeapon {
 
 				if (controllerCount >= explosionInterval) {
 					Hitbox pulse = new HitboxSprite(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, explosionSize, explosionSize, 
-							gravity, explosionInterval, projDura, 0, new Vector2(), filter, true, true, user, projSprite);
+							explosionInterval, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 					

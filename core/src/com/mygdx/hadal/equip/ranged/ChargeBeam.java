@@ -35,9 +35,6 @@ public class ChargeBeam extends RangedWeapon {
 	private final static int projectileWidth = 56;
 	private final static int projectileHeight = 56;
 	private final static float lifespan = 0.6f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 5;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
@@ -53,8 +50,11 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 		charging = true;
-		if (chargeCd < maxCharge && !reloading) {
+		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += delta;
+			if (chargeCd >= getChargeTime()) {
+				chargeCd = getChargeTime();
+			}
 		}
 		super.mouseClicked(delta, state, shooter, faction, x, y);
 	}
@@ -75,10 +75,10 @@ public class ChargeBeam extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
 		final Equipable tool = this;
 		
-		if (chargeCd >= maxCharge) {
+		if (chargeCd >= getChargeTime()) {
 			chargeStage = 2;
 		}
-		else if (chargeCd >= maxCharge / 2) {
+		else if (chargeCd >= getChargeTime() / 2) {
 			chargeStage = 1;
 		} else {
 			chargeStage = 0;
@@ -107,8 +107,9 @@ public class ChargeBeam extends RangedWeapon {
 		final float damageMultiplier2 = damageMultiplier;
 		final float kbMultiplier2 = kbMultiplier;
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), gravity, lifespan, projDura, 0, startVelocity.scl(speedMultiplier),
+		Hitbox hbox = new HitboxSprite(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), lifespan, startVelocity.scl(speedMultiplier),
 				filter, true, true, user, projSprite);
+		hbox.setDurability(3);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));

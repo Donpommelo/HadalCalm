@@ -15,11 +15,8 @@ public class HitboxOnContactWallDieStrategy extends HitboxStrategy{
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
-			hbox.setDura(0);
+			hbox.die();
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			hbox.setDura(0);
-		}
-		if (hbox.getDura() <= 0 && hbox.isAlive()) {
 			hbox.die();
 		}
 	}

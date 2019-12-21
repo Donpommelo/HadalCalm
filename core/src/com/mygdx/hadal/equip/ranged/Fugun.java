@@ -30,9 +30,6 @@ public class Fugun extends RangedWeapon {
 	private final static int projectileWidth = 80;
 	private final static int projectileHeight = 80;
 	private final static float lifespan = 1.2f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 		
 	private final static int poisonRadius = 250;
 	private final static float poisonDamage = 40/60f;
@@ -48,8 +45,7 @@ public class Fugun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));

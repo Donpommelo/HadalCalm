@@ -27,11 +27,7 @@ public class NauticalMine extends ActiveItem {
 	private final static float knockback = 0.0f;
 	private final static int projectileWidth = 250;
 	private final static float lifespan = 5.0f;
-	private final static float gravity = 0.1f;
-	private final static float restitution = 1.0f;
 	
-	private final static int projDura = 1;
-		
 	private final static int explosionRadius = 500;
 	private final static float explosionDamage = 45.0f;
 	private final static float explosionKnockback = 40.0f;
@@ -50,9 +46,10 @@ public class NauticalMine extends ActiveItem {
 		Hitbox hbox = new HitboxSprite(state, 
 				user.getPlayer().getPosition().x * PPM, 
 				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileWidth, gravity, lifespan, projDura, restitution, 
-				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), 
-				false, false, user.getPlayer(), projSprite);
+				projectileWidth, projectileWidth, lifespan, this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
+		
+		hbox.setGravity(0.1f);
+		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user, false));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));

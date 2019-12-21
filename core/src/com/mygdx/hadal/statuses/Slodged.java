@@ -5,6 +5,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Stats;
 
 public class Slodged extends Status {
 
@@ -39,8 +40,8 @@ public class Slodged extends Status {
 	
 	@Override
 	public void statChanges(){
-		inflicted.setBonusAirSpeed(-slow);
-		inflicted.setBonusGroundSpeed(-slow);
+		inflicted.setStat(Stats.AIR_SPD, -slow);
+		inflicted.setStat(Stats.GROUND_SPD, -slow);
 	}
 	
 	public statusStackType getStackType() {

@@ -23,9 +23,6 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 20;
 	private final static float lifespan = 1.5f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 		
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 40.0f;
@@ -40,7 +37,6 @@ public class TorpedoLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		WeaponUtils.createTorpedo(state, x, y, user, this, baseDamage, knockback, projectileWidth, projectileHeight, gravity, lifespan, projDura,
-				startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);
+		WeaponUtils.createTorpedo(state, x, y, user, this, baseDamage, knockback, projectileWidth, projectileHeight, lifespan, startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);
 	}
 }

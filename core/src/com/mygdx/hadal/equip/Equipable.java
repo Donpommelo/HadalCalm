@@ -8,6 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.WeaponModifier;
+import com.mygdx.hadal.utils.Stats;
 
 public abstract class Equipable {	
 	
@@ -217,7 +218,7 @@ public abstract class Equipable {
 	}
 
 	public float getReloadTime() {
-		return reloadTime * (1 - user.getBodyData().getReloadRate());
+		return reloadTime * (1 - user.getBodyData().getStat(Stats.RANGED_RELOAD));
 	}
 
 	public boolean isCharging() {
@@ -237,7 +238,7 @@ public abstract class Equipable {
 	}
 	
 	public float getChargeTime() {
-		return chargeTime;
+		return chargeTime * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE));
 	}
 
 	public ArrayList<WeaponModifier> getWeaponMods() {

@@ -34,9 +34,6 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static int projectileWidth = 140;
 	private final static int projectileHeight = 21;
 	private final static float lifespan = 7.0f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 		
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 50.0f;
@@ -60,8 +57,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));

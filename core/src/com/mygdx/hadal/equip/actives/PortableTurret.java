@@ -25,10 +25,6 @@ public class PortableTurret extends ActiveItem {
 	
 	private final static int projectileWidth = 70;
 	private final static float lifespan = 3.0f;
-	private final static float gravity = 3.0f;
-	private final static float restitution = 0.0f;
-	
-	private final static int projDura = 1;
 
 	private final static float projectileSpeed = 12.0f;
 	private final static float turretLifespan = 10.0f;
@@ -47,9 +43,9 @@ public class PortableTurret extends ActiveItem {
 		Hitbox hbox = new HitboxSprite(state, 
 				user.getPlayer().getPosition().x * PPM, 
 				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileWidth, gravity, lifespan, projDura, restitution, 
-				new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), 
-				false, false, user.getPlayer(), projSprite);
+				projectileWidth, projectileWidth, lifespan,  new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), 	false, false, user.getPlayer(), projSprite);
+		
+		hbox.setGravity(3.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user, false));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {

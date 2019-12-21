@@ -34,6 +34,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -82,7 +83,7 @@ public class Player extends PhysicsSchmuck {
 	private float jumpCd = 0.25f;
 	private float jumpCdCount = 0;
 	
-	private float fastFallCd = 0.08f;
+	private float fastFallCd = 0.05f;
 	private float fastFallCdCount = 0;
 	
 	private float airblastCd = 0.25f;
@@ -284,7 +285,7 @@ public class Player extends PhysicsSchmuck {
 		}
 				
 		//process fuel regen
-		playerData.fuelGain(playerData.getFuelRegen() * delta);
+		playerData.fuelGain(playerData.getStat(Stats.FUEL_REGEN) * delta);
 		
 		//If player is reloading, run the reload method of the current equipment.
 		if (playerData.getCurrentTool().isReloading()) {
@@ -602,7 +603,7 @@ public class Player extends PhysicsSchmuck {
 		float hpRatio = 0.0f;
 		
 		if (state.isServer()) {
-			hpRatio = playerData.getCurrentHp() / playerData.getMaxHp();
+			hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
 		} else {
 			hpRatio = playerData.getCurrentHp() / playerData.getOverrideMaxHp();
 		}
@@ -695,8 +696,8 @@ public class Player extends PhysicsSchmuck {
 						getPosition().x - mouse.getPosition().x) * 180 / Math.PI),
 				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
 				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
-				playerData.getMaxHp(), playerData.getMaxFuel(), playerData.getAirblastCost(),
-				playerData.getActiveItem().chargePercent(), playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, mods));
+				playerData.getStat(Stats.MAX_HP), playerData.getStat(Stats.MAX_FUEL), playerData.getAirblastCost(),
+				playerData.getActiveItem().getCurrentCharge(), playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, mods));
 	}
 	
 	/**
@@ -719,7 +720,7 @@ public class Player extends PhysicsSchmuck {
 			playerData.setOverrideAmmoSize(p.currentAmmo);
 			playerData.setOverrideAirblastCost(p.airblastCost);
 			playerData.setOverrideWeaponMods(p.mods);
-			playerData.getActiveItem().setCurrentCharge(p.activeCharge * playerData.getActiveItem().getMaxCharge());
+			playerData.getActiveItem().setCurrentCharge(p.activeCharge);
 			playerData.getCurrentTool().setReloading(p.reloading);
 			reloadPercent = p.reloadPercent;
 			playerData.getCurrentTool().setCharging(p.charging);

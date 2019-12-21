@@ -37,9 +37,6 @@ public class Underminer extends RangedWeapon {
 	private final static int projectileWidth = 60;
 	private final static int projectileHeight = 60;
 	private final static float lifespan = 3.5f;
-	private final static float gravity = 4;
-	
-	private final static int projDura = 2;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite fragSprite = Sprite.ORB_BLUE;
@@ -67,7 +64,9 @@ public class Underminer extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setGravity(4.0f);
+		hbox.setDurability(2);
 		
 		final Equipable tool = this;
 		
@@ -115,8 +114,7 @@ public class Underminer extends RangedWeapon {
 					newVelocity.set(startVelocity);
 					
 					Hitbox frag = new HitboxSprite(state, 
-							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,
-							fragWidth, fragHeight, gravity, fragLifespan, projDura, 0, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees),
+							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,	fragWidth, fragHeight, fragLifespan, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees),
 							filter, true, true, user, fragSprite);
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));

@@ -21,7 +21,7 @@ public class SirenChime extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.KNOCKBACK, -2.5f, b)
+				new StatChangeStatus(state, Stats.KNOCKBACK_AMP, -2.5f, b)
 		);
 		return enchantment;
 	}

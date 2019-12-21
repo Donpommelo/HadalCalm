@@ -28,10 +28,8 @@ public class Fireball extends ActiveItem {
 	private final static int projectileWidth = 50;
 	private final static int projectileHeight = 50;
 	private final static float lifespan = 5.0f;
-	private final static float gravity = 0;
 	private final static float projectileSpeed = 12.0f;
 
-	private final static int projDura = 1;
 	private final static int numFrag = 20;
 	
 	private final static float baseDamage = 40.0f;
@@ -48,7 +46,7 @@ public class Fireball extends ActiveItem {
 		RangedHitbox hbox = new RangedHitbox(state, 
 				user.getPlayer().getPosition().x * PPM, 
 				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, this.weaponVelo.scl(projectileSpeed),
+				projectileWidth, projectileHeight, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), true, true, user.getPlayer());
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
@@ -59,5 +57,4 @@ public class Fireball extends ActiveItem {
 		new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
 		user.getPlayer().recoil(x, y, recoil);
 	}
-
 }

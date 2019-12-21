@@ -17,6 +17,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.SteeringUtil;
 
 /**
@@ -286,8 +287,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			Vector2 force;
 			if (this instanceof Schmuck) {
 				force = steeringOutput.linear.scl(delta)
-						.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed())
-						.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed());
+						.scl(1 + ((Schmuck)this).getBodyData().getStat(Stats.AIR_SPD))
+						.scl(1 + ((Schmuck)this).getBodyData().getStat(Stats.AIR_SPD));
 			} else {
 				force = steeringOutput.linear.scl(delta);
 			}
@@ -316,7 +317,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
 					setLinearVelocity(velocity
 							.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
-							.scl(1 + ((Schmuck)this).getBodyData().getBonusAirSpeed()));
+							.scl(1 + ((Schmuck)this).getBodyData().getStat(Stats.AIR_SPD)));
 				}
 			} else {
 				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {

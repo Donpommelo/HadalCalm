@@ -34,11 +34,7 @@ public class Boomerang extends RangedWeapon {
 	private final static int projectileWidth = 90;
 	private final static int projectileHeight = 90;
 	private final static float lifespanx = 4.0f;
-	private final static float gravity = 0;
 	private final static float returnAmp = 1.0f;
-	private final static float rest = 0.5f;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite projSprite = Sprite.BOOMERANG;
 	private final static Sprite weaponSprite = Sprite.MT_BOOMERANG;
@@ -53,8 +49,8 @@ public class Boomerang extends RangedWeapon {
 		
 		final Equipable tool = this;
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespanx, projDura, rest, startVelocity,
-				(short) 0, false, true, user, projSprite);		
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespanx, startVelocity, (short) 0, false, true, user, projSprite);		
+		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

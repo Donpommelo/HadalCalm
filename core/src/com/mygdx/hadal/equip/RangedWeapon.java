@@ -5,7 +5,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatusProcTime;
-
+import com.mygdx.hadal.utils.Stats;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 
@@ -130,7 +130,7 @@ public class RangedWeapon extends Equipable {
 			reloadCd = 0;
 			
 			//process weapon recoil.
-			user.recoil(x, y, recoil * (1 + shooter.getBonusRecoil()));
+			user.recoil(x, y, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
 		}
 		
 		if (clipLeft <= 0 && autoreload) {
@@ -232,15 +232,15 @@ public class RangedWeapon extends Equipable {
 	
 	@Override
 	public float getUseCd() {
-		return useCd * (1 - user.getBodyData().getRangedFireRate());
+		return useCd * (1 - user.getBodyData().getStat(Stats.RANGED_ATK_SPD));
 	}
 	
 	@Override
 	public int getClipSize() {		
-		if (clipSize * user.getBodyData().getBonusClipSize() > 0 && clipSize * user.getBodyData().getBonusClipSize() < 1) {
+		if (clipSize * user.getBodyData().getStat(Stats.RANGED_CLIP) > 0 && clipSize * user.getBodyData().getStat(Stats.RANGED_CLIP) < 1) {
 			return clipSize + 1;
 		} else {
-			return (int) (clipSize * (1 + user.getBodyData().getBonusClipSize()));
+			return (int) (clipSize * (1 + user.getBodyData().getStat(Stats.RANGED_CLIP)));
 		}
 	}
 
@@ -260,7 +260,7 @@ public class RangedWeapon extends Equipable {
 	
 	@Override
 	public int getAmmoSize() {		
-		return (int) (ammoSize  * (1 + user.getBodyData().getAmmoCapacity()));
+		return (int) (ammoSize  * (1 + user.getBodyData().getStat(Stats.AMMO_CAPACITY)));
 	}
 	
 	@Override

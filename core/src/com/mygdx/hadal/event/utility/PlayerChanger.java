@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * A PlayerChanger changes some property of the player (Hp, fuel, scrap, maybe other stuff we add later?)
@@ -59,12 +60,12 @@ public class PlayerChanger extends Event {
 				PlayerBodyData data = p.getPlayerData();
 				boolean activated = false;
 				
-				if (data.getCurrentFuel() < data.getMaxFuel() && fuel > 0) {
+				if (data.getCurrentFuel() < data.getStat(Stats.MAX_FUEL) && fuel > 0) {
 					data.fuelGain(fuel);
 					activated = true;
 				}
 				
-				if (data.getCurrentHp() < data.getMaxHp() && hp > 0) {
+				if (data.getCurrentHp() < data.getStat(Stats.MAX_HP) && hp > 0) {
 					data.regainHp(hp, p.getPlayerData(), true, DamageTypes.MEDPAK);
 					activated = true;
 				}

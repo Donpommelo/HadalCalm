@@ -36,7 +36,7 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
 				
 				if (chains <= 0) {
-					hbox.setDura(0);
+					hbox.die();
 				}
 				chains--;
 				hbox.getWorld().QueryAABB(new QueryCallback() {
@@ -91,9 +91,6 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 				hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
 				hbox.getPosition().x + radius, hbox.getPosition().y + radius);						
 			}
-		}
-		if (hbox.getDura() <= 0 && hbox.isAlive()) {
-			hbox.die();
 		}
 	}
 }

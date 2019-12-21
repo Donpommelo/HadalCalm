@@ -21,7 +21,7 @@ public class TunicateTunic extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.WEIGHT, 0.75f, b)
+				new StatChangeStatus(state, Stats.KNOCKBACK_RES, 0.75f, b)
 		);
 		return enchantment;
 	}

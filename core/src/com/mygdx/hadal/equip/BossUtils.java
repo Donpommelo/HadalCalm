@@ -174,7 +174,7 @@ public class BossUtils {
 		});
 	}
 
-	public static void fireball(final PlayState state, Boss boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size, final float gravity, 
+	public static void fireball(final PlayState state, Boss boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
 			final float lifespan, final float fireDuration, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
@@ -182,7 +182,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, gravity, lifespan, 1, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
@@ -201,7 +201,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, 0, lifespan, 1, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), true, true, boss);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
@@ -217,8 +217,11 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
-				HitboxSprite hbox = new HitboxSprite(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, 10, lifespan, 1, 1.0f, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				HitboxSprite hbox = new HitboxSprite(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss, Sprite.ORB_RED);
+				hbox.setGravity(10.0f);
+				hbox.setGravity(1.0f);
+				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
@@ -273,8 +276,9 @@ public class BossUtils {
 					int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
 					Sprite projSprite = debrisSprites[randomIndex];
 					HitboxSprite hbox = new HitboxSprite(state, ceiling.getPosition().x * PPM + (GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getWidth(),
-							ceiling.getPosition().y * PPM, size, size, 1, lifespan, 1, 0.0f, new Vector2(),
-							boss.getHitboxfilter(), false, true, boss, projSprite);
+							ceiling.getPosition().y * PPM, size, size, lifespan, new Vector2(),	boss.getHitboxfilter(), false, true, boss, projSprite);
+					
+					hbox.setGravity(1.0f);
 					
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));

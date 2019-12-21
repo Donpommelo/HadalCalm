@@ -33,6 +33,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
@@ -50,10 +51,9 @@ public class WeaponUtils {
 	private final static Sprite torpedoSprite = Sprite.TORPEDO;
 	private final static Sprite beeSprite = Sprite.BEE;
 
-	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, Equipable tool, int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, explosionRadius, explosionRadius, 0, 0.4f, 1, 0, new Vector2(0, 0), filter, true, false, user, boomSprite) {
+		Hitbox hbox = new HitboxSprite(state, x, y, explosionRadius, explosionRadius, 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
 			
 			@Override
 			public void controller(float delta) {
@@ -75,8 +75,10 @@ public class WeaponUtils {
 			int dura, Vector2 startVelocity, boolean procEffects, 
 			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, grenadeSize, grenadeSize, gravity, lifespan, dura, restitution, startVelocity,
-				filter, false, procEffects, user, grenadeSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, grenadeSize, grenadeSize, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
+		hbox.setGravity(gravity);
+		hbox.setRestitution(restitution);
+		hbox.setDurability(dura);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -87,12 +89,10 @@ public class WeaponUtils {
 	}
 	
 	public static Hitbox createTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			final float baseDamage, final float knockback, int rocketWidth, int rocketHeight, float gravity, float lifespan,
-			int dura, Vector2 startVelocity, boolean procEffects,
-			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+			final float baseDamage, final float knockback, int rocketWidth, int rocketHeight, float lifespan,
+			Vector2 startVelocity, boolean procEffects,	final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, rocketWidth, rocketHeight, gravity, lifespan, dura, 0, startVelocity,
-				filter, true, procEffects, user, torpedoSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, rocketWidth, rocketHeight, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -121,7 +121,7 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread)));
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, torpedoWidth, torpedoHeight, 0, torpedoLifespan, 1, 0, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new HitboxSprite(state, x, y, torpedoWidth, torpedoHeight, torpedoLifespan, startVelocity.setAngle(newDegrees),
 					filter, true, procEffects, user, torpedoSprite);
 			
 			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -156,7 +156,7 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, beeWidth, beeHeight, 0, beeLifespan, beeDurability, 0, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new HitboxSprite(state, x, y, beeWidth, beeHeight, beeLifespan, startVelocity.setAngle(newDegrees),
 					filter, false, procEffects, user, beeSprite) {
 				
 				@Override
@@ -178,6 +178,7 @@ public class WeaponUtils {
 
 				}
 			};
+			hbox.setDurability(beeDurability);
 			
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
@@ -191,8 +192,7 @@ public class WeaponUtils {
 	
 	private static final int spiritSize = 25;
 	public static void releaseVengefulSpirits(PlayState state, float spiritLifespan, float spiritDamage, float spiritKnockback, Vector2 pos, BodyData creator, short filter) {		
-		Hitbox hbox = new Hitbox(state, (int)pos.x, (int)pos.y, (int)spiritSize, (int)spiritSize, 0, spiritLifespan, 1, 0, 
-				new Vector2(), filter, true, true, creator.getSchmuck());
+		Hitbox hbox = new Hitbox(state, (int)pos.x, (int)pos.y, (int)spiritSize, (int)spiritSize, spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck());
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, creator));
@@ -226,14 +226,14 @@ public class WeaponUtils {
 								event.queueDeletion();
 								break;
 							case FUEL:
-								if (player.getCurrentFuel() < player.getMaxFuel()) {
+								if (player.getCurrentFuel() < player.getStat(Stats.MAX_FUEL)) {
 									player.fuelGain(power);
 									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
 									event.queueDeletion();
 								}
 								break;
 							case HEALTH:
-								if (player.getCurrentHp() < player.getMaxHp()) {
+								if (player.getCurrentHp() < player.getStat(Stats.MAX_HP)) {
 									player.regainHp(power, player, true, DamageTypes.MEDPAK);
 									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
 									event.queueDeletion();

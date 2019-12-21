@@ -17,6 +17,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatusProcTime;
+import com.mygdx.hadal.utils.Stats;
 
 public class Airblaster extends MeleeWeapon {
 
@@ -36,18 +37,17 @@ public class Airblaster extends MeleeWeapon {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
-		user.recoil(x, y, momentum * (1 + shooter.getMeleeMomentum()) * (1 + shooter.getBonusAirblastRecoil()));
+		user.recoil(x, y, momentum * (1 + shooter.getStat(Stats.MELEE_MOMENTUM)) * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
 	}
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new MeleeHitbox(state, x, y, (int) (hitboxSize * (1 + user.getBodyData().getBonusAirblastSize())), 
-				(int) (hitboxSize * (1 + user.getBodyData().getBonusAirblastSize())),
+		Hitbox hbox = new MeleeHitbox(state, x, y, (int) (hitboxSize * (1 + user.getBodyData().getStat(Stats.BOOST_SIZE))), 
+				(int) (hitboxSize * (1 + user.getBodyData().getStat(Stats.BOOST_SIZE))),
 				swingCd, backSwing, startVelocity, 
 				startVelocity.nor().scl(hitboxSize / 4 / PPM), false, user.getHitboxfilter(), user);
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, 
-				knockback * (1 + user.getBodyData().getBonusAirblastPower()), 
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), 
 				DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

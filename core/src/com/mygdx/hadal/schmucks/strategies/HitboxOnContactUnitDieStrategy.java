@@ -17,9 +17,6 @@ public class HitboxOnContactUnitDieStrategy extends HitboxStrategy{
 		if (fixB == null) {
 			
 		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
-			hbox.setDura(0);
-		}
-		if (hbox.getDura() <= 0 && hbox.isAlive()) {
 			hbox.die();
 		}
 	}

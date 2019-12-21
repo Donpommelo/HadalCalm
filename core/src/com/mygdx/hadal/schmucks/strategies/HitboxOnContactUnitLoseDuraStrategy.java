@@ -14,13 +14,10 @@ public class HitboxOnContactUnitLoseDuraStrategy extends HitboxStrategy{
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB == null) {
-			
-		} else if (fixB.getType().equals(UserDataTypes.BODY)) {
-			hbox.setDura(hbox.getDura() - 1);
-		}
-		if (hbox.getDura() <= 0 && hbox.isAlive()) {
-			hbox.die();
+		if (fixB != null) {
+			if (fixB.getType().equals(UserDataTypes.BODY)) {
+				hbox.lowerDurability();
+			}
 		}
 	}
 }

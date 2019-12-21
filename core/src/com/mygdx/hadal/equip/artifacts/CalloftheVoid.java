@@ -22,7 +22,7 @@ public class CalloftheVoid extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {		
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
 				new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.3f, b), 
-				new StatChangeStatus(state, Stats.DAMAGE_RED, -0.3f, b));
+				new StatChangeStatus(state, Stats.DAMAGE_RES, -0.3f, b));
 		return enchantment;
 	}
 }

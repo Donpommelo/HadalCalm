@@ -29,9 +29,6 @@ public class SpittlefishAttack extends RangedWeapon {
 	private final static int projectileWidth = 90;
 	private final static int projectileHeight = 30;
 	private final static float lifespan = 5.0f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite projSprite = Sprite.SPIT;
 	
@@ -41,8 +38,7 @@ public class SpittlefishAttack extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));

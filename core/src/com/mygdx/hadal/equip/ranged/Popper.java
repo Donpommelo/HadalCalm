@@ -35,18 +35,14 @@ public class Popper extends RangedWeapon {
 	private final static int projectileWidth = 90;
 	private final static int projectileHeight = 90;
 	private final static float lifespan = 0.3f;
-	private final static float gravity = 5.0f;
-	
-	private final static int projDura = 3;
 	
 	private final static int numProj = 15;
 	private final static int spread = 20;
 	private final static float fragSpeed = 30.0f;
 	private final static int fragWidth = 30;
 	private final static int fragHeight = 30;
-	private final static float fragLifespan = 3.0f;
+	private final static float fragLifespan = 1.0f;
 	private final static float fragDamage = 5.0f;
-	private final static float fragGravity = 7.5f;
 
 	private final static float projDampen = 8.0f;
 	private final static float fragDampen = 10.0f;
@@ -64,8 +60,8 @@ public class Popper extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
 		final Equipable tool = this;
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
+		hbox.setGravity(5.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
@@ -84,9 +80,7 @@ public class Popper extends RangedWeapon {
 					float newDegrees = (float) (new Vector2(0, 1).angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 					Vector2 newVelocity = new Vector2(0, 1).nor().scl(fragSpeed);
 					
-					Hitbox frag = new HitboxSprite(state, 
-							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,
-							fragWidth, fragHeight, fragGravity, fragLifespan, projDura, 0, newVelocity.setAngle(newDegrees),
+					Hitbox frag = new HitboxSprite(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, fragWidth, fragHeight, fragLifespan, newVelocity.setAngle(newDegrees),
 							filter, true, true, user, fragSprite) {
 						
 						@Override
@@ -95,6 +89,8 @@ public class Popper extends RangedWeapon {
 							hbox.getBody().setLinearDamping(fragDampen);
 						}
 					};
+					hbox.setGravity(7.5f);
+					hbox.setDurability(3);
 					
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));

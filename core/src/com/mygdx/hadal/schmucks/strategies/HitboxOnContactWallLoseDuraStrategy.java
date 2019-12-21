@@ -15,12 +15,9 @@ public class HitboxOnContactWallLoseDuraStrategy extends HitboxStrategy{
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
-			hbox.setDura(hbox.getDura() - 1);
+			hbox.lowerDurability();
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			hbox.setDura(hbox.getDura() - 1);
-		}
-		if (hbox.getDura() <= 0 && hbox.isAlive()) {
-			hbox.die();
+			hbox.lowerDurability();
 		}
 	}
 }

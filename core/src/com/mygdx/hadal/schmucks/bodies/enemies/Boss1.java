@@ -11,6 +11,7 @@ import com.mygdx.hadal.equip.BossUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -64,7 +65,7 @@ public class Boss1 extends BossFloating {
 		attackNum++;
 		
 		if (phase == 1) {
-			if (bodyData.getCurrentHp() <= phaseThreshold2 * bodyData.getMaxHp()) {
+			if (bodyData.getCurrentHp() <= phaseThreshold2 * bodyData.getStat(Stats.MAX_HP)) {
 				phase = 2;
 				setAttackCd(aiAttackCd2);
 				spawnAdds();
@@ -88,7 +89,7 @@ public class Boss1 extends BossFloating {
 		}
 		
 		if (phase == 2) {
-			if (bodyData.getCurrentHp() <= phaseThreshold3 * bodyData.getMaxHp()) {
+			if (bodyData.getCurrentHp() <= phaseThreshold3 * bodyData.getStat(Stats.MAX_HP)) {
 				phase = 3;
 				setAttackCd(aiAttackCd3);
 				spawnAdds();
@@ -239,13 +240,13 @@ public class Boss1 extends BossFloating {
 		case 0 :
 			BossUtils.changeTrackingState(this, BossState.FREE, 0.0f, 0.0f);
 			for (int i = 0; i < fireballNumber; i++) {
-				BossUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, 0, fireLifespan, burnDuration, fireballInterval);
+				BossUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
 			}
 			break;
 		case 1: 
 			BossUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.0f);
 			for (int i = 0; i < fireballNumber; i++) {
-				BossUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, 0, fireLifespan, burnDuration, fireballInterval);
+				BossUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
 			}
 			break;
 		}

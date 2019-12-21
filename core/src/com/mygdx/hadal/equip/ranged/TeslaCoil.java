@@ -40,9 +40,6 @@ public class TeslaCoil extends RangedWeapon {
 	private final static int projectileWidth = 75;
 	private final static int projectileHeight = 75;
 	private final static float lifespan = 4.0f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -62,8 +59,7 @@ public class TeslaCoil extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, final float x, final float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		final Vector2 endLocation = new Vector2(this.x, this.y);
 		final TeslaCoil tool = this;
@@ -159,7 +155,7 @@ public class TeslaCoil extends RangedWeapon {
 						pulsePosition.add(pulsePath.nor().scl(pulseSize));
 						
 						
-						Hitbox pulse = new RangedHitbox(state, pulsePosition.x, pulsePosition.y, pulseSize, pulseSize, gravity, pulseDuration, projDura, 0, new Vector2(), hbox.getFilter(), true, true, user);
+						Hitbox pulse = new RangedHitbox(state, pulsePosition.x, pulsePosition.y, pulseSize, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user);
 						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData(), false));
 						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, pulseDamage, 0, DamageTypes.RANGED));
 						new ParticleEntity(state, pulse, Particle.LASER_PULSE, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);

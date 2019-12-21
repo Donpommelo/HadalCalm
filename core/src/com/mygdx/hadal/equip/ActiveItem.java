@@ -5,6 +5,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * An active item is an item displayed in the lower right corner. They can be used with thte spacebar and have a cooldown.
@@ -52,7 +53,7 @@ public class ActiveItem extends Equipable {
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		if (currentCharge >= getMaxCharge()) {
+		if (currentCharge >= maxCharge) {
 			currentCharge = 0;
 			useItem(state, (PlayerBodyData)shooter);
 		}
@@ -73,9 +74,9 @@ public class ActiveItem extends Equipable {
 	 * @param charge: The amount of charge that the item gains.
 	 */
 	public void gainCharge(float charge) {
-		currentCharge += (charge * (1 + user.getBodyData().getActiveItemChargeRate()));
-		if (currentCharge > getMaxCharge()) {
-			currentCharge = getMaxCharge();
+		currentCharge += (charge * (1 + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
+		if (currentCharge > maxCharge) {
+			currentCharge = maxCharge;
 		}
 	}
 	
@@ -94,15 +95,15 @@ public class ActiveItem extends Equipable {
 	public void reload(float delta) { reloading = false; }
 
 	public boolean isReady() {
-		return currentCharge >= getMaxCharge();
+		return currentCharge >= maxCharge;
 	}
 	
 	public float chargePercent() {
-		return currentCharge / getMaxCharge();
+		return currentCharge / maxCharge;
 	}	
 	
 	public float getRemainingCharge() {
-		return (getMaxCharge() - currentCharge);
+		return maxCharge - currentCharge;
 	}
 
 	public float getCurrentCharge() {
@@ -113,10 +114,6 @@ public class ActiveItem extends Equipable {
 		this.currentCharge = currentCharge;
 	}
 
-	public float getMaxCharge() {
-		return maxCharge * (1 - user.getBodyData().getActiveItemMaxCharge());
-	}
-	
 	public chargeStyle getStyle() {
 		return style;
 	}

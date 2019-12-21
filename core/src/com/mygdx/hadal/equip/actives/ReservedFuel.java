@@ -4,6 +4,7 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Stats;
 
 public class ReservedFuel extends ActiveItem {
 
@@ -18,6 +19,6 @@ public class ReservedFuel extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		user.fuelGain(user.getMaxFuel());
+		user.fuelGain(user.getStat(Stats.MAX_FUEL));
 	}
 }

@@ -23,7 +23,7 @@ public class BucketofBatteries extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_PIERCE, 3.0f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, 3.0f, b),
 				new Status(state, name, descr, b) {
 
 			@Override

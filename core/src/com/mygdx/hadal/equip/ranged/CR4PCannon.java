@@ -34,9 +34,6 @@ public class CR4PCannon extends RangedWeapon {
 	private final static int projectileWidth = 27;
 	private final static int projectileHeight = 27;
 	private final static float lifespan = 0.7f;
-	private final static float gravity = 0.5f;
-	
-	private final static int projDura = 2;
 	
 	private final static int numProj = 11;
 	private final static int spread = 10;
@@ -61,8 +58,9 @@ public class CR4PCannon extends RangedWeapon {
 			
 			newVelocity.set(startVelocity);
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, newVelocity.setAngle(newDegrees),
-					filter, true, true, user, projSprite);
+			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			hbox.setGravity(0.5f);
+			hbox.setDurability(2);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

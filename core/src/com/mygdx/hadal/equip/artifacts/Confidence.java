@@ -4,6 +4,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Stats;
 
 public class Confidence extends Artifact {
 
@@ -24,7 +25,7 @@ public class Confidence extends Artifact {
 			
 			@Override
 			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) { 
-				if (inflicter.getCurrentHp() == inflicter.getMaxHp()) {
+				if (inflicter.getCurrentHp() == inflicter.getStat(Stats.MAX_HP)) {
 					return damage * damageBoost;
 				}
 				return damage;	

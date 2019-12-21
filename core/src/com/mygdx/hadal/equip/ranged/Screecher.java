@@ -22,6 +22,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 
 public class Screecher extends RangedWeapon {
 
@@ -40,10 +41,7 @@ public class Screecher extends RangedWeapon {
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 100;
 	private final static float lifespan = 0.5f;
-	private final static float gravity = 0;
 	private final static int spread = 10;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite projSprite = Sprite.IMPACT;
 
@@ -51,7 +49,6 @@ public class Screecher extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private float shortestFraction;
-	
 	
 	public Screecher(Schmuck user) {
 		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
@@ -63,7 +60,7 @@ public class Screecher extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
 		final Equipable tool = this;
 		
-		float distance = range * (1 + user.getBodyData().getProjectileLifespan());
+		float distance = range * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
 		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
 		shortestFraction = 1.0f;
@@ -99,8 +96,7 @@ public class Screecher extends RangedWeapon {
 		newPosition.set(user.getPosition()).scl(PPM).add(startVelocity.nor().scl(distance * shortestFraction * PPM));
 		
 		Hitbox hbox = new HitboxSprite(state, newPosition.x + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), newPosition.y + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)),
-				projectileWidth, projectileHeight, gravity, 
-				lifespan, projDura, 0, new Vector2(), filter, true, true, user, projSprite);
+				projectileWidth, projectileHeight, lifespan, new Vector2(), filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));

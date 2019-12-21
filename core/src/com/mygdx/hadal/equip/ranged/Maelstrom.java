@@ -34,9 +34,8 @@ public class Maelstrom extends RangedWeapon {
 	private final static int projectileWidth = 60;
 	private final static int projectileHeight = 60;
 	private final static float lifespan = 1.0f;
-	private final static float gravity = 0;
 	
-	private final static int projDura = 5;
+	private final static int chainAmount = 5;
 	
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
 	private final static Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
@@ -47,13 +46,13 @@ public class Maelstrom extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user);
+		hbox.setDurability(chainAmount);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactChainStrategy(state, hbox, user.getBodyData(), projDura, filter));
+		hbox.addStrategy(new HitboxOnContactChainStrategy(state, hbox, user.getBodyData(), chainAmount, filter));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 		
 		new ParticleEntity(state, hbox, Particle.LIGHTNING, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);

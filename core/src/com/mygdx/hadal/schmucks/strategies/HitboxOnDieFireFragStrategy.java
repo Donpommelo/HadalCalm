@@ -45,9 +45,12 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 			Hitbox hbox = new Hitbox(state, 
 					this.hbox.getPosition().x * PPM, 
 					this.hbox.getPosition().y * PPM,
-					projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, 
+					projectileWidth, projectileHeight, lifespan,  
 					this.hbox.getLinearVelocity().setAngle(newDegrees),
 					filter, true, true, creator.getSchmuck());
+			
+			hbox.setGravity(gravity);
+			hbox.setDurability(projDura);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, creator));

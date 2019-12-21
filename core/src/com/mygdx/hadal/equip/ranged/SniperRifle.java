@@ -31,16 +31,12 @@ public class SniperRifle extends RangedWeapon {
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 12;
 	private final static float lifespan = 1.0f;
-	private final static float gravity = 0;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite projSprite = Sprite.BULLET;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private final static float bonusDamage = 70.0f;
-	private final static float restitution = 1.0f;
 
 	public SniperRifle(Schmuck user) {
 		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
@@ -48,14 +44,13 @@ public class SniperRifle extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
+		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxDamageHeadshotStrategy(state, hbox, user.getBodyData(), this, bonusDamage, knockback));
-		hbox.setFriction(0);
 	}
 }

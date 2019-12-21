@@ -31,10 +31,6 @@ public class Boiler extends RangedWeapon {
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 50;
 	private final static float lifespan = 0.5f;
-	private final static float gravity = 0;
-	private final static float restitution = 0.0f;
-	
-	private final static int projDura = 3;
 	
 	private final static float fireDuration = 4.0f;
 	private final static float fireDamage = 3.0f;
@@ -48,8 +44,8 @@ public class Boiler extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		RangedHitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-				filter, false, true, user);
+		RangedHitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user);
+		hbox.setDurability(3);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitStatusStrategy(state, hbox, user.getBodyData(), 

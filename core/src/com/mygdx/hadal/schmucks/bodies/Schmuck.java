@@ -17,6 +17,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -131,7 +132,7 @@ public class Schmuck extends HadalEntity {
 		increaseAnimationTime(delta);
 
 		//Apply base hp regen
-		bodyData.regainHp(bodyData.getHpRegen() * delta, bodyData, true, DamageTypes.REGEN);
+		bodyData.regainHp(bodyData.getStat(Stats.HP_REGEN) * delta, bodyData, true, DamageTypes.REGEN);
 		
 		//process cooldowns on firing
 		shootCdCount-=delta;
@@ -190,7 +191,7 @@ public class Schmuck extends HadalEntity {
 	public void useToolEnd() {
 			
 		//the schmuck will not register another tool usage for the tool's cd
-		shootCdCount = usedTool.getUseCd() * (1 - bodyData.getToolCdReduc());
+		shootCdCount = usedTool.getUseCd() * (1 - bodyData.getStat(Stats.TOOL_SPD));
 		
 		//execute the tool.
 		usedTool.execute(state, bodyData);

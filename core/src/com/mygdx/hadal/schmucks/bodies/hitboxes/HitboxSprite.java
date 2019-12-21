@@ -27,9 +27,8 @@ public class HitboxSprite extends RangedHitbox {
 	/**
 	 * Same as normal hitbox man
 	 */
-	public HitboxSprite(PlayState state, float x, float y, int width, int height, float grav, float lifespan, int dura, float rest,
-			Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
-		super(state, x, y, width / 2, height / 2, grav, lifespan, dura, rest, startVelo, filter, sensor, procEffects, creator);
+	public HitboxSprite(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
+		super(state, x, y, width / 2, height / 2, lifespan, startVelo, filter, sensor, procEffects, creator);
 		
 		this.sprite = sprite;
 		projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());

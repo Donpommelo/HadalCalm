@@ -31,7 +31,7 @@ public class SimpleMind extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.setGrav(0.0f);
+				hbox.setGravity(0.0f);
 //				if (hbox.getStartVelo().x > 0) {
 //					hbox.setStartVelo(hbox.getStartVelo().setAngle(0));
 //				} else {

@@ -26,9 +26,6 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int projectileWidth = 50;
 	private final static int projectileHeight = 50;
 	private final static float lifespan = 5.0f;
-	private final static float gravity = 1;
-	
-	private final static int projDura = 1;
 	
 	private final static int explosionRadius = 250;
 	private final static float explosionDamage = 40.0f;
@@ -59,8 +56,8 @@ public class StickyBombLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), this, explosionRadius, explosionDamage, explosionKnockback, (short)0));

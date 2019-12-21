@@ -27,11 +27,6 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 100;
 	private final static float lifespan = 2.5f;
-	private final static float gravity = 10;
-	
-	private final static int projDura = 5;
-	
-	private final static float restitution = 0.5f;
 
 	private final static Sprite projSprite = Sprite.CANNONBALL;
 	private final static Sprite weaponSprite = Sprite.MT_IRONBALL;
@@ -43,8 +38,9 @@ public class IronBallLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, startVelocity,
-				filter, false, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, false, true, user, projSprite);
+		hbox.setGravity(10);
+		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));	

@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Stats;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -60,7 +61,7 @@ public class MeleeWeapon extends Equipable {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
-		user.recoil(x, y, -momentum * (1 + shooter.getMeleeMomentum()));
+		user.recoil(x, y, -momentum * (1 + shooter.getStat(Stats.MELEE_MOMENTUM)));
 	}
 	
 	/**
@@ -79,11 +80,11 @@ public class MeleeWeapon extends Equipable {
 	
 	@Override
 	public float getUseCd() {
-		return useCd * (1 - user.getBodyData().getMeleeSwingRate());
+		return useCd * (1 - user.getBodyData().getStat(Stats.MELEE_ATK_SPD));
 	}
 	
 	@Override
 	public float getUseDelay() {
-		return useDelay * (1 - user.getBodyData().getMeleeSwingDelay());
+		return useDelay * (1 - user.getBodyData().getStat(Stats.MELEE_ATK_DELAY));
 	}
 }

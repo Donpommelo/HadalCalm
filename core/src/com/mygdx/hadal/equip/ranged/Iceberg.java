@@ -30,11 +30,6 @@ public class Iceberg extends RangedWeapon {
 	private final static int projectileWidth = 132;
 	private final static int projectileHeight = 130;
 	private final static float lifespan = 3.0f;
-	private final static float gravity = 10;
-	
-	private final static int projDura = 5;
-	
-	private final static float restitution = 0.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;
@@ -46,8 +41,8 @@ public class Iceberg extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, restitution, 
-				startVelocity, filter, false, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, projSprite);
+		hbox.setGravity(10);
 		
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));	
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -89,6 +84,5 @@ public class Iceberg extends RangedWeapon {
 			}
 		});
 		new ParticleEntity(state, hbox, Particle.BUBBLE_TRAIL, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
-		hbox.setFriction(0);	
 	}
 }

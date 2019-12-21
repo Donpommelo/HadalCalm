@@ -35,9 +35,6 @@ public class Flounderbuss extends RangedWeapon {
 	private final static int projectileWidth = 35;
 	private final static int projectileHeight = 35;
 	private final static float lifespan = 1.2f;
-	private final static float gravity = 3;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -56,8 +53,11 @@ public class Flounderbuss extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
 		charging = true;
-		if (chargeCd< maxCharge && !reloading) {
+		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += delta;
+			if (chargeCd >= getChargeTime()) {
+				chargeCd = getChargeTime();
+			}
 		}
 		super.mouseClicked(delta, state, shooter, faction, x, y);
 	}
@@ -77,7 +77,7 @@ public class Flounderbuss extends RangedWeapon {
 	private Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		for (int i = 0; i < maxNumProj * chargeCd / maxCharge; i++) {
+		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime(); i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
@@ -86,8 +86,8 @@ public class Flounderbuss extends RangedWeapon {
 			
 			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() - 0.5f) * veloSpread);
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, newVelocity.setAngle(newDegrees),
-					filter, true, true, user, projSprite);
+			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			hbox.setGravity(3.0f);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

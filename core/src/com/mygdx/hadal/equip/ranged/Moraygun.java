@@ -32,9 +32,6 @@ public class Moraygun extends RangedWeapon {
 	private final static int projectileWidth = 45;
 	private final static int projectileHeight = 45;
 	private final static float lifespan = 2.5f;
-	private final static float gravity = 0.0f;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -54,8 +51,7 @@ public class Moraygun extends RangedWeapon {
 		final int numY = (int) (startVelocity.y / projectileHeight);
 		
 		for (int i = 0; i < numProj; i++) {
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, new Vector2(),
-					filter, true, true, user, projSprite);
+			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, new Vector2(), filter, true, true, user, projSprite);
 			
 			final int num = i;
 			
@@ -67,11 +63,8 @@ public class Moraygun extends RangedWeapon {
 				@Override
 				public void onHit(HadalData fixB) {
 					if (fixB == null) {
-						hbox.setDura(0);
+						hbox.die();
 					} else if (fixB.getType().equals(UserDataTypes.WALL)){
-						hbox.setDura(0);
-					}
-					if (hbox.getDura() <= 0 && hbox.isAlive()) {
 						hbox.die();
 					}
 				}

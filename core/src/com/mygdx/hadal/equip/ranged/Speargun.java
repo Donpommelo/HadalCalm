@@ -31,9 +31,6 @@ public class Speargun extends RangedWeapon {
 	private final static int projectileWidth = 100;
 	private final static int projectileHeight = 12;
 	private final static float lifespan = 1.2f;
-	private final static float gravity = 1;
-	
-	private final static int projDura = 1;
 	
 	private final static Sprite projSprite = Sprite.HARPOON;
 	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
@@ -45,8 +42,8 @@ public class Speargun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

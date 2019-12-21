@@ -27,7 +27,7 @@ public class EmaudelinesPrism extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.RANGED_DAMAGE, -0.4f, b),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, -0.4f, b),
 				new Status(state, name, descr, b) {
 			
 			private Vector2 projVelo = new Vector2();

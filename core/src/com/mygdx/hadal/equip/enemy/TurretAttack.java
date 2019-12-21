@@ -29,10 +29,8 @@ public class TurretAttack extends RangedWeapon {
 	private final static int projectileWidth = 192;
 	private final static int projectileHeight = 24;
 	private final static float lifespan = 2.0f;
-	private final static float gravity = 0.0f;
 	
 	private final static Sprite projSprite = Sprite.BULLET;
-	private final static int projDura = 1;
 	
 	public TurretAttack(Schmuck user) {
 		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileWidth);
@@ -41,8 +39,7 @@ public class TurretAttack extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, gravity, lifespan, projDura, 0, startVelocity,
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
