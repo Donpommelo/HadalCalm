@@ -31,7 +31,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float projectileSpeedStart = 300.0f;
 	private final static int projectileWidth = 45;
 	private final static int projectileHeight = 45;
-	private final static float lifespan = 1.5f;
+	private final static float lifespan = 2.5f;
 	private final static float gravity = 0.0f;
 	
 	private final static int projDura = 1;

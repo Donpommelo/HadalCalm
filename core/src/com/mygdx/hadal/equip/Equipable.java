@@ -180,8 +180,6 @@ public abstract class Equipable {
 		return eventSprite;
 	}
 	
-	
-	
 	public String getName() {
 		return name;
 	}

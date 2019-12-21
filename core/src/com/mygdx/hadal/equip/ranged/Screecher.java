@@ -26,8 +26,8 @@ import com.mygdx.hadal.utils.Constants;
 public class Screecher extends RangedWeapon {
 
 	private final static String name = "Screecher";
-	private final static int clipSize = 30;
-	private final static int ammoSize = 100;
+	private final static int clipSize = 40;
+	private final static int ammoSize = 150;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;

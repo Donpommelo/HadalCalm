@@ -27,6 +27,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
+import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -186,6 +187,18 @@ public class WeaponUtils {
 		}
 		
 		return null;
+	}
+	
+	private static final int spiritSize = 25;
+	public static void releaseVengefulSpirits(PlayState state, float spiritLifespan, float spiritDamage, float spiritKnockback, Vector2 pos, BodyData creator, short filter) {		
+		Hitbox hbox = new Hitbox(state, (int)pos.x, (int)pos.y, (int)spiritSize, (int)spiritSize, 0, spiritLifespan, 1, 0, 
+				new Vector2(), filter, true, true, creator.getSchmuck());
+		
+		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
+		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, creator));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, null, spiritDamage, spiritKnockback));
+		hbox.addStrategy(new HitboxHomingStrategy(state, hbox, creator, filter));
+		new ParticleEntity(state, hbox, Particle.SHADOW_PATH, spiritLifespan, 0.0f, true, particleSyncType.CREATESYNC);
 	}
 	
 	public static final int pickupSize = 64;

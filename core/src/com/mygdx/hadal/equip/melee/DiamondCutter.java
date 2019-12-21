@@ -70,6 +70,12 @@ public class DiamondCutter extends MeleeWeapon {
 				private Vector2 projOffset = new Vector2();
 				@Override
 				public void controller(float delta) {
+					
+					if (!user.getBodyData().getCurrentTool().equals(tool)) {
+						hbox.die();
+						held = false;
+					}
+					
 					float xImpulse = -(shooter.getSchmuck().getPosition().x - ((Player)shooter.getSchmuck()).getMouse().getPosition().x);
 					float yImpulse = -(shooter.getSchmuck().getPosition().y - ((Player)shooter.getSchmuck()).getMouse().getPosition().y);
 							

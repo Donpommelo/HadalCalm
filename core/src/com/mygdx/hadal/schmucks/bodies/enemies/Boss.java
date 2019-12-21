@@ -82,7 +82,7 @@ public class Boss extends Enemy {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startX, startY,  hbWidth * scale, hbHeight * scale, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startX, startY,  hbWidth * scale, hbHeight * scale, 0, 10, 0, false, false, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, bodyData);
 	}

@@ -11,7 +11,9 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -22,11 +24,13 @@ import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating;
 import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating.BossState;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitStatusStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.utils.Constants;
 
 public class BossUtils {
@@ -178,7 +182,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, gravity, lifespan, 3, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, gravity, lifespan, 1, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
@@ -190,19 +194,92 @@ public class BossUtils {
 		});
 	}
 	
-	public static void horizLaser(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+	public static void fireLaser(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final Particle particle) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, 0, lifespan, 3, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
-						boss.getHitboxfilter(), false, true, boss);
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, 0, lifespan, 1, 0, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+						boss.getHitboxfilter(), true, true, boss);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
-				new ParticleEntity(state, hbox, Particle.LASER_PULSE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
+				new ParticleEntity(state, hbox, particle, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+			}
+		});
+	}
+	
+	public static void bouncingBall(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				HitboxSprite hbox = new HitboxSprite(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, 10, lifespan, 1, 1.0f, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+						boss.getHitboxfilter(), false, true, boss, Sprite.ORB_RED);
+				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+				hbox.setFriction(0);
+			}
+		});
+	}
+	
+	public static void vengefulSpirit(final PlayState state, Boss boss, final float baseDamage, final float knockback, final float lifespan, final Vector2 pos, final float duration) {
+		
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				WeaponUtils.releaseVengefulSpirits(state, lifespan, baseDamage, knockback, pos, boss.getBodyData(), boss.getHitboxfilter());
+			}
+		});
+	}
+	
+	public static void createExplosion(final PlayState state, Boss boss, final float baseDamage, final float knockback, final int radius, final Vector2 pos, final float duration) {
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				WeaponUtils.createExplosion(state, pos.x, pos.y, boss, null, radius, baseDamage, knockback, boss.getHitboxfilter());
+			}
+		});
+	}
+	
+	public static void createPoison(final PlayState state, Boss boss, final int width, final int height, final float damage, final float lifespan, final Vector2 pos, final float duration) {
+		
+		boss.getActions().add(new BossAction(boss, duration) {
+			@Override
+			public void execute() {
+				new Poison(state, width, height, (int)pos.x, (int)pos.y, damage, lifespan, boss, true, boss.getHitboxfilter());
+			}
+		});
+	}
+	
+	private final static Sprite[] debrisSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+	public static void fallingDebris(final PlayState state, Boss boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
+		
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				
+				Event ceiling = state.getDummyPoint("ceiling");
+				
+				if (ceiling != null) {
+					
+					int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
+					Sprite projSprite = debrisSprites[randomIndex];
+					HitboxSprite hbox = new HitboxSprite(state, ceiling.getPosition().x * PPM + (GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getWidth(),
+							ceiling.getPosition().y * PPM, size, size, 1, lifespan, 1, 0.0f, new Vector2(),
+							boss.getHitboxfilter(), false, true, boss, projSprite);
+					
+					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
+					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
+				}
 			}
 		});
 	}
@@ -240,11 +317,63 @@ public class BossUtils {
 		return rand;
 	}
 	
+	public static void stopStill(Boss boss, final float duration) {
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				boss.setLinearVelocity(0, 0);
+			}
+		});
+	}
+	
 	public static int normalizeAngle(int angle)
 	{
 	    int newAngle = angle;
 	    while (newAngle <= -180) newAngle += 360;
 	    while (newAngle > 180) newAngle -= 360;
 	    return newAngle;
+	}
+	
+	public static float ceilingHeight(PlayState state) {
+		
+		Event ceiling = state.getDummyPoint("ceiling");
+		
+		if (ceiling != null) {
+			return ceiling.getPosition().y * PPM;
+		} else {
+			return 0.0f;
+		}
+	}
+	
+	public static float floorHeight(PlayState state) {
+		
+		Event floor = state.getDummyPoint("floor");
+		
+		if (floor != null) {
+			return floor.getPosition().y * PPM;
+		} else {
+			return 0.0f;
+		}
+	}
+	
+	public static float getLeftSide(PlayState state) {
+		Event floor = state.getDummyPoint("floor");
+		
+		if (floor != null) {
+			return floor.getPosition().x * PPM - floor.getWidth() / 2;
+		} else {
+			return 0.0f;
+		}
+	}
+	
+	public static float getRightSide(PlayState state) {
+		Event floor = state.getDummyPoint("floor");
+		
+		if (floor != null) {
+			return floor.getPosition().x * PPM + floor.getWidth() / 2;
+		} else {
+			return 0.0f;
+		}
 	}
 }
