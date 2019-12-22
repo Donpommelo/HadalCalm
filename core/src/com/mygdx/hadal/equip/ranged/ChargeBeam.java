@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
@@ -32,8 +32,8 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float recoil = 7.5f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 35.0f;
-	private final static int projectileWidth = 56;
-	private final static int projectileHeight = 56;
+	private final static int projectileWidth = 28;
+	private final static int projectileHeight = 28;
 	private final static float lifespan = 0.6f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
@@ -107,7 +107,7 @@ public class ChargeBeam extends RangedWeapon {
 		final float damageMultiplier2 = damageMultiplier;
 		final float kbMultiplier2 = kbMultiplier;
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), lifespan, startVelocity.scl(speedMultiplier),
+		Hitbox hbox = new RangedHitbox(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), lifespan, startVelocity.scl(speedMultiplier),
 				filter, true, true, user, projSprite);
 		hbox.setDurability(3);
 		

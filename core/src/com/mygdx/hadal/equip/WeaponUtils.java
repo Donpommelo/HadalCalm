@@ -17,7 +17,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageExplosionStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
@@ -53,7 +53,7 @@ public class WeaponUtils {
 
 	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, Equipable tool, int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, explosionRadius, explosionRadius, 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
+		Hitbox hbox = new Hitbox(state, x, y, explosionRadius, explosionRadius, 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
 			
 			@Override
 			public void controller(float delta) {
@@ -75,7 +75,7 @@ public class WeaponUtils {
 			int dura, Vector2 startVelocity, boolean procEffects, 
 			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, grenadeSize, grenadeSize, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, grenadeSize, grenadeSize, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
 		hbox.setGravity(gravity);
 		hbox.setRestitution(restitution);
 		hbox.setDurability(dura);
@@ -92,7 +92,7 @@ public class WeaponUtils {
 			final float baseDamage, final float knockback, int rocketWidth, int rocketHeight, float lifespan,
 			Vector2 startVelocity, boolean procEffects,	final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, rocketWidth, rocketHeight, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, rocketWidth, rocketHeight, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -110,8 +110,8 @@ public class WeaponUtils {
 	private static final float torpedoExplosionDamage = 7.5f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
-	private static final int torpedoWidth = 75;
-	private static final int torpedoHeight = 15;
+	private static final int torpedoWidth = 50;
+	private static final int torpedoHeight = 10;
 	private static final float torpedoLifespan = 8.0f;
 	
 	public static Hitbox createHomingTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
@@ -121,7 +121,7 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread)));
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, torpedoWidth, torpedoHeight, torpedoLifespan, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new RangedHitbox(state, x, y, torpedoWidth, torpedoHeight, torpedoLifespan, startVelocity.setAngle(newDegrees),
 					filter, true, procEffects, user, torpedoSprite);
 			
 			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -137,8 +137,8 @@ public class WeaponUtils {
 	
 	private static final float beeBaseDamage = 3.5f;
 	private static final float beeKnockback = 7.5f;
-	private static final int beeWidth = 23;
-	private static final int beeHeight = 21;
+	private static final int beeWidth = 13;
+	private static final int beeHeight = 12;
 	private static final int beeDurability = 3;
 	private static final float beeLifespan = 4.0f;
 	private static final float beeMaxLinSpd = 100;
@@ -156,7 +156,7 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, beeWidth, beeHeight, beeLifespan, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new RangedHitbox(state, x, y, beeWidth, beeHeight, beeLifespan, startVelocity.setAngle(newDegrees),
 					filter, false, procEffects, user, beeSprite) {
 				
 				@Override
@@ -192,7 +192,7 @@ public class WeaponUtils {
 	
 	private static final int spiritSize = 25;
 	public static void releaseVengefulSpirits(PlayState state, float spiritLifespan, float spiritDamage, float spiritKnockback, Vector2 pos, BodyData creator, short filter) {		
-		Hitbox hbox = new Hitbox(state, (int)pos.x, (int)pos.y, (int)spiritSize, (int)spiritSize, spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck());
+		Hitbox hbox = new RangedHitbox(state, (int)pos.x, (int)pos.y, (int)spiritSize, (int)spiritSize, spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, creator));

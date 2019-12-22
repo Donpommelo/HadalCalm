@@ -6,7 +6,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallLoseDuraStrategy;
@@ -27,8 +27,8 @@ public class BouncingBlade extends RangedWeapon {
 	private final static float recoil = 6.0f;
 	private final static float knockback = 18.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 75;
+	private final static int projectileWidth = 40;
+	private final static int projectileHeight = 40;
 	private final static float lifespan = 3.5f;
 	
 	private final static Sprite projSprite = Sprite.BUZZSAW;
@@ -41,7 +41,7 @@ public class BouncingBlade extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setDurability(5);
 		hbox.setRestitution(1.0f);
 		

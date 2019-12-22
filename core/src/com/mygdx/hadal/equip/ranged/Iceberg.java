@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
@@ -27,8 +27,8 @@ public class Iceberg extends RangedWeapon {
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 33.0f;
-	private final static int projectileWidth = 132;
-	private final static int projectileHeight = 130;
+	private final static int projectileWidth = 60;
+	private final static int projectileHeight = 60;
 	private final static float lifespan = 3.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
@@ -41,7 +41,7 @@ public class Iceberg extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setGravity(10);
 		
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));	

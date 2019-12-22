@@ -10,7 +10,6 @@ import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
@@ -24,10 +23,9 @@ public class DiamondCutter extends MeleeWeapon {
 	private final static String name = "Diamond Cutter";
 	private final static float swingCd = 0.0f;
 	private final static float windup = 0.0f;
-	private final static float momentum = 7.5f;
 	
-	private final static int projectileWidth = 150;
-	private final static int projectileHeight = 150;
+	private final static int projectileWidth = 75;
+	private final static int projectileHeight = 75;
 	
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
@@ -46,7 +44,7 @@ public class DiamondCutter extends MeleeWeapon {
 	private boolean held = false;
 	
 	public DiamondCutter(Schmuck user) {
-		super(user, name, swingCd, windup, momentum, weaponSprite, eventSprite);
+		super(user, name, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
 	@Override
@@ -55,7 +53,10 @@ public class DiamondCutter extends MeleeWeapon {
 		if(!held) {
 			held = true;
 			final Equipable tool = this;
-			hbox = new HitboxSprite(state, x, y, (int)projectileWidth, (int)projectileHeight, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
+			
+			hbox = new Hitbox(state, x, y, (int)projectileWidth, (int)projectileHeight, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
+			hbox.makeUnreflectable();
+			
 			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -90,7 +91,7 @@ public class DiamondCutter extends MeleeWeapon {
 					
 					if (controllerCount >= spinInterval) {
 						Hitbox pulse = new Hitbox(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, projectileWidth / 2, projectileHeight / 2, 
-								spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user);
+								spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 						

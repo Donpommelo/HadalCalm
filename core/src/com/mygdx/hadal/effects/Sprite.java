@@ -7,7 +7,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 
 public enum Sprite {
-
+	NOTHING(SpriteType.MISC, ""),
 	BOOM(SpriteType.EXPLOSION, "boom"),
 	ORB_BLUE(SpriteType.PROJECTILE, "orb_blue"),
 	ORB_PINK(SpriteType.PROJECTILE, "orb_pink"),
@@ -219,6 +219,7 @@ public enum Sprite {
 	}
 	
 	public enum SpriteType {
+		MISC,
 		PROJECTILE,
 		EXPLOSION,
 		EVENT,

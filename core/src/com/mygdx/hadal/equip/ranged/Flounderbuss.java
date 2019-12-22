@@ -9,7 +9,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -32,8 +32,8 @@ public class Flounderbuss extends RangedWeapon {
 	private final static float recoil = 30.0f;
 	private final static float knockback = 9.0f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 35;
-	private final static int projectileHeight = 35;
+	private final static int projectileWidth = 16;
+	private final static int projectileHeight = 16;
 	private final static float lifespan = 1.2f;
 	
 	private final static Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
@@ -86,7 +86,7 @@ public class Flounderbuss extends RangedWeapon {
 			
 			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() - 0.5f) * veloSpread);
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
 			hbox.setGravity(3.0f);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

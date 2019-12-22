@@ -6,7 +6,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -29,8 +29,8 @@ public class PearlRevolver extends RangedWeapon {
 	private final static float recoil = 5.0f;
 	private final static float knockback = 7.5f;
 	private final static float projectileSpeed = 45.0f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 50;
+	private final static int projectileWidth = 20;
+	private final static int projectileHeight = 20;
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
@@ -50,8 +50,7 @@ public class PearlRevolver extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
-		hbox.setGravity(1.0f);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

@@ -9,7 +9,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -31,9 +31,9 @@ public class CR4PCannon extends RangedWeapon {
 	private final static float recoil = 15.0f;
 	private final static float knockback = 2.5f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 27;
-	private final static int projectileHeight = 27;
-	private final static float lifespan = 0.7f;
+	private final static int projectileWidth = 14;
+	private final static int projectileHeight = 14;
+	private final static float lifespan = 0.9f;
 	
 	private final static int numProj = 11;
 	private final static int spread = 10;
@@ -58,7 +58,7 @@ public class CR4PCannon extends RangedWeapon {
 			
 			newVelocity.set(startVelocity);
 			
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
 			hbox.setGravity(0.5f);
 			hbox.setDurability(2);
 			

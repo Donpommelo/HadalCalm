@@ -12,7 +12,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
@@ -29,17 +29,17 @@ public class Screecher extends RangedWeapon {
 	private final static String name = "Screecher";
 	private final static int clipSize = 40;
 	private final static int ammoSize = 150;
-	private final static float shootCd = 0.05f;
+	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 3.0f;
+	private final static float baseDamage = 6.0f;
 	private final static float recoil = 1.5f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 10.0f;
 	private final static int range = 40;
-	private final static int projectileWidth = 100;
-	private final static int projectileHeight = 100;
+	private final static int projectileWidth = 70;
+	private final static int projectileHeight = 70;
 	private final static float lifespan = 0.5f;
 	private final static int spread = 10;
 	
@@ -95,7 +95,7 @@ public class Screecher extends RangedWeapon {
 		
 		newPosition.set(user.getPosition()).scl(PPM).add(startVelocity.nor().scl(distance * shortestFraction * PPM));
 		
-		Hitbox hbox = new HitboxSprite(state, newPosition.x + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), newPosition.y + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)),
+		Hitbox hbox = new RangedHitbox(state, newPosition.x + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), newPosition.y + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)),
 				projectileWidth, projectileHeight, lifespan, new Vector2(), filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));

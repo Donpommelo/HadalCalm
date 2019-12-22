@@ -24,11 +24,10 @@ import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating;
 import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating.BossState;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitStatusStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.utils.Constants;
@@ -142,34 +141,12 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new MeleeHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, (int)boss.getHeight(), (int)boss.getWidth(), duration, duration, 
-						new Vector2(), new Vector2(), true, boss.getHitboxfilter(), boss) {
-					
-					/**
-					 * This just makes sure the melee hitbox tracks the position of the user.
-					 */
-					@Override
-					public void controller(float delta) {
-								
-						super.controller(delta);
-						
-						//Melee hboxes should not persist after owner's disposal. Otherwise, track location
-						if (!creator.isAlive()) {
-							queueDeletion();
-						} else {
-							Vector2 hbLocation = creator.getPosition().add(center);
-							setTransform(hbLocation, (float) (boss.getBody().getAngle() +  Math.PI / 2));
-						}
-						
-						lifeSpan -= delta;
-						if (lifeSpan <= 0) {
-							queueDeletion();
-						}
-					}
-				};
+				Hitbox hbox = new Hitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, (int)boss.getWidth(), (int)boss.getHeight(), duration, 
+						boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, damage, knockback, DamageTypes.MELEE));	
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, damage, knockback, DamageTypes.MELEE));
+				hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, boss.getBodyData(), new Vector2(), new Vector2(), true));
 			}
 		});
 	}
@@ -183,7 +160,7 @@ public class BossUtils {
 			public void execute() {
 				
 				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
-						boss.getHitboxfilter(), false, true, boss);
+						boss.getHitboxfilter(), false, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxOnContactUnitStatusStrategy(state, hbox, boss.getBodyData(), 
@@ -202,7 +179,7 @@ public class BossUtils {
 			public void execute() {
 				
 				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
-						boss.getHitboxfilter(), true, true, boss);
+						boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
@@ -217,15 +194,16 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
-				HitboxSprite hbox = new HitboxSprite(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				Hitbox hbox = new Hitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss, Sprite.ORB_RED);
 				hbox.setGravity(10.0f);
-				hbox.setGravity(1.0f);
+				hbox.setRestitution(1);
+				hbox.setFriction(0);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
-				hbox.setFriction(0);
+				
 			}
 		});
 	}
@@ -275,8 +253,8 @@ public class BossUtils {
 					
 					int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
 					Sprite projSprite = debrisSprites[randomIndex];
-					HitboxSprite hbox = new HitboxSprite(state, ceiling.getPosition().x * PPM + (GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getWidth(),
-							ceiling.getPosition().y * PPM, size, size, lifespan, new Vector2(),	boss.getHitboxfilter(), false, true, boss, projSprite);
+					Hitbox hbox = new Hitbox(state, ceiling.getPosition().x * PPM + (GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getWidth(),
+							ceiling.getPosition().y * PPM, size, size, lifespan, new Vector2(),	boss.getHitboxfilter(), true, true, boss, projSprite);
 					
 					hbox.setGravity(1.0f);
 					

@@ -148,7 +148,6 @@ public enum UnlockArtifact {
 	public void setUnlocked(boolean unlock) {
 		info.setUnlocked(unlock);
 	}
-	
 }
 
 

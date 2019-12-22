@@ -39,19 +39,12 @@ public class Stats {
 	public static final int RANGED_CLIP = 29;
 	public static final int RANGED_PROJ_SPD = 30;
 	public static final int RANGED_PROJ_SIZE = 31;
-	
+	public static final int RANGED_PROJ_SPREAD = 32;	//
 	public static final int RANGED_PROJ_LIFESPAN = 33;
 	public static final int RANGED_PROJ_DURABILITY = 34;
 	public static final int RANGED_PROJ_RESTITUTION = 35;
 	public static final int RANGED_PROJ_GRAVITY = 36;
 	public static final int RANGED_RECOIL = 37;
-	
-	public static final int MELEE_ATK_SPD = 39;
-	public static final int MELEE_ATK_DELAY = 40;
-	public static final int MELEE_ATK_INT = 41;
-	public static final int MELEE_RANGE = 42;
-	public static final int MELEE_ARC_SIZE = 43;
-	public static final int MELEE_MOMENTUM = 44;
-	
+		
 	public static final int AMMO_CAPACITY = 45;
 }

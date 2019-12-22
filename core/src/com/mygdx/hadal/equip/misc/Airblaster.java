@@ -8,9 +8,9 @@ import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -22,33 +22,36 @@ import com.mygdx.hadal.utils.Stats;
 public class Airblaster extends MeleeWeapon {
 
 	private final static String name = "Airblaster";
-	private final static float swingCd = 0.25f;
+	private final static float swingCd = 0.4f;
 	private final static float windup = 0.0f;
-	private final static float backSwing = 1.0f;
 	private final static float baseDamage = 0.0f;
 	private final static int hitboxSize = 150;
 	private final static float knockback = 60.0f;
 	private final static float momentum = 40.0f;
 	
 	public Airblaster(Schmuck user) {
-		super(user, name, swingCd, windup, momentum, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+		super(user, name, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
-		user.recoil(x, y, momentum * (1 + shooter.getStat(Stats.MELEE_MOMENTUM)) * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
+		user.recoil(x, y, momentum * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
 	}
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new MeleeHitbox(state, x, y, (int) (hitboxSize * (1 + user.getBodyData().getStat(Stats.BOOST_SIZE))), 
+		Hitbox hbox = new Hitbox(state, x, y, 
+				(int) (hitboxSize * (1 + user.getBodyData().getStat(Stats.BOOST_SIZE))), 
 				(int) (hitboxSize * (1 + user.getBodyData().getStat(Stats.BOOST_SIZE))),
-				swingCd, backSwing, startVelocity, 
-				startVelocity.nor().scl(hitboxSize / 4 / PPM), false, user.getHitboxfilter(), user);
+				swingCd, startVelocity, user.getHitboxfilter(), false, false, user, Sprite.IMPACT);
+		hbox.makeUnreflectable();
+		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), 
 				DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
+		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize / 2 / PPM), false));
+		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override

@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Stats;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -16,8 +15,6 @@ import com.mygdx.hadal.effects.Sprite;
  */
 public class MeleeWeapon extends Equipable {
 
-	protected float momentum;
-	
 	/**
 	 * 
 	 * @param user: Schmuck that is using this tool.
@@ -27,13 +24,12 @@ public class MeleeWeapon extends Equipable {
 	 * @param momentum: reverse recoil. Using a melee wepon will inch the user forwards by a force of this magnitude.
 	 * @param onSwing: This is a factory that creates a melee hitbox.
 	 */	
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, Sprite weaponSprite, Sprite eventSprite, float chargeTime) {
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, Sprite weaponSprite, Sprite eventSprite, float chargeTime) {
 		super(user, name, swingcd, windup, weaponSprite, eventSprite, chargeTime);
-		this.momentum = momentum;
 	}
 	
-	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, float momentum, Sprite weaponSprite, Sprite eventSprite) {
-		this(user, name, swingcd, windup, momentum, weaponSprite, eventSprite, 1);
+	public MeleeWeapon(Schmuck user, String name, float swingcd, float windup, Sprite weaponSprite, Sprite eventSprite) {
+		this(user, name, swingcd, windup, weaponSprite, eventSprite, 1);
 	}
 
 	/**
@@ -61,7 +57,6 @@ public class MeleeWeapon extends Equipable {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
-		user.recoil(x, y, -momentum * (1 + shooter.getStat(Stats.MELEE_MOMENTUM)));
 	}
 	
 	/**
@@ -77,14 +72,4 @@ public class MeleeWeapon extends Equipable {
 	 */
 	@Override
 	public void reload(float delta) { reloading = false; }
-	
-	@Override
-	public float getUseCd() {
-		return useCd * (1 - user.getBodyData().getStat(Stats.MELEE_ATK_SPD));
-	}
-	
-	@Override
-	public float getUseDelay() {
-		return useDelay * (1 - user.getBodyData().getStat(Stats.MELEE_ATK_DELAY));
-	}
 }

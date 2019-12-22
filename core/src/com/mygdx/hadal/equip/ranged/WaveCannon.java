@@ -5,7 +5,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -27,8 +27,8 @@ public class WaveCannon extends RangedWeapon {
 	private final static float recoil = 12.5f;
 	private final static float knockback = 28.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static int projectileWidth = 30;
-	private final static int projectileHeight = 30;
+	private final static int projectileWidth = 15;
+	private final static int projectileHeight = 15;
 	private final static float lifespan = 0.6f;
 	
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
@@ -45,7 +45,7 @@ public class WaveCannon extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
 
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
@@ -69,7 +69,7 @@ public class WaveCannon extends RangedWeapon {
 			}
 		});
 		
-		Hitbox hbox2 = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox2 = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox2.addStrategy(new HitboxDefaultStrategy(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox2, user.getBodyData()));

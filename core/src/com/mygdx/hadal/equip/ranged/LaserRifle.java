@@ -14,7 +14,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
@@ -38,8 +38,8 @@ public class LaserRifle extends RangedWeapon {
 	private final static float recoil = 2.5f;
 	private final static float knockback = 12.0f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 30;
-	private final static int projectileHeight = 48;
+	private final static int projectileWidth = 40;
+	private final static int projectileHeight = 24;
 	private final static float lifespan = 0.25f;
 	
 	private final static Sprite[] projSprites = {Sprite.ORB_BLUE, Sprite.ORB_ORANGE, Sprite.ORB_PINK, Sprite.ORB_YELLOW, Sprite.ORB_RED};
@@ -84,7 +84,7 @@ public class LaserRifle extends RangedWeapon {
 		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 		Sprite projSprite = projSprites[randomIndex];
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, (int) (distance * shortestFraction * 2 * PPM), projectileHeight, lifespan, new Vector2(0, 0), filter, true, true, user, projSprite) {
+		Hitbox hbox = new RangedHitbox(state, x, y, (int) (distance * shortestFraction * PPM), projectileHeight, lifespan, new Vector2(0, 0), filter, true, true, user, projSprite) {
 			
 			Vector2 newPosition = new Vector2(0, 0);
 			

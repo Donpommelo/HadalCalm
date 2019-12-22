@@ -11,11 +11,10 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
@@ -34,8 +33,8 @@ public class Underminer extends RangedWeapon {
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 60;
-	private final static int projectileHeight = 60;
+	private final static int projectileWidth = 30;
+	private final static int projectileHeight = 30;
 	private final static float lifespan = 3.5f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
@@ -45,14 +44,14 @@ public class Underminer extends RangedWeapon {
 	
 	private final static float activatedSpeed = 10.0f;
 
-	private final static int explosionRadius = 400;
+	private final static int explosionRadius = 200;
 	private final static float explosionDamage = 40.0f;
 	private final static float explosionKnockback = 18.0f;
 	
 	private final static int numProj = 10;
 	private final static int spread = 30;
-	private final static int fragWidth = 40;
-	private final static int fragHeight = 40;
+	private final static int fragWidth = 20;
+	private final static int fragHeight = 20;
 	private final static float fragLifespan = 0.25f;
 	private final static float fragDamage = 16.0f;
 	private final static float fragSpeed = 40.0f;
@@ -64,7 +63,7 @@ public class Underminer extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new Hitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(4.0f);
 		hbox.setDurability(2);
 		
@@ -113,12 +112,11 @@ public class Underminer extends RangedWeapon {
 					
 					newVelocity.set(startVelocity);
 					
-					Hitbox frag = new HitboxSprite(state, 
+					Hitbox frag = new RangedHitbox(state, 
 							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,	fragWidth, fragHeight, fragLifespan, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees),
 							filter, true, true, user, fragSprite);
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxOnContactWallLoseDuraStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), tool, fragDamage, knockback, DamageTypes.RANGED));
 				}
 			}

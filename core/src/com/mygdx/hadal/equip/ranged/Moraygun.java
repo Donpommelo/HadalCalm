@@ -6,7 +6,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -29,8 +29,8 @@ public class Moraygun extends RangedWeapon {
 	private final static float recoil = 15.0f;
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeedStart = 300.0f;
-	private final static int projectileWidth = 45;
-	private final static int projectileHeight = 45;
+	private final static int projectileWidth = 25;
+	private final static int projectileHeight = 25;
 	private final static float lifespan = 2.5f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
@@ -51,7 +51,7 @@ public class Moraygun extends RangedWeapon {
 		final int numY = (int) (startVelocity.y / projectileHeight);
 		
 		for (int i = 0; i < numProj; i++) {
-			Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, new Vector2(), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, new Vector2(), filter, true, true, user, projSprite);
 			
 			final int num = i;
 			
@@ -84,10 +84,10 @@ public class Moraygun extends RangedWeapon {
 						if (numMoves >= num) {
 							if ((numMoves - num) % (Math.abs(numX) + Math.abs(numY)) < Math.abs(numX)) {
 								hbox.setTransform(hbox.getPosition()
-										.add(projectileWidth / PPM / 2 * Math.signum(numX), 0), 0);
+										.add(projectileWidth / PPM * Math.signum(numX), 0), 0);
 							} else {
 								hbox.setTransform(hbox.getPosition()
-										.add(0, projectileHeight / PPM / 2 * Math.signum(numY)), 0);
+										.add(0, projectileHeight / PPM * Math.signum(numY)), 0);
 							}
 						}
 						numMoves++;

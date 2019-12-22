@@ -5,7 +5,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
@@ -27,11 +27,11 @@ public class TorpedofishAttack extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.5f;
 	private final static float projectileSpeed = 16.0f;
-	private final static int projectileWidth = 45;
-	private final static int projectileHeight = 45;
+	private final static int projectileWidth = 30;
+	private final static int projectileHeight = 30;
 	private final static float lifespan = 5.0f;
 	
-	private final static int explosionRadius = 300;
+	private final static int explosionRadius = 100;
 	private final static float explosionDamage = 10.0f;
 	private final static float explosionKnockback = 25.0f;
 	
@@ -43,7 +43,7 @@ public class TorpedofishAttack extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));

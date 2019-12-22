@@ -14,7 +14,6 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
@@ -37,8 +36,8 @@ public class TeslaCoil extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 80.0f;
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 75;
+	private final static int projectileWidth = 40;
+	private final static int projectileHeight = 40;
 	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
@@ -59,7 +58,7 @@ public class TeslaCoil extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, final float x, final float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		final Vector2 endLocation = new Vector2(this.x, this.y);
 		final TeslaCoil tool = this;
@@ -155,7 +154,7 @@ public class TeslaCoil extends RangedWeapon {
 						pulsePosition.add(pulsePath.nor().scl(pulseSize));
 						
 						
-						Hitbox pulse = new RangedHitbox(state, pulsePosition.x, pulsePosition.y, pulseSize, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user);
+						Hitbox pulse = new RangedHitbox(state, pulsePosition.x, pulsePosition.y, pulseSize, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData(), false));
 						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, pulseDamage, 0, DamageTypes.RANGED));
 						new ParticleEntity(state, pulse, Particle.LASER_PULSE, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);

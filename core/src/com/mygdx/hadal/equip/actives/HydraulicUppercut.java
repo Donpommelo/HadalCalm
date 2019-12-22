@@ -2,12 +2,13 @@ package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.MeleeHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -25,11 +26,9 @@ public class HydraulicUppercut extends ActiveItem {
 	
 	private final static float recoil = 150.0f;
 
-	private final static float swingCd = 1.5f;
-	private final static float backSwing = 1.0f;
 	private final static float baseDamage = 40.0f;
 	private final static int hitboxSize = 125;
-	private final static int swingArc = 125;
+	private final static float lifespan = 0.25f;
 	private final static float knockback = 75.0f;
 	
 	public HydraulicUppercut(Schmuck user) {
@@ -41,13 +40,14 @@ public class HydraulicUppercut extends ActiveItem {
 		user.addStatus(new Invulnerability(state, 0.5f, user, user));
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 10.0f, user, user));
 
-		user.getPlayer().push(0, recoil);
+		user.getPlayer().pushMomentumMitigation(0, recoil);
 		
-		Hitbox hbox = new MeleeHitbox(state, x, y, hitboxSize, swingArc, swingCd, backSwing, new Vector2(0, 0), new Vector2(0, 0), true, user.getPlayer().getHitboxfilter(), user.getPlayer());
+		Hitbox hbox = new Hitbox(state, x, y, hitboxSize, hitboxSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(),  true, true, user.getPlayer(), Sprite.NOTHING);
+		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user, new Vector2(), new Vector2(), false));
 	}
-
 }

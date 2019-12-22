@@ -31,8 +31,8 @@ public class Maelstrom extends RangedWeapon {
 	private final static float baseDamage = 5.0f;
 	private final static float knockback = 8.0f;
 	private final static float projectileSpeedStart = 50.0f;
-	private final static int projectileWidth = 60;
-	private final static int projectileHeight = 60;
+	private final static int projectileWidth = 30;
+	private final static int projectileHeight = 30;
 	private final static float lifespan = 1.0f;
 	
 	private final static int chainAmount = 5;
@@ -46,7 +46,7 @@ public class Maelstrom extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, Sprite.NOTHING);
 		hbox.setDurability(chainAmount);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

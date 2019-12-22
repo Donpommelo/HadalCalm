@@ -8,7 +8,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
@@ -30,8 +30,8 @@ public class Machinegun extends RangedWeapon {
 	private final static float recoil = 1.25f;
 	private final static float knockback = 2.5f;
 	private final static float projectileSpeed = 70.0f;
-	private final static int projectileWidth = 96;
-	private final static int projectileHeight = 12;
+	private final static int projectileWidth = 48;
+	private final static int projectileHeight = 6;
 	private final static float lifespan = 0.75f;
 	
 	private final static int spread = 5;
@@ -48,7 +48,7 @@ public class Machinegun extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
 		float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

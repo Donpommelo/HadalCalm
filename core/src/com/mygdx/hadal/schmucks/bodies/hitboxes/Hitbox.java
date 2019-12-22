@@ -1,7 +1,10 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
@@ -15,7 +18,6 @@ import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -52,6 +54,9 @@ public class Hitbox extends HadalEntity {
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	protected boolean sensor;
 	
+	//can this hbox be reflected by reflection effects?
+	private boolean reflectable = true;
+	
 	//hitbox user data. This contains on-hit method
 	protected HitboxData data;
 	
@@ -62,11 +67,14 @@ public class Hitbox extends HadalEntity {
 	//add+remove are strategies that will be added/removed from the hitbox next world-step
 	private ArrayList<HitboxStrategy> strategies, add, remove;
 	
+	protected Animation<TextureRegion> projectileSprite;
+	private Sprite sprite;
+	
 	/**
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * @param : pretty much the same as the fields above.
 	 */
-	public Hitbox(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator) {
+	public Hitbox(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
 		super(state, width, height, x, y);
 		this.maxLifespan = lifespan;
 		this.lifeSpan = lifespan;
@@ -81,6 +89,11 @@ public class Hitbox extends HadalEntity {
 		this.add = new ArrayList<HitboxStrategy>();
 		this.remove = new ArrayList<HitboxStrategy>();
 		
+		if (!sprite.equals(Sprite.NOTHING)) {
+			this.sprite = sprite;
+			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+		}
+		
 		if (procEffects) {
 			creator.getBodyData().statusProcTime(StatusProcTime.HITBOX_CREATION, creator.getBodyData(), 0, null, creator.getBodyData().getCurrentTool(), this);
 		}
@@ -93,16 +106,11 @@ public class Hitbox extends HadalEntity {
 
 		this.data = new HitboxData(state, this);
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width , height, gravity, 0.0f, 0, 0, false, false, Constants.BIT_PROJECTILE, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0.0f, restitution, friction, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
-				filter, true, data);
+				filter, sensor, data);
+		
 		setLinearVelocity(startVelo);
-
-		if (!sensor) {
-			body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 
-					new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, restitution, friction,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
-		}
 	}
 	
 	/**
@@ -110,6 +118,8 @@ public class Hitbox extends HadalEntity {
 	 * This also makes hitboxes angled in the direction of their velocity. Overload this if you don't want that.
 	 */
 	public void controller(float delta) {
+		
+		increaseAnimationTime(delta);
 		
 		for (HitboxStrategy s : add) {
 			strategies.add(s);
@@ -148,6 +158,15 @@ public class Hitbox extends HadalEntity {
 		
 		for (HitboxStrategy s : strategies) {
 			s.render(batch);
+		}
+		
+		if (projectileSprite != null) {
+			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
+					getPosition().x * PPM - width / 2, 
+					getPosition().y * PPM - height / 2, 
+					width / 2, height / 2,
+					width, height, 1, 1, 
+					(float) Math.toDegrees(getOrientation()) + 180);
 		}
 	}
 	
@@ -192,7 +211,7 @@ public class Hitbox extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), null, ObjectSyncLayers.HBOX, alignType.HITBBOX);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.HBOX, alignType.HITBBOX);
 	}
 	
 	public float getMaxLifespan() {
@@ -208,7 +227,7 @@ public class Hitbox extends HadalEntity {
 	}
 
 	public void lowerDurability() {
-		this.durability--;;
+		this.durability--;
 		if (durability <= 0) {
 			die();
 		}
@@ -260,5 +279,13 @@ public class Hitbox extends HadalEntity {
 
 	public void setCreator(Schmuck creator) {
 		this.creator = creator;
+	}
+
+	public void makeUnreflectable() {
+		reflectable = false;
+	}
+	
+	public boolean isReflectable() {
+		return reflectable;
 	}
 }

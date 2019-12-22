@@ -92,7 +92,6 @@ DIAMOND_CUTTER: {
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
-		RANGED,
 	]
 }
 FISTICUFFS: {
@@ -103,8 +102,6 @@ FISTICUFFS: {
 	unlocked: true
 	tags: [
 		ARMORY,
-		RANDOM_POOL,
-		RANGED,
 	]
 }
 LASER_GUIDED_ROCKET: {

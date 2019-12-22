@@ -3,10 +3,12 @@ package com.mygdx.hadal.equip.actives;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
@@ -43,11 +45,11 @@ public class Fireball extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 			
-		RangedHitbox hbox = new RangedHitbox(state, 
+		Hitbox hbox = new RangedHitbox(state, 
 				user.getPlayer().getPosition().x * PPM, 
 				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileHeight, lifespan, this.weaponVelo.scl(projectileSpeed),
-				user.getPlayer().getHitboxfilter(), true, true, user.getPlayer());
+				user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));

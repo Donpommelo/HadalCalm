@@ -179,14 +179,14 @@ public class Boss1 extends BossFloating {
 	private static final int charge2Speed = 25;
 	private static final int charge1Damage = 20;
 	private static final int charge2Damage = 8;
-	private static final int defaultMeleeKB = 50;
+	private static final int defaultMeleeKB = 70;
 	
 	private void chargeAttack1() {
 		BossUtils.moveToRandomCorner(state, this, moveSpeed);
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 1.2f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
 		BossUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
-		BossUtils.meleeAttack(state, this, charge1Damage,defaultMeleeKB, target, 1.5f);
+		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, target, 1.5f);
 	}
 	
 	private void chargeAttack2() {
@@ -324,7 +324,7 @@ public class Boss1 extends BossFloating {
 	private static final int explosionNumber = 4;
 	private static final float explosionDamage = 35.0f;
 	private static final float explosionKnockback = 35.0f;
-	private static final int explosionRadius = 500;
+	private static final int explosionRadius = 300;
 	private static final float explosionInterval = 0.25f;
 	
 	private void sweepingLaser() {
@@ -361,7 +361,7 @@ public class Boss1 extends BossFloating {
 	private static final float ballDamage = 12.0f;
 	private static final float ballSpeed = 10.0f;
 	private static final float ballKnockback = 12.0f;
-	private static final int ballSize = 120;
+	private static final int ballSize = 60;
 	private static final float ballLifespan = 7.0f;
 	private static final float ballInterval= 0.75f;
 	
@@ -438,11 +438,11 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
 	}
 	
-	private static final int numDebris = 30;
-	private static final int numDebrisPassive = 10;
+	private static final int numDebris = 15;
+	private static final int numDebrisPassive = 8;
 	private static final float debrisInterval = 0.25f;
 	private static final float debrisDamage= 7.0f;
-	private static final int debrisSize= 60;
+	private static final int debrisSize= 30;
 	private static final float debrisKnockback= 15.0f;
 	private static final float debrisLifespan= 3.0f;
 	private void fallingDebris() {

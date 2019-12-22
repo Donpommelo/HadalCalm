@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
@@ -13,10 +14,10 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class RangedHitbox extends Hitbox {
 
-	public RangedHitbox(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator) {
+	public RangedHitbox(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
 		super(state, x, y, width, height,
 				lifespan * (1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN)),
-				startVelo.scl(1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_SPD)), filter, sensor, procEffects, creator);
+				startVelo.scl(1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_SPD)), filter, sensor, procEffects, creator, sprite);
 		
 		this.width *= (1 +  creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE));
 		this.height *= (1 +  creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE));

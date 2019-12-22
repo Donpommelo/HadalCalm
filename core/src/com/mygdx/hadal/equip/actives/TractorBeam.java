@@ -10,7 +10,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxMouseStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
@@ -32,8 +32,8 @@ public class TractorBeam extends ActiveItem {
 	private final static float secondaryDamage = 6.0f;
 	private final static float knockback = 35.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 120;
-	private final static int projectileHeight = 120;
+	private final static int projectileWidth = 60;
+	private final static int projectileHeight = 60;
 	private final static float lifespan = 4.0f;
 	
 	private static final float maxLinSpd = 600;
@@ -55,7 +55,7 @@ public class TractorBeam extends ActiveItem {
 		
 		final Equipable tool = this;
 		
-		Hitbox hbox = new HitboxSprite(state, 
+		Hitbox hbox = new RangedHitbox(state, 
 				user.getPlayer().getPosition().x * PPM, 
 				user.getPlayer().getPosition().y * PPM,
 				projectileWidth, projectileHeight, lifespan, this.weaponVelo.scl(projectileSpeed),

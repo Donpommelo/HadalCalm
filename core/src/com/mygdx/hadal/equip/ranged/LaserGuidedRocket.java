@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
@@ -31,11 +31,11 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 5.0f;
-	private final static int projectileWidth = 140;
-	private final static int projectileHeight = 21;
+	private final static int projectileWidth = 70;
+	private final static int projectileHeight = 10;
 	private final static float lifespan = 7.0f;
 		
-	private final static int explosionRadius = 300;
+	private final static int explosionRadius = 150;
 	private final static float explosionDamage = 50.0f;
 	private final static float explosionKnockback = 25.0f;
 	
@@ -57,7 +57,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));

@@ -5,6 +5,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -47,7 +48,7 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 					this.hbox.getPosition().y * PPM,
 					projectileWidth, projectileHeight, lifespan,  
 					this.hbox.getLinearVelocity().setAngle(newDegrees),
-					filter, true, true, creator.getSchmuck());
+					filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 			
 			hbox.setGravity(gravity);
 			hbox.setDurability(projDura);

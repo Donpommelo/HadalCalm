@@ -6,7 +6,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
@@ -29,12 +29,12 @@ public class Stormcaller extends RangedWeapon {
 	private final static float recoil = 6.0f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 15.0f;
-	private final static int projectileWidth = 20;
-	private final static int projectileHeight = 20;
+	private final static int projectileWidth = 10;
+	private final static int projectileHeight = 10;
 	private final static float lifespan = 1.8f;
 	
 	private final static float explosionInterval = 1/60f;
-	private final static int explosionMaxSize = 200;
+	private final static int explosionMaxSize = 120;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
@@ -46,7 +46,7 @@ public class Stormcaller extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		final Equipable tool = this;
 		
@@ -62,7 +62,7 @@ public class Stormcaller extends RangedWeapon {
 				controllerCount+=delta;
 
 				if (controllerCount >= explosionInterval) {
-					Hitbox pulse = new HitboxSprite(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, explosionSize, explosionSize, 
+					Hitbox pulse = new Hitbox(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, explosionSize, explosionSize, 
 							explosionInterval, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));

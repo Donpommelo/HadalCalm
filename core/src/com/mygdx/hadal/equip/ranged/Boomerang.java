@@ -7,7 +7,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.HitboxSprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
@@ -31,8 +31,8 @@ public class Boomerang extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 35.0f;
-	private final static int projectileWidth = 90;
-	private final static int projectileHeight = 90;
+	private final static int projectileWidth = 50;
+	private final static int projectileHeight = 50;
 	private final static float lifespanx = 4.0f;
 	private final static float returnAmp = 1.0f;
 	
@@ -49,7 +49,7 @@ public class Boomerang extends RangedWeapon {
 		
 		final Equipable tool = this;
 		
-		Hitbox hbox = new HitboxSprite(state, x, y, projectileWidth, projectileHeight, lifespanx, startVelocity, (short) 0, false, true, user, projSprite);		
+		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespanx, startVelocity, (short) 0, false, true, user, projSprite);		
 		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
