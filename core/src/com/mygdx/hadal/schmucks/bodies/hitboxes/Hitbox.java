@@ -18,6 +18,7 @@ import com.mygdx.hadal.statuses.StatusProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
@@ -106,9 +107,14 @@ public class Hitbox extends HadalEntity {
 
 		this.data = new HitboxData(state, this);
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0.0f, restitution, friction, false, false, Constants.BIT_PROJECTILE, 
+		this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
-				filter, sensor, data);
+				filter, true, data);
+		
+		if (!sensor) {
+			body.createFixture(FixtureBuilder.createFixtureDef(width / 2, height / 2, new Vector2(0, 0), false, 0, 0, restitution, friction,
+				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
+		}
 		
 		setLinearVelocity(startVelo);
 	}
@@ -238,11 +244,11 @@ public class Hitbox extends HadalEntity {
 	}
 	
 	public void setRestitution(float restitution) {
-		this.restitution = (int) (restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION));
+		this.restitution = restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION);
 	}
 	
 	public void setGravity(float gravity) {
-		this.gravity = (int) (gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY));
+		this.gravity = gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY);
 	}
 
 	public void setFriction(float friction) {

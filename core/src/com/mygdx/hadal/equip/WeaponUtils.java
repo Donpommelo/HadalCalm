@@ -71,14 +71,12 @@ public class WeaponUtils {
 	}
 	
 	public static Hitbox createGrenade(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			final float baseDamage, final float knockback, int grenadeSize, float gravity, float lifespan, float restitution,
-			int dura, Vector2 startVelocity, boolean procEffects, 
+			final float baseDamage, final float knockback, int grenadeSize, float lifespan, Vector2 startVelocity, boolean procEffects, 
 			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
 		Hitbox hbox = new RangedHitbox(state, x, y, grenadeSize, grenadeSize, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
-		hbox.setGravity(gravity);
-		hbox.setRestitution(restitution);
-		hbox.setDurability(dura);
+		hbox.setGravity(1.0f);
+		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));

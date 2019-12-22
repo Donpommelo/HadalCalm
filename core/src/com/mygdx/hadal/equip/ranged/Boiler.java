@@ -44,7 +44,7 @@ public class Boiler extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		RangedHitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		RangedHitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
 		hbox.setDurability(3);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
