@@ -13,7 +13,7 @@ public class FaradaysCage extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final float amount = 0.5f;
+	private final float amount = 0.6f;
 	
 	public FaradaysCage() {
 		super(name, descr, descrLong, statusNum);

@@ -13,7 +13,7 @@ public class CursedCilice extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final float amount = 0.25f;
+	private final float amount = 0.5f;
 	
 	public CursedCilice() {
 		super(name, descr, descrLong, statusNum);

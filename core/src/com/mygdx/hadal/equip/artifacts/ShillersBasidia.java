@@ -35,7 +35,7 @@ public class ShillersBasidia extends Artifact {
 			public void onHitboxCreation(Hitbox hbox) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, 60, 20 / 60f, 2.0f, b.getSchmuck().getHitboxfilter()));
+					hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, 120, 20 / 60f, 2.0f, b.getSchmuck().getHitboxfilter()));
 				}
 			}
 		};

@@ -9,11 +9,11 @@ import com.mygdx.hadal.utils.Stats;
 public class Confidence extends Artifact {
 
 	private final static String name = "Confidence";
-	private final static String descr = "+50% damage at Max Hp.";
+	private final static String descr = "+damage at Max Hp.";
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float damageBoost = 1.5f;
+	private final static float damageBoost = 1.3f;
 
 	public Confidence() {
 		super(name, descr, descrLong, statusNum);

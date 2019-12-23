@@ -12,7 +12,7 @@ public class PelicanPlushToy extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final float amount = 1.5f;
+	private final float amount = 1.8f;
 	
 	public PelicanPlushToy() {
 		super(name, descr, descrLong, statusNum);

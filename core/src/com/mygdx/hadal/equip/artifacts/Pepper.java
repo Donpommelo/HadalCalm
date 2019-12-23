@@ -17,9 +17,9 @@ public class Pepper extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float radius = 5.0f;
-	private final static float damage = 8.0f;
-	private final static float particleDuration = 2.5f;
+	private final static float radius = 10.0f;
+	private final static float damage = 6.0f;
+	private final static float particleDuration = 1.0f;
 	
 	public Pepper() {
 		super(name, descr, descrLong, statusNum);
@@ -30,7 +30,7 @@ public class Pepper extends Artifact {
 		enchantment[0] = new Status(state, name, descr, b) {
 			
 			private float procCdCount;
-			private float procCd = 1.0f;
+			private float procCd = 1.5f;
 			
 			@Override
 			public void timePassing(float delta) {
@@ -54,8 +54,8 @@ public class Pepper extends Artifact {
 							return true;
 						}
 					}, 
-					inflicted.getSchmuck().getPixelPosition().x - radius, inflicted.getSchmuck().getPixelPosition().y - radius, 
-					inflicted.getSchmuck().getPixelPosition().x + radius, inflicted.getSchmuck().getPixelPosition().y + radius);		
+					inflicted.getSchmuck().getPosition().x - radius, inflicted.getSchmuck().getPosition().y - radius, 
+					inflicted.getSchmuck().getPosition().x + radius, inflicted.getSchmuck().getPosition().y + radius);		
 				}
 			}
 		};
