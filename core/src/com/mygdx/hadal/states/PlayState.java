@@ -133,7 +133,7 @@ public class PlayState extends GameState {
 	protected float zoomDesired;
 	
 	//Starting position of players spawning into the world
-	private int startX, startY;
+	private Vector2 startPosition = new Vector2();
 	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
 	//That savepoint contains zoom and camera target that will be set.
@@ -231,7 +231,7 @@ public class PlayState extends GameState {
 		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new Enemy(this, 1, 1, -1000, -1000, enemyType.MISC, Constants.ENEMY_HITBOX, 100, null);
+		worldDummy = new Enemy(this, new Vector2(-1000, -1000), new Vector2(1, 1), new Vector2(1, 1), enemyType.MISC, Constants.ENEMY_HITBOX, 100, null);
 		
 		//The mouse tracker is the player's mouse position
 		mouse = new MouseTracker(this, true);
@@ -260,9 +260,10 @@ public class PlayState extends GameState {
 		}
 		
 		//Create the player and make the camera focus on it
-		this.player = createPlayer((int)(startX * PPM), (int)(startY * PPM), gsm.getRecord().getName(), loadout, old, 0, reset, true);
-		this.camera.position.set(new Vector3(startX * PPM, startY * PPM, 0));
-		this.sprite.position.set(new Vector3(startX * PPM, startY * PPM, 0));
+		this.player = createPlayer(startPosition, gsm.getRecord().getName(), loadout, old, 0, reset, true);
+		
+		this.camera.position.set(new Vector3(startPosition.x, startPosition.y, 0));
+		this.sprite.position.set(new Vector3(startPosition.x, startPosition.y, 0));
 		this.reset = reset;
 
 		if (!reset) {
@@ -274,7 +275,7 @@ public class PlayState extends GameState {
 		
 		//Set up "save point" as starting point
 		this.savePoints = new ArrayList<SavePoint>();
-		savePoints.add(new SavePoint(new Vector2(startX, startY), null, zoomDesired));		
+		savePoints.add(new SavePoint(startPosition, null, zoomDesired));		
 		
 		//Set up dummy points (AI rally points)
 		this.dummyPoints = new HashMap<String, PositionDummy>();
@@ -517,7 +518,7 @@ public class PlayState extends GameState {
 		
 		if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
-				tmpVector2.set(player.getPosition());
+				tmpVector2.set(player.getPixelPosition());
 			} else {
 				return;
 			}
@@ -541,7 +542,6 @@ public class PlayState extends GameState {
 			tmpVector2.y = cameraBounds[3];
 		}
 		
-		tmpVector2.scl(PPM);
 		CameraStyles.lerpToTarget(camera, tmpVector2);
 		CameraStyles.lerpToTarget(sprite, tmpVector2);
 	}
@@ -580,11 +580,7 @@ public class PlayState extends GameState {
 			SavePoint getSave = getSavePoint();
 			
 			//Create a new player
-			player = createPlayer( 
-					(int)(getSave.getLocation().x * PPM),
-					(int)(getSave.getLocation().y * PPM), 
-					gsm.getRecord().getName(), 
-					player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true, false);
+			player = createPlayer(getSave.getLocation(), gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true, false);
 			
 			((PlayerController)controller).setPlayer(player);
 			
@@ -671,7 +667,7 @@ public class PlayState extends GameState {
 	 * @param old player's olf playerdata if retaining old values.
 	 * @return
 	 */
-	public Player createPlayer(int x, int y, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset, boolean firstTime) {
+	public Player createPlayer(Vector2 startPosition, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset, boolean firstTime) {
 		
 		Loadout newLoadout = new Loadout(altLoadout);
 		
@@ -691,7 +687,7 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		return new Player(this, x, y, name, newLoadout, old, connID, reset, firstTime);
+		return new Player(this, startPosition, name, newLoadout, old, connID, reset, firstTime);
 	}
 	
 	/**
@@ -932,22 +928,13 @@ public class PlayState extends GameState {
 		return uiArtifact;
 	}
 
-	public int getStartX() {
-		return startX;
-	}
-
-	public int getStartY() {
-		return startY;
-	}
-	
-	public void setStart(int x, int y) {
-		this.startX = (int) (x / PPM);
-		this.startY = (int) (y / PPM);
+	public Vector2 getStartPosition() {
+		return startPosition;
 	}
 	
 	public SavePoint getSavePoint() {
 		if (savePoints.isEmpty()) {
-			return new SavePoint(new Vector2(startX, startY), null, zoomDesired);
+			return new SavePoint(startPosition, null, zoomDesired);
 		}
 		int randomIndex = GameStateManager.generator.nextInt(savePoints.size());
 		return savePoints.get(randomIndex);

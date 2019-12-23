@@ -34,8 +34,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static float recoil = 24.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 50;
+	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 4.0f;
 	
 	private final static float procCd = .05f;
@@ -48,13 +47,13 @@ public class SlodgeGun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
 	public SlodgeGun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, Sprite.NOTHING);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, Sprite.NOTHING);
 		hbox.setGravity(3.0f);
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
@@ -78,7 +77,7 @@ public class SlodgeGun extends RangedWeapon {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		if (processClip(state, shooter)) {
-			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileWidth, procCd, this));
+			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileSize.x, procCd, this));
 		}
 	}
 }

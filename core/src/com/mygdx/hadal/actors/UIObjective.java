@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -49,8 +48,8 @@ public class UIObjective extends AHadalActor {
 		
 		if (state.getObjectiveTarget() != null && player.getBody() != null) {
 			
-			float xDist = (player.getPosition().x * PPM) - (state.getObjectiveTarget().getPosition().x * PPM);
-			float yDist = (player.getPosition().y * PPM) - (state.getObjectiveTarget().getPosition().y * PPM);		
+			float xDist = (player.getPixelPosition().x) - (state.getObjectiveTarget().getPixelPosition().x);
+			float yDist = (player.getPixelPosition().y) - (state.getObjectiveTarget().getPixelPosition().y);		
 			
 			if (Math.abs(xDist) > HadalGame.CONFIG_WIDTH / 2 || Math.abs(yDist) > HadalGame.CONFIG_HEIGHT / 2) {
 				toObjective.set(xDist, yDist);
@@ -75,8 +74,8 @@ public class UIObjective extends AHadalActor {
 				}	
 			} else {
 				batch.setProjectionMatrix(state.sprite.combined);
-				x = state.getObjectiveTarget().getPosition().x * PPM;
-				y = state.getObjectiveTarget().getPosition().y * PPM;
+				x = state.getObjectiveTarget().getPixelPosition().x;
+				y = state.getObjectiveTarget().getPixelPosition().y;
 			}
 			
 			batch.draw(base, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
@@ -84,7 +83,6 @@ public class UIObjective extends AHadalActor {
 			batch.draw(overlay, x - base.getRegionWidth() * scale / 2, y - base.getRegionHeight() * scale / 2, base.getRegionWidth() * scale, base.getRegionHeight() * scale);
 			
 			batch.setProjectionMatrix(state.hud.combined);
-
 		}
 	}
 

@@ -20,8 +20,6 @@ import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 /**
@@ -75,8 +73,8 @@ public class Hitbox extends HadalEntity {
 	 * This constructor is run whenever a hitbox is created. Usually by a schmuck using a weapon.
 	 * @param : pretty much the same as the fields above.
 	 */
-	public Hitbox(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
-		super(state, width, height, x, y);
+	public Hitbox(PlayState state, Vector2 startPos, Vector2 size, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
+		super(state, startPos, size);
 		this.maxLifespan = lifespan;
 		this.lifeSpan = lifespan;
 		this.filter = filter;
@@ -107,12 +105,12 @@ public class Hitbox extends HadalEntity {
 
 		this.data = new HitboxData(state, this);
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, 
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 				filter, true, data);
 		
 		if (!sensor) {
-			body.createFixture(FixtureBuilder.createFixtureDef(width / 2, height / 2, new Vector2(0, 0), false, 0, 0, restitution, friction,
+			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size), false, 0, 0, restitution, friction,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
 		}
 		
@@ -144,14 +142,14 @@ public class Hitbox extends HadalEntity {
 	}
 	
 	@Override
-	public void push(float impulseX, float impulseY) {
+	public void push(Vector2 push) {
 		
 		if (!alive) {
 			return;
 		}
 		
 		for (HitboxStrategy s : strategies) {
-			s.push(impulseX, impulseY);
+			s.push(push);
 		}
 	}
 
@@ -168,10 +166,10 @@ public class Hitbox extends HadalEntity {
 		
 		if (projectileSprite != null) {
 			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-					getPosition().x * PPM - width / 2, 
-					getPosition().y * PPM - height / 2, 
-					width / 2, height / 2,
-					width, height, 1, 1, 
+					getPixelPosition().x - size.x / 2, 
+					getPixelPosition().y - size.y / 2, 
+					size.x / 2, size.y / 2,
+					size.x, size.y, 1, 1, 
 					(float) Math.toDegrees(getOrientation()) + 180);
 		}
 	}
@@ -217,7 +215,7 @@ public class Hitbox extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.HBOX, alignType.HITBBOX);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(size), getPixelPosition(), sprite, ObjectSyncLayers.HBOX, alignType.HITBBOX);
 	}
 	
 	public float getMaxLifespan() {

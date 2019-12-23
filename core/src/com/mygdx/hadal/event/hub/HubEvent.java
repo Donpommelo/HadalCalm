@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -38,8 +39,8 @@ public class HubEvent extends Event {
 	protected static final float optionsWidth = 400.0f;
 	protected static final float optionsHeight = 30.0f;
 	
-	public HubEvent(final PlayState state, String name, int width, int height, int x, int y, String title) {
-		super(state, name, width, height, x, y);
+	public HubEvent(final PlayState state, String name, Vector2 startPos, Vector2 size, String title) {
+		super(state, name, startPos, size);
 		this.tableInner = new Table();
 		this.tableOuter = new Table();
 		
@@ -86,7 +87,7 @@ public class HubEvent extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),
 				(short) 0, true, eventData);
 	}

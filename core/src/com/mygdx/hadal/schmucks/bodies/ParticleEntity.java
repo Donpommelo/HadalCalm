@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,8 +44,8 @@ public class ParticleEntity extends HadalEntity {
 	private particleSyncType sync;
 	
 	//This constructor creates a particle effect at an area.
-	public ParticleEntity(PlayState state, float startX, float startY, Particle particle, float lifespan, boolean startOn, particleSyncType sync) {
-		super(state, 0, 0, startX, startY);
+	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, particleSyncType sync) {
+		super(state, startPos, new Vector2());
 		this.particle = particle;
 		this.effect = particle.getParticle();
 		this.on = startOn;
@@ -63,19 +61,19 @@ public class ParticleEntity extends HadalEntity {
 			this.effect.allowCompletion();
 		}
 		
-		this.effect.setPosition(startX, startY);		
+		this.effect.setPosition(startPos.x, startPos.y);		
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
 	public ParticleEntity(PlayState state, HadalEntity entity, Particle particle, float linger, float lifespan, boolean startOn, particleSyncType sync) {
-		this(state, 0, 0, particle, lifespan, startOn, sync);
+		this(state, new Vector2(), particle, lifespan, startOn, sync);
 		this.attachedEntity = entity;
 		attached = linger == 0;
 		this.linger = linger;
 		
 		if (attachedEntity != null) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				this.effect.setPosition(attachedEntity.getPosition().x * PPM, attachedEntity.getPosition().y * PPM);
+				this.effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
 			}
 		}
 	}
@@ -87,7 +85,7 @@ public class ParticleEntity extends HadalEntity {
 	public void controller(float delta) {
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				effect.setPosition(attachedEntity.getPosition().x * PPM, attachedEntity.getPosition().y * PPM);
+				effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
 			} else {
 				if (!attached) {
 					despawn = true;
@@ -206,7 +204,7 @@ public class ParticleEntity extends HadalEntity {
 				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(), 
 						true, particle.toString(), on, linger, lifespan);
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startX, startY), 
+				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startPos), 
 						false, particle.toString(), on, linger, lifespan);
 			}
 		} else {
@@ -223,15 +221,15 @@ public class ParticleEntity extends HadalEntity {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
-					newPos.set(attachedEntity.getPosition().x * PPM, attachedEntity.getPosition().y * PPM);
+					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
 					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 				} 
 				else {
-					newPos.set(startX, startY);
+					newPos.set(startPos);
 					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 				}
 			} else {
-				newPos.set(startX, startY);
+				newPos.set(startPos);
 				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 			}
 		}

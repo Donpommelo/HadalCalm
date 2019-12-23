@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
@@ -17,10 +18,8 @@ public class Quartermaster extends HubEvent {
 	private static final String name = "Quartermaster";
 	private static final String title = "SPEND SCRIP";
 
-	public Quartermaster(PlayState state, int width, int height,
-			int x, int y) {
-		super(state, name, width, height, x, y, title);
-	
+	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size, title);
 	}
 	
 	public void enter() {

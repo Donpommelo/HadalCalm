@@ -7,8 +7,6 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 public class SpringLoader extends ActiveItem {
 
 	private final static String name = "Spring Loader";
@@ -16,7 +14,7 @@ public class SpringLoader extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 3.0f;
 	
-	private final static int springRadius = 64;
+	private final static Vector2 springRadius = new Vector2(64, 64);
 	private final static float springPower = 60.0f;
 	private final static float springDuration = 6.0f;
 	
@@ -27,10 +25,7 @@ public class SpringLoader extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
-		new Spring(state, springRadius, springRadius,
-				(int)(user.getPlayer().getMouse().getPosition().x * PPM),
-				(int)(user.getPlayer().getMouse().getPosition().y * PPM), 
-				new Vector2(0, springPower), springDuration);
+		new Spring(state, user.getPlayer().getMouse().getPixelPosition(), springRadius, new Vector2(0, springPower), springDuration);
 	}
 
 }

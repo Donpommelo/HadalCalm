@@ -23,8 +23,6 @@ import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 public class TeslaCoil extends RangedWeapon {
 
 	private final static String name = "Tesla Coil";
@@ -36,8 +34,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 80.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 40;
+	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
@@ -47,20 +44,20 @@ public class TeslaCoil extends RangedWeapon {
 	private final static float radius = 20.0f;
 	private final static float pulseInterval = 1.0f;
 	private final static float pulseDuration = 0.1f;
-	private final static int pulseSize = 40;
+	private final static Vector2 pulseSize = new Vector2(40, 40);
 	private final static float pulseDamage = 6.0f;
 	
 	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
 
 	public TeslaCoil(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, final float x, final float y, short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
-		final Vector2 endLocation = new Vector2(this.x, this.y);
+		final Vector2 endLocation = new Vector2(this.mouseLocation);
 		final TeslaCoil tool = this;
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
@@ -76,7 +73,7 @@ public class TeslaCoil extends RangedWeapon {
 			
 			@Override
 			public void create() {
-				this.startLocation.set(hbox.getPosition());
+				this.startLocation.set(hbox.getPixelPosition());
 				this.distance = startLocation.dst(endLocation);
 			}
 			
@@ -118,7 +115,7 @@ public class TeslaCoil extends RangedWeapon {
 					return;
 				}
 				
-				if (startLocation.dst(hbox.getPosition()) >= distance) {
+				if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
 					firstPlanted = true;
 				}
 			}
@@ -147,14 +144,14 @@ public class TeslaCoil extends RangedWeapon {
 				if (!activated) {
 					activated = true;
 					
-					Vector2 pulsePosition = new Vector2(hbox.getPosition().scl(PPM));
-					Vector2 pulsePath = hboxOther.getPosition().sub(hbox.getPosition()).scl(PPM);
+					Vector2 pulsePosition = new Vector2(hbox.getPixelPosition());
+					Vector2 pulsePath = hboxOther.getPixelPosition().sub(hbox.getPixelPosition());
 					float dist = pulsePath.len();
-					for (int i = 0; i < dist - pulseSize; i += pulseSize) {
+					for (int i = 0; i < dist - pulseSize.x; i += pulseSize.x) {
 						pulsePosition.add(pulsePath.nor().scl(pulseSize));
 						
 						
-						Hitbox pulse = new RangedHitbox(state, pulsePosition.x, pulsePosition.y, pulseSize, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
+						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData(), false));
 						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, pulseDamage, 0, DamageTypes.RANGED));
 						new ParticleEntity(state, pulse, Particle.LASER_PULSE, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);

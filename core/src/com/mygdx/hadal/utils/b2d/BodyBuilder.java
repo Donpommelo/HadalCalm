@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils.b2d;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -36,17 +37,17 @@ public class BodyBuilder {
 	 * @param userData: HadalData of the body.
 	 * @return: The newly created body.
 	 */
-    public static Body createBox(final World world, float x, float y, float w, float h, float grav, float density, float resti,
+    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti,
     		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
-    	return createBox(world, x, y, w, h, grav, density, resti, 1.0f, isStatic, canRotate, cBits, mBits, gIndex, sensor, userData);
+    	return createBox(world, startPos, size, grav, density, resti, 1.0f, isStatic, canRotate, cBits, mBits, gIndex, sensor, userData);
     }
     
-    public static Body createBox(final World world, float x, float y, float w, float h, float grav, float density, float resti, float friction,
+    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti, float friction,
     		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
     	
     	BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = canRotate;
-        bodyDef.position.set(x / PPM, y / PPM);
+        bodyDef.position.set(new Vector2(startPos).scl(1 / PPM));
 
         if(isStatic) {
             bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -56,8 +57,7 @@ public class BodyBuilder {
 
         PolygonShape shape = new PolygonShape();
         
-        //There is not really a reason I am dividing by 2 but I don't really feel like changing it. Sorry.
-        shape.setAsBox(w / PPM / 2, h / PPM / 2);
+        shape.setAsBox(size.x / PPM / 2, size.y / PPM / 2);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -80,5 +80,4 @@ public class BodyBuilder {
         
         return body;
     }
-
 }

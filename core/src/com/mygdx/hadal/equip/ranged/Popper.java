@@ -17,8 +17,6 @@ import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 public class Popper extends RangedWeapon {
 
 	private final static String name = "Popper";
@@ -32,15 +30,13 @@ public class Popper extends RangedWeapon {
 	private final static float recoil = 18.0f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 100.0f;
-	private final static int projectileWidth = 45;
-	private final static int projectileHeight = 45;
+	private final static Vector2 projectileSize = new Vector2(45, 45);
 	private final static float lifespan = 0.3f;
 	
 	private final static int numProj = 15;
 	private final static int spread = 20;
 	private final static float fragSpeed = 30.0f;
-	private final static int fragWidth = 15;
-	private final static int fragHeight = 15;
+	private final static Vector2 fragSize = new Vector2(15, 15);
 	private final static float fragLifespan = 1.0f;
 	private final static float fragDamage = 5.0f;
 
@@ -53,14 +49,14 @@ public class Popper extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	public Popper(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		final Equipable tool = this;
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		hbox.setGravity(5.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
@@ -80,7 +76,7 @@ public class Popper extends RangedWeapon {
 					float newDegrees = (float) (new Vector2(0, 1).angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 					Vector2 newVelocity = new Vector2(0, 1).nor().scl(fragSpeed);
 					
-					Hitbox frag = new RangedHitbox(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, fragWidth, fragHeight, fragLifespan, newVelocity.setAngle(newDegrees),
+					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.setAngle(newDegrees),
 							filter, true, true, user, fragSprite) {
 						
 						@Override

@@ -29,14 +29,13 @@ public class HitboxDefaultStrategy extends HitboxStrategy{
 		}
 		
 		if (adjustAngle) {
-			hbox.setTransform(hbox.getPosition().x, hbox.getPosition().y, 
-					(float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
+			hbox.setTransform(hbox.getPosition().x, hbox.getPosition().y, (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
 		}
 	}
 
 	@Override
-	public void push(float impulseX, float impulseY) {
-		hbox.applyLinearImpulse(new Vector2(impulseX, impulseY).scl(0.2f));
+	public void push(Vector2 push) {
+		hbox.applyLinearImpulse(push.scl(0.2f));
 	}
 	
 	@Override

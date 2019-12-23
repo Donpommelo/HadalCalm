@@ -1,6 +1,5 @@
 package com.mygdx.hadal.event;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -49,17 +48,17 @@ public class Poison extends Event {
 	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
 	private short filter;
 	
-	public Poison(PlayState state, int width, int height, int x, int y, float dps, boolean draw, short filter) {
-		super(state, name, width, height, x, y);
+	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, boolean draw, short filter) {
+		super(state, name, startPos, size);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = state.getWorldDummy();
 		this.draw = draw;
 		this.on = true;
 		
-		spawnTimerLimit = 4096f/(width * height);
+		spawnTimerLimit = 4096f/(size.x * size.y);
 		
-		randomParticles = width > 100;
+		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
 			new ParticleEntity(state, this, Particle.POISON, 0, 0, on, particleSyncType.CREATESYNC);
@@ -69,16 +68,16 @@ public class Poison extends Event {
 	/**
 	 * This constructor is used for when this event is created temporarily.
 	 */
-	public Poison(PlayState state, int width, int height, int x, int y, float dps, float duration, Schmuck perp, boolean draw, short filter) {
-		super(state, name, width, height, x, y, duration);
+	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw, short filter) {
+		super(state, name, startPos, size, duration);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = perp;
 		this.draw = draw;
 		this.on = true;
-		spawnTimerLimit = 4096f/(width * height);
+		spawnTimerLimit = 4096f/(size.x * size.y);
 		
-		randomParticles = width > 100;
+		randomParticles = size.x > 100;
 		
 		if (!randomParticles && draw) {
 			new ParticleEntity(state, this, Particle.POISON, 1.5f, 0, on, particleSyncType.CREATESYNC);
@@ -96,7 +95,7 @@ public class Poison extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 0, 0, false, false, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				(short) filter, true, eventData);
 	}
@@ -119,9 +118,9 @@ public class Poison extends Event {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((Math.random() * width) - (width / 2) + getPosition().x * PPM);
-					int randY = (int) ((Math.random() * height) - (height / 2) + getPosition().y * PPM);
-					new ParticleEntity(state, randX, randY, Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
+					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
+					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
+					new ParticleEntity(state, new Vector2(randX, randY), Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
 				}
 			}
 		}
@@ -138,9 +137,9 @@ public class Poison extends Event {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
 					currPoisonSpawnTimer -= spawnTimerLimit;
-					int randX = (int) ((Math.random() * width) - (width / 2) + getPosition().x * PPM);
-					int randY = (int) ((Math.random() * height) - (height / 2) + getPosition().y * PPM);
-					ParticleEntity poison = new ParticleEntity(state, randX, randY, Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
+					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
+					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
+					ParticleEntity poison = new ParticleEntity(state, new Vector2(randX, randY), Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
 					((ClientState)state).addEntity(poison.getEntityID().toString(), poison, ObjectSyncLayers.STANDARD);
 				}
 			}
@@ -153,8 +152,7 @@ public class Poison extends Event {
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
-			return new Packets.CreatePoison(entityID.toString(), getPosition().scl(PPM), 
-					new Vector2(width, height), draw);
+			return new Packets.CreatePoison(entityID.toString(), getPixelPosition(), new Vector2(size), draw);
 		} else {
 			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		}

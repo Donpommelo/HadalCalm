@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -22,8 +23,8 @@ public class Armory extends HubEvent {
 	private static final String name = "Armory";
 	private static final String title = "SELECT WEAPON";
 
-	public Armory(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y, title);
+	public Armory(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size, title);
 	}
 	
 	@Override

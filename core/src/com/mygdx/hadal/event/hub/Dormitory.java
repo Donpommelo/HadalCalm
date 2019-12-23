@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -19,8 +20,8 @@ public class Dormitory extends HubEvent {
 	private static final String name = "Dormitory";
 	private static final String title = "SELECT CHARACTER";
 
-	public Dormitory(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y, title);
+	public Dormitory(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size, title);
 	}
 	
 	public void enter() {

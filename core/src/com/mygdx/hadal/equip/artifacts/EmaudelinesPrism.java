@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -39,15 +37,8 @@ public class EmaudelinesPrism extends Artifact {
 				projAngle1.set(projVelo).setAngle(projVelo.angle() + spread);
 				projAngle2.set(projVelo).setAngle(projVelo.angle() - spread);
 				
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle1,
-						inflicted.getSchmuck().getPosition().x * PPM, 
-						inflicted.getSchmuck().getPosition().y * PPM,
-						inflicted.getSchmuck().getHitboxfilter());
-				
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projAngle2,
-						inflicted.getSchmuck().getPosition().x * PPM, 
-						inflicted.getSchmuck().getPosition().y * PPM,
-						inflicted.getSchmuck().getHitboxfilter());
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getPixelPosition(), projAngle1, inflicted.getSchmuck().getHitboxfilter());
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getPixelPosition(), projAngle2, inflicted.getSchmuck().getHitboxfilter());
 			}
 		});
 		return enchantment;

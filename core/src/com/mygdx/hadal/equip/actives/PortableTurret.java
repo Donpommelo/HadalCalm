@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.actives;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -23,7 +21,7 @@ public class PortableTurret extends ActiveItem {
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 600.0f;
 	
-	private final static int projectileWidth = 70;
+	private final static Vector2 projectileSize = new Vector2(70, 70);
 	private final static float lifespan = 3.0f;
 
 	private final static float projectileSpeed = 12.0f;
@@ -40,10 +38,7 @@ public class PortableTurret extends ActiveItem {
 		
 		final boolean faceRight = weaponVelo.x > 0;
 		
-		Hitbox hbox = new RangedHitbox(state, 
-				user.getPlayer().getPosition().x * PPM, 
-				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileWidth, lifespan,  new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), 	false, false, user.getPlayer(), projSprite);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan,  new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), 	false, false, user.getPlayer(), projSprite);
 		
 		hbox.setGravity(3.0f);
 		
@@ -59,8 +54,7 @@ public class PortableTurret extends ActiveItem {
 			
 			@Override
 			public void die() {
-				new Turret(state, (int)(hbox.getPosition().x * PPM), (int)(hbox.getPosition().y * PPM - projectileWidth / 4),
-						enemyType.TURRET_FLAK, faceRight ? 0 : 180, hbox.getFilter(), null) {
+				new Turret(state, hbox.getPixelPosition(), enemyType.TURRET_FLAK, faceRight ? 0 : 180, hbox.getFilter(), null) {
 					
 					@Override
 					public void create() {

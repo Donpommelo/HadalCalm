@@ -1,8 +1,7 @@
 package com.mygdx.hadal.event;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
@@ -29,8 +28,8 @@ public class Text extends Event {
 	
 	private boolean open;
 	
-	public Text(PlayState state, int width, int height, int x, int y, String text) {
-		super(state, name, width, height, x, y);
+	public Text(PlayState state, Vector2 startPos, Vector2 size, String text) {
+		super(state, name, startPos, size);
 		this.text = text;
 	}
 	
@@ -39,7 +38,7 @@ public class Text extends Event {
 
 		this.eventData = new EventData(this);
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
@@ -60,12 +59,12 @@ public class Text extends Event {
 			HadalGame.SYSTEM_FONT_UI.getData().setScale(0.60f);
 			if (getConnectedEvent() != null) {
 				if (getConnectedEvent().getBody() != null) {
-					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getConnectedEvent().getPosition().x * PPM, getConnectedEvent().getPosition().y * PPM);
+					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getConnectedEvent().getPixelPosition().x, getConnectedEvent().getPixelPosition().y);
 				} else {
-					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPosition().x * PPM, getPosition().y * PPM);
+					HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPixelPosition().x, getPixelPosition().y);
 				}
 			} else {
-				HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPosition().x * PPM, getPosition().y * PPM);
+				HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPixelPosition().x, getPixelPosition().y);
 			}
 		}
 	}

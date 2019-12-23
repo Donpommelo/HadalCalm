@@ -1,8 +1,5 @@
 package com.mygdx.hadal.equip.melee;
 
-
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
@@ -21,8 +18,7 @@ public class Fisticuffs extends MeleeWeapon {
 	private final static float windup = 0.0f;
 	private final static float baseDamage = 25.0f;
 
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 75;
+	private final static Vector2 projectileSize = new Vector2(75, 75);
 	private final static float lifespan = 0.1f;
 	private final static float knockback = 25.0f;
 	private final static Sprite projSprite = Sprite.IMPACT;
@@ -36,17 +32,11 @@ public class Fisticuffs extends MeleeWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
-		float xImpulse = -(user.getPosition().x - ((Player)user).getMouse().getPosition().x);
-		float yImpulse = -(user.getPosition().y - ((Player)user).getMouse().getPosition().y);
-				
-		Vector2 projOffset = new Vector2(xImpulse, yImpulse).nor().scl(range);
+		Vector2 projOffset = new Vector2(((Player)user).getMouse().getPixelPosition()).sub(user.getPixelPosition()).nor().scl(range).add(user.getPixelPosition());
 		
-		float offsetX = user.getPosition().x * PPM + projOffset.x;  
-		float offsetY = user.getPosition().y * PPM + projOffset.y;  
-		
-		Hitbox hbox = new Hitbox(state, offsetX, offsetY, projectileWidth, projectileHeight, lifespan, new Vector2(0, 0),	filter, true, true, user, projSprite);
+		Hitbox hbox = new Hitbox(state, projOffset, projectileSize, lifespan, new Vector2(0, 0),	filter, true, true, user, projSprite);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

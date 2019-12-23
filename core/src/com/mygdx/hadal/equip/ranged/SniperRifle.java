@@ -28,8 +28,7 @@ public class SniperRifle extends RangedWeapon {
 	private final static float recoil = 30.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 75.0f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 6;
+	private final static Vector2 projectileSize = new Vector2(50, 6);
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.BULLET;
@@ -39,12 +38,12 @@ public class SniperRifle extends RangedWeapon {
 	private final static float bonusDamage = 70.0f;
 
 	public SniperRifle(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

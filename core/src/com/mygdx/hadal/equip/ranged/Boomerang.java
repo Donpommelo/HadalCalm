@@ -16,8 +16,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 public class Boomerang extends RangedWeapon {
 
 	private final static String name = "Boomerang";
@@ -31,8 +29,7 @@ public class Boomerang extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 35.0f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 50;
+	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespanx = 4.0f;
 	private final static float returnAmp = 1.0f;
 	
@@ -41,15 +38,15 @@ public class Boomerang extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BOOMERANG;
 	
 	public Boomerang(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
 		final Equipable tool = this;
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespanx, startVelocity, (short) 0, false, true, user, projSprite);		
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespanx, startVelocity, (short) 0, false, true, user, projSprite);		
 		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
@@ -69,8 +66,8 @@ public class Boomerang extends RangedWeapon {
 				controllerCount+=delta;
 
 				if (controllerCount >= 1/60f) {
-					diff.set(user.getPosition().x * PPM - hbox.getPosition().x * PPM, 
-							user.getPosition().y * PPM - hbox.getPosition().y * PPM);
+					diff.set(user.getPixelPosition().x - hbox.getPixelPosition().x, 
+							user.getPixelPosition().y - hbox.getPixelPosition().y);
 					
 					hbox.applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getMass() * returnAmp));
 

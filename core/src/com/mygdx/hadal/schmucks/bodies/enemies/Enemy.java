@@ -37,6 +37,8 @@ public class Enemy extends Schmuck {
     //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
+    protected Vector2 hboxSize;
+    
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
 	 * @param state: current gameState
@@ -48,8 +50,9 @@ public class Enemy extends Schmuck {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Enemy(PlayState state, float width, float height, int x, int y, enemyType type, short filter, int baseHp, SpawnerSchmuck spawner) {
-		super(state, width, height, x, y, filter);
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int baseHp, SpawnerSchmuck spawner) {
+		super(state, startPos, size, filter);
+		this.hboxSize = hboxSize;
 		this.type = type;
 		this.baseHp = baseHp;
 		this.spawner = spawner;
@@ -107,8 +110,6 @@ public class Enemy extends Schmuck {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 	public enum enemyType {
 		SCISSORFISH,

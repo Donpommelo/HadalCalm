@@ -19,8 +19,6 @@ public class BeeGun extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeedStart = 4.0f;
 
-	private final static int spread = 45;
-	
 	private final static Sprite weaponSprite = Sprite.MT_BEEGUN;
 	private final static Sprite eventSprite = Sprite.P_BEEGUN;
 	
@@ -29,7 +27,7 @@ public class BeeGun extends RangedWeapon {
 	}
 
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		WeaponUtils.createBees(state, x, y, user, this, 1, spread, startVelocity, true, filter);
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		WeaponUtils.createBees(state, startPosition, user, this, 1, startVelocity, true, filter);
 	}
 }

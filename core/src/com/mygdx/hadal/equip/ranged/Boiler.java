@@ -28,8 +28,7 @@ public class Boiler extends RangedWeapon {
 	private final static float recoil = 1.0f;
 	private final static float knockback = 2.0f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 100;
-	private final static int projectileHeight = 50;
+	private final static Vector2 projectileSize = new Vector2(100, 50);
 	private final static float lifespan = 0.5f;
 	
 	private final static float fireDuration = 4.0f;
@@ -39,12 +38,12 @@ public class Boiler extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BOILER;
 	
 	public Boiler(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		RangedHitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		RangedHitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
 		hbox.setDurability(3);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

@@ -27,8 +27,7 @@ public class BouncingBlade extends RangedWeapon {
 	private final static float recoil = 6.0f;
 	private final static float knockback = 18.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 40;
+	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float lifespan = 3.5f;
 	
 	private final static Sprite projSprite = Sprite.BUZZSAW;
@@ -36,12 +35,12 @@ public class BouncingBlade extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BLADEGUN;
 	
 	public BouncingBlade(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, false, true, user, projSprite);
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setDurability(5);
 		hbox.setRestitution(1.0f);
 		

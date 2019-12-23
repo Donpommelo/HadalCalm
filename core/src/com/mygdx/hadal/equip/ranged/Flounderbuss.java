@@ -32,8 +32,7 @@ public class Flounderbuss extends RangedWeapon {
 	private final static float recoil = 30.0f;
 	private final static float knockback = 9.0f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 16;
-	private final static int projectileHeight = 16;
+	private final static Vector2 projectileSize = new Vector2(16, 16);
 	private final static float lifespan = 1.2f;
 	
 	private final static Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
@@ -47,11 +46,11 @@ public class Flounderbuss extends RangedWeapon {
 	private final static float veloSpread = 4.0f;
 	
 	public Flounderbuss(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 		charging = true;
 		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += delta;
@@ -59,13 +58,11 @@ public class Flounderbuss extends RangedWeapon {
 				chargeCd = getChargeTime();
 			}
 		}
-		super.mouseClicked(delta, state, shooter, faction, x, y);
+		super.mouseClicked(delta, state, shooter, faction, mousePosition);
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
-
-	}
+	public void execute(PlayState state, BodyData shooter) {}
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
@@ -76,7 +73,7 @@ public class Flounderbuss extends RangedWeapon {
 	
 	private Vector2 newVelocity = new Vector2();
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime(); i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
@@ -86,7 +83,7 @@ public class Flounderbuss extends RangedWeapon {
 			
 			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() - 0.5f) * veloSpread);
 			
-			Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
 			hbox.setGravity(3.0f);
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

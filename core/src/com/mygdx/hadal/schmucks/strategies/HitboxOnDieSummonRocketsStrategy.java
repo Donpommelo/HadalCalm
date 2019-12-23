@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -25,7 +23,6 @@ public class HitboxOnDieSummonRocketsStrategy extends HitboxStrategy{
 	
 	@Override
 	public void die() {
-		WeaponUtils.createHomingTorpedo(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 
-				creator.getSchmuck(), tool, numTorp, 60, new Vector2(0, 1), false, filter);	
+		WeaponUtils.createHomingTorpedo(state, this.hbox.getPixelPosition(), creator.getSchmuck(), tool, numTorp, 60, new Vector2(0, 1), false, filter);	
 	}
 }

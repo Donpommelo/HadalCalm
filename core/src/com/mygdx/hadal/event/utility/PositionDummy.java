@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.utility;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
@@ -28,9 +29,8 @@ public class PositionDummy extends Event {
 
 	private String id;
 	
-	public PositionDummy(PlayState state, int width, int height, int x, int y, String id) {
-		super(state, name, width, height, x, y);
-		
+	public PositionDummy(PlayState state, Vector2 startPos, Vector2 size, String id) {
+		super(state, name, startPos, size);
 		this.id = id;
 	}
 	
@@ -46,7 +46,7 @@ public class PositionDummy extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) 0, (short) 0, true, eventData);
 		
 		if (!id.equals("")) {

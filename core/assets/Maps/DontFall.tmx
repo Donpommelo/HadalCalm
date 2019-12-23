@@ -659,6 +659,7 @@
    <properties>
     <property name="triggeredId" value="save1"/>
     <property name="triggeringId" value="mapCenter"/>
+    <property name="zoom" type="float" value="2"/>
    </properties>
   </object>
  </objectgroup>

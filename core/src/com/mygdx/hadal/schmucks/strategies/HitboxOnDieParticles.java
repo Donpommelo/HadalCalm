@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -20,9 +19,6 @@ public class HitboxOnDieParticles extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		new ParticleEntity(state, 
-				(int)(this.hbox.getPosition().x * PPM), 
-				(int)(this.hbox.getPosition().y * PPM),
-				effect, 1.0f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, 1.0f, true, particleSyncType.CREATESYNC);
 	}
 }

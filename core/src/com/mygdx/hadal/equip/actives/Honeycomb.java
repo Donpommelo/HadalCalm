@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.actives;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -22,10 +20,6 @@ public class Honeycomb extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		WeaponUtils.createBees(state, 
-				user.getSchmuck().getPosition().x * PPM, 
-				user.getSchmuck().getPosition().y * PPM, 
-				user.getSchmuck(), user.getCurrentTool(), 5, 180, new Vector2(1, 1), false, user.getSchmuck().getHitboxfilter());
+		WeaponUtils.createBees(state, user.getSchmuck().getPixelPosition(), user.getSchmuck(), user.getCurrentTool(), 5, new Vector2(1, 1), false, user.getSchmuck().getHitboxfilter());
 	}
-
 }

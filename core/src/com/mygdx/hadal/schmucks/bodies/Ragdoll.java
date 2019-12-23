@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,8 +39,8 @@ public class Ragdoll extends HadalEntity {
 	
 	private boolean sensor;
 	
-	public Ragdoll(PlayState state, float w, float h, int x, int y, Sprite sprite, Vector2 startVelo, float duration, boolean sensor) {
-		super(state, w, h, x, y);
+	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, boolean sensor) {
+		super(state, startPos, size);
 		this.startVelo = startVelo;
 		this.startAngle = baseAngle;
 		this.ragdollDuration = duration;
@@ -57,7 +55,7 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0.5f, false, false, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0.5f, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) 0, sensor, hadalData);
 		
 		setAngularVelocity(startAngle * veloAmp);
@@ -82,10 +80,10 @@ public class Ragdoll extends HadalEntity {
 		
 		if (ragdollSprite != null) {
 			batch.draw(ragdollSprite, 
-					getPosition().x * PPM - width / 2, 
-					getPosition().y * PPM - height / 2, 
-					width / 2, height / 2,
-					width, height, 1, 1, 
+					getPixelPosition().x - size.x / 2, 
+					getPixelPosition().y - size.y / 2, 
+					size.x / 2, size.y / 2,
+					size.x, size.y, 1, 1, 
 					(float) Math.toDegrees(getOrientation()));
 		}
 	}
@@ -95,6 +93,6 @@ public class Ragdoll extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(width, height), getPosition().scl(PPM), sprite, ObjectSyncLayers.STANDARD, alignType.CENTER);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(size), getPixelPosition(), sprite, ObjectSyncLayers.STANDARD, alignType.CENTER);
 	}
 }

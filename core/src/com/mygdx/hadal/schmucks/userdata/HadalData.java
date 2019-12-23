@@ -45,7 +45,7 @@ public class HadalData {
 	 */
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
 		if (getEntity().isAlive()) {
-			getEntity().push(knockback.x, knockback.y);
+			getEntity().push(knockback);
 		}
 	}
 	

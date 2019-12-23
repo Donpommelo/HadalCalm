@@ -23,8 +23,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 25;
-	private final static int projectileHeight = 25;
+	private final static Vector2 projectileSize = new Vector2(25, 25);
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 125;
@@ -38,7 +37,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private Queue<Hitbox> bombsLaid = new Queue<Hitbox>();
 
 	public StickyBombLauncher(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
@@ -55,8 +54,8 @@ public class StickyBombLauncher extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

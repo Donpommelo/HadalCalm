@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -14,7 +15,6 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class ActiveItem extends Equipable {
 
-	protected int x, y;
 	protected short faction;
 	
 	protected float currentCharge, maxCharge;
@@ -34,17 +34,13 @@ public class ActiveItem extends Equipable {
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 
-		float powerDiv = shooter.getSchmuck().getPosition().dst(x, y);
+		float powerDiv = shooter.getSchmuck().getPixelPosition().dst(mousePosition);
+		weaponVelo.set(shooter.getSchmuck().getPixelPosition()).sub(mousePosition).scl(-1 / powerDiv);
 		
-		float xImpulse = -(shooter.getSchmuck().getPosition().x - x) / powerDiv;
-		float yImpulse = -(shooter.getSchmuck().getPosition().y - y) / powerDiv;
-
-		weaponVelo.set(xImpulse, yImpulse);
 		this.faction = faction;
-		this.x = x;
-		this.y = y;
+		this.mouseLocation.set(mousePosition);
 	}
 	
 	/**
@@ -57,7 +53,6 @@ public class ActiveItem extends Equipable {
 			currentCharge = 0;
 			useItem(state, (PlayerBodyData)shooter);
 		}
-
 	}
 	
 	/**

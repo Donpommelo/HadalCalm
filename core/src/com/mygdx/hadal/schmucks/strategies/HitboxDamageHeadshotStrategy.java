@@ -29,7 +29,7 @@ public class HitboxDamageHeadshotStrategy extends HitboxStrategy{
 		if (fixB != null) {
 			if (fixB instanceof PlayerBodyData) {
 				PlayerBodyData p = (PlayerBodyData) fixB;
-				if ((hbox.getPosition().y - p.getPlayer().getPosition().y) > headshotThreshold * Player.hbHeight * Player.scale / PPM) {
+				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * Player.hbHeight * Player.scale / PPM) {
 					fixB.receiveDamage(bonusDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, tool, true);
 				}
 			}

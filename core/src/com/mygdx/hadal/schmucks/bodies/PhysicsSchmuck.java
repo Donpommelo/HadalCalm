@@ -11,8 +11,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class PhysicsSchmuck extends Schmuck {
 
-	public PhysicsSchmuck(PlayState state, float w, float h, float startX, float startY, short hitboxFilter) {
-		super(state, w, h, startX, startY, hitboxFilter);
+	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter) {
+		super(state, startPos, size, hitboxFilter);
 	}
 	
 	private Vector2 force = new Vector2();

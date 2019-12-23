@@ -31,8 +31,7 @@ public class Maelstrom extends RangedWeapon {
 	private final static float baseDamage = 5.0f;
 	private final static float knockback = 8.0f;
 	private final static float projectileSpeedStart = 50.0f;
-	private final static int projectileWidth = 30;
-	private final static int projectileHeight = 30;
+	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 1.0f;
 	
 	private final static int chainAmount = 5;
@@ -41,12 +40,12 @@ public class Maelstrom extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	public Maelstrom(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, Sprite.NOTHING);
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hbox.setDurability(chainAmount);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

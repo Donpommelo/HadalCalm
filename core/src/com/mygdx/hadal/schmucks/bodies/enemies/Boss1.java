@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
@@ -54,8 +52,8 @@ public class Boss1 extends BossFloating {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Boss1(PlayState state, int x, int y, enemyType type, short filter, SpawnerSchmuck spawner) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, spawner, sprite);
+	public Boss1(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, spawner, sprite);
 	}
 
 	private int attackNum = 0;
@@ -63,7 +61,6 @@ public class Boss1 extends BossFloating {
 	public void attackInitiate() {
 		
 		attackNum++;
-		
 		if (phase == 1) {
 			if (bodyData.getCurrentHp() <= phaseThreshold2 * bodyData.getStat(Stats.MAX_HP)) {
 				phase = 2;
@@ -317,14 +314,14 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
 	}
 	
-	private static final int laser3Amount = 40;
+	private static final int laser3Amount = 25;
 	private static final float laser3Damage = 7.5f;
 	private static final float laser3Knockback = 1.0f;
 	private static final float laser3Speed = 55.0f;
-	private static final int explosionNumber = 4;
+	private static final int explosionNumber = 5;
 	private static final float explosionDamage = 35.0f;
 	private static final float explosionKnockback = 35.0f;
-	private static final int explosionRadius = 300;
+	private static final float explosionSize = 300;
 	private static final float explosionInterval = 0.25f;
 	
 	private void sweepingLaser() {
@@ -338,8 +335,8 @@ public class Boss1 extends BossFloating {
 				BossUtils.fireLaser(state, this, laser3Damage, laser3Speed, laser3Knockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 			}
 			for (int i = 1; i <= explosionNumber; i++) {
-				BossUtils.createExplosion(state, this, explosionDamage, explosionKnockback, explosionRadius, new Vector2(BossUtils.getLeftSide(state) + i * explosionRadius / 2,
-						BossUtils.floorHeight(state)), explosionInterval);
+				BossUtils.createExplosion(state, this, new Vector2(BossUtils.getLeftSide(state) + i * explosionSize / 2,
+						BossUtils.floorHeight(state)), explosionSize, explosionDamage, explosionKnockback, explosionInterval);
 			}
 			break;
 		case 1: 
@@ -348,8 +345,8 @@ public class Boss1 extends BossFloating {
 				BossUtils.fireLaser(state, this, laser3Damage, laser3Speed, laserKnockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 			}
 			for (int i = 1; i <= explosionNumber; i++) {
-				BossUtils.createExplosion(state, this, explosionDamage, explosionKnockback, explosionRadius, new Vector2(BossUtils.getRightSide(state) - i * explosionRadius / 2,
-						BossUtils.floorHeight(state)), explosionInterval);
+				BossUtils.createExplosion(state, this, new Vector2(BossUtils.getRightSide(state) - i * explosionSize / 2,
+						BossUtils.floorHeight(state)), explosionSize, explosionDamage, explosionKnockback, explosionInterval);
 			}
 			break;
 		}
@@ -392,14 +389,14 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 		
-		spiritPos.set(body.getPosition()).scl(PPM).add(0, 150);
-		BossUtils.vengefulSpirit(state, this, spiritDamage, spiritKnockback, spiritLifespan, new Vector2(spiritPos), 0.0f);
+		spiritPos.set(body.getPosition()).add(0, 150);
+		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 		
-		spiritPos.set(body.getPosition()).scl(PPM).add(150, 0);
-		BossUtils.vengefulSpirit(state, this, spiritDamage, spiritKnockback, spiritLifespan, new Vector2(spiritPos), 0.0f);
+		spiritPos.set(body.getPosition()).add(150, 0);
+		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 		
-		spiritPos.set(body.getPosition()).scl(PPM).add(-150, 0);
-		BossUtils.vengefulSpirit(state, this, spiritDamage, spiritKnockback, spiritLifespan, new Vector2(spiritPos), 0.0f);
+		spiritPos.set(body.getPosition()).add(-150, 0);
+		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 	}
 	
 	private static final int numPoison = 7;
@@ -414,14 +411,14 @@ public class Boss1 extends BossFloating {
 		if (wall == 0) {
 			BossUtils.changeTrackingState(this, BossState.FREE, -75.0f, 0.5f);
 			for (int i = 0; i < numPoison; i++) {
-				BossUtils.createPoison(state, this, poisonWidth, poisonHeight, poisonDamage, poisonDuration, new Vector2(BossUtils.getLeftSide(state) + i * poisonWidth, 
-						BossUtils.floorHeight(state) + poisonHeight / 2), poisonInterval);
+				BossUtils.createPoison(state, this, new Vector2(BossUtils.getLeftSide(state) + i * poisonWidth, BossUtils.floorHeight(state) + poisonHeight / 2),
+						new Vector2(poisonWidth, poisonHeight), poisonDamage, poisonDuration, poisonInterval);
 			}
 		} else {
 			BossUtils.changeTrackingState(this, BossState.FREE, -105.0f, 0.5f);
 			for (int i = 0; i < numPoison; i++) {
-				BossUtils.createPoison(state, this, poisonWidth, poisonHeight, poisonDamage, poisonDuration, new Vector2(BossUtils.getRightSide(state) - i * poisonWidth, 
-						BossUtils.floorHeight(state) + poisonHeight / 2), poisonInterval);
+				BossUtils.createPoison(state, this, new Vector2(BossUtils.getRightSide(state) - i * poisonWidth, BossUtils.floorHeight(state) + poisonHeight / 2),
+						new Vector2(poisonWidth, poisonHeight), poisonDamage, poisonDuration, poisonInterval);
 			}
 		}
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);

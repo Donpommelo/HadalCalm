@@ -55,7 +55,7 @@ public class LaserRifle extends RangedWeapon {
 
 	private Vector2 endPt = new Vector2();
 	@Override
-	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
 		final Equipable tool = this;
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
@@ -84,7 +84,7 @@ public class LaserRifle extends RangedWeapon {
 		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 		Sprite projSprite = projSprites[randomIndex];
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, (int) (distance * shortestFraction * PPM), projectileHeight, lifespan, new Vector2(0, 0), filter, true, true, user, projSprite) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2((distance * shortestFraction * PPM), projectileHeight), lifespan, new Vector2(0, 0), filter, true, true, user, projSprite) {
 			
 			Vector2 newPosition = new Vector2(0, 0);
 			
@@ -94,7 +94,7 @@ public class LaserRifle extends RangedWeapon {
 
 				//Rotate hitbox to match angle of fire.
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
-				newPosition.set(getPosition()).add(startVelocity.nor().scl(width / 2 / PPM));
+				newPosition.set(getPosition()).add(startVelocity.nor().scl(size.x / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
 				
 				this.body.setType(BodyDef.BodyType.StaticBody);
@@ -108,10 +108,10 @@ public class LaserRifle extends RangedWeapon {
 				batch.setColor(1f, 1f, 1f, transparency);
 				
 				batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-						getPosition().x * PPM - width / 2, 
-						getPosition().y * PPM - height / 2, 
-						width / 2, height / 2,
-						width, height, 1, 1, 
+						getPixelPosition().x - size.x / 2, 
+						getPixelPosition().y - size.y / 2, 
+						size.x / 2, size.y / 2,
+						size.x, size.y, 1, 1, 
 						(float) Math.toDegrees(getOrientation()) + 180);
 				
 				batch.setColor(1f, 1f, 1f, 1);

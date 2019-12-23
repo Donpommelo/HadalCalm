@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -44,10 +42,7 @@ public class ClockwiseCage extends Artifact {
 					if (echoCdCount <= 0) {
 						echoing = false;
 						
-						echoTool.fire(state, inflicted.getSchmuck(), angle,
-								inflicted.getSchmuck().getPosition().x * PPM, 
-								inflicted.getSchmuck().getPosition().y * PPM,
-								inflicted.getSchmuck().getHitboxfilter());
+						echoTool.fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getPixelPosition(), angle, inflicted.getSchmuck().getHitboxfilter());
 					}
 				}
 			}

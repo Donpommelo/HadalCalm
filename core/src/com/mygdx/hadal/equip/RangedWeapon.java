@@ -26,7 +26,7 @@ public class RangedWeapon extends Equipable {
 	protected int clipLeft;
 	
 	protected int reloadAmount;
-	protected int projectileSize;
+	protected float projectileSize;
 	protected float recoil;
 	protected float projectileSpeed;
 
@@ -50,7 +50,7 @@ public class RangedWeapon extends Equipable {
 	 * @param projectileSize: The wepaon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
 	 */	
 	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
-			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, int projectileSize, float chargeTime) {
+			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize, float chargeTime) {
 		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite, chargeTime);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
@@ -67,7 +67,7 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
-			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, int projectileSize) {
+			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize) {
 		this(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, autoreload, weaponSprite, eventSprite, projectileSize, 1);
 	}
 
@@ -76,18 +76,14 @@ public class RangedWeapon extends Equipable {
 	 * The weapon is not fired yet. Instead, a vector keeping track of the target is set.
 	 */
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 		
-		float powerDiv = shooter.getSchmuck().getPosition().dst(x, y) / projectileSpeed;
-		
-		float xImpulse = -(shooter.getSchmuck().getPosition().x - x) / powerDiv;
-		float yImpulse = -(shooter.getSchmuck().getPosition().y - y) / powerDiv;
-		weaponVelo.set(xImpulse, yImpulse);
+		float powerDiv = shooter.getSchmuck().getPixelPosition().dst(mousePosition) / projectileSpeed;
+		weaponVelo.set(shooter.getSchmuck().getPixelPosition()).sub(mousePosition).scl(-1 / powerDiv);
 		
 		//Also store the recoil vector and filter.
 		this.faction = faction;
-		this.x = x;
-		this.y = y;
+		this.mouseLocation.set(mousePosition);
 		
 		shooter.statusProcTime(StatusProcTime.WHILE_SHOOTING, null, delta, null, this, null);
 	}
@@ -107,7 +103,7 @@ public class RangedWeapon extends Equipable {
 			projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize));
 			
 			//Shoot			
-			fire(state, user, weaponVelo, projOrigin.x, projOrigin.y, faction);
+			fire(state, user, projOrigin, weaponVelo, faction);
 		}
 	}
 
@@ -130,7 +126,7 @@ public class RangedWeapon extends Equipable {
 			reloadCd = 0;
 			
 			//process weapon recoil.
-			user.recoil(x, y, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
+			user.recoil(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
 		}
 		
 		if (clipLeft <= 0 && autoreload) {

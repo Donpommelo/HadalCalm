@@ -14,6 +14,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Moraygun extends RangedWeapon {
@@ -29,8 +30,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float recoil = 15.0f;
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeedStart = 300.0f;
-	private final static int projectileWidth = 25;
-	private final static int projectileHeight = 25;
+	private final static Vector2 projectileSize = new Vector2(25, 25);
 	private final static float lifespan = 2.5f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
@@ -41,17 +41,17 @@ public class Moraygun extends RangedWeapon {
 	private final static float moveInterval = 0.04f;
 	
 	public Moraygun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
-		final int numX = (int) (startVelocity.x / projectileWidth);
-		final int numY = (int) (startVelocity.y / projectileHeight);
+		final int numX = (int) (startVelocity.x / projectileSize.x);
+		final int numY = (int) (startVelocity.y / projectileSize.y);
 		
 		for (int i = 0; i < numProj; i++) {
-			Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, new Vector2(), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, projSprite);
 			
 			final int num = i;
 			
@@ -83,11 +83,9 @@ public class Moraygun extends RangedWeapon {
 						controllerCount -= moveInterval;
 						if (numMoves >= num) {
 							if ((numMoves - num) % (Math.abs(numX) + Math.abs(numY)) < Math.abs(numX)) {
-								hbox.setTransform(hbox.getPosition()
-										.add(projectileWidth / PPM * Math.signum(numX), 0), 0);
+								hbox.setTransform(hbox.getPosition().add(projectileSize.x / PPM * Math.signum(numX), 0), 0);
 							} else {
-								hbox.setTransform(hbox.getPosition()
-										.add(0, projectileHeight / PPM * Math.signum(numY)), 0);
+								hbox.setTransform(hbox.getPosition().add(0, projectileSize.y / PPM * Math.signum(numY)), 0);
 							}
 						}
 						numMoves++;

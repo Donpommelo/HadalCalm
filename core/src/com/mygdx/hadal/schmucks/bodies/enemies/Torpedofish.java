@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.enemy.TorpedofishAttack;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -12,10 +13,8 @@ public class Torpedofish extends FloatingEnemy {
 	private static final int width = 250;
 	private static final int height = 161;
 	
-	private static final int hbWidth = 161;
-	private static final int hbHeight = 250;
-	
-	private static final float scale = 0.25f;
+	private static final int hboxWidth = 161;
+	private static final int hboxHeight = 250;
 	
 	private static final float maxLinearSpeed = 25;
 	private static final float maxLinearAcceleration = 800;
@@ -27,8 +26,8 @@ public class Torpedofish extends FloatingEnemy {
 	
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 
-	public Torpedofish(PlayState state, int x, int y, short filter, SpawnerSchmuck spawner) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, sprite, enemyType.TORPEDOFISH,
+	public Torpedofish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, enemyType.TORPEDOFISH, 
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
 				boundingRadius, decelerationRadius, filter, baseHp, spawner);
 		

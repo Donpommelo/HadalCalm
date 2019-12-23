@@ -30,8 +30,7 @@ public class ColaCannon extends RangedWeapon {
 	private final static float recoil = 18.0f;
 	private final static float knockback = 5.5f;
 	private final static float projectileSpeed = 45.0f;
-	private final static int projectileWidth = 30;
-	private final static int projectileHeight = 30;
+	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 1.0f;
 
 	private final static float procCd = .05f;
@@ -44,26 +43,26 @@ public class ColaCannon extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float maxCharge = 200.0f;
+	private final static float maxCharge = 6400.0f;
 
 	private Vector2 lastMouse = new Vector2();
 	
 	public ColaCannon(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		charging = true;
 		if (chargeCd < getChargeTime() && !reloading) {
-			chargeCd += lastMouse.dst(x, y);
+			chargeCd += lastMouse.dst(mouseLocation);
 			if (chargeCd >= getChargeTime()) {
 				chargeCd = getChargeTime();
 			}
 		}
 		
-		lastMouse.set(x, y);
-		super.mouseClicked(delta, state, shooter, faction, x, y);
+		lastMouse.set(mouseLocation);
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 	}
 	
 	@Override
@@ -75,7 +74,7 @@ public class ColaCannon extends RangedWeapon {
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
 			final float velocity = projectileSpeed * chargeCd / getChargeTime() + minVelo;
 			
-			bodyData.addStatus(new FiringWeapon(state, duration, bodyData, bodyData, velocity, minVelo, veloDeprec, projectileWidth, procCd, this));
+			bodyData.addStatus(new FiringWeapon(state, duration, bodyData, bodyData, velocity, minVelo, veloDeprec, projectileSize.x, procCd, this));
 			
 			charging = false;
 			chargeCd = 0;
@@ -83,9 +82,9 @@ public class ColaCannon extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, x, y,	projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

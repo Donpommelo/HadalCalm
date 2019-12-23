@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -24,8 +25,8 @@ public class SaveSetter extends Event {
 	private float zoom;
 	private boolean clear;
 	
-	public SaveSetter(PlayState state, int width, int height, int x, int y, float zoom, boolean clear) {
-		super(state, name, width, height, x, y);
+	public SaveSetter(PlayState state, Vector2 startPos, Vector2 size, float zoom, boolean clear) {
+		super(state, name, startPos, size);
 		this.zoom = zoom;
 		this.clear = clear;
 	}
@@ -38,14 +39,14 @@ public class SaveSetter extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (event.getConnectedEvent() == null) {
-					state.addSavePoint(event.getPosition(), null, zoom, clear);
+					state.addSavePoint(event.getPixelPosition(), null, zoom, clear);
 				} else {
-					state.addSavePoint(event.getPosition(), event.getConnectedEvent().getPosition(), zoom, clear);
+					state.addSavePoint(event.getPixelPosition(), event.getConnectedEvent().getPixelPosition(), zoom, clear);
 				}
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) 0, (short) 0, true, eventData);
 	}
 }

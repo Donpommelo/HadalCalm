@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -27,8 +26,7 @@ public class Fireball extends ActiveItem {
 	private final static float maxCharge = 6.0f;
 	
 
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 50;
+	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 5.0f;
 	private final static float projectileSpeed = 12.0f;
 
@@ -36,7 +34,6 @@ public class Fireball extends ActiveItem {
 	
 	private final static float baseDamage = 40.0f;
 	private final static float knockback = 40.0f;
-	private final static float recoil = 20.0f;
 	
 	public Fireball(Schmuck user) {
 		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -45,10 +42,7 @@ public class Fireball extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 			
-		Hitbox hbox = new RangedHitbox(state, 
-				user.getPlayer().getPosition().x * PPM, 
-				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileHeight, lifespan, this.weaponVelo.scl(projectileSpeed),
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
@@ -57,6 +51,5 @@ public class Fireball extends ActiveItem {
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxOnDieFireFragStrategy(state, hbox, user, this, numFrag, user.getPlayer().getHitboxfilter()));
 		new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
-		user.getPlayer().recoil(x, y, recoil);
 	}
 }

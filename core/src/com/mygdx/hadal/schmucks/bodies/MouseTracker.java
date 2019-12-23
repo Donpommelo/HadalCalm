@@ -30,14 +30,14 @@ public class MouseTracker extends HadalEntity {
 	private boolean server;
 	
 	public MouseTracker(PlayState state, boolean server) {
-		super(state, 1, 1, 0, 0);
+		super(state, new Vector2(), new Vector2(1, 1));
 		this.server = server;
 	}
 
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.EVENT, this);
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (0), (short) 0, true, hadalData);
 	}
 

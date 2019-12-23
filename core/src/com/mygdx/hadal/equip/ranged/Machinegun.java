@@ -30,8 +30,7 @@ public class Machinegun extends RangedWeapon {
 	private final static float recoil = 1.25f;
 	private final static float knockback = 2.5f;
 	private final static float projectileSpeed = 70.0f;
-	private final static int projectileWidth = 48;
-	private final static int projectileHeight = 6;
+	private final static Vector2 projectileSize = new Vector2(48, 6);
 	private final static float lifespan = 0.75f;
 	
 	private final static int spread = 5;
@@ -41,14 +40,14 @@ public class Machinegun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_MACHINEGUN;
 	
 	public Machinegun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

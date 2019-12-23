@@ -14,8 +14,6 @@ import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 public class Stormcaller extends RangedWeapon {
 
 	private final static String name = "Stormcaller";
@@ -29,46 +27,49 @@ public class Stormcaller extends RangedWeapon {
 	private final static float recoil = 6.0f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 15.0f;
-	private final static int projectileWidth = 10;
-	private final static int projectileHeight = 10;
+	private final static Vector2 projectileSize = new Vector2(10, 10);
 	private final static float lifespan = 1.8f;
 	
 	private final static float explosionInterval = 1/60f;
+	private final static Vector2 explosionSize = new Vector2(0, 0);
 	private final static int explosionMaxSize = 120;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
 	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
 	
+	
+	
 	public Stormcaller(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		final Equipable tool = this;
+		
+		explosionSize.set(projectileSize);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float controllerCount = 0;
-			private int explosionSize = projectileHeight;
 			
 			@Override
 			public void controller(float delta) {
 				controllerCount+=delta;
 
 				if (controllerCount >= explosionInterval) {
-					Hitbox pulse = new Hitbox(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, explosionSize, explosionSize, 
-							explosionInterval, new Vector2(), filter, true, true, user, projSprite);
+					
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 					
-					if (explosionSize <= explosionMaxSize) {
-						explosionSize += 5;
+					if (explosionSize.x <= explosionMaxSize) {
+						explosionSize.add(5, 5);
 					}
 					
 					controllerCount -= delta;

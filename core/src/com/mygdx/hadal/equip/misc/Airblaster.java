@@ -25,7 +25,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static float swingCd = 0.4f;
 	private final static float windup = 0.0f;
 	private final static float baseDamage = 0.0f;
-	private final static int hitboxSize = 150;
+	private final static Vector2 hitboxSize = new Vector2(150, 150);
 	private final static float knockback = 60.0f;
 	private final static float momentum = 40.0f;
 	
@@ -35,22 +35,20 @@ public class Airblaster extends MeleeWeapon {
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
-		fire(state, user, weaponVelo, user.getPosition().x * PPM, user.getPosition().y * PPM, faction);
-		user.recoil(x, y, momentum * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
+		fire(state, user, user.getPixelPosition(), weaponVelo, faction);
+		user.recoil(mouseLocation, momentum * (1 + shooter.getStat(Stats.BOOST_RECOIL)));
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new Hitbox(state, x, y, 
-				(int) (hitboxSize * (1 + user.getBodyData().getStat(Stats.BOOST_SIZE))), 
-				(int) (hitboxSize * (1 + user.getBodyData().getStat(Stats.BOOST_SIZE))),
-				swingCd, startVelocity, user.getHitboxfilter(), false, false, user, Sprite.IMPACT);
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
+		
+		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize.scl(1 + user.getBodyData().getStat(Stats.BOOST_SIZE)), swingCd, startVelocity, user.getHitboxfilter(), true, false, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), 
 				DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
-		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize / 2 / PPM), false));
+		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

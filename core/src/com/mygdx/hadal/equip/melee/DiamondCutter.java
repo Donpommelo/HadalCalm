@@ -24,8 +24,7 @@ public class DiamondCutter extends MeleeWeapon {
 	private final static float swingCd = 0.0f;
 	private final static float windup = 0.0f;
 	
-	private final static int projectileWidth = 75;
-	private final static int projectileHeight = 75;
+	private final static Vector2 projectileSize = new Vector2(75, 75);
 	
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
@@ -48,13 +47,13 @@ public class DiamondCutter extends MeleeWeapon {
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, final int x, final int y) {
+	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, Vector2 mouseLocation) {
 		
 		if(!held) {
 			held = true;
 			final Equipable tool = this;
 			
-			hbox = new Hitbox(state, x, y, (int)projectileWidth, (int)projectileHeight, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
+			hbox = new Hitbox(state, mouseLocation, projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
 			hbox.makeUnreflectable();
 			
 			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
@@ -77,8 +76,8 @@ public class DiamondCutter extends MeleeWeapon {
 						held = false;
 					}
 					
-					float xImpulse = -(shooter.getSchmuck().getPosition().x - ((Player)shooter.getSchmuck()).getMouse().getPosition().x);
-					float yImpulse = -(shooter.getSchmuck().getPosition().y - ((Player)shooter.getSchmuck()).getMouse().getPosition().y);
+					float xImpulse = -(shooter.getSchmuck().getPixelPosition().x - ((Player)shooter.getSchmuck()).getMouse().getPixelPosition().x);
+					float yImpulse = -(shooter.getSchmuck().getPixelPosition().y - ((Player)shooter.getSchmuck()).getMouse().getPixelPosition().y);
 							
 					projOffset.set(xImpulse, yImpulse).nor().scl(range);
 					hbox.setTransform(
@@ -90,7 +89,7 @@ public class DiamondCutter extends MeleeWeapon {
 					
 					
 					if (controllerCount >= spinInterval) {
-						Hitbox pulse = new Hitbox(state, hbox.getPosition().x * PPM, hbox.getPosition().y * PPM, projectileWidth / 2, projectileHeight / 2, 
+						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize,
 								spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));

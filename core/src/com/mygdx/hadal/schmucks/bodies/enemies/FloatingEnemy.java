@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.ai.steer.behaviors.Wander;
@@ -48,9 +46,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	private Sprite sprite;
 	protected Animation<? extends TextureRegion> fishSprite;
 	
-	private int width, height, hbWidth, hbHeight;
-	
-	private float scale;
+	private final static float scale = 0.25f;
 
 	protected SteeringBehavior<Vector2> roam;
 	
@@ -65,16 +61,9 @@ public class FloatingEnemy extends SteeringEnemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public FloatingEnemy(PlayState state, int x, int y,	int width, int height, int hbWidth, int hbHeight, float scale, Sprite sprite, enemyType type,
+	public FloatingEnemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, enemyType type,
 			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter, int baseHp, SpawnerSchmuck spawner) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y, type,
-				maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter, baseHp, spawner);
-		
-		this.width = width;
-		this.height = height;
-		this.hbWidth = hbWidth;
-		this.hbHeight = hbHeight;
-		this.scale = scale;
+		super(state, startPos, new Vector2(size).scl(scale), new Vector2(hboxSize).scl(scale), type, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter, baseHp, spawner);
 		
 		this.moveState = SchmuckMoveStates.FISH_ROAMING;
 		
@@ -110,7 +99,7 @@ public class FloatingEnemy extends SteeringEnemy {
 				float angleToTarget = target.getPosition().sub(getPosition()).angleRad();
 				
 				if (Math.abs(angleToTarget - bodyAngle) <= Math.PI / 3) {
-					useToolStart(delta, weapon, hitboxfilter, (int)target.getPosition().x, (int)target.getPosition().y, true);
+					useToolStart(delta, weapon, hitboxfilter, target.getPixelPosition(), true);
 				}
 			} else {
 				moveState = SchmuckMoveStates.FISH_ROAMING;
@@ -209,11 +198,11 @@ public class FloatingEnemy extends SteeringEnemy {
 		}
 		
 		batch.draw((TextureRegion) fishSprite.getKeyFrame(animationTime, true), 
-				getPosition().x * PPM - hbHeight * scale / 2, 
-				(flip ? height * scale : 0) + getPosition().y * PPM - hbWidth * scale / 2, 
-				hbHeight * scale / 2, 
-				(flip ? -1 : 1) * hbWidth * scale / 2,
-				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
+				getPixelPosition().x - hboxSize.y / 2, 
+				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
+				hboxSize.y / 2, 
+				(flip ? -1 : 1) * hboxSize.x / 2,
+				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
 
 		if (flashingCount > 0) {
@@ -224,9 +213,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), sprite, getLinearVelocity(), 0.5f, false);
+			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, false);
 		}
 		return super.queueDeletion();
 	}

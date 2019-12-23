@@ -30,8 +30,8 @@ public class AirblastableRock extends Event {
 
 	private static final String name = "Rock";
 
-	public AirblastableRock(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y);
+	public AirblastableRock(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size);
 	}
 	
 	@Override
@@ -47,12 +47,12 @@ public class AirblastableRock extends Event {
 			@Override
 			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
 				if (Arrays.asList(tags).contains(DamageTypes.AIR)) {
-					event.push(knockback.x * 200, knockback.y * 200);
+					event.push(knockback.scl(200));
 				}
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 50, 0, false, true, Constants.BIT_WALL, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 50, 0, false, true, Constants.BIT_WALL, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 	}

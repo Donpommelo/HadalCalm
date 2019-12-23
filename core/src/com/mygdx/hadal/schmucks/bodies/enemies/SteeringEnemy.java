@@ -14,9 +14,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SteeringEnemy extends Enemy {
 	
-	public SteeringEnemy(PlayState state, float width, float height, int x, int y, enemyType type, 
+	public SteeringEnemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, 
 			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter, int baseHp, SpawnerSchmuck spawner) {
-		super(state, width, height, x, y, type, filter, baseHp, spawner);
+		super(state, startPos, size, hboxSize, type, filter, baseHp, spawner);
 		
 		this.maxLinearSpeed = maxLinSpd;
 		this.maxLinearAcceleration = maxLinAcc;
@@ -35,7 +35,7 @@ public class SteeringEnemy extends Enemy {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 1, 0f, false, true, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0.0f, false, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				hitboxfilter, false, bodyData);
 	}

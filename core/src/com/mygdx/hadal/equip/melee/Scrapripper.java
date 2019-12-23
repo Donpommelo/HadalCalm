@@ -23,8 +23,7 @@ public class Scrapripper extends MeleeWeapon {
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0.0f;
 	private final static float baseDamage = 50.0f;
-	private final static int hitboxWidth = 200;
-	private final static int hitboxHeight = 120;
+	private final static Vector2 hitboxSize = new Vector2(200, 120);
 	private final static float knockback = 25.0f;
 	private final static float lifespan = 0.25f;
 	
@@ -36,14 +35,14 @@ public class Scrapripper extends MeleeWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new Hitbox(state, x, y, hitboxWidth, hitboxHeight, lifespan, startVelocity, filter, true, true, user, Sprite.IMPACT);
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, startVelocity, filter, true, true, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.MELEE));
-		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxWidth / 2 / PPM), false));
+		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		new ParticleEntity(state, hbox, Particle.EXPLOSION, 0.2f, 0.0f, true, particleSyncType.CREATESYNC);
 	}
 }

@@ -39,8 +39,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	//Fields common to all entities.
 	protected Body body;
 	protected HadalData hadalData;
-	protected float height, width;
-	protected float startX, startY;
+	protected Vector2 size;
+	protected Vector2 startPos;
 	
 	protected boolean alive = true, destroyed = false;
 	
@@ -73,15 +73,13 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * @param startX: Starting x position
 	 * @param startY: Starting y position
 	 */
-	public HadalEntity(PlayState state, float w, float h, float startX, float startY) {
+	public HadalEntity(PlayState state, Vector2 startPos, Vector2 size) {
 		this.state = state;
 		this.camera = state.camera;
 		this.world = state.getWorld();
 		
-		this.width = w;
-		this.height = h;
-		this.startX = startX;
-		this.startY = startY;
+		this.size = new Vector2(size);
+		this.startPos = new Vector2(startPos);
 		
 		this.entityID = UUID.randomUUID();
 		
@@ -139,27 +137,22 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * @param power: Magnitude of impulse
 	 */
 	private Vector2 impulse = new Vector2();
-	public void recoil(int x, int y, float power) {
+	public void recoil(Vector2 push, float power) {
 		
 		if (!alive) {
 			return;
 		}
 		
-		float powerDiv = getPosition().dst(x, y) / power;
-		
-		float xImpulse = (getPosition().x - x) / powerDiv;
-		float yImpulse = (getPosition().y - y) / powerDiv;
-		
-		applyLinearImpulse(impulse.set(xImpulse, yImpulse));
+		applyLinearImpulse(impulse.set(getPixelPosition()).sub(push).scl(power / getPixelPosition().dst(push)));
 	}
 	
-	public void push(float impulseX, float impulseY) {
+	public void push(Vector2 push) {
 		
 		if (!alive) {
 			return;
 		}
 		
-		applyLinearImpulse(impulse.set(impulseX, impulseY));
+		applyLinearImpulse(push);
 	}
 
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
@@ -225,10 +218,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			return false;
 		} else {
 			if (
-					camera.frustum.pointInFrustum(body.getPosition().x * PPM + width, body.getPosition().y * PPM + height, 0) || 
-					camera.frustum.pointInFrustum(body.getPosition().x * PPM - width, body.getPosition().y * PPM + height, 0) ||
-					camera.frustum.pointInFrustum(body.getPosition().x * PPM + width, body.getPosition().y * PPM - height, 0) ||
-					camera.frustum.pointInFrustum(body.getPosition().x * PPM - width, body.getPosition().y * PPM - height, 0)) {
+					camera.frustum.pointInFrustum(getPixelPosition().x + size.x, getPixelPosition().y + size.y, 0) || 
+					camera.frustum.pointInFrustum(getPixelPosition().x - size.x, getPixelPosition().y + size.y, 0) ||
+					camera.frustum.pointInFrustum(getPixelPosition().x + size.x, getPixelPosition().y - size.y, 0) ||
+					camera.frustum.pointInFrustum(getPixelPosition().x - size.x, getPixelPosition().y - size.y, 0)) {
 				return true;
 			} else {
 				return false;
@@ -268,17 +261,15 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		return entityID;
 	}
 
-	public float getStartX() {
-		return startX;
+	public Vector2 getStartPos() {
+		return startPos;
 	}
-	public void setStartX(float startX) {
-		this.startX = startX;
+	
+	public void setStartPos(Vector2 startPos) {
+		this.startPos = startPos;
 	}
-	public float getStartY() {
-		return startY;
-	}
-	public void setStartY(float startY) {
-		this.startY = startY;
+	public Vector2 getSize() {
+		return size;
 	}
 	
 	public void applySteering(float delta) {
@@ -331,12 +322,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		}
 	}
 	
-	public float getHeight() {
-		return height;
-	}
-	
-	public float getWidth() {
-		return width;
+	public Vector2 getPixelPosition() {
+		return body.getPosition().scl(PPM);
 	}
 	
 	@Override

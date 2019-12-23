@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.hub;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -20,8 +21,8 @@ public class Navigations extends HubEvent {
 	private static final String title = "SELECT LEVEL";
 	private String tag;
 
-	public Navigations(PlayState state, int width, int height, int x, int y, String name, String tag) {
-		super(state, name, width, height, x, y, title);
+	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String name, String tag) {
+		super(state, name, startPos, size, title);
 		this.tag = tag;
 	}
 	

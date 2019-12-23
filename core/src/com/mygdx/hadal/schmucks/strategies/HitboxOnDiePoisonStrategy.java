@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -24,9 +23,6 @@ public class HitboxOnDiePoisonStrategy extends HitboxStrategy{
 	
 	@Override
 	public void die() {
-		new Poison(state, poisonRadius, poisonRadius,
-				(int)(this.hbox.getPosition().x * PPM), 
-				(int)(this.hbox.getPosition().y * PPM), 
-				poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
+		new Poison(state,this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
 	}
 }

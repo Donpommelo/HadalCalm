@@ -30,8 +30,8 @@ public class DestructableBlock extends Event {
 	//psuedo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
-	public DestructableBlock(PlayState state, int width, int height, int x, int y, int hp) {
-		super(state, name, width, height, x, y);
+	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp) {
+		super(state, name, startPos, size);
 		this.hp = hp;
 	}
 
@@ -59,7 +59,7 @@ public class DestructableBlock extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_WALL, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_WALL, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 	}

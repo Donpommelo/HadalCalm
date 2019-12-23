@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -27,7 +25,6 @@ public class HitboxOnDieExplodeStrategy extends HitboxStrategy{
 	
 	@Override
 	public void die() {
-		WeaponUtils.createExplosion(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 
-				creator.getSchmuck(), tool, explosionRadius, explosionDamage, explosionKnockback, filter);
+		WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), tool, explosionDamage, explosionKnockback, filter);
 	}
 }

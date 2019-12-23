@@ -18,12 +18,12 @@ public class FiringWeapon extends Status {
 	private float currentVelo;
 	private float minVelo;
 	private float veloDeprec;
-	private int projSize;
+	private float projSize;
 	private Vector2 projOrigin = new Vector2();
 	
 	private Equipable tool;
 	
-	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, int projSize, float procCd, Equipable tool) {
+	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, float projSize, float procCd, Equipable tool) {
 		super(state, i, name, descr, false, p, v);
 		this.minVelo = minVelo;
 		this.veloDeprec = veloDeprec;
@@ -50,13 +50,13 @@ public class FiringWeapon extends Status {
 				currentVelo -= veloDeprec;
 			}
 				
-			inflicted.getCurrentTool().setWeaponVelo(((Player)inflicted.getSchmuck()).getMouse().getPosition().sub(inflicted.getSchmuck().getPosition()).nor().scl(currentVelo));
+			inflicted.getCurrentTool().setWeaponVelo(((Player)inflicted.getSchmuck()).getMouse().getPixelPosition().sub(inflicted.getSchmuck().getPixelPosition()).nor().scl(currentVelo));
 			
 			projOrigin = inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize);
 			
 			inflicted.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, inflicted.getCurrentTool(), null);
 			
-			inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), inflicted.getCurrentTool().getWeaponVelo(), projOrigin.x, projOrigin.y, inflicted.getSchmuck().getHitboxfilter());
+			inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxfilter());
 		}
 		
 		procCdCount += delta;

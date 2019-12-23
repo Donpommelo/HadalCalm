@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.effects.Sprite;
@@ -28,8 +29,8 @@ public class DropThroughPlatform extends Event {
 	
 	private static final String name = "Drop Through Platform";
 
-	public DropThroughPlatform(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y);
+	public DropThroughPlatform(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size);
 	}
 	
 	@Override
@@ -91,7 +92,7 @@ public class DropThroughPlatform extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, false, true, Constants.BIT_DROPTHROUGHWALL, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_DROPTHROUGHWALL, 
 				(short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER),	(short) 0, false, eventData);
 		
 		this.body.setType(BodyDef.BodyType.KinematicBody);

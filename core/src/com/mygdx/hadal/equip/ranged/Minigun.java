@@ -32,8 +32,7 @@ public class Minigun extends RangedWeapon {
 	private final static float recoil = 0.25f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static int projectileWidth = 48;
-	private final static int projectileHeight = 6;
+	private final static Vector2 projectileSize = new Vector2(48, 6);
 	private final static float lifespan = 1.20f;
 	
 	private final static int spread = 10;
@@ -47,11 +46,11 @@ public class Minigun extends RangedWeapon {
 	private static final float selfSlowMag = 0.75f;
 	
 	public Minigun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		charging = true;
 		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += (delta + shootCd);
@@ -59,7 +58,7 @@ public class Minigun extends RangedWeapon {
 		if (!reloading) {
 			shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter));
 		}
-		super.mouseClicked(delta, state, shooter, faction, x, y);		
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);		
 	}
 
 	@Override
@@ -77,10 +76,10 @@ public class Minigun extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

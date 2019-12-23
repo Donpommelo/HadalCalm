@@ -27,7 +27,7 @@ public class HydraulicUppercut extends ActiveItem {
 	private final static float recoil = 150.0f;
 
 	private final static float baseDamage = 40.0f;
-	private final static int hitboxSize = 125;
+	private final static Vector2 hitboxSize = new Vector2(125, 125);
 	private final static float lifespan = 0.25f;
 	private final static float knockback = 75.0f;
 	
@@ -42,7 +42,7 @@ public class HydraulicUppercut extends ActiveItem {
 
 		user.getPlayer().pushMomentumMitigation(0, recoil);
 		
-		Hitbox hbox = new Hitbox(state, x, y, hitboxSize, hitboxSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(),  true, true, user.getPlayer(), Sprite.NOTHING);
+		Hitbox hbox = new Hitbox(state, mouseLocation, hitboxSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(),  true, true, user.getPlayer(), Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));

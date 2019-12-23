@@ -19,14 +19,14 @@ public class HitboxTravelDistanceDieStrategy extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		this.startLocation.set(hbox.getPosition());
+		this.startLocation.set(hbox.getPixelPosition());
 		this.distance = startLocation.dst(endLocation);
 	}
 	
 	@Override
 	public void controller(float delta) {
 
-		if (startLocation.dst(hbox.getPosition()) >= distance) {
+		if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
 			hbox.die();
 		}
 	}

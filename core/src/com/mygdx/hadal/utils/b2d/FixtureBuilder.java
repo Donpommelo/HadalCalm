@@ -25,15 +25,13 @@ public class FixtureBuilder {
 	 * @param gIndex: Extra filter. <0 = never collide with fixture with same value. >0 = always collide with fixture with same value.
 	 * @return: a Fixture def that will create a fixture.
 	 */
-	public static FixtureDef createFixtureDef(float w, float h, Vector2 center, boolean sensor, float angle, 
-			float density, float resti,	float friction, short cBits, short mBits, short gIndex) {
+	public static FixtureDef createFixtureDef(Vector2 center, Vector2 size, boolean sensor, float angle, float density, float resti, float friction, short cBits, short mBits, short gIndex) {
 		FixtureDef fixtureDef = new FixtureDef();
 		
 		PolygonShape pShape = new PolygonShape();
 		fixtureDef.shape = pShape;
 		
-        //There is not really a reason I am dividing by 2 but I don't really feel like changing it. Sorry.
-		pShape.setAsBox(w / PPM / 2, h / PPM / 2, center, angle);
+		pShape.setAsBox(size.x / PPM / 2, size.y / PPM / 2, new Vector2(center).scl(1 / PPM), angle);
 		
 		if (sensor) {
 			fixtureDef.isSensor = true;

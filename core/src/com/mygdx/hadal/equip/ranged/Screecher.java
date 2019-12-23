@@ -38,8 +38,7 @@ public class Screecher extends RangedWeapon {
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 10.0f;
 	private final static int range = 40;
-	private final static int projectileWidth = 70;
-	private final static int projectileHeight = 70;
+	private final static Vector2 projectileSize = new Vector2(70, 70);
 	private final static float lifespan = 0.5f;
 	private final static int spread = 10;
 	
@@ -57,7 +56,7 @@ public class Screecher extends RangedWeapon {
 	private Vector2 endPt = new Vector2();
 	private Vector2 newPosition = new Vector2();
 	@Override
-	public void fire(PlayState state, Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
 		final Equipable tool = this;
 		
 		float distance = range * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
@@ -93,10 +92,10 @@ public class Screecher extends RangedWeapon {
 			}, user.getPosition(), endPt);
 		}
 		
-		newPosition.set(user.getPosition()).scl(PPM).add(startVelocity.nor().scl(distance * shortestFraction * PPM));
+		newPosition.set(user.getPixelPosition()).add(startVelocity.nor().scl(distance * shortestFraction * PPM));
+		newPosition.add(ThreadLocalRandom.current().nextInt(-spread, spread + 1), ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		
-		Hitbox hbox = new RangedHitbox(state, newPosition.x + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), newPosition.y + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)),
-				projectileWidth, projectileHeight, lifespan, new Vector2(), filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, newPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));

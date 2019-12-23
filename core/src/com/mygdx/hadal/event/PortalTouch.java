@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -32,8 +33,8 @@ public class PortalTouch extends Event {
 	//This is a set of schmucks that have just been teleported and cannot teleport instantly until they exit this event.
 	private Set<HadalEntity> justTeleported;
 	
-	public PortalTouch(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y);
+	public PortalTouch(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size);
 		justTeleported = new HashSet<HadalEntity>();
 	}
 	
@@ -53,7 +54,7 @@ public class PortalTouch extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				(short) 0, true, eventData);
 	}

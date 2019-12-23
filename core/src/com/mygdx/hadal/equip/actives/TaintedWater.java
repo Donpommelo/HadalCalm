@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -15,7 +14,7 @@ public class TaintedWater extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 10.0f;
 	
-	private final static int poisonRadius = 300;
+	private final static Vector2 poisonSize = new Vector2(300, 300);
 	private final static float poisonDamage = 30/60f;
 	private final static float poisonDuration = 4.0f;
 	
@@ -25,9 +24,6 @@ public class TaintedWater extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {		
-		new Poison(state, poisonRadius, poisonRadius,
-				(int)(user.getSchmuck().getPosition().x * PPM), 
-				(int)(user.getSchmuck().getPosition().y * PPM), 
-				poisonDamage, poisonDuration, user.getSchmuck(), true, user.getSchmuck().getHitboxfilter());
+		new Poison(state, user.getSchmuck().getPixelPosition(), poisonSize, poisonDamage, poisonDuration, user.getSchmuck(), true, user.getSchmuck().getHitboxfilter());
 	}
 }

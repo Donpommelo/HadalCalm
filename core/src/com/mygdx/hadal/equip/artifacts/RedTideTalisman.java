@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -14,7 +13,7 @@ public class RedTideTalisman extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static int poisonRadius = 150;
+	private final static Vector2 poisonSize = new Vector2(150, 150);
 	private final static float poisonDamage = 40/60f;
 	private final static float poisonDuration = 3.0f;
 	
@@ -41,10 +40,7 @@ public class RedTideTalisman extends Artifact {
 			public void onKill(BodyData vic) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					new Poison(state, poisonRadius, poisonRadius,
-							(int)(vic.getSchmuck().getPosition().x * PPM), 
-							(int)(vic.getSchmuck().getPosition().y * PPM), 
-							poisonDamage, poisonDuration, inflicter.getSchmuck(), true, inflicter.getSchmuck().getHitboxfilter());
+					new Poison(state, vic.getSchmuck().getPixelPosition(), poisonSize, poisonDamage, poisonDuration, inflicter.getSchmuck(), true, inflicter.getSchmuck().getHitboxfilter());
 				}
 			}
 		};

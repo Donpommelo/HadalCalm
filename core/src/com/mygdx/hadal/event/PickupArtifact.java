@@ -1,10 +1,9 @@
 package com.mygdx.hadal.event;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -41,8 +40,8 @@ public class PickupArtifact extends Event {
 
 	private String pool;
 	
-	public PickupArtifact(PlayState state, int x, int y, String pool) {
-		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+	public PickupArtifact(PlayState state, Vector2 startPos, String pool) {
+		super(state, name, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
 		this.pool = pool;
 		
 		//Set this pickup to a random equip in the input pool
@@ -83,7 +82,7 @@ public class PickupArtifact extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
@@ -94,13 +93,13 @@ public class PickupArtifact extends Event {
 		}
 		
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		float y = getPosition().y * PPM + height / 2;
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, artifact.getName(), getPosition().x * PPM - width / 2, y);
+		float y = getPixelPosition().y + size.y / 2;
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, artifact.getName(), getPixelPosition().x - size.x / 2, y);
 	}
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.ARTIFACT, artifact.toString(), null);
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), PickupType.ARTIFACT, artifact.toString(), null);
 	}
 	
 	@Override

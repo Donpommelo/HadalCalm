@@ -27,13 +27,13 @@ public class Spring extends Event {
 
 	private static final String name = "Spring";
 
-	public Spring(PlayState state, int width, int height, int x, int y, Vector2 vec) {
-		super(state, name, width, height, x, y);
+	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
+		super(state, name, startPos, size);
 		this.vec = vec;
 	}
 	
-	public Spring(PlayState state, int width, int height, int x, int y, Vector2 vec, float duration) {
-		super(state, name, width, height, x, y, duration);
+	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
+		super(state, name, startPos, size, duration);
 		this.vec = vec;
 	}
 	
@@ -50,7 +50,7 @@ public class Spring extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				(short) 0, true, eventData);
 	}	

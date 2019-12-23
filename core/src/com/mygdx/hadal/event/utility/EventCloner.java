@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.utility;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -23,8 +24,8 @@ public class EventCloner extends Event {
 	
 	private static final String name = "Event Spawner";
 
-	public EventCloner(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y, 2);
+	public EventCloner(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size);
 	}
 	
 	@Override
@@ -43,14 +44,13 @@ public class EventCloner extends Event {
 							standardParticle.onForBurst(1.0f);
 						}
 						
-						clone.setStartX(event.getStartX());
-						clone.setStartY(event.getStartY());
+						clone.setStartPos(event.getStartPos());
 					}
 				}
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (0), (short) 0, true, eventData);
 	}
 }

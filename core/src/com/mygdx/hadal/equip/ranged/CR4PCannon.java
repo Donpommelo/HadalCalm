@@ -31,8 +31,7 @@ public class CR4PCannon extends RangedWeapon {
 	private final static float recoil = 15.0f;
 	private final static float knockback = 2.5f;
 	private final static float projectileSpeed = 20.0f;
-	private final static int projectileWidth = 14;
-	private final static int projectileHeight = 14;
+	private final static Vector2 projectileSize = new Vector2(14, 14);
 	private final static float lifespan = 0.9f;
 	
 	private final static int numProj = 11;
@@ -43,12 +42,12 @@ public class CR4PCannon extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	public CR4PCannon(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	private Vector2 newVelocity = new Vector2();
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		for (int i = 0; i < numProj; i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
@@ -58,7 +57,7 @@ public class CR4PCannon extends RangedWeapon {
 			
 			newVelocity.set(startVelocity);
 			
-			Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
 			hbox.setGravity(0.5f);
 			hbox.setDurability(2);
 			

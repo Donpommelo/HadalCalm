@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -279,7 +280,7 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-                				cs.addEntity(p.entityID, new ClientIllusion(cs, p.size.x, p.size.y, (int)p.pos.x, (int)p.pos.y, p.sprite, p.align), p.layer);
+                				cs.addEntity(p.entityID, new ClientIllusion(cs, p.pos, p.size, p.sprite, p.align), p.layer);
         					}
         				});
 					}
@@ -305,20 +306,20 @@ public class KryoClient {
 								case MISC:
 									break;
 								case SCISSORFISH:
-									enemy = new Scissorfish(cs, 0, 0, Constants.ENEMY_HITBOX, null);
+									enemy = new Scissorfish(cs, new Vector2(), Constants.ENEMY_HITBOX, null);
 									break;
 								case SPITTLEFISH:
-									enemy = new Spittlefish(cs, 0, 0, Constants.ENEMY_HITBOX, null);
+									enemy = new Spittlefish(cs, new Vector2(), Constants.ENEMY_HITBOX, null);
 									break;
 								case TORPEDOFISH:
-									enemy = new Torpedofish(cs, 0, 0, Constants.ENEMY_HITBOX, null);
+									enemy = new Torpedofish(cs, new Vector2(), Constants.ENEMY_HITBOX, null);
 									break;
 								case TURRET_FLAK:
 								case TURRET_VOLLEY:
-									enemy = new Turret(cs, 0, 0, p.type, 0, Constants.ENEMY_HITBOX, null);
+									enemy = new Turret(cs, new Vector2(), p.type, 0, Constants.ENEMY_HITBOX, null);
 									break;
 								case BOSS:
-									enemy = new Boss1(cs, 0, 0, enemyType.BOSS, Constants.ENEMY_HITBOX, null);
+									enemy = new Boss1(cs, new Vector2(), enemyType.BOSS, Constants.ENEMY_HITBOX, null);
 									break;
 								default:
 									break;
@@ -373,7 +374,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						if (!p.entityID.equals(myID)) {
-                    				Player newPlayer = cs.createPlayer(0, 0, p.name, p.loadout, null, 0, true, true);
+                    				Player newPlayer = cs.createPlayer(new Vector2(), p.name, p.loadout, null, 0, true, true);
                     				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);
@@ -421,8 +422,7 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						Poison poison = new Poison(cs, (int)p.size.x, (int)p.size.y, (int)(p.pos.x), (int)(p.pos.y), 
-        								0, p.draw, (short)0);
+        						Poison poison = new Poison(cs, p.pos, p.size, 0, p.draw, (short)0);
         						cs.addEntity(p.entityID, poison, ObjectSyncLayers.STANDARD);
             				}
     					});
@@ -445,19 +445,19 @@ public class KryoClient {
         						Event pickup = null;
         						switch(p.type) {
 								case ACTIVE:
-									pickup = new PickupActive(cs, (int)(p.pos.x), (int)(p.pos.y), "");
+									pickup = new PickupActive(cs, p.pos, "");
 									((PickupActive)pickup).setActive(UnlocktoItem.getUnlock(UnlockActives.valueOf(p.startPickup), null));
 									break;
 								case ARTIFACT:
-									pickup = new PickupArtifact(cs, (int)p.pos.x, (int)p.pos.y, "");
+									pickup = new PickupArtifact(cs, p.pos, "");
 									((PickupArtifact)pickup).setArtifact(UnlockArtifact.valueOf(p.startPickup));
 									break;
 								case MOD:
-									pickup = new PickupWeaponMod(cs, (int)p.pos.x, (int)p.pos.y, "");
+									pickup = new PickupWeaponMod(cs, p.pos, "");
 									((PickupWeaponMod)pickup).setWeaponMod(WeaponMod.valueOf(p.startPickup));
 									break;
 								case WEAPON:
-									pickup = new PickupEquip(cs, (int)(p.pos.x), (int)(p.pos.y), 0, "");
+									pickup = new PickupEquip(cs, p.pos, 0, "");
 									((PickupEquip)pickup).setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.startPickup), null));
 									((PickupEquip)pickup).setMods(p.mods);
 									break;
@@ -597,8 +597,7 @@ public class KryoClient {
         							entity.setAttachedId(p.attachedID);
         							cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
         						} else {
-        							ParticleEntity entity = new ParticleEntity(cs, p.pos.x, p.pos.y,
-        									Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
+        							ParticleEntity entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
             						cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
         						}
             				}

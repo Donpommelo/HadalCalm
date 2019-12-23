@@ -14,13 +14,12 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class RangedHitbox extends Hitbox {
 
-	public RangedHitbox(PlayState state, float x, float y, int width, int height, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
-		super(state, x, y, width, height,
+	public RangedHitbox(PlayState state, Vector2 startPos, Vector2 size, float lifespan, Vector2 startVelo, short filter, boolean sensor, boolean procEffects, Schmuck creator, Sprite sprite) {
+		super(state, startPos, size,
 				lifespan * (1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN)),
 				startVelo.scl(1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_SPD)), filter, sensor, procEffects, creator, sprite);
 		
-		this.width *= (1 +  creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE));
-		this.height *= (1 +  creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE));
+		this.size.scl(1 +  creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE));
 		this.gravity += creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY);
 		this.durability += creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY);
 		this.restitution += creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION);

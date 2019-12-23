@@ -1,10 +1,9 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -37,9 +36,9 @@ public class BossFloating extends Boss {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public BossFloating(PlayState state, int x, int y, int width, int height, int hbWidth, int hbHeight, float scale, enemyType type, short filter, int hp, int moveSpeed, int spinSpeed, float attackCd, 
+	public BossFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int hp, int moveSpeed, int spinSpeed, float attackCd, 
 			SpawnerSchmuck spawner, Sprite sprite) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, type, filter, hp, moveSpeed, attackCd, spawner, sprite);
+		super(state, startPos, size, hboxSize, type, filter, hp, moveSpeed, attackCd, spawner, sprite);
 		
 		this.angle = 0;
 		this.desiredAngle = 0;
@@ -48,7 +47,6 @@ public class BossFloating extends Boss {
 		this.currentState = BossState.TRACKING_PLAYER;
 		
 		this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
-		
 	}
 
 	/**
@@ -96,11 +94,11 @@ public class BossFloating extends Boss {
 		}
 		
 		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
-				getPosition().x * PPM - hbHeight * scale / 2, 
-				(flip ? height * scale : 0) + getPosition().y * PPM - hbWidth * scale / 2, 
-				hbHeight * scale / 2, 
-				(flip ? -1 : 1) * hbWidth * scale / 2,
-				width * scale, (flip ? -1 : 1) * height * scale, 1, 1, 
+				getPixelPosition().x - hboxSize.y / 2, 
+				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
+				hboxSize.y / 2, 
+				(flip ? -1 : 1) * hboxSize.x / 2,
+				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
 
 		if (flashingCount > 0) {
@@ -111,9 +109,7 @@ public class BossFloating extends Boss {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, hbHeight * scale, hbWidth * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), sprite, getLinearVelocity(), 0.5f, false);
+			new Ragdoll(state, new Vector2(getPixelPosition()), new Vector2(hboxSize), sprite, getLinearVelocity(), 0.5f, false);
 		}
 		return super.queueDeletion();
 	}

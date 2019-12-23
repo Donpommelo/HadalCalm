@@ -32,8 +32,7 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float recoil = 7.5f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 35.0f;
-	private final static int projectileWidth = 28;
-	private final static int projectileHeight = 28;
+	private final static Vector2 projectileSize = new Vector2(28, 28);
 	private final static float lifespan = 0.6f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
@@ -44,11 +43,11 @@ public class ChargeBeam extends RangedWeapon {
 	private int chargeStage = 0;
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth * 2, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 2, maxCharge);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		charging = true;
 		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += delta;
@@ -56,7 +55,7 @@ public class ChargeBeam extends RangedWeapon {
 				chargeCd = getChargeTime();
 			}
 		}
-		super.mouseClicked(delta, state, shooter, faction, x, y);
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 	}
 	
 	@Override
@@ -72,7 +71,7 @@ public class ChargeBeam extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		final Equipable tool = this;
 		
 		if (chargeCd >= getChargeTime()) {
@@ -107,8 +106,7 @@ public class ChargeBeam extends RangedWeapon {
 		final float damageMultiplier2 = damageMultiplier;
 		final float kbMultiplier2 = kbMultiplier;
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, (int)(projectileWidth * sizeMultiplier), (int)(projectileHeight * sizeMultiplier), lifespan, startVelocity.scl(speedMultiplier),
-				filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(sizeMultiplier), lifespan, startVelocity.scl(speedMultiplier), filter, true, true, user, projSprite);
 		hbox.setDurability(3);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
@@ -119,9 +117,7 @@ public class ChargeBeam extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					fixB.receiveDamage(baseDamage * damageMultiplier2, 
-							this.hbox.getLinearVelocity().nor().scl(knockback * kbMultiplier2), 
-							user.getBodyData(), tool, true, DamageTypes.RANGED);
+					fixB.receiveDamage(baseDamage * damageMultiplier2, this.hbox.getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), tool, true, DamageTypes.RANGED);
 				}
 			}
 		});

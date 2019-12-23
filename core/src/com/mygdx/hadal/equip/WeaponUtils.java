@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -51,9 +49,9 @@ public class WeaponUtils {
 	private final static Sprite torpedoSprite = Sprite.TORPEDO;
 	private final static Sprite beeSprite = Sprite.BEE;
 
-	public static Hitbox createExplosion(PlayState state, float x, float y, final Schmuck user, Equipable tool, int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, final Schmuck user, Equipable tool, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new Hitbox(state, x, y, explosionRadius, explosionRadius, 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
+		Hitbox hbox = new Hitbox(state, startPos, new Vector2(size, size), 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
 			
 			@Override
 			public void controller(float delta) {
@@ -70,11 +68,10 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
-	public static Hitbox createGrenade(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			final float baseDamage, final float knockback, int grenadeSize, float lifespan, Vector2 startVelocity, boolean procEffects, 
-			final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
+	public static Hitbox createGrenade(PlayState state, Vector2 startPos, Vector2 size, final Schmuck user, Equipable tool,final float baseDamage, final float knockback, float lifespan, 
+			Vector2 startVelocity, boolean procEffects, final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, grenadeSize, grenadeSize, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
+		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, false, procEffects, user, grenadeSprite);
 		hbox.setGravity(1.0f);
 		hbox.setRestitution(0.5f);
 		
@@ -86,11 +83,10 @@ public class WeaponUtils {
 		return hbox;
 	}
 	
-	public static Hitbox createTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			final float baseDamage, final float knockback, int rocketWidth, int rocketHeight, float lifespan,
+	public static Hitbox createTorpedo(PlayState state, Vector2 startPos, Vector2 size, final Schmuck user, Equipable tool,	final float baseDamage, final float knockback, float lifespan,
 			Vector2 startVelocity, boolean procEffects,	final int explosionRadius, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, rocketWidth, rocketHeight, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
+		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -112,14 +108,13 @@ public class WeaponUtils {
 	private static final int torpedoHeight = 10;
 	private static final float torpedoLifespan = 8.0f;
 	
-	public static Hitbox createHomingTorpedo(PlayState state, float x, float y, final Schmuck user, Equipable tool,
-			int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, final Schmuck user, Equipable tool, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread)));
 			
-			Hitbox hbox = new RangedHitbox(state, x, y, torpedoWidth, torpedoHeight, torpedoLifespan, startVelocity.setAngle(newDegrees),
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity.setAngle(newDegrees),
 					filter, true, procEffects, user, torpedoSprite);
 			
 			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
@@ -147,15 +142,11 @@ public class WeaponUtils {
 	private static final int beeDecelerationRadius = 0;
 	private final static float beeHomeRadius = 1000;
 
-	public static Hitbox createBees(PlayState state, float x, float y, final Schmuck user, Equipable tool, int numBees, 
-			int spread, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, Equipable tool, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numBees; i++) {
 			
-			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-			
-			Hitbox hbox = new RangedHitbox(state, x, y, beeWidth, beeHeight, beeLifespan, startVelocity.setAngle(newDegrees),
-					filter, false, procEffects, user, beeSprite) {
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan, startVelocity, filter, false, procEffects, user, beeSprite) {
 				
 				@Override
 				public void render(SpriteBatch batch) {
@@ -167,11 +158,11 @@ public class WeaponUtils {
 					}
 					
 					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-							getPosition().x * PPM - width / 2, 
-							(flip ? height : 0) + getPosition().y * PPM - height / 2, 
-							width / 2, 
-							(flip ? -1 : 1) * height / 2,
-							width, (flip ? -1 : 1) * height, 1, 1, 
+							getPixelPosition().x - size.x / 2, 
+							(flip ? size.y : 0) + getPixelPosition().y - size.y / 2, 
+							size.x / 2, 
+							(flip ? -1 : 1) * size.y / 2,
+							size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 							(float) Math.toDegrees(getOrientation()) - 90);
 
 				}
@@ -189,8 +180,8 @@ public class WeaponUtils {
 	}
 	
 	private static final int spiritSize = 25;
-	public static void releaseVengefulSpirits(PlayState state, float spiritLifespan, float spiritDamage, float spiritKnockback, Vector2 pos, BodyData creator, short filter) {		
-		Hitbox hbox = new RangedHitbox(state, (int)pos.x, (int)pos.y, (int)spiritSize, (int)spiritSize, spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
+	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, short filter) {		
+		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, creator));
@@ -200,9 +191,9 @@ public class WeaponUtils {
 	}
 	
 	public static final int pickupSize = 64;
-	public static void createPickup(PlayState state, final pickupTypes type, final float power, int x, int y) {
+	public static void createPickup(PlayState state, Vector2 startPos, final pickupTypes type, final float power) {
 
-		Event pickup = new Sensor(state, pickupSize, pickupSize, x, y, true, false, false, false, 1.0f, true) {
+		Event pickup = new Sensor(state, startPos, new Vector2(pickupSize, pickupSize), true, false, false, false, 1.0f, true) {
 			
 			@Override
 			public void create() {
@@ -243,11 +234,10 @@ public class WeaponUtils {
 						}
 					}
 				};
-				this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
+				this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
 						(short)Constants.BIT_PLAYER, (short) 0, true, eventData);
 				
-				body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 
-						new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, 0.0f, 1.0f,
+				body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), size, false, 0, 0, 0.0f, 1.0f,
 					Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
 			}
 		};

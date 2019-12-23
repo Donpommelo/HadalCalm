@@ -46,8 +46,8 @@ public abstract class Equipable {
 	private Sprite equipSprite, eventSprite;
 	
 	protected Vector2 weaponVelo = new Vector2();
+	protected Vector2 mouseLocation = new Vector2();
 	
-	protected int x, y;
 	protected short faction;
 	
 	protected ArrayList<WeaponModifier> weaponMods = new ArrayList<WeaponModifier>();
@@ -86,7 +86,7 @@ public abstract class Equipable {
 	 * @param x: x coordinate of the target. (screen coordinates)
 	 * @param y: y coordinate of the target. (screen coordinates)
 	 */
-	public abstract void mouseClicked(float delta, PlayState state, BodyData bodyData, short faction, int x, int y);
+	public abstract void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation);
 	
 	/**
 	 * This method is called useDelay seconds after mouseClicked(). 
@@ -123,7 +123,7 @@ public abstract class Equipable {
 	 * @param filter: this is the hitbox filter that decides who gets hit by this
 	 * @param procEffects: Does firing this shot activate on-shoot effects?
 	 */
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {}
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {}
 	
 	/**
 	 * Get the string representing the weapon in the ui.

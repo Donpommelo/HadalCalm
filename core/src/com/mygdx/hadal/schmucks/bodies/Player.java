@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -67,7 +65,6 @@ public class Player extends PhysicsSchmuck {
 		
 	public static final float scale = 0.15f;
 	public static final float uiScale = 0.4f;
-	
 	
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
 	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
@@ -144,8 +141,8 @@ public class Player extends PhysicsSchmuck {
 	 * @param startLoadout: This is the player's starting loadout
 	 * 
 	 */
-	public Player(PlayState state, int x, int y, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, boolean firstTime) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
+	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, boolean firstTime) {
+		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
 		this.name = name;
 		airblast = new Airblaster(this);
 		
@@ -238,14 +235,14 @@ public class Player extends PhysicsSchmuck {
 		//Temp invuln on spawn
 		playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
 		
 		super.create();
 		
 		//Activate on-spawn effects
-		if (!state.isPractice()) {
+		if (!state.isPractice() && reset) {
 			playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
 		}
 	}
@@ -364,14 +361,14 @@ public class Player extends PhysicsSchmuck {
 	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
 	 */
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, true);
+		useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition(), true);
 	}
 	
 	/**
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		useToolRelease(playerData.getCurrentTool(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y);
+		useToolRelease(playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition());
 	}
 	
 	/**
@@ -382,7 +379,7 @@ public class Player extends PhysicsSchmuck {
 			if (playerData.getCurrentFuel() >= playerData.getAirblastCost()) {
 				playerData.fuelSpend(playerData.getAirblastCost());
 				airblastCdCount = airblastCd;
-				useToolStart(0, airblast, hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, false);
+				useToolStart(0, airblast, hitboxfilter, mouse.getPixelPosition(), false);
 			}
 		}
 	}
@@ -401,7 +398,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player uses active item.
 	 */
 	public void activeItem() {
-		useToolStart(0, playerData.getActiveItem(), hitboxfilter, (int)mouse.getPosition().x, (int)mouse.getPosition().y, false);
+		useToolStart(0, playerData.getActiveItem(), hitboxfilter, mouse.getPixelPosition(), false);
 	}
 	
 	/**
@@ -447,8 +444,8 @@ public class Player extends PhysicsSchmuck {
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {
 			attackAngle = (float)(Math.atan2(
-					getPosition().y - mouse.getPosition().y,
-					getPosition().x - mouse.getPosition().x) * 180 / Math.PI);
+					getPixelPosition().y - mouse.getPixelPosition().y,
+					getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI);
 		} else {
 			attackAngle = attackAngleClient;
 		}
@@ -500,26 +497,26 @@ public class Player extends PhysicsSchmuck {
 		
 		//Draw a bunch of stuff
 		batch.draw(toolSprite, 
-				(flip ? toolWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
-				getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
+				(flip ? toolWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2 + armConnectXReal * scale, 
+				getPixelPosition().y - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
 				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(bodyBackSprite, 
-				(flip ? bodyBackWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + bodyConnectX * scale, 
-				getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
+				(flip ? bodyBackWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2 + bodyConnectX * scale, 
+				getPixelPosition().y - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * bodyBackWidth * scale, bodyBackHeight * scale, 1, 1, 0);
 		
 		batch.draw(armSprite, 
-				(flip ? armWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + armConnectXReal * scale, 
-				getPosition().y * PPM - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
+				(flip ? armWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2 + armConnectXReal * scale, 
+				getPixelPosition().y - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
 				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, attackAngle);
 		
 		batch.draw(playerData.getActiveItem().isReady() ? gemSprite : gemInactiveSprite, 
-				(flip ? gemWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-				getPosition().y * PPM - hbHeight * scale / 2 + bodyConnectY + yOffset, 
+				(flip ? gemWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2  + bodyConnectX * scale, 
+				getPixelPosition().y - hbHeight * scale / 2 + bodyConnectY + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
@@ -535,8 +532,8 @@ public class Player extends PhysicsSchmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
-					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPixelPosition().y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else if (moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
@@ -548,23 +545,23 @@ public class Player extends PhysicsSchmuck {
 			}
 			
 			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
-					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPixelPosition().y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else {
 			bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			batch.draw(grounded ? (TextureRegion) bodyStillSprite.getKeyFrame(animationTime, true) : 
 					(TextureRegion) bodyRunSprite.getKeyFrame(getFreezeFrame(reverse)), 
-					(flip ? bodyWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2  + bodyConnectX * scale, 
-					getPosition().y * PPM - hbHeight * scale / 2  + bodyConnectY + yOffset, 
+					(flip ? bodyWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2  + bodyConnectX * scale, 
+					getPixelPosition().y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		}
 		
 		batch.draw((TextureRegion) headSprite.getKeyFrame(animationTime, true), 
-				(flip ? headWidth * scale : 0) + getPosition().x * PPM - hbWidth * scale / 2 + headConnectXReal * scale, 
-				getPosition().y * PPM - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
+				(flip ? headWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2 + headConnectXReal * scale, 
+				getPixelPosition().y - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 		
@@ -575,8 +572,8 @@ public class Player extends PhysicsSchmuck {
 		//render player ui
 		if (playerData.getCurrentTool().isReloading()) {
 			
-			float x = (getPosition().x * PPM) - reload.getRegionWidth() * uiScale / 2;
-			float y = (getPosition().y * PPM) + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
+			float x = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
+			float y = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
 			
 			//Calculate reload progress
 			float percent = getReloadPercent();
@@ -588,8 +585,8 @@ public class Player extends PhysicsSchmuck {
 		
 		if (playerData.getCurrentTool().isCharging()) {
 			
-			float x = (getPosition().x * PPM) - reload.getRegionWidth() * uiScale / 2;
-			float y = (getPosition().y * PPM) + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
+			float x = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
+			float y = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
 			
 			//Calculate charge progress
 			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * uiScale * chargePercent, reloadBar.getRegionHeight() * uiScale);
@@ -597,8 +594,8 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//This draws a heart by the player's sprite to indicate hp remaining
-		float x = (getPosition().x * PPM) - Player.hbWidth * scale - empty.getWidth() * uiScale + 10;
-		float y = (getPosition().y * PPM) + Player.hbHeight * scale / 2 - 5;
+		float x = getPixelPosition().x - Player.hbWidth * scale - empty.getWidth() * uiScale + 10;
+		float y = getPixelPosition().y + Player.hbHeight * scale / 2 - 5;
 		
 		float hpRatio = 0.0f;
 		
@@ -621,8 +618,8 @@ public class Player extends PhysicsSchmuck {
 		
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name, 
-				getPosition().x * PPM - Player.hbWidth * Player.scale / 2, 
-				getPosition().y * PPM + Player.hbHeight * Player.scale / 2 + 15);
+				getPixelPosition().x - Player.hbWidth * Player.scale / 2, 
+				getPixelPosition().y + Player.hbHeight * Player.scale / 2 + 15);
 	}
 	
 	/**
@@ -641,29 +638,23 @@ public class Player extends PhysicsSchmuck {
 	private final static float gibDuration = 3.0f;
 	public void createGibs() {
 		if (alive) {
-			new Ragdoll(state, headWidth * scale, headHeight * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, false);
+			new Ragdoll(state, getPixelPosition(), new Vector2(headWidth, headHeight).scl(scale),
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, false);
 			
-			new Ragdoll(state, bodyWidth * scale, bodyHeight * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, false);
+			new Ragdoll(state, getPixelPosition(), new Vector2(bodyWidth, bodyHeight).scl(scale),
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, false);
 			
-			new Ragdoll(state, armWidth * scale, armHeight * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, false);
+			new Ragdoll(state, getPixelPosition(), new Vector2(armWidth, armHeight).scl(scale),
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, false);
 			
-			new Ragdoll(state, bodyBackWidth * scale, bodyBackHeight * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, false);
+			new Ragdoll(state, getPixelPosition(), new Vector2(bodyBackWidth, bodyBackHeight).scl(scale), 
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, false);
 			
-			new Ragdoll(state, gemWidth * scale, gemHeight * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, false);
+			new Ragdoll(state, getPixelPosition(), new Vector2(gemWidth, gemHeight).scl(scale),
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, false);
 			
-			new Ragdoll(state, toolWidth * scale, toolHeight * scale, 
-					(int)(getPosition().x * PPM), 
-					(int)(getPosition().y * PPM), playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), 5.0f, false);
+			new Ragdoll(state, getPixelPosition(), new Vector2(toolWidth, toolHeight).scl(scale)
+					, playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), 5.0f, false);
 		}
 	}
 	
@@ -692,8 +683,8 @@ public class Player extends PhysicsSchmuck {
 		
 		HadalGame.server.sendToAllUDP( new Packets.SyncPlayer(entityID.toString(),
 				(float)(Math.atan2(
-						getPosition().y - mouse.getPosition().y,
-						getPosition().x - mouse.getPosition().x) * 180 / Math.PI),
+						getPixelPosition().y - mouse.getPixelPosition().y,
+						getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
 				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
 				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
 				playerData.getStat(Stats.MAX_HP), playerData.getStat(Stats.MAX_FUEL), playerData.getAirblastCost(),
@@ -734,16 +725,16 @@ public class Player extends PhysicsSchmuck {
 	private Vector2 originPt = new Vector2();
 	private Vector2 endPt = new Vector2();
 	private Vector2 offset = new Vector2();
-	private final static float spawnDist = 1.1f;
+	private final static float spawnDist = 32.0f;
 	
 	@Override
-	public Vector2 getProjectileOrigin(Vector2 startVelo, int projSize) {
+	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		
 		offset.set(startVelo);
-		endPt.set(getPosition()).add(offset.nor().scl(spawnDist + projSize / 2 /PPM));
+		endPt.set(getPixelPosition()).add(offset.nor().scl(spawnDist + projSize / 2));
 		shortestFraction = 1.0f;
 		
-		if (getPosition().x != endPt.x || getPosition().y != endPt.y) {
+		if (getPixelPosition().x != endPt.x || getPixelPosition().y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
 
@@ -757,10 +748,10 @@ public class Player extends PhysicsSchmuck {
 					return -1.0f;
 				}
 				
-			}, getPosition(), endPt);
+			}, getPixelPosition(), endPt);
 		}
-		originPt.set(getPosition());
-		return originPt.add(offset.nor().scl((spawnDist + projSize / 2 /PPM) * shortestFraction)).scl(PPM);
+		originPt.set(getPixelPosition());
+		return originPt.add(offset.nor().scl((spawnDist + projSize / 2) * shortestFraction));
 	}
 	
 	@Override

@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -29,6 +27,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Turret extends Enemy {
 
+	private static int hbHeight;
+
 	//This is the weapon that the enemy will attack player with next. Can change freely from enemy to enemy.
 	private Equipable weapon;
 
@@ -46,11 +46,11 @@ public class Turret extends Enemy {
   	
 	protected Animation<? extends TextureRegion> turretBase, turretBarrel;
 	
-	private static final int width = 528;
-	private static final int height = 252;
+	private static final int baseWidth = 528;
+	private static final int baseHeight = 252;
 	
-	private static final int hbWidth = 261;
-	private static final int hbHeight = 165;
+	private static final int hboxWidth = 261;
+	private static final int hboxHeight = 165;
 	
 	private static final int rotationX = 131;
 	private static final int rotationY = 114;
@@ -61,8 +61,8 @@ public class Turret extends Enemy {
 	private static final Sprite flak = Sprite.TURRET_FLAK;
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
-	public Turret(PlayState state, int x, int y, enemyType type, int startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, hbWidth * scale, hbHeight * scale, x, (int)(y + hbHeight * scale / 2), type, filter, baseHp, spawner);		
+	public Turret(PlayState state, Vector2 startPos, enemyType type, int startAngle, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos.add(new Vector2(0, hbHeight / scale / 2)), new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), type, filter, baseHp, spawner);		
 		this.angle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;
@@ -91,7 +91,7 @@ public class Turret extends Enemy {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, hbWidth * scale, hbHeight * scale, 0, 10, 0, true, true, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 10, 0, true, true, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_PLAYER | Constants.BIT_ENEMY),
 				hitboxfilter, false, bodyData);
 	}
@@ -125,7 +125,7 @@ public class Turret extends Enemy {
 						}
 					}
 					
-					useToolStart(delta, weapon, hitboxfilter, (int)target.getPosition().x, (int)target.getPosition().y, true);
+					useToolStart(delta, weapon, hitboxfilter, target.getPixelPosition(), true);
 				}
 				
 				break;
@@ -217,28 +217,27 @@ public class Turret extends Enemy {
 		float rotationYReal = rotationY;
 		
 		if (flip) {
-			rotationYReal = height - rotationY;
+			rotationYReal = size.y / scale - rotationY;
 		}
 		
 		if(moveState == SchmuckMoveStates.TURRET_NOTSHOOTING || weapon.isReloading()) {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(0, true), 
-					getPosition().x * PPM - hbWidth * scale / 2, 
-					(flip ? height * scale - 12 : 0) + getPosition().y * PPM - hbHeight * scale / 2, 
-					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
-					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
+					getPixelPosition().x - hboxSize.x / 2, 
+					(flip ? size.y - 12 : 0) + getPixelPosition().y - hboxSize.y / 2, 
+					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
+					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
 		} else {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(animationTime, true), 
-					getPosition().x * PPM - hbWidth * scale / 2, 
-					(flip ? height * scale - 12: 0) + getPosition().y * PPM - hbHeight * scale / 2, 
-					rotationX * scale, (flip ? -height * scale : 0) + rotationYReal * scale,
-					width * scale, (flip ? -1 : 1) * height * scale, 1, 1, angle);
+					getPixelPosition().x - hboxSize.x / 2, 
+					(flip ? size.y - 12: 0) + getPixelPosition().y - hboxSize.y / 2, 
+					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
+					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
 		}
 		
 		batch.draw((TextureRegion) turretBase.getKeyFrame(animationTime, true), 
-				getPosition().x * PPM - hbWidth * scale / 2, 
-				getPosition().y * PPM - hbHeight * scale / 2, 
-				0, 0,
-				width * scale, height * scale, 1, 1, 0.0f);	
+				getPixelPosition().x - hboxSize.x / 2, 
+				getPixelPosition().y - hboxSize.y / 2, 
+				0, 0, size.x, size.y, 1, 1, 0.0f);	
 		
 		if (flashingCount > 0) {
 			batch.setShader(null);

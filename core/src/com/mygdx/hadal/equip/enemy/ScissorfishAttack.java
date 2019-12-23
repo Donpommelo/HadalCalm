@@ -17,8 +17,7 @@ public class ScissorfishAttack extends MeleeWeapon {
 	private final static float swingCd = 0.5f;
 	private final static float windup = 0.5f;
 	private final static float baseDamage = 8.0f;
-	private final static int hitboxWidth = 100;
-	private final static int swingHeight = 50;
+	private final static Vector2 hitboxSize = new Vector2(100, 50);
 	private final static float knockback = 22.5f;
 	
 	public ScissorfishAttack(Schmuck user) {
@@ -26,8 +25,8 @@ public class ScissorfishAttack extends MeleeWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startVelocity, float x, float y, short filter) {
-		Hitbox hbox = new Hitbox(state, x, y, hitboxWidth, swingHeight, swingCd, weaponVelo, filter, true, true, user, Sprite.NOTHING);
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, swingCd, weaponVelo, filter, true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

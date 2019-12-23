@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -28,8 +29,8 @@ public class SemipermWall extends Event {
 
 	private short filter;
 	
-	public SemipermWall(PlayState state, int width, int height, int x, int y, boolean player, boolean hbox, boolean event, boolean enemy) {
-		super(state, name, width, height, x, y);
+	public SemipermWall(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy) {
+		super(state, name, startPos ,size);
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 	}
 	
@@ -37,7 +38,7 @@ public class SemipermWall extends Event {
 	public void create() {
 		this.eventData = new EventData(this, UserDataTypes.WALL);
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 0, 0, 0, false, false, Constants.BIT_WALL, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_WALL, 
 				filter,	(short) 0, false, eventData);
 		
 		this.body.setType(BodyDef.BodyType.KinematicBody);

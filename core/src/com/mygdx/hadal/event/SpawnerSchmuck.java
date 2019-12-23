@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -32,15 +33,10 @@ public class SpawnerSchmuck extends Event {
 	private int id;
 	private int limit;
 	
-	private int spawnX, spawnY;
-	
 	private static final String name = "Schmuck Spawner";
 
 	//this is the amount of enemies left
 	private int amountLeft = 0;
-	
-	//Should the spawned mob be spawned with spread?
-	private boolean spread;
 	
 	//Extra field for enemies that require more information (like turret subtypes)
 	private int extraField;
@@ -49,13 +45,10 @@ public class SpawnerSchmuck extends Event {
 	private boolean boss;
 	private String bossName;
 	
-	public SpawnerSchmuck(PlayState state, int width, int height, int x, int y, int schmuckId, int limit, Boolean spread, int extraField, boolean boss, String bossName) {
-		super(state, name, width, height, x, y);
+	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, int schmuckId, int limit, int extraField, boolean boss, String bossName) {
+		super(state, name, startPos, size);
 		this.id = schmuckId;
 		this.limit = limit;
-		this.spawnX = x;
-		this.spawnY = y;
-		this.spread = spread;
 		this.extraField = extraField;
 		this.boss = boss;
 		this.bossName = bossName;
@@ -76,35 +69,33 @@ public class SpawnerSchmuck extends Event {
 						
 						Enemy enemy = null;
 						
-						int randX = spawnX + (spread ? (int)( (Math.random() - 0.5) * 100) : 0);
-						int randY = spawnY + (spread ? (int)( (Math.random() - 0.5) * 100) : 0);
 						switch(id) {
 						case 1:
 							if (Math.random() > 0.4f) {
-								enemy = new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+								enemy = new Scissorfish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							} else if (Math.random() > 0.7f){
-								enemy = new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+								enemy = new Spittlefish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							} else {
-								enemy = new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+								enemy = new Torpedofish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							}
 							break;
 						case 2:
-							enemy = new Scissorfish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+							enemy = new Scissorfish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 3:
-							enemy = new Spittlefish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+							enemy = new Spittlefish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 4:
-							enemy = new Torpedofish(state, randX, randY, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+							enemy = new Torpedofish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 5:
-							enemy = new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_FLAK, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+							enemy = new Turret(state, startPos, enemyType.TURRET_FLAK, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 6:
-							enemy = new Turret(state, randX, (int) (randY - height / 2), enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+							enemy = new Turret(state, startPos, enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						case 7:
-							enemy = new Boss1(state, randX, (int) (randY - height / 2), enemyType.BOSS, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+							enemy = new Boss1(state, startPos, enemyType.BOSS, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
 						}
 						amountLeft++;
@@ -118,7 +109,7 @@ public class SpawnerSchmuck extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (0), (short) 0, true, eventData);
 	}
 	

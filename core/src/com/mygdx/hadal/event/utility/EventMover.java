@@ -37,8 +37,8 @@ public class EventMover extends Event {
 	private float gravity;
 	private boolean moving = false;
 	
-	public EventMover(PlayState state, int width, int height, int x, int y, float gravity) {
-		super(state, name, width, height, x, y);
+	public EventMover(PlayState state, Vector2 startPos, Vector2 size, float gravity) {
+		super(state, name, startPos, size);
 		this.gravity = gravity;
 	}
 	
@@ -57,7 +57,7 @@ public class EventMover extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (0), (short) 0, true, eventData);
 	}
 	

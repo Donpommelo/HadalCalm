@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.enemy.SpittlefishAttack;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -12,10 +13,8 @@ public class Spittlefish extends FloatingEnemy {
 	private static final int width = 197;
 	private static final int height = 76;
 	
-	private static final int hbWidth = 76;
-	private static final int hbHeight = 197;
-	
-	private static final float scale = 0.25f;
+	private static final int hboxWidth = 76;
+	private static final int hboxHeight = 197;
 	
 	private static final float maxLinearSpeed = 10;
 	private static final float maxLinearAcceleration = 200;
@@ -27,8 +26,8 @@ public class Spittlefish extends FloatingEnemy {
 	
 	private static final Sprite sprite = Sprite.FISH_SPITTLE;
 
-	public Spittlefish(PlayState state, int x, int y, short filter, SpawnerSchmuck spawner) {
-		super(state, x, y, width, height, hbWidth, hbHeight, scale, sprite, enemyType.SPITTLEFISH,
+	public Spittlefish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, enemyType.SPITTLEFISH,
 				maxLinearSpeed, maxLinearAcceleration, maxAngularSpeed, maxAngularAcceleration, 
 				boundingRadius, decelerationRadius, filter, baseHp, spawner);
 		

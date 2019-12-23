@@ -28,8 +28,7 @@ public class Speargun extends RangedWeapon {
 	private final static float recoil = 7.5f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 22.5f;
-	private final static int projectileWidth = 50;
-	private final static int projectileHeight = 6;
+	private final static Vector2 projectileSize = new Vector2(50, 6);
 	private final static float lifespan = 1.2f;
 	
 	private final static Sprite projSprite = Sprite.HARPOON;
@@ -37,12 +36,12 @@ public class Speargun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
 	
 	public Speargun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

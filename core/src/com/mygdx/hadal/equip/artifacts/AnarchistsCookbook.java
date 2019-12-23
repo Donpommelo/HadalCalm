@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -17,7 +15,7 @@ public class AnarchistsCookbook extends Artifact {
 	
 	private final static float baseDamage = 15.0f;
 	private final static float knockback = 0.0f;
-	private final static int projectileWidth = 20;
+	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 3.0f;
 		
 	private final static int explosionRadius = 150;
@@ -40,11 +38,8 @@ public class AnarchistsCookbook extends Artifact {
 			public void timePassing(float delta) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					WeaponUtils.createGrenade(state,
-							inflicted.getSchmuck().getPosition().x * PPM, 
-							inflicted.getSchmuck().getPosition().y * PPM,
-							inflicted.getSchmuck(), inflicted.getCurrentTool(), 
-							baseDamage, knockback, projectileWidth, lifespan, new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createGrenade(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, inflicted.getSchmuck(), inflicted.getCurrentTool(), 
+							baseDamage, knockback, lifespan, new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
 				}
 				procCdCount += delta;
 			}

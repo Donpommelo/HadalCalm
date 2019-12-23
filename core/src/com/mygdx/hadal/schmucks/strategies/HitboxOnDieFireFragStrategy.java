@@ -1,9 +1,8 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
@@ -43,12 +42,8 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 			
 			float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));
 
-			Hitbox hbox = new Hitbox(state, 
-					this.hbox.getPosition().x * PPM, 
-					this.hbox.getPosition().y * PPM,
-					projectileWidth, projectileHeight, lifespan,  
-					this.hbox.getLinearVelocity().setAngle(newDegrees),
-					filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
+			Hitbox hbox = new Hitbox(state, new Vector2(this.hbox.getPixelPosition()), new Vector2(projectileWidth, projectileHeight), 
+					lifespan, this.hbox.getLinearVelocity().setAngle(newDegrees), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 			
 			hbox.setGravity(gravity);
 			hbox.setDurability(projDura);

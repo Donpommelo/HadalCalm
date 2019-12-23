@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
@@ -33,8 +31,7 @@ public class Underminer extends RangedWeapon {
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 30;
-	private final static int projectileHeight = 30;
+	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 3.5f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
@@ -50,20 +47,19 @@ public class Underminer extends RangedWeapon {
 	
 	private final static int numProj = 10;
 	private final static int spread = 30;
-	private final static int fragWidth = 20;
-	private final static int fragHeight = 20;
+	private final static Vector2 fragSize = new Vector2(20, 20);
 	private final static float fragLifespan = 0.25f;
 	private final static float fragDamage = 16.0f;
 	private final static float fragSpeed = 40.0f;
 	
 	public Underminer(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, final Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
 		
-		Hitbox hbox = new Hitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(4.0f);
 		hbox.setDurability(2);
 		
@@ -104,17 +100,14 @@ public class Underminer extends RangedWeapon {
 			
 			@Override
 			public void die() {
-				WeaponUtils.createExplosion(state, this.hbox.getPosition().x * PPM , this.hbox.getPosition().y * PPM, 
-						creator.getSchmuck(), tool, explosionRadius, explosionDamage, explosionKnockback, filter);
+				WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), tool, explosionDamage, explosionKnockback, filter);
 				
 				for (int i = 0; i < numProj; i++) {
 					float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 					
 					newVelocity.set(startVelocity);
 					
-					Hitbox frag = new RangedHitbox(state, 
-							hbox.getPosition().x * PPM, hbox.getPosition().y * PPM,	fragWidth, fragHeight, fragLifespan, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees),
-							filter, true, true, user, fragSprite);
+					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees), filter, true, true, user, fragSprite);
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), tool, fragDamage, knockback, DamageTypes.RANGED));

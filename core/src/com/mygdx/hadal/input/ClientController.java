@@ -131,6 +131,10 @@ public class ClientController implements InputProcessor {
 			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.JUMP));
 		}
 		
+		if (keycode == PlayerAction.CROUCH.getKey()) {
+			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.CROUCH));
+		}
+		
 		if (keycode == PlayerAction.FIRE.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.FIRE));
 		}

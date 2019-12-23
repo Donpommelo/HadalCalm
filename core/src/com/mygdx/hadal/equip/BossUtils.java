@@ -7,8 +7,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -89,13 +87,13 @@ public class BossUtils {
 				for (int i = 0; i < amount; i++) {
 					switch (type) {
 					case SCISSORFISH:
-						new Scissorfish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX, null);
+						new Scissorfish(state, boss.getPixelPosition(), Constants.ENEMY_HITBOX, null);
 						break;
 					case SPITTLEFISH:
-						new Spittlefish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX, null);
+						new Spittlefish(state, boss.getPixelPosition(), Constants.ENEMY_HITBOX, null);
 						break;
 					case TORPEDOFISH:
-						new Torpedofish(state, (int)(boss.getPosition().x * PPM), (int)(boss.getPosition().y * PPM), Constants.ENEMY_HITBOX, null);
+						new Torpedofish(state, boss.getPixelPosition(), Constants.ENEMY_HITBOX, null);
 						break;
 					default:
 						break;
@@ -111,7 +109,7 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
-				Vector2 dist = target.getPosition().sub(boss.getPosition());
+				Vector2 dist = target.getPixelPosition().sub(boss.getPixelPosition());
 				boss.setLinearVelocity(dist.nor().scl(moveSpeed));
 			}
 		});
@@ -124,7 +122,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				boss.setMovementTarget(null);
-				Vector2 dist = target.getPosition().sub(boss.getPosition());
+				Vector2 dist = target.getPixelPosition().sub(boss.getPixelPosition());
 				if (x) {
 					boss.setLinearVelocity(new Vector2(dist.nor().scl(moveSpeed).x, 0));
 				} else {
@@ -141,12 +139,11 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new Hitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, (int)boss.getWidth(), (int)boss.getHeight(), duration, 
-						boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), boss.getSize(), duration, boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, boss.getBodyData(), new Vector2(), new Vector2(), true));
+				hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
 			}
 		});
 	}
@@ -159,7 +156,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
@@ -178,7 +175,7 @@ public class BossUtils {
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				RangedHitbox hbox = new RangedHitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
@@ -194,7 +191,7 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
-				Hitbox hbox = new Hitbox(state, boss.getPosition().x * PPM, boss.getPosition().y * PPM, size, size, lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss, Sprite.ORB_RED);
 				hbox.setGravity(10.0f);
 				hbox.setRestitution(1);
@@ -208,33 +205,33 @@ public class BossUtils {
 		});
 	}
 	
-	public static void vengefulSpirit(final PlayState state, Boss boss, final float baseDamage, final float knockback, final float lifespan, final Vector2 pos, final float duration) {
+	public static void vengefulSpirit(final PlayState state, Boss boss, final Vector2 pos, final float baseDamage, final float knockback, final float lifespan, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				WeaponUtils.releaseVengefulSpirits(state, lifespan, baseDamage, knockback, pos, boss.getBodyData(), boss.getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, pos, lifespan, baseDamage, knockback, boss.getBodyData(), boss.getHitboxfilter());
 			}
 		});
 	}
 	
-	public static void createExplosion(final PlayState state, Boss boss, final float baseDamage, final float knockback, final int radius, final Vector2 pos, final float duration) {
+	public static void createExplosion(final PlayState state, Boss boss, final Vector2 pos, final float size, final float baseDamage, final float knockback, final float duration) {
 		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				WeaponUtils.createExplosion(state, pos.x, pos.y, boss, null, radius, baseDamage, knockback, boss.getHitboxfilter());
+				WeaponUtils.createExplosion(state, pos, size, boss, null, baseDamage, knockback, boss.getHitboxfilter());
 			}
 		});
 	}
 	
-	public static void createPoison(final PlayState state, Boss boss, final int width, final int height, final float damage, final float lifespan, final Vector2 pos, final float duration) {
+	public static void createPoison(final PlayState state, Boss boss, final Vector2 pos, final Vector2 size, final float damage, final float lifespan, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			@Override
 			public void execute() {
-				new Poison(state, width, height, (int)pos.x, (int)pos.y, damage, lifespan, boss, true, boss.getHitboxfilter());
+				new Poison(state, pos, size, damage, lifespan, boss, true, boss.getHitboxfilter());
 			}
 		});
 	}
@@ -253,8 +250,8 @@ public class BossUtils {
 					
 					int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
 					Sprite projSprite = debrisSprites[randomIndex];
-					Hitbox hbox = new Hitbox(state, ceiling.getPosition().x * PPM + (GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getWidth(),
-							ceiling.getPosition().y * PPM, size, size, lifespan, new Vector2(),	boss.getHitboxfilter(), true, true, boss, projSprite);
+					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getSize().x, 0)),
+							new Vector2(size, size), lifespan, new Vector2(),	boss.getHitboxfilter(), true, true, boss, projSprite);
 					
 					hbox.setGravity(1.0f);
 					
@@ -322,7 +319,7 @@ public class BossUtils {
 		Event ceiling = state.getDummyPoint("ceiling");
 		
 		if (ceiling != null) {
-			return ceiling.getPosition().y * PPM;
+			return ceiling.getPixelPosition().y;
 		} else {
 			return 0.0f;
 		}
@@ -333,7 +330,7 @@ public class BossUtils {
 		Event floor = state.getDummyPoint("floor");
 		
 		if (floor != null) {
-			return floor.getPosition().y * PPM;
+			return floor.getPixelPosition().y;
 		} else {
 			return 0.0f;
 		}
@@ -343,7 +340,7 @@ public class BossUtils {
 		Event floor = state.getDummyPoint("floor");
 		
 		if (floor != null) {
-			return floor.getPosition().x * PPM - floor.getWidth() / 2;
+			return floor.getPixelPosition().x - floor.getSize().x / 2;
 		} else {
 			return 0.0f;
 		}
@@ -353,7 +350,7 @@ public class BossUtils {
 		Event floor = state.getDummyPoint("floor");
 		
 		if (floor != null) {
-			return floor.getPosition().x * PPM + floor.getWidth() / 2;
+			return floor.getPixelPosition().x + floor.getSize().x / 2;
 		} else {
 			return 0.0f;
 		}

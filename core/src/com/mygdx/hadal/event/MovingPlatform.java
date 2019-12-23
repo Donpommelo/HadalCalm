@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
@@ -40,8 +38,8 @@ public class MovingPlatform extends Event {
 	
 	private ArrayList<Event> connected = new ArrayList<Event>();
 	
-	public MovingPlatform(PlayState state, int width, int height, int x, int y, float speed, boolean pause) {
-		super(state, name, width, height, x, y);
+	public MovingPlatform(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause) {
+		super(state, name, startPos, size);
 		this.speed = speed;
 		this.pause = pause;
 		
@@ -60,7 +58,7 @@ public class MovingPlatform extends Event {
 
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, 5.0f, false, true, Constants.BIT_WALL, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, 5.0f, false, true, Constants.BIT_WALL, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 		
@@ -71,7 +69,7 @@ public class MovingPlatform extends Event {
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			if (getConnectedEvent().getBody() != null) {
-				Vector2 dist = getConnectedEvent().getPosition().sub(getPosition()).scl(PPM);
+				Vector2 dist = getConnectedEvent().getPixelPosition().sub(getPixelPosition());
 
 				//If this platform is close enough to its connected event, move to the next event in the chain.
 				if ((int)dist.len2() <= 1) {

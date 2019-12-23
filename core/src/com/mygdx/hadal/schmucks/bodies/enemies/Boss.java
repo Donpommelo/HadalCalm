@@ -1,7 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,9 +35,6 @@ public class Boss extends Enemy {
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
-	protected int width, height, hbWidth, hbHeight;
-	protected float scale;
-	
 	protected float attackAngle;
 	
 	private Event movementTarget;
@@ -63,14 +58,9 @@ public class Boss extends Enemy {
 	 * @param x: enemy starting x position.
 	 * @param y: enemy starting x position.
 	 */
-	public Boss(PlayState state, int x, int y, int width, int height, int hbWidth, int hbHeight, float scale, enemyType type, short filter, int baseHp, int moveSpeed, float attackCd,
+	public Boss(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int baseHp, int moveSpeed, float attackCd,
 			SpawnerSchmuck spawner, Sprite sprite) {
-		super(state, hbWidth * scale, hbHeight * scale, x, y, type, filter, baseHp, spawner);
-		this.width = width;
-		this.height = height;
-		this.hbWidth = hbWidth;
-		this.hbHeight = hbHeight;
-		this.scale = scale;
+		super(state, startPos, size, hboxSize, type, filter, baseHp, spawner);
 		
 		this.attackCd = attackCd;
 		this.moveSpeed = moveSpeed;
@@ -87,7 +77,7 @@ public class Boss extends Enemy {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startX, startY,  hbWidth * scale, hbHeight * scale, 0, 10, 0, false, false, Constants.BIT_ENEMY, 
+		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 10, 0, false, false, Constants.BIT_ENEMY, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, bodyData);
 	}
@@ -101,7 +91,7 @@ public class Boss extends Enemy {
 		
 		if (movementTarget != null) {
 			if (movementTarget.getBody() != null) {
-				Vector2 dist = movementTarget.getPosition().sub(getPosition()).scl(PPM);
+				Vector2 dist = movementTarget.getPixelPosition().sub(getPixelPosition());
 				
 				if ((int)dist.len2() <= 100) {
 					setLinearVelocity(0, 0);

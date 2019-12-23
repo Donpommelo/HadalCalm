@@ -1,7 +1,5 @@
 package com.mygdx.hadal.server;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -363,7 +361,7 @@ public class KryoServer {
 				SavePoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer((int)(newSave.getLocation().x * PPM), (int)(newSave.getLocation().y * PPM), name, loadout, data, connId, reset, firstTime);
+				Player newPlayer = ps.createPlayer(newSave.getLocation(), name, loadout, data, connId, reset, firstTime);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);

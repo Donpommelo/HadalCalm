@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.states.PlayState;
@@ -29,8 +30,8 @@ public class FreezeBubble extends Event {
 	
 	private static final String name = "Freeze Bubble";
 
-	public FreezeBubble(PlayState state, int width, int height,	int x, int y, float duration, short filter) {
-		super(state, name, width, height, x, y, duration);
+	public FreezeBubble(PlayState state, Vector2 startPos, Vector2 size, float duration, short filter) {
+		super(state, name, startPos, size, duration);
 		this.filter = filter;
 	}
 	
@@ -39,7 +40,7 @@ public class FreezeBubble extends Event {
 
 		this.eventData = new EventData(this);
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE),
 				filter, true, eventData);
 	}
@@ -57,5 +58,4 @@ public class FreezeBubble extends Event {
 		super.controller(delta);
 		
 	}
-	
 }

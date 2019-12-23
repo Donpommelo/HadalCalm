@@ -28,8 +28,7 @@ public class TrickGun extends RangedWeapon {
 	private final static float recoil = 16.0f;
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 25.0f;
-	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 40;
+	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float lifespan = 1.5f;
 	
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -46,14 +45,14 @@ public class TrickGun extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 	
 	public TrickGun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
-	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, int x, int y) {
-		super.mouseClicked(delta, state, shooter, faction, x, y);
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 		if (!firstClicked) {
-			pos1.set(x, y);
+			pos1.set(mouseLocation);
 			firstClicked = true;
 		}
 	}
@@ -64,7 +63,7 @@ public class TrickGun extends RangedWeapon {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		if (firstClicked) {
-			pos2.set(x, y);
+			pos2.set(mouseLocation);
 			
 			float powerDiv = pos1.dst(pos2) / projectileSpeed;
 			
@@ -72,10 +71,10 @@ public class TrickGun extends RangedWeapon {
 			float yImpulse = -(pos1.y - pos2.y) / powerDiv;
 			vel2.set(xImpulse, yImpulse);
 			
-			powerDiv = user.getPosition().dst(pos1.x, pos1.y) / projectileSpeed;
+			powerDiv = user.getPixelPosition().dst(pos1.x, pos1.y) / projectileSpeed;
 			
-			xImpulse = -(user.getPosition().x - pos1.x) / powerDiv;
-			yImpulse = -(user.getPosition().y - pos1.y) / powerDiv;
+			xImpulse = -(user.getPixelPosition().x - pos1.x) / powerDiv;
+			yImpulse = -(user.getPixelPosition().y - pos1.y) / powerDiv;
 			vel1.set(xImpulse, yImpulse);
 			
 			this.setWeaponVelo(vel1);
@@ -87,9 +86,9 @@ public class TrickGun extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity, filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
@@ -108,16 +107,16 @@ public class TrickGun extends RangedWeapon {
 				
 				@Override
 				public void create() {
-					this.startLocation.set(hbox.getPosition());
+					this.startLocation.set(hbox.getPixelPosition());
 					this.distance = startLocation.dst(pos1);
 				}
 				
 				@Override
 				public void controller(float delta) {
 					if (!firstReached) {
-						if (startLocation.dst(hbox.getPosition()) >= distance) {
+						if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
 							if (!pos2.equals(pos1)) {
-								target.set(pos2).sub(hbox.getPosition());
+								target.set(pos2).sub(hbox.getPixelPosition());
 								hbox.setLinearVelocity(target.nor().scl(projectileSpeedAfter));
 							}
 							firstReached = true;

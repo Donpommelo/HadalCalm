@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event.utility;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -26,8 +27,8 @@ public class PlayerMover extends Event {
 	private static final String name = "Player Mover";
 	private boolean moving = false;
 
-	public PlayerMover(PlayState state, int width, int height, int x, int y) {
-		super(state, name, width, height, x, y);
+	public PlayerMover(PlayState state, Vector2 startPos, Vector2 size) {
+		super(state, name, startPos, size);
 	}
 	
 	@Override
@@ -42,7 +43,7 @@ public class PlayerMover extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	

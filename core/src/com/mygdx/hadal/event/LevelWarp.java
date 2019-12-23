@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -31,8 +32,8 @@ public class LevelWarp extends Event {
 	private String startId;
 	private boolean reset;
 	
-	public LevelWarp(PlayState state, int width, int height, int x, int y, String level, boolean reset, String startId) {
-		super(state, name, width, height, x, y);
+	public LevelWarp(PlayState state, Vector2 startPos, Vector2 size, String level, boolean reset, String startId) {
+		super(state, name, startPos, size);
 		this.level = level;
 		this.startId = startId;
 		this.reset = reset;
@@ -52,7 +53,7 @@ public class LevelWarp extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	

@@ -1,10 +1,9 @@
 package com.mygdx.hadal.event;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -52,8 +51,8 @@ public class PickupEquip extends Event {
 	private int modPow;
 	private String pool;
 	
-	public PickupEquip(PlayState state, int x, int y, int modPow, String pool) {
-		super(state, name, Event.defaultPickupEventSize, Event.defaultPickupEventSize, x, y);
+	public PickupEquip(PlayState state, Vector2 startPos, int modPow, String pool) {
+		super(state, name, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
 		this.modPow = modPow;
 		this.pool = pool;
 		
@@ -112,13 +111,13 @@ public class PickupEquip extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPosition().scl(PPM), PickupType.WEAPON, unlock.toString(), mods);
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), PickupType.WEAPON, unlock.toString(), mods);
 	}
 	
 	@Override
@@ -167,12 +166,12 @@ public class PickupEquip extends Event {
 		}
 		
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
-		float y = getPosition().y * PPM + height / 2;
+		float y = getPixelPosition().y + size.y / 2;
 		for (WeaponMod mod : mods) {
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), getPosition().x * PPM - width / 2, y);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), getPixelPosition().x - size.x / 2, y);
 			y += 15;
 		}
-		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPosition().x * PPM - width / 2, y);
+		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPixelPosition().x - size.x / 2, y);
 	}
 	
 	public Equipable getEquip() {

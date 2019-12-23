@@ -1,8 +1,5 @@
 package com.mygdx.hadal.equip.actives;
 
-
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -32,8 +29,9 @@ public class TractorBeam extends ActiveItem {
 	private final static float secondaryDamage = 6.0f;
 	private final static float knockback = 35.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static int projectileWidth = 60;
-	private final static int projectileHeight = 60;
+	
+	private final static Vector2 projectileSize = new Vector2(60, 60);
+	
 	private final static float lifespan = 4.0f;
 	
 	private static final float maxLinSpd = 600;
@@ -55,10 +53,7 @@ public class TractorBeam extends ActiveItem {
 		
 		final Equipable tool = this;
 		
-		Hitbox hbox = new RangedHitbox(state, 
-				user.getPlayer().getPosition().x * PPM, 
-				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileHeight, lifespan, this.weaponVelo.scl(projectileSpeed),
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite) {
 			
 			@Override

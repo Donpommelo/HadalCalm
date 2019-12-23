@@ -38,7 +38,7 @@ public class CameraChanger extends Event {
 			public void onActivate(EventData activator, Player p) {
 
 				if (event.getConnectedEvent() != null) {
-					state.setCameraTarget(event.getConnectedEvent().getPosition());
+					state.setCameraTarget(event.getConnectedEvent().getPixelPosition());
 				} else {
 					state.setCameraTarget(null);
 				}

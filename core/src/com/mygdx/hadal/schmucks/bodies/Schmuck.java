@@ -20,8 +20,6 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
  * They also have some innate stats.
@@ -76,8 +74,8 @@ public class Schmuck extends HadalEntity {
 	 * @param startX: starting x position
 	 * @param startY: starting y position
 	 */
-	public Schmuck(PlayState state, float w, float h, float startX, float startY, short hitboxFilter) {
-		super(state, w, h, startX, startY);
+	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter) {
+		super(state, startPos, size);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
 		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, particleSyncType.TICKSYNC);
@@ -96,24 +94,21 @@ public class Schmuck extends HadalEntity {
 		
 		this.feetData = new FeetData(UserDataTypes.FEET, this); 
 		
-		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height / 8, 
-				new Vector2(1 / 2 / PPM,  - height / 2 / PPM), true, 0, 0, 0, 0,
+		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY | Constants.BIT_PLAYER | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
 		
 		feet.setUserData(feetData);
 		
 		this.leftData = new FeetData(UserDataTypes.SIDES, this); 
 		
-		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
-				new Vector2(-width / 2 / PPM,  0), true, 0, 0, 0, 0,
+		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
 				Constants.BIT_PLAYER, (short)(Constants.BIT_WALL), hitboxfilter));
 		
 		leftSensor.setUserData(leftData);
 		
 		this.rightData = new FeetData(UserDataTypes.SIDES, this); 
 		
-		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(width / 8, height, 
-				new Vector2(width / 2 / PPM,  0), true, 0, 0, 0, 0,
+		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
 				Constants.BIT_PLAYER, Constants.BIT_WALL, hitboxfilter));
 		
 		rightSensor.setUserData(rightData);
@@ -169,13 +164,13 @@ public class Schmuck extends HadalEntity {
 	 * @param y: y screen coordinate that represents where the tool is being directed.
 	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast/momentum freezing/some enemy attacks
 	 */
-	public void useToolStart(float delta, Equipable tool, short hitbox, int x, int y, boolean wait) {
+	public void useToolStart(float delta, Equipable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
 		
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
 
 			//Register the tool targeting the input coordinates.
-			tool.mouseClicked(delta, state, bodyData, hitbox, x, y);
+			tool.mouseClicked(delta, state, bodyData, hitbox, mouseLocation);
 			
 			//set the tool that will be executed after delay to input tool.
 			usedTool = tool;
@@ -208,7 +203,7 @@ public class Schmuck extends HadalEntity {
 	 * @param x: x screen coordinate that represents where the tool is being directed.
 	 * @param y: y screen coordinate that represents where the tool is being directed.
 	 */
-	public void useToolRelease(Equipable tool, short hitbox, int x, int y) {
+	public void useToolRelease(Equipable tool, short hitbox, Vector2 mouseLocation) {
 		tool.release(state, bodyData);
 	}	
 	
@@ -219,8 +214,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState,
-				getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp(), getBodyData().getCurrentFuel(), flashingCount));
 	}
 	
 	/**
@@ -239,8 +233,8 @@ public class Schmuck extends HadalEntity {
 		}
 	}
 	
-	public Vector2 getProjectileOrigin(Vector2 startVelo, int projSize) {
-		return body.getPosition().scl(PPM);
+	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
+		return getPixelPosition();
 	}
 	
 	@Override

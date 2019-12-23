@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -42,10 +40,7 @@ public class ForagersHive extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					WeaponUtils.createBees(state, 
-							inflicted.getSchmuck().getPosition().x * PPM, 
-							inflicted.getSchmuck().getPosition().y * PPM, 
-							inflicted.getSchmuck(), inflicted.getCurrentTool(), numBees, 180, 
+					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), numBees, 
 							new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 				return damage;

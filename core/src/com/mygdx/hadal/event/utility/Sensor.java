@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event.utility;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.Event;
@@ -40,8 +38,8 @@ public class Sensor extends Event {
 	private short filter;
 	private boolean collision;
 	
-	public Sensor(PlayState state, int width, int height, int x, int y, boolean player, boolean hbox, boolean event, boolean enemy,	float gravity, boolean collision) {
-		super(state, name, width, height, x, y);
+	public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,	float gravity, boolean collision) {
+		super(state, name, startPos, size);
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 		this.gravity = gravity;
 		this.collision = collision;
@@ -80,12 +78,11 @@ public class Sensor extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startX, startY, width, height, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
 				filter,	(short) 0, true, eventData);
 		
 		if (collision) {
-			body.createFixture(FixtureBuilder.createFixtureDef(width - 2, height - 2, 
-					new Vector2(1 / 4 / PPM,  1 / 4 / PPM), false, 0, 0, 0.0f, 1.0f,
+			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size).scl(2), false, 0, 0, 0.0f, 1.0f,
 				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
 		}
 	}

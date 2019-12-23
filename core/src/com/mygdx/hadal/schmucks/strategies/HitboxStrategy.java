@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.strategies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -29,7 +30,7 @@ public abstract class HitboxStrategy implements IHitboxStrategy{
 	public void controller(float delta) {}
 
 	@Override
-	public void push(float impulseX, float impulseY) {}
+	public void push(Vector2 push) {}
 	
 	@Override
 	public void onHit(HadalData fixB) {}

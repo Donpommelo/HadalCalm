@@ -1,8 +1,5 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -29,19 +26,14 @@ public class AbyssalInsignia extends Artifact {
 			
 			@Override
 			public void onKill(BodyData vic) {
-				WeaponUtils.releaseVengefulSpirits(state, spiritLifespan, spiritDamage, spiritKnockback, 
-						new Vector2((vic.getSchmuck().getPosition().x * PPM), (vic.getSchmuck().getPosition().y * PPM)), 
-						inflicted, inflicted.getSchmuck().getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, vic.getSchmuck().getPixelPosition(), spiritLifespan, spiritDamage, spiritKnockback, inflicted, inflicted.getSchmuck().getHitboxfilter());
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				WeaponUtils.releaseVengefulSpirits(state, spiritLifespan, spiritDamage, spiritKnockback, new Vector2(
-						(inflicted.getSchmuck().getPosition().x * PPM), 
-						(inflicted.getSchmuck().getPosition().y * PPM)), inflicted, inflicted.getSchmuck().getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, inflicted.getSchmuck().getPixelPosition(), spiritLifespan, spiritDamage, spiritKnockback, inflicted, inflicted.getSchmuck().getHitboxfilter());
 			}
 		};
-		
 		return enchantment;
 	}
 }

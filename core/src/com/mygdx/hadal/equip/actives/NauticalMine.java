@@ -1,8 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
-
-import static com.mygdx.hadal.utils.Constants.PPM;
-
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -25,7 +23,7 @@ public class NauticalMine extends ActiveItem {
 	
 	private final static float baseDamage = 15.0f;
 	private final static float knockback = 0.0f;
-	private final static int projectileWidth = 120;
+	private final static Vector2 projectileSize = new Vector2(120, 120);
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 500;
@@ -43,10 +41,8 @@ public class NauticalMine extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		
-		Hitbox hbox = new RangedHitbox(state, 
-				user.getPlayer().getPosition().x * PPM, 
-				user.getPlayer().getPosition().y * PPM,
-				projectileWidth, projectileWidth, lifespan, this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed), 
+				user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
 		
 		hbox.setGravity(0.1f);
 		hbox.setRestitution(1.0f);
@@ -56,5 +52,4 @@ public class NauticalMine extends ActiveItem {
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user, this, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 	}
-
 }

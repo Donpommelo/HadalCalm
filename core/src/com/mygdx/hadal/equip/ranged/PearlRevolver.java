@@ -29,8 +29,7 @@ public class PearlRevolver extends RangedWeapon {
 	private final static float recoil = 5.0f;
 	private final static float knockback = 7.5f;
 	private final static float projectileSpeed = 45.0f;
-	private final static int projectileWidth = 20;
-	private final static int projectileHeight = 20;
+	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
@@ -38,7 +37,7 @@ public class PearlRevolver extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	public PearlRevolver(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileWidth);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
@@ -48,9 +47,9 @@ public class PearlRevolver extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, final Schmuck user, Vector2 startVelocity, float x, float y, final short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, x, y, projectileWidth, projectileHeight, lifespan, startVelocity,	filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

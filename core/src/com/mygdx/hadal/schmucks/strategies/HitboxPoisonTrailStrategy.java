@@ -1,7 +1,6 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -37,12 +36,8 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 		
 		if (poisonCdCount <= 0) {
 			poisonCdCount = poisonCd;
-			
-			new Poison(state, poisonRadius, poisonRadius,
-					(int)(this.hbox.getPosition().x * PPM), 
-					(int)(this.hbox.getPosition().y * PPM), poisonDamage, poisonDuration, creator.getSchmuck(), false, filter);
+			new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration, creator.getSchmuck(), false, filter);
 		}
 		poisonCdCount -= delta;
-		
 	}
 }
