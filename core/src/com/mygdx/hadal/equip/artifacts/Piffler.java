@@ -34,6 +34,7 @@ public class Piffler extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_CLIP, 1.0f, b),
 				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, -0.75f, b),
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, -0.8f, b),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, -0.25f, b),
 				new Status(state, name, descr, b) {
 			
 			@Override

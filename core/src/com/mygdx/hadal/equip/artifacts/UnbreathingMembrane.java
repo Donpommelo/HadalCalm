@@ -29,8 +29,8 @@ public class UnbreathingMembrane extends Artifact {
 				new StatChangeStatus(state, Stats.AIR_SPD, -0.75f, b), 
 				new StatChangeStatus(state, Stats.AIR_ACCEL, -0.75f, b),
 				new StatChangeStatus(state, Stats.JUMP_POW, -0.75f, b),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.8f, b),
-				new StatChangeStatus(state, Stats.RANGED_CLIP, 1.0f, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.75f, b),
+				new StatChangeStatus(state, Stats.RANGED_CLIP, 0.75f, b),
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, 5.0f, b),
 				new Status(state, name, descr, b) {
 			

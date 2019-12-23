@@ -13,7 +13,7 @@ public class MaskofSympathy extends Artifact {
 	private final static String descrLong = "";
 	private final static int statusNum = 1;
 	
-	private final static float amount = 0.2f;
+	private final static float amount = 0.4f;
 	
 	public MaskofSympathy() {
 		super(name, descr, descrLong, statusNum);

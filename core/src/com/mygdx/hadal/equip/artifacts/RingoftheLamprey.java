@@ -20,7 +20,7 @@ public class RingoftheLamprey extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new Lifesteal(state, 0.05f, b));
+				new Lifesteal(state, 0.03f, b));
 		return enchantment;
 	}
 }

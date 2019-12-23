@@ -31,7 +31,7 @@ public class Boss1 extends BossFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 4200;
+	private static final int hp = 4500;
 	private static final int moveSpeed = 20;
 	private static final int spinSpeed = 40;
 	
@@ -219,8 +219,8 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
-	private static final int fireballDamage = 3;
-	private static final int burnDamage = 2;
+	private static final int fireballDamage = 4;
+	private static final int burnDamage = 5;
 	private static final int fireSpeed = 12;
 	private static final int fireKB = 10;
 	private static final int fireSize = 50;
@@ -293,7 +293,7 @@ public class Boss1 extends BossFloating {
 	private static final float rotateSpeed = 1.8f;
 	private static final float laser2Interval = 0.04f;
 	private static final int laser2Amount = 110;
-	private static final float laser2Damage = 4.0f;
+	private static final float laser2Damage = 7.0f;
 	private static final float laser2Speed = 15.0f;
 	
 	private void rotatingLaser() {
@@ -359,7 +359,7 @@ public class Boss1 extends BossFloating {
 	private static final float ballSpeed = 10.0f;
 	private static final float ballKnockback = 12.0f;
 	private static final int ballSize = 60;
-	private static final float ballLifespan = 7.0f;
+	private static final float ballLifespan = 7.5f;
 	private static final float ballInterval= 0.75f;
 	
 	private void bouncyBall() {
@@ -381,30 +381,30 @@ public class Boss1 extends BossFloating {
 	}
 	
 	
-	private static final float spiritDamage= 13.0f;
+	private static final float spiritDamage= 15.0f;
 	private static final float spiritKnockback= 25.0f;
-	private static final float spiritLifespan= 7.0f;
+	private static final float spiritLifespan= 7.5f;
 	private Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 		
-		spiritPos.set(body.getPosition()).add(0, 150);
+		spiritPos.set(body.getPosition()).add(0, 100);
 		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 		
-		spiritPos.set(body.getPosition()).add(150, 0);
+		spiritPos.set(body.getPosition()).add(100, 0);
 		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 		
-		spiritPos.set(body.getPosition()).add(-150, 0);
+		spiritPos.set(body.getPosition()).add(-100, 0);
 		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 	}
 	
 	private static final int numPoison = 7;
 	private static final float poisonInterval = 0.75f;
-	private static final float poisonDamage= 0.5f;
+	private static final float poisonDamage= 0.6f;
 	private static final int poisonWidth= 150;
 	private static final int poisonHeight = 280;
-	private static final float poisonDuration = 7.0f;
+	private static final float poisonDuration = 7.5f;
 	
 	private void poisonCloud() {
 		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed);
@@ -435,10 +435,10 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
 	}
 	
-	private static final int numDebris = 15;
+	private static final int numDebris = 18;
 	private static final int numDebrisPassive = 8;
 	private static final float debrisInterval = 0.25f;
-	private static final float debrisDamage= 7.0f;
+	private static final float debrisDamage= 9.0f;
 	private static final int debrisSize= 30;
 	private static final float debrisKnockback= 15.0f;
 	private static final float debrisLifespan= 3.0f;

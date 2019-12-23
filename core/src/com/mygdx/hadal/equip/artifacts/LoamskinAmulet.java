@@ -18,7 +18,7 @@ public class LoamskinAmulet extends Artifact {
 	private final static int statusNum = 1;
 	
 	private final static float regenCd = 5.0f;
-	private final static float regen = 5.0f;
+	private final static float regen = 2.5f;
 	
 	public LoamskinAmulet() {
 		super(name, descr, descrLong, statusNum);
