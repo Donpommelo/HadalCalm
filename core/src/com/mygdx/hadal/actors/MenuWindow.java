@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -11,8 +10,8 @@ public class MenuWindow extends AHadalActor{
 	
 	private GameStateManager gsm;
 	
-	public MenuWindow(AssetManager assetManager, GameStateManager stateManager, int x, int y, int width, int height) {
-		super(assetManager, x, y, width, height);
+	public MenuWindow(GameStateManager stateManager, int x, int y, int width, int height) {
+		super(x, y, width, height);
 		this.gsm = stateManager;
 	}
 	

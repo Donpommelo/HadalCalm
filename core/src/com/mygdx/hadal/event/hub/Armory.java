@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
@@ -35,7 +34,7 @@ public class Armory extends HubEvent {
 		for (UnlockEquip c: UnlockEquip.getUnlocks(true, UnlockTag.ARMORY)) {
 			
 			final UnlockEquip selected = c;
-			Text itemChoose = new Text(HadalGame.assetManager, selected.getName(), 0, 0);
+			Text itemChoose = new Text(selected.getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 				
@@ -43,10 +42,10 @@ public class Armory extends HubEvent {
 		        public void clicked(InputEvent e, float x, float y) {
 					if (state.isServer()) {
 						state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
-			        	state.getGsm().getRecord().setEquips(state.getPlayer().getPlayerData().getCurrentSlot(), selected.name());
 					} else {
 			        	state.getPlayer().getPlayerData().syncClientLoadoutChangeWeapon(selected);
 					}
+					state.getGsm().getRecord().setEquips(state.getPlayer().getPlayerData().getCurrentSlot(), selected.name());
 		        }
 				
 				@Override
@@ -66,7 +65,7 @@ public class Armory extends HubEvent {
 			tableInner.add(itemChoose).width(optionsWidth).height(optionsHeight);
 			tableInner.row();
 		}
-		tableInner.add(new Text(HadalGame.assetManager, "", 0, 0)).width(optionsWidth).height(optionsHeight);
+		tableInner.add(new Text("", 0, 0)).width(optionsWidth).height(optionsHeight);
 		tableInner.row();
 	}
 }

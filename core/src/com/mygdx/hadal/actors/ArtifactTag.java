@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -26,20 +25,17 @@ public class ArtifactTag extends AHadalActor {
 	private float scale = 0.25f;
 	private Color color;
 	
-	private TextureRegion base, ready, overlay;
+	private TextureRegion ready;
 	
 	private boolean mouseOver;
 	
-	public ArtifactTag(AssetManager assetManager, Artifact artifact) {
-		super(assetManager);
+	public ArtifactTag(Artifact artifact) {
 		this.artifact = artifact;
 		
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = Color.WHITE;
 		
-		this.base = Sprite.UI_MO_BASE.getFrame();
 		this.ready = Sprite.UI_MO_READY.getFrame();
-		this.overlay = Sprite.UI_MO_OVERLAY.getFrame();
 		
 		mouseOver = false;
 		
@@ -60,9 +56,7 @@ public class ArtifactTag extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-		batch.draw(base, getX(), getY(), getWidth(), getHeight());
 		batch.draw(ready, getX(), getY(), getWidth(), getHeight());
-		batch.draw(overlay, getX(), getY(), getWidth(), getHeight());
          
          if (mouseOver) {
         	 font.setColor(color);

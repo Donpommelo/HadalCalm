@@ -58,8 +58,8 @@ public class TitleState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				addActor(new TitleBackdrop(HadalGame.assetManager));
-				addActor(new MenuWindow(HadalGame.assetManager, gsm, HadalGame.CONFIG_WIDTH - width - xOffset, 0, width, height));
+				addActor(new TitleBackdrop());
+				addActor(new MenuWindow(gsm, HadalGame.CONFIG_WIDTH - width - xOffset, 0, width, height));
 				
 				table = new Table();
 				table.setLayoutEnabled(true);
@@ -67,24 +67,23 @@ public class TitleState extends GameState {
 				table.setSize(width, height);
 				addActor(table);
 				
-				nameDisplay = new Text(HadalGame.assetManager, "YOUR NAME: ", 0, 0, Color.BLACK);
+				nameDisplay = new Text("YOUR NAME: ", 0, 0, Color.BLACK);
 				nameDisplay.setScale(0.5f);
-				nameRand = new Text(HadalGame.assetManager, "RANDOM?", 0, 0, Color.BLACK);
+				nameRand = new Text("RANDOM?", 0, 0, Color.BLACK);
 				nameRand.setScale(0.5f);
-				hostOption = new Text(HadalGame.assetManager, "HOST SERVER", 0, 0, Color.BLACK);
+				hostOption = new Text("HOST SERVER", 0, 0, Color.BLACK);
 				hostOption.setScale(0.5f);
-				hostOption.addMouseOverStuff();
-				singleOption = new Text(HadalGame.assetManager, "SINGLE PLAYER", 0, 0, Color.BLACK);
+				singleOption = new Text("SINGLE PLAYER", 0, 0, Color.BLACK);
 				singleOption.setScale(0.5f);
-				joinOption = new Text(HadalGame.assetManager, "JOIN", 0, 0, Color.BLACK);
+				joinOption = new Text("JOIN", 0, 0, Color.BLACK);
 				joinOption.setScale(0.5f);
-				searchOption = new Text(HadalGame.assetManager, "SEARCH?", 0, 0, Color.BLACK);
+				searchOption = new Text("SEARCH?", 0, 0, Color.BLACK);
 				searchOption.setScale(0.5f);
-				settingsOption = new Text(HadalGame.assetManager, "SETTINGS", 0, 0, Color.BLACK);
+				settingsOption = new Text("SETTINGS", 0, 0, Color.BLACK);
 				settingsOption.setScale(0.5f);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 0, 0, Color.BLACK);
+				exitOption = new Text("EXIT?", 0, 0, Color.BLACK);
 				exitOption.setScale(0.5f);
-				notifications = new Text(HadalGame.assetManager, "", 0, 0, Color.BLACK);
+				notifications = new Text("", 0, 0, Color.BLACK);
 				notifications.setScale(0.5f);
 
 				hostOption.addListener(new ClickListener() {

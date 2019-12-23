@@ -11,6 +11,12 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
+ * This window lets the player type and send messages.
+ * @author Zachary Tu
+ *
+ */
 public class MessageWindow {
 
 	private static final int width = 200;
@@ -23,6 +29,7 @@ public class MessageWindow {
 	private TextArea enterMessage;
 	private Text sendMessage, backButton;
 	
+	//is this window currently visible?
 	private boolean active;
 	
 	public MessageWindow(PlayState state) {
@@ -35,6 +42,10 @@ public class MessageWindow {
 		addTable();
 	}
 	
+	/**
+	 * This toggles the window on and off. It is run when the player presses the chat button
+	 * This sets the keyboard focus to the window/back to the playstate
+	 */
 	public void toggleWindow() {
 		if (active) {
 			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height, .5f, Interpolation.pow5Out));
@@ -48,11 +59,16 @@ public class MessageWindow {
 		active = !active;
 	}
 	
+	/**
+	 * Sends a message.
+	 * Server sends the message to all clients.
+	 * Clients send a message to the server (who then relays it to all clients)
+	 */
 	public void sendMessage() {
 		if (active) {
 			if (!enterMessage.getText().equals("")) {
 				if (state.isServer()) {
-					HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(),  enterMessage.getText());
+					HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText());
 				} else {
 					HadalGame.client.client.sendTCP(new Packets.Notification(state.getPlayer().getName(),  enterMessage.getText()));
 				}
@@ -62,6 +78,10 @@ public class MessageWindow {
 		enterMessage.setText("");
 	}
 	
+	/**
+	 * This adds the table to the stage.
+	 * It is called when the actor is instantiated
+	 */
 	public void addTable() {
 		tableOuter.clear();
 		tableInner.clear();
@@ -74,19 +94,18 @@ public class MessageWindow {
 		tableInner.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height);
 		tableInner.setWidth(width);
 		tableInner.setHeight(height);
-		tableOuter.add(new MenuWindow(HadalGame.assetManager, state.getGsm(),
-						0, 
-						0, width, height));
+		tableOuter.add(new MenuWindow(state.getGsm(), 0, 0, width, height));
 		
 		enterMessage = new TextArea("", state.getGsm().getSkin());
 		enterMessage.setMessageText("ENTER MESSAGE");
 		
-		sendMessage = new Text(HadalGame.assetManager, "SEND", 0, 0, Color.WHITE);
+		sendMessage = new Text("SEND", 0, 0, Color.WHITE);
 		sendMessage.setScale(0.5f);
 		
-		backButton = new Text(HadalGame.assetManager, "BACK", 0, 0, Color.WHITE);
+		backButton = new Text("BACK", 0, 0, Color.WHITE);
 		backButton.setScale(0.5f);
 		
+		//sending a message should return focus to the playstate
 		sendMessage.addListener(new ClickListener() {
 			
 			@Override
@@ -109,6 +128,7 @@ public class MessageWindow {
 		tableInner.add(sendMessage).pad(15);
 		tableInner.add(backButton).pad(15);
 		
+		//windows starts off retracted
 		active = false;
 	}
 }

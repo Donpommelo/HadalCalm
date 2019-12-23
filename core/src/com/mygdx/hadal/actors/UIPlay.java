@@ -1,21 +1,15 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -56,26 +50,26 @@ public class UIPlay extends AHadalActor {
 	private boolean blinking = false;
 	private float blinkCdCount = 0.0f;
 	
-	//Rate of blinking whe nat low health
+	//Rate of blinking when at low health
 	private static final float blinkCd = 0.1f;
 	
 	//Percent of Hp for low heal indication to appear
 	private static final float hpLowThreshold = 0.20f;
 	
+	//fields displayed in this ui
 	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText, ammoText;
 	
+	//Are we currently fighting a boss. If so, who and what's its name.
 	private boolean bossFight = false;
 	private Schmuck boss;
 	private String bossName;
+	
+	//These stats manage the boss hp bar.
 	private float bossHpDelayed = 1.0f;
 	private float bossHpRatio;
 	
-	//display extra info (weapon mods) when moused over
-	private boolean mouseOver;
-
-	public UIPlay(AssetManager assetManager, PlayState state, Player player) {
-		super(assetManager);
+	public UIPlay(PlayState state, Player player) {
 		this.player = player;
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
@@ -98,22 +92,6 @@ public class UIPlay extends AHadalActor {
 		
 		setWidth(main.getRegionWidth() * mainScale);
 		setHeight(main.getRegionHeight() * mainScale);
-		
-		mouseOver = false;
-		
-		addListener(new ClickListener() {
-			@Override
-			public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-				super.enter(event, x, y, pointer, fromActor);
-				mouseOver = true;
-			}
-
-			@Override
-			public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
-				super.enter(event, x, y, pointer, toActor);
-				mouseOver = false;
-			}
-		});
 	}
 	
 	/**
@@ -169,7 +147,6 @@ public class UIPlay extends AHadalActor {
 		batch.draw(fuelCutoff, mainX + barX + fuelCutoffRatio * fuel.getRegionWidth() * mainScale, mainY + fuelBarY,
 				fuelCutoff.getRegionWidth() * mainScale, fuelCutoff.getRegionHeight() * mainScale);
 
-		
 		if (player.getPlayerData().getCurrentTool().isReloading()) {
 			batch.draw(reloading, mainX, mainY, getWidth(), getHeight());
 		}
@@ -201,6 +178,7 @@ public class UIPlay extends AHadalActor {
 		//Draw boss hp bar, if existant
 		if (bossFight && boss.getBody() != null) {
 			font.draw(batch, bossName, bossX, bossNameY);
+			
 			//This code makes the hp bar delay work.
 			if (bossHpDelayed > bossHpRatio) {
 				bossHpDelayed -= bossHpCatchup;
@@ -213,37 +191,31 @@ public class UIPlay extends AHadalActor {
 			batch.draw(hpMissing, bossX, bossBarY, bossBarWidth * mainScale * bossHpDelayed, bossBarHeight * mainScale);
 			batch.draw(hp, bossX, bossBarY, bossBarWidth * mainScale * bossHpRatio, bossBarHeight * mainScale);
 		}
-		
-		//Draw weapon mod info if moused over
-		if (mouseOver) {
-			int yOffset = 0;
-			if (state.isServer()) {
-				for(WeaponModifier s : player.getPlayerData().getCurrentTool().getWeaponMods()) {
-					font.getData().setScale(0.25f);
-					font.draw(batch, s.getName(), mainX + 25, mainY + 150 + yOffset, 250, -1, true);
-					yOffset += 25;
-				}
-			} else {
-				for(WeaponMod s : player.getPlayerData().getOverrideWeaponMods()) {
-					font.getData().setScale(0.25f);
-					font.draw(batch, s.getName(), mainX + 25, mainY + 150 + yOffset, 250, -1, true);
-					yOffset += 25;
-				}
-			}
-		}
 	}
 	
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	
+	/**
+	 * This sets an enemy as a boss
+	 * @param boss: the boss
+	 * @param name: the name to be displayed above the hp bar
+	 */
 	public void setBoss(Schmuck boss, String name) {
 		this.boss = boss;
 		bossFight = true;
 		bossName = name;
 	}
 	
+	/**
+	 * This simply clears the boss hp bar from the ui
+	 */
 	public void clearBoss() {
 		bossFight = false;
+	}
+	
+	/**
+	 * This sets the player that this ui follows. This is run when a new player is created.
+	 * @param player
+	 */
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 }

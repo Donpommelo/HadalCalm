@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,8 +21,7 @@ public class UIActives extends AHadalActor {
 	
 	private static final float scale = 0.5f;
 
-	public UIActives(AssetManager assetManager, Player player) {
-		super(assetManager);
+	public UIActives(Player player) {
 		this.player = player;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		

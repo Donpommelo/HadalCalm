@@ -41,9 +41,7 @@ public class Packets {
 		 * Treat this as Client: "Create a Player for me in the Server's world."
 		 * 
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
-		 * @param m: Client's selected name and name of their new Player.
-		 * @param loadout: Client's loadout. 
-		 * @param reset: in the case of a level transition, should the client's player data be reset
+		 * @param name: Client's selected name and name of their new Player.
 		 */
 		public PlayerConnect(boolean firstTime, String name) {
 			this.firstTime = firstTime;
@@ -51,10 +49,118 @@ public class Packets {
 		}
 	}
 	
+	public static class LoadLevel {
+		public UnlockLevel level;
+		public boolean firstTime;
+		public LoadLevel() {}
+		
+		/**
+		 * A LoadLevel is sent from the Server to the Client to tell the Client to transition to a new level.
+		 * This is done when the Server receives a Client's PlayerConnect to tell them what world to load.
+		 * It is also done when the Client sends a ClientFinishedTransition packet if the Client should load a new level.
+		 * 
+		 * @param level: Level that the Client will load.
+		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
+		 */
+		public LoadLevel(UnlockLevel level, boolean firstTime) {
+			this.level = level;
+			this.firstTime = firstTime;
+		}
+	}
+	
+	public static class ClientLoaded {
+		public boolean firstTime;
+		public String name;
+		public Loadout loadout;
+		public ClientLoaded() {}
+		
+		/**
+		 * A ClientLoaded is sent from the Client to the Server when the Client finishes initializing their ClientState as a result of
+		 * receiving a LoadLevel packet from the Server.
+		 * Server receiving this should welcome the new Client and give them the down-low about the world they just entered.
+		 * 
+		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
+		 */
+		public ClientLoaded(boolean firstTime, String name, Loadout loadout) {
+			this.firstTime = firstTime;
+			this.name = name;
+			this.loadout = loadout;
+		}
+	}
+	
+	public static class NewClientPlayer {
+		public String yourId;
+		public NewClientPlayer() {}
+		
+		/**
+		 * A New ClientPlayer is sent from the Server to the Client whenever the Server initializes a new Player for that Client.
+		 * This packet is only sent to the corresponding client. Not all clients.
+		 * This packet tells the Client the new Player's ID. 
+		 * Clients store this ID so that when the Player is actually created in the PlayState, they know its themselves and can sync accordingly.
+		 * 
+		 * @param yourId: entityId of the newly created Player.
+		 */
+		public NewClientPlayer(String yourId) {
+			this.yourId = yourId;
+		}
+	}
+	
+	public static class SyncClientLoadout {
+
+		public UnlockEquip equip;
+		public UnlockArtifact artifact;
+		public UnlockActives active;
+		public UnlockCharacter character;
+		
+		public SyncClientLoadout() {}
+		
+		/**
+		 * A SyncClientWeapon is sent from the Client to the Server when the client attempts to change their loadout in the hub.
+		 * 
+		 * @param entityId: ID of the player to change
+		 * @param loadout: Player's new loadout
+		 */
+		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifact, UnlockActives active, UnlockCharacter character) {
+			this.equip = equip;
+			this.artifact = artifact;
+			this.active = active;
+			this.character = character;
+		}
+	}
+	
+	public static class ClientStartTransition {
+		public transitionState state;
+		public boolean override;
+		public String resultsText;
+		public ClientStartTransition() {}
+		
+		/**
+		 * A ClientStartTransition is sent from the Server to the Client upon beginning a transition to another state to tell the Client
+		 * to transition as well.
+		 * Clients receiving this begin fading to black the same way the Server does.
+		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
+		 */
+		public ClientStartTransition(transitionState state, boolean override, String resultsText) {
+			this.state = state;
+			this.override = override;
+			this.resultsText = resultsText;
+		}
+	}
+	
+	public static class ClientFinishRespawn {
+		/**
+		 * A ClientFinishRespawn is sent from the Client to the Server upon finishing their fade-to-black after receiving a ClientStartTransition Packet.
+		 * 
+		 * If the client is respawning, the server creates the new client player upon receiving this message.
+		 * 		 
+		 */
+		public ClientFinishRespawn() {}
+	}
+	
 	public static class ServerLoaded {
 		
 		/**
-		 * ServerLoaded is sent from the Server to the Client whenever the server finishes loading its Playstate (Onfirst engine tick)
+		 * ServerLoaded is sent from the Server to the Client whenever the server finishes loading its Playstate (On first engine tick)
 		 * This is used by a connected Client so they know when to send their PlayerConnect.
 		 * This is intended to deal with the Client loading before the Server.
 		 */
@@ -99,7 +205,7 @@ public class Packets {
 		
 		/**
 		 * A Notification is sent from the Server to the Client to make a notification window appear in their dialog box.
-		 * 
+		 * A Notification is sent from the Client to the Server to tell it to relay the message to all clients.
 		 * @param name: The name that will be displayed in the notification
 		 * @param text: The text displayed in the notification
 		 */
@@ -110,13 +216,13 @@ public class Packets {
 	}
 	
 	public static class ClientReady {
-		
 		public int playerId;
+		public ClientReady() {}
 		
 		/**
 		 * This is sent from the client to the server at the results screen to indicate the client is ready to return.
+		 * @param: the id of the client who is ready
 		 */
-		public ClientReady() {}
 		public ClientReady(int playerId) {
 			this.playerId = playerId;
 		}
@@ -127,9 +233,8 @@ public class Packets {
 		public KeyDown() {}
 		
 		/**
-		 * A KeyDown is sent from thte Client to the Server whenever they press a key down that results in some action being taken.
+		 * A KeyDown is sent from the Client to the Server whenever they press a key down that results in some action being taken.
 		 * The Server takes these actions and makes the client's Player execute them.
-		 * 
 		 * @param a: The action taken by the client.
 		 */
 		public KeyDown(PlayerAction a) {
@@ -153,129 +258,29 @@ public class Packets {
 	}
 	
 	public static class MouseMove {
-		public int x, y;
+		public float x, y;
 		public MouseMove() {}
 		
 		/**
 		 * A MouseMove is sent from the Client to the Server every engine tick to update location of their mouse.
-		 * The Server uses these packets to syncronize each player's mouse pointer so sprites point weapons right directions.
+		 * The Server uses these packets to synchronize each player's mouse pointer so sprites point weapons right directions.
 		 * 
 		 * @param x: X position of the client's mouse.
 		 * @param y: Y position of the client's mouse.
 		 */
-		public MouseMove(int x, int y) {
+		public MouseMove(float x, float y) {
 			this.x = x;
 			this.y = y;
 		}
 	}
 	
-	public static class LoadLevel {
-		public UnlockLevel level;
-		public boolean firstTime;
-		public LoadLevel() {}
-		
-		/**
-		 * A LoadLevel is sent from the Server to the Client to tell the Client to transition to a new level.
-		 * This is done when the Server receives a Client's PlayerConnect to tell them what world to load.
-		 * It is also done when the Client sends a ClientFinishedTransition packet if the Client should load a new level.
-		 * 
-		 * @param level: Level that the Client will load.
-		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
-		 */
-		public LoadLevel(UnlockLevel level, boolean firstTime) {
-			this.level = level;
-			this.firstTime = firstTime;
-		}
-	}
-	
-	public static class NewClientPlayer {
-		public String yourId;
-		public NewClientPlayer() {}
-		
-		/**
-		 * A New ClientPlayer is sent from the Server to the Client whenever the Server initializes a new Player for that Client.
-		 * This packet is only sent to the corresponding client. Not all clients.
-		 * This packet tells the Client the new Player's ID. 
-		 * Clients store this ID so that when the Player is actually created in the PlayState, they know its themselves and can sync accordingly.
-		 * 
-		 * @param yourId: entityId of the newly created Player.
-		 */
-		public NewClientPlayer(String yourId) {
-			this.yourId = yourId;
-		}
-	}
-	
-	public static class ClientLoaded {
-		public boolean firstTime;
-		public String name;
-		public Loadout loadout;
-		public ClientLoaded() {}
-		
-		/**
-		 * A ClientLoaded is sent from the Client to the Server when the Client finishes initializing their ClientState as a result of
-		 * receiving a LoadLevel packet from the Server.
-		 * Server receiving this should welcome the new Client and give them the down-low about the world they just entered.
-		 * 
-		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
-		 */
-		public ClientLoaded(boolean firstTime, String name, Loadout loadout) {
-			this.firstTime = firstTime;
-			this.name = name;
-			this.loadout = loadout;
-		}
-	}
-	
-	public static class ClientStartTransition {
-		public transitionState state;
-		public boolean override;
-		public String resultsText;
-		public ClientStartTransition() {}
-		
-		/**
-		 * A ClientStartTransition is sent from the Server to the Client upon beginning a transition to another state to tell the Client
-		 * to transition as well.
-		 * Clients receiving this begin fading to black the same way the Server does.
-		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
-		 */
-		public ClientStartTransition(transitionState state, boolean override, String resultsText) {
-			this.state = state;
-			this.override = override;
-			this.resultsText = resultsText;
-		}
-	}
-	
-	public static class ClientFinishTransition {
-		public Loadout loadout;
-		public transitionState state;
-		public ClientFinishTransition() {}
-		
-		/**
-		 * A ClientFinishTransition is sent from the Client to the Server upon finishing their fade-to-black after recevining a 
-		 * ClientStartTransition Packet.
-		 * 
-		 * Upon receiving this Packet, the Server does something different depending on whether it loads slower or faster than the Client.
-		 * If the Server is already in a PlayState, the Server catches up the Client just like when initially connecting.
-		 * If the Server is slower, it ignores this packet, instead send a ServerLoaded Packet when it finishes loading.
-		 * Receiving that ServerLoaded Packet lets us enter the new world.
-		 * 
-		 * @param loadout: If we are transitioning to a new level, this is the Client's new loadout.
-		 * @param state: The State we are transitioning into.
-		 */
-		public ClientFinishTransition(Loadout loadout, transitionState state) {
-			this.loadout = loadout;
-			this.state = state;
-		}
-	}
-	
 	public static class SyncScore {
-		
 		public HashMap<Integer, SavedPlayerFields> scores;
-		
 		public SyncScore() {}
 		
 		/**
 		 * This is sent from the server to the clients to give them their scores for all players
-		 * @param scores
+		 * @param score: mapping of each players connId to their score
 		 */
 		public SyncScore(HashMap<Integer, SavedPlayerFields> scores) {
 			this.scores = scores;
@@ -289,7 +294,6 @@ public class Packets {
         public Sprite sprite;
         public ObjectSyncLayers layer;
         public alignType align;
-        
 		public CreateEntity() {}
 		
 		/**
@@ -300,6 +304,7 @@ public class Packets {
 		 * @param pos: position of the new entity
 		 * @param sprite: entity's sprite
 		 * @param layer: Hitbox or Standard layer? (Hitboxes are rendered underneath other entities)
+		 * @param align: The new object's align type. Used to determine how the client illusioin should be rendered
 		 */
 		public CreateEntity(String entityID, Vector2 size, Vector2 pos, Sprite sprite, ObjectSyncLayers layer, alignType align) {
 			this.entityID = entityID;
@@ -365,28 +370,6 @@ public class Packets {
             this.entityID = entityID;
             this.name = name;
             this.loadout = loadout;
-        }
-	}
-	
-	public static class SyncEntity {
-		public String entityID;
-        public Vector2 pos;
-        public float angle;
-		public SyncEntity() {}
-		
-		/**
-		 * A SyncEntity is sent from the Server to the Client for every synchronized entity every engine tick.
-		 * This packet (and similar packets) just tell the client how to change their version of the entity.
-		 * Most basic version just transforms the entity's body.
-		 * 
-		 * @param entityID: ID of the entity to synchronize
-		 * @param pos: position of the entity
-		 * @param a: body angle of the new entity.
-		 */
-		public SyncEntity(String entityID, Vector2 pos, float a) {
-            this.entityID = entityID;
-            this.pos = pos;
-            this.angle = a;
         }
 	}
 	
@@ -456,6 +439,28 @@ public class Packets {
             this.startPickup = startPickup;
             this.mods = mods;
 		}
+	}
+	
+	public static class SyncEntity {
+		public String entityID;
+        public Vector2 pos;
+        public float angle;
+		public SyncEntity() {}
+		
+		/**
+		 * A SyncEntity is sent from the Server to the Client for every synchronized entity every engine tick.
+		 * This packet (and similar packets) just tell the client how to change their version of the entity.
+		 * Most basic version just transforms the entity's body.
+		 * 
+		 * @param entityID: ID of the entity to synchronize
+		 * @param pos: position of the entity
+		 * @param a: body angle of the new entity.
+		 */
+		public SyncEntity(String entityID, Vector2 pos, float a) {
+            this.entityID = entityID;
+            this.pos = pos;
+            this.angle = a;
+        }
 	}
 	
 	public static class SyncPickup {
@@ -548,8 +553,7 @@ public class Packets {
 		 * This packet (and similar packets) just tell the client how to change their version of the Player.
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
-		public SyncPlayer(String entityID, float a, Boolean grounded,
-				int currentSlot, int currentClip, int currentAmmo, int maxClip, float maxHp, float maxFuel,
+		public SyncPlayer(String entityID, float a, Boolean grounded, int currentSlot, int currentClip, int currentAmmo, int maxClip, float maxHp, float maxFuel,
 				float airblastCost, float activeCharge, boolean reloading, float reloadPercent, boolean charging, float chargePercent, ArrayList<WeaponMod> mods) {
             this.entityID = entityID;
             this.attackAngle = a;
@@ -587,29 +591,6 @@ public class Packets {
 		public SyncServerLoadout(String entityId, Loadout loadout) {
 			this.entityID = entityId;
 			this.loadout = loadout;
-		}
-	}
-	
-	public static class SyncClientLoadout {
-
-		public UnlockEquip equip;
-		public UnlockArtifact artifact;
-		public UnlockActives active;
-		public UnlockCharacter character;
-		
-		public SyncClientLoadout() {}
-		
-		/**
-		 * A SyncClientWeapon is sent from the Client to the Server when the client attempts to change their loadout in the hub.
-		 * 
-		 * @param entityId: ID of the player to change
-		 * @param loadout: Player's new loadout
-		 */
-		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifact, UnlockActives active, UnlockCharacter character) {
-			this.equip = equip;
-			this.artifact = artifact;
-			this.active = active;
-			this.character = character;
 		}
 	}
 	
@@ -675,7 +656,6 @@ public class Packets {
 	public static class SyncCamera {
 		public Vector2 zoomPos;
 		public float zoom;
-
 		public SyncCamera() {}
 		
 		/**
@@ -704,8 +684,8 @@ public class Packets {
 		public String uiTags;
 		public float timer;
 		public float timerIncr;
-		
 		public SyncUI() {}
+		
 		/**
 		 * A SyncUI is sent from the Server to the Client whenever the ui is updated.
 		 * The client updates their ui to represent the changes.
@@ -737,7 +717,7 @@ public class Packets {
     	kryo.register(LoadLevel.class);
     	kryo.register(ClientLoaded.class);
     	kryo.register(ClientStartTransition.class);
-    	kryo.register(ClientFinishTransition.class);
+    	kryo.register(ClientFinishRespawn.class);
     	kryo.register(NewClientPlayer.class);
     	kryo.register(SyncScore.class);
     	kryo.register(CreateEntity.class);

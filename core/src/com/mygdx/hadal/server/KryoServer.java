@@ -11,7 +11,6 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.equip.Loadout;
@@ -68,7 +67,6 @@ public class KryoServer {
 			
 			@Override
 			public void disconnected(final Connection c) {
-				
 				final PlayState ps = getPlayState();
 				
 				if (ps != null) {
@@ -117,19 +115,14 @@ public class KryoServer {
 				 * Notify clients and create a new player for the client. Also, tell the new client what level to load
 				 */
 				if (o instanceof Packets.PlayerConnect) {
-					Log.info("NEW CLIENT CONNECTED: " + c.getID());
-					Packets.PlayerConnect p = (Packets.PlayerConnect) o;
-					
+					final Packets.PlayerConnect p = (Packets.PlayerConnect) o;
 					final PlayState ps = getPlayState();
 					
 					if (ps != null) {
 						if (p.firstTime) {
 							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
 						}
-						
                         sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
-					} else {
-						Log.info("Server received PlayerConnect before entering PlayState!");
 					}
 				}
 				
@@ -139,7 +132,6 @@ public class KryoServer {
 				 */
 				if (o instanceof Packets.ClientLoaded) {
 					final Packets.ClientLoaded p = (Packets.ClientLoaded) o;
-					
 					final PlayState ps = getPlayState();
 					
 					//If we are paused, inform the connected client we are paused.
@@ -147,17 +139,25 @@ public class KryoServer {
 						PauseState pss = ((PauseState)gsm.getStates().peek());
 						HadalGame.server.sendToTCP(c.getID(), new Packets.Paused(pss.getPauser()));
 					}
+					
+					//notify players of new joiners
 					if (p.firstTime) {
 						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
 					}
 					
+					//If the client has already been created, we create a new player, otherwise we reuse their old data.
 					final Player player = players.get(c.getID());
 					if (player != null) {
-						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), true);                        
+						if (ps.isReset()) {
+							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset()); 
+						} else {
+							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset()); 
+						}
 					} else {
-						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, true);                        
+						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true);                        
 					}
 					
+					//catch up client
 					if (ps != null) {
 						ps.addPacketEffect(new PacketEffect() {
 
@@ -166,47 +166,6 @@ public class KryoServer {
 		                        ps.catchUpClient(c.getID());
 							}
 						});
-					} else {
-						Log.info("CLIENT LOADED BEFORE SERVER. OOPS");
-					}
-				}
-				
-				/*
-				 * The client has finished transitioning (finished fading to black)
-				 * Behaviour depends on what state the client transitions to 
-				 */
-				if (o instanceof Packets.ClientFinishTransition) {
-					Packets.ClientFinishTransition p = (Packets.ClientFinishTransition) o;
-					Log.info("CLIENT FINISHED TRANSITIONING");
-
-					//acquire the client's name and data
-					final PlayState ps = getPlayState();
-					String playerName = "";
-					Player player = players.get(c.getID());
-					if (player != null) {
-						playerName = player.getName();
-					}
-					
-					if (ps != null) {
-                        switch(p.state) {
-						case RESPAWN:
-							//Create a new player for the client (atm, this is just on respawn)
-							createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), null, true, false);
-							break;
-						case NEWLEVEL:
-							//No need to send anything. The client is told to load the new level when the server finishes
-							break;
-						case NEXTSTAGE:
-							//No need to send anything. The client is told to load the new level when the server finishes
-							break;
-						default:
-							break;
-                        }
-					} else {
-						Log.info("CLIENT FINISHED TRANSITIONING BEFORE SERVER");
-						//If in the case of the client transitioning before the server, nothing will be done upon receiving this packet.
-						//Instead, the client will wait on the server to load a new playstate, after which the client will 
-						//be told to connect.
 					}
 				}
 				
@@ -218,6 +177,7 @@ public class KryoServer {
         			final Packets.SyncClientLoadout p = (Packets.SyncClientLoadout) o;
         			final Player player = players.get(c.getID());
     				final PlayState ps = getPlayState();
+    				
     				if (ps != null && player != null) {
     					ps.addPacketEffect(new PacketEffect() {
     						
@@ -231,11 +191,26 @@ public class KryoServer {
         		}
 				
 				/*
+				 * The client has finished respawning (after transitioning to black.
+				 * We spawn a new player for them
+				 */
+				if (o instanceof Packets.ClientFinishRespawn) {
+					final PlayState ps = getPlayState();
+					
+					//acquire the client's name and data
+					String playerName = "";
+					Player player = players.get(c.getID());
+					if (player != null) {
+						playerName = player.getName();
+					}
+					createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), null, true);
+				}
+				
+				/*
 				 * A Client has unpaused the game
 				 * Return to the PlayState and inform everyone who unpaused.
 				 */
 				if (o instanceof Packets.Unpaused) {
-        			Log.info("GAME UNPAUSED");
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
         				
         				Player p = players.get(c.getID());
@@ -351,8 +326,10 @@ public class KryoServer {
 	 * @param name: The name of the new player
 	 * @param loadout: The loadout of the new player
 	 * @param data: The player data of the new player.
+	 * @param reset: Do we want to reset the new player's hp/fuel/ammo etc?
+	 * @param firstTime: Is this the first time we are spawning this player?
 	 */
-	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset, final boolean firstTime) {
+	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset) {
 
 		ps.addPacketEffect(new PacketEffect() {
 
@@ -361,7 +338,7 @@ public class KryoServer {
 				SavePoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave.getLocation(), name, loadout, data, connId, reset, firstTime);
+				Player newPlayer = ps.createPlayer(newSave.getLocation(), name, loadout, data, connId, reset);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);
@@ -389,95 +366,10 @@ public class KryoServer {
 	}
 	
 	/**
-	 * This sends a specific packet to a specific client based on their player 
-	 * @param p: player to send a packet to
-	 * @param o: packet to send
-	 */
-	public void sendPacketToPlayer(Player p, Object o) {
-		
-		if (server == null) {
-			return;
-		}
-		
-		for (Entry<Integer, Player> conn: players.entrySet()) {
-			if (conn.getValue().equals(p)) {
-				server.sendToTCP(conn.getKey(), o);
-				break;
-			}
-		}
-	}
-	
-	/**
-	 * This gets the server's playstate. This allows the server to make changes to a playstate underneath a pausestate.
-	 * @return
-	 */
-	public PlayState getPlayState() {
-		
-		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
-			return (PlayState) gsm.getStates().peek();
-		}
-		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
-			return ((PauseState) gsm.getStates().peek()).getPs();
-		}
-		return null;
-	}
-	
-	/**
-	 * This adds a notification to the server's dialog box
-	 * @param ps: server's current playstate
-	 * @param name: name giving the notification
-	 * @param text: notification text
-	 */
-	public void addNotification(PlayState ps, String name, String text) {
-		if (ps.getPlayStateStage() != null) {
-			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
-		}
-	}
-	
-	/**
-	 * This makes a client display a notification
-	 * @param ps: server's current playstate
-	 * @param connId: id of the client to send the notification to
-	 * @param name: name giving the notification
-	 * @param text: notification text
-	 */
-	public void sendNotification(PlayState ps, int connId, String name, String text) {
-		if (server != null) {
-			server.sendToTCP(connId, new Packets.Notification(name, text));	
-		}
-	}
-	
-	/**
-	 * This adds a notification all clients and also the server themselves
-	 * @param ps: server's current playstate
-	 * @param name: name giving the notification
-	 * @param text: notification text
-	 */
-	public void addNotificationToAll(PlayState ps, String name, String text) {
-		if (ps.getPlayStateStage() != null && server != null) {
-			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
-	        server.sendToAllTCP(new Packets.Notification(name, text));	
-		}
-	}
-	
-	/**
-	 * This makes all client display a notification and also self, excluding one client
-	 * @param ps: server's current playstate
-	 * @param connId: id of the client to exclude
-	 * @param name: name giving the notification
-	 * @param text: notification text
-	 */
-	public void addNotificationToAllExcept(PlayState ps, int connId, String name, String text) {
-		if (ps.getPlayStateStage() != null && server != null) {
-			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
-	        server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
-		}
-	}
-	
-	/**
 	 * This is called when a layer is killed to update score information
 	 * @param perp: player that kills
 	 * @param vic: player that gets killed
+	 * @param lives: Do we care about decrementing lives?
 	 * @return: whether this death was the victim's last life
 	 */
 	public boolean registerKill(Player perp, Player vic, boolean lives) {
@@ -530,6 +422,80 @@ public class KryoServer {
 			ps.getScoreWindow().syncTable();
 		}
 		return outOfLives;
+	}
+	
+	/**
+	 * This sends a specific packet to a specific client based on their player 
+	 * @param p: player to send a packet to
+	 * @param o: packet to send
+	 */
+	public void sendPacketToPlayer(Player p, Object o) {
+		
+		if (server == null) {
+			return;
+		}
+		
+		for (Entry<Integer, Player> conn: players.entrySet()) {
+			if (conn.getValue().equals(p)) {
+				server.sendToTCP(conn.getKey(), o);
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * This gets the server's playstate. This allows the server to make changes to a playstate underneath a pausestate.
+	 * @return
+	 */
+	public PlayState getPlayState() {
+		
+		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
+			return (PlayState) gsm.getStates().peek();
+		}
+		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
+			return ((PauseState) gsm.getStates().peek()).getPs();
+		}
+		return null;
+	}
+	
+	/**
+	 * This makes a client display a notification
+	 * @param ps: server's current playstate
+	 * @param connId: id of the client to send the notification to
+	 * @param name: name giving the notification
+	 * @param text: notification text
+	 */
+	public void sendNotification(PlayState ps, int connId, String name, String text) {
+		if (server != null) {
+			server.sendToTCP(connId, new Packets.Notification(name, text));	
+		}
+	}
+	
+	/**
+	 * This adds a notification all clients and also the server themselves
+	 * @param ps: server's current playstate
+	 * @param name: name giving the notification
+	 * @param text: notification text
+	 */
+	public void addNotificationToAll(PlayState ps, String name, String text) {
+		if (ps.getPlayStateStage() != null && server != null) {
+			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+	        server.sendToAllTCP(new Packets.Notification(name, text));	
+		}
+	}
+	
+	/**
+	 * This makes all client display a notification and also self, excluding one client
+	 * @param ps: server's current playstate
+	 * @param connId: id of the client to exclude
+	 * @param name: name giving the notification
+	 * @param text: notification text
+	 */
+	public void addNotificationToAllExcept(PlayState ps, int connId, String name, String text) {
+		if (ps.getPlayStateStage() != null && server != null) {
+			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+	        server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
+		}
 	}
 	
 	private void registerPackets() {

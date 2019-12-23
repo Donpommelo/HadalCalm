@@ -82,6 +82,7 @@ public class PlayerChanger extends Event {
 				
 				if (scrap > 0) {
 					state.getGsm().getRecord().incrementScrap(scrap);
+					state.getUiExtra().syncData();
 					activated = true;
 				}
 				

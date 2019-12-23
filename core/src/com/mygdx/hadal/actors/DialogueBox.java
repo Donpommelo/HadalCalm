@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -52,8 +51,8 @@ public class DialogueBox extends AHadalActor {
 	
 	protected float animCdCount;
 	
-	public DialogueBox(AssetManager assetManager, GameStateManager stateManager, int x, int y) {
-		super(assetManager, x, y);
+	public DialogueBox(GameStateManager stateManager, int x, int y) {
+		super(x, y);
 		
 		this.gsm = stateManager;
 
@@ -64,8 +63,6 @@ public class DialogueBox extends AHadalActor {
 		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		
 		animCdCount = 0;
-		
-		updateHitBox();
 	}
 	
 	@Override
@@ -127,8 +124,7 @@ public class DialogueBox extends AHadalActor {
 	 * Instead of loading a conversation from the dialog text file, this is used for single dialogs.
 	 * This is useful for dynamic text.
 	 */
-	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura,
-			EventData radio, EventData trigger) {
+	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura, EventData radio, EventData trigger) {
 		
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
 		if (dialogues.size == 0) {

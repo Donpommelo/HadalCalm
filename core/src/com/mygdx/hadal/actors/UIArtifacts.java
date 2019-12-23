@@ -2,7 +2,6 @@ package com.mygdx.hadal.actors;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.artifacts.Artifact;
@@ -21,16 +20,13 @@ public class UIArtifacts {
 	private PlayState state;
 	private Player player;
 	
-	private AssetManager assetManager;
-	
 	private ArrayList<ArtifactTag> artifacts;
 	private Table table; 
 	
 	private final int tagWidth = 25;
 	private final int tagHeight = 25;
 	
-	public UIArtifacts(AssetManager assetManager, PlayState state, Player player) {
-		this.assetManager = assetManager;
+	public UIArtifacts(PlayState state, Player player) {
 		this.state = state;
 		this.player = player;
 		this.table = new Table().left().top();
@@ -39,7 +35,6 @@ public class UIArtifacts {
 		
 		addTable();
 		
-		//When the player unpauses the game, this ui is reloaded, so we must resync.
 		//When starting up normally, the player's data is not loaded yet, and we do not need to sync. 
 		if (player.getPlayerData() != null) {
 			syncArtifact();
@@ -70,7 +65,7 @@ public class UIArtifacts {
 	 * @return corresponding status tag
 	 */
 	private ArtifactTag addTag(Artifact u) {
-		ArtifactTag newTag = new ArtifactTag(assetManager, u);
+		ArtifactTag newTag = new ArtifactTag(u);
 		newTag.setWidth(tagWidth);
 		newTag.setWidth(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);

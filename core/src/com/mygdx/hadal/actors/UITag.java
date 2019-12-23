@@ -3,7 +3,7 @@ package com.mygdx.hadal.actors;
 /**
  * This is not technically an actor but I don't know where else to put it. Maybe move it later
  * 
- * A UITag is anything that can show up in the UIExtra actor in the top corner o fthe screen. This can include information about 
+ * A UITag is anything that can show up in the UIExtra actor in the top corner of the screen. This can include information about 
  * score, lives, other info and can be dynamically changed within a level using the UIChanger event.
  * 
  * @author Zachary Tu
@@ -29,26 +29,6 @@ public class UITag {
 	public UITag(uiType type) {
 		this(type, "");
 	}
-
-	/**
-	 * Overrode equals method to allow for removing tags from the UI by only matching type and misc string.
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-	        return false;
-	    }
-	    if (!UITag.class.isAssignableFrom(obj.getClass())) {
-	        return false;
-	    }
-	    final UITag other = (UITag) obj;
-	    
-	    if (!getType().equals(other.getType()) || !getMisc().equals(other.getMisc()) ) {
-			return false;
-	    }
-	    
-		return true;
-	}
 	
 	public uiType getType() {
 		return type;
@@ -68,6 +48,7 @@ public class UITag {
 	
 	/**
 	 * These are the various types of tags that can be added/removed from the UI.
+	 * Feel free to add more
 	 * @author Zachary Tu
 	 *
 	 */

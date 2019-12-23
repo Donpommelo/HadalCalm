@@ -1,7 +1,5 @@
 package com.mygdx.hadal.actors;
 
-
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -25,8 +23,7 @@ public class LoadingBackdrop extends AHadalActor{
 	//width and height of image
 	private float width, height;
 	
-	public LoadingBackdrop(AssetManager assetManager) {
-		super(assetManager);
+	public LoadingBackdrop() {
 		atlas = new TextureAtlas("ui/anchor_logo.atlas");
 		loading = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, atlas.findRegions("anchor_logo"));
 		
@@ -39,8 +36,7 @@ public class LoadingBackdrop extends AHadalActor{
     public void draw(Batch batch, float alpha) {
 		
 		//Draw the animation at the percentage of progress
-        progress = assetManager.getProgress();
-        batch.draw((TextureRegion) loading.getKeyFrame(progress * loading.getAnimationDuration(), true), 
-        		(HadalGame.CONFIG_WIDTH - width) / 2, (HadalGame.CONFIG_HEIGHT - height) / 2, width, height);
+        progress = HadalGame.assetManager.getProgress();
+        batch.draw((TextureRegion) loading.getKeyFrame(progress * loading.getAnimationDuration(), true), (HadalGame.CONFIG_WIDTH - width) / 2, (HadalGame.CONFIG_HEIGHT - height) / 2, width, height);
     }
 }

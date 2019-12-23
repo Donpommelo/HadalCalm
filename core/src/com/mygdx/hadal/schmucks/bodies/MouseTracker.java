@@ -59,7 +59,7 @@ public class MouseTracker extends HadalEntity {
 		return desiredLocation;
 	}
 
-	public void setDesiredLocation(int x, int y) {
+	public void setDesiredLocation(float x, float y) {
 		this.desiredLocation.x = x;
 		this.desiredLocation.y = y;
 	}

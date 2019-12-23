@@ -44,14 +44,14 @@ public class HubEvent extends Event {
 		this.tableInner = new Table();
 		this.tableOuter = new Table();
 		
-		tableOuter.add(new Text(HadalGame.assetManager, title, 0, 0)).width(optionsWidthOuter).height(optionsHeight);
+		tableOuter.add(new Text(title, 0, 0)).width(optionsWidthOuter).height(optionsHeight);
 		tableOuter.row();
 		this.options = new ScrollPane(tableInner, state.getGsm().getSkin());
 		options.setFadeScrollBars(false);
 		
 		tableOuter.add(options).width(optionsWidthOuter).height(HadalGame.CONFIG_HEIGHT / 2);
 		
-		extraInfo = new Text(HadalGame.assetManager, "", 0, 0) {
+		extraInfo = new Text("", 0, 0) {
 			
 			@Override
 		    public void draw(Batch batch, float alpha) {
@@ -131,7 +131,6 @@ public class HubEvent extends Event {
 		state.getStage().addActor(tableOuter);
 		
 		tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH - optionsWidthOuter , HadalGame.CONFIG_HEIGHT / 4, .5f, Interpolation.pow5Out));
-		
 	}
 	
 	/**

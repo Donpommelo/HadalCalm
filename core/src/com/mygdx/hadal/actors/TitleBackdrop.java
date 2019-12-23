@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.mygdx.hadal.HadalGame;
@@ -12,9 +11,8 @@ import com.mygdx.hadal.managers.AssetList;
 public class TitleBackdrop extends AHadalActor {
 	private Texture backgroundTexture;
 	
-	public TitleBackdrop(AssetManager assetManager) {
-		super(assetManager);
-		backgroundTexture = getAssetManager().get(AssetList.TITLE_CARD.toString());
+	public TitleBackdrop() {
+		backgroundTexture = HadalGame.assetManager.get(AssetList.TITLE_CARD.toString());
 		backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 	}
 	

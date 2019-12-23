@@ -2,7 +2,6 @@ package com.mygdx.hadal.actors;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.mygdx.hadal.HadalGame;
@@ -22,10 +21,8 @@ public class UIExtra extends AHadalActor{
 	private PlayState state;
 	private BitmapFont font;
 	
-	//Default starting location of window.
 	private final static int x = 150;
 	private final static int y = 10;
-	
 	private final static float scale = 0.25f;
 	
 	//List of tags that are to be displayed
@@ -33,14 +30,14 @@ public class UIExtra extends AHadalActor{
 	
 	//These variables are all fields that are displayed in the default tags for the ui
 	private int scrap, score, lives, wins, hiscore;
+	
+	//Timer is used for timed scripted events. timerIncr is how much the timer should tick every update cycle (usually -1, 0 or 1)
 	private float timer, timerIncr;
 	
-	public UIExtra(AssetManager assetManager, PlayState state) {
-		super(assetManager);
+	public UIExtra(PlayState state) {
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
-		//Default tags include score and hi-score.
 		uiTags = new ArrayList<UITag>();
 	}
 	
@@ -84,8 +81,10 @@ public class UIExtra extends AHadalActor{
 		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y, x, -1, true);
 	}
 
-	/*
-	 * This is where we actually, remove, set or add tags
+	/**
+	 * This adds tags to the ui
+	 * @param tags: These are the tags that should be added. This is a comma-separated string of each uiType. If a string matches no tag types, we just display the text as is.
+	 * @param clear: Do we clear all the existing ui tags first?
 	 */
 	public void changeTypes(String tags, boolean clear) {
 		
@@ -111,6 +110,10 @@ public class UIExtra extends AHadalActor{
 	}
 	
 	private StringBuilder tags = new StringBuilder();
+	/**
+	 * This returns a comma-separated string of the current tags in order.
+	 * When a new client connects, the server uses this to send them the current ui status to sync with.
+	 */
 	public String getCurrentTags() {
 		tags.setLength(0);
 		
@@ -124,6 +127,12 @@ public class UIExtra extends AHadalActor{
 		return tags.toString();
 	}
 
+	/**
+	 * This syncs the info that this ui displays.
+	 * The ui contains values for each displayed field and must update them when these fields change.
+	 * This occurs when any player field is changed by changeFields() or when the score window is synced.
+	 * Also when certain record values are changed (atm this is just for currency changing) 
+	 */
 	public void syncData() {
 		scrap = state.getGsm().getRecord().getScrap();
 		hiscore = state.getGsm().getRecord().getHiScores().get(state.getLevel().name());
@@ -143,6 +152,11 @@ public class UIExtra extends AHadalActor{
 		}
 	}
 	
+	/**
+	 * This is run when any info displayed by this ui is changed. atm, this is just run when a playerChanger event activates for a specific player
+	 * @param p: The player whose field has changed. If null, this change applies to all players.
+	 * @param score, lives, timerSet, timerIncrement: Amount to change. default 0.
+	 */
 	public void changeFields(Player p, int score, int lives, float timerSet, float timerIncrement) {
 		
 		SavedPlayerFields field = null;
@@ -152,6 +166,7 @@ public class UIExtra extends AHadalActor{
 				eachField.setScore(eachField.getScore() + score);
 				eachField.setLives(eachField.getLives() + lives);
 				
+				//If all players are losing lives at once and they have 0 lives, they get a game over.
 				if (eachField.getLives() <= 0 && state.getLives() != 0) {
 					state.levelEnd("GAME OVER");
 					break;
@@ -163,6 +178,7 @@ public class UIExtra extends AHadalActor{
 				field.setScore(field.getScore() + score);
 				field.setLives(field.getLives() + lives);
 				
+				//If a single player rund out of lives, they die
 				if (field.getLives() <= 0 && state.getLives() != 0) {
 					p.getPlayerData().die(state.getWorldDummy().getBodyData(), null);
 				}
@@ -175,6 +191,10 @@ public class UIExtra extends AHadalActor{
 		state.getScoreWindow().syncTable();
 	}
 	
+	/**
+	 * This increments the timer for timed levels. When time runs out, we want to run an event designated in the map (if it exists)
+	 * @param delta: amount of time that has passed since last update
+	 */
 	public void incrementTimer(float delta) {
 		timer += (timerIncr * delta);
 		

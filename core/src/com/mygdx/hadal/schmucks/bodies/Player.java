@@ -141,7 +141,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param startLoadout: This is the player's starting loadout
 	 * 
 	 */
-	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, boolean firstTime) {
+	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset) {
 		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
 		this.name = name;
 		airblast = new Airblaster(this);

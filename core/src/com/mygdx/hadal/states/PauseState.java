@@ -63,9 +63,7 @@ public class PauseState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				addActor(new MenuWindow(HadalGame.assetManager, gsm,
-						HadalGame.CONFIG_WIDTH / 2 - width / 2, 
-						HadalGame.CONFIG_HEIGHT / 2 - height / 2, width, height));
+				addActor(new MenuWindow(gsm, HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2, width, height));
 				
 				table = new Table();
 				table.setLayoutEnabled(true);
@@ -75,12 +73,12 @@ public class PauseState extends GameState {
 				table.setSize(width, height);
 				addActor(table);
 				
-				pause = new Text(HadalGame.assetManager, "PAUSED BY \n" + pauser, 0, 0, Color.WHITE);
+				pause = new Text("PAUSED BY \n" + pauser, 0, 0, Color.WHITE);
 				pause.setScale(0.5f);
 				
-				resumeOption = new Text(HadalGame.assetManager, "RESUME?", 0, 0, Color.WHITE);
-				hubOption = new Text(HadalGame.assetManager, "RETURN?", 0, 0, Color.WHITE);
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 0, 0, Color.WHITE);
+				resumeOption = new Text("RESUME?", 0, 0, Color.WHITE);
+				hubOption = new Text("RETURN?", 0, 0, Color.WHITE);
+				exitOption = new Text("EXIT?", 0, 0, Color.WHITE);
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {

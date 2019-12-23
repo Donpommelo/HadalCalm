@@ -189,10 +189,6 @@ public class PlayerBodyData extends BodyData {
 		this.setEntity(newPlayer);
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
-
-//		currentHp = getMaxHp();
-//		currentFuel = getMaxHp();
-//		currentSlot = 0;
 		
 		clearStatuses();
 		

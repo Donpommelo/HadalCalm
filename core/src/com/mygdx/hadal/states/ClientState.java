@@ -68,7 +68,7 @@ public class ClientState extends PlayState {
 		//Send mouse position to the server.
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
-		HadalGame.client.client.sendUDP(new Packets.MouseMove((int)mousePosition.x, (int)mousePosition.y));
+		HadalGame.client.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
 		
 		//All entities that are set to be created are created and assigned their entityId
 		for (Object[] pair: createListClient) {
@@ -210,7 +210,7 @@ public class ClientState extends PlayState {
 		switch (nextState) {
 		case RESPAWN:
 			//Inform the server that we have finished transitioning to tell them to make us a new player.
-			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
+			HadalGame.client.client.sendTCP(new Packets.ClientFinishRespawn());
 			
 			//Make the screen fade back in
 			fadeDelta = -0.015f;
@@ -231,14 +231,8 @@ public class ClientState extends PlayState {
 			nextState = null;
 			break;
 		case NEWLEVEL:
-			
-			//Tell the server that we are ready to be sent to a new level with a given loadout (from records)
-			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(new Loadout(gsm.getRecord()), nextState));
-			break;
 		case NEXTSTAGE:
-			
-			//Tell the server that we are ready to be sent to a new level with our current loadout
-			HadalGame.client.client.sendTCP(new Packets.ClientFinishTransition(player.getPlayerData().getLoadout(), nextState));
+			//In these cases, we wait for the server to create a new playstate in which we connect again
 			break;
 		case TITLE:
 			getGsm().removeState(ClientState.class);

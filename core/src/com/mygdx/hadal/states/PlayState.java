@@ -260,7 +260,7 @@ public class PlayState extends GameState {
 		}
 		
 		//Create the player and make the camera focus on it
-		this.player = createPlayer(startPosition, gsm.getRecord().getName(), loadout, old, 0, reset, true);
+		this.player = createPlayer(startPosition, gsm.getRecord().getName(), loadout, old, 0, reset);
 		
 		this.camera.position.set(new Vector3(startPosition.x, startPosition.y, 0));
 		this.sprite.position.set(new Vector3(startPosition.x, startPosition.y, 0));
@@ -304,15 +304,15 @@ public class PlayState extends GameState {
 		//If ui elements have not been created, create them. (upon first showing the state)
 		if (uiPlay == null) {
 			if (server) {
-				uiPlay = new UIPlay(HadalGame.assetManager, this, player);
+				uiPlay = new UIPlay(this, player);
 			} else {
-				uiPlay = new UIPlayClient(HadalGame.assetManager, this, player);
+				uiPlay = new UIPlayClient(this, player);
 			}
 			
-			uiActive = new UIActives(HadalGame.assetManager, player);
-			uiObjective = new UIObjective(HadalGame.assetManager, this, player);
-			uiArtifact = new UIArtifacts(HadalGame.assetManager, this, player);
-			uiExtra = new UIExtra(HadalGame.assetManager, this);
+			uiActive = new UIActives(player);
+			uiObjective = new UIObjective(this, player);
+			uiArtifact = new UIArtifacts(this, player);
+			uiExtra = new UIExtra(this);
 			
 			messageWindow = new MessageWindow(this);
 			scoreWindow = new ScoreWindow(this);
@@ -324,12 +324,6 @@ public class PlayState extends GameState {
 		this.stage.addActor(uiObjective);
 		this.stage.addActor(uiExtra);
 
-		uiArtifact.addTable();
-		uiArtifact.syncArtifact();
-
-		messageWindow.addTable();
-		scoreWindow.syncTable();
-		
 		app.newMenu(stage);
 		resetController();
 	}
@@ -580,7 +574,7 @@ public class PlayState extends GameState {
 			SavePoint getSave = getSavePoint();
 			
 			//Create a new player
-			player = createPlayer(getSave.getLocation(), gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true, false);
+			player = createPlayer(getSave.getLocation(), gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
 			
 			((PlayerController)controller).setPlayer(player);
 			
@@ -667,7 +661,7 @@ public class PlayState extends GameState {
 	 * @param old player's olf playerdata if retaining old values.
 	 * @return
 	 */
-	public Player createPlayer(Vector2 startPosition, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset, boolean firstTime) {
+	public Player createPlayer(Vector2 startPosition, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
 		
 		Loadout newLoadout = new Loadout(altLoadout);
 		
@@ -687,7 +681,7 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		return new Player(this, startPosition, name, newLoadout, old, connID, reset, firstTime);
+		return new Player(this, startPosition, name, newLoadout, old, connID, reset);
 	}
 	
 	/**

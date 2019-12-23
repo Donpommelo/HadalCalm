@@ -161,6 +161,9 @@ public enum Sprite {
 		this.spriteId = spriteId;
 	}
 
+	/**
+	 * This returns the frames of a given sprite
+	 */
 	public Array<? extends TextureRegion> getFrames() {
 		
 		if (frames == null) {
@@ -174,6 +177,9 @@ public enum Sprite {
 		return getFrames().get(0);
 	}
 	
+	/**
+	 * Sprite Types refers to which atlas is used to procure the frames.
+	 */
 	public static TextureAtlas getAtlas(SpriteType type) {
 		switch (type) {
 		case EVENT:
@@ -209,6 +215,11 @@ public enum Sprite {
 		}
 	}
 	
+	/**
+	 * This is used to get the different sprite parts of the player character
+	 * @param character: the character we are getting the part of
+	 * @param part: this string is the name of the body part.
+	 */
 	public static Sprite getCharacterSprites(SpriteType character, String part) {
 		for (Sprite s: Sprite.values() ) {
 			if (s.type.equals(character) && s.spriteId.equals(part)) {

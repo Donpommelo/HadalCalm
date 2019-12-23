@@ -18,7 +18,7 @@ public class PlayStateStage extends Stage {
 	
 	public PlayStateStage(PlayState state) {
 		
-		dialogue = new DialogueBox(HadalGame.assetManager, state.getGsm(), 0, HadalGame.CONFIG_HEIGHT);
+		dialogue = new DialogueBox(state.getGsm(), 0, HadalGame.CONFIG_HEIGHT);
 		addActor(dialogue);
 	}
 	

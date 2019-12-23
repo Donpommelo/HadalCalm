@@ -31,7 +31,7 @@ public class InitState extends GameState {
 		stage = new Stage() {
 			{
 				//Our only actor here is a loading screen image
-				addActor(new LoadingBackdrop(HadalGame.assetManager));
+				addActor(new LoadingBackdrop());
 			}
 		};
 		app.newMenu(stage);

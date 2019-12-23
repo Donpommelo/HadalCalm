@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.states.PlayState;
@@ -32,20 +31,20 @@ public class Dormitory extends HubEvent {
 			
 			final UnlockCharacter selected = c;
 
-			Text itemChoose = new Text(HadalGame.assetManager, selected.getName(), 0, 0);
+			Text itemChoose = new Text(selected.getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
 					if (state.isServer()) {
-						state.getGsm().getRecord().setCharacter(selected.name());
 			        	state.getPlayer().setBodySprite(selected);
 			        	state.getPlayer().getPlayerData().getLoadout().character = selected;
 			        	state.getPlayer().getPlayerData().syncServerLoadoutChange();
 					} else {
 						state.getPlayer().getPlayerData().syncClientLoadoutChangeCharacter(selected);
 					}
+					state.getGsm().getRecord().setCharacter(selected.name());
 		        }
 		        
 		        @Override
@@ -64,7 +63,7 @@ public class Dormitory extends HubEvent {
 			tableInner.add(itemChoose).width(optionsWidth).height(optionsHeight);
 			tableInner.row();
 		}
-		tableInner.add(new Text(HadalGame.assetManager, "", 0, 0)).width(optionsWidth).height(optionsHeight);
+		tableInner.add(new Text("", 0, 0)).width(optionsWidth).height(optionsHeight);
 		tableInner.row();
 	}
 }

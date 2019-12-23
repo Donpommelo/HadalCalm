@@ -8,11 +8,15 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * The ScoreWindow is displayed when a player holds a button (default value tab) during a level
+ * @author Zachary Tu
+ *
+ */
 public class ScoreWindow {
 
 	private static final int width = 800;
 	private static final int height = 600;
-	
 	private static final float scale = 0.5f;
 	
 	private PlayState state;
@@ -26,16 +30,20 @@ public class ScoreWindow {
 		
 		table.setVisible(false);
 		
-		if (state.isServer()) {
+		//Server must first reset each score at the start of a level (unless just a stage transition
+		if (state.isServer() && state.isReset()) {
 			for (SavedPlayerFields score: HadalGame.server.getScores().values()) {
 				score.newLevelReset(state);
-				syncTable();
 			}
-		} else {
-			syncTable();
 		}
+		syncTable();
 	}
 	
+	/**
+	 * This clears the table and updates it score with new player information. It then updates the ui as well.
+	 * On the server it is run when players are added/removed or when any player info (kills, deaths, score etc) are updated.
+	 * The server then sends a packet to the client telling them to sync their table as well
+	 */
 	public void syncTable() {
 		table.clear();
 		
@@ -45,22 +53,22 @@ public class ScoreWindow {
 		table.setHeight(height);
 		table.align(Align.top);
 		
-		table.add(new Text(HadalGame.assetManager, "PLAYER", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text(HadalGame.assetManager, "KILLS", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text(HadalGame.assetManager, "DEATH", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text(HadalGame.assetManager, "SCORE", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text(HadalGame.assetManager, "WINS", 0, 0, Color.WHITE)).padBottom(50).row();
+		table.add(new Text("PLAYER", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
+		table.add(new Text("KILLS", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
+		table.add(new Text("DEATH", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
+		table.add(new Text("SCORE", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
+		table.add(new Text("WINS", 0, 0, Color.WHITE)).padBottom(50).row();
 		
 		if (state.isServer()) {
 			
 			for (SavedPlayerFields field: HadalGame.server.getScores().values()) {			
-				Text name = new Text(HadalGame.assetManager, field.getName(), 0, 0, Color.WHITE);
+				Text name = new Text(field.getName(), 0, 0, Color.WHITE);
 				name.setScale(scale);
 				
-				Text kills = new Text(HadalGame.assetManager, field.getKills() + " ", 0, 0, Color.WHITE);
-				Text death = new Text(HadalGame.assetManager, field.getDeaths() + " ", 0, 0, Color.WHITE);
-				Text points = new Text(HadalGame.assetManager, field.getScore() + " ", 0, 0, Color.WHITE);
-				Text wins = new Text(HadalGame.assetManager, field.getWins() + " ", 0, 0, Color.WHITE);
+				Text kills = new Text(field.getKills() + " ", 0, 0, Color.WHITE);
+				Text death = new Text(field.getDeaths() + " ", 0, 0, Color.WHITE);
+				Text points = new Text(field.getScore() + " ", 0, 0, Color.WHITE);
+				Text wins = new Text(field.getWins() + " ", 0, 0, Color.WHITE);
 					
 				table.add(name).padBottom(25);
 				table.add(kills).padBottom(25);
@@ -74,13 +82,13 @@ public class ScoreWindow {
 			}
 		} else {
 			for (SavedPlayerFields field: HadalGame.client.getScores().values()) {				
-				Text name = new Text(HadalGame.assetManager, field.getName(), 0, 0, Color.WHITE);
+				Text name = new Text(field.getName(), 0, 0, Color.WHITE);
 				name.setScale(scale);
 				
-				Text kills = new Text(HadalGame.assetManager, field.getKills() + " ", 0, 0, Color.WHITE);
-				Text death = new Text(HadalGame.assetManager, field.getDeaths() + " ", 0, 0, Color.WHITE);
-				Text points = new Text(HadalGame.assetManager, field.getScore() + " ", 0, 0, Color.WHITE);
-				Text wins = new Text(HadalGame.assetManager, field.getWins() + " ", 0, 0, Color.WHITE);
+				Text kills = new Text(field.getKills() + " ", 0, 0, Color.WHITE);
+				Text death = new Text(field.getDeaths() + " ", 0, 0, Color.WHITE);
+				Text points = new Text(field.getScore() + " ", 0, 0, Color.WHITE);
+				Text wins = new Text(field.getWins() + " ", 0, 0, Color.WHITE);
 					
 				table.add(name).padBottom(25);
 				table.add(kills).padBottom(25);
@@ -95,9 +103,5 @@ public class ScoreWindow {
 	
 	public void setVisibility(boolean visible) {
 		table.setVisible(visible);
-	}
-
-	public Table getTable() {
-		return table;
 	}
 }

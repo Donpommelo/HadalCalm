@@ -41,7 +41,7 @@ public class ControlState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				exitOption = new Text(HadalGame.assetManager, "EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);
+				exitOption = new Text("EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	getGsm().removeState(ControlState.class);
@@ -49,7 +49,7 @@ public class ControlState extends GameState {
 			    });
 				exitOption.setScale(0.5f);
 				
-				saveOption = new Text(HadalGame.assetManager, "SAVE?", 100, HadalGame.CONFIG_HEIGHT - 300, Color.WHITE);
+				saveOption = new Text("SAVE?", 100, HadalGame.CONFIG_HEIGHT - 300, Color.WHITE);
 				saveOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	PlayerAction.saveKeys();
@@ -57,7 +57,7 @@ public class ControlState extends GameState {
 			    });
 				saveOption.setScale(0.5f);
 				
-				resetOption = new Text(HadalGame.assetManager, "RESET?", 100, HadalGame.CONFIG_HEIGHT - 340, Color.WHITE);
+				resetOption = new Text("RESET?", 100, HadalGame.CONFIG_HEIGHT - 340, Color.WHITE);
 				resetOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	PlayerAction.resetKeys();
@@ -66,7 +66,7 @@ public class ControlState extends GameState {
 			    });
 				resetOption.setScale(0.5f);
 				
-				windowOption = new Text(HadalGame.assetManager, "FULLSCREEN?", 100, HadalGame.CONFIG_HEIGHT - 380, Color.WHITE);
+				windowOption = new Text("FULLSCREEN?", 100, HadalGame.CONFIG_HEIGHT - 380, Color.WHITE);
 				windowOption.addListener(new ClickListener() {
 					
 					@Override
@@ -156,12 +156,12 @@ public class ControlState extends GameState {
 		VerticalGroup actions = new VerticalGroup()
 				.space(10)
 				.pad(50);
-		actions.addActor(new Text(HadalGame.assetManager, "CONTROLS", 0, 0));
+		actions.addActor(new Text("CONTROLS", 0, 0));
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
 			final PlayerAction action = a;
-			Text actionChoose = new Text(HadalGame.assetManager, a.name() + ":==   " + getKey(a.getKey()) , 0, 0);
+			Text actionChoose = new Text(a.name() + ":==   " + getKey(a.getKey()) , 0, 0);
 			
 			actionChoose.addListener(new ClickListener() {
 				
