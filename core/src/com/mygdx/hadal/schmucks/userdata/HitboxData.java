@@ -65,7 +65,5 @@ public class HitboxData extends HadalData {
 		}
 	}
 
-	public Hitbox getHbox() {
-		return hbox;
-	}	
+	public Hitbox getHbox() { return hbox; }	
 }

@@ -67,47 +67,25 @@ public class SavedPlayerFields {
 		alive = true;
 	}
 	
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public int getWins() {
-		return wins;
-	}
+	public int getWins() { return wins; }
 
-	public void win() {
-		wins++;
-	}
+	public void win() { wins++; }
 
-	public int getKills() {
-		return kills;
-	}
+	public int getKills() { return kills; }
 
-	public int getDeaths() {
-		return deaths;
-	}
+	public int getDeaths() { return deaths; }
 
-	public int getScore() {
-		return score;
-	}
+	public int getScore() {	return score; }
 
-	public void setScore(int score) {
-		this.score = score;
-	}
+	public void setScore(int score) { this.score = score; }
 	
-	public int getLives() {
-		return lives;
-	}
+	public int getLives() { return lives; }
 
-	public void setLives(int lives) {
-		this.lives = lives;
-	}
+	public void setLives(int lives) { this.lives = lives; }
 
-	public boolean isAlive() {
-		return alive;
-	}
+	public boolean isAlive() { return alive; }
 
-	public void setAlive(boolean alive) {
-		this.alive = alive;
-	}
+	public void setAlive(boolean alive) { this.alive = alive; }
 }

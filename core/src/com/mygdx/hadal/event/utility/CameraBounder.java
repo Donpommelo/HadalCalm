@@ -16,14 +16,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * Fields:
  * 
- * right/left/up/down: Will this set a right/left/up/down bound on the camera (at its own location)?
+ * right/left/up/down: Will this set a right/left/up/down bound on the camera (at its own location)
  * 
  * @author Zachary Tu
  *
  */
 public class CameraBounder extends Event {
 
-	private static final String name = "Camera Changer";
+	private static final String name = "Camera Bounder";
 	
 	private boolean right, left, up, down;
 	

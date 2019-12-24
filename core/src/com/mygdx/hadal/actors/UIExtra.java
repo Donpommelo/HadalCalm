@@ -205,19 +205,11 @@ public class UIExtra extends AHadalActor{
 		}
 	}
 
-	public float getTimer() {
-		return timer;
-	}
+	public float getTimer() { return timer; }
 
-	public void setTimer(float timer) {
-		this.timer = timer;
-	}
+	public void setTimer(float timer) { this.timer = timer; }
 
-	public float getTimerIncr() {
-		return timerIncr;
-	}
+	public float getTimerIncr() { return timerIncr; }
 
-	public void setTimerIncr(float timerIncr) {
-		this.timerIncr = timerIncr;
-	}
+	public void setTimerIncr(float timerIncr) { this.timerIncr = timerIncr; }
 }

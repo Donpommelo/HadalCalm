@@ -66,6 +66,7 @@ public class Hitbox extends HadalEntity {
 	//add+remove are strategies that will be added/removed from the hitbox next world-step
 	private ArrayList<HitboxStrategy> strategies, add, remove;
 	
+	//this is the projectile's Sprite and corresponding frames
 	protected Animation<TextureRegion> projectileSprite;
 	private Sprite sprite;
 	
@@ -88,18 +89,20 @@ public class Hitbox extends HadalEntity {
 		this.add = new ArrayList<HitboxStrategy>();
 		this.remove = new ArrayList<HitboxStrategy>();
 		
+		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
 		if (!sprite.equals(Sprite.NOTHING)) {
 			this.sprite = sprite;
 			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
 		}
 		
+		//procEffects determines whether we activate statuses or not.
 		if (procEffects) {
 			creator.getBodyData().statusProcTime(StatusProcTime.HITBOX_CREATION, creator.getBodyData(), 0, null, creator.getBodyData().getCurrentTool(), this);
 		}
 	}
 	
 	/**
-	 * Create the hitbox body. User data is initialized separately.
+	 * Create the hitbox body.
 	 */
 	public void create() {
 
@@ -109,17 +112,17 @@ public class Hitbox extends HadalEntity {
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
 				filter, true, data);
 		
+		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies
 		if (!sensor) {
-			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size), false, 0, 0, restitution, friction,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
+			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size), false, 0, 0, restitution, friction, Constants.BIT_SENSOR, Constants.BIT_WALL, filter));
 		}
 		
 		setLinearVelocity(startVelo);
 	}
 	
 	/**
-	 * Hitboxes need to keep track of lifespan.
-	 * This also makes hitboxes angled in the direction of their velocity. Overload this if you don't want that.
+	 * Hitboxes track of lifespan.
+	 * This is also where hbox strategies are added/removed to avoid having that happen in world.step
 	 */
 	public void controller(float delta) {
 		
@@ -186,21 +189,13 @@ public class Hitbox extends HadalEntity {
 	}
 	
 	@Override
-	public HadalData getHadalData() {
-		return data;
-	}	
+	public HadalData getHadalData() { return data; }	
 	
-	public ArrayList<HitboxStrategy> getStrategies() {
-		return strategies;
-	}
+	public ArrayList<HitboxStrategy> getStrategies() { return strategies; }
 	
-	public void addStrategy(HitboxStrategy strat) {
-		add.add(strat);
-	}
+	public void addStrategy(HitboxStrategy strat) {	add.add(strat); }
 	
-	public void removeStrategy(HitboxStrategy strat) {
-		remove.add(strat);
-	}
+	public void removeStrategy(HitboxStrategy strat) { remove.add(strat); }
 
 	public void removeStrategy(Class<? extends HitboxStrategy> stratType) {
 		for (HitboxStrategy strat : strategies) {
@@ -218,18 +213,6 @@ public class Hitbox extends HadalEntity {
 		return new Packets.CreateEntity(entityID.toString(), new Vector2(size), getPixelPosition(), sprite, ObjectSyncLayers.HBOX, alignType.HITBBOX);
 	}
 	
-	public float getMaxLifespan() {
-		return maxLifespan;
-	}
-	
-	public float getLifeSpan() {
-		return lifeSpan;
-	}
-
-	public void setLifeSpan(float lifeSpan) {
-		this.lifeSpan = lifeSpan;
-	}
-
 	public void lowerDurability() {
 		this.durability--;
 		if (durability <= 0) {
@@ -237,59 +220,37 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 	
-	public void setDurability(int durability) {
-		this.durability = (int) (durability + creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY));
-	}
+	public float getMaxLifespan() { return maxLifespan; }
 	
-	public void setRestitution(float restitution) {
-		this.restitution = restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION);
-	}
+	public float getLifeSpan() { return lifeSpan; }
+
+	public void setLifeSpan(float lifeSpan) { this.lifeSpan = lifeSpan; }
+
+	public void setDurability(int durability) { this.durability = (int) (durability + creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY)); }
 	
-	public void setGravity(float gravity) {
-		this.gravity = gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY);
-	}
-
-	public void setFriction(float friction) {
-		this.friction = friction;
-	}
+	public void setRestitution(float restitution) {	this.restitution = restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION); }
 	
-	public short getFilter() {
-		return filter;
-	}
+	public void setGravity(float gravity) { this.gravity = gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY); }
 
-	public void setFilter(short filter) {
-		this.filter = filter;
-	}
-
-	public Vector2 getStartVelo() {
-		return startVelo;
-	}
-
-	public void setStartVelo(Vector2 startVelo) {
-		this.startVelo = startVelo;
-	}
-
-	public boolean isSensor() {
-		return sensor;
-	}
-
-	public void setSensor(boolean sensor) {
-		this.sensor = sensor;
-	}
-
-	public Schmuck getCreator() {
-		return creator;
-	}
-
-	public void setCreator(Schmuck creator) {
-		this.creator = creator;
-	}
-
-	public void makeUnreflectable() {
-		reflectable = false;
-	}
+	public void setFriction(float friction) { this.friction = friction; }
 	
-	public boolean isReflectable() {
-		return reflectable;
-	}
+	public short getFilter() { return filter; }
+
+	public void setFilter(short filter) { this.filter = filter; }
+
+	public Vector2 getStartVelo() { return startVelo; }
+
+	public void setStartVelo(Vector2 startVelo) { this.startVelo = startVelo; }
+
+	public boolean isSensor() { return sensor; }
+
+	public void setSensor(boolean sensor) { this.sensor = sensor; }
+
+	public Schmuck getCreator() { return creator; }
+
+	public void setCreator(Schmuck creator) { this.creator = creator; }
+
+	public void makeUnreflectable() { reflectable = false; }
+	
+	public boolean isReflectable() { return reflectable; }
 }

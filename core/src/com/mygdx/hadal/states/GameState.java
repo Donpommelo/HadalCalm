@@ -36,9 +36,7 @@ public abstract class GameState {
 		this.hud = app.getHud();		
 	}
 	
-	public void show() {
-
-	}
+	public void show() {}
 	
 	/**
 	 * This will be run every engine tick and will process game logic.
@@ -56,11 +54,7 @@ public abstract class GameState {
 	 */
 	public abstract void dispose();
 
-	public GameStateManager getGsm() {
-		return gsm;
-	}
+	public GameStateManager getGsm() {return gsm; }
 
-	public Stage getStage() {
-		return stage;
-	}
+	public Stage getStage() { return stage; }
 }

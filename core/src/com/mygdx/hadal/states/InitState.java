@@ -70,7 +70,5 @@ public class InitState extends GameState {
 	public void render() {}
 
 	@Override
-	public void dispose() {
-		stage.dispose();
-	}
+	public void dispose() {	stage.dispose(); }
 }

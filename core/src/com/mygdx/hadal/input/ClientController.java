@@ -147,9 +147,7 @@ public class ClientController implements InputProcessor {
 	}
 
 	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
+	public boolean keyTyped(char character) { return false; }
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -164,14 +162,10 @@ public class ClientController implements InputProcessor {
 	}
 
 	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
+	public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 
 	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
+	public boolean mouseMoved(int screenX, int screenY) { return false; }
 
 	@Override
 	public boolean scrolled(int amount) {

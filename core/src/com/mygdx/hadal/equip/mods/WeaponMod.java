@@ -74,27 +74,13 @@ public enum WeaponMod {
 			return new StatChangeStatus(state, Stats.DAMAGE_RES, 0.2f, b);
 		}
 	},
-//	
-//	PLUS_JUMP("+1 Jump", "", 1, ModTag.RANDOM_POOL) {
-//		@Override
-//		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, Stats.JUMP_NUM, 1.0f, b);
-//		}
-//	},
-//	
-//	PLUS_HOVER("+Hover Power", "", 1, ModTag.RANDOM_POOL) {
-//		@Override
-//		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, Stats.HOVER_POW, 0.25f, b);
-//		}
-//	},
-//	
-//	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
-//		@Override
-//		public Status retrieveMod(BodyData b, PlayState state) {
-//			return new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, 0.5f, b);
-//		}
-//	},
+	
+	PLUS_PROJ_SIZE("+Projectile Size", "", 1, ModTag.RANDOM_POOL) {
+		@Override
+		public Status retrieveMod(BodyData b, PlayState state) {
+			return new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, 0.5f, b);
+		}
+	},
 	
 	PLUS_PROJ_SPD("+Projectile Speed", "", 1, ModTag.RANDOM_POOL) {
 		@Override
@@ -152,21 +138,13 @@ public enum WeaponMod {
 		return items;
 	}
 	
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public String getDescr() {
-		return descr;
-	}
+	public String getDescr() { return descr; }
 
-	public int getWeight() {
-		return weight;
-	}
+	public int getWeight() { return weight; }
 
-	public Status retrieveMod(BodyData b, PlayState state) {
-		return null;
-	}
+	public Status retrieveMod(BodyData b, PlayState state) { return null; }
 	
 	public void acquireMod(BodyData b, PlayState state, Equipable tool) {
 		WeaponModifier newMod = new WeaponModifier(state, name, descr, b, tool, this, retrieveMod(b, state));

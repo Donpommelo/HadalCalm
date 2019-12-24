@@ -16,8 +16,9 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * A Client Illusion is an eneity created by the client as a default for a synced entity.
- * This entity does nothing itself but display a sprite and sync position/angle data from the server.
+ * A Ragdoll is a miscellaneous entity that doesn't do a whole heck of a lot.
+ * Its main job is to be visible and obey physics. This is useful for on-death ragdoll/frags
+ * It also has a couple of other applications like current bubble particle generators
  * @author Zachary Tu
  *
  */
@@ -27,16 +28,20 @@ public class Ragdoll extends HadalEntity {
 	private Sprite sprite;
 	private TextureRegion ragdollSprite;
 	
+	//spread is for giving the initial ragdool a random velocity
 	private final static int spread = 60;
 	
+	//how long does the ragdoll last
 	private float ragdollDuration;
 	
+	//starting multiplier on starting velocity and direction
 	private float veloAmp = 5.0f;
 	private float baseAngle = 5.0f;
 	
 	private Vector2 startVelo;
 	private float startAngle;
 	
+	//is the ragdoll a sensor? (i.e does it have collision)
 	private boolean sensor;
 	
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, boolean sensor) {

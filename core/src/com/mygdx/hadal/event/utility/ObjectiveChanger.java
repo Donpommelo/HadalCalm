@@ -12,7 +12,6 @@ import com.mygdx.hadal.states.PlayState;
  * Triggered Behavior: When triggered, this event makes the objective ui track the connected event.
  * Triggering Behavior: N/A. However, it uses its connected event as a point to make the ui element track
  * 
- * TODO: Probably need to make tracking toggleable before this is fully functional
  * Fields: N/A
  * 
  * @author Zachary Tu

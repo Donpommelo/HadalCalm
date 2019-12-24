@@ -30,6 +30,11 @@ import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitStatusStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.utils.Constants;
 
+/**
+ * This contains several statichelper methods for creating boss attack patterns
+ * @author Zachary Tu
+ *
+ */
 public class BossUtils {
 
 	public static void moveToDummy(final PlayState state, final Boss boss, final String dummyId, final int speed) {
@@ -45,7 +50,6 @@ public class BossUtils {
 					boss.setMoveSpeed(speed);
 				}
 			}
-			
 		});
 	}
 	

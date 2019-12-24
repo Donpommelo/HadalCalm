@@ -6,8 +6,14 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
+/**
+ * This strategy makes a hbox inflict a status on users that it makes contact with
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnContactUnitStatusStrategy extends HitboxStrategy{
 	
+	//the status that is to be inflicted
 	private Status s;
 	
 	public HitboxOnContactUnitStatusStrategy(PlayState state, Hitbox proj, BodyData user, Status s) {

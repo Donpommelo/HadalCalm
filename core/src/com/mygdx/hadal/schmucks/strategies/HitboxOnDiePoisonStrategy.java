@@ -6,10 +6,18 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy creates a field of poison when the attached hbox dies
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnDiePoisonStrategy extends HitboxStrategy{
 	
+	//the amount of damage the poison will deal, how long it will last and its size
 	private float poisonDamage, poisonDuration;
 	private int poisonRadius;
+	
+	//the hbox filter that determines who can be damaged by the poison
 	private short filter;
 	
 	public HitboxOnDiePoisonStrategy(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, 

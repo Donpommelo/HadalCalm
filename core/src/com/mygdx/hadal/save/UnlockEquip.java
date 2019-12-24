@@ -85,46 +85,6 @@ public enum UnlockEquip {
 		return items;
 	}
 
-	public Class<? extends Equipable> getWeapon() {
-		return weapon;
-	}
-		
-	public InfoItem getInfo() {
-		return info;
-	}
-
-	public void setInfo(InfoItem info) {
-		this.info = info;
-	}
-
-	public boolean isUnlocked() {
-		return info.isUnlocked();
-	}
-	
-	public ArrayList<UnlockTag> getTags() {
-		return info.getTags();
-	}
-	
-	public String getName() {
-		return info.getName();
-	}
-	
-	public String getDescr() {
-		return info.getDescription();
-	}
-	
-	public String getDescrLong() {
-		return info.getDescriptionLong();
-	}
-	
-	public int getCost() {
-		return info.getCost();
-	}
-	
-	public void setUnlocked(boolean unlock) {
-		info.setUnlocked(unlock);
-	}
-	
 	public static UnlockEquip getUnlockFromEquip(Class<? extends Equipable> weapon) {
 		for (UnlockEquip unlock: UnlockEquip.values()) {
 			if (unlock.weapon.equals(weapon)) {
@@ -133,4 +93,24 @@ public enum UnlockEquip {
 		}
 		return null;
 	}
+	
+	public Class<? extends Equipable> getWeapon() {	return weapon; }
+		
+	public InfoItem getInfo() {	return info; }
+
+	public void setInfo(InfoItem info) { this.info = info; }
+
+	public boolean isUnlocked() { return info.isUnlocked(); }
+	
+	public ArrayList<UnlockTag> getTags() { return info.getTags(); }
+	
+	public String getName() { return info.getName(); }
+	
+	public String getDescr() { return info.getDescription(); }
+	
+	public String getDescrLong() { return info.getDescriptionLong(); }
+	
+	public int getCost() { return info.getCost(); }
+	
+	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock); }
 }

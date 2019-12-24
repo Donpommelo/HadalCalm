@@ -14,7 +14,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * A mouse tracker is tied to a player and track's that player's mouse pointer
+ * A mouse tracker is tied to a player and tracks that player's mouse pointer
  * @author Zachary Tu
  *
  */
@@ -43,6 +43,8 @@ public class MouseTracker extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
+		
+		//server player's mouse sets location constantly. Client's mouse moves to desired location which is set when receiving packets from respective client
 		if (server) {
 			tmpVec3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			HadalGame.viewportCamera.unproject(tmpVec3);
@@ -59,6 +61,9 @@ public class MouseTracker extends HadalEntity {
 		return desiredLocation;
 	}
 
+	/**
+	 * When receiving a mouse location from client, the server updates that client's mouse
+	 */
 	public void setDesiredLocation(float x, float y) {
 		this.desiredLocation.x = x;
 		this.desiredLocation.y = y;

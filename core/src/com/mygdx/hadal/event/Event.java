@@ -29,9 +29,6 @@ public class Event extends HadalEntity {
 	//The event's data
 	protected EventData eventData;
 	
-	//The event's name
-	private String name;
-	
 	//If this event triggers another event, this is a local reference to it
 	private Event connectedEvent;
 
@@ -49,6 +46,7 @@ public class Event extends HadalEntity {
 	private int spriteHeight;
 	private float scale = 0.25f;
    
+	//align type is how the sprite is drawn in relation to the event's body
 	private alignType scaleAlign = alignType.CENTER_BOTTOM;
     
     /* How will this event be synced?
@@ -63,8 +61,10 @@ public class Event extends HadalEntity {
     
     public final static int defaultPickupEventSize = 96;
     
+    //this is the map object from Tiled that this event was read from.
     protected MapObject blueprint;
     
+    //This particle is turned on when the event is interacted with in a specific way (differs for each event)
     protected ParticleEntity standardParticle;
 
     //Does this event send a sync packet to client every engine tick?
@@ -76,7 +76,6 @@ public class Event extends HadalEntity {
 	 */
 	public Event(PlayState state, String name, Vector2 startPos, Vector2 size) {
 		super(state, startPos, size);
-		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
 	}
@@ -86,7 +85,6 @@ public class Event extends HadalEntity {
 	 */
 	public Event(PlayState state, String name, Vector2 startPos, Vector2 size, float duration) {
 		super(state, startPos, size);
-		this.name = name;
 		this.temporary = true;
 		this.duration = duration;
 	}
@@ -96,15 +94,12 @@ public class Event extends HadalEntity {
 	 */
 	public Event(PlayState state, String name) {
 		super(state, new Vector2(), new Vector2(1, 1));
-		this.name = name;
 		this.temporary = false;
 		this.duration = 0;
 	}
 	
 	@Override
-	public void create() {
-
-	}
+	public void create() {}
 
 	@Override
 	public void controller(float delta) {
@@ -119,9 +114,6 @@ public class Event extends HadalEntity {
 		}
 	}
 
-	/**
-	 * Tentatively, we want to display the event's name information next to the event
-	 */
 	@Override
 	public void render(SpriteBatch batch) {
 		
@@ -155,54 +147,23 @@ public class Event extends HadalEntity {
 		}
 	}
 	
-	public void loadDefaultProperties() {
-		
-	}
+	/**
+	 * This method is run after reading the event from Tiled to load default properties like sync type and align type.
+	 * An event with a default property set to false will not run this method
+	 */
+	public void loadDefaultProperties() {}
 	
 	public void setStandardParticle(Particle particle) {
 		this.standardParticle = new ParticleEntity(state, this, particle, 0, 0, false, particleSyncType.TICKSYNC);
 	}
 
-	public ParticleEntity getStandardParticle() {
-		return standardParticle;
-	}
+	public ParticleEntity getStandardParticle() { return standardParticle; }
 
 	public void addAmbientParticle(Particle particle) {
 		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.TICKSYNC);	
 	}
 	
-	@Override
-	public HadalData getHadalData() {
-		return eventData;
-	}
 	
-	public EventData getEventData() {
-		return eventData;
-	}
-
-	public void setEventData(EventData eventData) {
-		this.eventData = eventData;
-	}
-
-	public String getText() {
-		return name;
-	}
-
-	public Event getConnectedEvent() {
-		return connectedEvent;
-	}
-
-	public void setConnectedEvent(Event connectedEvent) {
-		this.connectedEvent = connectedEvent;
-	}
-	
-	public float getGravity() {
-		return gravity;
-	}
-
-	public void setGravity(float gravity) {
-		this.gravity = gravity;
-	}
 
 	/**
 	 * This is used for default animations with multiple frames. The result is a looping animation.
@@ -212,6 +173,14 @@ public class Event extends HadalEntity {
 		setEventSprite(sprite, false, 0, animationSpeed, PlayMode.LOOP);
 	}
 	
+	/**
+	 * Set the sprite of the event
+	 * @param sprite: sprite to be set
+	 * @param still: do we animate the sprite or not?
+	 * @param frame: what frame should be displayed?
+	 * @param speed: speed of the animation
+	 * @param mode: the playback mode of the animation (does it loop/seesaw/whatever)
+	 */
 	public void setEventSprite(Sprite sprite, boolean still, int frame, float speed, PlayMode mode) {
 		
 		this.sprite = sprite; 
@@ -231,6 +200,8 @@ public class Event extends HadalEntity {
 	
 	/**
 	 * When this event is created, tell the client to create an illusion or event, depending on the syncType
+	 * ILLUSION and SERVER only run on the server, so the client just receives an an illusion
+	 * USER and ALL can run on all players, so clients need a copy of the event blueprints to make their own version of the event
 	 */
 	@Override
 	public Object onServerCreate() {
@@ -257,33 +228,34 @@ public class Event extends HadalEntity {
 		}
 	}
 	
-	public void setScale(float scale) {
-		this.scale = scale;
-	}
+	@Override
+	public HadalData getHadalData() { return eventData; }
+	
+	public EventData getEventData() { return eventData; }
 
-	public void setScaleAlign(String scaleAlign) {
-		this.scaleAlign = alignType.valueOf(scaleAlign);
-	}
+	public void setEventData(EventData eventData) {	this.eventData = eventData;	}
 
-	public eventSyncTypes getSyncType() {
-		return syncType;
-	}
+	public Event getConnectedEvent() { return connectedEvent; }
 
-	public void setSyncType(eventSyncTypes syncType) {
-		this.syncType = syncType;
-	}
+	public void setConnectedEvent(Event connectedEvent) { this.connectedEvent = connectedEvent; }
+	
+	public float getGravity() {	return gravity; }
 
-	public void setSynced(boolean synced) {
-		this.synced = synced;
-	}
+	public void setGravity(float gravity) {	this.gravity = gravity;	}
+	
+	public void setScale(float scale) {	this.scale = scale;	}
 
-	public MapObject getBlueprint() {
-		return blueprint;
-	}
+	public void setScaleAlign(String scaleAlign) { this.scaleAlign = alignType.valueOf(scaleAlign); }
 
-	public void setBlueprint(MapObject blueprint) {
-		this.blueprint = blueprint;
-	}
+	public eventSyncTypes getSyncType() { return syncType; }
+
+	public void setSyncType(eventSyncTypes syncType) { this.syncType = syncType; }
+
+	public void setSynced(boolean synced) {	this.synced = synced; }
+
+	public MapObject getBlueprint() { return blueprint; }
+
+	public void setBlueprint(MapObject blueprint) {	this.blueprint = blueprint; }
 
 	public enum eventSyncTypes {
 		ILLUSION,

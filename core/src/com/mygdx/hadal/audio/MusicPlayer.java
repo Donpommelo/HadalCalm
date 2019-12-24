@@ -11,9 +11,7 @@ public class MusicPlayer {
     private HashMap<String, String> trackListByName;
     private HashMap<Integer, String> trackListByNumber;
     
-    public Music getCurrentSong() {
-    	return currentSong;
-    }
+    public Music getCurrentSong() { return currentSong; }
 
 	 private Music currentSong = null;
 	 private int currentTrackNumber = -1;
@@ -98,7 +96,5 @@ public class MusicPlayer {
     }
 
     // Clean up and dispose of player. Called when game closes.
-    public void dispose(){
-        currentSong.dispose();
-    }
+    public void dispose() { currentSong.dispose(); }
 }

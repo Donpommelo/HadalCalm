@@ -40,13 +40,9 @@ public enum PlayerAction {
 		this.key = key;
 	}
 	
-	public int getKey() {
-		return key;
-	}
+	public int getKey() { return key; }
 	
-	public void setKey(int key) {
-		this.key = key;
-	}
+	public void setKey(int key) { this.key = key; }
 	
 	/**
 	 * Reset key to default bindings

@@ -8,6 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * This is a special stage specifically for play states.
+ * atm, its only used to process dialogues
  * @author Zachary Tu
  *
  */

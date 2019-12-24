@@ -10,23 +10,37 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy generates projectiles whenever the attached hbox makes contact with a wall
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnContactWallParticles extends HitboxStrategy {
 	
+	private final static float defaultDuration = 0.1f;
+	
+	//the effect that is to be created.
 	private Particle effect;
 	
-	public HitboxOnContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
+	//how long should the particles last?
+	private float duration;
+	
+	public HitboxOnContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
 		super(state, proj, user);
 		this.effect = effect;
+		this.duration = duration;
+	}
+	
+	public HitboxOnContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
+		this(state, proj, user, effect, defaultDuration);
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB == null) {
-			new ParticleEntity(state, new Vector2(hbox.getPixelPosition()),
-					effect, 0.1f, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, new Vector2(hbox.getPixelPosition()),	effect, duration, true, particleSyncType.CREATESYNC);
 		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			new ParticleEntity(state, new Vector2(hbox.getPixelPosition()),
-					effect, 0.1f, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, new Vector2(hbox.getPixelPosition()),	effect, duration, true, particleSyncType.CREATESYNC);
 		}
 	}
 }

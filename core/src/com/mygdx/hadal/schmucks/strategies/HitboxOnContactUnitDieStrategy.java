@@ -6,6 +6,11 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy makes a hbox die when it touches a unit
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnContactUnitDieStrategy extends HitboxStrategy{
 	
 	public HitboxOnContactUnitDieStrategy(PlayState state, Hitbox proj, BodyData user) {

@@ -101,7 +101,5 @@ public class ScoreWindow {
 		}
 	}
 	
-	public void setVisibility(boolean visible) {
-		table.setVisible(visible);
-	}
+	public void setVisibility(boolean visible) { table.setVisible(visible); }
 }

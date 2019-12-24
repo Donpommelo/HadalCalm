@@ -527,23 +527,13 @@ public class KryoServer {
 		}
 	}
 	
-	public Server getServer() {
-		return server;
-	}
+	public Server getServer() {	return server; }
 
-	public void setServer(Server server) {
-		this.server = server;
-	}
+	public void setServer(Server server) { this.server = server; }
 
-	public HashMap<Integer, Player> getPlayers() {
-		return players;
-	}
+	public HashMap<Integer, Player> getPlayers() { return players; }
 
-	public HashMap<Integer, MouseTracker> getMice() {
-		return mice;
-	}
+	public HashMap<Integer, MouseTracker> getMice() { return mice; }
 
-	public HashMap<Integer, SavedPlayerFields> getScores() {
-		return scores;
-	}
+	public HashMap<Integer, SavedPlayerFields> getScores() { return scores; }
 }

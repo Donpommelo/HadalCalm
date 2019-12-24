@@ -7,9 +7,19 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy causes a hitbox to track the first target it collides with.
+ * This is different from stick on contact because it is always attached to the origin of the target and only follows bodies
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnHitTrackStrategy extends HitboxStrategy{
 	
-	private boolean tracked, override;
+	//has this hbox stuck onto a target yet? 
+	private boolean tracked; 
+	
+	//Override makes the target move instead of the hitbox (such as in the case of the tractor beam)
+	private boolean override;
 	private HadalEntity target;
 	
 	public HitboxOnHitTrackStrategy(PlayState state, Hitbox proj, BodyData user, boolean override) {

@@ -93,6 +93,7 @@ public class TiledObjectUtil {
 		rect.getCenter(position);
 		rect.getSize(size);
 		
+		//this sets the starting point of the map to the Start object with the corresponding startId
 		if (object.getName().equals("Start")) {
 			if (state.getStartId().equals(object.getProperties().get("startId", "", String.class))) {
 				rect.getCenter(state.getStartPosition());
@@ -276,10 +277,6 @@ public class TiledObjectUtil {
 			e = new SaveSetter(state, position, size, 
 					object.getProperties().get("zoom", 1.0f, float.class),
 					object.getProperties().get("clear", true, boolean.class));
-		}
-		if (object.getName().equals("Text")) {
-			e = new Text(state, position, size, 
-					object.getProperties().get("text", String.class));
 		}
 		if (object.getName().equals("Platform")) {
 			e = new MovingPlatform(state, position, size, 
@@ -485,6 +482,12 @@ public class TiledObjectUtil {
     }
     
     private final static String globalTimer = "runOnGlobalTimerConclude";
+    /**
+     * This method parses special events from the Tiled map.
+     * Certain events have a special id that makes them tagged for special use in the play state.
+     * Be sure not to use the above static strings as anid for a normal event
+     * @param state
+     */
     public static void parseDesignatedEvents(PlayState state) {
     	for (String key : triggeredEvents.keySet()) {
     		if (key.equals(globalTimer)) {

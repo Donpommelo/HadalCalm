@@ -41,6 +41,7 @@ public class ParticleEntity extends HadalEntity {
 	//Is the particle currently on?
 	private boolean on;
 	
+	//how is this entity synced?
 	private particleSyncType sync;
 	
 	//This constructor creates a particle effect at an area.
@@ -83,6 +84,8 @@ public class ParticleEntity extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
+		
+		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
@@ -94,6 +97,8 @@ public class ParticleEntity extends HadalEntity {
 			}
 		}
 		
+		
+		//if despawned, we delete this entity after its lingering period
 		if (despawn) {
 			linger -= delta;
 			
@@ -102,9 +107,9 @@ public class ParticleEntity extends HadalEntity {
 			}
 		}
 
+		//particles with a timer are deleting whe nthe timer runs out. Clients remove these too if they are processing them independantly from the server.
 		if (temp) {
 			lifespan -= delta;
-			
 			if (lifespan <= 0) {
 				if (state.isServer()) {
 					this.queueDeletion();
@@ -114,6 +119,7 @@ public class ParticleEntity extends HadalEntity {
 			}
 		}
 		
+		//particles that are turned on for a timed period turn off when the interval is over
 		if (interval > 0) {
 			interval -= delta;
 			
@@ -129,9 +135,13 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public void clientController(float delta) {
+		
+		//client particles process independantly from the server if they are set to CREATESYNC or NOSYNC
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.NOSYNC)) {
 			controller(delta);			
 		}
+		
+		//client particles are sometimes told to attactch to a unit that the client hasn't created yet. This code makes the particle entity wait for its attached entity to be created
 		if (attachedEntity == null && attachedId != null) {
 			attachedEntity = ((ClientState)state).findEntity(attachedId);
 		}
@@ -146,7 +156,7 @@ public class ParticleEntity extends HadalEntity {
 	public boolean isVisible() {
 		return camera.frustum.boundsInFrustum(effect.getBoundingBox());
 	}
-	
+
 	public void turnOn() {
 		on = true;
 		effect.start();
@@ -157,6 +167,9 @@ public class ParticleEntity extends HadalEntity {
 		effect.allowCompletion();
 	}
 
+	/**
+	 * This turns the particle on for an input period of time
+	 */
 	public void onForBurst(float duration) {
 		turnOn();
 		interval = duration;
@@ -223,8 +236,7 @@ public class ParticleEntity extends HadalEntity {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
 					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
-				} 
-				else {
+				} else {
 					newPos.set(startPos);
 					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
 				}

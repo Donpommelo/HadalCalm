@@ -26,43 +26,24 @@ public enum UnlockCharacter {
 				items.add(u);
 			}
 		}
-		
 		return items;
 	}
 	
-	public InfoCharacter getInfo() {
-		return info;
-	}
+	public InfoCharacter getInfo() { return info; }
 
-	public void setInfo(InfoCharacter info) {
-		this.info = info;
-	}
+	public void setInfo(InfoCharacter info) { this.info = info; }
 
-	public Sprite.SpriteType getSprite() {
-		return sprite;
-	}
+	public Sprite.SpriteType getSprite() { return sprite; }
 	
-	public String getName() {
-		return info.getName();
-	}
+	public String getName() { return info.getName(); }
 	
-	public String getBio() {
-		return info.getBio();
-	}
+	public String getBio() { return info.getBio(); }
 	
-	public String getDescr() {
-		return info.getDescription();
-	}
+	public String getDescr() { return info.getDescription(); }
 	
-	public String getDescrLong() {
-		return info.getDescriptionLong();
-	}
+	public String getDescrLong() { return info.getDescriptionLong(); }
 	
-	public boolean isUnlocked() {
-		return info.isUnlocked();
-	}
+	public boolean isUnlocked() { return info.isUnlocked(); }
 
-	public void setUnlocked(boolean unlocked) {
-		info.setUnlocked(unlocked);
-	}
+	public void setUnlocked(boolean unlocked) { info.setUnlocked(unlocked); }
 }

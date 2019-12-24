@@ -24,7 +24,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * id: The id of the type of enemy to spawn
  * limit: The number of enemies to spawn simultaneously
  * spread: boolean of whether to spawn a group with some slight randomized location. Optional. Default: true
- * 
+ * boss: boolean of whether this spawns a boss enemy
+ * bossName: nanme of the boss spawned (if a boss is spawned)
  * @author Zachary Tu
  *
  */
@@ -113,12 +114,20 @@ public class SpawnerSchmuck extends Event {
 				(short) (0), (short) 0, true, eventData);
 	}
 	
+	/**
+	 * This event is run when an enemy spawned by this event dies.
+	 * @param schmuck: the enemy that died
+	 */
 	public void onDeath(Schmuck schmuck) {
 		amountLeft--;
+		
+		//if all enemies spawned by this have been defeated, activate connected event
 		if (amountLeft <= 0) {
 			if (getConnectedEvent() != null) {
 				getConnectedEvent().eventData.preActivate(eventData, null);
 			}
+			
+			//if a boss was defeated, tell the ui to clear the boss hp bar from the ui
 			if (boss) {
 				state.clearBoss();
 			}

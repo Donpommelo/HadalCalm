@@ -59,46 +59,6 @@ public enum UnlockActives {
 		return items;
 	}
 	
-	public Class<? extends ActiveItem> getActive() {
-		return active;
-	}
-	
-	public InfoItem getInfo() {
-		return info;
-	}
-	
-	public void setInfo(InfoItem info) {
-		this.info = info;
-	}
-	
-	public boolean isUnlocked() {
-		return info.isUnlocked();
-	}
-	
-	public ArrayList<UnlockTag> getTags() {
-		return info.getTags();
-	}
-	
-	public String getName() {
-		return info.getName();
-	}
-	
-	public String getDescr() {
-		return info.getDescription();
-	}
-	
-	public String getDescrLong() {
-		return info.getDescriptionLong();
-	}
-	
-	public int getCost() {
-		return info.getCost();
-	}
-	
-	public void setUnlocked(boolean unlock) {
-		info.setUnlocked(unlock);
-	}
-	
 	public static UnlockActives getUnlockFromActive(Class<? extends ActiveItem> active) {
 		for (UnlockActives unlock: UnlockActives.values()) {
 			if (unlock.active.equals(active)) {
@@ -107,4 +67,24 @@ public enum UnlockActives {
 		}
 		return null;
 	}
+	
+	public Class<? extends ActiveItem> getActive() { return active; }
+	
+	public InfoItem getInfo() {	return info; }
+	
+	public void setInfo(InfoItem info) { this.info = info; }
+	
+	public boolean isUnlocked() { return info.isUnlocked(); }
+	
+	public ArrayList<UnlockTag> getTags() {	return info.getTags(); }
+	
+	public String getName() { return info.getName(); }
+	
+	public String getDescr() { return info.getDescription(); }
+	
+	public String getDescrLong() { return info.getDescriptionLong(); }
+	
+	public int getCost() { return info.getCost(); }
+	
+	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock);	}
 }

@@ -535,7 +535,6 @@ public class Packets {
         public int currentSlot;
         public int currentClip;
         public int currentAmmo;
-        public ArrayList<WeaponMod> mods;
         public int maxClip;
         public float maxHp;
         public float maxFuel;
@@ -554,7 +553,7 @@ public class Packets {
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
 		public SyncPlayer(String entityID, float a, Boolean grounded, int currentSlot, int currentClip, int currentAmmo, int maxClip, float maxHp, float maxFuel,
-				float airblastCost, float activeCharge, boolean reloading, float reloadPercent, boolean charging, float chargePercent, ArrayList<WeaponMod> mods) {
+				float airblastCost, float activeCharge, boolean reloading, float reloadPercent, boolean charging, float chargePercent) {
             this.entityID = entityID;
             this.attackAngle = a;
             this.grounded = grounded;
@@ -571,7 +570,6 @@ public class Packets {
             this.reloadPercent = reloadPercent;
             this.charging = charging;
             this.chargePercent = chargePercent;
-            this.mods = mods;
         }
 	}
 	

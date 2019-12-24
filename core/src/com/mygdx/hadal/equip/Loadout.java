@@ -8,21 +8,27 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 
+/**
+ * A Loadout represent's a player's tools, artifact, active item and character skin.
+ * @author Zachary Tu
+ *
+ */
 public class Loadout {
 
 	private final static int numSlots = 3;
 	
 	public UnlockEquip[] multitools;
-	
 	public UnlockArtifact startifact;
 	public ArrayList<UnlockArtifact> artifacts;
-	
 	public UnlockActives activeItem;
-	
 	public UnlockCharacter character;
 	
 	public Loadout() {}
-		
+	
+	/**
+	 * This method loads a loadout from an input save record.
+	 * Usually used when creating a brand new player.
+	 */
 	public Loadout(Record record) {
 		multitools = new UnlockEquip[numSlots];
 		multitools[0] = UnlockEquip.NOTHING;
@@ -42,6 +48,9 @@ public class Loadout {
 		character = UnlockCharacter.valueOf(record.getCharacter());
 	}
 	
+	/**
+	 * This generates a new loadout from a prexisting one.
+	 */
 	public Loadout(Loadout old) {
 		multitools = new UnlockEquip[numSlots];
 		multitools[0] = old.multitools[0];
@@ -59,7 +68,5 @@ public class Loadout {
 		character = old.character;
 	}
 	
-	public static int getNumSlots() {
-		return numSlots;
-	}
+	public static int getNumSlots() { return numSlots; }
 }

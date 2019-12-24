@@ -13,5 +13,4 @@ public class NothingActive extends ActiveItem {
 	public NothingActive(Schmuck user) {
 		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamage);
 	}
-
 }

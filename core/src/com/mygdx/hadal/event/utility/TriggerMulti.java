@@ -48,7 +48,5 @@ public class TriggerMulti extends Event {
 		};
 	}
 	
-	public void addTrigger(Event e) {
-		triggered.add(e);
-	}
+	public void addTrigger(Event e) { triggered.add(e); }
 }

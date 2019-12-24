@@ -9,7 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 
 /**
- * An active item is an item displayed in the lower right corner. They can be used with thte spacebar and have a cooldown.
+ * An active item is an item displayed in the lower right corner. They can be used with the spacebar and have a cooldown or some other charging mechanic.
  * @author Zachary Tu
  *
  */
@@ -60,9 +60,7 @@ public class ActiveItem extends Equipable {
 	 * @param state: Playstate
 	 * @param shooter: the user of the item
 	 */
-	public void useItem(PlayState state, PlayerBodyData shooter) {
-		
-	}
+	public void useItem(PlayState state, PlayerBodyData shooter) {}
 	
 	/**
 	 * This is used when the active item charges
@@ -89,33 +87,19 @@ public class ActiveItem extends Equipable {
 	@Override
 	public void reload(float delta) { reloading = false; }
 
-	public boolean isReady() {
-		return currentCharge >= maxCharge;
-	}
+	public boolean isReady() { return currentCharge >= maxCharge; }
 	
-	public float chargePercent() {
-		return currentCharge / maxCharge;
-	}	
+	public float chargePercent() { return currentCharge / maxCharge;	}	
 	
-	public float getRemainingCharge() {
-		return maxCharge - currentCharge;
-	}
+	public float getRemainingCharge() { return maxCharge - currentCharge; }
 
-	public float getCurrentCharge() {
-		return currentCharge;
-	}
+	public float getCurrentCharge() { return currentCharge; }
 
-	public void setCurrentCharge(float currentCharge) {
-		this.currentCharge = currentCharge;
-	}
+	public void setCurrentCharge(float currentCharge) {	this.currentCharge = currentCharge; }
 
-	public chargeStyle getStyle() {
-		return style;
-	}
+	public chargeStyle getStyle() { return style; }
 
-	public void setStyle(chargeStyle style) {
-		this.style = style;
-	}
+	public void setStyle(chargeStyle style) { this.style = style; }
 
 	public static enum chargeStyle {
 		byTime,

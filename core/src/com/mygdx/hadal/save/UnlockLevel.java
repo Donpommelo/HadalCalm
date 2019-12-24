@@ -66,63 +66,33 @@ public enum UnlockLevel {
 		return items;
 	}
 		
-	public InfoLevel getInfo() {
-		return info;
-	}
+	public InfoLevel getInfo() { return info; }
 
-	public void setInfo(InfoLevel info) {
-		this.info = info;
-	}
+	public void setInfo(InfoLevel info) { this.info = info; }
 
-	public ArrayList<UnlockTag> getTags() {
-		return info.getTags();
-	}
+	public ArrayList<UnlockTag> getTags() {	return info.getTags(); }
 	
-	public String getMap() {
-		return map;
-	}
+	public String getMap() { return map; }
 
-	public boolean isUnlocked() {
-		return info.isUnlocked();
-	}
+	public boolean isUnlocked() { return info.isUnlocked(); }
 	
-	public String getName() {
-		return info.getName();
-	}
+	public String getName() { return info.getName(); }
 	
-	public String getDescr() {
-		return info.getDescription();
-	}
+	public String getDescr() { return info.getDescription(); }
 	
-	public String getDescrLong() {
-		return info.getDescriptionLong();
-	}
+	public String getDescrLong() { return info.getDescriptionLong(); }
 	
-	public void setUnlocked(boolean unlock) {
-		info.setUnlocked(unlock);
-	}
+	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock); }
 
-	public UnlockEquip[] getMultitools() {
-		return multitools;
-	}
+	public UnlockEquip[] getMultitools() { return multitools; }
 
-	public void setMultitools(UnlockEquip[] multitools) {
-		this.multitools = multitools;
-	}
+	public void setMultitools(UnlockEquip[] multitools) { this.multitools = multitools; }
 
-	public UnlockArtifact getStartifact() {
-		return startifact;
-	}
+	public UnlockArtifact getStartifact() {	return startifact; }
 
-	public void setStartifact(UnlockArtifact startifact) {
-		this.startifact = startifact;
-	}
+	public void setStartifact(UnlockArtifact startifact) { this.startifact = startifact; }
 
-	public UnlockActives getActiveItem() {
-		return activeItem;
-	}
+	public UnlockActives getActiveItem() { return activeItem; }
 
-	public void setActiveItem(UnlockActives activeItem) {
-		this.activeItem = activeItem;
-	}	
+	public void setActiveItem(UnlockActives activeItem) { this.activeItem = activeItem; }	
 }

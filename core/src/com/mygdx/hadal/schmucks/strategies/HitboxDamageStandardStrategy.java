@@ -7,14 +7,23 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
+/**
+ * This strategy makes a hbox damage enemies it comes in contact with
+ * @author Zachary Tu
+ *
+ */
 public class HitboxDamageStandardStrategy extends HitboxStrategy{
 	
+	//the amount of damage and knockback this hbox will inflict
 	private float baseDamage, knockback;
+	
+	////this is the tool that fired the hbox that has this strategy.
 	private Equipable tool;
+	
+	//damage tags determine the type of damage inflicted and is used for certain effects
 	private DamageTypes[] tags;
 	
-	public HitboxDamageStandardStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, 
-			float damage, float knockback, DamageTypes... tags) {
+	public HitboxDamageStandardStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, float damage, float knockback, DamageTypes... tags) {
 		super(state, proj, user);
 		this.baseDamage = damage;
 		this.knockback = knockback;

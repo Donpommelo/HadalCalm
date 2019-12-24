@@ -12,8 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 
 /**
- * Enemies are Schmucks that attack the player.
- * Floating enemies are the basic fish-enemies of the game
+ * This is a boss in the game
  * @author Zachary Tu
  *
  */
@@ -41,17 +40,6 @@ public class Boss1 extends BossFloating {
 	private static final float phaseThreshold2 = 0.70f;
 	private static final float phaseThreshold3 = 0.35f;
 	
-	/**
-	 * Enemy constructor is run when an enemy spawner makes a new enemy.
-	 * @param state: current gameState
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
-	 * @param width: width of enemy
-	 * @param height: height of enemy
-	 * @param x: enemy starting x position.
-	 * @param y: enemy starting x position.
-	 */
 	public Boss1(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, spawner, sprite);
 	}
@@ -174,7 +162,7 @@ public class Boss1 extends BossFloating {
 	
 	private static final int charge1Speed = 35;
 	private static final int charge2Speed = 25;
-	private static final int charge1Damage = 20;
+	private static final int charge1Damage = 15;
 	private static final int charge2Damage = 8;
 	private static final int defaultMeleeKB = 70;
 	

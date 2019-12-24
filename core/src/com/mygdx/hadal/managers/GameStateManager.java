@@ -57,6 +57,7 @@ public class GameStateManager {
 	//Not sure if this is a sensible thing to do, but we have an rng here so I don't need to make one whenever elsewhere
 	public static Random generator;
 	
+	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;
 	
 	//This enum lists all the different types of gamestates.
@@ -183,6 +184,8 @@ public class GameStateManager {
 	 * @param loadout: loadout that the player will enter the playstate with
 	 * @param old: old playerdata to persist stuff like equips/hp/whatever
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 * @param reset: do we reset player stats in the new play state?
+	 * @param startId: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
 	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState, boolean reset, String startId) {
 		
@@ -255,6 +258,9 @@ public class GameStateManager {
 		}
 	}
 	
+	/**
+	 * This method is just a shortcut for returning to the hub state with a clean loadout
+	 */
 	public void gotoHubState() {
 		if (currentMode == Mode.SINGLE) {
 			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class, true, "");
@@ -284,31 +290,17 @@ public class GameStateManager {
 		return null;
 	}
 	
-	public Stack<GameState> getStates() {
-		return states;
-	}
+	public Stack<GameState> getStates() { return states; }
 
-	public HadalGame getApp() {
-		return app;
-	}
+	public HadalGame getApp() { return app;	}
 	
-	public static JsonValue getDialogs() {
-		return dialogs;
-	}
+	public static JsonValue getDialogs() { return dialogs; }
 
-	public Record getRecord() {
-		return record;
-	}
+	public Record getRecord() {	return record; }
 
-	public Skin getSkin() {
-		return skin;
-	}
+	public Skin getSkin() {	return skin; }
 	
-	public NinePatchDrawable getDialogPatch() {
-		return dialogPatch;
-	}
+	public NinePatchDrawable getDialogPatch() {	return dialogPatch;	}
 	
-	public NinePatchDrawable getSimplePatch() {
-		return simplePatch;
-	}
+	public NinePatchDrawable getSimplePatch() { return simplePatch; }
 }

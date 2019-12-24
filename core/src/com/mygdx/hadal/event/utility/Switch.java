@@ -48,9 +48,4 @@ public class Switch extends Event {
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
-	
-	@Override
-	public String getText() {
-		return name + " (E TO ACTIVATE)";
-	}
 }

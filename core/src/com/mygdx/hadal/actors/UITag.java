@@ -30,21 +30,13 @@ public class UITag {
 		this(type, "");
 	}
 	
-	public uiType getType() {
-		return type;
-	}
+	public uiType getType() { return type; }
 
-	public void setType(uiType type) {
-		this.type = type;
-	}
+	public void setType(uiType type) { this.type = type; }
 
-	public String getMisc() {
-		return misc;
-	}
+	public String getMisc() { return misc; }
 
-	public void setMisc(String misc) {
-		this.misc = misc;
-	}
+	public void setMisc(String misc) { this.misc = misc; }
 	
 	/**
 	 * These are the various types of tags that can be added/removed from the UI.

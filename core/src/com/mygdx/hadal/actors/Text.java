@@ -54,9 +54,7 @@ public class Text extends AHadalActor {
 		font.getData().setScale(1.0f);
 	}
 	
-	public String getText() {
-		return text;
-	}
+	public String getText() { return text; }
 
 	public void setText(String text) {
 		this.text = text;
@@ -64,18 +62,12 @@ public class Text extends AHadalActor {
 	}
 	
 	@Override
-	public Color getColor() {
-		return color;
-	}
+	public Color getColor() { return color; }
 
 	@Override
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	public void setColor(Color color) { this.color = color; }
 	
-	public float getScale() {
-		return scale;
-	}
+	public float getScale() { return scale; }
 
 	@Override
 	public void setScale(float scale) {

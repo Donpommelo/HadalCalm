@@ -49,23 +49,13 @@ public class HadalData {
 		}
 	}
 	
-	public int getNumContacts() {
-		return numContacts;
-	}
+	public int getNumContacts() { return numContacts; }
 
-	public void setNumContacts(int numContacts) {
-		this.numContacts = numContacts;
-	}
+	public void setNumContacts(int numContacts) { this.numContacts = numContacts; }
 
-	public UserDataTypes getType() {
-		return type;
-	}
+	public UserDataTypes getType() { return type; }
 
-	public HadalEntity getEntity() {
-		return entity;
-	}
+	public HadalEntity getEntity() { return entity; }
 
-	public void setEntity(HadalEntity entity) {
-		this.entity = entity;
-	}
+	public void setEntity(HadalEntity entity) { this.entity = entity; }
 }

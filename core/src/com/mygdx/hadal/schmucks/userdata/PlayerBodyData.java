@@ -11,14 +11,12 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.melee.Fisticuffs;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.statuses.ActiveItemCharge;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Stats;
@@ -35,14 +33,14 @@ public class PlayerBodyData extends BodyData {
 	
 	private int numExtraJumps = 1;
 	private int extraJumpsUsed = 0;
-	private float jumpPow = 25.0f;
+	private static final float jumpPow = 25.0f;
 	
-	private float fastFallPow = 12.0f;
+	private static final float fastFallPow = 12.0f;
 
-	private int hoverCost = 5;
-	private float hoverPow = 5.0f;
+	private static final int hoverCost = 5;
+	private static final float hoverPow = 5.0f;
 	
-	private int airblastCost = 30;
+	private static final int airblastCost = 30;
 	
 	//This is the player's current loadout
 	private Loadout loadout;
@@ -67,14 +65,13 @@ public class PlayerBodyData extends BodyData {
 	
 	private Player player;
 	
-	//Override stats are used by the client to display i nthe ui instead of actually having the real server stats.
+	//Override stats are used by the client to display in the ui instead of actually having the real server stats.
 	private float overrideMaxHp;
 	private float overrideMaxFuel;
 	private float overrideAirblastCost;
 	private int overrideClipSize;
 	private int overrideClipLeft;
 	private int overrideAmmoSize;
-	private ArrayList<WeaponMod> overrideWeaponMods = new ArrayList<WeaponMod>();
 	
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body, baseHp);
@@ -84,7 +81,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * This is called when creating a brand new player with a starting loadout
+	 * This is called when creating a brand new player with a reset loadout
 	 */
 	public void initLoadout() {
 		clearStatuses();
@@ -105,7 +102,6 @@ public class PlayerBodyData extends BodyData {
 		
 		//Acquire active item and acquire charge status
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
-		addStatus(new ActiveItemCharge(player.getState(), this));		
 	}
 	
 	/**
@@ -211,9 +207,6 @@ public class PlayerBodyData extends BodyData {
 				addStatus(s);
 			}
 		}
-		
-		//Eventually, this space might be used for a "intrinsic status" thing.
-		addStatus(new ActiveItemCharge(player.getState(), this));
 	}
 	
 	/**
@@ -544,123 +537,59 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	public Player getPlayer() {
-		return player;
-	}
+	public Player getPlayer() {	return player;}
 	
-	public Artifact getArtifactStart() {
-		return artifactStart;
-	}
+	public Artifact getArtifactStart() { return artifactStart; }
 
-	public int getExtraJumps() {
-		return numExtraJumps + (int)getStat(Stats.JUMP_NUM);
-	}
+	public int getExtraJumps() { return numExtraJumps + (int)getStat(Stats.JUMP_NUM); }
 	
-	public float getJumpPower() {
-		return jumpPow * (1 + getStat(Stats.JUMP_POW));
-	}
+	public float getJumpPower() { return jumpPow * (1 + getStat(Stats.JUMP_POW)); }
 	
-	public float getFastFallPower() {
-		return fastFallPow * (1 + getStat(Stats.FASTFALL_POW));
-	}
+	public float getFastFallPower() { return fastFallPow * (1 + getStat(Stats.FASTFALL_POW)); }
 	
-	public float getHoverPower() {
-		return hoverPow * (1 + getStat(Stats.HOVER_POW));
-	}
+	public float getHoverPower() { return hoverPow * (1 + getStat(Stats.HOVER_POW)); }
 	
-	public float getHoverCost() {
-		return hoverCost * (1 + getStat(Stats.HOVER_COST));
-	}
+	public float getHoverCost() { return hoverCost * (1 + getStat(Stats.HOVER_COST)); }
 
-	public float getAirblastCost() {
-		return airblastCost * (1 + getStat(Stats.BOOST_COST));
-	}
+	public float getAirblastCost() { return airblastCost * (1 + getStat(Stats.BOOST_COST)); }
 	
-	public int getExtraJumpsUsed() {
-		return extraJumpsUsed;
-	}
+	public int getExtraJumpsUsed() { return extraJumpsUsed;	}
 
-	public void setExtraJumpsUsed(int extraJumpsUsed) {
-		this.extraJumpsUsed = extraJumpsUsed;
-	}
+	public void setExtraJumpsUsed(int extraJumpsUsed) {	this.extraJumpsUsed = extraJumpsUsed; }
 
-	public Equipable[] getMultitools() {
-		return multitools;
-	}
+	public Equipable[] getMultitools() { return multitools; }
 	
-	public ArrayList<Artifact> getArtifacts() {
-		return artifacts;
-	}
+	public ArrayList<Artifact> getArtifacts() {	return artifacts; }
 	
-	public ActiveItem getActiveItem() {
-		return activeItem;
-	}
+	public ActiveItem getActiveItem() {	return activeItem; }
 
-	public int getCurrentSlot() {
-		return currentSlot;
-	}	
+	public int getCurrentSlot() { return currentSlot; }	
 		
-	public void setCurrentSlot(int currentSlot) {
-		this.currentSlot = currentSlot;
-	}
+	public void setCurrentSlot(int currentSlot) { this.currentSlot = currentSlot; }
 
-	public Loadout getLoadout() {
-		return loadout;
-	}
+	public Loadout getLoadout() { return loadout; }
 
-	public float getOverrideMaxHp() {
-		return overrideMaxHp;
-	}
+	public float getOverrideMaxHp() { return overrideMaxHp; }
 
-	public void setOverrideMaxHp(float overrideMaxHp) {
-		this.overrideMaxHp = overrideMaxHp;
-	}
+	public void setOverrideMaxHp(float overrideMaxHp) {	this.overrideMaxHp = overrideMaxHp;	}
 
-	public float getOverrideMaxFuel() {
-		return overrideMaxFuel;
-	}
+	public float getOverrideMaxFuel() {	return overrideMaxFuel;	}
 
-	public void setOverrideMaxFuel(float overrideMaxFuel) {
-		this.overrideMaxFuel = overrideMaxFuel;
-	}
+	public void setOverrideMaxFuel(float overrideMaxFuel) {	this.overrideMaxFuel = overrideMaxFuel;	}
 
-	public float getOverrideAirblastCost() {
-		return overrideAirblastCost;
-	}
+	public float getOverrideAirblastCost() { return overrideAirblastCost; }
 
-	public void setOverrideAirblastCost(float overrideAirblastCost) {
-		this.overrideAirblastCost = overrideAirblastCost;
-	}
+	public void setOverrideAirblastCost(float overrideAirblastCost) { this.overrideAirblastCost = overrideAirblastCost; }
 
-	public int getOverrideClipSize() {
-		return overrideClipSize;
-	}
+	public int getOverrideClipSize() { return overrideClipSize;	}
 
-	public void setOverrideClipSize(int overrideClipSize) {
-		this.overrideClipSize = overrideClipSize;
-	}
+	public void setOverrideClipSize(int overrideClipSize) {	this.overrideClipSize = overrideClipSize; }
 
-	public int getOverrideClipLeft() {
-		return overrideClipLeft;
-	}
+	public int getOverrideClipLeft() { return overrideClipLeft;	}
 
-	public void setOverrideClipLeft(int overrideClipLeft) {
-		this.overrideClipLeft = overrideClipLeft;
-	}
+	public void setOverrideClipLeft(int overrideClipLeft) { this.overrideClipLeft = overrideClipLeft; }
 
-	public int getOverrideAmmoSize() {
-		return overrideAmmoSize;
-	}
+	public int getOverrideAmmoSize() { return overrideAmmoSize; }
 
-	public void setOverrideAmmoSize(int overrideAmmoSize) {
-		this.overrideAmmoSize = overrideAmmoSize;
-	}
-
-	public ArrayList<WeaponMod> getOverrideWeaponMods() {
-		return overrideWeaponMods;
-	}
-
-	public void setOverrideWeaponMods(ArrayList<WeaponMod> overrideWeaponMods) {
-		this.overrideWeaponMods = overrideWeaponMods;
-	}
+	public void setOverrideAmmoSize(int overrideAmmoSize) {	this.overrideAmmoSize = overrideAmmoSize; }
 }

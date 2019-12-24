@@ -200,6 +200,12 @@ public class PlayState extends GameState {
 	/**
 	 * Constructor is called upon player beginning a game.
 	 * @param gsm: StateManager
+	 * @param loadout: the loadout that the player should start with
+	 * @param level: the level we are loading into
+	 * @param server: is this the server or not?
+	 * @param old: the data of the previous player (this exists if this play state is part of a stage transition with an existing player)
+	 * @param reset: do we reset the old player's hp/fuel/ammo in the new playstate?
+	 * @startId: th id of the starting event the player should be spawned at
 	 */
 	public PlayState(GameStateManager gsm, Loadout loadout, UnlockLevel level, boolean server, PlayerBodyData old, boolean reset, String startId) {
 		super(gsm);
@@ -472,7 +478,7 @@ public class PlayState extends GameState {
 		//Render debug lines for box2d objects.
 		b2dr.render(world, camera.combined.scl(PPM));
 		
-		//Iterate through entities in the world to render
+		//Iterate through entities in the world to render visible entities
 		batch.setProjectionMatrix(sprite.combined);
 		batch.begin();
 
@@ -520,6 +526,7 @@ public class PlayState extends GameState {
 			tmpVector2.set(cameraTarget);
 		}
 		
+		//make camera target respect camera bounds
 		if (cameraBounded[0] && tmpVector2.x > cameraBounds[0]) {
 			tmpVector2.x = cameraBounds[0];
 		}
@@ -625,7 +632,8 @@ public class PlayState extends GameState {
 	 * transition from one playstate to another with a new level.
 	 * @param level: file of the new map
 	 * @param state: this will either be newlevel or next stage to determine whether we reset hp
-	 * @param instane: do we transition to the next area quickly?
+	 * @param instant: do we transition to the next area quickly?
+	 * @param nextStartId: The id of the start point to start at (if specified)
 	 */
 	public void loadLevel(UnlockLevel level, transitionState state, boolean instant, String nextStartId) {
 		
@@ -655,11 +663,13 @@ public class PlayState extends GameState {
 	}
 	
 	/**This creates a player to occupy the playestate
-	 * @param x, y coordinates of the player's starting location
-	 * @param name player name
-	 * @param altLoadout the player's loadout
-	 * @param old player's olf playerdata if retaining old values.
-	 * @return
+	 * @param startPosition: coordinates of the player's starting location
+	 * @param name: player name
+	 * @param altLoadout: the player's loadout
+	 * @param old: player's old playerdata if retaining old values.
+	 * @param connID: the player's connection id (0 if server)
+	 * @param reset: should we reset the new player's hp/fuel/ammo?
+	 * @return the newly created player
 	 */
 	public Player createPlayer(Vector2 startPosition, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
 		
@@ -710,6 +720,8 @@ public class PlayState extends GameState {
 					break;
 				}
 			}
+			
+			//if all players have died, go to the results screen with a game over
 			if (allded) {
 				
 				resultsText = getGameOverText();
@@ -717,6 +729,8 @@ public class PlayState extends GameState {
 				beginTransition(transitionState.RESULTS, true, getGameOverText());
 				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(transitionState.RESULTS, true, getGameOverText()));
 			} else {
+				
+				//otherwise, the player that dies transitions -> respawns
 				if (this.player.equals(player)) {
 					beginTransition(transitionState.SPECTATOR, false, "");
 				} else {
@@ -808,9 +822,7 @@ public class PlayState extends GameState {
 	 * This gives a line of text on game over.
 	 * @return
 	 */
-	public String getGameOverText() {
-		return "YOU DED";
-	}
+	public String getGameOverText() { return "YOU DED"; }
 	
 	/**
 	 * This is called by the server when a new client connects. We catch up the client by making them create all existing entities.
@@ -829,6 +841,32 @@ public class PlayState extends GameState {
 				HadalGame.server.sendToTCP(connId, entity.onServerCreate());
 			}
 		}
+	}
+	
+	/**
+	 * This acquires the leve's save points. If none, respawn at starting location. If many, choose one randomly
+	 * @return a save point to spawn a respawned player at
+	 */
+	public SavePoint getSavePoint() {
+		if (savePoints.isEmpty()) {
+			return new SavePoint(startPosition, null, zoomDesired);
+		}
+		int randomIndex = GameStateManager.generator.nextInt(savePoints.size());
+		return savePoints.get(randomIndex);
+	}
+	
+	/**
+	 * This adds a save point to the list of available spawns
+	 * @param pos: the position the player will respawn at
+	 * @param zoomPos: the position that the camera will be zoomed on (if null, focus o nthe player)
+	 * @param zoom: the amount that the camera should zoom in
+	 * @param clear: should we remove all existing save points before adding this one?
+	 */
+	public void addSavePoint(Vector2 pos, Vector2 zoomPos, float zoom, boolean clear) {
+		if (clear) {
+			savePoints.clear();
+		}
+		savePoints.add(new SavePoint(pos, zoomPos, zoom));
 	}
 	
 	/**
@@ -857,22 +895,6 @@ public class PlayState extends GameState {
 		}
 	}
 	
-	public boolean isPvp() {
-		return pvp;
-	}
-
-	public boolean isPractice() {
-		return practice;
-	}
-	
-	public Event getGlobalTimer() {
-		return globalTimer;
-	}
-
-	public void setGlobalTimer(Event globalTimer) {
-		this.globalTimer = globalTimer;
-	}
-
 	/**
 	 * This is used for pvp levels. When a player is spawned, they will get their hitbox filter here so they can hit each other.
 	 */
@@ -882,132 +904,67 @@ public class PlayState extends GameState {
 		return nextFilter;
 	}
 	
-	/**
-	 * Getter for the player. This will return null if the player has not been spawned
-	 * @return: The Player entity.
-	 */
-	public Player getPlayer() {
-		return player;
-	}
+	public boolean isPvp() { return pvp;	}
 
-	public World getWorld() {
-		return world;
-	}
+	public boolean isPractice() { return practice; }
 	
-	public Enemy getWorldDummy() {
-		return worldDummy;
-	}
+	public Event getGlobalTimer() {	return globalTimer;	}
 
-	public UnlockLevel getLevel() {
-		return level;
-	}
+	public void setGlobalTimer(Event globalTimer) {	this.globalTimer = globalTimer;	}
+
+	public Player getPlayer() {	return player;	}
+
+	public World getWorld() {return world;}
 	
-	public String getStartId() {
-		return startId;
-	}
+	public Enemy getWorldDummy() { return worldDummy; }
 
-	public void setStartId(String startId) {
-		this.startId = startId;
-	}
-
-	public PlayStateStage getPlayStateStage() {
-		return (PlayStateStage) stage;
-	}
+	public UnlockLevel getLevel() { return level; }
 	
-	public UIExtra getUiExtra() {
-		return uiExtra;
-	}
+	public String getStartId() { return startId; }
 
-	public UIArtifacts getUiArtifact() {
-		return uiArtifact;
-	}
+	public void setStartId(String startId) { this.startId = startId; }
 
-	public Vector2 getStartPosition() {
-		return startPosition;
-	}
+	public PlayStateStage getPlayStateStage() {	return (PlayStateStage) stage; }
 	
-	public SavePoint getSavePoint() {
-		if (savePoints.isEmpty()) {
-			return new SavePoint(startPosition, null, zoomDesired);
-		}
-		int randomIndex = GameStateManager.generator.nextInt(savePoints.size());
-		return savePoints.get(randomIndex);
-	}
-	
-	public void addSavePoint(Vector2 pos, Vector2 zoomPos, float zoom, boolean clear) {
-		if (clear) {
-			savePoints.clear();
-		}
-		savePoints.add(new SavePoint(pos, zoomPos, zoom));
-	}
+	public UIExtra getUiExtra() { return uiExtra; }
 
-	public PositionDummy getDummyPoint(String id) {
-		return dummyPoints.get(id);
-	}
-	
-	public void addDummyPoint(PositionDummy dummy, String id) {
-		dummyPoints.put(id, dummy);
-	}
-	
-	public void setCameraTarget(Vector2 cameraTarget) {
-		this.cameraTarget = cameraTarget;
-	}
-	
-	public float[] getCameraBounds() {
-		return cameraBounds;
-	}
+	public UIArtifacts getUiArtifact() { return uiArtifact; }
 
-	public boolean[] getCameraBounded() {
-		return cameraBounded;
-	}
-
-	public HadalEntity getObjectiveTarget() {
-		return objectiveTarget;
-	}
+	public Vector2 getStartPosition() {	return startPosition; }
 	
-	public MouseTracker getMouse() {
-		return mouse;
-	}
-
-	public InputProcessor getController() {
-		return controller;
-	}
-
-	public MessageWindow getMessageWindow() {
-		return messageWindow;
-	}
+	public PositionDummy getDummyPoint(String id) {	return dummyPoints.get(id); }
 	
-	public ScoreWindow getScoreWindow() {
-		return scoreWindow;
-	}
+	public void addDummyPoint(PositionDummy dummy, String id) {	dummyPoints.put(id, dummy); }
 	
-	public void setObjectiveTarget(HadalEntity objectiveTarget) {
-		this.objectiveTarget = objectiveTarget;
-	}
-
-	public float getZoom() {
-		return zoom;
-	}
+	public void setCameraTarget(Vector2 cameraTarget) {	this.cameraTarget = cameraTarget; }
 	
-	public void setZoom(float zoom) {
-		this.zoomDesired = zoom;
-	}
+	public float[] getCameraBounds() { return cameraBounds; }
 
-	public boolean isRespawn() {
-		return respawn;
-	}
+	public boolean[] getCameraBounded() { return cameraBounded; }
+
+	public HadalEntity getObjectiveTarget() { return objectiveTarget; }
+	
+	public MouseTracker getMouse() { return mouse; }
+
+	public InputProcessor getController() { return controller; }
+
+	public MessageWindow getMessageWindow() { return messageWindow; }
+	
+	public ScoreWindow getScoreWindow() { return scoreWindow; }	
+	
+	public void setObjectiveTarget(HadalEntity objectiveTarget) { this.objectiveTarget = objectiveTarget; }
+
+	public float getZoom() { return zoom; }
+	
+	public void setZoom(float zoom) { this.zoomDesired = zoom; }
+
+	public boolean isRespawn() { return respawn; }
 		
-	public boolean isServer() {
-		return server;
-	}
+	public boolean isServer() { return server; }
 
-	public boolean isReset() {
-		return reset;
-	}
+	public boolean isReset() { return reset; }
 	
-	public int getLives() {
-		return lives;
-	}
+	public int getLives() {	return lives; }
 
 	public enum transitionState {
 		RESPAWN,

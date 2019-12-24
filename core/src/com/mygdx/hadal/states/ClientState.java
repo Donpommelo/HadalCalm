@@ -219,6 +219,8 @@ public class ClientState extends PlayState {
 			nextState = null;
 			break;
 		case RESULTS:
+			
+			//immediately transition to the results screen
 			getGsm().addResultsState(this, resultsText, ClientState.class);
 			break;
 		case SPECTATOR:

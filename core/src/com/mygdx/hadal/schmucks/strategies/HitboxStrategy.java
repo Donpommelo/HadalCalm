@@ -7,6 +7,11 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * A Hbox strategy implements the methods used to affect a hitbox after it has been created
+ * @author Zachary Tu
+ *
+ */
 public abstract class HitboxStrategy implements IHitboxStrategy{
 
 	//reference to game state.
@@ -15,6 +20,7 @@ public abstract class HitboxStrategy implements IHitboxStrategy{
 	//The hitbox containing this data
 	protected Hitbox hbox;
 	
+	//the data of the schmuck who created this hitbox
 	protected BodyData creator;
 	
 	public HitboxStrategy(PlayState state, Hitbox proj, BodyData user) {

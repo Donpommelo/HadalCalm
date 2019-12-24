@@ -5,7 +5,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Physics schmuck runs custom acceleration physics for their movement.
- * atm, this includes the player and other "running" units.
+ * atm, this includes only the player
  * @author Zachary Tu
  *
  */

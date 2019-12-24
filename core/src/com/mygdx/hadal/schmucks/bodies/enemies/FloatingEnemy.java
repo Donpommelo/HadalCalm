@@ -52,14 +52,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	
 	/**
 	 * Enemy constructor is run when an enemy spawner makes a new enemy.
-	 * @param state: current gameState
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
-	 * @param width: width of enemy
-	 * @param height: height of enemy
-	 * @param x: enemy starting x position.
-	 * @param y: enemy starting x position.
+	 * Most fields here are stats for gdx ai chasing
 	 */
 	public FloatingEnemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, enemyType type,
 			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter, int baseHp, SpawnerSchmuck spawner) {

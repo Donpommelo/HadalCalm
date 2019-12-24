@@ -14,10 +14,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 public class FixtureBuilder {
 
 	/**
-	 * This creates a FixtureDef to be used to create a Fixture on a body..
-	 * @param w: width. This is in pixels. Divide by PPM.
-	 * @param h: height. This is in pixels. Divide by PPM.
+	 * This creates a FixtureDef to be used to create a Fixture on a body.
 	 * @param center: Center of the body to stick the fixture.
+	 * @param size: sixe of the fixture
 	 * @param sensor: Will this fixture pass through fixtures it collide with?
 	 * @param angle: The angle to turn the fixture compared to the body.
 	 * @param cBits: What type of fixture is this?

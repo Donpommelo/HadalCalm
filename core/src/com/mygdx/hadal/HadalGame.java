@@ -160,11 +160,11 @@ public class HadalGame extends ApplicationAdapter {
 	
 	public void toggleFullscreen() {};
 	
-	public OrthographicCamera getCamera() {return camera;}
+	public OrthographicCamera getCamera() { return camera; }
 	
-	public OrthographicCamera getHud() {return hud;}
+	public OrthographicCamera getHud() { return hud; }
 	
-	public OrthographicCamera getSprite() {return sprite;}
+	public OrthographicCamera getSprite() { return sprite; }
 
-	public SpriteBatch getBatch() {return batch;}
+	public SpriteBatch getBatch() { return batch; }
 }

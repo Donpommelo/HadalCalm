@@ -6,27 +6,46 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * A record represents the player's persistent saved data.
+ * @author Zachary Tu
+ *
+ */
 public class Record {
 
+	//This is the amount of currency the player has accrued
 	private int scrap;
 	
+	//This is a map of the player's high scores for each map
 	private Map<String, Integer> hiScores;
+	
+	//This is a map of the player's quest flags
 	private Map<String, Integer> flags;
 	
+	//This is the player's current loadout that they will start with
 	private String[] equips;
 	private String artifact, active, character;
 	
+	//This is the player's starting name
 	private String name;
 	
-	public Record() {
-		
-	}
+	public Record() {}
 	
+	/**
+	 * This increments the player's scrap and saves
+	 * @param amount
+	 */
 	public void incrementScrap(int amount) {
 		scrap = scrap + amount;
 		saveRecord();
 	}
 	
+	/**
+	 * This updates a player's high score for a level
+	 * @param score: the new score
+	 * @param level: the level
+	 * @return: was the new score a high score?
+	 */
 	public boolean updateScore(int score, UnlockLevel level) {
 		if (score > hiScores.get(level.getName())) {
 			hiScores.put(level.getName(), score);
@@ -37,10 +56,17 @@ public class Record {
 		return false;
 	}
 	
+	/**
+	 * This simple saves the record in a designated file
+	 */
 	public void saveRecord() {
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(this), false);
 	}
 	
+	/**
+	 * a new record is created if no valid record is found
+	 * This new record has default values for all fields
+	 */
 	public static void createNewRecord() {
 		Record newRecord = new Record();
 		newRecord.scrap = 0;
@@ -62,60 +88,44 @@ public class Record {
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
 	}
 	
-	public int getScrap() {
-		return scrap;
-	}
-
-	public Map<String, Integer> getHiScores() {
-		return hiScores;
-	}
-
-	public Map<String, Integer> getFlags() {
-		return flags;
-	}
-
-	public String[] getEquips() {
-		return equips;
-	}
-
 	public void setEquips(int index, String equip) {
 		this.equips[index] = equip;
 		saveRecord();
 	}
-
-	public String getArtifact() {
-		return artifact;
-	}
-
+	
 	public void setArtifact(String artifact) {
 		this.artifact = artifact;
 		saveRecord();
 	}
-
-	public String getActive() {
-		return active;
-	}
-
+	
 	public void setActive(String active) {
 		this.active = active;
 		saveRecord();
 	}
-
-	public String getCharacter() {
-		return character;
-	}
-
+	
 	public void setCharacter(String character) {
 		this.character = character;
 		saveRecord();
 	}
-
-	public String getName() {
-		return name;
-	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 		saveRecord();
 	}
+	
+	public int getScrap() { return scrap; }
+
+	public Map<String, Integer> getHiScores() {	return hiScores; }
+
+	public Map<String, Integer> getFlags() { return flags; }
+
+	public String[] getEquips() {return equips;}
+
+	public String getArtifact() { return artifact; }
+
+	public String getActive() {	return active; }
+
+	public String getCharacter() { return character; }
+
+	public String getName() { return name; }
 }

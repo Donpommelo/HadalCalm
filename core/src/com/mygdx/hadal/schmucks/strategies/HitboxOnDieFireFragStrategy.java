@@ -13,6 +13,11 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
+/**
+ * This strategy creates a number of fiery projectiles when its hbox dies
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 	
 	private int numFrag;

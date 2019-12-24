@@ -5,6 +5,11 @@ import java.util.Arrays;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * Type resistance gives a unit resistance (or amplification) to a specificied damate type(s)
+ * @author Zachary Tu
+ *
+ */
 public class TypeResistance extends Status {
 
 	private static String name = "Damage Resistance";

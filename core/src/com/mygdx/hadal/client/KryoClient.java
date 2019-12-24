@@ -697,7 +697,5 @@ public class KryoClient {
 		Packets.allPackets(kryo);
 	}
 	
-	public HashMap<Integer, SavedPlayerFields> getScores() {
-		return scores;
-	}
+	public HashMap<Integer, SavedPlayerFields> getScores() { return scores; }
 }

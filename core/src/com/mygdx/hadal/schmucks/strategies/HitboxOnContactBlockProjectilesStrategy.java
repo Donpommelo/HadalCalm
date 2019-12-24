@@ -8,9 +8,18 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
+/**
+ * This strategy makes the attached hbox deflect other hboxes it hits.
+ * Deflecting just changes the momentum of the other hbox.
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnContactBlockProjectilesStrategy extends HitboxStrategy{
 	
+	//this is the tool that fired the hbox that has this strategy.
 	private Equipable tool;
+	
+	//this is the knockback that should be administered to the other hbox
 	private float knockback;
 	
 	public HitboxOnContactBlockProjectilesStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, float kb) {

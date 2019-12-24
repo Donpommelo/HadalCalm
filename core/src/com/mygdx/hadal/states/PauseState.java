@@ -164,34 +164,22 @@ public class PauseState extends GameState {
 			}
 
 			@Override
-			public boolean keyTyped(char character) {
-				return false;
-			}
+			public boolean keyTyped(char character) { return false; }
 
 			@Override
-			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-				return false;
-			}
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) { return false; }
 
 			@Override
-			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				return false;
-			}
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
 
 			@Override
-			public boolean touchDragged(int screenX, int screenY, int pointer) {
-				return false;
-			}
+			public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 
 			@Override
-			public boolean mouseMoved(int screenX, int screenY) {
-				return false;
-			}
+			public boolean mouseMoved(int screenX, int screenY) { return false; }
 
 			@Override
-			public boolean scrolled(int amount) {
-				return false;
-			}
+			public boolean scrolled(int amount) { return false; }
 		});
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
@@ -225,20 +213,12 @@ public class PauseState extends GameState {
 	}
 
 	@Override
-	public void dispose() {
-		stage.dispose();
-	}
+	public void dispose() { stage.dispose(); }
 
 	//This is called when the pause state is designated to be removed.
-	public void setToRemove(boolean toRemove) {
-		this.toRemove = toRemove;
-	}
+	public void setToRemove(boolean toRemove) {	this.toRemove = toRemove; }
 
-	public PlayState getPs() {
-		return ps;
-	}
+	public PlayState getPs() { return ps; }
 
-	public String getPauser() {
-		return pauser;
-	}	
+	public String getPauser() {	return pauser; }	
 }

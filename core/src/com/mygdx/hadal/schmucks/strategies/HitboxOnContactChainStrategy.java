@@ -12,22 +12,34 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 
+/**
+ * This strategy makes a hbox that makes contact with an enemy chain to other nearby targets.
+ * Chaining makes a projectile move quickly towards another target. This is a change in velocity and can still miss the chained target.
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnContactChainStrategy extends HitboxStrategy{
 	
+	//the amout of times this hbox can chain.
 	private int chains;
+	
+	//the hbox filter of units that this hbox can hit
 	private short filter;
 	
+	//The schmuck that the hbox attempts to chain to
 	private Schmuck chainAttempt;
+	
+	//variables used for raycasting
 	private Fixture closestFixture;
 	private float shortestFraction = 1.0f;
 
+	//chain radius
 	private static final int radius = 1000;
 
 	public HitboxOnContactChainStrategy(PlayState state, Hitbox proj, BodyData user, int chain, short filter) {
 		super(state, proj, user);
 		this.filter = filter;
 		this.chains = chain;
-
 	}
 	
 	@Override
@@ -35,10 +47,13 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
 				
+				//if we are out of chains, die.
 				if (chains <= 0) {
 					hbox.die();
 				}
 				chains--;
+				
+				//search world for available targets to chain to
 				hbox.getWorld().QueryAABB(new QueryCallback() {
 
 					@Override
@@ -48,8 +63,7 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 							chainAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
 							shortestFraction = 1.0f;
 							
-						  	if (hbox.getPosition().x != chainAttempt.getPosition().x || 
-						  			hbox.getPosition().y != chainAttempt.getPosition().y) {
+						  	if (hbox.getPosition().x != chainAttempt.getPosition().x || hbox.getPosition().y != chainAttempt.getPosition().y) {
 						  		hbox.getWorld().rayCast(new RayCastCallback() {
 
 									@Override
@@ -61,8 +75,7 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 												return fraction;
 											}
 										} else if (fixture.getUserData() instanceof BodyData) {
-											if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter &&
-													fixB != fixture.getUserData()) {
+											if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && fixB != fixture.getUserData()) {
 												if (fraction < shortestFraction) {
 													shortestFraction = fraction;
 													closestFixture = fixture;
@@ -75,18 +88,16 @@ public class HitboxOnContactChainStrategy extends HitboxStrategy{
 									
 								}, hbox.getPosition(), chainAttempt.getPosition());	
 								
+						  		//if we find a suitable chain target, set our velocity to make us move towards them.
 								if (closestFixture != null) {
 									if (closestFixture.getUserData() instanceof BodyData) {
-										hbox.setLinearVelocity(closestFixture.getBody().getPosition()
-												.sub(hbox.getPosition())
-														.nor().scl(60));
+										hbox.setLinearVelocity(closestFixture.getBody().getPosition().sub(hbox.getPosition()).nor().scl(60));
 									}
 								}	
 							}									
 						}
 						return true;
 					}
-					
 				}, 
 				hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
 				hbox.getPosition().x + radius, hbox.getPosition().y + radius);						

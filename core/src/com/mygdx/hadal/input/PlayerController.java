@@ -12,7 +12,6 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 public class PlayerController implements InputProcessor {
 
 	private Player player;
-	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
 	
 	public PlayerController(Player player) {
 		this.player = player;
@@ -147,9 +146,7 @@ public class PlayerController implements InputProcessor {
 	}
 
 	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
+	public boolean keyTyped(char character) { return false; }
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -164,14 +161,10 @@ public class PlayerController implements InputProcessor {
 	}
 
 	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
+	public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 
 	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
+	public boolean mouseMoved(int screenX, int screenY) { return false; }
 
 	@Override
 	public boolean scrolled(int amount) {
@@ -180,11 +173,7 @@ public class PlayerController implements InputProcessor {
 		return false;
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
+	public Player getPlayer() {	return player; }
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+	public void setPlayer(Player player) {this.player = player;	}
 }

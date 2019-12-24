@@ -37,19 +37,20 @@ public class Enemy extends Schmuck {
     //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
+    //this is the size of the enemy's hitbox
     protected Vector2 hboxSize;
     
-	/**
-	 * Enemy constructor is run when an enemy spawner makes a new enemy.
-	 * @param state: current gameState
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
-	 * @param width: width of enemy
-	 * @param height: height of enemy
-	 * @param x: enemy starting x position.
-	 * @param y: enemy starting x position.
-	 */
+    /**
+     * 
+     * @param state: current play state
+     * @param startPos: starting position in screen coordinates
+     * @param size: current size in pixel
+     * @param hboxSize: hbox size
+     * @param type: type of enemy
+     * @param filter: hitbox filter that determines faction
+     * @param baseHp: base hp of enemy
+     * @param spawner: the event that spawned this enemy
+     */
 	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int baseHp, SpawnerSchmuck spawner) {
 		super(state, startPos, size, filter);
 		this.hboxSize = hboxSize;
@@ -68,6 +69,8 @@ public class Enemy extends Schmuck {
 			@Override
 			public void die(BodyData perp, Equipable tool) {
 				if (schmuck.queueDeletion()) {
+					
+					//if this was spawned by an spawing event, run its on-death method
 					if (spawner != null) {
 						spawner.onDeath(schmuck);
 					}
@@ -86,30 +89,20 @@ public class Enemy extends Schmuck {
 		return new Packets.CreateEnemy(entityID.toString(), type, isBoss, name);
 	}
 
-	public HadalEntity getTarget() {
-		return target;
-	}
+	public HadalEntity getTarget() { return target; }
 
 	public void setTarget(HadalEntity target, SteeringBehavior<Vector2> behavior) {
 		super.setBehavior(behavior);
 		this.target = target;
 	}
 	
-	public boolean isBoss() {
-		return isBoss;
-	}
+	public boolean isBoss() { return isBoss; }
 
-	public void setBoss(boolean isBoss) {
-		this.isBoss = isBoss;
-	}
+	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
 
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setName(String name) { this.name = name; }
 
 	public enum enemyType {
 		SCISSORFISH,

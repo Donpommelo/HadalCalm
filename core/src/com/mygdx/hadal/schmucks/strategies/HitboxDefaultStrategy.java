@@ -7,8 +7,14 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This is the default strategy that most hboxes have
+ * @author Zachary Tu
+ *
+ */
 public class HitboxDefaultStrategy extends HitboxStrategy{
 	
+	//Does the hbox's body rotate according to its velocity? Usually used for long projectiles
 	private boolean adjustAngle;
 	
 	public HitboxDefaultStrategy(PlayState state, Hitbox proj, BodyData user) {
@@ -23,11 +29,14 @@ public class HitboxDefaultStrategy extends HitboxStrategy{
 	
 	@Override
 	public void controller(float delta) {
+		
+		//default behavior of hboxes is to die when lifespan expires
 		hbox.setLifeSpan(hbox.getLifeSpan() - delta);
 		if (hbox.getLifeSpan() <= 0) {
 			hbox.die();
 		}
 		
+		//set angle of hbox to match trajectory.
 		if (adjustAngle) {
 			hbox.setTransform(hbox.getPosition().x, hbox.getPosition().y, (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
 		}
@@ -47,7 +56,5 @@ public class HitboxDefaultStrategy extends HitboxStrategy{
 	}
 	
 	@Override
-	public void render(SpriteBatch batch) {
-		
-	}
+	public void render(SpriteBatch batch) {}
 }

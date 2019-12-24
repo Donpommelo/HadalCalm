@@ -11,25 +11,33 @@ import com.mygdx.hadal.effects.Sprite;
 
 /**
  * Ranged Weapons are weapons used by clicking somewhere on the screen to probably fire a projcetile or whatever in that direction.
- * Ranged weapons have a clip size and can be reloaded.
+ * Ranged weapons have a clip size, ammo count and can be reloaded.
  * @author Zachary Tu
  *
  */
 public class RangedWeapon extends Equipable {
 
+	//The percent of ammo remaining, total ammo capacity and amount of ammo remaining.
 	protected float ammoPercent;
 	protected int ammoSize;
 	protected int ammoLeft;
 	
+	//The percent of clip remaining, total clip size and amount of shots remaining.
 	protected float clipPercent;
 	protected int clipSize;
 	protected int clipLeft;
 	
+	//The amount of clip reloaded upon a single reload. (0 means the whole clip is reloaded)
 	protected int reloadAmount;
+	
+	//projectile properties. (size is needed to determine projectile spawn origin)
 	protected float projectileSize;
-	protected float recoil;
 	protected float projectileSpeed;
+	
+	//The amount of push the weapon applies to the player when fired.
+	protected float recoil;
 
+	//Does this weapon automatically start reloading when at 0 clip? (exceptions for weapons with special reload functions)
 	protected boolean autoreload;
 
 	/**
@@ -37,6 +45,7 @@ public class RangedWeapon extends Equipable {
 	 * @param user: Schmuck that is using this tool.
 	 * @param name: Name of the weapon
 	 * @param clipSize: Amount of times the weapon can be fired before reloading
+	 * @param ammoSize: The weapon's ammo capacity
 	 * @param reloadTime: The time in seconds it takes to reload this weapon once.
 	 * @param recoil: The amount of force pushing the player upon firing.
 	 * @param projectileSpeed: The initial velocity of hitboxes created by this weapon.
@@ -129,12 +138,14 @@ public class RangedWeapon extends Equipable {
 			user.recoil(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
 		}
 		
+		//if out of clip, start reloading
 		if (clipLeft <= 0 && autoreload) {
 			if (!reloading) {
 				reloading = true;
 				reloadCd = 0;
 			}
 			
+			//if out of ammo, throw weapon away.
 			if (getAmmoLeft() <= 0) {
 				if (shooter instanceof PlayerBodyData) {
 					PlayerBodyData p = (PlayerBodyData)shooter;
@@ -204,17 +215,13 @@ public class RangedWeapon extends Equipable {
 	 * Return name + clip + reload status
 	 */
 	@Override
-	public String getText() {
-		return clipLeft + "/" + getClipSize();
-	}
+	public String getText() { return clipLeft + "/" + getClipSize(); }
 	
 	@Override
-	public String getAmmoText() {
-		return getAmmoLeft() + "";
-	}
+	public String getAmmoText() { return getAmmoLeft() + ""; }
 	
 	/**
-	 * helper method for gaining ammo. Not currently used, but could be useful for stuff that gives you free reloads
+	 * helper method for gaining ammo.
 	 * @param gained: amount of ammo to gain.
 	 */
 	@Override
@@ -227,9 +234,7 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	@Override
-	public float getUseCd() {
-		return useCd * (1 - user.getBodyData().getStat(Stats.RANGED_ATK_SPD));
-	}
+	public float getUseCd() {return useCd * (1 - user.getBodyData().getStat(Stats.RANGED_ATK_SPD)); }
 	
 	@Override
 	public int getClipSize() {		
@@ -241,9 +246,7 @@ public class RangedWeapon extends Equipable {
 	}
 
 	@Override
-	public int getClipLeft() {
-		return clipLeft;
-	}
+	public int getClipLeft() { return clipLeft; }
 	
 	@Override
 	public void gainAmmo(float gainedPercent) {
@@ -255,30 +258,18 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	@Override
-	public int getAmmoSize() {		
-		return (int) (ammoSize  * (1 + user.getBodyData().getStat(Stats.AMMO_CAPACITY)));
-	}
+	public int getAmmoSize() { return (int) (ammoSize  * (1 + user.getBodyData().getStat(Stats.AMMO_CAPACITY))); }
 	
 	@Override
-	public int getAmmoLeft() {
-		return ammoLeft;
-	}
+	public int getAmmoLeft() { return ammoLeft; }
 	
 	@Override
-	public void setClipLeft(int clipLeft) {
-		this.clipLeft = clipLeft;
-	}
+	public void setClipLeft(int clipLeft) {	this.clipLeft = clipLeft; }
 
 	@Override
-	public void setAmmoLeft(int ammoLeft) {
-		this.ammoLeft = ammoLeft;
-	}
+	public void setAmmoLeft(int ammoLeft) {	this.ammoLeft = ammoLeft; }
 	
-	public void setClipLeft() {
-		clipLeft = (int) (clipPercent * getClipSize());
-	}
+	public void setClipLeft() {	clipLeft = (int) (clipPercent * getClipSize());	}
 	
-	public void setAmmoLeft() {
-		ammoLeft = (int) (ammoPercent * getAmmoSize());
-	}
+	public void setAmmoLeft() {	ammoLeft = (int) (ammoPercent * getAmmoSize());	}
 }

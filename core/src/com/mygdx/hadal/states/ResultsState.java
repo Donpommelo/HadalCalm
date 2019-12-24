@@ -88,7 +88,6 @@ public class ResultsState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				
 				table = new Table();
 				table.setLayoutEnabled(true);
 				table.setPosition(

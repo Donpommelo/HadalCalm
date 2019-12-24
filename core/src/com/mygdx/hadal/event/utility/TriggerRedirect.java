@@ -26,7 +26,7 @@ public class TriggerRedirect extends Event {
 
 	private static final String name = "RedirectTrigger";
 
-	private Event blame ;
+	private Event blame;
 	
 	public TriggerRedirect(PlayState state) {
 		super(state, name);
@@ -46,7 +46,5 @@ public class TriggerRedirect extends Event {
 		};
 	}
 	
-	public void setBlame(Event e) {
-		blame = e;
-	}
+	public void setBlame(Event e) {	blame = e; }
 }

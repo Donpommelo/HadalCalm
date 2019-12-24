@@ -94,7 +94,6 @@ public class PortalTouch extends Event {
 		if (getStandardParticle() != null) {
 			getStandardParticle().onForBurst(1.0f);
 		}
-		
 		return justTeleported;
 	}
 	

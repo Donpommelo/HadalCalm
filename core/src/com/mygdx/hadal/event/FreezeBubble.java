@@ -22,7 +22,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class FreezeBubble extends Event {
 	
-
 	//This keeps track of engine timer.
 	private float controllerCount = 0;
 	
@@ -56,6 +55,5 @@ public class FreezeBubble extends Event {
 			}
 		}
 		super.controller(delta);
-		
 	}
 }

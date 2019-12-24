@@ -449,9 +449,9 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			attackAngle = attackAngleClient;
 		}
-		
+
+		//flip determins if the player is facing left or right
 		boolean flip = false;
-		
 		if (Math.abs(attackAngle) > 90) {
 			flip = true;
 		}
@@ -623,7 +623,7 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	/**
-	 * When the player is in the air, their animation freezes. This gets the fram for that
+	 * When the player is in the air, their animation freezes. This gets the frame for that
 	 * @param reverse: which direction is the player facing
 	 * @return
 	 */
@@ -635,6 +635,9 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	/**
+	 * This creates a bunch of gib ragdolls when the player dies.
+	 */
 	private final static float gibDuration = 3.0f;
 	public void createGibs() {
 		if (alive) {
@@ -688,7 +691,7 @@ public class Player extends PhysicsSchmuck {
 				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
 				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
 				playerData.getStat(Stats.MAX_HP), playerData.getStat(Stats.MAX_FUEL), playerData.getAirblastCost(),
-				playerData.getActiveItem().getCurrentCharge(), playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, mods));
+				playerData.getActiveItem().getCurrentCharge(), playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent));
 	}
 	
 	/**
@@ -710,7 +713,6 @@ public class Player extends PhysicsSchmuck {
 			playerData.setOverrideClipLeft(p.currentClip);
 			playerData.setOverrideAmmoSize(p.currentAmmo);
 			playerData.setOverrideAirblastCost(p.airblastCost);
-			playerData.setOverrideWeaponMods(p.mods);
 			playerData.getActiveItem().setCurrentCharge(p.activeCharge);
 			playerData.getCurrentTool().setReloading(p.reloading);
 			reloadPercent = p.reloadPercent;
@@ -727,6 +729,9 @@ public class Player extends PhysicsSchmuck {
 	private Vector2 offset = new Vector2();
 	private final static float spawnDist = 32.0f;
 	
+	/**
+	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
+	 */
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		
@@ -755,113 +760,53 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	@Override
-	public void dispose() {
-		super.dispose();
-	}
+	public void dispose() { super.dispose(); }
 	
 	@Override
-	public HadalData getHadalData() {
-		return playerData;
-	}
+	public HadalData getHadalData() { return playerData; }
 	
 	@Override
-	public BodyData getBodyData() {
-		return playerData;
-	}
+	public BodyData getBodyData() { return playerData; }
 	
-	public PlayerBodyData getPlayerData() {
-		return playerData;
-	}
+	public PlayerBodyData getPlayerData() {	return playerData; }
 
-	public void setToolSprite(TextureRegion sprite) {
-		toolSprite = sprite;
-	}
+	public void setToolSprite(TextureRegion sprite) { toolSprite = sprite; }
 
-	public TextureRegion getToolSprite() {
-		return toolSprite;
-	}
+	public Event getCurrentEvent() { return currentEvent; }
+
+	public void setCurrentEvent(Event currentEvent) { this.currentEvent = currentEvent; }
+
+	public boolean isHovering() { return hovering; }
+
+	public void setHovering(boolean hovering) { this.hovering = hovering; }
+
+	public boolean isFastFalling() { return fastFalling; }
+
+	public void setFastFalling(boolean fastFalling) { this.fastFalling = fastFalling; }
+
+	public boolean isShooting() { return shooting; }
+
+	public void setShooting(boolean shooting) { this.shooting = shooting; }
 	
-	public void setArmSprite(TextureRegion sprite) {
-		armSprite = sprite;
-	}
+	public float getReloadPercent() { return reloadPercent; }
 
-	public TextureRegion getArmSprite() {
-		return armSprite;
-	}
+	public void setReloadPercent(float reloadPercent) { this.reloadPercent = reloadPercent; }
 
-	public Event getCurrentEvent() {
-		return currentEvent;
-	}
+	public float getChargePercent() {return chargePercent;}
 
-	public void setCurrentEvent(Event currentEvent) {
-		this.currentEvent = currentEvent;
-	}
+	public void setChargePercent(float chargePercent) {this.chargePercent = chargePercent;}
 
-	public boolean isHovering() {
-		return hovering;
-	}
-
-	public void setHovering(boolean hovering) {
-		this.hovering = hovering;
-	}
-
-	public boolean isFastFalling() {
-		return fastFalling;
-	}
-
-	public void setFastFalling(boolean fastFalling) {
-		this.fastFalling = fastFalling;
-	}
-
-	public boolean isShooting() {
-		return shooting;
-	}
-
-	public void setShooting(boolean shooting) {
-		this.shooting = shooting;
-	}
+	public ActionController getController() { return controller;}
 	
-	public float getReloadPercent() {
-		return reloadPercent;
-	}
+	public Loadout getStartLoadout() { return startLoadout;}
 
-	public void setReloadPercent(float reloadPercent) {
-		this.reloadPercent = reloadPercent;
-	}
+	public void setStartLoadout(Loadout startLoadout) { this.startLoadout = startLoadout;}
 
-	public float getChargePercent() {
-		return chargePercent;
-	}
+	public MouseTracker getMouse() { return mouse; }
 
-	public void setChargePercent(float chargePercent) {
-		this.chargePercent = chargePercent;
-	}
+	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
 
-	public ActionController getController() {
-		return controller;
-	}
+	public String getName() { return name; }
 	
-	public Loadout getStartLoadout() {
-		return startLoadout;
-	}
-
-	public void setStartLoadout(Loadout startLoadout) {
-		this.startLoadout = startLoadout;
-	}
-
-	public MouseTracker getMouse() {
-		return mouse;
-	}
-
-	public void setMouse(MouseTracker mouse) {
-		this.mouse = mouse;
-	}
-
-	public String getName() {
-		return name;
-	}
-	
-	public int getConnID() {
-		return connID;
-	}
+	public int getConnID() { return connID;	}
 }

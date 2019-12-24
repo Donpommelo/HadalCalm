@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -23,85 +24,40 @@ public class BodyData extends HadalData {
 	//The Schmuck that owns this data
 	protected Schmuck schmuck;
 	
-	/**
-	 * Stats:
-	 * 0: Max Hp
-	 * 1: Max Fuel
-	 * 2: Hp Regeneration per Second
-	 * 3: Fuel Regeneration per Second
-	 * 4: Ground Speed Modification
-	 * 5: Air Speed Modification
-	 * 6: Ground Acceleration Modification
-	 * 7: Air Acceleration Modification
-	 * 8: Ground Drag Reduction
-	 * 9: Air Drag Reduction
-	 * 10: Bonus Jump Power
-	 * 11: Bonus Jump Number
-	 * 12: Bonus Hover Power
-	 * 13: Hover Cost
-	 * 14: Bonus Airblast Power
-	 * 15: Airblast Cost
-	 * 16: Bonus Airblast Recoil
-	 * 17: Bonus Airblast Size
-	 * 18: Active Item Charge Rate
-	 * 19: Active Item Max Charge
-	 * 20: Active Item Power !
-	 * 21: Universal Damage Amplification
-	 * 22: Universal Damage Reduction
-	 * 23: Universal Knockback on Hit (to others)
-	 * 24: Universal Knockback Resistance (to self)
-	 * 25: Universal Tool-Use Speed
-	 * 26: Ranged Damage on Hit
-	 * 27: Ranged Fire Rate
-	 * 28: Ranged Reload Rate
-	 * 29: Ranged Clip Size
-	 * 30: Ranged Projectile Speed
-	 * 31: Ranged Projectile Size
-	 * 32: Ranged Projectile Gravity
-	 * 33: Ranged Projectile Lifespan
-	 * 34: Ranged Projectile Durability
-	 * 35: Ranged Projectile Bounciness
-	 * 36: Ranged Recoil
-	 * 37: Melee Damage on Hit
-	 * 38: Melee Swing Speed
-	 * 39: Melee Swing Delay
-	 * 40: Melee Swing Interval
-	 * 41: Melee Range
-	 * 42: Melee Arc Size
-	 * 43: Melee Momentum on Swing
-	 */
-	
+	//schmuck stats
 	private float[] baseStats;
 	private float[] buffedStats;	
 	
 	//Speed on ground
-	private float maxGroundXSpeed = 15.0f;
-	private float maxAirXSpeed = 10.0f;
+	private static final float maxGroundXSpeed = 15.0f;
+	private static final float maxAirXSpeed = 10.0f;
 		
 	//Accelerating on the ground/air
-	private float groundXAccel = 0.10f;
-	private float airXAccel = 0.05f;
-	private float groundXDeaccel = 0.05f;
-	private float airXDeaccel = 0.01f;
+	private static final float groundXAccel = 0.10f;
+	private static final float airXAccel = 0.05f;
+	private static final float groundXDeaccel = 0.05f;
+	private static final float airXDeaccel = 0.01f;
 	
-	private float groundYAccel = 0.10f;
-	private float airYAccel = 0.50f;
-	private float groundYDeaccel = 0.05f;
-	private float airYDeaccel = 0.01f;
+	private static final float groundYAccel = 0.10f;
+	private static final float airYAccel = 0.50f;
+	private static final float groundYDeaccel = 0.05f;
+	private static final float airYDeaccel = 0.01f;
 	
 	//Hp and regen
-	private float hpRegen = 0.0f;
+	private static final float hpRegen = 0.0f;
 	
-	private int maxFuel = 100;
-	private float fuelRegen = 8.0f;
+	private static final int maxFuel = 100;
+	private static final float fuelRegen = 8.0f;
+	
+	private final static float flashDuration = 0.08f;
 	
 	protected float currentHp, currentFuel;
 
-	private final static float flashDuration = 0.08f;
-	
+	//statuses inflicted o nthe unit. statuses checked is used to recursive activate each status effect
 	protected ArrayList<Status> statuses;
 	protected ArrayList<Status> statusesChecked;	
 	
+	//the currently equipped tool
 	protected Equipable currentTool;
 	
 	//This is the last schumck who damaged this entity. Used for kill credit
@@ -110,8 +66,8 @@ public class BodyData extends HadalData {
 	/**
 	 * This is created upon the create() method of any schmuck.
 	 * Schmucks are the Body data type.
-	 * @param world
-	 * @param schmuck
+	 * @param schmuck: the entity that has this data
+	 * @param maxHp: the unit's hp
 	 */
 	public BodyData(Schmuck schmuck, int maxHp) {
 		super(UserDataTypes.BODY, schmuck);
@@ -136,12 +92,18 @@ public class BodyData extends HadalData {
 		lastDamagedBy = this;
 	}
 	
+	/**
+	 * Status proc time is called at certain points of the game that could activate any effect.
+	 * @param procTime: the type of proc time that this is
+	 * This fields of this are the various info needed for each status. fields will be null when unused
+	 * @return a float for certain statuses that pass along a modified value (like on damage effects)
+	 */
 	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
 				
 		float finalAmount = amount;
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
-		for(Status s : this.statusesChecked){
-			this.statuses.add(0,s);
+		for(Status s : this.statusesChecked) {
+			this.statuses.add(0, s);
 			oldChecked.add(s);
 		}
 		this.statusesChecked.clear();
@@ -157,13 +119,13 @@ public class BodyData extends HadalData {
 			}
 		}
 		
-		for(Status s : this.statusesChecked){
-			if(!oldChecked.contains(s)){
+		for(Status s : this.statusesChecked) {
+			if(!oldChecked.contains(s)) {
 				this.statuses.add(s);
 			}
 		}
 		this.statusesChecked.clear();
-		for(Status s : oldChecked){
+		for(Status s : oldChecked) {
 			this.statusesChecked.add(s);
 		}
 		return finalAmount;		
@@ -203,6 +165,9 @@ public class BodyData extends HadalData {
 		}
 	}
 	
+	/**
+	 * Removes a status from this schmuck
+	 */
 	public void removeStatus(Status s) {
 		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, s, null, null);
 		statuses.remove(s);
@@ -210,6 +175,10 @@ public class BodyData extends HadalData {
 		calcStats();
 	}
 	
+	/**
+	 * This checks if this schmuck is afflicted by a status.
+	 * If so, the status is returned
+	 */
 	public Status getStatus(Class<? extends Status> s) {
 		for (Status st : statuses) {
 			if (st.getClass().equals(s)) {
@@ -224,6 +193,10 @@ public class BodyData extends HadalData {
 		return null;
 	}
 	
+	/**
+	 * Whenever anything that could modify a schmuck's stats happens, we call this to recalc all of the unit' stats.
+	 * This occurs when statuses are added/removed or equipment is equipped
+	 */
 	public void calcStats() {
 		
 		//Keep Hp% constant in case of changing max hp
@@ -246,6 +219,10 @@ public class BodyData extends HadalData {
 	 * This method is called when this schmuck receives damage.
 	 * @param basedamage: amount of damage received
 	 * @param knockback: amount of knockback to apply.
+	 * @param perp: the schmuck who inflicted damage
+	 * @param tool: the tool that was used to inflict this damage (null if noot tool-inflicted)
+	 * @param procEffects: should this damage proc on-damage effects?
+	 * @param tags: varargs of damage tags
 	 */
 	@Override
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
@@ -288,11 +265,21 @@ public class BodyData extends HadalData {
 			currentHp = 0;
 			die(lastDamagedBy, tool);
 		}
+		
+		//charge on-damage active item
+		if (perp instanceof PlayerBodyData) {
+			if (((PlayerBodyData) perp).getActiveItem().getStyle().equals(chargeStyle.byDamage)) {
+				((PlayerBodyData) perp).getActiveItem().gainCharge(damage);
+			}
+		}
 	}
 	
 	/**
 	 * This method is called when the schmuck is healed
 	 * @param heal: amount of Hp to regenerate
+	 * @param perp: the schmuck who healed
+	 * @param procEffects: should this damage proc on-damage effects?
+	 * @param tags: varargs of damage tags
 	 */
 	public void regainHp(float baseheal, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		
@@ -318,30 +305,23 @@ public class BodyData extends HadalData {
 		}		
 	}
 	
-	public Schmuck getSchmuck() {
-		return schmuck;
-	}
+	public Schmuck getSchmuck() { return schmuck; }
 		
-	public float getCurrentHp() {
-		return currentHp;
-	}
+	public float getCurrentHp() { return currentHp; }
 
-	public void setCurrentHp(float currentHp) {
-		this.currentHp = currentHp;
-	}
+	public void setCurrentHp(float currentHp) { this.currentHp = currentHp;	}
 
-	public float getCurrentFuel() {
-		return currentFuel;
-	}
+	public float getCurrentFuel() {	return currentFuel;	}
 
-	public void setCurrentFuel(float currentFuel) {
-		this.currentFuel = currentFuel;
-	}
+	public void setCurrentFuel(float currentFuel) {	this.currentFuel = currentFuel; }
 
-	public float getStat(int index) {
-		return buffedStats[index];
-	}
+	public float getStat(int index) { return buffedStats[index];	}
 	
+	/**
+	 * Set a buffed stat for calcs. If hp or fuel, make sure the current amount does not exceed the max amount
+	 * @param index
+	 * @param amount
+	 */
 	public void setStat(int index, float amount) {
 		buffedStats[index] = amount;
 		
@@ -354,51 +334,27 @@ public class BodyData extends HadalData {
 		}
 	}
 	
-	public Equipable getCurrentTool() {
-		return currentTool;
-	}	
+	public Equipable getCurrentTool() { return currentTool; }	
 	
-	public void setCurrentTool(Equipable currentTool) {
-		this.currentTool = currentTool;
-	}
+	public void setCurrentTool(Equipable currentTool) { this.currentTool = currentTool; }
 	
-	public float getXGroundSpeed() {
-		return maxGroundXSpeed * (1 + getStat(Stats.GROUND_SPD));
-	}
+	public float getXGroundSpeed() { return maxGroundXSpeed * (1 + getStat(Stats.GROUND_SPD)); }
 	
-	public float getXAirSpeed() {
-		return maxAirXSpeed * (1 + getStat(Stats.AIR_SPD));
-	}
+	public float getXAirSpeed() { return maxAirXSpeed * (1 + getStat(Stats.AIR_SPD)); }
 	
-	public float getXGroundAccel() {
-		return groundXAccel * (1 + getStat(Stats.GROUND_ACCEL));
-	}
+	public float getXGroundAccel() { return groundXAccel * (1 + getStat(Stats.GROUND_ACCEL)); }
 	
-	public float getXAirAccel() {
-		return airXAccel * (1 + getStat(Stats.AIR_ACCEL));
-	}
+	public float getXAirAccel() { return airXAccel * (1 + getStat(Stats.AIR_ACCEL)); }
 	
-	public float getXGroundDeaccel() {
-		return groundXDeaccel * (1 + getStat(Stats.GROUND_DRAG));
-	}
+	public float getXGroundDeaccel() { return groundXDeaccel * (1 + getStat(Stats.GROUND_DRAG)); }
 	
-	public float getXAirDeaccel() {
-		return airXDeaccel * (1 + getStat(Stats.AIR_DRAG));
-	}
+	public float getXAirDeaccel() {	return airXDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
 	
-	public float getYGroundAccel() {
-		return groundYAccel * (1 + getStat(Stats.GROUND_DRAG));
-	}
+	public float getYGroundAccel() { return groundYAccel * (1 + getStat(Stats.GROUND_DRAG)); }
 	
-	public float getYAirAccel() {
-		return airYAccel * (1 + getStat(Stats.AIR_DRAG));
-	}
+	public float getYAirAccel() { return airYAccel * (1 + getStat(Stats.AIR_DRAG)); }
 	
-	public float getYGroundDeaccel() {
-		return groundYDeaccel * (1 + getStat(Stats.AIR_DRAG));
-	}
+	public float getYGroundDeaccel() { return groundYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
 	
-	public float getYAirDeaccel() {
-		return airYDeaccel * (1 + getStat(Stats.AIR_DRAG));
-	}
+	public float getYAirDeaccel() {	return airYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
 }

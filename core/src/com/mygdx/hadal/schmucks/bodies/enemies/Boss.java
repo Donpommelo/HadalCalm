@@ -17,16 +17,22 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * Enemies are Schmucks that attack the player.
- * Floating enemies are the basic fish-enemies of the game
+ * Bosses are enemies with certain actions
  * @author Zachary Tu
  *
  */
 public class Boss extends Enemy {
-				
+	
+	//the default speed that the boss moves around
 	protected int moveSpeed;
+	
+	//This is the default cooldown between attacks for the boss
 	private float attackCd;
+	
+	//This is the duration until the boss will attack gain
     private float aiAttackCdCount = 0.0f;
+    
+    //This is the duration until the boss will perform the next action in its action queue (or secondary action queue)
     private float aiActionCdCount = 0.0f;
     private float aiSecondaryActionCdCount = 0.0f;
 	
@@ -35,31 +41,23 @@ public class Boss extends Enemy {
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
+	//this is the angle that the boss is currently attacking in
 	protected float attackAngle;
 	
+	//This is a dummy event in the map that the boss is moving towards
 	private Event movementTarget;
 	
+	//The action queues and current action hold the boss' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
 	private ArrayList<BossAction> actions;
 	private BossAction currentAction;
 	
 	private ArrayList<BossAction> secondaryActions;
 	private BossAction currentSecondaryAction;
 	
+	//this is the boss's sprite
 	protected Sprite sprite;
-	
-	/**
-	 * Enemy constructor is run when an enemy spawner makes a new enemy.
-	 * @param state: current gameState
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
-	 * @param width: width of enemy
-	 * @param height: height of enemy
-	 * @param x: enemy starting x position.
-	 * @param y: enemy starting x position.
-	 */
-	public Boss(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int baseHp, int moveSpeed, float attackCd,
-			SpawnerSchmuck spawner, Sprite sprite) {
+
+	public Boss(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int baseHp, int moveSpeed, float attackCd,	SpawnerSchmuck spawner, Sprite sprite) {
 		super(state, startPos, size, hboxSize, type, filter, baseHp, spawner);
 		
 		this.attackCd = attackCd;
@@ -82,17 +80,16 @@ public class Boss extends Enemy {
 				hitboxfilter, false, bodyData);
 	}
 
-	/**
-	 * Enemy ai goes here. Default enemy behaviour just walks right/left towards player and fires weapon.
-	 */
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
 		
+		//move towards movement target, if existent.
 		if (movementTarget != null) {
 			if (movementTarget.getBody() != null) {
 				Vector2 dist = movementTarget.getPixelPosition().sub(getPixelPosition());
 				
+				//upon reaching target, conclude current action immediately and move on to the next action
 				if ((int)dist.len2() <= 100) {
 					setLinearVelocity(0, 0);
 					movementTarget = null;
@@ -106,6 +103,7 @@ public class Boss extends Enemy {
 			}
 		}
 		
+		//decrement timers for actions
 		if (aiActionCdCount > 0) {
 			aiActionCdCount -= delta;
 		} else {
@@ -117,17 +115,18 @@ public class Boss extends Enemy {
 			aiSecondaryActionCdCount -= delta;
 		}
 		
+		//after attack cooldown, acquire target and initiate next attack.
 		if (aiAttackCdCount <= 0) {
 			aiAttackCdCount = attackCd;
 			acquireTarget();
 			attackInitiate();
 		}
 
+		//Action finishing action, attempt to perform next action. If action queue is empty, begin cooldown until next attack
 		if (aiActionCdCount <= 0 || currentAction == null) {
 			if (!actions.isEmpty()) {
 				currentAction = actions.remove(0);
 				aiActionCdCount = currentAction.getDuration();
-				
 				currentAction.execute();
 			} else {
 				if (aiAttackCdCount <= 0) {
@@ -136,16 +135,12 @@ public class Boss extends Enemy {
 			}
 		}
 		
+		//Do the same with secondary action
 		if (aiSecondaryActionCdCount <= 0 || currentSecondaryAction == null) {
 			if (!secondaryActions.isEmpty()) {
 				currentSecondaryAction = secondaryActions.remove(0);
 				aiSecondaryActionCdCount = currentSecondaryAction.getDuration();
-				
 				currentSecondaryAction.execute();
-			} else {
-				if (aiSecondaryActionCdCount <= 0) {
-					aiSecondaryActionCdCount = attackCd;
-				}
 			}
 		}
 	}
@@ -201,40 +196,21 @@ public class Boss extends Enemy {
 			getPosition().x + aiRadius, getPosition().y + aiRadius);
 	}
 	
-	public void setMoveSpeed(int moveSpeed) {
-		this.moveSpeed = moveSpeed;
-	}
+	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }
 	
-	public Event getMovementTarget() {
-		return movementTarget;
-	}
+	public Event getMovementTarget() { return movementTarget; }
 
-	public void setMovementTarget(Event movementTarget) {
-		this.movementTarget = movementTarget;
-	}
+	public void setMovementTarget(Event movementTarget) { this.movementTarget = movementTarget; }
 
-	public ArrayList<BossAction> getActions() {
-		return actions;
-	}
+	public ArrayList<BossAction> getActions()  {return actions; }
 
-	public ArrayList<BossAction> getSecondaryActions() {
-		return secondaryActions;
-	}
+	public ArrayList<BossAction> getSecondaryActions() { return secondaryActions; }
 
-	public void setSecondaryActions(ArrayList<BossAction> secondaryActions) {
-		this.secondaryActions = secondaryActions;
-	}
+	public void setSecondaryActions(ArrayList<BossAction> secondaryActions) { this.secondaryActions = secondaryActions; }
 
-	public float getAttackAngle() {
-		return attackAngle;
-	}
+	public float getAttackAngle() {	return attackAngle; }
 
-	public void setAttackAngle(float attackAngle) {
-		this.attackAngle = attackAngle;
-	}
+	public void setAttackAngle(float attackAngle) {	this.attackAngle = attackAngle;	}
 
-
-	public void setAttackCd(float attackCd) {
-		this.attackCd = attackCd;
-	}	
+	public void setAttackCd(float attackCd) { this.attackCd = attackCd; }	
 }

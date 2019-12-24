@@ -42,6 +42,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected Vector2 size;
 	protected Vector2 startPos;
 	
+	//is the entity queued up for deletion? has it been destroyed yet?
 	protected boolean alive = true, destroyed = false;
 	
 	//The below fields are only used for steering entities. most things will ignore these
@@ -49,12 +50,11 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	protected float boundingRadius;
 	protected float maxLinearSpeed, maxLinearAcceleration;
 	protected float maxAngularSpeed, maxAngularAcceleration;
-	
 	protected float decelerationRad;
-	
 	protected SteeringBehavior<Vector2> behavior;
 	protected SteeringAcceleration<Vector2> steeringOutput;
 	
+	//counter and method to keep up with animation frames
 	protected float animationTime = 0;
 	protected void increaseAnimationTime(float i) { animationTime += i; }
 	protected float getAnimationTime() { return animationTime; }
@@ -65,13 +65,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	/**
 	 * Constructor is called when an entity is created.
 	 * @param state: Current playstate
-	 * @param world: Current game world
-	 * @param camera: Current game camera
-	 * @param rays: Current rayhandler
-	 * @param w: Width
-	 * @param h: Height
-	 * @param startX: Starting x position
-	 * @param startY: Starting y position
+	 * @param startPos: starting position in screen coordinates
+	 * @param size: entity's dimensions in screen coordinates
 	 */
 	public HadalEntity(PlayState state, Vector2 startPos, Vector2 size) {
 		this.state = state;
@@ -81,6 +76,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		this.size = new Vector2(size);
 		this.startPos = new Vector2(startPos);
 		
+		//give this entity a random, unique id
 		this.entityID = UUID.randomUUID();
 		
 		//Queue this entity up for creating in the world next engine tick
@@ -108,8 +104,11 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	/**
 	 * Call this method to delete a body. NOT dispose().
 	 * This tells the playstate to remove this entity next engine tick.
+	 * @return whether this entity was successfully deleted. (false if already deleted)
 	 */
 	public boolean queueDeletion() {
+		
+		//check of alive to avoid double-deletions
 		if (alive) {
 			alive = false;
 			state.destroy(this);
@@ -123,52 +122,50 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * This is where the body is actually deleted
 	 */
 	public void dispose() {
-		if (body != null && destroyed == false) {
+		
+		//check of destroyed to aavoid double-destruction
+		if (destroyed == false) {
 			destroyed = true;
 			alive = false;
-			world.destroyBody(body);
+			if (body != null) {
+				world.destroyBody(body);
+			}
 		}
 	}	
 	
 	/**
 	 * A simple helper method that converts a screen coordinate into an impulse applied to this entity's body.
-	 * @param x: x position in screen coordinates
-	 * @param y: y position in screen coordinates
+	 * @param push: vector2 of impulse applied to this entity
 	 * @param power: Magnitude of impulse
 	 */
 	private Vector2 impulse = new Vector2();
 	public void recoil(Vector2 push, float power) {
-		
 		if (!alive) {
 			return;
 		}
-		
 		applyLinearImpulse(impulse.set(getPixelPosition()).sub(push).scl(power / getPixelPosition().dst(push)));
 	}
 	
 	public void push(Vector2 push) {
-		
 		if (!alive) {
 			return;
 		}
-		
 		applyLinearImpulse(push);
 	}
 
+	/**
+	 * this method does a regular push, except it mitigates existing momentum
+	 */
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
-		
 		if (!alive) {
 			return;
 		}
-		
 		if (getLinearVelocity().y < 0 && impulseY > 0) {
 			setLinearVelocity(getLinearVelocity().x, 0);
 		}
-		
 		if (getLinearVelocity().y > 0 && impulseY < 0) {
 			setLinearVelocity(getLinearVelocity().x, 0);
 		}
-		
 		applyLinearImpulse(impulse.set(impulseX, impulseY));
 	}
 	
@@ -176,9 +173,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * This is called when the entity is created to return a packet to be sent to the client
 	 * Default: no packet is sent for unsynced entities
 	 */
-	public Object onServerCreate() {
-		return null;
-	}
+	public Object onServerCreate() { return null; }
 	
 	/**
 	 * This is called every engine tick to send a packet syncing this entity.
@@ -210,8 +205,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	}
 	
 	/**
-	 * Is this entity on the screen?
-	 * @return
+	 * Is this entity on the screen? Used for frustrum culling to avoid rending off-screen entities
 	 */
 	public boolean isVisible() {
 		if (body == null) {
@@ -230,48 +224,30 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	}
 	
 	/**
-	 * Getter method for the entity's body.
-	 * @return: Entity's body.
+	 * returns position scaled by pixels per meter.
+	 * use when you want screen coordinates instead of getPosition()
 	 */
-	public Body getBody() {
-		return body;
-	}
+	public Vector2 getPixelPosition() {	return body.getPosition().scl(PPM); }
 	
-	public HadalData getHadalData() {
-		return hadalData;
-	}
-
-	public PlayState getState() {
-		return state;
-	}
-
-	public World getWorld() {
-		return world;
-	}
-
-	public OrthographicCamera getCamera() {
-		return camera;
-	}
-
-	public boolean isAlive() {
-		return alive;
-	}
+	public Body getBody() { return body; }
 	
-	public UUID getEntityID() {
-		return entityID;
-	}
+	public HadalData getHadalData() { return hadalData; }
 
-	public Vector2 getStartPos() {
-		return startPos;
-	}
+	public PlayState getState() { return state; }
+
+	public World getWorld() { return world;	}
+
+	public boolean isAlive() { return alive; }
 	
-	public void setStartPos(Vector2 startPos) {
-		this.startPos = startPos;
-	}
-	public Vector2 getSize() {
-		return size;
-	}
+	public UUID getEntityID() { return entityID; }
+
+	public Vector2 getStartPos() { return startPos;	}
 	
+	public void setStartPos(Vector2 startPos) {	this.startPos = startPos; }
+	
+	public Vector2 getSize() { return size; }
+	
+	//Steering utilities
 	public void applySteering(float delta) {
 		boolean anyAcceleration = false;
 		if (!steeringOutput.linear.isZero()) {
@@ -322,141 +298,82 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 		}
 	}
 	
-	public Vector2 getPixelPosition() {
-		return body.getPosition().scl(PPM);
-	}
+	@Override
+	public Vector2 getPosition() { return body.getPosition(); }
+
+	@Override
+	public float getOrientation() {	return body.getAngle(); }
+
+	@Override
+	public void setOrientation(float orientation) {	setTransform(getPosition(), orientation); }
+
+	@Override
+	public float vectorToAngle(Vector2 vector) { return SteeringUtil.vectorToAngle(vector); }
+
+	@Override
+	public Vector2 angleToVector(Vector2 outVector, float angle) { return SteeringUtil.angleToVector(outVector, angle); }
+
+	@Override
+	public Location<Vector2> newLocation() { return null; }
 	
 	@Override
-	public Vector2 getPosition() {
-		return body.getPosition();
-	}
-
-	@Override
-	public float getOrientation() {
-		return body.getAngle();
-	}
-
-	@Override
-	public void setOrientation(float orientation) {
-		setTransform(getPosition(), orientation);
-	}
-
-	@Override
-	public float vectorToAngle(Vector2 vector) {
-		return SteeringUtil.vectorToAngle(vector);
-	}
-
-	@Override
-	public Vector2 angleToVector(Vector2 outVector, float angle) {
-		return SteeringUtil.angleToVector(outVector, angle);
-	}
-
-	@Override
-	public Location<Vector2> newLocation() {
-		System.out.println("newLocation was run?");
-		return null;
-	}
-	
-	@Override
-	public float getZeroLinearSpeedThreshold() {
-		return 0;
-	}
+	public float getZeroLinearSpeedThreshold() { return 0; }
 
 	@Override
 	public void setZeroLinearSpeedThreshold(float value) {}
 
 	@Override
-	public float getMaxLinearSpeed() {
-		return maxLinearSpeed;
-	}
+	public float getMaxLinearSpeed() { return maxLinearSpeed; }
 
 	@Override
-	public void setMaxLinearSpeed(float maxLinearSpeed) {
-		this.maxLinearSpeed = maxLinearSpeed;
-	}
+	public void setMaxLinearSpeed(float maxLinearSpeed) { this.maxLinearSpeed = maxLinearSpeed; }
 
 	@Override
-	public float getMaxLinearAcceleration() {
-		return maxLinearAcceleration;
-	}
+	public float getMaxLinearAcceleration() { return maxLinearAcceleration; }
 
 	@Override
-	public void setMaxLinearAcceleration(float maxLinearAcceleration) {
-		this.maxLinearAcceleration = maxLinearAcceleration;
-	}
+	public void setMaxLinearAcceleration(float maxLinearAcceleration) { this.maxLinearAcceleration = maxLinearAcceleration; }
 
 	@Override
-	public float getMaxAngularSpeed() {
-		return maxAngularSpeed;
-	}
-
-	@Override
-	public void setMaxAngularSpeed(float maxAngularSpeed) {
-		this.maxAngularSpeed = maxAngularSpeed;
-	}
-
-	@Override
-	public float getMaxAngularAcceleration() {
-		return maxAngularAcceleration;
-	}
-
-	@Override
-	public void setMaxAngularAcceleration(float maxAngularAcceleration) {
-		this.maxAngularAcceleration = maxAngularAcceleration;
-	}
-
-	@Override
-	public Vector2 getLinearVelocity() {
-		return body.getLinearVelocity();
-	}
-
-	@Override
-	public float getAngularVelocity() {
-		return body.getAngularVelocity();
-	}
-
-	@Override
-	public float getBoundingRadius() {
-		return boundingRadius;
-	}
-
-	@Override
-	public boolean isTagged() {
-		return tagged;
-	}
-
-	@Override
-	public void setTagged(boolean tagged) {
-		this.tagged = tagged;
-	}
+	public float getMaxAngularSpeed() {	return maxAngularSpeed; }
 	
-	public SteeringBehavior<Vector2> getBehavior() {
-		return behavior;
-	}
+	@Override
+	public void setMaxAngularSpeed(float maxAngularSpeed) {	this.maxAngularSpeed = maxAngularSpeed; }
+
+	@Override
+	public float getMaxAngularAcceleration() { return maxAngularAcceleration; }
+
+	@Override
+	public void setMaxAngularAcceleration(float maxAngularAcceleration) { this.maxAngularAcceleration = maxAngularAcceleration; }
+
+	@Override
+	public Vector2 getLinearVelocity() { return body.getLinearVelocity(); }
+
+	@Override
+	public float getAngularVelocity() {	return body.getAngularVelocity(); }
+
+	@Override
+	public float getBoundingRadius() { return boundingRadius; }
+
+	@Override
+	public boolean isTagged() { return tagged; }
+
+	@Override
+	public void setTagged(boolean tagged) { this.tagged = tagged; }
 	
-	public void setBehavior(SteeringBehavior<Vector2> behavior) {
-		this.behavior = behavior;
-	}
+	public SteeringBehavior<Vector2> getBehavior() { return behavior; }
 	
-	public void setBoundingRadius(float radius) {
-		this.boundingRadius = radius;
-	}
+	public void setBehavior(SteeringBehavior<Vector2> behavior) { this.behavior = behavior; }
 	
-	public void setDecelerationRad(float radius) {
-		this.decelerationRad = radius;
-	}
+	public void setBoundingRadius(float radius) { this.boundingRadius = radius; }
 	
-	public SteeringAcceleration<Vector2> getSteeringOutput() {
-		return steeringOutput;
-	}
+	public void setDecelerationRad(float radius) { this.decelerationRad = radius; }
 	
-	public float getMass() {
-		return body.getMass();
-	}
+	public SteeringAcceleration<Vector2> getSteeringOutput() { return steeringOutput; }
 	
-	public void setSteeringOutput(SteeringAcceleration<Vector2> steeringOutput) {
-		this.steeringOutput = steeringOutput;
-	}
+	public float getMass() { return body.getMass(); }
+	
+	public void setSteeringOutput(SteeringAcceleration<Vector2> steeringOutput) { this.steeringOutput = steeringOutput; }
 	
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null) {

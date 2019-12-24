@@ -6,6 +6,11 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy makes a hbox die when it touches a wall
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnContactWallDieStrategy extends HitboxStrategy{
 	
 	public HitboxOnContactWallDieStrategy(PlayState state, Hitbox proj, BodyData user) {

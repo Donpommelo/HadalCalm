@@ -106,42 +106,28 @@ public class ControlState extends GameState {
 			}
 
 			@Override
-			public boolean keyUp(int keycode) {
-				return false;
-			}
+			public boolean keyUp(int keycode) {	return false; }
 
 			@Override
-			public boolean keyTyped(char character) {
-				return false;
-			}
+			public boolean keyTyped(char character) { return false; }
 
 			@Override
-			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-				return keyDown(button);
-			}
+			public boolean touchDown(int screenX, int screenY, int pointer, int button) { return keyDown(button); }
 
 			@Override
-			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-				return false;
-			}
+			public boolean touchUp(int screenX, int screenY, int pointer, int button) {	return false; }
 
 			@Override
-			public boolean touchDragged(int screenX, int screenY, int pointer) {
-				return false;
-			}
+			public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 
 			@Override
-			public boolean mouseMoved(int screenX, int screenY) {
-				return false;
-			}
+			public boolean mouseMoved(int screenX, int screenY) { return false; }
 
 			/**
 			 * This is just a janky way of implementing setting mouse wheel as a hotkey.
 			 */
 			@Override
-			public boolean scrolled(int amount) {
-				return keyDown(amount * 1000);
-			}
+			public boolean scrolled(int amount) { return keyDown(amount * 1000); }
 			
 		});
 		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
@@ -228,7 +214,5 @@ public class ControlState extends GameState {
 	public void render() {}
 	
 	@Override
-	public void dispose() {
-		stage.dispose();		
-	}
+	public void dispose() { stage.dispose(); }
 }

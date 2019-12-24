@@ -40,7 +40,5 @@ public class WeaponModifier extends Status {
 		return amount;
 	}
 
-	public WeaponMod getConstantMod() {
-		return constantMod;
-	}	
+	public WeaponMod getConstantMod() {	return constantMod; }	
 }

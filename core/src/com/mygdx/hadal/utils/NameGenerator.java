@@ -626,27 +626,15 @@ public enum NameGenerator {
 		}
 	}
 
-	public String getMe() {
-		return me;
-	}
+	public String getMe() { return me; }
 
-	public void setMe(String me) {
-		this.me = me;
-	}
+	public void setMe(String me) { this.me = me; }
 
-	public String getEndTag() {
-		return endTag;
-	}
+	public String getEndTag() {	return endTag; }
 
-	public void setEndTag(String endTag) {
-		this.endTag = endTag;
-	}
+	public void setEndTag(String endTag) { this.endTag = endTag; }
 
-	public String[] getCanFollow() {
-		return canFollow;
-	}
+	public String[] getCanFollow() { return canFollow; }
 
-	public void setCanFollow(String[] canFollow) {
-		this.canFollow = canFollow;
-	}
+	public void setCanFollow(String[] canFollow) { this.canFollow = canFollow; }
 }

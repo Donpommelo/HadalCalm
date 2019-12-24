@@ -233,71 +233,43 @@ public class Schmuck extends HadalEntity {
 		}
 	}
 	
-	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
-		return getPixelPosition();
-	}
+	/**
+	 * This returns the location that a spawned projectile should be created. (for the player, we override to make it spawn near the tip of the gun)
+	 * @param startVelo
+	 * @param projSize
+	 * @return
+	 */
+	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {	return getPixelPosition(); }
 	
 	@Override
-	public HadalData getHadalData() {
-		return bodyData;
-	}
+	public HadalData getHadalData() { return bodyData; }
 	
-	public BodyData getBodyData() {
-		return bodyData;
-	}
+	public BodyData getBodyData() {	return bodyData; }
 	
-	public float getAttackAngle() {
-		return 0;
-	}
+	public float getAttackAngle() {	return 0; }
 	
-	public boolean isScaling() {
-		return scaling;
-	}
+	public boolean isScaling() { return scaling; }
 
-	public void setScaling(boolean scaling) {
-		this.scaling = scaling;
-	}
+	public void setScaling(boolean scaling) { this.scaling = scaling; }
 
-	public boolean isStomping() {
-		return stomping;
-	}
+	public boolean isStomping() { return stomping; }
 
-	public void setStomping(boolean stomping) {
-		this.stomping = stomping;
-	}
+	public void setStomping(boolean stomping) { this.stomping = stomping; }
 
-	public SchmuckMoveStates getMoveState() {
-		return moveState;
-	}
-	public void setMoveState(SchmuckMoveStates moveState) {
-		this.moveState = moveState;
-	}
+	public SchmuckMoveStates getMoveState() { return moveState; }
+	public void setMoveState(SchmuckMoveStates moveState) { this.moveState = moveState; }
 	
-	public float getShootCdCount() {
-		return shootCdCount;
-	}
+	public float getShootCdCount() { return shootCdCount; }
 	
-	public void setShootCdCount(float shootCdCount) {
-		this.shootCdCount = shootCdCount;
-	}
+	public void setShootCdCount(float shootCdCount) { this.shootCdCount = shootCdCount; }
 
-	public float getShootDelayCount() {
-		return shootDelayCount;
-	}
+	public float getShootDelayCount() { return shootDelayCount; }
 	
-	public float getFlashingCount() {
-		return flashingCount;
-	}
+	public float getFlashingCount() { return flashingCount; }
 	
-	public void setFlashingCount(float flashduration) {
-		this.flashingCount = flashduration;
-	}
+	public void setFlashingCount(float flashduration) {	this.flashingCount = flashduration;	}
 	
-	public short getHitboxfilter() {
-		return hitboxfilter;
-	}
+	public short getHitboxfilter() { return hitboxfilter; }
 
-	public boolean isGrounded() {
-		return grounded;
-	}
+	public boolean isGrounded() { return grounded; }
 }

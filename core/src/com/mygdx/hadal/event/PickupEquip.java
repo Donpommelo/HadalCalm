@@ -174,9 +174,7 @@ public class PickupEquip extends Event {
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPixelPosition().x - size.x / 2, y);
 	}
 	
-	public Equipable getEquip() {
-		return equip;
-	}
+	public Equipable getEquip() { return equip; }
 
 	public void setEquip(Equipable equip) {
 		this.equip = equip;
@@ -193,13 +191,9 @@ public class PickupEquip extends Event {
 		}
 	}
 
-	public ArrayList<WeaponMod> getMods() {
-		return mods;
-	}
+	public ArrayList<WeaponMod> getMods() {	return mods; }
 	
-	public void setMods(ArrayList<WeaponMod> mods) {
-		this.mods = mods;
-	}
+	public void setMods(ArrayList<WeaponMod> mods) { this.mods = mods; }
 
 	@Override
 	public void loadDefaultProperties() {

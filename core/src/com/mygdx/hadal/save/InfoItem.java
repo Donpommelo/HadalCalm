@@ -14,56 +14,29 @@ public class InfoItem {
 	private boolean unlocked;
 	private ArrayList<UnlockTag> tags;
 	
-	public InfoItem() {
+	public InfoItem() {}
+
+	public String getName() { return name; }
+
+	public String getDescription() { return description; }
 	
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
+	public String getDescriptionLong() { return descriptionLong; }
 	
-	public String getDescriptionLong() {
-		return descriptionLong;
-	}
+	public int getCost() { return cost; }
 	
-	public int getCost() {
-		return cost;
-	}
+	public ArrayList<UnlockTag> getTags() { return tags; }
+
+	public boolean isUnlocked() { return unlocked; }
+
+	public void setUnlocked(boolean unlocked) { this.unlocked = unlocked; }
+
+	public void setName(String name) { this.name = name; }
+
+	public void setDescription(String description) { this.description = description; }
 	
-	public ArrayList<UnlockTag> getTags() {
-		return tags;
-	}
+	public void setDescriptionLong(String descriptionLong) { this.descriptionLong = descriptionLong; }
 
-	public boolean isUnlocked() {
-		return unlocked;
-	}
+	public void setCost(int cost) { this.cost = cost; }
 
-	public void setUnlocked(boolean unlocked) {
-		this.unlocked = unlocked;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public void setDescriptionLong(String descriptionLong) {
-		this.descriptionLong = descriptionLong;
-	}
-
-	public void setCost(int cost) {
-		this.cost = cost;
-	}
-
-	public void setTags(ArrayList<UnlockTag> tags) {
-		this.tags = tags;
-	}
-	
+	public void setTags(ArrayList<UnlockTag> tags) { this.tags = tags; }
 }

@@ -51,7 +51,5 @@ public class UIActives extends AHadalActor {
 		batch.draw(overlay, getX(), getY(), getWidth(), getHeight());
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+	public void setPlayer(Player player) { this.player = player; }
 }

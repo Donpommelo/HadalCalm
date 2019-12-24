@@ -6,11 +6,21 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy creates an explosion when the attached hbox dies
+ * @author Zachary Tu
+ *
+ */
 public class HitboxOnDieExplodeStrategy extends HitboxStrategy{
 	
+	//explosion stats
 	private float explosionDamage, explosionKnockback;
 	private int explosionRadius;
-	private Equipable tool;
+	
+	//the tool used to create the hitbox that has this strategy.
+		private Equipable tool;
+		
+	//the hitbox filter of units that can be damaged b ythe explosion.
 	private short filter;
 	
 	public HitboxOnDieExplodeStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, int explosionRadius, float explosionDamage, 

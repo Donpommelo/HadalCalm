@@ -74,7 +74,6 @@ public class EventData extends HadalData {
 			onActivate(activator, p);
 			break;
 		case USER:
-			
 			if (p == null) {
 				onActivate(activator, p);
 			} else {
@@ -102,11 +101,7 @@ public class EventData extends HadalData {
 	 */
 	public void onActivate(EventData activator, Player p) {}
 	
-	public Event getEvent() {
-		return event;
-	}
+	public Event getEvent() { return event; }
 
-	public Set<HadalEntity> getSchmucks() {
-		return schmucks;
-	}
+	public Set<HadalEntity> getSchmucks() {	return schmucks; }
 }

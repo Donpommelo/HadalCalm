@@ -177,11 +177,7 @@ public class ActionController {
 		return false;
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
+	public Player getPlayer() {	return player; }
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+	public void setPlayer(Player player) { this.player = player; }
 }

@@ -79,9 +79,4 @@ public class Currents extends Event {
 					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.TICKSYNC);
 		}
 	}
-	
-	@Override
-	public String getText() {
-		return  name + " " + vec;
-	}
 }

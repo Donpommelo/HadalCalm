@@ -8,6 +8,11 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy makes a hbox home in on the player's mouse
+ * @author Zachary Tu
+ *
+ */
 public class HitboxMouseStrategy extends HitboxStrategy {
 	
 	public HitboxMouseStrategy(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,

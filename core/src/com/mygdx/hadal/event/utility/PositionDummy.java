@@ -19,7 +19,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 	platform paths, this should connect to the next event in the path.
  * 
  * Fields:
- * N/A
+ * dummyId: This id is used for special dummy interactable (for example, a boss might look for a "ceiling" dummy to spawn falling rocks)
  * @author Zachary Tu
  *
  */

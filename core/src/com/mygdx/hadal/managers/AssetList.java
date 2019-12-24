@@ -91,11 +91,7 @@ public enum AssetList {
     }
 
     @Override
-    public String toString() {
-        return this.pathname;
-    }
+    public String toString() { return this.pathname; }
 
-    public Class<?> getType() { 
-    	return type; 
-    }
+    public Class<?> getType() { return type; }
 }

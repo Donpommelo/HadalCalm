@@ -42,13 +42,15 @@ public abstract class Equipable {
 	
 	//The amount of time it takes to charge this weapon. (default = 0 for non-charge equips)
 	protected float chargeTime = 0;
-		
+	
+	//These sprites are how the equip looks when equiped and as a pickup
 	private Sprite equipSprite, eventSprite;
+	
+	//this is the filter that describes who this equipable can hit
+	protected short faction;
 	
 	protected Vector2 weaponVelo = new Vector2();
 	protected Vector2 mouseLocation = new Vector2();
-	
-	protected short faction;
 	
 	protected ArrayList<WeaponModifier> weaponMods = new ArrayList<WeaponModifier>();
 	
@@ -58,6 +60,9 @@ public abstract class Equipable {
 	 * @param name: Name of the weapon
 	 * @param useCd: The delay after using this tool before you can use a tool again.
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
+	 * @param equipSprite: The equip's sprite when equipped
+	 * @param eventSprite: The equip's sprite as a pickup
+	 * @param chargeTime: If a charge weapon, how long does it take to fully charge?
 	 */
 	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
 		this.user = user;
@@ -72,6 +77,9 @@ public abstract class Equipable {
 		this.eventSprite = eventSprite;
 	}
 
+	/**
+	 * Default charge time is 0 for non-charge weapons
+	 */
 	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
 		this(user, name, useCd, useDelay, equipSprite, eventSprite, 0);
 	}
@@ -83,13 +91,12 @@ public abstract class Equipable {
 	 * @param state: The play state
 	 * @param shooter: user data of he schmuck using this tool
 	 * @param faction: Filter of the tool. (player, enemy, neutral)
-	 * @param x: x coordinate of the target. (screen coordinates)
-	 * @param y: y coordinate of the target. (screen coordinates)
+	 * @param mouseLocation: screen coordinates of the target
 	 */
 	public abstract void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation);
 	
 	/**
-	 * This method is called useDelay seconds after mouseClicked(). 
+	 * This method is called useDelay seconds after mouseClicked(). (unless overridden)
 	 * This involves the tool actually firing off in a direction by calling fire(), usually.
 	 * that should be set in mouseClicked() and ammo calculations.
 	 * @param state: The play state
@@ -117,11 +124,9 @@ public abstract class Equipable {
 	 * This is abstracted away from execute for weapons that fire weirdly (like charge weapons)
 	 * @param state: state the weapon is fired in. Playstate often used for creating new hitboxes
 	 * @param user: This is the guy who shot this weapon. If a weapon is fired by the map, use the WorldDummy
+	 * @param startPosition: The starting location of the spawned hbox.
 	 * @param startVelocity: The starting directional velocity of a projectile spawned. Typically vector pointing to mouse.
-	 * @param x: x coordinate of the hbox to spawn. (screen coordinates)
-	 * @param y: y coordinate of the hbox to spawn. (screen coordinates) 
 	 * @param filter: this is the hitbox filter that decides who gets hit by this
-	 * @param procEffects: Does firing this shot activate on-shoot effects?
 	 */
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {}
 	
@@ -129,127 +134,71 @@ public abstract class Equipable {
 	 * Get the string representing the weapon in the ui.
 	 * @return
 	 */
-	public String getText() {
-		return "";
-	};
-	
+	public String getText() { return "";	}
+
 	/**
 	 * Get an extra string representing the weapon in the ui.
 	 * @return
 	 */
-	public String getAmmoText() {
-		return "";
-	};
+	public String getAmmoText() {return ""; }
 	
 	public void gainClip(int gained) {}
 
-	public int getClipSize() {
-		return 0;
-	}
+	public int getClipSize() { return 0; }
 	
-	public int getClipLeft() {
-		return 0;
-	}
+	public int getClipLeft() { return 0; }
 	
 	public void gainAmmo(float gainedPercent) {}
 	
-	public int getAmmoSize() {
-		return 0;
-	}
+	public int getAmmoSize() { return 0; }
 	
-	public int getAmmoLeft() {
-		return 0;
-	}
+	public int getAmmoLeft() { return 0; }
 	
 	public void setClipLeft(int clipLeft) {}
 	
 	public void setAmmoLeft(int clipLeft) {}
 	
-	public float getUseCd() {
-		return useCd;
-	}
+	public float getUseCd() { return useCd;	}
 	
-	public float getUseDelay() {
-		return useDelay;
-	}
+	public float getUseDelay() { return useDelay; }
 	
-	public Sprite getWeaponSprite() {
-		return equipSprite;
-	}
+	public Sprite getWeaponSprite() { return equipSprite; }
 	
-	public Sprite getEventSprite() {
-		return eventSprite;
-	}
+	public Sprite getEventSprite() { return eventSprite; }
 	
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public String getDescr() {
-		return descr;
-	}
+	public String getDescr() { return descr; }
 
-	public void setDescr(String descr) {
-		this.descr = descr;
-	}
+	public void setDescr(String descr) { this.descr = descr; }
 
-	public Schmuck getUser() {
-		return user;
-	}
+	public Schmuck getUser() { return user; }
 
-	public void setUser(Schmuck user) {
-		this.user = user;
-	}
+	public void setUser(Schmuck user) {	this.user = user; }
 
-	public boolean isReloading() {
-		return reloading;
-	}
+	public boolean isReloading() { return reloading; }
 
-	public void setReloading(boolean reloading) {
-		this.reloading = reloading;
-	}
+	public void setReloading(boolean reloading) { this.reloading = reloading; }
 
-	public float getReloadCd() {
-		return reloadCd;
-	}
+	public float getReloadCd() { return reloadCd;}
 	
-	public void setReloadCd(float reloadCd) {
-		this.reloadCd = reloadCd;
-	}
+	public void setReloadCd(float reloadCd) { this.reloadCd = reloadCd; }
 
-	public float getReloadTime() {
-		return reloadTime * (1 - user.getBodyData().getStat(Stats.RANGED_RELOAD));
-	}
+	public float getReloadTime() { return reloadTime * (1 - user.getBodyData().getStat(Stats.RANGED_RELOAD)); }
 
-	public boolean isCharging() {
-		return charging;
-	}
+	public boolean isCharging() { return charging; }
 
-	public void setCharging(boolean charging) {
-		this.charging = charging;
-	}
+	public void setCharging(boolean charging) {	this.charging = charging; }
 	
-	public float getChargeCd() {
-		return chargeCd;
-	}
+	public float getChargeCd() { return chargeCd; }
 	
-	public void setChargeCd(float chargeCd) {
-		this.chargeCd = chargeCd;
-	}
+	public void setChargeCd(float chargeCd) { this.chargeCd = chargeCd; }
 	
-	public float getChargeTime() {
-		return chargeTime * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE));
-	}
+	public float getChargeTime() { return chargeTime * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE)); }
 
-	public ArrayList<WeaponModifier> getWeaponMods() {
-		return weaponMods;
-	}
+	public ArrayList<WeaponModifier> getWeaponMods() { return weaponMods; }
 
-	public Vector2 getWeaponVelo() {
-		return weaponVelo;
-	}
+	public Vector2 getWeaponVelo() { return weaponVelo; }
 
-	public void setWeaponVelo(Vector2 weaponVelo) {
-		this.weaponVelo = weaponVelo;
-	}
+	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo = weaponVelo; }
 }

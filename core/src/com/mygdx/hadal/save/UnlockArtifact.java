@@ -109,45 +109,23 @@ public enum UnlockArtifact {
 		return items;
 	}
 	
-	public Class<? extends Artifact> getArtifact() {
-		return artifact;
-	}
+	public Class<? extends Artifact> getArtifact() { return artifact; }
 	
-	public InfoItem getInfo() {
-		return info;
-	}
+	public InfoItem getInfo() {	return info; }
 	
-	public void setInfo(InfoItem info) {
-		this.info = info;
-	}
+	public void setInfo(InfoItem info) {this.info = info; }
 	
-	public boolean isUnlocked() {
-		return info.isUnlocked();
-	}
+	public boolean isUnlocked() { return info.isUnlocked(); }
 	
-	public ArrayList<UnlockTag> getTags() {
-		return info.getTags();
-	}
+	public ArrayList<UnlockTag> getTags() {	return info.getTags(); }
 	
-	public String getName() {
-		return info.getName();
-	}
+	public String getName() { return info.getName(); }
 	
-	public String getDescr() {
-		return info.getDescription();
-	}
+	public String getDescr() { return info.getDescription(); }
 	
-	public String getDescrLong() {
-		return info.getDescriptionLong();
-	}
+	public String getDescrLong() { return info.getDescriptionLong(); }
 	
-	public int getCost() {
-		return info.getCost();
-	}
+	public int getCost() { return info.getCost(); }
 	
-	public void setUnlocked(boolean unlock) {
-		info.setUnlocked(unlock);
-	}
+	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock); }
 }
-
-

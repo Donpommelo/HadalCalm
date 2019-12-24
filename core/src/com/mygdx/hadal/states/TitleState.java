@@ -261,9 +261,7 @@ public class TitleState extends GameState {
 	public void render() {}
 
 	@Override
-	public void dispose() {
-		stage.dispose();
-	}
+	public void dispose() {	stage.dispose(); }
 	
 	/**
 	 * This method changes the text notification displayed in the title state

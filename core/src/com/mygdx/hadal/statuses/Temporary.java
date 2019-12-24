@@ -3,6 +3,11 @@ package com.mygdx.hadal.statuses;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * Temporary designates a schmuck as a temporary summon that will disappear at the end of a duration
+ * @author Zachary Tu
+ *
+ */
 public class Temporary extends Status {
 
 	private static String name = "Temporary";

@@ -7,8 +7,17 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * The UnlockManager manages the player's unlocked weapons, artifacts, etc
+ * @author Zachary Tu
+ *
+ */
 public class UnlockManager {
 	
+	/**
+	 * This saves the player's unlock data in a designated file
+	 * @param type: type of unlock to save
+	 */
 	public static void saveUnlocks(int type) {
 
 		String filename = "";
@@ -87,6 +96,9 @@ public class UnlockManager {
 		Gdx.files.local(filename).writeString(save, true);
 	}
 	
+	/**
+	 * This retrives the player's unlocks from a file
+	 */
 	public static void retrieveUnlocks() {
 		
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Equips.json"))) {

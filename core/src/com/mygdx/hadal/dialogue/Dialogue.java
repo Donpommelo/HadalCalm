@@ -68,93 +68,48 @@ public class Dialogue {
 			this.sprite = sprite;
 		}
 
-		public TextureAtlas getAtlas() {
-			return atlas;
-		}
+		public TextureAtlas getAtlas() { return atlas; }
 
-		public String getSprite() {
-			return sprite;
-		}		
+		public String getSprite() {	return sprite; }		
 	}
 	
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setName(String name) { this.name = name; }
 
-	public String getText() {
-		return text;
-	}
+	public String getText() { return text; }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+	public void setText(String text) { this.text = text; }
 	
-	public String getSprite() {
-		return sprite;
-	}
+	public String getSprite() { return sprite; }
 
-	public void setSprite(String sprite) {
-		this.sprite = sprite;
-	}
+	public void setSprite(String sprite) { this.sprite = sprite; }
 	
-	public Animation<TextureRegion> getBust() {
-		return bust;
-	}
+	public Animation<TextureRegion> getBust() { return bust; }
 
-	public void setBust(Animation<TextureRegion> bust) {
-		this.bust = bust;
-	}
+	public void setBust(Animation<TextureRegion> bust) { this.bust = bust; }
 
-	public boolean isEnd() {
-		return end;
-	}
+	public boolean isEnd() { return end; }
 
-	public void setEnd(boolean end) {
-		this.end = end;
-	}
+	public void setEnd(boolean end) { this.end = end; }
 
-	public boolean isOverride() {
-		return override;
-	}
+	public boolean isOverride() { return override; }
 
-	public void setOverride(boolean override) {
-		this.override = override;
-	}
+	public void setOverride(boolean override) { this.override = override; }
 	
-	public boolean isSmall() {
-		return small;
-	}
+	public boolean isSmall() { return small; }
 
-	public void setSmall(boolean small) {
-		this.small = small;
-	}
+	public void setSmall(boolean small) { this.small = small; }
 
-	public float getDuration() {
-		return duration;
-	}
+	public float getDuration() { return duration; }
 
-	public void setDuration(float duration) {
-		this.duration = duration;
-	}
+	public void setDuration(float duration) { this.duration = duration; }
 
-	public EventData getRadio() {
-		return radio;
-	}
+	public EventData getRadio() { return radio; }
 
-	public void setRadio(EventData radio) {
-		this.radio = radio;
-	}
+	public void setRadio(EventData radio) {	this.radio = radio; }
 
-	public EventData getTrigger() {
-		return trigger;
-	}
+	public EventData getTrigger() {	return trigger; }
 
-	public void setTrigger(EventData trigger) {
-		this.trigger = trigger;
-	}
-
+	public void setTrigger(EventData trigger) {	this.trigger = trigger; }
 }

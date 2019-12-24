@@ -207,15 +207,11 @@ public class UIPlay extends AHadalActor {
 	/**
 	 * This simply clears the boss hp bar from the ui
 	 */
-	public void clearBoss() {
-		bossFight = false;
-	}
+	public void clearBoss() { bossFight = false; }
 	
 	/**
 	 * This sets the player that this ui follows. This is run when a new player is created.
 	 * @param player
 	 */
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+	public void setPlayer(Player player) { this.player = player; }
 }

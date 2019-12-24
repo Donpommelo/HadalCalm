@@ -18,24 +18,18 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class BossFloating extends Boss {
 				
+	//the angle that the boss is facing and the angle that it lerps towards.
     private float angle, desiredAngle;
 	
+    //the speed that the boss spins when spinning
 	private int spinSpeed;
 	
+	//The boss's current state in terms of passive behavior (is it tracking the player, still, spinning etc)
 	private BossState currentState;
 	
+	//this is the boss's sprite
 	private Animation<TextureRegion> floatingSprite;
-	/**
-	 * Enemy constructor is run when an enemy spawner makes a new enemy.
-	 * @param state: current gameState
-	 * @param world: box2d world
-	 * @param camera: game camera
-	 * @param rays: game rayhandler
-	 * @param width: width of enemy
-	 * @param height: height of enemy
-	 * @param x: enemy starting x position.
-	 * @param y: enemy starting x position.
-	 */
+
 	public BossFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int hp, int moveSpeed, int spinSpeed, float attackCd, 
 			SpawnerSchmuck spawner, Sprite sprite) {
 		super(state, startPos, size, hboxSize, type, filter, hp, moveSpeed, attackCd, spawner, sprite);
@@ -49,18 +43,17 @@ public class BossFloating extends Boss {
 		this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
 	}
 
-	/**
-	 * Enemy ai goes here. Default enemy behaviour just walks right/left towards player and fires weapon.
-	 */
+
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
 		
+		//lerp towards desired angle
 		angle = angle + (desiredAngle - angle) * 0.04f;
 		setOrientation((float) ((angle + 270) * Math.PI / 180));
 		
+		//when spinning, spin at a constant speed. When tracking, set desired angle to face player
 		switch(currentState) {
-			
 		case SPINNING:
 			desiredAngle += spinSpeed;
 			break;
@@ -114,38 +107,22 @@ public class BossFloating extends Boss {
 		return super.queueDeletion();
 	}
 	
-	public void setCurrentState(BossState currentState) {
-		this.currentState = currentState;
-	}
+	public void setCurrentState(BossState currentState) { this.currentState = currentState; }
 	
-	public float getAngle() {
-		return angle;
-	}
+	public float getAngle() { return angle; }
 
-	public void setAngle(float angle) {
-		this.angle = angle;
-	}
+	public void setAngle(float angle) { this.angle = angle; }
 	
-	public float getDesiredAngle() {
-		return desiredAngle;
-	}
+	public float getDesiredAngle() { return desiredAngle; }
 
-	public void setDesiredAngle(float desiredAngle) {
-		this.desiredAngle = desiredAngle;
-	}
+	public void setDesiredAngle(float desiredAngle) { this.desiredAngle = desiredAngle; }
 
-	public void setMoveSpeed(int moveSpeed) {
-		this.moveSpeed = moveSpeed;
-	}
+	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }
 
-	public void setSpinSpeed(int spinSpeed) {
-		this.spinSpeed = spinSpeed;
-	}
+	public void setSpinSpeed(int spinSpeed) { this.spinSpeed = spinSpeed; }
 	
 	@Override
-	public float getAttackAngle() {
-		return angle;
-	}
+	public float getAttackAngle() {	return angle;}
 	
 	public enum BossState {
 		TRACKING_PLAYER,

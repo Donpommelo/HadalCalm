@@ -5,6 +5,11 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * A status is a thing that afflicts a schmuck and has some affect for its duration.
+ * @author Zachary Tu
+ *
+ */
 public class Status {
 
 	//References to game fields.
@@ -153,45 +158,27 @@ public class Status {
 	
 	public void onAirBlast(Equipable tool) {}
 
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 		
-	public String getDescr() {
-		return descr;
-	}
+	public String getDescr() {return descr;	}
 
-	public BodyData getInflicter() {
-		return inflicter;
-	}
+	public BodyData getInflicter() { return inflicter; }
 
-	public void setInflicter(BodyData inflicter) {
-		this.inflicter = inflicter;
-	}
+	public void setInflicter(BodyData inflicter) { this.inflicter = inflicter; }
 
-	public BodyData getInflicted() {
-		return inflicted;
-	}
+	public BodyData getInflicted() { return inflicted; }
 
-	public void setInflicted(BodyData inflicted) {
-		this.inflicted = inflicted;
-	}
+	public void setInflicted(BodyData inflicted) { this.inflicted = inflicted; }
 	
-	public float getDuration() {
-		return duration;
-	}
+	public float getDuration() { return duration; }
 
-	public void setDuration(float duration) {
-		this.duration = duration;
-	}
+	public void setDuration(float duration) { this.duration = duration; }
 
 	/**
 	 * This determines the behavior is this status is added to a schmuckwho already has it.
 	 * @return: stack behavior
 	 */
-	public statusStackType getStackType() {
-		return statusStackType.ADD;
-	}
+	public statusStackType getStackType() {	return statusStackType.ADD;	}
 	
 	public enum statusStackType {
 		ADD,

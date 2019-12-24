@@ -73,9 +73,7 @@ public class UIArtifacts {
 		return newTag;
 	}
 	
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
+	public void setPlayer(Player player) { this.player = player; }
 	
 	public void addTable() {
 		state.getStage().addActor(table);

@@ -9,17 +9,25 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This strategy makes a hbox continually create poison tiles as it travels
+ * @author Zachary Tu
+ *
+ */
 public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 	
+	//the amount of damage the poison will deal, how long it will last and its size
 	private float poisonDamage, poisonDuration;
 	private int poisonRadius;
+	
+	//the hbox filter that determines who can be damaged by the poison
 	private short filter;
 	
+	//the time interval between creating posion
 	private final static float poisonCd = 0.1f;
 	private float poisonCdCount;
 	
-	public HitboxPoisonTrailStrategy(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, 
-			float poisonDuration, short filter) {
+	public HitboxPoisonTrailStrategy(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
 		this.poisonRadius = poisonRadius;
 		this.poisonDamage = poisonDamage;

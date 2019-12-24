@@ -12,6 +12,11 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 
+/**
+ * This strategy makes a hbox home in on enemies
+ * @author Zachary Tu
+ *
+ */
 public class HitboxHomingStrategy extends HitboxStrategy{
 	
 	private Schmuck homing;

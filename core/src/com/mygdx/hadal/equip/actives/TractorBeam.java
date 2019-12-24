@@ -114,5 +114,4 @@ public class TractorBeam extends ActiveItem {
 			}
 		});
 	}
-
 }

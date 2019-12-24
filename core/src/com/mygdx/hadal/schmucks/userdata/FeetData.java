@@ -21,13 +21,9 @@ public class FeetData extends HadalData {
 		this.footHaver = entity;
 	}
 
-	public Event getTerrain() {
-		return terrain;
-	}
+	public Event getTerrain() { return terrain; }
 
-	public void setTerrain(Event terrain) {
-		this.terrain = terrain;
-	}
+	public void setTerrain(Event terrain) { this.terrain = terrain;	}
 	
 	/**
 	 * This triggers upon stomping on an enemy. Damage them if a specific artifact is equipped.

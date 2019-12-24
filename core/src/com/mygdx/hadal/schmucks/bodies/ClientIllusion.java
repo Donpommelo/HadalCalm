@@ -66,17 +66,15 @@ public class ClientIllusion extends HadalEntity {
 				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime), 
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
-						size.x / 2, size.y / 2,
-						size.x, size.y, 1, 1, 
-						(float) Math.toDegrees(getOrientation()) + 180);
+						spriteWidth * scale / 2, spriteHeight * scale / 2,
+						spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
 			case CENTER_STRETCH:
 				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime), 
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
 						size.x / 2, size.y / 2,
-						size.x, size.y, 1, 1, 
-						(float) Math.toDegrees(getOrientation()) + 180);
+						size.x, size.y, 1, 1, 0);
 				break;
 			case CENTER_BOTTOM:
 				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime),
@@ -91,6 +89,14 @@ public class ClientIllusion extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * HITBOX: centered and flipped
+	 * CENTER: drawn in middle of body
+	 * CENTER_STRETCH: centered and stretched to fit
+	 * CENTER_BOTTOM: centered at bottom of body (used for spawners and stuff like that)
+	 * @author Zachary Tu
+	 *
+	 */
 	public enum alignType {
 		HITBBOX,
 		CENTER,

@@ -38,8 +38,10 @@ public class DiamondCutter extends MeleeWeapon {
 	private final static float spinSpeed = 8.0f;
 	private final static float spinInterval = 1/60f;
 	
-	
+	//this is the hitbox that this weapon extends
 	private Hitbox hbox;
+	
+	//is the player holding their mouse?
 	private boolean held = false;
 	
 	public DiamondCutter(Schmuck user) {
@@ -107,9 +109,7 @@ public class DiamondCutter extends MeleeWeapon {
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
-
-	}
+	public void execute(PlayState state, BodyData shooter) {}
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {

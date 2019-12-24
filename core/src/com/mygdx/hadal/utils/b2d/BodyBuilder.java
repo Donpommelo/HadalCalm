@@ -21,10 +21,8 @@ public class BodyBuilder {
 	 * This creates a box with a specific set of properties and adds it to a world. This is called by pretty much every entity to 
 	 * create itself. This automatically adds a single fixture to the body.
 	 * @param world: The box2d world to add the body to.
-	 * @param x: starting x position. This is in pixels. Divide by PPM.
-	 * @param y: starting x position. This is in pixels. Divide by PPM.
-	 * @param w: width. This is in pixels. Divide by PPM.
-	 * @param h: height. This is in pixels. Divide by PPM.
+	 * @param startPos: the starting position of this body
+	 * @param size: the size of this body
 	 * @param grav: Effect of gravity. 0 = no gravity. 1 = normal gravity.
 	 * @param density: Density. Higher = less impact from other forces.
 	 * @param resti: Restitution = Bounciness.
