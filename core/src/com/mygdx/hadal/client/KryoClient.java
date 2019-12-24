@@ -286,7 +286,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.CreateEnemy) {
         			final Packets.CreateEnemy p = (Packets.CreateEnemy) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -358,7 +357,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.CreatePlayer) {
         			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
-            		
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -424,7 +422,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.CreatePickup) {
         			final Packets.CreatePickup p = (Packets.CreatePickup) o;
-            		
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -467,8 +464,8 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.ActivateEvent) {
         			final Packets.ActivateEvent p = (Packets.ActivateEvent) o;
-        			
         			final ClientState cs = getClientState();
+        			
 					if (cs != null) {
 						cs.addPacketEffect(new PacketEffect() {
 	    					
@@ -491,7 +488,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.SyncEntity) {
         			Packets.SyncEntity p = (Packets.SyncEntity) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -501,7 +497,6 @@ public class KryoClient {
         		
         		if (o instanceof Packets.SyncSchmuck) {
         			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -511,7 +506,6 @@ public class KryoClient {
         		
         		if (o instanceof Packets.SyncPlayerAll) {
         			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -521,7 +515,6 @@ public class KryoClient {
         		
         		if (o instanceof Packets.SyncPickup) {
         			Packets.SyncPickup p = (Packets.SyncPickup) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -531,7 +524,6 @@ public class KryoClient {
         		
         		if (o instanceof Packets.SyncParticles) {
         			Packets.SyncParticles p = (Packets.SyncParticles) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -545,7 +537,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.SyncPlayerStats) {
         			Packets.SyncPlayerStats p = (Packets.SyncPlayerStats) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -559,13 +550,13 @@ public class KryoClient {
         		
         		if (o instanceof Packets.SyncPlayerSelf) {
         			Packets.SyncPlayerSelf p = (Packets.SyncPlayerSelf) o;
-        			
         			final ClientState cs = getClientState();
 					
         			if (cs != null) {
 						cs.getUiPlay().setOverrideFuelPercent(p.fuelPercent);
 						cs.getUiPlay().setOverrideClipLeft(p.currentClip);
 						cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
+						cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
 					}
         		}
         		
@@ -600,7 +591,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.CreateParticles) {
         			final Packets.CreateParticles p = (Packets.CreateParticles) o;
-            		
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -664,7 +654,6 @@ public class KryoClient {
         		}
         		if (o instanceof Packets.SyncUI) {
         			final Packets.SyncUI p = (Packets.SyncUI) o;
-        			
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {

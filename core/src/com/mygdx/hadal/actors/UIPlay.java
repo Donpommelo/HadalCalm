@@ -41,6 +41,13 @@ public class UIPlay extends AHadalActor {
 	private static final int bossBarWidth = 1500;
 	private static final int bossBarHeight = 30;
 	
+	
+	private static final int activeX = 380;
+	private static final int activeY = 20;
+	private static final int activeWidth = 20;
+	private static final int activeHeight = 120;
+	private static final int activeTextY = 30;
+	
 	//This variable manages the delay of hp decreasing after receiving damage
 	private static final float hpCatchup = 0.01f;
 	private static final float bossHpCatchup = 0.002f;
@@ -61,6 +68,7 @@ public class UIPlay extends AHadalActor {
 	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText, ammoText;
 	protected float numWeaponSlots;
+	protected float activePercent;
 	
 	//Are we currently fighting a boss. If so, who and what's its name.
 	protected boolean bossFight = false;
@@ -109,6 +117,7 @@ public class UIPlay extends AHadalActor {
 		weaponText = player.getPlayerData().getCurrentTool().getText();
 		ammoText = player.getPlayerData().getCurrentTool().getAmmoText();
 		numWeaponSlots = player.getPlayerData().getNumWeaponSlots();
+		activePercent = player.getPlayerData().getActiveItem().chargePercent();
 		
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
@@ -180,7 +189,14 @@ public class UIPlay extends AHadalActor {
 			}
 		}
 		
-		//Draw boss hp bar, if existant
+		font.draw(batch, player.getPlayerData().getActiveItem().getName(), activeX, mainY + activeHeight * mainScale + activeTextY);
+		if (activePercent >= 1.0f) {
+			batch.draw(hp, activeX, activeY, activeWidth * mainScale, activeHeight * mainScale * activePercent);
+		} else {
+			batch.draw(hpMissing, activeX, activeY, activeWidth * mainScale, activeHeight * mainScale * activePercent);
+		}
+		
+		//Draw boss hp bar, if existent
 		if (bossFight && boss.getBody() != null) {
 			font.draw(batch, bossName, bossX, bossNameY);
 			

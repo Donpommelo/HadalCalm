@@ -26,7 +26,6 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.actors.ScoreWindow;
-import com.mygdx.hadal.actors.UIActives;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIPlayClient;
@@ -155,7 +154,6 @@ public class PlayState extends GameState {
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
-	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
 	protected UIArtifacts uiArtifact;
@@ -315,7 +313,6 @@ public class PlayState extends GameState {
 				uiPlay = new UIPlayClient(this, player);
 			}
 			
-			uiActive = new UIActives(player);
 			uiObjective = new UIObjective(this, player);
 			uiArtifact = new UIArtifacts(this, player);
 			uiExtra = new UIExtra(this);
@@ -326,7 +323,6 @@ public class PlayState extends GameState {
 		
 		//Add and sync ui elements in case of unpause or new playState
 		this.stage.addActor(uiPlay);
-		this.stage.addActor(uiActive);
 		this.stage.addActor(uiObjective);
 		this.stage.addActor(uiExtra);
 
@@ -349,7 +345,6 @@ public class PlayState extends GameState {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
 		uiPlay.setPlayer(player);
-		uiActive.setPlayer(player);
 		uiArtifact.setPlayer(player);
 	}
 	

@@ -20,6 +20,7 @@ public class UIPlayClient extends UIPlay {
 	private int overrideClipLeft;
 	private int overrideAmmoSize;
 	private int overrideWeaponSlots;
+	private float overrideActivePercent;
 	private float overrideBossHpPercent;
 	
 	public UIPlayClient(PlayState state, Player player) {
@@ -36,6 +37,7 @@ public class UIPlayClient extends UIPlay {
 		weaponText = overrideClipLeft + "/" + overrideClipSize;
 		ammoText = overrideAmmoSize + "";
 		numWeaponSlots = overrideWeaponSlots;
+		activePercent = overrideActivePercent;
 		
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = overrideBossHpPercent;
@@ -58,7 +60,9 @@ public class UIPlayClient extends UIPlay {
 
 	public void setOverrideClipSize(int overrideClipSize) {	this.overrideClipSize = overrideClipSize; }
 
-	public void setOverrideWeaponSlots(int overrideWeaponSlots) {	this.overrideWeaponSlots = overrideWeaponSlots; }
+	public void setOverrideWeaponSlots(int overrideWeaponSlots) { this.overrideWeaponSlots = overrideWeaponSlots; }
+	
+	public void setOverrideActivePercent(float overrideActivePercent) { this.overrideActivePercent = overrideActivePercent; }
 	
 	public void setOverrideBossHpPercent(float overrideBossHpPercent) {	this.overrideBossHpPercent = overrideBossHpPercent; }
 }

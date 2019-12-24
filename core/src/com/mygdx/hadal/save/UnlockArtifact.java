@@ -26,6 +26,7 @@ public enum UnlockArtifact {
 	CROWN_OF_THORNS(CrownofThorns.class),
 	CURIOUS_SAUCE(CuriousSauce.class),
 	CURSED_CILICE(CursedCilice.class),
+	DEAD_MANS_HAND(DeadMansHand.class),
 	DEPLORABLE_APPARATUS(DeplorableApparatus.class),
 	EELSKIN_COVER(EelskinCover.class),
 	EMAUDELINES_PRISM(EmaudelinesPrism.class),

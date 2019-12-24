@@ -196,6 +196,17 @@ CURIOUS_SAUCE: {
 		RANDOM_POOL,
 	]
 }
+DEAD_MANS_HAND: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: "Dead Man's Hand"
+	description: "+1 Weapon Slot"
+    descriptionLong: ""
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 DEPLORABLE_APPARATUS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Deplorable Apparatus
