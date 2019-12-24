@@ -6,7 +6,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * This strategy simple makes a hbo static after it has been created.
+ * This strategy simply makes a hbox static after it has been created.
  * It is used for non-moving hitboxes like explosions
  * @author Zachary Tu
  *

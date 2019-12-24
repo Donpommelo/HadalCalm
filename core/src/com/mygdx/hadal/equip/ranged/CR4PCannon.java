@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -15,6 +13,7 @@ import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
 import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
+import com.mygdx.hadal.schmucks.strategies.HitboxSpreadStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -45,19 +44,14 @@ public class CR4PCannon extends RangedWeapon {
 		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
-	private Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		for (int i = 0; i < numProj; i++) {
 			
-			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-			
 			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 			Sprite projSprite = projSprites[randomIndex];
 			
-			newVelocity.set(startVelocity);
-			
-			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 			hbox.setGravity(0.5f);
 			hbox.setDurability(2);
 			
@@ -66,6 +60,7 @@ public class CR4PCannon extends RangedWeapon {
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxSpreadStrategy(state, hbox, user.getBodyData(), spread));
 		}
 	}
 }

@@ -1,10 +1,9 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.strategies.HitboxSpreadStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -39,8 +38,7 @@ public class Piffler extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				float newDegrees = (float) (hbox.getStartVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-				hbox.setStartVelo(hbox.getStartVelo().setAngle(newDegrees));
+				hbox.addStrategy(new HitboxSpreadStrategy(state, hbox, inflicted, spread));
 			}
 			
 			@Override

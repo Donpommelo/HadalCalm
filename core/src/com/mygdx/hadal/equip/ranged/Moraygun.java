@@ -30,7 +30,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float recoil = 15.0f;
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeedStart = 300.0f;
-	private final static Vector2 projectileSize = new Vector2(25, 25);
+	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 2.5f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
