@@ -36,7 +36,7 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 		
 		this.poisonCdCount = 0;
 		
-		new ParticleEntity(state, hbox, Particle.POISON, 1.5f, 0, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, hbox, Particle.POISON, 1.5f, 0, true, particleSyncType.TICKSYNC);
 	}
 	
 	@Override

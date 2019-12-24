@@ -29,7 +29,8 @@ public class Poisoned extends Status {
 	public void timePassing(float delta) {
 		super.timePassing(delta);
 		if (poison == null) {
-			poison = new ParticleEntity(state, inflicted.getSchmuck(), Particle.POISON, duration, 0.0f, true, particleSyncType.TICKSYNC);		}
+			poison = new ParticleEntity(state, inflicted.getSchmuck(), Particle.POISON, duration, 0.0f, true, particleSyncType.TICKSYNC);
+		}
 	}
 	
 	public statusStackType getStackType() {

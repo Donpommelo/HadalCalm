@@ -57,7 +57,7 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, tool, baseDamage, knockback, DamageTypes.RANGED));
-			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		}
 	}
 }

@@ -501,8 +501,6 @@ public class Packets {
 	public static class SyncSchmuck {
 		public String entityID;
 		public SchmuckMoveStates moveState;
-        public float currentHp;
-        public float currentFuel;
         public float flashDuration;
 
 		public SyncSchmuck() {}
@@ -514,62 +512,105 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the Schmuck to be synced
 		 * @param moveState: The State of the Schmuck. Used for animations on the Client's end
-		 * @param currentHp: Schmuck's Hp. This is not used right now, but would be if enemy Hp was visible
-		 * @param currentFuel: Schmuck's Fuel
 		 * @param flashDuration: Is the Schmuck flashing? Used so schmuck's flash upon damage for Clients.
 		 */
-		public SyncSchmuck(String entityID, SchmuckMoveStates moveState, float currentHp, float currentFuel, float flashDuration) {
+		public SyncSchmuck(String entityID, SchmuckMoveStates moveState, float flashDuration) {
 			this.entityID = entityID;
 			this.moveState = moveState;
-			this.currentHp = currentHp;
-			this.currentFuel = currentFuel;
 			this.flashDuration = flashDuration;
 		}
 	}
 	
-	public static class SyncPlayer {
+	public static class SyncBoss {
+        public float hpPercent;
+
+		public SyncBoss() {}
+		
+		/**
+		 * A SyncBoss is sent from the Server to the Client by the boss every engine tick.
+		 * atm, this just accounts for the boss' hp to be displayed in the client's ui
+		 */
+		public SyncBoss(float hpPercent) {
+			this.hpPercent = hpPercent;
+		}
+	}
+	
+	public static class SyncPlayerSelf {
+
+        public float fuelPercent;
+        public int currentClip;
+        public int currentAmmo;
+        public float activeCharge;
+        
+		public SyncPlayerSelf() {}
+		
+		/**
+		 * A SyncPlayer is sent from the Server to the Client every engine tick.
+		 * This packet (and similar packets) just tells the client how to change their own Player for ther purpose of their own ui.
+		 */
+		public SyncPlayerSelf(float fuelPercent, int currentClip, int currentAmmo, float activeCharge) {
+            this.fuelPercent = fuelPercent;
+            this.currentClip = currentClip;
+            this.currentAmmo = currentAmmo;
+            this.activeCharge = activeCharge;
+        }
+	}
+	
+	public static class SyncPlayerAll {
 		public String entityID;
         public float attackAngle;
+        public float hpPercent;
         public SchmuckMoveStates moveState;
         public boolean grounded;
         public int currentSlot;
-        public int currentClip;
-        public int currentAmmo;
-        public int maxClip;
-        public float maxHp;
-        public float maxFuel;
-        public float airblastCost;
-        public float activeCharge;
         public boolean reloading;
         public float reloadPercent;
         public boolean charging;
         public float chargePercent;
         
-		public SyncPlayer() {}
+		public SyncPlayerAll() {}
 		
 		/**
-		 * A SyncPlayer is sent from the Server to the Client for every synchronized Player every engine tick.
-		 * This packet (and similar packets) just tell the client how to change their version of the Player.
+		 * A SyncPlayerAll is sent from the Server to the Client for every synchronized Player every engine tick.
+		 * This packet (and similar packets) just tell the client how to change their version of each Player.
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
-		public SyncPlayer(String entityID, float a, Boolean grounded, int currentSlot, int currentClip, int currentAmmo, int maxClip, float maxHp, float maxFuel,
-				float airblastCost, float activeCharge, boolean reloading, float reloadPercent, boolean charging, float chargePercent) {
+		public SyncPlayerAll(String entityID, float a, float hpPercent, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent) {
             this.entityID = entityID;
             this.attackAngle = a;
+            this.hpPercent = hpPercent;
             this.grounded = grounded;
             this.currentSlot = currentSlot;
-            this.currentClip = currentClip;
-            this.currentAmmo = currentAmmo;
-            this.maxClip = maxClip;
-            this.maxHp = maxHp;
-            this.maxFuel = maxFuel;
-            this.airblastCost = airblastCost;
-            this.activeCharge = activeCharge;
             
             this.reloading = reloading;
             this.reloadPercent = reloadPercent;
             this.charging = charging;
             this.chargePercent = chargePercent;
+        }
+	}
+	
+	public static class SyncPlayerStats {
+		public int maxClip;
+        public float maxHp;
+        public float maxFuel;
+        public float airblastCost;
+        public int weaponSlots;
+        public SyncPlayerStats() {}
+        
+        /**
+         * 
+         * @param maxClip
+         * @param maxHp
+         * @param maxFuel
+         * @param airblastCost
+         * @param weaponSlots
+         */
+        public SyncPlayerStats(int maxClip, float maxHp, float maxFuel, float airblastCost, int weaponSlots) {
+        	 this.maxClip = maxClip;
+             this.maxHp = maxHp;
+             this.maxFuel = maxFuel;
+             this.airblastCost = airblastCost;
+             this.weaponSlots = weaponSlots;
         }
 	}
 	
@@ -654,6 +695,9 @@ public class Packets {
 	public static class SyncCamera {
 		public Vector2 zoomPos;
 		public float zoom;
+		public float[] cameraBounds;
+		public boolean[] cameraBounded;
+		
 		public SyncCamera() {}
 		
 		/**
@@ -661,21 +705,15 @@ public class Packets {
 		 * This is done incase the client's camera has changed target/zoom before dying and needs to respaen with a different target/zoom matching their spawn location.
 		 * @param zoomPos: The location that the client's camera should focus on. Focus on self if null
 		 * @param zoom: How much should the client's camera be zoomed in
+		 * @param cameraBounds: what are the camera bounds? [right, left, up, down]
+		 * @param cameraBounded: does the camera obey each aformentioned bound?
 		 */
-		public SyncCamera(Vector2 zoomPos, float zoom) {
+		public SyncCamera(Vector2 zoomPos, float zoom, float[] cameraBounds, boolean[] cameraBounded) {
 			this.zoomPos = zoomPos;
 			this.zoom = zoom;
+			this.cameraBounds = cameraBounds;
+			this.cameraBounded = cameraBounded;
 		}
-	}
-	
-	public static class SyncBoss {
-
-		/**
-		 * A SyncBoss is sent from the Server to the Client whenever a boss is despawned.
-		 * The client updates their ui to represent this.
-		 * ATM, boss spawnings is handled by the regular enemySpawn packet, so this is a simple ping
-		 */
-		public SyncBoss() {}
 	}
 	
 	public static class SyncUI {
@@ -732,7 +770,8 @@ public class Packets {
     	kryo.register(CreateParticles.class);
     	kryo.register(SyncEntity.class);
     	kryo.register(SyncSchmuck.class);
-    	kryo.register(SyncPlayer.class);
+    	kryo.register(SyncPlayerSelf.class);
+    	kryo.register(SyncPlayerAll.class);
     	kryo.register(SyncParticles.class);
     	kryo.register(SyncCamera.class);
     	kryo.register(SyncBoss.class);

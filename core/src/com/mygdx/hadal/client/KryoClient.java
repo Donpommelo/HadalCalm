@@ -509,8 +509,8 @@ public class KryoClient {
 					}
         		}
         		
-        		if (o instanceof Packets.SyncPlayer) {
-        			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
+        		if (o instanceof Packets.SyncPlayerAll) {
+        			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
         			
         			final ClientState cs = getClientState();
 					
@@ -536,6 +536,36 @@ public class KryoClient {
 					
 					if (cs != null) {
 						cs.syncEntity(p.entityID, p);
+					}
+        		}
+        		
+        		/**
+        		 * The server tells up to update our player's stats when we get buffs
+        		 * Change override values that are displayed in our ui
+        		 */
+        		if (o instanceof Packets.SyncPlayerStats) {
+        			Packets.SyncPlayerStats p = (Packets.SyncPlayerStats) o;
+        			
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.getUiPlay().setOverrideClipSize(p.maxClip);
+						cs.getUiPlay().setOverrideMaxHp(p.maxHp);
+						cs.getUiPlay().setOverrideMaxFuel(p.maxFuel);
+						cs.getUiPlay().setOverrideAirblastCost(p.airblastCost);
+						cs.getUiPlay().setOverrideWeaponSlots(p.weaponSlots);
+					}
+        		}
+        		
+        		if (o instanceof Packets.SyncPlayerSelf) {
+        			Packets.SyncPlayerSelf p = (Packets.SyncPlayerSelf) o;
+        			
+        			final ClientState cs = getClientState();
+					
+        			if (cs != null) {
+						cs.getUiPlay().setOverrideFuelPercent(p.fuelPercent);
+						cs.getUiPlay().setOverrideClipLeft(p.currentClip);
+						cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
 					}
         		}
         		
@@ -597,7 +627,6 @@ public class KryoClient {
         		 */
         		if (o instanceof Packets.SyncCamera) {
         			final Packets.SyncCamera p = (Packets.SyncCamera) o;
-            		
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -607,6 +636,8 @@ public class KryoClient {
 							public void execute() {
 								cs.setZoom(p.zoom);
 								cs.setCameraTarget(p.zoomPos);
+								cs.setCameraBounds(p.cameraBounds);
+								cs.setCameraBounded(p.cameraBounded);
 							}
 						});
 					}
@@ -615,6 +646,7 @@ public class KryoClient {
         		 * The Server tells us to despawn a boss. (spawning is taken care of in the CreateEnemy packet)
         		 */
         		if (o instanceof Packets.SyncBoss) {
+        			final Packets.SyncBoss p = (Packets.SyncBoss) o;
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
@@ -622,7 +654,10 @@ public class KryoClient {
 
 							@Override
 							public void execute() {
-								cs.clearBoss();
+								cs.getUiPlay().setOverrideBossHpPercent(p.hpPercent);
+								if (p.hpPercent <= 0.0f) {
+									cs.clearBoss();
+								}
 							}
 						});
 					}

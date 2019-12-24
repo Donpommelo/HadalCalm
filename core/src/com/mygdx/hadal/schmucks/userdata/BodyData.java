@@ -199,15 +199,17 @@ public class BodyData extends HadalData {
 	 */
 	public void calcStats() {
 		
-		//Keep Hp% constant in case of changing max hp
+		//Keep Hp% and fuel% constant in case of changing max values
 		float hpPercent = currentHp / getStat(Stats.MAX_HP);
-
+		float fuelPercent = currentFuel / getStat(Stats.MAX_FUEL);
+		
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
 		statusProcTime(StatusProcTime.STAT_CHANGE, null, 0, null, currentTool, null);
 		
 		currentHp = hpPercent * getStat(Stats.MAX_HP);
+		currentFuel = fuelPercent * getStat(Stats.MAX_FUEL);
 		
 		if (currentTool instanceof RangedWeapon) {
 			((RangedWeapon) currentTool).setClipLeft();

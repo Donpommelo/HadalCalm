@@ -167,7 +167,7 @@ public class BossUtils {
 				hbox.addStrategy(new HitboxOnContactUnitStatusStrategy(state, hbox, boss.getBodyData(), 
 						new Ablaze(state, fireDuration, boss.getBodyData(), boss.getBodyData(), fireDamage)));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
-				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
 		});
 	}
@@ -185,7 +185,7 @@ public class BossUtils {
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
-				new ParticleEntity(state, hbox, particle, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+				new ParticleEntity(state, hbox, particle, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
 		});
 	}
@@ -203,7 +203,7 @@ public class BossUtils {
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
-				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 				
 			}
 		});

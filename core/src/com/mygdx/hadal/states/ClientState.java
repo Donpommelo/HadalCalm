@@ -10,6 +10,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.UIPlayClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -296,6 +297,8 @@ public class ClientState extends PlayState {
 	
 	@Override
 	public void create(HadalEntity entity) {}
+	
+	public UIPlayClient getUiPlay() { return (UIPlayClient) uiPlay; }
 	
 	/**
 	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.

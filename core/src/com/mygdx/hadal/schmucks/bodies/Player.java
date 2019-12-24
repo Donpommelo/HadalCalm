@@ -602,7 +602,7 @@ public class Player extends PhysicsSchmuck {
 		if (state.isServer()) {
 			hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
 		} else {
-			hpRatio = playerData.getCurrentHp() / playerData.getOverrideMaxHp();
+			hpRatio = playerData.getOverrideHpPercent();
 		}
 		
 		batch.draw(empty, x - empty.getWidth() / 2 * uiScale, y - empty.getHeight() / 2 * uiScale,
@@ -684,14 +684,13 @@ public class Player extends PhysicsSchmuck {
 			mods.add(mod.getConstantMod());
 		}
 		
-		HadalGame.server.sendToAllUDP( new Packets.SyncPlayer(entityID.toString(),
-				(float)(Math.atan2(
-						getPixelPosition().y - mouse.getPixelPosition().y,
-						getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
-				grounded, playerData.getCurrentSlot(), playerData.getCurrentTool().getClipLeft(), 
-				playerData.getCurrentTool().getAmmoLeft(), playerData.getCurrentTool().getClipSize(),
-				playerData.getStat(Stats.MAX_HP), playerData.getStat(Stats.MAX_FUEL), playerData.getAirblastCost(),
-				playerData.getActiveItem().getCurrentCharge(), playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent));
+		
+		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float)(Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
+				playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP), grounded, playerData.getCurrentSlot(), 
+				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent));
+		
+		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
+				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(), playerData.getActiveItem().getCurrentCharge()));
 	}
 	
 	/**
@@ -699,21 +698,15 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		if (o instanceof Packets.SyncPlayer) {
-			Packets.SyncPlayer p = (Packets.SyncPlayer) o;
-			
+		if (o instanceof Packets.SyncPlayerAll) {
+			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
+
 			attackAngleClient = p.attackAngle;
+			playerData.setOverrideHpPercent(p.hpPercent);
 			grounded = p.grounded;
 			playerData.setCurrentSlot(p.currentSlot);
 			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
-			playerData.setOverrideMaxHp(p.maxHp);
-			playerData.setOverrideMaxFuel(p.maxFuel);
-			playerData.setOverrideClipSize(p.maxClip);
-			playerData.setOverrideClipLeft(p.currentClip);
-			playerData.setOverrideAmmoSize(p.currentAmmo);
-			playerData.setOverrideAirblastCost(p.airblastCost);
-			playerData.getActiveItem().setCurrentCharge(p.activeCharge);
 			playerData.getCurrentTool().setReloading(p.reloading);
 			reloadPercent = p.reloadPercent;
 			playerData.getCurrentTool().setCharging(p.charging);

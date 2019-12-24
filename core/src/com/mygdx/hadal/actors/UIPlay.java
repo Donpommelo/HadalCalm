@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -59,15 +60,16 @@ public class UIPlay extends AHadalActor {
 	//fields displayed in this ui
 	protected float hpRatio, hpMax, fuelRatio, fuelCutoffRatio;
 	protected String weaponText, ammoText;
+	protected float numWeaponSlots;
 	
 	//Are we currently fighting a boss. If so, who and what's its name.
-	private boolean bossFight = false;
-	private Schmuck boss;
+	protected boolean bossFight = false;
+	protected Schmuck boss;
 	private String bossName;
 	
 	//These stats manage the boss hp bar.
 	private float bossHpDelayed = 1.0f;
-	private float bossHpRatio;
+	protected float bossHpRatio;
 	
 	public UIPlay(PlayState state, Player player) {
 		this.player = player;
@@ -106,6 +108,11 @@ public class UIPlay extends AHadalActor {
 		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getStat(Stats.MAX_FUEL);
 		weaponText = player.getPlayerData().getCurrentTool().getText();
 		ammoText = player.getPlayerData().getCurrentTool().getAmmoText();
+		numWeaponSlots = player.getPlayerData().getNumWeaponSlots();
+		
+		if (bossFight && boss.getBody() != null) {
+			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
+		}
 	}
 	
 	@Override
@@ -157,12 +164,10 @@ public class UIPlay extends AHadalActor {
 		font.draw(batch, weaponText, mainX + 48, mainY + 40);
 		font.getData().setScale(0.25f);
 		font.draw(batch, ammoText, mainX + 48, mainY + 60);
-		font.draw(batch, (int)player.getPlayerData().getCurrentHp() + "/" + (int)hpMax,
-				mainX + 155, mainY + 66);
+		font.draw(batch, (int)(hpRatio * hpMax) + "/" + (int)hpMax,	mainX + 155, mainY + 66);
 		
-		for (int i = 0; i < 4; i++) {
-			if (player.getPlayerData().getMultitools().length > i) {
-				
+		for (int i = 0; i < Loadout.maxSlots; i++) {
+			if (numWeaponSlots > i) {
 				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
 					batch.draw(itemNull.get(i), mainX, mainY, getWidth(), getHeight());
 				} else {
@@ -185,8 +190,6 @@ public class UIPlay extends AHadalActor {
 			} else {
 				bossHpDelayed = bossHpRatio;
 			}
-			
-			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
 			
 			batch.draw(hpMissing, bossX, bossBarY, bossBarWidth * mainScale * bossHpDelayed, bossBarHeight * mainScale);
 			batch.draw(hp, bossX, bossBarY, bossBarWidth * mainScale * bossHpRatio, bossBarHeight * mainScale);

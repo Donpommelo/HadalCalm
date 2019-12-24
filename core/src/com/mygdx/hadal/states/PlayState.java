@@ -154,7 +154,7 @@ public class PlayState extends GameState {
 	protected boolean server;
 	
 	//Various play state ui elements
-	private UIPlay uiPlay;
+	protected UIPlay uiPlay;
 	private UIActives uiActive;
 	private UIObjective uiObjective;
 	private UIExtra uiExtra;
@@ -676,7 +676,7 @@ public class PlayState extends GameState {
 		Loadout newLoadout = new Loadout(altLoadout);
 		
 		if (mapMultitools != null) {
-			for (int i = 0; i < Loadout.getNumSlots(); i++) {
+			for (int i = 0; i < newLoadout.multitools.length; i++) {
 				if (mapMultitools.length > i) {
 					newLoadout.multitools[i] = mapMultitools[i];
 				}
@@ -814,7 +814,7 @@ public class PlayState extends GameState {
 	public void clearBoss() {
 		uiPlay.clearBoss();
 		if (server) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncBoss());
+			HadalGame.server.sendToAllTCP(new Packets.SyncBoss(0.0f));
 		}
 	}
 	
@@ -940,8 +940,12 @@ public class PlayState extends GameState {
 	
 	public float[] getCameraBounds() { return cameraBounds; }
 
+	public void setCameraBounds(float[] cameraBounds) { this.cameraBounds = cameraBounds; }
+
 	public boolean[] getCameraBounded() { return cameraBounded; }
 
+	public void setCameraBounded(boolean[] cameraBounded) { this.cameraBounded = cameraBounded; }
+	
 	public HadalEntity getObjectiveTarget() { return objectiveTarget; }
 	
 	public MouseTracker getMouse() { return mouse; }

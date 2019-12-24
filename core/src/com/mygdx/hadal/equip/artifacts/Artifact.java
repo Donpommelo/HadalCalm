@@ -6,7 +6,6 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Artifact {
 
-	
 	protected String name, descr, descrLong;
 	protected Status[] enchantment;
 	
@@ -21,20 +20,11 @@ public class Artifact {
 		return null;
 	}
 
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public String getDescr() {
-		return descr;
-	}
+	public String getDescr() { return descr; }
 
-	public String getDescrLong() {
-		return descrLong;
-	}
+	public String getDescrLong() { return descrLong; }
 
-	public Status[] getEnchantment() {
-		return enchantment;
-	}
-	
+	public Status[] getEnchantment() { return enchantment; }
 }

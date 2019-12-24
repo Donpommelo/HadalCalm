@@ -7,13 +7,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -194,6 +197,16 @@ public class Boss extends Enemy {
 		}), 
 			getPosition().x - aiRadius, getPosition().y - aiRadius, 
 			getPosition().x + aiRadius, getPosition().y + aiRadius);
+	}
+	
+	/**
+	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
+	 * This packet updates movestate, hp, fuel and flashingness
+	 */
+	@Override
+	public void onServerSync() {
+		super.onServerSync();
+		HadalGame.server.sendToAllUDP(new Packets.SyncBoss(bodyData.getCurrentHp() / bodyData.getStat(Stats.MAX_HP)));
 	}
 	
 	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }

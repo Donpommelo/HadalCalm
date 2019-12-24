@@ -95,7 +95,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
-		new ParticleEntity(state, hbox, Particle.BUBBLE_TRAIL, 3.0f, 0.0f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, hbox, Particle.BUBBLE_TRAIL, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		
 		return hbox;
 	}
@@ -192,7 +192,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, creator));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, null, spiritDamage, spiritKnockback));
 		hbox.addStrategy(new HitboxHomingStrategy(state, hbox, creator, filter));
-		new ParticleEntity(state, hbox, Particle.SHADOW_PATH, spiritLifespan, 0.0f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, hbox, Particle.SHADOW_PATH, spiritLifespan, 0.0f, true, particleSyncType.TICKSYNC);
 	}
 	
 	public static final int pickupSize = 64;

@@ -78,12 +78,10 @@ public class Sensor extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
-				filter,	(short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, filter,	(short) 0, true, eventData);
 		
 		if (collision) {
-			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size).scl(2), false, 0, 0, 0.0f, 1.0f,
-				Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
+			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size).scl(2), false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
 		}
 	}
 }

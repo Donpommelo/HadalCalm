@@ -54,7 +54,7 @@ public class ClientIllusion extends HadalEntity {
 		if (illusionSprite != null) {
 			
 			switch (align) {
-			case HITBBOX:
+			case HITBOX:
 				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true), 
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
@@ -83,6 +83,13 @@ public class ClientIllusion extends HadalEntity {
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
+			case RAGDOLL:
+				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime),
+						getPixelPosition().x - size.x / 2, 
+						getPixelPosition().y - size.y / 2, 
+						size.x / 2, size.y / 2,
+						size.x, size.y, 1, 1, 
+						(float) Math.toDegrees(getOrientation()));
 			default:
 				break;
 			}
@@ -98,10 +105,11 @@ public class ClientIllusion extends HadalEntity {
 	 *
 	 */
 	public enum alignType {
-		HITBBOX,
+		HITBOX,
 		CENTER,
 		CENTER_STRETCH,
 		CENTER_BOTTOM,
+		RAGDOLL,
 		NONE
 	}
 }

@@ -15,7 +15,8 @@ import com.mygdx.hadal.save.UnlockEquip;
  */
 public class Loadout {
 
-	private final static int numSlots = 3;
+	public final static int baseSlots = 3;
+	public final static int maxSlots = 4;
 	
 	public UnlockEquip[] multitools;
 	public UnlockArtifact startifact;
@@ -30,14 +31,15 @@ public class Loadout {
 	 * Usually used when creating a brand new player.
 	 */
 	public Loadout(Record record) {
-		multitools = new UnlockEquip[numSlots];
-		multitools[0] = UnlockEquip.NOTHING;
-		multitools[1] = UnlockEquip.NOTHING;
-		multitools[2] = UnlockEquip.NOTHING;
+		multitools = new UnlockEquip[maxSlots];
+		
+		for (int i = 0; i < maxSlots; i++) {
+			multitools[i] = UnlockEquip.NOTHING;
+		}
 		
 		artifacts = new ArrayList<UnlockArtifact>();
 		
-		for (int i = 0; i < numSlots; i++) {
+		for (int i = 0; i < maxSlots; i++) {
 			if (record.getEquips().length > i) {
 				multitools[i] = UnlockEquip.valueOf(record.getEquips()[i]);
 			}
@@ -52,11 +54,11 @@ public class Loadout {
 	 * This generates a new loadout from a prexisting one.
 	 */
 	public Loadout(Loadout old) {
-		multitools = new UnlockEquip[numSlots];
-		multitools[0] = old.multitools[0];
-		multitools[1] = old.multitools[1];
-		multitools[2] = old.multitools[2];
-		
+		multitools = new UnlockEquip[maxSlots];
+		for (int i = 0; i < maxSlots; i++) {
+			multitools[i] = old.multitools[i];
+		}
+
 		artifacts = new ArrayList<UnlockArtifact>();
 
 		for (UnlockArtifact artifact: old.artifacts) {
@@ -67,6 +69,4 @@ public class Loadout {
 		activeItem = old.activeItem;
 		character = old.character;
 	}
-	
-	public static int getNumSlots() { return numSlots; }
 }

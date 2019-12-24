@@ -38,8 +38,7 @@ public class SemipermWall extends Event {
 	public void create() {
 		this.eventData = new EventData(this, UserDataTypes.WALL);
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_WALL, 
-				filter,	(short) 0, false, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_WALL, filter,	(short) 0, false, eventData);
 		
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}

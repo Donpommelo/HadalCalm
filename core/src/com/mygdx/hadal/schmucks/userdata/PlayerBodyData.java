@@ -17,6 +17,7 @@ import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.server.Packets.SyncPlayerStats;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Stats;
@@ -65,13 +66,8 @@ public class PlayerBodyData extends BodyData {
 	
 	private Player player;
 	
-	//Override stats are used by the client to display in the ui instead of actually having the real server stats.
-	private float overrideMaxHp;
-	private float overrideMaxFuel;
-	private float overrideAirblastCost;
-	private int overrideClipSize;
-	private int overrideClipLeft;
-	private int overrideAmmoSize;
+	//This is ued by clients to display each player's hp percent in the ui
+	private float overrideHpPercent;
 	
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body, baseHp);
@@ -87,8 +83,8 @@ public class PlayerBodyData extends BodyData {
 		clearStatuses();
 
 		//Acquire weapons from loadout
-		this.multitools = new Equipable[loadout.multitools.length];
-		for (int i = 0; i < loadout.multitools.length; i++) {
+		this.multitools = new Equipable[Loadout.maxSlots];
+		for (int i = 0; i < Loadout.maxSlots; i++) {
 			if (loadout.multitools[i] != null) {
 				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
 			}
@@ -214,7 +210,7 @@ public class PlayerBodyData extends BodyData {
 	 * @param slot: new weapon slot.
 	 */
 	public void switchWeapon(int slot) {
-		if (multitools.length >= slot && schmuck.getShootDelayCount() <= 0) {
+		if (getNumWeaponSlots() >= slot) {
 			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
@@ -228,7 +224,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void switchToLast() {
 		if (schmuck.getShootDelayCount() <= 0) {
-			if (lastSlot < multitools.length) {
+			if (lastSlot < getNumWeaponSlots()) {
 				if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof NothingWeapon)) {
 					int tempSlot = lastSlot;
 					lastSlot = currentSlot;
@@ -244,11 +240,10 @@ public class PlayerBodyData extends BodyData {
 	 * This is also called automatically when running out of a consumable equip.
 	 */
 	public void switchDown() {
-		for (int i = 1; i <= multitools.length; i++) {
-			if (multitools[(currentSlot + i) % multitools.length] != null &&
-					!(multitools[(currentSlot + i) % multitools.length] instanceof NothingWeapon)) {
+		for (int i = 1; i <= getNumWeaponSlots(); i++) {
+			if (multitools[(currentSlot + i) % getNumWeaponSlots()] != null && !(multitools[(currentSlot + i) % getNumWeaponSlots()] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
-				currentSlot = (currentSlot + i) % multitools.length;
+				currentSlot = (currentSlot + i) % getNumWeaponSlots();
 				setEquip();
 				return;
 			}
@@ -259,11 +254,10 @@ public class PlayerBodyData extends BodyData {
 	 * Player switches to a weapon slot below current slot, wrapping to end of slots if at last slot. (ignore empty slots)
 	 */
 	public void switchUp() {
-		for (int i = 1; i <= multitools.length; i++) {
-			if (multitools[(multitools.length + (currentSlot - i)) % multitools.length] != null &&
-					!(multitools[(multitools.length + (currentSlot - i)) % multitools.length] instanceof NothingWeapon)) {
+		for (int i = 1; i <= getNumWeaponSlots(); i++) {
+			if (multitools[(getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots()] != null && !(multitools[(getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots()] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
-				currentSlot = (multitools.length + (currentSlot - i)) % multitools.length;
+				currentSlot = (getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots();
 				setEquip();
 				return;
 			}
@@ -283,7 +277,7 @@ public class PlayerBodyData extends BodyData {
 			addStatus(s);
 		}
 		
-		for (int i = 0; i < Loadout.getNumSlots(); i++) {
+		for (int i = 0; i < getNumWeaponSlots(); i++) {
 			if (multitools[i] == null || multitools[i] instanceof NothingWeapon) {
 				multitools[i] = equip;
 				multitools[i].setUser(player);
@@ -336,7 +330,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * empties a slot. Used when using last charge of consumable weapon or running out of ammunition
+	 * empties a slot. Used when running out of ammunition
 	 */
 	public void emptySlot(int slot) {
 		
@@ -355,7 +349,7 @@ public class PlayerBodyData extends BodyData {
 		loadout.multitools[currentSlot] = UnlockEquip.NOTHING;
 		
 		boolean allEmpty = true;
-		for (int i = 0; i < multitools.length; i++) {
+		for (int i = 0; i < getNumWeaponSlots(); i++) {
 			if (!loadout.multitools[i].equals(UnlockEquip.NOTHING)) {
 				allEmpty = false;
 			}
@@ -459,6 +453,36 @@ public class PlayerBodyData extends BodyData {
 		
 		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equipped".
 		calcStats();
+	}
+	
+	/**
+	 * We override this method so that player-specific fields can adjust properly when stats are modified.
+	 * atm, this is only used for weapon slot number changes
+	 */
+	@Override
+	public void calcStats() {
+		super.calcStats();
+		
+		if (player == null) {
+			return;
+		}
+		
+		if (currentSlot >= getNumWeaponSlots()) {
+			currentSlot = getNumWeaponSlots() - 1;
+			setEquip();
+		}
+		
+		if (player.getState().isServer()) {
+			if (player.getConnID() == 0) {
+				
+			} else {
+				HadalGame.server.sendPacketToPlayer(player, new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL), getAirblastCost(), getNumWeaponSlots()));
+			}
+		}
+	}
+	
+	public int getNumWeaponSlots() {
+		return Math.min((int) (Loadout.baseSlots + getStat(Stats.WEAPON_SLOTS)), Loadout.maxSlots);
 	}
 	
 	/**
@@ -569,27 +593,7 @@ public class PlayerBodyData extends BodyData {
 
 	public Loadout getLoadout() { return loadout; }
 
-	public float getOverrideMaxHp() { return overrideMaxHp; }
+	public float getOverrideHpPercent() { return overrideHpPercent; }
 
-	public void setOverrideMaxHp(float overrideMaxHp) {	this.overrideMaxHp = overrideMaxHp;	}
-
-	public float getOverrideMaxFuel() {	return overrideMaxFuel;	}
-
-	public void setOverrideMaxFuel(float overrideMaxFuel) {	this.overrideMaxFuel = overrideMaxFuel;	}
-
-	public float getOverrideAirblastCost() { return overrideAirblastCost; }
-
-	public void setOverrideAirblastCost(float overrideAirblastCost) { this.overrideAirblastCost = overrideAirblastCost; }
-
-	public int getOverrideClipSize() { return overrideClipSize;	}
-
-	public void setOverrideClipSize(int overrideClipSize) {	this.overrideClipSize = overrideClipSize; }
-
-	public int getOverrideClipLeft() { return overrideClipLeft;	}
-
-	public void setOverrideClipLeft(int overrideClipLeft) { this.overrideClipLeft = overrideClipLeft; }
-
-	public int getOverrideAmmoSize() { return overrideAmmoSize; }
-
-	public void setOverrideAmmoSize(int overrideAmmoSize) {	this.overrideAmmoSize = overrideAmmoSize; }
+	public void setOverrideHpPercent(float overrideHpPercent) {	this.overrideHpPercent = overrideHpPercent;	}
 }
