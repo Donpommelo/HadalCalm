@@ -8,13 +8,10 @@ import com.mygdx.hadal.states.PlayState;
 
 public class Poisoned extends Status {
 
-	private static String name = "Poisoned";
-	private static String descr = "";
-	
 	private ParticleEntity poison;
 	
 	public Poisoned(PlayState state, float i, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 	}
 
 	@Override

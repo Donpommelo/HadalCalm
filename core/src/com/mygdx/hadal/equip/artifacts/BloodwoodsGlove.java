@@ -9,18 +9,16 @@ import com.mygdx.hadal.utils.Stats;
 
 public class BloodwoodsGlove extends Artifact {
 
-	private final static String name = "Bloodwood's Glove";
-	private final static String descr = "Lower Charge Time on actives and weapons";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	public BloodwoodsGlove() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b,
+		enchantment[0] = new StatusComposite(state, b,
 				new StatChangeStatus(state, Stats.ACTIVE_CHARGE_RATE, 0.30f, b),
 				new StatChangeStatus(state, Stats.EQUIP_CHARGE_RATE, 0.30f, b)
 		);

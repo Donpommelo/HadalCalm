@@ -12,22 +12,20 @@ import com.mygdx.hadal.statuses.Status;
 
 public class Pepper extends Artifact {
 
-	private final static String name = "Pepper";
-	private final static String descr = "Damages nearby enemies.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 12;
 	
 	private final static float radius = 10.0f;
 	private final static float damage = 6.0f;
 	private final static float particleDuration = 1.0f;
 	
 	public Pepper() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
 			private float procCd = 1.5f;

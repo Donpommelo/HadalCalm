@@ -9,21 +9,19 @@ import com.mygdx.hadal.statuses.Status;
 
 public class GluttonousGreyGlove extends Artifact {
 
-	private final static String name = "Gluttonous Grey Glove";
-	private final static String descr = "Occasionally drop a Medpak on Kill.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	private static final float heal = 20.0f;
 	private static final float chance = 0.2f;
 	
 	public GluttonousGreyGlove() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public void onKill(BodyData vic) {

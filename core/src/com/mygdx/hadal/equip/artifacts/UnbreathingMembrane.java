@@ -12,18 +12,16 @@ import com.mygdx.hadal.utils.Stats;
 
 public class UnbreathingMembrane extends Artifact {
 
-	private final static String name = "Unbreathing Membrane";
-	private final static String descr = "Disables Walking. +Recoil and Clipsize";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
 	public UnbreathingMembrane() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
+		enchantment[0] = new StatusComposite(state, b, 
 				new StatChangeStatus(state, Stats.GROUND_SPD, -0.75f, b), 
 				new StatChangeStatus(state, Stats.GROUND_ACCEL, -0.75f, b),
 				new StatChangeStatus(state, Stats.AIR_SPD, -0.75f, b), 
@@ -32,7 +30,7 @@ public class UnbreathingMembrane extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.75f, b),
 				new StatChangeStatus(state, Stats.RANGED_CLIP, 0.75f, b),
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, 5.0f, b),
-				new Status(state, name, descr, b) {
+				new Status(state, b) {
 			
 					@Override
 					public void onReload(Equipable tool) {

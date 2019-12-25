@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
@@ -19,15 +20,15 @@ import com.mygdx.hadal.states.PlayState;
 public class Reliquary extends HubEvent {
 
 	private static final String name = "Reliquary";
-	private static final String title = "SELECT ARTIFACT";
+	private static final String title = "RELIQUARY";
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size) {
 		super(state, name, startPos, size, title);
 	}
 	
 	public void enter() {
-
 		super.enter();
+		final UIHub hub = state.getUiHub();
 		
 		for (UnlockArtifact c: UnlockArtifact.getUnlocks(true, UnlockTag.RELIQUARY)) {
 			
@@ -39,31 +40,26 @@ public class Reliquary extends HubEvent {
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
 					if (state.isServer()) {
-						state.getPlayer().getPlayerData().replaceStartingArtifact(selected);
+						state.getPlayer().getPlayerData().addArtifact(selected);
 					} else {
-						state.getPlayer().getPlayerData().syncClientLoadoutChangeArtifact(selected);
+						state.getPlayer().getPlayerData().syncClientLoadoutAddArtifact(selected);
 					}
-					state.getGsm().getRecord().setArtifact(selected.name());
+					hub.refreshHub();
 		        }
 				
 				@Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					mouseIn(selected.getName() + ": " + selected.getDescr() + " \n \n" + selected.getDescrLong());
+					hub.setInfo(selected.getName() + "\nCOST: " + selected.getArtifact().getSlotCost() + "\n" + selected.getDescr() + " \n \n" + selected.getDescrLong());
 				}
-
-				@Override
-				public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
-					super.enter(event, x, y, pointer, toActor);
-					mouseOut();
-				}
-				
 		    });
-			itemChoose.setScale(0.50f);
-			tableInner.add(itemChoose).width(optionsWidth).height(optionsHeight);
-			tableInner.row();
+			itemChoose.setScale(UIHub.optionsScale);
+			hub.getTableOptions().add(itemChoose).height(UIHub.optionsHeight);
+			hub.getTableOptions().row();
 		}
-		tableInner.add(new Text("", 0, 0)).width(optionsWidth).height(optionsHeight);
-		tableInner.row();
+		hub.getTableOptions().add(new Text("", 0, 0)).height(UIHub.optionsHeight);
+		hub.getTableOptions().row();
+		
+		hub.refreshHub();
 	}
 }

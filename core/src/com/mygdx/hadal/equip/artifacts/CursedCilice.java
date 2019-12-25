@@ -8,20 +8,18 @@ import com.mygdx.hadal.statuses.Status;
 
 public class CursedCilice extends Artifact {
 
-	private final static String name = "Cursed Cilice";
-	private final static String descr = "Taking Damage Regenerates Fuel.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
 	private final float amount = 0.5f;
 	
 	public CursedCilice() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {

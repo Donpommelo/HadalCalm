@@ -8,19 +8,16 @@ import com.mygdx.hadal.statuses.Status;
 
 public class ClockwiseCage extends Artifact {
 
-	private final static String name = "Clockwise Cage";
-	private final static String descr = "Projectile Echo.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
-	
+	private final static int slotCost = 3;
 	
 	public ClockwiseCage() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
 			private float procCd = 2.0f;			

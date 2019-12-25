@@ -18,27 +18,22 @@ public class Status {
 	//How long until the status (if temporary) is removed
 	protected float duration;
 	
-	//Name and description of the status
-	protected String name, descr;
-	
 	//Is this status removed when its duration expires?
 	protected boolean perm;
 	
 	//The Data of the Schmuck that received/inflicted this status.
 	protected BodyData inflicter, inflicted;
 	
-	public Status(PlayState state, float i, String n, String d, Boolean perm, BodyData p, BodyData v){
+	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v){
 		this.state = state;
 		this.duration = i;
-		this.name = n;
-		this.descr = d;
 		this.perm = perm;
 		this.inflicter = p;
 		this.inflicted = v;
 	}
 	
-	public Status(PlayState state, String n, String d, BodyData i) {
-		this(state, 0, n, d, true, i, i);
+	public Status(PlayState state, BodyData i) {
+		this(state, 0, true, i, i);
 	}
 	
 	/**
@@ -157,10 +152,6 @@ public class Status {
 	public void levelStart() {}
 	
 	public void onAirBlast(Equipable tool) {}
-
-	public String getName() { return name; }
-		
-	public String getDescr() {return descr;	}
 
 	public BodyData getInflicter() { return inflicter; }
 

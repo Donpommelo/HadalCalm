@@ -9,7 +9,7 @@ public enum UnlockLevel {
 
 	HUB("Maps/SS_Tunicate.tmx"),
 	HUB_MULTI("Maps/SS_Tunicate_Multi.tmx"),
-	TUTORIAL_1("Maps/tutorial1.tmx", UnlockArtifact.NOTHING, UnlockActives.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
+	TUTORIAL_1("Maps/tutorial1.tmx", null, null, UnlockEquip.NOTHING, UnlockEquip.NOTHING, UnlockEquip.NOTHING),
 	ARENA_1("Maps/arena_1.tmx"),
 	ARENA_2("Maps/arena_2.tmx"),
 	LEVEL_1("Maps/map_2.tmx"),
@@ -25,12 +25,12 @@ public enum UnlockLevel {
 	private InfoLevel info;
 	
 	private UnlockEquip[] multitools;
-	private UnlockArtifact startifact;
+	private UnlockArtifact[] artifacts;
 	private UnlockActives activeItem;
 	
-	UnlockLevel(String map, UnlockArtifact startifact, UnlockActives activeItem, UnlockEquip... multitools) {
+	UnlockLevel(String map, UnlockArtifact[] artifacts, UnlockActives activeItem, UnlockEquip... multitools) {
 		this(map);
-		this.startifact = startifact;
+		this.artifacts = artifacts;
 		this.activeItem = activeItem;
 		this.multitools = multitools;
 	}
@@ -88,9 +88,9 @@ public enum UnlockLevel {
 
 	public void setMultitools(UnlockEquip[] multitools) { this.multitools = multitools; }
 
-	public UnlockArtifact getStartifact() {	return startifact; }
+	public UnlockArtifact[] getArtifacts() { return artifacts; }
 
-	public void setStartifact(UnlockArtifact startifact) { this.startifact = startifact; }
+	public void setArtifacts(UnlockArtifact[] artifacts) { this.artifacts = artifacts; }
 
 	public UnlockActives getActiveItem() { return activeItem; }
 

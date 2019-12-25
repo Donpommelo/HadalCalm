@@ -10,13 +10,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Temporary extends Status {
 
-	private static String name = "Temporary";
-	private static String descr = "";
-	
 	private float duration;
 	
 	public Temporary(PlayState state, float i, BodyData p, BodyData v, float duration) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 		this.duration = duration;
 	}
 	

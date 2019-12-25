@@ -7,22 +7,20 @@ import com.mygdx.hadal.statuses.Status;
 
 public class AbyssalInsignia extends Artifact {
 
-	private final static String name = "Abyssal Insignia";
-	private final static String descr = "Release Vengeful Spirit Upon Killing or Dying.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	private final static float spiritLifespan = 6.0f;
 	private final static float spiritDamage = 25.0f;
 	private final static float spiritKnockback = 8.0f;
 	
 	public AbyssalInsignia() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public void onKill(BodyData vic) {

@@ -10,9 +10,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class StatChangeStatus extends Status {
 
-	private static String name = "Stats Changed";
-	private static String descr = "Stats Changed";
-	
 	//Which stat will be changed
 	private int statNum;
 	
@@ -20,13 +17,13 @@ public class StatChangeStatus extends Status {
 	private float statIncrement;
 	
 	public StatChangeStatus(PlayState state, float i, int stat, float amount, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 		this.statNum = stat;
 		this.statIncrement = amount;
 	}
 	
 	public StatChangeStatus(PlayState state, int stat, float amount, BodyData i) {
-		super(state, name, descr, i);
+		super(state, i);
 		this.statNum = stat;
 		this.statIncrement = amount;
 	}

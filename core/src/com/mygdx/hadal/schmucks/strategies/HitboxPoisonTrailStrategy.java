@@ -1,10 +1,7 @@
 package com.mygdx.hadal.schmucks.strategies;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.Poison;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -35,8 +32,6 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 		this.filter = filter;
 		
 		this.poisonCdCount = 0;
-		
-		new ParticleEntity(state, hbox, Particle.POISON, 1.5f, 0, true, particleSyncType.TICKSYNC);
 	}
 	
 	@Override
@@ -44,7 +39,7 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 		
 		if (poisonCdCount <= 0) {
 			poisonCdCount = poisonCd;
-			new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration, creator.getSchmuck(), false, filter);
+			new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
 		}
 		poisonCdCount -= delta;
 	}

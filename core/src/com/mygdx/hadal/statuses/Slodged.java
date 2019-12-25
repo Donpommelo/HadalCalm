@@ -9,15 +9,12 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Slodged extends Status {
 
-	private static String name = "Slodged";
-	private static String descr = "Slowed";
-	
 	private ParticleEntity slodge;
 	
 	private float slow;
 	
 	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 		this.slow = slow;
 	}
 	

@@ -199,7 +199,6 @@ public class BossUtils {
 						boss.getHitboxfilter(), false, true, boss, Sprite.ORB_RED);
 				hbox.setGravity(10.0f);
 				hbox.setRestitution(1);
-				hbox.setFriction(0);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));

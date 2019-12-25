@@ -9,20 +9,18 @@ import com.mygdx.hadal.statuses.Status;
 
 public class MangroveTalisman extends Artifact {
 
-	private final static String name = "Mangrove Talisman";
-	private final static String descr = "Poison Resistance";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
-	private final static float res = 0.1f;
+	private final static float res = 0.2f;
 	
 	public MangroveTalisman() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {

@@ -12,19 +12,17 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class TypeResistance extends Status {
 
-	private static String name = "Damage Resistance";
-	private static String descr = "Damage Resistance";
 	private float power;
 	private DamageTypes resisted;
 	
 	public TypeResistance(PlayState state, float i, float power, DamageTypes resisted, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 		this.resisted = resisted;
 		this.power = power;
 	}
 	
 	public TypeResistance(PlayState state, float power, DamageTypes resisted, BodyData i) {
-		super(state, name, descr, i);
+		super(state, i);
 		this.resisted = resisted;
 		this.power = power;
 	}

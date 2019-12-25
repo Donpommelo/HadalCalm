@@ -8,20 +8,18 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PrehistoricSynapse extends Artifact {
 
-	private final static String name = "Prehistoric Synapse";
-	private final static String descr = "Delays Damage taken.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	private final static float degen = 8.0f;
 	
 	public PrehistoricSynapse() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 
 			private float damageLeft = 0;
 			

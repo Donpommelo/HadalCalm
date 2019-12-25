@@ -11,22 +11,20 @@ import com.mygdx.hadal.utils.Stats;
 
 public class EmaudelinesPrism extends Artifact {
 
-	private final static String name = "Emaudeline's Prism";
-	private final static String descr = "Split Shot";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 3;
 	
-	private final static int spread = 30;
+	private final static int spread = 20;
 	
 	public EmaudelinesPrism() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, -0.4f, b),
-				new Status(state, name, descr, b) {
+		enchantment[0] = new StatusComposite(state, b, 
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, -0.3f, b),
+				new Status(state, b) {
 			
 			private Vector2 projVelo = new Vector2();
 			private Vector2 projAngle1 = new Vector2();

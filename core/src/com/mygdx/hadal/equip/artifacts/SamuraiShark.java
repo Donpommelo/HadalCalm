@@ -13,23 +13,21 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class SamuraiShark extends Artifact {
 
-	private final static String name = "Samurai Shark";
-	private final static String descr = "Critical Projectiles";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	private final float critChance = 0.2f;
 	private final float critDamageBoost = 20.0f;
 	private final float critSpeedMultiplier = 3.0f;
 	
 	public SamuraiShark() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new Status(state, name, descr, b) {
+		enchantment[0] = new StatusComposite(state, b, 
+				new Status(state, b) {
 			
 			private float procCdCount;
 			private float procCd = 5.0f;

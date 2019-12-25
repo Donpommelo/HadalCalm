@@ -8,10 +8,8 @@ import com.mygdx.hadal.statuses.Status;
 
 public class AnarchistsCookbook extends Artifact {
 
-	private final static String name = "Anarchist's Cookbook";
-	private final static String descr = "Explosions!";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
 	private final static float baseDamage = 15.0f;
 	private final static float knockback = 0.0f;
@@ -23,13 +21,13 @@ public class AnarchistsCookbook extends Artifact {
 	private final static float explosionKnockback = 25.0f;
 	
 	public AnarchistsCookbook() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
 			private float procCd = .75f;

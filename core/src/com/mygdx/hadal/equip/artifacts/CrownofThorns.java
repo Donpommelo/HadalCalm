@@ -7,20 +7,16 @@ import com.mygdx.hadal.statuses.Status;
 
 public class CrownofThorns extends Artifact {
 
-	private final static String name = "Crown of Thorns";
-	private final static String descr = "Damages nearby enemies when reloading.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
-	
+	private final static int slotCost = 2;
 
-	
 	public CrownofThorns() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public void onReload(Equipable tool) {

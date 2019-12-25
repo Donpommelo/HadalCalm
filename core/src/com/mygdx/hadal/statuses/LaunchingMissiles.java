@@ -7,14 +7,11 @@ import com.mygdx.hadal.states.PlayState;
 
 public class LaunchingMissiles extends Status {
 
-	private static String name = "Launching Missiles";
-	private static String descr = "Missiles";
-	
 	private float procCdCount;
 	private float procCd = .1f;
 	
 	public LaunchingMissiles(PlayState state, float i, BodyData p, BodyData v) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 	}
 	
 	@Override

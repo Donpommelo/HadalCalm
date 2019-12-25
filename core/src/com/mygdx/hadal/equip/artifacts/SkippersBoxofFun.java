@@ -15,22 +15,20 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 
 public class SkippersBoxofFun extends Artifact {
 
-	private final static String name = "Skipper's Box of Fun";
-	private final static String descr = "Rerolls weapon every 10 seconds";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
 	private final static float procCd = 10.0f;
 	private final static float particleDura = 1.0f;
 	
 	public SkippersBoxofFun() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new Status(state, name, descr, b) {
+		enchantment[0] = new StatusComposite(state, b, 
+				new Status(state, b) {
 			
 			private float procCdCount;
 			

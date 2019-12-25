@@ -175,7 +175,7 @@ public class UIPlay extends AHadalActor {
 		font.draw(batch, ammoText, mainX + 48, mainY + 60);
 		font.draw(batch, (int)(hpRatio * hpMax) + "/" + (int)hpMax,	mainX + 155, mainY + 66);
 		
-		for (int i = 0; i < Loadout.maxSlots; i++) {
+		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 			if (numWeaponSlots > i) {
 				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
 					batch.draw(itemNull.get(i), mainX, mainY, getWidth(), getHeight());

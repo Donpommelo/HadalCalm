@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.equip.artifacts.Artifact;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -49,12 +49,10 @@ public class UIArtifacts {
 		artifacts.clear();
 		if (player.getPlayerData() != null) {
 			
-			if (player.getPlayerData().getArtifactStart() != null) {
-				artifacts.add(addTag(player.getPlayerData().getArtifactStart()));
-			}
-			
-			for (Artifact a : player.getPlayerData().getArtifacts()) {
-				artifacts.add(addTag(a));
+			for (UnlockArtifact a : player.getPlayerData().getArtifacts()) {
+				if (!a.equals(UnlockArtifact.NOTHING)) {
+					artifacts.add(addTag(a));
+				}
 			}
 		}
 	}
@@ -64,7 +62,7 @@ public class UIArtifacts {
 	 * @param s: new Status
 	 * @return corresponding status tag
 	 */
-	private ArtifactTag addTag(Artifact u) {
+	private ArtifactTag addTag(UnlockArtifact u) {
 		ArtifactTag newTag = new ArtifactTag(u);
 		newTag.setWidth(tagWidth);
 		newTag.setWidth(tagHeight);

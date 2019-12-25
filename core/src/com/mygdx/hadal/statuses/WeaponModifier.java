@@ -22,8 +22,8 @@ public class WeaponModifier extends Status {
 	//A Status that will activate if the above weapon is active. This corresponds to the WeaponMod
 	private Status mod;
 	
-	public WeaponModifier(PlayState state, String name, String descr, BodyData i, Equipable tool, WeaponMod constantMod, Status mod){
-		super(state, name, descr, i);
+	public WeaponModifier(PlayState state, BodyData i, Equipable tool, WeaponMod constantMod, Status mod){
+		super(state, i);
 		this.moddedTool = tool;
 		this.constantMod = constantMod;
 		this.mod = mod;

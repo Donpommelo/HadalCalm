@@ -1,6 +1,6 @@
 package com.mygdx.hadal.schmucks.userdata;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
@@ -50,10 +50,7 @@ public class PlayerBodyData extends BodyData {
 	private Equipable[] multitools;
 	
 	//This is a list of the player's artifacts
-	private ArrayList<Artifact> artifacts;
-	
-	//This is the artifact that the player starts off with
-	private Artifact artifactStart;
+	private UnlockArtifact[] artifacts;
 	
 	//This is the player's active item
 	private ActiveItem activeItem;
@@ -83,18 +80,19 @@ public class PlayerBodyData extends BodyData {
 		clearStatuses();
 
 		//Acquire weapons from loadout
-		this.multitools = new Equipable[Loadout.maxSlots];
-		for (int i = 0; i < Loadout.maxSlots; i++) {
-			if (loadout.multitools[i] != null) {
-				multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
-			}
+		this.multitools = new Equipable[Loadout.maxWeaponSlots];
+		Arrays.fill(multitools, new NothingWeapon(player));
+		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+			multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
 		}
 		setEquip();
 
-		//Reset artifacts list and acquire starting artifact
-		this.artifacts = new ArrayList<Artifact>();
-		
-		replaceStartingArtifact(loadout.startifact);
+		//Reset artifacts list and acquire artifacts from loadout
+		this.artifacts = new UnlockArtifact[Loadout.maxArtifactSlots];
+		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			addArtifact(loadout.artifacts[i]);
+		}
 		
 		//Acquire active item and acquire charge status
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
@@ -111,32 +109,27 @@ public class PlayerBodyData extends BodyData {
 		
 		Loadout newLoadout = new Loadout(loadout);
 		
-		for (int i = 0; i < newLoadout.multitools.length; i++) {
-			if (loadout.multitools[i] != null) {
-				multitools[i] = UnlocktoItem.getUnlock(newLoadout.multitools[i], player);
-			}
+		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+			multitools[i] = UnlocktoItem.getUnlock(newLoadout.multitools[i], player);
 		}
-		
 		setEquip();
 		
-		for (Artifact a : artifacts) {
-			for (Status s: a.getEnchantment()) {
-				removeStatus(s);
-			}
-		}
-		artifacts.clear();
-		
-		for (UnlockArtifact unlock: newLoadout.artifacts) {
-			addArtifact(unlock);
-		}
-		
-		if (artifactStart != null) {
-			for (Status s : artifactStart.getEnchantment()) {
+		for (UnlockArtifact a : artifacts) {
+			for (Status s: a.getArtifact().getEnchantment()) {
 				removeStatus(s);
 			}
 		}
 		
-		replaceStartingArtifact(newLoadout.startifact);
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			for (Status s: artifacts[i].getArtifact().getEnchantment()) {
+				removeStatus(s);
+			}
+			artifacts[i] = UnlockArtifact.NOTHING;
+		}
+		
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			addArtifact(newLoadout.artifacts[i]);
+		}
 		
 		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
 		player.setBodySprite(newLoadout.character);
@@ -153,14 +146,18 @@ public class PlayerBodyData extends BodyData {
 	 * This is run when the server receives a request from a client to make a change to their loadout.
 	 * @param loadout
 	 */
-	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifact, UnlockActives active, UnlockCharacter character) {
+	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove, UnlockActives active, UnlockCharacter character) {
 		
 		if (equip != null) {
 			pickup(UnlocktoItem.getUnlock(equip, getPlayer()));
 		}
 		
-		if (artifact != null) {
-			replaceStartingArtifact(artifact);
+		if (artifactAdd != null) {
+			addArtifact(artifactAdd);
+		}
+		
+		if (artifactRemove != null) {
+			removeArtifact(artifactRemove);
 		}
 		
 		if (active != null) {
@@ -185,21 +182,11 @@ public class PlayerBodyData extends BodyData {
 		clearStatuses();
 		
 		for (Equipable e : multitools) {
-			if (e != null) {
-				e.setUser(player);
-			}
+			e.setUser(player);
 		}
 		
-		for (Artifact a : artifacts) {
-			if (a != null) {
-				for (Status s : a.loadEnchantments(player.getState(), this)) {
-					addStatus(s);
-				}
-			}
-		}
-
-		if (artifactStart != null) {
-			for (Status s : artifactStart.loadEnchantments(player.getState(), this)) {
+		for (UnlockArtifact a : artifacts) {
+			for (Status s : a.getArtifact().loadEnchantments(player.getState(), this)) {
 				addStatus(s);
 			}
 		}
@@ -211,7 +198,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void switchWeapon(int slot) {
 		if (getNumWeaponSlots() >= slot) {
-			if (multitools[slot - 1] != null && !(multitools[slot - 1] instanceof NothingWeapon)) {
+			if (!(multitools[slot - 1] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = slot - 1;
 				setEquip();
@@ -225,7 +212,7 @@ public class PlayerBodyData extends BodyData {
 	public void switchToLast() {
 		if (schmuck.getShootDelayCount() <= 0) {
 			if (lastSlot < getNumWeaponSlots()) {
-				if (multitools[lastSlot] != null && !(multitools[lastSlot] instanceof NothingWeapon)) {
+				if (!(multitools[lastSlot] instanceof NothingWeapon)) {
 					int tempSlot = lastSlot;
 					lastSlot = currentSlot;
 					currentSlot = tempSlot;
@@ -241,7 +228,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void switchDown() {
 		for (int i = 1; i <= getNumWeaponSlots(); i++) {
-			if (multitools[(currentSlot + i) % getNumWeaponSlots()] != null && !(multitools[(currentSlot + i) % getNumWeaponSlots()] instanceof NothingWeapon)) {
+			if (!(multitools[(currentSlot + i) % getNumWeaponSlots()] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = (currentSlot + i) % getNumWeaponSlots();
 				setEquip();
@@ -255,7 +242,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void switchUp() {
 		for (int i = 1; i <= getNumWeaponSlots(); i++) {
-			if (multitools[(getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots()] != null && !(multitools[(getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots()] instanceof NothingWeapon)) {
+			if (!(multitools[(getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots()] instanceof NothingWeapon)) {
 				lastSlot = currentSlot;
 				currentSlot = (getNumWeaponSlots() + (currentSlot - i)) % getNumWeaponSlots();
 				setEquip();
@@ -278,7 +265,7 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		for (int i = 0; i < getNumWeaponSlots(); i++) {
-			if (multitools[i] == null || multitools[i] instanceof NothingWeapon) {
+			if (multitools[i] instanceof NothingWeapon) {
 				multitools[i] = equip;
 				multitools[i].setUser(player);
 				currentSlot = i;
@@ -315,7 +302,7 @@ public class PlayerBodyData extends BodyData {
 		
 		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
 
-		if (activeItem == null || activeItem instanceof NothingActive) {
+		if (activeItem instanceof NothingActive) {
 			activeItem = item;
 			return new NothingActive(player);
 		}
@@ -334,10 +321,8 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void emptySlot(int slot) {
 		
-		if (multitools[slot] != null) {
-			for (Status s : multitools[slot].getWeaponMods()) {
-				removeStatus(s);
-			}
+		for (Status s : multitools[slot].getWeaponMods()) {
+			removeStatus(s);
 		}
 		
 		multitools[slot] = new NothingWeapon(player);
@@ -367,74 +352,80 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * Replaces starting artifact with input artifact. This only runs in the loadout state.
-	 */
-	public void replaceStartingArtifact(UnlockArtifact artifact) {
-		if (artifactStart != null) {
-			for (Status s : artifactStart.getEnchantment()) {
-				removeStatus(s);
-			}
-		}
-		
-		artifactStart = UnlocktoItem.getUnlock(artifact);
-		
-		for (Status s : artifactStart.loadEnchantments(player.getState(), this)) {
-			addStatus(s);
-		}
-		
-		loadout.startifact = artifact;
-		
-		if (player.equals((player.getState().getPlayer()))) {
-			player.getState().getUiArtifact().syncArtifact();
-		}
-		
-		syncServerLoadoutChange();
-	}
-	
-	/**
 	 * Add a new artifact. Return the new artifact
 	 */
-	public Artifact addArtifact(UnlockArtifact artifact) {
+	public void addArtifact(UnlockArtifact artifactUnlock) {
 
-		Artifact newArtifact =  UnlocktoItem.getUnlock(artifact);
+		Artifact newArtifact =  artifactUnlock.getArtifact();
+		int slotsUsed = 0;
 		
-		if (player.getState().isServer()) {
-			for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
-				addStatus(s);
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			if (!(artifacts[i].equals(UnlockArtifact.NOTHING))) {
+				slotsUsed += artifacts[i].getArtifact().getSlotCost();
+				
+				if (artifacts[i].equals(artifactUnlock)){
+					return;
+				} 
+				
+				if (!artifactUnlock.isUnlocked()){
+					return;
+				} 
+				
+				if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots()) {
+					return;
+				}
+			} else {
+				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
+					addStatus(s);
+				}
+				artifacts[i] = artifactUnlock;
+				loadout.artifacts[i] = artifactUnlock;
+				
+				if (player.equals((player.getState().getPlayer()))) {
+					player.getState().getUiArtifact().syncArtifact();
+				}
+				
+				saveArtifacts();
+				syncServerLoadoutChange();
+				return;
 			}
 		}
-		
-		artifacts.add(newArtifact);
-
-		loadout.artifacts.add(artifact);
-		
-		if (player.equals((player.getState().getPlayer()))) {
-			player.getState().getUiArtifact().syncArtifact();
-		}
-		
-		syncServerLoadoutChange();
-		
-		return newArtifact;
 	}
 	
 	/**
-	 * Remove a designated artifact. This is only used in specific interactions.
+	 * Remove a designated artifact. 
 	 */
-	public void removeArtifact(UnlockArtifact unlock, Artifact artifact) {
+	public void removeArtifact(UnlockArtifact artifact) {
 		
-		if (player.getState().isServer()) {
-			for (Status s : artifact.loadEnchantments(player.getState(), this)) {
-				removeStatus(s);
+		int indexRemoved = -1;
+		
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			if (artifacts[i].equals(artifact)) {
+				indexRemoved = i;
+				break;
 			}
 		}
-		
-		artifacts.remove(artifact);
-		loadout.artifacts.remove(unlock);
+
+		if (indexRemoved != -1) {
+			if (artifacts[indexRemoved] != null) {
+				for (Status s : artifacts[indexRemoved].getArtifact().getEnchantment()) {
+					removeStatus(s);
+				}
+			}
+			
+			for (int i = indexRemoved; i < Loadout.maxArtifactSlots - 1; i++) {
+				artifacts[i] = artifacts[i + 1];
+				loadout.artifacts[i] = loadout.artifacts[i + 1];
+			}
+			artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
+			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
+		}
 		
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
 		
+		saveArtifacts();
 		syncServerLoadoutChange();
 	}
 	
@@ -453,6 +444,15 @@ public class PlayerBodyData extends BodyData {
 		
 		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equipped".
 		calcStats();
+	}
+	
+	/**
+	 * This method saves the player's current artifacts into records
+	 */
+	public void saveArtifacts() {
+		for(int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			player.getState().getGsm().getRecord().setArtifact(i, artifacts[i].toString());
+		}
 	}
 	
 	/**
@@ -482,7 +482,21 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public int getNumWeaponSlots() {
-		return Math.min((int) (Loadout.baseSlots + getStat(Stats.WEAPON_SLOTS)), Loadout.maxSlots);
+		return Math.min((int) (Loadout.baseWeaponSlots + getStat(Stats.WEAPON_SLOTS)), Loadout.maxWeaponSlots);
+	}
+	
+	public int getNumArtifactSlots() {
+		return Math.min((int) (Loadout.baseArtifactSlots + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+	}
+	
+	public int getArtifactSlotsRemaining() {
+		int slotsUsed = 0;
+		
+		for (int i = 0; i < getNumArtifactSlots(); i++) {
+			slotsUsed += artifacts[i].getArtifact().getSlotCost();
+		}
+		
+		return getNumArtifactSlots() - slotsUsed;
 	}
 	
 	/**
@@ -499,25 +513,31 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void syncClientLoadoutChangeWeapon(UnlockEquip equip) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null));
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null, null));
 		}
 	}
 	
-	public void syncClientLoadoutChangeArtifact(UnlockArtifact artifact) {
+	public void syncClientLoadoutAddArtifact(UnlockArtifact artifact) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null));
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null, null));
+		}
+	}
+	
+	public void syncClientLoadoutRemoveArtifact(UnlockArtifact artifact) {
+		if (!player.getState().isServer()) {
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, artifact, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutChangeActive(UnlockActives active) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, active, null));
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, active, null));
 		}
 	}
 	
 	public void syncClientLoadoutChangeCharacter(UnlockCharacter character) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, character));
+			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, null, character));
 		}
 	}
 	
@@ -563,8 +583,6 @@ public class PlayerBodyData extends BodyData {
 	
 	public Player getPlayer() {	return player;}
 	
-	public Artifact getArtifactStart() { return artifactStart; }
-
 	public int getExtraJumps() { return numExtraJumps + (int)getStat(Stats.JUMP_NUM); }
 	
 	public float getJumpPower() { return jumpPow * (1 + getStat(Stats.JUMP_POW)); }
@@ -583,7 +601,7 @@ public class PlayerBodyData extends BodyData {
 
 	public Equipable[] getMultitools() { return multitools; }
 	
-	public ArrayList<Artifact> getArtifacts() {	return artifacts; }
+	public UnlockArtifact[] getArtifacts() {	return artifacts; }
 	
 	public ActiveItem getActiveItem() {	return activeItem; }
 

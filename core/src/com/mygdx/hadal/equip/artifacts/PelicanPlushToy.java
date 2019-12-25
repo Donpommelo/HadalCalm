@@ -7,20 +7,18 @@ import com.mygdx.hadal.statuses.Status;
 
 public class PelicanPlushToy extends Artifact {
 
-	private final static String name = "Pelican Plush Toy";
-	private final static String descr = "Improved Healing.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
-	private final float amount = 1.6f;
+	private final float amount = 1.5f;
 	
 	public PelicanPlushToy() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public float onHeal(float damage, BodyData perp, DamageTypes... tags) { 

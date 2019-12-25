@@ -13,20 +13,18 @@ import com.mygdx.hadal.utils.Stats;
 
 public class GomezsAmygdala extends Artifact {
 
-	private final static String name = "Gomez's Amygdala";
-	private final static String descr = "Temporarily boosts speed and damage when taking damage.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	private final float dura = 2.0f;
 	
 	public GomezsAmygdala() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
 			private float procCd = 2.0f;
@@ -46,7 +44,7 @@ public class GomezsAmygdala extends Artifact {
 					
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, procCd, true, particleSyncType.TICKSYNC);
 					
-					inflicted.addStatus(new StatusComposite(state, dura, "Self-Preservatory", "Bonus Stats", false, perp, inflicted,
+					inflicted.addStatus(new StatusComposite(state, dura, false, perp, inflicted,
 							new StatChangeStatus(state, Stats.GROUND_SPD, 0.5f, inflicted),
 							new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.3f, inflicted)
 							));

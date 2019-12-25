@@ -9,21 +9,19 @@ import com.mygdx.hadal.statuses.Status;
 
 public class HornsofAmmon extends Artifact {
 
-	private final static String name = "Horns of Ammon";
-	private final static String descr = "Brief Invulnerability on damage.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 3;
 	
 	private final static float threshold = 5.0f;
 	private final static float invulnDura = 1.0f;
 	
 	public HornsofAmmon() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {

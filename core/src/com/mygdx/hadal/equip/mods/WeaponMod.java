@@ -147,7 +147,7 @@ public enum WeaponMod {
 	public Status retrieveMod(BodyData b, PlayState state) { return null; }
 	
 	public void acquireMod(BodyData b, PlayState state, Equipable tool) {
-		WeaponModifier newMod = new WeaponModifier(state, name, descr, b, tool, this, retrieveMod(b, state));
+		WeaponModifier newMod = new WeaponModifier(state, b, tool, this, retrieveMod(b, state));
 		tool.getWeaponMods().add(newMod);
 		b.addStatus(newMod);
 	}

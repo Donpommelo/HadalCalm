@@ -14,13 +14,13 @@ public class StatusComposite extends Status {
 
 	private Status[] statuses;
 	
-	public StatusComposite(PlayState state, float i, String name, String descr, Boolean perm, BodyData p, BodyData v, Status...statuses){
-		super(state, i, name, descr, perm, p, v);
+	public StatusComposite(PlayState state, float i, boolean perm, BodyData p, BodyData v, Status...statuses){
+		super(state, i, perm, p, v);
 		this.statuses = statuses;
 	}
 	
-	public StatusComposite(PlayState state, String name, String descr, BodyData i, Status...statuses){
-		super(state, name, descr, i);
+	public StatusComposite(PlayState state, BodyData i, Status...statuses){
+		super(state, i);
 		this.statuses = statuses;
 	}
 	

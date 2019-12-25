@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.artifacts.Artifact;
+import com.mygdx.hadal.save.UnlockArtifact;
 
 /**
  * An Artifact tag is a ui element that corresponds to a single artifact in the player's inventory.
@@ -18,7 +18,7 @@ import com.mygdx.hadal.equip.artifacts.Artifact;
  */
 public class ArtifactTag extends AHadalActor {
 
-	private Artifact artifact;
+	private UnlockArtifact artifact;
 	
 	private BitmapFont font;
 	
@@ -29,7 +29,7 @@ public class ArtifactTag extends AHadalActor {
 	
 	private boolean mouseOver;
 	
-	public ArtifactTag(Artifact artifact) {
+	public ArtifactTag(UnlockArtifact artifact) {
 		this.artifact = artifact;
 		
 		font = HadalGame.SYSTEM_FONT_UI;
@@ -61,7 +61,9 @@ public class ArtifactTag extends AHadalActor {
          if (mouseOver) {
         	 font.setColor(color);
         	 font.getData().setScale(scale);
-        	 font.draw(batch, artifact.getName() + ": " + artifact.getDescr(), getX() + 30, getY() + 5);
+        	 font.draw(batch, artifact.getName() + ": " + artifact.getDescr(), getX() + 30, getY() + 45);
          }
     }
+
+	public UnlockArtifact getArtifact() { return artifact; }
 }

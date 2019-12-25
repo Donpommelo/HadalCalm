@@ -9,9 +9,6 @@ import com.mygdx.hadal.states.PlayState;
 
 public class Ablaze extends Status {
 
-	private static String name = "Ablaze";
-	private static String descr = "Stop Drop and Roll";
-	
 	private ParticleEntity fire;
 	
 	private float damage;
@@ -19,7 +16,7 @@ public class Ablaze extends Status {
 	private float procCd = .5f;
 	
 	public Ablaze(PlayState state, float i, BodyData p, BodyData v, float damage) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 		this.procCdCount = 0;
 		this.damage = damage;
 	}

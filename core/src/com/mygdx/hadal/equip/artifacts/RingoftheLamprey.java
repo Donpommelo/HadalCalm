@@ -8,19 +8,16 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class RingoftheLamprey extends Artifact {
 
-	private final static String name = "Ring of the Lamprey";
-	private final static String descr = "Lifesteal";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	public RingoftheLamprey() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new Lifesteal(state, 0.03f, b));
+		enchantment[0] = new StatusComposite(state, b, new Lifesteal(state, 0.03f, b));
 		return enchantment;
 	}
 }

@@ -183,7 +183,7 @@ public class KryoServer {
     						
     						@Override
 							public void execute() {
-    							player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifact, p.active, p.character);
+    							player.getPlayerData().syncLoadoutFromClient(p.equip, p.artifactAdd, p.artifactRemove, p.active, p.character);
                 				player.getPlayerData().syncServerLoadoutChange();
     						}
         				});

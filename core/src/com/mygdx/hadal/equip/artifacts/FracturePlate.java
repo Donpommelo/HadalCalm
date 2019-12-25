@@ -10,24 +10,21 @@ import com.mygdx.hadal.statuses.Status;
 
 public class FracturePlate extends Artifact {
 
-	private final static String name = "Fracture Plate";
-	private final static String descr = "Blocks damage every 8 seconds";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	private float procCdCount = 0;
-	private float cd = 8.0f;
+	private float cd = 5.0f;
 	
 	private float particleDura = 1.0f;
 	
 	public FracturePlate() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
-			
+		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public void timePassing(float delta) {
@@ -40,11 +37,9 @@ public class FracturePlate extends Artifact {
 					procCdCount = cd;
 					damage = 0;
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 0.0f, particleDura, true, particleSyncType.TICKSYNC);
-
 				}
 				return damage;
 			}
-			
 		};
 		return enchantment;
 	}

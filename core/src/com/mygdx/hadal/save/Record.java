@@ -24,7 +24,8 @@ public class Record {
 	
 	//This is the player's current loadout that they will start with
 	private String[] equips;
-	private String artifact, active, character;
+	private String[] artifacts;
+	private String active, character;
 	
 	//This is the player's starting name
 	private String name;
@@ -80,7 +81,7 @@ public class Record {
 		newRecord.flags.put("INTRO", 0);
 		newRecord.flags.put("TUTORIAL", 0);
 		newRecord.equips = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING"};
-		newRecord.artifact = "NOTHING";
+		newRecord.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newRecord.active = "NOTHING";
 		newRecord.character = "MOREAU";
 		newRecord.name = "";
@@ -93,8 +94,8 @@ public class Record {
 		saveRecord();
 	}
 	
-	public void setArtifact(String artifact) {
-		this.artifact = artifact;
+	public void setArtifact(int index, String artifact) {
+		this.artifacts[index] = artifact;
 		saveRecord();
 	}
 	
@@ -121,7 +122,7 @@ public class Record {
 
 	public String[] getEquips() {return equips;}
 
-	public String getArtifact() { return artifact; }
+	public String[] getArtifacts() { return artifacts; }
 
 	public String getActive() {	return active; }
 

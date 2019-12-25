@@ -12,19 +12,17 @@ import com.mygdx.hadal.statuses.StatusComposite;
 
 public class AdministratorCard extends Artifact {
 
-	private final static String name = "Administrator Card";
-	private final static String descr = "Get 3 Random Artifacts at the Start of Level.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 3;
 	
 	public AdministratorCard() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
-				new Status(state, name, descr, b) {
+		enchantment[0] = new StatusComposite(state, b, 
+				new Status(state, b) {
 			
 			private ArrayList<Artifact> artifacts = new ArrayList<Artifact>();
 			private ArrayList<UnlockArtifact> unlocks = new ArrayList<UnlockArtifact>();
@@ -37,7 +35,7 @@ public class AdministratorCard extends Artifact {
 						UnlockArtifact artifact = UnlockArtifact.valueOf(PickupArtifact.getRandArtfFromPool(""));
 						
 						unlocks.add(artifact);
-						artifacts.add(((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact));
+//						artifacts.add(((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact));
 					}
 				}
 			}
@@ -45,7 +43,7 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void onDeath(BodyData perp) {
 				for (int i = 0; i < artifacts.size(); i++) {
-					((Player)inflicted.getSchmuck()).getPlayerData().removeArtifact(unlocks.get(i), artifacts.get(i));
+//					((Player)inflicted.getSchmuck()).getPlayerData().removeArtifact(unlocks.get(i), artifacts.get(i));
 				}
 				unlocks.clear();
 				artifacts.clear();

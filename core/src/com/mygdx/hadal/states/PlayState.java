@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
+import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.actors.ScoreWindow;
 import com.mygdx.hadal.actors.UIObjective;
@@ -73,7 +74,7 @@ public class PlayState extends GameState {
 	
 	//This is the loadout that the player starts off with when they enter the playstate
 	private UnlockEquip[] mapMultitools;
-	private UnlockArtifact mapStartifact;
+	private UnlockArtifact[] mapArtifacts;
 	private UnlockActives mapActiveItem;
 	
 	//These process and store the map parsed from the Tiled file.
@@ -154,9 +155,10 @@ public class PlayState extends GameState {
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
-	private UIObjective uiObjective;
-	private UIExtra uiExtra;
+	protected UIObjective uiObjective;
+	protected UIExtra uiExtra;
 	protected UIArtifacts uiArtifact;
+	protected UIHub uiHub;
 	protected MessageWindow messageWindow;
 	protected ScoreWindow scoreWindow;
 	
@@ -212,7 +214,7 @@ public class PlayState extends GameState {
 		
 		//Maps can have a set loadout. This will override the loadout given as an input to the playstate.
 		this.mapMultitools = level.getMultitools();
-		this.mapStartifact = level.getStartifact();
+		this.mapArtifacts = level.getArtifacts();
 		this.mapActiveItem = level.getActiveItem();
 		this.level = level;
 		this.startId = startId;
@@ -316,6 +318,7 @@ public class PlayState extends GameState {
 			uiObjective = new UIObjective(this, player);
 			uiArtifact = new UIArtifacts(this, player);
 			uiExtra = new UIExtra(this);
+			uiHub = new UIHub(this);
 			
 			messageWindow = new MessageWindow(this);
 			scoreWindow = new ScoreWindow(this);
@@ -671,15 +674,19 @@ public class PlayState extends GameState {
 		Loadout newLoadout = new Loadout(altLoadout);
 		
 		if (mapMultitools != null) {
-			for (int i = 0; i < newLoadout.multitools.length; i++) {
+			for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 				if (mapMultitools.length > i) {
 					newLoadout.multitools[i] = mapMultitools[i];
 				}
 			}
 		}
 		
-		if (mapStartifact != null) {
-			newLoadout.startifact = mapStartifact;
+		if (mapArtifacts != null) {
+			for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+				if (mapArtifacts.length > i) {
+					newLoadout.artifacts[i] = mapArtifacts[i];
+				}
+			}
 		}
 		
 		if (mapActiveItem != null) {
@@ -924,6 +931,8 @@ public class PlayState extends GameState {
 	public UIExtra getUiExtra() { return uiExtra; }
 
 	public UIArtifacts getUiArtifact() { return uiArtifact; }
+	
+	public UIHub getUiHub() { return uiHub; }
 
 	public Vector2 getStartPosition() {	return startPosition; }
 	

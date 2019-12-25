@@ -15,9 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class FiringWeapon extends Status {
 
-	private static String name = "Firing Weapon";
-	private static String descr = "Firing";
-	
 	//these keep track of interval until next hbox is spawned
 	private float procCdCount;
 	private float procCd;
@@ -37,7 +34,7 @@ public class FiringWeapon extends Status {
 	private Equipable tool;
 	
 	public FiringWeapon(PlayState state, float i, BodyData p, BodyData v, float projVelo, float minVelo, float veloDeprec, float projSize, float procCd, Equipable tool) {
-		super(state, i, name, descr, false, p, v);
+		super(state, i, false, p, v);
 		this.minVelo = minVelo;
 		this.veloDeprec = veloDeprec;
 		this.projSize = projSize;

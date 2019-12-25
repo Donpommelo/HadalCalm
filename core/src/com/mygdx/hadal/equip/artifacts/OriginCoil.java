@@ -11,34 +11,37 @@ import com.mygdx.hadal.utils.Stats;
 
 public class OriginCoil extends Artifact {
 
-	private final static String name = "Origin Coil";
-	private final static String descr = "Propulsive Projectiles, +Reload Speed";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
 	private final static float slow = 0.02f;
 	private final static float boost = 75.0f;
 	private final static float delay = 0.25f;
 	
 	public OriginCoil() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
+		enchantment[0] = new StatusComposite(state, b, 
 				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, 1.0f, b),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.6f, b),
-				new Status(state, name, descr, b) {
+				new Status(state, b) {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.setGravity(0.0f);
-				hbox.setStartVelo(hbox.getStartVelo().scl(slow));
+				
+				hbox.getStartVelo().scl(slow);
 				hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 					
 					float controllerCount = 0;
 					private float count = delay;
+					
+					@Override
+					public void create() {
+						hbox.getBody().setGravityScale(0.0f);
+					}
 					
 					@Override
 					public void controller(float delta) {

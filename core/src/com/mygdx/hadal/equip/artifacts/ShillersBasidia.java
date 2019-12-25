@@ -8,18 +8,16 @@ import com.mygdx.hadal.statuses.Status;
 
 public class ShillersBasidia extends Artifact {
 
-	private final static String name = "Shiller's Basidia";
-	private final static String descr = "Projectile Poison trail.";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	public ShillersBasidia() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
 			private float procCd = .20f;

@@ -1,6 +1,6 @@
 package com.mygdx.hadal.equip;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.UnlockActives;
@@ -15,12 +15,14 @@ import com.mygdx.hadal.save.UnlockEquip;
  */
 public class Loadout {
 
-	public final static int baseSlots = 3;
-	public final static int maxSlots = 4;
+	public final static int baseWeaponSlots = 3;
+	public final static int maxWeaponSlots = 4;
+	
+	public final static int baseArtifactSlots = 3;
+	public final static int maxArtifactSlots = 12;
 	
 	public UnlockEquip[] multitools;
-	public UnlockArtifact startifact;
-	public ArrayList<UnlockArtifact> artifacts;
+	public UnlockArtifact[] artifacts;
 	public UnlockActives activeItem;
 	public UnlockCharacter character;
 	
@@ -31,21 +33,23 @@ public class Loadout {
 	 * Usually used when creating a brand new player.
 	 */
 	public Loadout(Record record) {
-		multitools = new UnlockEquip[maxSlots];
+		multitools = new UnlockEquip[maxWeaponSlots];
+		artifacts = new UnlockArtifact[maxArtifactSlots];
+		Arrays.fill(multitools, UnlockEquip.NOTHING);
+		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 		
-		for (int i = 0; i < maxSlots; i++) {
-			multitools[i] = UnlockEquip.NOTHING;
-		}
-		
-		artifacts = new ArrayList<UnlockArtifact>();
-		
-		for (int i = 0; i < maxSlots; i++) {
+		for (int i = 0; i < maxWeaponSlots; i++) {
 			if (record.getEquips().length > i) {
 				multitools[i] = UnlockEquip.valueOf(record.getEquips()[i]);
 			}
 		}
 		
-		startifact = UnlockArtifact.valueOf(record.getArtifact());
+		for (int i = 0; i < maxArtifactSlots; i++) {
+			if (record.getEquips().length > i) {
+				artifacts[i] = UnlockArtifact.valueOf(record.getArtifacts()[i]);
+			}
+		}
+		
 		activeItem = UnlockActives.valueOf(record.getActive());
 		character = UnlockCharacter.valueOf(record.getCharacter());
 	}
@@ -54,18 +58,19 @@ public class Loadout {
 	 * This generates a new loadout from a prexisting one.
 	 */
 	public Loadout(Loadout old) {
-		multitools = new UnlockEquip[maxSlots];
-		for (int i = 0; i < maxSlots; i++) {
+		multitools = new UnlockEquip[maxWeaponSlots];
+		artifacts = new UnlockArtifact[maxArtifactSlots];
+		Arrays.fill(multitools, UnlockEquip.NOTHING);
+		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
+		
+		for (int i = 0; i < maxWeaponSlots; i++) {
 			multitools[i] = old.multitools[i];
 		}
-
-		artifacts = new ArrayList<UnlockArtifact>();
-
-		for (UnlockArtifact artifact: old.artifacts) {
-			artifacts.add(artifact);
-		}
 		
-		startifact = old.startifact;
+		for (int i = 0; i < maxArtifactSlots; i++) {
+			artifacts[i] = old.artifacts[i];
+		}
+
 		activeItem = old.activeItem;
 		character = old.character;
 	}

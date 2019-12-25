@@ -12,21 +12,19 @@ import com.mygdx.hadal.utils.Stats;
 
 public class LoamskinAmulet extends Artifact {
 
-	private final static String name = "Loamskin Amulet";
-	private final static String descr = "+Hp Regen upon receiving damage";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 2;
 	
 	private final static float regenCd = 5.0f;
 	private final static float regen = 2.5f;
 	
 	public LoamskinAmulet() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new Status(state, name, descr, b) {
+		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
 			private float procCd = regenCd;
@@ -35,7 +33,6 @@ public class LoamskinAmulet extends Artifact {
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
 					procCdCount += delta;
-
 				}
 			}
 			

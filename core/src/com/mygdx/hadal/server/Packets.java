@@ -108,7 +108,8 @@ public class Packets {
 	public static class SyncClientLoadout {
 
 		public UnlockEquip equip;
-		public UnlockArtifact artifact;
+		public UnlockArtifact artifactAdd;
+		public UnlockArtifact artifactRemove;
 		public UnlockActives active;
 		public UnlockCharacter character;
 		
@@ -120,9 +121,10 @@ public class Packets {
 		 * @param entityId: ID of the player to change
 		 * @param loadout: Player's new loadout
 		 */
-		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifact, UnlockActives active, UnlockCharacter character) {
+		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove, UnlockActives active, UnlockCharacter character) {
 			this.equip = equip;
-			this.artifact = artifact;
+			this.artifactAdd = artifactAdd;
+			this.artifactRemove= artifactRemove;
 			this.active = active;
 			this.character = character;
 		}

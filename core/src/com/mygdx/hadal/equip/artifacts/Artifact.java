@@ -1,18 +1,19 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
 public class Artifact {
 
-	protected String name, descr, descrLong;
 	protected Status[] enchantment;
+	private int slotCost = 1;
 	
-	public Artifact(String name, String descr, String descrLong, int statusNum) {
-		this.name = name;
-		this.descr = descr;
-		this.descrLong = descrLong;
+	private UnlockArtifact unlock;
+	
+	public Artifact(int slotCost, int statusNum) {
+		this.slotCost = slotCost;
 		enchantment = new Status[statusNum];
 	}
 	
@@ -20,11 +21,11 @@ public class Artifact {
 		return null;
 	}
 
-	public String getName() { return name; }
-
-	public String getDescr() { return descr; }
-
-	public String getDescrLong() { return descrLong; }
-
 	public Status[] getEnchantment() { return enchantment; }
+	
+	public int getSlotCost() { return slotCost; }
+
+	public UnlockArtifact getUnlock() {	return unlock; }
+
+	public void setUnlock(UnlockArtifact unlock) { this.unlock = unlock; }
 }

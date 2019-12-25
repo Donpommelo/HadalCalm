@@ -578,6 +578,7 @@ public class KryoClient {
 	    						if (entity != null) {
 	    							if (entity instanceof Player) {
 	    								((Player)entity).getPlayerData().syncLoadout(p.loadout);
+	    								cs.getUiHub().refreshHub();
 	    							}
 	    						}
 	    					}

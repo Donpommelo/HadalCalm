@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 
+/**
+ * An InfoItem represents the information for a single unlockable item to be loaded/saved to json
+ * @author Zachary Tu
+ *
+ */
 public class InfoItem {
 
 	private String name;

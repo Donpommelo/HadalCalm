@@ -14,27 +14,25 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Piffler extends Artifact {
 
-	private final static String name = "Piffler";
-	private final static String descr = "Piffling Projectiles";
-	private final static String descrLong = "";
 	private final static int statusNum = 1;
+	private final static int slotCost = 1;
 	
 	private final static int spread = 30;
 
 	public Piffler() {
-		super(name, descr, descrLong, statusNum);
+		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, name, descr, b, 
+		enchantment[0] = new StatusComposite(state, b, 
 				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.6f, b),
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.6f, b),
 				new StatChangeStatus(state, Stats.RANGED_CLIP, 1.0f, b),
 				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, -0.75f, b),
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, -0.8f, b),
 				new StatChangeStatus(state, Stats.DAMAGE_AMP, -0.25f, b),
-				new Status(state, name, descr, b) {
+				new Status(state, b) {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
