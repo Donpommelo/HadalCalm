@@ -19,6 +19,7 @@ import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ResultsState;
@@ -166,6 +167,17 @@ public class KryoServer {
 		                        ps.catchUpClient(c.getID());
 							}
 						});
+					}
+				}
+				
+				/*
+				 * The Client has loaded the level.
+				 * Announce the new player joining and catchup the new client.
+				 */
+				if (o instanceof Packets.ClientPlayerCreated) {
+					final Player player = players.get(c.getID());
+					if (player != null) {
+						HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID().toString(), player.getPlayerData().getLoadout()));
 					}
 				}
 				
@@ -448,12 +460,14 @@ public class KryoServer {
 	 * @return
 	 */
 	public PlayState getPlayState() {
-		
-		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PlayState) {
-			return (PlayState) gsm.getStates().peek();
-		}
-		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
-			return ((PauseState) gsm.getStates().peek()).getPs();
+		if (!gsm.getStates().empty()) {
+			GameState currentState = gsm.getStates().peek();
+			if (currentState instanceof PlayState) {
+				return (PlayState) currentState;
+			}
+			if (currentState instanceof PauseState) {
+				return ((PauseState) currentState).getPs();
+			}
 		}
 		return null;
 	}

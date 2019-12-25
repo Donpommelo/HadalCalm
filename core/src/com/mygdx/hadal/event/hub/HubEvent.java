@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -20,11 +21,13 @@ public class HubEvent extends Event {
 
 	protected boolean open;
 	private String title;
+	private hubTypes type;
 	
-	public HubEvent(final PlayState state, String name, Vector2 startPos, Vector2 size, String title) {
+	public HubEvent(final PlayState state, String name, Vector2 startPos, Vector2 size, String title, hubTypes type) {
 		super(state, name, startPos, size);
 		this.open = false;
 		this.title = title;
+		this.type = type;
 	}
 	
 	@Override
@@ -77,6 +80,7 @@ public class HubEvent extends Event {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter() {
+		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
 		state.getUiHub().enter();
 	}

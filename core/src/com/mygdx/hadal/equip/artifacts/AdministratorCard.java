@@ -24,29 +24,30 @@ public class AdministratorCard extends Artifact {
 		enchantment[0] = new StatusComposite(state, b, 
 				new Status(state, b) {
 			
-			private ArrayList<Artifact> artifacts = new ArrayList<Artifact>();
 			private ArrayList<UnlockArtifact> unlocks = new ArrayList<UnlockArtifact>();
 			
 			@Override
 			public void levelStart() {
 				
 				if (inflicted.getSchmuck() instanceof Player) {
-					for (int i = 0; i < 3; i++) {
+					int artifactsAdded = 0;
+					
+					while (artifactsAdded < 3) {
 						UnlockArtifact artifact = UnlockArtifact.valueOf(PickupArtifact.getRandArtfFromPool(""));
-						
 						unlocks.add(artifact);
-//						artifacts.add(((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact));
+						if (((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true)) {
+							artifactsAdded++;
+						}
 					}
 				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				for (int i = 0; i < artifacts.size(); i++) {
-//					((Player)inflicted.getSchmuck()).getPlayerData().removeArtifact(unlocks.get(i), artifacts.get(i));
+				for (int i = 0; i < unlocks.size(); i++) {
+					((Player)inflicted.getSchmuck()).getPlayerData().removeArtifact(unlocks.get(i));
 				}
 				unlocks.clear();
-				artifacts.clear();
 			}
 		});
 		return enchantment;

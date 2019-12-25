@@ -35,6 +35,7 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
+import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
 
 /**
@@ -697,12 +698,14 @@ public class KryoClient {
 	 * @return: The current clientstate
 	 */
 	public ClientState getClientState() {
-		
-		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
-			return (ClientState) gsm.getStates().peek();
-		}
-		if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
-			return (ClientState)(((PauseState) gsm.getStates().peek()).getPs());
+		if (!gsm.getStates().empty()) {
+			GameState currentState = gsm.getStates().peek();
+			if (currentState instanceof ClientState) {
+				return (ClientState) currentState;
+			}
+			if (currentState instanceof PauseState) {
+				return (ClientState)(((PauseState) currentState).getPs());
+			}
 		}
 		return null;
 	}

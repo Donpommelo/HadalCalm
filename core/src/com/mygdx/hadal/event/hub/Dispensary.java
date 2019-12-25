@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
+import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
@@ -24,7 +25,7 @@ public class Dispensary extends HubEvent {
 	private static final String title = "DISPENSARY";
 
 	public Dispensary(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size, title);
+		super(state, name, startPos, size, title, hubTypes.DISPENSARY);
 	}
 	
 	public void enter() {

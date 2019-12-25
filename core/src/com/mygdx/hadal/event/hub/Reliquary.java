@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
+import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
@@ -23,7 +24,7 @@ public class Reliquary extends HubEvent {
 	private static final String title = "RELIQUARY";
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size, title);
+		super(state, name, startPos, size, title, hubTypes.RELIQUARY);
 	}
 	
 	public void enter() {
@@ -40,7 +41,7 @@ public class Reliquary extends HubEvent {
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
 					if (state.isServer()) {
-						state.getPlayer().getPlayerData().addArtifact(selected);
+						state.getPlayer().getPlayerData().addArtifact(selected, false);
 					} else {
 						state.getPlayer().getPlayerData().syncClientLoadoutAddArtifact(selected);
 					}
@@ -59,7 +60,6 @@ public class Reliquary extends HubEvent {
 		}
 		hub.getTableOptions().add(new Text("", 0, 0)).height(UIHub.optionsHeight);
 		hub.getTableOptions().row();
-		
 		hub.refreshHub();
 	}
 }

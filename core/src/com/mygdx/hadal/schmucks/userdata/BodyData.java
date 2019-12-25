@@ -169,6 +169,11 @@ public class BodyData extends HadalData {
 	 * Removes a status from this schmuck
 	 */
 	public void removeStatus(Status s) {
+		
+		if (!schmuck.getState().isServer()) {
+			return;
+		}
+		
 		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, s, null, null);
 		statuses.remove(s);
 		statusesChecked.remove(s);

@@ -19,12 +19,16 @@ public class ClawsofFestus extends Artifact {
 			
 			@Override
 			public void onInflict(Status s) {
-				inflicted.getSchmuck().setScaling(true);
+				if (s.equals(this)) {
+					inflicted.getSchmuck().setScaling(true);
+				}
 			}
 			
 			@Override
 			public void onRemove(Status s) {
-				inflicted.getSchmuck().setScaling(false);
+				if (s.equals(this)) {
+					inflicted.getSchmuck().setScaling(false);
+				}
 			}
 		};
 		return enchantment;

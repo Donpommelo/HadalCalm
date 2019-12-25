@@ -71,7 +71,7 @@ public class PickupArtifact extends Event {
 					return;
 				}
 				
-				p.getPlayerData().addArtifact(artifact);
+				p.getPlayerData().addArtifact(artifact, true);
 				setArtifact(UnlockArtifact.NOTHING);
 			}
 			

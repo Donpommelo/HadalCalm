@@ -62,7 +62,7 @@ public class PlayerBodyData extends BodyData {
 	private int lastSlot = 1;
 	
 	private Player player;
-	
+
 	//This is ued by clients to display each player's hp percent in the ui
 	private float overrideHpPercent;
 	
@@ -91,22 +91,26 @@ public class PlayerBodyData extends BodyData {
 		this.artifacts = new UnlockArtifact[Loadout.maxArtifactSlots];
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			addArtifact(loadout.artifacts[i]);
+			addArtifact(loadout.artifacts[i], false);
 		}
 		
 		//Acquire active item and acquire charge status
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
+		this.player.setBodySprite(loadout.character);
+		
+		//If this is the player being controlled by the user, update artifact ui
+		if (player.equals((player.getState().getPlayer()))) {
+			player.getState().getUiArtifact().syncArtifact();
+		}
 	}
 	
 	/**
 	 * This is called by the client for players that receive a new loadout from the server.
-	 * This is also used when initiating a new player with a fresh loadout.
 	 * We give the player the new loadout information.
 	 * 
 	 * @param loadout: The new loadout for the player
 	 */
 	public void syncLoadout(Loadout loadout) {
-		
 		Loadout newLoadout = new Loadout(loadout);
 		
 		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
@@ -114,21 +118,12 @@ public class PlayerBodyData extends BodyData {
 		}
 		setEquip();
 		
-		for (UnlockArtifact a : artifacts) {
-			for (Status s: a.getArtifact().getEnchantment()) {
-				removeStatus(s);
-			}
-		}
-		
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			for (Status s: artifacts[i].getArtifact().getEnchantment()) {
-				removeStatus(s);
-			}
 			artifacts[i] = UnlockArtifact.NOTHING;
 		}
 		
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			addArtifact(newLoadout.artifacts[i]);
+			addArtifact(newLoadout.artifacts[i], true);
 		}
 		
 		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
@@ -153,7 +148,7 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		if (artifactAdd != null) {
-			addArtifact(artifactAdd);
+			addArtifact(artifactAdd, false);
 		}
 		
 		if (artifactRemove != null) {
@@ -174,7 +169,7 @@ public class PlayerBodyData extends BodyData {
 	 * This is run when transitioning the player into a new map/world or respawning
 	 * @param newPlayer
 	 */
-	public void resetData(Player newPlayer, World newWorld) {
+	public void updateOldData(Player newPlayer, World newWorld) {
 		this.setEntity(newPlayer);
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
@@ -352,10 +347,10 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * Add a new artifact. Return the new artifact
+	 * Add a new artifact.
 	 */
-	public void addArtifact(UnlockArtifact artifactUnlock) {
-
+	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override) {
+//		System.out.println(artifactUnlock.getName() + " " + override);
 		Artifact newArtifact =  artifactUnlock.getArtifact();
 		int slotsUsed = 0;
 		
@@ -363,16 +358,17 @@ public class PlayerBodyData extends BodyData {
 			if (!(artifacts[i].equals(UnlockArtifact.NOTHING))) {
 				slotsUsed += artifacts[i].getArtifact().getSlotCost();
 				
+				//new artifact fails to add if a repeat, locked or slot cost is too high
 				if (artifacts[i].equals(artifactUnlock)){
-					return;
+					return false;
 				} 
 				
 				if (!artifactUnlock.isUnlocked()){
-					return;
+					return false;
 				} 
 				
-				if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots()) {
-					return;
+				if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots() && !override) {
+					return false;
 				}
 			} else {
 				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
@@ -381,15 +377,21 @@ public class PlayerBodyData extends BodyData {
 				artifacts[i] = artifactUnlock;
 				loadout.artifacts[i] = artifactUnlock;
 				
+				for (int j = i + 1; j < Loadout.maxArtifactSlots; j++) {
+					artifacts[j] = UnlockArtifact.NOTHING;
+					loadout.artifacts[j] = UnlockArtifact.NOTHING;
+				}
+				
 				if (player.equals((player.getState().getPlayer()))) {
 					player.getState().getUiArtifact().syncArtifact();
 				}
 				
 				saveArtifacts();
 				syncServerLoadoutChange();
-				return;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	/**
@@ -509,7 +511,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * These are called when a loadout changes on the client side.(Through hub event) Send message to all server announcing change
+	 * These are called when a loadout changes on the client side.(Through hub event) Send message to server announcing change
 	 */
 	public void syncClientLoadoutChangeWeapon(UnlockEquip equip) {
 		if (!player.getState().isServer()) {

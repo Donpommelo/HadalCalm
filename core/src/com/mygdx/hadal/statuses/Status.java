@@ -41,6 +41,7 @@ public class Status {
 	 * Each input is some information that a specific proc time needs to process.
 	 */
 	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
+		
 		float finalAmount = amount;
 		
 		switch(procTime) {

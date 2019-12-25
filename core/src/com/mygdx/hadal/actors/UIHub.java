@@ -41,6 +41,8 @@ public class UIHub {
 	
 	public static final float optionsScale = 0.30f;
 	
+	private hubTypes type = hubTypes.NONE;
+	
 	public UIHub(PlayState state) {
 		this.state = state;
 		this.active = false;
@@ -122,8 +124,27 @@ public class UIHub {
 	}
 	
 	public void refreshHub() {
+		switch(type) {
+		case ARMORY:
+			break;
+		case DISPENSARY:
+			break;
+		case DORMITORY:
+			break;
+		case NAVIGATIONS:
+			break;
+		case QUARTERMASTER:
+			break;
+		case RELIQUARY:
+			refreshReliquary();
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void refreshReliquary() {
 		tableExtra.clear();
-		
 		for (UnlockArtifact c: state.getPlayer().getPlayerData().getArtifacts()) {
 			
 			if (!c.equals(UnlockArtifact.NOTHING)) {
@@ -165,8 +186,20 @@ public class UIHub {
 	}
 	
 	public void setInfo(String info) { this.info = info; }
+	
+	public void setType(hubTypes type) { this.type = type; }
 
 	public Table getTableOptions() { return tableOptions; }
 
 	public Table getTableExtra() { return tableExtra; }
+	
+	public enum hubTypes {
+		NONE,
+		ARMORY,
+		RELIQUARY,
+		DISPENSARY,
+		DORMITORY,
+		NAVIGATIONS,
+		QUARTERMASTER,
+	}
 }

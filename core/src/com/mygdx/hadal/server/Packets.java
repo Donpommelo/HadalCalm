@@ -88,6 +88,15 @@ public class Packets {
 		}
 	}
 	
+	public static class ClientPlayerCreated {
+		
+		/**
+		 * ClientPlayerCreated is sent from the Client to the server when they create their own player. This prompts the server to sync all fields that require a player to already have been created.
+		 * At the moment, this just includes the client's loadout
+		 */
+		public ClientPlayerCreated() {}
+	}
+	
 	public static class NewClientPlayer {
 		public String yourId;
 		public NewClientPlayer() {}
@@ -754,6 +763,7 @@ public class Packets {
     	kryo.register(MouseMove.class);
     	kryo.register(LoadLevel.class);
     	kryo.register(ClientLoaded.class);
+    	kryo.register(ClientPlayerCreated.class);
     	kryo.register(ClientStartTransition.class);
     	kryo.register(ClientFinishRespawn.class);
     	kryo.register(NewClientPlayer.class);

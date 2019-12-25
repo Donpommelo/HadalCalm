@@ -1,10 +1,10 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
 public class DeadMansHand extends Artifact {
@@ -18,7 +18,15 @@ public class DeadMansHand extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.WEAPON_SLOTS, 1.0f, b));
+		enchantment[0] = new StatChangeStatus(state, Stats.WEAPON_SLOTS, 1.0f, b) {
+			
+			@Override
+			public void onInflict(Status s) {
+				if (inflicted instanceof PlayerBodyData && s.equals(this)) {
+					((PlayerBodyData)inflicted).emptySlot(3);
+				}
+			}
+		};		
 		return enchantment;
 	}
 }

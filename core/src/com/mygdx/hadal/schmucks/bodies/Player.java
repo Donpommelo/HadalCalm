@@ -226,10 +226,9 @@ public class Player extends PhysicsSchmuck {
 			playerData = new PlayerBodyData(this, startLoadout);
 			bodyData = playerData;
 			playerData.initLoadout();
-			playerData.syncLoadout(startLoadout);
 		} else {
-			playerData.resetData(this, world);
-			this.bodyData = playerData;
+			playerData.updateOldData(this, world);
+			bodyData = playerData;
 		}
 		
 		//Temp invuln on spawn
@@ -240,6 +239,12 @@ public class Player extends PhysicsSchmuck {
 				hitboxfilter, false, playerData);
 		
 		super.create();
+		
+		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
+		if (!state.isServer() && state.getPlayer().equals(this)) {
+			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();
+            HadalGame.client.client.sendTCP(connected);
+		}
 		
 		//Activate on-spawn effects
 		if (!state.isPractice() && reset) {
