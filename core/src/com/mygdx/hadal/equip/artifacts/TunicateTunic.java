@@ -12,13 +12,15 @@ public class TunicateTunic extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private static final float bonusKnockbackRes = 0.75f;
+	
 	public TunicateTunic() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.KNOCKBACK_RES, 0.75f, b));
+		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.KNOCKBACK_RES, bonusKnockbackRes, b));
 		return enchantment;
 	}
 }

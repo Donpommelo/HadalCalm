@@ -28,7 +28,6 @@ public class Confidence extends Artifact {
 				}
 				return damage;	
 			}
-			
 		};
 		return enchantment;
 	}

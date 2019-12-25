@@ -20,9 +20,8 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 	//the hbox filter that determines who can be damaged by the poison
 	private short filter;
 	
-	//the time interval between creating posion
-	private final static float poisonCd = 0.1f;
-	private float poisonCdCount;
+	//the time interval between creating poision
+	private Vector2 lastPosition = new Vector2();
 	
 	public HitboxPoisonTrailStrategy(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
@@ -31,16 +30,14 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 		this.poisonDuration = poisonDuration;
 		this.filter = filter;
 		
-		this.poisonCdCount = 0;
+		lastPosition.set(proj.getStartPos());
 	}
 	
 	@Override
 	public void controller(float delta) {
-		
-		if (poisonCdCount <= 0) {
-			poisonCdCount = poisonCd;
+		if (lastPosition.dst(hbox.getPixelPosition()) > poisonRadius) {
+			lastPosition.set(hbox.getPixelPosition());
 			new Poison(state, this.hbox.getPixelPosition(), new Vector2(poisonRadius, poisonRadius), poisonDamage, poisonDuration, creator.getSchmuck(), true, filter);
 		}
-		poisonCdCount -= delta;
 	}
 }

@@ -12,6 +12,9 @@ public class FensClippedWings extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static int bonusJumpNum = 1;
+	private final static float bonusJumpPow = 0.2f;
+	
 	public FensClippedWings() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +22,8 @@ public class FensClippedWings extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.JUMP_POW, 0.2f, b), 
-				new StatChangeStatus(state, Stats.JUMP_NUM, 1, b));
+				new StatChangeStatus(state, Stats.JUMP_POW, bonusJumpPow, b), 
+				new StatChangeStatus(state, Stats.JUMP_NUM, bonusJumpNum, b));
 		return enchantment;
 	}
 }

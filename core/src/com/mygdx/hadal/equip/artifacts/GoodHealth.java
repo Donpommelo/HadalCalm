@@ -12,13 +12,15 @@ public class GoodHealth extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static int bonusHp = 25;
+	
 	public GoodHealth() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.MAX_HP, 25, b));
+		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b));
 		return enchantment;
 	}
 }

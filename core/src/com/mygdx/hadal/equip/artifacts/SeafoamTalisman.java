@@ -12,6 +12,10 @@ public class SeafoamTalisman extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private static float bonusAtkSpd = 0.2f;
+	private static float bonusReloadSpd = 0.2f;
+	private static float gravityReduction = -5.0f;
+	
 	public SeafoamTalisman() {
 		super(slotCost, statusNum);
 	}
@@ -19,9 +23,9 @@ public class SeafoamTalisman extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.20f, b),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.20f, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_GRAVITY, -5.0f, b)
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_GRAVITY, gravityReduction, b)
 		);
 		return enchantment;
 	}

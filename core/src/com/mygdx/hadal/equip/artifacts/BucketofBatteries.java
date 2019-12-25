@@ -14,6 +14,8 @@ public class BucketofBatteries extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 3;
 	
+	private final static int chainNumber = 3;
+	
 	public BucketofBatteries() {
 		super(slotCost, statusNum);
 	}
@@ -21,12 +23,12 @@ public class BucketofBatteries extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, 3.0f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, chainNumber, b),
 				new Status(state, b) {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HitboxOnContactChainStrategy(state, hbox, b, 3, inflicted.getSchmuck().getHitboxfilter()));
+				hbox.addStrategy(new HitboxOnContactChainStrategy(state, hbox, b, chainNumber, inflicted.getSchmuck().getHitboxfilter()));
 			}
 		});
 		

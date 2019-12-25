@@ -12,6 +12,9 @@ public class TempestTeapot extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private static final float bonusBoostSize = 0.5f;
+	private static final float bonusBoostPow = 0.5f;
+	
 	public TempestTeapot() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +22,8 @@ public class TempestTeapot extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.BOOST_POW, 0.5f, b),
-				new StatChangeStatus(state, Stats.BOOST_SIZE, 0.5f, b)
+				new StatChangeStatus(state, Stats.BOOST_POW, bonusBoostPow, b),
+				new StatChangeStatus(state, Stats.BOOST_SIZE, bonusBoostSize, b)
 		);
 		return enchantment;
 	}

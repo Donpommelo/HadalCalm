@@ -11,13 +11,15 @@ public class BrigglesBladedBoot extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private final static float bonusFastFallPow = 1.5f;
+
 	public BrigglesBladedBoot() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.FASTFALL_POW, 1.5f, b) {
+		enchantment[0] = new StatChangeStatus(state, Stats.FASTFALL_POW, bonusFastFallPow, b) {
 			
 			@Override
 			public void onInflict(Status s) {

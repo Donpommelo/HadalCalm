@@ -14,6 +14,9 @@ public class InformantsTie extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 3;
 	
+	private final static float projSpdReduction = -0.75f;
+	private final static float bonusProjLifespan = 0.75f;
+	
 	public InformantsTie() {
 		super(slotCost, statusNum);
 	}
@@ -21,8 +24,8 @@ public class InformantsTie extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.75f, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, 0.75f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, projSpdReduction, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLifespan, b),
 				new Status(state, b) {
 
 			@Override

@@ -20,7 +20,7 @@ public class CrownofThorns extends Artifact {
 			
 			@Override
 			public void onReload(Equipable tool) {
-
+				
 			}
 		};
 		return enchantment;

@@ -12,6 +12,9 @@ public class DeplorableApparatus extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 3;
 	
+	private final static float hpReduction = -60.0f;
+	private final static float hpRegen = 5.0f;
+	
 	public DeplorableApparatus() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +22,8 @@ public class DeplorableApparatus extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.MAX_HP, -60.0f, b), 
-				new StatChangeStatus(state, Stats.HP_REGEN, 7.8f, b));
+				new StatChangeStatus(state, Stats.MAX_HP, hpReduction, b), 
+				new StatChangeStatus(state, Stats.HP_REGEN, hpRegen, b));
 		return enchantment;
 	}
 }

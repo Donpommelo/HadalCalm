@@ -27,7 +27,6 @@ public class MaskofSympathy extends Artifact {
 				if (!perp.equals(inflicted)) {
 					perp.receiveDamage(damage * amount, new Vector2(0, 0), inflicted, inflicted.getCurrentTool(), false);
 				}
-				
 				return damage;
 			}
 		};

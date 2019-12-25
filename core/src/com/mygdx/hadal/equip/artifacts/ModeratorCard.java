@@ -16,6 +16,8 @@ public class ModeratorCard extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static int numUpgrades = 3;
+	
 	public ModeratorCard() {
 		super(slotCost, statusNum);
 	}
@@ -32,14 +34,13 @@ public class ModeratorCard extends Artifact {
 					
 					for (Equipable e : ((Player)inflicted.getSchmuck()).getPlayerData().getMultitools()) {
 						if (!(e instanceof NothingWeapon)) {
-							for (int i = 0; i < 2; i++) {
+							for (int i = 0; i < numUpgrades; i++) {
 								WeaponMod mod = WeaponMod.valueOf(PickupWeaponMod.getRandModFromPool("", ModTag.RANDOM_POOL));
 								mod.acquireMod(((Player)inflicted.getSchmuck()).getPlayerData(), state, e);
 							}
 						}
 					}
 				}
-				
 			}
 		});
 		return enchantment;

@@ -19,6 +19,7 @@ public class SamuraiShark extends Artifact {
 	private final float critChance = 0.2f;
 	private final float critDamageBoost = 20.0f;
 	private final float critSpeedMultiplier = 3.0f;
+	private static float procCd = 5.0f;
 	
 	public SamuraiShark() {
 		super(slotCost, statusNum);
@@ -30,7 +31,6 @@ public class SamuraiShark extends Artifact {
 				new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = 5.0f;
 			
 			@Override
 			public void timePassing(float delta) {

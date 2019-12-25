@@ -12,13 +12,15 @@ public class NuclearPunchThrusters extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private final static float bonusKnockback = 0.6f;
+	
 	public NuclearPunchThrusters() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.KNOCKBACK_AMP, 0.6f, b)
+		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.KNOCKBACK_AMP, bonusKnockback, b)
 		);
 		return enchantment;
 	}

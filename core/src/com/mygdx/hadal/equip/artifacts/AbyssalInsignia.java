@@ -8,7 +8,7 @@ import com.mygdx.hadal.statuses.Status;
 public class AbyssalInsignia extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
 	private final static float spiritLifespan = 6.0f;
 	private final static float spiritDamage = 25.0f;

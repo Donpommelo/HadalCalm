@@ -13,6 +13,11 @@ public class RoyalJujubeBang extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static float distThreshold = 600.0f;
+	private final static float distDamageBoost = 1.5f;
+	
+	private final static float particleDura = 1.5f;
+	
 	public RoyalJujubeBang() {
 		super(slotCost, statusNum);
 	}
@@ -27,9 +32,9 @@ public class RoyalJujubeBang extends Artifact {
 				float dist = vic.getSchmuck().getPixelPosition().dst(inflicted.getSchmuck().getPixelPosition());
 				
 				float boost = 1.0f;
-				if (dist > 600) {
-					boost = 1.75f;
-					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, 1.5f, 0, true, particleSyncType.CREATESYNC);
+				if (dist > distThreshold) {
+					boost = distDamageBoost;
+					new ParticleEntity(state, vic.getSchmuck(), Particle.EXPLOSION, particleDura, 0, true, particleSyncType.CREATESYNC);
 				}
 
 				return damage * boost;

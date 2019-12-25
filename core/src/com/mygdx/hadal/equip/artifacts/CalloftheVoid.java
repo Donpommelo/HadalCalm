@@ -12,6 +12,9 @@ public class CalloftheVoid extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static float damageAmp = 0.3f;
+	private final static float damageRes = -0.3f;
+
 	public CalloftheVoid() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +22,8 @@ public class CalloftheVoid extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {		
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.3f, b), 
-				new StatChangeStatus(state, Stats.DAMAGE_RES, -0.3f, b));
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageAmp, b), 
+				new StatChangeStatus(state, Stats.DAMAGE_RES, damageRes, b));
 		return enchantment;
 	}
 }

@@ -15,6 +15,8 @@ public class AdministratorCard extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 3;
 	
+	private final static int numArtifacts = 3;
+	
 	public AdministratorCard() {
 		super(slotCost, statusNum);
 	}
@@ -32,7 +34,7 @@ public class AdministratorCard extends Artifact {
 				if (inflicted.getSchmuck() instanceof Player) {
 					int artifactsAdded = 0;
 					
-					while (artifactsAdded < 3) {
+					while (artifactsAdded < numArtifacts) {
 						UnlockArtifact artifact = UnlockArtifact.valueOf(PickupArtifact.getRandArtfFromPool(""));
 						unlocks.add(artifact);
 						if (((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true)) {

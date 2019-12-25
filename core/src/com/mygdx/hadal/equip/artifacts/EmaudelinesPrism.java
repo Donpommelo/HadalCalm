@@ -15,6 +15,7 @@ public class EmaudelinesPrism extends Artifact {
 	private final static int slotCost = 3;
 	
 	private final static int spread = 20;
+	private final static float damageReduction = -0.3f;
 	
 	public EmaudelinesPrism() {
 		super(slotCost, statusNum);
@@ -23,7 +24,7 @@ public class EmaudelinesPrism extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, -0.3f, b),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageReduction, b),
 				new Status(state, b) {
 			
 			private Vector2 projVelo = new Vector2();

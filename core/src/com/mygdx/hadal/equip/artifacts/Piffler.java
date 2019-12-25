@@ -18,6 +18,12 @@ public class Piffler extends Artifact {
 	private final static int slotCost = 1;
 	
 	private final static int spread = 30;
+	private final static float projSpeedReduction = -0.6f;
+	private final static float projLifeReduction = -0.6f;
+	private final static float projRecoilReduction = -0.75f;
+	private final static float damageReduction = -0.25f;
+	private final static float bonusAtkSpd = 0.6f;
+	private final static float bonusClip = 1.0f;
 
 	public Piffler() {
 		super(slotCost, statusNum);
@@ -26,12 +32,12 @@ public class Piffler extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, -0.6f, b),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.6f, b),
-				new StatChangeStatus(state, Stats.RANGED_CLIP, 1.0f, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, -0.75f, b),
-				new StatChangeStatus(state, Stats.RANGED_RECOIL, -0.8f, b),
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, -0.25f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, projSpeedReduction, b),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, b),
+				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClip, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, projLifeReduction, b),
+				new StatChangeStatus(state, Stats.RANGED_RECOIL, projRecoilReduction, b),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageReduction, b),
 				new Status(state, b) {
 			
 			@Override

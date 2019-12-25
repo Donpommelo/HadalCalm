@@ -12,13 +12,15 @@ public class DeadMansHand extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private final static int bonusSlots = 1;
+	
 	public DeadMansHand() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.WEAPON_SLOTS, 1.0f, b) {
+		enchantment[0] = new StatChangeStatus(state, Stats.WEAPON_SLOTS, bonusSlots, b) {
 			
 			@Override
 			public void onInflict(Status s) {

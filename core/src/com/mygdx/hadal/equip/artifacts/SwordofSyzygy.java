@@ -12,6 +12,9 @@ public class SwordofSyzygy extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private static final float bonusProjDurability = 3.0f;
+	private static final float bonusDamageAmp = 0.15f;
+	
 	public SwordofSyzygy() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +22,8 @@ public class SwordofSyzygy extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, 5.0f, b),
-				new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.15f, b));
+				new StatChangeStatus(state, Stats.RANGED_PROJ_DURABILITY, bonusProjDurability, b),
+				new StatChangeStatus(state, Stats.DAMAGE_AMP, bonusDamageAmp, b));
 		return enchantment;
 	}
 }

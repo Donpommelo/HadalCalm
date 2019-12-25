@@ -11,13 +11,15 @@ public class AmmoDrum extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private final static float bonusAmmo = 0.40f;
+	
 	public AmmoDrum() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.AMMO_CAPACITY, 0.25f, b);
+		enchantment[0] = new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, b);
 		return enchantment;
 	}
 }

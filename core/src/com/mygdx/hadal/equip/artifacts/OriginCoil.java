@@ -18,6 +18,9 @@ public class OriginCoil extends Artifact {
 	private final static float boost = 75.0f;
 	private final static float delay = 0.25f;
 	
+	private final static float bonusProjLife = 1.0f;
+	private final static float bonusReloadSpd = 0.6f;
+	
 	public OriginCoil() {
 		super(slotCost, statusNum);
 	}
@@ -25,8 +28,8 @@ public class OriginCoil extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, 1.0f, b),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.6f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLife, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b),
 				new Status(state, b) {
 
 			@Override

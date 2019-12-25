@@ -12,6 +12,9 @@ public class NiceShoes extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static float bonusSpd = 0.3f;
+	private final static float bonusAccel = 0.5f;
+	
 	public NiceShoes() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +22,8 @@ public class NiceShoes extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.GROUND_SPD, 0.30f, b), 
-				new StatChangeStatus(state, Stats.GROUND_ACCEL, 0.50f, b));
+				new StatChangeStatus(state, Stats.GROUND_SPD, bonusSpd, b), 
+				new StatChangeStatus(state, Stats.GROUND_ACCEL, bonusAccel, b));
 		return enchantment;
 	}
 }

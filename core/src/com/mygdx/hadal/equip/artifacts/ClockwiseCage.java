@@ -11,6 +11,9 @@ public class ClockwiseCage extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 3;
 	
+	private final static float procCd = 2.0f;
+	private final static float echoCd = 0.25f;
+	
 	public ClockwiseCage() {
 		super(slotCost, statusNum);
 	}
@@ -20,11 +23,9 @@ public class ClockwiseCage extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = 2.0f;			
 			
 			private boolean echoing;
 			private float echoCdCount;
-			private float echoCd = 0.25f;
 			private Equipable echoTool;
 			private Vector2 angle = new Vector2();
 			
@@ -38,7 +39,6 @@ public class ClockwiseCage extends Artifact {
 					
 					if (echoCdCount <= 0) {
 						echoing = false;
-						
 						echoTool.fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getPixelPosition(), angle, inflicted.getSchmuck().getHitboxfilter());
 					}
 				}

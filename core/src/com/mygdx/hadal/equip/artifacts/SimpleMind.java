@@ -14,6 +14,11 @@ public class SimpleMind extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private static final float bonusClipSize = 0.5f;
+	private static final float bonusAtkSpd = 0.5f;
+	private static final float bonusReloadSpd = 0.5f;
+	private static final float bonusAmmo = 0.5f;
+	
 	public SimpleMind() {
 		super(slotCost, statusNum);
 	}
@@ -21,10 +26,10 @@ public class SimpleMind extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_CLIP, 0.5f, b),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, 0.5f, b),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, 0.5f, b),
-				new StatChangeStatus(state, Stats.AMMO_CAPACITY, 0.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClipSize, b),
+				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b),
+				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, b),
 				new Status(state, b) {
 			
 			@Override

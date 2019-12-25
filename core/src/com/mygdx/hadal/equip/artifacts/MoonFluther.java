@@ -12,6 +12,9 @@ public class MoonFluther extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static float bonusHoverPow = 0.25f;
+	private final static float hoverCostReduction = -0.25f;
+	
 	public MoonFluther() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +22,8 @@ public class MoonFluther extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.HOVER_POW, 0.25f, b), 
-				new StatChangeStatus(state, Stats.HOVER_COST, -0.25f, b));
+				new StatChangeStatus(state, Stats.HOVER_POW, bonusHoverPow, b), 
+				new StatChangeStatus(state, Stats.HOVER_COST, hoverCostReduction, b));
 		return enchantment;
 	}
 }

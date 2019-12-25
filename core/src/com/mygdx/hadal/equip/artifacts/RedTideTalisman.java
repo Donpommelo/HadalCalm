@@ -15,6 +15,8 @@ public class RedTideTalisman extends Artifact {
 	private final static float poisonDamage = 40/60f;
 	private final static float poisonDuration = 3.0f;
 	
+	private final static float procCd = 0.5f;
+	
 	public RedTideTalisman() {
 		super(slotCost, statusNum);
 	}
@@ -24,13 +26,11 @@ public class RedTideTalisman extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = .5f;
 			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
 					procCdCount += delta;
-
 				}
 			}
 			

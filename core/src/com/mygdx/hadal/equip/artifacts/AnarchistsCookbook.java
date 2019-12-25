@@ -20,6 +20,8 @@ public class AnarchistsCookbook extends Artifact {
 	private final static float explosionDamage = 40.0f;
 	private final static float explosionKnockback = 25.0f;
 	
+	private final static float procCd = 1.0f;
+	
 	public AnarchistsCookbook() {
 		super(slotCost, statusNum);
 	}
@@ -30,7 +32,6 @@ public class AnarchistsCookbook extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = .75f;
 			
 			@Override
 			public void timePassing(float delta) {

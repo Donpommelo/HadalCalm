@@ -12,6 +12,8 @@ public class EelskinCover extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private final static float dragReduction = -0.5f;
+	
 	public EelskinCover() {
 		super(slotCost, statusNum);
 	}
@@ -19,8 +21,8 @@ public class EelskinCover extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.AIR_DRAG, -0.50f, b), 
-				new StatChangeStatus(state, Stats.GROUND_DRAG, -0.50f, b));
+				new StatChangeStatus(state, Stats.AIR_DRAG, dragReduction, b), 
+				new StatChangeStatus(state, Stats.GROUND_DRAG, dragReduction, b));
 		return enchantment;
 	}
 }

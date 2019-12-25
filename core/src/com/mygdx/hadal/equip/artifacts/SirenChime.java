@@ -12,13 +12,15 @@ public class SirenChime extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
+	private static final float knockbackReduction = -2.5f;
+	
 	public SirenChime() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.KNOCKBACK_AMP, -2.5f, b));
+		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.KNOCKBACK_AMP, knockbackReduction, b));
 		return enchantment;
 	}
 }

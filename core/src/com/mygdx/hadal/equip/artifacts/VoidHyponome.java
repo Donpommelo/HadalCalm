@@ -12,13 +12,15 @@ public class VoidHyponome extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
+	private final static float boostCostReduction = -0.25f;
+	
 	public VoidHyponome() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.BOOST_COST, -0.25f, b));
+		enchantment[0] = new StatusComposite(state, b, new StatChangeStatus(state, Stats.BOOST_COST, boostCostReduction, b));
 		return enchantment;
 	}
 }

@@ -17,6 +17,9 @@ public class GomezsAmygdala extends Artifact {
 	private final static int slotCost = 2;
 	
 	private final float dura = 2.0f;
+	private final static float procCd = 2.0f;
+	private final static float spdBuff = 0.5f;
+	private final static float damageBuff = 0.3f;
 	
 	public GomezsAmygdala() {
 		super(slotCost, statusNum);
@@ -27,13 +30,11 @@ public class GomezsAmygdala extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = 2.0f;
 			
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {
 					procCdCount += delta;
-
 				}
 			}
 			
@@ -45,8 +46,8 @@ public class GomezsAmygdala extends Artifact {
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, procCd, true, particleSyncType.TICKSYNC);
 					
 					inflicted.addStatus(new StatusComposite(state, dura, false, perp, inflicted,
-							new StatChangeStatus(state, Stats.GROUND_SPD, 0.5f, inflicted),
-							new StatChangeStatus(state, Stats.DAMAGE_AMP, 0.3f, inflicted)
+							new StatChangeStatus(state, Stats.GROUND_SPD, spdBuff, inflicted),
+							new StatChangeStatus(state, Stats.DAMAGE_AMP, damageBuff, inflicted)
 							));
 				}
 				return damage;
