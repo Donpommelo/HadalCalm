@@ -6,7 +6,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class ShillersBasidia extends Artifact {
+public class ShillersDeathcap extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
@@ -15,7 +15,7 @@ public class ShillersBasidia extends Artifact {
 	private static final float poisonDamage = 10 / 60f;
 	private static float poisonDuration = 1.0f;
 	
-	public ShillersBasidia() {
+	public ShillersDeathcap() {
 		super(slotCost, statusNum);
 	}
 

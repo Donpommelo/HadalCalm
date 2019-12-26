@@ -6,7 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
-public class PrehistoricSynapse extends Artifact {
+public class PetrifiedSynapse extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
@@ -15,7 +15,7 @@ public class PrehistoricSynapse extends Artifact {
 	
 	private final static float procCd = 1 / 60f;
 	
-	public PrehistoricSynapse() {
+	public PetrifiedSynapse() {
 		super(slotCost, statusNum);
 	}
 

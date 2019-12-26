@@ -73,6 +73,13 @@ public class ActiveItem extends Equipable {
 		}
 	}
 	
+	public void gainChargeByPercent(float charge) {
+		currentCharge += (charge * maxCharge * (1 + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
+		if (currentCharge > maxCharge) {
+			currentCharge = maxCharge;
+		}
+	}
+	
 	/**
 	 * Default behaviour for releasing mouse is nothing.
 	 * Override this in charge weapons or other weapons that care about mouse release.
@@ -80,16 +87,12 @@ public class ActiveItem extends Equipable {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {}
 
-	/**
-	 * Default behaviour for reloading is nothing.
-	 * Override this for special weapon arts or whatever.
-	 */
 	@Override
 	public void reload(float delta) { reloading = false; }
 
 	public boolean isReady() { return currentCharge >= maxCharge; }
 	
-	public float chargePercent() { return currentCharge / maxCharge;	}	
+	public float chargePercent() { return currentCharge / maxCharge; }	
 	
 	public float getRemainingCharge() { return maxCharge - currentCharge; }
 
@@ -103,6 +106,7 @@ public class ActiveItem extends Equipable {
 
 	public static enum chargeStyle {
 		byTime,
-		byDamage
+		byDamageInflict,
+		byDamageReceive
 	}
 }

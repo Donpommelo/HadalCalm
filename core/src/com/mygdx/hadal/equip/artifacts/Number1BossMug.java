@@ -12,8 +12,8 @@ public class Number1BossMug extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private static final float ammo = 0.2f;
-	private static final float chance = 1.0f;
+	private static final float ammo = 0.25f;
+	private static final float chance = 0.4f;
 	
 	public Number1BossMug() {
 		super(slotCost, statusNum);

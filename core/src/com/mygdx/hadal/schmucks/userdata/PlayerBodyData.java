@@ -396,7 +396,7 @@ public class PlayerBodyData extends BodyData {
 		
 		int indexRemoved = -1;
 		
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {			
 			if (artifacts[i].equals(artifact)) {
 				indexRemoved = i;
 				break;
@@ -418,12 +418,25 @@ public class PlayerBodyData extends BodyData {
 			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
 		}
 		
+		checkArtifactSlotCosts();
+		
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
 		
 		saveArtifacts();
 		syncServerLoadoutChange();
+	}
+	
+	public void checkArtifactSlotCosts() {
+		int slotsUsed = 0;
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			slotsUsed += artifacts[i].getArtifact().getSlotCost();
+			if (slotsUsed > getNumArtifactSlots()) {
+				artifacts[i] = UnlockArtifact.NOTHING;
+				loadout.artifacts[i] = UnlockArtifact.NOTHING;
+			}
+		}
 	}
 	
 	/**
