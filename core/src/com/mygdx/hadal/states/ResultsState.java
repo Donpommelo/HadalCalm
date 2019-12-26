@@ -189,21 +189,13 @@ public class ResultsState extends GameState {
 		}
 	}
 	
-	/**
-	 * 
-	 */
+
 	@Override
 	public void update(float delta) {}
 
-	/**
-	 * This state will draw the image.
-	 */
 	@Override
 	public void render() {}
 
-	/**
-	 * Delete the image texture.
-	 */
 	@Override
 	public void dispose() {
 		stage.dispose();

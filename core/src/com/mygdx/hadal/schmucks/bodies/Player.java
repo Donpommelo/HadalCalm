@@ -738,7 +738,7 @@ public class Player extends PhysicsSchmuck {
 		endPt.set(getPosition()).add(offset.nor().scl(spawnDist + projSize / 4 / PPM));
 		shortestFraction = 1.0f;
 		
-		if (originPt != endPt) {
+		if (originPt.x != endPt.x || originPt.y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
 
