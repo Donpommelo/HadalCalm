@@ -26,7 +26,7 @@ public class MuddlingCup extends Artifact {
 			private Vector2 projAngle = new Vector2();
 			@Override
 			public void onAirBlast(Equipable tool) {
-				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getPixelPosition(), projAngle.set(tool.getWeaponVelo()).scl(projSpeed),
+				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getProjectileOrigin(projAngle, tool.getAmmoSize()), projAngle.set(tool.getWeaponVelo()).scl(projSpeed),
 						inflicted.getSchmuck().getHitboxfilter());
 			}
 		});

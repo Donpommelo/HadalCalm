@@ -43,7 +43,7 @@ public class ChargeBeam extends RangedWeapon {
 	private int chargeStage = 0;
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 2, maxCharge);
+		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 3.0f, maxCharge);
 	}
 	
 	@Override

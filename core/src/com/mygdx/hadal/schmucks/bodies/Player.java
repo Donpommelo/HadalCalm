@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies;
 
 import java.util.ArrayList;
-
+import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -725,7 +725,7 @@ public class Player extends PhysicsSchmuck {
 	private Vector2 originPt = new Vector2();
 	private Vector2 endPt = new Vector2();
 	private Vector2 offset = new Vector2();
-	private final static float spawnDist = 32.0f;
+	private final static float spawnDist = 2.0f;
 	
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
@@ -733,11 +733,12 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		
+		originPt.set(getPosition());
 		offset.set(startVelo);
-		endPt.set(getPixelPosition()).add(offset.nor().scl(spawnDist + projSize / 2));
+		endPt.set(getPosition()).add(offset.nor().scl(spawnDist + projSize / 4 / PPM));
 		shortestFraction = 1.0f;
 		
-		if (getPixelPosition().x != endPt.x || getPixelPosition().y != endPt.y) {
+		if (originPt != endPt) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
 
@@ -751,10 +752,9 @@ public class Player extends PhysicsSchmuck {
 					return -1.0f;
 				}
 				
-			}, getPixelPosition(), endPt);
+			}, originPt, endPt);
 		}
-		originPt.set(getPixelPosition());
-		return originPt.add(offset.nor().scl((spawnDist + projSize / 2) * shortestFraction));
+		return originPt.add(offset.nor().scl((spawnDist + projSize / 4 / PPM) * shortestFraction)).scl(PPM);
 	}
 	
 	@Override

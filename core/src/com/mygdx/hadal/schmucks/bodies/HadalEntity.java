@@ -227,7 +227,8 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * returns position scaled by pixels per meter.
 	 * use when you want screen coordinates instead of getPosition()
 	 */
-	public Vector2 getPixelPosition() {	return new Vector2(body.getPosition()).scl(PPM); }
+	private Vector2 pixelPosition = new Vector2();
+	public Vector2 getPixelPosition() {	return pixelPosition.set(body.getPosition()).scl(PPM); }
 	
 	public Body getBody() { return body; }
 	
