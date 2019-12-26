@@ -30,7 +30,7 @@ public class PortableTurret extends ActiveItem {
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
 	public PortableTurret(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamage);
+		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
 	}
 	
 	@Override

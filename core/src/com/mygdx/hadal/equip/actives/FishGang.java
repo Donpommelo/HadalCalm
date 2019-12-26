@@ -20,7 +20,7 @@ public class FishGang extends ActiveItem {
 	private final static float fishLifespan = 10.0f;
 	
 	public FishGang(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamage);
+		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
 	}
 	
 	@Override

@@ -24,7 +24,7 @@ public class Melon extends ActiveItem {
 	private ParticleEntity regen;
 	
 	public Melon(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamage);
+		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
 	}
 	
 	@Override
