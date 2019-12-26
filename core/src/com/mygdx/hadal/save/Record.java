@@ -29,6 +29,7 @@ public class Record {
 	
 	//This is the player's starting name
 	private String name;
+	private static final int maxNameLength = 100;
 	
 	public Record() {}
 	
@@ -110,7 +111,7 @@ public class Record {
 	}
 	
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.substring(0, Math.min(name.length(), maxNameLength));
 		saveRecord();
 	}
 	
@@ -128,5 +129,5 @@ public class Record {
 
 	public String getCharacter() { return character; }
 
-	public String getName() { return name; }
+	public String getName() { return name.substring(0, Math.min(name.length(), maxNameLength)); }
 }

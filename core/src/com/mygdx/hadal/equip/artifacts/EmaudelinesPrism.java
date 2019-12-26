@@ -35,7 +35,6 @@ public class EmaudelinesPrism extends Artifact {
 				projVelo.set(tool.getWeaponVelo());
 				projAngle1.set(projVelo).setAngle(projVelo.angle() + spread);
 				projAngle2.set(projVelo).setAngle(projVelo.angle() - spread);
-				
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getPixelPosition(), projAngle1, inflicted.getSchmuck().getHitboxfilter());
 				inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), inflicted.getSchmuck().getPixelPosition(), projAngle2, inflicted.getSchmuck().getHitboxfilter());
 			}

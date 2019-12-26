@@ -225,7 +225,7 @@ public class PlayState extends GameState {
 		World.setVelocityThreshold(0);
 
 		b2dr = new Box2DDebugRenderer();
-//		b2dr.setDrawBodies(false);
+		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities and packet effects
 		entities = new LinkedHashSet<HadalEntity>();

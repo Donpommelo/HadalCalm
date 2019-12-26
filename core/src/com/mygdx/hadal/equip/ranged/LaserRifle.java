@@ -57,6 +57,7 @@ public class LaserRifle extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
 		final Equipable tool = this;
+		
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
 		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
