@@ -670,7 +670,7 @@ public class PlayState extends GameState {
 	 * @return the newly created player
 	 */
 	public Player createPlayer(Vector2 startPosition, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
-		
+
 		Loadout newLoadout = new Loadout(altLoadout);
 		
 		if (mapMultitools != null) {
@@ -688,7 +688,7 @@ public class PlayState extends GameState {
 				}
 			}
 		}
-		
+
 		if (mapActiveItem != null) {
 			newLoadout.activeItem = mapActiveItem;
 		}

@@ -82,7 +82,7 @@ public class Record {
 		newRecord.flags.put("INTRO", 0);
 		newRecord.flags.put("TUTORIAL", 0);
 		newRecord.equips = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING"};
-		newRecord.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
+		newRecord.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newRecord.active = "NOTHING";
 		newRecord.character = "MOREAU";
 		newRecord.name = "";

@@ -69,7 +69,7 @@ public class PlayerBodyData extends BodyData {
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body, baseHp);
 		this.player = body;
-		this.loadout = new Loadout(loadout);		
+		this.loadout = new Loadout(loadout);
 		currentSlot = 0;
 	}
 	
@@ -86,7 +86,7 @@ public class PlayerBodyData extends BodyData {
 			multitools[i] = UnlocktoItem.getUnlock(loadout.multitools[i], player);
 		}
 		setEquip();
-
+		
 		//Reset artifacts list and acquire artifacts from loadout
 		this.artifacts = new UnlockArtifact[Loadout.maxArtifactSlots];
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
@@ -350,7 +350,7 @@ public class PlayerBodyData extends BodyData {
 	 * Add a new artifact.
 	 */
 	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override) {
-//		System.out.println(artifactUnlock.getName() + " " + override);
+		
 		Artifact newArtifact =  artifactUnlock.getArtifact();
 		int slotsUsed = 0;
 		
@@ -376,11 +376,6 @@ public class PlayerBodyData extends BodyData {
 				}
 				artifacts[i] = artifactUnlock;
 				loadout.artifacts[i] = artifactUnlock;
-				
-				for (int j = i + 1; j < Loadout.maxArtifactSlots; j++) {
-					artifacts[j] = UnlockArtifact.NOTHING;
-					loadout.artifacts[j] = UnlockArtifact.NOTHING;
-				}
 				
 				if (player.equals((player.getState().getPlayer()))) {
 					player.getState().getUiArtifact().syncArtifact();

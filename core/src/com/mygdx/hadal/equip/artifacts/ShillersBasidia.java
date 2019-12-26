@@ -12,8 +12,8 @@ public class ShillersBasidia extends Artifact {
 	private final static int slotCost = 2;
 	
 	private static final int poisonRadius = 100;
-	private static final float poisonDamage = 15 / 60f;
-	private static float poisonDuration = 2.0f;
+	private static final float poisonDamage = 10 / 60f;
+	private static float poisonDuration = 1.0f;
 	
 	public ShillersBasidia() {
 		super(slotCost, statusNum);
