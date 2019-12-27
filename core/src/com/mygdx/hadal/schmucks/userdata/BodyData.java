@@ -274,11 +274,6 @@ public class BodyData extends HadalData {
 		}
 		
 		//charge on-damage active item
-		if (this instanceof PlayerBodyData) {
-			if (((PlayerBodyData) this).getActiveItem().getStyle().equals(chargeStyle.byDamageReceive)) {
-				((PlayerBodyData) this).getActiveItem().gainCharge(damage);
-			}
-		}
 		if (perp instanceof PlayerBodyData) {
 			if (((PlayerBodyData) perp).getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {
 				((PlayerBodyData) perp).getActiveItem().gainCharge(damage);

@@ -21,7 +21,7 @@ public class RingofTesting extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, 1.5f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, 2.0f, b),
 				new Status(state, b) {
 			
 			@Override

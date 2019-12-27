@@ -377,13 +377,13 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 		
-		spiritPos.set(body.getPosition()).add(0, 100);
+		spiritPos.set(getPixelPosition()).add(0, 100);
 		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 		
-		spiritPos.set(body.getPosition()).add(100, 0);
+		spiritPos.set(getPixelPosition()).add(100, 0);
 		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 		
-		spiritPos.set(body.getPosition()).add(-100, 0);
+		spiritPos.set(getPixelPosition()).add(-100, 0);
 		BossUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
 	}
 	

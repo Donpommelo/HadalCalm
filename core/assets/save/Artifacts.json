@@ -500,6 +500,17 @@ ORIGIN_COIL: {
 		RANDOM_POOL,
 	]
 }
+PAIN_SCALE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Pain Scale
+	description: "Charge Active Item Upon Receiving Damage"
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 PELICAN_PLUSH_TOY: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Pelican Plush Toy

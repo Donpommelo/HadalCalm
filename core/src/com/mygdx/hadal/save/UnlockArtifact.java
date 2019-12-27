@@ -54,6 +54,7 @@ public enum UnlockArtifact {
 	NICE_SHOES(new NiceShoes()),
 	NUCLEAR_PUNCH_THRUSTERS(new NuclearPunchThrusters()),
 	ORIGIN_COIL(new OriginCoil()),
+	PAIN_SCALE(new PainScale()),
 	PELICAN_PLUSH_TOY(new PelicanPlushToy()),
 	PEPPER(new Pepper()),
 	PIFFLER(new Piffler()),
