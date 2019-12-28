@@ -7,14 +7,15 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 
-public class ForagersHive extends Artifact {
+public class WrathoftheFrogman extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private final static int slotCost = 2;
 	
-	private final static float procCd = 0.75f;
+	private final static float procCd = 1.0f;
+	private final static float damage = 12.0f;
 	
-	public ForagersHive() {
+	public WrathoftheFrogman() {
 		super(slotCost, statusNum);
 	}
 
@@ -34,8 +35,8 @@ public class ForagersHive extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), 1, 
-							new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), damage, 1, 1, new Vector2(0, 1), false, 
+							inflicted.getSchmuck().getHitboxfilter());
 				}
 			}
 		};

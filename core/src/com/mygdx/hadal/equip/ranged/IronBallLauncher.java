@@ -37,7 +37,7 @@ public class IronBallLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, false, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setGravity(10);
 		hbox.setFriction(1.0f);
 		hbox.setRestitution(0.5f);

@@ -53,6 +53,7 @@ public enum UnlockArtifact {
 	MUDDLING_CUP(new MuddlingCup()),
 	NICE_SHOES(new NiceShoes()),
 	NUCLEAR_PUNCH_THRUSTERS(new NuclearPunchThrusters()),
+	NURDLER(new Nurdler()),
 	ORIGIN_COIL(new OriginCoil()),
 	PAIN_SCALE(new PainScale()),
 	PELICAN_PLUSH_TOY(new PelicanPlushToy()),
@@ -77,7 +78,9 @@ public enum UnlockArtifact {
 	TYPHON_FANG(new TyphonFang()),
 	UNBREATHING_MEMBRANE(new UnbreathingMembrane()),
 	VOID_HYPONOME(new VoidHyponome()),
-
+	WHITE_SMOKER(new WhiteSmoker()),
+	WRATH_OF_THE_FROGMAN(new WrathoftheFrogman()),
+	
 	NOTHING(new NothingArtifact()),
 	;
 	

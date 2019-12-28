@@ -72,7 +72,7 @@ public class Status {
 		case ON_HEAL:
 			finalAmount = onHeal(finalAmount, schmuck, tags);
 			break;
-		case WHILE_SHOOTING:
+		case WHILE_ATTACKING:
 			whileShooting(amount, tool);
 			break;
 		case ON_SHOOT:

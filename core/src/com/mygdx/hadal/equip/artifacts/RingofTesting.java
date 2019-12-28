@@ -21,7 +21,7 @@ public class RingofTesting extends Artifact {
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, 2.0f, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SPD, 2.5f, b),
 				new Status(state, b) {
 			
 			@Override
@@ -30,7 +30,7 @@ public class RingofTesting extends Artifact {
 					
 					@Override
 					public void create() {
-						hbox.getBody().setLinearDamping(8.0f);
+						hbox.getBody().setLinearDamping(10.0f);
 					}
 					
 				});

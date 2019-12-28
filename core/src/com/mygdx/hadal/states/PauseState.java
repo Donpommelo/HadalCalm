@@ -41,8 +41,8 @@ public class PauseState extends GameState {
 	private boolean toRemove = false;
 	
 	//Dimentions of the pause menu
-	private final static int width = 300;
-	private final static int height = 240;
+	private final static int width = 500;
+	private final static int height = 300;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
@@ -77,8 +77,8 @@ public class PauseState extends GameState {
 				pause.setScale(0.5f);
 				
 				resumeOption = new Text("RESUME?", 0, 0, Color.WHITE);
-				hubOption = new Text("RETURN?", 0, 0, Color.WHITE);
-				exitOption = new Text("EXIT?", 0, 0, Color.WHITE);
+				hubOption = new Text("RETURN TO HUB?", 0, 0, Color.WHITE);
+				exitOption = new Text("EXIT TO TITLE?", 0, 0, Color.WHITE);
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {

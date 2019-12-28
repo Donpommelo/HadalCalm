@@ -102,28 +102,40 @@ public class WeaponUtils {
 	
 	private static final float torpedoBaseDamage = 3.0f;
 	private static final float torpedoBaseKnockback = 3.0f;
-	private static final float torpedoExplosionDamage = 7.5f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
-	private static final int torpedoWidth = 50;
-	private static final int torpedoHeight = 10;
+	private static final int torpedoWidth = 10;
+	private static final int torpedoHeight = 50;
 	private static final float torpedoLifespan = 8.0f;
 	private static final int torpedoSpread = 10;
 	
-	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, final Schmuck user, Equipable tool, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
+	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, final Schmuck user, Equipable tool, float damage, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread)));
 			
 			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity.setAngle(newDegrees),
-					filter, true, procEffects, user, torpedoSprite);
+					filter, true, procEffects, user, torpedoSprite) {
+				
+				@Override
+				public void render(SpriteBatch batch) {
+				
+					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
+							getPixelPosition().x - size.y / 2, 
+							getPixelPosition().y - size.x / 2, 
+							size.y / 2, size.x / 2,
+							size.y, size.x, 1, 1, 
+							(float) Math.toDegrees(getOrientation()) - 90);
+
+				}
+			};
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), tool, torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.RANGED));
-			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, torpedoExplosionRadius, torpedoExplosionDamage, torpedoExplosionKnockback, filter));
+			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), tool, torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
 			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), filter));
 			hbox.addStrategy(new HitboxSpreadStrategy(state, hbox, user.getBodyData(), torpedoSpread));
 		}

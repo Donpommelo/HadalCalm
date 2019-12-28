@@ -278,7 +278,7 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
-	private static final float rotateSpeed = 1.8f;
+	private static final float rotateSpeed = 2.0f;
 	private static final float laser2Interval = 0.04f;
 	private static final int laser2Amount = 110;
 	private static final float laser2Damage = 7.0f;

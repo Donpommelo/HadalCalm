@@ -17,7 +17,7 @@ public class BeeGun extends RangedWeapon {
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
-	private final static float projectileSpeedStart = 4.0f;
+	private final static float projectileSpeedStart = 6.0f;
 
 	private final static Sprite weaponSprite = Sprite.MT_BEEGUN;
 	private final static Sprite eventSprite = Sprite.P_BEEGUN;

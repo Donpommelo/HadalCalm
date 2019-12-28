@@ -649,6 +649,7 @@ public class PlayState extends GameState {
 				getGsm().addPlayState(level, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 				
 			} else {
+				
 				//begin transitioning to the designated next level
 				nextLevel = level;
 				this.nextStartId = nextStartId;

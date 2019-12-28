@@ -14,6 +14,7 @@ public class ShillersDeathcap extends Artifact {
 	private static final int poisonRadius = 100;
 	private static final float poisonDamage = 10 / 60f;
 	private static float poisonDuration = 1.0f;
+	private static final float procCd = 1.0f;
 	
 	public ShillersDeathcap() {
 		super(slotCost, statusNum);
@@ -24,7 +25,6 @@ public class ShillersDeathcap extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
-			private float procCd = .50f;
 			
 			@Override
 			public void timePassing(float delta) {

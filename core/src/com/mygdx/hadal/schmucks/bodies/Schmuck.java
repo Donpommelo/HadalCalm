@@ -160,11 +160,12 @@ public class Schmuck extends HadalEntity {
 	 * @param delta: Time passed since last usage. This is used for Charge tools that keep track of time charged.
 	 * @param tool: Equipment that the schmuck wants to use
 	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
-	 * @param x: x screen coordinate that represents where the tool is being directed.
-	 * @param y: y screen coordinate that represents where the tool is being directed.
+	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
 	 * @param wait: Should this tool wait for base cooldowns. No for special tools like built-in airblast/momentum freezing/some enemy attacks
 	 */
 	public void useToolStart(float delta, Equipable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
+		
+		bodyData.statusProcTime(StatusProcTime.WHILE_ATTACKING, null, delta, null, tool, null);
 		
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {

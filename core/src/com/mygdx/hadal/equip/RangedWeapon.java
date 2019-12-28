@@ -93,8 +93,6 @@ public class RangedWeapon extends Equipable {
 		//Also store the recoil vector and filter.
 		this.faction = faction;
 		this.mouseLocation.set(mousePosition);
-		
-		shooter.statusProcTime(StatusProcTime.WHILE_SHOOTING, null, delta, null, this, null);
 	}
 	
 	/**

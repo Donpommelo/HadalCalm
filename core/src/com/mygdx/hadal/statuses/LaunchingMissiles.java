@@ -8,7 +8,8 @@ import com.mygdx.hadal.states.PlayState;
 public class LaunchingMissiles extends Status {
 
 	private float procCdCount;
-	private float procCd = .1f;
+	private static final float procCd = .1f;
+	private static final float damage = 7.5f;
 	
 	public LaunchingMissiles(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
@@ -19,7 +20,7 @@ public class LaunchingMissiles extends Status {
 		super.timePassing(delta);
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
-			WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), 1, 15, new Vector2(0, 1), false, 
+			WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), damage, 1, 15, new Vector2(0, 1), false, 
 					inflicted.getSchmuck().getHitboxfilter());
 		}
 		procCdCount += delta;

@@ -177,7 +177,7 @@ CONFIDENCE: {
 CROWN_OF_THORNS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Crown of Thorns
-	description: "Perform a Melee Attack After Reloading"
+	description: "Drop Thorns Upon Receiving Damage"
     descriptionLong: "Thorny headgear of nondiscriminatory wrath. To be worn on the outside of the helmet."
 	unlocked: true
 	tags: [
@@ -287,7 +287,7 @@ FENS_CLIPPED_WINGS: {
 FORAGERS_HIVE: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Forager's Hive
-	description: "Receiving Damage Releases Bees"
+	description: "Release Bees While Attacking"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -482,6 +482,17 @@ NUCLEAR_PUNCH_THRUSTERS: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Nuclear Punch Thrusters
 	description: "+Attack Knockback"
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+NURDLER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Nurdler
+	description: "Fire Pellets When Attacking"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
@@ -745,6 +756,28 @@ VOID_HYPONOME: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Void Hyponome
 	description: "-Airblast Cost"
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+WHITE_SMOKER: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: White Smoker
+	description: "Fiery Projectiles"
+    descriptionLong: "TEST"
+	unlocked: true
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+WRATH_OF_THE_FROGMAN: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Wrath of the Frogman
+	description: "Fire Missiles When Attacking"
     descriptionLong: "TEST"
 	unlocked: true
 	tags: [
