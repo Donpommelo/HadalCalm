@@ -1,10 +1,12 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.LaunchingMissiles;
+import com.mygdx.hadal.statuses.Status;
 
 public class MissilePod extends ActiveItem {
 
@@ -15,12 +17,30 @@ public class MissilePod extends ActiveItem {
 	
 	private final static float duration = 1.0f;
 	
+	private static final float procCd = .1f;
+	private static final float damage = 7.5f;
+	
 	public MissilePod(Schmuck user) {
 		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		user.addStatus(new LaunchingMissiles(state, duration, user, user));
+		user.addStatus(new Status(state, duration, false, user, user) {
+			
+			private float procCdCount;
+			
+			@Override
+			public void timePassing(float delta) {
+				super.timePassing(delta);
+				if (procCdCount >= procCd) {
+					procCdCount -= procCd;
+					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), damage, 1, 15, new Vector2(0, 1), false, 
+							inflicted.getSchmuck().getHitboxfilter());
+				}
+				procCdCount += delta;
+			}
+			
+		});
 	}
 }

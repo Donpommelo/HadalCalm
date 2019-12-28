@@ -9,6 +9,9 @@ import com.mygdx.hadal.equip.actives.*;
 
 public enum UnlockActives {
 	
+	ANCHOR_SMASH(AnchorSmash.class),
+	METEOR_STRIKE(MeteorStrike.class),
+	
 	TAINTED_WATER(TaintedWater.class),
 	TRACTOR_BEAM(TractorBeam.class),
 	SPRING_LOADER(SpringLoader.class),

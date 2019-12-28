@@ -201,4 +201,6 @@ public abstract class Equipable {
 	public Vector2 getWeaponVelo() { return weaponVelo; }
 
 	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo = weaponVelo; }
+	
+	public Vector2 getMouseLocation() { return mouseLocation; }
 }

@@ -1,4 +1,26 @@
 {
+ANCHOR_SMASH: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Anchor Smash
+	description: "Drop an anchor at Mouse Location"
+    descriptionLong: ""
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+METEOR_STRIKE: {
+	class: com.mygdx.hadal.save.InfoItem
+	name: Meteor Strike
+	description: "Summon Meteors at Mouse Location"
+    descriptionLong: ""
+	unlocked: true
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 TAINTED_WATER: {
 	class: com.mygdx.hadal.save.InfoItem
 	name: Tainted Water

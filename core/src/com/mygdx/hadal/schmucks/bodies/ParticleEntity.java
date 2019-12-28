@@ -89,6 +89,7 @@ public class ParticleEntity extends HadalEntity {
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
+				effect.update(delta);
 			} else {
 				if (!attached) {
 					despawn = true;
@@ -146,7 +147,6 @@ public class ParticleEntity extends HadalEntity {
 			attachedEntity = ((ClientState)state).findEntity(attachedId);
 		}
 	}
-	
 	
 	/**
 	 * Is this entity on the screen?
