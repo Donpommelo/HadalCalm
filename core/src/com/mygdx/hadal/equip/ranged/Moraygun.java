@@ -26,10 +26,10 @@ public class Moraygun extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 8.0f;
+	private final static float baseDamage = 9.0f;
 	private final static float recoil = 15.0f;
-	private final static float knockback = 4.5f;
-	private final static float projectileSpeedStart = 300.0f;
+	private final static float knockback = 5.0f;
+	private final static float projectileSpeedStart = 100.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 2.5f;
 	
@@ -50,6 +50,7 @@ public class Moraygun extends RangedWeapon {
 		final int numX = (int) (startVelocity.x / projectileSize.x);
 		final int numY = (int) (startVelocity.y / projectileSize.y);
 		
+		//create a set number of hboxes that die when hitting enemies or walls.
 		for (int i = 0; i < numProj; i++) {
 			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, projSprite);
 			
@@ -79,6 +80,7 @@ public class Moraygun extends RangedWeapon {
 				public void controller(float delta) {
 					controllerCount+=delta;
 
+					//Each hbox moves at set intervals. Each movement moves the hbox verticle x times followed by horizontal y times to make a snake-like movement
 					if (controllerCount >= moveInterval) {
 						controllerCount -= moveInterval;
 						if (numMoves >= num) {

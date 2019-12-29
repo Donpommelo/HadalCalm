@@ -19,21 +19,22 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int ammoSize = 32;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.6f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 25.0f;
 	private final static Vector2 projectileSize = new Vector2(25, 25);
 	private final static float lifespan = 5.0f;
 	
-	private final static int explosionRadius = 125;
-	private final static float explosionDamage = 40.0f;
+	private final static int explosionRadius = 150;
+	private final static float explosionDamage = 45.0f;
 	private final static float explosionKnockback = 18.0f;	
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_STICKYBOMB;
 	private final static Sprite eventSprite = Sprite.P_STICKYBOMB;
 	
+	//list of hitboxes created
 	private Queue<Hitbox> bombsLaid = new Queue<Hitbox>();
 
 	public StickyBombLauncher(Schmuck user) {
@@ -43,6 +44,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	@Override
 	public void reload(float delta) {
 		
+		//upon reload, detonate all laid bombs
 		for (Hitbox bomb : bombsLaid) {
 			if (bomb.isAlive()) {
 				bomb.die();

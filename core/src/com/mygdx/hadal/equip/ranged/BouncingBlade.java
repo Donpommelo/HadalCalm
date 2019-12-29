@@ -41,7 +41,7 @@ public class BouncingBlade extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
-		hbox.setDurability(5);
+		hbox.setDurability(4);
 		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));

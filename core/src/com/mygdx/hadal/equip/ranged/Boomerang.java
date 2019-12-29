@@ -58,6 +58,8 @@ public class Boomerang extends RangedWeapon {
 			
 			@Override
 			public void create() {
+				
+				//Set boomerang to have constant angular velocity for visual effect.
 				hbox.setAngularVelocity(5);
 			}
 			
@@ -65,6 +67,7 @@ public class Boomerang extends RangedWeapon {
 			public void controller(float delta) {
 				controllerCount+=delta;
 
+				//Boomerang repeatedly is pushed towards player. Controllercount is checked to ensure framerate does not affect speed
 				if (controllerCount >= 1/60f) {
 					diff.set(user.getPixelPosition().x - hbox.getPixelPosition().x, 
 							user.getPixelPosition().y - hbox.getPixelPosition().y);
@@ -78,14 +81,14 @@ public class Boomerang extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
+					
+					//if boomerang hits user, they regain their clip. Otherwise do damage normally
 					if (fixB instanceof PlayerBodyData) {
 						if (((PlayerBodyData)fixB).getPlayer().getHitboxfilter() == user.getHitboxfilter()) {
-							if (hbox.getLifeSpan() < lifespanx - 0.25f) {
-								if (((PlayerBodyData)fixB).getCurrentTool() instanceof Boomerang) {
-									((Boomerang)((PlayerBodyData)fixB).getCurrentTool()).gainClip(1);
-								}
-								this.hbox.queueDeletion();
+							if (((PlayerBodyData)fixB).getCurrentTool() instanceof Boomerang && ((PlayerBodyData)fixB).equals(hbox.getCreator().getBodyData())) {
+								((Boomerang)((PlayerBodyData)fixB).getCurrentTool()).gainClip(1);
 							}
+							this.hbox.queueDeletion();
 						} else {
 							fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback), 
 									user.getBodyData(), tool, true, DamageTypes.RANGED);

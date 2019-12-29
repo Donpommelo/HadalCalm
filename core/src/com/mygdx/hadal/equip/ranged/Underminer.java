@@ -75,6 +75,8 @@ public class Underminer extends RangedWeapon {
 			@Override
 			public void controller(float delta) {
 				super.controller(delta);
+				
+				//invuln is incremented to prevent hbox from detonating immediately upon hitting a corner
 				if (invuln > 0) {
 					invuln -= delta;
 				}
@@ -83,12 +85,16 @@ public class Underminer extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB == null) {
+					
+					//upon hitting a wall, hbox activates and begins drilling in a straight line
 					if (!activated) {
 						activated = true;
 						hbox.setLinearVelocity(hbox.getLinearVelocity().nor().scl(activatedSpeed));
 						hbox.setGravityScale(0);
 						invuln = 0.1f;
 					} else {
+						
+						//if already activated (i.e drilling to other side of wall), hbox explodes
 						if (invuln <= 0) {
 							hbox.die();
 						}
@@ -100,6 +106,8 @@ public class Underminer extends RangedWeapon {
 			
 			@Override
 			public void die() {
+				
+				//hbox releases frags when it dies
 				WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), tool, explosionDamage, explosionKnockback, filter);
 				
 				for (int i = 0; i < numProj; i++) {

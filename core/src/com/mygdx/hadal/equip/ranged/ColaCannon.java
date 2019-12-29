@@ -26,7 +26,7 @@ public class ColaCannon extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 4.5f;
+	private final static float baseDamage = 5.0f;
 	private final static float recoil = 18.0f;
 	private final static float knockback = 5.5f;
 	private final static float projectileSpeed = 45.0f;
@@ -54,6 +54,8 @@ public class ColaCannon extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		charging = true;
+		
+		//While held, gain charge equal to mouse movement from location last update
 		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += lastMouse.dst(mouseLocation);
 			if (chargeCd >= getChargeTime()) {
@@ -70,6 +72,8 @@ public class ColaCannon extends RangedWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
+		
+		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
 		if (processClip(state, bodyData)) {
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
 			final float velocity = projectileSpeed * chargeCd / getChargeTime() + minVelo;

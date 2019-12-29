@@ -59,6 +59,7 @@ public class WaveCannon extends RangedWeapon {
 			public void controller(float delta) {
 				elapsed += delta;
 				
+				//repeatedly apply force to hboxes to make them move in a wave-like shape
 				float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
 				float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 
@@ -82,6 +83,7 @@ public class WaveCannon extends RangedWeapon {
 			public void controller(float delta) {
 				elapsed += delta;
 				
+				//repeatedly apply force to hboxes to make them move in a wave-like shape
 				float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
 				float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 

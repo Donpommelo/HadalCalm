@@ -49,6 +49,8 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		charging = true;
+		
+		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += delta;
 			if (chargeCd >= getChargeTime()) {
@@ -59,9 +61,7 @@ public class ChargeBeam extends RangedWeapon {
 	}
 	
 	@Override
-	public void execute(PlayState state, BodyData shooter) {
-
-	}
+	public void execute(PlayState state, BodyData shooter) {}
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
@@ -74,6 +74,7 @@ public class ChargeBeam extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		final Equipable tool = this;
 		
+		//power of hitbox scales to the amount charged
 		if (chargeCd >= getChargeTime()) {
 			chargeStage = 2;
 		}
@@ -90,14 +91,14 @@ public class ChargeBeam extends RangedWeapon {
 
 		switch(chargeStage) {
 		case 2:
-			sizeMultiplier = 3.0f;
-			speedMultiplier = 3.0f;
+			sizeMultiplier = 2.5f;
+			speedMultiplier = 2.5f;
 			damageMultiplier = 5.0f;
 			kbMultiplier = 4.5f;
 			break;
 		case 1:
-			sizeMultiplier = 2.0f;
-			speedMultiplier = 2.0f;
+			sizeMultiplier = 1.5f;
+			speedMultiplier = 1.5f;
 			damageMultiplier = 3.5f;
 			kbMultiplier = 3.0f;
 			break;

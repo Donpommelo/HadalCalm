@@ -51,6 +51,8 @@ public class TrickGun extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+		
+		//when clicked, keep track of mouse location
 		if (!firstClicked) {
 			pos1.set(mouseLocation);
 			firstClicked = true;
@@ -62,6 +64,8 @@ public class TrickGun extends RangedWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
+		
+		//when released, fire weapon at location where mouse was pressed and keep track of location where mouse is released.
 		if (firstClicked) {
 			pos2.set(mouseLocation);
 			
@@ -98,6 +102,7 @@ public class TrickGun extends RangedWeapon {
 		//This extra check of firstClicked makes sure effects that autofire this gun work (like muddling cup)
 		if (firstClicked) {
 
+			//when hbox reaches location of mouse click, it moves towards location of mouse release
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				private boolean firstReached = false;

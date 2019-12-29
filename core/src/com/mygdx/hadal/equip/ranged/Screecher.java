@@ -59,11 +59,13 @@ public class Screecher extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
 		final Equipable tool = this;
 		
+		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = range * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
 		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
 		shortestFraction = 1.0f;
 		
+		//Raycast length of distance until we hit a wall
 		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
@@ -92,6 +94,7 @@ public class Screecher extends RangedWeapon {
 			}, user.getPosition(), endPt);
 		}
 		
+		//create explosions around the point we raycasted towards
 		newPosition.set(user.getPixelPosition()).add(startVelocity.nor().scl(distance * shortestFraction * PPM));
 		newPosition.add(ThreadLocalRandom.current().nextInt(-spread, spread + 1), ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		
@@ -105,6 +108,8 @@ public class Screecher extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
+					
+					//hard coded way of making a static hbox apply knockback
 					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, tool, false);
 				}
 			}

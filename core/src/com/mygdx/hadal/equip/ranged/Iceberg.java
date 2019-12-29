@@ -47,17 +47,15 @@ public class Iceberg extends RangedWeapon {
 			float lastX = 0;
 			
 			@Override
-			public void create() {
-				hbox.setTransform(hbox.getPosition(), 0);
-			}
-			
-			@Override
 			public void controller(float delta) {
 				hbox.setLifeSpan(hbox.getLifeSpan() - delta);
 				if (hbox.getLifeSpan() <= 0) {
 					hbox.die();
 				}
 				controllerCount+=delta;
+				
+				//when we hit a wall, we reverse momentum instead of staying still.
+				//This is necessary b/c we cannot turn restitution up without having the projectile bounce instead of slide,
 				if (controllerCount >= 1/60f) {
 					
 					if (hbox.getLinearVelocity().x == 0) {

@@ -58,11 +58,13 @@ public class LaserRifle extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
 		final Equipable tool = this;
 		
+		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
 		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
 		shortestFraction = 1.0f;
 		
+		//Raycast length of distance until we hit a wall
 		if (user.getPosition().x != endPt.x || user.getPosition().y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
@@ -85,6 +87,7 @@ public class LaserRifle extends RangedWeapon {
 		int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 		Sprite projSprite = projSprites[randomIndex];
 		
+		//Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.
 		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2((distance * shortestFraction * PPM), projectileHeight), lifespan, new Vector2(0, 0), filter, true, true, user, projSprite) {
 			
 			Vector2 newPosition = new Vector2(0, 0);
@@ -104,6 +107,7 @@ public class LaserRifle extends RangedWeapon {
 			@Override
 			public void render(SpriteBatch batch) {
 				
+				//transparency changes to make hbox fade over time
 				float transparency = Math.max(0, this.getLifeSpan() / this.getMaxLifespan());
 
 				batch.setColor(1f, 1f, 1f, transparency);
@@ -126,6 +130,8 @@ public class LaserRifle extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
+					
+					//hard coded way of making a static hbox apply knockback
 					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, tool, false);
 				}
 			}

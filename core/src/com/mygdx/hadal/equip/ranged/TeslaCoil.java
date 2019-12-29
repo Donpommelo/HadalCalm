@@ -45,8 +45,9 @@ public class TeslaCoil extends RangedWeapon {
 	private final static float pulseInterval = 1.0f;
 	private final static float pulseDuration = 0.1f;
 	private final static Vector2 pulseSize = new Vector2(40, 40);
-	private final static float pulseDamage = 6.0f;
+	private final static float pulseDamage = 7.5f;
 	
+	//kep track of all coils laid so far
 	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
 
 	public TeslaCoil(Schmuck user) {
@@ -73,6 +74,8 @@ public class TeslaCoil extends RangedWeapon {
 			
 			@Override
 			public void create() {
+				
+				//keep track of the coil's travel distance
 				this.startLocation.set(hbox.getPixelPosition());
 				this.distance = startLocation.dst(endLocation);
 			}
@@ -81,6 +84,7 @@ public class TeslaCoil extends RangedWeapon {
 			public void controller(float delta) {
 				super.controller(delta);
 				
+				//planted coils stop and activates
 				if (firstPlanted) {
 					firstPlanted = false;
 					planted = true;
@@ -88,6 +92,7 @@ public class TeslaCoil extends RangedWeapon {
 					hbox.getBody().setType(BodyType.StaticBody);
 				}
 				
+				//activated coils periodically check world for nearby coils
 				if (planted) {
 					
 					controllerCount+=delta;
@@ -115,6 +120,7 @@ public class TeslaCoil extends RangedWeapon {
 					return;
 				}
 				
+				//After reaching the location clicked, the coil is makred as planted
 				if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
 					firstPlanted = true;
 				}
@@ -123,10 +129,13 @@ public class TeslaCoil extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				
+				//activated coils do nothing when hit.
 				if (planted) {
 					return;
 				}
 				
+				
+				//unactivated coils should stop and plant when they hit a wall
 				if (fixB == null) {
 					firstPlanted = true;
 				} else if (fixB.getType().equals(UserDataTypes.WALL)){
@@ -136,14 +145,22 @@ public class TeslaCoil extends RangedWeapon {
 			
 			@Override
 			public void die() {
+				
+				//remove dead coils from list
 				coilsLaid.remove(hbox);
 			}
 			
+			/**
+			 * This activates when a coil performs its periodic check of nearby coils and finds one
+			 * @param state: playstate
+			 * @param hboxOther: the other coil to connect to
+			 */
 			public void coilPairActivated(final PlayState state, final Hitbox hboxOther) {
 				
 				if (!activated) {
 					activated = true;
 					
+					//draw a path of hitboxes between the 2 activated coils that damage enemies that pass through
 					Vector2 pulsePosition = new Vector2(hbox.getPixelPosition());
 					Vector2 pulsePath = hboxOther.getPixelPosition().sub(hbox.getPixelPosition());
 					float dist = pulsePath.len();

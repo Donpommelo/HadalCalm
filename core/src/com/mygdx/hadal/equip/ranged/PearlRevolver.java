@@ -21,14 +21,14 @@ public class PearlRevolver extends RangedWeapon {
 	private final static String name = "Pearl Revolver";
 	private final static int clipSize = 6;
 	private final static int ammoSize = 36;
-	private final static float shootCd = 0.25f;
+	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 40.0f;
-	private final static float recoil = 5.0f;
-	private final static float knockback = 7.5f;
-	private final static float projectileSpeed = 45.0f;
+	private final static float baseDamage = 35.0f;
+	private final static float recoil = 6.0f;
+	private final static float knockback = 9.0f;
+	private final static float projectileSpeed = 50.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 1.0f;
 	
@@ -43,6 +43,8 @@ public class PearlRevolver extends RangedWeapon {
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
 		super.release(state, bodyData);
+		
+		//Rapidly clicking this weapon incurs no cooldown between shots
 		bodyData.getSchmuck().setShootCdCount(0);
 	}
 	

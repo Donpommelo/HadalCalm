@@ -52,6 +52,8 @@ public class Flounderbuss extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 		charging = true;
+		
+		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime() && !reloading) {
 			chargeCd += delta;
 			if (chargeCd >= getChargeTime()) {
@@ -74,6 +76,8 @@ public class Flounderbuss extends RangedWeapon {
 	private Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		
+		//amount of projectiles scales to charge percent
 		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime(); i++) {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));

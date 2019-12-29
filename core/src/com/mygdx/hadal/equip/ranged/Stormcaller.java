@@ -18,12 +18,12 @@ public class Stormcaller extends RangedWeapon {
 
 	private final static String name = "Stormcaller";
 	private final static int clipSize = 3;
-	private final static int ammoSize = 12;
-	private final static float shootCd = 0.3f;
+	private final static int ammoSize = 14;
+	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.4f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 5.0f;
+	private final static float baseDamage = 6.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 15.0f;
@@ -32,7 +32,7 @@ public class Stormcaller extends RangedWeapon {
 	
 	private final static float explosionInterval = 1/60f;
 	private final static Vector2 explosionSize = new Vector2(0, 0);
-	private final static int explosionMaxSize = 150;
+	private final static int explosionMaxSize = 175;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
@@ -62,12 +62,14 @@ public class Stormcaller extends RangedWeapon {
 			public void controller(float delta) {
 				controllerCount+=delta;
 
+				//This hbox periodically spawns hboxes on top of itself.
 				if (controllerCount >= explosionInterval) {
 					
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
 					
+					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {
 						explosionSize.add(3, 3);
 					}
