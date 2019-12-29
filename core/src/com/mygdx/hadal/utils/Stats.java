@@ -39,7 +39,7 @@ public class Stats {
 	public static final int RANGED_CLIP = 29;
 	public static final int RANGED_PROJ_SPD = 30;
 	public static final int RANGED_PROJ_SIZE = 31;
-	public static final int RANGED_PROJ_SPREAD = 32;	//
+
 	public static final int RANGED_PROJ_LIFESPAN = 33;
 	public static final int RANGED_PROJ_DURABILITY = 34;
 	public static final int RANGED_PROJ_RESTITUTION = 35;

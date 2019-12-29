@@ -145,7 +145,7 @@ public class UIHub {
 	
 	public void refreshReliquary() {
 		tableExtra.clear();
-		for (UnlockArtifact c: state.getPlayer().getPlayerData().getArtifacts()) {
+		for (UnlockArtifact c: state.getPlayer().getPlayerData().getLoadout().artifacts) {
 			
 			if (!c.equals(UnlockArtifact.NOTHING)) {
 				final ArtifactTag newTag = new ArtifactTag(c);
@@ -174,8 +174,9 @@ public class UIHub {
 			}
 		}
 		tableExtra.row();
+		Text slotsInfo = null;
+		slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0);
 		
-		Text slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0);
 		slotsInfo.setScale(0.5f);
 		tableExtra.add(slotsInfo).colspan(12).row();
 	}

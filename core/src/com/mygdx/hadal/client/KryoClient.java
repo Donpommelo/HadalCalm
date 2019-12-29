@@ -546,6 +546,7 @@ public class KryoClient {
 						cs.getUiPlay().setOverrideMaxFuel(p.maxFuel);
 						cs.getUiPlay().setOverrideAirblastCost(p.airblastCost);
 						cs.getUiPlay().setOverrideWeaponSlots(p.weaponSlots);
+						cs.getUiPlay().setOverrideArtifactSlots(p.artifactSlots);
 					}
         		}
         		

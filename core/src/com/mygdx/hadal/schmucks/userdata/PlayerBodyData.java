@@ -18,6 +18,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Stats;
@@ -49,9 +50,6 @@ public class PlayerBodyData extends BodyData {
 	//This is a list of the player's weapons
 	private Equipable[] multitools;
 	
-	//This is a list of the player's artifacts
-	private UnlockArtifact[] artifacts;
-	
 	//This is the player's active item
 	private ActiveItem activeItem;
 	
@@ -63,8 +61,8 @@ public class PlayerBodyData extends BodyData {
 	
 	private Player player;
 
-	//This is ued by clients to display each player's hp percent in the ui
-	private float overrideHpPercent;
+	//This is used by clients to display each player's hp percent in the ui and artifact slots in hub
+	private float overrideHpPercent, overrideArtifactSlots;
 	
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body, baseHp);
@@ -87,11 +85,13 @@ public class PlayerBodyData extends BodyData {
 		}
 		setEquip();
 		
-		//Reset artifacts list and acquire artifacts from loadout
-		this.artifacts = new UnlockArtifact[Loadout.maxArtifactSlots];
-		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			addArtifact(loadout.artifacts[i], false);
+		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.maxArtifactSlots];
+		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+			artifactsTemp[i] = loadout.artifacts[i];
+		}
+		Arrays.fill(loadout.artifacts, UnlockArtifact.NOTHING);
+		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+			addArtifact(artifactsTemp[i], false);
 		}
 		
 		//Acquire active item and acquire charge status
@@ -119,12 +119,9 @@ public class PlayerBodyData extends BodyData {
 		setEquip();
 		
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			artifacts[i] = UnlockArtifact.NOTHING;
+			loadout.artifacts[i] = newLoadout.artifacts[i];
 		}
-		
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			addArtifact(newLoadout.artifacts[i], true);
-		}
+		saveArtifacts();
 		
 		this.activeItem = UnlocktoItem.getUnlock(newLoadout.activeItem, player);
 		player.setBodySprite(newLoadout.character);
@@ -180,7 +177,7 @@ public class PlayerBodyData extends BodyData {
 			e.setUser(player);
 		}
 		
-		for (UnlockArtifact a : artifacts) {
+		for (UnlockArtifact a : loadout.artifacts) {
 			for (Status s : a.getArtifact().loadEnchantments(player.getState(), this)) {
 				addStatus(s);
 			}
@@ -350,16 +347,20 @@ public class PlayerBodyData extends BodyData {
 	 * Add a new artifact.
 	 */
 	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override) {
+
+		if (artifactUnlock.equals(UnlockArtifact.NOTHING)) {
+			return false;
+		}
 		
 		Artifact newArtifact =  artifactUnlock.getArtifact();
 		int slotsUsed = 0;
-		
+
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			if (!(artifacts[i].equals(UnlockArtifact.NOTHING))) {
-				slotsUsed += artifacts[i].getArtifact().getSlotCost();
+			if (!(loadout.artifacts[i].equals(UnlockArtifact.NOTHING))) {
+				slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 				
 				//new artifact fails to add if a repeat, locked or slot cost is too high
-				if (artifacts[i].equals(artifactUnlock)){
+				if (loadout.artifacts[i].equals(artifactUnlock)){
 					return false;
 				} 
 				
@@ -374,9 +375,8 @@ public class PlayerBodyData extends BodyData {
 				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
 					addStatus(s);
 				}
-				artifacts[i] = artifactUnlock;
 				loadout.artifacts[i] = artifactUnlock;
-				
+
 				if (player.equals((player.getState().getPlayer()))) {
 					player.getState().getUiArtifact().syncArtifact();
 				}
@@ -394,27 +394,29 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void removeArtifact(UnlockArtifact artifact) {
 		
+		if (artifact.equals(UnlockArtifact.NOTHING)) {
+			return;
+		}
+		
 		int indexRemoved = -1;
 		
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {			
-			if (artifacts[i].equals(artifact)) {
+			if (loadout.artifacts[i].equals(artifact)) {
 				indexRemoved = i;
 				break;
 			}
 		}
 
 		if (indexRemoved != -1) {
-			if (artifacts[indexRemoved] != null) {
-				for (Status s : artifacts[indexRemoved].getArtifact().getEnchantment()) {
+			if (loadout.artifacts[indexRemoved] != null) {
+				for (Status s : loadout.artifacts[indexRemoved].getArtifact().getEnchantment()) {
 					removeStatus(s);
 				}
 			}
 			
 			for (int i = indexRemoved; i < Loadout.maxArtifactSlots - 1; i++) {
-				artifacts[i] = artifacts[i + 1];
 				loadout.artifacts[i] = loadout.artifacts[i + 1];
 			}
-			artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
 			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
 		}
 		
@@ -429,11 +431,11 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public void checkArtifactSlotCosts() {
+		
 		int slotsUsed = 0;
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			slotsUsed += artifacts[i].getArtifact().getSlotCost();
+			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 			if (slotsUsed > getNumArtifactSlots()) {
-				artifacts[i] = UnlockArtifact.NOTHING;
 				loadout.artifacts[i] = UnlockArtifact.NOTHING;
 			}
 		}
@@ -460,8 +462,11 @@ public class PlayerBodyData extends BodyData {
 	 * This method saves the player's current artifacts into records
 	 */
 	public void saveArtifacts() {
-		for(int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			player.getState().getGsm().getRecord().setArtifact(i, artifacts[i].toString());
+		
+		if (player.equals(player.getState().getPlayer())) {
+			for(int i = 0; i < Loadout.maxArtifactSlots; i++) {
+				player.getState().getGsm().getRecord().setArtifact(i, loadout.artifacts[i].toString());
+			}
 		}
 	}
 	
@@ -486,7 +491,7 @@ public class PlayerBodyData extends BodyData {
 			if (player.getConnID() == 0) {
 				
 			} else {
-				HadalGame.server.sendPacketToPlayer(player, new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL), getAirblastCost(), getNumWeaponSlots()));
+				HadalGame.server.sendPacketToPlayer(player, new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL), getAirblastCost(), getNumWeaponSlots(), getNumArtifactSlots()));
 			}
 		}
 	}
@@ -496,14 +501,18 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	public int getNumArtifactSlots() {
-		return Math.min((int) (Loadout.baseArtifactSlots + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+		if (player.getState().isServer()) {
+			return Math.min((int) (Loadout.baseArtifactSlots + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+		} else {
+			return Math.min((int) (((ClientState)player.getState()).getUiPlay().getOverrideArtifactSlots()), Loadout.maxArtifactSlots);
+		}
 	}
 	
 	public int getArtifactSlotsRemaining() {
 		int slotsUsed = 0;
 		
 		for (int i = 0; i < getNumArtifactSlots(); i++) {
-			slotsUsed += artifacts[i].getArtifact().getSlotCost();
+			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 		}
 		
 		return getNumArtifactSlots() - slotsUsed;
@@ -611,8 +620,6 @@ public class PlayerBodyData extends BodyData {
 
 	public Equipable[] getMultitools() { return multitools; }
 	
-	public UnlockArtifact[] getArtifacts() {	return artifacts; }
-	
 	public ActiveItem getActiveItem() {	return activeItem; }
 
 	public int getCurrentSlot() { return currentSlot; }	
@@ -624,4 +631,8 @@ public class PlayerBodyData extends BodyData {
 	public float getOverrideHpPercent() { return overrideHpPercent; }
 
 	public void setOverrideHpPercent(float overrideHpPercent) {	this.overrideHpPercent = overrideHpPercent;	}
+	
+	public float getOverrideArtifactSlots() { return overrideArtifactSlots; }
+
+	public void setOverrideArtifactSlots(float overrideArtifactSlots) {	this.overrideArtifactSlots = overrideArtifactSlots;	}
 }

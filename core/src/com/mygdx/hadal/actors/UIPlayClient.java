@@ -20,6 +20,7 @@ public class UIPlayClient extends UIPlay {
 	private int overrideClipLeft;
 	private int overrideAmmoSize;
 	private int overrideWeaponSlots;
+	private int overrideArtifactSlots;
 	private float overrideActivePercent;
 	private float overrideBossHpPercent;
 	
@@ -65,4 +66,8 @@ public class UIPlayClient extends UIPlay {
 	public void setOverrideActivePercent(float overrideActivePercent) { this.overrideActivePercent = overrideActivePercent; }
 	
 	public void setOverrideBossHpPercent(float overrideBossHpPercent) {	this.overrideBossHpPercent = overrideBossHpPercent; }
+	
+	public void setOverrideArtifactSlots(int overrideArtifactSlots) { this.overrideArtifactSlots = overrideArtifactSlots; }
+	
+	public int getOverrideArtifactSlots() { return this.overrideArtifactSlots; }
 }

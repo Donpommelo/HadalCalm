@@ -49,7 +49,7 @@ public class UIArtifacts {
 		artifacts.clear();
 		if (player.getPlayerData() != null) {
 			
-			for (UnlockArtifact a : player.getPlayerData().getArtifacts()) {
+			for (UnlockArtifact a : player.getPlayerData().getLoadout().artifacts) {
 				if (!a.equals(UnlockArtifact.NOTHING)) {
 					artifacts.add(addTag(a));
 				}

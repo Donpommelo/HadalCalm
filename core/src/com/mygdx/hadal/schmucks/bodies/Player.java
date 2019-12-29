@@ -689,7 +689,6 @@ public class Player extends PhysicsSchmuck {
 			mods.add(mod.getConstantMod());
 		}
 		
-		
 		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float)(Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
 				playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP), grounded, playerData.getCurrentSlot(), 
 				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent));

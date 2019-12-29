@@ -606,6 +606,7 @@ public class Packets {
         public float maxFuel;
         public float airblastCost;
         public int weaponSlots;
+        public int artifactSlots;
         public SyncPlayerStats() {}
         
         /**
@@ -616,12 +617,13 @@ public class Packets {
          * @param airblastCost
          * @param weaponSlots
          */
-        public SyncPlayerStats(int maxClip, float maxHp, float maxFuel, float airblastCost, int weaponSlots) {
+        public SyncPlayerStats(int maxClip, float maxHp, float maxFuel, float airblastCost, int weaponSlots, int artifactSlots) {
         	 this.maxClip = maxClip;
              this.maxHp = maxHp;
              this.maxFuel = maxFuel;
              this.airblastCost = airblastCost;
              this.weaponSlots = weaponSlots;
+             this.artifactSlots = artifactSlots;
         }
 	}
 	
