@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.*;
+import com.mygdx.hadal.managers.GameStateManager;
 
 public enum UnlockActives {
 	
@@ -36,21 +38,21 @@ public enum UnlockActives {
 		this.active = active;
 	}
 	
-	public static Array<UnlockActives> getUnlocks(boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockActives> getUnlocks(boolean unlock, Record record, UnlockTag... tags) {
 		Array<UnlockActives> items = new Array<UnlockActives>();
 		
 		for (UnlockActives u : UnlockActives.values()) {
 			boolean get = false;
 			
 			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getTags().size(); j++) {
-					if (tags[i].equals(u.getTags().get(j))) {
+				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
+					if (tags[i].equals(u.getInfo().getTags().get(j))) {
 						get = true;
 					}
 				}
 			}
 			
-			if (unlock && !u.isUnlocked()) {
+			if (unlock && !UnlockManager.checkUnlock(record, UnlockType.ACTIVE, u.toString())) {
 				get = false;
 			}
 			
@@ -71,23 +73,30 @@ public enum UnlockActives {
 		return null;
 	}
 	
+	
+	/**
+	 * This method returns the name of a weapon randomly selected from the pool.
+	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
+	 * @return
+	 */
+	public static String getRandItemFromPool(Record record, String pool) {
+		
+		if (pool.equals("")) {
+			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(false, record, UnlockTag.RANDOM_POOL);
+			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
+		}
+		
+		ArrayList<String> weapons = new ArrayList<String>();
+		
+		for (String id : pool.split(",")) {
+			weapons.add(id);
+		}
+		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
+	}
+	
 	public Class<? extends ActiveItem> getActive() { return active; }
 	
 	public InfoItem getInfo() {	return info; }
 	
 	public void setInfo(InfoItem info) { this.info = info; }
-	
-	public boolean isUnlocked() { return info.isUnlocked(); }
-	
-	public ArrayList<UnlockTag> getTags() {	return info.getTags(); }
-	
-	public String getName() { return info.getName(); }
-	
-	public String getDescr() { return info.getDescription(); }
-	
-	public String getDescrLong() { return info.getDescriptionLong(); }
-	
-	public int getCost() { return info.getCost(); }
-	
-	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock);	}
 }

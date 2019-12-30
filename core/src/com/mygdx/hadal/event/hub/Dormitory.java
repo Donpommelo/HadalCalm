@@ -28,11 +28,11 @@ public class Dormitory extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockCharacter c: UnlockCharacter.getUnlocks()) {
+		for (UnlockCharacter c: UnlockCharacter.getUnlocks(state.getGsm().getRecord())) {
 			
 			final UnlockCharacter selected = c;
 
-			Text itemChoose = new Text(selected.getName(), 0, 0);
+			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        
@@ -51,7 +51,7 @@ public class Dormitory extends HubEvent {
 		        @Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					hub.setInfo(selected.getName() + ": " + selected.getDescr() + " \n \n" + selected.getDescrLong());
+					hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);

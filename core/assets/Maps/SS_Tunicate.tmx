@@ -209,7 +209,11 @@
     <property name="triggeringId" value="downpressed"/>
    </properties>
   </object>
-  <object id="34" name="Quartermaster" type="Quartermaster" x="1056" y="2208" width="96" height="96"/>
+  <object id="34" name="Quartermaster" type="Quartermaster" x="1056" y="2208" width="96" height="96">
+   <properties>
+    <property name="shopId" value="weapons1"/>
+   </properties>
+  </object>
   <object id="37" name="Dormitory" type="Dormitory" x="1792" y="1824" width="96" height="96"/>
   <object id="38" name="Armory" type="Armory" x="2240" y="1920" width="96" height="96"/>
   <object id="39" name="Reliquary" type="Reliquary" x="1984" y="2016" width="96" height="96"/>

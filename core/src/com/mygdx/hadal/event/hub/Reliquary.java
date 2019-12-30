@@ -30,10 +30,10 @@ public class Reliquary extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockArtifact c: UnlockArtifact.getUnlocks(true, UnlockTag.RELIQUARY)) {
+		for (UnlockArtifact c: UnlockArtifact.getUnlocks(true, state.getGsm().getRecord(), UnlockTag.RELIQUARY)) {
 			
 			final UnlockArtifact selected = c;
-			Text itemChoose = new Text(selected.getName(), 0, 0);
+			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 				
@@ -50,7 +50,7 @@ public class Reliquary extends HubEvent {
 				@Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					hub.setInfo(selected.getName() + "\nCOST: " + selected.getArtifact().getSlotCost() + "\n" + selected.getDescr() + " \n \n" + selected.getDescrLong());
+					hub.setInfo(selected.getInfo().getName() + "\nCOST: " + selected.getArtifact().getSlotCost() + "\n" + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);

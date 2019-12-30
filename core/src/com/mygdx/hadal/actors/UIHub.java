@@ -108,6 +108,8 @@ public class UIHub {
 		state.getStage().addActor(tableOuter);
 		
 		tableOuter.addAction(Actions.moveTo(tableX - optionsWidthOuter, tableY, .5f, Interpolation.pow5Out));
+		
+		info = "";
 	}
 	
 	/**
@@ -166,8 +168,8 @@ public class UIHub {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						info = newTag.getArtifact().getName() + "\nCOST: " + newTag.getArtifact().getArtifact().getSlotCost() + "\n" + newTag.getArtifact().getDescr() + " \n \n" + 
-						newTag.getArtifact().getDescrLong();
+						info = newTag.getArtifact().getInfo().getName() + "\nCOST: " + newTag.getArtifact().getArtifact().getSlotCost() + "\n" + newTag.getArtifact().getInfo().getDescription() + " \n \n" + 
+						newTag.getArtifact().getInfo().getDescriptionLong();
 					}
 			    });
 				tableExtra.add(newTag).width(40).height(40);

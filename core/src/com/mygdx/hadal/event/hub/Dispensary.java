@@ -31,10 +31,10 @@ public class Dispensary extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockActives c: UnlockActives.getUnlocks(true, UnlockTag.DISPENSARY)) {
+		for (UnlockActives c: UnlockActives.getUnlocks(true, state.getGsm().getRecord(), UnlockTag.DISPENSARY)) {
 			
 			final UnlockActives selected = c;
-			Text itemChoose = new Text(selected.getName(), 0, 0);
+			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 				
@@ -51,7 +51,7 @@ public class Dispensary extends HubEvent {
 				@Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					hub.setInfo(selected.getName() + ": " + selected.getDescr() + " \n \n" + selected.getDescrLong());
+					hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
 				}
 		    });
 			

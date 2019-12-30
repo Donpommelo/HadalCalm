@@ -295,9 +295,9 @@ public class TiledObjectUtil {
 					object.getProperties().get("tag", "NAVIGATIONS", String.class));
 		}
 		if (object.getName().equals("Quartermaster")) {
-			e = new Quartermaster(state, position, size);
+			e = new Quartermaster(state, position, size,
+					object.getProperties().get("shopId", String.class));
 		}
-		
 		if (object.getName().equals("Prefab")) {
 			genPrefab(state, object, rect);
 		}

@@ -137,7 +137,9 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Quartermaster" color="#a0a0a4"/>
+ <objecttype name="Quartermaster" color="#a0a0a4">
+  <property name="shopId" type="string"/>
+ </objecttype>
  <objecttype name="QuestChange" color="#a0a0a4">
   <property name="check" type="int" default="0"/>
   <property name="quest" type="string"/>
@@ -152,9 +154,9 @@
  <objecttype name="Reliquary" color="#a0a0a4"/>
  <objecttype name="Save" color="#a0a0a4">
   <property name="clear" type="bool" default="true"/>
-  <property name="zoom" type="float" default="1"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
+  <property name="zoom" type="float" default="1"/>
  </objecttype>
  <objecttype name="SchmuckSpawn" color="#ff0000">
   <property name="amount" type="int" default="1"/>

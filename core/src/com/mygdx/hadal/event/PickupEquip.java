@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
@@ -10,9 +8,7 @@ import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -69,7 +65,7 @@ public class PickupEquip extends Event {
 							rollWeapon();
 							standardParticle.turnOn();
 						} else {
-							unlock = UnlockEquip.valueOf(getRandWeapFromPool(msg));
+							unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state.getGsm().getRecord(), msg));
 							setEquip(UnlocktoItem.getUnlock(unlock, null));
 						}
 					}
@@ -112,28 +108,8 @@ public class PickupEquip extends Event {
 		}
 	}
 	
-	/**
-	 * This method returns the name of a weapon randomly selected from the pool.
-	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
-	 * @return
-	 */
-	public static String getRandWeapFromPool(String pool) {
-		
-		if (pool.equals("")) {
-			return UnlockEquip.getUnlocks(false, UnlockTag.RANDOM_POOL)
-					.get(GameStateManager.generator.nextInt(UnlockEquip.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
-		}
-		
-		ArrayList<String> weapons = new ArrayList<String>();
-		
-		for (String id : pool.split(",")) {
-			weapons.add(id);
-		}
-		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
-	}
-	
 	public void rollWeapon() {
-		unlock = UnlockEquip.valueOf(getRandWeapFromPool(pool));
+		unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state.getGsm().getRecord(), pool));
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
 	

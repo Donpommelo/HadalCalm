@@ -7,7 +7,9 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.melee.*;
 import com.mygdx.hadal.equip.misc.*;
 import com.mygdx.hadal.equip.ranged.*;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 
 public enum UnlockEquip {
 	
@@ -58,7 +60,7 @@ public enum UnlockEquip {
 		this.weapon = weapon;
 	}
 	
-	public static Array<UnlockEquip> getUnlocks(boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockEquip> getUnlocks(boolean unlock, Record record, UnlockTag... tags) {
 		Array<UnlockEquip> items = new Array<UnlockEquip>();
 		
 		for (UnlockEquip u : UnlockEquip.values()) {
@@ -66,14 +68,14 @@ public enum UnlockEquip {
 			boolean get = false;
 			
 			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getTags().size(); j++) {
-					if (tags[i].equals(u.getTags().get(j))) {
+				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
+					if (tags[i].equals(u.getInfo().getTags().get(j))) {
 						get = true;
 					}
 				}
 			}
 			
-			if (unlock && !u.isUnlocked()) {
+			if (unlock && !UnlockManager.checkUnlock(record, UnlockType.EQUIP, u.toString())) {
 				get = false;
 			}
 			
@@ -94,23 +96,29 @@ public enum UnlockEquip {
 		return null;
 	}
 	
+	/**
+	 * This method returns the name of a weapon randomly selected from the pool.
+	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
+	 * @return
+	 */
+	public static String getRandWeapFromPool(Record record, String pool) {
+		
+		if (pool.equals("")) {
+			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(false, record, UnlockTag.RANDOM_POOL);
+			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
+		}
+		
+		ArrayList<String> weapons = new ArrayList<String>();
+		
+		for (String id : pool.split(",")) {
+			weapons.add(id);
+		}
+		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
+	}
+	
 	public Class<? extends Equipable> getWeapon() {	return weapon; }
 		
 	public InfoItem getInfo() {	return info; }
 
 	public void setInfo(InfoItem info) { this.info = info; }
-
-	public boolean isUnlocked() { return info.isUnlocked(); }
-	
-	public ArrayList<UnlockTag> getTags() { return info.getTags(); }
-	
-	public String getName() { return info.getName(); }
-	
-	public String getDescr() { return info.getDescription(); }
-	
-	public String getDescrLong() { return info.getDescriptionLong(); }
-	
-	public int getCost() { return info.getCost(); }
-	
-	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock); }
 }

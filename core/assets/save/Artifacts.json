@@ -1,785 +1,642 @@
 {
 NUMBER_ONE_BOSS_MUG: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: "#1 Boss Mug"
 	description: "Occasionally Drop Ammo on Kill"
     descriptionLong: "Coffee mug belonging to the #1 boss."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 EIGHT_BALL: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: "8-Ball"
 	description: "+Damage and -Accuracy"
     descriptionLong: "An inky black sphere made of smooth ivory, radiating with unfortunate energies."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 ABYSSAL_INSIGNIA: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Abyssal Insignia
 	description: "Release Vengeful Spirit Upon Killing or Dying"
     descriptionLong: "A twisted bone sigil used to worship the chaotic beings of the deep."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 ADMINISTRATOR_CARD: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Administrator Card
 	description: "Upon Spawning, Get 3 Random Artifacts"
     descriptionLong: "Administrative figures carry these sturdy plastic cards to access extra privileges."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 	]
 }
 AMMO_DRUM: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Ammo Drum
 	description: "+Ammo Capacity"
     descriptionLong: "More bullet."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 ANARCHISTS_COOKBOOK: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Anarchist's Cookbook
 	description: "Periodically Spawns Bombs"
     descriptionLong: "An ancient text printed on singed (and waterproof) pages."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 ANCHOR_TALISMAN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Anchor Talisman
 	description: "+Damage Reduction When Grounded"
     descriptionLong: "A pendant depicting the company insignia; a sturdy anchor."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 BACKPACK_BUDDY: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Backpack Buddy
 	description: "+Artifact Slot, -Max Hp"
     descriptionLong: ""
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 BLOODWOODS_GLOVE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Bloodwood's Glove
 	description: "+Actives and Weapons Charge Rate"
     descriptionLong: "A glove once worn by an esteemed company researcher. It appears to be in pristine condition."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 BOTTOM_OF_THE_BARREL: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Bottom of the Barrel
 	description: "+Damage with Low Ammo"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 BRIGGLES_BLADED_BOOT: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps, +Fastfall speed"
     descriptionLong: "Footwear once belonging to an ancient general, known for being armed to the feet."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 BUCKET_OF_BATTERIES: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Bucket of Batteries
 	description: "Projectiles Chain to Nearby Enemies"
     descriptionLong: "A bucket filled with batteries floating in a dubious liquid."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 CALL_OF_THE_VOID: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Call of the Void
 	description: "+Damage Inflicted and Received"
     descriptionLong: "A sinister mark that allows its bearer to channel their innate desire for the unseen."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 CLAWS_OF_FESTUS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Claws of Festus
 	description: "Enables Wall-Climbing"
     descriptionLong: "A pair of long, wiry clawed gloves, once used for transmission of vibrations."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 CLOCKWISE_CAGE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Clockwise Cage
 	description: "Projectile Echo"
     descriptionLong: "A round metal birdcage occupied by a temporarily improbable bird. It looks familiar."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 CONFIDENCE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Confidence
 	description: "+Damage at Max Hp"
     descriptionLong: "The sense of certainty that all will end well. Fragile and fleeting."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 CROWN_OF_THORNS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Crown of Thorns
 	description: "Drop Thorns Upon Receiving Damage"
     descriptionLong: "Thorny headgear of nondiscriminatory wrath. To be worn on the outside of the helmet."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 CURSED_CILICE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Cursed Cilice
 	description: "Receiving Damage Regenerates Fuel"
     descriptionLong: "A bristle-lined band worn around the leg. For those who believe that pain builds character."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 CURIOUS_SAUCE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Curious Sauce
 	description: "Bouncy Projectiles"
     descriptionLong: "A jar of perplexing and unstudied substance."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 DEAD_MANS_HAND: {
-	class: com.mygdx.hadal.save.InfoItem
+	
 	name: Dead Man's Hand
 	description: "+1 Weapon Slot"
     descriptionLong: ""
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 DEPLORABLE_APPARATUS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Deplorable Apparatus
 	description: "-Max Hp, +Hp Regen"
     descriptionLong: "A rusty, surgically-attached machine. Grants life whether the bearer wants it or not."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 EELSKIN_COVER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Eelskin Cover
 	description: "Reduces Drag"
     descriptionLong: "Slick coat that lets its wearer slide through the water slimily."
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 EMAUDELINES_PRISM: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Emaudeline's Prism
 	description: "Projectile Split-Shot"
     descriptionLong: "A crystalline prism, splitting light into a "
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 EXTRA_ROW_OF_TEETH: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: "Extra Row of Teeth"
 	description: "+Clip Size"
     descriptionLong: ""
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 FARADAYS_CAGE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Faraday's Cage
 	description: "Absorbs Incoming Damage with Fuel"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 FENS_CLIPPED_WINGS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Fen's Clipped Wings
 	description: "+1 Jump, +Jump Height"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 FORAGERS_HIVE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Forager's Hive
 	description: "Release Bees While Attacking"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 FRACTURE_PLATE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Fracture Plate
 	description: "Periodically Blocks Incoming Damage"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 GLUTTONOUS_GREY_GLOVE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Gluttonous Grey Grove
 	description: "Occasionally drop Health on Kill"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 GOMEZS_AMYGDALA: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Gomez's Amygdala
 	description: "Receiving Damage Temporarily Boosts Speed and Damage"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 GOOD_HEALTH: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Good Health
 	description: "+Max Hp"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 HEART_OF_SPEROS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Heart of Speros
 	description: "Use Fuel as Ammo"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 HORNS_OF_AMMON: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Horns of Ammon
 	description: "Receiving Damage Grants Brief Invulnerability"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 INFORMANTS_TIE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name:Informant's Tie
 	description: "Homing Projectiles"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 LOAMSKIN_AMULET: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Loamskin Amulet
 	description: "Receiving Damage Grants +Hp Regeneration"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 MANGROVE_TALISMAN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Mangrove Talisman
 	description: "+Poison Resistance"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 MASK_OF_SYMPATHY: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Mask of Sympathy
 	description: "Reflects Incoming Damage"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 MATTER_UNIVERSALIZER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Matter Universalizer
 	description: "Restores Fuel on Kill"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 MODERATOR_CARD: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Moderator Card
 	description: "Upon Spawning, Upgrade Weapons"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 	]
 }
 MOON_FLUTHER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Moon Fluther
 	description: "+Hovering Power"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 MOUTHBREATHER_TALISMAN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Mouthbreather Talisman
 	description: "+Self-Damage Resistance"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 MUDDLING_CUP: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Muddling Cup
 	description: "Airblasting Fires Weapon"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 NICE_SHOES: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Nice Shoes
 	description: "+Run Speed"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 NOTHING: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: NOTHING
 	description: "Doesn't Do Much"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: []
 }
 NUCLEAR_PUNCH_THRUSTERS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Nuclear Punch Thrusters
 	description: "+Attack Knockback"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 NURDLER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Nurdler
 	description: "Fire Pellets When Attacking"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 ORIGIN_COIL: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Origin Coil
 	description: "Propulsive Projectiles, +Reload Speed"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 PAIN_SCALE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Pain Scale
 	description: "Charge Active Item Upon Receiving Damage"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 PELICAN_PLUSH_TOY: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Pelican Plush Toy
 	description: "Improved Healing"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 PEPPER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Pepper
 	description: "Damages Nearby Enemies"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 PIFFLER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Piffler
 	description: "Piffly Projectiles"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 PETRIFIED_SYNAPSE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Petrified Synapse
 	description: "Delays Incoming Damage"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 RED_TIDE_TALISMAN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Red Tide Talisman
 	description: "Creates Poison Cloud on Kill"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 RING_OF_TESTING: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Ring of Testing
 	description: "Test Things"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 	]
 }
 RING_OF_THE_LAMPREY: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Ring of the Lamprey
 	description: "+Lifesteal. Drains Hp at High Health"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 ROYAL_JUJUBE_BANG: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Royal Jujube Bang
 	description: "+Damage Against Distant Targets"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SAMURAI_SHARK: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Samurai Shark
 	description: "Critical Projectiles"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SEAFOAM_TALISMAN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Seafoam Talisman
 	description: "+Attack Speed, Antigravity Projectiles"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SENESCENT_SHIELD: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Senescent Shield
 	description: "Deflective Projectiles"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SHILLERS_DEATHCAP: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Shiller's Deathcap
 	description: "Projectile Poison Trail"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SIMPLE_MIND: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Simple Mind
 	description: "Linear Projectiles"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SIREN_CHIME: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Siren Chime
 	description: "Reverse Knockback on Enemies"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SKIPPERS_BOX_OF_FUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Skipper's Box of Fun
 	description: "Periodically Reroll Weapons"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 SWORD_OF_SYZYGY: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Sword of Syzygy
 	description: "+Projectile Pierce, +Damage"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 TEMPEST_TEAPOT: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Tempest Teapot
 	description: "+Airblast Knockback and Size"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 TUNICATE_TUNIC: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Tunicate Tunic
 	description: "+Knockback Resistance"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 TRIGGERFISH_FINGER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Triggerfish Finger
 	description: "+Attack Speed, +Reload Speed"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 TYPHON_FANG: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Typhon Fang
 	description: "-Reload Speed. Refill Clip on Kill"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 UNBREATHING_MEMBRANE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Unbreathing Membrane
 	description: "Slows User. Move by Shooting"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 VOID_HYPONOME: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Void Hyponome
 	description: "-Airblast Cost"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 WHITE_SMOKER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: White Smoker
 	description: "Fiery Projectiles"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 WRATH_OF_THE_FROGMAN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Wrath of the Frogman
 	description: "Fire Missiles When Attacking"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

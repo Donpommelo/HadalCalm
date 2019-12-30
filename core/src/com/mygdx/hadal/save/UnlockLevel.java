@@ -1,9 +1,8 @@
 package com.mygdx.hadal.save;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 
 public enum UnlockLevel {
 
@@ -22,7 +21,7 @@ public enum UnlockLevel {
 	
 	;
 	private String map;
-	private InfoLevel info;
+	private InfoItem info;
 	
 	private UnlockEquip[] multitools;
 	private UnlockArtifact[] artifacts;
@@ -39,7 +38,7 @@ public enum UnlockLevel {
 		this.map = map;
 	}
 	
-	public static Array<UnlockLevel> getUnlocks(boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockLevel> getUnlocks(boolean unlock, Record record, UnlockTag... tags) {
 		Array<UnlockLevel> items = new Array<UnlockLevel>();
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
@@ -47,14 +46,14 @@ public enum UnlockLevel {
 			boolean get = false;
 			
 			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getTags().size(); j++) {
-					if (tags[i].equals(u.getTags().get(j))) {
+				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
+					if (tags[i].equals(u.getInfo().getTags().get(j))) {
 						get = true;
 					}
 				}
 			}
 			
-			if (unlock && !u.isUnlocked()) {
+			if (unlock && !UnlockManager.checkUnlock(record, UnlockType.LEVEL, u.toString())) {
 				get = false;
 			}
 			
@@ -66,24 +65,12 @@ public enum UnlockLevel {
 		return items;
 	}
 		
-	public InfoLevel getInfo() { return info; }
+	public InfoItem getInfo() { return info; }
 
-	public void setInfo(InfoLevel info) { this.info = info; }
-
-	public ArrayList<UnlockTag> getTags() {	return info.getTags(); }
+	public void setInfo(InfoItem info) { this.info = info; }
 	
 	public String getMap() { return map; }
-
-	public boolean isUnlocked() { return info.isUnlocked(); }
 	
-	public String getName() { return info.getName(); }
-	
-	public String getDescr() { return info.getDescription(); }
-	
-	public String getDescrLong() { return info.getDescriptionLong(); }
-	
-	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock); }
-
 	public UnlockEquip[] getMultitools() { return multitools; }
 
 	public void setMultitools(UnlockEquip[] multitools) { this.multitools = multitools; }

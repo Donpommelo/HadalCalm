@@ -1,7 +1,5 @@
 package com.mygdx.hadal.event;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
@@ -11,9 +9,7 @@ import com.mygdx.hadal.equip.actives.NothingActive;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -49,7 +45,7 @@ public class PickupActive extends Event {
 		this.pool = pool;
 		
 		//Set this pickup to a random weapon in the input pool
-		unlock = UnlockActives.valueOf(getRandItemFromPool(pool));
+		unlock = UnlockActives.valueOf(UnlockActives.getRandItemFromPool(state.getGsm().getRecord(), pool));
 		setActive(UnlocktoItem.getUnlock(unlock, null));
 	}
 	
@@ -69,10 +65,10 @@ public class PickupActive extends Event {
 					if (activator.getEvent() instanceof TriggerAlt) {
 						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
 						if (msg.equals("roll")) {
-							unlock = UnlockActives.valueOf(getRandItemFromPool(pool));
+							unlock = UnlockActives.valueOf(UnlockActives.getRandItemFromPool(state.getGsm().getRecord(), pool));
 							setActive(UnlocktoItem.getUnlock(unlock, null));
 						} else {
-							unlock = UnlockActives.valueOf(getRandItemFromPool(pool));
+							unlock = UnlockActives.valueOf(UnlockActives.getRandItemFromPool(state.getGsm().getRecord(), pool));
 							setActive(UnlocktoItem.getUnlock(unlock, null));
 						}
 					}
@@ -97,26 +93,6 @@ public class PickupActive extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
-	}
-	
-	/**
-	 * This method returns the name of a weapon randomly selected from the pool.
-	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
-	 * @return
-	 */
-	public static String getRandItemFromPool(String pool) {
-		
-		if (pool.equals("")) {
-			return UnlockActives.getUnlocks(false, UnlockTag.RANDOM_POOL)
-					.get(GameStateManager.generator.nextInt(UnlockActives.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
-		}
-		
-		ArrayList<String> weapons = new ArrayList<String>();
-		
-		for (String id : pool.split(",")) {
-			weapons.add(id);
-		}
-		return weapons.get(GameStateManager.generator.nextInt(weapons.size()));
 	}
 
 	@Override

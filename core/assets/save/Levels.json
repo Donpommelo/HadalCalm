@@ -1,105 +1,83 @@
 {
 TUTORIAL_1: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: Tutorial 1
 	description: TEMP
-	unlocked: true
 	tags: [
 		TRAINING,
 	]
 }
 NASU: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: NASU
 	description: "Collect falling targets!"
-	unlocked: true
 	tags: [
 		NASU,
 		NAVIGATIONS,
 	]
 }
 DONT_FALL: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: DONT_FALL
 	description: "Don't Fall!"
-	unlocked: true
 	tags: [
 		NAVIGATIONS,
 	]
 }
 LEVEL_1: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: LEVEL_1
 	description: TEMP
-	unlocked: true
 	tags: [
 		CAMPAIGN,
 		NAVIGATIONS,
 	]
 }
 LEVEL_2: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: LEVEL_2
 	description: TEMP
-	unlocked: true
 	tags: [
 		CAMPAIGN,
 		NAVIGATIONS,
 	]
 }
 LEVEL_3: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: LEVEL_3
 	description: TEMP
-	unlocked: true
 	tags: [
 		CAMPAIGN,
 		NAVIGATIONS,
 	]
 }
 HUB: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: HUB
 	description: TEMP
-	unlocked: true
 	tags: [
 		MISC,
 	]
 }
 HUB_MULTI: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: HUB
 	description: TEMP
-	unlocked: true
 	tags: [
 		MISC,
 	]
 }
 ARENA_2: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: ARENA_2
 	description: TEMP
-	unlocked: true
 	tags: [
 		ARENA,
 		NAVIGATIONS,
 	]
 }
 ARENA_1: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: ARENA_1
 	description: TEMP
-	unlocked: true
 	tags: [
 		ARENA,
 		NAVIGATIONS,
 	]
 }
 DM_GULLY: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: DM_GULLY
 	description: TEMP
-	unlocked: true
 	tags: [
 		ARENA,
 		NAVIGATIONS,
@@ -107,10 +85,8 @@ DM_GULLY: {
 	]
 }
 BOSS1: {
-	class: com.mygdx.hadal.save.InfoLevel
 	name: BOSS1
 	description: TEMP
-	unlocked: true
 	tags: [
 		NAVIGATIONS,
 	]

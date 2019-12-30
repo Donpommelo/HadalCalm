@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.equip.artifacts.*;
 
 public enum UnlockArtifact {
@@ -93,21 +94,21 @@ public enum UnlockArtifact {
 		artifactSingleton.setUnlock(this);
 	}
 	
-	public static Array<UnlockArtifact> getUnlocks(boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockArtifact> getUnlocks(boolean unlock, Record record, UnlockTag... tags) {
 		Array<UnlockArtifact> items = new Array<UnlockArtifact>();
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
 			boolean get = false;
 			
 			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getTags().size(); j++) {
-					if (tags[i].equals(u.getTags().get(j))) {
+				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
+					if (tags[i].equals(u.getInfo().getTags().get(j))) {
 						get = true;
 					}
 				}
 			}
 			
-			if (unlock && !u.isUnlocked()) {
+			if (unlock && !UnlockManager.checkUnlock(record, UnlockType.ARTIFACT, u.toString())) {
 				get = false;
 			}
 			
@@ -124,10 +125,11 @@ public enum UnlockArtifact {
 	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
 	 * @return
 	 */
-	public static String getRandArtfFromPool(String pool) {
+	public static String getRandArtfFromPool(Record record, String pool) {
 		
 		if (pool.equals("")) {
-			return UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL).get(GameStateManager.generator.nextInt(UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
+			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(false, record, UnlockTag.RANDOM_POOL);
+			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
 		}
 		
 		ArrayList<String> artifacts = new ArrayList<String>();
@@ -143,18 +145,4 @@ public enum UnlockArtifact {
 	public InfoItem getInfo() {	return info; }
 	
 	public void setInfo(InfoItem info) {this.info = info; }
-	
-	public boolean isUnlocked() { return info.isUnlocked(); }
-	
-	public ArrayList<UnlockTag> getTags() {	return info.getTags(); }
-	
-	public String getName() { return info.getName(); }
-	
-	public String getDescr() { return info.getDescription(); }
-	
-	public String getDescrLong() { return info.getDescriptionLong(); }
-	
-	public int getCost() { return info.getCost(); }
-	
-	public void setUnlocked(boolean unlock) { info.setUnlocked(unlock); }
 }

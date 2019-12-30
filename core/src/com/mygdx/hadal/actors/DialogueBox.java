@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Queue;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.dialogue.Dialogue;
+import com.mygdx.hadal.dialogue.DialogueInfo;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -82,7 +84,7 @@ public class DialogueBox extends AHadalActor {
 
 		//dialogue box lerps towards max size.
 		if (dialogues.size != 0) {
-			if (dialogues.first().isSmall()) {
+			if (dialogues.first().getInfo().isSmall()) {
 				currX = currX + (maxXSmall - currX) * 0.1f;
 				currY = currY + (maxYSmall - currY) * 0.1f;
 			} else {
@@ -105,7 +107,7 @@ public class DialogueBox extends AHadalActor {
 	public void addDialogue(String id, EventData radio, EventData trigger) {
 		
 		if (dialogues.size != 0) {
-			if (dialogues.first().isOverride()) {
+			if (dialogues.first().getInfo().isOverride()) {
 				dialogues.clear();
 			}
 		}
@@ -114,8 +116,7 @@ public class DialogueBox extends AHadalActor {
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
-				addDialogue(d.getString("Name"), d.getString("Text"), d.getString("Sprite"), d.getBoolean("End", false),
-						d.getBoolean("Override", false), d.getBoolean("Small", false), d.getFloat("Duration", 0), radio, trigger);
+				addDialogue(GameStateManager.json.fromJson(DialogueInfo.class, d.toJson(OutputType.minimal)), radio, trigger);
 			}	
 		}
 	}
@@ -124,17 +125,17 @@ public class DialogueBox extends AHadalActor {
 	 * Instead of loading a conversation from the dialog text file, this is used for single dialogs.
 	 * This is useful for dynamic text.
 	 */
-	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura, EventData radio, EventData trigger) {
+	public void addDialogue(DialogueInfo info, EventData radio, EventData trigger) {
 		
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
 		if (dialogues.size == 0) {
-			durationCount = dura;
+			durationCount = info.getDuration();
 			
 			currX = 0;
 			currY = 0;
 		}
 		
-		dialogues.addLast(new Dialogue(name, text, sprite, end, override, small, dura, radio, trigger));
+		dialogues.addLast(new Dialogue(info, radio, trigger));
 	}
 	
 	/**
@@ -147,7 +148,7 @@ public class DialogueBox extends AHadalActor {
 		if (dialogues.size != 0) {
 			
 			//If this dialogue is the last in a conversation, trigger the designated event.
-			if (dialogues.first().isEnd() && dialogues.first().getTrigger() != null && dialogues.first().getRadio() != null) {
+			if (dialogues.first().getInfo().isEnd() && dialogues.first().getTrigger() != null && dialogues.first().getRadio() != null) {
 				dialogues.first().getTrigger().onActivate(dialogues.first().getRadio(), null);
 			}
 			
@@ -155,7 +156,7 @@ public class DialogueBox extends AHadalActor {
 			
 			//If there is a next dialogue in line, set its duration and reset window location.
 			if (dialogues.size != 0) {
-				durationCount = dialogues.first().getDuration();
+				durationCount = dialogues.first().getInfo().getDuration();
 				currX = 0;
 				currY = 0;
 			}
@@ -169,13 +170,13 @@ public class DialogueBox extends AHadalActor {
 		if (dialogues.size != 0) {
 			 
 			first = dialogues.first();
-			if (first.isSmall()) {
+			if (first.getInfo().isSmall()) {
 				font.getData().setScale(scaleSmall);
 				gsm.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
-					font.draw(batch, first.getName() +": " + first.getText(), getX() + 20, getY() - 20, maxXSmall, -1, true);
+					font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 20, getY() - 20, maxXSmall, -1, true);
 				}
 			} else {
 				font.getData().setScale(scale);
@@ -183,7 +184,7 @@ public class DialogueBox extends AHadalActor {
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxX * textAppearThreshold) {
-			        font.draw(batch, first.getName() +": " + first.getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
+			        font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
 				}
 				 
 				if (first.getBust() != null) {

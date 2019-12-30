@@ -61,7 +61,7 @@ public class ArtifactTag extends AHadalActor {
          if (mouseOver) {
         	 font.setColor(color);
         	 font.getData().setScale(scale);
-        	 font.draw(batch, artifact.getName() + ": " + artifact.getDescr(), getX() + 30, getY() + 45);
+        	 font.draw(batch, artifact.getInfo().getName() + ": " + artifact.getInfo().getDescription(), getX() + 30, getY() + 45);
          }
     }
 

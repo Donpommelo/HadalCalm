@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.event.PickupEquip;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -37,7 +36,7 @@ public class SkippersBoxofFun extends Artifact {
 				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					Equipable equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(PickupEquip.getRandWeapFromPool("")), null);
+					Equipable equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state.getGsm().getRecord(), "")), null);
 					((Player)inflicted.getSchmuck()).getPlayerData().pickup(equip);
 					
 					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE_TOTLC, 0.0f, particleDura, true, particleSyncType.TICKSYNC);

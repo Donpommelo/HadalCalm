@@ -1,7 +1,5 @@
 package com.mygdx.hadal.save;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -15,96 +13,13 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class UnlockManager {
 	
 	/**
-	 * This saves the player's unlock data in a designated file
-	 * @param type: type of unlock to save
-	 */
-	public static void saveUnlocks(int type) {
-
-		String filename = "";
-		String save = "";
-		switch(type) {
-		case 0:
-			filename = "save/Equips.json";
-			
-			HashMap<String, InfoItem> equip = new HashMap<String, InfoItem>();
-			
-			for (UnlockEquip u : UnlockEquip.values()) {
-				if (u.getInfo() != null) {
-					equip.put(u.name(), u.getInfo());
-				}
-			}
-			save = GameStateManager.json.prettyPrint(equip);
-			
-			break;
-		case 1:
-			filename = "save/Artifacts.json";
-			
-			HashMap<String, InfoItem> artifact = new HashMap<String, InfoItem>();
-			
-			for (UnlockArtifact u : UnlockArtifact.values()) {
-				if (u.getInfo() != null) {
-					artifact.put(u.name(), u.getInfo());
-				}
-			}
-			save = GameStateManager.json.prettyPrint(artifact);
-			
-			break;
-		case 2:
-			filename = "save/Characters.json";
-			
-			HashMap<String, InfoCharacter> character = new HashMap<String, InfoCharacter>();
-			
-			for (UnlockCharacter u : UnlockCharacter.values()) {
-				if (u.getInfo() != null) {
-					character.put(u.name(), u.getInfo());
-				}
-			}
-			save = GameStateManager.json.prettyPrint(character);
-				
-			break;
-		case 3:
-			filename = "save/Levels.json";
-			
-			HashMap<String, InfoLevel> level = new HashMap<String, InfoLevel>();
-			
-			for (UnlockLevel u : UnlockLevel.values()) {
-				if (u.getInfo() != null) {
-					level.put(u.name(), u.getInfo());
-				}
-				
-			}
-			save = GameStateManager.json.prettyPrint(level);
-			
-			break;
-		case 4:
-			filename = "save/Actives.json";
-			
-			HashMap<String, InfoItem> active = new HashMap<String, InfoItem>();
-			
-			for (UnlockActives u : UnlockActives.values()) {
-				if (u.getInfo() != null) {
-					active.put(u.name(), u.getInfo());
-				}
-				
-			}
-			save = GameStateManager.json.prettyPrint(active);
-			
-			break;
-		}
-		
-		Gdx.files.local(filename).writeString("", false);
-		Gdx.files.local(filename).writeString(save, true);
-	}
-	
-	/**
 	 * This retrives the player's unlocks from a file
 	 */
-	public static void retrieveUnlocks() {
-		
+	public static void retrieveItemInfo() {
+				
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Equips.json"))) {
 			UnlockEquip.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
-		
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Artifacts.json"))) {
 			UnlockArtifact.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
@@ -112,12 +27,68 @@ public class UnlockManager {
 			UnlockActives.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Characters.json"))) {
-			UnlockCharacter.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoCharacter.class, d.toJson(OutputType.minimal)));
+			UnlockCharacter.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Levels.json"))) {
-			UnlockLevel.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoLevel.class, d.toJson(OutputType.minimal)));
+			UnlockLevel.valueOf(d.name()).setInfo(GameStateManager.json.fromJson(InfoItem.class, d.toJson(OutputType.minimal)));
 		}
 	}	
+	
+	public static InfoItem getInfo(UnlockType type, String name) {
+		switch(type) {
+		case ACTIVE:
+			return UnlockActives.valueOf(name).getInfo();
+		case ARTIFACT:
+			return UnlockArtifact.valueOf(name).getInfo();
+		case CHARACTER:
+			return UnlockCharacter.valueOf(name).getInfo();
+		case EQUIP:
+			return UnlockEquip.valueOf(name).getInfo();
+		case LEVEL:
+			return UnlockLevel.valueOf(name).getInfo();
+		default:
+			return null;
+		}
+	}
+	
+	public static boolean checkUnlock(Record record, UnlockType type, String name) {
+		switch(type) {
+		case ACTIVE:
+			return record.getUnlockActive().getOrDefault(name, false);
+		case ARTIFACT:
+			return record.getUnlockArtifact().getOrDefault(name, false);
+		case CHARACTER:
+			return record.getUnlockCharacter().getOrDefault(name, false);
+		case EQUIP:
+			return record.getUnlockEquip().getOrDefault(name, false);
+		case LEVEL:
+			return record.getUnlockLevel().getOrDefault(name, false);
+		default:
+			return false;
+		}
+	}
+	
+	public static void setUnlock(Record record, UnlockType type, String name, boolean unlock) {
+		switch(type) {
+		case ACTIVE:
+			record.getUnlockActive().put(name, unlock);
+			break;
+		case ARTIFACT:
+			record.getUnlockArtifact().put(name, unlock);
+			break;
+		case CHARACTER:
+			record.getUnlockCharacter().put(name, unlock);
+			break;
+		case EQUIP:
+			record.getUnlockEquip().put(name, unlock);
+			break;
+		case LEVEL:
+			record.getUnlockLevel().put(name, unlock);
+			break;
+		default:
+		}
+		record.saveRecord();
+	}
 	
 	public enum UnlockTag {
 		ARMORY,
@@ -133,6 +104,14 @@ public class UnlockManager {
 		NASU,
 		MISC,
 		PVP,
+	}
+	
+	public enum UnlockType {
+		EQUIP,
+		ARTIFACT,
+		ACTIVE,
+		CHARACTER,
+		LEVEL
 	}
 	
 	public enum ModTag {

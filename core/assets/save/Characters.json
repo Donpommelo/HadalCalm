@@ -1,38 +1,26 @@
 {
 TAKANORI: {
-	class: com.mygdx.hadal.save.InfoCharacter
 	name: TAKANORI
 	description: TEMP
     descriptionLong: "TEST"
-	bio: TEST
-	unlocked: true
 	tags: []
 }
 TELEMACHUS: {
-	class: com.mygdx.hadal.save.InfoCharacter
 	name: TELEMACHUS
 	description: TEMP
     descriptionLong: "TEST"
-	bio: TEST
-	unlocked: true
 	tags: []
 }
 MOREAU: {
-	class: com.mygdx.hadal.save.InfoCharacter
 	name: MOREAU
 	description: TEMP
     descriptionLong: "TEST"
-	bio: TEST
-	unlocked: true
 	tags: []
 }
 MOREAU_FESTIVE: {
-	class: com.mygdx.hadal.save.InfoCharacter
 	name: MOREAU_FESTIVE
 	description: TEMP
     descriptionLong: "TEST"
-	bio: TEST
-	unlocked: true
 	tags: []
 }
 }

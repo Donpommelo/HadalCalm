@@ -49,6 +49,7 @@ public class GameStateManager {
 	
 	//This is the player's record. This stores player info.
 	private Record record;
+	private static JsonValue shops;
 	
 	//Json reader here. Use this instead of creating new ones elsewhere.
 	public static Json json = new Json();
@@ -87,7 +88,7 @@ public class GameStateManager {
 		
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
-		UnlockManager.retrieveUnlocks();
+		UnlockManager.retrieveItemInfo();
 		if (!Gdx.files.internal("save/Records.json").exists()) {
 			Record.createNewRecord();
 		}
@@ -95,6 +96,7 @@ public class GameStateManager {
 		//Load player records and game dialogs, also from json
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
+		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
 		
 		generator = new Random();
 	}
@@ -296,6 +298,8 @@ public class GameStateManager {
 	
 	public static JsonValue getDialogs() { return dialogs; }
 
+	public static JsonValue getShops() { return shops; }
+	
 	public Record getRecord() {	return record; }
 
 	public Skin getSkin() {	return skin; }

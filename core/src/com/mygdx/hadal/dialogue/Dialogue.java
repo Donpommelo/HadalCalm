@@ -15,42 +15,23 @@ import com.mygdx.hadal.managers.AssetList;
  */
 public class Dialogue {
 
-	//These strings are to be displayed in the box
-	private String name, text, sprite;
-	
-	//This indicates whether this dialogue is the end of the conversation it is a part of
-	private boolean end;
-	
-	//This indicates the desired behaviour when a new dialog is added over this one. (True: override. False : placed after)
-	private boolean override;
-	
-	//This indicates whether to use a smaller window to display the text.
-	private boolean small;
+	//this contains info about the dialog read from json
+	private DialogueInfo info;
 	
 	//These are the events that triggered and will be triggered by this dialogue respectively.
 	private EventData radio, trigger;
-	
-	//This is the duration in seconds that the dialogue will be active. This can be set to 0 for dialogues that need to be actively skipped
-	private float duration;
 	
 	private Animation<TextureRegion> bust;
 	
 	private static final float speed = 0.1f;
 	
-	public Dialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float duration, EventData radio, EventData trigger) {
-		this.name = name;
-		this.text = text;
-		this.sprite = sprite;
-		this.end = end;
-		this.override = override;
-		this.small = small;
-		this.duration = duration;
+	public Dialogue(DialogueInfo info, EventData radio, EventData trigger) {
+		this.info = info;
 		this.radio = radio;
 		this.trigger = trigger;
 		
-		if (sprite != "") {
-			
-			characterBusts character = characterBusts.valueOf(sprite);
+		if (!info.getSprite().equals("")) {
+			characterBusts character = characterBusts.valueOf(info.getSprite());
 			bust = new Animation<TextureRegion>(speed, character.getAtlas().findRegions(character.getSprite()));
 		}
 	}
@@ -72,38 +53,12 @@ public class Dialogue {
 
 		public String getSprite() {	return sprite; }		
 	}
-	
-	public String getName() { return name; }
 
-	public void setName(String name) { this.name = name; }
-
-	public String getText() { return text; }
-
-	public void setText(String text) { this.text = text; }
-	
-	public String getSprite() { return sprite; }
-
-	public void setSprite(String sprite) { this.sprite = sprite; }
+	public DialogueInfo getInfo() {	return info; }
 	
 	public Animation<TextureRegion> getBust() { return bust; }
 
 	public void setBust(Animation<TextureRegion> bust) { this.bust = bust; }
-
-	public boolean isEnd() { return end; }
-
-	public void setEnd(boolean end) { this.end = end; }
-
-	public boolean isOverride() { return override; }
-
-	public void setOverride(boolean override) { this.override = override; }
-	
-	public boolean isSmall() { return small; }
-
-	public void setSmall(boolean small) { this.small = small; }
-
-	public float getDuration() { return duration; }
-
-	public void setDuration(float duration) { this.duration = duration; }
 
 	public EventData getRadio() { return radio; }
 

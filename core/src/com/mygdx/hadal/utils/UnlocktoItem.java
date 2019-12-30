@@ -18,7 +18,7 @@ public class UnlocktoItem {
 	public static Equipable getUnlock(UnlockEquip unlock, Schmuck schmuck) {
 		try {
 			Equipable newWeapon = unlock.getWeapon().getConstructor(Schmuck.class).newInstance(schmuck);
-			newWeapon.setName(unlock.getName());
+			newWeapon.setName(unlock.getInfo().getName());
 			return newWeapon;
 		} catch (InstantiationException e) {
 			e.printStackTrace();
@@ -39,7 +39,7 @@ public class UnlocktoItem {
 	public static ActiveItem getUnlock(UnlockActives unlock, Schmuck schmuck) {
 		try {
 			ActiveItem newActive = unlock.getActive().getConstructor(Schmuck.class).newInstance(schmuck);
-			newActive.setName(unlock.getName());
+			newActive.setName(unlock.getInfo().getName());
 			return newActive;
 		} catch (InstantiationException e) {
 			e.printStackTrace();

@@ -15,6 +15,8 @@ import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
@@ -364,7 +366,7 @@ public class PlayerBodyData extends BodyData {
 					return false;
 				} 
 				
-				if (!artifactUnlock.isUnlocked()){
+				if (!UnlockManager.checkUnlock(player.getState().getGsm().getRecord(), UnlockType.ARTIFACT, artifactUnlock.toString())){
 					return false;
 				} 
 				

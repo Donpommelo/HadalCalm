@@ -1,172 +1,140 @@
 {
 ANCHOR_SMASH: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Anchor Smash
 	description: "Drop an anchor at Mouse Location"
     descriptionLong: ""
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 METEOR_STRIKE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Meteor Strike
 	description: "Summon Meteors at Mouse Location"
     descriptionLong: ""
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 TAINTED_WATER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Tainted Water
 	description: "Release a poisonous cloud."
     descriptionLong: "Attack nearby enemies with a cloud of water pollution."
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 TRACTOR_BEAM: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Tractor Beam
 	description: "Grab an enemy and swing them around."
     descriptionLong: "Use to fire a projectile that captures an enemy on contact. Then, use the mouse to throw the victim at walls or other enemies."
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 SPRING_LOADER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Spring Loader
 	description: "Create a temporary spring at mouse location."
     descriptionLong: "Drop a spring at the mouse location that propels objects upwards."
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 NAUTICAL_MINE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Nautical Mine
 	description: "Throws an large explosive."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 HYDRAULIC_UPPERCUT: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Hydraulic Uppercut
 	description: "Perform an upwards attack."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 HONEYCOMB: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Honeycomb
 	description: "Releases a swarm of Bees!"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 MELON: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Melon
 	description: "Restores Hp. Charges by dealing damage."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 FIREBALL: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Fireball
 	description: "Throw a fireball."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 MISSILE_POD: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Missile Pod
 	description: "Fire a barrage of homing missiles!"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 NOTHING: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Nothing
 	description: "Does nothing."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: []
 }
 RELOADER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Auroreloader
 	description: "Reloads all of your weapons."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 RESERVED_FUEL: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Reserved Fuel
 	description: "Restores Fuel."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 PORTABLE_TURRET: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Portable Turret
 	description: "Fire a projectile that creates a Turret where it lands."
     descriptionLong: "TEMP."
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
 FISH_GANG: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Fish Gang
 	description: "Summon a Fish Gang."
     descriptionLong: "TEMP."
-	unlocked: true
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

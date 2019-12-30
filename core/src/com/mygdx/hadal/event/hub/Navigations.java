@@ -30,11 +30,11 @@ public class Navigations extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockLevel c: UnlockLevel.getUnlocks(true, UnlockTag.valueOf(tag))) {
+		for (UnlockLevel c: UnlockLevel.getUnlocks(true, state.getGsm().getRecord(), UnlockTag.valueOf(tag))) {
 			
 			final UnlockLevel selected = c;
 
-			Text itemChoose = new Text(selected.getName(), 0, 0);
+			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);
 			
 			itemChoose.addListener(new ClickListener() {
 		        
@@ -47,7 +47,7 @@ public class Navigations extends HubEvent {
 		        @Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					hub.setInfo(selected.getName() + ": " + selected.getDescr() + " \n \n" + selected.getDescrLong());
+					hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);

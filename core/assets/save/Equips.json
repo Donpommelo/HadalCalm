@@ -1,10 +1,8 @@
 {
 IRON_BALL_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Iron Ball Launcher
 	description: "Fires a singular, heavy projectile. Clunky but powerful." 
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -12,11 +10,9 @@ IRON_BALL_LAUNCHER: {
 	]
 }
 BOUNCING_BLADE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Bouncing Blades
 	description: "Fires a projectile in a straight line that bounces off surfaces."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -24,11 +20,9 @@ BOUNCING_BLADE: {
 	]
 }
 ICEBERG: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Iceberg
 	description: "Fires a projectile that slides across flat surfaces."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -36,11 +30,9 @@ ICEBERG: {
 	]
 }
 BOILER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Boiler
 	description: "Fires a short-ranged spray of damaging particles."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -48,11 +40,9 @@ BOILER: {
 	]
 }
 BOOMERANG: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Boomerang
 	description: "Fires a projectile that slowly returns to player. Catch returning boomerangs to refill clip!"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -60,11 +50,9 @@ BOOMERANG: {
 	]
 }
 COLACANNON: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Cola Cannon
 	description: "Click and drag mouse to charge. Release to fire."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -72,11 +60,9 @@ COLACANNON: {
 	]
 }
 CR4PCANNON: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Cr4p Cannon
 	description: "Fires a shotgun-burst of short-ranged projectiles."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -84,32 +70,26 @@ CR4PCANNON: {
 	]
 }
 DIAMOND_CUTTER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Diamond Cutter
 	description: "Extends a spinning blade."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
 	]
 }
 FISTICUFFS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Fisticuffs
 	description: "punch"
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 	]
 }
 LASER_GUIDED_ROCKET: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Laser-Guided Rocket
 	description: "Fires a missile that will home in towards your mouse position."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -117,11 +97,9 @@ LASER_GUIDED_ROCKET: {
 	]
 }
 SCREECHER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Screecher
 	description: "Fires invisible, instantaneous sonic waves."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -129,11 +107,9 @@ SCREECHER: {
 	]
 }
 SPEARGUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Speargun
 	description: "A simple weapon that fires arcing projectiles."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -141,11 +117,9 @@ SPEARGUN: {
 	]
 }
 TORPEDO_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Torpedo Launcher
 	description: "Fires projectiles in a straight line that explode upon contact with an enemy or wall."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -153,11 +127,9 @@ TORPEDO_LAUNCHER: {
 	]
 }
 CHARGE_BEAM: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Charge Beam
 	description: "Hold the fire button to charge a faster, more powerful projectile and release to fire."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -165,11 +137,9 @@ CHARGE_BEAM: {
 	]
 }
 FUGUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Fugun
 	description: "Fires projectiles that create a damaging poison field upon contact with an enemy or wall."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -177,11 +147,9 @@ FUGUN: {
 	]
 }
 GRENADE_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Grenade Launcher
 	description: "Fires projectiles that are affected by gravity and explode upon contact with an enemy or wall."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -189,11 +157,9 @@ GRENADE_LAUNCHER: {
 	]
 }
 BEEGUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -201,11 +167,9 @@ BEEGUN: {
 	]
 }
 FLOUNDERBUSS: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Flounderbuss
 	description: "Charge and release to fire a spray of projectiles."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -213,11 +177,9 @@ FLOUNDERBUSS: {
 	]
 }
 NEMATOCYDEARM: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Nemato Sidearm
 	description: "Fires Darts that lodge into walls."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -225,11 +187,9 @@ NEMATOCYDEARM: {
 	]
 }
 PEARL_REVOLVER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Pearl Revolver
 	description: "Fires quick projectiles. Rapidly tap to fire faster."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -237,11 +197,9 @@ PEARL_REVOLVER: {
 	]
 }
 POPPER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Popper
 	description: "Fires projectiles that explode at a distance."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -249,22 +207,18 @@ POPPER: {
 	]
 }
 SCRAPRIPPER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Scrapripper
 	description: "Perform a close-range, melee swing to damage enemies and deflect projectiles."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		MELEE,
 	]
 }
 MAELSTROM: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Maelstrom
 	description: "Fire a projectile that bounces between enemies upon contact."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -272,11 +226,9 @@ MAELSTROM: {
 	]
 }
 LASER_RIFLE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Laser Rifle
 	description: "Fires a straight, piercing beam through enemies."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -284,11 +236,9 @@ LASER_RIFLE: {
 	]
 }
 MACHINEGUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Machinegun
 	description: "Standard weapon with a high rate of fire."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -296,11 +246,9 @@ MACHINEGUN: {
 	]
 }
 MINIGUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Minigun
 	description: "Heavy fire after spinning up."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -308,11 +256,9 @@ MINIGUN: {
 	]
 }
 MORAYGUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Moraygun
 	description: "Shoots Moraybeams of concentrated light."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -320,11 +266,9 @@ MORAYGUN: {
 	]
 }
 SNIPER_RIFLE: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Sniper Rifle
 	description: "Long-Ranged weapon that can headshot."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -332,11 +276,9 @@ SNIPER_RIFLE: {
 	]
 }
 STICKY_BOMB_LAUNCHER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: "Stickybomb-Launcher"
 	description: "Fires projectiles that stick to enemies and walls. Press the Reload button to detonate all active bombs."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -344,21 +286,17 @@ STICKY_BOMB_LAUNCHER: {
 	]
 }
 NOTHING: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Nothing
 	description: "Your bare hands."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		MISC,
 	]
 }
 SLODGEGUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Slodgegun
 	description: "Fire a projectile that slows targets and induces vulnerability."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -366,11 +304,9 @@ SLODGEGUN: {
 	]
 }
 STORMCALLER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Stormcaller
 	description: "Fire a projectile that expands as it travels."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -378,11 +314,9 @@ STORMCALLER: {
 	]
 }
 TESLA_COIL: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Tesla Coil
 	description: "Fire Pylons that connect to neighbors, forming an electrifying wall."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -390,11 +324,9 @@ TESLA_COIL: {
 	]
 }
 TRICK_GUN: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Trick Gun
 	description: "Click Twice to fire a projectile that changes its trajectory."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -402,11 +334,9 @@ TRICK_GUN: {
 	]
 }
 UNDERMINER: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Underminer
 	description: "Drills through walls and explodes."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -414,11 +344,9 @@ UNDERMINER: {
 	]
 }
 WAVE_CANNON: {
-	class: com.mygdx.hadal.save.InfoItem
 	name: Wave Cannon
 	description: "Fires a burst of wavy projectiles."
     descriptionLong: "TEST"
-	unlocked: true
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

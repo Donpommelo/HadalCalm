@@ -3,10 +3,15 @@ package com.mygdx.hadal.event.hub;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
-import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.save.InfoItem;
+import com.mygdx.hadal.save.ShopInfo;
+import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -18,26 +23,33 @@ public class Quartermaster extends HubEvent {
 
 	private static final String title = "QUARTERMASTER";
 
-	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size) {
+	private ShopInfo shopInfo;
+	
+	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String shopId) {
 		super(state, startPos, size, title, hubTypes.QUARTERMASTER);
+		this.shopInfo = GameStateManager.json.fromJson(ShopInfo.class, GameStateManager.getShops().get(shopId).toJson(OutputType.minimal));
 	}
 	
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockEquip c: UnlockEquip.values()) {
+		for (final String item: shopInfo.getPrices().keySet()) {
 			
-			if (!c.isUnlocked()) {
-				final UnlockEquip selected = c;
-				Text itemChoose = new Text(selected.getName() + " Cost: " + selected.getCost(), 0, 0);
+			InfoItem info = UnlockManager.getInfo(UnlockType.valueOf(shopInfo.getType()), item);
+			
+			if (!UnlockManager.checkUnlock(state.getGsm().getRecord(), UnlockType.valueOf(shopInfo.getType()), item)) {
+
+				Text itemChoose = new Text(info.getName() + ": Cost: " + shopInfo.getPrices().get(item), 0, 0);
 				
 				itemChoose.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	if (state.getGsm().getRecord().getScrap() >= selected.getCost()) {
-				        	state.getGsm().getRecord().incrementScrap(-selected.getCost());
-				        	selected.setUnlocked(true);
+			        	if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
+				        	state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
+				        	UnlockManager.setUnlock(state.getGsm().getRecord(), UnlockType.valueOf(shopInfo.getType()), item, true);
 				        	leave();
+				        	
+				        	state.getUiExtra().syncData();
 			        	}
 			        }
 			    });

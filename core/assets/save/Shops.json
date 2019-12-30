@@ -1,0 +1,13 @@
+{
+weapons1: {
+    type: EQUIP
+    prices: {
+        class: java.util.HashMap
+        BOOMERANG: 10
+        COLACANNON: 15
+    }
+}
+artifacts1: {
+
+}
+}

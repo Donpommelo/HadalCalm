@@ -2,6 +2,7 @@ package com.mygdx.hadal.save;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 
 public enum UnlockCharacter {
 
@@ -12,38 +13,26 @@ public enum UnlockCharacter {
 	;
 	
 	private Sprite.SpriteType sprite;
-	private InfoCharacter info;
+	private InfoItem info;
 	
 	UnlockCharacter(Sprite.SpriteType sprite) {
 		this.sprite = sprite;
 	}
 
-	public static Array<UnlockCharacter> getUnlocks() {
+	public static Array<UnlockCharacter> getUnlocks(Record record) {
 		Array<UnlockCharacter> items = new Array<UnlockCharacter>();
 		
 		for (UnlockCharacter u : UnlockCharacter.values()) {
-			if (u.isUnlocked()) {
+			if (UnlockManager.checkUnlock(record, UnlockType.CHARACTER, u.toString())) {
 				items.add(u);
 			}
 		}
 		return items;
 	}
 	
-	public InfoCharacter getInfo() { return info; }
+	public InfoItem getInfo() { return info; }
 
-	public void setInfo(InfoCharacter info) { this.info = info; }
+	public void setInfo(InfoItem info) { this.info = info; }
 
 	public Sprite.SpriteType getSprite() { return sprite; }
-	
-	public String getName() { return info.getName(); }
-	
-	public String getBio() { return info.getBio(); }
-	
-	public String getDescr() { return info.getDescription(); }
-	
-	public String getDescrLong() { return info.getDescriptionLong(); }
-	
-	public boolean isUnlocked() { return info.isUnlocked(); }
-
-	public void setUnlocked(boolean unlocked) { info.setUnlocked(unlocked); }
 }
