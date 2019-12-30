@@ -30,12 +30,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class TriggerAlt extends Event {
 
-	private static final String name = "AltTrigger";
-
 	private String message;
 	
 	public TriggerAlt(PlayState state, String message) {
-		super(state, name);
+		super(state);
 		this.message = message;
 	}
 	

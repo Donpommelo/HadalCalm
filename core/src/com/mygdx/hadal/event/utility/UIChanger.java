@@ -21,13 +21,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class UIChanger extends Event {
 
-	private static final String name = "UI Changer";
-
 	private String types;
 	private boolean changeType;
 	
 	public UIChanger(PlayState state, String types, boolean changeType) {
-		super(state, name);
+		super(state);
 		this.types = types;
 		this.changeType = changeType;
 	}

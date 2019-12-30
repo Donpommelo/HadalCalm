@@ -42,14 +42,12 @@ public class Poison extends Event {
 	
 	//Is the poison on? Should it be drawn? Should random particles be spawned in its vicinity?
 	private boolean on, draw, randomParticles;
-	
-	private static final String name = "Poison";
 
 	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
 	private short filter;
 	
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, boolean draw, short filter) {
-		super(state, name, startPos, size);
+		super(state,  startPos, size);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = state.getWorldDummy();
@@ -69,7 +67,7 @@ public class Poison extends Event {
 	 * This constructor is used for when this event is created temporarily.
 	 */
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, float duration, Schmuck perp, boolean draw, short filter) {
-		super(state, name, startPos, size, duration);
+		super(state,  startPos, size, duration);
 		this.dps = dps;
 		this.filter = filter;
 		this.perp = perp;

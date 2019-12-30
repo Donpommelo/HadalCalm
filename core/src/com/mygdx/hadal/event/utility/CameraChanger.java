@@ -20,12 +20,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class CameraChanger extends Event {
 
-	private static final String name = "Camera Changer";
-	
 	private float zoom;
 	
 	public CameraChanger(PlayState state, float zoom) {
-		super(state, name);
+		super(state);
 		this.zoom = zoom;
 	}
 	

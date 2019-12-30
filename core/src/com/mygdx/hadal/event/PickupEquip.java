@@ -7,18 +7,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
-import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -44,16 +41,10 @@ public class PickupEquip extends Event {
 	private Equipable equip;
 	private UnlockEquip unlock;
 	
-	private static final String name = "Equip Pickup";
-
-	private ArrayList<WeaponMod> mods;
-
-	private int modPow;
 	private String pool;
 	
-	public PickupEquip(PlayState state, Vector2 startPos, int modPow, String pool) {
-		super(state, name, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
-		this.modPow = modPow;
+	public PickupEquip(PlayState state, Vector2 startPos, String pool) {
+		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
 		this.pool = pool;
 		
 		rollWeapon();
@@ -93,21 +84,13 @@ public class PickupEquip extends Event {
 				equip.getWeaponMods().clear();
 				Equipable temp = p.getPlayerData().pickup(equip);
 				
-				for (WeaponMod mod : mods) {
-					mod.acquireMod(p.getBodyData(), state, p.getPlayerData().getCurrentTool());
-				}
-				mods.clear();
-				
 				setEquip(temp);
-				for (WeaponModifier mod : equip.getWeaponMods()) {
-					mods.add(mod.getConstantMod());
-				}
 			}
 			
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString(), mods));
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString()));
 			}
 		};
 		
@@ -116,7 +99,7 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), PickupType.WEAPON, unlock.toString(), mods);
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), PickupType.WEAPON, unlock.toString());
 	}
 	
 	@Override
@@ -124,7 +107,6 @@ public class PickupEquip extends Event {
 		if (o instanceof Packets.SyncPickup) {
 			Packets.SyncPickup p = (Packets.SyncPickup) o;
 			setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
-			mods = p.mods;
 		} else {
 			super.onClientSync(o);
 		}
@@ -153,9 +135,6 @@ public class PickupEquip extends Event {
 	public void rollWeapon() {
 		unlock = UnlockEquip.valueOf(getRandWeapFromPool(pool));
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
-		
-		mods = new ArrayList<WeaponMod>();
-		mods.addAll(PickupWeaponMod.getRandMods(modPow, ModTag.RANDOM_POOL));
 	}
 	
 	@Override
@@ -166,10 +145,7 @@ public class PickupEquip extends Event {
 		
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 		float y = getPixelPosition().y + size.y / 2;
-		for (WeaponMod mod : mods) {
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, mod.getName(), getPixelPosition().x - size.x / 2, y);
-			y += 15;
-		}
+		
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPixelPosition().x - size.x / 2, y);
 	}
 	
@@ -189,10 +165,6 @@ public class PickupEquip extends Event {
 			}
 		}
 	}
-
-	public ArrayList<WeaponMod> getMods() {	return mods; }
-	
-	public void setMods(ArrayList<WeaponMod> mods) { this.mods = mods; }
 
 	@Override
 	public void loadDefaultProperties() {

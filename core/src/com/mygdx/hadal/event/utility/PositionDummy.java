@@ -25,12 +25,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class PositionDummy extends Event {
 
-	private static final String name = "Position Dummy";
-
 	private String id;
 	
 	public PositionDummy(PlayState state, Vector2 startPos, Vector2 size, String id) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.id = id;
 	}
 	

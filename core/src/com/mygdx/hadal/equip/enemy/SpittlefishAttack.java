@@ -15,7 +15,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class SpittlefishAttack extends RangedWeapon {
 
-	private final static String name = "Spittlefish Spittle";
 	private final static int clipSize = 12;
 	private final static int ammoSize = 1000;
 	private final static float shootCd = 0.6f;
@@ -32,7 +31,7 @@ public class SpittlefishAttack extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.SPIT;
 	
 	public SpittlefishAttack(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileSize.x);
 	}
 
 	@Override

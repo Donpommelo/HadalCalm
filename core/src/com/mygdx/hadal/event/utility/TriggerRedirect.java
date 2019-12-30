@@ -24,12 +24,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class TriggerRedirect extends Event {
 
-	private static final String name = "RedirectTrigger";
-
 	private Event blame;
 	
 	public TriggerRedirect(PlayState state) {
-		super(state, name);
+		super(state);
 	}
 	
 	@Override

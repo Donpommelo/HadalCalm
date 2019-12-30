@@ -43,7 +43,6 @@ public class RangedWeapon extends Equipable {
 	/**
 	 * Ranged weapons, like most equipment, is constructed when creating tool spawns or default schmuck loadouts
 	 * @param user: Schmuck that is using this tool.
-	 * @param name: Name of the weapon
 	 * @param clipSize: Amount of times the weapon can be fired before reloading
 	 * @param ammoSize: The weapon's ammo capacity
 	 * @param reloadTime: The time in seconds it takes to reload this weapon once.
@@ -58,9 +57,9 @@ public class RangedWeapon extends Equipable {
 	 * @param chargeTime: The wepaon's max charge amount (only used for charge weapons)
 	 * @param projectileSize: The wepaon's projectile size. Used to determine projectile starting location offset to avoid wall clipping
 	 */	
-	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
+	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
 			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize, float chargeTime) {
-		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite, chargeTime);
+		super(user, shootCd, shootDelay, weaponSprite, eventSprite, chargeTime);
 		this.clipSize = clipSize;
 		this.clipLeft = clipSize;
 		this.clipPercent = 1.0f;
@@ -75,9 +74,9 @@ public class RangedWeapon extends Equipable {
 		this.projectileSize = projectileSize;
 	}
 	
-	public RangedWeapon(Schmuck user, String name, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
+	public RangedWeapon(Schmuck user, int clipSize, int ammoSize, float reloadTime, float recoil, float projectileSpeed, float shootCd, float shootDelay, int reloadAmount,
 			boolean autoreload, Sprite weaponSprite, Sprite eventSprite, float projectileSize) {
-		this(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, autoreload, weaponSprite, eventSprite, projectileSize, 1);
+		this(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, autoreload, weaponSprite, eventSprite, projectileSize, 1);
 	}
 
 	/**

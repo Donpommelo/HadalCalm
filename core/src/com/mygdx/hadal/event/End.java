@@ -19,13 +19,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class End extends Event {
 
-	private static final String name = "VICTORY";
-
 	//This is the text displayed in the results screen.
 	private String text;
 	
 	public End(PlayState state, String text) {
-		super(state, name);
+		super(state);
 		this.text = text;
 	}
 	

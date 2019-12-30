@@ -20,13 +20,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SaveSetter extends Event {
 
-	private static final String name = "Save Point";
-
 	private float zoom;
 	private boolean clear;
 	
 	public SaveSetter(PlayState state, Vector2 startPos, Vector2 size, float zoom, boolean clear) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.zoom = zoom;
 		this.clear = clear;
 	}

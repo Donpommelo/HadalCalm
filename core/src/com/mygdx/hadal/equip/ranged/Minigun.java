@@ -20,7 +20,6 @@ import com.mygdx.hadal.statuses.Slodged;
 
 public class Minigun extends RangedWeapon {
 
-	private final static String name = "Minigun";
 	private final static int clipSize = 90;
 	private final static int ammoSize = 270;
 	private final static float shootCd = 0.03f;
@@ -45,7 +44,7 @@ public class Minigun extends RangedWeapon {
 	private static final float selfSlowMag = 0.75f;
 	
 	public Minigun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
 	@Override

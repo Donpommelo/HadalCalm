@@ -16,7 +16,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Fugun extends RangedWeapon {
 
-	private final static String name = "Fugun";
 	private final static int clipSize = 2;
 	private final static int ammoSize = 15;
 	private final static float shootCd = 0.25f;
@@ -39,7 +38,7 @@ public class Fugun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	public Fugun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

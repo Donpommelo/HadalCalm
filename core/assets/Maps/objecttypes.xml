@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="Active" color="#ff007f">
+  <property name="pool" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Alttrigger" color="#a0a0a4">
+  <property name="message" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Armory" color="#a0a0a4"/>
+ <objecttype name="Bounds" color="#a0a0a4">
+  <property name="down" type="bool" default="false"/>
+  <property name="left" type="bool" default="false"/>
+  <property name="right" type="bool" default="false"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+  <property name="up" type="bool" default="false"/>
+ </objecttype>
+ <objecttype name="Camera" color="#a0a0a4">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+  <property name="zoom" type="float" default="1"/>
+ </objecttype>
+ <objecttype name="Condtrigger" color="#a0a0a4">
+  <property name="start" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Counter" color="#a0a0a4">
+  <property name="count" type="int" default="0"/>
+  <property name="countStart" type="int" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Current" color="#a0a0a4">
+  <property name="currentX" type="float" default="0"/>
+  <property name="currentY" type="float" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Destr_Obj" color="#a0a0a4">
+  <property name="hp" type="int" default="100"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Dialog" color="#a0a0a4">
+  <property name="textId" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Dispensary" color="#a0a0a4"/>
+ <objecttype name="Dormitory" color="#a0a0a4"/>
+ <objecttype name="Dropthrough" color="#55ff7f"/>
+ <objecttype name="Dummy" color="#ffff00">
+  <property name="dummyId" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="End" color="#a0a0a4">
+  <property name="text" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Equip" color="#a0a0a4">
+  <property name="pool" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="EventClone" color="#a0a0a4">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="EventDelete" color="#a0a0a4">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="EventMove" color="#a0a0a4">
+  <property name="gravity" type="float" default="-1"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Game" color="#a0a0a4">
+  <property name="lives" type="int" default="0"/>
+  <property name="score" type="int" default="0"/>
+  <property name="timer" type="float" default="0"/>
+  <property name="timerIncr" type="float" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Multitrigger" color="#a0a0a4">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Navigation" color="#a0a0a4"/>
+ <objecttype name="Objective" color="#a0a0a4">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Particle" color="#a0a0a4">
+  <property name="duration" type="float" default="0"/>
+  <property name="particle" type="string" default="NOTHING"/>
+  <property name="startOn" type="bool" default="false"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Platform" color="#ffaa00">
+  <property name="connections" type="string"/>
+  <property name="pause" type="bool" default="false"/>
+  <property name="speed" type="float" default="1"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Player" color="#a0a0a4">
+  <property name="ammo" type="float" default="0"/>
+  <property name="fuel" type="float" default="0"/>
+  <property name="hp" type="float" default="0"/>
+  <property name="scrap" type="int" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="PlayerMove" color="#a0a0a4">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Poison" color="#005500">
+  <property name="damage" type="float" default="0"/>
+  <property name="draw" type="bool" default="true"/>
+  <property name="filter" type="int" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Prefab" color="#000000">
+  <property name="prefabId" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Quartermaster" color="#a0a0a4"/>
+ <objecttype name="QuestChange" color="#a0a0a4">
+  <property name="check" type="int" default="0"/>
+  <property name="quest" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Redirecttrigger" color="#a0a0a4">
+  <property name="blameId" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Reliquary" color="#a0a0a4"/>
+ <objecttype name="Save" color="#a0a0a4">
+  <property name="clear" type="bool" default="true"/>
+  <property name="zoom" type="float" default="1"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="SchmuckSpawn" color="#ff0000">
+  <property name="amount" type="int" default="1"/>
+  <property name="boss" type="bool" default="false"/>
+  <property name="bossName" type="string"/>
+  <property name="enemyId" type="int" default="0"/>
+  <property name="extra" type="int" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Semiperm" color="#ffaaff">
+  <property name="enemy" type="bool" default="false"/>
+  <property name="event" type="bool" default="false"/>
+  <property name="hbox" type="bool" default="false"/>
+  <property name="player" type="bool" default="false"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Sensor" color="#aa55ff">
+  <property name="collision" type="bool" default="false"/>
+  <property name="enemy" type="bool" default="false"/>
+  <property name="event" type="bool" default="false"/>
+  <property name="gravity" type="float" default="0"/>
+  <property name="hbox" type="bool" default="false"/>
+  <property name="player" type="bool" default="true"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Spring" color="#a0a0a4">
+  <property name="springX" type="float" default="0"/>
+  <property name="springY" type="float" default="0"/>
+ </objecttype>
+ <objecttype name="SpriteChange" color="#a0a0a4">
+  <property name="align" type="string" default="NONE"/>
+  <property name="frame" type="int" default="0"/>
+  <property name="mode" type="string" default="NORMAL"/>
+  <property name="newSprite" type="string" default="NOTHING"/>
+  <property name="scale" type="float" default="-1"/>
+  <property name="speed" type="float" default="0.8"/>
+  <property name="still" type="bool" default="false"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Start" color="#ffffff">
+  <property name="startId" type="string"/>
+ </objecttype>
+ <objecttype name="Switch" color="#0000ff">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Timer" color="#a0a0a4">
+  <property name="interval" type="float" default="0"/>
+  <property name="startOn" type="bool" default="true"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="TouchPortal" color="#a0a0a4"/>
+ <objecttype name="UI" color="#a0a0a4">
+  <property name="clear" type="bool" default="false"/>
+  <property name="tags" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Warp" color="#a0a0a4">
+  <property name="level" type="string"/>
+  <property name="reset" type="bool" default="false"/>
+  <property name="startId" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+</objecttypes>

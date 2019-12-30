@@ -16,7 +16,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class NauticalMine extends ActiveItem {
 
-	private final static String name = "Nautical Mine";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 11.0f;
@@ -35,7 +34,7 @@ public class NauticalMine extends ActiveItem {
 	private final static Sprite projSprite = Sprite.GRENADE;
 
 	public NauticalMine(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	@Override

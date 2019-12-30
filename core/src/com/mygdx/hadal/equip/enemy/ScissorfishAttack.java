@@ -13,7 +13,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class ScissorfishAttack extends MeleeWeapon {
 
-	private final static String name = "Scissorfish Scissor";
 	private final static float swingCd = 0.5f;
 	private final static float windup = 0.5f;
 	private final static float baseDamage = 8.0f;
@@ -21,7 +20,7 @@ public class ScissorfishAttack extends MeleeWeapon {
 	private final static float knockback = 22.5f;
 	
 	public ScissorfishAttack(Schmuck user) {
-		super(user, name, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+		super(user, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override

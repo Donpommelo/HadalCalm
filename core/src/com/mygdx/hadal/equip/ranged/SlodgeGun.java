@@ -23,7 +23,6 @@ import com.mygdx.hadal.statuses.Slodged;
 
 public class SlodgeGun extends RangedWeapon {
 
-	private final static String name = "Slodge Gun";
 	private final static int clipSize = 1;
 	private final static int ammoSize = 21;
 	private final static float shootCd = 0.1f;
@@ -47,7 +46,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
 	public SlodgeGun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

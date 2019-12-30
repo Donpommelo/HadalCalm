@@ -19,7 +19,6 @@ import com.mygdx.hadal.utils.Constants;
 
 public class AnchorSmash extends ActiveItem {
 
-	private final static String name = "Anchor Smash";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 18.0f;
@@ -35,7 +34,7 @@ public class AnchorSmash extends ActiveItem {
 	private final static float knockback = 50.0f;
 	
 	public AnchorSmash(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	private float shortestFraction;

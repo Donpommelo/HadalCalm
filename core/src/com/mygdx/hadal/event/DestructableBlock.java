@@ -25,13 +25,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class DestructableBlock extends Event {
 
-	private static final String name = "Destructable Object";
-
 	//psuedo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
 	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.hp = hp;
 	}
 

@@ -28,13 +28,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class PortalTouch extends Event {
 
-	private static final String name = "Portal";
-
 	//This is a set of schmucks that have just been teleported and cannot teleport instantly until they exit this event.
 	private Set<HadalEntity> justTeleported;
 	
 	public PortalTouch(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		justTeleported = new HashSet<HadalEntity>();
 	}
 	

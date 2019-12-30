@@ -9,7 +9,6 @@ import com.mygdx.hadal.states.PlayState;
 
 public class TorpedoLauncher extends RangedWeapon {
 
-	private final static String name = "Torpedo Launcher";
 	private final static int clipSize = 4;
 	private final static int ammoSize = 26;
 	private final static float shootCd = 0.25f;
@@ -31,7 +30,7 @@ public class TorpedoLauncher extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_TORPEDO;
 	
 	public TorpedoLauncher(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

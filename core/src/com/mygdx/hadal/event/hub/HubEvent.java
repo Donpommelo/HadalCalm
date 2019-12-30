@@ -23,8 +23,8 @@ public class HubEvent extends Event {
 	private String title;
 	private hubTypes type;
 	
-	public HubEvent(final PlayState state, String name, Vector2 startPos, Vector2 size, String title, hubTypes type) {
-		super(state, name, startPos, size);
+	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, hubTypes type) {
+		super(state, startPos, size);
 		this.open = false;
 		this.title = title;
 		this.type = type;

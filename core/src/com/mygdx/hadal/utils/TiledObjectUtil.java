@@ -119,7 +119,6 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Counter")) {
 			e = new Counter(state, object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
 		}
-		
 		if (object.getName().equals("Multitrigger")) {
 			e = new TriggerMulti(state);
 			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
@@ -129,7 +128,7 @@ public class TiledObjectUtil {
 			condTriggeringEvents.put((TriggerCond)e, object.getProperties().get("triggeringId", "", String.class));
 		}
 		if (object.getName().equals("Alttrigger")) {
-			e = new TriggerAlt(state, object.getProperties().get("message","", String.class));
+			e = new TriggerAlt(state, object.getProperties().get("message", "", String.class));
 		}
 		if (object.getName().equals("Redirecttrigger")) {
 			e = new TriggerRedirect(state);
@@ -179,7 +178,8 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("SchmuckSpawn")) {
 			e = new SpawnerSchmuck(state, position, size, 
-					object.getProperties().get("enemyId", int.class), object.getProperties().get("amount", 1, int.class), 
+					object.getProperties().get("enemyId", int.class), 
+					object.getProperties().get("amount", 1, int.class), 
 					object.getProperties().get("extra", 0, int.class),
 					object.getProperties().get("boss", false, boolean.class),
 					object.getProperties().get("bossname", "", String.class));	
@@ -192,7 +192,7 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("EventMove")) {
 			e = new EventMover(state, position, size, 
-					object.getProperties().get("gravityChange", -1.0f, float.class));	
+					object.getProperties().get("gravity", -1.0f, float.class));	
 		}
 		if (object.getName().equals("SpriteChange")) {
 			e = new SpriteChanger(state, 
@@ -231,19 +231,10 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Equip")) {
 			e = new PickupEquip(state, position, 
-					object.getProperties().get("mods", 0, int.class),
-					object.getProperties().get("pool", "", String.class));
-		}
-		if (object.getName().equals("Artifact")) {
-			e = new PickupArtifact(state, position, 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Active")) {
 			e = new PickupActive(state, position, 
-					object.getProperties().get("pool", "", String.class));
-		}
-		if (object.getName().equals("WeaponMod")) {
-			e = new PickupWeaponMod(state, position, 
 					object.getProperties().get("pool", "", String.class));
 		}
 		if (object.getName().equals("Dropthrough")) {
@@ -252,15 +243,11 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Dialog")) {
 			e = new Dialog(state, object.getProperties().get("textId", String.class));
 		}
-		if (object.getName().equals("Rock")) {
-			e = new AirblastableRock(state, position, size);
-		}
 		if (object.getName().equals("End")) {
 			e = new End(state, object.getProperties().get("text", "", String.class));
 		}
 		if (object.getName().equals("Destr_Obj")) {
-			e = new DestructableBlock(state, position, size, 
-					object.getProperties().get("Hp", 100, int.class));
+			e = new DestructableBlock(state, position, size, object.getProperties().get("Hp", 100, int.class));
 		}
 		if (object.getName().equals("Warp")) {
 			e = new LevelWarp(state, position, size,
@@ -270,7 +257,8 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Poison")) {
 			e = new Poison(state, position, size, 
-					object.getProperties().get("Damage", float.class), object.getProperties().get("Draw", true, boolean.class), 
+					object.getProperties().get("damage", 0.0f, float.class),
+					object.getProperties().get("draw", true, boolean.class), 
 					object.getProperties().get("filter", (short)0, short.class));
 		}
 		if (object.getName().equals("Save")) {
@@ -303,7 +291,7 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Navigation")) {
 			e = new Navigations(state, position, size, 
-					object.getProperties().get("name", "Navigations", String.class),
+					object.getProperties().get("title", "Navigations", String.class),
 					object.getProperties().get("tag", "NAVIGATIONS", String.class));
 		}
 		if (object.getName().equals("Quartermaster")) {
@@ -430,24 +418,8 @@ public class TiledObjectUtil {
 					object.getProperties().get("pool", "", String.class));
     	}
     	
-    	if (object.getProperties().get("prefabId", "", String.class).equals("Artifact")) {
-    		p = new SpawnerArtifact(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
-					object.getProperties().get("triggeredId", "", String.class),
-					object.getProperties().get("triggeringId", "", String.class),
-					object.getProperties().get("pool", "", String.class));
-    	}
-    	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Active")) {
     		p = new SpawnerActiveItem(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
-					object.getProperties().get("triggeredId", "", String.class),
-					object.getProperties().get("triggeringId", "", String.class),
-					object.getProperties().get("pool", "", String.class));
-    	}
-    	
-    	if (object.getProperties().get("prefabId", "", String.class).equals("WeaponMod")) {
-    		p = new SpawnerWeaponMod(state, (int)rect.width, (int)rect.height, 
 					(int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),

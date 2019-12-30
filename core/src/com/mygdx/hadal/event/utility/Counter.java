@@ -20,13 +20,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Counter extends Event {
 
-	private static final String name = "Counter";
-
 	private int maxCount;
 	private int currentCount;
 	
 	public Counter(PlayState state, int maxCount, int startCount) {
-		super(state, name);
+		super(state);
 		this.maxCount = maxCount;
 		this.currentCount = startCount;
 	}

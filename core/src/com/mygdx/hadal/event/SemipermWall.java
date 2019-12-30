@@ -25,12 +25,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SemipermWall extends Event {
 
-	private static final String name = "Semiperm Wall";
-
 	private short filter;
 	
 	public SemipermWall(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy) {
-		super(state, name, startPos ,size);
+		super(state, startPos ,size);
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 	}
 	

@@ -21,13 +21,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class QuestChanger extends Event {
 
-	private static final String name = "Quest Changer";
-	
 	private String quest;
 	private int newVal;
 	
 	public QuestChanger(PlayState state, String quest, int newVal) {
-		super(state, name);
+		super(state);
 		this.quest = quest;
 		this.newVal = newVal;
 	}

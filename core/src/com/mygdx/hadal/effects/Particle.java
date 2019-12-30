@@ -6,6 +6,8 @@ import com.mygdx.hadal.managers.GameStateManager;
 
 public enum Particle {
 
+	NOTHING(ParticleType.MISC, ""),
+	
 	ARROW_BREAK(ParticleType.TOTLC, "particles/totlc/arrowbreak.particle"),
 	BOULDER_BREAK(ParticleType.TOTLC, "particles/totlc/boulderbreak.particle"),
 	CASINGS(ParticleType.TOTLC, "particles/totlc/casings.particle"),
@@ -79,6 +81,7 @@ public enum Particle {
 	}
 	
 	private enum ParticleType {
+		MISC,
 		DEFAULT,
 		TOTLC,
 		PARTY,

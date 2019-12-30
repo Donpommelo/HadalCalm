@@ -20,7 +20,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class DiamondCutter extends MeleeWeapon {
 
-	private final static String name = "Diamond Cutter";
 	private final static float swingCd = 0.0f;
 	private final static float windup = 0.0f;
 	
@@ -45,7 +44,7 @@ public class DiamondCutter extends MeleeWeapon {
 	private boolean held = false;
 	
 	public DiamondCutter(Schmuck user) {
-		super(user, name, swingCd, windup, weaponSprite, eventSprite);
+		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
 	@Override

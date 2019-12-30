@@ -27,11 +27,9 @@ public class Timer extends Event {
 	
 	//Is the timer running
 	private boolean on;
-	
-	private static final String name = "Timer";
 
 	public Timer(PlayState state, float interval, boolean startOn) {
-		super(state, name);
+		super(state);
 		this.interval = interval;
 		this.on = startOn;
 	}

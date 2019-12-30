@@ -17,7 +17,6 @@ public abstract class Equipable {
 	
 	//The name of this tool
 	protected String name;
-	private String descr = "";
 	
 	//The delay in seconds after using this tool before you can use a tool again.
 	protected float useCd;
@@ -57,16 +56,14 @@ public abstract class Equipable {
 	/**
 	 * Equipables are constructed when creating tool spawns or default schmuck loadouts
 	 * @param user: Schmuck that is using this tool.
-	 * @param name: Name of the weapon
 	 * @param useCd: The delay after using this tool before you can use a tool again.
 	 * @param shootDelay: The delay between pressing the button for this tool and it activating. 
 	 * @param equipSprite: The equip's sprite when equipped
 	 * @param eventSprite: The equip's sprite as a pickup
 	 * @param chargeTime: If a charge weapon, how long does it take to fully charge?
 	 */
-	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
+	public Equipable(Schmuck user, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite, float chargeTime) {
 		this.user = user;
-		this.name = name;
 		this.useCd = useCd;
 		this.useDelay = useDelay;
 		this.reloading = false;
@@ -80,8 +77,8 @@ public abstract class Equipable {
 	/**
 	 * Default charge time is 0 for non-charge weapons
 	 */
-	public Equipable(Schmuck user, String name, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
-		this(user, name, useCd, useDelay, equipSprite, eventSprite, 0);
+	public Equipable(Schmuck user, float useCd, float useDelay, Sprite equipSprite, Sprite eventSprite) {
+		this(user, useCd, useDelay, equipSprite, eventSprite, 0);
 	}
 	
 	/**
@@ -167,10 +164,8 @@ public abstract class Equipable {
 	public Sprite getEventSprite() { return eventSprite; }
 	
 	public String getName() { return name; }
-
-	public String getDescr() { return descr; }
-
-	public void setDescr(String descr) { this.descr = descr; }
+	
+	public void setName(String name) { this.name = name; }
 
 	public Schmuck getUser() { return user; }
 

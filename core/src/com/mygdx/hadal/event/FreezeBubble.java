@@ -27,10 +27,8 @@ public class FreezeBubble extends Event {
 	
 	private short filter;
 	
-	private static final String name = "Freeze Bubble";
-
 	public FreezeBubble(PlayState state, Vector2 startPos, Vector2 size, float duration, short filter) {
-		super(state, name, startPos, size, duration);
+		super(state, startPos, size, duration);
 		this.filter = filter;
 	}
 	

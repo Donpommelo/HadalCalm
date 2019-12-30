@@ -23,12 +23,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class CameraBounder extends Event {
 
-	private static final String name = "Camera Bounder";
-	
 	private boolean right, left, up, down;
 	
 	public CameraBounder(PlayState state, Vector2 startPos, Vector2 size, boolean right, boolean left, boolean up, boolean down) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.right = right;
 		this.left = left;
 		this.up = up;

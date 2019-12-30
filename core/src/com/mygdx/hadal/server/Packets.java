@@ -1,6 +1,5 @@
 package com.mygdx.hadal.server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.maps.MapObject;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.PickupType;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockActives;
@@ -431,7 +429,6 @@ public class Packets {
         public Vector2 pos;
         public PickupType type;
         public String startPickup;
-        public ArrayList<WeaponMod> mods;
         public CreatePickup() {}
         
         /**
@@ -443,12 +440,11 @@ public class Packets {
          * @param type: Type of Pickup (Weapon, Artifact, Active Item, Weapon Mod)
          * @param startPickup: The enum name of what pickup it starts with.
          */
-		public CreatePickup(String entityID, Vector2 pos, PickupType type, String startPickup, ArrayList<WeaponMod> mods) {
+		public CreatePickup(String entityID, Vector2 pos, PickupType type, String startPickup) {
 			this.entityID = entityID;
             this.pos = pos;
             this.type = type;
             this.startPickup = startPickup;
-            this.mods = mods;
 		}
 	}
 	
@@ -477,7 +473,6 @@ public class Packets {
 	public static class SyncPickup {
 		public String entityID;
         public String newPickup;
-        public ArrayList<WeaponMod> mods;
         public SyncPickup() {}
         
         /**
@@ -487,10 +482,9 @@ public class Packets {
          * @param entityID: ID of the activated Pickup
          * @param newPickup: enum name of the new pickup.
          */
-		public SyncPickup(String entityID, String newPickup, ArrayList<WeaponMod> mods) {
+		public SyncPickup(String entityID, String newPickup) {
 			this.entityID = entityID;
             this.newPickup = newPickup;
-            this.mods = mods;
 		}
 	}
 	

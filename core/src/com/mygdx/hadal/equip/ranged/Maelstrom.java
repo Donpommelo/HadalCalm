@@ -19,7 +19,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Maelstrom extends RangedWeapon {
 
-	private final static String name = "Maelstrom";
 	private final static int clipSize = 8;
 	private final static int ammoSize = 56;
 	private final static float shootCd = 0.01f;
@@ -40,7 +39,7 @@ public class Maelstrom extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_CHAINLIGHTNING;
 	
 	public Maelstrom(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

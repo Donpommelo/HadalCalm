@@ -30,13 +30,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class TriggerCond extends Event {
 
-	private static final String name = "CondTrigger";
-
 	private Map<String, Event> triggered = new HashMap<String, Event>();
 	private String condition;
 	
 	public TriggerCond(PlayState state, String start) {
-		super(state, name);
+		super(state);
 		this.condition = start;
 	}
 	

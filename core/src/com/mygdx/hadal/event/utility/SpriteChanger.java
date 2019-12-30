@@ -26,8 +26,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class SpriteChanger extends Event {
 
-	private static final String name = "Sprite Changer";
-
 	private Sprite newSprite;
 	private String mode;
 	private boolean still;
@@ -37,7 +35,7 @@ public class SpriteChanger extends Event {
 	private float scale;
 	
 	public SpriteChanger(PlayState state, String sprite, String mode, boolean still, int frame, float speed, String align, float scale) {
-		super(state, name);
+		super(state);
 		this.newSprite = Sprite.valueOf(sprite);
 		this.mode = mode;
 		this.still = still;

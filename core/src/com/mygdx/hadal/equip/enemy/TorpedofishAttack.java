@@ -16,7 +16,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class TorpedofishAttack extends RangedWeapon {
 
-	private final static String name = "Torpedofish Torpedo";
 	private final static int clipSize = 1;
 	private final static int ammoSize = 1000;
 	private final static float shootCd = 1.5f;
@@ -37,7 +36,7 @@ public class TorpedofishAttack extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.ORB_RED;
 
 	public TorpedofishAttack(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileSize.x);
 	}
 	
 	@Override

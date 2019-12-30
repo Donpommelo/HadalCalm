@@ -27,7 +27,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class LaserRifle extends RangedWeapon {
 
-	private final static String name = "Laser Rifle";
 	private final static int clipSize = 12;
 	private final static int ammoSize = 60;
 	private final static float shootCd = 0.2f;
@@ -50,7 +49,7 @@ public class LaserRifle extends RangedWeapon {
 	private float shortestFraction;
 	
 	public LaserRifle(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
 	}
 
 	private Vector2 endPt = new Vector2();

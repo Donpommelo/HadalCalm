@@ -22,10 +22,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class EventCloner extends Event {
 	
-	private static final String name = "Event Spawner";
-
 	public EventCloner(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 	}
 	
 	@Override
@@ -50,7 +48,6 @@ public class EventCloner extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (0), (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
 	}
 }

@@ -15,7 +15,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Nematocydearm extends RangedWeapon {
 
-	private final static String name = "Nemato Sidearm";
 	private final static int clipSize = 6;
 	private final static int ammoSize = 48;
 	private final static float shootCd = 0.1f;
@@ -34,7 +33,7 @@ public class Nematocydearm extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
 	public Nematocydearm(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

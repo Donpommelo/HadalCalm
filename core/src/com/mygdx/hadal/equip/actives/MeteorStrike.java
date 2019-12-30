@@ -25,7 +25,6 @@ import com.mygdx.hadal.utils.Constants;
 
 public class MeteorStrike extends ActiveItem {
 
-	private final static String name = "Meteor Strike";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 18.0f;
@@ -45,7 +44,7 @@ public class MeteorStrike extends ActiveItem {
 	private final static float spread = 500.0f;
 	
 	public MeteorStrike(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	private float shortestFraction;

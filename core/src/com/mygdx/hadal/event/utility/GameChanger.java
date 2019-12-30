@@ -17,13 +17,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class GameChanger extends Event {
 
-	private static final String name = "Game Changer";
-
 	private int scoreIncr, livesIncr;
 	private float timerSet, timerIncr;
 	
 	public GameChanger(PlayState state, int lives, int score, float timerSet, float timerIncr) {
-		super(state, name);
+		super(state);
 		this.livesIncr = lives;
 		this.scoreIncr = score;
 		this.timerSet = timerSet;

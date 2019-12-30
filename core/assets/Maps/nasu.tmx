@@ -248,7 +248,7 @@
   </object>
   <object id="54" name="EventMove" type="EventMove" x="192" y="448" width="32" height="32">
    <properties>
-    <property name="gravityChange" type="float" value="0"/>
+    <property name="gravity" type="float" value="0"/>
     <property name="triggeredId" value="eventMove"/>
     <property name="triggeringId" value="target"/>
    </properties>

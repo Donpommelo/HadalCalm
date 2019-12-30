@@ -19,7 +19,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Moraygun extends RangedWeapon {
 
-	private final static String name = "Moraygun";
 	private final static int clipSize = 7;
 	private final static int ammoSize = 28;
 	private final static float shootCd = 0.3f;
@@ -41,7 +40,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float moveInterval = 0.04f;
 	
 	public Moraygun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 
 	@Override

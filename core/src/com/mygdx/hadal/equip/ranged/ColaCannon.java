@@ -19,7 +19,6 @@ import com.mygdx.hadal.statuses.FiringWeapon;
 
 public class ColaCannon extends RangedWeapon {
 
-	private final static String name = "Cola Cannon";
 	private final static int clipSize = 1;
 	private final static int ammoSize = 12;
 	private final static float shootCd = 0.0f;
@@ -48,7 +47,7 @@ public class ColaCannon extends RangedWeapon {
 	private Vector2 lastMouse = new Vector2();
 	
 	public ColaCannon(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
 	@Override

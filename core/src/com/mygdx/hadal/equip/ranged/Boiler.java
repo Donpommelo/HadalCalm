@@ -17,7 +17,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Boiler extends RangedWeapon {
 
-	private final static String name = "Boiler";
 	private final static int clipSize = 40;
 	private final static int ammoSize = 120;
 	private final static float shootCd = 0.04f;
@@ -38,7 +37,7 @@ public class Boiler extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BOILER;
 	
 	public Boiler(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

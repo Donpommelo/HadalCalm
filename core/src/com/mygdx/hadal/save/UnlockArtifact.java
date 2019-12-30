@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.artifacts.Artifact;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.equip.artifacts.*;
 
@@ -116,6 +117,25 @@ public enum UnlockArtifact {
 		}
 		
 		return items;
+	}
+	
+	/**
+	 * This method returns the name of a artifact randomly selected from the pool.
+	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
+	 * @return
+	 */
+	public static String getRandArtfFromPool(String pool) {
+		
+		if (pool.equals("")) {
+			return UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL).get(GameStateManager.generator.nextInt(UnlockArtifact.getUnlocks(false, UnlockTag.RANDOM_POOL).size)).name();
+		}
+		
+		ArrayList<String> artifacts = new ArrayList<String>();
+		
+		for (String id : pool.split(",")) {
+			artifacts.add(id);
+		}
+		return artifacts.get(GameStateManager.generator.nextInt(artifacts.size()));
 	}
 	
 	public Artifact getArtifact() { return artifactSingleton; }

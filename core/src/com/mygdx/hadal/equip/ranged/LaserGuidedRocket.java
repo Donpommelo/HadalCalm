@@ -20,7 +20,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class LaserGuidedRocket extends RangedWeapon {
 
-	private final static String name = "Laser-Guided Rocket";
 	private final static int clipSize = 1;
 	private final static int ammoSize = 12;
 	private final static float shootCd = 0.0f;
@@ -51,7 +50,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private static final int decelerationRadius = 0;
 	
 	public LaserGuidedRocket(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

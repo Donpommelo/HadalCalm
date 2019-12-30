@@ -14,7 +14,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.*;
@@ -436,18 +435,9 @@ public class KryoClient {
 									pickup = new PickupActive(cs, p.pos, "");
 									((PickupActive)pickup).setActive(UnlocktoItem.getUnlock(UnlockActives.valueOf(p.startPickup), null));
 									break;
-								case ARTIFACT:
-									pickup = new PickupArtifact(cs, p.pos, "");
-									((PickupArtifact)pickup).setArtifact(UnlockArtifact.valueOf(p.startPickup));
-									break;
-								case MOD:
-									pickup = new PickupWeaponMod(cs, p.pos, "");
-									((PickupWeaponMod)pickup).setWeaponMod(WeaponMod.valueOf(p.startPickup));
-									break;
 								case WEAPON:
-									pickup = new PickupEquip(cs, p.pos, 0, "");
+									pickup = new PickupEquip(cs, p.pos, "");
 									((PickupEquip)pickup).setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.startPickup), null));
-									((PickupEquip)pickup).setMods(p.mods);
 									break;
         						}
         						

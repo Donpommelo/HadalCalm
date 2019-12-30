@@ -1,7 +1,10 @@
 package com.mygdx.hadal.equip.mods;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.ModTag;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -150,5 +153,36 @@ public enum WeaponMod {
 		WeaponModifier newMod = new WeaponModifier(state, b, tool, this, retrieveMod(b, state));
 		tool.getWeaponMods().add(newMod);
 		b.addStatus(newMod);
+	}
+	
+	public static String getRandModFromPool(String pool, ModTag... tags) {
+		
+		if (pool.equals("")) {
+			return WeaponMod.getUnlocks(tags)
+					.get(GameStateManager.generator.nextInt(WeaponMod.getUnlocks(tags).size)).name();
+		}
+		
+		ArrayList<String> mods = new ArrayList<String>();
+		
+		for (String id : pool.split(",")) {
+			mods.add(id);
+		}
+		return mods.get(GameStateManager.generator.nextInt(mods.size()));
+	}
+	
+	public static ArrayList<WeaponMod> getRandMods(int modPow, ModTag... tags) {
+		
+		ArrayList<WeaponMod> mods = new ArrayList<WeaponMod>();
+		int modPowLeft = modPow;
+		
+		while (modPowLeft > 0) {
+			WeaponMod newMod = WeaponMod.valueOf(getRandModFromPool("", tags));
+			if (newMod.getWeight() <= modPowLeft) {
+				mods.add(newMod);
+				modPowLeft -= newMod.getWeight();
+			}
+		}
+		
+		return mods;
 	}
 }

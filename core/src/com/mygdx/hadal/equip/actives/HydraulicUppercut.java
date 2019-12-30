@@ -19,7 +19,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class HydraulicUppercut extends ActiveItem {
 
-	private final static String name = "Hydraulic Uppercut";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 6.0f;
@@ -32,7 +31,7 @@ public class HydraulicUppercut extends ActiveItem {
 	private final static float knockback = 75.0f;
 	
 	public HydraulicUppercut(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	@Override

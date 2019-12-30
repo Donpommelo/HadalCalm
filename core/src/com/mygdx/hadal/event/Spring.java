@@ -25,15 +25,13 @@ public class Spring extends Event {
 	//The vector of force that will be applied to any touching entity.
 	private Vector2 vec;
 
-	private static final String name = "Spring";
-
 	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.vec = vec;
 	}
 	
 	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
-		super(state, name, startPos, size, duration);
+		super(state, startPos, size, duration);
 		this.vec = vec;
 	}
 	

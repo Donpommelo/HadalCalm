@@ -20,7 +20,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Fireball extends ActiveItem {
 
-	private final static String name = "Fireball";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 6.0f;
@@ -36,7 +35,7 @@ public class Fireball extends ActiveItem {
 	private final static float knockback = 40.0f;
 	
 	public Fireball(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	@Override

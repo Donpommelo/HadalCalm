@@ -22,10 +22,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class Switch extends Event {
 
-	private static final String name = "Switch";
-	
 	public Switch(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 	}
 	
 	@Override

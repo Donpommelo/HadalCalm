@@ -19,7 +19,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Machinegun extends RangedWeapon {
 
-	private final static String name = "Machine Gun";
 	private final static int clipSize = 28;
 	private final static int ammoSize = 100;
 	private final static float shootCd = 0.05f;
@@ -40,7 +39,7 @@ public class Machinegun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_MACHINEGUN;
 	
 	public Machinegun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

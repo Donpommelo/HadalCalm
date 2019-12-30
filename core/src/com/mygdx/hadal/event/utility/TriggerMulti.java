@@ -23,12 +23,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class TriggerMulti extends Event {
 
-	private static final String name = "MultiTrigger";
-
 	private ArrayList<Event> triggered = new ArrayList<Event>();
 	
 	public TriggerMulti(PlayState state) {
-		super(state, name);
+		super(state);
 	}
 	
 	@Override

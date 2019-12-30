@@ -42,12 +42,10 @@ public class PickupActive extends Event {
 	private ActiveItem item;
 	private UnlockActives unlock;
 	
-	private static final String name = "Item Pickup";
-
 	private String pool;
 	
 	public PickupActive(PlayState state, Vector2 startPos, String pool) {
-		super(state, name, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
+		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
 		this.pool = pool;
 		
 		//Set this pickup to a random weapon in the input pool
@@ -94,7 +92,7 @@ public class PickupActive extends Event {
 			@Override
 			public void preActivate(EventData activator, Player p) {
 				onActivate(activator, p);
-				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), UnlockActives.getUnlockFromActive(item.getClass()).toString(), null));
+				HadalGame.server.sendToAllTCP(new Packets.SyncPickup(entityID.toString(), UnlockActives.getUnlockFromActive(item.getClass()).toString()));
 			}
 		};
 		
@@ -134,7 +132,7 @@ public class PickupActive extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), PickupType.ACTIVE, unlock.toString(), null);
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), PickupType.ACTIVE, unlock.toString());
 	}
 	
 	@Override

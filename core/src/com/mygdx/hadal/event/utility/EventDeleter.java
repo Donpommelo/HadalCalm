@@ -18,10 +18,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class EventDeleter extends Event {
 	
-	private static final String name = "Event Deleter";
-
 	public EventDeleter(PlayState state) {
-		super(state, name);
+		super(state);
 	}
 	
 	@Override

@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip.artifacts;
 
 import java.util.ArrayList;
 
-import com.mygdx.hadal.event.PickupArtifact;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -35,7 +34,7 @@ public class AdministratorCard extends Artifact {
 					int artifactsAdded = 0;
 					
 					while (artifactsAdded < numArtifacts) {
-						UnlockArtifact artifact = UnlockArtifact.valueOf(PickupArtifact.getRandArtfFromPool(""));
+						UnlockArtifact artifact = UnlockArtifact.valueOf(UnlockArtifact.getRandArtfFromPool(""));
 						unlocks.add(artifact);
 						if (((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true)) {
 							artifactsAdded++;

@@ -32,13 +32,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class EventMover extends Event {
 	
-	private static final String name = "Event Mover";
-
 	private float gravity;
 	private boolean moving = false;
 	
 	public EventMover(PlayState state, Vector2 startPos, Vector2 size, float gravity) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.gravity = gravity;
 	}
 	

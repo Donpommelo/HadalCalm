@@ -20,7 +20,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Underminer extends RangedWeapon {
 
-	private final static String name = "Underminer";
 	private final static int clipSize = 4;
 	private final static int ammoSize = 18;
 	private final static float shootCd = 0.2f;
@@ -53,7 +52,7 @@ public class Underminer extends RangedWeapon {
 	private final static float fragSpeed = 40.0f;
 	
 	public Underminer(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

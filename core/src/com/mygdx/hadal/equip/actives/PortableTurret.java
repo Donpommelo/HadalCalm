@@ -16,7 +16,6 @@ import com.mygdx.hadal.statuses.Temporary;
 
 public class PortableTurret extends ActiveItem {
 
-	private final static String name = "Portable Turret";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 600.0f;
@@ -30,7 +29,7 @@ public class PortableTurret extends ActiveItem {
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
 	public PortableTurret(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
 	}
 	
 	@Override

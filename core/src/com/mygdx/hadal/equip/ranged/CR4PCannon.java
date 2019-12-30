@@ -19,7 +19,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class CR4PCannon extends RangedWeapon {
 
-	private final static String name = "CR4P Cannon";
 	private final static int clipSize = 2;
 	private final static int ammoSize = 18;
 	private final static float shootCd = 0.15f;
@@ -41,7 +40,7 @@ public class CR4PCannon extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	public CR4PCannon(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

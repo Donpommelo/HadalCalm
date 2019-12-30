@@ -9,7 +9,6 @@ import com.mygdx.hadal.states.PlayState;
 
 public class BeeGun extends RangedWeapon {
 
-	private final static String name = "Bee Gun";
 	private final static int clipSize = 24;
 	private final static int ammoSize = 96;
 	private final static float shootCd = 0.15f;
@@ -23,7 +22,7 @@ public class BeeGun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BEEGUN;
 	
 	public BeeGun(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 23);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 23);
 	}
 
 	@Override

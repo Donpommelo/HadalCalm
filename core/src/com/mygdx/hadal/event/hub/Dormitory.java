@@ -18,11 +18,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Dormitory extends HubEvent {
 
-	private static final String name = "Dormitory";
 	private static final String title = "DORMITORY";
 
 	public Dormitory(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size, title, hubTypes.DORMITORY);
+		super(state, startPos, size, title, hubTypes.DORMITORY);
 	}
 	
 	public void enter() {

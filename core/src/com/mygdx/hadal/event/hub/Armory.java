@@ -21,11 +21,10 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  */
 public class Armory extends HubEvent {
 
-	private static final String name = "Armory";
 	private static final String title = "ARMORY";
 
 	public Armory(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size, title, hubTypes.ARMORY);
+		super(state, startPos, size, title, hubTypes.ARMORY);
 	}
 	
 	@Override

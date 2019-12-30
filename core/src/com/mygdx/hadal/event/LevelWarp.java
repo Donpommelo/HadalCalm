@@ -26,14 +26,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class LevelWarp extends Event {
 
-	private static final String name = "Level Warp";
-
 	private String level;
 	private String startId;
 	private boolean reset;
 	
 	public LevelWarp(PlayState state, Vector2 startPos, Vector2 size, String level, boolean reset, String startId) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.level = level;
 		this.startId = startId;
 		this.reset = reset;

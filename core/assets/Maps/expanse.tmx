@@ -393,7 +393,7 @@
   </object>
   <object id="80" name="Poison" type="Poison" x="11264" y="2528" width="352" height="608">
    <properties>
-    <property name="Damage" type="float" value="3"/>
+    <property name="damage" type="float" value="3"/>
     <property name="triggeredId" value="poison1"/>
    </properties>
   </object>
@@ -449,7 +449,7 @@
   </object>
   <object id="93" name="Poison" type="Poison" x="13536" y="3232" width="1184" height="384">
    <properties>
-    <property name="Damage" type="float" value="3"/>
+    <property name="damage" type="float" value="3"/>
     <property name="triggeredId" value="poison2"/>
    </properties>
   </object>
@@ -521,7 +521,7 @@
   </object>
   <object id="109" name="Poison" type="Poison" x="15936" y="1664" width="896" height="320">
    <properties>
-    <property name="Damage" type="float" value="1"/>
+    <property name="damage" type="float" value="2"/>
     <property name="triggeredId" value="poison3"/>
    </properties>
   </object>

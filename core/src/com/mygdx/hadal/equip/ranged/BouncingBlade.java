@@ -16,7 +16,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class BouncingBlade extends RangedWeapon {
 
-	private final static String name = "Bouncing Blades";
 	private final static int clipSize = 5;
 	private final static int ammoSize = 30;
 	private final static float shootCd = 0.3f;
@@ -35,7 +34,7 @@ public class BouncingBlade extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_BLADEGUN;
 	
 	public BouncingBlade(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

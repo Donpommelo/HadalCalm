@@ -19,11 +19,10 @@ import com.mygdx.hadal.states.PlayState.transitionState;
  */
 public class Navigations extends HubEvent {
 
-	private static final String title = "NAVIGATIONS";
 	private String tag;
 
-	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String name, String tag) {
-		super(state, name, startPos, size, title, hubTypes.NAVIGATIONS);
+	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag) {
+		super(state, startPos, size, title, hubTypes.NAVIGATIONS);
 		this.tag = tag;
 	}
 	

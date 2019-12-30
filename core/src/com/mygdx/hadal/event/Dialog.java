@@ -18,12 +18,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Dialog extends Event {
 
-	private static final String name = "Radio";
-
 	private String id;
 	
 	public Dialog(PlayState state, String id) {
-		super(state, name);
+		super(state);
 		this.id = id;
 	}
 	

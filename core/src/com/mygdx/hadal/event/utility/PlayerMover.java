@@ -24,11 +24,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class PlayerMover extends Event {
 
-	private static final String name = "Player Mover";
 	private boolean moving = false;
 
 	public PlayerMover(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 	}
 	
 	@Override

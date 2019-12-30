@@ -11,7 +11,6 @@ import com.mygdx.hadal.statuses.Temporary;
 
 public class FishGang extends ActiveItem {
 
-	private final static String name = "Fish Gang";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 600.0f;
@@ -20,7 +19,7 @@ public class FishGang extends ActiveItem {
 	private final static float fishLifespan = 10.0f;
 	
 	public FishGang(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
 	}
 	
 	@Override

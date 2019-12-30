@@ -14,7 +14,6 @@ import com.mygdx.hadal.states.PlayState;
 
 public class StickyBombLauncher extends RangedWeapon {
 
-	private final static String name = "Stickybomb Launcher";
 	private final static int clipSize = 6;
 	private final static int ammoSize = 32;
 	private final static float shootCd = 0.25f;
@@ -38,7 +37,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private Queue<Hitbox> bombsLaid = new Queue<Hitbox>();
 
 	public StickyBombLauncher(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, false, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

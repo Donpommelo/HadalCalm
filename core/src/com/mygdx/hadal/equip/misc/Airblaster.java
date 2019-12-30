@@ -21,7 +21,6 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Airblaster extends MeleeWeapon {
 
-	private final static String name = "Airblaster";
 	private final static float swingCd = 0.4f;
 	private final static float windup = 0.0f;
 	private final static float baseDamage = 0.0f;
@@ -30,7 +29,7 @@ public class Airblaster extends MeleeWeapon {
 	private final static float momentum = 40.0f;
 	
 	public Airblaster(Schmuck user) {
-		super(user, name, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+		super(user, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
 	
 	@Override

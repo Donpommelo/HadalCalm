@@ -33,13 +33,11 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  */
 public class Sensor extends Event {
 
-	private static final String name = "Sensor";
-
 	private short filter;
 	private boolean collision;
 	
 	public Sensor(PlayState state, Vector2 startPos, Vector2 size, boolean player, boolean hbox, boolean event, boolean enemy,	float gravity, boolean collision) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 		this.gravity = gravity;
 		this.collision = collision;

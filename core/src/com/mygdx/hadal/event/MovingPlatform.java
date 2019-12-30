@@ -31,15 +31,13 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class MovingPlatform extends Event {
 
-	private static final String name = "Moving Platform";
-
 	private float speed;
 	private boolean pause;
 	
 	private ArrayList<Event> connected = new ArrayList<Event>();
 	
 	public MovingPlatform(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.speed = speed;
 		this.pause = pause;
 		
@@ -55,7 +53,6 @@ public class MovingPlatform extends Event {
 			public void onActivate(EventData activator, Player p) {
 				event.setConnectedEvent(activator.getEvent());
 			}
-
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, 5.0f, false, true, Constants.BIT_WALL, 
@@ -111,7 +108,6 @@ public class MovingPlatform extends Event {
 					}
 				}
 			}
-			
 		} 
 	}
 	

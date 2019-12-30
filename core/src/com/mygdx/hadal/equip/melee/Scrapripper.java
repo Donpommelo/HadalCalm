@@ -19,7 +19,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Scrapripper extends MeleeWeapon {
 
-	private final static String name = "Scrap-Ripper";
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0.0f;
 	private final static float baseDamage = 50.0f;
@@ -31,7 +30,7 @@ public class Scrapripper extends MeleeWeapon {
 	private final static Sprite eventSprite = Sprite.P_SCRAPRIPPER;
 
 	public Scrapripper(Schmuck user) {
-		super(user, name, shootCd, shootDelay, weaponSprite, eventSprite);
+		super(user, shootCd, shootDelay, weaponSprite, eventSprite);
 	}
 	
 	@Override

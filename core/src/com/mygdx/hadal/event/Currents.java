@@ -31,19 +31,17 @@ public class Currents extends Event {
 	//This keeps track of engine timer.
 	private float controllerCount = 0;
 	
-	private static final String name = "Current";
-
 	private float currBubbleSpawnTimer = 0f, spawnTimerLimit;
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.vec = vec;
 		
 		spawnTimerLimit = 4096f/(size.x * size.y);
 	}
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
-		super(state, name, startPos, size, duration);
+		super(state, startPos, size, duration);
 		this.vec = vec;
 		
 		spawnTimerLimit = 2048f/(size.x * size.y);

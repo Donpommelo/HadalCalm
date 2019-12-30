@@ -21,7 +21,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class ChargeBeam extends RangedWeapon {
 
-	private final static String name = "Charge Beam";
 	private final static int clipSize = 4;
 	private final static int ammoSize = 12;
 	private final static float shootCd = 0.0f;
@@ -43,7 +42,7 @@ public class ChargeBeam extends RangedWeapon {
 	private int chargeStage = 0;
 	
 	public ChargeBeam(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 3.0f, maxCharge);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 3.0f, maxCharge);
 	}
 	
 	@Override

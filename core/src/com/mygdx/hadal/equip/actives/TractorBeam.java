@@ -20,7 +20,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class TractorBeam extends ActiveItem {
 
-	private final static String name = "Tractor Beam";
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 10.0f;
@@ -45,7 +44,7 @@ public class TractorBeam extends ActiveItem {
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 
 	public TractorBeam(Schmuck user) {
-		super(user, name, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user,  usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
 	@Override

@@ -17,7 +17,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class SniperRifle extends RangedWeapon {
 
-	private final static String name = "Sniper Rifle";
 	private final static int clipSize = 1;
 	private final static int ammoSize = 18;
 	private final static float shootCd = 0.0f;
@@ -38,7 +37,7 @@ public class SniperRifle extends RangedWeapon {
 	private final static float bonusDamage = 70.0f;
 
 	public SniperRifle(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

@@ -25,7 +25,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class TeslaCoil extends RangedWeapon {
 
-	private final static String name = "Tesla Coil";
 	private final static int clipSize = 2;
 	private final static int ammoSize = 22;
 	private final static float shootCd = 0.3f;
@@ -51,7 +50,7 @@ public class TeslaCoil extends RangedWeapon {
 	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
 
 	public TeslaCoil(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override

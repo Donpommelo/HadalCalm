@@ -21,11 +21,10 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  */
 public class Dispensary extends HubEvent {
 
-	private static final String name = "Dispensary";
 	private static final String title = "DISPENSARY";
 
 	public Dispensary(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size, title, hubTypes.DISPENSARY);
+		super(state, startPos, size, title, hubTypes.DISPENSARY);
 	}
 	
 	public void enter() {

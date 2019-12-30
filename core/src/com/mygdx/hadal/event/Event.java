@@ -74,7 +74,7 @@ public class Event extends HadalEntity {
 	/**
 	 * Constructor for permanent events.
 	 */
-	public Event(PlayState state, String name, Vector2 startPos, Vector2 size) {
+	public Event(PlayState state, Vector2 startPos, Vector2 size) {
 		super(state, startPos, size);
 		this.temporary = false;
 		this.duration = 0;
@@ -83,7 +83,7 @@ public class Event extends HadalEntity {
 	/**
 	 * Constructor for temporary events.
 	 */
-	public Event(PlayState state, String name, Vector2 startPos, Vector2 size, float duration) {
+	public Event(PlayState state, Vector2 startPos, Vector2 size, float duration) {
 		super(state, startPos, size);
 		this.temporary = true;
 		this.duration = duration;
@@ -92,7 +92,7 @@ public class Event extends HadalEntity {
 	/**
 	 * Constructor for events that do not take up space.
 	 */
-	public Event(PlayState state, String name) {
+	public Event(PlayState state) {
 		super(state, new Vector2(), new Vector2(1, 1));
 		this.temporary = false;
 		this.duration = 0;

@@ -20,11 +20,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Reliquary extends HubEvent {
 
-	private static final String name = "Reliquary";
 	private static final String title = "RELIQUARY";
 
 	public Reliquary(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size, title, hubTypes.RELIQUARY);
+		super(state, startPos, size, title, hubTypes.RELIQUARY);
 	}
 	
 	public void enter() {

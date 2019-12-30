@@ -13,7 +13,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Fisticuffs extends MeleeWeapon {
 
-	private final static String name = "Fisticuffs";
 	private final static float swingCd = 0.15f;
 	private final static float windup = 0.0f;
 	private final static float baseDamage = 12.0f;
@@ -28,7 +27,7 @@ public class Fisticuffs extends MeleeWeapon {
 	private final static float range = 50.0f;
 	
 	public Fisticuffs(Schmuck user) {
-		super(user, name, swingCd, windup, weaponSprite, eventSprite);
+		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
 	@Override

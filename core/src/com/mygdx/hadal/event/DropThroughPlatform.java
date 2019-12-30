@@ -27,10 +27,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class DropThroughPlatform extends Event {
 	
-	private static final String name = "Drop Through Platform";
-
 	public DropThroughPlatform(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 	}
 	
 	@Override

@@ -34,8 +34,6 @@ public class SpawnerSchmuck extends Event {
 	private int id;
 	private int limit;
 	
-	private static final String name = "Schmuck Spawner";
-
 	//this is the amount of enemies left
 	private int amountLeft = 0;
 	
@@ -47,7 +45,7 @@ public class SpawnerSchmuck extends Event {
 	private String bossName;
 	
 	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, int schmuckId, int limit, int extraField, boolean boss, String bossName) {
-		super(state, name, startPos, size);
+		super(state, startPos, size);
 		this.id = schmuckId;
 		this.limit = limit;
 		this.extraField = extraField;

@@ -16,7 +16,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class Stormcaller extends RangedWeapon {
 
-	private final static String name = "Stormcaller";
 	private final static int clipSize = 3;
 	private final static int ammoSize = 14;
 	private final static float shootCd = 0.5f;
@@ -38,10 +37,8 @@ public class Stormcaller extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
 	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
 	
-	
-	
 	public Stormcaller(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 
 	@Override

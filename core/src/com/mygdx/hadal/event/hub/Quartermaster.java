@@ -16,11 +16,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Quartermaster extends HubEvent {
 
-	private static final String name = "Quartermaster";
 	private static final String title = "QUARTERMASTER";
 
 	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, name, startPos, size, title, hubTypes.QUARTERMASTER);
+		super(state, startPos, size, title, hubTypes.QUARTERMASTER);
 	}
 	
 	public void enter() {

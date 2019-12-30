@@ -15,7 +15,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 
 public class TurretAttack extends RangedWeapon {
 
-	private final static String name = "Turret Gun";
 	private final static int clipSize = 6;
 	private final static int ammoSize = 1000;
 	private final static float shootCd = 0.0f;
@@ -32,7 +31,7 @@ public class TurretAttack extends RangedWeapon {
 	private final static Sprite projSprite = Sprite.BULLET;
 	
 	public TurretAttack(Schmuck user) {
-		super(user, name, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileSize.x);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, Sprite.MT_DEFAULT, Sprite.P_DEFAULT, projectileSize.x);
 	}
 	
 	@Override

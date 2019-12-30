@@ -37,13 +37,11 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class PlayerChanger extends Event {
 
-	private static final String name = "Player Changer";
-	
 	private float hp, fuel, ammo;
 	private int scrap;
 	
 	public PlayerChanger(PlayState state, float hp, float fuel, float ammo, int scrap) {
-		super(state, name);
+		super(state);
 		this.hp = hp;
 		this.fuel = fuel;
 		this.scrap = scrap;

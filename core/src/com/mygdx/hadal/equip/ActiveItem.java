@@ -22,8 +22,8 @@ public class ActiveItem extends Equipable {
 	//This indicates whether the active charges over time or by inflicting damage (or potentially, other)
 	private chargeStyle style;	
 	
-	public ActiveItem(Schmuck user, String name, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
-		super(user, name, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
+	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
+		super(user, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.maxCharge = maxCharge;
 		this.currentCharge = maxCharge;
 		this.style = chargeStyle;
