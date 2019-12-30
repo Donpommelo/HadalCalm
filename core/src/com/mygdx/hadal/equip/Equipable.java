@@ -16,7 +16,7 @@ public abstract class Equipable {
 	protected Schmuck user;
 	
 	//The name of this tool
-	protected String name;
+	protected String name = "";
 	
 	//The delay in seconds after using this tool before you can use a tool again.
 	protected float useCd;

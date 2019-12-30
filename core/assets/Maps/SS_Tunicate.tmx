@@ -95,6 +95,9 @@
   <object id="11" name="Sensor" type="Sensor" x="1632" y="2048" width="32" height="32">
    <properties>
     <property name="align" value="CENTER_STRETCH"/>
+    <property name="collision" type="bool" value="false"/>
+    <property name="enemy" type="bool" value="false"/>
+    <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="true"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="ORB_RED"/>

@@ -49,8 +49,8 @@ public class Record {
 	 * @return: was the new score a high score?
 	 */
 	public boolean updateScore(int score, UnlockLevel level) {
-		if (score > hiScores.get(level.getName())) {
-			hiScores.put(level.getName(), score);
+		if (score > hiScores.get(level.toString())) {
+			hiScores.put(level.toString(), score);
 			
 			saveRecord();
 			return true;
