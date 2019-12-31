@@ -16,7 +16,6 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.save.*;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -32,7 +31,6 @@ import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
-import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
@@ -429,22 +427,8 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						Event pickup = null;
-        						switch(p.type) {
-								case ACTIVE:
-									pickup = new PickupActive(cs, p.pos, "");
-									((PickupActive)pickup).setActive(UnlocktoItem.getUnlock(UnlockActives.valueOf(p.startPickup), null));
-									break;
-								case WEAPON:
-									pickup = new PickupEquip(cs, p.pos, "");
-									((PickupEquip)pickup).setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.startPickup), null));
-									break;
-        						}
-        						
-        						if (pickup != null) {
-        							pickup.loadDefaultProperties();
-            						cs.addEntity(p.entityID, pickup, ObjectSyncLayers.STANDARD);
-        						}
+        						PickupEquip pickup = new PickupEquip(cs, p.pos, "");
+        						cs.addEntity(p.entityID, pickup, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}

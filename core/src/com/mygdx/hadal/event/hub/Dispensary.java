@@ -31,7 +31,7 @@ public class Dispensary extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockActives c: UnlockActives.getUnlocks(true, state.getGsm().getRecord(), UnlockTag.DISPENSARY)) {
+		for (UnlockActives c: UnlockActives.getUnlocks(state, true, UnlockTag.DISPENSARY)) {
 			
 			final UnlockActives selected = c;
 			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);

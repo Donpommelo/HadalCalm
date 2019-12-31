@@ -366,7 +366,7 @@ public class PlayerBodyData extends BodyData {
 					return false;
 				} 
 				
-				if (!UnlockManager.checkUnlock(player.getState().getGsm().getRecord(), UnlockType.ARTIFACT, artifactUnlock.toString())){
+				if (!UnlockManager.checkUnlock(player.getState(), UnlockType.ARTIFACT, artifactUnlock.toString())){
 					return false;
 				} 
 				

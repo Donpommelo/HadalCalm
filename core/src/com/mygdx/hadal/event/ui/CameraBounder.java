@@ -1,4 +1,4 @@
-package com.mygdx.hadal.event.utility;
+package com.mygdx.hadal.event.ui;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;

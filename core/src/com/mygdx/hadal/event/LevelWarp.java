@@ -1,20 +1,16 @@
 package com.mygdx.hadal.event;
 
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.transitionState;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
  * A Use Portal is a portal that transports the player elsewhere when they interact with it.
  * The event they are transported to does not have to be a portal.
  * 
- * Triggered Behavior: N/A
+ * Triggered Behavior: warps the player to desired level
  * Triggering Behavior: N/A
  * 
  * Fields:
@@ -30,8 +26,8 @@ public class LevelWarp extends Event {
 	private String startId;
 	private boolean reset;
 	
-	public LevelWarp(PlayState state, Vector2 startPos, Vector2 size, String level, boolean reset, String startId) {
-		super(state, startPos, size);
+	public LevelWarp(PlayState state, String level, boolean reset, String startId) {
+		super(state);
 		this.level = level;
 		this.startId = startId;
 		this.reset = reset;
@@ -39,10 +35,10 @@ public class LevelWarp extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new InteractableEventData(this) {
+		this.eventData = new EventData(this) {
 			
 			@Override
-			public void onInteract(Player p) {
+			public void onActivate(EventData activator, Player p) {
 				if (reset) {
 					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEWLEVEL, false, startId);
 				} else {
@@ -50,13 +46,5 @@ public class LevelWarp extends Event {
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
-	}
-	
-	@Override
-	public void loadDefaultProperties() {
-		setEventSprite(Sprite.PYRAMID);
 	}
 }

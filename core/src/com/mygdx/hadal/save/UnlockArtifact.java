@@ -7,6 +7,7 @@ import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
+import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.equip.artifacts.*;
 
 public enum UnlockArtifact {
@@ -94,7 +95,7 @@ public enum UnlockArtifact {
 		artifactSingleton.setUnlock(this);
 	}
 	
-	public static Array<UnlockArtifact> getUnlocks(boolean unlock, Record record, UnlockTag... tags) {
+	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, UnlockTag... tags) {
 		Array<UnlockArtifact> items = new Array<UnlockArtifact>();
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
@@ -108,7 +109,7 @@ public enum UnlockArtifact {
 				}
 			}
 			
-			if (unlock && !UnlockManager.checkUnlock(record, UnlockType.ARTIFACT, u.toString())) {
+			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.ARTIFACT, u.toString())) {
 				get = false;
 			}
 			
@@ -125,10 +126,10 @@ public enum UnlockArtifact {
 	 * @param pool: comma separated list of names of artifact to choose from. if set to "", return any artifact.
 	 * @return
 	 */
-	public static String getRandArtfFromPool(Record record, String pool) {
+	public static String getRandArtfFromPool(PlayState state, String pool) {
 		
 		if (pool.equals("")) {
-			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(false, record, UnlockTag.RANDOM_POOL);
+			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, UnlockTag.RANDOM_POOL);
 			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
 		}
 		

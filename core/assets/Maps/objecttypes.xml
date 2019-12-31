@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
- <objecttype name="Active" color="#ff007f">
-  <property name="pool" type="string"/>
-  <property name="triggeredId" type="string"/>
-  <property name="triggeringId" type="string"/>
- </objecttype>
  <objecttype name="Alttrigger" color="#a0a0a4">
   <property name="message" type="string"/>
   <property name="triggeredId" type="string"/>
@@ -87,6 +82,12 @@
   <property name="score" type="int" default="0"/>
   <property name="timer" type="float" default="0"/>
   <property name="timerIncr" type="float" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="ItemUnlock" color="#a0a0a4">
+  <property name="item" type="string"/>
+  <property name="type" type="string"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
@@ -221,6 +222,13 @@
  <objecttype name="UI" color="#a0a0a4">
   <property name="clear" type="bool" default="false"/>
   <property name="tags" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="UnlockCheck" color="#a0a0a4">
+  <property name="item" type="string"/>
+  <property name="type" type="string"/>
+  <property name="unlock" type="bool" default="false"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

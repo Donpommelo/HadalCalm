@@ -38,7 +38,7 @@ public class Quartermaster extends HubEvent {
 			
 			InfoItem info = UnlockManager.getInfo(UnlockType.valueOf(shopInfo.getType()), item);
 			
-			if (!UnlockManager.checkUnlock(state.getGsm().getRecord(), UnlockType.valueOf(shopInfo.getType()), item)) {
+			if (!UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
 
 				Text itemChoose = new Text(info.getName() + ": Cost: " + shopInfo.getPrices().get(item), 0, 0);
 				
@@ -46,7 +46,7 @@ public class Quartermaster extends HubEvent {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
 				        	state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
-				        	UnlockManager.setUnlock(state.getGsm().getRecord(), UnlockType.valueOf(shopInfo.getType()), item, true);
+				        	UnlockManager.setUnlock(state, UnlockType.valueOf(shopInfo.getType()), item, true);
 				        	leave();
 				        	
 				        	state.getUiExtra().syncData();

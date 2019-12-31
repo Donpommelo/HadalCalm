@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * The UnlockManager manages the player's unlocked weapons, artifacts, etc
@@ -51,43 +52,59 @@ public class UnlockManager {
 		}
 	}
 	
-	public static boolean checkUnlock(Record record, UnlockType type, String name) {
+	public static boolean checkUnlock(PlayState state, UnlockType type, String name) {
 		switch(type) {
 		case ACTIVE:
-			return record.getUnlockActive().getOrDefault(name, false);
+			return state.getGsm().getRecord().getUnlockActive().getOrDefault(name, false);
 		case ARTIFACT:
-			return record.getUnlockArtifact().getOrDefault(name, false);
+			return state.getGsm().getRecord().getUnlockArtifact().getOrDefault(name, false);
 		case CHARACTER:
-			return record.getUnlockCharacter().getOrDefault(name, false);
+			return state.getGsm().getRecord().getUnlockCharacter().getOrDefault(name, false);
 		case EQUIP:
-			return record.getUnlockEquip().getOrDefault(name, false);
+			return state.getGsm().getRecord().getUnlockEquip().getOrDefault(name, false);
 		case LEVEL:
-			return record.getUnlockLevel().getOrDefault(name, false);
+			return state.getGsm().getRecord().getUnlockLevel().getOrDefault(name, false);
 		default:
 			return false;
 		}
 	}
 	
-	public static void setUnlock(Record record, UnlockType type, String name, boolean unlock) {
+	public static void setUnlock(PlayState state, UnlockType type, String name, boolean unlock) {
 		switch(type) {
 		case ACTIVE:
-			record.getUnlockActive().put(name, unlock);
+			state.getGsm().getRecord().getUnlockActive().put(name, unlock);
+			if (unlock) {
+				state.getPlayStateStage().addDialogue("", "UNLOCKED ACTIVE: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null);
+			}
 			break;
 		case ARTIFACT:
-			record.getUnlockArtifact().put(name, unlock);
+			state.getGsm().getRecord().getUnlockArtifact().put(name, unlock);
+			if (unlock) {
+				state.getPlayStateStage().addDialogue("", "UNLOCKED ARTIFACT: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null);
+			}
 			break;
 		case CHARACTER:
-			record.getUnlockCharacter().put(name, unlock);
+			state.getGsm().getRecord().getUnlockCharacter().put(name, unlock);
+			if (unlock) {
+				state.getPlayStateStage().addDialogue("", "UNLOCKED CHARACTER: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null);
+			}
 			break;
 		case EQUIP:
-			record.getUnlockEquip().put(name, unlock);
+			state.getGsm().getRecord().getUnlockEquip().put(name, unlock);
+			if (unlock) {
+				state.getPlayStateStage().addDialogue("", "UNLOCKED EQUIP: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null);
+			}
 			break;
 		case LEVEL:
-			record.getUnlockLevel().put(name, unlock);
+			state.getGsm().getRecord().getUnlockLevel().put(name, unlock);
+			if (unlock) {
+				state.getPlayStateStage().addDialogue("", "UNLOCKED LEVEL: " + getInfo(type, name).getName(), "", true, true, true, 3.0f, null, null);
+			}
 			break;
 		default:
 		}
-		record.saveRecord();
+		
+		state.getGsm().getRecord().saveRecord();
 	}
 	
 	public enum UnlockTag {

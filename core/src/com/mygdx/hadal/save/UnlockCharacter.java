@@ -3,6 +3,7 @@ package com.mygdx.hadal.save;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
+import com.mygdx.hadal.states.PlayState;
 
 public enum UnlockCharacter {
 
@@ -19,11 +20,11 @@ public enum UnlockCharacter {
 		this.sprite = sprite;
 	}
 
-	public static Array<UnlockCharacter> getUnlocks(Record record) {
+	public static Array<UnlockCharacter> getUnlocks(PlayState state) {
 		Array<UnlockCharacter> items = new Array<UnlockCharacter>();
 		
 		for (UnlockCharacter u : UnlockCharacter.values()) {
-			if (UnlockManager.checkUnlock(record, UnlockType.CHARACTER, u.toString())) {
+			if (UnlockManager.checkUnlock(state, UnlockType.CHARACTER, u.toString())) {
 				items.add(u);
 			}
 		}

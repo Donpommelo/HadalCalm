@@ -34,7 +34,7 @@ public class AdministratorCard extends Artifact {
 					int artifactsAdded = 0;
 					
 					while (artifactsAdded < numArtifacts) {
-						UnlockArtifact artifact = UnlockArtifact.valueOf(UnlockArtifact.getRandArtfFromPool(state.getGsm().getRecord(), ""));
+						UnlockArtifact artifact = UnlockArtifact.valueOf(UnlockArtifact.getRandArtfFromPool(state, ""));
 						unlocks.add(artifact);
 						if (((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true)) {
 							artifactsAdded++;

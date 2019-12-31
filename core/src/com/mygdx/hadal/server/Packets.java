@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.PickupType;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
@@ -427,8 +426,6 @@ public class Packets {
 	public static class CreatePickup {
 		public String entityID;
         public Vector2 pos;
-        public PickupType type;
-        public String startPickup;
         public CreatePickup() {}
         
         /**
@@ -437,14 +434,10 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the new Pickup.
 		 * @param pos: position of the new Pickup
-         * @param type: Type of Pickup (Weapon, Artifact, Active Item, Weapon Mod)
-         * @param startPickup: The enum name of what pickup it starts with.
          */
-		public CreatePickup(String entityID, Vector2 pos, PickupType type, String startPickup) {
+		public CreatePickup(String entityID, Vector2 pos) {
 			this.entityID = entityID;
             this.pos = pos;
-            this.type = type;
-            this.startPickup = startPickup;
 		}
 	}
 	

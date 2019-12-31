@@ -28,7 +28,7 @@ public class Dormitory extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockCharacter c: UnlockCharacter.getUnlocks(state.getGsm().getRecord())) {
+		for (UnlockCharacter c: UnlockCharacter.getUnlocks(state)) {
 			
 			final UnlockCharacter selected = c;
 

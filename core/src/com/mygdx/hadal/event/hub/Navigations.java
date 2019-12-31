@@ -30,7 +30,7 @@ public class Navigations extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockLevel c: UnlockLevel.getUnlocks(true, state.getGsm().getRecord(), UnlockTag.valueOf(tag))) {
+		for (UnlockLevel c: UnlockLevel.getUnlocks(state, true, UnlockTag.valueOf(tag))) {
 			
 			final UnlockLevel selected = c;
 

@@ -43,7 +43,8 @@ public class PickupEquip extends Event {
 		super(state, startPos, new Vector2(Event.defaultPickupEventSize, Event.defaultPickupEventSize));
 		this.pool = pool;
 		
-		rollWeapon();
+		unlock = UnlockEquip.NOTHING;
+		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
 	
 	@Override
@@ -65,7 +66,7 @@ public class PickupEquip extends Event {
 							rollWeapon();
 							standardParticle.turnOn();
 						} else {
-							unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state.getGsm().getRecord(), msg));
+							unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, msg));
 							setEquip(UnlocktoItem.getUnlock(unlock, null));
 						}
 					}
@@ -95,7 +96,7 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), PickupType.WEAPON, unlock.toString());
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition());
 	}
 	
 	@Override
@@ -109,7 +110,7 @@ public class PickupEquip extends Event {
 	}
 	
 	public void rollWeapon() {
-		unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state.getGsm().getRecord(), pool));
+		unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, pool));
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
 	}
 	
@@ -140,10 +141,5 @@ public class PickupEquip extends Event {
 				standardParticle.turnOn();
 			}
 		}
-	}
-
-	@Override
-	public void loadDefaultProperties() {
-		setEventSprite(equip.getEventSprite());
 	}
 }

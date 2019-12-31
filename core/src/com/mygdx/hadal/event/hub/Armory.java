@@ -32,7 +32,7 @@ public class Armory extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockEquip c: UnlockEquip.getUnlocks(true, state.getGsm().getRecord(), UnlockTag.ARMORY)) {
+		for (UnlockEquip c: UnlockEquip.getUnlocks(state, true, UnlockTag.ARMORY)) {
 			
 			final UnlockEquip selected = c;
 			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);

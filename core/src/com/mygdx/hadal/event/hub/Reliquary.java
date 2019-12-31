@@ -30,7 +30,7 @@ public class Reliquary extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockArtifact c: UnlockArtifact.getUnlocks(true, state.getGsm().getRecord(), UnlockTag.RELIQUARY)) {
+		for (UnlockArtifact c: UnlockArtifact.getUnlocks(state, true, UnlockTag.RELIQUARY)) {
 			
 			final UnlockArtifact selected = c;
 			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);

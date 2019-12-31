@@ -3,6 +3,7 @@ package com.mygdx.hadal.save;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
+import com.mygdx.hadal.states.PlayState;
 
 public enum UnlockLevel {
 
@@ -39,7 +40,7 @@ public enum UnlockLevel {
 		this.map = map;
 	}
 	
-	public static Array<UnlockLevel> getUnlocks(boolean unlock, Record record, UnlockTag... tags) {
+	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, UnlockTag... tags) {
 		Array<UnlockLevel> items = new Array<UnlockLevel>();
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
@@ -54,7 +55,7 @@ public enum UnlockLevel {
 				}
 			}
 			
-			if (unlock && !UnlockManager.checkUnlock(record, UnlockType.LEVEL, u.toString())) {
+			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.LEVEL, u.toString())) {
 				get = false;
 			}
 			

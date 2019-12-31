@@ -1,4 +1,4 @@
-package com.mygdx.hadal.event.utility;
+package com.mygdx.hadal.event.saves;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
