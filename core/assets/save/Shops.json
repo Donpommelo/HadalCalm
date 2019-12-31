@@ -8,6 +8,15 @@ weapons1: {
     }
 }
 artifacts1: {
-
+    type: ARTIFACT
+    prices: {
+        class: java.util.HashMap
+    }
+}
+actives1: {
+    type: ACTIVE
+    prices: {
+        class: java.util.HashMap
+    }
 }
 }

@@ -1,8 +1,43 @@
 {
-"5": [
+"oob": [
+		{
+			"name": "Pelican",
+			"text": "Management requests that Salvagers keep all limbs within the ship when not on active duty.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 5
+			"override": true
+		}
+		{
+			"name": "Pelican",
+			"text": "Oh, and please give the Elevator the respect it deserves. That thing isn't a toy.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 5
+			"override": true
+			"end": true
+		}
+	],
+"intro0": [
+		{
+			"name": "Pelican",
+			"text": "<TEMP>",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+			"end": true
+		}
+	]
+"intro1A": [
 		{
 			"name": "Pelican",
 			"text": "Welcome back, Salvager.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+			"end": true
+		}
+	]
+"introMultiA": [
+		{
+			"name": "Pelican",
+			"text": "multi intro A",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
 			"end": true

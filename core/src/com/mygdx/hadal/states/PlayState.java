@@ -287,7 +287,7 @@ public class PlayState extends GameState {
 		this.dummyPoints = new HashMap<String, PositionDummy>();
 				
 		//Init background image
-		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND1.toString());
+		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND2.toString());
 		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
 	}
 			

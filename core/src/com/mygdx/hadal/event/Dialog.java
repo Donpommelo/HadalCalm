@@ -32,12 +32,12 @@ public class Dialog extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
+				
 				if (event.getConnectedEvent() != null) {
 					state.getPlayStateStage().addDialogue(id, this, event.getConnectedEvent().getEventData());
 				} else {
 					state.getPlayStateStage().addDialogue(id, this, null);
 				}
-				
 			}
 		};
 	}

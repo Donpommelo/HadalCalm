@@ -1,50 +1,4 @@
 {
-TUTORIAL_1: {
-	name: Tutorial 1
-	description: TEMP
-	tags: [
-		TRAINING,
-	]
-}
-NASU: {
-	name: NASU
-	description: "Collect falling targets!"
-	tags: [
-		NASU,
-		NAVIGATIONS,
-	]
-}
-DONT_FALL: {
-	name: DONT_FALL
-	description: "Don't Fall!"
-	tags: [
-		NAVIGATIONS,
-	]
-}
-LEVEL_1: {
-	name: LEVEL_1
-	description: TEMP
-	tags: [
-		CAMPAIGN,
-		NAVIGATIONS,
-	]
-}
-LEVEL_2: {
-	name: LEVEL_2
-	description: TEMP
-	tags: [
-		CAMPAIGN,
-		NAVIGATIONS,
-	]
-}
-LEVEL_3: {
-	name: LEVEL_3
-	description: TEMP
-	tags: [
-		CAMPAIGN,
-		NAVIGATIONS,
-	]
-}
 HUB: {
 	name: HUB
 	description: TEMP
@@ -59,19 +13,24 @@ HUB_MULTI: {
 		MISC,
 	]
 }
-ARENA_2: {
-	name: ARENA_2
+BOSS1: {
+	name: BOSS1
 	description: TEMP
 	tags: [
-		ARENA,
 		NAVIGATIONS,
 	]
 }
-ARENA_1: {
-	name: ARENA_1
+NASU: {
+	name: NASU
 	description: TEMP
 	tags: [
-		ARENA,
+		NAVIGATIONS,
+	]
+}
+DONT_FALL: {
+	name: DONT_FALL
+	description: TEMP
+	tags: [
 		NAVIGATIONS,
 	]
 }
@@ -79,13 +38,11 @@ DM_GULLY: {
 	name: DM_GULLY
 	description: TEMP
 	tags: [
-		ARENA,
 		NAVIGATIONS,
-        PVP,
 	]
 }
-BOSS1: {
-	name: BOSS1
+SANDBOX: {
+	name: SANDBOX
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
