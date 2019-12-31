@@ -375,26 +375,30 @@ public class TiledObjectUtil {
     	Prefabrication p = null;
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Door")) {
-    		p = new Door(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new Door(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class), 
 					object.getProperties().get("speed", 1.0f, float.class),
 					object.getProperties().get("xDisplace", 0, int.class),
 					object.getProperties().get("yDisplace", 0, int.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Spawner")) {
-    		p = new SpawnerPickupTimed(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new SpawnerPickupTimed(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("interval", 1.0f, float.class),
 					object.getProperties().get("type", 0, int.class),
 					object.getProperties().get("power", 0.0f, float.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("SpawnerTriggered")) {
-    		p = new SpawnerPickupTriggered(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new SpawnerPickupTriggered(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("type", 0, int.class),
 					object.getProperties().get("power", 0.0f, float.class));
+    	}
+    	if (object.getProperties().get("prefabId", "", String.class).equals("SpawnerUnlock")) {
+    		p = new SpawnerUnlockable(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("triggeredId", "", String.class), 
+					object.getProperties().get("triggeringId", "", String.class), 
+					object.getProperties().get("type", "", String.class),
+					object.getProperties().get("name", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Camera")) {
     		p = new CameraPanZone(state, (int)rect.width, (int)rect.height, 

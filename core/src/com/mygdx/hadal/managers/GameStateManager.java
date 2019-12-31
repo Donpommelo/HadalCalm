@@ -267,7 +267,6 @@ public class GameStateManager {
 		if (currentMode == Mode.SINGLE) {
 			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class, true, "");
 		}
-		
 		if (currentMode == Mode.MULTI) {
 			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class, true, "");
 		}

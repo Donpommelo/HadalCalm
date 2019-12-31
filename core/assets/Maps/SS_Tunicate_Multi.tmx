@@ -245,7 +245,7 @@
   <object id="49" name="Prefab" type="Prefab" x="1632" y="2464" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
-    <property name="triggeringId" value="elevatorSwitchPulled"/>
+    <property name="triggeringId" value="setfloor1"/>
    </properties>
   </object>
   <object id="50" name="Prefab" type="Prefab" x="1600" y="2400" width="64" height="160">

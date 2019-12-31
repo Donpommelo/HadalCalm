@@ -114,7 +114,6 @@ public class TitleState extends GameState {
 						
 						//Start up the server
 						HadalGame.server.init(false);
-						
 						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
