@@ -1,7 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
 public class ParticleEntity extends HadalEntity {
 
 	//What particles come out of this entity?
-	private ParticleEffect effect;
+	private PooledEffect effect;
 	private Particle particle;
 	
 	//Is this entity following another entity?
@@ -182,28 +182,8 @@ public class ParticleEntity extends HadalEntity {
 	
 	@Override
 	public void dispose() {
-		effect.dispose();
+		effect.free();
 		super.dispose();
-	}
-
-	public ParticleEffect getEffect() {
-		return effect;
-	}
-
-	public void setEffect(ParticleEffect effect) {
-		this.effect = effect;
-	}
-
-	public HadalEntity getAttachedEntity() {
-		return attachedEntity;
-	}
-
-	public void setAttachedEntity(HadalEntity attachedEntity) {
-		this.attachedEntity = attachedEntity;
-	}
-	
-	public void setDespawn(boolean despawn) {
-		this.despawn = despawn;
 	}
 
 	/**
@@ -263,9 +243,17 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 
-	public void setAttachedId(String attachedId) {
-		this.attachedId = attachedId;
-	}
+	public PooledEffect getEffect() { return effect;}
+
+	public void setEffect(PooledEffect effect) { this.effect = effect; }
+
+	public HadalEntity getAttachedEntity() { return attachedEntity; }
+
+	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }
+	
+	public void setDespawn(boolean despawn) { this.despawn = despawn; }
+	
+	public void setAttachedId(String attachedId) { this.attachedId = attachedId; }
 
 	public enum particleSyncType {
 		NOSYNC,

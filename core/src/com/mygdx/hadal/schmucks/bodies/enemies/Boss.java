@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -147,12 +146,6 @@ public class Boss extends Enemy {
 			}
 		}
 	}
-	
-	/**
-	 * draws enemy
-	 */
-	@Override
-	public void render(SpriteBatch batch) {}
 	
 	public void attackInitiate() {};
 	

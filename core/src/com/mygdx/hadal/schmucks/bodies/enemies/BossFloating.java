@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
@@ -76,14 +75,11 @@ public class BossFloating extends Boss {
 	 */
 	@Override
 	public void render(SpriteBatch batch) {
-
+		super.render(batch);
+		
 		boolean flip = false;
 		if (getOrientation() > Math.PI && getOrientation() < 2 * Math.PI) {
 			flip = true;
-		}
-		
-		if (flashingCount > 0) {
-			batch.setShader(HadalGame.shader);
 		}
 		
 		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
@@ -94,7 +90,7 @@ public class BossFloating extends Boss {
 				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
 
-		if (flashingCount > 0) {
+		if (shaderCount > 0) {
 			batch.setShader(null);
 		}
 	}

@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -179,15 +178,12 @@ public class FloatingEnemy extends SteeringEnemy {
 	 */
 	@Override
 	public void render(SpriteBatch batch) {
-
+		super.render(batch);
+		
 		boolean flip = false;
 		
 		if (getOrientation() < 0) {
 			flip = true;
-		}
-		
-		if (flashingCount > 0) {
-			batch.setShader(HadalGame.shader);
 		}
 		
 		batch.draw((TextureRegion) fishSprite.getKeyFrame(animationTime, true), 
@@ -198,7 +194,7 @@ public class FloatingEnemy extends SteeringEnemy {
 				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
 
-		if (flashingCount > 0) {
+		if (shaderCount > 0) {
 			batch.setShader(null);
 		}
 	}

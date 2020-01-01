@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -44,7 +45,7 @@ public class DestructableBlock extends Event {
 				hp -= basedamage;
 				
 				if (standardParticle != null) {
-					standardParticle.onForBurst(1.0f);
+					standardParticle.onForBurst(0.5f);
 				}
 				
 				if (hp <= 0) {
@@ -66,5 +67,6 @@ public class DestructableBlock extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
 		setScaleAlign("CENTER_STRETCH");
+		setStandardParticle(Particle.BOULDER_BREAK);
 	}
 }

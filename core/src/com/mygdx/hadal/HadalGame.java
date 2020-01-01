@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -44,7 +43,6 @@ public class HadalGame extends ApplicationAdapter {
 	
     public static AssetManager assetManager;
     public static MusicPlayer musicPlayer;
-    public static ShaderProgram shader;
 
     //Client and server for networking are static fields in the main game
     public static KryoClient client;
@@ -58,6 +56,8 @@ public class HadalGame extends ApplicationAdapter {
 	
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
+    
+    private GLProfiler profiler;
     
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
@@ -82,10 +82,6 @@ public class HadalGame extends ApplicationAdapter {
 	    
 	    hud.zoom = 1 / BOX2DSCALE;
 	    
-	    shader = new ShaderProgram(
-	    		Gdx.files.internal("shaders/flash-vert.glsl").readString(), 
-	    		Gdx.files.internal("shaders/flash-frag.glsl").readString());
-	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    musicPlayer = new MusicPlayer();
 	    
@@ -95,7 +91,8 @@ public class HadalGame extends ApplicationAdapter {
 		client = new KryoClient(gsm);
 		server = new KryoServer(gsm);
 		
-		GLProfiler.enable();
+		profiler = new GLProfiler(Gdx.graphics);
+		profiler.enable();
 	}
 	
 	/**
@@ -119,12 +116,12 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.draw();
 		
 //		System.out.println(
-//	            "  Drawcalls: " + GLProfiler.drawCalls +
-//	            ", Calls: " + GLProfiler.calls +
-//	            ", TextureBindings: " + GLProfiler.textureBindings +
-//	            ", ShaderSwitches:  " + GLProfiler.shaderSwitches +
-//	            ", vertexCount: " + GLProfiler.vertexCount.value);
-//		GLProfiler.reset();
+//	            "  Drawcalls: " + profiler.getDrawCalls() +
+//	            ", Calls: " + profiler.getCalls() +
+//	            ", TextureBindings: " + profiler.getTextureBindings() +
+//	            ", ShaderSwitches:  " + profiler.getShaderSwitches() +
+//	            ", vertexCount: " + profiler.getVertexCount().value);
+		profiler.reset();
 	}
 	
 	/**

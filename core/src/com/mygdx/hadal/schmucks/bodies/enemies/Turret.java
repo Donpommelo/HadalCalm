@@ -203,11 +203,7 @@ public class Turret extends Enemy {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-
-		if (flashingCount > 0) {
-			batch.setShader(HadalGame.shader);
-		}
-		
+		super.render(batch);
 		boolean flip = false;
 		
 		if (Math.abs(angle) > 90) {
@@ -239,7 +235,7 @@ public class Turret extends Enemy {
 				getPixelPosition().y - hboxSize.y / 2, 
 				0, 0, size.x, size.y, 1, 1, 0.0f);	
 		
-		if (flashingCount > 0) {
+		if (shaderCount > 0) {
 			batch.setShader(null);
 		}
 	}
@@ -249,7 +245,7 @@ public class Turret extends Enemy {
 	@Override
 	public void onServerSync() {
 		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), angle));
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, flashingCount));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, shaderCount));
 	}
 	
 	@Override

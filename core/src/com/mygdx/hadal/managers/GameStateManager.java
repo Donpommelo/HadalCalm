@@ -7,6 +7,7 @@ import java.util.Stack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Json;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.Record;
@@ -128,6 +130,9 @@ public class GameStateManager {
 		atlases.add(GameStateManager.exclamationAtlas = HadalGame.assetManager.get(AssetList.EXCLAMATION_ATLAS.toString()));
 		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString()));
 		atlases.add(GameStateManager.starShotAtlas = HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString()));
+		
+		Particle.initParticlePool();
+		ShaderProgram.pedantic = false;
 	}
 	
 	/**

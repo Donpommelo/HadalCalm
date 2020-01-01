@@ -2,34 +2,36 @@ package com.mygdx.hadal.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 
 public enum Particle {
 
 	NOTHING(ParticleType.MISC, ""),
 	
-	ARROW_BREAK(ParticleType.DEFAULT, "particles/totlc/arrowbreak.particle"),
-	BOULDER_BREAK(ParticleType.DEFAULT, "particles/totlc/boulderbreak.particle"),
-	CASINGS(ParticleType.DEFAULT, "particles/totlc/casings.particle"),
-	DEBRIS_DROP(ParticleType.DEFAULT, "particles/totlc/debrisdrop.particle"),	
-	DEBRIS_TRAIL(ParticleType.DEFAULT, "particles/totlc/debristrail.particle"),	
-	DUST(ParticleType.DEFAULT, "particles/totlc/dust.particle"),	
-	LASER(ParticleType.DEFAULT, "particles/totlc/laser.particle"),	
-	LASER_PULSE(ParticleType.DEFAULT, "particles/totlc/laserpulse.particle"),	
-	LIGHTNING(ParticleType.DEFAULT, "particles/totlc/lightning.particle"),	
-	REGEN(ParticleType.DEFAULT, "particles/totlc/regen.particle"),	
-	RING(ParticleType.DEFAULT, "particles/totlc/ringeffect.particle"),
-	SHADOW_CLOAK(ParticleType.DEFAULT, "particles/totlc/shadowcloak.particle"),	
-	SHADOW_PATH(ParticleType.DEFAULT, "particles/totlc/shadowpath.particle"),	
-	SHIELD(ParticleType.DEFAULT, "particles/totlc/shield.particle"),
-	SMOKE_TOTLC(ParticleType.DEFAULT, "particles/totlc/smoke.particle"),
-	SPARKLE(ParticleType.DEFAULT, "particles/totlc/sparkle.particle"),	
-	SPARKS(ParticleType.DEFAULT, "particles/totlc/sparks.particle"),	
-	SPLASH(ParticleType.DEFAULT, "particles/totlc/splash.particle"),	
-	STUN(ParticleType.DEFAULT, "particles/totlc/stun.particle"),	
-	TELEPORT(ParticleType.DEFAULT, "particles/totlc/teleport0.particle"),	
-	WATER_BURST(ParticleType.DEFAULT, "particles/totlc/water_burst.particle"),	
-	WORMHOLE(ParticleType.DEFAULT, "particles/totlc/wormhole.particle"),
+	ARROW_BREAK(ParticleType.DEFAULT, "particles/arrowbreak.particle"),
+	BOULDER_BREAK(ParticleType.DEFAULT, "particles/boulderbreak.particle"),
+	CASINGS(ParticleType.DEFAULT, "particles/casings.particle"),
+	DEBRIS_DROP(ParticleType.DEFAULT, "particles/debrisdrop.particle"),	
+	DEBRIS_TRAIL(ParticleType.DEFAULT, "particles/debristrail.particle"),	
+	DUST(ParticleType.DEFAULT, "particles/dust.particle"),	
+	LASER(ParticleType.DEFAULT, "particles/laser.particle"),	
+	LASER_PULSE(ParticleType.DEFAULT, "particles/laserpulse.particle"),	
+	LIGHTNING(ParticleType.DEFAULT, "particles/lightning.particle"),	
+	REGEN(ParticleType.DEFAULT, "particles/regen.particle"),	
+	RING(ParticleType.DEFAULT, "particles/ringeffect.particle"),
+	SHADOW_CLOAK(ParticleType.DEFAULT, "particles/shadowcloak.particle"),	
+	SHADOW_PATH(ParticleType.DEFAULT, "particles/shadowpath.particle"),	
+	SHIELD(ParticleType.DEFAULT, "particles/shield.particle"),
+	SMOKE_TOTLC(ParticleType.DEFAULT, "particles/smoke.particle"),
+	SPARKLE(ParticleType.DEFAULT, "particles/sparkle.particle"),	
+	SPARKS(ParticleType.DEFAULT, "particles/sparks.particle"),	
+	SPLASH(ParticleType.DEFAULT, "particles/splash.particle"),	
+	STUN(ParticleType.DEFAULT, "particles/stun.particle"),	
+	TELEPORT(ParticleType.DEFAULT, "particles/teleport0.particle"),	
+	WATER_BURST(ParticleType.DEFAULT, "particles/water_burst.particle"),	
+	WORMHOLE(ParticleType.DEFAULT, "particles/wormhole.particle"),
 	
 	BUBBLE_TRAIL(ParticleType.DEFAULT, "particles/bubble_trail.particle"),
 	BUBBLE_IMPACT(ParticleType.DEFAULT, "particles/bubble_impact.particle"),
@@ -45,11 +47,14 @@ public enum Particle {
 	EXPLOSION(ParticleType.DEFAULT, "particles/explosion.particle"),
 	FIRE(ParticleType.DEFAULT, "particles/fire.particle"),	
 	
-	CONFETTI(ParticleType.DEFAULT, "particles/totlc/confetti.particle"),	
-	STAR(ParticleType.DEFAULT, "particles/totlc/star_effect.particle"),	
+	CONFETTI(ParticleType.DEFAULT, "particles/confetti.particle"),	
+	STAR(ParticleType.DEFAULT, "particles/star_effect.particle"),	
 
 	;
 	
+	private static ParticleEffect prototype;
+	private static ParticleEffectPool effectPool;
+	private final static int poolSize = 50;
 	
 	private ParticleType type;
 	private String particleId;
@@ -59,8 +64,13 @@ public enum Particle {
 		this.particleId = particleId;
 	}
 	
-	public ParticleEffect getParticle() {
-		ParticleEffect newEffect = new ParticleEffect();
+	public static void initParticlePool() {
+		prototype = new ParticleEffect();
+		effectPool = new ParticleEffectPool(prototype, 0, poolSize);
+	}
+	
+	public PooledEffect getParticle() {
+		PooledEffect newEffect = effectPool.obtain();
 		switch(type) {
 		case DEFAULT:
 			newEffect.load(Gdx.files.internal(particleId), GameStateManager.particleAtlas);

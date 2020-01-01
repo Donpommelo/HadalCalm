@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.userdata;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
@@ -49,7 +50,7 @@ public class BodyData extends HadalData {
 	private static final int maxFuel = 100;
 	private static final float fuelRegen = 8.0f;
 	
-	private final static float flashDuration = 0.08f;
+	private final static float flashDuration = 0.1f;
 	
 	protected float currentHp, currentFuel;
 
@@ -251,8 +252,8 @@ public class BodyData extends HadalData {
 		currentHp -= damage;
 		
 		//Make shmuck flash upon receiving damage
-		if (damage > 0 && schmuck.getFlashingCount() < -flashDuration) {
-			schmuck.setFlashingCount(flashDuration);
+		if (damage > 0 && schmuck.getShaderCount() < -flashDuration) {
+			schmuck.setShaderCount(Shader.WHITE, flashDuration);
 			schmuck.impact.onForBurst(0.25f);
 		}
 		

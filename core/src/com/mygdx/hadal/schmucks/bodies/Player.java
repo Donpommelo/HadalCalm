@@ -445,6 +445,7 @@ public class Player extends PhysicsSchmuck {
 	private float armRotateXReal;
 	@Override
 	public void render(SpriteBatch batch) {
+		super.render(batch);
 		
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {
@@ -493,11 +494,6 @@ public class Player extends PhysicsSchmuck {
 			case 7:
 				yOffset--;
 			}
-		}
-		
-		//This makes bodies flash red when receiving damage.
-		if (flashingCount > 0) {
-			batch.setShader(HadalGame.shader);
 		}
 		
 		//Draw a bunch of stuff
@@ -570,7 +566,7 @@ public class Player extends PhysicsSchmuck {
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 		
-		if (flashingCount > 0) {
+		if (shaderCount > 0) {
 			batch.setShader(null);
 		}
 		

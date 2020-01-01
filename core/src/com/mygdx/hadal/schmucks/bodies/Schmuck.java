@@ -1,10 +1,12 @@
 package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -49,7 +51,8 @@ public class Schmuck extends HadalEntity {
 	protected float shootDelayCount = 0;
 	
 	//Keeps track of a schmuck's sprite flashing after receiving damage.
-	protected float flashingCount = 0;
+	protected float shaderCount = 0;
+	protected ShaderProgram shader;
 	
 	//The last used tool. This is used to process equipment with a delay between using and executing.
 	protected Equipable usedTool;
@@ -132,7 +135,7 @@ public class Schmuck extends HadalEntity {
 		//process cooldowns on firing
 		shootCdCount-=delta;
 		shootDelayCount-=delta;
-		flashingCount-=delta;
+		shaderCount-=delta;
 		
 		//If the delay on using a tool just ended, use the tool.
 		if (shootDelayCount <= 0 && usedTool != null) {
@@ -146,14 +149,18 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		flashingCount-=delta;
+		shaderCount-=delta;
 	}
 
 	/**
 	 * Draw the schmuck
 	 */
 	@Override
-	public void render(SpriteBatch batch) {}
+	public void render(SpriteBatch batch) {
+		if (shaderCount > 0) {
+			batch.setShader(shader);
+		}
+	}
 
 	/**
 	 * This method is called when a schmuck wants to use a tool.
@@ -215,7 +222,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, flashingCount));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, shaderCount));
 	}
 	
 	/**
@@ -226,10 +233,15 @@ public class Schmuck extends HadalEntity {
 		if (o instanceof Packets.SyncSchmuck) {
 			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
 			moveState = p.moveState;
-			flashingCount = p.flashDuration;
+			shaderCount = p.flashDuration;
 		} else {
 			super.onClientSync(o);
 		}
+	}
+	
+	public void setShaderCount(Shader shader, float shaderduration) { 
+		this.shader = shader.getShader();
+		this.shaderCount = shaderduration; 
 	}
 	
 	/**
@@ -264,9 +276,7 @@ public class Schmuck extends HadalEntity {
 
 	public float getShootDelayCount() { return shootDelayCount; }
 	
-	public float getFlashingCount() { return flashingCount; }
-	
-	public void setFlashingCount(float flashduration) {	this.flashingCount = flashduration;	}
+	public float getShaderCount() { return shaderCount; }
 	
 	public short getHitboxfilter() { return hitboxfilter; }
 
