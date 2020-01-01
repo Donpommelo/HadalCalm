@@ -62,7 +62,6 @@ public class TitleState extends GameState {
 				addActor(new MenuWindow(gsm, HadalGame.CONFIG_WIDTH - width - xOffset, 0, width, height));
 				
 				table = new Table();
-				table.setLayoutEnabled(true);
 				table.setPosition(HadalGame.CONFIG_WIDTH - width - xOffset, 0);
 				table.setSize(width, height);
 				addActor(table);

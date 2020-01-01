@@ -82,11 +82,7 @@ public class ClientController implements InputProcessor {
 		if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_4));
 		}
-		
-		if (keycode == PlayerAction.SWITCH_TO_5.getKey()) {
-			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.SWITCH_TO_5));
-		}
-		
+
 		if (keycode == PlayerAction.DIALOGUE.getKey()) {
 			state.getPlayStateStage().nextDialogue();
 		}

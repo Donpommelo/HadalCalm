@@ -29,6 +29,7 @@ public class FiringWeapon extends Status {
 	//size of projectile (used to determine the projectile spawn origin)
 	private float projSize;
 	private Vector2 projOrigin = new Vector2();
+	private Vector2 projVelo = new Vector2();
 	
 	//tool used to fire this status
 	private Equipable tool;
@@ -61,8 +62,8 @@ public class FiringWeapon extends Status {
 			if (currentVelo > minVelo) {
 				currentVelo -= veloDeprec;
 			}
-				
-			inflicted.getCurrentTool().setWeaponVelo(((Player)inflicted.getSchmuck()).getMouse().getPixelPosition().sub(inflicted.getSchmuck().getPixelPosition()).nor().scl(currentVelo));
+			projVelo.set(((Player)inflicted.getSchmuck()).getMouse().getPixelPosition()).sub(inflicted.getSchmuck().getPixelPosition());
+			inflicted.getCurrentTool().setWeaponVelo(projVelo.nor().scl(currentVelo));
 			
 			projOrigin = inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize);
 			

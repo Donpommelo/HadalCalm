@@ -102,10 +102,6 @@ public class ActionController {
 			player.switchToSlot(4);
 		}
 		
-		if (action == PlayerAction.SWITCH_TO_5) {
-			player.switchToSlot(5);
-		}
-		
 		if (action == PlayerAction.DIALOGUE) {
 			if (state.getPlayStateStage() != null) {
 				state.getPlayStateStage().nextDialogue();

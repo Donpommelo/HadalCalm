@@ -80,10 +80,6 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.SWITCH_TO_4);
 		}
 		
-		if (keycode == PlayerAction.SWITCH_TO_5.getKey()) {
-			player.getController().keyDown(PlayerAction.SWITCH_TO_5);
-		}
-		
 		if (keycode == PlayerAction.DIALOGUE.getKey()) {
 			player.getController().keyDown(PlayerAction.DIALOGUE);
 		}

@@ -47,9 +47,6 @@ public enum AssetList {
 	
 	// Particle effects.
 	PARTICLE_ATLAS("particles/particles.atlas", TextureAtlas.class),
-	PARTICLE_TOTLC_ATLAS("particles/totlc/particles_totlc.atlas", TextureAtlas.class),
-	PARTYCLE_ATLAS("particles/totlc/partycles.atlas", TextureAtlas.class),
-	STAR_PARTICLE("particles/totlc/star_particles.atlas", TextureAtlas.class),
 	
 	UIPATCHIMG("ui/window.png", Texture.class),
 	UIPATCHATL("ui/window.atlas", TextureAtlas.class),

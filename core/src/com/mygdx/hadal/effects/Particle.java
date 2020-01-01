@@ -8,28 +8,28 @@ public enum Particle {
 
 	NOTHING(ParticleType.MISC, ""),
 	
-	ARROW_BREAK(ParticleType.TOTLC, "particles/totlc/arrowbreak.particle"),
-	BOULDER_BREAK(ParticleType.TOTLC, "particles/totlc/boulderbreak.particle"),
-	CASINGS(ParticleType.TOTLC, "particles/totlc/casings.particle"),
-	DEBRIS_DROP(ParticleType.TOTLC, "particles/totlc/debrisdrop.particle"),	
-	DEBRIS_TRAIL(ParticleType.TOTLC, "particles/totlc/debristrail.particle"),	
-	DUST(ParticleType.TOTLC, "particles/totlc/dust.particle"),	
-	LASER(ParticleType.TOTLC, "particles/totlc/laser.particle"),	
-	LASER_PULSE(ParticleType.TOTLC, "particles/totlc/laserpulse.particle"),	
-	LIGHTNING(ParticleType.TOTLC, "particles/totlc/lightning.particle"),	
-	REGEN(ParticleType.TOTLC, "particles/totlc/regen.particle"),	
-	RING(ParticleType.TOTLC, "particles/totlc/ringeffect.particle"),
-	SHADOW_CLOAK(ParticleType.TOTLC, "particles/totlc/shadowcloak.particle"),	
-	SHADOW_PATH(ParticleType.TOTLC, "particles/totlc/shadowpath.particle"),	
-	SHIELD(ParticleType.TOTLC, "particles/totlc/shield.particle"),
-	SMOKE_TOTLC(ParticleType.TOTLC, "particles/totlc/smoke.particle"),
-	SPARKLE(ParticleType.TOTLC, "particles/totlc/sparkle.particle"),	
-	SPARKS(ParticleType.TOTLC, "particles/totlc/sparks.particle"),	
-	SPLASH(ParticleType.TOTLC, "particles/totlc/splash.particle"),	
-	STUN(ParticleType.TOTLC, "particles/totlc/stun.particle"),	
-	TELEPORT(ParticleType.TOTLC, "particles/totlc/teleport0.particle"),	
-	WATER_BURST(ParticleType.TOTLC, "particles/totlc/water_burst.particle"),	
-	WORMHOLE(ParticleType.TOTLC, "particles/totlc/wormhole.particle"),
+	ARROW_BREAK(ParticleType.DEFAULT, "particles/totlc/arrowbreak.particle"),
+	BOULDER_BREAK(ParticleType.DEFAULT, "particles/totlc/boulderbreak.particle"),
+	CASINGS(ParticleType.DEFAULT, "particles/totlc/casings.particle"),
+	DEBRIS_DROP(ParticleType.DEFAULT, "particles/totlc/debrisdrop.particle"),	
+	DEBRIS_TRAIL(ParticleType.DEFAULT, "particles/totlc/debristrail.particle"),	
+	DUST(ParticleType.DEFAULT, "particles/totlc/dust.particle"),	
+	LASER(ParticleType.DEFAULT, "particles/totlc/laser.particle"),	
+	LASER_PULSE(ParticleType.DEFAULT, "particles/totlc/laserpulse.particle"),	
+	LIGHTNING(ParticleType.DEFAULT, "particles/totlc/lightning.particle"),	
+	REGEN(ParticleType.DEFAULT, "particles/totlc/regen.particle"),	
+	RING(ParticleType.DEFAULT, "particles/totlc/ringeffect.particle"),
+	SHADOW_CLOAK(ParticleType.DEFAULT, "particles/totlc/shadowcloak.particle"),	
+	SHADOW_PATH(ParticleType.DEFAULT, "particles/totlc/shadowpath.particle"),	
+	SHIELD(ParticleType.DEFAULT, "particles/totlc/shield.particle"),
+	SMOKE_TOTLC(ParticleType.DEFAULT, "particles/totlc/smoke.particle"),
+	SPARKLE(ParticleType.DEFAULT, "particles/totlc/sparkle.particle"),	
+	SPARKS(ParticleType.DEFAULT, "particles/totlc/sparks.particle"),	
+	SPLASH(ParticleType.DEFAULT, "particles/totlc/splash.particle"),	
+	STUN(ParticleType.DEFAULT, "particles/totlc/stun.particle"),	
+	TELEPORT(ParticleType.DEFAULT, "particles/totlc/teleport0.particle"),	
+	WATER_BURST(ParticleType.DEFAULT, "particles/totlc/water_burst.particle"),	
+	WORMHOLE(ParticleType.DEFAULT, "particles/totlc/wormhole.particle"),
 	
 	BUBBLE_TRAIL(ParticleType.DEFAULT, "particles/bubble_trail.particle"),
 	BUBBLE_IMPACT(ParticleType.DEFAULT, "particles/bubble_impact.particle"),
@@ -45,8 +45,8 @@ public enum Particle {
 	EXPLOSION(ParticleType.DEFAULT, "particles/explosion.particle"),
 	FIRE(ParticleType.DEFAULT, "particles/fire.particle"),	
 	
-	CONFETTI(ParticleType.PARTY, "particles/totlc/confetti.particle"),	
-	STAR(ParticleType.STAR, "particles/totlc/star_effect.particle"),	
+	CONFETTI(ParticleType.DEFAULT, "particles/totlc/confetti.particle"),	
+	STAR(ParticleType.DEFAULT, "particles/totlc/star_effect.particle"),	
 
 	;
 	
@@ -65,15 +65,6 @@ public enum Particle {
 		case DEFAULT:
 			newEffect.load(Gdx.files.internal(particleId), GameStateManager.particleAtlas);
 			break;
-		case TOTLC:
-			newEffect.load(Gdx.files.internal(particleId), GameStateManager.particleTOTLCAtlas);
-			break;
-		case PARTY:
-			newEffect.load(Gdx.files.internal(particleId), GameStateManager.partycleAtlas);
-			break;
-		case STAR:
-			newEffect.load(Gdx.files.internal(particleId), GameStateManager.starAtlas);
-			break;
 		default:
 			break;
 		}
@@ -83,8 +74,5 @@ public enum Particle {
 	private enum ParticleType {
 		MISC,
 		DEFAULT,
-		TOTLC,
-		PARTY,
-		STAR
 	}
 }

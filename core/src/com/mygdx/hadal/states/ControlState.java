@@ -139,9 +139,7 @@ public class ControlState extends GameState {
 	 * This is called whenever a bind is changed to update the ui.
 	 */
 	public void refreshBinds() {
-		VerticalGroup actions = new VerticalGroup()
-				.space(10)
-				.pad(50);
+		VerticalGroup actions = new VerticalGroup().space(10).pad(50);
 		actions.addActor(new Text("CONTROLS", 0, 0));
 		
 		for (PlayerAction a : PlayerAction.values()) {
@@ -184,25 +182,15 @@ public class ControlState extends GameState {
 	 */
 	public String getKey(int keycode) {
 		
-		if (keycode == 0) {
-			return "MOUSE_LEFT";
-		}
+		if (keycode == 0) {	return "MOUSE_LEFT"; }
 		
-		if (keycode == 1) {
-			return "MOUSE_RIGHT";
-		}
+		if (keycode == 1) { return "MOUSE_RIGHT"; }		
 		
-		if (keycode == 2) {
-			return "MOUSE_MIDDLE";
-		}
+		if (keycode == 2) {	return "MOUSE_MIDDLE"; }
 		
-		if (keycode == -1000) {
-			return "M_WHEEL_UP";
-		}
+		if (keycode == -1000) {	return "M_WHEEL_UP"; }
 		
-		if (keycode == 1000) {
-			return "M_WHEEL_DOWN";
-		}
+		if (keycode == 1000) { return "M_WHEEL_DOWN"; }
 		
 		return Input.Keys.toString(keycode);
 	}

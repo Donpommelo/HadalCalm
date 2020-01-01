@@ -52,13 +52,13 @@ public class SlodgeGun extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, Sprite.NOTHING);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hbox.setGravity(3.0f);
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
-		new ParticleEntity(state, hbox, Particle.SHADOW_PATH, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+		new ParticleEntity(state, hbox, Particle.DEBRIS_TRAIL, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override
@@ -69,7 +69,6 @@ public class SlodgeGun extends RangedWeapon {
 					}
 				}
 			}
-			
 		});
 	}
 	

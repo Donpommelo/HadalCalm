@@ -42,7 +42,7 @@ public class GameStateManager {
 	
 	private static ArrayList<TextureAtlas> atlases = new ArrayList<TextureAtlas>();
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
-	public static TextureAtlas particleAtlas, particleTOTLCAtlas, partycleAtlas, starAtlas, exclamationAtlas, impactAtlas, starShotAtlas;
+	public static TextureAtlas particleAtlas, exclamationAtlas, impactAtlas, starShotAtlas;
 	
 	//This is a stored list of all the dialog in the game, read from json file.
 	private static JsonValue dialogs;
@@ -125,9 +125,6 @@ public class GameStateManager {
 		atlases.add(GameStateManager.uiAtlas = HadalGame.assetManager.get(AssetList.UI_ATL.toString()));
 		atlases.add(GameStateManager.explosionAtlas = HadalGame.assetManager.get(AssetList.BOOM_1_ATL.toString()));
 		
-		atlases.add(GameStateManager.particleTOTLCAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_TOTLC_ATLAS.toString()));
-		atlases.add(GameStateManager.partycleAtlas = HadalGame.assetManager.get(AssetList.PARTYCLE_ATLAS.toString()));
-		atlases.add(GameStateManager.starAtlas = HadalGame.assetManager.get(AssetList.STAR_PARTICLE.toString()));
 		atlases.add(GameStateManager.exclamationAtlas = HadalGame.assetManager.get(AssetList.EXCLAMATION_ATLAS.toString()));
 		atlases.add(GameStateManager.impactAtlas = HadalGame.assetManager.get(AssetList.IMPACT_ATLAS.toString()));
 		atlases.add(GameStateManager.starShotAtlas = HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString()));
