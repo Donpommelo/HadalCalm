@@ -3,24 +3,32 @@ TAKANORI: {
 	name: TAKANORI
 	description: TEMP
     descriptionLong: "TEST"
-	tags: []
+	tags: [
+       DORMITORY
+    ]
 }
 TELEMACHUS: {
 	name: TELEMACHUS
 	description: TEMP
     descriptionLong: "TEST"
-	tags: []
+	tags: [
+       DORMITORY
+    ]
 }
 MOREAU: {
 	name: MOREAU
 	description: TEMP
     descriptionLong: "TEST"
-	tags: []
+	tags: [
+       DORMITORY
+    ]
 }
 MOREAU_FESTIVE: {
 	name: MOREAU_FESTIVE
 	description: TEMP
     descriptionLong: "TEST"
-	tags: []
+	tags: [
+       DORMITORY
+    ]
 }
 }

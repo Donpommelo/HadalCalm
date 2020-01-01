@@ -8,7 +8,6 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -21,10 +20,8 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  */
 public class Armory extends HubEvent {
 
-	private static final String title = "ARMORY";
-
-	public Armory(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, startPos, size, title, hubTypes.ARMORY);
+	public Armory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
+		super(state, startPos, size, title, tag, checkUnlock, hubTypes.ARMORY);
 	}
 	
 	@Override
@@ -32,7 +29,7 @@ public class Armory extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockEquip c: UnlockEquip.getUnlocks(state, true, UnlockTag.ARMORY)) {
+		for (UnlockEquip c: UnlockEquip.getUnlocks(state, checkUnlock, tags)) {
 			
 			final UnlockEquip selected = c;
 			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);

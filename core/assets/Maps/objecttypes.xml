@@ -5,7 +5,11 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Armory" color="#a0a0a4"/>
+ <objecttype name="Armory" color="#a0a0a4">
+  <property name="tag" type="string" default="ARMORY"/>
+  <property name="title" type="string" default="Armory"/>
+  <property name="unlock" type="bool" default="true"/>
+ </objecttype>
  <objecttype name="Bounds" color="#a0a0a4">
   <property name="down" type="bool" default="false"/>
   <property name="left" type="bool" default="false"/>
@@ -46,8 +50,16 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Dispensary" color="#a0a0a4"/>
- <objecttype name="Dormitory" color="#a0a0a4"/>
+ <objecttype name="Dispensary" color="#a0a0a4">
+  <property name="tag" type="string" default="DISPENSARY"/>
+  <property name="title" type="string" default="Dispensary"/>
+  <property name="unlock" type="bool" default="true"/>
+ </objecttype>
+ <objecttype name="Dormitory" color="#a0a0a4">
+  <property name="tag" type="string" default="DORMITORY"/>
+  <property name="title" type="string" default="Dormitory"/>
+  <property name="unlock" type="bool" default="true"/>
+ </objecttype>
  <objecttype name="Dropthrough" color="#55ff7f"/>
  <objecttype name="Dummy" color="#ffff00">
   <property name="dummyId" type="string"/>
@@ -87,15 +99,19 @@
  </objecttype>
  <objecttype name="ItemUnlock" color="#a0a0a4">
   <property name="item" type="string"/>
-  <property name="type" type="string"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
+  <property name="type" type="string"/>
  </objecttype>
  <objecttype name="Multitrigger" color="#a0a0a4">
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Navigation" color="#a0a0a4"/>
+ <objecttype name="Navigation" color="#a0a0a4">
+  <property name="tag" type="string" default="NAVIGATION"/>
+  <property name="title" type="string" default="Navigations"/>
+  <property name="unlock" type="bool" default="true"/>
+ </objecttype>
  <objecttype name="Objective" color="#a0a0a4">
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
@@ -140,6 +156,9 @@
  </objecttype>
  <objecttype name="Quartermaster" color="#a0a0a4">
   <property name="shopId" type="string"/>
+  <property name="tag" type="string" default="QUARTERMASTER"/>
+  <property name="title" type="string" default="Quartermaster"/>
+  <property name="unlock" type="bool" default="true"/>
  </objecttype>
  <objecttype name="QuestChange" color="#a0a0a4">
   <property name="check" type="int" default="0"/>
@@ -156,7 +175,11 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Reliquary" color="#a0a0a4"/>
+ <objecttype name="Reliquary" color="#a0a0a4">
+  <property name="tag" type="string" default="RELIQUARY"/>
+  <property name="title" type="string" default="Reliquary"/>
+  <property name="unlock" type="bool" default="true"/>
+ </objecttype>
  <objecttype name="Save" color="#a0a0a4">
   <property name="clear" type="bool" default="true"/>
   <property name="triggeredId" type="string"/>
@@ -227,10 +250,10 @@
  </objecttype>
  <objecttype name="UnlockCheck" color="#a0a0a4">
   <property name="item" type="string"/>
+  <property name="triggeredI\d" type="string"/>
+  <property name="triggeringId" type="string"/>
   <property name="type" type="string"/>
   <property name="unlock" type="bool" default="false"/>
-  <property name="triggeredId" type="string"/>
-  <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Warp" color="#a0a0a4">
   <property name="level" type="string"/>

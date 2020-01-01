@@ -61,20 +61,12 @@ public enum UnlockEquip {
 		this.weapon = weapon;
 	}
 	
-	public static Array<UnlockEquip> getUnlocks(PlayState state, boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockEquip> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockEquip> items = new Array<UnlockEquip>();
 		
 		for (UnlockEquip u : UnlockEquip.values()) {
 			
-			boolean get = false;
-			
-			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
-					if (tags[i].equals(u.getInfo().getTags().get(j))) {
-						get = true;
-					}
-				}
-			}
+			boolean get = UnlockManager.checkTags(u.getInfo(), tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.EQUIP, u.toString())) {
 				get = false;
@@ -104,8 +96,11 @@ public enum UnlockEquip {
 	 */
 	public static String getRandWeapFromPool(PlayState state, String pool) {
 		
+		ArrayList<UnlockTag> defaultTags = new ArrayList<UnlockTag>();
+		defaultTags.add(UnlockTag.RANDOM_POOL);
+		
 		if (pool.equals("")) {
-			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(state, false, UnlockTag.RANDOM_POOL);
+			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(state, false, defaultTags);
 			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
 		}
 		

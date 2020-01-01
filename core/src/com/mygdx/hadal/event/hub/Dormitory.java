@@ -18,17 +18,15 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Dormitory extends HubEvent {
 
-	private static final String title = "DORMITORY";
-
-	public Dormitory(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, startPos, size, title, hubTypes.DORMITORY);
+	public Dormitory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
+		super(state, startPos, size, title, tag, checkUnlock, hubTypes.DORMITORY);
 	}
 	
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockCharacter c: UnlockCharacter.getUnlocks(state)) {
+		for (UnlockCharacter c: UnlockCharacter.getUnlocks(state, checkUnlock, tags)) {
 			
 			final UnlockCharacter selected = c;
 

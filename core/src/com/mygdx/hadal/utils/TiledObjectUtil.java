@@ -286,24 +286,40 @@ public class TiledObjectUtil {
 					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class));
 		}
 		if (object.getName().equals("Armory")) {
-			e = new Armory(state, position, size);
+			e = new Armory(state, position, size,
+					object.getProperties().get("title", "Armory", String.class),
+					object.getProperties().get("tag", "ARMORY", String.class),
+					object.getProperties().get("unlock", true, Boolean.class));
 		}
 		if (object.getName().equals("Reliquary")) {
-			e = new Reliquary(state, position, size);
+			e = new Reliquary(state, position, size,
+					object.getProperties().get("title", "Reliquary", String.class),
+					object.getProperties().get("tag", "RELIQUARY", String.class),
+					object.getProperties().get("unlock", true, Boolean.class));
 		}
 		if (object.getName().equals("Dispensary")) {
-			e = new Dispensary(state, position, size);
+			e = new Dispensary(state, position, size,
+					object.getProperties().get("title", "Dispensary", String.class),
+					object.getProperties().get("tag", "DISPENSARY", String.class),
+					object.getProperties().get("unlock", true, Boolean.class));
 		}
 		if (object.getName().equals("Dormitory")) {
-			e = new Dormitory(state, position, size);
+			e = new Dormitory(state, position, size,
+					object.getProperties().get("title", "Dormitory", String.class),
+					object.getProperties().get("tag", "DORMITORY", String.class),
+					object.getProperties().get("unlock", true, Boolean.class));
 		}
 		if (object.getName().equals("Navigation")) {
 			e = new Navigations(state, position, size, 
 					object.getProperties().get("title", "Navigations", String.class),
-					object.getProperties().get("tag", "NAVIGATIONS", String.class));
+					object.getProperties().get("tag", "NAVIGATIONS", String.class),
+					object.getProperties().get("unlock", true, Boolean.class));
 		}
 		if (object.getName().equals("Quartermaster")) {
 			e = new Quartermaster(state, position, size,
+					object.getProperties().get("title", "Quartermaster", String.class),
+					object.getProperties().get("tag", "QUARTERMASTER", String.class),
+					object.getProperties().get("unlock", true, Boolean.class),
 					object.getProperties().get("shopId", String.class));
 		}
 		if (object.getName().equals("Prefab")) {

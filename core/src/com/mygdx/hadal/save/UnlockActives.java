@@ -39,19 +39,12 @@ public enum UnlockActives {
 		this.active = active;
 	}
 	
-	public static Array<UnlockActives> getUnlocks(PlayState state, boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockActives> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockActives> items = new Array<UnlockActives>();
 		
 		for (UnlockActives u : UnlockActives.values()) {
-			boolean get = false;
 			
-			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
-					if (tags[i].equals(u.getInfo().getTags().get(j))) {
-						get = true;
-					}
-				}
-			}
+			boolean get = UnlockManager.checkTags(u.getInfo(), tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.ACTIVE, u.toString())) {
 				get = false;
@@ -82,8 +75,11 @@ public enum UnlockActives {
 	 */
 	public static String getRandItemFromPool(PlayState state, String pool) {
 		
+		ArrayList<UnlockTag> defaultTags = new ArrayList<UnlockTag>();
+		defaultTags.add(UnlockTag.RANDOM_POOL);
+		
 		if (pool.equals("")) {
-			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, UnlockTag.RANDOM_POOL);
+			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, defaultTags);
 			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
 		}
 		

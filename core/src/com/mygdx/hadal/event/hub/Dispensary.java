@@ -8,7 +8,6 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockActives;
-import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -21,17 +20,15 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  */
 public class Dispensary extends HubEvent {
 
-	private static final String title = "DISPENSARY";
-
-	public Dispensary(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, startPos, size, title, hubTypes.DISPENSARY);
+	public Dispensary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
+		super(state, startPos, size, title, tag, checkUnlock, hubTypes.DISPENSARY);
 	}
 	
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockActives c: UnlockActives.getUnlocks(state, true, UnlockTag.DISPENSARY)) {
+		for (UnlockActives c: UnlockActives.getUnlocks(state, checkUnlock, tags)) {
 			
 			final UnlockActives selected = c;
 			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);

@@ -95,19 +95,12 @@ public enum UnlockArtifact {
 		artifactSingleton.setUnlock(this);
 	}
 	
-	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockArtifact> items = new Array<UnlockArtifact>();
 		
 		for (UnlockArtifact u : UnlockArtifact.values()) {
-			boolean get = false;
 			
-			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
-					if (tags[i].equals(u.getInfo().getTags().get(j))) {
-						get = true;
-					}
-				}
-			}
+			boolean get = UnlockManager.checkTags(u.getInfo(), tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.ARTIFACT, u.toString())) {
 				get = false;
@@ -128,8 +121,11 @@ public enum UnlockArtifact {
 	 */
 	public static String getRandArtfFromPool(PlayState state, String pool) {
 		
+		ArrayList<UnlockTag> defaultTags = new ArrayList<UnlockTag>();
+		defaultTags.add(UnlockTag.RANDOM_POOL);
+		
 		if (pool.equals("")) {
-			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, UnlockTag.RANDOM_POOL);
+			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, defaultTags);
 			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
 		}
 		

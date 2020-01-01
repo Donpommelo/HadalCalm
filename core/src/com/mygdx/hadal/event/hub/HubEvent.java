@@ -1,11 +1,14 @@
 package com.mygdx.hadal.event.hub;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -20,14 +23,22 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class HubEvent extends Event {
 
 	protected boolean open;
-	private String title;
-	private hubTypes type;
+	protected String title;
+	protected hubTypes type;
+	protected boolean checkUnlock;
 	
-	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, hubTypes type) {
+	protected ArrayList<UnlockTag> tags;
+	
+	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, hubTypes type) {
 		super(state, startPos, size);
 		this.open = false;
 		this.title = title;
+		this.checkUnlock = checkUnlock;
 		this.type = type;
+		this.tags = new ArrayList<UnlockTag>();
+		for (String s: tag.split(",")) {
+			tags.add(UnlockTag.valueOf(s));
+		}
 	}
 	
 	@Override

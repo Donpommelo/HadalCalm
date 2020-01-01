@@ -8,7 +8,6 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.transitionState;
 
@@ -19,18 +18,15 @@ import com.mygdx.hadal.states.PlayState.transitionState;
  */
 public class Navigations extends HubEvent {
 
-	private String tag;
-
-	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag) {
-		super(state, startPos, size, title, hubTypes.NAVIGATIONS);
-		this.tag = tag;
+	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
+		super(state, startPos, size, title, tag, checkUnlock, hubTypes.NAVIGATIONS);
 	}
 	
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		for (UnlockLevel c: UnlockLevel.getUnlocks(state, true, UnlockTag.valueOf(tag))) {
+		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, tags)) {
 			
 			final UnlockLevel selected = c;
 

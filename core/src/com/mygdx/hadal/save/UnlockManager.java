@@ -1,5 +1,7 @@
 package com.mygdx.hadal.save;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -50,6 +52,24 @@ public class UnlockManager {
 		default:
 			return null;
 		}
+	}
+	
+	public static boolean checkTags(InfoItem item, ArrayList<UnlockTag> tags) {
+		
+		for (int i = 0; i < tags.size(); i++) {
+			
+			boolean tagPresent = false;
+			
+			for (int j = 0; j < item.getTags().size(); j++) {
+				if (tags.get(i).equals(item.getTags().get(j))) {
+					tagPresent = true;
+				}
+			}
+			if (!tagPresent) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public static boolean checkUnlock(PlayState state, UnlockType type, String name) {
@@ -114,9 +134,11 @@ public class UnlockManager {
 		MELEE,
 		RELIQUARY,
 		DISPENSARY,
+		DORMITORY,
 		NAVIGATIONS,
 		TRAINING,
 		CAMPAIGN,
+		QUARTERMASTER,
 		ARENA,
 		NASU,
 		MISC,

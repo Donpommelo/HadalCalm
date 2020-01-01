@@ -21,12 +21,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Quartermaster extends HubEvent {
 
-	private static final String title = "QUARTERMASTER";
-
 	private ShopInfo shopInfo;
 	
-	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String shopId) {
-		super(state, startPos, size, title, hubTypes.QUARTERMASTER);
+	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, String shopId) {
+		super(state, startPos, size, title, tag, checkUnlock, hubTypes.QUARTERMASTER);
 		this.shopInfo = GameStateManager.json.fromJson(ShopInfo.class, GameStateManager.getShops().get(shopId).toJson(OutputType.minimal));
 	}
 	
@@ -38,7 +36,7 @@ public class Quartermaster extends HubEvent {
 			
 			InfoItem info = UnlockManager.getInfo(UnlockType.valueOf(shopInfo.getType()), item);
 			
-			if (!UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
+			if (checkUnlock && !UnlockManager.checkUnlock(state, UnlockType.valueOf(shopInfo.getType()), item)) {
 
 				Text itemChoose = new Text(info.getName() + ": Cost: " + shopInfo.getPrices().get(item), 0, 0);
 				

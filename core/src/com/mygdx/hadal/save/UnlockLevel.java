@@ -1,5 +1,7 @@
 package com.mygdx.hadal.save;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
@@ -40,20 +42,12 @@ public enum UnlockLevel {
 		this.map = map;
 	}
 	
-	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, UnlockTag... tags) {
+	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockLevel> items = new Array<UnlockLevel>();
 		
 		for (UnlockLevel u : UnlockLevel.values()) {
 			
-			boolean get = false;
-			
-			for (int i = 0; i < tags.length; i++) {
-				for (int j = 0; j < u.getInfo().getTags().size(); j++) {
-					if (tags[i].equals(u.getInfo().getTags().get(j))) {
-						get = true;
-					}
-				}
-			}
+			boolean get = UnlockManager.checkTags(u.getInfo(), tags);
 			
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.LEVEL, u.toString())) {
 				get = false;
