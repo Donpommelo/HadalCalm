@@ -15,6 +15,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -30,6 +31,7 @@ import com.mygdx.hadal.actors.ScoreWindow;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIPlayClient;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
@@ -164,6 +166,9 @@ public class PlayState extends GameState {
 	
 	//Background and black screen used for transitions
 	protected Texture bg, black;
+	
+	private ShaderProgram shader;
+	private float shaderCount;
 	
 	private final static float defaultTransitionDelay = 0.5f;
 	private final static float defaultFadeInSpeed = -0.015f;
@@ -453,6 +458,14 @@ public class PlayState extends GameState {
 		} else {
 			fadeInitialDelay -= delta;
 		}
+		
+		if (shaderCount > 0) {
+			shaderCount -= delta;
+			if (shaderCount <= 0) {
+				shader = null;
+				batch.setShader(shader);
+			}
+		}
 	}
 	
 	/**
@@ -480,6 +493,10 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(sprite.combined);
 		batch.begin();
 
+		if (shaderCount > 0) {
+			batch.setShader(shader);
+		}
+		
 		for (HadalEntity hitbox : hitboxes) {
 			if (hitbox.isVisible()) {
 				hitbox.render(batch);
@@ -905,6 +922,15 @@ public class PlayState extends GameState {
 	public static short getPVPFilter() {
 		nextFilter--;
 		return nextFilter;
+	}
+	
+	public void setShader(Shader shader, float shaderCount) {
+		this.shader = shader.getShader();
+		this.shaderCount = shaderCount;
+		
+		if (isServer()) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncShader(null, shader, shaderCount));
+		}
 	}
 	
 	public boolean isPvp() { return pvp;	}

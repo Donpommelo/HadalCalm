@@ -208,6 +208,21 @@ public class BossUtils {
 		});
 	}
 	
+	public static void shootBullet(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+		boss.getActions().add(new BossAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
+						boss.getHitboxfilter(), true, true, boss, Sprite.ORB_RED);
+				
+				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
+			}
+		});
+	}
+	
 	public static void vengefulSpirit(final PlayState state, Boss boss, final Vector2 pos, final float baseDamage, final float knockback, final float lifespan, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {

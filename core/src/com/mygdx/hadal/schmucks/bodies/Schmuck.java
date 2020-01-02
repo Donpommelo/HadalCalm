@@ -222,7 +222,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, shaderCount));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState));
 	}
 	
 	/**
@@ -233,15 +233,18 @@ public class Schmuck extends HadalEntity {
 		if (o instanceof Packets.SyncSchmuck) {
 			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
 			moveState = p.moveState;
-			shaderCount = p.flashDuration;
 		} else {
 			super.onClientSync(o);
 		}
 	}
 	
-	public void setShaderCount(Shader shader, float shaderduration) { 
+	public void setShaderCount(Shader shader, float shaderCount) { 
 		this.shader = shader.getShader();
-		this.shaderCount = shaderduration; 
+		this.shaderCount = shaderCount;
+		
+		if (state.isServer()) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID.toString(), shader, shaderCount));
+		}
 	}
 	
 	/**

@@ -21,6 +21,7 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.server.PacketEffect;
@@ -641,6 +642,31 @@ public class KryoClient {
 								cs.getUiExtra().changeTypes(p.uiTags, true);
 								cs.getUiExtra().setTimer(p.timer);
 								cs.getUiExtra().setTimerIncr(p.timerIncr);
+							}
+						});
+					}
+        		}
+        		if (o instanceof Packets.SyncShader) {
+        			final Packets.SyncShader p = (Packets.SyncShader) o;
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+								
+								if (p.entityID == null) {
+									cs.setShader(p.shader, p.shaderCount);
+								} else {
+									HadalEntity entity = cs.findEntity(p.entityID);
+		    						
+		    						if (entity != null) {
+		    							if (entity instanceof Schmuck) {
+		    								((Schmuck)entity).setShaderCount(p.shader, p.shaderCount);
+		    							}
+		    						}
+								}
 							}
 						});
 					}

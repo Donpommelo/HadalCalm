@@ -150,6 +150,9 @@ public class Boss extends Enemy {
 	public void attackInitiate() {};
 	
 	public void acquireTarget() {
+		
+		target = null;
+		
 		world.QueryAABB((new QueryCallback() {
 
 			@Override

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
@@ -499,7 +500,6 @@ public class Packets {
 	public static class SyncSchmuck {
 		public String entityID;
 		public SchmuckMoveStates moveState;
-        public float flashDuration;
 
 		public SyncSchmuck() {}
 		
@@ -510,12 +510,10 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the Schmuck to be synced
 		 * @param moveState: The State of the Schmuck. Used for animations on the Client's end
-		 * @param flashDuration: Is the Schmuck flashing? Used so schmuck's flash upon damage for Clients.
 		 */
-		public SyncSchmuck(String entityID, SchmuckMoveStates moveState, float flashDuration) {
+		public SyncSchmuck(String entityID, SchmuckMoveStates moveState) {
 			this.entityID = entityID;
 			this.moveState = moveState;
-			this.flashDuration = flashDuration;
 		}
 	}
 	
@@ -736,6 +734,25 @@ public class Packets {
 		}
 	}
 	
+	public static class SyncShader {
+		public String entityID;
+		public Shader shader;
+		public float shaderCount;
+		public SyncShader() {}
+		
+		/**
+		 * A SyncShader is sent from the Server to the Client whenever a new shader is implemented.
+		 * @param entityID: schmuck whose shader to change. (if null, change shader for whole playstate)
+		 * @param shader: enum of the new shader
+		 * @param shaderCount: durationi of shader
+		 */
+		public SyncShader(String entityID, Shader shader, float shaderCount) {
+			this.entityID = entityID;
+			this.shader = shader;
+			this.shaderCount = shaderCount;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -777,5 +794,6 @@ public class Packets {
     	kryo.register(SyncCamera.class);
     	kryo.register(SyncBoss.class);
     	kryo.register(SyncUI.class);
+    	kryo.register(SyncShader.class);
     }
 }

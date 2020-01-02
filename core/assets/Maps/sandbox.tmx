@@ -22,10 +22,10 @@
     <property name="triggeringId" value="spawnEnemies"/>
    </properties>
   </object>
-  <object id="9" name="SchmuckSpawn" type="SchmuckSpawn" x="1248" y="1376" width="32" height="32">
+  <object id="9" name="SchmuckSpawn" type="SchmuckSpawn" x="1024" y="1440" width="32" height="32">
    <properties>
-    <property name="amount" type="int" value="3"/>
-    <property name="enemyId" type="int" value="1"/>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" type="int" value="5"/>
     <property name="triggeredId" value="spawnEnemies"/>
    </properties>
   </object>
