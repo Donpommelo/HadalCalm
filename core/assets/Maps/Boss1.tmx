@@ -3,7 +3,7 @@
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eAHtmEsKQjEAxPyBH1AXen88qhV8G1eTgFhkhO4STQdXXa366QJdoAt0gS7QBbpAF+gCXaALdIEu0AW6wHcXWI+vP014NvDau8FfJzxHeY/z8LYTnMt7U3sP6sG5Ynz5f9Ae68VhELQ91oN5MW57rBeHQdD2WA/mxbjtsV4cBkHbYz2YF+O2x3pxGARtj/VgXozbHuvFYRC0PdaDeTFue6wXh0HQ9lgP5sW47bFeHAZB22M9mBfjtsd6cRgEbY/1YF6M2x7rxWEQtD3Wg3kxbnusF4dB0PZYD+bFuO2xXhwGQduzeLfxe+M97vHrcx8dr/c0+14y21scvcd+3H2G97fPhsPo+ufPE8zpIhk=
+   eAHtmMsKwkAAxOoDfIB60P//VrdgL54mAWGRKfSWaHboaZelTxfoAl2gC3SBLtAFukAX6AJdoAt0gS7QBX67wG78/HXCdw+PfRz8Y8L3Is9xG95hgvf+2dSeg3pwrhjfvg/aY704DIK2x3owL8Ztj/XiMAjaHuvBvBi3PdaLwyBoe6wH82Lc9lgvDoOg7bEezItx22O9OAyCtsd6MC/GbY/14jAI2h7rwbwYtz3Wi8MgaHusB/Ni3PZYLw6DoO2xHsyLcdtjvTgMgrbHejAvxm2P9eIwCNoe68G8GLc91ovDIGh7Nu85/m+G+7jX6Fjv0+x9yWx3cfQcp3H2Ge7fvhvOo+ufnzeiAQ15
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">

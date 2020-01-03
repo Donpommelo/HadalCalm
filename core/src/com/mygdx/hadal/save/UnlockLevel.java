@@ -21,6 +21,7 @@ public enum UnlockLevel {
 	DONT_FALL("Maps/DontFall.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx", null, null, new UnlockEquip[] {UnlockEquip.SPEARGUN, UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING}),
 	BOSS1("Maps/Boss1.tmx"),
+	BOSS2("Maps/Boss2.tmx"),
 	SANDBOX("Maps/sandbox.tmx"),
 	
 	;

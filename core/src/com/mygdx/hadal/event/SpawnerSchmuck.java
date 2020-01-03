@@ -96,6 +96,9 @@ public class SpawnerSchmuck extends Event {
 						case 7:
 							enemy = new Boss1(state, startPos, enemyType.BOSS, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
 							break;
+						case 8:
+							enemy = new Boss2(state, startPos, enemyType.BOSS, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
+							break;
 						}
 						amountLeft++;
 						if (boss) {

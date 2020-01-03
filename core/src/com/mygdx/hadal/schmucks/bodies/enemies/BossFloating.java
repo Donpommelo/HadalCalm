@@ -27,7 +27,7 @@ public class BossFloating extends Boss {
 	private BossState currentState;
 	
 	//this is the boss's sprite
-	private Animation<TextureRegion> floatingSprite;
+	protected Animation<TextureRegion> floatingSprite;
 
 	public BossFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int hp, int moveSpeed, int spinSpeed, float attackCd, 
 			SpawnerSchmuck spawner, Sprite sprite) {
@@ -48,13 +48,13 @@ public class BossFloating extends Boss {
 		super.controller(delta);
 		
 		//lerp towards desired angle
-		angle = angle + (desiredAngle - angle) * 0.04f;
-		setOrientation((float) ((angle + 270) * Math.PI / 180));
+		float dist = (desiredAngle - angle) % 360;
+		angle = angle + (2 * dist % 360 - dist) * 0.04f;		
 		
 		//when spinning, spin at a constant speed. When tracking, set desired angle to face player
 		switch(currentState) {
 		case SPINNING:
-			desiredAngle += spinSpeed;
+			angle += spinSpeed;
 			break;
 		case TRACKING_PLAYER:
 			if (target != null) {				
@@ -68,6 +68,7 @@ public class BossFloating extends Boss {
 		default:
 			break;
 		}
+		setOrientation((float) ((angle + 270) * Math.PI / 180));
 	}
 	
 	/**
@@ -78,7 +79,8 @@ public class BossFloating extends Boss {
 		super.render(batch);
 		
 		boolean flip = false;
-		if (getOrientation() > Math.PI && getOrientation() < 2 * Math.PI) {
+		double realAngle = getOrientation() % (Math.PI * 2);
+		if ((realAngle > Math.PI && realAngle < 2 * Math.PI) || (realAngle < 0 && realAngle > -Math.PI)) {
 			flip = true;
 		}
 		
@@ -98,7 +100,7 @@ public class BossFloating extends Boss {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, new Vector2(getPixelPosition()), new Vector2(hboxSize), sprite, getLinearVelocity(), 0.5f, false);
+			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, false);
 		}
 		return super.queueDeletion();
 	}

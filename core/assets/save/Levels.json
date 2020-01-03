@@ -20,6 +20,13 @@ BOSS1: {
 		NAVIGATIONS,
 	]
 }
+BOSS2: {
+	name: BOSS2
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
 NASU: {
 	name: NASU
 	description: TEMP

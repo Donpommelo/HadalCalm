@@ -10,6 +10,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.BossUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
@@ -27,6 +28,7 @@ public class Turret extends Boss {
 	private float desiredAngle;
 	private float startAngle;
 	
+	private Sprite turretBarrelSprite;
 	protected Animation<? extends TextureRegion> turretBase, turretBarrel;
 	
 	private static final int baseWidth = 528;
@@ -54,14 +56,15 @@ public class Turret extends Boss {
 		
 		switch(type) {
 		case TURRET_FLAK:
-			this.turretBarrel = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, flak.getFrames());
+			this.turretBarrelSprite = flak;
 			break;
 		case TURRET_VOLLEY:
-			this.turretBarrel = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, volley.getFrames());
+			this.turretBarrelSprite = volley;
 			break;
 		default:
 			break;
 		}
+		this.turretBarrel = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, turretBarrelSprite.getFrames());
 		moveState = SchmuckMoveStates.TURRET_NOTSHOOTING;
 	}
 	
@@ -182,6 +185,15 @@ public class Turret extends Boss {
 		} else {
 			super.onClientSync(o);
 		}
+	}
+	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new Ragdoll(state, getPixelPosition(), size, Sprite.TURRET_BASE, getLinearVelocity(), 0.75f, false);
+			new Ragdoll(state, getPixelPosition(), size, turretBarrelSprite, getLinearVelocity(), 0.75f, false);
+		}
+		return super.queueDeletion();
 	}
 	
 	@Override

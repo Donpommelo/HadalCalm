@@ -70,9 +70,6 @@ public class Boss extends Enemy {
 		this.secondaryActions = new ArrayList<BossAction>();
 	}
 	
-	/**
-	 * Create the enemy's body and initialize enemy's user data.
-	 */
 	@Override
 	public void create() {
 		super.create();

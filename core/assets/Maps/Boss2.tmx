@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="9">
+ <tileset firstgid="1" source="main.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="120" height="60">
+  <data encoding="base64" compression="zlib">
+   eAHtnLsKwlAUBOMDfIBa6P9/q0fIFrFIcUGIZyYQFhHEmV0tgmaaPDSgAQ1oQAMa0IAGNKABDWhAAxrQgAY0oAENaEADGtCABjSgAQ1oQAMa6GxgV3BX6LnvXOzMdqx8QM8LqN9bsR4g533eM6lfAms+rvnOIjCTWO03BnonadMk1qyWxExitd8Y6J2kTZNYs1oSM4nVfmOgd5I2TWLNaknMJFb7jYHeSdo0iTWrJTGTWO03BnonadMk1qyWxExitd8Y6J2kTZNYs1oSM4nVfmOgd5I2TWLNaknMo6xb/c10OlzLUea119zqc6Os9rvVRpfvy36XPro9Gu33nz2QmEms2SSJmcRqvzHQO0mbJrFmtSRmEqv9xkDvJG2axJrVkphJrOR+nwVPuc/Kq1g/11dJ/9/f6vXkX74vQr+n2jHlvirfnOdi99CABjSgAQ2MGngDt/8cPw==
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="576" y="640">
+   <polyline points="0,0 1856,0 1856,1088 0,1088 0,0"/>
+  </object>
+  <object id="8" x="928" y="1344">
+   <polyline points="0,0 0,96 1216,96 1216,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="2" name="Save" type="Save" x="1024" y="1312" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="save1"/>
+    <property name="zoom" type="float" value="1.5"/>
+   </properties>
+  </object>
+  <object id="4" name="SchmuckSpawn" type="SchmuckSpawn" x="1504" y="1152" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="true"/>
+    <property name="bossname" value="King Kamaboko"/>
+    <property name="enemyId" type="int" value="8"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="spawn0"/>
+   </properties>
+  </object>
+  <object id="5" name="Timer" type="Timer" x="576" y="224" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="1"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="initLimiter"/>
+   </properties>
+  </object>
+  <object id="6" name="Multitrigger" type="Multitrigger" x="640" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="initLimiter"/>
+    <property name="triggeringId" value="startTimer,spawn0,save1"/>
+   </properties>
+  </object>
+  <object id="7" name="Start" type="Start" x="1024" y="1312" width="32" height="32"/>
+ </objectgroup>
+</map>
