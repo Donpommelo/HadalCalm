@@ -202,11 +202,11 @@ public class PauseState extends GameState {
 	}
 
 	@Override
-	public void render() {
+	public void render(float delta) {
 		
 		//Render the playstate and playstate ui underneath
 		if (ps != null) {
-			ps.render();
+			ps.render(delta);
 			ps.stage.getViewport().apply();
 			ps.stage.draw();
 		}

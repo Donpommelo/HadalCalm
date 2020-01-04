@@ -28,7 +28,12 @@ public class ShaderChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.setShader(shader, duration);
+				
+				if (duration == 0) {
+					state.setShaderBase(shader);
+				} else {
+					state.setShaderExtra(shader, duration);
+				}
 			}
 		};
 	}

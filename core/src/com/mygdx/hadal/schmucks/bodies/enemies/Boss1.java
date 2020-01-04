@@ -165,9 +165,10 @@ public class Boss1 extends BossFloating {
 	private static final int charge1Damage = 15;
 	private static final int charge2Damage = 8;
 	private static final int defaultMeleeKB = 70;
+	private static final float moveDurationMax = 5.0f;
 	
 	private void chargeAttack1() {
-		BossUtils.moveToRandomCorner(state, this, moveSpeed);
+		BossUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 1.2f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
 		BossUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
@@ -175,33 +176,33 @@ public class Boss1 extends BossFloating {
 	}
 	
 	private void chargeAttack2() {
-		int corner = BossUtils.moveToRandomCorner(state, this, moveSpeed);
+		int corner = BossUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.5f);
 		BossUtils.meleeAttack(state, this, charge2Damage, defaultMeleeKB, target, 2.75f);
 		switch (corner) {
 		case 0:
-			BossUtils.moveToDummy(state, this, "2", charge2Speed);
-			BossUtils.moveToDummy(state, this, "8", charge2Speed);
-			BossUtils.moveToDummy(state, this, "6", charge2Speed);
-			BossUtils.moveToDummy(state, this, "0", charge2Speed);
+			BossUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
 			break;
 		case 1:
-			BossUtils.moveToDummy(state, this, "8", charge2Speed);
-			BossUtils.moveToDummy(state, this, "6", charge2Speed);
-			BossUtils.moveToDummy(state, this, "0", charge2Speed);
-			BossUtils.moveToDummy(state, this, "2", charge2Speed);
+			BossUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
 			break;
 		case 2:
-			BossUtils.moveToDummy(state, this, "0", charge2Speed);
-			BossUtils.moveToDummy(state, this, "2", charge2Speed);
-			BossUtils.moveToDummy(state, this, "8", charge2Speed);
-			BossUtils.moveToDummy(state, this, "6", charge2Speed);
+			BossUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
 			break;
 		case 3:
-			BossUtils.moveToDummy(state, this, "6", charge2Speed);
-			BossUtils.moveToDummy(state, this, "0", charge2Speed);
-			BossUtils.moveToDummy(state, this, "2", charge2Speed);
-			BossUtils.moveToDummy(state, this, "8", charge2Speed);
+			BossUtils.moveToDummy(state, this, "6", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "0", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
+			BossUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
 			break;
 		}
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
@@ -219,7 +220,7 @@ public class Boss1 extends BossFloating {
 	private static final float fireballInterval = 0.02f;
 	
 	private void fireBreath() {
-		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed);
+		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.5f);
 		switch (wall) {
 		case 0 :
@@ -251,7 +252,7 @@ public class Boss1 extends BossFloating {
 	private static final float laserLifespan = 1.2f;
 	
 	private void horizontalLaser() {
-		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed);
+		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		switch (wall) {
 		case 0 :
 			
@@ -285,7 +286,7 @@ public class Boss1 extends BossFloating {
 	private static final float laser2Speed = 15.0f;
 	
 	private void rotatingLaser() {
-		BossUtils.moveToDummy(state, this, "4", moveSpeed);
+		BossUtils.moveToDummy(state, this, "4", moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.FREE, -90.0f, 2.0f);
 		
 		boolean random = GameStateManager.generator.nextBoolean();
@@ -313,7 +314,7 @@ public class Boss1 extends BossFloating {
 	private static final float explosionInterval = 0.25f;
 	
 	private void sweepingLaser() {
-		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed);
+		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.0f);
 		
 		switch (wall) {
@@ -354,10 +355,10 @@ public class Boss1 extends BossFloating {
 		boolean random = GameStateManager.generator.nextBoolean();
 		float baseAngle = 0;
 		if (random) {
-			BossUtils.moveToDummy(state, this, "0", moveSpeed);
+			BossUtils.moveToDummy(state, this, "0", moveSpeed, moveDurationMax);
 			baseAngle = -60.0f;
 		} else {
-			BossUtils.moveToDummy(state, this, "2", moveSpeed);
+			BossUtils.moveToDummy(state, this, "2", moveSpeed, moveDurationMax);
 			baseAngle = -120.0f;
 		}
 		
@@ -395,7 +396,7 @@ public class Boss1 extends BossFloating {
 	private static final float poisonDuration = 7.5f;
 	
 	private void poisonCloud() {
-		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed);
+		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		if (wall == 0) {
 			BossUtils.changeTrackingState(this, BossState.FREE, -75.0f, 0.5f);
 			for (int i = 0; i < numPoison; i++) {
@@ -414,7 +415,7 @@ public class Boss1 extends BossFloating {
 	
 	private static final int numAdds = 3;
 	private void spawnAdds() {
-		BossUtils.moveToDummy(state, this, "4", moveSpeed);
+		BossUtils.moveToDummy(state, this, "4", moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 		for (int i = 0; i < numAdds; i++) {

@@ -37,9 +37,9 @@ import com.mygdx.hadal.utils.Constants;
  */
 public class BossUtils {
 
-	public static void moveToDummy(final PlayState state, final Boss boss, final String dummyId, final int speed) {
+	public static void moveToDummy(final PlayState state, final Boss boss, final String dummyId, final int speed, float duration) {
 		
-		boss.getActions().add(new BossAction(boss, speed) {
+		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
 			public void execute() {
@@ -281,34 +281,34 @@ public class BossUtils {
 		});
 	}
 	
-	public static int moveToRandomCorner(PlayState state, Boss boss, int speed) {
+	public static int moveToRandomCorner(PlayState state, Boss boss, int speed, float duration) {
 		int rand = GameStateManager.generator.nextInt(4);
 		switch(rand) {
 		case 0:
-			BossUtils.moveToDummy(state, boss, "0", speed);
+			BossUtils.moveToDummy(state, boss, "0", speed, duration);
 			break;
 		case 1:
-			BossUtils.moveToDummy(state, boss, "2", speed);
+			BossUtils.moveToDummy(state, boss, "2", speed, duration);
 			break;
 		case 2:
-			BossUtils.moveToDummy(state, boss, "6", speed);
+			BossUtils.moveToDummy(state, boss, "6", speed, duration);
 			break;
 		case 3:
-			BossUtils.moveToDummy(state, boss, "8", speed);
+			BossUtils.moveToDummy(state, boss, "8", speed, duration);
 			break;
 		default:
 		}
 		return rand;
 	}
 	
-	public static int moveToRandomWall(PlayState state, Boss boss, int speed) {
+	public static int moveToRandomWall(PlayState state, Boss boss, int speed, float duration) {
 		int rand = GameStateManager.generator.nextInt(2);
 		switch(rand) {
 		case 0:
-			BossUtils.moveToDummy(state, boss, "3", speed);
+			BossUtils.moveToDummy(state, boss, "3", speed, duration);
 			break;
 		case 1:
-			BossUtils.moveToDummy(state, boss, "5", speed);
+			BossUtils.moveToDummy(state, boss, "5", speed, duration);
 			break;
 		}
 		return rand;

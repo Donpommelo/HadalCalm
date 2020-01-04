@@ -199,7 +199,7 @@ public class ControlState extends GameState {
 	public void update(float delta) {}
 
 	@Override
-	public void render() {}
+	public void render(float delta) {}
 	
 	@Override
 	public void dispose() { stage.dispose(); }

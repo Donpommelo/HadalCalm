@@ -109,7 +109,7 @@ public class HadalGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		viewportCamera.apply();
-		gsm.render();
+		gsm.render(Gdx.graphics.getDeltaTime());
 		
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
@@ -132,6 +132,8 @@ public class HadalGame extends ApplicationAdapter {
 		viewportCamera.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
 		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
 		viewportUI.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
+		
+		gsm.resize(width, height);
 	}
 	
 	/**

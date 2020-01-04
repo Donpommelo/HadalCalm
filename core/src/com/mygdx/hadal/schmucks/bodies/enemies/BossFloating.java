@@ -18,7 +18,9 @@ import com.mygdx.hadal.states.PlayState;
 public class BossFloating extends Boss {
 				
 	//the angle that the boss is facing and the angle that it lerps towards.
-    private float angle, desiredAngle;
+    protected float angle;
+
+    protected float desiredAngle;
 	
     //the speed that the boss spins when spinning
 	private int spinSpeed;

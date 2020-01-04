@@ -167,7 +167,7 @@ public class PlayState extends GameState {
 	//Background and black screen used for transitions
 	protected Texture bg, black;
 	
-	private ShaderProgram shader;
+	private ShaderProgram shaderBase, shaderExtra;
 	private float shaderCount;
 	
 	private final static float defaultTransitionDelay = 0.5f;
@@ -462,8 +462,7 @@ public class PlayState extends GameState {
 		if (shaderCount > 0) {
 			shaderCount -= delta;
 			if (shaderCount <= 0) {
-				shader = null;
-				batch.setShader(shader);
+				shaderExtra = null;
 			}
 		}
 	}
@@ -471,15 +470,29 @@ public class PlayState extends GameState {
 	/**
 	 * This method renders stuff to the screen after updating.
 	 */
+	private float timer;
 	@Override
-	public void render() {
+	public void render(float delta) {
+		timer += delta;
+		
 		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Render Background
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
+		if (shaderBase != null) {
+			shaderBase.begin();
+			shaderBase.setUniformf("u_time", timer);
+			shaderBase.end();
+			batch.setShader(shaderBase);
+		}
+		batch.setShader(shaderBase);
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+		
+		if (shaderBase != null) {
+			batch.setShader(null);
+		}
 		batch.end();
 		
 		//Render Tiled Map + world
@@ -493,8 +506,11 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(sprite.combined);
 		batch.begin();
 
-		if (shaderCount > 0) {
-			batch.setShader(shader);
+		if (shaderExtra != null) {
+			shaderExtra.begin();
+			shaderExtra.setUniformf("u_time", timer);
+			shaderExtra.end();
+			batch.setShader(shaderExtra);
 		}
 		
 		for (HadalEntity hitbox : hitboxes) {
@@ -507,7 +523,9 @@ public class PlayState extends GameState {
 				schmuck.render(batch);
 			}
 		}
-
+		if (shaderExtra != null) {
+			batch.setShader(null);
+		}
 		batch.end();
 		
 		//Render fade transitions
@@ -584,6 +602,26 @@ public class PlayState extends GameState {
 		map.dispose();
 		if (stage != null) {
 			stage.dispose();
+		}
+		if(shaderBase != null) {
+			shaderBase.dispose();
+		}
+		if(shaderExtra != null) {
+			shaderExtra.dispose();
+		}
+	}
+	
+	@Override
+	public void resize(int width, int height) {
+		if(shaderBase != null) {
+			shaderBase.begin();
+			shaderBase.setUniformf("u_resolution", width, height);
+			shaderBase.end();
+		}
+		if (shaderExtra != null) {
+			shaderExtra.begin();
+			shaderExtra.setUniformf("u_resolution", width, height);
+			shaderExtra.end();
 		}
 	}
 	
@@ -924,8 +962,15 @@ public class PlayState extends GameState {
 		return nextFilter;
 	}
 	
-	public void setShader(Shader shader, float shaderCount) {
-		this.shader = shader.getShader();
+	public void setShaderBase(Shader shader) {
+		this.shaderBase = shader.getShader();
+		if (isServer()) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncShader(null, shader, 0));
+		}
+	}
+	
+	public void setShaderExtra(Shader shader, float shaderCount) {
+		this.shaderExtra = shader.getShader();
 		this.shaderCount = shaderCount;
 		
 		if (isServer()) {

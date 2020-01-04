@@ -160,7 +160,7 @@ public class ClientState extends PlayState {
 	}
 
 	@Override
-	public void render() {		
+	public void render(float delta) {		
 		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		

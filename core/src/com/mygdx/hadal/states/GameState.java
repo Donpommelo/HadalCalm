@@ -47,13 +47,15 @@ public abstract class GameState {
 	/**
 	 * This will be run every engine tick after updating and will display information to the player.
 	 */
-	public abstract void render();
+	public abstract void render(float delta);
 	
 	/**
 	 * This will be run upon deleting the state and will dispose of any unneeded object in the state. 
 	 */
 	public abstract void dispose();
 
+	public void resize(int width, int height) {}
+	
 	public GameStateManager getGsm() {return gsm; }
 
 	public Stage getStage() { return stage; }

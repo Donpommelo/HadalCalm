@@ -146,8 +146,8 @@ public class GameStateManager {
 	/**
 	 * Run every engine tick after updating. This will draw stuff and works pretty much like update.
 	 */
-	public void render() {
-		states.peek().render();
+	public void render(float delta) {
+		states.peek().render(delta);
 	}
 	
 	/**
@@ -291,6 +291,12 @@ public class GameStateManager {
 			break;
 		}
 		return null;
+	}
+	
+	public void resize(int width, int height) {
+		for (GameState gs : states) {
+			gs.resize(width, height);
+		}
 	}
 	
 	public Stack<GameState> getStates() { return states; }
