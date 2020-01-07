@@ -6,20 +6,20 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
-public class GoodHealth extends Artifact {
+public class Saligram extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static int bonusHp = 25;
+	private final static float damageRes = 0.15f;
 	
-	public GoodHealth() {
+	public Saligram() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.MAX_HP, bonusHp, b);
+		enchantment[0] = new StatChangeStatus(state, Stats.DAMAGE_RES, damageRes, b);
 		return enchantment;
 	}
 }

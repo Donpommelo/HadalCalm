@@ -17,7 +17,7 @@ public class UnbreathingMembrane extends Artifact {
 	
 	private final static float spdReduction = -0.75f;
 	private final static float bonusClip = 1.0f;
-	private final static float bonusRecoil = 5.0f;
+	private final static float bonusRecoil = 3.0f;
 	
 	public UnbreathingMembrane() {
 		super(slotCost, statusNum);

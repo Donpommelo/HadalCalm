@@ -32,7 +32,7 @@ public class Melon extends ActiveItem {
 			@Override
 			public void onInflict(Status s) {
 				if (s.equals(this)) {
-					regen = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+					regen = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, 0.0f, duration, true, particleSyncType.TICKSYNC);
 				}
 			}
 			

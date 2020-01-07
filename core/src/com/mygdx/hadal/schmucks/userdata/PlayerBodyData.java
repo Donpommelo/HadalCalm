@@ -306,6 +306,10 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void emptySlot(int slot) {
 		
+		if (slot >= multitools.length) {
+			return;
+		}
+		
 		multitools[slot] = new NothingWeapon(player);
 		multitools[slot].setUser(player);
 		
