@@ -47,7 +47,7 @@ public class Boiler extends RangedWeapon {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitStatusStrategy(state, hbox, user.getBodyData(), new Ablaze(state, fireDuration, user.getBodyData(), user.getBodyData(), fireDamage)));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 	}
 }

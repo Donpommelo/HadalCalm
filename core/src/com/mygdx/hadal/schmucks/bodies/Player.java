@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.bodies;
 
-import java.util.ArrayList;
 import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -16,7 +15,6 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
-import com.mygdx.hadal.equip.mods.WeaponMod;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.AssetList;
@@ -25,8 +23,7 @@ import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
-import com.mygdx.hadal.statuses.StatusProcTime;
-import com.mygdx.hadal.statuses.WeaponModifier;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -248,7 +245,7 @@ public class Player extends PhysicsSchmuck {
 		
 		//Activate on-spawn effects
 		if (!state.isPractice() && reset) {
-			playerData.statusProcTime(StatusProcTime.LEVEL_START, null, 0, null, null, null);
+			playerData.statusProcTime(new ProcTime.PlayerCreate());
 		}
 	}
 	
@@ -678,12 +675,6 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		
-		ArrayList<WeaponMod> mods = new ArrayList<WeaponMod>();
-		
-		for (WeaponModifier mod: playerData.getCurrentTool().getWeaponMods()) {
-			mods.add(mod.getConstantMod());
-		}
 		
 		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float)(Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
 				playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP), grounded, playerData.getCurrentSlot(), 

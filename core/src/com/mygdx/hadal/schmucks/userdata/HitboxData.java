@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
@@ -36,12 +35,12 @@ public class HitboxData extends HadalData {
 	}
 	
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
+	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		if (!hbox.isAlive())
 			return;
 		
 		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && hbox.isAlive() && hbox.isReflectable()) {
-			super.receiveDamage(basedamage, knockback, perp, tool, procEffects, tags);
+			super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
 		}
 		
 		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && hbox.isAlive()  && hbox.isReflectable()) {

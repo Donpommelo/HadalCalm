@@ -56,7 +56,7 @@ public class Moraygun extends RangedWeapon {
 			final int num = i;
 			
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				

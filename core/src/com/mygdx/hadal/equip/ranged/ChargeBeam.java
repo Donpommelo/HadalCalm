@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -71,7 +70,6 @@ public class ChargeBeam extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		final Equipable tool = this;
 		
 		//power of hitbox scales to the amount charged
 		if (chargeCd >= getChargeTime()) {
@@ -117,7 +115,7 @@ public class ChargeBeam extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					fixB.receiveDamage(baseDamage * damageMultiplier2, this.hbox.getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), tool, true, DamageTypes.RANGED);
+					fixB.receiveDamage(baseDamage * damageMultiplier2, this.hbox.getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), true, DamageTypes.RANGED);
 				}
 			}
 		});

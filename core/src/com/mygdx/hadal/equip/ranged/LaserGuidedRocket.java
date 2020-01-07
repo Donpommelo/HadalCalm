@@ -59,8 +59,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 
 		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), this, explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		hbox.addStrategy(new HitboxMouseStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		

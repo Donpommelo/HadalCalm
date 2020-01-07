@@ -25,7 +25,7 @@ public class ForagersHive extends Artifact {
 			private float procCdCount;
 			
 			@Override
-			public void whileShooting(float delta, Equipable tool) {
+			public void whileAttacking(float delta, Equipable tool) {
 				
 				if (procCdCount < procCd) {
 					procCdCount += delta;
@@ -34,8 +34,7 @@ public class ForagersHive extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), 1, 
-							new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), 1, new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 			}
 		};

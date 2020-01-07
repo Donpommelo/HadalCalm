@@ -26,7 +26,7 @@ public class WrathoftheFrogman extends Artifact {
 			private float procCdCount;
 			
 			@Override
-			public void whileShooting(float delta, Equipable tool) {
+			public void whileAttacking(float delta, Equipable tool) {
 				
 				if (procCdCount < procCd) {
 					procCdCount += delta;
@@ -35,8 +35,7 @@ public class WrathoftheFrogman extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), inflicted.getCurrentTool(), damage, 1, 1, new Vector2(0, 1), false, 
-							inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), damage, 1, 1, new Vector2(0, 1), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 			}
 		};

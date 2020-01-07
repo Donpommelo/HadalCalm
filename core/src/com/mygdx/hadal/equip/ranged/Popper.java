@@ -4,7 +4,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -53,14 +52,13 @@ public class Popper extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		final Equipable tool = this;
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		hbox.setGravity(5.0f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override
@@ -90,7 +88,7 @@ public class Popper extends RangedWeapon {
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactWallDieStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), tool, fragDamage, knockback, DamageTypes.RANGED));
+					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
 				}
 			}
 		});

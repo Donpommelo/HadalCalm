@@ -46,7 +46,7 @@ public class HydraulicUppercut extends ActiveItem {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, this, baseDamage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE));
 		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user, new Vector2(), new Vector2(), false));
 	}
 }

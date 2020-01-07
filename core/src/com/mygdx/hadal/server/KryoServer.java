@@ -82,7 +82,7 @@ public class KryoServer {
 								
 								//Inform all that the player disconnected and kill the player
 								addNotificationToAllExcept(ps, c.getID(), p.getName(), "PLAYER DISCONNECTED!");
-								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), null);
+								p.getPlayerData().die(ps.getWorldDummy().getBodyData());
 								
 								//remove disconnecting player from all tracked lists
 								players.remove(c.getID());

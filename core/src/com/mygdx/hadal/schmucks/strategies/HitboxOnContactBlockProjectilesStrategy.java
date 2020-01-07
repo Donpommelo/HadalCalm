@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -16,15 +15,11 @@ import com.mygdx.hadal.statuses.DamageTypes;
  */
 public class HitboxOnContactBlockProjectilesStrategy extends HitboxStrategy{
 	
-	//this is the tool that fired the hbox that has this strategy.
-	private Equipable tool;
-	
 	//this is the knockback that should be administered to the other hbox
 	private float knockback;
 	
-	public HitboxOnContactBlockProjectilesStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, float kb) {
+	public HitboxOnContactBlockProjectilesStrategy(PlayState state, Hitbox proj, BodyData user, float kb) {
 		super(state, proj, user);
-		this. tool = tool;
 		this.knockback = kb;
 	}
 	
@@ -32,7 +27,7 @@ public class HitboxOnContactBlockProjectilesStrategy extends HitboxStrategy{
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.HITBOX)){
-				fixB.receiveDamage(0, hbox.getLinearVelocity().nor().scl(knockback), creator, tool, true, DamageTypes.DEFLECT, DamageTypes.REFLECT);
+				fixB.receiveDamage(0, hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.DEFLECT, DamageTypes.REFLECT);
 			}
 		}
 	}

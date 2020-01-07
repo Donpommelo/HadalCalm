@@ -58,7 +58,7 @@ public class DiamondCutter extends MeleeWeapon {
 			hbox.makeUnreflectable();
 			
 			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				private float controllerCount = 0;
@@ -93,7 +93,7 @@ public class DiamondCutter extends MeleeWeapon {
 						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize,
 								spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
-						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 						
 						controllerCount -= delta;
 					}

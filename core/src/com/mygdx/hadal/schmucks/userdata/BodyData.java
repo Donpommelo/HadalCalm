@@ -9,10 +9,12 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.statuses.StatusProcTime;
+import com.mygdx.hadal.statuses.ProcTime.InflictDamage;
+import com.mygdx.hadal.statuses.ProcTime.ReceiveDamage;
+import com.mygdx.hadal.statuses.ProcTime.ReceiveHeal;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -99,9 +101,21 @@ public class BodyData extends HadalData {
 	 * This fields of this are the various info needed for each status. fields will be null when unused
 	 * @return a float for certain statuses that pass along a modified value (like on damage effects)
 	 */
-	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
+	public float statusProcTime(Object o) {
 				
-		float finalAmount = amount;
+		float finalAmount = 0;
+		
+		if (o instanceof ReceiveDamage){
+			ReceiveDamage pt = (ReceiveDamage)o;
+			finalAmount = pt.damage;
+		} else if (o instanceof InflictDamage){
+			InflictDamage pt = (InflictDamage)o;
+			finalAmount = pt.damage;
+		} else if (o instanceof ReceiveHeal){
+			ReceiveHeal pt = (ReceiveHeal)o;
+			finalAmount = pt.heal;
+		}
+		
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
 		for(Status s : this.statusesChecked) {
 			this.statuses.add(0, s);
@@ -112,7 +126,7 @@ public class BodyData extends HadalData {
 		while(!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
 			
-			finalAmount = tempStatus.statusProcTime(procTime, schmuck, finalAmount, status, tool, hbox, tags);
+			finalAmount = tempStatus.statusProcTime(o);
 			
 			if(this.statuses.contains(tempStatus)){
 				this.statuses.remove(tempStatus);
@@ -161,7 +175,7 @@ public class BodyData extends HadalData {
 		
 		if (added) {
 			statuses.add(s);
-			statusProcTime(StatusProcTime.ON_INFLICT, null, 0, s, null, null);
+			statusProcTime(new ProcTime.StatusInflict(s));
 			calcStats();
 		}
 	}
@@ -175,7 +189,7 @@ public class BodyData extends HadalData {
 			return;
 		}
 		
-		statusProcTime(StatusProcTime.ON_REMOVE, null, 0, s, null, null);
+		statusProcTime(new ProcTime.StatusRemove(s));
 		statuses.remove(s);
 		statusesChecked.remove(s);
 		calcStats();
@@ -212,7 +226,7 @@ public class BodyData extends HadalData {
 		for (int i = 0; i < buffedStats.length; i++) {
 			buffedStats[i] = baseStats[i];
 		}
-		statusProcTime(StatusProcTime.STAT_CHANGE, null, 0, null, currentTool, null);
+		statusProcTime(new ProcTime.StatCalc());
 		
 		currentHp = hpPercent * getStat(Stats.MAX_HP);
 		currentFuel = fuelPercent * getStat(Stats.MAX_FUEL);
@@ -233,7 +247,7 @@ public class BodyData extends HadalData {
 	 * @param tags: varargs of damage tags
 	 */
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Equipable tool, Boolean procEffects, DamageTypes... tags) {
+	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		
 		if (!schmuck.isAlive()) {
 			return;
@@ -245,8 +259,8 @@ public class BodyData extends HadalData {
 		damage += basedamage * (perp.getStat(Stats.DAMAGE_AMP));
 		
 		if (procEffects) {
-			damage = perp.statusProcTime(StatusProcTime.DEAL_DAMAGE, this, damage, null, tool, null, tags);
-			damage = statusProcTime(StatusProcTime.RECEIVE_DAMAGE, perp, damage, null, currentTool, null, tags);
+			damage = perp.statusProcTime(new ProcTime.InflictDamage(damage, this, tags));
+			damage = statusProcTime(new ProcTime.ReceiveDamage(damage, perp, tags));
 		}
 				
 		currentHp -= damage;
@@ -271,7 +285,7 @@ public class BodyData extends HadalData {
 		
 		if (currentHp <= 0) {
 			currentHp = 0;
-			die(lastDamagedBy, tool);
+			die(lastDamagedBy);
 		}
 		
 		//charge on-damage active item
@@ -294,7 +308,7 @@ public class BodyData extends HadalData {
 		float heal = baseheal;
 		
 		if (procEffects) {
-			heal = statusProcTime(StatusProcTime.ON_HEAL, this, heal, null, currentTool, null, tags);
+			heal = statusProcTime(new ProcTime.ReceiveHeal(heal, perp, tags));
 		}
 		
 		currentHp += heal;
@@ -306,10 +320,10 @@ public class BodyData extends HadalData {
 	/**
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
 	 */
-	public void die(BodyData perp, Equipable tool) {
+	public void die(BodyData perp) {
 		if (schmuck.queueDeletion()) {
-			perp.statusProcTime(StatusProcTime.ON_KILL, this, 0, null, tool, null);
-			statusProcTime(StatusProcTime.ON_DEATH, perp, 0, null, currentTool, null);
+			perp.statusProcTime(new ProcTime.Kill(this));
+			statusProcTime(new ProcTime.Death(perp));
 		}		
 	}
 	

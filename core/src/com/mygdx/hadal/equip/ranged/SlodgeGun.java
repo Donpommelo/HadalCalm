@@ -57,7 +57,7 @@ public class SlodgeGun extends RangedWeapon {
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		new ParticleEntity(state, hbox, Particle.DEBRIS_TRAIL, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

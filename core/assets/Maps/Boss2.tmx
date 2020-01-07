@@ -41,7 +41,7 @@
   <object id="6" name="Multitrigger" type="Multitrigger" x="640" y="224" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="startTimer,spawn0,save1,bounds1,bounds2,shaderTest3"/>
+    <property name="triggeringId" value="startTimer,spawn0,save1,shaderTest3"/>
    </properties>
   </object>
   <object id="7" name="Start" type="Start" x="1568" y="1312" width="32" height="32"/>

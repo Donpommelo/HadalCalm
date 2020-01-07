@@ -1,6 +1,5 @@
 package com.mygdx.hadal.statuses;
 
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -67,7 +66,7 @@ public class FiringWeapon extends Status {
 			
 			projOrigin = inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize);
 			
-			inflicted.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, inflicted.getCurrentTool(), null);
+			inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
 			
 			inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxfilter());
 		}

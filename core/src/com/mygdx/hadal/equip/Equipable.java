@@ -1,13 +1,10 @@
 package com.mygdx.hadal.equip;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Stats;
 
 public abstract class Equipable {	
@@ -50,8 +47,6 @@ public abstract class Equipable {
 	
 	protected Vector2 weaponVelo = new Vector2();
 	protected Vector2 mouseLocation = new Vector2();
-	
-	protected ArrayList<WeaponModifier> weaponMods = new ArrayList<WeaponModifier>();
 	
 	/**
 	 * Equipables are constructed when creating tool spawns or default schmuck loadouts
@@ -190,8 +185,6 @@ public abstract class Equipable {
 	public void setChargeCd(float chargeCd) { this.chargeCd = chargeCd; }
 	
 	public float getChargeTime() { return chargeTime * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE)); }
-
-	public ArrayList<WeaponModifier> getWeaponMods() { return weaponMods; }
 
 	public Vector2 getWeaponVelo() { return weaponVelo; }
 

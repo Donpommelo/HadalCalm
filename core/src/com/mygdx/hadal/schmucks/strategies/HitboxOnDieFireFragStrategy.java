@@ -5,7 +5,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -21,7 +20,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 	
 	private int numFrag;
-	private Equipable tool;
 	private short filter;
 
 	private final static int projectileWidth = 50;
@@ -34,9 +32,8 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 	private final static float baseDamage = 8.0f;
 	private final static float knockback = 5.0f;
 	
-	public HitboxOnDieFireFragStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, int numFrag, short filter) {
+	public HitboxOnDieFireFragStrategy(PlayState state, Hitbox proj, BodyData user, int numFrag, short filter) {
 		super(state, proj, user);
-		this.tool = tool;
 		this.filter = filter;
 		this.numFrag = numFrag;
 	}
@@ -56,7 +53,7 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, creator));
 			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, creator));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, tool, baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, baseDamage, knockback, DamageTypes.RANGED));
 			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		}
 	}

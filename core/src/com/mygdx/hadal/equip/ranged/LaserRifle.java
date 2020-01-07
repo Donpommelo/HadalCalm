@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -55,7 +54,6 @@ public class LaserRifle extends RangedWeapon {
 	private Vector2 endPt = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
-		final Equipable tool = this;
 		
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
@@ -123,7 +121,7 @@ public class LaserRifle extends RangedWeapon {
 		};
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			@Override
@@ -131,7 +129,7 @@ public class LaserRifle extends RangedWeapon {
 				if (fixB != null) {
 					
 					//hard coded way of making a static hbox apply knockback
-					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, tool, false);
+					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, false);
 				}
 			}
 		});

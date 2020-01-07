@@ -16,7 +16,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.StatusProcTime;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Stats;
 
 public class Airblaster extends MeleeWeapon {
@@ -45,7 +45,7 @@ public class Airblaster extends MeleeWeapon {
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), 
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), 
 				DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
 		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		
@@ -63,6 +63,6 @@ public class Airblaster extends MeleeWeapon {
 			}
 		});
 		
-		user.getBodyData().statusProcTime(StatusProcTime.ON_AIRBLAST, user.getBodyData(), 0.0f, null, this, null);
+		user.getBodyData().statusProcTime(new ProcTime.Airblast(this));
 	}
 }

@@ -22,7 +22,6 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.statuses.WeaponModifier;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -254,10 +253,6 @@ public class PlayerBodyData extends BodyData {
 		
 		UnlockEquip unlock = UnlockEquip.getUnlockFromEquip(equip.getClass());
 		
-		for (WeaponModifier s : equip.getWeaponMods()) {
-			addStatus(s);
-		}
-		
 		for (int i = 0; i < getNumWeaponSlots(); i++) {
 			if (multitools[i] instanceof NothingWeapon) {
 				multitools[i] = equip;
@@ -272,10 +267,6 @@ public class PlayerBodyData extends BodyData {
 		}
 		
 		Equipable old = multitools[currentSlot];
-		
-		for (WeaponModifier s : old.getWeaponMods()) {
-			removeStatus(s);
-		}
 		
 		multitools[currentSlot] = equip;
 		multitools[currentSlot].setUser(player);
@@ -314,10 +305,6 @@ public class PlayerBodyData extends BodyData {
 	 * empties a slot. Used when running out of ammunition
 	 */
 	public void emptySlot(int slot) {
-		
-		for (Status s : multitools[slot].getWeaponMods()) {
-			removeStatus(s);
-		}
 		
 		multitools[slot] = new NothingWeapon(player);
 		multitools[slot].setUser(player);
@@ -582,7 +569,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	@Override
-	public void die(BodyData perp, Equipable tool) {
+	public void die(BodyData perp) {
 		if (player.isAlive()) {
 			
 			player.createGibs();
@@ -592,7 +579,7 @@ public class PlayerBodyData extends BodyData {
 			if (player.getMouse() != player.getState().getMouse()) {
 				player.getMouse().queueDeletion();
 			}
-			super.die(perp, tool);
+			super.die(perp);
 			
 			//Send death notification to all players
 			if (perp instanceof PlayerBodyData) {

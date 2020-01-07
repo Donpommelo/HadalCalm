@@ -4,7 +4,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -62,10 +61,8 @@ public class Underminer extends RangedWeapon {
 		hbox.setGravity(4.0f);
 		hbox.setDurability(2);
 		
-		final Equipable tool = this;
-		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private boolean activated = false;
@@ -107,7 +104,7 @@ public class Underminer extends RangedWeapon {
 			public void die() {
 				
 				//hbox releases frags when it dies
-				WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), tool, explosionDamage, explosionKnockback, filter);
+				WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), explosionDamage, explosionKnockback, filter);
 				
 				for (int i = 0; i < numProj; i++) {
 					float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
@@ -117,7 +114,7 @@ public class Underminer extends RangedWeapon {
 					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees), filter, true, true, user, fragSprite);
 					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
 					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), tool, fragDamage, knockback, DamageTypes.RANGED));
+					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
 				}
 			}
 		});

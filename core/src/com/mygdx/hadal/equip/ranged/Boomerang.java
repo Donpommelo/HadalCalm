@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -42,8 +41,6 @@ public class Boomerang extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		
-		final Equipable tool = this;
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespanx, startVelocity, (short) 0, false, true, user, projSprite);		
 		hbox.setRestitution(0.5f);
@@ -89,12 +86,10 @@ public class Boomerang extends RangedWeapon {
 							}
 							this.hbox.queueDeletion();
 						} else {
-							fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback), 
-									user.getBodyData(), tool, true, DamageTypes.RANGED);
+							fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback), user.getBodyData(), true, DamageTypes.RANGED);
 						}
 					} else {
-						fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback), 
-								user.getBodyData(), tool, true, DamageTypes.RANGED);
+						fixB.receiveDamage(baseDamage, this.hbox.getLinearVelocity().nor().scl(knockback), user.getBodyData(), true, DamageTypes.RANGED);
 					}
 				}
 			}

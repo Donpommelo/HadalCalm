@@ -51,7 +51,7 @@ public class Maelstrom extends RangedWeapon {
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactChainStrategy(state, hbox, user.getBodyData(), chainAmount, filter));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		
 		new ParticleEntity(state, hbox, Particle.LIGHTNING, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 	}

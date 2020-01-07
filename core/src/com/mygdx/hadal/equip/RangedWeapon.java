@@ -4,7 +4,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatusProcTime;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Stats;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
@@ -104,7 +104,7 @@ public class RangedWeapon extends Equipable {
 		
 		//if we are able to fire, shoot gun
 		if (processClip(state, shooter)) {
-			shooter.statusProcTime(StatusProcTime.ON_SHOOT, null, 0, null, this, null);
+			shooter.statusProcTime(new ProcTime.Shoot(this));
 			
 			projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize));
 			
@@ -174,9 +174,6 @@ public class RangedWeapon extends Equipable {
 		//Keep track of how long schmuck has been reloading. If done, get more ammo.
 		if (reloadCd < getReloadTime()) {
 			reloadCd += delta;
-			
-			user.getBodyData().statusProcTime(StatusProcTime.WHILE_RELOADING, null, delta, null, this, null);
-			
 		} else {
 			
 			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
@@ -192,7 +189,7 @@ public class RangedWeapon extends Equipable {
 			
 			reloadCd = 0;
 
-			user.getBodyData().statusProcTime(StatusProcTime.ON_RELOAD, null, 0, null, this, null);
+			user.getBodyData().statusProcTime(new ProcTime.Reload(this));
 
 			//If clip is full finish reloading.
 			if (clipLeft >= getClipSize()) {

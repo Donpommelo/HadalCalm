@@ -3,7 +3,6 @@ package com.mygdx.hadal.equip.actives;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -50,8 +49,6 @@ public class TractorBeam extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, final PlayerBodyData user) {
 		
-		final Equipable tool = this;
-		
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite) {
 			
@@ -92,17 +89,14 @@ public class TractorBeam extends ActiveItem {
 										if (fixB != null && track.getTarget().getBody() != null) {
 
 											if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-												track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0),
-														creator, tool, true, DamageTypes.RANGED);
+												track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.RANGED);
 											}
 
 											if (fixB.getType().equals(UserDataTypes.BODY)) {
-												fixB.receiveDamage(primaryDamage, this.hbox.getLinearVelocity().nor().scl(knockback),
-														creator, tool, true, DamageTypes.RANGED);
+												fixB.receiveDamage(primaryDamage, this.hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.RANGED);
 											}
 										} else {
-											track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0),
-													creator, tool, true, DamageTypes.RANGED);
+											track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.RANGED);
 										}
 									}
 								}

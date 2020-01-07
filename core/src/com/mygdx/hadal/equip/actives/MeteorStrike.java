@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -56,8 +55,6 @@ public class MeteorStrike extends ActiveItem {
 		endPt.set(originPt).add(0, -range);
 		shortestFraction = 1.0f;
 		
-		final Equipable tool = this;
-		
 		if (originPt.x != endPt.x || originPt.y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {
@@ -91,7 +88,7 @@ public class MeteorStrike extends ActiveItem {
 							user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.NOTHING);
 					
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, tool, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 						
 						@Override

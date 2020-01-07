@@ -152,9 +152,4 @@ public class UnlockManager {
 		CHARACTER,
 		LEVEL
 	}
-	
-	public enum ModTag {
-		MISC,
-		RANDOM_POOL
-	}
 }

@@ -48,7 +48,7 @@ public class WaveCannon extends RangedWeapon {
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
@@ -72,7 +72,7 @@ public class WaveCannon extends RangedWeapon {
 		
 		hbox2.addStrategy(new HitboxDefaultStrategy(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox2, user.getBodyData()));
-		hbox2.addStrategy(new HitboxDamageStandardStrategy(state, hbox2, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox2.addStrategy(new HitboxDamageStandardStrategy(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		
 		hbox2.addStrategy(new HitboxStrategy(state, hbox2, user.getBodyData()) {
 			

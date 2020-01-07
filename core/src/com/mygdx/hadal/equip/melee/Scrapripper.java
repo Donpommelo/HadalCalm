@@ -40,7 +40,7 @@ public class Scrapripper extends MeleeWeapon {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
 		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		new ParticleEntity(state, hbox, Particle.EXPLOSION, 0.2f, 0.0f, true, particleSyncType.CREATESYNC);
 	}

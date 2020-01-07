@@ -28,7 +28,7 @@ public class AdministratorCard extends Artifact {
 			private ArrayList<UnlockArtifact> unlocks = new ArrayList<UnlockArtifact>();
 			
 			@Override
-			public void levelStart() {
+			public void playerCreate() {
 				
 				if (inflicted.getSchmuck() instanceof Player) {
 					int artifactsAdded = 0;

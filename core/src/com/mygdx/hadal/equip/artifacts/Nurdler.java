@@ -44,7 +44,7 @@ public class Nurdler extends Artifact {
 			private Vector2 startVelo = new Vector2();
 			
 			@Override
-			public void whileShooting(float delta, Equipable tool) {
+			public void whileAttacking(float delta, Equipable tool) {
 				
 				if (procCdCount < procCd) {
 					procCdCount += delta;
@@ -59,7 +59,7 @@ public class Nurdler extends Artifact {
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, inflicted));
 					hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, inflicted));
 					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, inflicted));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, inflicted, null, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, inflicted, baseDamage, knockback, DamageTypes.RANGED));
 					hbox.addStrategy(new HitboxSpreadStrategy(state, hbox, inflicted, spread));
 				}
 			}

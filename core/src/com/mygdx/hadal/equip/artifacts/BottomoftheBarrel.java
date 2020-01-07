@@ -10,7 +10,7 @@ import com.mygdx.hadal.statuses.StatusComposite;
 public class BottomoftheBarrel extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
 	private final static float damageAmp = 2.0f;
 	private final static float ammoThreshold = 0.25f;

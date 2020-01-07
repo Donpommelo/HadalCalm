@@ -341,14 +341,6 @@ MATTER_UNIVERSALIZER: {
 		RANDOM_POOL,
 	]
 }
-MODERATOR_CARD: {
-	name: Moderator Card
-	description: "Upon Spawning, Upgrade Weapons"
-    descriptionLong: "TEST"
-	tags: [
-		RELIQUARY,
-	]
-}
 MOON_FLUTHER: {
 	name: Moon Fluther
 	description: "+Hovering Power"

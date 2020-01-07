@@ -50,7 +50,6 @@ public enum UnlockArtifact {
 	MANGROVE_TALISMAN(new MangroveTalisman()),
 	MASK_OF_SYMPATHY(new MaskofSympathy()),
 	MATTER_UNIVERSALIZER(new MatterUniversalizer()),
-	MODERATOR_CARD(new ModeratorCard()),
 	MOON_FLUTHER(new MoonFluther()),
 	MOUTHBREATHER_TALISMAN(new MouthbreatherTalisman()),
 	MUDDLING_CUP(new MuddlingCup()),

@@ -35,6 +35,6 @@ public class TorpedoLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		WeaponUtils.createTorpedo(state, startPosition, projectileSize, user, this, baseDamage, knockback, lifespan, startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);
+		WeaponUtils.createTorpedo(state, startPosition, projectileSize, user, baseDamage, knockback, lifespan, startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);
 	}
 }

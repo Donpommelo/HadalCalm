@@ -27,6 +27,6 @@ public class BeeGun extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		WeaponUtils.createBees(state, startPosition, user, this, 1, startVelocity, true, filter);
+		WeaponUtils.createBees(state, startPosition, user, 1, startVelocity, true, filter);
 	}
 }

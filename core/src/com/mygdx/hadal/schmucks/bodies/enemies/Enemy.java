@@ -2,14 +2,13 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatusProcTime;
+import com.mygdx.hadal.statuses.ProcTime;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -67,15 +66,15 @@ public class Enemy extends Schmuck {
 		this.bodyData = new BodyData(this, baseHp) {
 			
 			@Override
-			public void die(BodyData perp, Equipable tool) {
+			public void die(BodyData perp) {
 				if (schmuck.queueDeletion()) {
 					
 					//if this was spawned by an spawing event, run its on-death method
 					if (spawner != null) {
 						spawner.onDeath(schmuck);
 					}
-					perp.statusProcTime(StatusProcTime.ON_KILL, this, 0, null, tool, null);
-					statusProcTime(StatusProcTime.ON_DEATH, perp, 0, null, currentTool, null);
+					perp.statusProcTime(new ProcTime.Kill(this));
+					statusProcTime(new ProcTime.Death(perp));
 				}	
 			}
 		};

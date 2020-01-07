@@ -39,7 +39,7 @@ public class Iceberg extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setGravity(10);
 		
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));	
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			float controllerCount = 0;

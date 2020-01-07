@@ -37,7 +37,7 @@ public class AnarchistsCookbook extends Artifact {
 			public void timePassing(float delta) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					WeaponUtils.createGrenade(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, inflicted.getSchmuck(), inflicted.getCurrentTool(), 
+					WeaponUtils.createGrenade(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, inflicted.getSchmuck(), 
 							baseDamage, knockback, lifespan, new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
 				}
 				procCdCount += delta;

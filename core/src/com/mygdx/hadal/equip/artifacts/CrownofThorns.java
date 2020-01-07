@@ -54,7 +54,7 @@ public class CrownofThorns extends Artifact {
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, inflicted));
 				hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, inflicted));
 				hbox.addStrategy(new HitboxOnContactStickStrategy(state, hbox, inflicted, true, false));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, inflicted, null, thornDamage, thornKnockback, DamageTypes.RANGED));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.RANGED));
 				
 				return damage;
 			}

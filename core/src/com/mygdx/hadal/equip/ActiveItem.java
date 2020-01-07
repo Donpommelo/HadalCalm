@@ -6,6 +6,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -49,6 +50,9 @@ public class ActiveItem extends Equipable {
 	 */
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
+		
+		user.getBodyData().statusProcTime(new ProcTime.ActiveUse(this));
+		
 		if (currentCharge >= maxCharge) {
 			currentCharge = 0;
 			useItem(state, (PlayerBodyData)shooter);

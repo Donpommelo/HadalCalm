@@ -17,7 +17,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.StatusProcTime;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -143,7 +143,7 @@ public class Schmuck extends HadalEntity {
 		}
 		
 		//Process statuses
-		bodyData.statusProcTime(StatusProcTime.TIME_PASS, null, delta, null, bodyData.getCurrentTool(), null);
+		bodyData.statusProcTime(new ProcTime.TimePass(delta));
 	}
 	
 	@Override
@@ -172,7 +172,7 @@ public class Schmuck extends HadalEntity {
 	 */
 	public void useToolStart(float delta, Equipable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
 		
-		bodyData.statusProcTime(StatusProcTime.WHILE_ATTACKING, null, delta, null, tool, null);
+		bodyData.statusProcTime(new ProcTime.WhileAttack(delta, tool));
 		
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {

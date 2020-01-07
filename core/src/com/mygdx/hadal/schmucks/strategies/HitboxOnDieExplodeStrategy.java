@@ -1,6 +1,5 @@
 package com.mygdx.hadal.schmucks.strategies;
 
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -17,24 +16,20 @@ public class HitboxOnDieExplodeStrategy extends HitboxStrategy{
 	private float explosionDamage, explosionKnockback;
 	private int explosionRadius;
 	
-	//the tool used to create the hitbox that has this strategy.
-		private Equipable tool;
-		
 	//the hitbox filter of units that can be damaged b ythe explosion.
 	private short filter;
 	
-	public HitboxOnDieExplodeStrategy(PlayState state, Hitbox proj, BodyData user, Equipable tool, int explosionRadius, float explosionDamage, 
+	public HitboxOnDieExplodeStrategy(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage, 
 			float explosionKnockback, short filter) {
 		super(state, proj, user);
 		this.explosionRadius = explosionRadius;
 		this.explosionDamage = explosionDamage;
 		this.explosionKnockback = explosionKnockback;
-		this.tool = tool;
 		this.filter = filter;
 	}
 	
 	@Override
 	public void die() {
-		WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), tool, explosionDamage, explosionKnockback, filter);
+		WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), explosionDamage, explosionKnockback, filter);
 	}
 }

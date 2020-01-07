@@ -1,9 +1,11 @@
 package com.mygdx.hadal.statuses;
 
+import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.ProcTime.*;
 
 /**
  * A status is a thing that afflicts a schmuck and has some affect for its duration.
@@ -40,61 +42,58 @@ public class Status {
 	 * Each status runs this at any Status Proc Time. This triggers the effects of statuses
 	 * Each input is some information that a specific proc time needs to process.
 	 */
-	public float statusProcTime(StatusProcTime procTime, BodyData schmuck, float amount, Status status, Equipable tool, Hitbox hbox, DamageTypes... tags) {
+	public float statusProcTime(Object o) {
 		
-		float finalAmount = amount;
+		float finalAmount = 0;
 		
-		switch(procTime) {
-		case ON_INFLICT:
-			onInflict(status);
-			break;
-		case ON_REMOVE:
-			onRemove(status);
-			break;
-		case STAT_CHANGE:
+		if (o instanceof ProcTime.PlayerCreate) { 
+			playerCreate();
+		} else if (o instanceof StatusInflict){
+			StatusInflict pt = (StatusInflict)o;
+			onInflict(pt.s);
+		} else if (o instanceof StatusRemove){
+			StatusRemove pt = (StatusRemove)o;
+			onRemove(pt.s);
+		} else if (o instanceof StatCalc){
 			statChanges();
-			break;
-		case DEAL_DAMAGE:
-			finalAmount = onDealDamage(finalAmount, schmuck, tags);
-			break;
-		case RECEIVE_DAMAGE:
-			finalAmount = onReceiveDamage(finalAmount, schmuck, tags);
-			break;
-		case TIME_PASS:
-			timePassing(amount);
-			break;
-		case ON_KILL:
-			onKill(schmuck);
-			break;
-		case ON_DEATH:
-			onDeath(schmuck);
-			break;
-		case ON_HEAL:
-			finalAmount = onHeal(finalAmount, schmuck, tags);
-			break;
-		case WHILE_ATTACKING:
-			whileShooting(amount, tool);
-			break;
-		case ON_SHOOT:
-			onShoot(tool);
-			break;
-		case WHILE_RELOADING:
-			whileReloading(amount, tool);
-			break;
-		case ON_RELOAD:
-			onReload(tool);
-			break;
-		case HITBOX_CREATION:
-			onHitboxCreation(hbox);
-			break;
-		case LEVEL_START:
-			levelStart();
-			break;
-		case ON_AIRBLAST:
-			onAirBlast(tool);
-			break;
-		default:
-			break;
+		} else if (o instanceof ReceiveDamage){
+			ReceiveDamage pt = (ReceiveDamage)o;
+			finalAmount = onReceiveDamage(pt.damage, pt.perp, pt.tags);
+		} else if (o instanceof InflictDamage){
+			InflictDamage pt = (InflictDamage)o;
+			finalAmount = onDealDamage(pt.damage, pt.vic, pt.tags);
+		} else if (o instanceof ReceiveHeal){
+			ReceiveHeal pt = (ReceiveHeal)o;
+			finalAmount = onHeal(pt.heal, pt.perp, pt.tags);
+		} else if (o instanceof Kill){
+			Kill pt = (Kill)o;
+			onKill(pt.vic);
+		} else if (o instanceof Death){
+			Death pt = (Death)o;
+			onDeath(pt.perp);
+		} else if (o instanceof TimePass){
+			TimePass pt = (TimePass)o;
+			timePassing(pt.time);
+		} else if (o instanceof WhileAttack){
+			WhileAttack pt = (WhileAttack)o;
+			whileAttacking(pt.time, pt.tool);
+		} else if (o instanceof Shoot){
+			Shoot pt = (Shoot)o;
+			onShoot(pt.tool);
+		} else if (o instanceof Reload){
+			Reload pt = (Reload)o;
+			onReload(pt.tool);
+		} else if (o instanceof CreateHitbox){
+			CreateHitbox pt = (CreateHitbox)o;
+			onHitboxCreation(pt.hbox);
+		} else if (o instanceof PlayerCreate){
+			playerCreate();
+		} else if (o instanceof Airblast){
+			Airblast pt = (Airblast)o;
+			onAirBlast(pt.tool);
+		} else if (o instanceof ActiveUse){
+			ActiveUse pt = (ActiveUse)o;
+			beforeActiveItem(pt.tool);
 		}
 		return finalAmount;
 	}
@@ -140,20 +139,20 @@ public class Status {
 	
 	public void onDeath(BodyData perp) {}
 
-	public void whileShooting(float delta, Equipable tool) {}
+	public void whileAttacking(float delta, Equipable tool) {}
 	
 	public void onShoot(Equipable tool) {}
-	
-	public void whileReloading(float delta, Equipable tool) {}
 	
 	public void onReload(Equipable tool) {}
 	
 	public void onHitboxCreation(Hitbox hbox) {}
 	
-	public void levelStart() {}
+	public void playerCreate() {}
 	
 	public void onAirBlast(Equipable tool) {}
 
+	public void beforeActiveItem(ActiveItem tool) {}
+	
 	public BodyData getInflicter() { return inflicter; }
 
 	public void setInflicter(BodyData inflicter) { this.inflicter = inflicter; }

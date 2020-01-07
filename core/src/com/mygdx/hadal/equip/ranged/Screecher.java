@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -56,7 +55,6 @@ public class Screecher extends RangedWeapon {
 	private Vector2 newPosition = new Vector2();
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
-		final Equipable tool = this;
 		
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = range * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
@@ -101,7 +99,7 @@ public class Screecher extends RangedWeapon {
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
 		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override
@@ -109,7 +107,7 @@ public class Screecher extends RangedWeapon {
 				if (fixB != null) {
 					
 					//hard coded way of making a static hbox apply knockback
-					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, tool, false);
+					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, false);
 				}
 			}
 		});

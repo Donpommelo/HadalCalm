@@ -146,7 +146,7 @@ public class BossUtils {
 				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), boss.getSize(), duration, boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, damage, knockback, DamageTypes.MELEE));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
 				hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
 			}
 		});
@@ -166,7 +166,7 @@ public class BossUtils {
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxOnContactUnitStatusStrategy(state, hbox, boss.getBodyData(), 
 						new Ablaze(state, fireDuration, boss.getBodyData(), boss.getBodyData(), fireDamage)));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
 		});
@@ -183,7 +183,7 @@ public class BossUtils {
 						boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
 				new ParticleEntity(state, hbox, particle, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
@@ -201,7 +201,7 @@ public class BossUtils {
 				hbox.setRestitution(1);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 				
 			}
@@ -217,7 +217,7 @@ public class BossUtils {
 						boss.getHitboxfilter(), true, true, boss, Sprite.ORB_RED);
 				
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
 			}
 		});
@@ -239,7 +239,7 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
-				WeaponUtils.createExplosion(state, pos, size, boss, null, baseDamage, knockback, boss.getHitboxfilter());
+				WeaponUtils.createExplosion(state, pos, size, boss, baseDamage, knockback, boss.getHitboxfilter());
 			}
 		});
 	}
@@ -274,7 +274,7 @@ public class BossUtils {
 					hbox.setGravity(1.0f);
 					
 					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), null, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
 				}
 			}

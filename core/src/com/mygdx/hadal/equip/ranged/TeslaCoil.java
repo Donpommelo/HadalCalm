@@ -58,7 +58,6 @@ public class TeslaCoil extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		final Vector2 endLocation = new Vector2(this.mouseLocation);
-		final TeslaCoil tool = this;
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
 		
@@ -169,7 +168,7 @@ public class TeslaCoil extends RangedWeapon {
 						
 						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData(), false));
-						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, pulseDamage, 0, DamageTypes.RANGED));
+						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), pulseDamage, 0, DamageTypes.RANGED));
 						new ParticleEntity(state, pulse, Particle.LASER_PULSE, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
 					}
 				}

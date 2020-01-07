@@ -178,9 +178,9 @@ public class UIExtra extends AHadalActor{
 				field.setScore(field.getScore() + score);
 				field.setLives(field.getLives() + lives);
 				
-				//If a single player rund out of lives, they die
+				//If a single player runs out of lives, they die
 				if (field.getLives() <= 0 && state.getLives() != 0) {
-					p.getPlayerData().die(state.getWorldDummy().getBodyData(), null);
+					p.getPlayerData().die(state.getWorldDummy().getBodyData());
 				}
 			}
 		}

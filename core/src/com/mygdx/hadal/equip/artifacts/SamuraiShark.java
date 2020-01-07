@@ -45,7 +45,7 @@ public class SamuraiShark extends Artifact {
 					if (GameStateManager.generator.nextDouble() < critChance) {
 						procCdCount -= procCd;
 						hbox.setStartVelo(hbox.getStartVelo().scl(critSpeedMultiplier));
-						hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, b, b.getCurrentTool(), critDamageBoost, 0, DamageTypes.RANGED));
+						hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, b, critDamageBoost, 0, DamageTypes.RANGED));
 						hbox.addStrategy(new HitboxOnDieParticles(state, hbox, b, Particle.EXPLOSION));
 					}
 				}

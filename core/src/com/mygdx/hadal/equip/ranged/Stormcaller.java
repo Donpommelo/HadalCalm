@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -45,8 +44,6 @@ public class Stormcaller extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		
-		final Equipable tool = this;
-		
 		explosionSize.set(projectileSize);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
@@ -64,7 +61,7 @@ public class Stormcaller extends RangedWeapon {
 					
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), tool, baseDamage, knockback, DamageTypes.RANGED));
+					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
 					
 					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {

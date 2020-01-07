@@ -35,7 +35,7 @@ public class RingoftheLamprey extends Artifact {
 					procCdCount -= procCd;
 					
 					if ((inflicter.getCurrentHp() / inflicter.getStat(Stats.MAX_HP)) >= hpThreshold) {
-						inflicter.receiveDamage(damage, new Vector2(0, 0), inflicter, null, true);
+						inflicter.receiveDamage(damage, new Vector2(0, 0), inflicter, true);
 					}
 				}
 				procCdCount += delta;

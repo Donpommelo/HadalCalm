@@ -32,7 +32,7 @@ public class PetrifiedSynapse extends Artifact {
 					procCdCount -= procCd;
 					if (damageLeft > 0) {
 						float damage = delta * degen;
-						inflicted.receiveDamage(damage, new Vector2(0, 0), inflicted, inflicted.getCurrentTool(), false);
+						inflicted.receiveDamage(damage, new Vector2(0, 0), inflicted, false);
 						damageLeft -= damage;
 					}
 				}

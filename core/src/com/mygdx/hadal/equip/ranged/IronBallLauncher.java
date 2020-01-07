@@ -42,6 +42,6 @@ public class IronBallLauncher extends RangedWeapon {
 		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData(), false));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), this, baseDamage, knockback, DamageTypes.RANGED));	
+		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
 	}
 }

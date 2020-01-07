@@ -14,7 +14,7 @@ import com.mygdx.hadal.schmucks.userdata.HitboxData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
-import com.mygdx.hadal.statuses.StatusProcTime;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -97,7 +97,7 @@ public class Hitbox extends HadalEntity {
 		
 		//procEffects determines whether we activate statuses or not.
 		if (procEffects) {
-			creator.getBodyData().statusProcTime(StatusProcTime.HITBOX_CREATION, creator.getBodyData(), 0, null, creator.getBodyData().getCurrentTool(), this);
+			creator.getBodyData().statusProcTime(new ProcTime.CreateHitbox(this));
 		}
 	}
 	
