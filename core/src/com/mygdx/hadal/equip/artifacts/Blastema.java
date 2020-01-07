@@ -10,7 +10,7 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
-public class LoamskinAmulet extends Artifact {
+public class Blastema extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
@@ -18,7 +18,7 @@ public class LoamskinAmulet extends Artifact {
 	private final static float regenCd = 5.0f;
 	private final static float regen = 2.5f;
 	
-	public LoamskinAmulet() {
+	public Blastema() {
 		super(slotCost, statusNum);
 	}
 

@@ -6,14 +6,14 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
-public class AmmoDrum extends Artifact {
+public class ShipinaBottle extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
 	private final static float bonusAmmo = 0.40f;
 	
-	public AmmoDrum() {
+	public ShipinaBottle() {
 		super(slotCost, statusNum);
 	}
 

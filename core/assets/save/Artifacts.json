@@ -34,10 +34,10 @@ ADMINISTRATOR_CARD: {
 		RELIQUARY,
 	]
 }
-AMMO_DRUM: {
-	name: Ammo Drum
-	description: "+Ammo Capacity"
-    descriptionLong: "More bullet."
+ALBATROSS_NECKLACE: {
+	name: Albatross Necklace
+	description: "+Hp, Become Heavier"
+    descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -115,6 +115,15 @@ CALL_OF_THE_VOID: {
 		RANDOM_POOL,
 	]
 }
+CATALOG_OF_WANT: {
+	name: Catalog of Want
+	description: "Spend Hp to use Uncharged Actives"
+    descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 CLAWS_OF_FESTUS: {
 	name: Claws of Festus
 	description: "Enables Wall-Climbing"
@@ -128,6 +137,15 @@ CLOCKWISE_CAGE: {
 	name: Clockwise Cage
 	description: "Projectile Echo"
     descriptionLong: "A round metal birdcage occupied by a temporarily improbable bird. It looks familiar."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+COMMUTERS_PARASOL: {
+	name: Commuter's Parasol
+	description: "Periodically Blocks Projectiles from Above"
+    descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -305,8 +323,17 @@ INFORMANTS_TIE: {
 		RANDOM_POOL,
 	]
 }
-LOAMSKIN_AMULET: {
-	name: Loamskin Amulet
+IRON_SIGHTS: {
+	name: Iron Sights
+	description: "-Recoil, +Projectile Speed"
+    descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+BLASTEMA: {
+	name: Blastema
 	description: "Receiving Damage Grants +Hp Regeneration"
     descriptionLong: "TEST"
 	tags: [
@@ -395,6 +422,15 @@ NUCLEAR_PUNCH_THRUSTERS: {
 NURDLER: {
 	name: Nurdler
 	description: "Fire Pellets When Attacking"
+    descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+OL_FAITHFUL: {
+	name: Ol' Faithful
+	description: "-2 Weapon Slots. +Ammo, Reload and Attack Speed"
     descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,
@@ -490,6 +526,15 @@ ROYAL_JUJUBE_BANG: {
 		RANDOM_POOL,
 	]
 }
+SALIGRAM: {
+	name: Saligram
+	description: "+Damage Resistance"
+    descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 SAMURAI_SHARK: {
 	name: Samurai Shark
 	description: "Critical Projectiles"
@@ -521,6 +566,15 @@ SHILLERS_DEATHCAP: {
 	name: Shiller's Deathcap
 	description: "Projectile Poison Trail"
     descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+SHIP_IN_A_BOTTLE: {
+	name: Ship in a Bottle
+	description: "+Ammo Capacity"
+    descriptionLong: ""
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
