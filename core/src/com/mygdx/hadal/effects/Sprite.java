@@ -105,7 +105,6 @@ public enum Sprite {
 	UI_MAIN_NULL(SpriteType.UI, "UI_main_null"),
 	UI_MAIN_SELECTED(SpriteType.UI, "UI_main_selected"),
 	UI_MAIN_UNSELECTED(SpriteType.UI, "UI_main_unselected"),
-
 	UI_MO_BASE(SpriteType.UI, "UI_momentum_base"),
 	UI_MO_READY(SpriteType.UI, "UI_momentum_ready"),
 	UI_MO_OVERLAY(SpriteType.UI, "UI_momentum_overlay"),
