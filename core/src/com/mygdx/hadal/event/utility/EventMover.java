@@ -2,7 +2,7 @@ package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.MovingPlatform;
+import com.mygdx.hadal.event.MovingPoint;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
@@ -70,8 +70,8 @@ public class EventMover extends Event {
 			dist.set(getPosition().sub(getConnectedEvent().getPosition()));
 			getConnectedEvent().setTransform(getPosition(), 0);
 			
-			if (getConnectedEvent() instanceof MovingPlatform) {
-				for (Event connect : ((MovingPlatform)getConnectedEvent()).getConnected()) {
+			if (getConnectedEvent() instanceof MovingPoint) {
+				for (Event connect : ((MovingPoint)getConnectedEvent()).getConnected()) {
 					connect.setTransform(connect.getPosition().add(dist), 0);
 				}
 			}

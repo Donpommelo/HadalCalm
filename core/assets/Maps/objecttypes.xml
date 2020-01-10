@@ -103,6 +103,13 @@
   <property name="triggeringId" type="string"/>
   <property name="type" type="string"/>
  </objecttype>
+ <objecttype name="MovePoint" color="#ffaa00">
+  <property name="connections" type="string"/>
+  <property name="pause" type="bool" default="false"/>
+  <property name="speed" type="float" default="1"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
  <objecttype name="Multitrigger" color="#a0a0a4">
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
@@ -123,10 +130,13 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Platform" color="#ffaa00">
-  <property name="connections" type="string"/>
-  <property name="pause" type="bool" default="false"/>
-  <property name="speed" type="float" default="1"/>
+ <objecttype name="Platform" color="#ffaaff">
+  <property name="enemy" type="bool" default="true"/>
+  <property name="event" type="bool" default="true"/>
+  <property name="friction" type="float" default="1"/>
+  <property name="hbox" type="bool" default="true"/>
+  <property name="player" type="bool" default="true"/>
+  <property name="restitution" type="float" default="0"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
@@ -192,14 +202,6 @@
   <property name="bossName" type="string"/>
   <property name="enemyId" type="int" default="0"/>
   <property name="extra" type="int" default="0"/>
-  <property name="triggeredId" type="string"/>
-  <property name="triggeringId" type="string"/>
- </objecttype>
- <objecttype name="Semiperm" color="#ffaaff">
-  <property name="enemy" type="bool" default="false"/>
-  <property name="event" type="bool" default="false"/>
-  <property name="hbox" type="bool" default="false"/>
-  <property name="player" type="bool" default="false"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

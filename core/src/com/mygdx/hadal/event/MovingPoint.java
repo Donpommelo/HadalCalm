@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -29,14 +28,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Zachary Tu
  *
  */
-public class MovingPlatform extends Event {
+public class MovingPoint extends Event {
 
 	private float speed;
 	private boolean pause;
 	
 	private ArrayList<Event> connected = new ArrayList<Event>();
 	
-	public MovingPlatform(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause) {
+	public MovingPoint(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause) {
 		super(state, startPos, size);
 		this.speed = speed;
 		this.pause = pause;
@@ -55,10 +54,7 @@ public class MovingPlatform extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, 5.0f, false, true, Constants.BIT_WALL, 
-				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR),
-				(short) 0, false, eventData);
-		
+		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_SENSOR, (short) 0, (short) 0, false, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	
@@ -109,12 +105,6 @@ public class MovingPlatform extends Event {
 				}
 			}
 		} 
-	}
-	
-	@Override
-	public void loadDefaultProperties() {
-		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
-		setScaleAlign("CENTER_STRETCH");
 	}
 	
 	public void addConnection(Event e) {

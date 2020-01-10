@@ -34,13 +34,6 @@ NASU: {
 		NAVIGATIONS,
 	]
 }
-DONT_FALL: {
-	name: DONT_FALL
-	description: TEMP
-	tags: [
-		NAVIGATIONS,
-	]
-}
 DM_GULLY: {
 	name: DM_GULLY
 	description: TEMP

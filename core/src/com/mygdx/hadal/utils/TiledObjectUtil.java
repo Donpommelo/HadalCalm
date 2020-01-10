@@ -64,7 +64,7 @@ public class TiledObjectUtil {
     static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
     static Map<TriggerCond, String> condTriggeringEvents = new HashMap<TriggerCond, String>();
     static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
-    static Map<MovingPlatform, String> platformConnections = new HashMap<MovingPlatform, String>();
+    static Map<MovingPoint, String> platformConnections = new HashMap<MovingPoint, String>();
 
     /**
      * Parses Tiled objects into in game events
@@ -233,17 +233,17 @@ public class TiledObjectUtil {
 					object.getProperties().get("unlock", false, Boolean.class));	
 		}
 		if (object.getName().equals("PlayerMove")) {		
-			e = new PlayerMover(state, position, size);
+			e = new PlayerMover(state);
 		}
 		if (object.getName().equals("TouchPortal")) {		
 			e = new PortalTouch(state, position, size);
 		}
 		if (object.getName().equals("Current")) {
-			Vector2 power = new Vector2(object.getProperties().get("currentX", float.class), object.getProperties().get("currentY", float.class));
+			Vector2 power = new Vector2(object.getProperties().get("currentX", 0.0f, float.class), object.getProperties().get("currentY", 0.0f, float.class));
 			e = new Currents(state, position, size, power);
 		}
 		if (object.getName().equals("Spring")) {
-			Vector2 power = new Vector2(object.getProperties().get("springX", float.class), object.getProperties().get("springY", float.class));
+			Vector2 power = new Vector2(object.getProperties().get("springX", 0.0f, float.class), object.getProperties().get("springY", 0.0f, float.class));
 			e = new Spring(state, position, size, power);
 		}
 		if (object.getName().equals("Equip")) {
@@ -279,16 +279,18 @@ public class TiledObjectUtil {
 					object.getProperties().get("zoom", 1.0f, float.class),
 					object.getProperties().get("clear", true, boolean.class));
 		}
-		if (object.getName().equals("Platform")) {
-			e = new MovingPlatform(state, position, size, 
+		if (object.getName().equals("MovePoint")) {
+			e = new MovingPoint(state, position, size, 
 					object.getProperties().get("speed", 1.0f, float.class),
 					object.getProperties().get("pause", false, boolean.class));
-			platformConnections.put((MovingPlatform)e, object.getProperties().get("connections", "", String.class));
+			platformConnections.put((MovingPoint)e, object.getProperties().get("connections", "", String.class));
 		}
-		if (object.getName().equals("Semiperm")) {
-			e = new SemipermWall(state, position, size, 
-					object.getProperties().get("player", false, boolean.class), object.getProperties().get("hbox", false, boolean.class), 
-					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class));
+		if (object.getName().equals("Platform")) {
+			e = new Platform(state, position, size, 
+					object.getProperties().get("restitution", 0.0f, float.class), 
+					object.getProperties().get("friction", 1.0f, float.class), 
+					object.getProperties().get("player", true, boolean.class), object.getProperties().get("hbox", true, boolean.class), 
+					object.getProperties().get("event", true, boolean.class), object.getProperties().get("enemy", true, boolean.class));
 		}
 		if (object.getName().equals("Armory")) {
 			e = new Armory(state, position, size,
@@ -422,8 +424,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("name", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Camera")) {
-    		p = new CameraPanZone(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new CameraPanZone(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("zoom1", 1.0f, float.class),
 					object.getProperties().get("zoom2", 1.0f, float.class),
 					object.getProperties().get("align", 0, int.class),
@@ -431,28 +432,24 @@ public class TiledObjectUtil {
 					object.getProperties().get("point2", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Limit")) {
-    		p = new Limiter(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new Limiter(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("limit", 0, int.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Weapon")) {
-    		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("mods", 0, int.class),
 					object.getProperties().get("pool", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivate")) {
-    		p = new LeverActivate(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new LeverActivate(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeringId", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivateOnce")) {
-    		p = new LeverActivateOnce(state, (int)rect.width, (int)rect.height, 
-					(int)(rect.x), (int)(rect.y), 
+    		p = new LeverActivateOnce(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeringId", "", String.class));
     	}
     	if (p != null) {
@@ -513,7 +510,7 @@ public class TiledObjectUtil {
         		key.setBlame(triggeredEvents.getOrDefault(redirectTriggeringEvents.get(key), null));
     		}
     	}
-    	for (MovingPlatform key : platformConnections.keySet()) {
+    	for (MovingPoint key : platformConnections.keySet()) {
     		for (String id : platformConnections.get(key).split(",")) {
     			if (!id.equals("")) {
         			key.addConnection(triggeredEvents.getOrDefault(id, null));

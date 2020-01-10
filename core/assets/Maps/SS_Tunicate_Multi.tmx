@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="57">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="60">
  <properties>
   <property name="practice" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
@@ -85,18 +85,6 @@
     <property name="triggeredId" value="floor1"/>
    </properties>
   </object>
-  <object id="26" name="Platform" type="Platform" x="1376" y="1952" width="224" height="32">
-   <properties>
-    <property name="connections" value="elevatorceiling,downbutton,upbutton"/>
-    <property name="speed" type="float" value="7.5"/>
-    <property name="triggeredId" value="elevatorfloor"/>
-   </properties>
-  </object>
-  <object id="27" name="Platform" type="Platform" x="1376" y="1760" width="224" height="32">
-   <properties>
-    <property name="triggeredId" value="elevatorceiling"/>
-   </properties>
-  </object>
   <object id="28" name="Sensor" type="Sensor" x="1408" y="1792" width="32" height="32">
    <properties>
     <property name="align" value="CENTER_STRETCH"/>
@@ -140,21 +128,21 @@
    <properties>
     <property name="blameId" value="floor1"/>
     <property name="triggeredId" value="tofloor1"/>
-    <property name="triggeringId" value="elevatorfloor"/>
+    <property name="triggeringId" value="elevatormove"/>
    </properties>
   </object>
   <object id="34" name="Redirecttrigger" type="Redirecttrigger" x="928" y="2560" width="32" height="32">
    <properties>
     <property name="blameId" value="floor2"/>
     <property name="triggeredId" value="tofloor2"/>
-    <property name="triggeringId" value="elevatorfloor"/>
+    <property name="triggeringId" value="elevatormove"/>
    </properties>
   </object>
   <object id="35" name="Redirecttrigger" type="Redirecttrigger" x="928" y="2496" width="32" height="32">
    <properties>
     <property name="blameId" value="floor3"/>
     <property name="triggeredId" value="tofloor3"/>
-    <property name="triggeringId" value="elevatorfloor"/>
+    <property name="triggeringId" value="elevatormove"/>
    </properties>
   </object>
   <object id="36" name="Multitrigger" type="Multitrigger" x="992" y="2496" width="32" height="32">
@@ -286,6 +274,23 @@
    <properties>
     <property name="textId" value="introMultiA"/>
     <property name="triggeredId" value="introMultiA"/>
+   </properties>
+  </object>
+  <object id="57" name="Platform" type="Platform" x="1376" y="1952" width="224" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorfloor"/>
+   </properties>
+  </object>
+  <object id="58" name="Platform" type="Platform" x="1376" y="1760" width="224" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorceiling"/>
+   </properties>
+  </object>
+  <object id="59" name="MovePoint" type="MovePoint" x="1472" y="1952" width="32" height="32">
+   <properties>
+    <property name="connections" value="elevatorfloor,elevatorceiling,downbutton,upbutton"/>
+    <property name="speed" type="float" value="7.5"/>
+    <property name="triggeredId" value="elevatormove"/>
    </properties>
   </object>
  </objectgroup>

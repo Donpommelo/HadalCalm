@@ -1,12 +1,9 @@
 package com.mygdx.hadal.event.utility;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
  * A PlayerMover is an event that transports the player elsewhere when they it is activated.
@@ -26,8 +23,8 @@ public class PlayerMover extends Event {
 
 	private boolean moving = false;
 
-	public PlayerMover(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, startPos, size);
+	public PlayerMover(PlayState state) {
+		super(state);
 	}
 	
 	@Override
@@ -41,8 +38,6 @@ public class PlayerMover extends Event {
 				}
 			}
 		};
-		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
 	}
 	
 	@Override
