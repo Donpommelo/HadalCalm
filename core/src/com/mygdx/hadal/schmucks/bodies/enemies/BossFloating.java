@@ -55,6 +55,9 @@ public class BossFloating extends Boss {
 		
 		//when spinning, spin at a constant speed. When tracking, set desired angle to face player
 		switch(currentState) {
+		case ROTATING:
+			desiredAngle += spinSpeed;
+			break;
 		case SPINNING:
 			angle += spinSpeed;
 			break;
@@ -128,6 +131,7 @@ public class BossFloating extends Boss {
 		TRACKING_PLAYER,
 		LOCKED,
 		FREE,
+		ROTATING,
 		SPINNING
 	}
 }

@@ -259,6 +259,10 @@ public class PlayState extends GameState {
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
 
+		if (map.getProperties().get("shader", String.class) != null) {
+			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class)).getShader();
+		}
+		
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
 		TiledObjectUtil.clearEvents();
 		
@@ -487,7 +491,7 @@ public class PlayState extends GameState {
 			shaderBase.end();
 			batch.setShader(shaderBase);
 		}
-		batch.setShader(shaderBase);
+
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		
 		if (shaderBase != null) {
@@ -978,7 +982,7 @@ public class PlayState extends GameState {
 		}
 	}
 	
-	public boolean isPvp() { return pvp;	}
+	public boolean isPvp() { return pvp; }
 
 	public boolean isPractice() { return practice; }
 	
@@ -986,9 +990,9 @@ public class PlayState extends GameState {
 
 	public void setGlobalTimer(Event globalTimer) {	this.globalTimer = globalTimer;	}
 
-	public Player getPlayer() {	return player;	}
+	public Player getPlayer() {	return player; }
 
-	public World getWorld() {return world;}
+	public World getWorld() { return world; }
 	
 	public Enemy getWorldDummy() { return worldDummy; }
 

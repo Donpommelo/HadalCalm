@@ -162,8 +162,6 @@ public class Event extends HadalEntity {
 	public void addAmbientParticle(Particle particle) {
 		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.TICKSYNC);	
 	}
-	
-	
 
 	/**
 	 * This is used for default animations with multiple frames. The result is a looping animation.

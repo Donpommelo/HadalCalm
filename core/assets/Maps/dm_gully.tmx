@@ -3,6 +3,7 @@
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="respawn" type="bool" value="true"/>
+  <property name="shader" value="WAVE"/>
   <property name="zoom" type="float" value="1.2"/>
  </properties>
  <tileset firstgid="1" source="main.tsx"/>

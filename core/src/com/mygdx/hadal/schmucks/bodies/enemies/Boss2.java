@@ -79,7 +79,9 @@ public class Boss2 extends BossFloating {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
+		if (shaderCount > 0) {
+			batch.setShader(shader);
+		}
 		
 		boolean flip = false;
 		double realAngle = getOrientation() % (Math.PI * 2);
@@ -87,7 +89,7 @@ public class Boss2 extends BossFloating {
 			flip = true;
 		}
 		
-		for (int i = 0; i < links.length; i ++) {
+		for (int i = links.length - 1; i >= 0; i--) {
 			batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
 					links[i].getPosition().x * PPM - hboxSize.y / 2, 
 					(flip ? size.y : 0) + links[i].getPosition().y * PPM - hboxSize.x / 2, 
@@ -96,6 +98,14 @@ public class Boss2 extends BossFloating {
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 					(float) Math.toDegrees(links[i].getAngle()) - 90);
 		}
+		
+		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
+				getPixelPosition().x - hboxSize.y / 2, 
+				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
+				hboxSize.y / 2, 
+				(flip ? -1 : 1) * hboxSize.x / 2,
+				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
+				(float) Math.toDegrees(getOrientation()) - 90);
 
 		if (shaderCount > 0) {
 			batch.setShader(null);
@@ -204,5 +214,31 @@ public class Boss2 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 		BossUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		BossUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+	}
+	
+	/**
+	 * This method is called by the playstate next engine tick after deleting this entity.
+	 * This is where the body is actually deleted
+	 */
+	@Override
+	public void dispose() {
+		
+		//check of destroyed to aavoid double-destruction
+		if (destroyed == false) {
+			destroyed = true;
+			alive = false;
+			if (body != null) {
+				world.destroyBody(body);
+				
+				for (int i = 0; i < links.length; i++) {
+					world.destroyBody(links[i]);
+				}
+			}
+		}
+	}	
+
+	@Override
+	public boolean isVisible() {
+		return true;
 	}
 }

@@ -47,7 +47,6 @@ public class Boss1 extends BossFloating {
 	private int attackNum = 0;
 	@Override
 	public void attackInitiate() {
-		
 		attackNum++;
 		if (phase == 1) {
 			if (bodyData.getCurrentHp() <= phaseThreshold2 * bodyData.getStat(Stats.MAX_HP)) {
@@ -279,10 +278,10 @@ public class Boss1 extends BossFloating {
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
-	private static final float rotateSpeed = 2.0f;
-	private static final float laser2Interval = 0.04f;
-	private static final int laser2Amount = 110;
-	private static final float laser2Damage = 7.0f;
+	private static final float rotateSpeed = 2.5f;
+	private static final float laser2Interval = 0.02f;
+	private static final int laser2Amount = 100;
+	private static final float laser2Damage = 7.5f;
 	private static final float laser2Speed = 15.0f;
 	
 	private void rotatingLaser() {
@@ -292,15 +291,15 @@ public class Boss1 extends BossFloating {
 		boolean random = GameStateManager.generator.nextBoolean();
 		
 		if (random) {
-			BossUtils.changeTrackingState(this, BossState.SPINNING, rotateSpeed, 0.0f);
+			BossUtils.changeTrackingState(this, BossState.ROTATING, rotateSpeed, 0.0f);
 		} else {
-			BossUtils.changeTrackingState(this, BossState.SPINNING, -rotateSpeed, 0.0f);
+			BossUtils.changeTrackingState(this, BossState.ROTATING, -rotateSpeed, 0.0f);
 		}
 		
 		for (int i = 0; i < laser2Amount; i++) {
 			BossUtils.fireLaser(state, this, laser2Damage, laser2Speed, laserKnockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 		}
-		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
+		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 1.0f);
 	}
 	
 	private static final int laser3Amount = 25;
@@ -393,18 +392,18 @@ public class Boss1 extends BossFloating {
 	private static final float poisonDamage= 0.6f;
 	private static final int poisonWidth= 150;
 	private static final int poisonHeight = 280;
-	private static final float poisonDuration = 7.5f;
+	private static final float poisonDuration = 6.0f;
 	
 	private void poisonCloud() {
 		int wall = BossUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		if (wall == 0) {
-			BossUtils.changeTrackingState(this, BossState.FREE, -75.0f, 0.5f);
+			BossUtils.changeTrackingState(this, BossState.FREE, -75.0f, 2.5f);
 			for (int i = 0; i < numPoison; i++) {
 				BossUtils.createPoison(state, this, new Vector2(BossUtils.getLeftSide(state) + i * poisonWidth, BossUtils.floorHeight(state) + poisonHeight / 2),
 						new Vector2(poisonWidth, poisonHeight), poisonDamage, poisonDuration, poisonInterval);
 			}
 		} else {
-			BossUtils.changeTrackingState(this, BossState.FREE, -105.0f, 0.5f);
+			BossUtils.changeTrackingState(this, BossState.FREE, -105.0f, 2.5f);
 			for (int i = 0; i < numPoison; i++) {
 				BossUtils.createPoison(state, this, new Vector2(BossUtils.getRightSide(state) - i * poisonWidth, BossUtils.floorHeight(state) + poisonHeight / 2),
 						new Vector2(poisonWidth, poisonHeight), poisonDamage, poisonDuration, poisonInterval);

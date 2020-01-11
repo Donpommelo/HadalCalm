@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="19">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="21">
+ <properties>
+  <property name="shader" value="WAVE"/>
+ </properties>
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="120" height="60">
   <data encoding="base64" compression="zlib">
-   eAHtnLsKwlAUBH2BD1AL/f9v9QjZxjLcC+bMBMJWBmd2tQia3c5DAxrQgAY0oAENaEADGtCABjSgAQ1oQAMa0IAGNKABDWhAAxrQgAY0oIHOBvYFd4Oeh87FLmynyif0vIL6vRfrEXI+lj2T+iWw5uOa7ywCM4nVfmOgd5I2TWLNaknMJFb7jYHeSdo0iTWrJTGTWO03BnonadMk1qyWxExitd8Y6J2kTZNYs1oSM4nVfmOgd5I2TWLNaknMJFb7jYHeSdo0iTWrJTGTWO03BnonadMk1qyWxDybddRvq9PNiJzNPOI9jrrGbFb7HdXUuuvY7zpvW3nV7H7/0QOJmcSarZGYSaz2GwO9k7RpEmtWS2ImsdpvDPRO0qZJrFktiZnESu73VfCU56y8i/V735T0//1R94m3dB1Cv+faMeW5Kr+cl2L30IAGNKABDaw18AE+FBi7
+   eAHtnDsOwkAUAwNB4iMFCrj/WXmR4oaS0jORVq5n7KTLLouPBjSgAQ1oQAMa0IAGNKABDWhAAxrQgAY0oAENaEADGtCABjSgAQ1oQAPNBk4D94Cec3OxB9tl8gU9d1C/27CukPM89kzql8Ca1zXfLAIzidV+Y6A7SZsmsWa1JGYSq/3GQHeSNk1izWpJzCRW+42B7iRtmsSa1ZKYSaz2GwPdSdo0iTWrJTGTWO03BrqTtGkSa1ZLYiax2m8MdCdp0yTWrJbETGK13xjoTtKmSaxZLYmZxGq/MdCdpE2TWLNaEjOJ1X5joDtJmyaxZrUkZhKr/cZAd5I2TWLNaknMJFb7jYHuJG2axJrVkpjD+h54yj0rn2Hd7xwh/b9PvGOF0O91dky5V+WX8zbsPhrQgAY0oIF/DXwBtrMVkQ==
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="576" y="640">
    <polyline points="0,0 1856,0 1856,1088 0,1088 0,0"/>
-  </object>
-  <object id="8" x="1088" y="1344">
-   <polyline points="160,0 160,96 736,96 736,0 160,0"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
@@ -41,7 +41,7 @@
   <object id="6" name="Multitrigger" type="Multitrigger" x="640" y="224" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="startTimer,spawn0,save1,shaderTest3"/>
+    <property name="triggeringId" value="startTimer,spawn0,save1"/>
    </properties>
   </object>
   <object id="7" name="Start" type="Start" x="1568" y="1312" width="32" height="32"/>
@@ -89,12 +89,6 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="18" name="Shader" type="Shader" x="704" y="224" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="0"/>
-    <property name="shader" value="WAVE"/>
-    <property name="triggeredId" value="shaderTest3"/>
-   </properties>
-  </object>
+  <object id="19" name="Platform" type="Platform" x="1248" y="1344" width="576" height="96"/>
  </objectgroup>
 </map>

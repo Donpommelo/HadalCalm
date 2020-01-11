@@ -66,6 +66,7 @@ public class BossUtils {
 					bossFloating.setDesiredAngle(angle);
 					break;
 				case SPINNING:
+				case ROTATING:
 					bossFloating.setSpinSpeed((int)angle);
 					break;
 				case LOCKED:
@@ -185,7 +186,7 @@ public class BossUtils {
 				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
-				new ParticleEntity(state, hbox, particle, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+				new ParticleEntity(state, hbox, particle, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
 		});
 	}
@@ -246,7 +247,7 @@ public class BossUtils {
 	
 	public static void createPoison(final PlayState state, Boss boss, final Vector2 pos, final Vector2 size, final float damage, final float lifespan, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getSecondaryActions().add(new BossAction(boss, duration) {
 			@Override
 			public void execute() {
 				new Poison(state, pos, size, damage, lifespan, boss, true, boss.getHitboxfilter());

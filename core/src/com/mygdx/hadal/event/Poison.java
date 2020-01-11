@@ -112,7 +112,7 @@ public class Poison extends Event {
 				}
 			}
 			
-			//if specified, spawn random posion particles i nthe event's vicinity
+			//if specified, spawn random posion particles in the event's vicinity
 			if (randomParticles && draw) {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
