@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="21">
  <properties>
-  <property name="shader" value="WAVE"/>
+  <property name="shader" value="SPLASH"/>
  </properties>
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="120" height="60">
@@ -41,7 +41,7 @@
   <object id="6" name="Multitrigger" type="Multitrigger" x="640" y="224" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="startTimer,spawn0,save1"/>
+    <property name="triggeringId" value="startTimer,spawn0,save1,bounds1,bounds2"/>
    </properties>
   </object>
   <object id="7" name="Start" type="Start" x="1568" y="1312" width="32" height="32"/>

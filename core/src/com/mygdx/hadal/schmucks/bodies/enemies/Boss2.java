@@ -52,8 +52,8 @@ public class Boss2 extends BossFloating {
 		
 		for (int i = 0; i < links.length; i ++) {
 			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2), hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
-					(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
-					hitboxfilter, true, bodyData);
+					(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY | Constants.BIT_PLAYER),
+					hitboxfilter, false, bodyData);
 			
 			RevoluteJointDef joint1 = new RevoluteJointDef();
 			

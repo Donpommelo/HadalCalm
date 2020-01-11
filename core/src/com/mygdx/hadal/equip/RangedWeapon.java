@@ -2,7 +2,6 @@ package com.mygdx.hadal.equip;
 
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Stats;
@@ -141,14 +140,6 @@ public class RangedWeapon extends Equipable {
 				reloading = true;
 				reloadCd = 0;
 			}
-			
-			//if out of ammo, throw weapon away.
-			if (getAmmoLeft() <= 0) {
-				if (shooter instanceof PlayerBodyData) {
-					PlayerBodyData p = (PlayerBodyData)shooter;
-					p.emptySlot(p.getCurrentSlot());
-				}
-			}
 		}
 		
 		return shotSuccessful;
@@ -167,6 +158,11 @@ public class RangedWeapon extends Equipable {
 	@Override
 	public void reload(float delta) {
 
+		if (getAmmoLeft() <= 0) {
+			reloading = false;
+			return;
+		}
+		
 		//Reloading cancels charge
 		charging = false;
 		chargeCd = 0;

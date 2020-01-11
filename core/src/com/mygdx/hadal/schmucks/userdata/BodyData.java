@@ -337,7 +337,7 @@ public class BodyData extends HadalData {
 
 	public void setCurrentFuel(float currentFuel) {	this.currentFuel = currentFuel; }
 
-	public float getStat(int index) { return buffedStats[index];	}
+	public float getStat(int index) { return buffedStats[index]; }
 	
 	/**
 	 * Set a buffed stat for calcs. If hp or fuel, make sure the current amount does not exceed the max amount

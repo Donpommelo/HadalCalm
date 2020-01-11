@@ -140,10 +140,18 @@ public class ProcTime {
 		}
 	}
 	
-	public static class ActiveUse {
+	public static class BeforeActiveUse {
 		public ActiveItem tool;
 		
-		public ActiveUse(ActiveItem tool) {
+		public BeforeActiveUse(ActiveItem tool) {
+			this.tool = tool;
+		}
+	}
+	
+	public static class AfterActiveUse {
+		public ActiveItem tool;
+		
+		public AfterActiveUse(ActiveItem tool) {
 			this.tool = tool;
 		}
 	}

@@ -28,10 +28,10 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 	private float radius;
 	private short filter;
 	
-	private static final float maxLinSpd = 180;
+	private static final float maxLinSpd = 200;
 	private static final float maxLinAcc = 1000;
-	private static final float maxAngSpd = 2420;
-	private static final float maxAngAcc = 2420;
+	private static final float maxAngSpd = 180;
+	private static final float maxAngAcc = 10;
 	
 	private static final int boundingRad = 800;
 	private static final int decelerationRadius = 0;

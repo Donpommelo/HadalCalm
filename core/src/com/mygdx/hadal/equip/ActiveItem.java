@@ -51,11 +51,13 @@ public class ActiveItem extends Equipable {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		
-		user.getBodyData().statusProcTime(new ProcTime.ActiveUse(this));
+		user.getBodyData().statusProcTime(new ProcTime.BeforeActiveUse(this));
 		
 		if (currentCharge >= maxCharge) {
 			currentCharge = 0;
 			useItem(state, (PlayerBodyData)shooter);
+			
+			user.getBodyData().statusProcTime(new ProcTime.AfterActiveUse(this));
 		}
 	}
 	

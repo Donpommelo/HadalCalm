@@ -371,7 +371,7 @@ public class Boss1 extends BossFloating {
 	
 	private static final float spiritDamage= 15.0f;
 	private static final float spiritKnockback= 25.0f;
-	private static final float spiritLifespan= 7.5f;
+	private static final float spiritLifespan= 5.0f;
 	private Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);

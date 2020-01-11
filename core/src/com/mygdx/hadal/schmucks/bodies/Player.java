@@ -577,7 +577,7 @@ public class Player extends PhysicsSchmuck {
 			float percent = getReloadPercent();
 			
 			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * uiScale * percent, reloadBar.getRegionHeight() * uiScale);
-			batch.draw(reload, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "RELOADING", x + 12, y + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 		}
 		
@@ -588,7 +588,16 @@ public class Player extends PhysicsSchmuck {
 			
 			//Calculate charge progress
 			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * uiScale * chargePercent, reloadBar.getRegionHeight() * uiScale);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "CHARGING", x + 12, y + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+		}
+		
+		if (playerData.getCurrentTool().getAmmoLeft() == 0 && playerData.getCurrentTool().getClipLeft() == 0) {
+			
+			float x = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
+			float y = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
+			
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", x + 12, y + reload.getRegionHeight() * uiScale);
 		}
 		
 		//This draws a heart by the player's sprite to indicate hp remaining

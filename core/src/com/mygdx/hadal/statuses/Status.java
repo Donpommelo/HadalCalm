@@ -46,7 +46,10 @@ public class Status {
 		
 		float finalAmount = 0;
 		
-		if (o instanceof ProcTime.PlayerCreate) { 
+		if (o instanceof TimePass){
+			TimePass pt = (TimePass)o;
+			timePassing(pt.time);
+		} else if (o instanceof ProcTime.PlayerCreate) { 
 			playerCreate();
 		} else if (o instanceof StatusInflict){
 			StatusInflict pt = (StatusInflict)o;
@@ -71,9 +74,6 @@ public class Status {
 		} else if (o instanceof Death){
 			Death pt = (Death)o;
 			onDeath(pt.perp);
-		} else if (o instanceof TimePass){
-			TimePass pt = (TimePass)o;
-			timePassing(pt.time);
 		} else if (o instanceof WhileAttack){
 			WhileAttack pt = (WhileAttack)o;
 			whileAttacking(pt.time, pt.tool);
@@ -91,8 +91,11 @@ public class Status {
 		} else if (o instanceof Airblast){
 			Airblast pt = (Airblast)o;
 			onAirBlast(pt.tool);
-		} else if (o instanceof ActiveUse){
-			ActiveUse pt = (ActiveUse)o;
+		} else if (o instanceof BeforeActiveUse){
+			BeforeActiveUse pt = (BeforeActiveUse)o;
+			beforeActiveItem(pt.tool);
+		} else if (o instanceof AfterActiveUse){
+			AfterActiveUse pt = (AfterActiveUse)o;
 			beforeActiveItem(pt.tool);
 		}
 		return finalAmount;
