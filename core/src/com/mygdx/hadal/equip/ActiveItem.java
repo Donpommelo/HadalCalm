@@ -108,8 +108,6 @@ public class ActiveItem extends Equipable {
 
 	public chargeStyle getStyle() { return style; }
 
-	public void setStyle(chargeStyle style) { this.style = style; }
-
 	public static enum chargeStyle {
 		byTime,
 		byDamageInflict,

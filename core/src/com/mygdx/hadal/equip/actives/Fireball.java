@@ -47,7 +47,7 @@ public class Fireball extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
-		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
 		hbox.addStrategy(new DieFireFrag(state, hbox, user, numFrag, user.getPlayer().getHitboxfilter()));
 		new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 	}

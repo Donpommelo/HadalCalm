@@ -88,7 +88,7 @@ public class MeteorStrike extends ActiveItem {
 							user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, user));
-					hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 						
 						@Override

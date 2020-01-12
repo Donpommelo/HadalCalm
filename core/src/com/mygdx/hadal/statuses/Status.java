@@ -96,7 +96,7 @@ public class Status {
 			beforeActiveItem(pt.tool);
 		} else if (o instanceof AfterActiveUse){
 			AfterActiveUse pt = (AfterActiveUse)o;
-			beforeActiveItem(pt.tool);
+			afterActiveItem(pt.tool);
 		}
 		return finalAmount;
 	}
@@ -155,6 +155,8 @@ public class Status {
 	public void onAirBlast(Equipable tool) {}
 
 	public void beforeActiveItem(ActiveItem tool) {}
+	
+	public void afterActiveItem(ActiveItem tool) {}
 	
 	public BodyData getInflicter() { return inflicter; }
 

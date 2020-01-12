@@ -168,7 +168,7 @@ public class BossUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new ContactUnitStatus(state, hbox, boss.getBodyData(), 
 						new Ablaze(state, fireDuration, boss.getBodyData(), boss.getBodyData(), fireDamage)));
-				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
 		});

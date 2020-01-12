@@ -34,7 +34,7 @@ public class Ablaze extends Status {
 		super.timePassing(delta);
 		if (procCdCount >= procCd) {
 			procCdCount -= procCd;
-			inflicted.receiveDamage(damage, new Vector2(), inflicter, false);
+			inflicted.receiveDamage(damage, new Vector2(), inflicter, false, DamageTypes.FIRE);
 		}
 		procCdCount += delta;
 		

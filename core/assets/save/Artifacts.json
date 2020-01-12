@@ -70,6 +70,15 @@ BACKPACK_BUDDY: {
 		RANDOM_POOL,
 	]
 }
+BLASTEMA: {
+	name: Blastema
+	description: "Receiving Damage Grants +Hp Regeneration"
+    descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 BLOODWOODS_GLOVE: {
 	name: Bloodwood's Glove
 	description: "+Actives and Weapons Charge Rate"
@@ -97,9 +106,18 @@ BRIGGLES_BLADED_BOOT: {
 		RANDOM_POOL,
 	]
 }
+BRITTLING_POWDER: {
+	name: Brittling Powder
+	description: "Explosions on Kill and Death, Bigger Explosions"
+    descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 BUCKET_OF_BATTERIES: {
 	name: Bucket of Batteries
-	description: "Projectiles Chain to Nearby Enemies"
+	description: "Projectiles Create Chain Lightning"
     descriptionLong: "A bucket filled with batteries floating in a dubious liquid."
 	tags: [
 		RELIQUARY,
@@ -314,6 +332,15 @@ HORNS_OF_AMMON: {
 		RANDOM_POOL,
 	]
 }
+HUMANITY_MODULE: {
+	name: Humanity Module
+	description: "+Active Charge Rate, Reroll Active on Use"
+    descriptionLong: "A bucket filled with batteries floating in a dubious liquid."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 INFORMANTS_TIE: {
 	name:Informant's Tie
 	description: "Homing Projectiles"
@@ -332,10 +359,10 @@ IRON_SIGHTS: {
 		RANDOM_POOL,
 	]
 }
-BLASTEMA: {
-	name: Blastema
-	description: "Receiving Damage Grants +Hp Regeneration"
-    descriptionLong: "TEST"
+LOCH_SHIELD: {
+	name: Loch Shield
+	description: "+Fire and Explosion Resistance"
+    descriptionLong: ""
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

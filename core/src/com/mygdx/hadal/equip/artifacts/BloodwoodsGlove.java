@@ -12,8 +12,8 @@ public class BloodwoodsGlove extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static float bonusActiveCharge = 0.30f;
-	private final static float bonusWeaponCarge = 0.30f;
+	private final static float bonusActiveCharge = 0.3f;
+	private final static float bonusWeaponCarge = 0.3f;
 	
 	public BloodwoodsGlove() {
 		super(slotCost, statusNum);

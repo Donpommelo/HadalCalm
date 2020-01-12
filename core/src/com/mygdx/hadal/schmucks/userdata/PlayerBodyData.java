@@ -295,6 +295,8 @@ public class PlayerBodyData extends BodyData {
 		ActiveItem old = activeItem;
 		activeItem = item;
 		
+		activeItem.setUser(player);
+		
 		loadout.activeItem = unlock;
 		syncServerLoadoutChange();
 
