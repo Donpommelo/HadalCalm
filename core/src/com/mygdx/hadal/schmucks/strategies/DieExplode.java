@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxOnDieExplodeStrategy extends HitboxStrategy{
+public class DieExplode extends HitboxStrategy{
 	
 	//explosion stats
 	private float explosionDamage, explosionKnockback;
@@ -19,7 +19,7 @@ public class HitboxOnDieExplodeStrategy extends HitboxStrategy{
 	//the hitbox filter of units that can be damaged b ythe explosion.
 	private short filter;
 	
-	public HitboxOnDieExplodeStrategy(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage, 
+	public DieExplode(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage, 
 			float explosionKnockback, short filter) {
 		super(state, proj, user);
 		this.explosionRadius = explosionRadius;

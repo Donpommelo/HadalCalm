@@ -34,7 +34,7 @@ public class PlayerBodyData extends BodyData {
 	
 	private final static int baseHp = 100;
 	
-	private int numExtraJumps = 1;
+	private final static int numExtraJumps = 1;
 	private int extraJumpsUsed = 0;
 	private static final float jumpPow = 25.0f;
 	

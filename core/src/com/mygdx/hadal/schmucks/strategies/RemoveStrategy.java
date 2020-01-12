@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxRemoveStrategyStrategy extends HitboxStrategy{
+public class RemoveStrategy extends HitboxStrategy{
 	
 	//this is the strategy that we want to remove
 	private Class<? extends HitboxStrategy> toRemove;
@@ -18,7 +18,7 @@ public class HitboxRemoveStrategyStrategy extends HitboxStrategy{
 	//have we removed the strategy yet?
 	private boolean removed;
 	
-	public HitboxRemoveStrategyStrategy(PlayState state, Hitbox proj, BodyData user, 
+	public RemoveStrategy(PlayState state, Hitbox proj, BodyData user, 
 			Class<? extends HitboxStrategy> toRemove) {
 		super(state, proj, user);
 		this.toRemove = toRemove;

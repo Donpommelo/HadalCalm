@@ -4,10 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactStickStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactStick;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -51,10 +51,10 @@ public class CrownofThorns extends Artifact {
 				Hitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, thornDuration, new Vector2(0, thornSpeed), inflicted.getSchmuck().getHitboxfilter(), 
 						true, true, inflicted.getSchmuck(), projSprite);
 				
-				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, inflicted));
-				hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, inflicted));
-				hbox.addStrategy(new HitboxOnContactStickStrategy(state, hbox, inflicted, true, false));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
+				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, inflicted));
+				hbox.addStrategy(new ContactStick(state, hbox, inflicted, true, false));
+				hbox.addStrategy(new DamageStandard(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.RANGED));
 				
 				return damage;
 			}

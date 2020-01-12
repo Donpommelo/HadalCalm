@@ -46,6 +46,7 @@ public class Stats {
 	public static final int RANGED_PROJ_GRAVITY = 36;
 	public static final int RANGED_RECOIL = 37;
 	
+	public static final int EXPLOSION_SIZE = 42;
 	public static final int WEAPON_SLOTS = 43;
 	public static final int ARTIFACT_SLOTS = 44;
 	public static final int AMMO_CAPACITY = 45;

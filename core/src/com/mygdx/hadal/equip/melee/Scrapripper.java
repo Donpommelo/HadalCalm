@@ -10,10 +10,10 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.FixedToUser;
+import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -38,10 +38,10 @@ public class Scrapripper extends MeleeWeapon {
 		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, startVelocity, filter, true, true, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
-		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		new ParticleEntity(state, hbox, Particle.EXPLOSION, 0.2f, 0.0f, true, particleSyncType.CREATESYNC);
 	}
 }

@@ -23,11 +23,11 @@ import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating.BossState;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitStatusStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.FixedToUser;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitStatus;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.utils.Constants;
 
 /**
@@ -146,9 +146,9 @@ public class BossUtils {
 				
 				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), boss.getSize(), duration, boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
-				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
+				hbox.addStrategy(new FixedToUser(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
 			}
 		});
 	}
@@ -164,10 +164,10 @@ public class BossUtils {
 				RangedHitbox hbox = new RangedHitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), false, true, boss, Sprite.NOTHING);
 				
-				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxOnContactUnitStatusStrategy(state, hbox, boss.getBodyData(), 
+				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new ContactUnitStatus(state, hbox, boss.getBodyData(), 
 						new Ablaze(state, fireDuration, boss.getBodyData(), boss.getBodyData(), fireDamage)));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
 		});
@@ -183,9 +183,9 @@ public class BossUtils {
 				RangedHitbox hbox = new RangedHitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
 				
-				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
 				new ParticleEntity(state, hbox, particle, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
 			}
 		});
@@ -201,8 +201,8 @@ public class BossUtils {
 				hbox.setGravity(10.0f);
 				hbox.setRestitution(1);
 				
-				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 				
 			}
@@ -217,9 +217,9 @@ public class BossUtils {
 				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
 						boss.getHitboxfilter(), true, true, boss, Sprite.ORB_RED);
 				
-				hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
 			}
 		});
 	}
@@ -274,9 +274,9 @@ public class BossUtils {
 					
 					hbox.setGravity(1.0f);
 					
-					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, boss.getBodyData()));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, boss.getBodyData()));
+					hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
 				}
 			}
 		});

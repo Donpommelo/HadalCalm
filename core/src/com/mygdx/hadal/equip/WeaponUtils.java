@@ -16,16 +16,16 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageExplosionStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxHomingStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxSpreadStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxStaticStrategy;
+import com.mygdx.hadal.schmucks.strategies.ExplosionDefault;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.HomingUnit;
+import com.mygdx.hadal.schmucks.strategies.DieExplode;
+import com.mygdx.hadal.schmucks.strategies.Spread;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitDie;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
+import com.mygdx.hadal.schmucks.strategies.Static;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -52,7 +52,9 @@ public class WeaponUtils {
 
 	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, final Schmuck user, final float explosionDamage, final float explosionKnockback, short filter) {
 		
-		Hitbox hbox = new Hitbox(state, startPos, new Vector2(size, size), 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
+		float newSize = size * (1 + user.getBodyData().getStat(Stats.EXPLOSION_SIZE));
+		
+		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
 			
 			@Override
 			public void controller(float delta) {
@@ -61,9 +63,9 @@ public class WeaponUtils {
 			}
 		};
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxStaticStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageExplosionStrategy(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback, selfDamageReduction, DamageTypes.EXPLOSIVE, DamageTypes.DEFLECT));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ExplosionDefault(state, hbox, user.getBodyData(), explosionDamage, explosionKnockback, selfDamageReduction, DamageTypes.EXPLOSIVE, DamageTypes.DEFLECT));
 		
 		return hbox;
 	}
@@ -75,10 +77,10 @@ public class WeaponUtils {
 		hbox.setGravity(2.5f);
 		hbox.setRestitution(0.5f);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
 		return hbox;
 	}
@@ -88,11 +90,11 @@ public class WeaponUtils {
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		
 		new ParticleEntity(state, hbox, Particle.BUBBLE_TRAIL, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		
@@ -130,13 +132,13 @@ public class WeaponUtils {
 				}
 			};
 			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.RANGED));
-			hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
-			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), filter));
-			hbox.addStrategy(new HitboxSpreadStrategy(state, hbox, user.getBodyData(), torpedoSpread));
+			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.RANGED));
+			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), filter));
+			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
 		}
 		
 		return null;
@@ -184,12 +186,12 @@ public class WeaponUtils {
 			};
 			hbox.setDurability(beeDurability);
 			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
-			hbox.addStrategy(new HitboxHomingStrategy(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, 
+			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, 
 					beeMaxAngSpd, beeMaxAngAcc, beeBoundingRad, beeDecelerationRadius, beeHomeRadius, filter));
-			hbox.addStrategy(new HitboxSpreadStrategy(state, hbox, user.getBodyData(), beeSpread));
+			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
 		}
 		
 		return null;
@@ -199,10 +201,10 @@ public class WeaponUtils {
 	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, short filter) {		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
-		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, creator));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, spiritDamage, spiritKnockback));
-		hbox.addStrategy(new HitboxHomingStrategy(state, hbox, creator, filter));
+		hbox.addStrategy(new ControllerDefault(state, hbox, creator));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
+		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback));
+		hbox.addStrategy(new HomingUnit(state, hbox, creator, filter));
 		new ParticleEntity(state, hbox, Particle.SHADOW_PATH, spiritLifespan, 0.0f, true, particleSyncType.TICKSYNC);
 	}
 	

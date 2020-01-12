@@ -49,7 +49,7 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.JUMP) {
-			player.setHovering(true);
+			player.setHoveringAttempt(true);
 			player.jump();
 		}
 		
@@ -154,7 +154,7 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.JUMP) {
-			player.setHovering(false);
+			player.setHoveringAttempt(false);
 		}
 		
 		if (action == PlayerAction.CROUCH) {

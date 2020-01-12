@@ -9,12 +9,12 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnDieExplodeStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxMouseStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.DieExplode;
+import com.mygdx.hadal.schmucks.strategies.HomingMouse;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitDie;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -57,12 +57,12 @@ public class LaserGuidedRocket extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 
-		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new HitboxOnDieExplodeStrategy(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
-		hbox.addStrategy(new HitboxMouseStrategy(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new HomingMouse(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		
 		new ParticleEntity(state, hbox, Particle.BUBBLE_TRAIL, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 	}

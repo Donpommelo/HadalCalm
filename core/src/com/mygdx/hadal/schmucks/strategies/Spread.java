@@ -11,11 +11,11 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxSpreadStrategy extends HitboxStrategy{
+public class Spread extends HitboxStrategy{
 	
 	private int spread;
 	
-	public HitboxSpreadStrategy(PlayState state, Hitbox proj, BodyData user, int spread) {
+	public Spread(PlayState state, Hitbox proj, BodyData user, int spread) {
 		super(state, proj, user);
 		this.spread = spread;
 	}

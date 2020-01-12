@@ -9,9 +9,9 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
@@ -61,8 +61,8 @@ public class Underminer extends RangedWeapon {
 		hbox.setGravity(4.0f);
 		hbox.setDurability(2);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private boolean activated = false;
@@ -112,9 +112,9 @@ public class Underminer extends RangedWeapon {
 					newVelocity.set(startVelocity);
 					
 					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees), filter, true, true, user, fragSprite);
-					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
+					frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
+					frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
+					frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
 				}
 			}
 		});

@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxOnContactStickStrategy extends HitboxStrategy{
+public class ContactStick extends HitboxStrategy{
 	
 	//does this hbox stick to walls and units? If so, is it already stuck to a wall or unit?
 	private boolean stickToWalls, stickToDudes, stuckToWall, stuckToDude;
@@ -27,7 +27,7 @@ public class HitboxOnContactStickStrategy extends HitboxStrategy{
 	//the offset location of this hbox and the stuck entity's position
 	private Vector2 location = new Vector2();
 	
-	public HitboxOnContactStickStrategy(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {
+	public ContactStick(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {
 		super(state, proj, user);
 		this.stickToWalls = walls;
 		this.stickToDudes = dudes;

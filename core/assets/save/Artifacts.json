@@ -493,7 +493,7 @@ PETRIFIED_SYNAPSE: {
 }
 RED_TIDE_TALISMAN: {
 	name: Red Tide Talisman
-	description: "Creates Poison Cloud on Kill"
+	description: "Fiery Projectiles"
     descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,
@@ -672,7 +672,7 @@ VOID_HYPONOME: {
 }
 WHITE_SMOKER: {
 	name: White Smoker
-	description: "Fiery Projectiles"
+	description: "Fiery Hovering"
     descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxPoisonTrailStrategy;
+import com.mygdx.hadal.schmucks.strategies.PoisonTrail;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -37,7 +37,7 @@ public class ShillersDeathcap extends Artifact {
 			public void onHitboxCreation(Hitbox hbox) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					hbox.addStrategy(new HitboxPoisonTrailStrategy(state, hbox, b, poisonRadius, poisonDamage, poisonDuration, b.getSchmuck().getHitboxfilter()));
+					hbox.addStrategy(new PoisonTrail(state, hbox, b, poisonRadius, poisonDamage, poisonDuration, b.getSchmuck().getHitboxfilter()));
 				}
 			}
 		};

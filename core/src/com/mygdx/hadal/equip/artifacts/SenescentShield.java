@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactBlockProjectilesStrategy;
+import com.mygdx.hadal.schmucks.strategies.ContactBlockProjectiles;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -25,7 +25,7 @@ public class SenescentShield extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HitboxOnContactBlockProjectilesStrategy(state, hbox, b, knockbackProj));
+				hbox.addStrategy(new ContactBlockProjectiles(state, hbox, b, knockbackProj));
 			}
 		});
 		

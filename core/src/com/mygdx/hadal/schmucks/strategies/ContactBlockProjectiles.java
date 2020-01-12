@@ -13,12 +13,12 @@ import com.mygdx.hadal.statuses.DamageTypes;
  * @author Zachary Tu
  *
  */
-public class HitboxOnContactBlockProjectilesStrategy extends HitboxStrategy{
+public class ContactBlockProjectiles extends HitboxStrategy{
 	
 	//this is the knockback that should be administered to the other hbox
 	private float knockback;
 	
-	public HitboxOnContactBlockProjectilesStrategy(PlayState state, Hitbox proj, BodyData user, float kb) {
+	public ContactBlockProjectiles(PlayState state, Hitbox proj, BodyData user, float kb) {
 		super(state, proj, user);
 		this.knockback = kb;
 	}

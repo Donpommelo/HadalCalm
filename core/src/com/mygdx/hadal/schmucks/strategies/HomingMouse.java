@@ -13,9 +13,9 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxMouseStrategy extends HitboxStrategy {
+public class HomingMouse extends HitboxStrategy {
 	
-	public HitboxMouseStrategy(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
+	public HomingMouse(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
 			float maxAngAcc, int boundingRad, int decelerationRadius) {
 		super(state, proj, user);
 		

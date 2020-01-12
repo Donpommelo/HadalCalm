@@ -3,8 +3,8 @@ package com.mygdx.hadal.equip.artifacts;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnDieParticles;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.DieParticles;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -45,8 +45,8 @@ public class SamuraiShark extends Artifact {
 					if (GameStateManager.generator.nextDouble() < critChance) {
 						procCdCount -= procCd;
 						hbox.setStartVelo(hbox.getStartVelo().scl(critSpeedMultiplier));
-						hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, b, critDamageBoost, 0, DamageTypes.RANGED));
-						hbox.addStrategy(new HitboxOnDieParticles(state, hbox, b, Particle.EXPLOSION));
+						hbox.addStrategy(new DamageStandard(state, hbox, b, critDamageBoost, 0, DamageTypes.RANGED));
+						hbox.addStrategy(new DieParticles(state, hbox, b, Particle.EXPLOSION));
 					}
 				}
 			}

@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxPoisonTrailStrategy extends HitboxStrategy {
+public class PoisonTrail extends HitboxStrategy {
 	
 	//the amount of damage the poison will deal, how long it will last and its size
 	private float poisonDamage, poisonDuration;
@@ -23,7 +23,7 @@ public class HitboxPoisonTrailStrategy extends HitboxStrategy {
 	//the time interval between creating poision
 	private Vector2 lastPosition = new Vector2();
 	
-	public HitboxPoisonTrailStrategy(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
+	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {
 		super(state, proj, user);
 		this.poisonRadius = poisonRadius;
 		this.poisonDamage = poisonDamage;

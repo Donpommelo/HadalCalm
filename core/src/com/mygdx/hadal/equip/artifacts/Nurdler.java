@@ -5,11 +5,11 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxSpreadStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
+import com.mygdx.hadal.schmucks.strategies.Spread;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -56,11 +56,11 @@ public class Nurdler extends Artifact {
 					Hitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, lifespan, startVelo.set(tool.getWeaponVelo()).nor().scl(projSpeed), inflicted.getSchmuck().getHitboxfilter(),
 							true, true, inflicted.getSchmuck(), projSprite);
 					
-					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, inflicted));
-					hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, inflicted));
-					hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, inflicted));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, inflicted, baseDamage, knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new HitboxSpreadStrategy(state, hbox, inflicted, spread));
+					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
+					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, inflicted));
+					hbox.addStrategy(new ContactWallDie(state, hbox, inflicted));
+					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new Spread(state, hbox, inflicted, spread));
 				}
 			}
 		};

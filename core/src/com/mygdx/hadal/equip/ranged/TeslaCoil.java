@@ -15,8 +15,8 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.HitboxData;
@@ -59,7 +59,7 @@ public class TeslaCoil extends RangedWeapon {
 		
 		final Vector2 endLocation = new Vector2(this.mouseLocation);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
@@ -167,8 +167,8 @@ public class TeslaCoil extends RangedWeapon {
 						
 						
 						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
-						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData(), false));
-						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), pulseDamage, 0, DamageTypes.RANGED));
+						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData(), false));
+						pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), pulseDamage, 0, DamageTypes.RANGED));
 						new ParticleEntity(state, pulse, Particle.LASER_PULSE, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
 					}
 				}

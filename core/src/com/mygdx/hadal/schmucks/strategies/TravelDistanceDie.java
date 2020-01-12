@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxTravelDistanceDieStrategy extends HitboxStrategy {
+public class TravelDistanceDie extends HitboxStrategy {
 	
 	//the location the hitbox is created and the location that it will die
 	private Vector2 startLocation = new Vector2();
@@ -20,7 +20,7 @@ public class HitboxTravelDistanceDieStrategy extends HitboxStrategy {
 	//the distance the hbox travels before dying
 	private float distance;
 	
-	public HitboxTravelDistanceDieStrategy(PlayState state, Hitbox proj, BodyData user, Vector2 endLocation) {
+	public TravelDistanceDie(PlayState state, Hitbox proj, BodyData user, Vector2 endLocation) {
 		super(state, proj, user);
 		this.endLocation = endLocation;
 	}

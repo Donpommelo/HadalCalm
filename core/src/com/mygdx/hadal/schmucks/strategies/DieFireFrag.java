@@ -17,7 +17,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
  * @author Zachary Tu
  *
  */
-public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
+public class DieFireFrag extends HitboxStrategy {
 	
 	private int numFrag;
 	private short filter;
@@ -32,7 +32,7 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 	private final static float baseDamage = 8.0f;
 	private final static float knockback = 5.0f;
 	
-	public HitboxOnDieFireFragStrategy(PlayState state, Hitbox proj, BodyData user, int numFrag, short filter) {
+	public DieFireFrag(PlayState state, Hitbox proj, BodyData user, int numFrag, short filter) {
 		super(state, proj, user);
 		this.filter = filter;
 		this.numFrag = numFrag;
@@ -50,10 +50,10 @@ public class HitboxOnDieFireFragStrategy extends HitboxStrategy {
 			hbox.setGravity(gravity);
 			hbox.setDurability(projDura);
 			
-			hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, creator));
-			hbox.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, hbox, creator));
-			hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, creator));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, creator, baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new ControllerDefault(state, hbox, creator));
+			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, creator));
+			hbox.addStrategy(new ContactWallDie(state, hbox, creator));
+			hbox.addStrategy(new DamageStandard(state, hbox, creator, baseDamage, knockback, DamageTypes.RANGED));
 			new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 		}
 	}

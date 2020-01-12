@@ -9,11 +9,11 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactChainStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitChainLightning;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
+import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -27,12 +27,13 @@ public class Maelstrom extends RangedWeapon {
 	private final static int reloadAmount = 0;
 
 	private final static float recoil = 0.0f;
-	private final static float baseDamage = 5.0f;
+	private final static float baseDamage = 12.0f;
 	private final static float knockback = 8.0f;
 	private final static float projectileSpeedStart = 50.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 1.0f;
 	
+	private final static float chainDamage = 5.0f;
 	private final static int chainAmount = 5;
 	
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
@@ -47,11 +48,11 @@ public class Maelstrom extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hbox.setDurability(chainAmount);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
-		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactChainStrategy(state, hbox, user.getBodyData(), chainAmount, filter));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactUnitChainLightning(state, hbox, user.getBodyData(), chainAmount, chainDamage));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		
 		new ParticleEntity(state, hbox, Particle.LIGHTNING, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 	}

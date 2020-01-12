@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxFixedToUserStrategy extends HitboxStrategy {
+public class FixedToUser extends HitboxStrategy {
 	
 	//the point on the player that this hbox is attached to
 	private Vector2 center = new Vector2();
@@ -21,7 +21,7 @@ public class HitboxFixedToUserStrategy extends HitboxStrategy {
 	//does this hbox rotate when the user does?
 	private boolean rotate;
 	
-	public HitboxFixedToUserStrategy(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center, boolean rotate) {
+	public FixedToUser(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center, boolean rotate) {
 		super(state, proj, user);
 		this.center = center;
 		this.angle = angle;

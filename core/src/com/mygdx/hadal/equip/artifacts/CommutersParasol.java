@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.FixedToUser;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -44,8 +44,8 @@ public class CommutersParasol extends Artifact {
 					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, lifespan, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, 
 							inflicted.getSchmuck(), sprite);
 					
-					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, inflicted));
-					hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, inflicted, new Vector2(0, 0), position, false));
+					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
+					hbox.addStrategy(new FixedToUser(state, hbox, inflicted, new Vector2(0, 0), position, false));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 						
 						@Override

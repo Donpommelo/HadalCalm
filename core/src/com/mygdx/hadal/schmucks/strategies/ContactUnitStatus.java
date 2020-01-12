@@ -11,12 +11,12 @@ import com.mygdx.hadal.statuses.Status;
  * @author Zachary Tu
  *
  */
-public class HitboxOnContactUnitStatusStrategy extends HitboxStrategy{
+public class ContactUnitStatus extends HitboxStrategy{
 	
 	//the status that is to be inflicted
 	private Status s;
 	
-	public HitboxOnContactUnitStatusStrategy(PlayState state, Hitbox proj, BodyData user, Status s) {
+	public ContactUnitStatus(PlayState state, Hitbox proj, BodyData user, Status s) {
 		super(state, proj, user);
 		this.s = s;
 	}

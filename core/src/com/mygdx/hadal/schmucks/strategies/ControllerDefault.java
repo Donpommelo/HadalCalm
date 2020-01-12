@@ -12,17 +12,17 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxDefaultStrategy extends HitboxStrategy{
+public class ControllerDefault extends HitboxStrategy{
 	
 	//Does the hbox's body rotate according to its velocity? Usually used for long projectiles
 	private boolean adjustAngle;
 	
-	public HitboxDefaultStrategy(PlayState state, Hitbox proj, BodyData user) {
+	public ControllerDefault(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 		this.adjustAngle = true;
 	}
 	
-	public HitboxDefaultStrategy(PlayState state, Hitbox proj, BodyData user, boolean adjustAngle) {
+	public ControllerDefault(PlayState state, Hitbox proj, BodyData user, boolean adjustAngle) {
 		super(state, proj, user);
 		this.adjustAngle = adjustAngle;	
 	}

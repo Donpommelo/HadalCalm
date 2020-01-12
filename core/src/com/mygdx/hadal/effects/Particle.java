@@ -50,6 +50,8 @@ public enum Particle {
 	CONFETTI(ParticleType.DEFAULT, "particles/confetti.particle"),	
 	STAR(ParticleType.DEFAULT, "particles/star_effect.particle"),	
 
+	KAMABOKO_SHOWER(ParticleType.DEFAULT, "particles/kamaboko_shower.particle"),	
+	KAMABOKO_IMPACT(ParticleType.DEFAULT, "particles/kamaboko_impact.particle"),	
 	;
 	
 	private static ParticleEffect prototype;

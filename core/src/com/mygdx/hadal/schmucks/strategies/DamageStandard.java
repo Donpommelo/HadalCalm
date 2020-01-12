@@ -11,7 +11,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
  * @author Zachary Tu
  *
  */
-public class HitboxDamageStandardStrategy extends HitboxStrategy{
+public class DamageStandard extends HitboxStrategy{
 	
 	//the amount of damage and knockback this hbox will inflict
 	private float baseDamage, knockback;
@@ -19,7 +19,7 @@ public class HitboxDamageStandardStrategy extends HitboxStrategy{
 	//damage tags determine the type of damage inflicted and is used for certain effects
 	private DamageTypes[] tags;
 	
-	public HitboxDamageStandardStrategy(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {
+	public DamageStandard(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {
 		super(state, proj, user);
 		this.baseDamage = damage;
 		this.knockback = knockback;

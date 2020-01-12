@@ -6,10 +6,10 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.FixedToUser;
+import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -44,9 +44,9 @@ public class HydraulicUppercut extends ActiveItem {
 		Hitbox hbox = new Hitbox(state, mouseLocation, hitboxSize, lifespan, new Vector2(), user.getPlayer().getHitboxfilter(),  true, true, user.getPlayer(), Sprite.IMPACT);
 		hbox.makeUnreflectable();
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
-		hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE));
-		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user, new Vector2(), new Vector2(), false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user));
+		hbox.addStrategy(new ContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new FixedToUser(state, hbox, user, new Vector2(), new Vector2(), false));
 	}
 }

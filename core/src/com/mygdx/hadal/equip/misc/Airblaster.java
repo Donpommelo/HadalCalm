@@ -8,9 +8,9 @@ import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.FixedToUser;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -44,10 +44,10 @@ public class Airblaster extends MeleeWeapon {
 		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize.scl(1 + user.getBodyData().getStat(Stats.BOOST_SIZE)), swingCd, startVelocity, user.getHitboxfilter(), true, false, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), 
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW)), 
 				DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
-		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
+		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

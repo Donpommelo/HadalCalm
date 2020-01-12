@@ -8,10 +8,10 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitLoseDuraStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -56,9 +56,9 @@ public class Popper extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		hbox.setGravity(5.0f);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override
@@ -85,10 +85,10 @@ public class Popper extends RangedWeapon {
 					frag.setGravity(7.5f);
 					frag.setDurability(3);
 					
-					frag.addStrategy(new HitboxDefaultStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxOnContactUnitLoseDuraStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxOnContactWallDieStrategy(state, frag, user.getBodyData()));
-					frag.addStrategy(new HitboxDamageStandardStrategy(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
+					frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
+					frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
+					frag.addStrategy(new ContactWallDie(state, frag, user.getBodyData()));
+					frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
 				}
 			}
 		});

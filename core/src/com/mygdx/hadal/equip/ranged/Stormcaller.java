@@ -6,9 +6,9 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -46,8 +46,8 @@ public class Stormcaller extends RangedWeapon {
 		
 		explosionSize.set(projectileSize);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float controllerCount = 0;
@@ -60,8 +60,8 @@ public class Stormcaller extends RangedWeapon {
 				if (controllerCount >= explosionInterval) {
 					
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval, new Vector2(), filter, true, true, user, projSprite);
-					pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
+					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
+					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
 					
 					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {

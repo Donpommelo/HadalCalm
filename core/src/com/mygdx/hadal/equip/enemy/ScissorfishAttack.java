@@ -5,9 +5,9 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxFixedToUserStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.FixedToUser;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 
@@ -28,8 +28,8 @@ public class ScissorfishAttack extends MeleeWeapon {
 		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, swingCd, weaponVelo, filter, true, true, user, Sprite.NOTHING);
 		hbox.makeUnreflectable();
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
-		hbox.addStrategy(new HitboxFixedToUserStrategy(state, hbox, user.getBodyData(), startVelocity, new Vector2(0, 0), false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
+		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), startVelocity, new Vector2(0, 0), false));
 	}
 }

@@ -13,8 +13,8 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -87,8 +87,8 @@ public class MeteorStrike extends ActiveItem {
 					Hitbox hbox = new Hitbox(state, new Vector2(originPt).add((GameStateManager.generator.nextFloat() -  0.5f) * spread, 0), projectileSize, lifespan, new Vector2(0, -projectileSpeed),
 							user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.NOTHING);
 					
-					hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
-					hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new ControllerDefault(state, hbox, user));
+					hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 						
 						@Override

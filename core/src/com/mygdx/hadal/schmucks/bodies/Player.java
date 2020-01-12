@@ -104,6 +104,7 @@ public class Player extends PhysicsSchmuck {
 	
 	//Is the player currently shooting/hovering/fastfalling?
 	private boolean shooting = false;
+	private boolean hoveringAttempt = false;
 	private boolean hovering = false;
 	private boolean fastFalling = false;
 	
@@ -259,9 +260,15 @@ public class Player extends PhysicsSchmuck {
 		if (controllerCount >= 1/60f) {
 			controllerCount -= 1/60f;
 
-			if (hovering) {
-				hover();
+			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&	playerData.getCurrentFuel() >= playerData.getHoverCost()) {
+				if (jumpCdCount < 0) {
+					hover();
+					hovering = true;
+				}
+			} else {
+				hovering = false;
 			}
+			
 			if (fastFalling) {
 				fastFall();
 			}
@@ -311,17 +318,14 @@ public class Player extends PhysicsSchmuck {
 	 * Player's Hover power. Costs fuel and continuously pushes the player upwards.
 	 */
 	public void hover() {
-		if (playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&
-				playerData.getCurrentFuel() >= playerData.getHoverCost()) {
-			if (jumpCdCount < 0) {
-				
-				//Player will continuously do small upwards bursts that cost fuel.
-				playerData.fuelSpend(playerData.getHoverCost());
-				jumpCdCount = hoverCd;
-				pushMomentumMitigation(0, playerData.getHoverPower());
-				
-				hoverBubbles.onForBurst(0.5f);
-			}
+		if (jumpCdCount < 0) {
+			
+			//Player will continuously do small upwards bursts that cost fuel.
+			playerData.fuelSpend(playerData.getHoverCost());
+			jumpCdCount = hoverCd;
+			pushMomentumMitigation(0, playerData.getHoverPower());
+			
+			hoverBubbles.onForBurst(0.5f);
 		}
 	}
 	
@@ -338,7 +342,7 @@ public class Player extends PhysicsSchmuck {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
 				if (jumpCdCount < 0) {
 					jumpCdCount = jumpCd;
-					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);;
+					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 					pushMomentumMitigation(0, playerData.getJumpPower());
 				}
 			}
@@ -771,7 +775,7 @@ public class Player extends PhysicsSchmuck {
 
 	public boolean isHovering() { return hovering; }
 
-	public void setHovering(boolean hovering) { this.hovering = hovering; }
+	public void setHoveringAttempt(boolean hoveringAttempt) { this.hoveringAttempt = hoveringAttempt; }
 
 	public boolean isFastFalling() { return fastFalling; }
 

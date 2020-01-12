@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxOnHitTrackStrategy extends HitboxStrategy{
+public class HitTrack extends HitboxStrategy{
 	
 	//has this hbox stuck onto a target yet? 
 	private boolean tracked; 
@@ -22,7 +22,7 @@ public class HitboxOnHitTrackStrategy extends HitboxStrategy{
 	private boolean override;
 	private HadalEntity target;
 	
-	public HitboxOnHitTrackStrategy(PlayState state, Hitbox proj, BodyData user, boolean override) {
+	public HitTrack(PlayState state, Hitbox proj, BodyData user, boolean override) {
 		super(state, proj, user);
 		this.override = override;
 		this.tracked = false;

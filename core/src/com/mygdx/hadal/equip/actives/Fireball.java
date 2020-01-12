@@ -9,11 +9,11 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactUnitDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnDieFireFragStrategy;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitDie;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
+import com.mygdx.hadal.schmucks.strategies.DieFireFrag;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -44,11 +44,11 @@ public class Fireball extends ActiveItem {
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.NOTHING);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
-		hbox.addStrategy(new HitboxOnContactUnitDieStrategy(state, hbox, user));
-		hbox.addStrategy(new HitboxOnContactWallDieStrategy(state, hbox, user));
-		hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new HitboxOnDieFireFragStrategy(state, hbox, user, numFrag, user.getPlayer().getHitboxfilter()));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user));
+		hbox.addStrategy(new ContactUnitDie(state, hbox, user));
+		hbox.addStrategy(new ContactWallDie(state, hbox, user));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DieFireFrag(state, hbox, user, numFrag, user.getPlayer().getHitboxfilter()));
 		new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 	}
 }

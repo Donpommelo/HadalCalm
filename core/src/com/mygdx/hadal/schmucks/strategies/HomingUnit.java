@@ -17,7 +17,7 @@ import com.mygdx.hadal.utils.Constants;
  * @author Zachary Tu
  *
  */
-public class HitboxHomingStrategy extends HitboxStrategy{
+public class HomingUnit extends HitboxStrategy{
 	
 	private Schmuck homing;
 	private Schmuck homeAttempt;
@@ -37,7 +37,7 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 	private static final int decelerationRadius = 0;
 	private static final int homeRadius = 2000;
 	
-	public HitboxHomingStrategy(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
+	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
 			float maxAngAcc, int boundingRad, int decelerationRadius, float radius, short filter) {
 		super(state, proj, user);
 		this.radius = radius;
@@ -55,7 +55,7 @@ public class HitboxHomingStrategy extends HitboxStrategy{
 		hbox.setSteeringOutput(new SteeringAcceleration<Vector2>(new Vector2()));
 	}
 	
-	public HitboxHomingStrategy(PlayState state, Hitbox proj, BodyData user, short filter) {
+	public HomingUnit(PlayState state, Hitbox proj, BodyData user, short filter) {
 		this(state, proj, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, filter);
 	}
 	

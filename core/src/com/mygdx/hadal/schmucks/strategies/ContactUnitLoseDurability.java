@@ -7,23 +7,23 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * This strategy makes an attached hbox lose durability upon contact with a wall.
+ * This strategy makes an attached hbox lose durability upon contact with a unit.
  * If a hbox's durability reaches 0, it dies.
  * @author Zachary Tu
  *
  */
-public class HitboxOnContactWallLoseDuraStrategy extends HitboxStrategy{
+public class ContactUnitLoseDurability extends HitboxStrategy{
 	
-	public HitboxOnContactWallLoseDuraStrategy(PlayState state, Hitbox proj, BodyData user) {
+	public ContactUnitLoseDurability(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB == null) {
-			hbox.lowerDurability();
-		} else if (fixB.getType().equals(UserDataTypes.WALL)){
-			hbox.lowerDurability();
+		if (fixB != null) {
+			if (fixB.getType().equals(UserDataTypes.BODY)) {
+				hbox.lowerDurability();
+			}
 		}
 	}
 }

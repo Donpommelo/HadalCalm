@@ -7,10 +7,10 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxMouseStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnHitTrackStrategy;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.HomingMouse;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
+import com.mygdx.hadal.schmucks.strategies.HitTrack;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -60,10 +60,10 @@ public class TractorBeam extends ActiveItem {
 		};
 		hbox.setRestitution(1.0f);
 		
-		final HitboxOnContactWallDieStrategy start = new HitboxOnContactWallDieStrategy(state, hbox, user);
-		final HitboxOnHitTrackStrategy track = new HitboxOnHitTrackStrategy(state, hbox, user, true);
+		final ContactWallDie start = new ContactWallDie(state, hbox, user);
+		final HitTrack track = new HitTrack(state, hbox, user, true);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(track);
 		hbox.addStrategy(start);
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
@@ -78,7 +78,7 @@ public class TractorBeam extends ActiveItem {
 						oneTime = false;
 						hbox.removeStrategy(start);
 						hbox.removeStrategy(this);
-						hbox.addStrategy(new HitboxMouseStrategy(state, hbox, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
+						hbox.addStrategy(new HomingMouse(state, hbox, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
 						hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 							
 							@Override

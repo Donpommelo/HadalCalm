@@ -1,8 +1,8 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallDieStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxRemoveStrategyStrategy;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
+import com.mygdx.hadal.schmucks.strategies.RemoveStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -27,7 +27,7 @@ public class CuriousSauce extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HitboxRemoveStrategyStrategy(state, hbox, b, HitboxOnContactWallDieStrategy.class));
+				hbox.addStrategy(new RemoveStrategy(state, hbox, b, ContactWallDie.class));
 				hbox.setSensor(false);
 			}
 		});

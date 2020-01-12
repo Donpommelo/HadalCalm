@@ -1,20 +1,22 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.event.Poison;
+import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitStatus;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.Status;
 
 public class RedTideTalisman extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
-	private final static Vector2 poisonSize = new Vector2(150, 150);
-	private final static float poisonDamage = 40/60f;
-	private final static float poisonDuration = 3.0f;
-	
+	private final static float fireDuration = 4.0f;
+	private final static float fireDamage = 3.0f;
 	private final static float procCd = 0.5f;
 	
 	public RedTideTalisman() {
@@ -22,7 +24,7 @@ public class RedTideTalisman extends Artifact {
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
 			private float procCdCount;
@@ -33,16 +35,16 @@ public class RedTideTalisman extends Artifact {
 					procCdCount += delta;
 				}
 			}
-			
+
 			@Override
-			public void onKill(BodyData vic) {
+			public void onHitboxCreation(Hitbox hbox) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					new Poison(state, vic.getSchmuck().getPixelPosition(), poisonSize, poisonDamage, poisonDuration, inflicter.getSchmuck(), true, inflicter.getSchmuck().getHitboxfilter());
+					hbox.addStrategy(new ContactUnitStatus(state, hbox, inflicted, new Ablaze(state, fireDuration, inflicted, inflicted, fireDamage)));
+					new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 				}
 			}
 		};
-		
 		return enchantment;
 	}
 }

@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxOnDieParticles extends HitboxStrategy {
+public class DieParticles extends HitboxStrategy {
 	
 	private final static float defaultDuration = 1.0f;
 	
@@ -23,13 +23,13 @@ public class HitboxOnDieParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
-	public HitboxOnDieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
+	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
 		super(state, proj, user);
 		this.effect = effect;
 		this.duration = duration;
 	}
 	
-	public HitboxOnDieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
+	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		this(state, proj, user, effect, defaultDuration);
 	}
 	

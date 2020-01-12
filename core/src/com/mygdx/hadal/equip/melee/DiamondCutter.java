@@ -10,9 +10,9 @@ import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDamageStandardStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
-import com.mygdx.hadal.schmucks.strategies.HitboxOnContactWallParticles;
+import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -57,8 +57,8 @@ public class DiamondCutter extends MeleeWeapon {
 			hbox = new Hitbox(state, mouseLocation, projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
 			hbox.makeUnreflectable();
 			
-			hbox.addStrategy(new HitboxOnContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
-			hbox.addStrategy(new HitboxDamageStandardStrategy(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
+			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				private float controllerCount = 0;
@@ -92,8 +92,8 @@ public class DiamondCutter extends MeleeWeapon {
 					if (controllerCount >= spinInterval) {
 						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize,
 								spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
-						pulse.addStrategy(new HitboxDefaultStrategy(state, pulse, user.getBodyData()));
-						pulse.addStrategy(new HitboxDamageStandardStrategy(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
+						pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 						
 						controllerCount -= delta;
 					}

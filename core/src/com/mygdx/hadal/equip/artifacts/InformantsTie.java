@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxHomingStrategy;
+import com.mygdx.hadal.schmucks.strategies.HomingUnit;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -30,7 +30,7 @@ public class InformantsTie extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HitboxHomingStrategy(state, hbox, b, inflicted.getSchmuck().getHitboxfilter()));
+				hbox.addStrategy(new HomingUnit(state, hbox, b, inflicted.getSchmuck().getHitboxfilter()));
 				hbox.setGravity(0.0f);
 			}
 		});

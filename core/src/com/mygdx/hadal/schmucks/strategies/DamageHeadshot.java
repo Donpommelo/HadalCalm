@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class HitboxDamageHeadshotStrategy extends HitboxStrategy{
+public class DamageHeadshot extends HitboxStrategy{
 	
 	//the top percent of the units body that counts as a "head"
 	private static float headshotThreshold = 0.25f;
@@ -21,7 +21,7 @@ public class HitboxDamageHeadshotStrategy extends HitboxStrategy{
 	//the amount of damage and knockback this hbox will inflict
 	private float bonusDamage, knockback;
 	
-	public HitboxDamageHeadshotStrategy(PlayState state, Hitbox proj, BodyData user, float damage, float knockback) {
+	public DamageHeadshot(PlayState state, Hitbox proj, BodyData user, float damage, float knockback) {
 		super(state, proj, user);
 		this.bonusDamage = damage;
 		this.knockback = knockback;

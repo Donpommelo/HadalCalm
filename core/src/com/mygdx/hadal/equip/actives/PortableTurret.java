@@ -8,7 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.HitboxDefaultStrategy;
+import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -41,7 +41,7 @@ public class PortableTurret extends ActiveItem {
 		
 		hbox.setGravity(3.0f);
 		
-		hbox.addStrategy(new HitboxDefaultStrategy(state, hbox, user, false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user, false));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			@Override
