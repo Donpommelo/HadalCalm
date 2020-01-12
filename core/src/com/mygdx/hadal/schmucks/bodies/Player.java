@@ -596,7 +596,7 @@ public class Player extends PhysicsSchmuck {
 			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 		}
 		
-		if (playerData.getCurrentTool().getAmmoLeft() == 0 && playerData.getCurrentTool().getClipLeft() == 0) {
+		if (playerData.getCurrentTool().isOutofAmmo()) {
 			
 			float x = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
 			float y = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;

@@ -26,6 +26,9 @@ public class UIArtifacts {
 	private final int tagWidth = 25;
 	private final int tagHeight = 25;
 	
+	private final static int tableX = 475;
+	private final static int tableY = 10;
+	
 	public UIArtifacts(PlayState state, Player player) {
 		this.state = state;
 		this.player = player;
@@ -67,7 +70,6 @@ public class UIArtifacts {
 		newTag.setWidth(tagWidth);
 		newTag.setWidth(tagHeight);
 		table.add(newTag).width(tagWidth).height(tagHeight);
-		table.row();
 		return newTag;
 	}
 	
@@ -75,7 +77,7 @@ public class UIArtifacts {
 	
 	public void addTable() {
 		state.getStage().addActor(table);
-		table.setPosition(0, HadalGame.CONFIG_HEIGHT - 50);
+		table.setPosition(tableX, tableY);
 		table.setWidth(HadalGame.CONFIG_WIDTH);
 		table.setHeight(tagHeight);
 	}

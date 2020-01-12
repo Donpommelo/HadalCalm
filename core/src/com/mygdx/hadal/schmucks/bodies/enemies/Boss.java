@@ -75,7 +75,7 @@ public class Boss extends Enemy {
 		super.create();
 		
 		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 10, 0, false, false, Constants.BIT_ENEMY, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY | Constants.BIT_PLAYER),
+				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 				hitboxfilter, false, bodyData);
 		
 //		body.setType(BodyType.KinematicBody);

@@ -1,0 +1,30 @@
+
+gauge.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+boss_gauge
+  rotate: false
+  xy: 2, 190
+  size: 358, 186
+  split: 201, 141, 180, 1
+  orig: 358, 186
+  offset: 0, 0
+  index: -1
+boss_gauge_grey
+  rotate: false
+  xy: 2, 2
+  size: 358, 186
+  split: 201, 141, 180, 1
+  orig: 358, 186
+  offset: 0, 0
+  index: -1
+boss_gauge_red
+  rotate: false
+  xy: 362, 190
+  size: 358, 186
+  split: 201, 141, 180, 1
+  orig: 358, 186
+  offset: 0, 0
+  index: -1

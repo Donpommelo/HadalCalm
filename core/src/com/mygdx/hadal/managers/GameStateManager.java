@@ -40,7 +40,7 @@ public class GameStateManager {
 	
 	//skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.
 	private Skin skin;
-	private NinePatchDrawable dialogPatch, simplePatch;
+	private NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch, bossGaugeRedPatch;
 	
 	private static ArrayList<TextureAtlas> atlases = new ArrayList<TextureAtlas>();
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
@@ -116,6 +116,10 @@ public class GameStateManager {
 		
 		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
 		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
+		
+		this.bossGaugePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge"));
+		this.bossGaugeGreyPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_grey"));
+		this.bossGaugeRedPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_red"));
 		
 		atlases.add(GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString()));
 		
@@ -314,4 +318,10 @@ public class GameStateManager {
 	public NinePatchDrawable getDialogPatch() {	return dialogPatch;	}
 	
 	public NinePatchDrawable getSimplePatch() { return simplePatch; }
+
+	public NinePatchDrawable getBossGaugePatch() { return bossGaugePatch; }
+
+	public NinePatchDrawable getBossGaugeGreyPatch() { return bossGaugeGreyPatch; }
+
+	public NinePatchDrawable getBossGaugeRedPatch() { return bossGaugeRedPatch; }	
 }

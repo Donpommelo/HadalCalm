@@ -248,6 +248,11 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	@Override
+	public boolean isOutofAmmo() { 
+		return getAmmoLeft() == 0 && getClipLeft() == 0; 
+	}
+	
+	@Override
 	public int getAmmoSize() { return (int) (ammoSize  * (1 + user.getBodyData().getStat(Stats.AMMO_CAPACITY))); }
 	
 	@Override

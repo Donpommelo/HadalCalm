@@ -27,7 +27,7 @@ public class UIPlay extends AHadalActor {
 	private TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
 	private Array<? extends TextureRegion> itemNull, itemSelect, itemUnselect;
 	
-	private float mainScale = 0.50f;
+	private static final float mainScale = 0.5f;
 	private static final int mainX = 0;
 	private static final int mainY = 0;
 	
@@ -35,12 +35,13 @@ public class UIPlay extends AHadalActor {
 	private static final int hpBarY = 50;
 	private static final int fuelBarY = 22;
 	
-	private static final int bossX = 50;
-	private static final int bossNameY = 700;
-	private static final int bossBarY = 660;
+	private static final float bossScale = 0.4f;
+	private static final int bossX = 10;
+	private static final int bossNameX = 110;
+	private static final int bossNameY = 710;
+	private static final int bossBarY = 700;
 	private static final int bossBarWidth = 1500;
 	private static final int bossBarHeight = 30;
-	
 	
 	private static final int activeX = 380;
 	private static final int activeY = 20;
@@ -198,7 +199,7 @@ public class UIPlay extends AHadalActor {
 		
 		//Draw boss hp bar, if existent
 		if (bossFight && boss.getBody() != null) {
-			font.draw(batch, bossName, bossX, bossNameY);
+			font.draw(batch, bossName, bossNameX, bossNameY);
 			
 			//This code makes the hp bar delay work.
 			if (bossHpDelayed > bossHpRatio) {
@@ -207,8 +208,9 @@ public class UIPlay extends AHadalActor {
 				bossHpDelayed = bossHpRatio;
 			}
 			
-			batch.draw(hpMissing, bossX, bossBarY, bossBarWidth * mainScale * bossHpDelayed, bossBarHeight * mainScale);
-			batch.draw(hp, bossX, bossBarY, bossBarWidth * mainScale * bossHpRatio, bossBarHeight * mainScale);
+			state.getGsm().getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
+			state.getGsm().getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
+			state.getGsm().getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 		}
 	}
 	

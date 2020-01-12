@@ -98,7 +98,7 @@ public class Schmuck extends HadalEntity {
 		this.feetData = new FeetData(UserDataTypes.FEET, this); 
 		
 		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_ENEMY | Constants.BIT_PLAYER | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
 		
 		feet.setUserData(feetData);
 		

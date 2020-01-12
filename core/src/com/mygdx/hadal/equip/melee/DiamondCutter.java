@@ -10,7 +10,7 @@ import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.DamageStandard;
+import com.mygdx.hadal.schmucks.strategies.DamageStatic;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
 import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
@@ -58,7 +58,7 @@ public class DiamondCutter extends MeleeWeapon {
 			hbox.makeUnreflectable();
 			
 			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
-			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
 				private float controllerCount = 0;
@@ -93,7 +93,7 @@ public class DiamondCutter extends MeleeWeapon {
 						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize,
 								spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-						pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+						pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
 						
 						controllerCount -= delta;
 					}

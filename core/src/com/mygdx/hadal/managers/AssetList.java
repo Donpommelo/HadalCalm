@@ -31,6 +31,8 @@ public enum AssetList {
 	HEART_EMPTY("ui/heart_meter.png", Texture.class),
 	HEART_FULL("ui/heart_gauge.png", Texture.class),
 	
+	BOSSGAUGEATLAS("ui/gauge.atlas", TextureAtlas.class),
+
 	PELICANATLAS("sprites/busts/portrait_pelican.atlas", TextureAtlas.class),
 	
 	BACKGROUND1("under_da_sea.jpg", Texture.class),
