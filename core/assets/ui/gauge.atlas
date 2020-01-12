@@ -8,23 +8,31 @@ boss_gauge
   rotate: false
   xy: 2, 190
   size: 358, 186
-  split: 201, 141, 180, 1
+  split: 174, 88, 180, 1
+  orig: 358, 186
+  offset: 0, 0
+  index: -1
+boss_gauge_dark_red
+  rotate: false
+  xy: 2, 2
+  size: 358, 186
+  split: 122, 87, 180, 1
   orig: 358, 186
   offset: 0, 0
   index: -1
 boss_gauge_grey
   rotate: false
-  xy: 2, 2
+  xy: 362, 190
   size: 358, 186
-  split: 201, 141, 180, 1
+  split: 122, 87, 180, 1
   orig: 358, 186
   offset: 0, 0
   index: -1
 boss_gauge_red
   rotate: false
-  xy: 362, 190
+  xy: 362, 2
   size: 358, 186
-  split: 201, 141, 180, 1
+  split: 122, 87, 180, 1
   orig: 358, 186
   offset: 0, 0
   index: -1
