@@ -53,6 +53,9 @@ public class Hitbox extends HadalEntity {
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	protected boolean sensor;
 	
+	//procEffects is whether the hitbox activates statuses.
+	protected boolean procEffects;
+		
 	//can this hbox be reflected by reflection effects?
 	private boolean reflectable = true;
 	
@@ -80,6 +83,7 @@ public class Hitbox extends HadalEntity {
 		this.lifeSpan = lifespan;
 		this.filter = filter;
 		this.sensor = sensor;
+		this.procEffects = procEffects;
 		this.creator = creator;
 		
 		//Create a new vector to avoid issues with multi-projectile attacks using same velo for all projectiles.
@@ -94,11 +98,6 @@ public class Hitbox extends HadalEntity {
 			this.sprite = sprite;
 			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
 		}
-		
-		//procEffects determines whether we activate statuses or not.
-		if (procEffects) {
-			creator.getBodyData().statusProcTime(new ProcTime.CreateHitbox(this));
-		}
 	}
 	
 	/**
@@ -106,6 +105,10 @@ public class Hitbox extends HadalEntity {
 	 */
 	public void create() {
 
+		if (procEffects) {
+			creator.getBodyData().statusProcTime(new ProcTime.CreateHitbox(this));
+		}
+		
 		this.data = new HitboxData(state, this);
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, 

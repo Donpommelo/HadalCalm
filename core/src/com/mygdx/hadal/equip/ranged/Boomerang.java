@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
 import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.schmucks.strategies.HitboxStrategy;
+import com.mygdx.hadal.schmucks.strategies.ReturnToUser;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -29,7 +30,6 @@ public class Boomerang extends RangedWeapon {
 	private final static float projectileSpeed = 35.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespanx = 4.0f;
-	private final static float returnAmp = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.BOOMERANG;
 	private final static Sprite weaponSprite = Sprite.MT_BOOMERANG;
@@ -45,33 +45,16 @@ public class Boomerang extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespanx, startVelocity, (short) 0, false, true, user, projSprite);		
 		hbox.setRestitution(0.5f);
 		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData(), false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
+		hbox.addStrategy(new ReturnToUser(state, hbox, user.getBodyData(), projectileSpeed));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-			
-			private float controllerCount = 0;
-			private Vector2 diff = new Vector2();
 			
 			@Override
 			public void create() {
 				
 				//Set boomerang to have constant angular velocity for visual effect.
 				hbox.setAngularVelocity(5);
-			}
-			
-			@Override
-			public void controller(float delta) {
-				controllerCount+=delta;
-
-				//Boomerang repeatedly is pushed towards player. Controllercount is checked to ensure framerate does not affect speed
-				if (controllerCount >= 1/60f) {
-					diff.set(user.getPixelPosition().x - hbox.getPixelPosition().x, 
-							user.getPixelPosition().y - hbox.getPixelPosition().y);
-					
-					hbox.applyForceToCenter(diff.nor().scl(projectileSpeed * hbox.getMass() * returnAmp));
-
-					controllerCount -= 1/60f;
-				}
 			}
 			
 			@Override

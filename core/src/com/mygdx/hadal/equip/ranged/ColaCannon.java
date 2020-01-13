@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.DamageStandard;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
 import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
 import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.schmucks.strategies.DieParticles;
@@ -91,6 +92,7 @@ public class ColaCannon extends RangedWeapon {
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_IMPACT));

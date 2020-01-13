@@ -13,6 +13,7 @@ import com.mygdx.hadal.schmucks.strategies.DamageStandard;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
 import com.mygdx.hadal.schmucks.strategies.DieExplode;
 import com.mygdx.hadal.schmucks.strategies.HomingMouse;
+import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
 import com.mygdx.hadal.schmucks.strategies.ContactUnitDie;
 import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.states.PlayState;
@@ -63,6 +64,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		hbox.addStrategy(new HomingMouse(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		
 		new ParticleEntity(state, hbox, Particle.BUBBLE_TRAIL, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
 	}

@@ -120,7 +120,7 @@ public class LaserRifle extends RangedWeapon {
 			}
 		};
 		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData(), false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

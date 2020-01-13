@@ -97,7 +97,7 @@ public class Screecher extends RangedWeapon {
 		
 		Hitbox hbox = new RangedHitbox(state, newPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, projSprite);
 		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData(), false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

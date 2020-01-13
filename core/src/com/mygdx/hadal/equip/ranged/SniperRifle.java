@@ -10,6 +10,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.DamageHeadshot;
 import com.mygdx.hadal.schmucks.strategies.DamageStandard;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
 import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.states.PlayState;
@@ -46,6 +47,7 @@ public class SniperRifle extends RangedWeapon {
 		hbox.setRestitution(1.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));

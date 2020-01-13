@@ -8,6 +8,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.DamageStandard;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
 import com.mygdx.hadal.schmucks.strategies.ContactStick;
 import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
 import com.mygdx.hadal.states.PlayState;
@@ -41,6 +42,7 @@ public class Nematocydearm extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));

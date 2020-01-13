@@ -22,6 +22,7 @@ import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
 import com.mygdx.hadal.schmucks.strategies.HomingUnit;
 import com.mygdx.hadal.schmucks.strategies.DieExplode;
 import com.mygdx.hadal.schmucks.strategies.Spread;
+import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
 import com.mygdx.hadal.schmucks.strategies.ContactUnitDie;
 import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
 import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
@@ -78,6 +79,7 @@ public class WeaponUtils {
 		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
@@ -91,6 +93,7 @@ public class WeaponUtils {
 		Hitbox hbox = new RangedHitbox(state, startPos, size, lifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
@@ -133,6 +136,7 @@ public class WeaponUtils {
 			};
 			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.RANGED));

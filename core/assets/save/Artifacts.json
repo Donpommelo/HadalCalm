@@ -359,10 +359,28 @@ IRON_SIGHTS: {
 		RANDOM_POOL,
 	]
 }
+KINESIS_LENS: {
+	name: Kinesis Lens
+	description: "Projectiles Track Mouse"
+    descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 LOCH_SHIELD: {
 	name: Loch Shield
 	description: "+Fire and Explosion Resistance"
     descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+MACHINE_GHOST: {
+	name: Machine Ghost
+	description: "Spectral Projectiles"
+    descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -652,6 +670,15 @@ TEMPEST_TEAPOT: {
 		RANDOM_POOL,
 	]
 }
+TOME_OF_PHILOPATRY: {
+	name: Tome of Philopatry
+	description: "Returning Projectiles"
+    descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 TUNICATE_TUNIC: {
 	name: Tunicate Tunic
 	description: "+Knockback Resistance"
@@ -709,6 +736,15 @@ WHITE_SMOKER: {
 WRATH_OF_THE_FROGMAN: {
 	name: Wrath of the Frogman
 	description: "Fire Missiles When Attacking"
+    descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+YIGHT_KITE: {
+	name: Yight Kite
+	description: "Projectiles Track User Movement"
     descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,

@@ -41,7 +41,7 @@ public class PortableTurret extends ActiveItem {
 		
 		hbox.setGravity(3.0f);
 		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user, false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			@Override

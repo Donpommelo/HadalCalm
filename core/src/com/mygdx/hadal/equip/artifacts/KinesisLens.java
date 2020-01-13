@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
 import com.mygdx.hadal.schmucks.strategies.HomingMouse;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -9,13 +10,13 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class RingofTesting extends Artifact {
+public class KinesisLens extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 0;
+	private final static int slotCost = 1;
 	
-	private static final float maxLinSpd = 150;
-	private static final float maxLinAcc = 1000;
+	private static final float maxLinSpd = 300;
+	private static final float maxLinAcc = 2000;
 	private static final float maxAngSpd = 270;
 	private static final float maxAngAcc = 180;
 	
@@ -25,7 +26,7 @@ public class RingofTesting extends Artifact {
 	private final static float projSpdReduction = -0.5f;
 	private final static float bonusProjLifespan = 0.5f;
 	
-	public RingofTesting() {
+	public KinesisLens() {
 		super(slotCost, statusNum);
 	}
 
@@ -39,6 +40,7 @@ public class RingofTesting extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new HomingMouse(state, hbox, inflicted, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
+				hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
 				hbox.setGravity(0.0f);
 			}
 		});

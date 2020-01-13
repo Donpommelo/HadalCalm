@@ -15,8 +15,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class HomingMouse extends HitboxStrategy {
 	
-	public HomingMouse(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
-			float maxAngAcc, int boundingRad, int decelerationRadius) {
+	public HomingMouse(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, int boundingRad, int decelerationRadius) {
 		super(state, proj, user);
 		
 		if (user.getSchmuck() instanceof Player) {

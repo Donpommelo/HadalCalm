@@ -46,7 +46,7 @@ public class NauticalMine extends ActiveItem {
 		hbox.setGravity(0.1f);
 		hbox.setRestitution(1.0f);
 		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user, false));
+		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user, explosionRadius, explosionDamage, explosionKnockback, (short)0));

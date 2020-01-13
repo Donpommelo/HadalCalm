@@ -14,17 +14,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ControllerDefault extends HitboxStrategy{
 	
-	//Does the hbox's body rotate according to its velocity? Usually used for long projectiles
-	private boolean adjustAngle;
-	
 	public ControllerDefault(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
-		this.adjustAngle = true;
-	}
-	
-	public ControllerDefault(PlayState state, Hitbox proj, BodyData user, boolean adjustAngle) {
-		super(state, proj, user);
-		this.adjustAngle = adjustAngle;	
 	}
 	
 	@Override
@@ -34,11 +25,6 @@ public class ControllerDefault extends HitboxStrategy{
 		hbox.setLifeSpan(hbox.getLifeSpan() - delta);
 		if (hbox.getLifeSpan() <= 0) {
 			hbox.die();
-		}
-		
-		//set angle of hbox to match trajectory.
-		if (adjustAngle) {
-			hbox.setTransform(hbox.getPosition().x, hbox.getPosition().y, (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
 		}
 	}
 
