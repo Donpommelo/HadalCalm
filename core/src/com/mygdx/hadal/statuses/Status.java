@@ -2,6 +2,8 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -26,6 +28,8 @@ public class Status {
 	//The Data of the Schmuck that received/inflicted this status.
 	protected BodyData inflicter, inflicted;
 	
+	private UnlockArtifact artifact;
+	
 	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v){
 		this.state = state;
 		this.duration = i;
@@ -46,77 +50,70 @@ public class Status {
 		
 		float finalAmount = 0;
 		
-		if (o instanceof TimePass){
+		if (o instanceof TimePass) {
 			TimePass pt = (TimePass)o;
 			timePassing(pt.time);
-		} else if (o instanceof ProcTime.PlayerCreate) { 
-			playerCreate();
-		} else if (o instanceof StatusInflict){
-			StatusInflict pt = (StatusInflict)o;
-			onInflict(pt.s);
-		} else if (o instanceof StatusRemove){
-			StatusRemove pt = (StatusRemove)o;
-			onRemove(pt.s);
-		} else if (o instanceof StatCalc){
+		} else if (o instanceof StatCalc) {
 			statChanges();
-		} else if (o instanceof ReceiveDamage){
+		} else if (o instanceof ReceiveDamage) {
 			ReceiveDamage pt = (ReceiveDamage)o;
 			finalAmount = onReceiveDamage(pt.damage, pt.perp, pt.tags);
-		} else if (o instanceof InflictDamage){
+		} else if (o instanceof InflictDamage) {
 			InflictDamage pt = (InflictDamage)o;
 			finalAmount = onDealDamage(pt.damage, pt.vic, pt.tags);
-		} else if (o instanceof ReceiveHeal){
+		} else if (o instanceof ReceiveHeal) {
 			ReceiveHeal pt = (ReceiveHeal)o;
 			finalAmount = onHeal(pt.heal, pt.perp, pt.tags);
-		} else if (o instanceof Kill){
+		} else if (o instanceof Kill) {
 			Kill pt = (Kill)o;
 			onKill(pt.vic);
-		} else if (o instanceof Death){
+		} else if (o instanceof Death) {
 			Death pt = (Death)o;
 			onDeath(pt.perp);
-		} else if (o instanceof WhileAttack){
+		} else if (o instanceof WhileAttack) {
 			WhileAttack pt = (WhileAttack)o;
 			whileAttacking(pt.time, pt.tool);
-		} else if (o instanceof Shoot){
+		} else if (o instanceof Shoot) {
 			Shoot pt = (Shoot)o;
 			onShoot(pt.tool);
-		} else if (o instanceof Reload){
+		} else if (o instanceof Reload) {
 			Reload pt = (Reload)o;
 			onReload(pt.tool);
-		} else if (o instanceof CreateHitbox){
+		} else if (o instanceof CreateHitbox) {
 			CreateHitbox pt = (CreateHitbox)o;
 			onHitboxCreation(pt.hbox);
-		} else if (o instanceof PlayerCreate){
+		} else if (o instanceof PlayerCreate) {
 			playerCreate();
-		} else if (o instanceof Airblast){
+		} else if (o instanceof Airblast) {
 			Airblast pt = (Airblast)o;
 			onAirBlast(pt.tool);
-		} else if (o instanceof BeforeActiveUse){
+		} else if (o instanceof BeforeActiveUse) {
 			BeforeActiveUse pt = (BeforeActiveUse)o;
 			beforeActiveItem(pt.tool);
-		} else if (o instanceof AfterActiveUse){
+		} else if (o instanceof AfterActiveUse) {
 			AfterActiveUse pt = (AfterActiveUse)o;
 			afterActiveItem(pt.tool);
+		} else if (o instanceof AfterBossSpawn) {
+			AfterBossSpawn pt = (AfterBossSpawn)o;
+			afterBossSpawn(pt.boss);
 		}
 		return finalAmount;
 	}
 	
 	/**
-	 * This is run when any status is inflicted. (Not just this one)
-	 * @param s: Inflicted Status
+	 * This is run when this status is inflicted.
 	 */
-	public void onInflict(Status s) {}
+	public void onInflict() {}
 	
 	/**
-	 * This is run when this status is removed. (Not just this one)
-	 * @param s: Removed Status
+	 * This is run when this status is removed.
 	 */
-	public void onRemove(Status s) {}
+	public void onRemove() {}
 	
 	/**
 	 * This is called to calculate a schmuck's buffed stats
 	 */
-	public void statChanges(){}
+	public void statChanges() {}
 	
 	/**
 	 * This is called evey engine tick. Base Behavior: decrement duration and remove if 0 for temporary events.
@@ -158,6 +155,8 @@ public class Status {
 	
 	public void afterActiveItem(ActiveItem tool) {}
 	
+	public void afterBossSpawn(Boss boss) {}
+	
 	public BodyData getInflicter() { return inflicter; }
 
 	public void setInflicter(BodyData inflicter) { this.inflicter = inflicter; }
@@ -169,6 +168,10 @@ public class Status {
 	public float getDuration() { return duration; }
 
 	public void setDuration(float duration) { this.duration = duration; }
+
+	public UnlockArtifact getArtifact() { return artifact; }
+
+	public void setArtifact(UnlockArtifact artifact) { this.artifact = artifact; }
 
 	/**
 	 * This determines the behavior is this status is added to a schmuckwho already has it.

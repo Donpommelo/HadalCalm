@@ -19,8 +19,8 @@ public class Slodged extends Status {
 	}
 	
 	@Override
-	public void onRemove(Status s) {
-		if (s.equals(this) && slodge != null) {
+	public void onRemove() {
+		if (slodge != null) {
 			slodge.setDespawn(true);
 			slodge.turnOff();
 		}

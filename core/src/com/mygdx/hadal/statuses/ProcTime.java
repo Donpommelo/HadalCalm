@@ -2,6 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 
@@ -12,24 +13,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
  */
 public class ProcTime {
 
-	public static class StatusInflict {
-		public Status s;
-		
-		public StatusInflict(Status s) {
-			this.s = s;
-		}
-	}
-	
-	public static class StatusRemove {
-		public Status s;
-		
-		public StatusRemove(Status s) {
-			this.s = s;
-		}
-	}
-	
 	public static class StatCalc {
-		
 		public StatCalc() {}
 	}
 	
@@ -153,6 +137,14 @@ public class ProcTime {
 		
 		public AfterActiveUse(ActiveItem tool) {
 			this.tool = tool;
+		}
+	}
+	
+	public static class AfterBossSpawn {
+		public Boss boss;
+		
+		public AfterBossSpawn(Boss boss) {
+			this.boss = boss;
 		}
 	}
 }

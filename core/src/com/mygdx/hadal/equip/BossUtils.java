@@ -14,8 +14,6 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
 import com.mygdx.hadal.schmucks.bodies.enemies.BossAction;
 import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating;
@@ -26,6 +24,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.DamageStandard;
 import com.mygdx.hadal.schmucks.strategies.DamageStatic;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.CreateParticles;
 import com.mygdx.hadal.schmucks.strategies.FixedToUser;
 import com.mygdx.hadal.schmucks.strategies.ContactUnitStatus;
 import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
@@ -169,7 +168,7 @@ public class BossUtils {
 				hbox.addStrategy(new ContactUnitStatus(state, hbox, boss.getBodyData(), 
 						new Ablaze(state, fireDuration, boss.getBodyData(), boss.getBodyData(), fireDamage)));
 				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
-				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), Particle.FIRE, 3.0f));
 			}
 		});
 	}
@@ -187,7 +186,7 @@ public class BossUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
-				new ParticleEntity(state, hbox, particle, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
+				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), particle, 3.0f));
 			}
 		});
 	}
@@ -204,7 +203,7 @@ public class BossUtils {
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				new ParticleEntity(state, hbox, Particle.FIRE, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), Particle.FIRE, 3.0f));
 				
 			}
 		});

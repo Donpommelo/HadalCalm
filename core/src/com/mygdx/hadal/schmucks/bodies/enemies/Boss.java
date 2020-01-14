@@ -10,10 +10,12 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -78,7 +80,12 @@ public class Boss extends Enemy {
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 				hitboxfilter, false, bodyData);
 		
-//		body.setType(BodyType.KinematicBody);
+		state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+		if (state.isServer()) {
+			for (Player player : HadalGame.server.getPlayers().values()) {
+				player.getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+			}
+		}
 	}
 
 	@Override

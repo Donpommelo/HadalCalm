@@ -80,15 +80,6 @@ MELON: {
 		RANDOM_POOL,
 	]
 }
-FIREBALL: {
-	name: Fireball
-	description: "Throw a fireball."
-    descriptionLong: "TEST"
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
 MISSILE_POD: {
 	name: Missile Pod
 	description: "Fire a barrage of homing missiles!"

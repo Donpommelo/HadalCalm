@@ -22,8 +22,8 @@ public class Ablaze extends Status {
 	}
 	
 	@Override
-	public void onRemove(Status s) {
-		if (s.equals(this) && fire != null) {
+	public void onRemove() {
+		if (fire != null) {
 			fire.setDespawn(true);
 			fire.turnOff();
 		}

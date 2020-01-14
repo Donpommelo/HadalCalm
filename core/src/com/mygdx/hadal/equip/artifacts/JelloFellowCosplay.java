@@ -5,30 +5,30 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
-public class AlbatrossNecklace extends Artifact {
+public class JelloFellowCosplay extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float bonusHp = 50.0f;
-	private final static float gravityScale = 2.5f;
+	private final static float bounce = 1.0f;
+	private final static float bonusHp = 25.0f;
 	
-	public AlbatrossNecklace() {
+	public JelloFellowCosplay() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
 			@Override
 			public void onInflict() {
-				inflicted.getSchmuck().setGravityScale(gravityScale);
+				inflicted.getSchmuck().getBody().getFixtureList().get(0).setRestitution(bounce);
 			}
 			
 			@Override
 			public void onRemove() {
-				inflicted.getSchmuck().setGravityScale(1.0f);
+				inflicted.getSchmuck().getBody().getFixtureList().get(0).setRestitution(0.0f);
 			}
 			
 			@Override
@@ -36,6 +36,7 @@ public class AlbatrossNecklace extends Artifact {
 				inflicted.setStat(Stats.MAX_HP, inflicted.getStat(Stats.MAX_HP) + bonusHp);
 			}
 		};
+		
 		return enchantment;
 	}
 }

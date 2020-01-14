@@ -19,6 +19,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.strategies.ExplosionDefault;
 import com.mygdx.hadal.schmucks.strategies.DamageStandard;
 import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
+import com.mygdx.hadal.schmucks.strategies.CreateParticles;
 import com.mygdx.hadal.schmucks.strategies.HomingUnit;
 import com.mygdx.hadal.schmucks.strategies.DieExplode;
 import com.mygdx.hadal.schmucks.strategies.Spread;
@@ -98,8 +99,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
-		
-		new ParticleEntity(state, hbox, Particle.BUBBLE_TRAIL, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 3.0f));
 		
 		return hbox;
 	}
@@ -189,7 +189,6 @@ public class WeaponUtils {
 				}
 			};
 			hbox.setDurability(beeDurability);
-			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
@@ -209,7 +208,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback));
 		hbox.addStrategy(new HomingUnit(state, hbox, creator, filter));
-		new ParticleEntity(state, hbox, Particle.SHADOW_PATH, spiritLifespan, 0.0f, true, particleSyncType.TICKSYNC);
+		hbox.addStrategy(new CreateParticles(state, hbox, creator, Particle.SHADOW_PATH, 0.0f));
 	}
 	
 	public static final int pickupSize = 64;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -175,7 +176,7 @@ public class BodyData extends HadalData {
 		
 		if (added) {
 			statuses.add(s);
-			statusProcTime(new ProcTime.StatusInflict(s));
+			s.onInflict();
 			calcStats();
 		}
 	}
@@ -189,9 +190,39 @@ public class BodyData extends HadalData {
 			return;
 		}
 		
-		statusProcTime(new ProcTime.StatusRemove(s));
+		s.onRemove();
 		statuses.remove(s);
 		statusesChecked.remove(s);
+		calcStats();
+	}
+	
+	/**
+	 * Removes a status from this schmuck
+	 */
+	public void removeArtifactStatus(UnlockArtifact artifact) {
+		
+		if (!schmuck.getState().isServer()) {
+			return;
+		}
+		
+		ArrayList<Status> toRemove = new ArrayList<Status>();
+		
+		for (Status s: statuses) {
+			if (s.getArtifact().equals(artifact)) {
+				toRemove.add(s);
+			}
+		}
+		
+		for (Status s: statusesChecked) {
+			if (s.getArtifact().equals(artifact)) {
+				toRemove.add(s);
+			}
+		}
+		
+		for(Status st: toRemove) {
+			removeStatus(st);
+		}
+		
 		calcStats();
 	}
 	

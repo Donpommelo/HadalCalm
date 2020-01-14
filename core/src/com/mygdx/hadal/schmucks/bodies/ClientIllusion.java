@@ -32,10 +32,12 @@ public class ClientIllusion extends HadalEntity {
 	public ClientIllusion(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, alignType align) {
 		super(state, startPos, size);
 		if (sprite != null) {
-			illusionSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
-			this.align = align;
-			spriteWidth = illusionSprite.getKeyFrame(0).getRegionWidth();
-			spriteHeight = illusionSprite.getKeyFrame(0).getRegionHeight();
+			if (!sprite.equals(Sprite.NOTHING)) {
+				illusionSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+				this.align = align;
+				spriteWidth = illusionSprite.getKeyFrame(0).getRegionWidth();
+				spriteHeight = illusionSprite.getKeyFrame(0).getRegionHeight();
+			}
 		}
 	}
 

@@ -21,7 +21,6 @@ public enum UnlockActives {
 	NAUTICAL_MINE(NauticalMine.class),
 	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
 	HONEYCOMB(Honeycomb.class),
-	FIREBALL(Fireball.class),
 	FISH_GANG(FishGang.class),
 	MELON(Melon.class),
 	NOTHING(NothingActive.class),

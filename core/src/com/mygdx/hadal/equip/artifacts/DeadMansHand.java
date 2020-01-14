@@ -1,7 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
@@ -20,16 +19,7 @@ public class DeadMansHand extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.WEAPON_SLOTS, bonusSlots, b) {
-			
-			@Override
-			public void onInflict(Status s) {
-				if (inflicted instanceof PlayerBodyData && s.equals(this)) {
-					PlayerBodyData player = (PlayerBodyData)inflicted;
-					player.emptySlot(player.getNumWeaponSlots());
-				}
-			}
-		};		
+		enchantment[0] = new StatChangeStatus(state, Stats.WEAPON_SLOTS, bonusSlots, b);		
 		return enchantment;
 	}
 }

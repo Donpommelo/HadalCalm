@@ -12,7 +12,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public abstract class HitboxStrategy implements IHitboxStrategy{
+public abstract class HitboxStrategy implements IHitboxStrategy {
 
 	//reference to game state.
 	protected PlayState state;

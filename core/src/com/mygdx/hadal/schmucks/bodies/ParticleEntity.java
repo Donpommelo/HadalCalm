@@ -61,7 +61,6 @@ public class ParticleEntity extends HadalEntity {
 		} else {
 			this.effect.allowCompletion();
 		}
-		
 		this.effect.setPosition(startPos.x, startPos.y);		
 	}
 	
@@ -182,6 +181,7 @@ public class ParticleEntity extends HadalEntity {
 	
 	@Override
 	public void dispose() {
+		effect.reset();
 		effect.free();
 		super.dispose();
 	}
@@ -194,11 +194,9 @@ public class ParticleEntity extends HadalEntity {
 		
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(), 
-						true, particle.toString(), on, linger, lifespan);
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(), true, particle.toString(), on, linger, lifespan);
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startPos), 
-						false, particle.toString(), on, linger, lifespan);
+				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startPos), false, particle.toString(), on, linger, lifespan);
 			}
 		} else {
 			return null;

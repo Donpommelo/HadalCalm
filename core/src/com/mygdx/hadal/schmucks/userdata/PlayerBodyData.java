@@ -181,6 +181,7 @@ public class PlayerBodyData extends BodyData {
 		for (UnlockArtifact a : loadout.artifacts) {
 			for (Status s : a.getArtifact().loadEnchantments(player.getState(), this)) {
 				addStatus(s);
+				s.setArtifact(a);
 			}
 		}
 	}
@@ -369,6 +370,7 @@ public class PlayerBodyData extends BodyData {
 			} else {
 				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
 					addStatus(s);
+					s.setArtifact(artifactUnlock);
 				}
 				loadout.artifacts[i] = artifactUnlock;
 
@@ -404,9 +406,7 @@ public class PlayerBodyData extends BodyData {
 
 		if (indexRemoved != -1) {
 			if (loadout.artifacts[indexRemoved] != null) {
-				for (Status s : loadout.artifacts[indexRemoved].getArtifact().getEnchantment()) {
-					removeStatus(s);
-				}
+				removeArtifactStatus(artifact);
 			}
 			
 			for (int i = indexRemoved; i < Loadout.maxArtifactSlots - 1; i++) {

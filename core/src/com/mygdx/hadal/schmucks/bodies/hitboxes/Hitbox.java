@@ -38,17 +38,26 @@ public class Hitbox extends HadalEntity {
 	//filter describes the type of body the hitbox will register a hit on .(player, enemy or neutral)
 	protected short filter;
 	
+	public final static float defaultGravity = 0.0f;
+	public final static int defaultDurability = 1;
+	public final static float defaultFriction = 0.0f;
+	public final static float defaultScale = 1.0f;
+	public final static float defaultResitution = 0.0f;
+	
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
-	protected float gravity = 0.0f;
+	protected float gravity = defaultGravity;
 		
 	//durability is the number of things the hitbox can hit before disappearing.
-	protected int durability = 1;
+	protected int durability = defaultDurability;
 	
 	//restitution is the hitbox bounciness.
-	protected float restitution = 0.0f;
+	protected float restitution = defaultResitution;
 	
 	//friction is the hitbox slipperyness.
-	protected float friction = 0.0f;
+	protected float friction = defaultFriction;
+	
+	//scale is the hitbox size multiplier.
+	protected float scale = defaultScale;
 		
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	protected boolean sensor;
@@ -94,8 +103,8 @@ public class Hitbox extends HadalEntity {
 		this.remove = new ArrayList<HitboxStrategy>();
 		
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
+		this.sprite = sprite;
 		if (!sprite.equals(Sprite.NOTHING)) {
-			this.sprite = sprite;
 			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
 		}
 	}
@@ -110,6 +119,8 @@ public class Hitbox extends HadalEntity {
 		}
 		
 		this.data = new HitboxData(state, this);
+		
+		this.size.scl(scale);
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, 
 				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
@@ -234,8 +245,14 @@ public class Hitbox extends HadalEntity {
 	public void setRestitution(float restitution) {	this.restitution = restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION); }
 	
 	public void setGravity(float gravity) { this.gravity = gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY); }
-
+	
+	public void setScale(float scale) { this.scale = scale + creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE); }
+	
 	public void setFriction(float friction) { this.friction = friction; }
+	
+	public float getScale() { return scale; }
+	
+	public Sprite getSprite() { return sprite; }
 	
 	public short getFilter() { return filter; }
 

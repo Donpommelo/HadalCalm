@@ -8,7 +8,6 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
 public class Melon extends ActiveItem {
@@ -30,15 +29,13 @@ public class Melon extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		user.addStatus(new StatChangeStatus(state, duration, Stats.HP_REGEN, power, user, user) {
 			@Override
-			public void onInflict(Status s) {
-				if (s.equals(this)) {
-					regen = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, 0.0f, duration, true, particleSyncType.TICKSYNC);
-				}
+			public void onInflict() {
+				regen = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, 0.0f, duration, true, particleSyncType.TICKSYNC);
 			}
 			
 			@Override
-			public void onRemove(Status s) {
-				if (s.equals(this) && regen != null) {
+			public void onRemove() {
+				if (regen != null) {
 					regen.setDespawn(true);
 					regen.turnOff();
 				}

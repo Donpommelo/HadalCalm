@@ -3,8 +3,6 @@ package com.mygdx.hadal.schmucks.strategies;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -45,8 +43,7 @@ public class ContactUnitChainLightning extends HitboxStrategy{
 				hboxNew.addStrategy(new ContactWallDie(state, hboxNew, creator));
 				hboxNew.addStrategy(new ContactChain(state, hboxNew, creator, chainAmount, creator.getSchmuck().getHitboxfilter()));
 				hboxNew.addStrategy(new DamageStandard(state, hboxNew, creator, baseDamage, knockback, DamageTypes.RANGED));
-				
-				new ParticleEntity(state, hboxNew, Particle.LIGHTNING, 3.0f, 0.0f, true, particleSyncType.TICKSYNC);
+				hbox.addStrategy(new CreateParticles(state, hbox, creator, Particle.LIGHTNING));
 			}
 		}
 	}

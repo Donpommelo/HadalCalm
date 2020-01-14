@@ -1,44 +1,53 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.strategies.ContactUnitDie;
+import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
+import com.mygdx.hadal.schmucks.strategies.DieFrag;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.utils.Stats;
 
 public class BrittlingPowder extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private final static int slotCost = 2;
 	
-	private final static float explosionDamage = 25.0f;
-	private final static float explosionKnockback = 18.0f;
-	private final static float explosionSize = 200.0f;
+	private final static int numFrag = 8;
 	
-	private final static float bonusExplosionSize = 0.4f;
+	private final static float procCd = 0.5f;
 	
 	public BrittlingPowder() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
-	public Status[] loadEnchantments(PlayState state, BodyData b) {
+	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.EXPLOSION_SIZE, bonusExplosionSize, b),
 				new Status(state, b) {
+
+			private float procCdCount;
 			
 			@Override
-			public void onKill(BodyData vic) {
-				WeaponUtils.createExplosion(state, vic.getSchmuck().getPixelPosition(), explosionSize, inflicted.getSchmuck(), explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
+			public void timePassing(float delta) {
+				if (procCdCount < procCd) {
+					procCdCount += delta;
+				}
 			}
 			
 			@Override
-			public void onDeath(BodyData perp) {
-				WeaponUtils.createExplosion(state, perp.getSchmuck().getPixelPosition(), explosionSize, inflicted.getSchmuck(), explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
+			public void onHitboxCreation(Hitbox hbox) {
+				if (procCdCount >= procCd) {
+					procCdCount -= procCd;
+					
+					hbox.addStrategy(new ContactWallDie(state, hbox, inflicted));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, inflicted));
+					hbox.addStrategy(new DieFrag(state, hbox, inflicted, numFrag));
+				}
 			}
 		});
+		
 		return enchantment;
 	}
 }

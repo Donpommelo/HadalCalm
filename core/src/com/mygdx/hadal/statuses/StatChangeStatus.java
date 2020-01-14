@@ -29,7 +29,7 @@ public class StatChangeStatus extends Status {
 	}
 	
 	@Override
-	public void statChanges(){
+	public void statChanges() {
 		inflicted.setStat(statNum, inflicted.getStat(statNum) + statIncrement);
 	}
 }
