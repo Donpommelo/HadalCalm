@@ -209,6 +209,7 @@ public class UIPlay extends AHadalActor {
 			}
 			
 			state.getGsm().getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
+			state.getGsm().getBossGaugeCatchupPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpDelayed, bossBarHeight, bossScale, bossScale, 0);
 			state.getGsm().getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
 			state.getGsm().getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 		}

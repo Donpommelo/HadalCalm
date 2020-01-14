@@ -36,7 +36,7 @@ public class FracturePlate extends Artifact {
 				if (damage > 0 && procCdCount <= 0) {
 					procCdCount = cd;
 					damage = 0;
-					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 0.0f, particleDura, true, particleSyncType.TICKSYNC);
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}
 				return damage;
 			}

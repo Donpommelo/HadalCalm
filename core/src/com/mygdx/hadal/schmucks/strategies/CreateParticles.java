@@ -35,7 +35,7 @@ public class CreateParticles extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		ParticleEntity particle = new ParticleEntity(state, hbox, effect, defaultLinger, duration, true, particleSyncType.TICKSYNC);
-		particle.getEffect().scaleEffect(hbox.getScale());
+		ParticleEntity particle = new ParticleEntity(state, hbox, effect, defaultLinger, duration, true, particleSyncType.CREATESYNC);
+		particle.setScale(hbox.getScale());
 	}
 }

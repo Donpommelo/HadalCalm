@@ -40,7 +40,7 @@ public class Event extends HadalEntity {
 	protected float gravity = 0.0f;
 	
 	//Event sprite and rendering information
-	private Sprite sprite;
+	private Sprite sprite = Sprite.NOTHING;
 	private Animation<TextureRegion> eventSprite;
 	private int spriteWidth;
 	private int spriteHeight;
@@ -160,7 +160,7 @@ public class Event extends HadalEntity {
 	public ParticleEntity getStandardParticle() { return standardParticle; }
 
 	public void addAmbientParticle(Particle particle) {
-		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.TICKSYNC);	
+		new ParticleEntity(state, this, particle, 0, 0, true, particleSyncType.CREATESYNC);	
 	}
 
 	/**

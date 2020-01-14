@@ -26,7 +26,7 @@ public class MatterUniversalizer extends Artifact {
 
 			@Override
 			public void onKill(BodyData vic) {
-				new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, particleDura, true, particleSyncType.TICKSYNC);
+				new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
 				((PlayerBodyData)inflicted).fuelGain(amount);
 			}
 		};

@@ -39,7 +39,7 @@ public class SkippersBoxofFun extends Artifact {
 					Equipable equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, "")), null);
 					((Player)inflicted.getSchmuck()).getPlayerData().pickup(equip);
 					
-					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE_TOTLC, 0.0f, particleDura, true, particleSyncType.TICKSYNC);
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE_TOTLC, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}
 				procCdCount += delta;
 			}

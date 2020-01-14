@@ -44,6 +44,8 @@ public class ParticleEntity extends HadalEntity {
 	//how is this entity synced?
 	private particleSyncType sync;
 	
+	private float scale = 1.0f;
+	
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, particleSyncType sync) {
 		super(state, startPos, new Vector2());
@@ -194,9 +196,9 @@ public class ParticleEntity extends HadalEntity {
 		
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(), true, particle.toString(), on, linger, lifespan);
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(), true, particle.toString(), on, linger, lifespan, scale);
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startPos), false, particle.toString(), on, linger, lifespan);
+				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startPos), false, particle.toString(), on, linger, lifespan, scale);
 			}
 		} else {
 			return null;
@@ -241,9 +243,10 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 
-	public PooledEffect getEffect() { return effect;}
-
-	public void setEffect(PooledEffect effect) { this.effect = effect; }
+	public void setScale(float scale) { 
+		this.scale = scale; 
+		this.effect.scaleEffect(scale);
+	}
 
 	public HadalEntity getAttachedEntity() { return attachedEntity; }
 

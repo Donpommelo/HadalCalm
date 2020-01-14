@@ -51,7 +51,7 @@ public class Ragdoll extends HadalEntity {
 		this.ragdollDuration = duration;
 		this.sprite = sprite;
 		this.sensor = sensor;
-		if (sprite != null) {
+		if (!sprite.equals(Sprite.NOTHING)) {
 			ragdollSprite = sprite.getFrame();
 		}
 	}

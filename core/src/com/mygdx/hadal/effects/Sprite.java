@@ -165,6 +165,10 @@ public enum Sprite {
 	 * This returns the frames of a given sprite
 	 */
 	public Array<? extends TextureRegion> getFrames() {
+
+		if (this.equals(NOTHING)) {
+			return null;
+		}
 		
 		if (frames == null) {
 			frames = getAtlas(type).findRegions(spriteId);

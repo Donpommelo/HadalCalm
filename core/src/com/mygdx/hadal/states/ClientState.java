@@ -159,15 +159,31 @@ public class ClientState extends PlayState {
 		}
 	}
 
+	private float timer;
 	@Override
-	public void render(float delta) {		
+	public void render(float delta) {
+		timer += delta;
+		
 		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Render Background
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
+		
+		if (shaderBase != null) {
+			shaderBase.begin();
+			shaderBase.setUniformf("u_time", timer);
+			shaderBase.end();
+			batch.setShader(shaderBase);
+		}
+		
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+		
+		if (shaderBase != null) {
+			batch.setShader(null);
+		}
+		
 		batch.end();
 		
 		//Render Tiled Map + world

@@ -167,8 +167,8 @@ public class PlayState extends GameState {
 	//Background and black screen used for transitions
 	protected Texture bg, black;
 	
-	private ShaderProgram shaderBase, shaderExtra;
-	private float shaderCount;
+	protected ShaderProgram shaderBase, shaderExtra;
+	protected float shaderCount;
 	
 	private final static float defaultTransitionDelay = 0.5f;
 	private final static float defaultFadeInSpeed = -0.015f;
@@ -633,6 +633,7 @@ public class PlayState extends GameState {
 	 * This is called when ending a playstate by winning, losing or moving to a new playstate
 	 */	
 	public void transitionState() {
+		
 		switch (nextState) {
 		case RESPAWN:
 			SavePoint getSave = getSavePoint();
@@ -682,7 +683,7 @@ public class PlayState extends GameState {
 			break;
 		default:
 			break;
-		}	
+		}
 	}
 	
 	/**

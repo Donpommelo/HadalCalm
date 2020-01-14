@@ -232,20 +232,20 @@ public class WeaponUtils {
 							switch(type) {
 							case AMMO:
 								player.getCurrentTool().gainAmmo(power);
-								new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
+								new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
 								event.queueDeletion();
 								break;
 							case FUEL:
 								if (player.getCurrentFuel() < player.getStat(Stats.MAX_FUEL)) {
 									player.fuelGain(power);
-									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
+									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
 									event.queueDeletion();
 								}
 								break;
 							case HEALTH:
 								if (player.getCurrentHp() < player.getStat(Stats.MAX_HP)) {
 									player.regainHp(power, player, true, DamageTypes.MEDPAK);
-									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 0.0f, 2.0f, true, particleSyncType.TICKSYNC);
+									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
 									event.queueDeletion();
 								}
 								break;
@@ -263,7 +263,7 @@ public class WeaponUtils {
 			}
 		};
 		
-		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 0.0f, 0.0f, true, particleSyncType.TICKSYNC);
+		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 0.0f, 0.0f, true, particleSyncType.CREATESYNC);
 		pickup.setScaleAlign("CENTER_BOTTOM");
 		pickup.setSyncType(eventSyncTypes.ILLUSION);
 		pickup.setSynced(true);

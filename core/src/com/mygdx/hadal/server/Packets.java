@@ -640,6 +640,7 @@ public class Packets {
 		public boolean startOn;
 		public float linger;
 		public float lifespan;
+		public float scale;
 		public CreateParticles() {}
 		
 		/**
@@ -656,8 +657,7 @@ public class Packets {
 		 * @param linger: How long does an attached Particleentity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
 		 */
-		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn,
-				float linger, float lifespan) {
+		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.pos = pos;
@@ -666,6 +666,7 @@ public class Packets {
 			this.startOn = startOn;
 			this.linger = linger;
 			this.lifespan = lifespan;
+			this.scale = scale;
 		}
 	}
 	

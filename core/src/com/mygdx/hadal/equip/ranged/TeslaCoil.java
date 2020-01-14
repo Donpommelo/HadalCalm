@@ -168,7 +168,7 @@ public class TeslaCoil extends RangedWeapon {
 						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 						pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), pulseDamage, 0, DamageTypes.RANGED));
-						hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LASER_PULSE));
+						pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE));
 					}
 				}
 			}

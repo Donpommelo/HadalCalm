@@ -43,7 +43,7 @@ public class GomezsAmygdala extends Artifact {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount -= procCd;
 					
-					new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, procCd, true, particleSyncType.TICKSYNC);
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, procCd, true, particleSyncType.CREATESYNC);
 					
 					inflicted.addStatus(new StatusComposite(state, dura, false, perp, inflicted,
 							new StatChangeStatus(state, Stats.GROUND_SPD, spdBuff, inflicted),

@@ -41,7 +41,7 @@ public class Blastema extends Artifact {
 				
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount -= procCd;
-					new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, 0.0f, regenCd, true, particleSyncType.TICKSYNC);
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, 0.0f, regenCd, true, particleSyncType.CREATESYNC);
 					inflicted.addStatus(new StatChangeStatus(state, regenCd, Stats.HP_REGEN, regen, inflicted, inflicted));
 				}
 				return damage;

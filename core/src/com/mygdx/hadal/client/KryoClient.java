@@ -580,9 +580,11 @@ public class KryoClient {
         							ParticleEntity entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC);
         							entity.setAttachedId(p.attachedID);
         							cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+        							entity.setScale(p.scale);
         						} else {
         							ParticleEntity entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
             						cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+            						entity.setScale(p.scale);
         						}
             				}
     					});
