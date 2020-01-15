@@ -1,6 +1,6 @@
-package com.mygdx.hadal.dialogue;
+package com.mygdx.hadal.dialog;
 
-public class DialogueInfo {
+public class DialogInfo {
 
 	//These strings are to be displayed in the box
 	private String name, text, sprite;
@@ -17,9 +17,9 @@ public class DialogueInfo {
 	//This is the duration in seconds that the dialogue will be active. This can be set to 0 for dialogues that need to be actively skipped
 	private float duration;
 	
-	public DialogueInfo() {}
+	public DialogInfo() {}
 
-	public DialogueInfo(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura) {
+	public DialogInfo(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura) {
 		this.name = name;
 		this.text = text;
 		this.sprite = sprite;

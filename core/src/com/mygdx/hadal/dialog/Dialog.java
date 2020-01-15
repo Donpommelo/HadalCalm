@@ -1,4 +1,4 @@
-package com.mygdx.hadal.dialogue;
+package com.mygdx.hadal.dialog;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,10 +13,10 @@ import com.mygdx.hadal.managers.AssetList;
  * @author Zachary Tu
  *
  */
-public class Dialogue {
+public class Dialog {
 
 	//this contains info about the dialog read from json
-	private DialogueInfo info;
+	private DialogInfo info;
 	
 	//These are the events that triggered and will be triggered by this dialogue respectively.
 	private EventData radio, trigger;
@@ -25,7 +25,7 @@ public class Dialogue {
 	
 	private static final float speed = 0.1f;
 	
-	public Dialogue(DialogueInfo info, EventData radio, EventData trigger) {
+	public Dialog(DialogInfo info, EventData radio, EventData trigger) {
 		this.info = info;
 		this.radio = radio;
 		this.trigger = trigger;
@@ -54,7 +54,7 @@ public class Dialogue {
 		public String getSprite() {	return sprite; }		
 	}
 
-	public DialogueInfo getInfo() {	return info; }
+	public DialogInfo getInfo() {	return info; }
 	
 	public Animation<TextureRegion> getBust() { return bust; }
 

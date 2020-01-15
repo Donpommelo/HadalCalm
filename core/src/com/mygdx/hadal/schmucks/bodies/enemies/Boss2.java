@@ -27,9 +27,9 @@ public class Boss2 extends BossFloating {
     private static final float aiAttackCd = 3.0f;
 	
 	private static final int width = 250;
-	private static final int height = 161;
+	private static final int height = 250;
 	
-	private static final int hbWidth = 161;
+	private static final int hbWidth = 250;
 	private static final int hbHeight = 250;
 	
 	private static final float scale = 1.0f;
@@ -38,12 +38,16 @@ public class Boss2 extends BossFloating {
 	private static final int moveSpeed = 20;
 	private static final int spinSpeed = 40;
 	
-	private static final Sprite sprite = Sprite.FISH_TORPEDO;
+	private static final Sprite sprite = Sprite.NOTHING;
 	
 	private Body[] links = new Body[5];
+	private TextureRegion headSprite, bodySprite, faceSprite;
 	
 	public Boss2(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, spawner, sprite);
+		this.headSprite = Sprite.KAMABOKO_BODY.getFrames().get(0);
+		this.bodySprite = Sprite.KAMABOKO_BODY.getFrames().get(1);
+		setFaceSprite();
 	}
 
 	@Override
@@ -90,7 +94,7 @@ public class Boss2 extends BossFloating {
 		}
 		
 		for (int i = links.length - 1; i >= 0; i--) {
-			batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
+			batch.draw(bodySprite, 
 					links[i].getPosition().x * PPM - hboxSize.y / 2, 
 					(flip ? size.y : 0) + links[i].getPosition().y * PPM - hboxSize.x / 2, 
 					hboxSize.y / 2, 
@@ -99,7 +103,15 @@ public class Boss2 extends BossFloating {
 					(float) Math.toDegrees(links[i].getAngle()) - 90);
 		}
 		
-		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
+		batch.draw(headSprite, 
+				getPixelPosition().x - hboxSize.y / 2, 
+				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
+				hboxSize.y / 2, 
+				(flip ? -1 : 1) * hboxSize.x / 2,
+				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
+				(float) Math.toDegrees(getOrientation()) - 90);
+		
+		batch.draw(faceSprite, 
 				getPixelPosition().x - hboxSize.y / 2, 
 				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
 				hboxSize.y / 2, 
@@ -112,9 +124,14 @@ public class Boss2 extends BossFloating {
 		}
 	}
 	
+	public void setFaceSprite() {
+		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
+	}
+	
 	private final static float driftDurationMax = 5.0f;
 	@Override
 	public void attackInitiate() {
+		setFaceSprite();
 		int randomIndex = GameStateManager.generator.nextInt(4);
 		switch(randomIndex) {
 		case 0: 
@@ -135,7 +152,7 @@ public class Boss2 extends BossFloating {
 	private final static int driftSpeed = 6;
 	private static final int charge1Speed = 60;
 	private static final float charge1Damage = 20.0f;
-	private static final int defaultMeleeKB = 25;
+	private static final int defaultMeleeKB = 50;
 	private final static int returnSpeed = 15;
 	public void meleeAttack() {
 		BossUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);

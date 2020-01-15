@@ -140,7 +140,7 @@ public class PauseState extends GameState {
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
 		inputMultiplexer.addProcessor(stage);
-		inputMultiplexer.addProcessor(ps.getPlayStateStage());
+		inputMultiplexer.addProcessor(ps.stage);
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
 			@Override

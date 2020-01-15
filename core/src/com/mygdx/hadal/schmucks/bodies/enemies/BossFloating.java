@@ -41,7 +41,9 @@ public class BossFloating extends Boss {
 		
 		this.currentState = BossState.TRACKING_PLAYER;
 		
-		this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+		if (!sprite.equals(Sprite.NOTHING)) {
+			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+		}
 	}
 
 

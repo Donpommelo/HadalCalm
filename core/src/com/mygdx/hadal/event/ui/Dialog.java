@@ -35,9 +35,9 @@ public class Dialog extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (event.getConnectedEvent() != null) {
-					state.getPlayStateStage().addDialogue(id, this, event.getConnectedEvent().getEventData());
+					state.getDialogBox().addDialogue(id, this, event.getConnectedEvent().getEventData());
 				} else {
-					state.getPlayStateStage().addDialogue(id, this, null);
+					state.getDialogBox().addDialogue(id, this, null);
 				}
 			}
 		};

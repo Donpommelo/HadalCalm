@@ -724,7 +724,7 @@ public class KryoClient {
 	 * @param text: notification text
 	 */
 	public void addNotification(ClientState cs, String name, String text) {
-		cs.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+		cs.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
 	}
 	
 	private void registerPackets() {

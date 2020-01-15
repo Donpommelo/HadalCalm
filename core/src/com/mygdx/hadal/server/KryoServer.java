@@ -492,8 +492,8 @@ public class KryoServer {
 	 * @param text: notification text
 	 */
 	public void addNotificationToAll(PlayState ps, String name, String text) {
-		if (ps.getPlayStateStage() != null && server != null) {
-			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+		if (ps.getDialogBox() != null && server != null) {
+			ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
 	        server.sendToAllTCP(new Packets.Notification(name, text));	
 		}
 	}
@@ -506,8 +506,8 @@ public class KryoServer {
 	 * @param text: notification text
 	 */
 	public void addNotificationToAllExcept(PlayState ps, int connId, String name, String text) {
-		if (ps.getPlayStateStage() != null && server != null) {
-			ps.getPlayStateStage().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+		if (ps.getDialogBox() != null && server != null) {
+			ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
 	        server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
 		}
 	}

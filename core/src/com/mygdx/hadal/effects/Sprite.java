@@ -89,6 +89,8 @@ public enum Sprite {
 	FISH_SCISSOR(SpriteType.FISH, "scissorfish_swim"),
 	FISH_SPITTLE(SpriteType.FISH, "spittlefish_swim"),
 	FISH_TORPEDO(SpriteType.FISH, "torpedofish_swim"),
+	KAMABOKO_BODY(SpriteType.KAMABOKO, "king_kamaboko"),
+	KAMABOKO_FACE(SpriteType.KAMABOKO, "large_face"),
 	
 	TURRET_BASE(SpriteType.TURRET, "base"),
 	TURRET_FLAK(SpriteType.TURRET, "flak"),
@@ -214,6 +216,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.PLAYER_TELE_ATL.toString());
 		case MOREAU_FESTIVE:
 			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString());
+		case KAMABOKO:
+			return HadalGame.assetManager.get(AssetList.KAMABOKO_ATL.toString());
 		default:
 			return null;
 		}
@@ -245,6 +249,7 @@ public enum Sprite {
 		EXCLAMATION,
 		STAR,
 		UI,
+		KAMABOKO,
 		
 		MOREAU,
 		TAKANORI,

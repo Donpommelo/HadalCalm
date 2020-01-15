@@ -20,11 +20,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIExtra;
 import com.mygdx.hadal.actors.UIHub;
+import com.mygdx.hadal.actors.DialogBox;
 import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.actors.ScoreWindow;
 import com.mygdx.hadal.actors.UIObjective;
@@ -52,7 +54,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.stages.PlayStateStage;
 import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
@@ -162,6 +163,7 @@ public class PlayState extends GameState {
 	protected UIHub uiHub;
 	protected MessageWindow messageWindow;
 	protected ScoreWindow scoreWindow;
+	protected DialogBox dialogBox;
 	
 	//Background and black screen used for transitions
 	protected Texture bg, black;
@@ -304,9 +306,9 @@ public class PlayState extends GameState {
 			
 	@Override
 	public void show() {
-		
+
 		if (stage == null) {
-			this.stage = new PlayStateStage(this) {
+			this.stage = new Stage() {
 				
 				//This precaution exists to prevent null pointer when player is not loaded in yet.
 				@Override
@@ -333,12 +335,14 @@ public class PlayState extends GameState {
 			
 			messageWindow = new MessageWindow(this);
 			scoreWindow = new ScoreWindow(this);
+			dialogBox = new DialogBox(gsm, 0, HadalGame.CONFIG_HEIGHT);
 		}
 		
 		//Add and sync ui elements in case of unpause or new playState
 		this.stage.addActor(uiPlay);
 		this.stage.addActor(uiObjective);
 		this.stage.addActor(uiExtra);
+		this.stage.addActor(dialogBox);
 
 		app.newMenu(stage);
 		resetController();
@@ -1016,8 +1020,6 @@ public class PlayState extends GameState {
 
 	public void setStartId(String startId) { this.startId = startId; }
 
-	public PlayStateStage getPlayStateStage() {	return (PlayStateStage) stage; }
-	
 	public UIExtra getUiExtra() { return uiExtra; }
 
 	public UIArtifacts getUiArtifact() { return uiArtifact; }
@@ -1049,6 +1051,8 @@ public class PlayState extends GameState {
 	public MessageWindow getMessageWindow() { return messageWindow; }
 	
 	public ScoreWindow getScoreWindow() { return scoreWindow; }	
+	
+	public DialogBox getDialogBox() { return dialogBox; }
 	
 	public void setObjectiveTarget(HadalEntity objectiveTarget) { this.objectiveTarget = objectiveTarget; }
 

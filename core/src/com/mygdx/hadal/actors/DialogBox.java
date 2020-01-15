@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.dialogue.Dialogue;
-import com.mygdx.hadal.dialogue.DialogueInfo;
+import com.mygdx.hadal.dialog.Dialog;
+import com.mygdx.hadal.dialog.DialogInfo;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -19,7 +19,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  * @author Zachary Tu
  *
  */
-public class DialogueBox extends AHadalActor {
+public class DialogBox extends AHadalActor {
 
 	//This is the font that the text is drawn with.
 	private BitmapFont font;
@@ -29,7 +29,7 @@ public class DialogueBox extends AHadalActor {
 	private float scaleSmall = 0.3f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
-	private Queue<Dialogue> dialogues;
+	private Queue<Dialog> dialogues;
 
 	//Reference to the gsm. Used to reference gsm fields like the 9patch to draw the window with.
 	private GameStateManager gsm;
@@ -53,12 +53,12 @@ public class DialogueBox extends AHadalActor {
 	
 	protected float animCdCount;
 	
-	public DialogueBox(GameStateManager stateManager, int x, int y) {
+	public DialogBox(GameStateManager stateManager, int x, int y) {
 		super(x, y);
 		
 		this.gsm = stateManager;
 
-		dialogues = new Queue<Dialogue>();
+		dialogues = new Queue<Dialog>();
 		
 		font = HadalGame.SYSTEM_FONT_UI;
 		
@@ -116,7 +116,7 @@ public class DialogueBox extends AHadalActor {
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
-				addDialogue(GameStateManager.json.fromJson(DialogueInfo.class, d.toJson(OutputType.minimal)), radio, trigger);
+				addDialogue(GameStateManager.json.fromJson(DialogInfo.class, d.toJson(OutputType.minimal)), radio, trigger);
 			}	
 		}
 	}
@@ -125,7 +125,7 @@ public class DialogueBox extends AHadalActor {
 	 * Instead of loading a conversation from the dialog text file, this is used for single dialogs.
 	 * This is useful for dynamic text.
 	 */
-	public void addDialogue(DialogueInfo info, EventData radio, EventData trigger) {
+	public void addDialogue(DialogInfo info, EventData radio, EventData trigger) {
 		
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
 		if (dialogues.size == 0) {
@@ -135,7 +135,14 @@ public class DialogueBox extends AHadalActor {
 			currY = 0;
 		}
 		
-		dialogues.addLast(new Dialogue(info, radio, trigger));
+		dialogues.addLast(new Dialog(info, radio, trigger));
+	}
+	
+	/**
+	 * This is just like the above method, except for a dynamically created dialog
+	 */
+	public void addDialogue(String name, String text, String sprite, boolean end, boolean override, boolean small, float dura, EventData radio, EventData trigger) {
+		addDialogue(new DialogInfo(name, text, sprite, end, override, small, dura), radio, trigger);
 	}
 	
 	/**
@@ -164,7 +171,7 @@ public class DialogueBox extends AHadalActor {
 	}
 	
 	
-	private Dialogue first;
+	private Dialog first;
 	@Override
     public void draw(Batch batch, float alpha) {	 
 		if (dialogues.size != 0) {

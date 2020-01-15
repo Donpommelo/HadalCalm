@@ -59,8 +59,8 @@ public class ActionController {
 		
 		if (action == PlayerAction.INTERACT) {
 			//ATM, event interaction also advances dialog
-			if (state.getPlayStateStage() != null) {
-				state.getPlayStateStage().nextDialogue();
+			if (state.getDialogBox() != null) {
+				state.getDialogBox().nextDialogue();
 			}
 			
 			player.interact();
@@ -103,8 +103,8 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.DIALOGUE) {
-			if (state.getPlayStateStage() != null) {
-				state.getPlayStateStage().nextDialogue();
+			if (state.getDialogBox() != null) {
+				state.getDialogBox().nextDialogue();
 			}
 		}
 		
