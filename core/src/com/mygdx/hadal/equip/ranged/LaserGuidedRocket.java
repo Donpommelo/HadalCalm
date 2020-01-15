@@ -7,16 +7,16 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.DamageStandard;
-import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
-import com.mygdx.hadal.schmucks.strategies.CreateParticles;
-import com.mygdx.hadal.schmucks.strategies.DieExplode;
-import com.mygdx.hadal.schmucks.strategies.HomingMouse;
-import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
-import com.mygdx.hadal.schmucks.strategies.ContactUnitDie;
-import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
+import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 
 public class LaserGuidedRocket extends RangedWeapon {
 

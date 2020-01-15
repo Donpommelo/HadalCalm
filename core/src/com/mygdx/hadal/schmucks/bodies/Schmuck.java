@@ -239,6 +239,7 @@ public class Schmuck extends HadalEntity {
 	}
 	
 	public void setShaderCount(Shader shader, float shaderCount) { 
+		shader.loadShader(state);
 		this.shader = shader.getShader();
 		this.shaderCount = shaderCount;
 		

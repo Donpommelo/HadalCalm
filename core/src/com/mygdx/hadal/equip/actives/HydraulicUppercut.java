@@ -6,15 +6,15 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.DamageStandard;
-import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
-import com.mygdx.hadal.schmucks.strategies.FixedToUser;
-import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.FixedToUser;
 import com.mygdx.hadal.utils.Stats;
 
 public class HydraulicUppercut extends ActiveItem {

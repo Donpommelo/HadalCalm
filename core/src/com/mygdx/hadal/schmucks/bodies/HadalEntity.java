@@ -123,7 +123,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void dispose() {
 		
-		//check of destroyed to aavoid double-destruction
+		//check of destroyed to avoid double-destruction
 		if (destroyed == false) {
 			destroyed = true;
 			alive = false;

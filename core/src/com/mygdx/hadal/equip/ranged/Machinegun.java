@@ -9,14 +9,14 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.DamageStandard;
-import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
-import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
-import com.mygdx.hadal.schmucks.strategies.ContactUnitLoseDurability;
-import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
-import com.mygdx.hadal.schmucks.strategies.ContactWallParticles;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Machinegun extends RangedWeapon {
 

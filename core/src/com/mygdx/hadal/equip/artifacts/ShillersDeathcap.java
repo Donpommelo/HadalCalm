@@ -1,10 +1,10 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.PoisonTrail;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.strategies.hitbox.PoisonTrail;
 
 public class ShillersDeathcap extends Artifact {
 

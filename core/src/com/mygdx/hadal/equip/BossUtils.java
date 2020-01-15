@@ -6,7 +6,13 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Torpedofish;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
-
+import com.mygdx.hadal.strategies.hitbox.ContactUnitStatus;
+import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStatic;
+import com.mygdx.hadal.strategies.hitbox.FixedToUser;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -21,13 +27,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating.BossState;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.strategies.DamageStandard;
-import com.mygdx.hadal.schmucks.strategies.DamageStatic;
-import com.mygdx.hadal.schmucks.strategies.ControllerDefault;
-import com.mygdx.hadal.schmucks.strategies.CreateParticles;
-import com.mygdx.hadal.schmucks.strategies.FixedToUser;
-import com.mygdx.hadal.schmucks.strategies.ContactUnitStatus;
-import com.mygdx.hadal.schmucks.strategies.ContactWallDie;
 import com.mygdx.hadal.utils.Constants;
 
 /**

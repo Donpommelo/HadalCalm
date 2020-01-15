@@ -2,12 +2,12 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.ContactUnitChainLightning;
-import com.mygdx.hadal.schmucks.strategies.CreateParticles;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitChainLightning;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 
 public class BucketofBatteries extends Artifact {
 

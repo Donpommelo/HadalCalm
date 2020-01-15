@@ -1,13 +1,11 @@
 package com.mygdx.hadal.states;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UIPlayClient;
@@ -16,7 +14,6 @@ import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 
 /**
@@ -116,88 +113,11 @@ public class ClientState extends PlayState {
 			entity.clientController(delta);
 		}
 		
-		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
-		//to run here. This way, they will be carried out at a predictable time.
-		synchronized(packetEffects) {
-			for (PacketEffect effect: packetEffects) {
-				effect.execute();
-			}
-			packetEffects.clear();
-		}
-		
-		//Update the game camera and batch.
-		cameraUpdate();
-		
-		//Increment the game timer, if exists
-		getUiExtra().incrementTimer(delta);
-				
-		//If we are in the delay period of a transition, decrement the delay
-		if (fadeInitialDelay <= 0f) {
-			
-			if (fadeLevel > 0f && fadeDelta < 0f) {
-				
-				//If we are fading in and not done yet, decrease fade.
-				fadeLevel += fadeDelta;
-				
-				//If we just finished fading in, set fade to 0
-				if (fadeLevel < 0f) {
-					fadeLevel = 0f;
-				}
-			} else if (fadeLevel < 1f && fadeDelta > 0f) {
-				
-				//If we are fading out and not done yet, increase fade.
-				fadeLevel += fadeDelta;
-				
-				//If we just finished fading out, set fade to 1 and do a transition
-				if (fadeLevel >= 1f) {
-					fadeLevel = 1f;
-					transitionState();
-				}
-			}
-		} else {
-			fadeInitialDelay -= delta;
-		}
+		processCommonStateProperties(delta);
 	}
-
-	private float timer;
+	
 	@Override
-	public void render(float delta) {
-		timer += delta;
-		
-		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
-		//Render Background
-		batch.setProjectionMatrix(hud.combined);
-		batch.begin();
-		
-		if (shaderBase != null) {
-			shaderBase.begin();
-			shaderBase.setUniformf("u_time", timer);
-			shaderBase.end();
-			batch.setShader(shaderBase);
-		}
-		
-		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-		
-		if (shaderBase != null) {
-			batch.setShader(null);
-		}
-		
-		batch.end();
-		
-		//Render Tiled Map + world
-		tmr.setView(sprite);
-		tmr.render();				
-
-		//Render debug lines for box2d objects.
-		b2dr.render(world, camera.combined.scl(PPM));
-		
-		//Iterate through entities in the world to render
-		batch.setProjectionMatrix(sprite.combined);
-		batch.begin();
-		
-		//render all of the entities in the world
+	public void renderEntities() {
 		for (HadalEntity hitbox : hitboxes.values()) {
 			if (hitbox.isVisible()) {
 				hitbox.render(batch);
@@ -207,18 +127,6 @@ public class ClientState extends PlayState {
 			if (schmuck.isVisible()) {
 				schmuck.render(batch);
 			}
-		}
-
-		batch.end();
-		
-		//Render fade transitions
-		if (fadeLevel > 0) {
-			batch.setProjectionMatrix(hud.combined);
-			batch.begin();
-			batch.setColor(1f, 1f, 1f, fadeLevel);
-			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-			batch.setColor(1f, 1f, 1f, 1);
-			batch.end();
 		}
 	}
 	

@@ -1,13 +1,13 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.strategies.AdjustAngle;
-import com.mygdx.hadal.schmucks.strategies.HomingMouse;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
+import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 import com.mygdx.hadal.utils.Stats;
 
 public class KinesisLens extends Artifact {

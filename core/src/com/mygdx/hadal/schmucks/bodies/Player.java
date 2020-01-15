@@ -759,9 +759,6 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	@Override
-	public void dispose() { super.dispose(); }
-	
-	@Override
 	public HadalData getHadalData() { return playerData; }
 	
 	@Override
