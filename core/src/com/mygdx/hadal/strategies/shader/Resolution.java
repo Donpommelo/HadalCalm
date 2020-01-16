@@ -17,7 +17,7 @@ public class Resolution extends ShaderStrategy {
 	}
 
 	@Override
-	public void resize(PlayState state, ShaderProgram shader, int width, int height) {
+	public void resize(PlayState state, ShaderProgram shader) {
 		shader.setUniformf("u_resolution", HadalGame.viewportCamera.getScreenWidth(), HadalGame.viewportCamera.getScreenHeight());
 	}
 }

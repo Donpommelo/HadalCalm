@@ -13,5 +13,5 @@ public interface IShaderStrategy {
 	
 	public void controller(PlayState state, ShaderProgram shader, float delta);
 	
-	public void resize(PlayState state, ShaderProgram shader, int width, int height);
+	public void resize(PlayState state, ShaderProgram shader);
 }

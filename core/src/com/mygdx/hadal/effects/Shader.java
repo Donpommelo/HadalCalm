@@ -52,9 +52,9 @@ public enum Shader {
 		}
 	}
 	
-	public void shaderResize(PlayState state, int width, int height) {
+	public void shaderResize(PlayState state) {
 		for (ShaderStrategy strat: strategies) {
-			strat.resize(state, shader, width, height);
+			strat.resize(state, shader);
 		}
 	}
 	

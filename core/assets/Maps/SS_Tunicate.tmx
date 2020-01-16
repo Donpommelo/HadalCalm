@@ -336,18 +336,5 @@
     <property name="triggeredId" value="elevatormove"/>
    </properties>
   </object>
-  <object id="72" name="Prefab" type="Prefab" x="2272" y="1504" width="96" height="96">
-   <properties>
-    <property name="prefabId" value="LeverActivate"/>
-    <property name="triggeringId" value="shaderTest4"/>
-   </properties>
-  </object>
-  <object id="73" name="Shader" type="Shader" x="1504" y="1792" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="0"/>
-    <property name="shader" value="PLAYER_LIGHT"/>
-    <property name="triggeredId" value="shaderTest4"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

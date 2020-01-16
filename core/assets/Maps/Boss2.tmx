@@ -21,7 +21,7 @@
     <property name="zoom" type="float" value="1.5"/>
    </properties>
   </object>
-  <object id="4" name="SchmuckSpawn" type="SchmuckSpawn" x="1952" y="1216" width="32" height="32">
+  <object id="4" name="SchmuckSpawn" type="SchmuckSpawn" x="1984" y="1216" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="true"/>
@@ -45,12 +45,12 @@
    </properties>
   </object>
   <object id="7" name="Start" type="Start" x="1568" y="1312" width="32" height="32"/>
-  <object id="9" name="Dummy" type="Dummy" x="1952" y="864" width="32" height="32">
+  <object id="9" name="Dummy" type="Dummy" x="1984" y="864" width="32" height="32">
    <properties>
     <property name="dummyId" value="high"/>
    </properties>
   </object>
-  <object id="10" name="Dummy" type="Dummy" x="1760" y="992" width="32" height="32">
+  <object id="10" name="Dummy" type="Dummy" x="1792" y="992" width="32" height="32">
    <properties>
     <property name="dummyId" value="front"/>
    </properties>
@@ -60,12 +60,12 @@
     <property name="dummyId" value="back"/>
    </properties>
   </object>
-  <object id="13" name="Dummy" type="Dummy" x="1952" y="992" width="32" height="32">
+  <object id="13" name="Dummy" type="Dummy" x="1984" y="992" width="32" height="32">
    <properties>
     <property name="dummyId" value="neutral"/>
    </properties>
   </object>
-  <object id="14" name="Dummy" type="Dummy" x="1408" y="1216" width="32" height="32">
+  <object id="14" name="Dummy" type="Dummy" x="1440" y="1216" width="32" height="32">
    <properties>
     <property name="dummyId" value="platformCenter"/>
    </properties>

@@ -627,9 +627,19 @@ public class PlayState extends GameState {
 	
 	@Override
 	public void resize(int width, int height) {
+		if (cameraTarget == null) {
+			if (player.getBody() != null && player.isAlive()) {
+				this.camera.position.set(new Vector3(player.getPixelPosition().x, player.getPixelPosition().y, 0));
+				this.sprite.position.set(new Vector3(player.getPixelPosition().x, player.getPixelPosition().y, 0));
+			}
+		} else {
+			this.camera.position.set(new Vector3(cameraTarget.x, cameraTarget.y, 0));
+			this.sprite.position.set(new Vector3(cameraTarget.x, cameraTarget.y, 0));
+		}
+		
 		if(shaderBase.getShader() != null) {
 			shaderBase.getShader().begin();
-			shaderBase.shaderResize(this, width, height);
+			shaderBase.shaderResize(this);
 			shaderBase.getShader().end();
 		}
 	}

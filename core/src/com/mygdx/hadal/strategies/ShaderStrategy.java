@@ -16,5 +16,5 @@ public abstract class ShaderStrategy implements IShaderStrategy {
 	public void controller(PlayState state, ShaderProgram shader, float delta) {}
 
 	@Override
-	public void resize(PlayState state, ShaderProgram shader, int width, int height) {}
+	public void resize(PlayState state, ShaderProgram shader) {}
 }

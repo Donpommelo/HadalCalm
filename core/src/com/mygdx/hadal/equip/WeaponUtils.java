@@ -255,11 +255,9 @@ public class WeaponUtils {
 						}
 					}
 				};
-				this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, 
-						(short)Constants.BIT_PLAYER, (short) 0, true, eventData);
+				this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, (short)Constants.BIT_PLAYER, (short) 0, true, eventData);
 				
-				body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), size, false, 0, 0, 0.0f, 1.0f,
-					Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
+				body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), size, false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
 			}
 		};
 		

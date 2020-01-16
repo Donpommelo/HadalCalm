@@ -33,12 +33,13 @@ public class Door extends Prefabrication {
 		
 		String doorId = TiledObjectUtil.getPrefabTriggerId();
 		String hingeId = TiledObjectUtil.getPrefabTriggerId();
-		
+		String moverId = TiledObjectUtil.getPrefabTriggerId();
+
 		RectangleMapObject redirector = new RectangleMapObject();
 		redirector.setName("Redirecttrigger");
 		redirector.getProperties().put("blameId", hingeId);
 		redirector.getProperties().put("triggeredId", eventId);
-		redirector.getProperties().put("triggeringId", doorId);
+		redirector.getProperties().put("triggeringId", moverId);
 		
 		RectangleMapObject hinge = new RectangleMapObject();
 		hinge.getRectangle().set(x + width / 2 - 16 - xDisplace * 32, y + height / 2 - 16 - yDisplace * 32, 32, 32);
@@ -48,11 +49,18 @@ public class Door extends Prefabrication {
 		RectangleMapObject door = new RectangleMapObject();
 		door.getRectangle().set(x, y, width, height);
 		door.setName("Platform");
-		door.getProperties().put("speed", speed);
 		door.getProperties().put("triggeredId", doorId);
+		
+		RectangleMapObject mover = new RectangleMapObject();
+		mover.getRectangle().set(x, y, width, height);
+		mover.setName("MovePoint");
+		mover.getProperties().put("speed", speed);
+		mover.getProperties().put("connections", doorId);
+		mover.getProperties().put("triggeredId", moverId);
 		
 		TiledObjectUtil.parseTiledEvent(state, redirector);
 		TiledObjectUtil.parseTiledEvent(state, hinge);
 		TiledObjectUtil.parseTiledEvent(state, door);
+		TiledObjectUtil.parseTiledEvent(state, mover);
 	}
 }

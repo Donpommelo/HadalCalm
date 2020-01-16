@@ -227,7 +227,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		bodyData = playerData;
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, playerDensity, 0, 0, false, true, Constants.BIT_PLAYER, 
+		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, playerDensity, 0.0f, 0.0f, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
 		
