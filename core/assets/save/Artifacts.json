@@ -404,6 +404,15 @@ LOCH_SHIELD: {
 		RANDOM_POOL,
 	]
 }
+LUMINOUS_ESCA: {
+	name: Luminous Esca
+	description: "+Light Radius"
+    descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 MACHINE_GHOST: {
 	name: Machine Ghost
 	description: "Spectral Projectiles"

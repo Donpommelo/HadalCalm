@@ -128,7 +128,7 @@ public class HadalGame extends ApplicationAdapter {
 	 * Run when the window resizes. We adjust each camera.
 	 */
 	@Override
-	public void resize (int width, int height) {
+	public void resize(int width, int height) {
 		viewportCamera.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
 		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
 		viewportUI.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);

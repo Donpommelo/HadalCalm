@@ -57,6 +57,7 @@ public enum UnlockArtifact {
 	KINEATER(new Kineater()),
 	KINESIS_LENS(new KinesisLens()),
 	LOCH_SHIELD(new LochShield()),
+	LUMINOUS_ESCA(new LuminousEsca()),
 	MACHINE_GHOST(new MachineGhost()),
 	MANGROVE_TALISMAN(new MangroveTalisman()),
 	MASK_OF_SYMPATHY(new MaskofSympathy()),

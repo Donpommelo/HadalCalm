@@ -8,23 +8,26 @@ import com.mygdx.hadal.strategies.shader.*;
 
 public enum Shader {
 
-	NOTHING("", ""),
-	WHITE("shaders/pass.vert", "shaders/white.frag"),
-	INVERT("shaders/pass.vert", "shaders/invert.frag", new Resolution(), new Timer()),
-	SPLASH("shaders/pass.vert", "shaders/splash.frag", new Resolution(), new Timer()),
-	DRIP("shaders/pass.vert", "shaders/drip.frag", new Resolution(), new Timer()),
-	WAVE("shaders/pass.vert", "shaders/wave.frag", new Resolution(), new Timer()),
-	WORM("shaders/pass.vert", "shaders/worm.frag", new Resolution(), new Timer()),
+	NOTHING("", "", true),
+	WHITE("shaders/pass.vert", "shaders/white.frag", true),
+	INVERT("shaders/pass.vert", "shaders/invert.frag", true, new Resolution(), new Timer()),
+	SPLASH("shaders/pass.vert", "shaders/splash.frag", true, new Resolution(), new Timer()),
+	DRIP("shaders/pass.vert", "shaders/drip.frag", true, new Resolution(), new Timer()),
+	WAVE("shaders/pass.vert", "shaders/wave.frag", true, new Resolution(), new Timer()),
+	WORM("shaders/pass.vert", "shaders/worm.frag", true, new Resolution(), new Timer()),
+	PLAYER_LIGHT("shaders/pass.vert", "shaders/darkness.frag", false, new Resolution(), new PlayerCoord(), new Light()),
 	;
 	
 	private String vertId, fragId;
 	private ShaderProgram shader;
 	private ShaderStrategy[] strategies;
+	private boolean background;
 	
-	Shader(String vertId, String fragId, ShaderStrategy... strategies) {
+	Shader(String vertId, String fragId, Boolean background, ShaderStrategy... strategies) {
 		this.vertId = vertId;
 		this.fragId = fragId;
 		this.strategies = strategies;
+		this.background = background;
 	}
 	
 	public void loadShader(PlayState state) {
@@ -56,5 +59,7 @@ public enum Shader {
 	}
 	
 	public ShaderProgram getShader() { return shader; }
+	
+	public boolean isBackground() { return background; }
 }
 

@@ -250,7 +250,7 @@ public class PlayState extends GameState {
 
 		//load map
 		map = new TmxMapLoader().load(level.getMap());
-		tmr = new OrthogonalTiledMapRenderer(map);
+		tmr = new OrthogonalTiledMapRenderer(map, batch);
 
 		//Get map settings from the collision layer of the map
 		this.respawn = map.getProperties().get("respawn", false, Boolean.class);
@@ -452,7 +452,9 @@ public class PlayState extends GameState {
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		
 		if (shaderBase.getShader() != null) {
-			batch.setShader(null);
+			if (shaderBase.isBackground()) {
+				batch.setShader(null);
+			}
 		}
 		batch.end();
 		
@@ -466,19 +468,15 @@ public class PlayState extends GameState {
 		//Iterate through entities in the world to render visible entities
 		batch.setProjectionMatrix(sprite.combined);
 		batch.begin();
-
-		if (shaderExtra.getShader() != null) {
-			shaderExtra.getShader().begin();
-			shaderExtra.shaderUpdate(this, timer);
-			shaderExtra.getShader().end();
-			batch.setShader(shaderExtra.getShader());
-		}
 		
 		renderEntities();
 		
-		if (shaderExtra.getShader() != null) {
-			batch.setShader(null);
+		if (shaderBase.getShader() != null) {
+			if (!shaderBase.isBackground()) {
+				batch.setShader(null);
+			}
 		}
+		
 		batch.end();
 		
 		//Render fade transitions
@@ -625,9 +623,6 @@ public class PlayState extends GameState {
 		if(shaderBase.getShader() != null) {
 			shaderBase.getShader().dispose();
 		}
-		if(shaderExtra.getShader() != null) {
-			shaderExtra.getShader().dispose();
-		}
 	}
 	
 	@Override
@@ -636,11 +631,6 @@ public class PlayState extends GameState {
 			shaderBase.getShader().begin();
 			shaderBase.shaderResize(this, width, height);
 			shaderBase.getShader().end();
-		}
-		if (shaderExtra.getShader() != null) {
-			shaderExtra.getShader().begin();
-			shaderExtra.shaderResize(this, width, height);
-			shaderExtra.getShader().end();
 		}
 	}
 	

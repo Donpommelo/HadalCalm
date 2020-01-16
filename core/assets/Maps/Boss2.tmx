@@ -55,7 +55,7 @@
     <property name="dummyId" value="front"/>
    </properties>
   </object>
-  <object id="11" name="Dummy" type="Dummy" x="2272" y="992" width="32" height="32">
+  <object id="11" name="Dummy" type="Dummy" x="2208" y="992" width="32" height="32">
    <properties>
     <property name="dummyId" value="back"/>
    </properties>
