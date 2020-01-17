@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="86">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="91">
+ <properties>
+  <property name="practice" type="bool" value="true"/>
+  <property name="pvp" type="bool" value="true"/>
+  <property name="respawn" type="bool" value="true"/>
+ </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="120" height="120">
@@ -20,13 +25,13 @@
  </objectgroup>
  <objectgroup id="3" name="event-layer">
   <object id="7" name="Start" type="Start" x="1536" y="2720" width="32" height="32"/>
-  <object id="10" name="TouchPortal" type="TouchPortal" x="1184" y="2624" width="96" height="96">
+  <object id="10" name="TouchPortal" type="TouchPortal" x="1152" y="2432" width="96" height="96">
    <properties>
     <property name="triggeredId" value="portal2"/>
     <property name="triggeringId" value="portal1"/>
    </properties>
   </object>
-  <object id="11" name="TouchPortal" type="TouchPortal" x="832" y="2624" width="96" height="96">
+  <object id="11" name="TouchPortal" type="TouchPortal" x="864" y="2432" width="96" height="96">
    <properties>
     <property name="triggeredId" value="portal1"/>
     <property name="triggeringId" value="portal2"/>
@@ -98,13 +103,13 @@
     <property name="triggeredId" value="testSpawn"/>
    </properties>
   </object>
-  <object id="36" name="Prefab" type="Prefab" x="3136" y="2400" width="96" height="96">
+  <object id="36" name="Prefab" type="Prefab" x="3040" y="2368" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="testSpawn"/>
    </properties>
   </object>
-  <object id="37" name="Current" type="Current" x="2496" y="2688" width="224" height="288">
+  <object id="37" name="Current" type="Current" x="2592" y="2688" width="224" height="288">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="8"/>
@@ -188,6 +193,7 @@
   </object>
   <object id="57" name="Platform" type="Platform" x="1408" y="2528" width="32" height="256">
    <properties>
+    <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
     <property name="player" type="bool" value="false"/>
    </properties>
@@ -235,15 +241,15 @@
     <property name="triggeringId" value="hp1"/>
    </properties>
   </object>
-  <object id="70" name="Platform" type="Platform" x="3008" y="2976" width="160" height="32">
+  <object id="70" name="Platform" type="Platform" x="2816" y="2976" width="288" height="32">
    <properties>
     <property name="event" type="bool" value="false"/>
-    <property name="friction" type="float" value="5"/>
+    <property name="friction" type="float" value="10"/>
     <property name="player" type="bool" value="true"/>
     <property name="triggeredId" value="mplat1"/>
    </properties>
   </object>
-  <object id="71" name="MovePoint" type="MovePoint" x="3072" y="2976" width="32" height="32">
+  <object id="71" name="MovePoint" type="MovePoint" x="2944" y="2976" width="32" height="32">
    <properties>
     <property name="connections" value="mplat1"/>
     <property name="speed" type="float" value="7.5"/>
@@ -285,7 +291,7 @@
     <property name="triggeringId" value="portalHub"/>
    </properties>
   </object>
-  <object id="83" name="Dummy" type="Dummy" x="352" y="1472" width="32" height="32">
+  <object id="83" name="Dummy" type="Dummy" x="576" y="1632" width="32" height="32">
    <properties>
     <property name="triggeredId" value="portalHub"/>
     <property name="triggeringId" value=""/>
@@ -295,6 +301,26 @@
    <properties>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="portalStart"/>
+   </properties>
+  </object>
+  <object id="86" name="Text" type="Text" x="800" y="3168" width="32" height="32">
+   <properties>
+    <property name="text" value="SHADERS"/>
+   </properties>
+  </object>
+  <object id="88" name="Text" type="Text" x="320" y="1504" width="32" height="32">
+   <properties>
+    <property name="text" value="HUB"/>
+   </properties>
+  </object>
+  <object id="89" name="Text" type="Text" x="1472" y="2912" width="32" height="32">
+   <properties>
+    <property name="text" value="UNLOCKS"/>
+   </properties>
+  </object>
+  <object id="90" name="Text" type="Text" x="1696" y="3168" width="32" height="32">
+   <properties>
+    <property name="text" value="WEAPONS"/>
    </properties>
   </object>
  </objectgroup>

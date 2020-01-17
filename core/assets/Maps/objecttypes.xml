@@ -243,6 +243,9 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="Text" color="#a0a0a4">
+  <property name="text" type="string"/>
+ </objecttype>
  <objecttype name="Timer" color="#a0a0a4">
   <property name="interval" type="float" default="0"/>
   <property name="startOn" type="bool" default="true"/>
