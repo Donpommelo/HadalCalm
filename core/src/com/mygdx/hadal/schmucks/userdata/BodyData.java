@@ -39,7 +39,7 @@ public class BodyData extends HadalData {
 	//Accelerating on the ground/air
 	private static final float groundXAccel = 0.10f;
 	private static final float airXAccel = 0.05f;
-	private static final float groundXDeaccel = 0.05f;
+	private static final float groundXDeaccel = 0.025f;
 	private static final float airXDeaccel = 0.01f;
 	
 	private static final float groundYAccel = 0.10f;

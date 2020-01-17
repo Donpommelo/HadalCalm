@@ -25,6 +25,17 @@ public class RingofTesting extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, bonusProjSize, b),
 				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLifespan, b),
 				new Status(state, b) {
+			
+			@Override
+			public void onInflict() {
+				inflicted.getSchmuck().getBody().getFixtureList().get(1).setFriction(0.0f);
+			}
+			
+			@Override
+			public void onRemove() {
+				inflicted.getSchmuck().getBody().getFixtureList().get(1).setFriction(1.0f);
+			}
+			
 		});
 		
 		return enchantment;
