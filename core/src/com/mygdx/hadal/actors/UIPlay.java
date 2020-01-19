@@ -78,6 +78,7 @@ public class UIPlay extends AHadalActor {
 	
 	//These stats manage the boss hp bar.
 	private float bossHpDelayed = 1.0f;
+	private final static float bossHpFloor = 0.05f;
 	protected float bossHpRatio;
 	
 	public UIPlay(PlayState state, Player player) {
@@ -121,7 +122,7 @@ public class UIPlay extends AHadalActor {
 		activePercent = player.getPlayerData().getActiveItem().chargePercent();
 		
 		if (bossFight && boss.getBody() != null) {
-			bossHpRatio = boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP);
+			bossHpRatio = bossHpFloor + (boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP) * (1 - bossHpFloor));
 		}
 	}
 	

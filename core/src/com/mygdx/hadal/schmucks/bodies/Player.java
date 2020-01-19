@@ -231,6 +231,8 @@ public class Player extends PhysicsSchmuck {
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
 		
+		super.create();
+		
 		if (reset) {
 			playerData.initLoadout();
 		}
@@ -238,8 +240,6 @@ public class Player extends PhysicsSchmuck {
 		//Temp invuln on spawn
 		playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
 				
-		super.create();
-		
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
 		if (!state.isServer() && state.getPlayer().equals(this)) {
 			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();

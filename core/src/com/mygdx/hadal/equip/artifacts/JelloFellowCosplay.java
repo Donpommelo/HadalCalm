@@ -10,7 +10,7 @@ public class JelloFellowCosplay extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float bounce = 1.2f;
+	private final static float bounce = 1.0f;
 	private final static float bonusHp = 25.0f;
 	
 	public JelloFellowCosplay() {
@@ -23,12 +23,16 @@ public class JelloFellowCosplay extends Artifact {
 			
 			@Override
 			public void onInflict() {
+				System.out.println(inflicted.getSchmuck().getBody().getFixtureList().size);
 				inflicted.getSchmuck().getBody().getFixtureList().get(0).setRestitution(bounce);
+				inflicted.getSchmuck().getBody().getFixtureList().get(4).setRestitution(bounce);
+
 			}
 			
 			@Override
 			public void onRemove() {
 				inflicted.getSchmuck().getBody().getFixtureList().get(0).setRestitution(0.0f);
+				inflicted.getSchmuck().getBody().getFixtureList().get(4).setRestitution(0.0f);
 			}
 			
 			@Override

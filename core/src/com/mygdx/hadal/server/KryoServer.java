@@ -19,6 +19,7 @@ import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
 import com.mygdx.hadal.states.PlayState;
@@ -467,6 +468,9 @@ public class KryoServer {
 			}
 			if (currentState instanceof PauseState) {
 				return ((PauseState) currentState).getPs();
+			}
+			if (currentState instanceof SettingState) {
+				return ((SettingState) currentState).getPs();
 			}
 		}
 		return null;

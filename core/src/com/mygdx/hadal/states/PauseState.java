@@ -29,7 +29,7 @@ public class PauseState extends GameState {
 	private Table table;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text pause, resumeOption, hubOption, exitOption;
+	private Text pause, resumeOption, hubOption, settingOption, exitOption;
 	
 	//This is the playstate that the pause state must be placed on top of.
 	private PlayState ps;
@@ -42,7 +42,7 @@ public class PauseState extends GameState {
 	
 	//Dimentions of the pause menu
 	private final static int width = 500;
-	private final static int height = 300;
+	private final static int height = 400;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
@@ -67,18 +67,17 @@ public class PauseState extends GameState {
 				
 				table = new Table();
 				table.setLayoutEnabled(true);
-				table.setPosition(
-						HadalGame.CONFIG_WIDTH / 2 - width / 2, 
-						HadalGame.CONFIG_HEIGHT / 2 - height / 2);
+				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2);
 				table.setSize(width, height);
 				addActor(table);
 				
 				pause = new Text("PAUSED BY \n" + pauser, 0, 0, Color.WHITE);
 				pause.setScale(0.5f);
 				
-				resumeOption = new Text("RESUME?", 0, 0, Color.WHITE);
-				hubOption = new Text("RETURN TO HUB?", 0, 0, Color.WHITE);
-				exitOption = new Text("EXIT TO TITLE?", 0, 0, Color.WHITE);
+				resumeOption = new Text("RESUME", 0, 0, Color.WHITE);
+				hubOption = new Text("RETURN TO HUB", 0, 0, Color.WHITE);
+				settingOption = new Text("SETTINGS", 0, 0, Color.WHITE);
+				exitOption = new Text("EXIT TO TITLE", 0, 0, Color.WHITE);
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
@@ -116,6 +115,14 @@ public class PauseState extends GameState {
 			        }
 			    });
 				
+				settingOption.addListener(new ClickListener() {
+			        public void clicked(InputEvent e, float x, float y) {
+			        	
+			        	//Exiting returns to the title state and stops the server/client, disconnecting.
+			        	getGsm().addSettingState(ps, PauseState.class);
+			        }
+			    });
+				
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	
@@ -131,6 +138,7 @@ public class PauseState extends GameState {
 				if (ps.isServer()) {
 					table.add(hubOption).expand().row();
 				}
+				table.add(settingOption).expand().row();
 				table.add(exitOption).expand().row();
 			}
 		};
@@ -189,7 +197,6 @@ public class PauseState extends GameState {
 	public void update(float delta) {
 		
 		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
-		
 		if (ps != null) {
 			ps.cameraUpdate();
 			ps.stage.act();

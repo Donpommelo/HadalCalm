@@ -18,7 +18,6 @@ import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
-import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.utils.NameGenerator;
 
 /**
@@ -197,7 +196,7 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addState(State.CONTROL, TitleState.class);
+			        	getGsm().addSettingState(null, TitleState.class);
 			        }
 			    });
 				

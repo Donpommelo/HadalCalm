@@ -240,6 +240,21 @@ public class GameStateManager {
 	}
 	
 	/**
+	 * Called when game setting menu is pulled up. This adds a ControlState to the stack
+	 * @param ps: This is the playstate we are putting the control state on
+	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 */
+	public void addSettingState(PlayState ps, Class<? extends GameState> lastState) {
+		if (states.empty()) {
+			states.push(new SettingState(this, ps));
+			states.peek().show();
+		} else if (states.peek().getClass().equals(lastState)) {
+			states.push(new SettingState(this, ps));
+			states.peek().show();
+		}
+	}
+	
+	/**
 	 * This is called at the end of levels to display the results of the game
 	 * @param ps: This is the playstate we are putting the resultsstate on
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
@@ -284,14 +299,13 @@ public class GameStateManager {
 	 * @param state: enum for the new type of state to be added
 	 * @return: A new instance of the gameState corresponding to the input enum
 	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
-	 * Only used for: (TITLE, SPLASH, GAMEOVER and CONTROL)
+	 * Only used for: (TITLE, SPLASH)
 	 */
 	public GameState getState(State state) {
 		
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);
-		case CONTROL: return new ControlState(this);
 		default:
 			break;
 		}

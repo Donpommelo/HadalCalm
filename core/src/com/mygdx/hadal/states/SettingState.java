@@ -22,7 +22,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  * @author Zachary Tu
  *
  */
-public class ControlState extends GameState {
+public class SettingState extends GameState {
 	
 	//These are all of the display and buttons visible to the player.
 	private Text exitOption, saveOption, resetOption, windowOption;
@@ -33,8 +33,11 @@ public class ControlState extends GameState {
 	//This is the option that the player has selected to change
 	private PlayerAction currentlyEditing;
 	
-	public ControlState(GameStateManager gsm) {
+	private PlayState ps;
+	
+	public SettingState(GameStateManager gsm, PlayState ps) {
 		super(gsm);
+		this.ps = ps;
 	}
 
 	@Override
@@ -44,7 +47,7 @@ public class ControlState extends GameState {
 				exitOption = new Text("EXIT?", 100, HadalGame.CONFIG_HEIGHT - 260, Color.WHITE);
 				exitOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().removeState(ControlState.class);
+			        	getGsm().removeState(SettingState.class);
 			        }
 			    });
 				exitOption.setScale(0.5f);
@@ -90,23 +93,43 @@ public class ControlState extends GameState {
 		};
 		app.newMenu(stage);
 		
+		//We get the playstate's input processor so users can send messages + view score when paused
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		inputMultiplexer.addProcessor(stage);
+		if (ps != null) {
+			inputMultiplexer.addProcessor(ps.stage);
+		}
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
 			@Override
 			public boolean keyDown(int keycode) {
-				
 				//If the player is currently editing an action, bind it to the pressed key
 				if (currentlyEditing != null) {
 					currentlyEditing.setKey(keycode);
 					refreshBinds();
 					currentlyEditing = null;
 				}
+				if (ps != null) {
+					if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+						ps.getController().keyDown(keycode);
+					}
+					
+					if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+						ps.getScoreWindow().setVisibility(true);
+					}
+				}
 				return false;
 			}
 
 			@Override
-			public boolean keyUp(int keycode) {	return false; }
+			public boolean keyUp(int keycode) {	
+				if (ps != null) {
+					if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+						ps.getScoreWindow().setVisibility(false);
+					}
+				}
+				return false; 
+			}
 
 			@Override
 			public boolean keyTyped(char character) { return false; }
@@ -196,11 +219,26 @@ public class ControlState extends GameState {
 	}
 	
 	@Override
-	public void update(float delta) {}
+	public void update(float delta) {
+		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
+		if (ps != null) {
+			ps.cameraUpdate();
+			ps.stage.act();
+		}
+	}
 
 	@Override
-	public void render(float delta) {}
+	public void render(float delta) {
+		//Render the playstate and playstate ui underneath
+		if (ps != null) {
+			ps.render(delta);
+			ps.stage.getViewport().apply();
+			ps.stage.draw();
+		}
+	}
 	
 	@Override
 	public void dispose() { stage.dispose(); }
+	
+	public PlayState getPs() { return ps; }
 }
