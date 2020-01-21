@@ -93,12 +93,12 @@ public class ClientController implements InputProcessor {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.PAUSE));
 		}
 		
-		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {
-			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.MO_CYCLE_UP));
+		if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_UP));
 		}
 		
-		if (keycode == PlayerAction.MO_CYCLE_DOWN.getKey()) {
-			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.MO_CYCLE_DOWN));
+		if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
+			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_DOWN));
 		}
 		
 		if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {

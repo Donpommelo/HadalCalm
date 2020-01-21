@@ -4,8 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.server.Packets;
@@ -19,15 +20,23 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class MessageWindow {
 
-	private static final int width = 200;
-	private static final int height = 160;
+	private static final int width = 500;
+	private static final int height = 300;
+	
+	private static final int windowX = 440;
+	private static final int windowYActive = 0;
+	private static final int windowYInactive = -height;
+	
+	public static final int logEntryHeight = 25;
+	public static final float logScale = 0.4f;
 	
 	private PlayState state;
 	
-	private Table tableOuter, tableInner; 
+	private Table tableOuter, tableInner, tableLog; 
 	
-	private TextArea enterMessage;
+	private TextField enterMessage;
 	private Text sendMessage, backButton;
+	private ScrollPane textLog;
 	
 	//is this window currently visible?
 	private boolean active;
@@ -38,7 +47,7 @@ public class MessageWindow {
 		
 		this.tableOuter = new Table().center();
 		this.tableInner = new Table().center();
-		
+		tableLog = new Table().center();
 		addTable();
 	}
 	
@@ -47,16 +56,38 @@ public class MessageWindow {
 	 * This sets the keyboard focus to the window/back to the playstate
 	 */
 	public void toggleWindow() {
+		
+		Runnable enableMsg = new Runnable() {
+
+			@Override
+			public void run() {
+				state.getStage().setKeyboardFocus(enterMessage);
+				state.getStage().setScrollFocus(textLog);
+				textLog.scrollTo(0, 0, 0, 0);
+			}
+		};
+		
+		Runnable disableMsg = new Runnable() {
+
+			@Override
+			public void run() {
+				state.getStage().setKeyboardFocus(null);
+				if (state.getStage().getScrollFocus().equals(textLog)) {
+					state.getStage().setScrollFocus(null);
+				}
+			}
+		};
+		
 		if (active) {
-			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height, .5f, Interpolation.pow5Out));
-			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height, .5f, Interpolation.pow5Out));
-			state.getStage().setKeyboardFocus(null);
+			tableOuter.addAction(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out));
+			tableInner.addAction(Actions.sequence(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out), Actions.run(disableMsg)));
 		} else {
-			tableOuter.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, 0, .5f, Interpolation.pow5Out));
-			tableInner.addAction(Actions.moveTo(HadalGame.CONFIG_WIDTH / 2 - width / 2, 0, .5f, Interpolation.pow5Out));
-			state.getStage().setKeyboardFocus(enterMessage);
+			tableOuter.addAction(Actions.moveTo(windowX, windowYActive, .5f, Interpolation.pow5Out));
+			tableInner.addAction(Actions.sequence(Actions.moveTo(windowX, windowYActive, .25f, Interpolation.pow5Out), Actions.run(enableMsg)));
 		}
+		
 		active = !active;
+		enterMessage.setText("");
 	}
 	
 	/**
@@ -73,7 +104,6 @@ public class MessageWindow {
 					HadalGame.client.client.sendTCP(new Packets.Notification(state.getPlayer().getName(),  enterMessage.getText()));
 				}
 			}
-			toggleWindow();
 		}
 		enterMessage.setText("");
 	}
@@ -88,21 +118,23 @@ public class MessageWindow {
 		
 		state.getStage().addActor(tableOuter);
 		state.getStage().addActor(tableInner);
-		tableOuter.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height);
+		tableOuter.setPosition(windowX, windowYInactive);
 		tableOuter.setWidth(width);
 		tableOuter.setHeight(height);
-		tableInner.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, -height);
+		tableInner.setPosition(windowX, windowYInactive);
 		tableInner.setWidth(width);
 		tableInner.setHeight(height);
 		tableOuter.add(new MenuWindow(state.getGsm(), 0, 0, width, height));
 		
-		enterMessage = new TextArea("", state.getGsm().getSkin());
-		enterMessage.setMessageText("ENTER MESSAGE");
+		textLog = new ScrollPane(tableLog, state.getGsm().getSkin());
+		textLog.setFadeScrollBars(false);
+		
+		enterMessage = new TextField("", state.getGsm().getSkin());
 		
 		sendMessage = new Text("SEND", 0, 0, Color.WHITE);
 		sendMessage.setScale(0.5f);
 		
-		backButton = new Text("BACK", 0, 0, Color.WHITE);
+		backButton = new Text("EXIT", 0, 0, Color.WHITE);
 		backButton.setScale(0.5f);
 		
 		//sending a message should return focus to the playstate
@@ -123,12 +155,20 @@ public class MessageWindow {
 			}
 		});
 
-		
-		tableInner.add(enterMessage).colspan(2).expand().fill().top().row();
-		tableInner.add(sendMessage).pad(15);
-		tableInner.add(backButton).pad(15);
+		tableInner.add(textLog).colspan(2).expand().pad(15).top().row();
+		tableInner.add(enterMessage).colspan(2).expand(1, 0).bottom().row();
+		tableInner.add(sendMessage).pad(15).bottom().left();
+		tableInner.add(backButton).pad(15).bottom().right();
 		
 		//windows starts off retracted
 		active = false;
+	}
+	
+	public void addText(String text) {
+		Text newEntry = new Text(text, 0, 0);
+		newEntry.setScale(logScale);
+		tableLog.add(newEntry).height(logEntryHeight).left();
+		tableLog.row();
+		textLog.scrollTo(0, 0, 0, 0);
 	}
 }

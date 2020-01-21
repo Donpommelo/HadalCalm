@@ -335,7 +335,7 @@ public class PlayState extends GameState {
 			
 			messageWindow = new MessageWindow(this);
 			scoreWindow = new ScoreWindow(this);
-			dialogBox = new DialogBox(gsm, 0, HadalGame.CONFIG_HEIGHT);
+			dialogBox = new DialogBox(this, 0, HadalGame.CONFIG_HEIGHT);
 		}
 		
 		//Add and sync ui elements in case of unpause or new playState

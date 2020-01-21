@@ -112,11 +112,11 @@ public class ActionController {
 			state.getGsm().addPauseState(state, player.getName(), PlayState.class);
 		}
 		
-		if (action == PlayerAction.MO_CYCLE_UP) {
+		if (action == PlayerAction.WEAPON_CYCLE_UP) {
 			player.getPlayerData().switchUp();
 		}
 		
-		if (action == PlayerAction.MO_CYCLE_DOWN) {
+		if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
 			player.getPlayerData().switchDown();
 		}
 		

@@ -93,12 +93,7 @@ public class SettingState extends GameState {
 		};
 		app.newMenu(stage);
 		
-		//We get the playstate's input processor so users can send messages + view score when paused
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		inputMultiplexer.addProcessor(stage);
-		if (ps != null) {
-			inputMultiplexer.addProcessor(ps.stage);
-		}
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
 			@Override
@@ -109,27 +104,11 @@ public class SettingState extends GameState {
 					refreshBinds();
 					currentlyEditing = null;
 				}
-				if (ps != null) {
-					if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
-						ps.getController().keyDown(keycode);
-					}
-					
-					if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-						ps.getScoreWindow().setVisibility(true);
-					}
-				}
 				return false;
 			}
 
 			@Override
-			public boolean keyUp(int keycode) {	
-				if (ps != null) {
-					if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-						ps.getScoreWindow().setVisibility(false);
-					}
-				}
-				return false; 
-			}
+			public boolean keyUp(int keycode) {	return false; }
 
 			@Override
 			public boolean keyTyped(char character) { return false; }
@@ -181,7 +160,7 @@ public class SettingState extends GameState {
 				}
 			});
 			
-			actionChoose.setScale(0.75f);
+			actionChoose.setScale(0.4f);
 			actions.addActor(actionChoose);
 		}
 		

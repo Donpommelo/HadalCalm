@@ -36,7 +36,7 @@ public abstract class GameState {
 		this.hud = app.getHud();		
 	}
 	
-	public void show() {}
+	public abstract void show();
 	
 	/**
 	 * This will be run every engine tick and will process game logic.

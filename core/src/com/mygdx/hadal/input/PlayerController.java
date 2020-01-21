@@ -88,12 +88,12 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.PAUSE);
 		}
 		
-		if (keycode == PlayerAction.MO_CYCLE_UP.getKey()) {
-			player.getController().keyDown(PlayerAction.MO_CYCLE_UP);
+		if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
+			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_DOWN);
 		}
 		
-		if (keycode == PlayerAction.MO_CYCLE_DOWN.getKey()) {
-			player.getController().keyDown(PlayerAction.MO_CYCLE_DOWN);
+		if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
+			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_UP);
 		}
 		
 		if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {

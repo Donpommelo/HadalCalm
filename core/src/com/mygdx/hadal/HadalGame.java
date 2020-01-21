@@ -28,9 +28,6 @@ public class HadalGame extends ApplicationAdapter {
 	public static int CONFIG_WIDTH;
 	public static int CONFIG_HEIGHT;
 	
-	//The main camera scales to the viewport size scaled to this for some reason.
-	private final static float BOX2DSCALE = 1.0f;
-	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, sprite, hud;
 	public static FitViewport viewportCamera, viewportSprite, viewportUI;
@@ -70,17 +67,17 @@ public class HadalGame extends ApplicationAdapter {
 		CONFIG_HEIGHT = DEFAULT_HEIGHT;
 		batch = new SpriteBatch();
 		
-		camera = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    sprite = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-	    hud = new OrthographicCamera(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE);
-		viewportCamera = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, camera);
+		camera = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
+	    sprite = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
+	    hud = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
+		viewportCamera = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, camera);
 	    viewportCamera.apply();
-	    viewportSprite = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, sprite);
+	    viewportSprite = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, sprite);
 	    viewportSprite.apply();	    
-	    viewportUI = new FitViewport(CONFIG_WIDTH * BOX2DSCALE, CONFIG_HEIGHT * BOX2DSCALE, hud);
+	    viewportUI = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, hud);
 	    viewportUI.apply();
 	    
-	    hud.zoom = 1 / BOX2DSCALE;
+	    hud.zoom = 1;
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    musicPlayer = new MusicPlayer();
@@ -129,9 +126,9 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void resize(int width, int height) {
-		viewportCamera.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
-		viewportSprite.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
-		viewportUI.update((int)(width * BOX2DSCALE), (int)(height * BOX2DSCALE), true);
+		viewportCamera.update(width, height, true);
+		viewportSprite.update(width, height, true);
+		viewportUI.update(width, height, true);
 		
 		gsm.resize(width, height);
 	}

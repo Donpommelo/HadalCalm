@@ -138,7 +138,9 @@ public class PauseState extends GameState {
 				if (ps.isServer()) {
 					table.add(hubOption).expand().row();
 				}
-				table.add(settingOption).expand().row();
+				if (GameStateManager.currentMode.equals(Mode.SINGLE)) {
+					table.add(settingOption).expand().row();
+				}
 				table.add(exitOption).expand().row();
 			}
 		};

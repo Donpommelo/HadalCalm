@@ -302,7 +302,6 @@ public class GameStateManager {
 	 * Only used for: (TITLE, SPLASH)
 	 */
 	public GameState getState(State state) {
-		
 		switch(state) {
 		case TITLE: return new TitleState(this);
 		case SPLASH: return new InitState(this);

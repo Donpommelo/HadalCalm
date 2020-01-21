@@ -20,9 +20,8 @@ public class UIHub {
 
 	private PlayState state;
 	
-	protected Table tableOptions, tableOuter, tableInfo, tableExtra;
-	protected ScrollPane options;
-	protected boolean active;
+	private Table tableOptions, tableOuter, tableInfo, tableExtra;
+	private ScrollPane options;
 	
 	//These fields pertain to the extra info window that pops up when mousing over stuff.
 	private Text titleInfo, extraInfo;
@@ -30,13 +29,13 @@ public class UIHub {
 	private final static int infoWidth = 400;
 	private final static int infoHeight = 300;
 	
-	protected static final int tableX = 1080;
-	protected static final int tableY = 120;
+	private static final int tableX = 1080;
+	private static final int tableY = 120;
 	
-	protected static final int optionsWidthOuter = 720;
-	protected static final int optionsHeightOuter = 510;
-	protected static final int optionsHeightInner = 450;
-	public static final int optionsWidth = 320;
+	private static final int optionsWidthOuter = 720;
+	private static final int optionsHeightOuter = 510;
+	private static final int optionsHeightInner = 450;
+	private static final int optionsWidth = 320;
 	public static final int optionsHeight = 40;
 	
 	public static final float optionsScale = 0.30f;
@@ -45,7 +44,6 @@ public class UIHub {
 	
 	public UIHub(PlayState state) {
 		this.state = state;
-		this.active = false;
 		
 		this.tableOptions = new Table();
 		this.tableOuter = new Table();
@@ -88,7 +86,6 @@ public class UIHub {
 		options.setFadeScrollBars(false);
 		
 		tableOuter.add(options).bottom().width(optionsWidth).height(optionsHeightInner);
-		this.active = false;
 	}
 	
 	/**
@@ -118,10 +115,8 @@ public class UIHub {
 	public void leave() {
 		tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
 		
-		if (state.getStage().getScrollFocus() != null) {
-			if (state.getStage().getScrollFocus().equals(options)) {
-				state.getStage().setScrollFocus(null);
-			}
+		if (state.getStage().getScrollFocus().equals(options)) {
+			state.getStage().setScrollFocus(null);
 		}
 	}
 	
