@@ -400,30 +400,6 @@ public class Packets {
         }
 	}
 	
-	public static class CreatePoison {
-		public String entityID;
-        public Vector2 pos;
-        public Vector2 size;
-        public boolean draw;
-		public CreatePoison() {}
-		
-		/**
-		 * A CreatePoison is sent from the Server to the Client to tell the client to create a new Poison Event.
-		 * This is for dynamically created Poison that doesn't have a Blueprint.
-		 * 
-		 * @param entityID: ID of the new Poison.
-		 * @param pos: position of the new poison
-		 * @param size: size of the new poison
-		 * @param draw: Whether the new poison should be drawn or not.
-		 */
-		public CreatePoison(String entityID, Vector2 pos, Vector2 size, boolean draw) {
-            this.entityID = entityID;
-            this.pos = pos;
-            this.size = size;
-            this.draw = draw;
-        }
-	}
-	
 	public static class CreatePickup {
 		public String entityID;
         public Vector2 pos;
@@ -779,7 +755,6 @@ public class Packets {
     	kryo.register(CreateEnemy.class);
     	kryo.register(DeleteEntity.class);
     	kryo.register(CreateEvent.class);
-    	kryo.register(CreatePoison.class);
     	kryo.register(CreatePickup.class);
     	kryo.register(SyncPickup.class);
     	kryo.register(ActivateEvent.class);

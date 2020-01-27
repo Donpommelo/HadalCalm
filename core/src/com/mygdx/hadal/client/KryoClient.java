@@ -397,26 +397,6 @@ public class KryoClient {
         		}
         		
         		/*
-        		 * Event Creation for specific Poison event.
-        		 * This is because poison can be spawned either as a blueprint or dynamically from certain effects
-        		 */
-        		if (o instanceof Packets.CreatePoison) {
-        			final Packets.CreatePoison p = (Packets.CreatePoison) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						Poison poison = new Poison(cs, p.pos, p.size, 0, p.draw, (short)0);
-        						cs.addEntity(p.entityID, poison, ObjectSyncLayers.STANDARD);
-            				}
-    					});
-					}
-        		}
-        		
-        		/*
         		 * Event Creation for specific Pickup event.
         		 */
         		if (o instanceof Packets.CreatePickup) {

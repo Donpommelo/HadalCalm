@@ -2,6 +2,7 @@ package com.mygdx.hadal.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.hadal.HadalGame;
@@ -45,6 +46,9 @@ public class InitState extends GameState {
 		HadalGame.SYSTEM_FONT_UI = new BitmapFont(Gdx.files.internal(AssetList.FIXEDSYS_FONT.toString()), false);
 		HadalGame.SYSTEM_FONT_SPRITE = new BitmapFont();
 		HadalGame.DEFAULT_TEXT_COLOR = Color.WHITE;
+		
+		HadalGame.SYSTEM_FONT_UI.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		HadalGame.SYSTEM_FONT_SPRITE.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		
 		for (AssetList asset: AssetList.values()) {
             if (asset.getType() != null) {

@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -61,8 +60,6 @@ public class DialogBox extends AHadalActor {
 		dialogs = new Queue<Dialog>();
 		
 		font = HadalGame.SYSTEM_FONT_UI;
-		
-		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		
 		animCdCount = 0;
 	}

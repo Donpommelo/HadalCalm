@@ -137,23 +137,24 @@ public class TitleState extends GameState {
 						HadalGame.client.init();
 						
 						//Attempt to connect to the chosen ip
-						new Thread("Connect") {
-				            public void run () {
-				                
-				            	//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
-				            	try {
-				                	HadalGame.client.client.connect(5000, enterIP.getText(),
-				                			KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
-				                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
-				                } catch (IOException ex) {
-				                    ex.printStackTrace();
-				                    setNotification("FAILED TO CONNECT TO SERVER!");
-				                }
-				            	
-				            	//Let the player attempt to connect again after finishing
-				            	connectAttempted = false;
-				            }
-				        }.start();
+						Gdx.app.postRunnable(new Runnable() {
+					        
+							@Override
+					         public void run() {
+					        	//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+					            	try {
+					                	HadalGame.client.client.connect(5000, enterIP.getText(),
+					                			KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
+					                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
+					                } catch (IOException ex) {
+					                    ex.printStackTrace();
+					                    setNotification("FAILED TO CONNECT TO SERVER!");
+					                }
+					            	
+					            	//Let the player attempt to connect again after finishing
+					            	connectAttempted = false;
+					         }
+						});
 			        }
 			    });
 				
@@ -169,11 +170,10 @@ public class TitleState extends GameState {
 						}
 						connectAttempted = true;
 						
-						new Thread("Search") {
-							
+						Gdx.app.postRunnable(new Runnable() {
+					        
 							@Override
-				            public void run () {
-								
+					         public void run() {
 								//Search network for nearby hosts
 								enterIP.setText(HadalGame.client.searchServer());
 								
@@ -186,8 +186,8 @@ public class TitleState extends GameState {
 								
 								//Let the player attempt to connect again after finishing
 				            	connectAttempted = false;
-				            }
-						}.start();
+							}
+						});
 			        }
 			    });
 

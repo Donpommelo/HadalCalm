@@ -27,8 +27,8 @@ public class MessageWindow {
 	private static final int windowYActive = 0;
 	private static final int windowYInactive = -height;
 	
-	public static final int logEntryHeight = 25;
-	public static final float logScale = 0.4f;
+	public static final int logEntryHeight = 20;
+	public static final float logScale = 0.25f;
 	
 	private PlayState state;
 	
@@ -127,7 +127,7 @@ public class MessageWindow {
 		tableOuter.add(new MenuWindow(state.getGsm(), 0, 0, width, height));
 		
 		textLog = new ScrollPane(tableLog, state.getGsm().getSkin());
-		textLog.setFadeScrollBars(false);
+		textLog.setFadeScrollBars(true);
 		
 		enterMessage = new TextField("", state.getGsm().getSkin());
 		

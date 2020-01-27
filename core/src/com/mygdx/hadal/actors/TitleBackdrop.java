@@ -9,11 +9,11 @@ import com.mygdx.hadal.managers.AssetList;
  * Static background actor for title screen.
  */
 public class TitleBackdrop extends AHadalActor {
+	
 	private Texture backgroundTexture;
 	
 	public TitleBackdrop() {
 		backgroundTexture = HadalGame.assetManager.get(AssetList.TITLE_CARD.toString());
-		backgroundTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 	}
 	
 	@Override

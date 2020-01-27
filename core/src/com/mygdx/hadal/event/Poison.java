@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -93,9 +94,7 @@ public class Poison extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, 
-				(short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY),
-				(short) filter, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
 	@Override
@@ -151,7 +150,9 @@ public class Poison extends Event {
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
-			return new Packets.CreatePoison(entityID.toString(), getPixelPosition(), new Vector2(size), draw);
+			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
+			blueprint.setName("Poison");
+			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		} else {
 			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		}

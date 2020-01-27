@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,7 +23,6 @@ public class Text extends AHadalActor {
 		this.text = text;
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = HadalGame.DEFAULT_TEXT_COLOR;
-		font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		
 		updateHitBox();
 	}
