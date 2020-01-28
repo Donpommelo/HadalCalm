@@ -17,8 +17,8 @@ public class Limiter extends Prefabrication {
 	//Number of times it can trigger
 	private int limit;
 	
-	public Limiter(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, int limit) {
-		super(state, width, height, x , y);
+	public Limiter(PlayState state, String triggeredId, String triggeringId, int limit) {
+		super(state);
 		this.triggeredId = triggeredId;
 		this.triggeringId = triggeringId;
 		this.limit = limit;

@@ -16,6 +16,9 @@ public class Record {
 	//This is the amount of currency the player has accrued
 	private int scrap;
 	
+	//This is the timer used for pvp matches
+	private int timer;
+		
 	//This is the player's current loadout that they will start with
 	private String[] equips;
 	private String[] artifacts;
@@ -47,6 +50,11 @@ public class Record {
 	 */
 	public void incrementScrap(int amount) {
 		scrap = scrap + amount;
+		saveRecord();
+	}
+	
+	public void setTimer(int timer) {
+		this.timer = timer;
 		saveRecord();
 	}
 	
@@ -148,6 +156,8 @@ public class Record {
 	
 	public int getScrap() { return scrap; }
 
+	public int getTimer() { return timer; }
+	
 	public Map<String, Integer> getHiScores() {	return hiScores; }
 
 	public Map<String, Integer> getFlags() { return flags; }

@@ -115,7 +115,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("gravity", 0.0f, float.class), object.getProperties().get("collision", false, boolean.class));
 		}
 		if (object.getName().equals("Timer")) {
-			e = new Timer(state, object.getProperties().get("interval", float.class),
+			e = new Timer(state, object.getProperties().get("interval", 0.0f, float.class),
 					object.getProperties().get("startOn", true, boolean.class));
 		}
 		if (object.getName().equals("Counter")) {
@@ -333,6 +333,9 @@ public class TiledObjectUtil {
 					object.getProperties().get("unlock", true, Boolean.class),
 					object.getProperties().get("shopId", String.class));
 		}
+		if (object.getName().equals("Codex")) {
+			e = new Codex(state, position, size);
+		}
 		if (object.getName().equals("Prefab")) {
 			genPrefab(state, object, rect);
 		}
@@ -436,7 +439,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("point2", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Limit")) {
-    		p = new Limiter(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new Limiter(state,
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("limit", 0, int.class));
@@ -455,6 +458,9 @@ public class TiledObjectUtil {
     	if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivateOnce")) {
     		p = new LeverActivateOnce(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeringId", "", String.class));
+    	}
+    	if (object.getProperties().get("prefabId", "", String.class).equals("PVPSettingSetter")) {
+    		p = new PVPSettingSetter(state);
     	}
     	if (p != null) {
         	p.generateParts();

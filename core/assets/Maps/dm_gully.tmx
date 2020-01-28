@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="59">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="60">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="respawn" type="bool" value="true"/>
@@ -45,7 +45,7 @@
   <object id="9" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,ui1,startTimer,save1,save2,save3,cd,bounds1,bounds2"/>
+    <property name="triggeringId" value="spawnWeapons,startTimer,save1,save2,save3,bounds1,bounds2"/>
    </properties>
   </object>
   <object id="13" name="Prefab" type="Prefab" x="288" y="1088" width="96" height="96">
@@ -64,18 +64,6 @@
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2,w3"/>
-   </properties>
-  </object>
-  <object id="21" name="UI" type="UI" x="224" y="32" width="32" height="32">
-   <properties>
-    <property name="tags" value="Fight!,EMPTY,TIMER"/>
-    <property name="triggeredId" value="ui1"/>
-   </properties>
-  </object>
-  <object id="27" name="End" type="End" x="64" y="192" width="32" height="32">
-   <properties>
-    <property name="text" value="Match Over"/>
-    <property name="triggeredId" value="runOnGlobalTimerConclude"/>
    </properties>
   </object>
   <object id="28" name="Timer" type="Timer" x="224" y="96" width="32" height="32">
@@ -104,15 +92,6 @@
     <property name="triggeredId" value="w3"/>
    </properties>
   </object>
-  <object id="56" name="Game" type="Game" x="288" y="32" width="32" height="32">
-   <properties>
-    <property name="sync" value="ALL"/>
-    <property name="synced" type="bool" value="true"/>
-    <property name="timer" type="float" value="180"/>
-    <property name="timerIncr" type="float" value="-1"/>
-    <property name="triggeredId" value="cd"/>
-   </properties>
-  </object>
   <object id="57" name="Bounds" type="Bounds" x="608" y="768" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
@@ -125,6 +104,12 @@
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="59" name="Prefab" type="Prefab" x="160" y="224" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
    </properties>
   </object>
  </objectgroup>
