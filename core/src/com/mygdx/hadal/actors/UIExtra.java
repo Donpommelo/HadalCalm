@@ -167,7 +167,7 @@ public class UIExtra extends AHadalActor{
 				eachField.setLives(eachField.getLives() + lives);
 				
 				//If all players are losing lives at once and they have 0 lives, they get a game over.
-				if (eachField.getLives() <= 0 && state.getLives() != 0) {
+				if (eachField.getLives() <= 0) {
 					state.levelEnd("GAME OVER");
 					break;
 				}
@@ -179,7 +179,7 @@ public class UIExtra extends AHadalActor{
 				field.setLives(field.getLives() + lives);
 				
 				//If a single player runs out of lives, they die
-				if (field.getLives() <= 0 && state.getLives() != 0) {
+				if (field.getLives() <= 0) {
 					p.getPlayerData().die(state.getWorldDummy().getBodyData());
 				}
 			}

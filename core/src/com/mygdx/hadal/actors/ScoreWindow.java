@@ -30,7 +30,7 @@ public class ScoreWindow {
 		
 		table.setVisible(false);
 		
-		//Server must first reset each score at the start of a level (unless just a stage transition
+		//Server must first reset each score at the start of a level (unless just a stage transition)
 		if (state.isServer() && state.isReset()) {
 			for (SavedPlayerFields score: HadalGame.server.getScores().values()) {
 				score.newLevelReset(state);

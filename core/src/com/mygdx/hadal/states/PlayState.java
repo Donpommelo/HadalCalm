@@ -126,7 +126,9 @@ public class PlayState extends GameState {
 	protected HadalEntity objectiveTarget;
 	
 	//This is the next state that we transition to if we are transitioning
-	protected transitionState nextState;
+	protected TransitionState nextState;
+	
+	private boolean unlimitedLife;
 	
 	//The current zoom of the camera
 	private float zoom;
@@ -144,13 +146,8 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private HashMap<String, PositionDummy> dummyPoints;
 	
-	//Do players respawn after dying? 
 	//Can players hurt each other? 
-	//Is this a practice level (like the hub?) atm this only makes start-of-level effects not activate.
-	protected boolean respawn, pvp, practice;
-	
-	//How many lives do we start with (if 0, no lives system in this level)
-	protected int lives;
+	protected boolean pvp;
 	
 	//Is this playstate the server?
 	protected boolean server;
@@ -253,10 +250,8 @@ public class PlayState extends GameState {
 		tmr = new OrthogonalTiledMapRenderer(map, batch);
 
 		//Get map settings from the collision layer of the map
-		this.respawn = map.getProperties().get("respawn", false, Boolean.class);
 		this.pvp = map.getProperties().get("pvp", false, Boolean.class);
-		this.practice = map.getProperties().get("practice", false, Boolean.class);
-		this.lives = map.getProperties().get("lives", 0, int.class);
+		this.unlimitedLife = map.getProperties().get("lives", false, boolean.class);
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
 
@@ -708,7 +703,7 @@ public class PlayState extends GameState {
 	 * @param instant: do we transition to the next area quickly?
 	 * @param nextStartId: The id of the start point to start at (if specified)
 	 */
-	public void loadLevel(UnlockLevel level, transitionState state, boolean instant, String nextStartId) {
+	public void loadLevel(UnlockLevel level, TransitionState state, boolean instant, String nextStartId) {
 		
 		//The client should never run this; instead transitioning when the server tells it to.
 		if (!server) {
@@ -783,19 +778,37 @@ public class PlayState extends GameState {
 		
 		//Register the kill for score keeping purposes
 		if (perp instanceof Player) {
-			outOfLives = HadalGame.server.registerKill((Player)perp, player, lives != 0);
+			outOfLives = HadalGame.server.registerKill((Player)perp, player);
 		} else {
-			outOfLives = HadalGame.server.registerKill(null, player, lives != 0);
+			outOfLives = HadalGame.server.registerKill(null, player);
 		}
 				
-		if (!respawn || outOfLives) {
+		if (outOfLives && !unlimitedLife) {
 			
 			//check if all players are out
 			boolean allded = true;
-			for (SavedPlayerFields f: HadalGame.server.getScores().values()) {
-				if (f.isAlive()) {
-					allded = false;
-					break;
+			if (pvp) {
+				
+				short factionLeft = -1;
+				
+				for (int f: HadalGame.server.getScores().keySet()) {
+					if (HadalGame.server.getScores().get(f).isAlive()) {
+						if (factionLeft == -1) {
+							factionLeft = HadalGame.server.getPlayers().get(f).getHitboxfilter();
+						} else {
+							if (factionLeft != HadalGame.server.getPlayers().get(f).getHitboxfilter()) {
+								allded = false;
+							}
+						}
+						break;
+					}
+				}
+			} else {
+				for (SavedPlayerFields f: HadalGame.server.getScores().values()) {
+					if (f.isAlive()) {
+						allded = false;
+						break;
+					}
 				}
 			}
 			
@@ -804,19 +817,19 @@ public class PlayState extends GameState {
 				
 				resultsText = getGameOverText();
 				
-				beginTransition(transitionState.RESULTS, true, getGameOverText());
-				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(transitionState.RESULTS, true, getGameOverText()));
+				beginTransition(TransitionState.RESULTS, true, getGameOverText());
+				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, getGameOverText()));
 			} else {
 				
 				//otherwise, the player that dies transitions -> respawns
 				if (this.player.equals(player)) {
-					beginTransition(transitionState.SPECTATOR, false, "");
+					beginTransition(TransitionState.SPECTATOR, false, "");
 				} else {
 					
 					//If a client dies, we tell them to transition to a spectator state.
 					for (int connId : HadalGame.server.getPlayers().keySet()) {
 						if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-							HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.SPECTATOR, false, ""));
+							HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, ""));
 						}
 					}
 				}
@@ -825,13 +838,13 @@ public class PlayState extends GameState {
 			if (this.player.equals(player)) {
 				
 				//Transition to the host respawning
-				beginTransition(transitionState.RESPAWN, false, "");
+				beginTransition(TransitionState.RESPAWN, false, "");
 			} else {
 				
 				//If a client dies, we tell them to transition to a respawn state.
 				for (int connId : HadalGame.server.getPlayers().keySet()) {
 					if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-						HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(transitionState.RESPAWN, false, ""));
+						HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.RESPAWN, false, ""));
 					}
 				}
 			}
@@ -843,8 +856,8 @@ public class PlayState extends GameState {
 	 * @param state: Is it ending as a gameover or a results screen?
 	 */
 	public void levelEnd(String text) {
-		beginTransition(transitionState.RESULTS, false, text);
-		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(transitionState.RESULTS, false, text));
+		beginTransition(TransitionState.RESULTS, false, text);
+		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, false, text));
 	}
 	
 	/**
@@ -852,7 +865,7 @@ public class PlayState extends GameState {
 	 * @param state: The state we are transitioning towards
 	 * @param override: Does this transition override other transitions?
 	 */
-	public void beginTransition(transitionState state, boolean override, String resultsText) {
+	public void beginTransition(TransitionState state, boolean override, String resultsText) {
 
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (nextState == null || override) {
@@ -874,7 +887,7 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.client.client.stop();
 		}
-		beginTransition(transitionState.TITLE, true, "");
+		beginTransition(TransitionState.TITLE, true, "");
 	}
 	
 	/**
@@ -1000,9 +1013,15 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	public boolean isServer() { return server; }
+
+	public boolean isReset() { return reset; }
+	
 	public boolean isPvp() { return pvp; }
 
-	public boolean isPractice() { return practice; }
+	public boolean isUnlimitedLife() {return unlimitedLife; }
+	
+	public void setUnlimitedLife(boolean lives) { this.unlimitedLife = lives; }
 	
 	public Event getGlobalTimer() {	return globalTimer;	}
 
@@ -1060,15 +1079,9 @@ public class PlayState extends GameState {
 	
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
 
-	public boolean isRespawn() { return respawn; }
-		
-	public boolean isServer() { return server; }
-
-	public boolean isReset() { return reset; }
 	
-	public int getLives() {	return lives; }
-
-	public enum transitionState {
+	
+	public enum TransitionState {
 		RESPAWN,
 		RESULTS,
 		SPECTATOR,

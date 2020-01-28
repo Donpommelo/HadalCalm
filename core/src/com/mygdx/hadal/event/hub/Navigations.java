@@ -9,7 +9,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.transitionState;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * The Navigations is a HubEvent that allows the player to begin a level.
@@ -36,7 +36,7 @@ public class Navigations extends HubEvent {
 		        
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-		        	state.loadLevel(selected, transitionState.NEWLEVEL, false, "");
+		        	state.loadLevel(selected, TransitionState.NEWLEVEL, false, "");
 		        	leave();
 		        }
 		        

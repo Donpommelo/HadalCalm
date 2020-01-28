@@ -247,7 +247,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Activate on-spawn effects
-		if (!state.isPractice() && reset) {
+		if (reset) {
 			playerData.statusProcTime(new ProcTime.PlayerCreate());
 		}
 	}

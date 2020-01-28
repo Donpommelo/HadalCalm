@@ -16,8 +16,11 @@ public class Record {
 	//This is the amount of currency the player has accrued
 	private int scrap;
 	
-	//This is the timer used for pvp matches
+	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
 	private int timer;
+	
+	//How many lives should players have in pvp? (this variable is an index in an array. 0 = infinite, 1 = 1 life, 2 = 2 lives ... etc)
+	private int lives;
 		
 	//This is the player's current loadout that they will start with
 	private String[] equips;
@@ -55,6 +58,11 @@ public class Record {
 	
 	public void setTimer(int timer) {
 		this.timer = timer;
+		saveRecord();
+	}
+	
+	public void setLives(int lives) {
+		this.lives = lives;
 		saveRecord();
 	}
 	
@@ -157,6 +165,8 @@ public class Record {
 	public int getScrap() { return scrap; }
 
 	public int getTimer() { return timer; }
+	
+	public int getLives() { return lives; }
 	
 	public Map<String, Integer> getHiScores() {	return hiScores; }
 

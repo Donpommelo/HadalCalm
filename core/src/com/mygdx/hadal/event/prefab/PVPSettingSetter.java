@@ -20,8 +20,10 @@ public class PVPSettingSetter extends Prefabrication {
 	public void generateParts() {
 		String timerId = TiledObjectUtil.getPrefabTriggerId();
 		String multiId = TiledObjectUtil.getPrefabTriggerId();
-		String uiId = TiledObjectUtil.getPrefabTriggerId();
-		String gameId = TiledObjectUtil.getPrefabTriggerId();
+		String uiTimerId = TiledObjectUtil.getPrefabTriggerId();
+		String uiLivesId = TiledObjectUtil.getPrefabTriggerId();
+		String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
+		String gameLivesId = TiledObjectUtil.getPrefabTriggerId();
 		
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
@@ -32,27 +34,43 @@ public class PVPSettingSetter extends Prefabrication {
 		RectangleMapObject multi = new RectangleMapObject();
 		multi.setName("Multitrigger");
 		multi.getProperties().put("triggeredId", multiId);
-		multi.getProperties().put("triggeringId", timerId + "," + uiId + "," + gameId);
+		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + uiLivesId + "," + gameTimerId + "," + gameLivesId);
 		
 		int startTimer = state.getGsm().getRecord().getTimer();
+		int startLives = state.getGsm().getRecord().getLives();
 		
+		RectangleMapObject game = new RectangleMapObject();
+		game.setName("Game");
+		game.getProperties().put("sync", "ALL");
+		game.getProperties().put("synced", true);
+		game.getProperties().put("triggeredId", gameTimerId);
+
 		if (startTimer != 0) {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
 			ui.getProperties().put("tags", "Fight!,EMPTY,TIMER");
-			ui.getProperties().put("triggeredId", uiId);
+			ui.getProperties().put("triggeredId", uiTimerId);
 			
-			RectangleMapObject game = new RectangleMapObject();
-			game.setName("Game");
-			game.getProperties().put("sync", "ALL");
-			game.getProperties().put("synced", true);
 			game.getProperties().put("timer", Codex.indexToTimer(startTimer));
 			game.getProperties().put("timerIncr", -1.0f);
-			game.getProperties().put("triggeredId", gameId);
 			
 			TiledObjectUtil.parseTiledEvent(state, ui);
-			TiledObjectUtil.parseTiledEvent(state, game);
 		}
+		
+		if (startLives != 0) {
+			RectangleMapObject ui = new RectangleMapObject();
+			ui.setName("UI");
+			ui.getProperties().put("tags", "LIVES");
+			ui.getProperties().put("triggeredId", uiLivesId);
+			
+			game.getProperties().put("lives", startLives - 1);
+			
+			TiledObjectUtil.parseTiledEvent(state, ui);
+		} else {
+			state.setUnlimitedLife(true);
+		}
+		
+		TiledObjectUtil.parseTiledEvent(state, game);
 		
 		RectangleMapObject end = new RectangleMapObject();
 		end.setName("End");

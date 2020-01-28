@@ -12,7 +12,7 @@ public enum UnlockLevel {
 	HUB("Maps/SS_Tunicate.tmx"),
 	HUB_MULTI("Maps/SS_Tunicate_Multi.tmx"),
 	NASU("Maps/nasu.tmx"),
-	DM_GULLY("Maps/dm_gully.tmx", null, null, new UnlockEquip[] {UnlockEquip.SPEARGUN, UnlockEquip.SCRAPRIPPER, UnlockEquip.NOTHING}),
+	DM_GULLY("Maps/dm_gully.tmx"),
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
 	SANDBOX("Maps/sandbox.tmx"),

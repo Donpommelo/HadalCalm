@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Codex extends HubEvent {
 
-	SelectBox<String> timerOptions;
+	private SelectBox<String> timerOptions, livesOptions;
 	
 	private final static String title = "Salvar's Codex";
 	
@@ -38,17 +38,25 @@ public class Codex extends HubEvent {
 		
 		timerOptions.setSelectedIndex(state.getGsm().getRecord().getTimer());
 		
+		livesOptions = new SelectBox<String>(state.getGsm().getSkin());
+		livesOptions.setItems("UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES");
+		livesOptions.setWidth(100);
+		
+		livesOptions.setSelectedIndex(state.getGsm().getRecord().getLives());
+		
 		hub.getTableOptions().add(timer);
 		hub.getTableOptions().add(timerOptions).row();
-		
 		hub.getTableOptions().add(lives);
-		hub.getTableOptions().add(timerOptions).row();
+		hub.getTableOptions().add(livesOptions).row();
 	}
 	
 	@Override
 	public void leave() {
 		super.leave();
-		state.getGsm().getRecord().setTimer(timerOptions.getSelectedIndex());
+		if (state.isServer()) {
+			state.getGsm().getRecord().setTimer(timerOptions.getSelectedIndex());
+			state.getGsm().getRecord().setLives(livesOptions.getSelectedIndex());
+		}
 	}
 	
 	public static float indexToTimer(int index) {

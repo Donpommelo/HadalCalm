@@ -50,10 +50,7 @@ public class SavedPlayerFields {
 		deaths++;
 		score--;
 		alive = false;
-		
-		if (lives != 0) {
-			lives--;
-		}
+		lives--;
 	}
 
 	/**
@@ -63,7 +60,7 @@ public class SavedPlayerFields {
 		this.kills = 0;
 		this.deaths = 0;
 		this.score = 0;
-		this.lives = state.getLives();
+		this.lives = 1;
 		alive = true;
 	}
 	

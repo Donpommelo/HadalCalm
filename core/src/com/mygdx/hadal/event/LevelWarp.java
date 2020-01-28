@@ -4,7 +4,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.transitionState;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * A Use Portal is a portal that transports the player elsewhere when they interact with it.
@@ -40,9 +40,9 @@ public class LevelWarp extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (reset) {
-					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEWLEVEL, false, startId);
+					state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEWLEVEL, false, startId);
 				} else {
-					state.loadLevel(UnlockLevel.valueOf(level), transitionState.NEXTSTAGE, true, startId);
+					state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEXTSTAGE, true, startId);
 				}
 			}
 		};

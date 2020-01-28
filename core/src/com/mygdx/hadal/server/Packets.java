@@ -18,7 +18,7 @@ import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
-import com.mygdx.hadal.states.PlayState.transitionState;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * These are packets sent between the Server and Client.
@@ -138,7 +138,7 @@ public class Packets {
 	}
 	
 	public static class ClientStartTransition {
-		public transitionState state;
+		public TransitionState state;
 		public boolean override;
 		public String resultsText;
 		public ClientStartTransition() {}
@@ -149,7 +149,7 @@ public class Packets {
 		 * Clients receiving this begin fading to black the same way the Server does.
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
 		 */
-		public ClientStartTransition(transitionState state, boolean override, String resultsText) {
+		public ClientStartTransition(TransitionState state, boolean override, String resultsText) {
 			this.state = state;
 			this.override = override;
 			this.resultsText = resultsText;

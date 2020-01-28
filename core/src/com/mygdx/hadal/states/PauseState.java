@@ -16,7 +16,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.states.PlayState.transitionState;
+import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * The PauseState is pulled up by pausing in game.
@@ -106,10 +106,10 @@ public class PauseState extends GameState {
 			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 			        		
 			        		if (GameStateManager.currentMode == Mode.SINGLE) {
-				        		ps.loadLevel(UnlockLevel.HUB, transitionState.NEWLEVEL, false, "");
+				        		ps.loadLevel(UnlockLevel.HUB, TransitionState.NEWLEVEL, false, "");
 				        	}
 				        	if (GameStateManager.currentMode == Mode.MULTI) {
-				        		ps.loadLevel(UnlockLevel.HUB_MULTI, transitionState.NEWLEVEL, false, "");
+				        		ps.loadLevel(UnlockLevel.HUB_MULTI, TransitionState.NEWLEVEL, false, "");
 				        	}
 	    				}
 			        }

@@ -382,10 +382,9 @@ public class KryoServer {
 	 * This is called when a layer is killed to update score information
 	 * @param perp: player that kills
 	 * @param vic: player that gets killed
-	 * @param lives: Do we care about decrementing lives?
 	 * @return: whether this death was the victim's last life
 	 */
-	public boolean registerKill(Player perp, Player vic, boolean lives) {
+	public boolean registerKill(Player perp, Player vic) {
 		
 		PlayState ps = getPlayState();
 		boolean outOfLives = false;
@@ -401,7 +400,7 @@ public class KryoServer {
 			
 			if (vic.equals(ps.getPlayer())) {
 				scores.get(0).registerDeath();
-				if (lives && scores.get(0).getLives() <= 0) {
+				if (scores.get(0).getLives() <= 0) {
 					outOfLives = true;
 				}
 			}
@@ -412,7 +411,7 @@ public class KryoServer {
 					if (scores.containsKey(conn.getKey())) {
 						scores.get(conn.getKey()).registerDeath();
 						
-						if (lives && scores.get(conn.getKey()).getLives() <= 0) {
+						if (scores.get(conn.getKey()).getLives() <= 0) {
 							outOfLives = true;
 						}
 					}
