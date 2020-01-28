@@ -58,11 +58,13 @@ public class MovingPoint extends Event {
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	
+	
+	private Vector2 dist = new Vector2();
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			if (getConnectedEvent().getBody() != null) {
-				Vector2 dist = getConnectedEvent().getPixelPosition().sub(getPixelPosition());
+				dist.set(getConnectedEvent().getPixelPosition()).sub(getPixelPosition());
 
 				//If this platform is close enough to its connected event, move to the next event in the chain.
 				if ((int)dist.len2() <= 1) {

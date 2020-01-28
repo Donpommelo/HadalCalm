@@ -124,16 +124,6 @@ public class UIHub {
 	
 	public void refreshHub() {
 		switch(type) {
-		case ARMORY:
-			break;
-		case DISPENSARY:
-			break;
-		case DORMITORY:
-			break;
-		case NAVIGATIONS:
-			break;
-		case QUARTERMASTER:
-			break;
 		case RELIQUARY:
 			refreshReliquary();
 			break;

@@ -246,6 +246,10 @@ public class TiledObjectUtil {
 			Vector2 power = new Vector2(object.getProperties().get("currentX", 0.0f, float.class), object.getProperties().get("currentY", 0.0f, float.class));
 			e = new Currents(state, position, size, power);
 		}
+		if (object.getName().equals("Displacer")) {
+			Vector2 power = new Vector2(object.getProperties().get("displaceX", 0.0f, float.class), object.getProperties().get("displaceY", 0.0f, float.class));
+			e = new Displacer(state, position, size, power);
+		}
 		if (object.getName().equals("Spring")) {
 			Vector2 power = new Vector2(object.getProperties().get("springX", 0.0f, float.class), object.getProperties().get("springY", 0.0f, float.class));
 			e = new Spring(state, position, size, power);

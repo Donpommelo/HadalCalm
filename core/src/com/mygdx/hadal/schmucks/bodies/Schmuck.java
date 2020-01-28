@@ -115,11 +115,7 @@ public class Schmuck extends HadalEntity {
 				Constants.BIT_PLAYER, Constants.BIT_WALL, hitboxfilter));
 		
 		rightSensor.setUserData(rightData);
-		
-		//Creates a pad at bottom of player with friction.
-		this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2, -1), new Vector2(size.x - 1, size.y), false, 0, 0, 0, 1,
-				Constants.BIT_PLAYER, (short)(Constants.BIT_WALL), hitboxfilter));
-				
+
 		this.hadalData = bodyData;
 	}
 

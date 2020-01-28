@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
- <objecttype name="Codex" color="#a0a0a4"/>
  <objecttype name="Alttrigger" color="#a0a0a4">
   <property name="message" type="string"/>
   <property name="triggeredId" type="string"/>
@@ -24,6 +23,7 @@
   <property name="triggeringId" type="string"/>
   <property name="zoom" type="float" default="1"/>
  </objecttype>
+ <objecttype name="Codex" color="#a0a0a4"/>
  <objecttype name="Condtrigger" color="#a0a0a4">
   <property name="start" type="string"/>
   <property name="triggeredId" type="string"/>
@@ -55,6 +55,12 @@
   <property name="tag" type="string" default="DISPENSARY"/>
   <property name="title" type="string" default="Dispensary"/>
   <property name="unlock" type="bool" default="true"/>
+ </objecttype>
+ <objecttype name="Displacer" color="#a0a0a4">
+  <property name="displaceX" type="float" default="0"/>
+  <property name="displaceY" type="float" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Dormitory" color="#a0a0a4">
   <property name="tag" type="string" default="DORMITORY"/>
