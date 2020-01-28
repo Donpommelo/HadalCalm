@@ -116,7 +116,7 @@ public class UIHub {
 		tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
 		
 		if (state.getStage() != null) {
-			if (state.getStage().getScrollFocus().equals(options)) {
+			if (state.getStage().getScrollFocus() == options) {
 				state.getStage().setScrollFocus(null);
 			}
 		}
