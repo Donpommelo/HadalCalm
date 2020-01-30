@@ -282,6 +282,11 @@ public class TiledObjectUtil {
 					object.getProperties().get("draw", true, boolean.class), 
 					object.getProperties().get("filter", (short)0, short.class));
 		}
+		if (object.getName().equals("Buzzsaw")) {
+			e = new Buzzsaw(state, position, size, 
+					object.getProperties().get("damage", 0.0f, float.class),
+					object.getProperties().get("filter", (short)0, short.class));
+		}
 		if (object.getName().equals("Save")) {
 			e = new SaveSetter(state, position, size, 
 					object.getProperties().get("zoom", 1.0f, float.class),

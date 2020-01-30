@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="97">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="101">
  <properties>
-  <property name="lives" type="bool" value="false"/>
+  <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="120" height="120">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="74" x="1344" y="2528">
-   <polyline points="0,0 1216,0 1376,160 1760,160 1920,320 2048,320 2048,736 1056,736 896,896 -960,896 -960,640 -576,640 -576,-192 0,-192 0,0"/>
+   <polyline points="0,0 1216,0 1376,160 1760,160 1920,320 2272,320 2272,736 1056,736 896,896 -960,896 -960,640 -576,640 -576,-192 0,-192 0,0"/>
   </object>
   <object id="79" x="1344" y="3008">
    <polyline points="0,0 96,0 96,-128 384,-128 384,-64 480,-64 480,-128 576,-128 576,224 672,224 672,-128 768,-128 768,-224 0,-224 0,0"/>
@@ -108,7 +108,7 @@
     <property name="triggeringId" value="testSpawn"/>
    </properties>
   </object>
-  <object id="37" name="Current" type="Current" x="2752" y="3424" width="224" height="288">
+  <object id="37" name="Current" type="Current" x="3392" y="2848" width="224" height="288">
    <properties>
     <property name="currentX" type="float" value="0"/>
     <property name="currentY" type="float" value="8"/>
@@ -205,7 +205,7 @@
     <property name="yDisplace" type="int" value="7"/>
    </properties>
   </object>
-  <object id="60" name="Poison" type="Poison" x="3168" y="3488" width="256" height="128">
+  <object id="60" name="Poison" type="Poison" x="3360" y="3136" width="256" height="128">
    <properties>
     <property name="damage" type="float" value="1"/>
    </properties>
@@ -326,6 +326,32 @@
    <properties>
     <property name="displaceX" type="float" value="0"/>
     <property name="triggeringId" value="mplat1"/>
+   </properties>
+  </object>
+  <object id="97" name="Buzzsaw" type="Buzzsaw" x="3072" y="3200" width="96" height="96">
+   <properties>
+    <property name="damage" type="float" value="1"/>
+    <property name="triggeredId" value="saw1"/>
+   </properties>
+  </object>
+  <object id="98" name="MovePoint" type="MovePoint" x="3104" y="3232" width="32" height="32">
+   <properties>
+    <property name="connections" value="saw1"/>
+    <property name="speed" type="float" value="5"/>
+    <property name="triggeredId" value="bsaw1"/>
+    <property name="triggeringId" value="dummy3"/>
+   </properties>
+  </object>
+  <object id="99" name="Dummy" type="Dummy" x="3040" y="3232" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy3"/>
+    <property name="triggeringId" value="dummy4"/>
+   </properties>
+  </object>
+  <object id="100" name="Dummy" type="Dummy" x="3296" y="3232" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy4"/>
+    <property name="triggeringId" value="dummy3"/>
    </properties>
   </object>
  </objectgroup>

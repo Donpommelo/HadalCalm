@@ -41,7 +41,7 @@ public class Event extends HadalEntity {
 	
 	//Event sprite and rendering information
 	private Sprite sprite = Sprite.NOTHING;
-	private Animation<TextureRegion> eventSprite;
+	protected Animation<TextureRegion> eventSprite;
 	private int spriteWidth;
 	private int spriteHeight;
 	private float scale = 0.25f;

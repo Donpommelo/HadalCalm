@@ -18,6 +18,12 @@
   <property name="triggeringId" type="string"/>
   <property name="up" type="bool" default="false"/>
  </objecttype>
+ <objecttype name="Buzzsaw" color="#a0a0a4">
+  <property name="damage" type="float" default="0"/>
+  <property name="filter" type="int" default="0"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
  <objecttype name="Camera" color="#a0a0a4">
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
