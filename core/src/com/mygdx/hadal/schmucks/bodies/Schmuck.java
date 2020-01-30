@@ -1,12 +1,10 @@
 package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -49,10 +47,6 @@ public class Schmuck extends HadalEntity {
 	//Counters that keep track of delay between action initiation + action execution and action execution + next action
 	protected float shootCdCount = 0;
 	protected float shootDelayCount = 0;
-	
-	//Keeps track of a schmuck's sprite flashing after receiving damage.
-	protected float shaderCount = 0;
-	protected ShaderProgram shader;
 	
 	//The last used tool. This is used to process equipment with a delay between using and executing.
 	protected Equipable usedTool;
@@ -126,16 +120,12 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void controller(float delta) {
 		
-		//Animate sprites
-		increaseAnimationTime(delta);
-
 		//Apply base hp regen
 		bodyData.regainHp(bodyData.getStat(Stats.HP_REGEN) * delta, bodyData, true, DamageTypes.REGEN);
 		
 		//process cooldowns on firing
-		shootCdCount-=delta;
-		shootDelayCount-=delta;
-		shaderCount-=delta;
+		shootCdCount -= delta;
+		shootDelayCount -= delta;
 		
 		//If the delay on using a tool just ended, use the tool.
 		if (shootDelayCount <= 0 && usedTool != null) {
@@ -145,22 +135,12 @@ public class Schmuck extends HadalEntity {
 		//Process statuses
 		bodyData.statusProcTime(new ProcTime.TimePass(delta));
 	}
-	
-	@Override
-	public void clientController(float delta) {
-		super.clientController(delta);
-		shaderCount-=delta;
-	}
 
 	/**
 	 * Draw the schmuck
 	 */
 	@Override
-	public void render(SpriteBatch batch) {
-		if (shaderCount > 0) {
-			batch.setShader(shader);
-		}
-	}
+	public void render(SpriteBatch batch) {}
 
 	/**
 	 * This method is called when a schmuck wants to use a tool.
@@ -238,16 +218,6 @@ public class Schmuck extends HadalEntity {
 		}
 	}
 	
-	public void setShaderCount(Shader shader, float shaderCount) { 
-		shader.loadShader(state);
-		this.shader = shader.getShader();
-		this.shaderCount = shaderCount;
-		
-		if (state.isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityID.toString(), shader, shaderCount));
-		}
-	}
-	
 	/**
 	 * This returns the location that a spawned projectile should be created. (for the player, we override to make it spawn near the tip of the gun)
 	 * @param startVelo
@@ -279,8 +249,6 @@ public class Schmuck extends HadalEntity {
 	public void setShootCdCount(float shootCdCount) { this.shootCdCount = shootCdCount; }
 
 	public float getShootDelayCount() { return shootDelayCount; }
-	
-	public float getShaderCount() { return shaderCount; }
 	
 	public short getHitboxfilter() { return hitboxfilter; }
 

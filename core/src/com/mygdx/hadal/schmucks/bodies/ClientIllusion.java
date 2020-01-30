@@ -50,7 +50,7 @@ public class ClientIllusion extends HadalEntity {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		
+
 		if (illusionSprite != null) {
 			
 			switch (align) {

@@ -103,9 +103,6 @@ public class Event extends HadalEntity {
 
 	@Override
 	public void controller(float delta) {
-		
-		increaseAnimationTime(delta);
-		
 		if (temporary) {
 			duration -= delta;
 			if (duration <= 0) {

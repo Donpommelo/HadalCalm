@@ -448,7 +448,6 @@ public class Player extends PhysicsSchmuck {
 	private float armRotateXReal;
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
 		
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {
@@ -568,10 +567,6 @@ public class Player extends PhysicsSchmuck {
 				getPixelPosition().y - hbHeight * scale / 2 + headConnectY * scale + yOffset, 
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
-		
-		if (shaderCount > 0) {
-			batch.setShader(null);
-		}
 		
 		//render player ui
 		if (playerData.getCurrentTool().isReloading()) {

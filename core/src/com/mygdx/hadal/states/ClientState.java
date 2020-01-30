@@ -117,16 +117,12 @@ public class ClientState extends PlayState {
 	}
 	
 	@Override
-	public void renderEntities() {
+	public void renderEntities(float delta) {
 		for (HadalEntity hitbox : hitboxes.values()) {
-			if (hitbox.isVisible()) {
-				hitbox.render(batch);
-			}
+			renderEntity(hitbox, delta);
 		}
 		for (HadalEntity schmuck : entities.values()) {
-			if (schmuck.isVisible()) {
-				schmuck.render(batch);
-			}
+			renderEntity(schmuck, delta);
 		}
 	}
 	

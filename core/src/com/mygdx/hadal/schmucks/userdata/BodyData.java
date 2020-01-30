@@ -298,7 +298,7 @@ public class BodyData extends HadalData {
 		
 		//Make shmuck flash upon receiving damage
 		if (damage > 0 && schmuck.getShaderCount() < -flashDuration) {
-			schmuck.setShaderCount(Shader.WHITE, flashDuration);
+			schmuck.setShader(Shader.WHITE, flashDuration);
 			schmuck.impact.onForBurst(0.25f);
 		}
 		

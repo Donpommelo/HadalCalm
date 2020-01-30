@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -28,6 +29,8 @@ public class DestructableBlock extends Event {
 	//psuedo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
+	private final static float flashDuration = 0.1f;
+	
 	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp) {
 		super(state, startPos, size);
 		this.hp = hp;
@@ -46,6 +49,8 @@ public class DestructableBlock extends Event {
 					standardParticle.onForBurst(0.5f);
 				}
 				
+				event.setShader(Shader.WHITE, flashDuration);
+				
 				if (hp <= 0) {
 					event.queueDeletion();
 					
@@ -60,11 +65,11 @@ public class DestructableBlock extends Event {
 				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 	}
-
+	
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
 		setScaleAlign("CENTER_STRETCH");
-		setStandardParticle(Particle.BOULDER_BREAK);
+		setStandardParticle(Particle.IMPACT);
 	}
 }

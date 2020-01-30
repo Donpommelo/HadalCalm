@@ -118,7 +118,6 @@ public class Turret extends Boss {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
 		boolean flip = false;
 		
 		if (Math.abs(angle) > 90) {
@@ -149,10 +148,6 @@ public class Turret extends Boss {
 				getPixelPosition().x - hboxSize.x / 2, 
 				getPixelPosition().y - hboxSize.y / 2, 
 				0, 0, size.x, size.y, 1, 1, 0.0f);	
-		
-		if (shaderCount > 0) {
-			batch.setShader(null);
-		}
 	}
 	
 	private final static float baseDamage = 20.0f;

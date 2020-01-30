@@ -16,12 +16,12 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.*;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.server.PacketEffect;
@@ -32,6 +32,7 @@ import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.states.ResultsState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
+import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
@@ -409,6 +410,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						PickupEquip pickup = new PickupEquip(cs, p.pos, "");
+        						pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
         						cs.addEntity(p.entityID, pickup, ObjectSyncLayers.STANDARD);
             				}
     					});
@@ -648,9 +650,7 @@ public class KryoClient {
 									HadalEntity entity = cs.findEntity(p.entityID);
 		    						
 		    						if (entity != null) {
-		    							if (entity instanceof Schmuck) {
-		    								((Schmuck)entity).setShaderCount(p.shader, p.shaderCount);
-		    							}
+		    							entity.setShader(p.shader, p.shaderCount);
 		    						}
 								}
 							}

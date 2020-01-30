@@ -259,7 +259,7 @@ public class PlayState extends GameState {
 		this.shaderExtra = Shader.NOTHING;
 		if (map.getProperties().get("shader", String.class) != null) {
 			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
-			shaderBase.loadShader(this);
+			shaderBase.loadShader(this, null, 0);
 		}
 		
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
@@ -464,7 +464,7 @@ public class PlayState extends GameState {
 		batch.setProjectionMatrix(sprite.combined);
 		batch.begin();
 		
-		renderEntities();
+		renderEntities(delta);
 		
 		if (shaderBase.getShader() != null) {
 			if (!shaderBase.isBackground()) {
@@ -538,15 +538,29 @@ public class PlayState extends GameState {
 		}
 	}
 	
-	public void renderEntities() {
+	public void renderEntities(float delta) {
 		for (HadalEntity hitbox : hitboxes) {
-			if (hitbox.isVisible()) {
-				hitbox.render(batch);
-			}
+			renderEntity(hitbox, delta);
 		}
 		for (HadalEntity schmuck : entities) {
-			if (schmuck.isVisible()) {
-				schmuck.render(batch);
+			renderEntity(schmuck, delta);
+		}
+	}
+	
+	public void renderEntity(HadalEntity entity, float delta) {
+		
+		entity.decreaseShaderCount(delta);
+		entity.increaseAnimationTime(delta);
+		
+		if (entity.isVisible()) {
+			if (entity.getShaderCount() > 0) {
+				batch.setShader(entity.getShader());
+			}
+			
+			entity.render(batch);
+			
+			if (entity.getShaderCount() > 0) {
+				batch.setShader(null);
 			}
 		}
 	}
@@ -793,11 +807,14 @@ public class PlayState extends GameState {
 				
 				for (int f: HadalGame.server.getScores().keySet()) {
 					if (HadalGame.server.getScores().get(f).isAlive()) {
-						if (factionLeft == -1) {
-							factionLeft = HadalGame.server.getPlayers().get(f).getHitboxfilter();
-						} else {
-							if (factionLeft != HadalGame.server.getPlayers().get(f).getHitboxfilter()) {
-								allded = false;
+						Player playerLeft = HadalGame.server.getPlayers().get(f);
+						if (playerLeft != null) {
+							if (factionLeft == -1) {
+								factionLeft = playerLeft.getHitboxfilter();
+							} else {
+								if (factionLeft != playerLeft.getHitboxfilter()) {
+									allded = false;
+								}
 							}
 						}
 						break;
@@ -923,13 +940,13 @@ public class PlayState extends GameState {
 		for (HadalEntity entity : entities) {
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.sendToTCP(connId, entity.onServerCreate());
+				HadalGame.server.sendToTCP(connId, packet);
 			}
 		}
 		for (HadalEntity entity : hitboxes) {
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.sendToTCP(connId, entity.onServerCreate());
+				HadalGame.server.sendToTCP(connId, packet);
 			}
 		}
 	}
@@ -997,20 +1014,13 @@ public class PlayState extends GameState {
 	
 	public void setShaderBase(Shader shader) {
 		shaderBase = shader;
-		shaderBase.loadShader(this);
-		if (isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(null, shader, 0));
-		}
+		shaderBase.loadShader(this, null, 0);
 	}
 	
 	public void setShaderExtra(Shader shader, float shaderDuration) {
 		shaderExtra = shader;
-		shaderExtra.loadShader(this);
+		shaderExtra.loadShader(this, null, shaderCount);
 		shaderCount = shaderDuration;
-		
-		if (isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(null, shader, shaderCount));
-		}
 	}
 	
 	public boolean isServer() { return server; }

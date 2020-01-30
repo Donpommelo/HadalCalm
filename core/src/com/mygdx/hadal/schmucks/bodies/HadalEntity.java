@@ -10,10 +10,12 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -56,9 +58,12 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	
 	//counter and method to keep up with animation frames
 	protected float animationTime = 0;
-	protected void increaseAnimationTime(float i) { animationTime += i; }
 	protected float getAnimationTime() { return animationTime; }
 	
+	//Keeps track of an entity's shader such as when flashing after receiving damage.
+	protected float shaderCount = 0;
+	protected ShaderProgram shader;
+		
 	//This is the id that clients use to track synchronized entities
 	protected UUID entityID;
 	
@@ -200,9 +205,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
 	 */
-	public void clientController(float delta) {
-		increaseAnimationTime(delta);
-	}
+	public void clientController(float delta) {}
 	
 	/**
 	 * Is this entity on the screen? Used for frustrum culling to avoid rending off-screen entities
@@ -247,6 +250,20 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	public void setStartPos(Vector2 startPos) {	this.startPos = startPos; }
 	
 	public Vector2 getSize() { return size; }
+	
+	public ShaderProgram getShader() { return shader; }
+	
+	public float getShaderCount() { return shaderCount; }
+	
+	public void setShader(Shader shader, float shaderCount) { 
+		shader.loadShader(state, entityID.toString(), shaderCount);
+		this.shader = shader.getShader();
+		this.shaderCount = shaderCount;
+	}
+	
+	public void decreaseShaderCount(float i) { shaderCount -= i; }
+	
+	public void increaseAnimationTime(float i) { animationTime += i; }
 	
 	//Steering utilities
 	public void applySteering(float delta) {

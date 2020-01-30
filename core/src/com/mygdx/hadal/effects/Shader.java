@@ -2,6 +2,8 @@ package com.mygdx.hadal.effects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 import com.mygdx.hadal.strategies.shader.*;
@@ -30,7 +32,7 @@ public enum Shader {
 		this.background = background;
 	}
 	
-	public void loadShader(PlayState state) {
+	public void loadShader(PlayState state, String entityId, float duration) {
 		
 		if (this.equals(NOTHING)) {
 			return;
@@ -44,6 +46,10 @@ public enum Shader {
 		}
 		
 		shader.end();
+		
+		if (state.isServer()) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityId, this, duration));
+		}
 	}
 	
 	public void shaderUpdate(PlayState state, float delta) {

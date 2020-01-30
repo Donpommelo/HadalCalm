@@ -403,6 +403,7 @@ public class Packets {
 	public static class CreatePickup {
 		public String entityID;
         public Vector2 pos;
+        public String newPickup;
         public CreatePickup() {}
         
         /**
@@ -412,9 +413,10 @@ public class Packets {
 		 * @param entityID: ID of the new Pickup.
 		 * @param pos: position of the new Pickup
          */
-		public CreatePickup(String entityID, Vector2 pos) {
+		public CreatePickup(String entityID, Vector2 pos, String newPickup) {
 			this.entityID = entityID;
             this.pos = pos;
+            this.newPickup = newPickup;
 		}
 	}
 	

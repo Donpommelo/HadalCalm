@@ -83,7 +83,6 @@ public class BossFloating extends Boss {
 	 */
 	@Override
 	public void render(SpriteBatch batch) {
-		super.render(batch);
 		
 		boolean flip = false;
 		double realAngle = getOrientation() % (Math.PI * 2);
@@ -98,10 +97,6 @@ public class BossFloating extends Boss {
 				(flip ? -1 : 1) * hboxSize.x / 2,
 				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
-
-		if (shaderCount > 0) {
-			batch.setShader(null);
-		}
 	}
 	
 	@Override

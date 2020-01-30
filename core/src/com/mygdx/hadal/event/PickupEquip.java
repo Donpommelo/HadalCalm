@@ -96,7 +96,7 @@ public class PickupEquip extends Event {
 	
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePickup(entityID.toString(), getPixelPosition());
+		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString());
 	}
 	
 	@Override

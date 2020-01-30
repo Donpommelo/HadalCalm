@@ -140,8 +140,6 @@ public class Hitbox extends HadalEntity {
 	 */
 	public void controller(float delta) {
 		
-		increaseAnimationTime(delta);
-		
 		for (HitboxStrategy s : add) {
 			strategies.add(s);
 			s.create();
