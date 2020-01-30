@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="101">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="104">
  <properties>
   <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
@@ -240,7 +240,7 @@
     <property name="triggeringId" value="hp1"/>
    </properties>
   </object>
-  <object id="70" name="Platform" type="Platform" x="2816" y="2976" width="288" height="32">
+  <object id="70" name="Platform" type="Platform" x="2752" y="2976" width="416" height="32">
    <properties>
     <property name="event" type="bool" value="false"/>
     <property name="friction" type="float" value="0"/>
@@ -250,19 +250,19 @@
   </object>
   <object id="71" name="MovePoint" type="MovePoint" x="2944" y="2976" width="32" height="32">
    <properties>
-    <property name="connections" value="mplat1"/>
+    <property name="connections" value="mplat1,prefabMove1,prefabMove2,prefabMove3"/>
     <property name="speed" type="float" value="7.5"/>
     <property name="triggeredId" value="m1"/>
     <property name="triggeringId" value="dummy1"/>
    </properties>
   </object>
-  <object id="72" name="Dummy" type="Dummy" x="3232" y="2976" width="32" height="32">
+  <object id="72" name="Dummy" type="Dummy" x="3360" y="2976" width="32" height="32">
    <properties>
     <property name="triggeredId" value="dummy1"/>
     <property name="triggeringId" value="dummy2"/>
    </properties>
   </object>
-  <object id="73" name="Dummy" type="Dummy" x="2144" y="2976" width="32" height="32">
+  <object id="73" name="Dummy" type="Dummy" x="2208" y="2976" width="32" height="32">
    <properties>
     <property name="triggeredId" value="dummy2"/>
     <property name="triggeringId" value="dummy1"/>
@@ -322,7 +322,7 @@
     <property name="text" value="WEAPONS"/>
    </properties>
   </object>
-  <object id="95" name="Displacer" type="Displacer" x="2816" y="2968" width="288" height="8">
+  <object id="95" name="Displacer" type="Displacer" x="2752" y="2968" width="416" height="8">
    <properties>
     <property name="displaceX" type="float" value="0"/>
     <property name="triggeringId" value="mplat1"/>
@@ -352,6 +352,28 @@
    <properties>
     <property name="triggeredId" value="dummy4"/>
     <property name="triggeringId" value="dummy3"/>
+   </properties>
+  </object>
+  <object id="101" name="Prefab" type="Prefab" x="2752" y="2880" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeredId" value="prefabMove1"/>
+    <property name="triggeringId" value="prefabMove2"/>
+   </properties>
+  </object>
+  <object id="102" name="Prefab" type="Prefab" x="3072" y="2880" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivateOnce"/>
+    <property name="triggeredId" value="prefabMove3"/>
+    <property name="triggeringId" value="prefabMove2"/>
+   </properties>
+  </object>
+  <object id="103" name="Prefab" type="Prefab" x="2912" y="2880" width="96" height="96">
+   <properties>
+    <property name="power" type="float" value="100"/>
+    <property name="prefabId" value="SpawnerTriggered"/>
+    <property name="triggeredId" value="prefabMove2"/>
+    <property name="type" type="int" value="1"/>
    </properties>
   </object>
  </objectgroup>

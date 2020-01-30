@@ -168,9 +168,9 @@ public class PlayState extends GameState {
 	protected Shader shaderBase, shaderExtra;
 	protected float shaderCount;
 	
-	private final static float defaultTransitionDelay = 0.5f;
-	private final static float defaultFadeInSpeed = -0.015f;
-	private final static float defaultFadeOutSpeed = 0.015f;
+	private final static float defaultTransitionDelay = 0.25f;
+	private final static float defaultFadeInSpeed = -0.02f;
+	private final static float defaultFadeOutSpeed = 0.02f;
 	
 	//This is the amount of time between transition called for and fading actually beginning.
 	protected float fadeInitialDelay = defaultTransitionDelay;
@@ -478,9 +478,22 @@ public class PlayState extends GameState {
 		if (fadeLevel > 0) {
 			batch.setProjectionMatrix(hud.combined);
 			batch.begin();
+			
+			if (shaderExtra.getShader() != null) {
+				shaderExtra.getShader().begin();
+				shaderExtra.shaderUpdate(this, timer);
+				shaderExtra.getShader().end();
+				batch.setShader(shaderExtra.getShader());
+			}
+			
 			batch.setColor(1f, 1f, 1f, fadeLevel);
 			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 			batch.setColor(1f, 1f, 1f, 1);
+			
+			if (shaderExtra.getShader() != null) {
+				batch.setShader(null);
+			}
+			
 			batch.end();
 		}
 	}	
@@ -533,7 +546,7 @@ public class PlayState extends GameState {
 		if (shaderCount > 0) {
 			shaderCount -= delta;
 			if (shaderCount <= 0) {
-				shaderExtra = null;
+				shaderExtra = Shader.NOTHING;
 			}
 		}
 	}
@@ -883,7 +896,6 @@ public class PlayState extends GameState {
 	 * @param override: Does this transition override other transitions?
 	 */
 	public void beginTransition(TransitionState state, boolean override, String resultsText) {
-
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (nextState == null || override) {
 			this.resultsText = resultsText;
@@ -1019,7 +1031,7 @@ public class PlayState extends GameState {
 	
 	public void setShaderExtra(Shader shader, float shaderDuration) {
 		shaderExtra = shader;
-		shaderExtra.loadShader(this, null, shaderCount);
+		shaderExtra.loadShader(this, null, shaderDuration);
 		shaderCount = shaderDuration;
 	}
 	

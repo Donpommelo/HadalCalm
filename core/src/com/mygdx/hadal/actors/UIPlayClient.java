@@ -1,5 +1,6 @@
 package com.mygdx.hadal.actors;
 
+import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -30,18 +31,25 @@ public class UIPlayClient extends UIPlay {
 	
 	@Override
 	public void calcVars() {
+		
 		//Calc the ratios needed to draw the bars
 		hpRatio = player.getPlayerData().getOverrideHpPercent();
 		hpMax = overrideMaxHp;
 		fuelRatio = overrideFuelPercent;
 		fuelCutoffRatio = overrideAirblastCost / overrideMaxFuel;
-		weaponText = overrideClipLeft + "/" + overrideClipSize;
-		ammoText = overrideAmmoSize + "";
 		numWeaponSlots = overrideWeaponSlots;
 		activePercent = overrideActivePercent;
 		
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = overrideBossHpPercent;
+		}
+		
+		if (player.getPlayerData().getCurrentTool() instanceof RangedWeapon) {
+			weaponText = overrideClipLeft + "/" + overrideClipSize;
+			ammoText = overrideAmmoSize + "";
+		} else {
+			weaponText = "";
+			ammoText = "";
 		}
 	}
 	

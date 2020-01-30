@@ -568,57 +568,56 @@ public class Player extends PhysicsSchmuck {
 				0, 0,
 				(flip ? -1 : 1) * headWidth * scale, headHeight * scale, 1, 1, 0);
 		
+		float textX = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
+		float textY = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
+		
 		//render player ui
 		if (playerData.getCurrentTool().isReloading()) {
-			
-			float x = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
-			float y = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
 			
 			//Calculate reload progress
 			float percent = getReloadPercent();
 			
-			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * uiScale * percent, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "RELOADING", x + 12, y + reload.getRegionHeight() * uiScale);
-			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * percent, reloadBar.getRegionHeight() * uiScale);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "RELOADING", textX + 12, textY + reload.getRegionHeight() * uiScale);
+			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 		}
 		
 		if (playerData.getCurrentTool().isCharging()) {
 			
-			float x = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
-			float y = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
-			
 			//Calculate charge progress
-			batch.draw(reloadBar, x + 10, y + 4, reloadBar.getRegionWidth() * uiScale * chargePercent, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "CHARGING", x + 12, y + reload.getRegionHeight() * uiScale);
-			batch.draw(reloadMeter, x, y, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * chargePercent, reloadBar.getRegionHeight() * uiScale);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "CHARGING", textX + 12, textY + reload.getRegionHeight() * uiScale);
+			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 		}
 		
-		if (playerData.getCurrentTool().isOutofAmmo()) {
-			
-			float x = getPixelPosition().x - reload.getRegionWidth() * uiScale / 2;
-			float y = getPixelPosition().y + reload.getRegionHeight() * uiScale + Player.hbHeight * scale / 2;
-			
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", x + 12, y + reload.getRegionHeight() * uiScale);
-		}
+		
 		
 		//This draws a heart by the player's sprite to indicate hp remaining
-		float x = getPixelPosition().x - Player.hbWidth * scale - empty.getWidth() * uiScale + 10;
-		float y = getPixelPosition().y + Player.hbHeight * scale / 2 - 5;
+		float heartX = getPixelPosition().x - Player.hbWidth * scale - empty.getWidth() * uiScale + 10;
+		float heartY = getPixelPosition().y + Player.hbHeight * scale / 2 - 5;
 		
 		float hpRatio = 0.0f;
 		
 		if (state.isServer()) {
 			hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
+			
+			if (playerData.getCurrentTool().isOutofAmmo()) {
+				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
+			}
 		} else {
 			hpRatio = playerData.getOverrideHpPercent();
+			
+			if (playerData.isOverrideOutOfAmmo()) {
+				HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "OUT OF AMMO", textX + 12, textY + reload.getRegionHeight() * uiScale);
+			}
 		}
 		
-		batch.draw(empty, x - empty.getWidth() / 2 * uiScale, y - empty.getHeight() / 2 * uiScale,
+		batch.draw(empty, heartX - empty.getWidth() / 2 * uiScale, heartY - empty.getHeight() / 2 * uiScale,
                 empty.getWidth() / 2, empty.getHeight() / 2,
                 empty.getWidth(), empty.getHeight(),
                 uiScale, uiScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
 
-        batch.draw(full, x - full.getWidth() / 2 * uiScale, y - full.getHeight() / 2 * uiScale - (int)(full.getHeight() * (1 - hpRatio) * uiScale),
+        batch.draw(full, heartX - full.getWidth() / 2 * uiScale, heartY - full.getHeight() / 2 * uiScale - (int)(full.getHeight() * (1 - hpRatio) * uiScale),
                 full.getWidth() / 2, full.getHeight() / 2,
                 full.getWidth(), full.getHeight(),
                 uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
@@ -669,6 +668,14 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	@Override
+	public void dispose() {
+		super.dispose();
+		
+		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
+		playerData.setOverrideHpPercent(0);
+	}
+	
 	/**
 	 * This is called by the server when the player is created. Sends a packet to clients to instruct them to build a new player
 	 * with the desired name and loadout
@@ -688,7 +695,7 @@ public class Player extends PhysicsSchmuck {
 		
 		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float)(Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
 				playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP), grounded, playerData.getCurrentSlot(), 
-				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent));
+				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo()));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(), playerData.getActiveItem().chargePercent()));
@@ -712,6 +719,7 @@ public class Player extends PhysicsSchmuck {
 			reloadPercent = p.reloadPercent;
 			playerData.getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;
+			playerData.setOverrideOutOfAmmo(p.outOfAmmo);
 		} else {
 			super.onClientSync(o);
 		}

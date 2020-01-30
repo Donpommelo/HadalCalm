@@ -64,6 +64,7 @@ public class PlayerBodyData extends BodyData {
 
 	//This is used by clients to display each player's hp percent in the ui and artifact slots in hub
 	private float overrideHpPercent, overrideArtifactSlots;
+	private boolean overrideOutOfAmmo;
 	
 	public PlayerBodyData(Player body, Loadout loadout) {
 		super(body, baseHp);
@@ -630,4 +631,10 @@ public class PlayerBodyData extends BodyData {
 	public float getOverrideArtifactSlots() { return overrideArtifactSlots; }
 
 	public void setOverrideArtifactSlots(float overrideArtifactSlots) {	this.overrideArtifactSlots = overrideArtifactSlots;	}
+
+	public boolean isOverrideOutOfAmmo() { return overrideOutOfAmmo; }
+
+	public void setOverrideOutOfAmmo(boolean overrideOutOfAmmo) { this.overrideOutOfAmmo = overrideOutOfAmmo; }
+	
+	
 }

@@ -126,8 +126,8 @@ public abstract class Equipable {
 	 * Get the string representing the weapon in the ui.
 	 * @return
 	 */
-	public String getText() { return "";	}
-
+	public String getText() { return ""; }
+	
 	public boolean isOutofAmmo() { return false; }
 	
 	/**

@@ -541,6 +541,7 @@ public class Packets {
         public float reloadPercent;
         public boolean charging;
         public float chargePercent;
+        public boolean outOfAmmo;
         
 		public SyncPlayerAll() {}
 		
@@ -549,7 +550,7 @@ public class Packets {
 		 * This packet (and similar packets) just tell the client how to change their version of each Player.
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
-		public SyncPlayerAll(String entityID, float a, float hpPercent, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent) {
+		public SyncPlayerAll(String entityID, float a, float hpPercent, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo) {
             this.entityID = entityID;
             this.attackAngle = a;
             this.hpPercent = hpPercent;
@@ -560,6 +561,7 @@ public class Packets {
             this.reloadPercent = reloadPercent;
             this.charging = charging;
             this.chargePercent = chargePercent;
+            this.outOfAmmo = outOfAmmo;
         }
 	}
 	
