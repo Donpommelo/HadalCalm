@@ -1,5 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
+import java.util.ArrayList;
+
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -28,4 +30,6 @@ public abstract class Prefabrication {
 	 * This is run when the prefab is read.
 	 */
 	public abstract void generateParts();
+	
+	public ArrayList<String> getConnectedEvents() { return new ArrayList<String>(); };
 }

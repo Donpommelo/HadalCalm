@@ -1,5 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -13,6 +15,8 @@ public class SpawnerPickupTriggered extends Prefabrication {
 
 	//The id of the event that triggers this
 	private String triggeredId;
+	
+	private String pickupId, spawnerId;
 	
 	//How long does it take before the pickup spawns? How much fuel/hp does the pickup regenerate
 	private float power;
@@ -29,8 +33,10 @@ public class SpawnerPickupTriggered extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		String pickupId = TiledObjectUtil.getPrefabTriggerId();
-		String spawnerId = TiledObjectUtil.getPrefabTriggerId();
+		
+		pickupId = TiledObjectUtil.getPrefabTriggerId();
+		spawnerId = TiledObjectUtil.getPrefabTriggerId();
+		
 		String onTouchId = TiledObjectUtil.getPrefabTriggerId();
 		String pickupBackId = TiledObjectUtil.getPrefabTriggerId();
 		String pickupEffectId = TiledObjectUtil.getPrefabTriggerId();
@@ -110,5 +116,13 @@ public class SpawnerPickupTriggered extends Prefabrication {
 		TiledObjectUtil.parseTiledEvent(state, use);
 		TiledObjectUtil.parseTiledEvent(state, pickupParticle);
 		TiledObjectUtil.parseTiledEvent(state, effectParticle);
+	}
+	
+	@Override
+	public ArrayList<String> getConnectedEvents() {
+		ArrayList<String> events = new ArrayList<String>();
+		events.add(pickupId);
+		events.add(spawnerId);
+		return events;
 	}
 }

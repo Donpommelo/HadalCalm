@@ -1,5 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -13,6 +15,8 @@ public class LeverActivate extends Prefabrication {
 
 	private String triggeringId;
 	
+	private String baseId, leverId;
+	
 	public LeverActivate(PlayState state, int width, int height, int x, int y, String triggeringId) {
 		super(state, width, height, x , y);
 		this.triggeringId = triggeringId;
@@ -21,7 +25,8 @@ public class LeverActivate extends Prefabrication {
 	@Override
 	public void generateParts() {
 		
-		String leverId = TiledObjectUtil.getPrefabTriggerId();
+		baseId = TiledObjectUtil.getPrefabTriggerId();
+		leverId = TiledObjectUtil.getPrefabTriggerId();
 		String multiId = TiledObjectUtil.getPrefabTriggerId();
 		String spriteId1 = TiledObjectUtil.getPrefabTriggerId();
 
@@ -31,6 +36,7 @@ public class LeverActivate extends Prefabrication {
 		base.getProperties().put("align", "CENTER_BOTTOM");
 		base.getProperties().put("sync", "ALL");
 		base.getProperties().put("sprite", "BASE_GREEN");
+		base.getProperties().put("triggeredId", baseId);
 		
 		RectangleMapObject lever = new RectangleMapObject();
 		lever.getRectangle().set(x, y, width, height);
@@ -64,5 +70,13 @@ public class LeverActivate extends Prefabrication {
 		TiledObjectUtil.parseTiledEvent(state, base);
 		TiledObjectUtil.parseTiledEvent(state, use);
 		TiledObjectUtil.parseTiledEvent(state, sprite1);
+	}
+	
+	@Override
+	public ArrayList<String> getConnectedEvents() {
+		ArrayList<String> events = new ArrayList<String>();
+		events.add(baseId);
+		events.add(leverId);
+		return events;
 	}
 }

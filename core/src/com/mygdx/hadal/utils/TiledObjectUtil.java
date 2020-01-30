@@ -64,7 +64,8 @@ public class TiledObjectUtil {
     static Map<TriggerMulti, String> multiTriggeringEvents = new HashMap<TriggerMulti, String>();
     static Map<TriggerCond, String> condTriggeringEvents = new HashMap<TriggerCond, String>();
     static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
-    static Map<MovingPoint, String> platformConnections = new HashMap<MovingPoint, String>();
+    static Map<MovingPoint, String> movePointConnections = new HashMap<MovingPoint, String>();
+    static Map<String, Prefabrication> prefabrications = new HashMap<String, Prefabrication>();
 
     /**
      * Parses Tiled objects into in game events
@@ -296,7 +297,7 @@ public class TiledObjectUtil {
 			e = new MovingPoint(state, position, size, 
 					object.getProperties().get("speed", 1.0f, float.class),
 					object.getProperties().get("pause", false, boolean.class));
-			platformConnections.put((MovingPoint)e, object.getProperties().get("connections", "", String.class));
+			movePointConnections.put((MovingPoint)e, object.getProperties().get("connections", "", String.class));
 		}
 		if (object.getName().equals("Platform")) {
 			e = new Platform(state, position, size, 
@@ -370,20 +371,13 @@ public class TiledObjectUtil {
 					e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));
 				}
 			}
-			if (object.getProperties().get("scale", float.class) != null) {
-				e.setScale(object.getProperties().get("scale", float.class));
-			}
-			if (object.getProperties().get("align", int.class) != null) {
-				e.setScaleAlign(object.getProperties().get("align", String.class));
-			}
 			
-			if (object.getProperties().get("sync", String.class) != null) {
-				e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", "ILLUSION", String.class)));
-			}
+			e.setScale(object.getProperties().get("scale", 0.25f, float.class));
+			e.setScaleAlign(object.getProperties().get("align", "CENTER_BOTTOM", String.class));
+			e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", "ILLUSION", String.class)));
+			e.setSynced(object.getProperties().get("synced", false, boolean.class));
+			e.setGravity(object.getProperties().get("gravity", 0.0f, float.class));
 			
-			if (object.getProperties().get("synced", boolean.class) != null) {
-				e.setSynced(object.getProperties().get("synced", boolean.class));
-			}
 			if (object.getProperties().get("particle_amb", String.class) != null) {
 				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)));
 			}
@@ -394,8 +388,6 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("default", true, Boolean.class)) {
 				e.loadDefaultProperties();
 			}
-			
-			e.setGravity(object.getProperties().get("gravity", 0.0f, float.class));
 			
 			e.setBlueprint(object);
 		}
@@ -474,6 +466,8 @@ public class TiledObjectUtil {
     	if (p != null) {
         	p.generateParts();
     	}
+    	
+    	prefabrications.put(object.getProperties().get("triggeredId", "", String.class), p);
     }
     
     /*
@@ -529,10 +523,17 @@ public class TiledObjectUtil {
         		key.setBlame(triggeredEvents.getOrDefault(redirectTriggeringEvents.get(key), null));
     		}
     	}
-    	for (MovingPoint key : platformConnections.keySet()) {
-    		for (String id : platformConnections.get(key).split(",")) {
+    	for (MovingPoint key : movePointConnections.keySet()) {
+    		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("")) {
         			key.addConnection(triggeredEvents.getOrDefault(id, null));
+        			
+        			Prefabrication prefab = prefabrications.getOrDefault(id, null);
+        			if (prefab != null) {
+        				for (String e: prefab.getConnectedEvents()) {
+        					key.addConnection(triggeredEvents.getOrDefault(e, null));
+        				}
+        			}
     			}
     		}
     	}    
@@ -567,6 +568,13 @@ public class TiledObjectUtil {
 				key.addTrigger(triggeredId, e);
 			}
     	}
+    	for (MovingPoint key : movePointConnections.keySet()) {
+    		for (String id : movePointConnections.get(key).split(",")) {
+    			if (!id.equals("") && id.equals(triggeredId)) {
+        			key.addConnection(e);
+    			}
+    		}
+    	}   
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
     
@@ -591,7 +599,8 @@ public class TiledObjectUtil {
     	multiTriggeringEvents.clear();
     	condTriggeringEvents.clear();
     	redirectTriggeringEvents.clear();
-    	platformConnections.clear();
+    	movePointConnections.clear();
+    	prefabrications.clear();
     }
     
     /**
