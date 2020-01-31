@@ -769,16 +769,23 @@ public class PlayState extends GameState {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 		
+		//for pvp matches, set loadout depending on pvp settings
 		if (pvp && !hub) {
 			switch(gsm.getRecord().getLoadoutType()) {
+			
+			//default setting: each player starts with a basic weapon
 			case 0:
 				newLoadout.multitools[0] = UnlockEquip.SPEARGUN;
 				for (int i = 1; i < Loadout.maxWeaponSlots; i++) {
 					newLoadout.multitools[i] = UnlockEquip.NOTHING;
 				}
 				break;
+				
+			//select setting: each player starts with the weapons they selected in the hub
 			case 1:
 				break;
+				
+			//random setting: each player starts with random weapons
 			case 2:
 				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 					newLoadout.multitools[i] = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(this, ""));
@@ -787,6 +794,7 @@ public class PlayState extends GameState {
 			}
 		}
 		
+		//some maps specify a specific loadout. Load these, if so (and override other loadout settings)
 		if (mapMultitools != null) {
 			for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 				if (mapMultitools.length > i) {
@@ -830,6 +838,8 @@ public class PlayState extends GameState {
 			
 			//check if all players are out
 			boolean allded = true;
+			
+			//in pvp, game ends if all players left are on the same team
 			if (pvp) {
 				
 				short factionLeft = -1;
@@ -850,6 +860,8 @@ public class PlayState extends GameState {
 					}
 				}
 			} else {
+				
+				//coop levels end when all players are dead
 				for (SavedPlayerFields f: HadalGame.server.getScores().values()) {
 					if (f.isAlive()) {
 						allded = false;

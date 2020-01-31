@@ -16,6 +16,7 @@ public enum UnlockLevel {
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
 	SANDBOX("Maps/sandbox.tmx"),
+	SAWMILL("Maps/Sawmill.tmx"),
 	
 	;
 	private String map;
