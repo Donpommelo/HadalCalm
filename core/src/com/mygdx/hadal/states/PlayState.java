@@ -146,11 +146,8 @@ public class PlayState extends GameState {
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private HashMap<String, PositionDummy> dummyPoints;
 	
-	//Can players hurt each other? 
-	protected boolean pvp;
-	
-	//Is this playstate the server?
-	protected boolean server;
+	//Can players hurt each other? Is it the hub map? Is this the server?
+	protected boolean pvp, hub, server;
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -251,6 +248,7 @@ public class PlayState extends GameState {
 
 		//Get map settings from the collision layer of the map
 		this.pvp = map.getProperties().get("pvp", false, Boolean.class);
+		this.hub = map.getProperties().get("hub", false, Boolean.class);
 		this.unlimitedLife = map.getProperties().get("lives", false, boolean.class);
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
@@ -771,6 +769,24 @@ public class PlayState extends GameState {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 		
+		if (pvp && !hub) {
+			switch(gsm.getRecord().getLoadoutType()) {
+			case 0:
+				newLoadout.multitools[0] = UnlockEquip.SPEARGUN;
+				for (int i = 1; i < Loadout.maxWeaponSlots; i++) {
+					newLoadout.multitools[i] = UnlockEquip.NOTHING;
+				}
+				break;
+			case 1:
+				break;
+			case 2:
+				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+					newLoadout.multitools[i] = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(this, ""));
+				}
+				break;
+			}
+		}
+		
 		if (mapMultitools != null) {
 			for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 				if (mapMultitools.length > i) {
@@ -1040,7 +1056,9 @@ public class PlayState extends GameState {
 	public boolean isReset() { return reset; }
 	
 	public boolean isPvp() { return pvp; }
-
+	
+	public boolean isHub() { return hub; }
+	
 	public boolean isUnlimitedLife() {return unlimitedLife; }
 	
 	public void setUnlimitedLife(boolean lives) { this.unlimitedLife = lives; }

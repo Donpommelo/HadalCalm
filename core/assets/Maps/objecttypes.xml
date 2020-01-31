@@ -280,6 +280,7 @@
   <property name="unlock" type="bool" default="false"/>
  </objecttype>
  <objecttype name="Warp" color="#a0a0a4">
+  <property name="instant" type="bool" default="true"/>
   <property name="level" type="string"/>
   <property name="reset" type="bool" default="false"/>
   <property name="startId" type="string"/>

@@ -247,7 +247,7 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Activate on-spawn effects
-		if (reset) {
+		if (reset && !state.isHub()) {
 			playerData.statusProcTime(new ProcTime.PlayerCreate());
 		}
 	}

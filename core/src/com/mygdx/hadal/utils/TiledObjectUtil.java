@@ -275,6 +275,7 @@ public class TiledObjectUtil {
 			e = new LevelWarp(state,
 					object.getProperties().get("level", String.class), 
 					object.getProperties().get("reset", false, Boolean.class), 
+					object.getProperties().get("instant", true, Boolean.class), 
 					object.getProperties().get("startId", "", String.class));
 		}
 		if (object.getName().equals("Poison")) {

@@ -21,6 +21,9 @@ public class Record {
 	
 	//How many lives should players have in pvp? (this variable is an index in an array. 0 = infinite, 1 = 1 life, 2 = 2 lives ... etc)
 	private int lives;
+	
+	//for pvp, how should we give new players loadout? (this variable is an index in an array. 0 = start with default, 1 = start with chosen, 2 = start with random)
+	private int loadoutType;
 		
 	//This is the player's current loadout that they will start with
 	private String[] equips;
@@ -63,6 +66,11 @@ public class Record {
 	
 	public void setLives(int lives) {
 		this.lives = lives;
+		saveRecord();
+	}
+	
+	public void setLoadoutType(int loadoutType) {
+		this.loadoutType = loadoutType;
 		saveRecord();
 	}
 	
@@ -167,6 +175,8 @@ public class Record {
 	public int getTimer() { return timer; }
 	
 	public int getLives() { return lives; }
+	
+	public int getLoadoutType() { return loadoutType; }
 	
 	public Map<String, Integer> getHiScores() {	return hiScores; }
 
