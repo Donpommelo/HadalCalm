@@ -48,8 +48,15 @@ SANDBOX: {
 		NAVIGATIONS,
 	]
 }
-SAWMILL: {
-	name: SAWMILL
+DM_SAWMILL: {
+	name: DM_SAWMILL
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
+DM_CAROUSEL: {
+	name: DM_CAROUSEL
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

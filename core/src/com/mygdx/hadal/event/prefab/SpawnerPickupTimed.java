@@ -1,5 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -14,6 +16,8 @@ public class SpawnerPickupTimed extends Prefabrication {
 	//How long does it take before the pickup spawns? How much fuel/hp does the pickup regenerate
 	private float interval, power;
 	
+	private String pickupId, spawnerId;
+	
 	//0 = fuel. 1 = Hp
 	private int type;
 	
@@ -27,8 +31,9 @@ public class SpawnerPickupTimed extends Prefabrication {
 	@Override
 	public void generateParts() {
 		
-		String pickupId = TiledObjectUtil.getPrefabTriggerId();
-		String spawnerId = TiledObjectUtil.getPrefabTriggerId();
+		pickupId = TiledObjectUtil.getPrefabTriggerId();
+		spawnerId = TiledObjectUtil.getPrefabTriggerId();
+		
 		String onTouchId = TiledObjectUtil.getPrefabTriggerId();
 		String timerId = TiledObjectUtil.getPrefabTriggerId();
 		String respawnId = TiledObjectUtil.getPrefabTriggerId();
@@ -48,7 +53,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 		spawner.getProperties().put("triggeringId", pickupId);
 		
 		RectangleMapObject back = new RectangleMapObject();
-		back.getRectangle().set(0, 0, width, height);
+		back.getRectangle().set(-1000, -1000, width, height);
 		back.setName("EventMove");
 		back.getProperties().put("triggeredId", pickupBackId);
 		back.getProperties().put("triggeringId", pickupId);
@@ -65,7 +70,7 @@ public class SpawnerPickupTimed extends Prefabrication {
 		respawn.getProperties().put("triggeringId", spawnerId + "," + timerId+ "," + effectParticleId);
 		
 		RectangleMapObject pickup = new RectangleMapObject();
-		pickup.getRectangle().set(0, 0, width, height);
+		pickup.getRectangle().set(-1000, -1000, width, height);
 		pickup.setName("Sensor");
 		pickup.getProperties().put("align", "CENTER_BOTTOM");
 		pickup.getProperties().put("sync", "SERVER");
@@ -117,5 +122,13 @@ public class SpawnerPickupTimed extends Prefabrication {
 		TiledObjectUtil.parseTiledEvent(state, use);
 		TiledObjectUtil.parseTiledEvent(state, pickupParticle);
 		TiledObjectUtil.parseTiledEvent(state, effectParticle);
+	}
+	
+	@Override
+	public ArrayList<String> getConnectedEvents() {
+		ArrayList<String> events = new ArrayList<String>();
+		events.add(pickupId);
+		events.add(spawnerId);
+		return events;
 	}
 }

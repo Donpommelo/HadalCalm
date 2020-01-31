@@ -36,9 +36,6 @@ public class Record {
 	//This is a map of the player's quest flags
 	private Map<String, Integer> flags;
 	
-	//This is a map of the player's high scores for each map
-	private Map<String, Integer> hiScores;	
-	
 	//This is a map of the player's unlocks
 	private Map<String, Boolean> unlockEquip;
 	private Map<String, Boolean> unlockArtifact;
@@ -75,22 +72,6 @@ public class Record {
 	}
 	
 	/**
-	 * This updates a player's high score for a level
-	 * @param score: the new score
-	 * @param level: the level
-	 * @return: was the new score a high score?
-	 */
-	public boolean updateScore(int score, UnlockLevel level) {
-		if (score > hiScores.get(level.toString())) {
-			hiScores.put(level.toString(), score);
-			
-			saveRecord();
-			return true;
-		}
-		return false;
-	}
-	
-	/**
 	 * This simple saves the record in a designated file
 	 */
 	public void saveRecord() {
@@ -119,7 +100,6 @@ public class Record {
 		newRecord.unlockActive = new HashMap<String, Boolean>();
 		newRecord.unlockCharacter = new HashMap<String, Boolean>();
 		newRecord.unlockLevel = new HashMap<String, Boolean>();
-		newRecord.hiScores = new HashMap<String, Integer>();
 		
 		for (UnlockEquip equip: UnlockEquip.values()) {
 			newRecord.unlockEquip.put(equip.toString(), true);
@@ -139,7 +119,6 @@ public class Record {
 		
 		for (UnlockLevel level: UnlockLevel.values()) {
 			newRecord.unlockLevel.put(level.toString(), true);
-			newRecord.hiScores.put(level.toString(), 0);
 		}
 		
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
@@ -178,8 +157,6 @@ public class Record {
 	
 	public int getLoadoutType() { return loadoutType; }
 	
-	public Map<String, Integer> getHiScores() {	return hiScores; }
-
 	public Map<String, Integer> getFlags() { return flags; }
 
 	public String[] getEquips() {return equips;}

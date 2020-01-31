@@ -54,7 +54,7 @@ public class SpawnerPickupTriggered extends Prefabrication {
 		spawner.getProperties().put("triggeringId", pickupId);
 		
 		RectangleMapObject back = new RectangleMapObject();
-		back.getRectangle().set(0, 0, width, height);
+		back.getRectangle().set(-1000, -1000, width, height);
 		back.setName("EventMove");
 		back.getProperties().put("triggeredId", pickupBackId);
 		back.getProperties().put("triggeringId", pickupId);
@@ -65,7 +65,7 @@ public class SpawnerPickupTriggered extends Prefabrication {
 		respawn.getProperties().put("triggeringId", spawnerId + "," + effectParticleId);
 		
 		RectangleMapObject pickup = new RectangleMapObject();
-		pickup.getRectangle().set(0, 0, width, height);
+		pickup.getRectangle().set(-1000, -1000, width, height);
 		pickup.setName("Sensor");
 		pickup.getProperties().put("align", "CENTER_BOTTOM");
 		pickup.getProperties().put("sync", "SERVER");

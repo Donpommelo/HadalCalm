@@ -84,7 +84,7 @@ public class Displacer extends Event {
 				newOffset.set(getConnectedEvent().getBody().getPosition()).sub(offset).sub(getBody().getPosition());
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
-					entity.setTransform(entity.getPosition().add(newOffset), entity.getBody().getAngle());
+					entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getBody().getAngle());
 				}
 
 				setTransform(getConnectedEvent().getBody().getPosition().sub(offset), getBody().getAngle());

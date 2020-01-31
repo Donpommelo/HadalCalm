@@ -16,7 +16,8 @@ public enum UnlockLevel {
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
 	SANDBOX("Maps/sandbox.tmx"),
-	SAWMILL("Maps/Sawmill.tmx"),
+	DM_SAWMILL("Maps/dm_sawmill.tmx"),
+	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	
 	;
 	private String map;

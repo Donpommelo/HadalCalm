@@ -60,10 +60,8 @@ public class ResultsState extends GameState {
 		
 		if (ps.isServer()) {
 			scores = new ArrayList<SavedPlayerFields>(HadalGame.server.getScores().values());
-			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 		} else {
 			scores = new ArrayList<SavedPlayerFields>(HadalGame.client.getScores().values());
-			gsm.getRecord().updateScore(scores.get(HadalGame.client.connID).getScore(), ps.level);
 		}
 		
 		//Then, we sort according to score and give the winner(s) a win.

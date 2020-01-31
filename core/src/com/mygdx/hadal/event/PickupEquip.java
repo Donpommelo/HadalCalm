@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -92,6 +93,7 @@ public class PickupEquip extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER),	(short) 0, true, eventData);
+		this.body.setType(BodyType.KinematicBody);
 	}
 	
 	@Override
