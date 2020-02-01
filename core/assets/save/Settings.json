@@ -1,7 +1,7 @@
 {
 resolution: 1
 framerate: 1
-fullscreen: true
+vsync: true
 timer: 3
 loadoutType: 2
 }

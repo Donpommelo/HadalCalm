@@ -29,8 +29,8 @@ public class HadalGame extends ApplicationAdapter {
 	public static int CONFIG_HEIGHT;
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
-	private OrthographicCamera camera, sprite, hud;
-	public static FitViewport viewportCamera, viewportSprite, viewportUI;
+	private OrthographicCamera camera, hud;
+	public static FitViewport viewportCamera, viewportUI;
 
 	//This is the batch used to render stuff
 	private SpriteBatch batch;
@@ -67,13 +67,10 @@ public class HadalGame extends ApplicationAdapter {
 		CONFIG_HEIGHT = DEFAULT_HEIGHT;
 		batch = new SpriteBatch();
 		
-		camera = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
-	    sprite = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
+	    camera = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
 	    hud = new OrthographicCamera(CONFIG_WIDTH, CONFIG_HEIGHT);
-		viewportCamera = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, camera);
-	    viewportCamera.apply();
-	    viewportSprite = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, sprite);
-	    viewportSprite.apply();	    
+	    viewportCamera = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, camera);
+	    viewportCamera.apply();	    
 	    viewportUI = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, hud);
 	    viewportUI.apply();
 	    
@@ -127,7 +124,6 @@ public class HadalGame extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		viewportCamera.update(width, height, true);
-		viewportSprite.update(width, height, true);
 		viewportUI.update(width, height, true);
 		
 		gsm.resize(width, height);
@@ -156,11 +152,9 @@ public class HadalGame extends ApplicationAdapter {
 	
 	public void setFrameRate(int framerate) {};
 	
-	public OrthographicCamera getCamera() { return camera; }
-	
 	public OrthographicCamera getHud() { return hud; }
 	
-	public OrthographicCamera getSprite() { return sprite; }
+	public OrthographicCamera getCamera() { return camera; }
 
 	public SpriteBatch getBatch() { return batch; }
 }

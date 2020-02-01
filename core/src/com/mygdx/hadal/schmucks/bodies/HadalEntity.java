@@ -8,7 +8,6 @@ import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
@@ -36,7 +35,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	//References to game fields.
 	protected PlayState state;
 	protected World world;
-	protected OrthographicCamera camera;
 	
 	//Fields common to all entities.
 	protected Body body;
@@ -75,7 +73,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public HadalEntity(PlayState state, Vector2 startPos, Vector2 size) {
 		this.state = state;
-		this.camera = state.camera;
 		this.world = state.getWorld();
 		
 		this.size = new Vector2(size);
@@ -215,10 +212,10 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 			return false;
 		} else {
 			if (
-					camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2, getPixelPosition().y + size.y / 2, 0) || 
-					camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2, getPixelPosition().y + size.y / 2, 0) ||
-					camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2, getPixelPosition().y - size.y / 2, 0) ||
-					camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, 0)) {
+					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2, getPixelPosition().y + size.y / 2, 0) || 
+					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2, getPixelPosition().y + size.y / 2, 0) ||
+					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2, getPixelPosition().y - size.y / 2, 0) ||
+					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, 0)) {
 				return true;
 			} else {
 				return false;

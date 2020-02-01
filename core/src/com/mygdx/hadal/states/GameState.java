@@ -18,7 +18,7 @@ public abstract class GameState {
 	protected GameStateManager gsm;
 	protected HadalGame app;
 	protected SpriteBatch batch;
-	public OrthographicCamera camera, sprite, hud;
+	public OrthographicCamera camera, hud;
 	
 	//This is the stage that is displayed for this state
 	protected Stage stage;
@@ -32,7 +32,6 @@ public abstract class GameState {
 		this.app = gsm.getApp();
 		this.batch = app.getBatch();
 		this.camera = app.getCamera();
-		this.sprite = app.getSprite();
 		this.hud = app.getHud();		
 	}
 	

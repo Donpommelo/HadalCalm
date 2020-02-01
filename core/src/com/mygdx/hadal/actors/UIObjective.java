@@ -70,7 +70,7 @@ public class UIObjective extends AHadalActor {
 					y = (float) (HadalGame.CONFIG_HEIGHT - icon.getRegionHeight() * scale);
 				}	
 			} else {
-				batch.setProjectionMatrix(state.sprite.combined);
+				batch.setProjectionMatrix(state.camera.combined);
 				x = state.getObjectiveTarget().getPixelPosition().x;
 				y = state.getObjectiveTarget().getPixelPosition().y;
 			}

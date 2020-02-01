@@ -1,7 +1,5 @@
 package com.mygdx.hadal.states;
 
-import static com.mygdx.hadal.utils.Constants.PPM;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -275,7 +273,6 @@ public class PlayState extends GameState {
 		this.player = createPlayer(startPosition, gsm.getRecord().getName(), loadout, old, 0, reset);
 		
 		this.camera.position.set(new Vector3(startPosition.x, startPosition.y, 0));
-		this.sprite.position.set(new Vector3(startPosition.x, startPosition.y, 0));
 		this.reset = reset;
 
 		if (!reset) {
@@ -460,14 +457,14 @@ public class PlayState extends GameState {
 		batch.end();
 		
 		//Render Tiled Map + world
-		tmr.setView(sprite);
+		tmr.setView(camera);
 		tmr.render();				
 
 		//Render debug lines for box2d objects.
-		b2dr.render(world, camera.combined.scl(PPM));
+		//b2dr.render(world, camera.combined.scl(PPM));
 		
 		//Iterate through entities in the world to render visible entities
-		batch.setProjectionMatrix(sprite.combined);
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		
 		renderEntities(delta);
@@ -592,7 +589,6 @@ public class PlayState extends GameState {
 		zoom = zoom + (zoomDesired - zoom) * 0.05f;
 		
 		camera.zoom = zoom;
-		sprite.zoom = zoom;
 		
 		if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
@@ -622,7 +618,6 @@ public class PlayState extends GameState {
 		}
 		
 		CameraStyles.lerpToTarget(camera, tmpVector2);
-		CameraStyles.lerpToTarget(sprite, tmpVector2);
 	}
 	
 	/**
@@ -658,11 +653,9 @@ public class PlayState extends GameState {
 		if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
 				this.camera.position.set(new Vector3(player.getPixelPosition().x, player.getPixelPosition().y, 0));
-				this.sprite.position.set(new Vector3(player.getPixelPosition().x, player.getPixelPosition().y, 0));
 			}
 		} else {
 			this.camera.position.set(new Vector3(cameraTarget.x, cameraTarget.y, 0));
-			this.sprite.position.set(new Vector3(cameraTarget.x, cameraTarget.y, 0));
 		}
 		
 		if(shaderBase.getShader() != null) {

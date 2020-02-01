@@ -17,7 +17,7 @@ public class PlayerCoord extends ShaderStrategy {
 		if (state.getPlayer() != null) {
 			screenCoord.x = state.getPlayer().getPixelPosition().x;
 			screenCoord.y = state.getPlayer().getPixelPosition().y;
-			state.sprite.project(screenCoord);
+			state.camera.project(screenCoord);
 			shader.setUniformf("u_player", screenCoord);
 		}
 	}
