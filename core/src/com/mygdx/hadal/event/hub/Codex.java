@@ -39,19 +39,19 @@ public class Codex extends HubEvent {
 		timerOptions.setItems("NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN");
 		timerOptions.setWidth(100);
 		
-		timerOptions.setSelectedIndex(state.getGsm().getRecord().getTimer());
+		timerOptions.setSelectedIndex(state.getGsm().getSetting().getTimer());
 		
 		livesOptions = new SelectBox<String>(state.getGsm().getSkin());
 		livesOptions.setItems("UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES");
 		livesOptions.setWidth(100);
 		
-		livesOptions.setSelectedIndex(state.getGsm().getRecord().getLives());
+		livesOptions.setSelectedIndex(state.getGsm().getSetting().getLives());
 		
 		loadoutOptions = new SelectBox<String>(state.getGsm().getSkin());
 		loadoutOptions.setItems("DEFAULT", "SELECTED", "RANDOM");
 		loadoutOptions.setWidth(100);
 		
-		loadoutOptions.setSelectedIndex(state.getGsm().getRecord().getLoadoutType());
+		loadoutOptions.setSelectedIndex(state.getGsm().getSetting().getLoadoutType());
 		
 		hub.getTableOptions().add(timer);
 		hub.getTableOptions().add(timerOptions).row();
@@ -65,28 +65,10 @@ public class Codex extends HubEvent {
 	public void leave() {
 		super.leave();
 		if (state.isServer()) {
-			state.getGsm().getRecord().setTimer(timerOptions.getSelectedIndex());
-			state.getGsm().getRecord().setLives(livesOptions.getSelectedIndex());
-			state.getGsm().getRecord().setLoadoutType(loadoutOptions.getSelectedIndex());
-		}
-	}
-	
-	public static float indexToTimer(int index) {
-		switch(index) {
-		case 0:
-			return 0.0f;
-		case 1:
-			return 60.0f;
-		case 2:
-			return 120.0f;
-		case 3:
-			return 180.0f;
-		case 4:
-			return 240.0f;
-		case 5:
-			return 300.0f;
-		default:
-			return 0.0f;
+			state.getGsm().getSetting().setTimer(timerOptions.getSelectedIndex());
+			state.getGsm().getSetting().setLives(livesOptions.getSelectedIndex());
+			state.getGsm().getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
+			state.getGsm().getSetting().saveSetting();
 		}
 	}
 }

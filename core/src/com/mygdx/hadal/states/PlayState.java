@@ -359,6 +359,8 @@ public class PlayState extends GameState {
 		uiArtifact.setPlayer(player);
 	}
 	
+	private float accumulator = 0.0f;
+	private final static float physicsTime = 1 / 120f;
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
 	 */
@@ -371,11 +373,17 @@ public class PlayState extends GameState {
 			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
 		}
 		
-		//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
-		world.step(1 / 60f, 8, 3);
+		accumulator += delta;
 		
-		//Let AI process time step
-		GdxAI.getTimepiece().update(1 / 60f);
+		while (accumulator >= physicsTime) {
+			//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
+			world.step(physicsTime, 8, 3);
+			
+			//Let AI process time step
+			GdxAI.getTimepiece().update(physicsTime);
+			
+			accumulator -= physicsTime;
+		}
 		
 		//All entities that are set to be added are added.
 		for (HadalEntity entity: createList) {
@@ -771,7 +779,7 @@ public class PlayState extends GameState {
 		
 		//for pvp matches, set loadout depending on pvp settings
 		if (pvp && !hub) {
-			switch(gsm.getRecord().getLoadoutType()) {
+			switch(gsm.getSetting().getLoadoutType()) {
 			
 			//default setting: each player starts with a basic weapon
 			case 0:

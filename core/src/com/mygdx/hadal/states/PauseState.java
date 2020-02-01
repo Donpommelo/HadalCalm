@@ -118,7 +118,7 @@ public class PauseState extends GameState {
 				settingOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	
-			        	//Exiting returns to the title state and stops the server/client, disconnecting.
+			        	//Setting pops a setting state on top of the pause state.
 			        	getGsm().addSettingState(ps, PauseState.class);
 			        }
 			    });
@@ -138,9 +138,7 @@ public class PauseState extends GameState {
 				if (ps.isServer()) {
 					table.add(hubOption).expand().row();
 				}
-				if (GameStateManager.currentMode.equals(Mode.SINGLE)) {
-					table.add(settingOption).expand().row();
-				}
+				table.add(settingOption).expand().row();
 				table.add(exitOption).expand().row();
 			}
 		};

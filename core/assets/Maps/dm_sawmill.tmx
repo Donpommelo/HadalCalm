@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="60" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="58">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="58">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="shader" value="WAVE"/>
@@ -9,7 +9,7 @@
  <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="60" height="50">
   <data encoding="base64" compression="zlib">
-   eJztmdsKwyAQRIXem14e2v//1iplwRdN1NnsCnNgHm080Ey8hEAIIYQQMienmHtHzhaTHSS5fmPeHfmEuZzF9Rlz6MgrzOOcuz46f2MJczgjXAVPzqUeQrkKubNVr9V6COkqiLNFr631ENpVWArP0/y/I99NFFrvuEdXAe3s2VVAOc/gKow6z+QqjDgfw7/zb+hJKdM7b6Tv1n0Som+sfVv2SYiOtfatrY801mfWvoktzqhe9OCbqDkjvwFefBOldTDye+fJdw/oqzvOGvrqjrOGvrrjrKFv2zjLs9AatTPhEV+Pdzxb9lytvpfg844nd63N7wp+rsV9R+5qcca0p7O1q7B2x4OKB1eh5QxjJB5chdLeFhVProQQshc/gk0TpA==
+   eAHtmdvKwzAMgwf/+biL7f2fdfaFIAS3dEKpE3ChmGao1ue0mbNdLnVUBaoCVYGqQFWgKlAVWLMCb2b7mzjfF8R11rudV+K8mWYlZrD+me8X4vw3zSrMLeuv+WaOHxOtwKxgRX1mYnauaB3y99WfYXZewYrYMkf5znjHMYfROqRk7ZmjfKPfcbBurUOqeQUros9ztO6NfMdb1lFc4Dsa2+dd+WzPyIqaqJlnZlUzr8CqYl6JVcH8ajfx74Av3GyRyPpmdVFZ/FmJ+oV+TLHGsr5ZXc+L9yLqF/oxRf/A+mZ1PS++L3q26FrRn7G+WV3P69dHmBWsnov1zeo8Z3TsMatYPS/rm9VFrBhz5qgPVvanrG9WB7asyPpmdVmcyMv6ZnXImxVZ36wuixN5Wd+sDnmzIuub1WVxIi/rm9Uhb1ZkfbO6LE7kZX1D5z18v4/xa8VeBh6ZuLXnwn84z+5jwRv19T6m2MswnK45sud6lvfD7hv1fhgb+VvoXh1aVniJ4ufeTYjP0P+fOc8tq7LnPop/JnM2K2rSMkfrmmoM61DGvIIVEcxba5tqfAbWljlaN1RjM7GCuWJVoCpQFRhdgQeCTROk
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -281,14 +281,14 @@
     <property name="triggeringId" value="dummy13"/>
    </properties>
   </object>
-  <object id="56" name="Bounds" type="Bounds" x="640" y="672" width="32" height="32">
+  <object id="56" name="Bounds" type="Bounds" x="768" y="672" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="57" name="Bounds" type="Bounds" x="1216" y="992" width="32" height="32">
+  <object id="57" name="Bounds" type="Bounds" x="1088" y="992" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

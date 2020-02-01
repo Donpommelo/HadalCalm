@@ -19,6 +19,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.Record;
+import com.mygdx.hadal.save.Setting;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -51,6 +52,7 @@ public class GameStateManager {
 	
 	//This is the player's record. This stores player info.
 	private Record record;
+	private Setting setting;
 	private static JsonValue shops;
 	
 	//Json reader here. Use this instead of creating new ones elsewhere.
@@ -97,10 +99,13 @@ public class GameStateManager {
 		
 		//Load player records and game dialogs, also from json
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
+		setting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(OutputType.minimal));
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
 		
 		generator = new Random();
+		
+		setting.setDisplay();
 	}
 	
 	/**
@@ -327,6 +332,8 @@ public class GameStateManager {
 	
 	public Record getRecord() {	return record; }
 
+	public Setting getSetting() { return setting; }
+	
 	public Skin getSkin() {	return skin; }
 	
 	public NinePatchDrawable getDialogPatch() {	return dialogPatch;	}

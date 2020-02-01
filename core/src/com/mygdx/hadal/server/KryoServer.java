@@ -224,12 +224,18 @@ public class KryoServer {
 				 * Return to the PlayState and inform everyone who unpaused.
 				 */
 				if (o instanceof Packets.Unpaused) {
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
+        			if (!gsm.getStates().empty()) {
         				
         				Player p = players.get(c.getID());
         				if (p != null) {
-        					final PauseState cs = (PauseState) gsm.getStates().peek();
-            				cs.setToRemove(true);
+        					if (gsm.getStates().peek() instanceof PauseState) {
+        						final PauseState ps = (PauseState) gsm.getStates().peek();
+                				ps.setToRemove(true);
+        					}
+        					if (gsm.getStates().peek() instanceof SettingState) {
+        						final SettingState ss = (SettingState) gsm.getStates().peek();
+                				ss.setToRemove(true);
+        					}
             				HadalGame.server.sendToAllExceptTCP(c.getID(), new Packets.Unpaused(p.getName()));
         				}
         			}

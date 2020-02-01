@@ -30,6 +30,7 @@ import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.states.ResultsState;
+import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -203,9 +204,15 @@ public class KryoClient {
         		 * We return to the ClientState
         		 */
         		if (o instanceof Packets.Unpaused) {
-        			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
-        				final PauseState cs = (PauseState) gsm.getStates().peek();
-        				cs.setToRemove(true);
+        			if (!gsm.getStates().empty()) {
+        				if (gsm.getStates().peek() instanceof PauseState) {
+        					final PauseState ps = (PauseState) gsm.getStates().peek();
+            				ps.setToRemove(true);
+        				}
+        				if (gsm.getStates().peek() instanceof SettingState) {
+            				final SettingState ss = (SettingState) gsm.getStates().peek();
+            				ss.setToRemove(true);
+        				}
         			}
         		}
         		

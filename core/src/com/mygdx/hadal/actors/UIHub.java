@@ -29,7 +29,7 @@ public class UIHub {
 	private final static int infoWidth = 400;
 	private final static int infoHeight = 300;
 	
-	private static final int tableX = 1080;
+	private static final int tableX = 1280;
 	private static final int tableY = 120;
 	
 	private static final int optionsWidthOuter = 720;

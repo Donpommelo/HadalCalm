@@ -1,7 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.mygdx.hadal.event.hub.Codex;
+import com.mygdx.hadal.save.Setting;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -36,8 +36,8 @@ public class PVPSettingSetter extends Prefabrication {
 		multi.getProperties().put("triggeredId", multiId);
 		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + uiLivesId + "," + gameTimerId + "," + gameLivesId);
 		
-		int startTimer = state.getGsm().getRecord().getTimer();
-		int startLives = state.getGsm().getRecord().getLives();
+		int startTimer = state.getGsm().getSetting().getTimer();
+		int startLives = state.getGsm().getSetting().getLives();
 		
 		RectangleMapObject game = new RectangleMapObject();
 		game.setName("Game");
@@ -51,7 +51,7 @@ public class PVPSettingSetter extends Prefabrication {
 			ui.getProperties().put("tags", "Fight!,EMPTY,TIMER");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
-			game.getProperties().put("timer", Codex.indexToTimer(startTimer));
+			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
 			game.getProperties().put("timerIncr", -1.0f);
 			
 			TiledObjectUtil.parseTiledEvent(state, ui);

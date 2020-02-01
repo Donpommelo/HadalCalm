@@ -48,7 +48,7 @@ public class HadalGame extends ApplicationAdapter {
     public static BitmapFont SYSTEM_FONT_UI, SYSTEM_FONT_SPRITE;
     public static Color DEFAULT_TEXT_COLOR;
  
-    private final static int DEFAULT_WIDTH = 1080;
+    private final static int DEFAULT_WIDTH = 1280;
 	private final static int DEFAULT_HEIGHT = 720;
 	
 	//currentMenu is whatever stage is being drawn in the current gameState
