@@ -376,13 +376,13 @@ public class PlayState extends GameState {
 		accumulator += delta;
 		
 		while (accumulator >= physicsTime) {
+			accumulator -= physicsTime;
+			
 			//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
 			world.step(physicsTime, 8, 3);
 			
 			//Let AI process time step
 			GdxAI.getTimepiece().update(physicsTime);
-			
-			accumulator -= physicsTime;
 		}
 		
 		//All entities that are set to be added are added.

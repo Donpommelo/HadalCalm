@@ -35,7 +35,7 @@ public class DiamondCutter extends MeleeWeapon {
 
 	private final static float range = 75.0f;
 	private final static float spinSpeed = 8.0f;
-	private final static float spinInterval = 1/60f;
+	private final static float spinInterval = 1 / 60f;
 	
 	//this is the hitbox that this weapon extends
 	private Hitbox hbox;
@@ -86,16 +86,15 @@ public class DiamondCutter extends MeleeWeapon {
 							shooter.getSchmuck().getPosition().y + projOffset.y / PPM,
 							hbox.getBody().getAngle());
 					
-					controllerCount+=delta;
 					
+					controllerCount += delta;
 					
-					if (controllerCount >= spinInterval) {
-						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize,
-								spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
+					while (controllerCount >= spinInterval) {
+						controllerCount -= spinInterval;
+						
+						Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), projectileSize, spinInterval, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 						pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
-						
-						controllerCount -= delta;
 					}
 				}
 				

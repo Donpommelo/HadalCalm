@@ -154,7 +154,7 @@ public class HadalGame extends ApplicationAdapter {
 		batch.dispose();
 	}
 	
-	public void toggleFullscreen() {};
+	public void setFrameRate(int framerate) {};
 	
 	public OrthographicCamera getCamera() { return camera; }
 	

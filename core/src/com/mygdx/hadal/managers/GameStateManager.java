@@ -97,6 +97,10 @@ public class GameStateManager {
 			Record.createNewRecord();
 		}
 		
+		if (!Gdx.files.internal("save/Settings.json").exists()) {
+			Setting.createNewSetting();
+		}
+		
 		//Load player records and game dialogs, also from json
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
 		setting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(OutputType.minimal));
@@ -105,7 +109,7 @@ public class GameStateManager {
 		
 		generator = new Random();
 		
-		setting.setDisplay();
+		setting.setDisplay(app);
 	}
 	
 	/**

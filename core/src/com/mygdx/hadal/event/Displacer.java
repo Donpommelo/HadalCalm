@@ -27,9 +27,6 @@ public class Displacer extends Event {
 	private Vector2 vec;
 	private float momentumScale = 50.0f;
 
-	//This keeps track of engine timer.
-	private float controllerCount = 0;
-	
 	private Vector2 offset;
 	private Vector2 newOffset = new Vector2();
 	
@@ -67,28 +64,23 @@ public class Displacer extends Event {
 	
 	@Override
 	public void controller(float delta) {
-		controllerCount += delta;
-		if (controllerCount >= 1/180f) {
-			controllerCount = 0;
-			
-			if (getConnectedEvent() == null) {
-				for (HadalEntity entity : eventData.getSchmucks()) {
-					entity.setTransform(entity.getPosition().add(vec), entity.getBody().getAngle());
-				}
-			} else if (!getConnectedEvent().getBody().equals(null)) {
-				
-				if (offset == null) {
-					offset = new Vector2(getConnectedEvent().getPixelPosition()).sub(startPos).scl(1 / PPM);
-				}
-				
-				newOffset.set(getConnectedEvent().getBody().getPosition()).sub(offset).sub(getBody().getPosition());
-				
-				for (HadalEntity entity : eventData.getSchmucks()) {
-					entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getBody().getAngle());
-				}
-
-				setTransform(getConnectedEvent().getBody().getPosition().sub(offset), getBody().getAngle());
+		if (getConnectedEvent() == null) {
+			for (HadalEntity entity : eventData.getSchmucks()) {
+				entity.setTransform(entity.getPosition().add(vec), entity.getBody().getAngle());
 			}
+		} else if (!getConnectedEvent().getBody().equals(null)) {
+			
+			if (offset == null) {
+				offset = new Vector2(getConnectedEvent().getPixelPosition()).sub(startPos).scl(1 / PPM);
+			}
+			
+			newOffset.set(getConnectedEvent().getBody().getPosition()).sub(offset).sub(getBody().getPosition());
+			
+			for (HadalEntity entity : eventData.getSchmucks()) {
+				entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getBody().getAngle());
+			}
+
+			setTransform(getConnectedEvent().getBody().getPosition().sub(offset), getBody().getAngle());
 		}
 	}
 }

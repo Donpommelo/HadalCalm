@@ -37,6 +37,7 @@ public class Buzzsaw extends Event {
 	//angle the saw is drawn at. Used to make saw spin
 	private float angle;
 	private final static float spinSpeed = 7.5f;
+	private final static float damageInterval = 1 / 60f;
 	
 	public Buzzsaw(PlayState state, Vector2 startPos, Vector2 size, float dps, short filter) {
 		super(state,  startPos, size);
@@ -54,9 +55,10 @@ public class Buzzsaw extends Event {
 	
 	@Override
 	public void controller(float delta) {
-		controllerCount+=delta;
-		if (controllerCount >= 1/60f) {
-			controllerCount = 0;
+		controllerCount += delta;
+		
+		while (controllerCount >= damageInterval) {
+			controllerCount -= damageInterval;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck) {

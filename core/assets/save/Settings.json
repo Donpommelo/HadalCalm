@@ -1,6 +1,7 @@
 {
 resolution: 1
+framerate: 1
+fullscreen: true
 timer: 3
-lives: 3
 loadoutType: 2
 }

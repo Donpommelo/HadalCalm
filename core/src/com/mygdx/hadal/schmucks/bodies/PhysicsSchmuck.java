@@ -11,6 +11,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class PhysicsSchmuck extends Schmuck {
 
+	private final static float controllerInterval = 1 / 60f;
+	
 	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter) {
 		super(state, startPos, size, hitboxFilter);
 	}
@@ -21,9 +23,9 @@ public class PhysicsSchmuck extends Schmuck {
 		super.controller(delta);
 		
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
-		controllerCount+=delta;
-		if (controllerCount >= 1/60f) {
-			controllerCount -= 1/60f;
+		controllerCount += delta;
+		while (controllerCount >= controllerInterval) {
+			controllerCount -= controllerInterval;
 						
 			Vector2 currentVel = getLinearVelocity();
 			float desiredXVel = 0.0f;

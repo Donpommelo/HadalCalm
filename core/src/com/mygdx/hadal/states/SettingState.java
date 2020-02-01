@@ -42,7 +42,7 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
 	
-	private SelectBox<String> resolutionOptions;
+	private SelectBox<String> resolutionOptions, framerateOptions;
 	private CheckBox fullscreen, vsync;
 		
 	//Dimentions of the setting menu
@@ -210,6 +210,15 @@ public class SettingState extends GameState {
 		
 		resolutionOptions.setSelectedIndex(getGsm().getSetting().getResolution());
 
+		Text framerate = new Text("FRAMERATE: ", 0, 0);
+		framerate.setScale(detailsScale);
+		
+		framerateOptions = new SelectBox<String>(getGsm().getSkin());
+		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps");
+		framerateOptions.setWidth(100);
+		
+		framerateOptions.setSelectedIndex(getGsm().getSetting().getFramerate());
+		
 		fullscreen = new CheckBox("FULLSCREEN", getGsm().getSkin());
 		vsync = new CheckBox("VSYNC", getGsm().getSkin());
 		
@@ -218,6 +227,8 @@ public class SettingState extends GameState {
 
 		details.add(screen);
 		details.add(resolutionOptions).row();
+		details.add(framerate);
+		details.add(framerateOptions).row();
 		details.add(fullscreen).row();
 		details.add(vsync).row();
 	}
@@ -273,9 +284,10 @@ public class SettingState extends GameState {
 			break;
 		case DISPLAY:
 			gsm.getSetting().setResolution(resolutionOptions.getSelectedIndex());
+			gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
 			gsm.getSetting().setFullscreen(fullscreen.isChecked());
 			gsm.getSetting().setVsync(vsync.isChecked());
-			gsm.getSetting().setDisplay();
+			gsm.getSetting().setDisplay(gsm.getApp());
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;
@@ -291,8 +303,8 @@ public class SettingState extends GameState {
         	controlsSelected();
 			break;
 		case DISPLAY:
-			gsm.getSetting().reset();
-			gsm.getSetting().setDisplay();
+			gsm.getSetting().resetDisplay();
+			gsm.getSetting().setDisplay(gsm.getApp());
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;

@@ -42,7 +42,6 @@ public class Iceberg extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
-			float controllerCount = 0;
 			float lastX = 0;
 			
 			@Override
@@ -51,18 +50,15 @@ public class Iceberg extends RangedWeapon {
 				if (hbox.getLifeSpan() <= 0) {
 					hbox.die();
 				}
-				controllerCount+=delta;
 				
 				//when we hit a wall, we reverse momentum instead of staying still.
 				//This is necessary b/c we cannot turn restitution up without having the projectile bounce instead of slide,
-				if (controllerCount >= 1/60f) {
-					
-					if (hbox.getLinearVelocity().x == 0) {
-						hbox.setLinearVelocity(-lastX, hbox.getLinearVelocity().y);
-					}
-					
-					lastX = hbox.getLinearVelocity().x;
+				if (hbox.getLinearVelocity().x == 0) {
+					hbox.setLinearVelocity(-lastX, hbox.getLinearVelocity().y);
 				}
+				
+				lastX = hbox.getLinearVelocity().x;
+				
 			}
 			
 			private Vector2 impulse = new Vector2();

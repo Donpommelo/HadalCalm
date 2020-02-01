@@ -92,10 +92,11 @@ public class TeslaCoil extends RangedWeapon {
 				//activated coils periodically check world for nearby coils
 				if (planted) {
 					
-					controllerCount+=delta;
+					controllerCount += delta;
 
-					if (controllerCount >= pulseInterval) {
+					while (controllerCount >= pulseInterval) {
 						controllerCount -= pulseInterval;
+						
 						activated = false;
 						hbox.getWorld().QueryAABB(new QueryCallback() {
 

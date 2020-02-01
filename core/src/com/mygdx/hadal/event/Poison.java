@@ -47,6 +47,8 @@ public class Poison extends Event {
 	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
 	private short filter;
 	
+	private final static float damageInterval = 1 / 60f;
+	
 	public Poison(PlayState state, Vector2 startPos, Vector2 size, float dps, boolean draw, short filter) {
 		super(state,  startPos, size);
 		this.dps = dps;
@@ -100,9 +102,9 @@ public class Poison extends Event {
 	@Override
 	public void controller(float delta) {
 		if (on) {
-			controllerCount+=delta;
-			if (controllerCount >= 1/60f) {
-				controllerCount = 0;
+			controllerCount += delta;
+			while (controllerCount >= damageInterval) {
+				controllerCount -= damageInterval;
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck) {

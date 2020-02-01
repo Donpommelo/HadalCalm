@@ -3,6 +3,7 @@ package com.mygdx.hadal.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
@@ -13,6 +14,7 @@ public class Setting {
 
 	//height/width of the screen
 	private int resolution;
+	private int framerate;
 	private boolean fullscreen;
 	private boolean vsync;
 	
@@ -34,21 +36,35 @@ public class Setting {
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(this), false);
 	}
 	
-	public void setDisplay() {
+	public void setDisplay(HadalGame game) {
 		Monitor currMonitor = Gdx.graphics.getMonitor();
     	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
     	
     	if (fullscreen) {
     		Gdx.graphics.setFullscreenMode(displayMode);
     	} else {
-    		indexToResolution(resolution);
+    		indexToResolution();
     	}
     	
     	Gdx.graphics.setVSync(vsync);
+    	
+    	game.setFrameRate(indexToFramerate());
 	}
 	
-	public void reset() {
+	/**
+	 * a new setting is created if no valid setting is found
+	 * This new record has default values for all fields
+	 */
+	public static void createNewSetting() {
+		Setting newSetting = new Setting();
+		newSetting.resetDisplay();
+		
+		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
+	}
+	
+	public void resetDisplay() {
 		resolution = 1;
+		framerate = 1;
 		fullscreen = false;
 		vsync = false;
 	}
@@ -68,8 +84,8 @@ public class Setting {
 		saveSetting();
 	}
 	
-	public void indexToResolution(int index) {
-		switch(index) {
+	public void indexToResolution() {
+		switch(resolution) {
 		case 0:
 			Gdx.graphics.setWindowedMode(1024, 576);
 			break;
@@ -82,6 +98,21 @@ public class Setting {
 		case 3:
 			Gdx.graphics.setWindowedMode(1920, 1080);
 			break;
+		}
+	}
+	
+	public int indexToFramerate() {
+		switch(framerate) {
+		case 0:
+			return 30;
+		case 1:
+			return 60;
+		case 2:
+			return 90;
+		case 3:
+			return 120;
+		default:
+			return 60;
 		}
 	}
 	
@@ -106,11 +137,15 @@ public class Setting {
 	
 	public void setResolution(int resolution) { this.resolution = resolution; }
 
+	public void setFramerate(int framerate) { this.framerate = framerate; }
+	
 	public void setFullscreen(boolean fullscreen) { this.fullscreen = fullscreen; }
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
 	
 	public int getResolution() { return resolution; }
+	
+	public int getFramerate() { return framerate; }
 	
 	public boolean isFullscreen() { return fullscreen; }
 	

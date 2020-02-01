@@ -7,17 +7,20 @@ import com.mygdx.hadal.HadalGame;
 public class DesktopLauncher {
 	
 	private static final String TITLE = "Hadal Panic";
-	private final static int DEFAULT_WIDTH = 1280;
-	private final static int DEFAULT_HEIGHT = 720;
 	
 	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = TITLE;
-		config.width = DEFAULT_WIDTH;
-		config.height = DEFAULT_HEIGHT;
 		config.resizable = false;
 		config.foregroundFPS = 60;
-		config.backgroundFPS = 60;
-		new LwjglApplication(new HadalGame(), config);
+		new LwjglApplication(new HadalGame() {
+			
+			@Override
+			public void setFrameRate(int framerate) {
+				config.foregroundFPS = framerate;
+			};
+			
+			
+		}, config);
 	}
 }

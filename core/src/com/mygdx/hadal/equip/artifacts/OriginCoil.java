@@ -21,6 +21,8 @@ public class OriginCoil extends Artifact {
 	private final static float bonusProjLife = 1.0f;
 	private final static float bonusReloadSpd = 0.6f;
 	
+	private final static float boostInterval = 1 / 60f;
+	
 	public OriginCoil() {
 		super(slotCost, statusNum);
 	}
@@ -49,13 +51,15 @@ public class OriginCoil extends Artifact {
 					@Override
 					public void controller(float delta) {
 						if (count > 0) {
-							count-=delta;
+							
+							count -= delta;
+							
 						} else {
-							controllerCount+=delta;
+							controllerCount += delta;
 
-							if (controllerCount >= 1/60f) {
+							while (controllerCount >= boostInterval) {
+								controllerCount -= boostInterval;
 								hbox.applyForceToCenter(hbox.getStartVelo().nor().scl(hbox.getMass() * boost));
-								controllerCount = 0;
 							}
 						}
 					}

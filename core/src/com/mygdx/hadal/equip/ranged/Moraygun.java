@@ -77,11 +77,13 @@ public class Moraygun extends RangedWeapon {
 				
 				@Override
 				public void controller(float delta) {
-					controllerCount+=delta;
+					
+					controllerCount += delta;
 
 					//Each hbox moves at set intervals. Each movement moves the hbox verticle x times followed by horizontal y times to make a snake-like movement
-					if (controllerCount >= moveInterval) {
+					while (controllerCount >= moveInterval) {
 						controllerCount -= moveInterval;
+						
 						if (numMoves >= num) {
 							if ((numMoves - num) % (Math.abs(numX) + Math.abs(numY)) < Math.abs(numX)) {
 								hbox.setTransform(hbox.getPosition().add(projectileSize.x / PPM * Math.signum(numX), 0), 0);

@@ -44,6 +44,8 @@ public class Player extends PhysicsSchmuck {
 	
 	private final static float playerDensity = 1.0f;
 	
+	private final static float controllerInterval = 1 / 60f;
+	
 	//Dimension of player sprite parts.
 	public static final int hbWidth = 216;
 	public static final int hbHeight = 516;
@@ -258,9 +260,9 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void controller(float delta) {
 		
-		controllerCount+=delta;
-		if (controllerCount >= 1/60f) {
-			controllerCount -= 1/60f;
+		controllerCount += delta;
+		while (controllerCount >= controllerInterval) {
+			controllerCount -= controllerInterval;
 
 			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&	playerData.getCurrentFuel() >= playerData.getHoverCost()) {
 				if (jumpCdCount < 0) {

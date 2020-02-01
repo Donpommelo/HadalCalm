@@ -16,6 +16,7 @@ public class ReturnToUser extends HitboxStrategy {
 	private float controllerCount = 0;
 	private Vector2 diff = new Vector2();
 	
+	private final static float pushInterval = 1 / 60f;
 	private float returnAmp;
 	
 	public ReturnToUser(PlayState state, Hitbox proj, BodyData user, float returnAmp) {
@@ -28,12 +29,11 @@ public class ReturnToUser extends HitboxStrategy {
 		controllerCount += delta;
 
 		//Boomerang repeatedly is pushed towards player. Controllercount is checked to ensure framerate does not affect speed
-		if (controllerCount >= 1/60f) {
+		while (controllerCount >= pushInterval) {
+			controllerCount -= pushInterval;
 			diff.set(creator.getSchmuck().getPixelPosition().x - hbox.getPixelPosition().x, creator.getSchmuck().getPixelPosition().y - hbox.getPixelPosition().y);
 			
 			hbox.applyForceToCenter(diff.nor().scl(returnAmp * hbox.getMass()));
-
-			controllerCount -= 1/60f;
 		}
 	}
 }

@@ -34,6 +34,8 @@ public class Currents extends Event {
 	
 	private float currBubbleSpawnTimer = 0f, spawnTimerLimit;
 	
+	private final static float pushInterval = 1 / 60f;
+	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec) {
 		super(state, startPos, size);
 		this.vec = vec;
@@ -60,9 +62,9 @@ public class Currents extends Event {
 	
 	@Override
 	public void controller(float delta) {
-		controllerCount+=delta;
-		if (controllerCount >= 1/60f) {
-			controllerCount = 0;
+		controllerCount += delta;
+		while (controllerCount >= pushInterval) {
+			controllerCount -= pushInterval;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.applyLinearImpulse(vec);
