@@ -106,7 +106,7 @@ public class ResultsState extends GameState {
 	public void syncScoreTable() {
 		table.clear();
 		
-		table.add(new Text(text, 0, 0, Color.WHITE)).padBottom(50).row();
+		table.add(new Text(text, 0, 0, Color.WHITE)).padBottom(50).colspan(5).row();
 		table.add(new Text("PLAYER", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
 		table.add(new Text("KILLS", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
 		table.add(new Text("DEATH", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
@@ -179,17 +179,20 @@ public class ResultsState extends GameState {
 		syncScoreTable();
 		
 		//When the server is ready, we return to hub and tell all clients to do the same.
-		if (reddy && ps.isServer()) {
-			gsm.getApp().setRunAfterTransition(new Runnable() {
+		if (reddy) {
+			if (ps.isServer()) {
+				gsm.getApp().setRunAfterTransition(new Runnable() {
 
-				@Override
-				public void run() {
-					getGsm().removeState(ResultsState.class);
-			    	getGsm().removeState(PlayState.class);
-			    	getGsm().gotoHubState();
-				}
-				
-			});
+					@Override
+					public void run() {
+						gsm.removeState(ResultsState.class);
+						gsm.removeState(PlayState.class);
+						gsm.gotoHubState();
+					}
+					
+				});
+			}
+			
 			gsm.getApp().fadeOut();
 		}
 	}

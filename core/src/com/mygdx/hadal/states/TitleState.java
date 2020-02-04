@@ -103,7 +103,7 @@ public class TitleState extends GameState {
 
 							@Override
 							public void run() {
-								getGsm().gotoHubState();
+								gsm.gotoHubState();
 							}
 							
 						});
@@ -128,7 +128,7 @@ public class TitleState extends GameState {
 
 							@Override
 							public void run() {
-								getGsm().gotoHubState();
+								gsm.gotoHubState();
 							}
 							
 						});

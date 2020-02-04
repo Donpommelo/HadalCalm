@@ -112,7 +112,20 @@ public class SettingState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().removeState(SettingState.class);
+			        	
+						if (ps == null) {
+							gsm.getApp().fadeOut();
+							gsm.getApp().setRunAfterTransition(new Runnable() {
+
+								@Override
+								public void run() {
+									gsm.removeState(SettingState.class);
+								}
+								
+							});
+						} else {
+							gsm.removeState(SettingState.class);
+						}
 			        }
 					
 			    });
@@ -204,26 +217,26 @@ public class SettingState extends GameState {
 		Text screen = new Text("RESOLUTION: ", 0, 0);
 		screen.setScale(detailsScale);
 		
-		resolutionOptions = new SelectBox<String>(getGsm().getSkin());
+		resolutionOptions = new SelectBox<String>(gsm.getSkin());
 		resolutionOptions.setItems("1024 X 576", "1280 X 720", "1600 X 900", "1920 X 1080");
 		resolutionOptions.setWidth(100);
 		
-		resolutionOptions.setSelectedIndex(getGsm().getSetting().getResolution());
+		resolutionOptions.setSelectedIndex(gsm.getSetting().getResolution());
 
 		Text framerate = new Text("FRAMERATE: ", 0, 0);
 		framerate.setScale(detailsScale);
 		
-		framerateOptions = new SelectBox<String>(getGsm().getSkin());
+		framerateOptions = new SelectBox<String>(gsm.getSkin());
 		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps");
 		framerateOptions.setWidth(100);
 		
-		framerateOptions.setSelectedIndex(getGsm().getSetting().getFramerate());
+		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
 		
-		fullscreen = new CheckBox("FULLSCREEN", getGsm().getSkin());
-		vsync = new CheckBox("VSYNC", getGsm().getSkin());
+		fullscreen = new CheckBox("FULLSCREEN", gsm.getSkin());
+		vsync = new CheckBox("VSYNC", gsm.getSkin());
 		
-		fullscreen.setChecked(getGsm().getSetting().isFullscreen());
-		vsync.setChecked(getGsm().getSetting().isVSync());
+		fullscreen.setChecked(gsm.getSetting().isFullscreen());
+		vsync.setChecked(gsm.getSetting().isVSync());
 
 		details.add(screen);
 		details.add(resolutionOptions).row();
@@ -268,7 +281,7 @@ public class SettingState extends GameState {
 			keybinds.remove();
 		}
 		
-		keybinds = new ScrollPane(actions, getGsm().getSkin());
+		keybinds = new ScrollPane(actions, gsm.getSkin());
 		keybinds.setFadeScrollBars(false);
 		keybinds.setSize(detailsWidth, detailsHeight);
 		
@@ -343,8 +356,8 @@ public class SettingState extends GameState {
 		
 		//If the state has been unpaused, remove it
 		if (toRemove) {
-        	getGsm().removeState(SettingState.class);
-        	getGsm().removeState(PauseState.class);
+			gsm.removeState(SettingState.class);
+			gsm.removeState(PauseState.class);
 		}
 	}
 

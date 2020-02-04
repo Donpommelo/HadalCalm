@@ -390,10 +390,9 @@ public class KryoServer {
 	 * @param vic: player that gets killed
 	 * @return: whether this death was the victim's last life
 	 */
-	public boolean registerKill(Player perp, Player vic) {
+	public void registerKill(Player perp, Player vic) {
 		
 		PlayState ps = getPlayState();
-		boolean outOfLives = false;
 		
 		if (ps != null) {
 			
@@ -406,9 +405,6 @@ public class KryoServer {
 			
 			if (vic.equals(ps.getPlayer())) {
 				scores.get(0).registerDeath();
-				if (scores.get(0).getLives() <= 0) {
-					outOfLives = true;
-				}
 			}
 			
 			//Otherwise, update score of client matching the players involved
@@ -416,10 +412,6 @@ public class KryoServer {
 				if (conn.getValue().equals(vic)) {
 					if (scores.containsKey(conn.getKey())) {
 						scores.get(conn.getKey()).registerDeath();
-						
-						if (scores.get(conn.getKey()).getLives() <= 0) {
-							outOfLives = true;
-						}
 					}
 					break;
 				}
@@ -439,7 +431,6 @@ public class KryoServer {
 			//Sync score window to show updated kda and score
 			ps.getScoreWindow().syncTable();
 		}
-		return outOfLives;
 	}
 	
 	/**

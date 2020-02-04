@@ -14,7 +14,6 @@ public class SavedPlayerFields {
 	
 	//Player's stored stats
 	private int wins, kills, deaths, score, lives;
-	private boolean alive;
 	
 	public SavedPlayerFields() {
 		this("");
@@ -27,8 +26,6 @@ public class SavedPlayerFields {
 		this.deaths = 0;
 		this.score = 0;
 		this.lives = 0;
-		
-		this.alive = true;
 	}
 	
 	public String getKD() {
@@ -49,7 +46,6 @@ public class SavedPlayerFields {
 	public void registerDeath() {
 		deaths++;
 		score--;
-		alive = false;
 		lives--;
 	}
 
@@ -61,7 +57,6 @@ public class SavedPlayerFields {
 		this.deaths = 0;
 		this.score = 0;
 		this.lives = 1;
-		alive = true;
 	}
 	
 	public String getName() { return name; }
@@ -81,8 +76,4 @@ public class SavedPlayerFields {
 	public int getLives() { return lives; }
 
 	public void setLives(int lives) { this.lives = lives; }
-
-	public boolean isAlive() { return alive; }
-
-	public void setAlive(boolean alive) { this.alive = alive; }
 }

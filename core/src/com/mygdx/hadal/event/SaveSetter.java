@@ -23,10 +23,14 @@ public class SaveSetter extends Event {
 	private float zoom;
 	private boolean clear;
 	
-	public SaveSetter(PlayState state, Vector2 startPos, Vector2 size, float zoom, boolean clear) {
+	public SaveSetter(PlayState state, Vector2 startPos, Vector2 size, float zoom, boolean clear, boolean onInit) {
 		super(state, startPos, size);
 		this.zoom = zoom;
 		this.clear = clear;
+		
+		if (onInit) {
+			state.addSavePoint(startPos, null, zoom, clear);
+		}
 	}
 	
 	@Override

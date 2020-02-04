@@ -205,6 +205,7 @@
  </objecttype>
  <objecttype name="Save" color="#a0a0a4">
   <property name="clear" type="bool" default="true"/>
+  <property name="onInit" type="bool" default="true"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
   <property name="zoom" type="float" default="1"/>

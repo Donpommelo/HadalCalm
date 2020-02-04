@@ -57,16 +57,13 @@ public class InitState extends GameState {
         }
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public void update(float delta) {
 		if (HadalGame.assetManager.update()) {
 			
 			//If we are done loading, do to title state and set up gsm assets (static atlases and stuff like that)
-			getGsm().loadAssets();
-			getGsm().addState(State.TITLE, InitState.class);
+			gsm.loadAssets();
+			gsm.addState(State.TITLE, InitState.class);
 			gsm.getApp().setFadeLevel(1.0f);
 			gsm.getApp().fadeIn();
 		}

@@ -244,6 +244,9 @@ public class PlayState extends GameState {
 		//Clear events in the TiledObjectUtil to avoid keeping reference to previous map's events.
 		TiledObjectUtil.clearEvents();
 		
+		//Set up "save point" as starting point
+		this.savePoints = new ArrayList<SavePoint>();
+				
 		//Only the server processes collision objects, events and triggers
 		if (server) {
 			TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
@@ -251,18 +254,18 @@ public class PlayState extends GameState {
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
 		}
+		TiledObjectUtil.parseTiledCommonEventLayer(this, map.getLayers().get("event-layer").getObjects());
+
+		savePoints.add(new SavePoint(startPosition, null, zoomDesired));
 		
 		//Create the player and make the camera focus on it
-		this.player = createPlayer(startPosition, gsm.getRecord().getName(), loadout, old, 0, reset);
+		SavePoint getSave = getSavePoint();
+		this.player = createPlayer(getSave.getLocation(), gsm.getRecord().getName(), loadout, old, 0, reset);
 		
-		this.camera.position.set(new Vector3(startPosition.x, startPosition.y, 0));
+		this.camera.position.set(new Vector3(getSave.getLocation().x, getSave.getLocation().y, 0));
 		this.reset = reset;
 		
 		controller = new PlayerController(player);	
-		
-		//Set up "save point" as starting point
-		this.savePoints = new ArrayList<SavePoint>();
-		savePoints.add(new SavePoint(startPosition, null, zoomDesired));		
 		
 		//Set up dummy points (AI rally points)
 		this.dummyPoints = new HashMap<String, PositionDummy>();
@@ -620,7 +623,7 @@ public class PlayState extends GameState {
 		case RESULTS:
 
 			//get a results screen
-			getGsm().addResultsState(this, resultsText, PlayState.class);
+			gsm.addResultsState(this, resultsText, PlayState.class);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
@@ -631,17 +634,17 @@ public class PlayState extends GameState {
 		case NEWLEVEL:
 			
 			//remove this state and add a new play state with a fresh loadout
-			getGsm().removeState(PlayState.class);
-        	getGsm().addPlayState(nextLevel, new Loadout(gsm.getRecord()), null, TitleState.class, true, nextStartId);
+			gsm.removeState(PlayState.class);
+			gsm.addPlayState(nextLevel, new Loadout(gsm.getRecord()), null, TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
 			
 			//remove this state and add a new play state with the player's current loadout and stats
-			getGsm().removeState(PlayState.class);
-			getGsm().addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
+			gsm.removeState(PlayState.class);
+			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
-			getGsm().removeState(PlayState.class);
+			gsm.removeState(PlayState.class);
 			break;
 		default:
 			break;
@@ -667,8 +670,8 @@ public class PlayState extends GameState {
 			if (instant) {
 				
 				//remove this state and add a new play state with the player's current loadout and stats
-				getGsm().removeState(PlayState.class);
-				getGsm().addPlayState(level, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
+				gsm.removeState(PlayState.class);
+				gsm.addPlayState(level, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 				
 			} else {
 				
@@ -752,16 +755,16 @@ public class PlayState extends GameState {
 	 */
 	public void onPlayerDeath(Player player, Schmuck perp) {
 		
-		boolean outOfLives;
-		
 		//Register the kill for score keeping purposes
 		if (perp instanceof Player) {
-			outOfLives = HadalGame.server.registerKill((Player)perp, player);
+			HadalGame.server.registerKill((Player)perp, player);
 		} else {
-			outOfLives = HadalGame.server.registerKill(null, player);
+			HadalGame.server.registerKill(null, player);
 		}
 				
-		if (outOfLives && !unlimitedLife) {
+		if (!unlimitedLife) {
+			
+			String resultsText = "";
 			
 			//check if all players are out
 			boolean allded = true;
@@ -770,11 +773,17 @@ public class PlayState extends GameState {
 			if (pvp) {
 				
 				short factionLeft = -1;
-				
 				for (int f: HadalGame.server.getScores().keySet()) {
-					if (HadalGame.server.getScores().get(f).isAlive()) {
-						Player playerLeft = HadalGame.server.getPlayers().get(f);
+					if (HadalGame.server.getScores().get(f).getLives() > 0) {
+						Player playerLeft;
+						if (f == 0) {
+							playerLeft = this.player;
+						} else {
+							playerLeft = HadalGame.server.getPlayers().get(f);
+						}
+						
 						if (playerLeft != null) {
+							resultsText = playerLeft.getName() + " WINS";
 							if (factionLeft == -1) {
 								factionLeft = playerLeft.getHitboxfilter();
 							} else {
@@ -783,14 +792,14 @@ public class PlayState extends GameState {
 								}
 							}
 						}
-						break;
 					}
 				}
 			} else {
+				resultsText = "YOU DECEASED";
 				
 				//coop levels end when all players are dead
 				for (SavedPlayerFields f: HadalGame.server.getScores().values()) {
-					if (f.isAlive()) {
+					if (f.getLives() > 0) {
 						allded = false;
 						break;
 					}
@@ -799,11 +808,8 @@ public class PlayState extends GameState {
 			
 			//if all players have died, go to the results screen with a game over
 			if (allded) {
-				
-				resultsText = getGameOverText();
-				
-				beginTransition(TransitionState.RESULTS, true, getGameOverText());
-				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, getGameOverText()));
+				beginTransition(TransitionState.RESULTS, true, resultsText);
+				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText));
 			} else {
 				
 				//otherwise, the player that dies transitions -> respawns
@@ -898,12 +904,6 @@ public class PlayState extends GameState {
 			HadalGame.server.sendToAllTCP(new Packets.SyncBoss(0.0f));
 		}
 	}
-	
-	/**
-	 * This gives a line of text on game over.
-	 * @return
-	 */
-	public String getGameOverText() { return "YOU DED"; }
 	
 	/**
 	 * This is called by the server when a new client connects. We catch up the client by making them create all existing entities.

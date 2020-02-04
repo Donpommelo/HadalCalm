@@ -81,7 +81,7 @@ public class PauseState extends GameState {
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().removeState(PauseState.class);
+			        	gsm.removeState(PauseState.class);
 			        	
 			        	if (ps.isServer()) {
 			        		
@@ -99,7 +99,7 @@ public class PauseState extends GameState {
 				
 				hubOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().removeState(PauseState.class);
+			        	gsm.removeState(PauseState.class);
 			        	
 			        	if (ps.isServer()) {
 			        		//If the server unpauses, send a message and notification to all players to unpause.
@@ -119,7 +119,7 @@ public class PauseState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
-			        	getGsm().addSettingState(ps, PauseState.class);
+			        	gsm.addSettingState(ps, PauseState.class);
 			        }
 			    });
 				
@@ -127,7 +127,7 @@ public class PauseState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
-			        	getGsm().removeState(PauseState.class);
+			        	gsm.removeState(PauseState.class);
 			        	ps.returnToTitle();
 			        }
 			    });
@@ -204,7 +204,7 @@ public class PauseState extends GameState {
 		
 		//If the state has been unpaused, remove it
 		if (toRemove) {
-        	getGsm().removeState(PauseState.class);
+			gsm.removeState(PauseState.class);
 		}
 	}
 
