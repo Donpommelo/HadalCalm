@@ -358,9 +358,6 @@ public class SettingState extends GameState {
 		}
 	}
 	
-	@Override
-	public void transitionState() {}
-	
 	//This is called when the setting state is designated to be removed. (if another player unpauses)
 	public void setToRemove(boolean toRemove) {	this.toRemove = toRemove; }
 		

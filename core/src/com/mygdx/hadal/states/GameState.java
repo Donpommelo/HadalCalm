@@ -20,9 +20,6 @@ public abstract class GameState {
 	protected SpriteBatch batch;
 	public OrthographicCamera camera, hud;
 	
-	//This is the next state that we transition to if we are transitioning
-	protected TransitionState nextState;
-	
 	//This is the stage that is displayed for this state
 	protected Stage stage;
 	
@@ -51,10 +48,6 @@ public abstract class GameState {
 	 */
 	public abstract void render(float delta);
 	
-	/**
-	 * This is run when this state finishes a fade-out transition
-	 */
-	public abstract void transitionState();
 	
 	/**
 	 * This will be run upon deleting the state and will dispose of any unneeded object in the state. 
@@ -66,14 +59,4 @@ public abstract class GameState {
 	public GameStateManager getGsm() {return gsm; }
 
 	public Stage getStage() { return stage; }
-	
-	public enum TransitionState {
-		RESPAWN,
-		RESULTS,
-		SPECTATOR,
-		NEWLEVEL,
-		NEXTSTAGE,
-		SETTING,
-		TITLE
-	}
 }

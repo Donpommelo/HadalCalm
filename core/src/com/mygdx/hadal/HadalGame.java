@@ -65,6 +65,8 @@ public class HadalGame extends ApplicationAdapter {
   	//This is how much the fade changes every engine tick (starts out fading in)
   	protected float fadeDelta = defaultFadeInSpeed;
   	
+  	private Runnable runAfterTransition;
+  	
     private Texture black;
     
     private GLProfiler profiler;
@@ -156,7 +158,10 @@ public class HadalGame extends ApplicationAdapter {
 			if (fadeLevel >= 1f) {
 				fadeLevel = 1f;
 				fadeDelta = 0;
-				gsm.finishTransition();
+				if (runAfterTransition != null) {
+					Gdx.app.postRunnable(runAfterTransition);
+				}
+				fadeIn();
 			}
 		}
 				
@@ -207,6 +212,8 @@ public class HadalGame extends ApplicationAdapter {
 	public void fadeIn() { fadeDelta = defaultFadeInSpeed; }
 	
 	public void setFadeLevel(float fadeLevel) { this.fadeLevel = fadeLevel; }
+	
+	public void setRunAfterTransition(Runnable runAfterTransition) { this.runAfterTransition = runAfterTransition; }
 	
 	/**
 	 * This is used to set game framerate dynamically.

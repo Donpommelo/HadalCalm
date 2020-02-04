@@ -180,11 +180,19 @@ public class ResultsState extends GameState {
 		
 		//When the server is ready, we return to hub and tell all clients to do the same.
 		if (reddy && ps.isServer()) {
-			nextState = TransitionState.NEWLEVEL;
+			gsm.getApp().setRunAfterTransition(new Runnable() {
+
+				@Override
+				public void run() {
+					getGsm().removeState(ResultsState.class);
+			    	getGsm().removeState(PlayState.class);
+			    	getGsm().gotoHubState();
+				}
+				
+			});
 			gsm.getApp().fadeOut();
 		}
 	}
-	
 
 	@Override
 	public void update(float delta) {}
@@ -192,19 +200,6 @@ public class ResultsState extends GameState {
 	@Override
 	public void render(float delta) {}
 
-	@Override
-	public void transitionState() {
-		switch(nextState) {
-		case NEWLEVEL:
-			getGsm().removeState(ResultsState.class);
-	    	getGsm().removeState(PlayState.class);
-	    	getGsm().gotoHubState();
-			break;
-		default:
-			break;
-		}
-	}
-	
 	@Override
 	public void dispose() {
 		stage.dispose();

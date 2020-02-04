@@ -325,13 +325,6 @@ public class GameStateManager {
 		}
 	}
 	
-	public void finishTransition() {
-		if (!states.empty()) {
-			states.peek().transitionState();
-			app.fadeIn();
-		}
-	}
-	
 	public Stack<GameState> getStates() { return states; }
 
 	public HadalGame getApp() { return app;	}

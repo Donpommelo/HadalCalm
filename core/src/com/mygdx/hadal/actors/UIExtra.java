@@ -155,6 +155,10 @@ public class UIExtra extends AHadalActor{
 	 */
 	public void changeFields(Player p, int score, int lives, float timerSet, float timerIncrement) {
 		
+		if (!state.isServer()) {
+			return;
+		}
+		
 		SavedPlayerFields field = null;
 		
 		if (p == null) {

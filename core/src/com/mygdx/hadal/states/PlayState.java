@@ -156,8 +156,9 @@ public class PlayState extends GameState {
 	
 	//Background and black screen used for transitions
 	protected Texture bg;
-	
 	protected Shader shaderBase;
+	
+	protected TransitionState nextState;
 	
 	//If we are transitioning to another level, this is that level.
 	private UnlockLevel nextLevel;
@@ -599,7 +600,6 @@ public class PlayState extends GameState {
 	/**
 	 * This is called when ending a playstate by winning, losing or moving to a new playstate
 	 */	
-	@Override
 	public void transitionState() {
 		
 		switch (nextState) {
@@ -856,6 +856,13 @@ public class PlayState extends GameState {
 			this.resultsText = resultsText;
 			nextState = state;
 			gsm.getApp().fadeOut();
+			gsm.getApp().setRunAfterTransition(new Runnable() {
+
+				@Override
+				public void run() {
+					transitionState();
+				}
+			});
 		}
 	}
 	
@@ -981,6 +988,15 @@ public class PlayState extends GameState {
 	public void setShaderBase(Shader shader) {
 		shaderBase = shader;
 		shaderBase.loadShader(this, null, 0);
+	}
+	
+	public enum TransitionState {
+		RESPAWN,
+		RESULTS,
+		SPECTATOR,
+		NEWLEVEL,
+		NEXTSTAGE,
+		TITLE
 	}
 	
 	public boolean isServer() { return server; }

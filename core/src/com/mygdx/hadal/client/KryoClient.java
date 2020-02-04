@@ -135,10 +135,17 @@ public class KryoClient {
         				
                         @Override
                         public void run() {
-                        	gsm.removeState(ResultsState.class);
-                        	gsm.removeState(ClientState.class);
-                			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
-                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime, gsm.getRecord().getName(), new Loadout(gsm.getRecord())));
+                        	gsm.getApp().fadeOut();
+                        	gsm.getApp().setRunAfterTransition(new Runnable() {
+
+								@Override
+								public void run() {
+									gsm.removeState(ResultsState.class);
+		                        	gsm.removeState(ClientState.class);
+		                			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
+		                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime, gsm.getRecord().getName(), new Loadout(gsm.getRecord())));
+								}
+                        	});
                         }
                     });
         		}

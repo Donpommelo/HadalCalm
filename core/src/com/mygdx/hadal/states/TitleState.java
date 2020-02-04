@@ -99,7 +99,14 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.MULTI;
 						
 						//Enter the Hub State.
-						nextState = TransitionState.NEWLEVEL;
+						gsm.getApp().setRunAfterTransition(new Runnable() {
+
+							@Override
+							public void run() {
+								getGsm().gotoHubState();
+							}
+							
+						});
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -117,7 +124,14 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
-						nextState = TransitionState.NEWLEVEL;
+						gsm.getApp().setRunAfterTransition(new Runnable() {
+
+							@Override
+							public void run() {
+								getGsm().gotoHubState();
+							}
+							
+						});
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -198,7 +212,15 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						nextState = TransitionState.SETTING;
+						//Enter the Hub State.
+						gsm.getApp().setRunAfterTransition(new Runnable() {
+
+							@Override
+							public void run() {
+								getGsm().addSettingState(null, TitleState.class);
+							}
+							
+						});
 						gsm.getApp().fadeOut();
 			        }
 			    });
@@ -259,20 +281,6 @@ public class TitleState extends GameState {
 
 	@Override
 	public void render(float delta) {}
-
-	@Override
-	public void transitionState() {
-		switch(nextState) {
-		case NEWLEVEL:
-			getGsm().gotoHubState();
-			break;
-		case SETTING:
-			getGsm().addSettingState(null, TitleState.class);
-			break;
-		default:
-			break;
-		}
-	}
 	
 	@Override
 	public void dispose() {	stage.dispose(); }
