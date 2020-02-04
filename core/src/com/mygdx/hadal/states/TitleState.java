@@ -38,9 +38,10 @@ public class TitleState extends GameState {
 	private TextField enterName, enterIP;
 	
 	//Dimentions and position of the title menu
+	private final static int menuX = 480;
+	private final static int menuY = 00;
 	private final static int width = 700;
 	private final static int height = 240;
-	private final static int xOffset = 100;
 
 	//This boolean determines if connection was attempted. Used to avoid multiple connections.
 	private boolean connectAttempted = false;
@@ -58,10 +59,10 @@ public class TitleState extends GameState {
 		stage = new Stage() {
 			{
 				addActor(new TitleBackdrop());
-				addActor(new MenuWindow(gsm, HadalGame.CONFIG_WIDTH - width - xOffset, 0, width, height));
+				addActor(new MenuWindow(gsm, menuX, menuY, width, height));
 				
 				table = new Table();
-				table.setPosition(HadalGame.CONFIG_WIDTH - width - xOffset, 0);
+				table.setPosition(menuX, menuY);
 				table.setSize(width, height);
 				addActor(table);
 				
@@ -98,7 +99,8 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.MULTI;
 						
 						//Enter the Hub State.
-			        	getGsm().gotoHubState();
+						nextState = TransitionState.NEWLEVEL;
+						gsm.getApp().fadeOut();
 			        }
 			    });
 				
@@ -115,7 +117,8 @@ public class TitleState extends GameState {
 						GameStateManager.currentMode = Mode.SINGLE;
 						
 						//Enter the Hub State.
-						getGsm().gotoHubState();
+						nextState = TransitionState.NEWLEVEL;
+						gsm.getApp().fadeOut();
 			        }
 			    });
 				
@@ -143,8 +146,7 @@ public class TitleState extends GameState {
 					         public void run() {
 					        	//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
 					            	try {
-					                	HadalGame.client.client.connect(5000, enterIP.getText(),
-					                			KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
+					                	HadalGame.client.client.connect(5000, enterIP.getText(), KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
 					                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
 					                } catch (IOException ex) {
 					                    ex.printStackTrace();
@@ -196,7 +198,8 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	getGsm().addSettingState(null, TitleState.class);
+						nextState = TransitionState.SETTING;
+						gsm.getApp().fadeOut();
 			        }
 			    });
 				
@@ -257,6 +260,20 @@ public class TitleState extends GameState {
 	@Override
 	public void render(float delta) {}
 
+	@Override
+	public void transitionState() {
+		switch(nextState) {
+		case NEWLEVEL:
+			getGsm().gotoHubState();
+			break;
+		case SETTING:
+			getGsm().addSettingState(null, TitleState.class);
+			break;
+		default:
+			break;
+		}
+	}
+	
 	@Override
 	public void dispose() {	stage.dispose(); }
 	

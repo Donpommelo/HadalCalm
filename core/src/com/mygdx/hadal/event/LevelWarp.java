@@ -4,7 +4,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
+import com.mygdx.hadal.states.GameState.TransitionState;
 
 /**
  * A Level Warp transports the player to another level.

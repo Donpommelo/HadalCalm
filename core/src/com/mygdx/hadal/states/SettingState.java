@@ -205,7 +205,7 @@ public class SettingState extends GameState {
 		screen.setScale(detailsScale);
 		
 		resolutionOptions = new SelectBox<String>(getGsm().getSkin());
-		resolutionOptions.setItems("1024 × 576", "1280 x 720", "1600 × 900", "1920 × 1080");
+		resolutionOptions.setItems("1024 X 576", "1280 X 720", "1600 X 900", "1920 X 1080");
 		resolutionOptions.setWidth(100);
 		
 		resolutionOptions.setSelectedIndex(getGsm().getSetting().getResolution());
@@ -358,6 +358,9 @@ public class SettingState extends GameState {
 		}
 	}
 	
+	@Override
+	public void transitionState() {}
+	
 	//This is called when the setting state is designated to be removed. (if another player unpauses)
 	public void setToRemove(boolean toRemove) {	this.toRemove = toRemove; }
 		
@@ -368,6 +371,9 @@ public class SettingState extends GameState {
 	
 	public enum settingTab {
 		DISPLAY,
-		CONTROLS
+		CONTROLS,
+		GAMEPLAY,
+		MULTIPLAYER,
+		AUDIO,
 	}
 }

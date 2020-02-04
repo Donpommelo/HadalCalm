@@ -16,7 +16,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.server.Packets;
-import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * The PauseState is pulled up by pausing in game.
@@ -219,6 +218,9 @@ public class PauseState extends GameState {
 		}
 	}
 
+	@Override
+	public void transitionState() {}
+	
 	@Override
 	public void dispose() { stage.dispose(); }
 

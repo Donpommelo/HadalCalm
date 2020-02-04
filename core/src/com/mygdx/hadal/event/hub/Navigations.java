@@ -9,7 +9,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.PlayState.TransitionState;
+import com.mygdx.hadal.states.GameState.TransitionState;
 
 /**
  * The Navigations is a HubEvent that allows the player to begin a level.

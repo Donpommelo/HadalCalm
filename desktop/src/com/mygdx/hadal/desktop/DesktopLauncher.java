@@ -12,14 +12,14 @@ public class DesktopLauncher {
 		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = TITLE;
 		config.resizable = false;
-		config.foregroundFPS = 60;
 		new LwjglApplication(new HadalGame() {
 			
 			@Override
 			public void setFrameRate(int framerate) {
+				
+				//This exposes config to the app to change fps during runtime.
 				config.foregroundFPS = framerate;
 			};
-			
 			
 		}, config);
 	}

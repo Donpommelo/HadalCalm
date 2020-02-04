@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
@@ -54,6 +55,18 @@ public class HadalGame extends ApplicationAdapter {
 	//currentMenu is whatever stage is being drawn in the current gameState
     private Stage currentMenu;
     
+    //this is the rate at which the screen fades from/to black.
+  	private final static float defaultFadeInSpeed = -0.02f;
+  	private final static float defaultFadeOutSpeed = 0.02f;
+  	
+  	//This is the how faded the black screen is. (starts off black)
+  	protected float fadeLevel = 1.0f;
+  			
+  	//This is how much the fade changes every engine tick (starts out fading in)
+  	protected float fadeDelta = defaultFadeInSpeed;
+  	
+    private Texture black;
+    
     private GLProfiler profiler;
     
 	/**
@@ -85,6 +98,8 @@ public class HadalGame extends ApplicationAdapter {
 		client = new KryoClient(gsm);
 		server = new KryoServer(gsm);
 		
+		black = new Texture(Gdx.files.internal("black.png"));
+		
 		profiler = new GLProfiler(Gdx.graphics);
 		profiler.enable();
 	}
@@ -109,6 +124,42 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
 		currentMenu.draw();
 		
+		//Render fade transitions
+		if (fadeLevel > 0) {
+			batch.setProjectionMatrix(hud.combined);
+			batch.begin();
+			
+			batch.setColor(1f, 1f, 1f, fadeLevel);
+			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+			batch.setColor(1f, 1f, 1f, 1);
+			
+			batch.end();
+		}
+		
+		//If we are in the delay period of a transition, decrement the delay
+		if (fadeDelta < 0f) {
+			
+			//If we are fading in and not done yet, decrease fade.
+			fadeLevel += fadeDelta;
+			
+			//If we just finished fading in, set fade to 0
+			if (fadeLevel < 0f) {
+				fadeLevel = 0f;
+				fadeDelta = 0;
+			}
+		} else if (fadeDelta > 0f) {
+			
+			//If we are fading out and not done yet, increase fade.
+			fadeLevel += fadeDelta;
+			
+			//If we just finished fading out, set fade to 1 and do a transition
+			if (fadeLevel >= 1f) {
+				fadeLevel = 1f;
+				fadeDelta = 0;
+				gsm.finishTransition();
+			}
+		}
+				
 //		System.out.println(
 //	            "  Drawcalls: " + profiler.getDrawCalls() +
 //	            ", Calls: " + profiler.getCalls() +
@@ -148,8 +199,19 @@ public class HadalGame extends ApplicationAdapter {
 	public void dispose () {
 		gsm.dispose();
 		batch.dispose();
+		assetManager.dispose();
 	}
 	
+	public void fadeOut() {	fadeDelta = defaultFadeOutSpeed; }
+	
+	public void fadeIn() { fadeDelta = defaultFadeInSpeed; }
+	
+	public void setFadeLevel(float fadeLevel) { this.fadeLevel = fadeLevel; }
+	
+	/**
+	 * This is used to set game framerate dynamically.
+	 * This is extended in the desktop launcher to expose the config
+	 */
 	public void setFrameRate(int framerate) {};
 	
 	public OrthographicCamera getHud() { return hud; }

@@ -18,7 +18,7 @@ import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
-import com.mygdx.hadal.states.PlayState.TransitionState;
+import com.mygdx.hadal.states.GameState.TransitionState;
 
 /**
  * These are packets sent between the Server and Client.

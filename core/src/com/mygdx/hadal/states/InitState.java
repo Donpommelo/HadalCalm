@@ -67,12 +67,17 @@ public class InitState extends GameState {
 			//If we are done loading, do to title state and set up gsm assets (static atlases and stuff like that)
 			getGsm().loadAssets();
 			getGsm().addState(State.TITLE, InitState.class);
+			gsm.getApp().setFadeLevel(1.0f);
+			gsm.getApp().fadeIn();
 		}
 	}
 
 	@Override
 	public void render(float delta) {}
 
+	@Override
+	public void transitionState() {}
+	
 	@Override
 	public void dispose() {	stage.dispose(); }
 }

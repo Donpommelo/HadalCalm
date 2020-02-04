@@ -648,11 +648,7 @@ public class KryoClient {
 							public void execute() {
 								
 								if (p.entityID == null) {
-									if (p.shaderCount == 0) {
-										cs.setShaderBase(p.shader);
-									} else {
-										cs.setShaderExtra(p.shader, p.shaderCount);
-									}
+									cs.setShaderBase(p.shader);
 								} else {
 									HadalEntity entity = cs.findEntity(p.entityID);
 		    						

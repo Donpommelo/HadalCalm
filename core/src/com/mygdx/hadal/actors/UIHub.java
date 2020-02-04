@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
@@ -29,7 +30,7 @@ public class UIHub {
 	private final static int infoWidth = 400;
 	private final static int infoHeight = 300;
 	
-	private static final int tableX = 1280;
+	private static final int tableX = HadalGame.CONFIG_WIDTH;
 	private static final int tableY = 120;
 	
 	private static final int optionsWidthOuter = 720;

@@ -123,9 +123,6 @@ public class PlayState extends GameState {
 	//If there is an objective target that has a display if offscreen, this is that entity.
 	protected HadalEntity objectiveTarget;
 	
-	//This is the next state that we transition to if we are transitioning
-	protected TransitionState nextState;
-	
 	private boolean unlimitedLife;
 	
 	//The current zoom of the camera
@@ -158,23 +155,9 @@ public class PlayState extends GameState {
 	protected DialogBox dialogBox;
 	
 	//Background and black screen used for transitions
-	protected Texture bg, black;
+	protected Texture bg;
 	
-	protected Shader shaderBase, shaderExtra;
-	protected float shaderCount;
-	
-	private final static float defaultTransitionDelay = 0.25f;
-	private final static float defaultFadeInSpeed = -0.02f;
-	private final static float defaultFadeOutSpeed = 0.02f;
-	
-	//This is the amount of time between transition called for and fading actually beginning.
-	protected float fadeInitialDelay = defaultTransitionDelay;
-	
-	//This is the how faded the black screen is. (starts off black)
-	protected float fadeLevel = 1.0f;
-			
-	//This is how much the fade changes every engine tick (starts out fading in)
-	protected float fadeDelta = defaultFadeInSpeed;
+	protected Shader shaderBase;
 	
 	//If we are transitioning to another level, this is that level.
 	private UnlockLevel nextLevel;
@@ -252,7 +235,6 @@ public class PlayState extends GameState {
 		this.zoomDesired = zoom;	
 
 		this.shaderBase = Shader.NOTHING;
-		this.shaderExtra = Shader.NOTHING;
 		if (map.getProperties().get("shader", String.class) != null) {
 			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
 			shaderBase.loadShader(this, null, 0);
@@ -274,11 +256,6 @@ public class PlayState extends GameState {
 		
 		this.camera.position.set(new Vector3(startPosition.x, startPosition.y, 0));
 		this.reset = reset;
-
-		if (!reset) {
-			fadeLevel = 0;
-			fadeDelta = 0.0f;
-		}
 		
 		controller = new PlayerController(player);	
 		
@@ -291,7 +268,6 @@ public class PlayState extends GameState {
 				
 		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND2.toString());
-		this.black = HadalGame.assetManager.get(AssetList.BLACK.toString());
 	}
 			
 	@Override
@@ -476,31 +452,12 @@ public class PlayState extends GameState {
 		}
 		
 		batch.end();
-		
-		//Render fade transitions
-		if (fadeLevel > 0) {
-			batch.setProjectionMatrix(hud.combined);
-			batch.begin();
-			
-			if (shaderExtra.getShader() != null) {
-				shaderExtra.getShader().begin();
-				shaderExtra.shaderUpdate(this, timer);
-				shaderExtra.getShader().end();
-				batch.setShader(shaderExtra.getShader());
-			}
-			
-			batch.setColor(1f, 1f, 1f, fadeLevel);
-			batch.draw(black, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
-			batch.setColor(1f, 1f, 1f, 1);
-			
-			if (shaderExtra.getShader() != null) {
-				batch.setShader(null);
-			}
-			
-			batch.end();
-		}
 	}	
 	
+	/**
+	 * This is run in the update method and is just a helper to avoid repeating code in both the server/client states.
+	 * This does all of the stuff that is needed for both server and client (processing packets, fade and some other misc stuff)
+	 */
 	public void processCommonStateProperties(float delta) {
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
@@ -516,44 +473,11 @@ public class PlayState extends GameState {
 		
 		//Increment the game timer, if exists
 		uiExtra.incrementTimer(delta);
-		
-		//If we are in the delay period of a transition, decrement the delay
-		if (fadeInitialDelay <= 0f) {
-			
-			if (fadeDelta < 0f) {
-				
-				//If we are fading in and not done yet, decrease fade.
-				fadeLevel += fadeDelta;
-				
-				//If we just finished fading in, set fade to 0
-				if (fadeLevel < 0f) {
-					fadeLevel = 0f;
-					fadeDelta = 0;
-				}
-			} else if (fadeDelta > 0f) {
-				
-				//If we are fading out and not done yet, increase fade.
-				fadeLevel += fadeDelta;
-				
-				//If we just finished fading out, set fade to 1 and do a transition
-				if (fadeLevel >= 1f) {
-					fadeLevel = 1f;
-					fadeDelta = 0;
-					transitionState();
-				}
-			}
-		} else {
-			fadeInitialDelay -= delta;
-		}
-		
-		if (shaderCount > 0) {
-			shaderCount -= delta;
-			if (shaderCount <= 0) {
-				shaderExtra = Shader.NOTHING;
-			}
-		}
 	}
 	
+	/**
+	 * Render all entities in the world
+	 */
 	public void renderEntities(float delta) {
 		for (HadalEntity hitbox : hitboxes) {
 			renderEntity(hitbox, delta);
@@ -563,6 +487,11 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	/**
+	 * This method renders a single entity.
+	 * @param entity
+	 * @param delta
+	 */
 	public void renderEntity(HadalEntity entity, float delta) {
 		
 		entity.decreaseShaderCount(delta);
@@ -650,6 +579,8 @@ public class PlayState extends GameState {
 	
 	@Override
 	public void resize(int width, int height) {
+		
+		//This refocuses the camera to avoid camera moving after resizing
 		if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
 				this.camera.position.set(new Vector3(player.getPixelPosition().x, player.getPixelPosition().y, 0));
@@ -668,6 +599,7 @@ public class PlayState extends GameState {
 	/**
 	 * This is called when ending a playstate by winning, losing or moving to a new playstate
 	 */	
+	@Override
 	public void transitionState() {
 		
 		switch (nextState) {
@@ -682,9 +614,6 @@ public class PlayState extends GameState {
 			this.cameraTarget = getSave.getZoomLocation();
 			this.zoomDesired = getSave.getZoom();
 
-			//Make the screen fade back in
-			fadeDelta = defaultFadeInSpeed;
-			
 			//Make nextState null so we can transition again
 			nextState = null;
 			break;
@@ -695,9 +624,6 @@ public class PlayState extends GameState {
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
-			
-			//Make the screen fade back in
-			fadeDelta = defaultFadeInSpeed;
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -929,8 +855,7 @@ public class PlayState extends GameState {
 		if (nextState == null || override) {
 			this.resultsText = resultsText;
 			nextState = state;
-			fadeInitialDelay = defaultTransitionDelay;
-			fadeDelta = defaultFadeOutSpeed;	
+			gsm.getApp().fadeOut();
 		}
 	}
 	
@@ -993,7 +918,7 @@ public class PlayState extends GameState {
 	}
 	
 	/**
-	 * This acquires the leve's save points. If none, respawn at starting location. If many, choose one randomly
+	 * This acquires the level's save points. If none, respawn at starting location. If many, choose one randomly
 	 * @return a save point to spawn a respawned player at
 	 */
 	public SavePoint getSavePoint() {
@@ -1056,12 +981,6 @@ public class PlayState extends GameState {
 	public void setShaderBase(Shader shader) {
 		shaderBase = shader;
 		shaderBase.loadShader(this, null, 0);
-	}
-	
-	public void setShaderExtra(Shader shader, float shaderDuration) {
-		shaderExtra = shader;
-		shaderExtra.loadShader(this, null, shaderDuration);
-		shaderCount = shaderDuration;
 	}
 	
 	public boolean isServer() { return server; }
@@ -1131,15 +1050,4 @@ public class PlayState extends GameState {
 	public float getZoom() { return zoom; }
 	
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
-
-	
-	
-	public enum TransitionState {
-		RESPAWN,
-		RESULTS,
-		SPECTATOR,
-		NEWLEVEL,
-		NEXTSTAGE,
-		TITLE
-	}
 }

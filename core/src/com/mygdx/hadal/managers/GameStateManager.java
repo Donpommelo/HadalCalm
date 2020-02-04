@@ -96,7 +96,6 @@ public class GameStateManager {
 		if (!Gdx.files.internal("save/Records.json").exists()) {
 			Record.createNewRecord();
 		}
-		
 		if (!Gdx.files.internal("save/Settings.json").exists()) {
 			Setting.createNewSetting();
 		}
@@ -323,6 +322,13 @@ public class GameStateManager {
 	public void resize(int width, int height) {
 		for (GameState gs : states) {
 			gs.resize(width, height);
+		}
+	}
+	
+	public void finishTransition() {
+		if (!states.empty()) {
+			states.peek().transitionState();
+			app.fadeIn();
 		}
 	}
 	

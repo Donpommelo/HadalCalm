@@ -1,7 +1,7 @@
 {
 resolution: 1
-framerate: 1
-vsync: true
-timer: 3
-loadoutType: 2
+framerate: 3
+timer: 1
+lives: 1
+loadoutType: 1
 }

@@ -14,12 +14,10 @@ import com.mygdx.hadal.states.PlayState;
 public class ShaderChanger extends Event {
 
 	private Shader shader;
-	private float duration;
 	
-	public ShaderChanger(PlayState state, String shader, float duration) {
+	public ShaderChanger(PlayState state, String shader) {
 		super(state);
 		this.shader = Shader.valueOf(shader);
-		this.duration = duration;
 	}
 	
 	@Override
@@ -28,12 +26,7 @@ public class ShaderChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
-				if (duration == 0) {
-					state.setShaderBase(shader);
-				} else {
-					state.setShaderExtra(shader, duration);
-				}
+				state.setShaderBase(shader);
 			}
 		};
 	}

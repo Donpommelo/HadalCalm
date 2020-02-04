@@ -158,8 +158,7 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Shader")) {
 			e = new ShaderChanger(state, 
-					object.getProperties().get("shader", String.class), 
-					object.getProperties().get("duration", float.class));
+					object.getProperties().get("shader", String.class));
 		}
 		if (object.getName().equals("Bounds")) {
 			e = new CameraBounder(state, position, size, 
