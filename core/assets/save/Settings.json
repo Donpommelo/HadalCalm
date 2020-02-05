@@ -2,5 +2,6 @@
 resolution: 1
 framerate: 1
 timer: 2
+lives: 2
 loadoutType: 1
 }

@@ -337,7 +337,7 @@ public class PlayState extends GameState {
 	}
 	
 	private float accumulator = 0.0f;
-	private final static float physicsTime = 1 / 120f;
+	private final static float physicsTime = 1 / 300f;
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
 	 */
@@ -356,7 +356,7 @@ public class PlayState extends GameState {
 			accumulator -= physicsTime;
 			
 			//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
-			world.step(physicsTime, 8, 3);
+			world.step(physicsTime, 6, 2);
 			
 			//Let AI process time step
 			GdxAI.getTimepiece().update(physicsTime);
@@ -441,7 +441,7 @@ public class PlayState extends GameState {
 		tmr.render();				
 
 		//Render debug lines for box2d objects.
-		//b2dr.render(world, camera.combined.scl(PPM));
+		//b2dr.render(world, camera.combined.scl(32));
 		
 		//Iterate through entities in the world to render visible entities
 		batch.setProjectionMatrix(camera.combined);
@@ -806,38 +806,36 @@ public class PlayState extends GameState {
 				}
 			}
 			
-			//if all players have died, go to the results screen with a game over
+			//if athe match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
 			if (allded) {
 				beginTransition(TransitionState.RESULTS, true, resultsText);
 				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText));
 			} else {
 				
-				//otherwise, the player that dies transitions -> respawns
+				//the player that dies respawns if there are lives left and becomes a spectator otherwise
 				if (this.player.equals(player)) {
-					beginTransition(TransitionState.SPECTATOR, false, "");
+					if (HadalGame.server.getScores().get(player.getConnID()).getLives() > 0) {
+						beginTransition(TransitionState.RESPAWN, false, "");
+					} else {
+						beginTransition(TransitionState.SPECTATOR, false, "");
+					}
 				} else {
 					
-					//If a client dies, we tell them to transition to a spectator state.
-					for (int connId : HadalGame.server.getPlayers().keySet()) {
-						if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-							HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, ""));
-						}
+					//If a client dies, we tell them to transition to a spectator or respawn state.
+					if (HadalGame.server.getScores().get(player.getConnID()).getLives() > 0) {
+						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, ""));
+					} else {
+						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, ""));
 					}
 				}
 			}
 		} else {
+			
+			//if there are infinite lives, we respawn the dead player
 			if (this.player.equals(player)) {
-				
-				//Transition to the host respawning
 				beginTransition(TransitionState.RESPAWN, false, "");
 			} else {
-				
-				//If a client dies, we tell them to transition to a respawn state.
-				for (int connId : HadalGame.server.getPlayers().keySet()) {
-					if (HadalGame.server.getPlayers().get(connId).equals(player)) {
-						HadalGame.server.sendToTCP(connId, new Packets.ClientStartTransition(TransitionState.RESPAWN, false, ""));
-					}
-				}
+				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, ""));
 			}
 		}
 	}
