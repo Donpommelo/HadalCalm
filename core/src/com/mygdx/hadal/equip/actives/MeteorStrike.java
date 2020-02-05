@@ -30,16 +30,16 @@ public class MeteorStrike extends ActiveItem {
 
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 5.0f;
-	private final static float projectileSpeed = 20.0f;
+	private final static float projectileSpeed = 30.0f;
 
-	private final static float range = 1000.0f;
+	private final static float range = 2000.0f;
 	
 	private final static float baseDamage = 15.0f;
 	private final static float knockback = 50.0f;
 	
-	private final static float meteorDuration = 2.5f;
-	private final static float meteorInterval = 0.1f;
-	private final static float spread = 500.0f;
+	private final static float meteorDuration = 3.0f;
+	private final static float meteorInterval = 0.08f;
+	private final static float spread = 750.0f;
 	
 	public MeteorStrike(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

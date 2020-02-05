@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -7,6 +8,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
@@ -62,6 +64,8 @@ public class Currents extends Event {
 	
 	@Override
 	public void controller(float delta) {
+		super.controller(delta);
+		
 		controllerCount += delta;
 		while (controllerCount >= pushInterval) {
 			controllerCount -= pushInterval;
@@ -78,6 +82,22 @@ public class Currents extends Event {
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(64, 64), Sprite.NOTHING, new Vector2(0, 0), 0.5f, true),
 					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.CREATESYNC);
+		}
+	}
+	
+	/**
+	 * When server creates poison, clients are told to create the poison in their own worlds
+	 */
+	@Override
+	public Object onServerCreate() {
+		if (blueprint == null) {
+			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
+			blueprint.setName("Current");
+			blueprint.getProperties().put("currentX", vec.x);
+			blueprint.getProperties().put("currentY", vec.y);
+			return new Packets.CreateEvent(entityID.toString(), blueprint);
+		} else {
+			return new Packets.CreateEvent(entityID.toString(), blueprint);
 		}
 	}
 }

@@ -81,19 +81,7 @@ public class PauseState extends GameState {
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {
-			        	gsm.removeState(PauseState.class);
-			        	
-			        	if (ps.isServer()) {
-			        		
-			        		//If the server unpauses, send a message and notification to all players to unpause.
-			        		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
-	    					HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
-	    				} else {
-	    					
-	    					//If a client unpauses, tell the server so it can echo it to everyone else
-	    					HadalGame.client.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
-	    					HadalGame.client.client.sendTCP(new Packets.Notification(ps.getPlayer().getName(), "UNPAUSED THE GAME!"));
-	    				}
+			        	unpause();
 			        }
 			    });
 				
@@ -153,6 +141,9 @@ public class PauseState extends GameState {
 
 			@Override
 			public boolean keyDown(int keycode) {				
+				if (keycode == PlayerAction.PAUSE.getKey()) {
+					unpause();
+				}
 				if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
 					ps.getController().keyDown(keycode);
 				}
@@ -222,6 +213,22 @@ public class PauseState extends GameState {
 	@Override
 	public void dispose() { stage.dispose(); }
 
+	public void unpause() {
+		gsm.removeState(PauseState.class);
+    	
+    	if (ps.isServer()) {
+    		
+    		//If the server unpauses, send a message and notification to all players to unpause.
+    		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
+		} else {
+			
+			//If a client unpauses, tell the server so it can echo it to everyone else
+			HadalGame.client.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			HadalGame.client.client.sendTCP(new Packets.Notification(ps.getPlayer().getName(), "UNPAUSED THE GAME!"));
+		}
+	}
+	
 	//This is called when the pause state is designated to be removed.
 	public void setToRemove(boolean toRemove) {	this.toRemove = toRemove; }
 

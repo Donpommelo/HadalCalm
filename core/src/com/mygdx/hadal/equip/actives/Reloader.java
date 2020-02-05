@@ -10,16 +10,17 @@ public class Reloader extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 10.0f;
+	private final static float maxCharge = 500.0f;
 	
 	public Reloader(Schmuck user) {
-		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
+		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);
 	}
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		for (Equipable e : user.getMultitools()) {
 			e.gainClip(100);
+			e.gainAmmo(0.5f);
 		}
 	}
 }

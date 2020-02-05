@@ -795,13 +795,13 @@ public class Player extends PhysicsSchmuck {
 
 	public float getChargePercent() {return chargePercent;}
 
-	public void setChargePercent(float chargePercent) {this.chargePercent = chargePercent;}
+	public void setChargePercent(float chargePercent) { this.chargePercent = chargePercent; }
 
-	public ActionController getController() { return controller;}
+	public ActionController getController() { return controller; }
 	
-	public Loadout getStartLoadout() { return startLoadout;}
+	public Loadout getStartLoadout() { return startLoadout; }
 
-	public void setStartLoadout(Loadout startLoadout) { this.startLoadout = startLoadout;}
+	public void setStartLoadout(Loadout startLoadout) { this.startLoadout = startLoadout; }
 
 	public MouseTracker getMouse() { return mouse; }
 

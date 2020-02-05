@@ -58,7 +58,7 @@ public class LaserRifle extends RangedWeapon {
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = projectileWidth * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
-		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
+		endPt.set(user.getPosition()).add(new Vector2(startVelocity).nor().scl(distance));
 		shortestFraction = 1.0f;
 		
 		//Raycast length of distance until we hit a wall
@@ -92,10 +92,9 @@ public class LaserRifle extends RangedWeapon {
 			@Override
 			public void create() {
 				super.create();
-
 				//Rotate hitbox to match angle of fire.
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
-				newPosition.set(getPosition()).add(startVelocity.nor().scl(size.x / 2 / PPM));
+				newPosition.set(getPosition()).add(new Vector2(startVelocity).nor().scl(size.x / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
 				
 				this.body.setType(BodyDef.BodyType.StaticBody);

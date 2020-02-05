@@ -269,4 +269,6 @@ public class RangedWeapon extends Equipable {
 	public void setClipLeft() {	clipLeft = (int) (clipPercent * getClipSize());	}
 	
 	public void setAmmoLeft() {	ammoLeft = (int) (ammoPercent * getAmmoSize());	}
+
+	public float getProjectileSpeed() {	return projectileSpeed; }
 }

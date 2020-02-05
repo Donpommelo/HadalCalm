@@ -13,22 +13,24 @@ import com.mygdx.hadal.managers.GameStateManager;
 public enum UnlockActives {
 	
 	ANCHOR_SMASH(AnchorSmash.class),
+	MELON(Melon.class),
+	MERIDIAN_MAKER(MeridianMaker.class),
 	METEOR_STRIKE(MeteorStrike.class),
-	
+	MISSILE_POD(MissilePod.class),
+	NAUTICAL_MINE(NauticalMine.class),
+	RADIAL_BARRAGE(RadialBarrage.class),
 	TAINTED_WATER(TaintedWater.class),
 	TRACTOR_BEAM(TractorBeam.class),
+	
 	SPRING_LOADER(SpringLoader.class),
-	NAUTICAL_MINE(NauticalMine.class),
 	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
 	HONEYCOMB(Honeycomb.class),
 	FISH_GANG(FishGang.class),
-	MELON(Melon.class),
-	NOTHING(NothingActive.class),
-	MISSILE_POD(MissilePod.class),
 	PORTABLE_TURRET(PortableTurret.class),
 	RELOADER(Reloader.class),
 	RESERVED_FUEL(ReservedFuel.class),
-
+	
+	NOTHING(NothingActive.class),
 	;
 	
 	private Class<? extends ActiveItem> active;

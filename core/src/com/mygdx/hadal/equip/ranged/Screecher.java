@@ -59,7 +59,7 @@ public class Screecher extends RangedWeapon {
 		//This is the max distance this weapon can shoot (hard coded to scale to weapon range modifiers)
 		float distance = range * (1 + user.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN));
 		
-		endPt.set(user.getPosition()).add(startVelocity.nor().scl(distance));
+		endPt.set(user.getPosition()).add(new Vector2(startVelocity).nor().scl(distance));
 		shortestFraction = 1.0f;
 		
 		//Raycast length of distance until we hit a wall
@@ -92,7 +92,7 @@ public class Screecher extends RangedWeapon {
 		}
 		
 		//create explosions around the point we raycasted towards
-		newPosition.set(user.getPixelPosition()).add(startVelocity.nor().scl(distance * shortestFraction * PPM));
+		newPosition.set(user.getPixelPosition()).add(new Vector2(startVelocity).nor().scl(distance * shortestFraction * PPM));
 		newPosition.add(ThreadLocalRandom.current().nextInt(-spread, spread + 1), ThreadLocalRandom.current().nextInt(-spread, spread + 1));
 		
 		Hitbox hbox = new RangedHitbox(state, newPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, projSprite);
@@ -107,7 +107,7 @@ public class Screecher extends RangedWeapon {
 				if (fixB != null) {
 					
 					//hard coded way of making a static hbox apply knockback
-					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, false);
+					fixB.receiveDamage(0, new Vector2(startVelocity).nor().scl(knockback), creator, false);
 				}
 			}
 		});

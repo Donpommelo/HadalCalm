@@ -261,11 +261,8 @@ public class PlayState extends GameState {
 		//Create the player and make the camera focus on it
 		SavePoint getSave = getSavePoint();
 		this.player = createPlayer(getSave.getLocation(), gsm.getRecord().getName(), loadout, old, 0, reset);
-		
 		this.camera.position.set(new Vector3(getSave.getLocation().x, getSave.getLocation().y, 0));
 		this.reset = reset;
-		
-		controller = new PlayerController(player);	
 		
 		//Set up dummy points (AI rally points)
 		this.dummyPoints = new HashMap<String, PositionDummy>();

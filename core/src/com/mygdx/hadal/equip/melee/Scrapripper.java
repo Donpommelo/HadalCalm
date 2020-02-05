@@ -12,7 +12,6 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 import com.mygdx.hadal.strategies.hitbox.FixedToUser;
@@ -35,11 +34,10 @@ public class Scrapripper extends MeleeWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, startVelocity, filter, true, true, user, Sprite.IMPACT);
+		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, new Vector2(), filter, true, true, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
 		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		new ParticleEntity(state, hbox, Particle.EXPLOSION, 0.2f, 0.0f, true, particleSyncType.CREATESYNC);

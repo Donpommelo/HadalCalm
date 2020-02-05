@@ -28,7 +28,7 @@ public class AnchorSmash extends ActiveItem {
 	private final static float lifespan = 5.0f;
 	private final static float projectileSpeed = 90.0f;
 
-	private final static float range = 1200.0f;
+	private final static float range = 2000.0f;
 	
 	private final static float baseDamage = 75.0f;
 	private final static float knockback = 50.0f;
