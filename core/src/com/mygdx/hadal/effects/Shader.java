@@ -48,7 +48,7 @@ public enum Shader {
 		shader.end();
 		
 		if (state.isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityId, this, duration));
+			HadalGame.server.sendToAllTCP(new Packets.SyncShader(entityId, this, duration));
 		}
 	}
 	

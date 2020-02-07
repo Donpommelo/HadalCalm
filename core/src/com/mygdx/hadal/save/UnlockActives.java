@@ -13,6 +13,9 @@ import com.mygdx.hadal.managers.GameStateManager;
 public enum UnlockActives {
 	
 	ANCHOR_SMASH(AnchorSmash.class),
+	DEPTH_CHARGE(DepthCharge.class),
+	DODGE_ROLL(DodgeRoll.class),
+	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
 	MELON(Melon.class),
 	MERIDIAN_MAKER(MeridianMaker.class),
 	METEOR_STRIKE(MeteorStrike.class),
@@ -23,7 +26,7 @@ public enum UnlockActives {
 	TRACTOR_BEAM(TractorBeam.class),
 	
 	SPRING_LOADER(SpringLoader.class),
-	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
+	
 	HONEYCOMB(Honeycomb.class),
 	FISH_GANG(FishGang.class),
 	PORTABLE_TURRET(PortableTurret.class),

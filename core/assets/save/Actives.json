@@ -8,9 +8,45 @@ ANCHOR_SMASH: {
 		RANDOM_POOL,
 	]
 }
+DEPTH_CHARGE: {
+	name: Depth Charge
+	description: "Perform an Explosive-Powered Jump"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+DODGE_ROLL: {
+	name: Dodge Roll
+	description: "Perform an Invulnerable Dodge"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 METEOR_STRIKE: {
 	name: Meteor Strike
 	description: "Summon Meteors at Mouse Location"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+MERIDIAN_MAKER: {
+	name: Meridian Maker
+	description: "Fire a Current-Creating Projectile"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+RADIAL_BARRAGE: {
+	name: Radial Barrage
+	description: "Fire Weapon in All Directions"
     descriptionLong: ""
 	tags: [
 		DISPENSARY,

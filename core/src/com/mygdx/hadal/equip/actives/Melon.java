@@ -28,6 +28,7 @@ public class Melon extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		user.addStatus(new StatChangeStatus(state, duration, Stats.HP_REGEN, power, user, user) {
+			
 			@Override
 			public void onInflict() {
 				regen = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, 0.0f, duration, true, particleSyncType.CREATESYNC);
