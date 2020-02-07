@@ -14,6 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.utils.Constants;
 
 public class MeridianMaker extends ActiveItem {
 
@@ -26,7 +27,7 @@ public class MeridianMaker extends ActiveItem {
 	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 4.0f;
 	
-	private final static float projectileSpeed = 10.0f;
+	private final static float projectileSpeed = 20.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
@@ -45,6 +46,8 @@ public class MeridianMaker extends ActiveItem {
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, 
 				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
 		
+		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
@@ -55,8 +58,7 @@ public class MeridianMaker extends ActiveItem {
 			@Override
 			public void controller(float delta) {
 				if (lastPosition.dst(hbox.getPixelPosition()) > currentRadius) {
-					new Currents(state, lastPosition, new Vector2(currentRadius, currentRadius), currentVec, lifespan);
-					lastPosition.set(hbox.getPixelPosition());
+					new Currents(state, lastPosition.set(hbox.getPixelPosition()), new Vector2(currentRadius, currentRadius), currentVec, lifespan);
 				}
 			}
 		}); 

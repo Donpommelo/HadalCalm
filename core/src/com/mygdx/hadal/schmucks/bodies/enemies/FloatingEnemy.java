@@ -196,7 +196,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, false);
+			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, false);
 		}
 		return super.queueDeletion();
 	}

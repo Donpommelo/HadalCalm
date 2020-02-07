@@ -38,7 +38,7 @@ public class Popper extends RangedWeapon {
 	private final static float fragLifespan = 1.0f;
 	private final static float fragDamage = 5.0f;
 
-	private final static float projDampen = 12.0f;
+	private final static float projDampen = 10.0f;
 	private final static float fragDampen = 3.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
@@ -53,7 +53,7 @@ public class Popper extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(5.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

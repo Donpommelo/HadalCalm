@@ -102,7 +102,6 @@ public class SpawnerSchmuck extends Event {
 						}
 						amountLeft++;
 						if (boss) {
-							enemy.setBoss(true);
 							enemy.setName(bossName);
 							state.setBoss(enemy);
 						}

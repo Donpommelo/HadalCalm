@@ -95,8 +95,6 @@ public class Enemy extends Schmuck {
 		this.target = target;
 	}
 	
-	public boolean isBoss() { return isBoss; }
-
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
 
 	public String getName() { return name; }

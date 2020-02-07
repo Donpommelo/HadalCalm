@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -16,6 +15,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -49,7 +49,7 @@ public class Boss extends Enemy {
 	protected float attackAngle;
 	
 	//This is a dummy event in the map that the boss is moving towards
-	private Event movementTarget;
+	private Vector2 movementTarget;
 	
 	//The action queues and current action hold the boss' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
 	private ArrayList<BossAction> actions;
@@ -76,9 +76,10 @@ public class Boss extends Enemy {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 10, 0, false, false, Constants.BIT_ENEMY, 
-				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
+		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 				hitboxfilter, false, bodyData);
+		
+		bodyData.addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, bodyData));
 		
 		state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
 		if (state.isServer()) {
@@ -94,20 +95,18 @@ public class Boss extends Enemy {
 		
 		//move towards movement target, if existent.
 		if (movementTarget != null) {
-			if (movementTarget.getBody() != null) {
-				Vector2 dist = movementTarget.getPixelPosition().sub(getPixelPosition());
+			Vector2 dist = new Vector2(movementTarget).sub(getPixelPosition());
+			
+			//upon reaching target, conclude current action immediately and move on to the next action
+			if ((int)dist.len2() <= 100) {
+				setLinearVelocity(0, 0);
+				movementTarget = null;
 				
-				//upon reaching target, conclude current action immediately and move on to the next action
-				if ((int)dist.len2() <= 100) {
-					setLinearVelocity(0, 0);
-					movementTarget = null;
-					
-					aiActionCdCount = 0;
-					currentAction = null;
-					
-				} else {
-					setLinearVelocity(dist.nor().scl(moveSpeed));
-				}
+				aiActionCdCount = 0;
+				currentAction = null;
+				
+			} else {
+				setLinearVelocity(dist.nor().scl(moveSpeed));
 			}
 		}
 		
@@ -213,9 +212,9 @@ public class Boss extends Enemy {
 	
 	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }
 	
-	public Event getMovementTarget() { return movementTarget; }
+	public Vector2 getMovementTarget() { return movementTarget; }
 
-	public void setMovementTarget(Event movementTarget) { this.movementTarget = movementTarget; }
+	public void setMovementTarget(Vector2 movementTarget) { this.movementTarget = movementTarget; }
 
 	public ArrayList<BossAction> getActions()  {return actions; }
 

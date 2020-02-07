@@ -33,10 +33,11 @@ public class Ragdoll extends HadalEntity {
 	
 	//how long does the ragdoll last
 	private float ragdollDuration;
+	private float gravity;
 	
 	//starting multiplier on starting velocity and direction
-	private float veloAmp = 5.0f;
-	private float baseAngle = 5.0f;
+	private final static float veloAmp = 5.0f;
+	private final static float baseAngle = 5.0f;
 	
 	private Vector2 startVelo;
 	private float startAngle;
@@ -44,11 +45,12 @@ public class Ragdoll extends HadalEntity {
 	//is the ragdoll a sensor? (i.e does it have collision)
 	private boolean sensor;
 	
-	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, boolean sensor) {
+	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean sensor) {
 		super(state, startPos, size);
 		this.startVelo = startVelo;
 		this.startAngle = baseAngle;
 		this.ragdollDuration = duration;
+		this.gravity = gravity;
 		this.sprite = sprite;
 		this.sensor = sensor;
 		if (!sprite.equals(Sprite.NOTHING)) {
@@ -60,7 +62,7 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0.5f, false, false, Constants.BIT_SENSOR, 
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false, Constants.BIT_SENSOR, 
 				(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) 0, sensor, hadalData);
 		
 		setAngularVelocity(startAngle * veloAmp);

@@ -37,6 +37,7 @@ public class Hitbox extends HadalEntity {
 	
 	//filter describes the type of body the hitbox will register a hit on .(player, enemy or neutral)
 	protected short filter;
+	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
 	
 	public final static float defaultGravity = 0.0f;
 	public final static int defaultDurability = 1;
@@ -58,7 +59,7 @@ public class Hitbox extends HadalEntity {
 	
 	//scale is the hitbox size multiplier.
 	protected float scale = defaultScale;
-		
+	
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	protected boolean sensor;
 	
@@ -122,9 +123,7 @@ public class Hitbox extends HadalEntity {
 		
 		this.size.scl(scale);
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, 
-				(short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR),
-				filter, true, data);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, passability, filter, true, data);
 		
 		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies
 		if (!sensor) {
@@ -254,8 +253,12 @@ public class Hitbox extends HadalEntity {
 	
 	public short getFilter() { return filter; }
 
+	public short getPassability() { return passability; }
+
 	public void setFilter(short filter) { this.filter = filter; }
 
+	public void setPassability(short passability) { this.passability = passability; }
+	
 	public Vector2 getStartVelo() { return startVelo; }
 
 	public void setStartVelo(Vector2 startVelo) { this.startVelo = startVelo; }

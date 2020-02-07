@@ -45,7 +45,7 @@ public class BossUtils {
 				Event dummy = state.getDummyPoint(dummyId);
 				
 				if (dummy != null) {
-					boss.setMovementTarget(dummy);
+					boss.setMovementTarget(dummy.getPixelPosition());
 					boss.setMoveSpeed(speed);
 				}
 			}

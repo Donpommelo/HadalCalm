@@ -648,25 +648,26 @@ public class Player extends PhysicsSchmuck {
 	 * This creates a bunch of gib ragdolls when the player dies.
 	 */
 	private final static float gibDuration = 3.0f;
+	private final static float gibGravity = 1.0f;
 	public void createGibs() {
 		if (alive) {
 			new Ragdoll(state, getPixelPosition(), new Vector2(headWidth, headHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, gibGravity, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(bodyWidth, bodyHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, gibGravity, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(armWidth, armHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, gibGravity, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(bodyBackWidth, bodyBackHeight).scl(scale), 
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, gibGravity, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(gemWidth, gemHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, gibGravity, false);
 			
-			new Ragdoll(state, getPixelPosition(), new Vector2(toolWidth, toolHeight).scl(scale)
-					, playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), 5.0f, false);
+			new Ragdoll(state, getPixelPosition(), new Vector2(toolWidth, toolHeight).scl(scale),
+					playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), gibDuration, gibGravity, false);
 		}
 	}
 	

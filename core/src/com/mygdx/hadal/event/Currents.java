@@ -11,6 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -71,7 +72,7 @@ public class Currents extends Event {
 			controllerCount -= pushInterval;
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.applyLinearImpulse(vec);
+				entity.getHadalData().receiveDamage(0.0f, vec, state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
 			}
 		}
 		
@@ -80,7 +81,7 @@ public class Currents extends Event {
 			currBubbleSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(64, 64), Sprite.NOTHING, new Vector2(0, 0), 0.5f, true),
+			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(64, 64), Sprite.NOTHING, new Vector2(0, 0), 0.5f, 0.0f, true),
 					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.CREATESYNC);
 		}
 	}
