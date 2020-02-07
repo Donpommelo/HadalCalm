@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class HomingMouse extends HitboxStrategy {
 	
-	public HomingMouse(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, int boundingRad, int decelerationRadius) {
+	public HomingMouse(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc) {
 		super(state, proj, user);
 		
 		if (user.getSchmuck() instanceof Player) {
@@ -27,11 +27,6 @@ public class HomingMouse extends HitboxStrategy {
 		
 		hbox.setMaxLinearSpeed(maxLinSpd);
 		hbox.setMaxLinearAcceleration(maxLinAcc);
-		hbox.setMaxAngularSpeed(maxAngSpd);
-		hbox.setMaxAngularAcceleration(maxAngAcc);
-		
-		hbox.setBoundingRadius(boundingRad);
-		hbox.setDecelerationRad(decelerationRadius);
 		
 		hbox.setTagged(false);
 		hbox.setSteeringOutput(new SteeringAcceleration<Vector2>(new Vector2()));

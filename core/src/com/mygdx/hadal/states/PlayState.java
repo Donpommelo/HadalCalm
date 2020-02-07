@@ -354,10 +354,10 @@ public class PlayState extends GameState {
 			
 			//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
 			world.step(physicsTime, 6, 2);
-			
-			//Let AI process time step
-			GdxAI.getTimepiece().update(physicsTime);
 		}
+		
+		//Let AI process time step
+		GdxAI.getTimepiece().update(delta);
 		
 		//All entities that are set to be added are added.
 		for (HadalEntity entity: createList) {
@@ -438,7 +438,8 @@ public class PlayState extends GameState {
 		tmr.render();				
 
 		//Render debug lines for box2d objects.
-		//b2dr.render(world, camera.combined.scl(32));
+//		b2dr.render(world, camera.combined.scl(32));
+//		camera.combined.scl(1 / 32.0f);
 		
 		//Iterate through entities in the world to render visible entities
 		batch.setProjectionMatrix(camera.combined);

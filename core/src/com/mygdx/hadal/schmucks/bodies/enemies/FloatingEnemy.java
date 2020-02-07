@@ -55,7 +55,7 @@ public class FloatingEnemy extends SteeringEnemy {
 	 */
 	public FloatingEnemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, enemyType type,
 			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter, int baseHp, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(size).scl(scale), new Vector2(hboxSize).scl(scale), type, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRad, filter, baseHp, spawner);
+		super(state, startPos, new Vector2(size).scl(scale), new Vector2(hboxSize).scl(scale), type, maxLinSpd, maxLinAcc, filter, baseHp, spawner);
 		
 		this.moveState = SchmuckMoveStates.FISH_ROAMING;
 		

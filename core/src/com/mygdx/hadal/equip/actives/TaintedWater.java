@@ -46,4 +46,7 @@ public class TaintedWater extends ActiveItem {
 			}
 		});
 	}
+	
+	@Override
+	public float getUseDuration() { return duration; }
 }

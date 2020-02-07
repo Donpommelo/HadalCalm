@@ -31,7 +31,7 @@ public class MeridianMaker extends ActiveItem {
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
 	private final static int currentRadius = 100;
-	private final static float currentForce = 0.75f;
+	private final static float currentForce = 1.0f;
 	
 	public MeridianMaker(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -42,8 +42,8 @@ public class MeridianMaker extends ActiveItem {
 		
 		final Vector2 currentVec = new Vector2(weaponVelo).nor().scl(currentForce);
 		
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), 
-				false, false, user.getPlayer(), projSprite);
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, 
+				this.weaponVelo.scl(projectileSpeed), user.getPlayer().getHitboxfilter(), false, false, user.getPlayer(), projSprite);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));

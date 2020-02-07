@@ -1,7 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
-import com.badlogic.gdx.ai.steer.behaviors.Pursue;
+import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -29,35 +29,25 @@ public class HomingUnit extends HitboxStrategy{
 	private float radius;
 	private short filter;
 	
-	private static final float maxLinSpd = 200;
-	private static final float maxLinAcc = 1000;
-	private static final float maxAngSpd = 180;
-	private static final float maxAngAcc = 10;
+	private static final float maxLinSpd = 8000;
+	private static final float maxLinAcc = 8000;
 	
-	private static final int boundingRad = 800;
-	private static final int decelerationRadius = 0;
 	private static final int homeRadius = 2000;
 	
-	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float maxAngSpd,
-			float maxAngAcc, int boundingRad, int decelerationRadius, float radius, short filter) {
+	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float radius, short filter) {
 		super(state, proj, user);
 		this.radius = radius;
 		this.filter = filter;
 		
 		hbox.setMaxLinearSpeed(maxLinSpd);
 		hbox.setMaxLinearAcceleration(maxLinAcc);
-		hbox.setMaxAngularSpeed(maxAngSpd);
-		hbox.setMaxAngularAcceleration(maxAngAcc);
-		
-		hbox.setBoundingRadius(boundingRad);
-		hbox.setDecelerationRad(decelerationRadius);
 		
 		hbox.setTagged(false);
 		hbox.setSteeringOutput(new SteeringAcceleration<Vector2>(new Vector2()));
 	}
 	
 	public HomingUnit(PlayState state, Hitbox proj, BodyData user, short filter) {
-		this(state, proj, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius, homeRadius, filter);
+		this(state, proj, user, maxLinSpd, maxLinAcc, homeRadius, filter);
 	}
 	
 	@Override
@@ -107,7 +97,7 @@ public class HomingUnit extends HitboxStrategy{
 								if (closestFixture.getUserData() instanceof BodyData) {
 									
 									homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
-									Pursue<Vector2> seek = new Pursue<Vector2>(hbox, homing);
+									Seek<Vector2> seek = new Seek<Vector2>(hbox, homing);
 									hbox.setBehavior(seek);
 								}
 							}	

@@ -24,4 +24,7 @@ public class ReservedFuel extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		user.addStatus(new StatChangeStatus(state, duration, Stats.FUEL_REGEN, power, user, user));
 	}
+	
+	@Override
+	public float getUseDuration() { return duration; }
 }

@@ -70,6 +70,15 @@ ANCIENT_SYNAPSE: {
 		RANDOM_POOL,
 	]
 }
+AU_COURANT: {
+	name: Au Courant
+	description: "Passively Reloads Inactive Weapons. -Reload Speed"
+    descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 BACKPACK_BUDDY: {
 	name: Backpack Buddy
 	description: "+Artifact Slot, -Max Hp"
@@ -146,6 +155,15 @@ CATALOG_OF_WANT: {
 	name: Catalog of Want
 	description: "Spend Hp to use Uncharged Actives"
     descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+CELESTIAL_ANOINTMENT: {
+	name: Celestial Anointment
+	description: "Active Item Echo. -Active Item Charge Rate."
+    descriptionLong: ""
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

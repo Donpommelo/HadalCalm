@@ -108,6 +108,12 @@ public class ActiveItem extends Equipable {
 
 	public chargeStyle getStyle() { return style; }
 
+	/**
+	 * This is a vague estimate of how long this item takes to activate.
+	 * This is checked by a few effects that want to do something after an active item completes.
+	 */
+	public float getUseDuration() { return 0.0f; }
+	
 	public static enum chargeStyle {
 		byTime,
 		byDamageInflict,

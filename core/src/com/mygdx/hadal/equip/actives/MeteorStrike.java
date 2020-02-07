@@ -30,16 +30,16 @@ public class MeteorStrike extends ActiveItem {
 
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 5.0f;
-	private final static float projectileSpeed = 30.0f;
+	private final static float projectileSpeed = 50.0f;
 
-	private final static float range = 2000.0f;
+	private final static float range = 1800.0f;
 	
 	private final static float baseDamage = 15.0f;
 	private final static float knockback = 50.0f;
 	
 	private final static float meteorDuration = 3.0f;
-	private final static float meteorInterval = 0.08f;
-	private final static float spread = 750.0f;
+	private final static float meteorInterval = 0.1f;
+	private final static float spread = 500.0f;
 	
 	public MeteorStrike(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -50,7 +50,7 @@ public class MeteorStrike extends ActiveItem {
 	private Vector2 endPt = new Vector2();
 	@Override
 	public void useItem(PlayState state, final PlayerBodyData user) {
-		originPt.set(this.mouseLocation).scl( 1 / PPM);
+		originPt.set(this.mouseLocation).scl(1 / PPM);
 		endPt.set(originPt).add(0, -range);
 		shortestFraction = 1.0f;
 		
@@ -105,4 +105,7 @@ public class MeteorStrike extends ActiveItem {
 			}
 		});
 	}
+	
+	@Override
+	public float getUseDuration() { return lifespan; }
 }

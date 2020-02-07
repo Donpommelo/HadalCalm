@@ -14,7 +14,7 @@ public class TyphonFang extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private static final float bonusReloadSpd = -0.75f;
+	private static final float bonusReloadSpd = -0.5f;
 	private static final float cliprefill = 0.50f;
 	
 	public TyphonFang() {

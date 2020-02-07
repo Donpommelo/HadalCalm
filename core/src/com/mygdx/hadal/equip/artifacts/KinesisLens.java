@@ -15,16 +15,11 @@ public class KinesisLens extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private static final float maxLinSpd = 300;
-	private static final float maxLinAcc = 2000;
-	private static final float maxAngSpd = 270;
-	private static final float maxAngAcc = 180;
+	private static final float maxLinSpd = 1200;
+	private static final float maxLinAcc = 3000;
 	
-	private static final int boundingRad = 100;
-	private static final int decelerationRadius = 0;
-	
-	private final static float projSpdReduction = -0.5f;
-	private final static float bonusProjLifespan = 0.5f;
+	private final static float projSpdReduction = -0.6f;
+	private final static float bonusProjLifespan = 0.6f;
 	
 	public KinesisLens() {
 		super(slotCost, statusNum);
@@ -39,7 +34,7 @@ public class KinesisLens extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HomingMouse(state, hbox, inflicted, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
+				hbox.addStrategy(new HomingMouse(state, hbox, inflicted, maxLinSpd, maxLinAcc));
 				hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
 				hbox.setGravity(0.0f);
 			}

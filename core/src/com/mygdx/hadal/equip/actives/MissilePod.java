@@ -34,10 +34,13 @@ public class MissilePod extends ActiveItem {
 				super.timePassing(delta);
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), damage, 1, 15, new Vector2(0, 1), false, inflicted.getSchmuck().getHitboxfilter());
+					WeaponUtils.createHomingTorpedo(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), damage, 1, 15, new Vector2(0, 5), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 				procCdCount += delta;
 			}
 		});
 	}
+	
+	@Override
+	public float getUseDuration() { return duration; }
 }

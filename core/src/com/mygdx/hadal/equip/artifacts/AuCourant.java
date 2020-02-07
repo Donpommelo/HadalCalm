@@ -8,23 +8,21 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class RingofTesting extends Artifact {
+public class AuCourant extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 0;
+	private final static int slotCost = 3;
 	
-	private final static float bonusProjSize = 1.0f;
-	private final static float bonusProjLifespan = 0.5f;
+	private static final float bonusReloadSpd = -0.4f;
 	
-	public RingofTesting() {
+	public AuCourant() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
-				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, bonusProjSize, b),
-				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, bonusProjLifespan, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b), 
 				new Status(state, b) {
 			
 			@Override
@@ -35,7 +33,6 @@ public class RingofTesting extends Artifact {
 					}
 				}
 			}
-			
 		});
 		
 		return enchantment;

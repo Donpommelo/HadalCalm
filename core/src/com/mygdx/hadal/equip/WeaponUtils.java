@@ -2,8 +2,6 @@ package com.mygdx.hadal.equip;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -108,10 +106,10 @@ public class WeaponUtils {
 	private static final float torpedoBaseKnockback = 3.0f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
-	private static final int torpedoWidth = 10;
-	private static final int torpedoHeight = 50;
+	private static final int torpedoWidth = 50;
+	private static final int torpedoHeight = 10;
 	private static final float torpedoLifespan = 8.0f;
-	private static final int torpedoSpread = 10;
+	private static final int torpedoSpread = 30;
 	
 	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, final Schmuck user, float damage, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
@@ -119,22 +117,8 @@ public class WeaponUtils {
 			
 			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread)));
 			
-			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity.setAngle(newDegrees),
-					filter, true, procEffects, user, torpedoSprite) {
-				
-				@Override
-				public void render(SpriteBatch batch) {
-				
-					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-							getPixelPosition().x - size.y / 2, 
-							getPixelPosition().y - size.x / 2, 
-							size.y / 2, size.x / 2,
-							size.y, size.x, 1, 1, 
-							(float) Math.toDegrees(getOrientation()) - 90);
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity.setAngle(newDegrees), filter, true, procEffects, user, torpedoSprite);
 
-				}
-			};
-			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
@@ -154,46 +138,22 @@ public class WeaponUtils {
 	private static final int beeHeight = 12;
 	private static final int beeDurability = 3;
 	private static final float beeLifespan = 4.0f;
-	private static final float beeMaxLinSpd = 100;
-	private static final float beeMaxLinAcc = 1000;
-	private static final float beeMaxAngSpd = 1080;
-	private static final float beeMaxAngAcc = 1080;
-	private static final int beeBoundingRad = 100;
-	private static final int beeDecelerationRadius = 0;
-	private final static float beeHomeRadius = 1000;
-	private final static int beeSpread = 50;
+	private static final float beeMaxLinSpd = 8000;
+	private static final float beeMaxLinAcc = 4000;
+	private final static float beeHomeRadius = 9600;
+	private final static int beeSpread = 60;
 	
 	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
 		
 		for (int i = 0; i < numBees; i++) {
 			
-			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan, startVelocity, filter, false, procEffects, user, beeSprite) {
-				
-				@Override
-				public void render(SpriteBatch batch) {
-				
-					boolean flip = false;
-					
-					if (getOrientation() < 0) {
-						flip = true;
-					}
-					
-					batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-							getPixelPosition().x - size.x / 2, 
-							(flip ? size.y : 0) + getPixelPosition().y - size.y / 2, 
-							size.x / 2, 
-							(flip ? -1 : 1) * size.y / 2,
-							size.x, (flip ? -1 : 1) * size.y, 1, 1, 
-							(float) Math.toDegrees(getOrientation()) - 90);
-
-				}
-			};
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan, startVelocity, filter, false, procEffects, user, beeSprite);
+			
 			hbox.setDurability(beeDurability);
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
-			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, 
-					beeMaxAngSpd, beeMaxAngAcc, beeBoundingRad, beeDecelerationRadius, beeHomeRadius, filter));
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, beeHomeRadius, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
 		}
 		

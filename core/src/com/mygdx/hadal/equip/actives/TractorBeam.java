@@ -34,11 +34,6 @@ public class TractorBeam extends ActiveItem {
 	
 	private static final float maxLinSpd = 600;
 	private static final float maxLinAcc = 3000;
-	private static final float maxAngSpd = 1080;
-	private static final float maxAngAcc = 7200;
-	
-	private static final int boundingRad = 500;
-	private static final int decelerationRadius = 0;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 
@@ -78,7 +73,7 @@ public class TractorBeam extends ActiveItem {
 						oneTime = false;
 						hbox.removeStrategy(start);
 						hbox.removeStrategy(this);
-						hbox.addStrategy(new HomingMouse(state, hbox, user, maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
+						hbox.addStrategy(new HomingMouse(state, hbox, user, maxLinSpd, maxLinAcc));
 						hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 							
 							@Override
@@ -107,4 +102,7 @@ public class TractorBeam extends ActiveItem {
 			}
 		});
 	}
+	
+	@Override
+	public float getUseDuration() { return lifespan; }
 }

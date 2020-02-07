@@ -41,13 +41,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_LASERROCKET;
 	private final static Sprite eventSprite = Sprite.P_LASERROCKET;
 	
-	private static final float maxLinSpd = 150;
-	private static final float maxLinAcc = 1000;
-	private static final float maxAngSpd = 270;
-	private static final float maxAngAcc = 180;
-	
-	private static final int boundingRad = 100;
-	private static final int decelerationRadius = 0;
+	private static final float maxLinSpd = 6000;
+	private static final float maxLinAcc = 6000;
 	
 	public LaserGuidedRocket(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -61,7 +56,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
-		hbox.addStrategy(new HomingMouse(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc, maxAngSpd, maxAngAcc, boundingRad, decelerationRadius));
+		hbox.addStrategy(new HomingMouse(state, hbox, user.getBodyData(), maxLinSpd, maxLinAcc));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		

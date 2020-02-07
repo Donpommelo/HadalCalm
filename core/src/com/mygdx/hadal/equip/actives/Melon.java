@@ -43,4 +43,7 @@ public class Melon extends ActiveItem {
 			}
 		});
 	}
+	
+	@Override
+	public float getUseDuration() { return duration; }
 }

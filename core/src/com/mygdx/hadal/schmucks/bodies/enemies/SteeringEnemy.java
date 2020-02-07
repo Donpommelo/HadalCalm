@@ -14,17 +14,11 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SteeringEnemy extends Enemy {
 	
-	public SteeringEnemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, 
-			float maxLinSpd, float maxLinAcc, float maxAngSpd, float maxAngAcc, float boundingRad, float decelerationRad, short filter, int baseHp, SpawnerSchmuck spawner) {
+	public SteeringEnemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, float maxLinSpd, float maxLinAcc, short filter, int baseHp, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, type, filter, baseHp, spawner);
 		
 		this.maxLinearSpeed = maxLinSpd;
 		this.maxLinearAcceleration = maxLinAcc;
-		this.maxAngularSpeed = maxAngSpd;
-		this.maxAngularAcceleration = maxAngAcc;
-		
-		this.boundingRadius = boundingRad;
-		this.decelerationRad = decelerationRad;
 		
 		this.tagged = false;
 		

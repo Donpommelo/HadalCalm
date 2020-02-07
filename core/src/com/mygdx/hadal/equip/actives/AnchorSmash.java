@@ -28,7 +28,7 @@ public class AnchorSmash extends ActiveItem {
 	private final static float lifespan = 5.0f;
 	private final static float projectileSpeed = 90.0f;
 
-	private final static float range = 2000.0f;
+	private final static float range = 1800.0f;
 	
 	private final static float baseDamage = 75.0f;
 	private final static float knockback = 50.0f;
@@ -40,9 +40,10 @@ public class AnchorSmash extends ActiveItem {
 	private float shortestFraction;
 	private Vector2 originPt = new Vector2();
 	private Vector2 endPt = new Vector2();
+	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		originPt.set(this.mouseLocation).scl( 1 / PPM);
+		originPt.set(mouseLocation).scl( 1 / PPM);
 		endPt.set(originPt).add(0, -range);
 		shortestFraction = 1.0f;
 		

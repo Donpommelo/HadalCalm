@@ -18,7 +18,6 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.SteeringUtil;
 
 /**
@@ -47,10 +46,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	
 	//The below fields are only used for steering entities. most things will ignore these
 	protected boolean tagged;
-	protected float boundingRadius;
 	protected float maxLinearSpeed, maxLinearAcceleration;
-	protected float maxAngularSpeed, maxAngularAcceleration;
-	protected float decelerationRad;
 	protected SteeringBehavior<Vector2> behavior;
 	protected SteeringAcceleration<Vector2> steeringOutput;
 	
@@ -264,51 +260,16 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	
 	//Steering utilities
 	public void applySteering(float delta) {
-		boolean anyAcceleration = false;
+		
 		if (!steeringOutput.linear.isZero()) {
-			Vector2 force;
-			if (this instanceof Schmuck) {
-				force = steeringOutput.linear.scl(delta)
-						.scl(1 + ((Schmuck)this).getBodyData().getStat(Stats.AIR_SPD))
-						.scl(1 + ((Schmuck)this).getBodyData().getStat(Stats.AIR_SPD));
-			} else {
-				force = steeringOutput.linear.scl(delta);
-			}
+			Vector2 force = new Vector2(steeringOutput.linear).scl(delta);
 			applyForceToCenter(force);
-			anyAcceleration = true;
-		}
-		
-		if (steeringOutput.angular != 0) {
-			body.applyTorque(steeringOutput.angular, true);
-			anyAcceleration = true;
-		} else {
-			Vector2 linVel = getLinearVelocity();
-			if (!linVel.isZero()) {
-				float newOrientation = vectorToAngle(linVel);
-				setAngularVelocity((newOrientation - getAngularVelocity()) * delta);
-				setTransform(getPosition(), newOrientation);
-			}
-		}
-		
-		if (anyAcceleration) {
 			
-			Vector2 velocity = getLinearVelocity();
+			Vector2 velocity = new Vector2(getLinearVelocity());
 			float currentSpeedSquare = velocity.len2();
 			
-			if (this instanceof Schmuck) {
-				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-					setLinearVelocity(velocity
-							.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
-							.scl(1 + ((Schmuck)this).getBodyData().getStat(Stats.AIR_SPD)));
-				}
-			} else {
-				if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-					setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
-				}
-			}
-			
-			if (getAngularVelocity() > maxAngularSpeed) {
-				setAngularVelocity(maxAngularSpeed);
+			if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
+				setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
 			}
 		}
 	}
@@ -350,25 +311,25 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	public void setMaxLinearAcceleration(float maxLinearAcceleration) { this.maxLinearAcceleration = maxLinearAcceleration; }
 
 	@Override
-	public float getMaxAngularSpeed() {	return maxAngularSpeed; }
+	public float getMaxAngularSpeed() {	return 0; }
 	
 	@Override
-	public void setMaxAngularSpeed(float maxAngularSpeed) {	this.maxAngularSpeed = maxAngularSpeed; }
+	public void setMaxAngularSpeed(float maxAngularSpeed) { }
 
 	@Override
-	public float getMaxAngularAcceleration() { return maxAngularAcceleration; }
+	public float getMaxAngularAcceleration() { return 0; }
 
 	@Override
-	public void setMaxAngularAcceleration(float maxAngularAcceleration) { this.maxAngularAcceleration = maxAngularAcceleration; }
+	public void setMaxAngularAcceleration(float maxAngularAcceleration) {  }
 
 	@Override
 	public Vector2 getLinearVelocity() { return body.getLinearVelocity(); }
 
 	@Override
-	public float getAngularVelocity() {	return body.getAngularVelocity(); }
+	public float getAngularVelocity() {	return 0; }
 
 	@Override
-	public float getBoundingRadius() { return boundingRadius; }
+	public float getBoundingRadius() { return 0; }
 
 	@Override
 	public boolean isTagged() { return tagged; }
@@ -379,10 +340,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	public SteeringBehavior<Vector2> getBehavior() { return behavior; }
 	
 	public void setBehavior(SteeringBehavior<Vector2> behavior) { this.behavior = behavior; }
-	
-	public void setBoundingRadius(float radius) { this.boundingRadius = radius; }
-	
-	public void setDecelerationRad(float radius) { this.decelerationRad = radius; }
 	
 	public SteeringAcceleration<Vector2> getSteeringOutput() { return steeringOutput; }
 	
@@ -435,12 +392,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	public void applyForceToCenter(Vector2 force) {
 		if (alive && body != null) {
 			body.applyForceToCenter(force, true);
-		}
-	}
-	
-	public void applyForceToCenter(float forceX, float forceY) {
-		if (alive && body != null) {
-			body.applyForceToCenter(forceX, forceY, true);
 		}
 	}
 }
