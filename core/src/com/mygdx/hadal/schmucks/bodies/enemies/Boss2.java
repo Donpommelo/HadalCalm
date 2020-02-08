@@ -146,7 +146,7 @@ public class Boss2 extends EnemyFloating {
 	private final static int returnSpeed = 15;
 	public void meleeAttack() {
 		BossUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
-		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, target, 1.0f);
+		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.0f);
 		BossUtils.moveToDummy(state, this, "platformCenter", charge1Speed, driftDurationMax);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, angle, 0.5f);
 		BossUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);

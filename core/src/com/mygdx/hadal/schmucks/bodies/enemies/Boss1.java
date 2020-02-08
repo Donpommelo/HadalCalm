@@ -171,13 +171,13 @@ public class Boss1 extends EnemyFloating {
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 1.2f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
 		BossUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
-		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, target, 1.5f);
+		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.5f);
 	}
 	
 	private void chargeAttack2() {
 		int corner = BossUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.5f);
-		BossUtils.meleeAttack(state, this, charge2Damage, defaultMeleeKB, target, 2.75f);
+		BossUtils.meleeAttack(state, this, charge2Damage, defaultMeleeKB, 2.75f);
 		switch (corner) {
 		case 0:
 			BossUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);

@@ -113,6 +113,11 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
+				
+				if (target == null) {
+					return;
+				}
+				
 				Vector2 dist = target.getPixelPosition().sub(boss.getPixelPosition());
 				boss.setLinearVelocity(dist.nor().scl(moveSpeed));
 			}
@@ -125,6 +130,11 @@ public class BossUtils {
 			
 			@Override
 			public void execute() {
+				
+				if (target == null) {
+					return;
+				}
+				
 				boss.setMovementTarget(null);
 				Vector2 dist = target.getPixelPosition().sub(boss.getPixelPosition());
 				if (x) {
@@ -136,7 +146,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void meleeAttack(final PlayState state, Enemy boss, final float damage, final float knockback, final HadalEntity target, final float duration) {
+	public static void meleeAttack(final PlayState state, Enemy boss, final float damage, final float knockback, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, 0) {
 			
