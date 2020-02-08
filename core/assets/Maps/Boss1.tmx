@@ -35,7 +35,7 @@
   </object>
   <object id="11" name="Timer" type="Timer" x="96" y="32" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="1"/>
+    <property name="interval" type="float" value="0"/>
     <property name="triggeredId" value="startTimer"/>
     <property name="triggeringId" value="initLimiter"/>
    </properties>

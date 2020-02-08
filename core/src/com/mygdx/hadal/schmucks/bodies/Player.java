@@ -20,17 +20,20 @@ import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
  * The player is the entity that the player controls.
@@ -41,6 +44,8 @@ public class Player extends PhysicsSchmuck {
 	
 	//Name of the player as chosen in the Title screen
 	private String name;
+	
+	private final static int baseHp = 100;
 	
 	private final static float playerDensity = 1.0f;
 	
@@ -71,6 +76,13 @@ public class Player extends PhysicsSchmuck {
 	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
 	toolHeight, toolWidth, gemHeight, gemWidth;
 	
+	//Fixtures and user data
+	private Fixture feet, rightSensor, leftSensor;
+	private FeetData feetData, rightData, leftData;
+	
+	//These track whether the schmuck has specific artifacts equipped.
+	private boolean scaling, stomping;
+		
 	private TextureRegion reload, reloadMeter, reloadBar;
 	private Texture empty, full;
 	
@@ -142,7 +154,7 @@ public class Player extends PhysicsSchmuck {
 	 * 
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset) {
-		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX);
+		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		
@@ -227,13 +239,33 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			playerData.updateOldData(this, world);
 		}
-		bodyData = playerData;
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, playerDensity, 0.0f, 0.0f, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
 		
-		super.create();
+		if (state.isServer()) {
+			this.feetData = new FeetData(UserDataTypes.FEET, this); 
+			
+			this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
+					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
+			
+			feet.setUserData(feetData);
+			
+			this.leftData = new FeetData(UserDataTypes.SIDES, this); 
+			
+			this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
+					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter));
+			
+			leftSensor.setUserData(leftData);
+			
+			this.rightData = new FeetData(UserDataTypes.SIDES, this); 
+			
+			this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
+					Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter));
+			
+			rightSensor.setUserData(rightData);
+		}
 		
 		if (reset) {
 			playerData.initLoadout();
@@ -811,4 +843,12 @@ public class Player extends PhysicsSchmuck {
 	public String getName() { return name; }
 	
 	public int getConnID() { return connID;	}
+	
+	public boolean isScaling() { return scaling; }
+
+	public void setScaling(boolean scaling) { this.scaling = scaling; }
+
+	public boolean isStomping() { return stomping; }
+
+	public void setStomping(boolean stomping) { this.stomping = stomping; }
 }

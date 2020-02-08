@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
@@ -23,12 +24,12 @@ public class BrigglesBladedBoot extends Artifact {
 			
 			@Override
 			public void onInflict() {
-				inflicted.getSchmuck().setStomping(true);
+				((Player)inflicted.getSchmuck()).setStomping(true);
 			}
 			
 			@Override
 			public void onRemove() {
-				inflicted.getSchmuck().setStomping(false);
+				((Player)inflicted.getSchmuck()).setStomping(false);
 			}
 		};
 		return enchantment;

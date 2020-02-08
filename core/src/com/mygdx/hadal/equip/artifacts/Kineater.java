@@ -1,6 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -22,7 +22,7 @@ public class Kineater extends Artifact {
 		enchantment[0] = new Status(state, b) {
 			
 			@Override
-			public void afterBossSpawn(Boss boss) { 
+			public void afterBossSpawn(Enemy boss) { 
 				boss.getBodyData().setCurrentHp(boss.getBodyData().getCurrentHp() - (boss.getBodyData().getStat(Stats.MAX_HP) * hpDrainPercent));
 			}
 		};

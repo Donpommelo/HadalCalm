@@ -3,7 +3,7 @@ package com.mygdx.hadal.statuses;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.save.UnlockArtifact;
-import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -155,7 +155,7 @@ public class Status {
 	
 	public void afterActiveItem(ActiveItem tool) {}
 	
-	public void afterBossSpawn(Boss boss) {}
+	public void afterBossSpawn(Enemy boss) {}
 	
 	public BodyData getInflicter() { return inflicter; }
 

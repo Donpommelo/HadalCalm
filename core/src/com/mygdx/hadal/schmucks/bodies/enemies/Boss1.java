@@ -16,7 +16,7 @@ import com.mygdx.hadal.utils.Stats;
  * @author Zachary Tu
  *
  */
-public class Boss1 extends BossFloating {
+public class Boss1 extends EnemyFloating {
 				
     private static final float aiAttackCd = 3.0f;
     private static final float aiAttackCd2 = 2.2f;
@@ -41,7 +41,7 @@ public class Boss1 extends BossFloating {
 	private static final float phaseThreshold3 = 0.35f;
 	
 	public Boss1(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, spawner, sprite);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, type, filter, hp, aiAttackCd, spawner);
 	}
 
 	private int attackNum = 0;
@@ -49,7 +49,7 @@ public class Boss1 extends BossFloating {
 	public void attackInitiate() {
 		attackNum++;
 		if (phase == 1) {
-			if (bodyData.getCurrentHp() <= phaseThreshold2 * bodyData.getStat(Stats.MAX_HP)) {
+			if (getBodyData().getCurrentHp() <= phaseThreshold2 * getBodyData().getStat(Stats.MAX_HP)) {
 				phase = 2;
 				setAttackCd(aiAttackCd2);
 				spawnAdds();
@@ -73,7 +73,7 @@ public class Boss1 extends BossFloating {
 		}
 		
 		if (phase == 2) {
-			if (bodyData.getCurrentHp() <= phaseThreshold3 * bodyData.getStat(Stats.MAX_HP)) {
+			if (getBodyData().getCurrentHp() <= phaseThreshold3 * getBodyData().getStat(Stats.MAX_HP)) {
 				phase = 3;
 				setAttackCd(aiAttackCd3);
 				spawnAdds();

@@ -2,7 +2,7 @@ package com.mygdx.hadal.statuses;
 
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 
@@ -141,9 +141,9 @@ public class ProcTime {
 	}
 	
 	public static class AfterBossSpawn {
-		public Boss boss;
+		public Enemy boss;
 		
-		public AfterBossSpawn(Boss boss) {
+		public AfterBossSpawn(Enemy boss) {
 			this.boss = boss;
 		}
 	}

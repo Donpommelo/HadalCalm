@@ -54,7 +54,7 @@ public class Boomerang extends RangedWeapon {
 			public void create() {
 				
 				//Set boomerang to have constant angular velocity for visual effect.
-				hbox.setAngularVelocity(5);
+				hbox.setAngularVelocity(10);
 			}
 			
 			@Override

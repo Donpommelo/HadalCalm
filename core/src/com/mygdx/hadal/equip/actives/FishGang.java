@@ -31,7 +31,7 @@ public class FishGang extends ActiveItem {
 					@Override
 					public void create() {
 						super.create();
-						bodyData.addStatus(new Temporary(state, fishLifespan, bodyData, bodyData, fishLifespan));
+						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
 					}
 				};
 				
@@ -41,7 +41,7 @@ public class FishGang extends ActiveItem {
 					@Override
 					public void create() {
 						super.create();
-						bodyData.addStatus(new Temporary(state, fishLifespan, bodyData, bodyData, fishLifespan));
+						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
 					}
 				};
 			} else {
@@ -50,7 +50,7 @@ public class FishGang extends ActiveItem {
 					@Override
 					public void create() {
 						super.create();
-						bodyData.addStatus(new Temporary(state, fishLifespan, bodyData, bodyData, fishLifespan));
+						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
 					}
 				};
 			}

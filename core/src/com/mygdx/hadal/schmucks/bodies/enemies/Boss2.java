@@ -22,7 +22,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * @author Zachary Tu
  *
  */
-public class Boss2 extends BossFloating {
+public class Boss2 extends EnemyFloating {
 				
     private static final float aiAttackCd = 3.0f;
 	
@@ -35,8 +35,6 @@ public class Boss2 extends BossFloating {
 	private static final float scale = 1.0f;
 	
 	private static final int hp = 4500;
-	private static final int moveSpeed = 20;
-	private static final int spinSpeed = 40;
 	
 	private static final Sprite sprite = Sprite.NOTHING;
 	
@@ -44,7 +42,7 @@ public class Boss2 extends BossFloating {
 	private TextureRegion headSprite, bodySprite, faceSprite;
 	
 	public Boss2(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), type, filter, hp, moveSpeed, spinSpeed, aiAttackCd, spawner, sprite);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, type, filter, hp, aiAttackCd, spawner);
 		this.headSprite = Sprite.KAMABOKO_BODY.getFrames().get(0);
 		this.bodySprite = Sprite.KAMABOKO_BODY.getFrames().get(1);
 		setFaceSprite();
@@ -57,7 +55,7 @@ public class Boss2 extends BossFloating {
 		for (int i = 0; i < links.length; i ++) {
 			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2), hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
 					(short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
-					hitboxfilter, false, bodyData);
+					hitboxfilter, false, getBodyData());
 			
 			RevoluteJointDef joint1 = new RevoluteJointDef();
 			

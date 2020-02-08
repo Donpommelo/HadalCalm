@@ -2,23 +2,18 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
-import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
-import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
  * A Schmuck is an entity that can use equipment like the player or an enemy.
@@ -31,16 +26,12 @@ public class Schmuck extends HadalEntity {
 	//The current movestate of this schmuck
 	protected SchmuckMoveStates moveState;
 	
-	//Fixtures and user data
-	protected Fixture feet, rightSensor, leftSensor;
-	protected FeetData feetData, rightData, leftData;
-	
-	//These track whether the schmuck has specific artifacts equipped.
-	protected boolean scaling, stomping;
-
 	//user data.
-	protected BodyData bodyData;
+	private BodyData bodyData;
 	
+	//the enemy's base hp.
+    protected int baseHp;
+    
 	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;
 	
@@ -71,46 +62,20 @@ public class Schmuck extends HadalEntity {
 	 * @param startX: starting x position
 	 * @param startY: starting y position
 	 */
-	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter) {
+	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter, int baseHp) {
 		super(state, startPos, size);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
+		this.baseHp = baseHp;
+		
 		impact = new ParticleEntity(state, this, Particle.IMPACT, 1.0f, 0.0f, false, particleSyncType.TICKSYNC);
 	}
 
 	/**
-	 * When this schmuck is added to the world, give it a foot to keep track of whether it is grounded or not.
-	 * IMPORTANT: this method does not create the entity's body! 
-	 * Subclasses must create the schmuck's body before calling super.create()! Otherwise body + bodyData will be null.
 	 */
 	@Override
 	public void create() {
-		
-		if (!state.isServer())
-			return;
-		
-		this.feetData = new FeetData(UserDataTypes.FEET, this); 
-		
-		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-				Constants.BIT_PLAYER, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
-		
-		feet.setUserData(feetData);
-		
-		this.leftData = new FeetData(UserDataTypes.SIDES, this); 
-		
-		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
-				Constants.BIT_PLAYER, (short)(Constants.BIT_WALL), hitboxfilter));
-		
-		leftSensor.setUserData(leftData);
-		
-		this.rightData = new FeetData(UserDataTypes.SIDES, this); 
-		
-		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
-				Constants.BIT_PLAYER, Constants.BIT_WALL, hitboxfilter));
-		
-		rightSensor.setUserData(rightData);
-
-		this.hadalData = bodyData;
+		this.bodyData = new BodyData(this, baseHp);
 	}
 
 	/**
@@ -121,7 +86,7 @@ public class Schmuck extends HadalEntity {
 	public void controller(float delta) {
 		
 		//Apply base hp regen
-		bodyData.regainHp(bodyData.getStat(Stats.HP_REGEN) * delta, bodyData, true, DamageTypes.REGEN);
+		getBodyData().regainHp(getBodyData().getStat(Stats.HP_REGEN) * delta, getBodyData(), true, DamageTypes.REGEN);
 		
 		//process cooldowns on firing
 		shootCdCount -= delta;
@@ -133,7 +98,7 @@ public class Schmuck extends HadalEntity {
 		}
 		
 		//Process statuses
-		bodyData.statusProcTime(new ProcTime.TimePass(delta));
+		getBodyData().statusProcTime(new ProcTime.TimePass(delta));
 	}
 
 	/**
@@ -152,13 +117,13 @@ public class Schmuck extends HadalEntity {
 	 */
 	public void useToolStart(float delta, Equipable tool, short hitbox, Vector2 mouseLocation, boolean wait) {
 		
-		bodyData.statusProcTime(new ProcTime.WhileAttack(delta, tool));
+		getBodyData().statusProcTime(new ProcTime.WhileAttack(delta, tool));
 		
 		//Only register the attempt if the user is not waiting on a tool's delay or cooldown. (or if tool ignores wait)
 		if ((shootCdCount < 0 && shootDelayCount < 0) || !wait) {
 
 			//Register the tool targeting the input coordinates.
-			tool.mouseClicked(delta, state, bodyData, hitbox, mouseLocation);
+			tool.mouseClicked(delta, state, getBodyData(), hitbox, mouseLocation);
 			
 			//set the tool that will be executed after delay to input tool.
 			usedTool = tool;
@@ -174,10 +139,10 @@ public class Schmuck extends HadalEntity {
 	public void useToolEnd() {
 			
 		//the schmuck will not register another tool usage for the tool's cd
-		shootCdCount = usedTool.getUseCd() * (1 - bodyData.getStat(Stats.TOOL_SPD));
+		shootCdCount = usedTool.getUseCd() * (1 - getBodyData().getStat(Stats.TOOL_SPD));
 		
 		//execute the tool.
-		usedTool.execute(state, bodyData);
+		usedTool.execute(state, getBodyData());
 		
 		//clear the used tool field.
 		usedTool = null;
@@ -192,7 +157,7 @@ public class Schmuck extends HadalEntity {
 	 * @param y: y screen coordinate that represents where the tool is being directed.
 	 */
 	public void useToolRelease(Equipable tool, short hitbox, Vector2 mouseLocation) {
-		tool.release(state, bodyData);
+		tool.release(state, getBodyData());
 	}	
 	
 	/**
@@ -233,15 +198,8 @@ public class Schmuck extends HadalEntity {
 	
 	public float getAttackAngle() {	return 0; }
 	
-	public boolean isScaling() { return scaling; }
-
-	public void setScaling(boolean scaling) { this.scaling = scaling; }
-
-	public boolean isStomping() { return stomping; }
-
-	public void setStomping(boolean stomping) { this.stomping = stomping; }
-
 	public SchmuckMoveStates getMoveState() { return moveState; }
+	
 	public void setMoveState(SchmuckMoveStates moveState) { this.moveState = moveState; }
 	
 	public float getShootCdCount() { return shootCdCount; }
@@ -251,6 +209,8 @@ public class Schmuck extends HadalEntity {
 	public float getShootDelayCount() { return shootDelayCount; }
 	
 	public short getHitboxfilter() { return hitboxfilter; }
+	
+	public int getBaseHp() { return baseHp; }
 
 	public boolean isGrounded() { return grounded; }
 }

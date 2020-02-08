@@ -8,12 +8,12 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 public class BossAction {
 
 	//this boss that performs this action
-	protected Boss boss;
+	protected Enemy boss;
 	
 	//this is the amount of time that this action will take before the next action in the queue will begin
 	private float duration;
 	
-	public BossAction(Boss boss, float duration) {
+	public BossAction(Enemy boss, float duration) {
 		this.boss = boss;
 		this.duration = duration;
 	}

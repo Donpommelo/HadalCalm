@@ -19,7 +19,7 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class Turret extends Boss {
+public class Turret extends Enemy {
 
 	private static final int baseHp = 200;
 	private static final float aiAttackCd = 0.5f;
@@ -47,7 +47,7 @@ public class Turret extends Boss {
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
 	public Turret(PlayState state, Vector2 startPos, enemyType type, int startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), type, filter, baseHp, 0, aiAttackCd, spawner, Sprite.NOTHING);		
+		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, aiAttackCd, spawner);		
 		this.angle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;

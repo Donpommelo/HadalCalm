@@ -20,11 +20,11 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.enemies.Boss;
-import com.mygdx.hadal.schmucks.bodies.enemies.BossAction;
-import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating;
-import com.mygdx.hadal.schmucks.bodies.enemies.BossFloating.BossState;
+import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
+import com.mygdx.hadal.schmucks.bodies.enemies.BossAction;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating.BossState;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.utils.Constants;
@@ -36,7 +36,7 @@ import com.mygdx.hadal.utils.Constants;
  */
 public class BossUtils {
 
-	public static void moveToDummy(final PlayState state, final Boss boss, final String dummyId, final int speed, float duration) {
+	public static void moveToDummy(final PlayState state, final Enemy boss, final String dummyId, final int speed, float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -52,7 +52,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void changeTrackingState(final BossFloating bossFloating, final BossState state, final float angle, float duration) {
+	public static void changeTrackingState(final EnemyFloating bossFloating, final BossState state, final float angle, float duration) {
 		
 		bossFloating.getActions().add(new BossAction(bossFloating, duration) {
 			
@@ -81,7 +81,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void spawnAdds(final PlayState state, Boss boss, final enemyType type, final int amount, float duration) {
+	public static void spawnAdds(final PlayState state, Enemy boss, final enemyType type, final int amount, float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -107,7 +107,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void moveToPlayer(final PlayState state, Boss boss, final HadalEntity target, final int moveSpeed, final float duration) {
+	public static void moveToPlayer(final PlayState state, Enemy boss, final HadalEntity target, final int moveSpeed, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -119,7 +119,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void trackPlayerXY(final PlayState state, Boss boss, final HadalEntity target, final int moveSpeed, final float duration, final boolean x) {
+	public static void trackPlayerXY(final PlayState state, Enemy boss, final HadalEntity target, final int moveSpeed, final float duration, final boolean x) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -136,7 +136,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void meleeAttack(final PlayState state, Boss boss, final float damage, final float knockback, final HadalEntity target, final float duration) {
+	public static void meleeAttack(final PlayState state, Enemy boss, final float damage, final float knockback, final HadalEntity target, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, 0) {
 			
@@ -152,7 +152,7 @@ public class BossUtils {
 		});
 	}
 
-	public static void fireball(final PlayState state, Boss boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
+	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
 			final float lifespan, final float fireDuration, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
@@ -172,7 +172,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void fireLaser(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final Particle particle) {
+	public static void fireLaser(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final Particle particle) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -190,7 +190,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void bouncingBall(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+	public static void bouncingBall(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
 		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
@@ -208,7 +208,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void shootBullet(final PlayState state, Boss boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+	public static void shootBullet(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
 		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
@@ -223,7 +223,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void vengefulSpirit(final PlayState state, Boss boss, final Vector2 pos, final float baseDamage, final float knockback, final float lifespan, final float duration) {
+	public static void vengefulSpirit(final PlayState state, Enemy boss, final Vector2 pos, final float baseDamage, final float knockback, final float lifespan, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, duration) {
 			
@@ -234,7 +234,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void createExplosion(final PlayState state, Boss boss, final Vector2 pos, final float size, final float baseDamage, final float knockback, final float duration) {
+	public static void createExplosion(final PlayState state, Enemy boss, final Vector2 pos, final float size, final float baseDamage, final float knockback, final float duration) {
 		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override
@@ -244,7 +244,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static void createPoison(final PlayState state, Boss boss, final Vector2 pos, final Vector2 size, final float damage, final float lifespan, final float duration) {
+	public static void createPoison(final PlayState state, Enemy boss, final Vector2 pos, final Vector2 size, final float damage, final float lifespan, final float duration) {
 		
 		boss.getSecondaryActions().add(new BossAction(boss, duration) {
 			@Override
@@ -255,7 +255,7 @@ public class BossUtils {
 	}
 	
 	private final static Sprite[] debrisSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
-	public static void fallingDebris(final PlayState state, Boss boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
+	public static void fallingDebris(final PlayState state, Enemy boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
 		
 		boss.getSecondaryActions().add(new BossAction(boss, duration) {
 			
@@ -281,7 +281,7 @@ public class BossUtils {
 		});
 	}
 	
-	public static int moveToRandomCorner(PlayState state, Boss boss, int speed, float duration) {
+	public static int moveToRandomCorner(PlayState state, Enemy boss, int speed, float duration) {
 		int rand = GameStateManager.generator.nextInt(4);
 		switch(rand) {
 		case 0:
@@ -301,7 +301,7 @@ public class BossUtils {
 		return rand;
 	}
 	
-	public static int moveToRandomWall(PlayState state, Boss boss, int speed, float duration) {
+	public static int moveToRandomWall(PlayState state, Enemy boss, int speed, float duration) {
 		int rand = GameStateManager.generator.nextInt(2);
 		switch(rand) {
 		case 0:
@@ -314,7 +314,7 @@ public class BossUtils {
 		return rand;
 	}
 	
-	public static void stopStill(Boss boss, final float duration) {
+	public static void stopStill(Enemy boss, final float duration) {
 		boss.getActions().add(new BossAction(boss, duration) {
 			
 			@Override

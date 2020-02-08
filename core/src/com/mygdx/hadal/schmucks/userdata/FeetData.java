@@ -3,7 +3,7 @@ package com.mygdx.hadal.schmucks.userdata;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.Player;
 
 public class FeetData extends HadalData {
 
@@ -14,11 +14,11 @@ public class FeetData extends HadalData {
 	private Event terrain;
 	
 	//This is the haver of the foot
-	private Schmuck footHaver;
+	private Player footHaver;
 	
-	public FeetData(UserDataTypes type, Schmuck entity) {
-		super(type, entity);
-		this.footHaver = entity;
+	public FeetData(UserDataTypes type, Player player) {
+		super(type, player);
+		this.footHaver = player;
 	}
 
 	public Event getTerrain() { return terrain; }

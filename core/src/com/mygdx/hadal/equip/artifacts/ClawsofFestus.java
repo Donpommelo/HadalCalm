@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
@@ -19,12 +20,12 @@ public class ClawsofFestus extends Artifact {
 			
 			@Override
 			public void onInflict() {
-				inflicted.getSchmuck().setScaling(true);
+				((Player)inflicted.getSchmuck()).setScaling(true);
 			}
 			
 			@Override
 			public void onRemove() {
-				inflicted.getSchmuck().setScaling(false);
+				((Player)inflicted.getSchmuck()).setScaling(false);
 			}
 		};
 		return enchantment;

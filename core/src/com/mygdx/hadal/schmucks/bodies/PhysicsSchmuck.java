@@ -13,8 +13,8 @@ public class PhysicsSchmuck extends Schmuck {
 
 	private final static float controllerInterval = 1 / 60f;
 	
-	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter) {
-		super(state, startPos, size, hitboxFilter);
+	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter, int baseHp) {
+		super(state, startPos, size, hitboxFilter, baseHp);
 	}
 	
 	private Vector2 force = new Vector2();
@@ -35,11 +35,11 @@ public class PhysicsSchmuck extends Schmuck {
 			switch(moveState) {
 			case MOVE_LEFT:
 				desiredXVel = grounded ? 
-						-bodyData.getXGroundSpeed() : -bodyData.getXAirSpeed();
+						-getBodyData().getXGroundSpeed() : -getBodyData().getXAirSpeed();
 				break;
 			case MOVE_RIGHT:
 				desiredXVel = grounded ? 
-						bodyData.getXGroundSpeed() : bodyData.getXAirSpeed();
+						getBodyData().getXGroundSpeed() : getBodyData().getXAirSpeed();
 				break;
 			default:
 				break;
@@ -51,20 +51,20 @@ public class PhysicsSchmuck extends Schmuck {
 			//Process acceleration based on bodyData stats.
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
 				accelX = grounded ? 
-						bodyData.getXGroundAccel(): bodyData.getXAirAccel();
+						getBodyData().getXGroundAccel(): getBodyData().getXAirAccel();
 			} else {
 				accelX = grounded ? 
-						bodyData.getXGroundDeaccel() : bodyData.getXAirDeaccel();
+						getBodyData().getXGroundDeaccel() : getBodyData().getXAirDeaccel();
 			}
 			
 			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
 			
 			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
 				accelY = grounded ? 
-						bodyData.getYGroundAccel(): bodyData.getYAirAccel();
+						getBodyData().getYGroundAccel(): getBodyData().getYAirAccel();
 			} else {
 				accelY = grounded ? 
-						bodyData.getYGroundDeaccel() : bodyData.getYAirDeaccel();
+						getBodyData().getYGroundDeaccel() : getBodyData().getYAirDeaccel();
 			}
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;

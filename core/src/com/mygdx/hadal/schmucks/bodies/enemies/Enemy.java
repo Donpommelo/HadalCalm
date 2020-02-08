@@ -1,83 +1,250 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
+import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * Enemies are Schmucks that attack the player.
+ * Bosses are enemies with certain actions
  * @author Zachary Tu
  *
  */
 public class Enemy extends Schmuck {
 	
-	//This is the entity this enemy is trying to attack
-	protected HadalEntity target;
-	
 	//This is the type of enemy
-	protected enemyType type;
-	
-	//This is the range that the enemy will be able to detect targets
-    protected static final float aiRadius = 2000;
+	protected enemyType type;		
 
-    //the enemy's base hp.
-    protected int baseHp;
+    //this is the size of the enemy's hitbox
+    protected Vector2 hboxSize;
     
     //is this enemy a boss? (makes it show up in the boss ui)
     private boolean isBoss = false;
     private String name;
+	    
+	//the default speed that the boss moves around
+	protected int moveSpeed;
+	
+	//This is the default cooldown between attacks for the boss
+	private float attackCd;
+	
+	//This is the range that the enemy will be able to detect targets
+    protected static final float aiRadius = 2000;
     
-    //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
+    //This is the entity this enemy is trying to attack
+  	protected HadalEntity target;
+  	
+	//This is the duration until the boss will attack gain
+    private float aiAttackCdCount = 0.0f;
+    
+    //This is the duration until the boss will perform the next action in its action queue (or secondary action queue)
+    private float aiActionCdCount = 0.0f;
+    private float aiSecondaryActionCdCount = 0.0f;
+	
+  	//These are used for raycasting to determing whether the player is in vision of the fish.
+  	private float shortestFraction;
+  	private Schmuck homeAttempt;
+	private Fixture closestFixture;
+  	
+	//this is the angle that the boss is currently attacking in
+	protected float attackAngle;
+	
+	//This is a dummy event in the map that the boss is moving towards
+	private Vector2 movementTarget;
+	
+	//The action queues and current action hold the boss' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
+	private ArrayList<BossAction> actions;
+	private BossAction currentAction;
+	
+	private ArrayList<BossAction> secondaryActions;
+	private BossAction currentSecondaryAction;
+	
+	//this is the boss's sprite
+	protected Sprite sprite;
+
+	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
-    //this is the size of the enemy's hitbox
-    protected Vector2 hboxSize;
-    
-    /**
-     * 
-     * @param state: current play state
-     * @param startPos: starting position in screen coordinates
-     * @param size: current size in pixel
-     * @param hboxSize: hbox size
-     * @param type: type of enemy
-     * @param filter: hitbox filter that determines faction
-     * @param baseHp: base hp of enemy
-     * @param spawner: the event that spawned this enemy
-     */
-	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, enemyType type, short filter, int baseHp, SpawnerSchmuck spawner) {
-		super(state, startPos, size, filter);
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, enemyType type, short filter, int baseHp, float attackCd, SpawnerSchmuck spawner) {
+		super(state, startPos, size, filter, baseHp);
 		this.hboxSize = hboxSize;
 		this.type = type;
-		this.baseHp = baseHp;
+		this.attackCd = attackCd;
 		this.spawner = spawner;
+		this.sprite = sprite;
+		
+		this.actions = new ArrayList<BossAction>();
+		this.secondaryActions = new ArrayList<BossAction>();
+	}
+	
+	@Override
+	public void create() {
+		super.create();
+		
+		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
+				hitboxfilter, false, getBodyData());
+		
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
+		getBodyData().addStatus(new Status(state, getBodyData()) {
+			
+			@Override
+			public void onDeath(BodyData perp) {
+				if (spawner != null) {
+					spawner.onDeath(inflicted.getSchmuck());
+				}
+			}
+		});
+		
+		if (isBoss) {
+			state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+			if (state.isServer()) {
+				for (Player player : HadalGame.server.getPlayers().values()) {
+					player.getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
+				}
+			}
+		}
+	}
+
+	@Override
+	public void controller(float delta) {		
+		super.controller(delta);
+		
+		//move towards movement target, if existent.
+		if (movementTarget != null) {
+			Vector2 dist = new Vector2(movementTarget).sub(getPixelPosition());
+			
+			//upon reaching target, conclude current action immediately and move on to the next action
+			if ((int)dist.len2() <= 100) {
+				setLinearVelocity(0, 0);
+				movementTarget = null;
+				
+				aiActionCdCount = 0;
+				currentAction = null;
+				
+			} else {
+				setLinearVelocity(dist.nor().scl(moveSpeed));
+			}
+		}
+		
+		//decrement timers for actions
+		if (aiActionCdCount > 0) {
+			aiActionCdCount -= delta;
+		} else {
+			if (aiAttackCdCount > 0) {
+				aiAttackCdCount -= delta;
+			}
+		}
+		if (aiSecondaryActionCdCount > 0) {
+			aiSecondaryActionCdCount -= delta;
+		}
+		
+		//after attack cooldown, acquire target and initiate next attack.
+		if (aiAttackCdCount <= 0) {
+			aiAttackCdCount = attackCd;
+			acquireTarget();
+			attackInitiate();
+		}
+
+		//Action finishing action, attempt to perform next action. If action queue is empty, begin cooldown until next attack
+		if (aiActionCdCount <= 0 || currentAction == null) {
+			if (!actions.isEmpty()) {
+				currentAction = actions.remove(0);
+				aiActionCdCount = currentAction.getDuration();
+				currentAction.execute();
+			} else {
+				if (aiAttackCdCount <= 0) {
+					aiAttackCdCount = attackCd;
+				}
+			}
+		}
+		
+		//Do the same with secondary action
+		if (aiSecondaryActionCdCount <= 0 || currentSecondaryAction == null) {
+			if (!secondaryActions.isEmpty()) {
+				currentSecondaryAction = secondaryActions.remove(0);
+				aiSecondaryActionCdCount = currentSecondaryAction.getDuration();
+				currentSecondaryAction.execute();
+			}
+		}
+	}
+	
+	public void attackInitiate() {};
+	
+	public void acquireTarget() {
+		
+		target = null;
+		
+		world.QueryAABB((new QueryCallback() {
+
+			@Override
+			public boolean reportFixture(Fixture fixture) {
+				if (fixture.getUserData() instanceof BodyData) {
+					homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+					shortestFraction = 1.0f;
+					
+					
+				  	if (getPosition().x != homeAttempt.getPosition().x || 
+				  			getPosition().y != homeAttempt.getPosition().y) {
+				  		world.rayCast(new RayCastCallback() {
+
+							@Override
+							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+								if (fixture.getUserData() instanceof BodyData) {
+									if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
+										if (fraction < shortestFraction) {
+											shortestFraction = fraction;
+											closestFixture = fixture;
+											return fraction;
+										}
+									}
+								} 
+								return -1.0f;
+							}
+							
+						}, getPosition(), homeAttempt.getPosition());
+						if (closestFixture != null) {
+							if (closestFixture.getUserData() instanceof BodyData) {
+								target = ((BodyData)closestFixture.getUserData()).getSchmuck();
+							}
+						} 
+					}
+				}
+				return true;
+			}
+		}), 
+			getPosition().x - aiRadius, getPosition().y - aiRadius, 
+			getPosition().x + aiRadius, getPosition().y + aiRadius);
 	}
 	
 	/**
-	 * Create the enemy's body and initialize enemy's user data.
+	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
+	 * This packet updates movestate, hp, fuel and flashingness
 	 */
 	@Override
-	public void create() {
-		this.bodyData = new BodyData(this, baseHp) {
-			
-			@Override
-			public void die(BodyData perp) {
-				if (schmuck.queueDeletion()) {
-					
-					//if this was spawned by an spawing event, run its on-death method
-					if (spawner != null) {
-						spawner.onDeath(schmuck);
-					}
-					perp.statusProcTime(new ProcTime.Kill(this));
-					statusProcTime(new ProcTime.Death(perp));
-				}	
-			}
-		};
+	public void onServerSync() {
+		super.onServerSync();
+		
+		if (isBoss)	{
+			HadalGame.server.sendToAllUDP(new Packets.SyncBoss(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
+		}
 	}
 	
 	/**
@@ -101,6 +268,24 @@ public class Enemy extends Schmuck {
 
 	public void setName(String name) { this.name = name; }
 
+	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }
+	
+	public Vector2 getMovementTarget() { return movementTarget; }
+
+	public void setMovementTarget(Vector2 movementTarget) { this.movementTarget = movementTarget; }
+
+	public ArrayList<BossAction> getActions()  {return actions; }
+
+	public ArrayList<BossAction> getSecondaryActions() { return secondaryActions; }
+
+	public void setSecondaryActions(ArrayList<BossAction> secondaryActions) { this.secondaryActions = secondaryActions; }
+
+	public float getAttackAngle() {	return attackAngle; }
+
+	public void setAttackAngle(float attackAngle) {	this.attackAngle = attackAngle;	}
+
+	public void setAttackCd(float attackCd) { this.attackCd = attackCd; }
+	
 	public enum enemyType {
 		SCISSORFISH,
 		SPITTLEFISH,
