@@ -272,13 +272,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 				setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
 			}
 		}
-		
-		Vector2 linVel = getLinearVelocity();
-		if (!linVel.isZero()) {
-			float newOrientation = vectorToAngle(linVel);
-			setAngularVelocity((newOrientation - getAngularVelocity()) * delta);
-			setTransform(getPosition(), newOrientation);
-		}
 	}
 	
 	@Override

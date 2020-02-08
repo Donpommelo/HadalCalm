@@ -154,7 +154,7 @@ public class BossUtils {
 			public void execute() {
 				
 				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), boss.getSize(), duration, boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
-				
+				hbox.makeUnreflectable();
 				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
 				hbox.addStrategy(new FixedToUser(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));

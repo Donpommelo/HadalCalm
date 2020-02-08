@@ -17,7 +17,6 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.ProcTime;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -99,10 +98,9 @@ public class Enemy extends Schmuck {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
+		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, false, true, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 				hitboxfilter, false, getBodyData());
 		
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 		getBodyData().addStatus(new Status(state, getBodyData()) {
 			
 			@Override

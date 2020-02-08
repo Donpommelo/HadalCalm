@@ -26,16 +26,16 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 40.0f;
+	private final static float baseDamage = 30.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 5.0f;
+	private final static float projectileSpeed = 7.5f;
 	private final static Vector2 projectileSize = new Vector2(70, 10);
 	private final static float lifespan = 7.0f;
 		
-	private final static int explosionRadius = 150;
+	private final static int explosionRadius = 200;
 	private final static float explosionDamage = 50.0f;
-	private final static float explosionKnockback = 25.0f;
+	private final static float explosionKnockback = 35.0f;
 	
 	private final static Sprite projSprite = Sprite.TORPEDO;
 	private final static Sprite weaponSprite = Sprite.MT_LASERROCKET;

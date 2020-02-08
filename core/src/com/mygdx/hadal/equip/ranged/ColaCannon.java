@@ -26,12 +26,12 @@ public class ColaCannon extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 5.0f;
+	private final static float baseDamage = 8.0f;
 	private final static float recoil = 18.0f;
-	private final static float knockback = 5.5f;
-	private final static float projectileSpeed = 45.0f;
+	private final static float knockback = 7.5f;
+	private final static float projectileSpeed = 50.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 30);
-	private final static float lifespan = 1.0f;
+	private final static float lifespan = 2.0f;
 
 	private final static float procCd = .05f;
 	private final static float fireDuration = 1.6f;

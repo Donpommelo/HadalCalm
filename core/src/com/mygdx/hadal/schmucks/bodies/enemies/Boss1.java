@@ -9,6 +9,7 @@ import com.mygdx.hadal.equip.BossUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
 /**
@@ -42,6 +43,12 @@ public class Boss1 extends EnemyFloating {
 	
 	public Boss1(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, type, filter, hp, aiAttackCd, spawner);
+	}
+	
+	@Override
+	public void create() {
+		super.create();
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 	}
 
 	private int attackNum = 0;

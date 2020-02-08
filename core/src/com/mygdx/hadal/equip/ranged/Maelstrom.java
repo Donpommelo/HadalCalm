@@ -26,13 +26,13 @@ public class Maelstrom extends RangedWeapon {
 	private final static int reloadAmount = 0;
 
 	private final static float recoil = 0.0f;
-	private final static float baseDamage = 12.0f;
+	private final static float baseDamage = 8.0f;
 	private final static float knockback = 8.0f;
 	private final static float projectileSpeedStart = 50.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 1.0f;
 	
-	private final static float chainDamage = 5.0f;
+	private final static float chainDamage = 4.0f;
 	private final static int chainAmount = 5;
 	
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
-import com.badlogic.gdx.ai.steer.behaviors.Seek;
+import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -97,7 +97,7 @@ public class HomingUnit extends HitboxStrategy{
 								if (closestFixture.getUserData() instanceof BodyData) {
 									
 									homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
-									Seek<Vector2> seek = new Seek<Vector2>(hbox, homing);
+									Pursue<Vector2> seek = new Pursue<Vector2>(hbox, homing);
 									hbox.setBehavior(seek);
 								}
 							}	

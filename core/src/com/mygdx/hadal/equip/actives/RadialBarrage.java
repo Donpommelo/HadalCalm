@@ -23,7 +23,7 @@ public class RadialBarrage extends ActiveItem {
 		Vector2 angle = new Vector2(1, 0);
 		
 		if (user.getCurrentTool() instanceof RangedWeapon) {
-			angle.scl(((RangedWeapon)user.getCurrentTool()).getProjectileSpeed() / 2);
+			angle.scl(((RangedWeapon)user.getCurrentTool()).getProjectileSpeed());
 			
 			for (int i = 0; i < 6; i++) {
 				angle.setAngle(angle.angle() + 60);

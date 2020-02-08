@@ -17,13 +17,13 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Boiler extends RangedWeapon {
 
-	private final static int clipSize = 40;
-	private final static int ammoSize = 120;
-	private final static float shootCd = 0.04f;
+	private final static int clipSize = 90;
+	private final static int ammoSize = 270;
+	private final static float shootCd = 0.02f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 6.0f;
+	private final static float baseDamage = 2.5f;
 	private final static float recoil = 1.0f;
 	private final static float knockback = 2.0f;
 	private final static float projectileSpeed = 20.0f;

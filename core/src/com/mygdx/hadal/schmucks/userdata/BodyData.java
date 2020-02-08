@@ -310,7 +310,6 @@ public class BodyData extends HadalData {
 		
 		kbScale -= getStat(Stats.KNOCKBACK_RES);
 		kbScale += perp.getStat(Stats.KNOCKBACK_AMP);
-		
 		schmuck.applyLinearImpulse(knockback.scl(kbScale));
 		
 		//Give credit for kills to last schmuck (besides self) who damaged this schmuck

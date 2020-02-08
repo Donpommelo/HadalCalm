@@ -27,7 +27,7 @@ public class Torpedofish extends EnemySteering {
 	private static final float maxLinearSpeed = 600;
 	private static final float maxLinearAcceleration = 800;
 	
-	private static final float attackCd = 1.0f;
+	private static final float attackCd = 2.0f;
 			
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	private final static Sprite projSprite = Sprite.ORB_RED;

@@ -14,7 +14,9 @@ import com.mygdx.hadal.equip.BossUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
@@ -51,6 +53,8 @@ public class Boss2 extends EnemyFloating {
 	@Override
 	public void create() {
 		super.create();
+
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 		
 		for (int i = 0; i < links.length; i ++) {
 			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2), hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
