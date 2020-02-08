@@ -37,7 +37,7 @@ public class Hitbox extends HadalEntity {
 	
 	//filter describes the type of body the hitbox will register a hit on .(player, enemy or neutral)
 	protected short filter;
-	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
+	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL);
 	
 	public final static float defaultGravity = 0.0f;
 	public final static int defaultDurability = 1;
@@ -183,8 +183,8 @@ public class Hitbox extends HadalEntity {
 					getPixelPosition().x - size.x / 2, 
 					getPixelPosition().y - size.y / 2, 
 					size.x / 2, size.y / 2,
-					size.x, size.y, 1, 1, 
-					(float) Math.toDegrees(getOrientation()) + 180);
+					size.x, size.y, -1, 1, 
+					(float) Math.toDegrees(getOrientation()));
 		}
 	}
 	

@@ -21,14 +21,14 @@ public class Stormcaller extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 10.0f;
+	private final static float baseDamage = 6.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 25.0f;
 	private final static float projectileSpeed = 15.0f;
 	private final static Vector2 projectileSize = new Vector2(10, 10);
 	private final static float lifespan = 1.8f;
 	
-	private final static float explosionInterval = 1 / 30f;
+	private final static float explosionInterval = 1 / 60f;
 	private final static Vector2 explosionSize = new Vector2(0, 0);
 	private final static int explosionMaxSize = 175;
 	
@@ -61,13 +61,13 @@ public class Stormcaller extends RangedWeapon {
 				while (controllerCount >= explosionInterval) {
 					controllerCount -= explosionInterval;
 					
-					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval, new Vector2(), filter, true, true, user, projSprite);
+					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval * 2, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
 					
 					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {
-						explosionSize.add(5, 5);
+						explosionSize.add(3, 3);
 					}
 				}
 			}

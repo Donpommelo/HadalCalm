@@ -36,6 +36,8 @@ public class WaveCannon extends RangedWeapon {
 	private final static float amplitude = 0.20f;
 	private final static float frequency = 30;
 
+	private final static float pushInterval = 1 / 60f;
+	
 	public WaveCannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
@@ -53,18 +55,25 @@ public class WaveCannon extends RangedWeapon {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float elapsed = 0;
+			private float controllerCount = 0;
 			
 			@Override
 			public void controller(float delta) {
-				elapsed += delta;
+				controllerCount += delta;
 				
-				//repeatedly apply force to hboxes to make them move in a wave-like shape
-				float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
-				float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
+				while (controllerCount >= pushInterval) {
+					controllerCount -= pushInterval;
+					elapsed += pushInterval;
+					
+					//repeatedly apply force to hboxes to make them move in a wave-like shape
+					float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
+					float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 
-				float wobble = amplitude * (float)Math.cos(frequency * elapsed) * frequency;
+					float wobble = amplitude * (float)Math.cos(frequency * elapsed) * frequency;
 
-				hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
+					hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
+				}
+				
 			}
 		});
 		
@@ -77,18 +86,24 @@ public class WaveCannon extends RangedWeapon {
 		hbox2.addStrategy(new HitboxStrategy(state, hbox2, user.getBodyData()) {
 			
 			private float elapsed = 0;
+			private float controllerCount = 0;
 			
 			@Override
 			public void controller(float delta) {
-				elapsed += delta;
+				controllerCount += delta;
 				
-				//repeatedly apply force to hboxes to make them move in a wave-like shape
-				float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
-				float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
+				while (controllerCount >= pushInterval) {
+					controllerCount -= pushInterval;
+					elapsed += pushInterval;
+					
+					//repeatedly apply force to hboxes to make them move in a wave-like shape
+					float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
+					float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 
-				float wobble = -amplitude * (float)Math.cos(frequency * elapsed) * frequency;
+					float wobble = -amplitude * (float)Math.cos(frequency * elapsed) * frequency;
 
-				hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
+					hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
+				}
 			}
 		});
 	}

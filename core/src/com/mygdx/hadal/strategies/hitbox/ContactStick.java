@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.event.Wall;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -56,14 +57,16 @@ public class ContactStick extends HitboxStrategy{
 					stuckToWall = true;
 					target = fixB.getEntity();
 					angle = hbox.getOrientation();
-					location.set(
-							hbox.getPosition().x - target.getPosition().x, 
-							hbox.getPosition().y - target.getPosition().y);		
+					
+					if (fixB.getEntity() instanceof Wall) {
+						location.set(hbox.getPosition());
+					} else {
+						location.set(
+								hbox.getPosition().x - target.getPosition().x, 
+								hbox.getPosition().y - target.getPosition().y);		
+					}
+					
 				}
-			} else if (stickToWalls) {
-				stuckToWall = true;
-				angle = hbox.getOrientation();
-				location.set(hbox.getPosition());
 			}
 		}
 	}

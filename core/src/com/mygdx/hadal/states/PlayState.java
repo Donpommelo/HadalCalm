@@ -249,7 +249,7 @@ public class PlayState extends GameState {
 				
 		//Only the server processes collision objects, events and triggers
 		if (server) {
-			TiledObjectUtil.parseTiledObjectLayer(world, map.getLayers().get("collision-layer").getObjects());
+			TiledObjectUtil.parseTiledObjectLayer(this, map.getLayers().get("collision-layer").getObjects());
 			TiledObjectUtil.parseTiledEventLayer(this, map.getLayers().get("event-layer").getObjects());
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);

@@ -34,9 +34,9 @@ public class TiledObjectUtil {
 	 * @param world: The Box2d world to add the created walls to.
 	 * @param objects: The list of Tiled objects to parse through
 	 */
-    public static void parseTiledObjectLayer(World world, MapObjects objects) {
+    public static void parseTiledObjectLayer(PlayState state, MapObjects objects) {
         for(MapObject object : objects) {
-            Shape shape;
+            ChainShape shape;
 
             //Atm, we only parse PolyLines into solid walls
             if(object instanceof PolylineMapObject) {
@@ -45,17 +45,7 @@ public class TiledObjectUtil {
             	continue;
         	}
 
-            Body body;
-            BodyDef bdef = new BodyDef();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            body = world.createBody(bdef);
-            body.createFixture(shape, 1.0f);
-            Filter filter = new Filter();
-			filter.categoryBits = (short) (Constants.BIT_WALL);
-			filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE);
-            body.getFixtureList().get(0).setFilterData(filter);
-                        
-            shape.dispose();
+            new Wall(state, shape);
         }
     }
     

@@ -752,7 +752,7 @@ public class Player extends PhysicsSchmuck {
 				@Override
 				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 					
-					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL && fraction < shortestFraction) {
+					if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
 							shortestFraction = fraction;
 							return fraction;
 					}
