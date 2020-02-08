@@ -88,6 +88,7 @@ public enum UnlockArtifact {
 	SHILLERS_DEATHCAP(new ShillersDeathcap()),
 	SHIP_IN_A_BOTTLE(new ShipinaBottle()),
 	SIMPLE_MIND(new SimpleMind()),
+	SINKING_FEELING(new SinkingFeeling()),
 	SIREN_CHIME(new SirenChime()),
 	SKIPPERS_BOX_OF_FUN(new SkippersBoxofFun()),
 	SWORD_OF_SYZYGY(new SwordofSyzygy()),

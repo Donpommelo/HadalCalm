@@ -38,7 +38,7 @@ public class CommutersParasol extends Artifact {
 			
 			@Override
 			public void timePassing(float delta) {
-				if (procCdCount >= procCd) {
+				while (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
 					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, lifespan, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, 

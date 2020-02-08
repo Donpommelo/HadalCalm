@@ -1,10 +1,19 @@
 package com.mygdx.hadal.equip.artifacts;
 
-import com.mygdx.hadal.schmucks.bodies.Player;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.FixedToUser;
+import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 public class BrigglesBladedBoot extends Artifact {
@@ -12,24 +21,50 @@ public class BrigglesBladedBoot extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float bonusFastFallPow = 1.5f;
+	private final static float procCd = 0.5f;
+	
+	private final static float baseDamage = 20.0f;
+	private final static float knockback = 15.0f;
 
+	private final static float recoil = 25.0f;
+
+	private final static Vector2 size = new Vector2(60, 5);
+	private final static Vector2 position = new Vector2(0, -1.5f);
+	
 	public BrigglesBladedBoot() {
 		super(slotCost, statusNum);
 	}
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
-		enchantment[0] = new StatChangeStatus(state, Stats.FASTFALL_POW, bonusFastFallPow, b) {
+		enchantment[0] = new Status(state, b) {
+			
+			private float procCdCount = procCd;
 			
 			@Override
-			public void onInflict() {
-				((Player)inflicted.getSchmuck()).setStomping(true);
-			}
-			
-			@Override
-			public void onRemove() {
-				((Player)inflicted.getSchmuck()).setStomping(false);
+			public void timePassing(float delta) {
+				while (procCdCount >= procCd) {
+					procCdCount -= procCd;
+					
+					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, procCd, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, 
+							inflicted.getSchmuck(), Sprite.NOTHING);
+					
+					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
+					
+					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
+					hbox.addStrategy(new FixedToUser(state, hbox, inflicted, new Vector2(0, 0), position, false));
+					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
+						
+						@Override
+						public void onHit(HadalData fixB) {
+							inflicted.addStatus(new StatChangeStatus(state, procCd, Stats.FASTFALL_POW, -10.0f, inflicted, inflicted));
+							inflicted.getSchmuck().pushMomentumMitigation(0, recoil);
+							hbox.die();
+						}
+					});
+				}
+				procCdCount += delta;
 			}
 		};
 		return enchantment;

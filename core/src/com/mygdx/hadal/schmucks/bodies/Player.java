@@ -81,23 +81,23 @@ public class Player extends PhysicsSchmuck {
 	private FeetData feetData, rightData, leftData;
 	
 	//These track whether the schmuck has specific artifacts equipped.
-	private boolean scaling, stomping;
+	private boolean scaling;
 		
 	private TextureRegion reload, reloadMeter, reloadBar;
 	private Texture empty, full;
 	
 	//counters for various cooldowns.
-	private float hoverCd = 0.08f;
+	private final static float hoverCd = 0.08f;
 	private float jumpCd = 0.25f;
 	private float jumpCdCount = 0;
 	
-	private float fastFallCd = 0.05f;
+	private final static float fastFallCd = 0.05f;
 	private float fastFallCdCount = 0;
 	
-	private float airblastCd = 0.25f;
+	private final static float airblastCd = 0.25f;
 	private float airblastCdCount = 0;
 	
-	protected float interactCd = 0.15f;
+	protected final static float interactCd = 0.15f;
 	protected float interactCdCount = 0;
 	
 	//This is the angle that the player's arm is pointing
@@ -391,7 +391,9 @@ public class Player extends PhysicsSchmuck {
 	public void fastFall() {
 		if (fastFallCdCount < 0) {
 			fastFallCdCount = fastFallCd;
-			pushMomentumMitigation(0, -playerData.getFastFallPower());
+			if (playerData.getFastFallPower() > 0) {
+				pushMomentumMitigation(0, -playerData.getFastFallPower());
+			}
 		}
 		if (feetData.getTerrain() != null) {
 			feetData.getTerrain().getEventData().onInteract(this);
@@ -847,8 +849,4 @@ public class Player extends PhysicsSchmuck {
 	public boolean isScaling() { return scaling; }
 
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
-
-	public boolean isStomping() { return stomping; }
-
-	public void setStomping(boolean stomping) { this.stomping = stomping; }
 }
