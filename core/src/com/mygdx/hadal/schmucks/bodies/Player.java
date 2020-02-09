@@ -252,14 +252,14 @@ public class Player extends PhysicsSchmuck {
 			
 			feet.setUserData(feetData);
 			
-			this.leftData = new FeetData(UserDataTypes.SIDES, this); 
+			this.leftData = new FeetData(UserDataTypes.FEET, this); 
 			
 			this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
 					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter));
 			
 			leftSensor.setUserData(leftData);
 			
-			this.rightData = new FeetData(UserDataTypes.SIDES, this); 
+			this.rightData = new FeetData(UserDataTypes.FEET, this); 
 			
 			this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
 					Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter));

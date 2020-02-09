@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
@@ -53,22 +52,22 @@ public class ScoreWindow {
 		table.setHeight(height);
 		table.align(Align.top);
 		
-		table.add(new Text("PLAYER", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("KILLS", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("DEATH", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("SCORE", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("WINS", 0, 0, Color.WHITE)).padBottom(50).row();
+		table.add(new Text("PLAYER", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("KILLS", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("DEATH", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("SCORE", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("WINS", 0, 0, false)).padBottom(50).row();
 		
 		if (state.isServer()) {
 			
 			for (SavedPlayerFields field: HadalGame.server.getScores().values()) {			
-				Text name = new Text(field.getName(), 0, 0, Color.WHITE);
+				Text name = new Text(field.getName(), 0, 0, false);
 				name.setScale(scale);
 				
-				Text kills = new Text(field.getKills() + " ", 0, 0, Color.WHITE);
-				Text death = new Text(field.getDeaths() + " ", 0, 0, Color.WHITE);
-				Text points = new Text(field.getScore() + " ", 0, 0, Color.WHITE);
-				Text wins = new Text(field.getWins() + " ", 0, 0, Color.WHITE);
+				Text kills = new Text(field.getKills() + " ", 0, 0, false);
+				Text death = new Text(field.getDeaths() + " ", 0, 0, false);
+				Text points = new Text(field.getScore() + " ", 0, 0, false);
+				Text wins = new Text(field.getWins() + " ", 0, 0, false);
 					
 				table.add(name).padBottom(25);
 				table.add(kills).padBottom(25);
@@ -82,13 +81,13 @@ public class ScoreWindow {
 			}
 		} else {
 			for (SavedPlayerFields field: HadalGame.client.getScores().values()) {				
-				Text name = new Text(field.getName(), 0, 0, Color.WHITE);
+				Text name = new Text(field.getName(), 0, 0, false);
 				name.setScale(scale);
 				
-				Text kills = new Text(field.getKills() + " ", 0, 0, Color.WHITE);
-				Text death = new Text(field.getDeaths() + " ", 0, 0, Color.WHITE);
-				Text points = new Text(field.getScore() + " ", 0, 0, Color.WHITE);
-				Text wins = new Text(field.getWins() + " ", 0, 0, Color.WHITE);
+				Text kills = new Text(field.getKills() + " ", 0, 0, false);
+				Text death = new Text(field.getDeaths() + " ", 0, 0, false);
+				Text points = new Text(field.getScore() + " ", 0, 0, false);
+				Text wins = new Text(field.getWins() + " ", 0, 0, false);
 					
 				table.add(name).padBottom(25);
 				table.add(kills).padBottom(25);

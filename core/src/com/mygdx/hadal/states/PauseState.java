@@ -3,7 +3,6 @@ package com.mygdx.hadal.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -63,7 +62,7 @@ public class PauseState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				addActor(new MenuWindow(gsm, HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2, width, height));
+				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2, width, height));
 				
 				table = new Table();
 				table.setLayoutEnabled(true);
@@ -71,13 +70,13 @@ public class PauseState extends GameState {
 				table.setSize(width, height);
 				addActor(table);
 				
-				pause = new Text("PAUSED BY \n" + pauser, 0, 0, Color.WHITE);
+				pause = new Text("PAUSED BY \n" + pauser, 0, 0, false);
 				pause.setScale(0.5f);
 				
-				resumeOption = new Text("RESUME", 0, 0, Color.WHITE);
-				hubOption = new Text("RETURN TO HUB", 0, 0, Color.WHITE);
-				settingOption = new Text("SETTINGS", 0, 0, Color.WHITE);
-				exitOption = new Text("EXIT TO TITLE", 0, 0, Color.WHITE);
+				resumeOption = new Text("RESUME", 0, 0, true);
+				hubOption = new Text("RETURN TO HUB", 0, 0, true);
+				settingOption = new Text("SETTINGS", 0, 0, true);
+				exitOption = new Text("EXIT TO TITLE", 0, 0, true);
 				
 				resumeOption.addListener(new ClickListener() {
 			        public void clicked(InputEvent e, float x, float y) {

@@ -4,7 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.GameStateManager;
 
 /**
  * Simple actor that displays floating text. Not suitable for long messages.
@@ -18,22 +22,40 @@ public class Text extends AHadalActor {
 
 	protected float scale = 1.0f;
 	
-	public Text(String text, int x, int y) {
+	private boolean hover = false;
+	
+	private static float padding = 20.0f;
+	
+	public Text(String text, int x, int y, boolean button) {
 		super(x, y);
 		this.text = text;
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = HadalGame.DEFAULT_TEXT_COLOR;
 		
+		if (button) {
+			this.addListener(new InputListener(){
+				
+				@Override
+				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					((Text)event.getTarget()).hover = true;
+				}
+				
+				@Override
+				public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
+					((Text)event.getTarget()).hover = false;
+				}
+			});
+		}
+		
 		updateHitBox();
-	}
-	
-	public Text(String text, int x, int y, Color color) {
-		this(text, x, y);
-		this.color = color;
 	}
 	
 	@Override
     public void draw(Batch batch, float alpha) {
+		
+		if (hover) {
+			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY() - padding / 2, getWidth() + padding, getHeight() + padding);
+		}
 		
 		 font.getData().setScale(scale);
 		 font.setColor(color);

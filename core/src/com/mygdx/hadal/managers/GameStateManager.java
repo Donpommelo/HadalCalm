@@ -40,8 +40,8 @@ public class GameStateManager {
 	private Stack<GameState> states;
 	
 	//skin for ui windows as well as other patches and atlases. Why are these kept here? Dunno.
-	private Skin skin;
-	private NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch, bossGaugeRedPatch, bossGaugeCatchupPatch;
+	private static Skin skin;
+	private static NinePatchDrawable dialogPatch, simplePatch, bossGaugePatch, bossGaugeGreyPatch, bossGaugeRedPatch, bossGaugeCatchupPatch;
 	
 	private static ArrayList<TextureAtlas> atlases = new ArrayList<TextureAtlas>();
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
@@ -117,18 +117,18 @@ public class GameStateManager {
 	 */
 	public void loadAssets() {
 		BitmapFont font24 = new BitmapFont();
-		this.skin = new Skin();
-		this.skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
-		this.skin.add("default-font", font24);
-		this.skin.load(Gdx.files.internal("ui/uiskin.json"));
+		skin = new Skin();
+		skin.addRegions((TextureAtlas) HadalGame.assetManager.get(AssetList.UISKINATL.toString()));
+		skin.add("default-font", font24);
+		skin.load(Gdx.files.internal("ui/uiskin.json"));
 		
-		this.dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
-		this.simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
+		dialogPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_dialogue"));
+		simplePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.UIPATCHATL.toString())).createPatch("UI_box_simple"));
 		
-		this.bossGaugePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge"));
-		this.bossGaugeGreyPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_grey"));
-		this.bossGaugeRedPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_red"));
-		this.bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_dark_red"));
+		bossGaugePatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge"));
+		bossGaugeGreyPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_grey"));
+		bossGaugeRedPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_red"));
+		bossGaugeCatchupPatch = new NinePatchDrawable(((TextureAtlas) HadalGame.assetManager.get(AssetList.BOSSGAUGEATLAS.toString())).createPatch("boss_gauge_dark_red"));
 		
 		atlases.add(GameStateManager.particleAtlas = HadalGame.assetManager.get(AssetList.PARTICLE_ATLAS.toString()));
 		
@@ -337,17 +337,17 @@ public class GameStateManager {
 
 	public Setting getSetting() { return setting; }
 	
-	public Skin getSkin() {	return skin; }
+	public static Skin getSkin() {	return skin; }
 	
-	public NinePatchDrawable getDialogPatch() {	return dialogPatch;	}
+	public static NinePatchDrawable getDialogPatch() {	return dialogPatch;	}
 	
-	public NinePatchDrawable getSimplePatch() { return simplePatch; }
+	public static NinePatchDrawable getSimplePatch() { return simplePatch; }
 
-	public NinePatchDrawable getBossGaugePatch() { return bossGaugePatch; }
+	public static NinePatchDrawable getBossGaugePatch() { return bossGaugePatch; }
 
-	public NinePatchDrawable getBossGaugeGreyPatch() { return bossGaugeGreyPatch; }
+	public static NinePatchDrawable getBossGaugeGreyPatch() { return bossGaugeGreyPatch; }
 
-	public NinePatchDrawable getBossGaugeRedPatch() { return bossGaugeRedPatch; }
+	public static NinePatchDrawable getBossGaugeRedPatch() { return bossGaugeRedPatch; }
 	
-	public NinePatchDrawable getBossGaugeCatchupPatch() { return bossGaugeCatchupPatch; }	
+	public static NinePatchDrawable getBossGaugeCatchupPatch() { return bossGaugeCatchupPatch; }	
 }

@@ -59,32 +59,41 @@ public class TitleState extends GameState {
 		stage = new Stage() {
 			{
 				addActor(new TitleBackdrop());
-				addActor(new MenuWindow(gsm, menuX, menuY, width, height));
+				addActor(new MenuWindow(menuX, menuY, width, height));
 				
 				table = new Table();
 				table.setPosition(menuX, menuY);
 				table.setSize(width, height);
 				addActor(table);
 				
-				nameDisplay = new Text("YOUR NAME: ", 0, 0, Color.BLACK);
+				nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
 				nameDisplay.setScale(0.5f);
-				nameRand = new Text("RANDOM?", 0, 0, Color.BLACK);
+				nameDisplay.setColor(Color.BLACK);
+				nameRand = new Text("RANDOM?", 0, 0, true);
 				nameRand.setScale(0.5f);
-				hostOption = new Text("HOST SERVER", 0, 0, Color.BLACK);
+				nameRand.setColor(Color.BLACK);
+				hostOption = new Text("HOST SERVER", 0, 0, true);
 				hostOption.setScale(0.5f);
-				singleOption = new Text("SINGLE PLAYER", 0, 0, Color.BLACK);
+				hostOption.setColor(Color.BLACK);
+				singleOption = new Text("SINGLE PLAYER", 0, 0, true);
 				singleOption.setScale(0.5f);
-				joinOption = new Text("JOIN", 0, 0, Color.BLACK);
+				singleOption.setColor(Color.BLACK);
+				joinOption = new Text("JOIN", 0, 0, true);
 				joinOption.setScale(0.5f);
-				searchOption = new Text("SEARCH?", 0, 0, Color.BLACK);
+				joinOption.setColor(Color.BLACK);
+				searchOption = new Text("SEARCH?", 0, 0, true);
 				searchOption.setScale(0.5f);
-				settingsOption = new Text("SETTINGS", 0, 0, Color.BLACK);
+				searchOption.setColor(Color.BLACK);
+				settingsOption = new Text("SETTINGS", 0, 0, true);
 				settingsOption.setScale(0.5f);
-				exitOption = new Text("EXIT?", 0, 0, Color.BLACK);
+				settingsOption.setColor(Color.BLACK);
+				exitOption = new Text("EXIT?", 0, 0, true);
 				exitOption.setScale(0.5f);
-				notifications = new Text("", 0, 0, Color.BLACK);
+				exitOption.setColor(Color.BLACK);
+				notifications = new Text("", 0, 0, false);
 				notifications.setScale(0.5f);
-
+				notifications.setColor(Color.BLACK);
+				
 				hostOption.addListener(new ClickListener() {
 					
 					@Override
@@ -253,10 +262,10 @@ public class TitleState extends GameState {
 			         }
 		         });
 				
-				enterIP = new TextField("", gsm.getSkin());
+				enterIP = new TextField("", GameStateManager.getSkin());
 				enterIP.setMessageText("ENTER IP");
 				
-				enterName = new TextField("", gsm.getSkin());
+				enterName = new TextField("", GameStateManager.getSkin());
 				enterName.setText(gsm.getRecord().getName());
 				enterName.setMessageText("ENTER NAME");
 				

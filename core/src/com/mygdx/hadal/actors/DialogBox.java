@@ -176,7 +176,7 @@ public class DialogBox extends AHadalActor {
 			first = dialogs.first();
 			if (first.getInfo().isSmall()) {
 				font.getData().setScale(scaleSmall);
-				ps.getGsm().getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
@@ -184,7 +184,7 @@ public class DialogBox extends AHadalActor {
 				}
 			} else {
 				font.getData().setScale(scale);
-				ps.getGsm().getDialogPatch().draw(batch, getX(), getY() - currY, currX, currY);
+				GameStateManager.getDialogPatch().draw(batch, getX(), getY() - currY, currX, currY);
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxX * textAppearThreshold) {

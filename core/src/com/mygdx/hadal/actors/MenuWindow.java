@@ -8,15 +8,13 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public class MenuWindow extends AHadalActor{
 	
-	private GameStateManager gsm;
 	
-	public MenuWindow(GameStateManager stateManager, int x, int y, int width, int height) {
+	public MenuWindow(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		this.gsm = stateManager;
 	}
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-        gsm.getSimplePatch().draw(batch, getX(), getY(), getWidth(), getHeight());
+        GameStateManager.getSimplePatch().draw(batch, getX(), getY(), getWidth(), getHeight());
     }
 }

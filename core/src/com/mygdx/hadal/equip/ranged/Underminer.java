@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.event.Wall;
+import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -25,7 +27,7 @@ public class Underminer extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 35.0f;
+	private final static float baseDamage = 25.0f;
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
 	private final static float projectileSpeed = 30.0f;
@@ -46,7 +48,7 @@ public class Underminer extends RangedWeapon {
 	private final static int numProj = 10;
 	private final static int spread = 30;
 	private final static Vector2 fragSize = new Vector2(20, 20);
-	private final static float fragLifespan = 0.25f;
+	private final static float fragLifespan = 0.5f;
 	private final static float fragDamage = 16.0f;
 	private final static float fragSpeed = 40.0f;
 	
@@ -66,6 +68,7 @@ public class Underminer extends RangedWeapon {
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private boolean activated = false;
+			private boolean platformHit = false;
 			private float invuln = 0.0f;
 			
 			@Override
@@ -75,24 +78,34 @@ public class Underminer extends RangedWeapon {
 				//invuln is incremented to prevent hbox from detonating immediately upon hitting a corner
 				if (invuln > 0) {
 					invuln -= delta;
+					
+					if (platformHit && invuln <= 0) {
+						hbox.die();
+					}
 				}
 			}
 			
 			@Override
 			public void onHit(HadalData fixB) {
-				if (fixB == null) {
+				if (fixB != null) {
 					
-					//upon hitting a wall, hbox activates and begins drilling in a straight line
-					if (!activated) {
-						activated = true;
-						hbox.setLinearVelocity(hbox.getLinearVelocity().nor().scl(activatedSpeed));
-						hbox.setGravityScale(0);
-						invuln = 0.1f;
-					} else {
+					if (fixB.getType().equals(UserDataTypes.WALL)) {
 						
-						//if already activated (i.e drilling to other side of wall), hbox explodes
-						if (invuln <= 0) {
-							hbox.die();
+						//upon hitting a wall, hbox activates and begins drilling in a straight line
+						if (!activated) {
+							activated = true;
+							hbox.setLinearVelocity(hbox.getLinearVelocity().nor().scl(activatedSpeed));
+							hbox.setGravityScale(0);
+							invuln = 0.1f;
+							
+							if (!(fixB.getEntity() instanceof Wall)) {
+								platformHit = true;
+							}
+						} else {
+							//if already activated (i.e drilling to other side of wall), hbox explodes
+							if (invuln <= 0) {
+								hbox.die();
+							}
 						}
 					}
 				}

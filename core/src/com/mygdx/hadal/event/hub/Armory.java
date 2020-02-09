@@ -32,7 +32,7 @@ public class Armory extends HubEvent {
 		for (UnlockEquip c: UnlockEquip.getUnlocks(state, checkUnlock, tags)) {
 			
 			final UnlockEquip selected = c;
-			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0);
+			Text itemChoose = new Text(selected.getInfo().getName(), 0, 0, true);
 			
 			itemChoose.addListener(new ClickListener() {
 				
@@ -53,10 +53,10 @@ public class Armory extends HubEvent {
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);
-			hub.getTableOptions().add(itemChoose).height(UIHub.optionsHeight);
+			hub.getTableOptions().add(itemChoose).pad(UIHub.optionsPadding, 0, UIHub.optionsPadding, 0);
 			hub.getTableOptions().row();
 		}
-		hub.getTableOptions().add(new Text("", 0, 0)).height(UIHub.optionsHeight);
+		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight);
 		hub.getTableOptions().row();
 	}
 }

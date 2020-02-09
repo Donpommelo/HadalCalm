@@ -168,23 +168,30 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final int charge1Speed = 35;
 	private static final int charge2Speed = 25;
-	private static final int charge1Damage = 15;
-	private static final int charge2Damage = 8;
-	private static final int defaultMeleeKB = 70;
+	private static final float charge1Damage = 1.5f;
+	private static final float charge2Damage = 1.5f;
+	private static final int charge1Knockback = 6;
+	private static final int charge2Knockback = 6;
+
 	private static final float moveDurationMax = 5.0f;
+	
+	private static final float chargeAttackInterval = 1 / 60.0f;
+	private static final float charge1AttackDuration = 1.25f;
+	private static final float charge2AttacksDuration = 2.75f;
 	
 	private void chargeAttack1() {
 		BossUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 1.2f);
 		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
 		BossUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
-		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.5f);
+		BossUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, charge1Knockback, charge1AttackDuration);
 	}
 	
 	private void chargeAttack2() {
 		int corner = BossUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
 		BossUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.5f);
-		BossUtils.meleeAttack(state, this, charge2Damage, defaultMeleeKB, 2.75f);
+		BossUtils.meleeAttackContinuous(state, this, charge2Damage, chargeAttackInterval, charge2Knockback, charge2AttacksDuration);
+		
 		switch (corner) {
 		case 0:
 			BossUtils.moveToDummy(state, this, "2", charge2Speed, moveDurationMax);
@@ -313,7 +320,7 @@ public class Boss1 extends EnemyFloating {
 	private static final float laser3Damage = 7.5f;
 	private static final float laser3Knockback = 1.0f;
 	private static final float laser3Speed = 55.0f;
-	private static final int explosionNumber = 5;
+	private static final int explosionNumber = 6;
 	private static final float explosionDamage = 35.0f;
 	private static final float explosionKnockback = 35.0f;
 	private static final float explosionSize = 300;
@@ -355,7 +362,7 @@ public class Boss1 extends EnemyFloating {
 	private static final float ballKnockback = 12.0f;
 	private static final int ballSize = 60;
 	private static final float ballLifespan = 7.5f;
-	private static final float ballInterval= 0.75f;
+	private static final float ballInterval= 1.0f;
 	
 	private void bouncyBall() {
 		boolean random = GameStateManager.generator.nextBoolean();

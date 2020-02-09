@@ -1,6 +1,5 @@
 package com.mygdx.hadal.actors;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -9,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
@@ -124,17 +124,17 @@ public class MessageWindow {
 		tableInner.setPosition(windowX, windowYInactive);
 		tableInner.setWidth(width);
 		tableInner.setHeight(height);
-		tableOuter.add(new MenuWindow(state.getGsm(), 0, 0, width, height));
+		tableOuter.add(new MenuWindow(0, 0, width, height));
 		
-		textLog = new ScrollPane(tableLog, state.getGsm().getSkin());
+		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
 		textLog.setFadeScrollBars(true);
 		
-		enterMessage = new TextField("", state.getGsm().getSkin());
+		enterMessage = new TextField("", GameStateManager.getSkin());
 		
-		sendMessage = new Text("SEND", 0, 0, Color.WHITE);
+		sendMessage = new Text("SEND", 0, 0, true);
 		sendMessage.setScale(0.5f);
 		
-		backButton = new Text("EXIT", 0, 0, Color.WHITE);
+		backButton = new Text("EXIT", 0, 0, true);
 		backButton.setScale(0.5f);
 		
 		//sending a message should return focus to the playstate
@@ -165,7 +165,7 @@ public class MessageWindow {
 	}
 	
 	public void addText(String text) {
-		Text newEntry = new Text(text, 0, 0);
+		Text newEntry = new Text(text, 0, 0, false);
 		newEntry.setScale(logScale);
 		tableLog.add(newEntry).height(logEntryHeight).left();
 		tableLog.row();

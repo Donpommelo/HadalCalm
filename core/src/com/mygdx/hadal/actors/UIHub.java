@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
 
@@ -38,8 +39,9 @@ public class UIHub {
 	private static final int optionsHeightInner = 450;
 	private static final int optionsWidth = 320;
 	public static final int optionsHeight = 40;
+	public static final int optionsPadding = 10;
 	
-	public static final float optionsScale = 0.30f;
+	public static final float optionsScale = 0.40f;
 	
 	private hubTypes type = hubTypes.NONE;
 	
@@ -61,19 +63,19 @@ public class UIHub {
 	public void addTable() {
 		this.info = "";
 		
-		titleInfo = new Text(title, 0, 0);
+		titleInfo = new Text(title, 0, 0, false);
 		
 		tableOuter.add(titleInfo).center().height(optionsHeight).colspan(2);
 		tableOuter.row();
 		
-		extraInfo = new Text("", 0, 0) {
+		extraInfo = new Text("", 0, 0, false) {
 			
 			@Override
 		    public void draw(Batch batch, float alpha) {
 				super.draw(batch, alpha);
 				font.getData().setScale(0.30f);
-				state.getGsm().getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
-				state.getGsm().getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
+				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
 			    font.draw(batch, info, getX(), getY() + infoHeight - 25, infoWidth, -1, true);
 		    }
 		};
@@ -83,7 +85,7 @@ public class UIHub {
 		
 		tableOuter.add(tableInfo).bottom();
 		
-		this.options = new ScrollPane(tableOptions, state.getGsm().getSkin());
+		this.options = new ScrollPane(tableOptions, GameStateManager.getSkin());
 		options.setFadeScrollBars(false);
 		
 		tableOuter.add(options).bottom().width(optionsWidth).height(optionsHeightInner);
@@ -165,7 +167,7 @@ public class UIHub {
 		}
 		tableExtra.row();
 		Text slotsInfo = null;
-		slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0);
+		slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0, false);
 		
 		slotsInfo.setScale(0.5f);
 		tableExtra.add(slotsInfo).colspan(12).row();

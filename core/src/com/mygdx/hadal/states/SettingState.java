@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -57,6 +56,7 @@ public class SettingState extends GameState {
 	private final static int detailsHeight = 600;
 	
 	private final static float optionsScale = 0.5f;
+	private final static float optionsPad = 10.0f;
 	private final static float detailsScale = 0.3f;
 	
 	private settingTab currentTab;
@@ -70,8 +70,8 @@ public class SettingState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
-				addActor(new MenuWindow(gsm, optionsX, optionsY, optionsWidth, optionsHeight));
-				addActor(new MenuWindow(gsm, detailsX, detailsY, detailsWidth, detailsHeight));
+				addActor(new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight));
+				addActor(new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight));
 				
 				options = new Table();
 				options.setLayoutEnabled(true);
@@ -85,18 +85,18 @@ public class SettingState extends GameState {
 				details.setSize(detailsWidth, detailsHeight);
 				addActor(details);
 				
-				displayOption = new Text("DISPLAY", 0, 0, Color.WHITE);
+				displayOption = new Text("DISPLAY", 0, 0, true);
 				displayOption.addListener(new ClickListener() {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-			        	
+						displaySelected();
 			        }
 					
 			    });
 				displayOption.setScale(optionsScale);
 				
-				controlOption = new Text("CONTROLS", 0, 0, Color.WHITE);
+				controlOption = new Text("CONTROLS", 0, 0, true);
 				controlOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -107,7 +107,7 @@ public class SettingState extends GameState {
 			    });
 				controlOption.setScale(optionsScale);
 				
-				exitOption = new Text("EXIT?", 0, 0, Color.WHITE);
+				exitOption = new Text("EXIT?", 0, 0, true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
@@ -131,7 +131,7 @@ public class SettingState extends GameState {
 			    });
 				exitOption.setScale(optionsScale);
 				
-				saveOption = new Text("SAVE?", 0, 0, Color.WHITE);
+				saveOption = new Text("SAVE?", 0, 0, true);
 				saveOption.addListener(new ClickListener() {
 					
 					@Override
@@ -142,7 +142,7 @@ public class SettingState extends GameState {
 			    });
 				saveOption.setScale(optionsScale);
 				
-				resetOption = new Text("RESET?", 0, 0, Color.WHITE);
+				resetOption = new Text("RESET?", 0, 0, true);
 				resetOption.addListener(new ClickListener() {
 					
 					@Override
@@ -153,11 +153,11 @@ public class SettingState extends GameState {
 			    });
 				resetOption.setScale(optionsScale);
 				
-				options.add(displayOption).row();
-				options.add(controlOption).row();
-				options.add(saveOption).row();
-				options.add(resetOption).row();
-				options.add(exitOption).row();
+				options.add(displayOption).pad(optionsPad).row();
+				options.add(controlOption).pad(optionsPad).row();
+				options.add(saveOption).pad(optionsPad).row();
+				options.add(resetOption).pad(optionsPad).row();
+				options.add(exitOption).pad(optionsPad).row();
 			}
 		};
 		app.newMenu(stage);
@@ -214,26 +214,26 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.DISPLAY;
 		
-		Text screen = new Text("RESOLUTION: ", 0, 0);
+		Text screen = new Text("RESOLUTION: ", 0, 0, false);
 		screen.setScale(detailsScale);
 		
-		resolutionOptions = new SelectBox<String>(gsm.getSkin());
+		resolutionOptions = new SelectBox<String>(GameStateManager.getSkin());
 		resolutionOptions.setItems("1024 X 576", "1280 X 720", "1600 X 900", "1920 X 1080");
 		resolutionOptions.setWidth(100);
 		
 		resolutionOptions.setSelectedIndex(gsm.getSetting().getResolution());
 
-		Text framerate = new Text("FRAMERATE: ", 0, 0);
+		Text framerate = new Text("FRAMERATE: ", 0, 0, false);
 		framerate.setScale(detailsScale);
 		
-		framerateOptions = new SelectBox<String>(gsm.getSkin());
+		framerateOptions = new SelectBox<String>(GameStateManager.getSkin());
 		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps");
 		framerateOptions.setWidth(100);
 		
 		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
 		
-		fullscreen = new CheckBox("FULLSCREEN", gsm.getSkin());
-		vsync = new CheckBox("VSYNC", gsm.getSkin());
+		fullscreen = new CheckBox("FULLSCREEN", GameStateManager.getSkin());
+		vsync = new CheckBox("VSYNC", GameStateManager.getSkin());
 		
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
@@ -255,12 +255,12 @@ public class SettingState extends GameState {
 		currentTab = settingTab.CONTROLS;
 		
 		VerticalGroup actions = new VerticalGroup().space(10).pad(50);
-		actions.addActor(new Text("CONTROLS", 0, 0));
+		actions.addActor(new Text("CONTROLS", 0, 0, false));
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
 			final PlayerAction action = a;
-			Text actionChoose = new Text(a.name() + ":==   " + getKey(a.getKey()) , 0, 0);
+			Text actionChoose = new Text(a.name() + ":==   " + getKey(a.getKey()) , 0, 0, true);
 			
 			actionChoose.addListener(new ClickListener() {
 				
@@ -281,7 +281,7 @@ public class SettingState extends GameState {
 			keybinds.remove();
 		}
 		
-		keybinds = new ScrollPane(actions, gsm.getSkin());
+		keybinds = new ScrollPane(actions, GameStateManager.getSkin());
 		keybinds.setFadeScrollBars(false);
 		keybinds.setSize(detailsWidth, detailsHeight);
 		

@@ -8,6 +8,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
@@ -209,10 +210,10 @@ public class UIPlay extends AHadalActor {
 				bossHpDelayed = bossHpRatio;
 			}
 			
-			state.getGsm().getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
-			state.getGsm().getBossGaugeCatchupPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpDelayed, bossBarHeight, bossScale, bossScale, 0);
-			state.getGsm().getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
-			state.getGsm().getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugeCatchupPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpDelayed, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 		}
 	}
 	

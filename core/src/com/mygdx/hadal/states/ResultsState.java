@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -106,21 +105,21 @@ public class ResultsState extends GameState {
 	public void syncScoreTable() {
 		table.clear();
 		
-		table.add(new Text(text, 0, 0, Color.WHITE)).padBottom(50).colspan(5).row();
-		table.add(new Text("PLAYER", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("KILLS", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("DEATH", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("SCORE", 0, 0, Color.WHITE)).padBottom(50).padRight(20);
-		table.add(new Text("STATUS", 0, 0, Color.WHITE)).padBottom(50).row();
+		table.add(new Text(text, 0, 0, false)).padBottom(50).colspan(5).row();
+		table.add(new Text("PLAYER", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("KILLS", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("DEATH", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("SCORE", 0, 0, false)).padBottom(50).padRight(20);
+		table.add(new Text("STATUS", 0, 0, false)).padBottom(50).row();
 		
 		for (SavedPlayerFields score: scores) {
-			Text name = new Text(score.getName(), 0, 0, Color.WHITE);
+			Text name = new Text(score.getName(), 0, 0, false);
 			name.setScale(scale);
 			
-			Text kills = new Text(score.getKills() + " ", 0, 0, Color.WHITE);
-			Text death = new Text(score.getDeaths() + " ", 0, 0, Color.WHITE);
-			Text points = new Text(score.getScore() + " ", 0, 0, Color.WHITE);
-			Text status = new Text(ready.get(score) ? "READY" : "WAITING", 0, 0, Color.WHITE);
+			Text kills = new Text(score.getKills() + " ", 0, 0, false);
+			Text death = new Text(score.getDeaths() + " ", 0, 0, false);
+			Text points = new Text(score.getScore() + " ", 0, 0, false);
+			Text status = new Text(ready.get(score) ? "READY" : "WAITING", 0, 0, false);
 				
 			table.add(name).padBottom(25);
 			table.add(kills).padBottom(25);
@@ -129,7 +128,7 @@ public class ResultsState extends GameState {
 			table.add(status).padBottom(25).row();
 		}
 		
-		readyOption = new Text("RETURN TO LOADOUT?", 0, 0, Color.WHITE);
+		readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
 		
 		readyOption.addListener(new ClickListener() {
 	        public void clicked(InputEvent e, float x, float y) {

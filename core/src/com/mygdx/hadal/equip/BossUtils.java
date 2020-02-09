@@ -6,6 +6,7 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Torpedofish;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitStatus;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -145,7 +146,7 @@ public class BossUtils {
 			}
 		});
 	}
-	
+
 	public static void meleeAttack(final PlayState state, Enemy boss, final float damage, final float knockback, final float duration) {
 		
 		boss.getActions().add(new BossAction(boss, 0) {
@@ -158,6 +159,41 @@ public class BossUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
 				hbox.addStrategy(new FixedToUser(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+			}
+		});
+	}
+
+	public static void meleeAttackContinuous(final PlayState state, Enemy boss, final float damage, final float attackInterval, final float knockback, final float duration) {
+		
+		boss.getActions().add(new BossAction(boss, 0) {
+			
+			@Override
+			public void execute() {
+				
+				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), boss.getSize(), duration, boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
+				hbox.makeUnreflectable();
+				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new DamageStatic(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
+				hbox.addStrategy(new FixedToUser(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+				hbox.addStrategy((new HitboxStrategy(state, hbox, boss.getBodyData()) {
+				
+					private float controllerCount = 0;
+				
+					@Override
+					public void controller(float delta) {
+						
+						controllerCount += delta;
+						
+						while (controllerCount >= attackInterval) {
+							controllerCount -= attackInterval;
+							
+							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), boss.getSize(), attackInterval, new Vector2(0, 0), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
+							pulse.addStrategy(new ControllerDefault(state, pulse, boss.getBodyData()));
+							pulse.addStrategy(new DamageStatic(state, pulse, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
+							pulse.addStrategy(new FixedToUser(state, pulse, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+						}
+					}
+				}));
 			}
 		});
 	}

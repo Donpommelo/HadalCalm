@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -26,28 +27,28 @@ public class Codex extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		Text timer = new Text("MATCH TIME: ", 0, 0);
+		Text timer = new Text("MATCH TIME: ", 0, 0, false);
 		timer.setScale(0.25f);
 		
-		Text lives = new Text("LIVES: ", 0, 0);
+		Text lives = new Text("LIVES: ", 0, 0, false);
 		lives.setScale(0.25f);
 		
-		Text loadout = new Text("LOADOUT: ", 0, 0);
+		Text loadout = new Text("LOADOUT: ", 0, 0, false);
 		loadout.setScale(0.25f);
 		
-		timerOptions = new SelectBox<String>(state.getGsm().getSkin());
+		timerOptions = new SelectBox<String>(GameStateManager.getSkin());
 		timerOptions.setItems("NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN");
 		timerOptions.setWidth(100);
 		
 		timerOptions.setSelectedIndex(state.getGsm().getSetting().getTimer());
 		
-		livesOptions = new SelectBox<String>(state.getGsm().getSkin());
+		livesOptions = new SelectBox<String>(GameStateManager.getSkin());
 		livesOptions.setItems("UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES");
 		livesOptions.setWidth(100);
 		
 		livesOptions.setSelectedIndex(state.getGsm().getSetting().getLives());
 		
-		loadoutOptions = new SelectBox<String>(state.getGsm().getSkin());
+		loadoutOptions = new SelectBox<String>(GameStateManager.getSkin());
 		loadoutOptions.setItems("DEFAULT", "SELECTED", "RANDOM");
 		loadoutOptions.setWidth(100);
 		
