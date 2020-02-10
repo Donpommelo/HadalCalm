@@ -93,14 +93,17 @@ public class TiledObjectUtil {
 		rect.getCenter(position);
 		rect.getSize(size);
 		
+		Event e = null;
+		
 		//this sets the starting point of the map to the Start object with the corresponding startId
 		if (object.getName().equals("Start")) {
-			if (state.getStartId().equals(object.getProperties().get("startId", "", String.class))) {
+			
+			boolean used = state.getStartId().equals(object.getProperties().get("startId", "", String.class));
+			if (used) {
 				rect.getCenter(state.getStartPosition());
 			}
+			e = new Start(state, position, size, used);
 		}
-		
-		Event e = null;
 		
 		//Go through every event type to create events
 		if (object.getName().equals("Switch")) {
@@ -241,7 +244,11 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("Current")) {
 			Vector2 power = new Vector2(object.getProperties().get("currentX", 0.0f, float.class), object.getProperties().get("currentY", 0.0f, float.class));
-			e = new Currents(state, position, size, power);
+			if (object.getProperties().get("duration", 0.0f, float.class) == 0) {
+				e = new Currents(state, position, size, power);
+			} else {
+				e = new Currents(state, position, size, power, object.getProperties().get("duration", 0.0f, float.class));
+			}
 		}
 		if (object.getName().equals("Displacer")) {
 			Vector2 power = new Vector2(object.getProperties().get("displaceX", 0.0f, float.class), object.getProperties().get("displaceY", 0.0f, float.class));

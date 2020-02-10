@@ -44,6 +44,7 @@
  <objecttype name="Current" color="#a0a0a4">
   <property name="currentX" type="float" default="0"/>
   <property name="currentY" type="float" default="0"/>
+  <property name="duration" type="float" default="0"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
@@ -251,6 +252,8 @@
  </objecttype>
  <objecttype name="Start" color="#ffffff">
   <property name="startId" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Switch" color="#0000ff">
   <property name="triggeredId" type="string"/>

@@ -111,8 +111,8 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="864" width="288" height="16"/>
-  <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="864" width="288" height="16"/>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="928" width="288" height="16"/>
+  <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="928" width="288" height="16"/>
   <object id="30" name="Buzzsaw" type="Buzzsaw" x="576" y="1248" width="160" height="160">
    <properties>
     <property name="damage" type="float" value="5"/>
@@ -213,7 +213,7 @@
     <property name="triggeringId" value="dummy3"/>
    </properties>
   </object>
-  <object id="46" name="Prefab" type="Prefab" x="352" y="768" width="96" height="96">
+  <object id="46" name="Prefab" type="Prefab" x="352" y="832" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="5"/>
     <property name="power" type="float" value="50"/>
@@ -222,7 +222,7 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="47" name="Prefab" type="Prefab" x="1440" y="768" width="96" height="96">
+  <object id="47" name="Prefab" type="Prefab" x="1440" y="832" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="5"/>
     <property name="power" type="float" value="50"/>
