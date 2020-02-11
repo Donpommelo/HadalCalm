@@ -185,7 +185,7 @@
   <property name="unlock" type="bool" default="true"/>
  </objecttype>
  <objecttype name="QuestChange" color="#a0a0a4">
-  <property name="check" type="int" default="0"/>
+  <property name="change" type="int" default="0"/>
   <property name="quest" type="string"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
@@ -193,6 +193,8 @@
  <objecttype name="QuestCheck" color="#a0a0a4">
   <property name="check" type="int" default="0"/>
   <property name="quest" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Redirecttrigger" color="#a0a0a4">
   <property name="blameId" type="string"/>
@@ -283,7 +285,6 @@
   <property name="unlock" type="bool" default="false"/>
  </objecttype>
  <objecttype name="Warp" color="#a0a0a4">
-  <property name="instant" type="bool" default="true"/>
   <property name="level" type="string"/>
   <property name="reset" type="bool" default="false"/>
   <property name="startId" type="string"/>

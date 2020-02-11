@@ -24,14 +24,15 @@ public class LevelWarp extends Event {
 
 	private String level;
 	private String startId;
-	private boolean instant, reset;
+	private boolean warpStart, reset;
 	
-	public LevelWarp(PlayState state, String level, boolean reset, boolean instant, String startId) {
+	public LevelWarp(PlayState state, String level, boolean reset, String startId) {
 		super(state);
 		this.level = level;
 		this.reset = reset;
-		this.instant = instant;
 		this.startId = startId;
+		
+		warpStart = false;
 	}
 	
 	@Override
@@ -40,12 +41,21 @@ public class LevelWarp extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (reset) {
-					state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEWLEVEL, instant, startId);
-				} else {
-					state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEXTSTAGE, instant, startId);
-				}
+				warpStart = true;
 			}
 		};
+	}
+	
+	@Override
+	public void controller(float delta) {
+		if (warpStart) {
+			warpStart = false;
+			
+			if (reset) {
+				state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEWLEVEL, startId);
+			} else {
+				state.loadLevel(UnlockLevel.valueOf(level), TransitionState.NEXTSTAGE, startId);
+			}
+		}
 	}
 }

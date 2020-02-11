@@ -34,15 +34,27 @@ NASU: {
 		NAVIGATIONS,
 	]
 }
-DM_GULLY: {
-	name: DM_GULLY
+WRECK1: {
+    name: WRECK1
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
 	]
 }
+WRECK2: {
+    name: WRECK2
+	description: TEMP
+	tags: []
+}
 SANDBOX: {
 	name: SANDBOX
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
+DM_GULLY: {
+	name: DM_GULLY
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

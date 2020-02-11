@@ -278,7 +278,6 @@ public class TiledObjectUtil {
 			e = new LevelWarp(state,
 					object.getProperties().get("level", String.class), 
 					object.getProperties().get("reset", false, Boolean.class), 
-					object.getProperties().get("instant", true, Boolean.class), 
 					object.getProperties().get("startId", "", String.class));
 		}
 		if (object.getName().equals("Poison")) {
@@ -466,6 +465,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("align", 0, int.class),
 					object.getProperties().get("point1", "", String.class),
 					object.getProperties().get("point2", "", String.class));
+    	}
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Alternator")) {
+    		p = new EventAlternatorZone(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+					object.getProperties().get("align", 0, int.class),
+					object.getProperties().get("event1", "", String.class),
+					object.getProperties().get("event2", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Limit")) {
     		p = new Limiter(state,

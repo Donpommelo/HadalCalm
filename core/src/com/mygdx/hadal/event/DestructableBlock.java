@@ -68,7 +68,7 @@ public class DestructableBlock extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
+		setEventSprite(Sprite.SCRAP_C);
 		setScaleAlign("CENTER_STRETCH");
 		setStandardParticle(Particle.IMPACT);
 	}

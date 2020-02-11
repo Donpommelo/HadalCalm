@@ -652,10 +652,9 @@ public class PlayState extends GameState {
 	 * transition from one playstate to another with a new level.
 	 * @param level: file of the new map
 	 * @param state: this will either be newlevel or next stage to determine whether we reset hp
-	 * @param instant: do we transition to the next area quickly?
 	 * @param nextStartId: The id of the start point to start at (if specified)
 	 */
-	public void loadLevel(UnlockLevel level, TransitionState state, boolean instant, String nextStartId) {
+	public void loadLevel(UnlockLevel level, TransitionState state, String nextStartId) {
 		
 		//The client should never run this; instead transitioning when the server tells it to.
 		if (!server) {
@@ -664,22 +663,13 @@ public class PlayState extends GameState {
 		
 		if (nextLevel == null) {
 			
-			if (instant) {
-				
-				//remove this state and add a new play state with the player's current loadout and stats
-				gsm.removeState(PlayState.class);
-				gsm.addPlayState(level, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
-				
-			} else {
-				
-				//begin transitioning to the designated next level
-				nextLevel = level;
-				this.nextStartId = nextStartId;
-				beginTransition(state, false, "");
-				
-				//Server tells clients to begin a transition to the new state
-				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, ""));
-			}
+			//begin transitioning to the designated next level
+			nextLevel = level;
+			this.nextStartId = nextStartId;
+			beginTransition(state, false, "");
+			
+			//Server tells clients to begin a transition to the new state
+			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, ""));
 		}
 	}
 	
