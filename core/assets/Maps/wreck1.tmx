@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="91">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="100">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="110" height="90">
   <data encoding="base64" compression="zlib">
@@ -24,7 +24,7 @@
   <object id="4" name="Prefab" type="Prefab" x="544" y="2464" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivateOnce"/>
-    <property name="triggeringId" value="door1"/>
+    <property name="triggeringId" value="sc0"/>
    </properties>
   </object>
   <object id="5" name="Warp" type="Warp" x="480" y="416" width="32" height="32">
@@ -199,7 +199,7 @@
   <object id="48" name="Multitrigger" type="Multitrigger" x="96" y="352" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,bounds1,bounds2,sccheck1,w1,tofloor1"/>
+    <property name="triggeringId" value="startTimer,bounds1,bounds2,sccheck0,sccheck1,w1,tofloor1"/>
    </properties>
   </object>
   <object id="49" name="Bounds" type="Bounds" x="768" y="896" width="32" height="32">
@@ -242,7 +242,7 @@
   </object>
   <object id="55" name="Prefab" type="Prefab" x="1664" y="2080" width="96" height="96">
    <properties>
-    <property name="pool" value="SPEARGUN"/>
+    <property name="pool" value="DIAMOND_CUTTER"/>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
    </properties>
@@ -320,6 +320,55 @@
    <properties>
     <property name="displaceX" type="float" value="0"/>
     <property name="triggeringId" value="elevatorfloor"/>
+   </properties>
+  </object>
+  <object id="91" name="Multitrigger" type="Multitrigger" x="800" y="2592" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="sc0"/>
+    <property name="triggeringId" value="door1,scset0"/>
+   </properties>
+  </object>
+  <object id="92" name="QuestChange" type="QuestChange" x="800" y="2656" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="quest" value="WRECK0SC"/>
+    <property name="triggeredId" value="scset0"/>
+    <property name="triggeringId" value="door1"/>
+   </properties>
+  </object>
+  <object id="93" name="QuestCheck" type="QuestCheck" x="96" y="480" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="1"/>
+    <property name="quest" value="WRECK0SC"/>
+    <property name="triggeredId" value="sccheck0"/>
+    <property name="triggeringId" value="door1"/>
+   </properties>
+  </object>
+  <object id="94" name="Prefab" type="Prefab" x="2720" y="1600" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeringId" value="tofloor1"/>
+   </properties>
+  </object>
+  <object id="95" name="Dropthrough" type="Dropthrough" x="2272" y="2336" width="160" height="16"/>
+  <object id="96" name="Sensor" type="Sensor" x="3264" y="2464" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="98" name="Warp" type="Warp" x="3424" y="2528" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECKEXPANSE1"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="99" name="Start" type="Start" x="3200" y="2560" width="32" height="32">
+   <properties>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
    </properties>
   </object>
  </objectgroup>

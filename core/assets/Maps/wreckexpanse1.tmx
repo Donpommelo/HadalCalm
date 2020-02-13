@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="240" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="23">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="240" height="90">
+  <data encoding="base64" compression="zlib">
+   eJzt3dmSmzAQQFGyL5PlIfn/b431oDKhkESLVrdavqeqX2fIoGvANmTbAAAAAAAAgFh+d8w3ly0F5vVx62vpOFL0C9xHv0Bc9AvERb9AXPQLxEW/QFz0C8RFv0Bc9AvERb9AXPQLxEW/QFz0C8RFv0Bc9AvERb9AXPQLxEW/QFz0C02fHvO9MJ8dt2tV9Astqd2/G/vPEv1CQ27352M+FOaH29ati35x175dGrVFv+iVr3XzMZd27dEvpHK3HHP90S8k9u9R0a4/+oXEfr3Qrj/6hUReL+yLOdAvJOh3LvQLibxe/mx8n2oG9AuJ/XpJDfO9SF/0C4mz9ZI7pmV79AuJ1nrZt1wbOtdBv5B4e8yv7f56YV/qoF9ISRs+u6eBz4510C96pIZL9xnRqh36BeKiXyAu+gXiol8gLvpFRLXn5KV5P+Bnaoz25970ixm92+odjFgrbxd+7t3R/t54pH7PvtvT8zqL+d1dl72v9Vo9WDUcqV/N/YS5efWr9f0yq4a/bNc/h6+NFP2ixqvfJFrDHugXNZ79JpLvl7Wm9lpwdk0YoWn6RY13v5qOrwWtY/tM217COQhqVur3qHZ+HuWZnlr9zr6v0GflfpPS+XmEdhP6Rc3q/WrQ/L6JFP2ihn7bND+rltLsl2vg+RyPDdL9Q79tq/T7KvsritTu2T6SfE+ZftvoF9pK7Ur3G/220S+0SdcU/fbZ/z9yK/TLNfAc6NeG9n0WUtr9vsI+83T1swrpMYF++9AvWvbNjthf9NuPflGjfX1Fv7pW7JdrYB1W7dJvnxH7R8p6PeAay3Zr++vKfem1+3hWXgcjnhEiNWo9RDwGj3puWuvvcPZ7Ldu9e69N7T4e+o3Zb7R9N/J41/o7WDzraVS7WanhSGtAYtR6kRq5NqIcg0efq87ar/Y9rmcNe/RbOo+a8XmTM/ebZ+aGLa4zZ+x31P3px4Yt+83dlvan5rbM0q/Ws4Vq87Vjuyx4fzaTaT27UDIj70/f3xNvue+v/J/mGseSketmNSOfxW/1HlGU64jIrjSldc4x8nxpJdafodBwTJbtJvTbtlK7NFx35/0m63ZHr8sVrNguDZ+r7evjM5nP/m5Xng+tea0/+r3G6FZul4b/J93X3n83i7UpNeq9odnfU/Kes+f9j5xZXi/258o9+/puw2fn6ld/nsXnfFLe65ixGe9jV6J1/Or9t5R+f34trf1Mq/NCKe91xdiN9TH/ONr/FknDV/ordWx5TSflvaYYpnckr0fS62yvazop733AMMxzpLy3l2GY50h5by/DMM+R8t5ehmGeI+W9vQzDPEfK+r41hmHKAwAAAADAq/sHFLRFmA==
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="160" y="2272">
+   <polyline points="0,0 0,160 1152,160 1312,0 2016,0 2176,-160 2848,-160 2880,-128 2880,0 3040,160 3904,160 3968,224 4960,224 5024,160 5088,160 5184,64 5344,64 5376,96 5472,96 5632,256 5952,256 6048,160 6176,160 6208,192 6240,192 6272,224 6304,224 6336,256 6432,256 6496,192 6496,160 6528,128 6528,96 6560,64 6560,0 6592,-32 6592,-96 6624,-128 6624,-192 6656,-224 6656,-352 6688,-384 6688,-512 6720,-544 7296,-544 7296,-704 6720,-704 6720,-2112 448,-2112 448,-768 608,-768 608,-608 640,-576 640,-480 672,-448 672,-352 704,-320 704,-224 736,-192 736,-160 768,-128 768,-96 832,-32 832,0 0,0"/>
+  </object>
+  <object id="2" x="3264" y="2144">
+   <polyline points="0,0 32,-32 160,-32 288,-160 352,-160 384,-192 672,-192 672,-256 768,-352 864,-352 896,-320 1088,-320 1088,-32 928,128 0,128 0,0"/>
+  </object>
+  <object id="3" x="4512" y="1472">
+   <polyline points="0,0 256,0 288,-32 544,-32 544,800 448,800 288,640 0,640 0,0"/>
+  </object>
+  <object id="4" x="5440" y="1472">
+   <polyline points="0,0 32,-32 800,-32 960,128 1088,128 1120,160 1120,192 1056,256 896,256 832,192 736,192 704,160 128,160 32,64 32,32 0,0"/>
+  </object>
+  <object id="5" x="5792" y="2368">
+   <polyline points="0,0 96,-96 96,-128 128,-160 160,-160 192,-192 352,-192 384,-160 384,-128 416,-96 288,32 32,32 0,0"/>
+  </object>
+  <object id="6" x="3680" y="992">
+   <polyline points="0,0 64,-64 96,-64 128,-96 160,-96 288,-224 480,-224 512,-192 512,-160 480,-128 288,-128 224,-64 192,-64 96,32 96,96 128,128 160,128 192,160 256,160 288,192 576,192 608,224 608,256 576,288 448,288 416,320 96,320 0,224 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="7" name="Sensor" type="Sensor" x="160" y="2272" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="8" name="Warp" type="Warp" x="64" y="2336" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECK1"/>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="9" name="Start" type="Start" x="288" y="2368" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="10" name="Timer" type="Timer" x="704" y="224" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="11" name="Multitrigger" type="Multitrigger" x="768" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="12" name="Bounds" type="Bounds" x="832" y="480" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="13" name="Bounds" type="Bounds" x="6688" y="2208" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="14" name="Dropthrough" type="Dropthrough" x="5632" y="2368" width="192" height="16"/>
+  <object id="15" name="Dropthrough" type="Dropthrough" x="4352" y="2064" width="160" height="16"/>
+  <object id="16" name="Dropthrough" type="Dropthrough" x="3040" y="2144" width="224" height="16"/>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="2344" y="1904" width="192" height="16"/>
+  <object id="18" name="Dropthrough" type="Dropthrough" x="2656" y="1744" width="256" height="16"/>
+  <object id="20" name="Sensor" type="Sensor" x="7360" y="1568" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="21" name="Start" type="Start" x="7296" y="1664" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="22" name="Warp" type="Warp" x="7488" y="1632" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECKEXPANSEBOSS"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

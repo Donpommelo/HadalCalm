@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="74">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="120" height="100">
+  <data encoding="base64" compression="zlib">
+   eAHtm+ly2zAMhJM2PdPjR/v+z1pxXGQYjiRieQgQuJlxLFsgjm8piaTkpyf+kQAJkAAJkAAJkAAJkAAJkAAJkAAJkAAJkAAJkAAJkAAJkAAJkAAJkAAJkMCDwPP29p2vQwYfbt5RXrb8f/N1yOBbEH1/bnV85OuNwa//fT6KvnevY/RhJue1u3OJUgf13SdAfWNzob7Ud59A7G+j9PsodYzubV65oGsVfzcwaf5793HiKvq2rlVQ3/c9xOvx27pG8fV9ect/8qrvbGHK9Wrt+mzZDr2OaO1H5SPXrT8bUG3sHrvZumn9S7+W64D2vF62k/aj373lo61Py3+2XamTlueXLbHWawfSTnuduSofbe6zddP6b9VX6592tgSory3/2dGp72zCtv6pry3/2dGp72zCtv6pry3/2dGp72zC5/571lA0bWVdR+bt2vnvedbcqyUg3K96p75aZcbYaddLeu3Q5wtr68+j1o1H+cnPZZ9BaT5t9nl7zTYYYrq5XIe1x6/YH51XRvnR3g8orzNHeaXvk0+txklbxLfEnS4YGED0GqVLi5/ec5C2fTpXaTQWbVueJQfxTze31lfbH0aAeN2ciMZn59p03CZtf4wIauxjJX0TatFYzqd771G0TfWupq9ofHZOj3DcpjrT34r6Pipf4z/1ja0z9aW+OQHpD3vjkvSddjwsfrT2eQ7c1hNAOdeed9I+N4XG1VdEy5yAFWeruHntK2xbcbaKu4KmeY1WnK3i5rWvsG3F2SruCprmNVpxtoqb136n7dp92aP1dLkHdvU8hfpivUt4Hc1La99TX4z31da5vmdr5+U+9PmNUXVJvlf3q1H5X+2nlVdru976rOL25m3VvpVXa7veOq3i9uZt1b6Vl7RLz60cPdMmY7ej/WXNNfu0X8Z1aVyQj/20McqY0T+LTuj1TNqd3RsQG63vmr3s3xvzaWNE17OsT5ihfPL7BUf3BlDfNfs8poz3rMZ5JUevn2tMe/JGfaP2KbeWNj013a3tTD6ob9Se+tZ7WwvTuteHBeobtae+dSVamNa9Ul8to9l21Hc2YVv/oq/2dzv5nLO2LXNV7di8JRc0hi3t66ML07055ajvUH1b4mpjXE/YNuLenFLmlr3v6NxU+lrL77OO5uC2dGNHF720xxZqH5ue/+pQvVB7/wRiZ4jqhdrHpue/OlQv1N4/gdgZonqh9rHp+a8O1Qu1908gdoaoXqh9bHr+q0P1Qu39E4idIaoXah+bnv/qUL1Qe/8EYmeI6oXax6bnvzpUL9TeP4HYGaJ6ofax6fmvDtULtfdPIHaGqF6ofWx6/qtD9ULt/ROInSGqF2ofm57/6lC9UHv/BGJniOqF2sem5786VC/U3j+B2BmieqH2sen5rw7VC7X3T4AZkgAJkAAJkAAJkAAJkAAJXEXgHzokNlw=
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="7" x="160" y="896">
+   <polyline points="0,0 0,320 768,320 768,0 928,0 928,1056 960,1056 960,1152 832,1152 832,992 480,992 480,1312 1120,1312 1120,1056 1216,1056 1216,2112 1504,2112 1504,1056 1600,1056 1600,1312 1920,1312 1920,1152 1760,1152 1760,1056 1792,1056 1792,384 2080,384 2080,416 2368,416 2368,384 2720,384 2816,480 3040,480 3136,384 3520,384 3520,96 2368,96 2368,0 2624,0 2624,-288 480,-288 480,0 0,0"/>
+  </object>
+  <object id="8" x="1376" y="896">
+   <polyline points="0,0 0,96 864,96 864,0 0,0"/>
+  </object>
+  <object id="9" x="1376" y="1280">
+   <polyline points="0,0 288,0 288,352 0,352 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="1" name="Platform" type="Platform" x="1376" y="2688" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorfloora"/>
+   </properties>
+  </object>
+  <object id="2" name="Platform" type="Platform" x="1376" y="2400" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorceilinga"/>
+   </properties>
+  </object>
+  <object id="3" name="MovePoint" type="MovePoint" x="1504" y="2688" width="32" height="32">
+   <properties>
+    <property name="connections" value="elevatorfloora,elevatorceilinga,switcha"/>
+    <property name="speed" type="float" value="12"/>
+    <property name="triggeredId" value="elevatormovea"/>
+   </properties>
+  </object>
+  <object id="4" name="Prefab" type="Prefab" x="1472" y="2592" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeredId" value="switcha"/>
+    <property name="triggeringId" value="tofloor1a"/>
+   </properties>
+  </object>
+  <object id="5" name="Displacer" type="Displacer" x="1384" y="2680" width="272" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="elevatorfloora"/>
+   </properties>
+  </object>
+  <object id="6" name="Start" type="Start" x="1504" y="2624" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfrombot"/>
+   </properties>
+  </object>
+  <object id="10" name="Redirecttrigger" type="Redirecttrigger" x="1120" y="2464" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor2a"/>
+    <property name="triggeredId" value="tofloor2a"/>
+    <property name="triggeringId" value="elevatormovea"/>
+   </properties>
+  </object>
+  <object id="11" name="Redirecttrigger" type="Redirecttrigger" x="1120" y="2528" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor1a"/>
+    <property name="triggeredId" value="tofloor1a"/>
+    <property name="triggeringId" value="elevatormovea"/>
+   </properties>
+  </object>
+  <object id="12" name="Sensor" type="Sensor" x="1376" y="2848" width="288" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="13" name="Warp" type="Warp" x="1216" y="2912" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECK2"/>
+    <property name="startId" value="start3"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="14" name="Dummy" type="Dummy" x="1504" y="3136" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor1a"/>
+   </properties>
+  </object>
+  <object id="15" name="Dummy" type="Dummy" x="1504" y="1920" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor2a"/>
+   </properties>
+  </object>
+  <object id="16" name="Timer" type="Timer" x="96" y="96" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="17" name="Multitrigger" type="Multitrigger" x="160" y="96" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,tofloor2a,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="18" name="Dummy" type="Dummy" x="1216" y="896" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor2b"/>
+   </properties>
+  </object>
+  <object id="19" name="Dummy" type="Dummy" x="1792" y="1280" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor2c"/>
+   </properties>
+  </object>
+  <object id="20" name="Dummy" type="Dummy" x="2368" y="896" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor2d"/>
+   </properties>
+  </object>
+  <object id="21" name="Dummy" type="Dummy" x="1216" y="1920" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor1b"/>
+   </properties>
+  </object>
+  <object id="22" name="Dummy" type="Dummy" x="1792" y="1920" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor1c"/>
+   </properties>
+  </object>
+  <object id="23" name="Dummy" type="Dummy" x="2368" y="1280" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor1d"/>
+   </properties>
+  </object>
+  <object id="24" name="Platform" type="Platform" x="1088" y="1920" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorfloorb"/>
+   </properties>
+  </object>
+  <object id="25" name="Platform" type="Platform" x="1088" y="1632" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorceilingb"/>
+   </properties>
+  </object>
+  <object id="26" name="MovePoint" type="MovePoint" x="1216" y="1920" width="32" height="32">
+   <properties>
+    <property name="connections" value="elevatorfloorb,elevatorceilingb,elevatorwallb,switchb"/>
+    <property name="speed" type="float" value="12"/>
+    <property name="triggeredId" value="elevatormoveb"/>
+   </properties>
+  </object>
+  <object id="27" name="Prefab" type="Prefab" x="1184" y="1824" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeredId" value="switchb"/>
+    <property name="triggeringId" value="switchbpressed"/>
+   </properties>
+  </object>
+  <object id="28" name="Displacer" type="Displacer" x="1128" y="1912" width="240" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="elevatorfloorb"/>
+   </properties>
+  </object>
+  <object id="30" name="Platform" type="Platform" x="1088" y="1664" width="32" height="256">
+   <properties>
+    <property name="triggeredId" value="elevatorwallb"/>
+   </properties>
+  </object>
+  <object id="31" name="Condtrigger" type="Condtrigger" x="736" y="1440" width="32" height="32">
+   <properties>
+    <property name="start" value="setfloor2b"/>
+    <property name="triggeredId" value="switchbpressed"/>
+    <property name="triggeringId" value="setfloor1b,setfloor2b"/>
+   </properties>
+  </object>
+  <object id="32" name="Multitrigger" type="Multitrigger" x="736" y="1568" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setfloor1b"/>
+    <property name="triggeringId" value="tofloor1b,setswitch1b"/>
+   </properties>
+  </object>
+  <object id="33" name="Multitrigger" type="Multitrigger" x="736" y="1504" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setfloor2b"/>
+    <property name="triggeringId" value="tofloor2b,setswitch2b"/>
+   </properties>
+  </object>
+  <object id="34" name="Redirecttrigger" type="Redirecttrigger" x="800" y="1568" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor1b"/>
+    <property name="triggeredId" value="tofloor1b"/>
+    <property name="triggeringId" value="elevatormoveb"/>
+   </properties>
+  </object>
+  <object id="35" name="Redirecttrigger" type="Redirecttrigger" x="800" y="1504" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor2b"/>
+    <property name="triggeredId" value="tofloor2b"/>
+    <property name="triggeringId" value="elevatormoveb"/>
+   </properties>
+  </object>
+  <object id="36" name="Alttrigger" type="Alttrigger" x="864" y="1568" width="32" height="32">
+   <properties>
+    <property name="message" value="setfloor2b"/>
+    <property name="triggeredId" value="setswitch1b"/>
+    <property name="triggeringId" value="switchbpressed"/>
+   </properties>
+  </object>
+  <object id="37" name="Alttrigger" type="Alttrigger" x="864" y="1504" width="32" height="32">
+   <properties>
+    <property name="message" value="setfloor1b"/>
+    <property name="triggeredId" value="setswitch2b"/>
+    <property name="triggeringId" value="switchbpressed"/>
+   </properties>
+  </object>
+  <object id="39" name="Condtrigger" type="Condtrigger" x="2112" y="1728" width="32" height="32">
+   <properties>
+    <property name="start" value="setfloor2c"/>
+    <property name="triggeredId" value="switchcpressed"/>
+    <property name="triggeringId" value="setfloor1c,setfloor2c"/>
+   </properties>
+  </object>
+  <object id="40" name="Multitrigger" type="Multitrigger" x="2112" y="1856" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setfloor1c"/>
+    <property name="triggeringId" value="tofloor1c,setswitch1c"/>
+   </properties>
+  </object>
+  <object id="41" name="Multitrigger" type="Multitrigger" x="2112" y="1792" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setfloor2c"/>
+    <property name="triggeringId" value="tofloor2c,setswitch2c"/>
+   </properties>
+  </object>
+  <object id="42" name="Redirecttrigger" type="Redirecttrigger" x="2176" y="1856" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor1c"/>
+    <property name="triggeredId" value="tofloor1c"/>
+    <property name="triggeringId" value="elevatormovec"/>
+   </properties>
+  </object>
+  <object id="43" name="Redirecttrigger" type="Redirecttrigger" x="2176" y="1792" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor2c"/>
+    <property name="triggeredId" value="tofloor2c"/>
+    <property name="triggeringId" value="elevatormovec"/>
+   </properties>
+  </object>
+  <object id="44" name="Alttrigger" type="Alttrigger" x="2240" y="1856" width="32" height="32">
+   <properties>
+    <property name="message" value="setfloor2c"/>
+    <property name="triggeredId" value="setswitch1c"/>
+    <property name="triggeringId" value="switchcpressed"/>
+   </properties>
+  </object>
+  <object id="45" name="Alttrigger" type="Alttrigger" x="2240" y="1792" width="32" height="32">
+   <properties>
+    <property name="message" value="setfloor1c"/>
+    <property name="triggeredId" value="setswitch2c"/>
+    <property name="triggeringId" value="switchcpressed"/>
+   </properties>
+  </object>
+  <object id="46" name="Platform" type="Platform" x="1664" y="1344" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorceilingc"/>
+   </properties>
+  </object>
+  <object id="48" name="Platform" type="Platform" x="1664" y="1632" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorfloorc"/>
+   </properties>
+  </object>
+  <object id="49" name="MovePoint" type="MovePoint" x="1792" y="1632" width="32" height="32">
+   <properties>
+    <property name="connections" value="elevatorfloorc,elevatorceilingc,switchc"/>
+    <property name="speed" type="float" value="12"/>
+    <property name="triggeredId" value="elevatormovec"/>
+   </properties>
+  </object>
+  <object id="50" name="Prefab" type="Prefab" x="1760" y="1536" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeredId" value="switchc"/>
+    <property name="triggeringId" value="switchcpressed"/>
+   </properties>
+  </object>
+  <object id="51" name="Displacer" type="Displacer" x="1672" y="1624" width="272" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="elevatorfloorc"/>
+   </properties>
+  </object>
+  <object id="52" name="Start" type="Start" x="352" y="1120" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="53" name="Start" type="Start" x="3488" y="1216" width="32" height="32">
+   <properties>
+    <property name="startId" value="start3"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfromtop"/>
+   </properties>
+  </object>
+  <object id="54" name="Condtrigger" type="Condtrigger" x="2976" y="608" width="32" height="32">
+   <properties>
+    <property name="start" value="setfloor1d"/>
+    <property name="triggeredId" value="switchdpressed"/>
+    <property name="triggeringId" value="setfloor1d,setfloor2d"/>
+   </properties>
+  </object>
+  <object id="55" name="Multitrigger" type="Multitrigger" x="2976" y="736" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setfloor1d"/>
+    <property name="triggeringId" value="tofloor1d,setswitch1d"/>
+   </properties>
+  </object>
+  <object id="56" name="Multitrigger" type="Multitrigger" x="2976" y="672" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setfloor2d"/>
+    <property name="triggeringId" value="tofloor2d,setswitch2d"/>
+   </properties>
+  </object>
+  <object id="57" name="Redirecttrigger" type="Redirecttrigger" x="3040" y="736" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor1d"/>
+    <property name="triggeredId" value="tofloor1d"/>
+    <property name="triggeringId" value="elevatormoved"/>
+   </properties>
+  </object>
+  <object id="58" name="Redirecttrigger" type="Redirecttrigger" x="3040" y="672" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor2d"/>
+    <property name="triggeredId" value="tofloor2d"/>
+    <property name="triggeringId" value="elevatormoved"/>
+   </properties>
+  </object>
+  <object id="59" name="Alttrigger" type="Alttrigger" x="3104" y="736" width="32" height="32">
+   <properties>
+    <property name="message" value="setfloor2d"/>
+    <property name="triggeredId" value="setswitch1d"/>
+    <property name="triggeringId" value="switchdpressed"/>
+   </properties>
+  </object>
+  <object id="60" name="Alttrigger" type="Alttrigger" x="3104" y="672" width="32" height="32">
+   <properties>
+    <property name="message" value="setfloor1d"/>
+    <property name="triggeredId" value="setswitch2d"/>
+    <property name="triggeringId" value="switchdpressed"/>
+   </properties>
+  </object>
+  <object id="61" name="Platform" type="Platform" x="2240" y="800" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorceilingd"/>
+   </properties>
+  </object>
+  <object id="62" name="Platform" type="Platform" x="2240" y="1088" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorfloord"/>
+   </properties>
+  </object>
+  <object id="63" name="MovePoint" type="MovePoint" x="2368" y="1088" width="32" height="32">
+   <properties>
+    <property name="connections" value="elevatorfloord,elevatorceilingd,elevatorwalld,switchd"/>
+    <property name="speed" type="float" value="12"/>
+    <property name="triggeredId" value="elevatormoved"/>
+   </properties>
+  </object>
+  <object id="64" name="Prefab" type="Prefab" x="2336" y="992" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeredId" value="switchd"/>
+    <property name="triggeringId" value="switchdpressed"/>
+   </properties>
+  </object>
+  <object id="65" name="Displacer" type="Displacer" x="2248" y="1080" width="240" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="elevatorfloord"/>
+   </properties>
+  </object>
+  <object id="66" name="Platform" type="Platform" x="2496" y="832" width="32" height="256">
+   <properties>
+    <property name="triggeredId" value="elevatorwalld"/>
+   </properties>
+  </object>
+  <object id="67" name="Multitrigger" type="Multitrigger" x="160" y="192" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="enterfrombot"/>
+    <property name="triggeringId" value="setfloor1c,setfloor1d"/>
+   </properties>
+  </object>
+  <object id="68" name="Multitrigger" type="Multitrigger" x="160" y="256" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="enterfromtop"/>
+    <property name="triggeringId" value="setfloor2c,setfloor2d"/>
+   </properties>
+  </object>
+  <object id="69" name="Bounds" type="Bounds" x="928" y="800" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="70" name="Bounds" type="Bounds" x="2912" y="2208" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="72" name="Sensor" type="Sensor" x="3584" y="992" width="96" height="288">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="73" name="Warp" type="Warp" x="3616" y="832" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECKUPPERSHAFT"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp2"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

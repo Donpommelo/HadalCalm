@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="70" height="300" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="5">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="70" height="300">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="288" y="9088">
+   <polyline points="0,0 416,0 416,352 992,352 992,0 1408,0 1408,-448 992,-448 992,-6112 1312,-6432 1312,-8928 736,-8928 736,-6432 416,-6112 416,-288 0,-288 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="2" name="Start" type="Start" x="416" y="9024" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfrombot"/>
+   </properties>
+  </object>
+  <object id="3" name="Sensor" type="Sensor" x="288" y="8800" width="96" height="288">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="4" name="Warp" type="Warp" x="320" y="8640" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECKUPPER1"/>
+    <property name="startId" value="start3"/>
+    <property name="triggeredId" value="warp0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

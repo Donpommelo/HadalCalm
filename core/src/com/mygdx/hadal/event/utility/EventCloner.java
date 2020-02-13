@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 /**
  * An EventCloner. This Event will create a copy of a specified event and move it to its own location.
  * 
- * Triggered Behavior: When triggered, this eventwill perform the cloning.
+ * Triggered Behavior: When triggered, this event will perform the cloning.
  * Triggering Behavior: The connected event is the one who will be cloned.
  * 
  * Fields: N/A

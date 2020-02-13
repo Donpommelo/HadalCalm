@@ -18,7 +18,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * Also, as an extra note, deleting + cloning do not have this problem b/c adding + removing stuff is already done safely
  * 
- * Triggered Behavior: When triggered, this eventwill perform the move.
+ * Triggered Behavior: When triggered, this event will perform the move.
  * Triggering Behavior: The connected event is the one who will be moved.
  * 
  * Note that many events do not have bodies. Attempting to move them will do nothing.

@@ -41,11 +41,6 @@ WRECK1: {
 		NAVIGATIONS,
 	]
 }
-WRECK2: {
-    name: WRECK2
-	description: TEMP
-	tags: []
-}
 SANDBOX: {
 	name: SANDBOX
 	description: TEMP

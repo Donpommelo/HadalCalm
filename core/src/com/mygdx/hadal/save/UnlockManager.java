@@ -60,6 +60,10 @@ public class UnlockManager {
 			
 			boolean tagPresent = false;
 			
+			if (item == null) {
+				return false;
+			}
+			
 			for (int j = 0; j < item.getTags().size(); j++) {
 				if (tags.get(i).equals(item.getTags().get(j))) {
 					tagPresent = true;
