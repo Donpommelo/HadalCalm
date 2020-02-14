@@ -1,11 +1,4 @@
 {
-HUB: {
-	name: HUB
-	description: TEMP
-	tags: [
-		MISC,
-	]
-}
 HUB_MULTI: {
 	name: HUB
 	description: TEMP
@@ -64,6 +57,13 @@ DM_SAWMILL: {
 }
 DM_CAROUSEL: {
 	name: DM_CAROUSEL
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
+SSTUNICATE1: {
+	name: SSTUNICATE1
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

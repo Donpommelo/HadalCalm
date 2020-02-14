@@ -295,7 +295,7 @@ public class GameStateManager {
 	 */
 	public void gotoHubState() {
 		if (currentMode == Mode.SINGLE) {
-			addPlayState(UnlockLevel.HUB, new Loadout(record), null, TitleState.class, true, "");
+			addPlayState(UnlockLevel.SSTUNICATE1, new Loadout(record), null, TitleState.class, true, "");
 		}
 		if (currentMode == Mode.MULTI) {
 			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class, true, "");

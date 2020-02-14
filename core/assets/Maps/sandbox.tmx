@@ -114,7 +114,7 @@
   <object id="37" name="Current" type="Current" x="1152" y="1952" width="224" height="288">
    <properties>
     <property name="currentX" type="float" value="0"/>
-    <property name="currentY" type="float" value="8"/>
+    <property name="currentY" type="float" value="5"/>
    </properties>
   </object>
   <object id="40" name="Prefab" type="Prefab" x="928" y="3328" width="96" height="96">
