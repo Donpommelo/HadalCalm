@@ -303,6 +303,11 @@ public class TiledObjectUtil {
 					object.getProperties().get("pause", false, boolean.class));
 			movePointConnections.put((MovingPoint)e, object.getProperties().get("connections", "", String.class));
 		}
+		if (object.getName().equals("Rotator")) {
+			e = new Rotator(state,
+					object.getProperties().get("continuous", true, boolean.class),
+					object.getProperties().get("angle", 0.0f, float.class));
+		}
 		if (object.getName().equals("Platform")) {
 			e = new Platform(state, position, size, 
 					object.getProperties().get("restitution", 0.0f, float.class), 

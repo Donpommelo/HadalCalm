@@ -60,7 +60,7 @@ public class PortalTouch extends Event {
 	public void controller(float delta) {
 		if (getConnectedEvent() != null) {
 			
-			//If teleporting someone to another portal, add them to the justTeleported list so htey cannot teleport again right away.
+			//If teleporting someone to another portal, add them to the justTeleported list so they cannot teleport again right away.
 			if (getConnectedEvent() instanceof PortalTouch) {
 				for (HadalEntity s : eventData.getSchmucks()) {
 					if (!justTeleported.contains(s)) {

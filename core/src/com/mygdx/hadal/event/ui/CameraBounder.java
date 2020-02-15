@@ -66,6 +66,6 @@ public class CameraBounder extends Event {
 	
 	@Override
 	public void loadDefaultProperties() {
-		setSyncType(eventSyncTypes.ALL);
+		setSyncType(eventSyncTypes.USER);
 	}
 }

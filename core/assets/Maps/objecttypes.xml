@@ -206,6 +206,12 @@
   <property name="title" type="string" default="Reliquary"/>
   <property name="unlock" type="bool" default="true"/>
  </objecttype>
+ <objecttype name="Rotator" color="#a0a0a4">
+  <property name="angle" type="float" default="0"/>
+  <property name="continuous" type="bool" default="true"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
  <objecttype name="Save" color="#a0a0a4">
   <property name="clear" type="bool" default="true"/>
   <property name="onInit" type="bool" default="true"/>

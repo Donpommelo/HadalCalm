@@ -109,6 +109,7 @@ public class ClientIllusion extends HadalEntity {
 		CENTER,
 		CENTER_STRETCH,
 		CENTER_BOTTOM,
+		ROTATE,
 		RAGDOLL,
 		NONE
 	}

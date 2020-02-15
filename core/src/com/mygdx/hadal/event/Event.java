@@ -138,6 +138,13 @@ public class Event extends HadalEntity {
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
+			case ROTATE:
+				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
+						getPixelPosition().x - size.x / 2,
+						getPixelPosition().y - size.y / 2,
+						size.x / 2, size.y / 2,
+	                    size.x, size.y, 1, 1, (float) (body.getAngle() / Math.PI * 180));
+				break;
 			default:
 				break;
 			}            

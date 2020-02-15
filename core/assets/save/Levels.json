@@ -11,6 +11,7 @@ BOSS1: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        PVP
 	]
 }
 BOSS2: {
@@ -18,6 +19,7 @@ BOSS2: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        PVP
 	]
 }
 NASU: {
@@ -25,13 +27,7 @@ NASU: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-	]
-}
-WRECK1: {
-    name: WRECK1
-	description: TEMP
-	tags: [
-		NAVIGATIONS,
+        PVP
 	]
 }
 SANDBOX: {
@@ -39,6 +35,7 @@ SANDBOX: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        PVP
 	]
 }
 DM_GULLY: {
@@ -46,6 +43,7 @@ DM_GULLY: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        PVP
 	]
 }
 DM_SAWMILL: {
@@ -53,6 +51,7 @@ DM_SAWMILL: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        PVP
 	]
 }
 DM_CAROUSEL: {
@@ -60,6 +59,7 @@ DM_CAROUSEL: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        PVP
 	]
 }
 SSTUNICATE1: {

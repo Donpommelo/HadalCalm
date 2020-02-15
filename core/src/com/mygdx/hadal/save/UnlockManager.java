@@ -143,7 +143,6 @@ public class UnlockManager {
 		TRAINING,
 		CAMPAIGN,
 		QUARTERMASTER,
-		ARENA,
 		NASU,
 		MISC,
 		PVP,
