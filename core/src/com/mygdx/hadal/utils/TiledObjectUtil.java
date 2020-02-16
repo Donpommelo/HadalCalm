@@ -238,6 +238,10 @@ public class TiledObjectUtil {
 		if (object.getName().equals("TouchPortal")) {		
 			e = new PortalTouch(state, position, size);
 		}
+		if (object.getName().equals("WrapPortal")) {		
+			e = new PortalWrap(state, position, size, 
+					object.getProperties().get("axis", true, boolean.class));
+		}
 		if (object.getName().equals("Text")) {		
 			e = new Text(state, position, size,
 					object.getProperties().get("text", String.class));
@@ -368,6 +372,10 @@ public class TiledObjectUtil {
 				triggeredEvents.put(object.getProperties().get("triggeredId", String.class), e);
 			}
 			
+			if (object.getProperties().get("default", true, Boolean.class)) {
+				e.loadDefaultProperties();
+			}
+			
 			if (object.getProperties().get("sprite", String.class) != null) {
 				if (object.getProperties().get("frame", int.class) != null) {
 					e.setEventSprite(
@@ -380,22 +388,26 @@ public class TiledObjectUtil {
 					e.setEventSprite(Sprite.valueOf(object.getProperties().get("sprite", String.class)));
 				}
 			}
-			
-			e.setScale(object.getProperties().get("scale", 0.25f, float.class));
-			e.setScaleAlign(object.getProperties().get("align", "CENTER_BOTTOM", String.class));
-			e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", "ILLUSION", String.class)));
-			e.setSynced(object.getProperties().get("synced", false, boolean.class));
-			e.setGravity(object.getProperties().get("gravity", 0.0f, float.class));
-			
+			if (object.getProperties().get("scale", float.class) != null) {
+				e.setScale(object.getProperties().get("scale", float.class));
+			}
+			if (object.getProperties().get("align", String.class) != null) {
+				e.setScaleAlign(object.getProperties().get("align", String.class));
+			}
+			if (object.getProperties().get("sync", String.class) != null) {
+				e.setSyncType(eventSyncTypes.valueOf(object.getProperties().get("sync", String.class)));
+			}
+			if (object.getProperties().get("synced", boolean.class) != null) {
+				e.setSynced(object.getProperties().get("synced", boolean.class));
+			}
+			if (object.getProperties().get("gravity", float.class) != null) {
+				e.setGravity(object.getProperties().get("gravity", float.class));
+			}
 			if (object.getProperties().get("particle_amb", String.class) != null) {
 				e.addAmbientParticle(Particle.valueOf(object.getProperties().get("particle_amb", String.class)));
 			}
 			if (object.getProperties().get("particle_std", String.class) != null) {
 				e.setStandardParticle(Particle.valueOf(object.getProperties().get("particle_std", String.class)));
-			}
-			
-			if (object.getProperties().get("default", true, Boolean.class)) {
-				e.loadDefaultProperties();
 			}
 			
 			e.setBlueprint(object);

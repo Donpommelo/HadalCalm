@@ -48,7 +48,7 @@ public class LevelWarp extends Event {
 	
 	@Override
 	public void controller(float delta) {
-		if (warpStart) {
+		if (warpStart && state.isServer()) {
 			warpStart = false;
 			
 			if (reset) {

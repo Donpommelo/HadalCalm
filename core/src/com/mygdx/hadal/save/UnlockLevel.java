@@ -28,6 +28,7 @@ public enum UnlockLevel {
 	WRECKEXPANSE2("Maps/wreckexpanse2.tmx"),
 	WRECKEXPANSEBOSS("Maps/wreckexpanseboss.tmx"),
 	SSTUNICATE1("Maps/sstunicate1.tmx"),
+	NOISELESSSEA1("Maps/noiselesssea1.tmx"),
 
 	
 	;

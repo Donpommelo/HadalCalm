@@ -1,11 +1,236 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="200" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="44">
  <tileset firstgid="1" source="main_0.tsx"/>
- <layer id="1" name="Tile Layer 1" width="100" height="100">
+ <layer id="1" name="Tile Layer 1" width="200" height="140">
   <data encoding="base64" compression="zlib">
-   eJzt1zEKwzAQRUFBGieN739b485tkEAPMwO/X3jVjgEAAAAAAAAAAAAAAAAAAAAAAAD7nRP7brj37fRo0aNFjxY9WvRo0aNFjxY9WvRo0aNFjxY9WvRo+Uzs2HAvAAD847dorDHzDz7HGnq06NGiR4seLXq06NGiR4seAAAAAAAAAADcLqXPFzQ=
+   eJzt3duO2zYARVGnTZtLm/Sh+f9v7QiBUEPRka0xJYrkWgCfDEwmMvfQom3pdlv3z8XHl/B7M5aPt3Jzao/a818fPEMf+iDThz7I9KEPMn3og0wf+iDThz7I9KEPMn3og0wf+iDThz7I9KEPMn3og0wf+iDThz7I9KEPMn3og0wf+iDThz7I9KEPMn3og0wf7fXx4W18XYzfqv5G/dJHe318ehu/L8bnqr9Rv/TRXh+cRx/6INOHPsj0oQ8yfeiDTB/t9WF/9zz6aK8P+7vn0Ud7fXAefeiDTB/6INOHPsj0oQ8yfeiDTB/6INOHPsj0oQ8yfeiDTB/6INOHPsj0oQ8yfayPf28/Pzf+587/F33Rx3Od3A/NjEMfmiHTR/lmtNIPfZQfzu37oY/nx7fbr99rXRt/7zwWXJc+zHuyUfu4b8K8Jxmxj6kNTfCMEftw/syzRuhjeX5h7Xi/tWvTldrX/mPjZ9e6/l3vfXgtVdZfb+P7bf1YL983fdTLsocf4efWfA577WNeM7RR3lYjW70sR+rhKm1Meuyj9jEdwbONtP489tKH/drzTY1Mx7t0J1da+1vv40rHclQl15IrrBn3Wu7jasdyZCUaueLz2WofVzyWo5tfb713XPH5rNXHK8fxqseS/tTqA1qgD8j0AZk+INMHZPqArFYfW59b2zNcK4Qjtfr+4Dymz4hqhKO03odGOFIPfcyNeN1Fab30YU3hCL32oRFK6LmPuZFSe2Vev42n9z6sTbxCHxoh08frjdS+RhPH0Ue54bqM/dFHmeH7vn3SR5lh7eiTPl4fJdeOtevbOq+p59Pt9WslzGOP2nP6im1M1v5eWZvGU3telxql564+mNSe1/rgymrPa31wZbXndYlxxJ7u2vng58L/BtdXe25fsQ2Y1Z7f723C9U37sXWvuCPGHrXnuvXiWtbuPXj0+z4l3/t7ZuxRe77vXTO0Uc7a3+3pWJ993qWP19vQRXlrexA1jvMZ94jrtQ9tjOHMRvaoPf8fDe85jOOo+yjqg54cvZbsUXv+j9bHtD+09V3gR4+PYnmPuJK97FF7/o/UxzT3f9zy9+UfPT4y3//ov4/71w3LBuY2psfsSfxKH/33MVlrRBuP6WOMPibLRrTxmD7G6WOy3KPRxjZ9jNXH/WuqeR1xTp7pY5w+lucb6Zyd/+ljjD7WzsW39rX4SR/997G1T6WRbfrov4+5gXQu/ujxkemj/z4mUwNbc//R46PSxxh98D760AeZPvRBpg99kOlDH2T60AeZPvRBpg99kOlDH2T60AeZPvRBpg99kOlDH2T60AeZPvRBpg99kOlDH2T60AeZPtrrY+3+ZEffq29U+mivD/dIP48+2uuD8+hDH2T60AeZPvRBpg99kOmjvT7s755HH+31YX/3PPporw/Oow99kOlDH2T60AeZPvRBdnQf/wHZUdrd
   </data>
  </layer>
- <objectgroup id="2" name="collision-layer"/>
- <objectgroup id="3" name="event-layer"/>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="192" y="2016">
+   <polyline points="0,0 0,192 576,192 672,288 768,288 864,384 1536,384 1632,480 1728,480 1728,544 1696,576 1696,608 1632,672 1632,768 1536,864 1472,864 1408,928 1376,928 1312,992 1312,2016 5440,2016 5440,1088 5344,1088 5280,1024 5248,1024 5152,928 5152,832 6048,832 6048,640 5440,640 5440,-1568 1312,-1568 1312,-608 1344,-608 1376,-576 1504,-576 1536,-544 1664,-544 1696,-512 1760,-512 1792,-480 1792,-448 1760,-416 1472,-416 1440,-384 1152,-384 1120,-352 1056,-352 1024,-320 1024,-288 992,-256 896,-256 832,-192 800,-192 736,-128 672,-128 640,-96 608,-96 512,0 0,0"/>
+  </object>
+  <object id="2" x="2720" y="704">
+   <polyline points="0,0 0,64 192,64 192,0 0,0"/>
+  </object>
+  <object id="3" x="2720" y="928">
+   <polyline points="0,0 0,64 192,64 192,0 0,0"/>
+  </object>
+  <object id="4" x="2432" y="2624">
+   <polyline points="0,0 192,0 192,192 0,192 0,0"/>
+  </object>
+  <object id="5" x="3168" y="3072">
+   <polyline points="0,0 128,128 256,0 320,64 192,192 320,320 256,384 128,256 0,384 -64,320 64,192 -64,64 0,0"/>
+  </object>
+  <object id="6" x="4256" y="2912">
+   <polyline points="0,0 160,0 192,-32 352,-32 352,32 192,32 160,64 0,64 0,0"/>
+  </object>
+  <object id="7" x="4480" y="1728">
+   <polyline points="0,0 224,0 224,32 96,160 64,160 -32,256 -512,256 -608,160 -640,160 -768,32 -768,0 -544,0 -512,32 -416,32 -384,64 -160,64 -128,32 -32,32 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="8" name="Start" type="Start" x="320" y="2144" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfromleft"/>
+   </properties>
+  </object>
+  <object id="9" name="Sensor" type="Sensor" x="192" y="2016" width="96" height="192">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="10" name="Warp" type="Warp" x="128" y="2112" width="32" height="32">
+   <properties>
+    <property name="level" value="SSTUNICATE1"/>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="11" name="WrapPortal" type="WrapPortal" x="1504" y="3968" width="4128" height="64">
+   <properties>
+    <property name="axis" type="bool" value="false"/>
+    <property name="triggeringId" value="top"/>
+   </properties>
+  </object>
+  <object id="13" name="WrapPortal" type="WrapPortal" x="1504" y="448" width="4128" height="64">
+   <properties>
+    <property name="axis" type="bool" value="false"/>
+    <property name="triggeringId" value="bottom"/>
+   </properties>
+  </object>
+  <object id="14" name="Dummy" type="Dummy" x="1440" y="576" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="top"/>
+   </properties>
+  </object>
+  <object id="18" name="Dummy" type="Dummy" x="1440" y="3872" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="bottom"/>
+   </properties>
+  </object>
+  <object id="19" name="Dummy" type="Dummy" x="3168" y="2592" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy0"/>
+    <property name="triggeringId" value="dummy1"/>
+   </properties>
+  </object>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="3008" y="2176" width="352" height="16">
+   <properties>
+    <property name="triggeredId" value="plat1"/>
+   </properties>
+  </object>
+  <object id="21" name="MovePoint" type="MovePoint" x="3168" y="2176" width="32" height="32">
+   <properties>
+    <property name="connections" value="plat1"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="dummy0"/>
+   </properties>
+  </object>
+  <object id="22" name="Displacer" type="Displacer" x="3016" y="2168" width="336" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="plat1"/>
+   </properties>
+  </object>
+  <object id="23" name="Dummy" type="Dummy" x="3168" y="1888" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy1"/>
+    <property name="triggeringId" value="dummy0"/>
+   </properties>
+  </object>
+  <object id="24" name="Dummy" type="Dummy" x="4928" y="2784" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy2"/>
+    <property name="triggeringId" value="dummy3"/>
+   </properties>
+  </object>
+  <object id="25" name="Dropthrough" type="Dropthrough" x="4768" y="2368" width="352" height="16">
+   <properties>
+    <property name="triggeredId" value="plat2"/>
+   </properties>
+  </object>
+  <object id="26" name="MovePoint" type="MovePoint" x="4928" y="2368" width="32" height="32">
+   <properties>
+    <property name="connections" value="plat2"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="dummy2"/>
+   </properties>
+  </object>
+  <object id="27" name="Displacer" type="Displacer" x="4776" y="2360" width="336" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="plat2"/>
+   </properties>
+  </object>
+  <object id="28" name="Dummy" type="Dummy" x="4928" y="2080" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy3"/>
+    <property name="triggeringId" value="dummy2"/>
+   </properties>
+  </object>
+  <object id="29" name="Dummy" type="Dummy" x="4672" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy4"/>
+    <property name="triggeringId" value="dummy5"/>
+   </properties>
+  </object>
+  <object id="30" name="Dropthrough" type="Dropthrough" x="4096" y="768" width="352" height="16">
+   <properties>
+    <property name="triggeredId" value="plat3"/>
+   </properties>
+  </object>
+  <object id="31" name="MovePoint" type="MovePoint" x="4256" y="768" width="32" height="32">
+   <properties>
+    <property name="connections" value="plat3"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="dummy4"/>
+   </properties>
+  </object>
+  <object id="32" name="Displacer" type="Displacer" x="4104" y="760" width="336" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="plat3"/>
+   </properties>
+  </object>
+  <object id="33" name="Dummy" type="Dummy" x="3808" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy5"/>
+    <property name="triggeringId" value="dummy4"/>
+   </properties>
+  </object>
+  <object id="34" name="Dummy" type="Dummy" x="4672" y="4096" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy6"/>
+    <property name="triggeringId" value="dummy7"/>
+   </properties>
+  </object>
+  <object id="35" name="Dropthrough" type="Dropthrough" x="4096" y="4096" width="352" height="16">
+   <properties>
+    <property name="triggeredId" value="plat4"/>
+   </properties>
+  </object>
+  <object id="36" name="MovePoint" type="MovePoint" x="4256" y="4096" width="32" height="32">
+   <properties>
+    <property name="connections" value="plat4"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="dummy6"/>
+   </properties>
+  </object>
+  <object id="37" name="Displacer" type="Displacer" x="4104" y="4088" width="336" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="plat4"/>
+   </properties>
+  </object>
+  <object id="38" name="Dummy" type="Dummy" x="3808" y="4096" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy7"/>
+    <property name="triggeringId" value="dummy6"/>
+   </properties>
+  </object>
+  <object id="39" name="Timer" type="Timer" x="1600" y="64" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="40" name="Multitrigger" type="Multitrigger" x="1664" y="64" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,bounds1,bounds2,camera1"/>
+   </properties>
+  </object>
+  <object id="41" name="Bounds" type="Bounds" x="928" y="64" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="42" name="Bounds" type="Bounds" x="5440" y="4192" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="43" name="Camera" type="Camera" x="1728" y="64" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="cameral"/>
+    <property name="triggeringId" value=""/>
+    <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
