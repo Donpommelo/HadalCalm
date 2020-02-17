@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="200" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="44">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="44">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="200" height="140">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -45,7 +45,7 @@
   </object>
   <object id="10" name="Warp" type="Warp" x="128" y="2112" width="32" height="32">
    <properties>
-    <property name="level" value="SSTUNICATE1"/>
+    <property name="level" value="PLENUMCHAMBER1"/>
     <property name="startId" value="start1"/>
     <property name="triggeredId" value="warp0"/>
    </properties>
@@ -209,14 +209,14 @@
     <property name="triggeringId" value="startTimer,bounds1,bounds2,camera1"/>
    </properties>
   </object>
-  <object id="41" name="Bounds" type="Bounds" x="928" y="64" width="32" height="32">
+  <object id="41" name="Bounds" type="Bounds" x="1216" y="64" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="42" name="Bounds" type="Bounds" x="5440" y="4192" width="32" height="32">
+  <object id="42" name="Bounds" type="Bounds" x="5216" y="4192" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -227,9 +227,9 @@
   </object>
   <object id="43" name="Camera" type="Camera" x="1728" y="64" width="32" height="32">
    <properties>
-    <property name="triggeredId" value="cameral"/>
+    <property name="triggeredId" value="camera1"/>
     <property name="triggeringId" value=""/>
-    <property name="zoom" type="float" value="1.2"/>
+    <property name="zoom" type="float" value="1.5"/>
    </properties>
   </object>
  </objectgroup>

@@ -400,6 +400,9 @@ public class TiledObjectUtil {
 			if (object.getProperties().get("synced", boolean.class) != null) {
 				e.setSynced(object.getProperties().get("synced", boolean.class));
 			}
+			if (object.getProperties().get("cullable", boolean.class) != null) {
+				e.setCullable(object.getProperties().get("cullable", boolean.class));
+			}
 			if (object.getProperties().get("gravity", float.class) != null) {
 				e.setGravity(object.getProperties().get("gravity", float.class));
 			}

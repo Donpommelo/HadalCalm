@@ -23,11 +23,13 @@ public enum UnlockLevel {
 	WRECK1("Maps/wreck1.tmx"),
 	WRECK2("Maps/wreck2.tmx"),
 	WRECKUPPER1("Maps/wreckupper1.tmx"),
+	WRECKUPPER2("Maps/wreckupper2.tmx"),
 	WRECKUPPERSHAFT("Maps/wreckuppershaft.tmx"),
 	WRECKEXPANSE1("Maps/wreckexpanse1.tmx"),
 	WRECKEXPANSE2("Maps/wreckexpanse2.tmx"),
 	WRECKEXPANSEBOSS("Maps/wreckexpanseboss.tmx"),
 	SSTUNICATE1("Maps/sstunicate1.tmx"),
+	PLENUMCHAMBER1("Maps/plenumchamber1.tmx"),
 	NOISELESSSEA1("Maps/noiselesssea1.tmx"),
 
 	

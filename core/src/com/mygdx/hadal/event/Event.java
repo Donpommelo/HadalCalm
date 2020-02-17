@@ -57,7 +57,7 @@ public class Event extends HadalEntity {
      */
     private eventSyncTypes syncType = eventSyncTypes.ILLUSION;
 	
-    private final static float animationSpeed = 0.8f;
+    private final static float animationSpeed = 0.1f;
     
     public final static int defaultPickupEventSize = 96;
     
@@ -70,6 +70,9 @@ public class Event extends HadalEntity {
     //Does this event send a sync packet to client every engine tick?
     //Default is no with the exception of moving platforms and connected events. (+specifically chosen events in the map, like nasu)
     private boolean synced = false;
+    
+    //will the event not be drawn when off screen?
+    private boolean cullable = true;
     
 	/**
 	 * Constructor for permanent events.
@@ -148,6 +151,15 @@ public class Event extends HadalEntity {
 			default:
 				break;
 			}            
+		}
+	}
+	
+	@Override
+	public boolean isVisible() {
+		if (cullable) {
+			return super.isVisible();
+		} else {
+			return true;
 		}
 	}
 	
@@ -255,6 +267,8 @@ public class Event extends HadalEntity {
 
 	public void setSynced(boolean synced) {	this.synced = synced; }
 
+	public void setCullable(boolean cullable) {	this.cullable = cullable; }
+	
 	public MapObject getBlueprint() { return blueprint; }
 
 	public void setBlueprint(MapObject blueprint) {	this.blueprint = blueprint; }

@@ -148,6 +148,8 @@ public enum Sprite {
 	MOREAU_FESTIVE_GEM_ON(SpriteType.MOREAU_FESTIVE, "gem_active"),
 	MOREAU_FESTIVE_GEM_OFF(SpriteType.MOREAU_FESTIVE, "gem_inactive"),
 	
+	TELEMACHUS_POINT(SpriteType.TELEMACHUS_POINT, null),
+	
 	//Misc stuff from totlc
 	IMPACT(SpriteType.IMPACT, "impact"),
 	EXCLAMATION(SpriteType.EXCLAMATION, "exclamation"),
@@ -173,7 +175,11 @@ public enum Sprite {
 		}
 		
 		if (frames == null) {
-			frames = getAtlas(type).findRegions(spriteId);
+			if (spriteId == null) {
+				frames = getAtlas(type).getRegions();
+			} else {
+				frames = getAtlas(type).findRegions(spriteId);
+			}
 		}
 		
 		return frames;
@@ -218,6 +224,8 @@ public enum Sprite {
 			return HadalGame.assetManager.get(AssetList.PLAYER_MOREAU_FESTIVE_ATL.toString());
 		case KAMABOKO:
 			return HadalGame.assetManager.get(AssetList.KAMABOKO_ATL.toString());
+		case TELEMACHUS_POINT:
+			return HadalGame.assetManager.get(AssetList.TELEMACHUS_POINT.toString());
 		default:
 			return null;
 		}
@@ -250,6 +258,7 @@ public enum Sprite {
 		STAR,
 		UI,
 		KAMABOKO,
+		TELEMACHUS_POINT,
 		
 		MOREAU,
 		TAKANORI,

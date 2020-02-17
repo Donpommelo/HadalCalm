@@ -201,7 +201,7 @@ public class PlayState extends GameState {
 		this.startId = startId;
         
         //Initialize box2d world and related stuff
-		world = new World(new Vector2(0, -9.81f), false);
+		world = new World(new Vector2(0, -9.81f), true);
 		world.setContactListener(new WorldContactListener());
 		World.setVelocityThreshold(0);
 

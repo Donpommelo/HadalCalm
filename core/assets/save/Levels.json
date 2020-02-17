@@ -69,4 +69,11 @@ SSTUNICATE1: {
 		NAVIGATIONS,
 	]
 }
+WRECKUPPER1: {
+	name: WRECKUPPER1
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
 }

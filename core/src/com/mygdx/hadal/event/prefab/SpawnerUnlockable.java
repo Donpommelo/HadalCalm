@@ -1,5 +1,7 @@
 package com.mygdx.hadal.event.prefab;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
@@ -15,6 +17,8 @@ public class SpawnerUnlockable extends Prefabrication {
 	private String triggeredId, triggeringId;
 	private String type, name;
 	
+	private String pickupId, spawnerId;
+	
 	public SpawnerUnlockable(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, String type, String name) {
 		super(state, width, height, x , y);
 		this.triggeredId = triggeredId;
@@ -25,8 +29,8 @@ public class SpawnerUnlockable extends Prefabrication {
 	
 	@Override
 	public void generateParts() {
-		String pickupId = TiledObjectUtil.getPrefabTriggerId();
-		String spawnerId = TiledObjectUtil.getPrefabTriggerId();
+		pickupId = TiledObjectUtil.getPrefabTriggerId();
+		spawnerId = TiledObjectUtil.getPrefabTriggerId();
 		String onPickupId = TiledObjectUtil.getPrefabTriggerId();
 		String pickupBackId = TiledObjectUtil.getPrefabTriggerId();
 		String unlockSetId = TiledObjectUtil.getPrefabTriggerId();
@@ -81,5 +85,13 @@ public class SpawnerUnlockable extends Prefabrication {
 		TiledObjectUtil.parseTiledEvent(state, onPickup);
 		TiledObjectUtil.parseTiledEvent(state, back);
 		TiledObjectUtil.parseTiledEvent(state, unlockSet);
+	}
+	
+	@Override
+	public ArrayList<String> getConnectedEvents() {
+		ArrayList<String> events = new ArrayList<String>();
+		events.add(pickupId);
+		events.add(spawnerId);
+		return events;
 	}
 }
