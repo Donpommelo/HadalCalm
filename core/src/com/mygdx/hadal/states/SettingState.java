@@ -4,16 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -25,7 +29,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class SettingState extends GameState {
 	
 	//These are all of the display and buttons visible to the player.
-	private Text displayOption, controlOption, exitOption, saveOption, resetOption;
+	private Text displayOption, controlOption, audioOption, exitOption, saveOption, resetOption;
 	
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
@@ -42,6 +46,7 @@ public class SettingState extends GameState {
 	private Table options, details;
 	
 	private SelectBox<String> resolutionOptions, framerateOptions;
+	private Slider sound, music, master;
 	private CheckBox fullscreen, vsync;
 		
 	//Dimentions of the setting menu
@@ -90,6 +95,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH1.play(gsm);
 						displaySelected();
 			        }
 					
@@ -101,18 +107,31 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH1.play(gsm);
 						controlsSelected();
 			        }
 					
 			    });
 				controlOption.setScale(optionsScale);
 				
+				audioOption = new Text("AUDIO", 0, 0, true);
+				audioOption.addListener(new ClickListener() {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH1.play(gsm);
+						audioSelected();
+			        }
+					
+			    });
+				audioOption.setScale(optionsScale);
+				
 				exitOption = new Text("EXIT?", 0, 0, true);
 				exitOption.addListener(new ClickListener() {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-			        	
+						SoundEffect.UISWITCH1.play(gsm);
 						if (ps == null) {
 							gsm.getApp().fadeOut();
 							gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -136,6 +155,7 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH3.play(gsm);
 						saveSettings();
 			        }
 					
@@ -147,6 +167,7 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH3.play(gsm);
 						resetSettings();
 			        }
 					
@@ -155,6 +176,7 @@ public class SettingState extends GameState {
 				
 				options.add(displayOption).pad(optionsPad).row();
 				options.add(controlOption).pad(optionsPad).row();
+				options.add(audioOption).pad(optionsPad).row();
 				options.add(saveOption).pad(optionsPad).row();
 				options.add(resetOption).pad(optionsPad).row();
 				options.add(exitOption).pad(optionsPad).row();
@@ -289,6 +311,61 @@ public class SettingState extends GameState {
 		stage.setScrollFocus(keybinds);
 	}
 	
+	public void audioSelected() {
+		details.clear();
+		currentlyEditing = null;
+		currentTab = settingTab.AUDIO;
+		
+		final Text soundText = new Text("SOUND VOLUME: " + (int)(gsm.getSetting().getSoundVolume() * 100), 0, 0, false);
+		soundText.setScale(detailsScale);
+		
+		sound = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
+		sound.setValue(gsm.getSetting().getSoundVolume());
+		
+		sound.addListener( new ChangeListener() {
+			
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				soundText.setText("SOUND VOLUME: " + (int)(sound.getValue() * 100));
+			}
+		});
+		
+		final Text musicText = new Text("MUSIC VOLUME: " + (int)(gsm.getSetting().getMusicVolume() * 100), 0, 0, false);
+		musicText.setScale(detailsScale);
+		
+		music = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
+		music.setValue(gsm.getSetting().getMusicVolume());
+		
+		music.addListener( new ChangeListener() {
+			
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				musicText.setText("MUSIC VOLUME: " + (int)(music.getValue() * 100));
+			}
+		});
+		
+		final Text masterText = new Text("MASTER VOLUME: " + (int)(gsm.getSetting().getMasterVolume() * 100), 0, 0, false);
+		masterText.setScale(detailsScale);
+		
+		master = new Slider(0.0f, 1.0f, 0.01f, false, GameStateManager.getSkin());
+		master.setValue(gsm.getSetting().getMasterVolume());
+		
+		master.addListener( new ChangeListener() {
+			
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				masterText.setText("MASTER VOLUME: " + (int)(master.getValue() * 100));
+			}
+		});
+		
+		details.add(soundText);
+		details.add(sound).row();
+		details.add(musicText);
+		details.add(music).row();
+		details.add(masterText);
+		details.add(master).row();
+	}
+	
 	public void saveSettings() {
 		switch(currentTab) {
 		case CONTROLS:
@@ -304,6 +381,12 @@ public class SettingState extends GameState {
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;
+		case AUDIO:
+			gsm.getSetting().setSoundVolume(sound.getValue());
+			gsm.getSetting().setMusicVolume(music.getValue());
+			gsm.getSetting().setMasterVolume(master.getValue());
+			gsm.getSetting().saveSetting();
+			audioSelected();
 		default:
 			break;
 		}
@@ -321,6 +404,10 @@ public class SettingState extends GameState {
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;
+		case AUDIO:
+			gsm.getSetting().resetAudio();
+			gsm.getSetting().saveSetting();
+			audioSelected();
 		default:
 			break;
 		}
@@ -382,8 +469,9 @@ public class SettingState extends GameState {
 	public enum settingTab {
 		DISPLAY,
 		CONTROLS,
+		AUDIO,
 		GAMEPLAY,
 		MULTIPLAYER,
-		AUDIO,
+		
 	}
 }

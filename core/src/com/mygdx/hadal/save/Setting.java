@@ -17,6 +17,9 @@ public class Setting {
 	private int framerate;
 	private boolean fullscreen;
 	private boolean vsync;
+	private float soundVolume;
+	private float musicVolume;
+	private float masterVolume;
 	
 	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
 	private int timer;
@@ -58,6 +61,7 @@ public class Setting {
 	public static void createNewSetting() {
 		Setting newSetting = new Setting();
 		newSetting.resetDisplay();
+		newSetting.resetAudio();
 		
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
 	}
@@ -67,6 +71,12 @@ public class Setting {
 		framerate = 1;
 		fullscreen = false;
 		vsync = false;
+	}
+	
+	public void resetAudio() {
+		soundVolume = 0.5f;
+		musicVolume = 0.5f;
+		masterVolume = 0.5f;
 	}
 	
 	public void setTimer(int timer) {
@@ -142,7 +152,13 @@ public class Setting {
 	public void setFullscreen(boolean fullscreen) { this.fullscreen = fullscreen; }
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
-	
+		
+	public void setSoundVolume(float soundVolume) {	this.soundVolume = soundVolume; }
+
+	public void setMusicVolume(float musicVolume) {	this.musicVolume = musicVolume;	}
+
+	public void setMasterVolume(float masterVolume) { this.masterVolume = masterVolume; }
+
 	public int getResolution() { return resolution; }
 	
 	public int getFramerate() { return framerate; }
@@ -150,6 +166,12 @@ public class Setting {
 	public boolean isFullscreen() { return fullscreen; }
 	
 	public boolean isVSync() { return vsync; }
+	
+	public float getSoundVolume() {	return soundVolume; }
+
+	public float getMusicVolume() {	return musicVolume; }
+
+	public float getMasterVolume() { return masterVolume; }
 	
 	public int getTimer() { return timer; }
 	

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="100">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="100">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="90" height="90">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -315,7 +315,7 @@
     <property name="triggeredId" value="elevatorceilingc"/>
    </properties>
   </object>
-  <object id="77" name="Prefab" type="Prefab" x="1152" y="1120" width="96" height="96">
+  <object id="77" name="Prefab" type="Prefab" x="800" y="1824" width="96" height="96">
    <properties>
     <property name="name" value="RING_OF_TESTING"/>
     <property name="prefabId" value="SpawnerUnlock"/>

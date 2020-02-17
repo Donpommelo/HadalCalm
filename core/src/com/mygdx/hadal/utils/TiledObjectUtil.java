@@ -183,6 +183,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("duration", 0.0f, float.class),
 					object.getProperties().get("startOn", false, Boolean.class));	
 		}
+		if (object.getName().equals("ParticleField")) {
+			e = new ParticleField(state, position, size,
+					Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
+					object.getProperties().get("speed", 1.0f, float.class),
+					object.getProperties().get("duration", 1.0f, float.class));	
+		}
 		if (object.getName().equals("SchmuckSpawn")) {
 			e = new SpawnerSchmuck(state, position, size, 
 					object.getProperties().get("enemyId", int.class), 

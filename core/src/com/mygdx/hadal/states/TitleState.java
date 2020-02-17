@@ -15,6 +15,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -101,6 +102,8 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
+						SoundEffect.UISWITCH1.play(gsm);
+						
 						//Save current name into records.
 						gsm.getRecord().setName(enterName.getText());
 						
@@ -126,6 +129,8 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						
+						SoundEffect.UISWITCH1.play(gsm);
 						
 						//Save current name into records.
 						gsm.getRecord().setName(enterName.getText());
@@ -155,6 +160,8 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						
+						SoundEffect.UISWITCH1.play(gsm);
 						
 						//If the player is already trying to connect, don't do anything
 						if (connectAttempted) {
@@ -195,6 +202,8 @@ public class TitleState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 						setNotification("SEARCHING FOR SERVER...");
 						
+						SoundEffect.UISWITCH2.play(gsm);
+						
 						//If the player is already trying to connect, don't do anything
 						if (connectAttempted) {
 							return;
@@ -227,6 +236,9 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						
+						SoundEffect.UISWITCH1.play(gsm);
+						
 						//Enter the Hub State.
 						gsm.getApp().setRunAfterTransition(new Runnable() {
 
@@ -253,7 +265,10 @@ public class TitleState extends GameState {
 				nameRand.addListener(new ClickListener() {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	enterName.setText(NameGenerator.generateFirstLast(true));
+						
+						SoundEffect.UISWITCH3.play(gsm);
+						
+						enterName.setText(NameGenerator.generateFirstLast(true));
 			        	setNotification("RANDOM NAME GENERATED!");
 			        }
 				});

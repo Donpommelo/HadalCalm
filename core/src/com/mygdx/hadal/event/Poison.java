@@ -57,7 +57,7 @@ public class Poison extends Event {
 		this.draw = draw;
 		this.on = true;
 		
-		spawnTimerLimit = 4096f/(size.x * size.y);
+		spawnTimerLimit = 4096f / (size.x * size.y);
 		
 		randomParticles = size.x > 100;
 		

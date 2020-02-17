@@ -144,6 +144,13 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="ParticleField" color="#a0a0a4">
+  <property name="duration" type="float" default="1"/>
+  <property name="particle" type="string"/>
+  <property name="speed" type="float" default="1"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
  <objecttype name="Platform" color="#ffaaff">
   <property name="enemy" type="bool" default="true"/>
   <property name="event" type="bool" default="true"/>
