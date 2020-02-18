@@ -18,7 +18,7 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="1" name="Start" type="Start" x="2432" y="2496" width="32" height="32">
+  <object id="1" name="Start" type="Start" x="2432" y="2464" width="32" height="32">
    <properties>
     <property name="startId" value="start0"/>
     <property name="triggeredId" value=""/>
@@ -47,7 +47,7 @@
   </object>
   <object id="6" name="MovePoint" type="MovePoint" x="2432" y="2560" width="32" height="32">
    <properties>
-    <property name="connections" value="elevatorfloora,elevatorceilinga,elevatorwalla1,elevatorwalla2,switcha"/>
+    <property name="connections" value="elevatorfloora,elevatorceilinga,elevatorwalla1,elevatorwalla2,switcha,start0"/>
     <property name="speed" type="float" value="12"/>
     <property name="triggeredId" value="elevatormovea"/>
    </properties>
@@ -261,7 +261,7 @@
   <object id="67" name="Multitrigger" type="Multitrigger" x="320" y="416" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,tofloor2a,bounds1,bounds2,unlock1,unlock2"/>
+    <property name="triggeringId" value="startTimer,tofloor2a,unlock1,unlock2"/>
    </properties>
   </object>
   <object id="68" name="Redirecttrigger" type="Redirecttrigger" x="512" y="1952" width="32" height="32">
@@ -421,13 +421,13 @@
   <object id="92" name="Multitrigger" type="Multitrigger" x="320" y="480" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterfromtop"/>
-    <property name="triggeringId" value="tofloor2d,tofloor2b,uppressed"/>
+    <property name="triggeringId" value="tofloor2d,tofloor2b,uppressed,bounds1,bounds2"/>
    </properties>
   </object>
   <object id="93" name="Multitrigger" type="Multitrigger" x="320" y="544" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterfrombottom"/>
-    <property name="triggeringId" value="tofloor1d,tofloor1b,downpressed"/>
+    <property name="triggeringId" value="tofloor1d,tofloor1b,downpressed,bounds1,bounds2"/>
    </properties>
   </object>
   <object id="95" name="Bounds" type="Bounds" x="1088" y="672" width="32" height="32">

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="111">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="115">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="shader" value="SPLASH"/>
-  <property name="zoom" type="float" value="1.2"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="60">
@@ -126,12 +125,9 @@
     <property name="triggeringId" value="dummy13"/>
    </properties>
   </object>
-  <object id="37" name="Start" type="Start" x="928" y="512" width="32" height="32"/>
-  <object id="38" name="Save" type="Save" x="2080" y="512" width="32" height="32">
+  <object id="37" name="Start" type="Start" x="928" y="512" width="32" height="32">
    <properties>
-    <property name="clear" type="bool" value="false"/>
-    <property name="triggeredId" value="save1"/>
-    <property name="zoom" type="float" value="1.2"/>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="39" name="Displacer" type="Displacer" x="840" y="640" width="208" height="8">
@@ -435,7 +431,7 @@
   <object id="95" name="Multitrigger" type="Multitrigger" x="160" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,startTimer,save1,bounds1,bounds2"/>
+    <property name="triggeringId" value="spawnWeapons,startTimer,playerStart"/>
    </properties>
   </object>
   <object id="96" name="Multitrigger" type="Multitrigger" x="224" y="160" width="32" height="32">
@@ -511,6 +507,23 @@
    <properties>
     <property name="prefabId" value="PVPSettingSetter"/>
     <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="111" name="Start" type="Start" x="2080" y="512" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="112" name="Multitrigger" type="Multitrigger" x="160" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="113" name="Camera" type="Camera" x="224" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="zoom" type="float" value="1.2"/>
    </properties>
   </object>
  </objectgroup>

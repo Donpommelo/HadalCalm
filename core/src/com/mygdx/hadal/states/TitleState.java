@@ -304,6 +304,7 @@ public class TitleState extends GameState {
 			}
 		};
 		app.newMenu(stage);
+		gsm.getApp().fadeIn();
 	}
 
 	@Override

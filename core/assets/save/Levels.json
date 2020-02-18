@@ -62,11 +62,20 @@ DM_CAROUSEL: {
         PVP
 	]
 }
+DM_PINWHEEL: {
+	name: DM_PINWHEEL
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP
+	]
+}
 SSTUNICATE1: {
 	name: SSTUNICATE1
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        PVP
 	]
 }
 WRECKUPPER1: {

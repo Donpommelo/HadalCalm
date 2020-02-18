@@ -671,30 +671,6 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncCamera {
-		public Vector2 zoomPos;
-		public float zoom;
-		public float[] cameraBounds;
-		public boolean[] cameraBounded;
-		
-		public SyncCamera() {}
-		
-		/**
-		 * A SyncCamera is sent from the Server to the Client when the client respawns.
-		 * This is done incase the client's camera has changed target/zoom before dying and needs to respaen with a different target/zoom matching their spawn location.
-		 * @param zoomPos: The location that the client's camera should focus on. Focus on self if null
-		 * @param zoom: How much should the client's camera be zoomed in
-		 * @param cameraBounds: what are the camera bounds? [right, left, up, down]
-		 * @param cameraBounded: does the camera obey each aformentioned bound?
-		 */
-		public SyncCamera(Vector2 zoomPos, float zoom, float[] cameraBounds, boolean[] cameraBounded) {
-			this.zoomPos = zoomPos;
-			this.zoom = zoom;
-			this.cameraBounds = cameraBounds;
-			this.cameraBounded = cameraBounded;
-		}
-	}
-	
 	public static class SyncUI {
 		public String uiTags;
 		public float timer;
@@ -771,7 +747,6 @@ public class Packets {
     	kryo.register(SyncPlayerSelf.class);
     	kryo.register(SyncPlayerAll.class);
     	kryo.register(SyncParticles.class);
-    	kryo.register(SyncCamera.class);
     	kryo.register(SyncBoss.class);
     	kryo.register(SyncUI.class);
     	kryo.register(SyncShader.class);

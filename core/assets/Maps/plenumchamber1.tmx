@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="15">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="18">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="80" height="60">
   <data encoding="base64" compression="zlib">
@@ -16,7 +16,7 @@
    <properties>
     <property name="startId" value="start0"/>
     <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="enterfromleft"/>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="4" name="Sensor" type="Sensor" x="160" y="992" width="96" height="192">
@@ -36,7 +36,7 @@
    <properties>
     <property name="startId" value="start1"/>
     <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="enterfromright"/>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="7" name="Sensor" type="Sensor" x="2304" y="992" width="96" height="192">
@@ -52,17 +52,10 @@
     <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
-  <object id="9" name="Timer" type="Timer" x="288" y="96" width="32" height="32">
+  <object id="10" name="Multitrigger" type="Multitrigger" x="224" y="128" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
-  <object id="10" name="Multitrigger" type="Multitrigger" x="352" y="96" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,bounds1,bounds2"/>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
    </properties>
   </object>
   <object id="11" name="Bounds" type="Bounds" x="832" y="800" width="32" height="32">
@@ -81,5 +74,19 @@
   </object>
   <object id="13" name="Dropthrough" type="Dropthrough" x="1056" y="1088" width="224" height="16"/>
   <object id="14" name="Dropthrough" type="Dropthrough" x="928" y="832" width="480" height="16"/>
+  <object id="15" name="Sensor" type="Sensor" x="1056" y="1600" width="224" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="16" name="Dropthrough" type="Dropthrough" x="1056" y="1536" width="224" height="16"/>
+  <object id="17" name="Start" type="Start" x="1152" y="1472" width="32" height="32">
+   <properties>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -68,13 +68,6 @@ public class TiledObjectUtil {
     public static void parseTiledEventLayer(PlayState state, MapObjects objects) {
     	for(MapObject object : objects) {
     		parseTiledEvent(state, object);
-    		parseCommonTiledEvent(state, object);
-    	}
-    }
-    
-    public static void parseTiledCommonEventLayer(PlayState state, MapObjects objects) {
-    	for(MapObject object : objects) {
-    		parseCommonTiledEvent(state, object);
     	}
     }
     
@@ -98,11 +91,9 @@ public class TiledObjectUtil {
 		//this sets the starting point of the map to the Start object with the corresponding startId
 		if (object.getName().equals("Start")) {
 			
-			boolean used = state.getStartId().equals(object.getProperties().get("startId", "", String.class));
-			if (used) {
-				rect.getCenter(state.getStartPosition());
-			}
-			e = new Start(state, position, size, used);
+			e = new Start(state, position, size, 
+					object.getProperties().get("startId", "", String.class));
+			state.addSavePoint((Start) e);
 		}
 		
 		//Go through every event type to create events
@@ -301,12 +292,6 @@ public class TiledObjectUtil {
 					object.getProperties().get("damage", 0.0f, float.class),
 					object.getProperties().get("filter", (short)0, short.class));
 		}
-		if (object.getName().equals("Save")) {
-			e = new SaveSetter(state, position, size, 
-					object.getProperties().get("zoom", 1.0f, float.class),
-					object.getProperties().get("clear", true, boolean.class),
-					object.getProperties().get("onInit", true, boolean.class));
-		}
 		if (object.getName().equals("MovePoint")) {
 			e = new MovingPoint(state, position, size, 
 					object.getProperties().get("speed", 1.0f, float.class),
@@ -423,29 +408,6 @@ public class TiledObjectUtil {
 		}
 
 		return e;
-    }
-    
-    /**
-     * This parses a single tiled map object into an event
-     * This is for objects parsed in both the server and the client
-     * @param state: The playstate that the event will be placed into
-     * @param object: The map object to parse
-     * @return
-     */
-    public static void parseCommonTiledEvent(PlayState state, MapObject object) {
-    	RectangleMapObject current = (RectangleMapObject)object;
-		Rectangle rect = current.getRectangle();
-		Vector2 position = new Vector2();
-		Vector2 size = new Vector2();
-		rect.getCenter(position);
-		rect.getSize(size);
-		
-		//this sets the starting point of the map to the Start object with the corresponding startId
-		if (object.getName().equals("Start")) {
-			if (state.getStartId().equals(object.getProperties().get("startId", "", String.class))) {
-				rect.getCenter(state.getStartPosition());
-			}
-		}
     }
     
     /**

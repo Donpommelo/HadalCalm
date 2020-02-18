@@ -16,6 +16,7 @@ import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.Start;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -144,7 +145,10 @@ public class Player extends PhysicsSchmuck {
 	
 	//should we reset this player's playerData stuff upon creation
 	private boolean reset;
-		
+	
+	//this is the point we are starting at.
+	private Start start;
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -153,7 +157,7 @@ public class Player extends PhysicsSchmuck {
 	 * @param startLoadout: This is the player's starting loadout
 	 * 
 	 */
-	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset) {
+	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, Start start) {
 		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -169,6 +173,7 @@ public class Player extends PhysicsSchmuck {
 		this.playerData = oldData;
 		this.connID = connID;
 		this.reset = reset;
+		this.start = start;
 		
 		setBodySprite(startLoadout.character);
 		loadParticles();
@@ -272,7 +277,9 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Temp invuln on spawn
-		playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
+		if (reset) {
+			playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
+		}
 				
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
 		if (!state.isServer() && state.getPlayer().equals(this)) {
@@ -283,6 +290,10 @@ public class Player extends PhysicsSchmuck {
 		//Activate on-spawn effects
 		if (reset && !state.isHub()) {
 			playerData.statusProcTime(new ProcTime.PlayerCreate());
+		}
+		
+		if (start != null && state.getPlayer().equals(this)) {
+			start.playerStart(this);
 		}
 	}
 	
@@ -849,4 +860,6 @@ public class Player extends PhysicsSchmuck {
 	public boolean isScaling() { return scaling; }
 
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
+	
+	public Start getStart() { return start; }
 }

@@ -34,7 +34,7 @@
    <properties>
     <property name="startId" value="start0"/>
     <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="enterfromleft"/>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="9" name="Sensor" type="Sensor" x="192" y="2016" width="96" height="192">
@@ -196,17 +196,10 @@
     <property name="triggeringId" value="dummy6"/>
    </properties>
   </object>
-  <object id="39" name="Timer" type="Timer" x="1600" y="64" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
   <object id="40" name="Multitrigger" type="Multitrigger" x="1664" y="64" width="32" height="32">
    <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,bounds1,bounds2,camera1"/>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2,camera1"/>
    </properties>
   </object>
   <object id="41" name="Bounds" type="Bounds" x="1216" y="64" width="32" height="32">

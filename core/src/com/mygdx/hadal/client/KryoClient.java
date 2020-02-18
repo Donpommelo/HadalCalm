@@ -379,7 +379,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						if (!p.entityID.equals(myID)) {
-                    				Player newPlayer = cs.createPlayer(new Vector2(), p.name, p.loadout, null, 0, true);
+                    				Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true);
                     				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);
@@ -512,12 +512,14 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.getUiPlay().setOverrideClipSize(p.maxClip);
-						cs.getUiPlay().setOverrideMaxHp(p.maxHp);
-						cs.getUiPlay().setOverrideMaxFuel(p.maxFuel);
-						cs.getUiPlay().setOverrideAirblastCost(p.airblastCost);
-						cs.getUiPlay().setOverrideWeaponSlots(p.weaponSlots);
-						cs.getUiPlay().setOverrideArtifactSlots(p.artifactSlots);
+						if (cs.getUiPlay() != null) {
+							cs.getUiPlay().setOverrideClipSize(p.maxClip);
+							cs.getUiPlay().setOverrideMaxHp(p.maxHp);
+							cs.getUiPlay().setOverrideMaxFuel(p.maxFuel);
+							cs.getUiPlay().setOverrideAirblastCost(p.airblastCost);
+							cs.getUiPlay().setOverrideWeaponSlots(p.weaponSlots);
+							cs.getUiPlay().setOverrideArtifactSlots(p.artifactSlots);
+						}
 					}
         		}
         		
@@ -526,10 +528,12 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
         			if (cs != null) {
-						cs.getUiPlay().setOverrideFuelPercent(p.fuelPercent);
-						cs.getUiPlay().setOverrideClipLeft(p.currentClip);
-						cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
-						cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
+        				if (cs.getUiPlay() != null) {
+        					cs.getUiPlay().setOverrideFuelPercent(p.fuelPercent);
+    						cs.getUiPlay().setOverrideClipLeft(p.currentClip);
+    						cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
+    						cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
+        				}
 					}
         		}
         		
@@ -586,28 +590,7 @@ public class KryoClient {
     					});
 					}
         		}
-        		
-        		/*
-        		 * The Server tells us to focus out camera on a specific location or ourselves
-        		 * This is run upon spawning a new player to ensure their camera is centered correctly. 
-        		 */
-        		if (o instanceof Packets.SyncCamera) {
-        			final Packets.SyncCamera p = (Packets.SyncCamera) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
 
-							@Override
-							public void execute() {
-								cs.setZoom(p.zoom);
-								cs.setCameraTarget(p.zoomPos);
-								cs.setCameraBounds(p.cameraBounds);
-								cs.setCameraBounded(p.cameraBounded);
-							}
-						});
-					}
-        		}
         		/*
         		 * The Server tells us to despawn a boss. (spawning is taken care of in the CreateEnemy packet)
         		 */

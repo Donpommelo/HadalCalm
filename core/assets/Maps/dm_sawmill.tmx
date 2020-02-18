@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="58">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="63">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="shader" value="WAVE"/>
-  <property name="zoom" type="float" value="1.2"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
@@ -27,26 +26,9 @@
     <property name="triggeredId" value=""/>
    </properties>
   </object>
-  <object id="7" name="Start" type="Start" x="320" y="1088" width="32" height="32"/>
-  <object id="9" name="Save" type="Save" x="928" y="640" width="32" height="32">
+  <object id="7" name="Start" type="Start" x="320" y="1088" width="32" height="32">
    <properties>
-    <property name="clear" type="bool" value="false"/>
-    <property name="triggeredId" value="save1"/>
-    <property name="zoom" type="float" value="1.2"/>
-   </properties>
-  </object>
-  <object id="10" name="Save" type="Save" x="928" y="1248" width="32" height="32">
-   <properties>
-    <property name="clear" type="bool" value="false"/>
-    <property name="triggeredId" value="save2"/>
-    <property name="zoom" type="float" value="1.2"/>
-   </properties>
-  </object>
-  <object id="11" name="Save" type="Save" x="1536" y="1088" width="32" height="32">
-   <properties>
-    <property name="clear" type="bool" value="false"/>
-    <property name="triggeredId" value="save3"/>
-    <property name="zoom" type="float" value="1.2"/>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="12" name="Timer" type="Timer" x="64" y="64" width="32" height="32">
@@ -59,7 +41,7 @@
   <object id="13" name="Multitrigger" type="Multitrigger" x="128" y="64" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,startTimer,save1,save2,save3,bounds1,bounds2"/>
+    <property name="triggeringId" value="spawnWeapons,startTimer"/>
    </properties>
   </object>
   <object id="14" name="Multitrigger" type="Multitrigger" x="192" y="128" width="32" height="32">
@@ -295,6 +277,33 @@
     <property name="right" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>
     <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="58" name="Start" type="Start" x="928" y="1248" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="59" name="Start" type="Start" x="928" y="640" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="60" name="Start" type="Start" x="1536" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="61" name="Multitrigger" type="Multitrigger" x="128" y="192" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="62" name="Camera" type="Camera" x="192" y="192" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="zoom" type="float" value="1.2"/>
    </properties>
   </object>
  </objectgroup>

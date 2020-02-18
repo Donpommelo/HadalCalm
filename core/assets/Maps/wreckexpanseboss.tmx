@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="46">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="47">
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="60">
@@ -30,7 +30,7 @@
    <properties>
     <property name="startId" value="start0"/>
     <property name="triggeredId" value=""/>
-    <property name="triggeringId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="5" name="Timer" type="Timer" x="160" y="128" width="32" height="32">
@@ -43,7 +43,7 @@
   <object id="6" name="Multitrigger" type="Multitrigger" x="224" y="128" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,bounds1,bounds2,hp1,w1"/>
+    <property name="triggeringId" value="startTimer,hp1,w1"/>
    </properties>
   </object>
   <object id="7" name="Dropthrough" type="Dropthrough" x="1376" y="1024" width="256" height="16"/>
@@ -247,7 +247,7 @@
    <properties>
     <property name="startId" value="start1"/>
     <property name="triggeredId" value=""/>
-    <property name="triggeringId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
   <object id="42" name="Sensor" type="Sensor" x="2944" y="1152" width="96" height="192">
@@ -277,6 +277,12 @@
     <property name="quest" value="BOSS1"/>
     <property name="triggeredId" value="bossset1"/>
     <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="46" name="Multitrigger" type="Multitrigger" x="224" y="192" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
    </properties>
   </object>
  </objectgroup>

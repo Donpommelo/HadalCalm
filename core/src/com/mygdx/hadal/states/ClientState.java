@@ -129,6 +129,7 @@ public class ClientState extends PlayState {
 	public void transitionState() {
 		switch (nextState) {
 		case RESPAWN:
+			gsm.getApp().fadeIn();
 			//Inform the server that we have finished transitioning to tell them to make us a new player.
 			HadalGame.client.client.sendTCP(new Packets.ClientFinishRespawn());
 			
@@ -142,6 +143,7 @@ public class ClientState extends PlayState {
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
+			gsm.getApp().fadeIn();
 			
 			//Make nextState null so we can transition again
 			nextState = null;

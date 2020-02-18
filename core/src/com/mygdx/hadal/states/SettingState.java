@@ -183,6 +183,7 @@ public class SettingState extends GameState {
 			}
 		};
 		app.newMenu(stage);
+		gsm.getApp().fadeIn();
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(new InputProcessor() {

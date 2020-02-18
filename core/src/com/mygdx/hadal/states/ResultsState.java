@@ -95,6 +95,7 @@ public class ResultsState extends GameState {
 				syncScoreTable();
 			}
 		};
+		gsm.getApp().fadeIn();
 		app.newMenu(stage);
 	}
 

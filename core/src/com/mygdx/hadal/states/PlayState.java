@@ -34,6 +34,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.Start;
 import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -51,7 +52,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
-import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -101,7 +101,8 @@ public class PlayState extends GameState {
 	protected Set<Object[]> createListClient;
 	
 	//This is a list of packetEffects, given when we receive packets with effects that we want to run in update() rather than whenever
-	protected List<PacketEffect> packetEffects;
+	private List<PacketEffect> packetEffects;
+	private List<PacketEffect> addPacketEffects;
 	
 	//sourced effects from the world are attributed to this dummy.
 	private Schmuck worldDummy;
@@ -130,12 +131,8 @@ public class PlayState extends GameState {
 	//This is the zoom that the camera will lerp towards
 	protected float zoomDesired;
 	
-	//Starting position of players spawning into the world
-	private Vector2 startPosition = new Vector2();
-	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
-	//That savepoint contains zoom and camera target that will be set.
-	private ArrayList<SavePoint> savePoints;
+	private ArrayList<Start> savePoints;
 	
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private HashMap<String, PositionDummy> dummyPoints;
@@ -215,7 +212,8 @@ public class PlayState extends GameState {
 		createList = new LinkedHashSet<HadalEntity>();
 		removeListClient = new LinkedHashSet<String>();
 		createListClient = new LinkedHashSet<Object[]>();
-		packetEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
+		packetEffects = new ArrayList<PacketEffect>();
+		addPacketEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Schmuck(this, new Vector2(-1000, -1000), new Vector2(1, 1), Constants.ENEMY_HITBOX, 0);
@@ -244,7 +242,7 @@ public class PlayState extends GameState {
 		TiledObjectUtil.clearEvents();
 		
 		//Set up "save point" as starting point
-		this.savePoints = new ArrayList<SavePoint>();
+		this.savePoints = new ArrayList<Start>();
 				
 		//Only the server processes collision objects, events and triggers
 		if (server) {
@@ -253,14 +251,13 @@ public class PlayState extends GameState {
 			TiledObjectUtil.parseTiledTriggerLayer();
 			TiledObjectUtil.parseDesignatedEvents(this);
 		}
-		TiledObjectUtil.parseTiledCommonEventLayer(this, map.getLayers().get("event-layer").getObjects());
 
-		savePoints.add(new SavePoint(startPosition, null, zoomDesired));
-		
 		//Create the player and make the camera focus on it
-		SavePoint getSave = getSavePoint();
-		this.player = createPlayer(getSave.getLocation(), gsm.getRecord().getName(), loadout, old, 0, reset);
-		this.camera.position.set(new Vector3(getSave.getLocation().x, getSave.getLocation().y, 0));
+		Start getSave = getSavePoint(startId);
+		this.player = createPlayer(getSave, gsm.getRecord().getName(), loadout, old, 0, reset);
+		if (getSave != null) {
+			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
+		}
 		this.reset = reset;
 		
 		//Set up dummy points (AI rally points)
@@ -312,6 +309,7 @@ public class PlayState extends GameState {
 
 		app.newMenu(stage);
 		resetController();
+		gsm.getApp().fadeIn();
 	}
 
 	/**
@@ -462,12 +460,18 @@ public class PlayState extends GameState {
 	public void processCommonStateProperties(float delta) {
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
-		synchronized(packetEffects) {
-			for (PacketEffect effect: packetEffects) {
-				effect.execute();
+		
+		synchronized(addPacketEffects) {
+			for (PacketEffect effect: addPacketEffects) {
+				packetEffects.add(effect);
 			}
-			packetEffects.clear();
+			addPacketEffects.clear();
 		}
+		
+		for (PacketEffect effect: packetEffects) {
+			effect.execute();
+		}
+		packetEffects.clear();
 		
 		//Update the game camera and batch.
 		cameraUpdate();
@@ -604,15 +608,13 @@ public class PlayState extends GameState {
 		
 		switch (nextState) {
 		case RESPAWN:
-			SavePoint getSave = getSavePoint();
+			gsm.getApp().fadeIn();
+			Start getSave = getSavePoint();
 			
 			//Create a new player
-			player = createPlayer(getSave.getLocation(), gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
+			player = createPlayer(getSave, gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
 			
 			((PlayerController)controller).setPlayer(player);
-			
-			this.cameraTarget = getSave.getZoomLocation();
-			this.zoomDesired = getSave.getZoom();
 
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -624,6 +626,7 @@ public class PlayState extends GameState {
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
+			gsm.getApp().fadeIn();
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -674,7 +677,7 @@ public class PlayState extends GameState {
 	}
 	
 	/**This creates a player to occupy the playestate
-	 * @param startPosition: coordinates of the player's starting location
+	 * @param start: start event to spawn the player at.
 	 * @param name: player name
 	 * @param altLoadout: the player's loadout
 	 * @param old: player's old playerdata if retaining old values.
@@ -682,7 +685,7 @@ public class PlayState extends GameState {
 	 * @param reset: should we reset the new player's hp/fuel/ammo?
 	 * @return the newly created player
 	 */
-	public Player createPlayer(Vector2 startPosition, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
+	public Player createPlayer(Start start, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 		
@@ -732,7 +735,18 @@ public class PlayState extends GameState {
 			newLoadout.activeItem = mapActiveItem;
 		}
 		
-		return new Player(this, startPosition, name, newLoadout, old, connID, reset);
+		Player p = null;
+		if (start != null) {
+			if (start.getBody() != null) {
+				p = new Player(this, start.getPixelPosition(), name, newLoadout, old, connID, reset, start);
+			} else {
+				p = new Player(this, start.getStartPos(), name, newLoadout, old, connID, reset, start);
+			}
+		} else {
+			p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
+		}
+		
+		return p;
 	}
 	
 	/**
@@ -913,26 +927,32 @@ public class PlayState extends GameState {
 	 * This acquires the level's save points. If none, respawn at starting location. If many, choose one randomly
 	 * @return a save point to spawn a respawned player at
 	 */
-	public SavePoint getSavePoint() {
-		if (savePoints.isEmpty()) {
-			return new SavePoint(startPosition, null, zoomDesired);
+	public Start getSavePoint(String startId) {
+		ArrayList<Start> validStarts = new ArrayList<Start>();
+		
+		for(Start s: savePoints) {
+			if (s.getStartId().equals(startId)) {
+				validStarts.add(s);
+			}
 		}
-		int randomIndex = GameStateManager.generator.nextInt(savePoints.size());
-		return savePoints.get(randomIndex);
+		
+		if (validStarts.isEmpty()) {
+			return null;
+		}
+		
+		int randomIndex = GameStateManager.generator.nextInt(validStarts.size());
+		return validStarts.get(randomIndex);
+	}
+	
+	public Start getSavePoint() {
+		return getSavePoint(startId);
 	}
 	
 	/**
 	 * This adds a save point to the list of available spawns
-	 * @param pos: the position the player will respawn at
-	 * @param zoomPos: the position that the camera will be zoomed on (if null, focus o nthe player)
-	 * @param zoom: the amount that the camera should zoom in
-	 * @param clear: should we remove all existing save points before adding this one?
 	 */
-	public void addSavePoint(Vector2 pos, Vector2 zoomPos, float zoom, boolean clear) {
-		if (clear) {
-			savePoints.clear();
-		}
-		savePoints.add(new SavePoint(pos, zoomPos, zoom));
+	public void addSavePoint(Start start) {
+		savePoints.add(start);
 	}
 	
 	/**
@@ -956,8 +976,8 @@ public class PlayState extends GameState {
 	 * @param effect
 	 */
 	public void addPacketEffect(PacketEffect effect) {
-		synchronized(packetEffects) {
-			packetEffects.add(effect);
+		synchronized(addPacketEffects) {
+			addPacketEffects.add(effect);
 		}
 	}
 	
@@ -1007,8 +1027,6 @@ public class PlayState extends GameState {
 	public Schmuck getWorldDummy() { return worldDummy; }
 
 	public UnlockLevel getLevel() { return level; }
-	
-	public String getStartId() { return startId; }
 
 	public void setStartId(String startId) { this.startId = startId; }
 
@@ -1017,8 +1035,6 @@ public class PlayState extends GameState {
 	public UIArtifacts getUiArtifact() { return uiArtifact; }
 	
 	public UIHub getUiHub() { return uiHub; }
-
-	public Vector2 getStartPosition() {	return startPosition; }
 	
 	public PositionDummy getDummyPoint(String id) {	return dummyPoints.get(id); }
 	

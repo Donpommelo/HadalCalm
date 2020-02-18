@@ -5,6 +5,6 @@ soundVolume: 1
 musicVolume: 0.5
 masterVolume: 0.5
 timer: 2
-lives: 4
+lives: 3
 loadoutType: 1
 }

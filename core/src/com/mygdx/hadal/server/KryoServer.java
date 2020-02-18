@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
@@ -14,8 +13,8 @@ import com.esotericsoftware.kryonet.Server;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.event.Start;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.SavePoint;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -147,18 +146,6 @@ public class KryoServer {
 						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
 					}
 					
-					//If the client has already been created, we create a new player, otherwise we reuse their old data.
-					final Player player = players.get(c.getID());
-					if (player != null) {
-						if (ps.isReset()) {
-							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset()); 
-						} else {
-							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset()); 
-						}
-					} else {
-						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true);                        
-					}
-					
 					//catch up client
 					if (ps != null) {
 						ps.addPacketEffect(new PacketEffect() {
@@ -166,6 +153,18 @@ public class KryoServer {
 							@Override
 							public void execute() {
 		                        ps.catchUpClient(c.getID());
+		                        
+		                        //If the client has already been created, we create a new player, otherwise we reuse their old data.
+		    					final Player player = players.get(c.getID());
+		    					if (player != null) {
+		    						if (ps.isReset()) {
+		    							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset()); 
+		    						} else {
+		    							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset()); 
+		    						}
+		    					} else {
+		    						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true);                        
+		    					}
 							}
 						});
 					}
@@ -179,6 +178,9 @@ public class KryoServer {
 					final Player player = players.get(c.getID());
 					if (player != null) {
 						HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID().toString(), player.getPlayerData().getLoadout()));
+						if (player.getStart() != null) {
+							player.getStart().playerStart(player);
+						}
 					}
 				}
 				
@@ -354,10 +356,10 @@ public class KryoServer {
 
 			@Override
 			public void execute() {
-				SavePoint newSave = ps.getSavePoint();
+				Start newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave.getLocation(), name, loadout, data, connId, reset);
+				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);
@@ -376,9 +378,6 @@ public class KryoServer {
 		        //Inform the client that their new player has been created and give them their new id
 		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
 		        
-		        Vector2 zoomPos = newSave.getZoomLocation();
-		        
-		        server.sendToTCP(connId, new Packets.SyncCamera(zoomPos, newSave.getZoom(), ps.getCameraBounds(), ps.getCameraBounded()));
 		        server.sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
 			}
 		});
