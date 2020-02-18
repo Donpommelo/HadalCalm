@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="26">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="80" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztmdlOwzAQAMN9wwP8/7eSCCxVEFMns7EtMyPtU5vaO81au8k0iYiIiIiIiIiIiIiIiLTjeo63OR52fv7f0R9Dfwz9MfTH0B+jlr+bOR4D4xLuJ4oa/hZ3H9+/ExW91MPR/pK7lzmuAuIV7odwMf2ug3RfnPP3vnJtSSR3z0E5tDyP09pb6uGva0oi0t3pflr6W6ul+8w1dyvfTTVUUpOR7k5zaOmPrj1CDi3XHiGHlmuPkEPLtUfIoeXa53qaI2cDksNa/7a1F4v012I2IP5oLxaV31pPU2s2iPBHZ6Fcr0epcTZF+Otldv6J/hipro+6vxdG9lcD/TH0x9AfI8Lf3meZR8TtjjwIPfTPkbH8lzUdEn+5vr9l1HY42hn2NH3NbaVnSumzhdysHzXD90RyGDl7t3xG0YLFYeR7x5y/NPsfOeP0yNZzK+dvtPuuFP0x9MfQH0N/DP0x9MfQH0N/DP0x9MfQH0N/DP0x9MfQH0N/DP0x9MfQH0N/DP2JiEjPfAL8ux/t
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="992" y="672">
+   <polyline points="0,0 160,0 160,384 320,384 320,608 512,608 512,704 608,704 608,512 416,512 416,384 672,384 768,288 1312,288 1312,928 1120,928 1120,1728 832,1728 832,928 512,928 416,832 -672,832 -672,640 -160,640 -160,384 0,384 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="14" name="Platform" type="Platform" x="1824" y="2176" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorfloora"/>
+   </properties>
+  </object>
+  <object id="15" name="Platform" type="Platform" x="1824" y="1888" width="288" height="32">
+   <properties>
+    <property name="triggeredId" value="elevatorceilinga"/>
+   </properties>
+  </object>
+  <object id="16" name="MovePoint" type="MovePoint" x="1952" y="2176" width="32" height="32">
+   <properties>
+    <property name="connections" value="elevatorfloora,elevatorceilinga,switcha"/>
+    <property name="speed" type="float" value="12"/>
+    <property name="triggeredId" value="elevatormovea"/>
+   </properties>
+  </object>
+  <object id="17" name="Prefab" type="Prefab" x="1920" y="2080" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeredId" value="switcha"/>
+    <property name="triggeringId" value="tofloor1a"/>
+   </properties>
+  </object>
+  <object id="18" name="Displacer" type="Displacer" x="1832" y="2168" width="272" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="elevatorfloora"/>
+   </properties>
+  </object>
+  <object id="19" name="Start" type="Start" x="1952" y="2112" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfrombot"/>
+   </properties>
+  </object>
+  <object id="20" name="Redirecttrigger" type="Redirecttrigger" x="1504" y="1888" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor2a"/>
+    <property name="triggeredId" value="tofloor2a"/>
+    <property name="triggeringId" value="elevatormovea"/>
+   </properties>
+  </object>
+  <object id="21" name="Redirecttrigger" type="Redirecttrigger" x="1504" y="2048" width="32" height="32">
+   <properties>
+    <property name="blameId" value="floor1a"/>
+    <property name="triggeredId" value="tofloor1a"/>
+    <property name="triggeringId" value="elevatormovea"/>
+   </properties>
+  </object>
+  <object id="22" name="Sensor" type="Sensor" x="1824" y="2240" width="288" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="23" name="Warp" type="Warp" x="1664" y="2336" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECK2"/>
+    <property name="startId" value="start3"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="24" name="Dummy" type="Dummy" x="1952" y="2528" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor1a"/>
+   </properties>
+  </object>
+  <object id="25" name="Dummy" type="Dummy" x="1952" y="1600" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="floor2a"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -231,7 +231,7 @@ public class BossUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), particle, 3.0f));
+				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), particle, lifespan));
 			}
 		});
 	}

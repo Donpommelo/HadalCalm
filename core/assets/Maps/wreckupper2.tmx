@@ -261,7 +261,7 @@
   <object id="67" name="Multitrigger" type="Multitrigger" x="320" y="416" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,tofloor2a,bounds1,bounds2"/>
+    <property name="triggeringId" value="startTimer,tofloor2a,bounds1,bounds2,unlock1,unlock2"/>
    </properties>
   </object>
   <object id="68" name="Redirecttrigger" type="Redirecttrigger" x="512" y="1952" width="32" height="32">

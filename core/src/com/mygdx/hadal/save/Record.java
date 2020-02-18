@@ -63,8 +63,11 @@ public class Record {
 		newRecord.scrap = 0;
 		
 		newRecord.flags = new HashMap<String, Integer>();
-		newRecord.flags.put("INTRO", 0);
-		newRecord.flags.put("TUTORIAL", 0);
+		newRecord.flags.put("HUB_REACHED", 0);
+		newRecord.flags.put("BOSS1", 0);
+		newRecord.flags.put("WRECK0SC", 0);
+		newRecord.flags.put("WRECK1SC", 0);
+
 		newRecord.equips = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newRecord.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newRecord.active = "NOTHING";

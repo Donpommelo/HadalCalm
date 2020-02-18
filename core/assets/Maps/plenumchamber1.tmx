@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="15">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="15">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eJzt2MsKgzAURdH0CX0P2v//1ipyZ209MTekue4FZxriBhFMCQAAAACAdXqwj6Mf/ejX71r3uw3bVd49aL+x3TXjDktdUr2Gql7bmVoNVT23MzUaqnpvZ7wbqiK0M54NVVHaGa+GqkjtjEdDVbR2prShKmI7U9JQFbWdWdpQFbmdWdJQFb2dyW2oWkM7k9NQpfzniNDOjA2VZwYAxWHYWdh25pyNeM7R/QnaGdu9kvZNO82ctRfPeaYYDXPaefb7p4bK+/JtOe28+1nDkvv/mirnvqXz7ldzKvrRj34T+tGPfvSjX/up6Ec/+k3oRz/60Y9+7QcAABDBG1QAads=
+   eAHt2N1ugzAMhuFu3SZt3c/Bev/XuuTgO0mFbIgdAnuRIosWTPxgq1IvFw4EEEAAAQQQQAABBBBAAAEE/qfATymb9Wjg7QbsHu2qiffAD7+MHti7/77KBq7J67vkz7Dbe36r3WdZ2cetPCDL0Lv36Pc3yk71ZRkqvxUj/UbbqbYMQ+W2YpTfXnaqL9pQea0Y4be3nWqMNFROK/b6zWKnOqMMlc+KPX6z2anWCEPlsuJWv1ntVG+vofJYcYvf7HaqucdQOay41u8odqp7q6Hut+Iav6PZqfYthrrXil6/o9qp/rWGus+KHr+j28lgjaHusaLnP5IR/wVY+4z6vhp6ao56HnkQQODcAq+lvA/HejYYnhw56nPejDxH+rra3cvy/I6/G4W9OPP8luvOYLjGrvpG+dVcsxh65m7pGm/fqTcj/WS4tLfez8srch2qbUSM9svcswuvXJS5hzY3fn3e+OHXznU7Y5nn9B/9R//5eqB1WjrPnNc2N/Pre3etm87xw6+dY/XGiEj/0X/0n68HWqel8xFzq2cwv753J682ntFvqS/5HAEEEEAAAQQQmEHgD1QAads=
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">

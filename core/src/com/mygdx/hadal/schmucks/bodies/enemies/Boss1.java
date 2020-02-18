@@ -317,7 +317,7 @@ public class Boss1 extends EnemyFloating {
 	}
 	
 	private static final int laser3Amount = 25;
-	private static final float laser3Damage = 7.5f;
+	private static final float laser3Damage = 3.5f;
 	private static final float laser3Knockback = 1.0f;
 	private static final float laser3Speed = 55.0f;
 	private static final int explosionNumber = 6;

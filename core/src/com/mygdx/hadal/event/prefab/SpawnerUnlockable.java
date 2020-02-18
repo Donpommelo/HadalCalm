@@ -56,7 +56,7 @@ public class SpawnerUnlockable extends Prefabrication {
 		RectangleMapObject pickup = new RectangleMapObject();
 		pickup.getRectangle().set(0, 0, width, height);
 		pickup.setName("Switch");
-		pickup.getProperties().put("particle_std", "EVENT_HOLO");
+		pickup.getProperties().put("particle_amb", "EVENT_HOLO");
 		pickup.getProperties().put("sprite", "CUBE");
 		pickup.getProperties().put("triggeredId", pickupId);
 		pickup.getProperties().put("triggeringId", onPickupId);

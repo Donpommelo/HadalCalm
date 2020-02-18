@@ -193,7 +193,7 @@
     <property name="triggeringId" value="w2"/>
    </properties>
   </object>
-  <object id="57" name="Platform" type="Platform" x="1376" y="2528" width="64" height="256">
+  <object id="57" name="Platform" type="Platform" x="1376" y="2528" width="32" height="256">
    <properties>
     <property name="enemy" type="bool" value="false"/>
     <property name="event" type="bool" value="false"/>
@@ -450,7 +450,7 @@
     <property name="triggeringId" value="canvas1"/>
    </properties>
   </object>
-  <object id="119" name="ParticleField" type="ParticleField" x="1376" y="2528" width="64" height="256">
+  <object id="119" name="ParticleField" type="ParticleField" x="1376" y="2528" width="32" height="256">
    <properties>
     <property name="duration" type="float" value="5"/>
     <property name="particle" value="SHADOW_CLOAK"/>

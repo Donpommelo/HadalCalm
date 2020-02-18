@@ -170,7 +170,7 @@
   </object>
   <object id="26" name="Particle" type="Particle" x="1536" y="1184" width="32" height="32">
    <properties>
-    <property name="duration" type="float" value="1"/>
+    <property name="duration" type="float" value="2"/>
     <property name="particle" value="RING"/>
     <property name="triggeredId" value="particle1"/>
     <property name="triggeringId" value="spawn0"/>
