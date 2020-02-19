@@ -20,7 +20,7 @@ public class Maelstrom extends RangedWeapon {
 
 	private final static int clipSize = 8;
 	private final static int ammoSize = 56;
-	private final static float shootCd = 0.01f;
+	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;

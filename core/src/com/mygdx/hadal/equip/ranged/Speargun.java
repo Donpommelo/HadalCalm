@@ -28,7 +28,7 @@ public class Speargun extends RangedWeapon {
 	private final static float recoil = 2.5f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 22.5f;
-	private final static Vector2 projectileSize = new Vector2(50, 6);
+	private final static Vector2 projectileSize = new Vector2(50, 12);
 	private final static float lifespan = 1.2f;
 	
 	private final static Sprite projSprite = Sprite.HARPOON;

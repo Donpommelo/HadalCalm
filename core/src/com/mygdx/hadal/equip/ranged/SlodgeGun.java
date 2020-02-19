@@ -32,7 +32,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static float recoil = 24.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 25.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
+	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float lifespan = 4.0f;
 	
 	private final static float procCd = .05f;

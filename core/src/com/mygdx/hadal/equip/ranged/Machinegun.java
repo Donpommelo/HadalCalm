@@ -30,7 +30,7 @@ public class Machinegun extends RangedWeapon {
 	private final static float recoil = 1.25f;
 	private final static float knockback = 2.5f;
 	private final static float projectileSpeed = 70.0f;
-	private final static Vector2 projectileSize = new Vector2(48, 6);
+	private final static Vector2 projectileSize = new Vector2(48, 12);
 	private final static float lifespan = 0.75f;
 	
 	private final static int spread = 5;

@@ -3,15 +3,14 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
@@ -30,7 +29,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeedStart = 100.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
-	private final static float lifespan = 2.5f;
+	private final static float lifespan = 5.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -58,17 +57,7 @@ public class Moraygun extends RangedWeapon {
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-				
-				@Override
-				public void onHit(HadalData fixB) {
-					if (fixB == null) {
-						hbox.die();
-					} else if (fixB.getType().equals(UserDataTypes.WALL)){
-						hbox.die();
-					}
-				}
-			});
+			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
@@ -77,7 +66,6 @@ public class Moraygun extends RangedWeapon {
 				
 				@Override
 				public void controller(float delta) {
-					
 					controllerCount += delta;
 
 					//Each hbox moves at set intervals. Each movement moves the hbox verticle x times followed by horizontal y times to make a snake-like movement

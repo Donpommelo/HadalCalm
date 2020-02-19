@@ -350,12 +350,14 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null) {
 			body.setTransform(position, angle);
+			body.setAwake(true);
 		}
 	}
 	
 	public void setTransform(float vX, float vY, float angle) {
 		if (alive && body != null) {
 			body.setTransform(vX, vY, angle);
+			body.setAwake(true);
 		}
 	}
 	

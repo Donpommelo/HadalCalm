@@ -15,7 +15,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class CreateParticles extends HitboxStrategy {
 	
-	private final static float defaultDuration = 0.0f;
 	private final static float defaultLinger = 3.0f;
 	
 	//the effect that is to be created.
@@ -24,19 +23,29 @@ public class CreateParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
+	//the base size of the particle effect.
+	//atm, this is just used for attaching particles to hitboxes of varying sizes.
+	private float particleSize;
+	
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
 		super(state, proj, user);
 		this.effect = effect;
 		this.duration = duration;
 	}
 	
-	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
-		this(state, proj, user, effect, defaultDuration);
+	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float particleSize) {
+		this(state, proj, user, effect, duration);
+		this.particleSize = particleSize;
 	}
 	
 	@Override
 	public void create() {
 		ParticleEntity particle = new ParticleEntity(state, hbox, effect, defaultLinger, duration, true, particleSyncType.CREATESYNC);
-		particle.setScale(hbox.getScale());
+		
+		if (particleSize == 0) {
+			particle.setScale(hbox.getScale());
+		} else {
+			particle.setScale(hbox.getSize().y / particleSize);
+		}
 	}
 }

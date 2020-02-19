@@ -31,7 +31,7 @@ public class Minigun extends RangedWeapon {
 	private final static float recoil = 0.25f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(48, 6);
+	private final static Vector2 projectileSize = new Vector2(48, 12);
 	private final static float lifespan = 1.20f;
 	
 	private final static int spread = 10;

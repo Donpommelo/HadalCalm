@@ -86,7 +86,7 @@ public class Flounderbuss extends RangedWeapon {
 			
 			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() - 0.5f) * veloSpread);
 			
-			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, newVelocity.setAngle(newDegrees), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(newVelocity.setAngle(newDegrees)), filter, true, true, user, projSprite);
 			hbox.setGravity(3.0f);
 			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

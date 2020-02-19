@@ -43,7 +43,7 @@ public class BucketofBatteries extends Artifact {
 					procCdCount -= procCd;
 					
 					hbox.addStrategy(new ContactUnitChainLightning(state, hbox, inflicted, chainAmount, baseDamage));
-					hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.LIGHTNING, 3.0f));
+					hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.LIGHTNING, 3.0f, 30));
 				}
 			}
 		});
