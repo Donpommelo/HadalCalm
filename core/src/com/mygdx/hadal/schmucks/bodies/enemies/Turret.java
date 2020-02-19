@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.BossUtils;
+import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
@@ -159,7 +159,7 @@ public class Turret extends Enemy {
 	@Override
 	public void attackInitiate() {
 		if (moveState.equals(SchmuckMoveStates.TURRET_SHOOTING)) {
-			BossUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
+			EnemyUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
 		}
 	}
 	

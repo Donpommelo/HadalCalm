@@ -15,6 +15,7 @@ import com.mygdx.hadal.states.PlayState;
  *
  * Fields:
  * 
+ * type: String UnlockType of the unlock, (EQUIP, ARTIFACT, ACTIVE, CHARACTER, LEVEL)
  * item: String id of item unlock checked
  * unlock: we chain to the next event if this is equal to the item's unlock status. Default: false
  * 

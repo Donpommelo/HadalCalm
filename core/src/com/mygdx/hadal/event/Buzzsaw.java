@@ -14,12 +14,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 /**
  * This event damages all schmucks inside of it. It can be spawned as a hazard in a map. 
  * 
- * Triggered Behavior: Toggle whether the poison is on or off
+ * Triggered Behavior: N/A but will often be used as an id to attach to a move point
  * Triggering Behavior: N/A
  * 
  * Fields:
  * damage: float damage per 1/60f done by this event
- * startOn: boolean of whether this event starts on or off. Optional. Default: true.
+ * filter: hitbox filter of who this event will damage. default: 0 (hits everyone)
  * 
  * @author Zachary Tu
  *
@@ -71,7 +71,7 @@ public class Buzzsaw extends Event {
 	}
 	
 	/**
-	 * Client Poison should randomly spawn poison particles itself to avoid overhead.
+	 * Client buzz saws should also rotate
 	 */
 	@Override
 	public void clientController(float delta) {

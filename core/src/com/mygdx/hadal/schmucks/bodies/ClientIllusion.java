@@ -83,7 +83,7 @@ public class ClientIllusion extends HadalEntity {
 	                    spriteWidth * scale / 2, spriteHeight * scale / 2,
 	                    spriteWidth * scale, spriteHeight * scale, 1, 1, 0);
 				break;
-			case RAGDOLL:
+			case ROTATE:
 				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime),
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
@@ -101,6 +101,7 @@ public class ClientIllusion extends HadalEntity {
 	 * CENTER: drawn in middle of body
 	 * CENTER_STRETCH: centered and stretched to fit
 	 * CENTER_BOTTOM: centered at bottom of body (used for spawners and stuff like that)
+	 * ROTATE: this is a center-stretch that can rotate
 	 * @author Zachary Tu
 	 *
 	 */
@@ -110,7 +111,6 @@ public class ClientIllusion extends HadalEntity {
 		CENTER_STRETCH,
 		CENTER_BOTTOM,
 		ROTATE,
-		RAGDOLL,
 		NONE
 	}
 }

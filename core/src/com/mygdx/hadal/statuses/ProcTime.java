@@ -7,7 +7,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 
 /**
- * 
+ * A ProcTime is a package of info needed by a specific effect activation type.
  * @author Zachary Tu
  *
  */

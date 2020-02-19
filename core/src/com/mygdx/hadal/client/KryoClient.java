@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -277,7 +278,7 @@ public class KryoClient {
         		
         		/*
         		 * The Server tells us to create a new entity.
-        		 * Create a Client Illusion with the speified dimentions
+        		 * Create a Client Illusion with the specified dimentions
         		 */
         		if (o instanceof Packets.CreateEntity) {
         			final Packets.CreateEntity p = (Packets.CreateEntity) o;
@@ -384,6 +385,9 @@ public class KryoClient {
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);
                 					cs.addEntity(p.entityID, cs.getPlayer(), ObjectSyncLayers.STANDARD);
+                					
+                					//set camera to look at new client player.
+                    				cs.camera.position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
                 				}
         					}
         				});
@@ -592,7 +596,7 @@ public class KryoClient {
         		}
 
         		/*
-        		 * The Server tells us to despawn a boss. (spawning is taken care of in the CreateEnemy packet)
+        		 * The Server tells us to sync a boss's hp. (spawning is taken care of in the CreateEnemy packet)
         		 */
         		if (o instanceof Packets.SyncBoss) {
         			final Packets.SyncBoss p = (Packets.SyncBoss) o;
@@ -611,6 +615,10 @@ public class KryoClient {
 						});
 					}
         		}
+        		
+        		/**
+        		 * When a client player is spawned, we are told which ui elements to fill our uieExtra with.
+        		 */
         		if (o instanceof Packets.SyncUI) {
         			final Packets.SyncUI p = (Packets.SyncUI) o;
         			final ClientState cs = getClientState();
@@ -627,6 +635,10 @@ public class KryoClient {
 						});
 					}
         		}
+        		
+        		/**
+        		 * When a shader in the server changes, we are told to echo that change.
+        		 */
         		if (o instanceof Packets.SyncShader) {
         			final Packets.SyncShader p = (Packets.SyncShader) o;
         			final ClientState cs = getClientState();
@@ -674,7 +686,7 @@ public class KryoClient {
 	}
 	
 	/**
-	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause.
+	 * Similar to getPlayState for server. This returns the ClientState, even if it is underneath a pause or setting stat.
 	 * @return: The current clientstate
 	 */
 	public ClientState getClientState() {
@@ -685,6 +697,9 @@ public class KryoClient {
 			}
 			if (currentState instanceof PauseState) {
 				return (ClientState)(((PauseState) currentState).getPs());
+			}
+			if (currentState instanceof SettingState) {
+				return (ClientState)(((SettingState) currentState).getPs());
 			}
 		}
 		return null;

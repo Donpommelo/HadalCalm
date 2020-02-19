@@ -44,6 +44,7 @@ public class ParticleEntity extends HadalEntity {
 	//how is this entity synced?
 	private particleSyncType sync;
 	
+	//size multiplier of the particles
 	private float scale = 1.0f;
 	
 	//This constructor creates a particle effect at an area.
@@ -151,7 +152,7 @@ public class ParticleEntity extends HadalEntity {
 	
 	/**
 	 * Is this entity on the screen?
-	 * @return
+	 * use particle bounding box to calculate
 	 */
 	@Override
 	public boolean isVisible() {

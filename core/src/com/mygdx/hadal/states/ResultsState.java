@@ -17,7 +17,8 @@ import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.server.SortByScores;
 
 /**
- * The Victory screen appears at the end of levels and displays the player's results
+ * The Results screen appears at the end of levels and displays the player's results
+ * In this screen, the player can return to the hub when all players are ready.
  * @author Zachary Tu
  *
  */
@@ -132,7 +133,9 @@ public class ResultsState extends GameState {
 		readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
 		
 		readyOption.addListener(new ClickListener() {
-	        public void clicked(InputEvent e, float x, float y) {
+	        
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
 	        	
 	        	//When pressed, the ready option indicates to the server that that player is ready.
 	        	if (ps.isServer()) {

@@ -6,6 +6,11 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * A Particle represents a single particle effect.
+ * @author Zachary Tu
+ *
+ */
 public enum Particle {
 
 	NOTHING(ParticleType.MISC, ""),
@@ -54,11 +59,15 @@ public enum Particle {
 	KAMABOKO_IMPACT(ParticleType.DEFAULT, "particles/kamaboko_impact.particle"),	
 	;
 	
+	//keep track of the particle pool.
 	private static ParticleEffect prototype;
 	private static ParticleEffectPool effectPool;
 	private final static int poolSize = 50;
 	
+	//this represents the atlas that we read the particle off of.
 	private ParticleType type;
+	
+	//this is the file name of the particle effect.
 	private String particleId;
 	
 	Particle(ParticleType type, String particleId) {
@@ -66,11 +75,17 @@ public enum Particle {
 		this.particleId = particleId;
 	}
 	
+	/**
+	 * sets up the particle pool.
+	 */
 	public static void initParticlePool() {
 		prototype = new ParticleEffect();
 		effectPool = new ParticleEffectPool(prototype, 0, poolSize);
 	}
 	
+	/**
+	 * When we get a particle, we obtain it from the pool and load it.
+	 */
 	public PooledEffect getParticle() {
 		PooledEffect newEffect = effectPool.obtain();
 		switch(type) {

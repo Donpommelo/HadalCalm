@@ -8,8 +8,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.AssetList;
 
 /**
- * A Dialogue is a instance of a dude saying a thing. These are used by the DialogueBox in a PlayStateStage to display
- * conversations to the player 
+ * A Dialogue is a instance of a dude saying a thing. These are used by the DialogueBox in a PlayStateStage to display conversations to the player 
  * @author Zachary Tu
  *
  */
@@ -21,8 +20,8 @@ public class Dialog {
 	//These are the events that triggered and will be triggered by this dialogue respectively.
 	private EventData radio, trigger;
 	
+	//These are the sprite frame of the character ust displayed during the dialog and the speed of its animation
 	private Animation<TextureRegion> bust;
-	
 	private static final float speed = 0.1f;
 	
 	public Dialog(DialogInfo info, EventData radio, EventData trigger) {

@@ -35,6 +35,7 @@ public class Currents extends Event {
 	//This keeps track of engine timer.
 	private float controllerCount = 0;
 	
+	//these keep track of spawned particle dummies inside the current
 	private float currBubbleSpawnTimer = 0f, spawnTimerLimit;
 	
 	private final static float pushInterval = 1 / 60f;
@@ -71,11 +72,13 @@ public class Currents extends Event {
 		while (controllerCount >= pushInterval) {
 			controllerCount -= pushInterval;
 			
+			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.getHadalData().receiveDamage(0.0f, vec, state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
 			}
 		}
 		
+		//spawn a dummy with a particle attached. Dummies are moved by current to give visual effect.
 		currBubbleSpawnTimer += delta;
 		while (currBubbleSpawnTimer >= spawnTimerLimit) {
 			currBubbleSpawnTimer -= spawnTimerLimit;
@@ -87,7 +90,7 @@ public class Currents extends Event {
 	}
 	
 	/**
-	 * When server creates poison, clients are told to create the poison in their own worlds
+	 * When server creates current, clients are told to create the current in their own worlds
 	 */
 	@Override
 	public Object onServerCreate() {

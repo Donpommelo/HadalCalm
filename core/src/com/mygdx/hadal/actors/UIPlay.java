@@ -79,6 +79,8 @@ public class UIPlay extends AHadalActor {
 	
 	//These stats manage the boss hp bar.
 	private float bossHpDelayed = 1.0f;
+	
+	//This is the percentage of the boss hp bar that is effectively 0 (to prevent the 9patch from displaying weirdly)
 	private final static float bossHpFloor = 0.05f;
 	protected float bossHpRatio;
 	

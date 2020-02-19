@@ -40,7 +40,6 @@ public class HadalData {
 	 * @param perp: the schmuck who did this
 	 * @param procEffects: Should this proc status effects?
 	 * @param tags: damage tags
-	 *TODO: include the source of damage
 	 */
 	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		if (getEntity().isAlive()) {

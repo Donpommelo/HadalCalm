@@ -34,7 +34,7 @@ public class SettingState extends GameState {
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
 	
-	//This is the option that the player has selected to change
+	//This is the hotkey option that the player has selected to change
 	private PlayerAction currentlyEditing;
 	
 	private PlayState ps;
@@ -64,6 +64,7 @@ public class SettingState extends GameState {
 	private final static float optionsPad = 10.0f;
 	private final static float detailsScale = 0.3f;
 	
+	//this is the current setting tab the player is using
 	private settingTab currentTab;
 	
 	public SettingState(GameStateManager gsm, PlayState ps) {
@@ -230,7 +231,7 @@ public class SettingState extends GameState {
 	}
 	
 	/**
-	 * This is called whenever a bind is changed to update the ui.
+	 * This is called whenever the player selects the DISPLAY tab
 	 */
 	public void displaySelected() {
 		details.clear();
@@ -270,7 +271,7 @@ public class SettingState extends GameState {
 	}
 	
 	/**
-	 * This is called whenever a bind is changed to update the ui.
+	 * This is called whenever the player selects the CONTROLS tab
 	 */
 	public void controlsSelected() {
 		details.clear();
@@ -312,6 +313,9 @@ public class SettingState extends GameState {
 		stage.setScrollFocus(keybinds);
 	}
 	
+	/**
+	 * This is called whenever the player selects the AUDIO tab
+	 */
 	public void audioSelected() {
 		details.clear();
 		currentlyEditing = null;
@@ -367,6 +371,9 @@ public class SettingState extends GameState {
 		details.add(master).row();
 	}
 	
+	/**
+	 * Save the player chosen settings of whichever tab they are editing
+	 */
 	public void saveSettings() {
 		switch(currentTab) {
 		case CONTROLS:
@@ -393,6 +400,9 @@ public class SettingState extends GameState {
 		}
 	}
 	
+	/**
+	 * Reset this tab's settings to the default values
+	 */
 	public void resetSettings() {
 		switch(currentTab) {
 		case CONTROLS:

@@ -17,6 +17,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Triggering Behavior: N/A.
  * 
  * Fields:
+ * restitution: float value of platform bounciness. Default: 0.0f
+ * 
  * player: Boolean that describes whether players can pass through this. Default: true
  * hbox: Boolean that describes whether hitboxes can pass through this. Optional. Default: true
  * event: Boolean that describes whether this sensor touches events. Optional. Default: true
@@ -27,20 +29,19 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Platform extends Event {
 
 	private short filter;
-	private float restitution, friction;
+	private float restitution;
 	
-	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution, float friction, boolean player, boolean hbox, boolean event, boolean enemy) {
+	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution, boolean player, boolean hbox, boolean event, boolean enemy) {
 		super(state, startPos ,size);
 		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 		this.restitution = restitution;
-		this.friction = friction;
 	}
 	
 	@Override
 	public void create() {
 		this.eventData = new EventData(this, UserDataTypes.WALL);
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, restitution, friction, false, true, Constants.BIT_WALL, filter,	(short) 0, false, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, restitution, 0.0f, false, true, Constants.BIT_WALL, filter,	(short) 0, false, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	

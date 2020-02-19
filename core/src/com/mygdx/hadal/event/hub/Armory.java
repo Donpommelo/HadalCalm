@@ -12,7 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
 /**
- * The Armory is a HubEvent that allows the player to change their equiped weapons.
+ * The Armory is a HubEvent that allows the player to change their equipped weapons.
  * Selecting a weapon replaces currently held weapon.
  * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
  * @author Zachary Tu

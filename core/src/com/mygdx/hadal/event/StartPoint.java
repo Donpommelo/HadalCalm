@@ -9,15 +9,22 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * A StartPoint is a place that the player can start at when spawning into a map.
+ * 
+ * Triggered Behavior: N/A.
+ * Triggering Behavior: This event will be triggered when the player spawns into the map.
+ * 
+ * Fields:
+ * startId: String id of the start point. Many maps have multiple start points, so these are used to determine which one the player is entering from
  * 
  * @author Zachary Tu
  *
  */
-public class Start extends Event {
+public class StartPoint extends Event {
 
 	private String startId;
 	
-	public Start(PlayState state, Vector2 startPos, Vector2 size, String startId) {
+	public StartPoint(PlayState state, Vector2 startPos, Vector2 size, String startId) {
 		super(state, startPos, size);
 		this.startId = startId;
 	}
@@ -30,6 +37,9 @@ public class Start extends Event {
 		body.setType(BodyType.KinematicBody);
 	}
 	
+	/**
+	 * This is run when the player is created to run connected events.
+	 */
 	public void playerStart(final Player p) {
 		if (getConnectedEvent() != null) {
 			getConnectedEvent().getEventData().preActivate(eventData, p);

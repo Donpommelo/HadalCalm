@@ -23,7 +23,6 @@ public class WorldContactListener implements ContactListener {
 		
 		//When 2 fixtures collide, increment their number of contacts.
 		//Projectiles and events should register hits.
-		//Feet should register stomps
 		if (fixA != null) {
 			fixA.setNumContacts(fixA.getNumContacts() + 1);
 			if (fixA.getType().equals(UserDataTypes.HITBOX)) {

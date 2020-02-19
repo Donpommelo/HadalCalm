@@ -23,7 +23,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * id: The id of the type of enemy to spawn
  * limit: The number of enemies to spawn simultaneously
- * spread: boolean of whether to spawn a group with some slight randomized location. Optional. Default: true
  * boss: boolean of whether this spawns a boss enemy
  * bossName: nanme of the boss spawned (if a boss is spawned)
  * @author Zachary Tu

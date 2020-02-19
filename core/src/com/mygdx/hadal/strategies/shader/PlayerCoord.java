@@ -6,6 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 
 /**
+ * PlayerCoord feeds the shader the player's location.
  * @author Zachary Tu
  *
  */

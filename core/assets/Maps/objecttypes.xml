@@ -154,7 +154,6 @@
  <objecttype name="Platform" color="#ffaaff">
   <property name="enemy" type="bool" default="true"/>
   <property name="event" type="bool" default="true"/>
-  <property name="friction" type="float" default="1"/>
   <property name="hbox" type="bool" default="true"/>
   <property name="player" type="bool" default="true"/>
   <property name="restitution" type="float" default="0"/>

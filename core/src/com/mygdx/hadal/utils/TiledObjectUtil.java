@@ -91,9 +91,9 @@ public class TiledObjectUtil {
 		//this sets the starting point of the map to the Start object with the corresponding startId
 		if (object.getName().equals("Start")) {
 			
-			e = new Start(state, position, size, 
+			e = new StartPoint(state, position, size, 
 					object.getProperties().get("startId", "", String.class));
-			state.addSavePoint((Start) e);
+			state.addSavePoint((StartPoint) e);
 		}
 		
 		//Go through every event type to create events
@@ -306,7 +306,6 @@ public class TiledObjectUtil {
 		if (object.getName().equals("Platform")) {
 			e = new Platform(state, position, size, 
 					object.getProperties().get("restitution", 0.0f, float.class), 
-					object.getProperties().get("friction", 1.0f, float.class), 
 					object.getProperties().get("player", true, boolean.class), object.getProperties().get("hbox", true, boolean.class), 
 					object.getProperties().get("event", true, boolean.class), object.getProperties().get("enemy", true, boolean.class));
 		}

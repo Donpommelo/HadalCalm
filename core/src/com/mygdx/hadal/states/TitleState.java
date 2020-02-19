@@ -51,7 +51,6 @@ public class TitleState extends GameState {
 	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
-	 * @param gsm
 	 */
 	public TitleState(final GameStateManager gsm) {
 		super(gsm);
@@ -107,9 +106,8 @@ public class TitleState extends GameState {
 						//Save current name into records.
 						gsm.getRecord().setName(enterName.getText());
 						
-						//Start up the server
+						//Start up the server in multiplayer mode
 						HadalGame.server.init(true);
-						
 						GameStateManager.currentMode = Mode.MULTI;
 						
 						//Enter the Hub State.
@@ -135,7 +133,7 @@ public class TitleState extends GameState {
 						//Save current name into records.
 						gsm.getRecord().setName(enterName.getText());
 						
-						//Start up the server
+						//Start up the server in singleplayer mode
 						HadalGame.server.init(false);
 						GameStateManager.currentMode = Mode.SINGLE;
 						
@@ -144,6 +142,9 @@ public class TitleState extends GameState {
 
 							@Override
 							public void run() {
+								
+								//if the player has not done the tutorial yet, they are spawned into the tutorial section.
+								//otherwise, they are spawned into the hub
 								if (gsm.getRecord().getFlags().get("HUB_REACHED").equals(0)) {
 									gsm.addPlayState(UnlockLevel.WRECK1, new Loadout(gsm.getRecord()), null, TitleState.class, true, "");
 								} else {
@@ -180,17 +181,17 @@ public class TitleState extends GameState {
 					        
 							@Override
 					         public void run() {
-					        	//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
-					            	try {
-					                	HadalGame.client.client.connect(5000, enterIP.getText(), KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
-					                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
-					                } catch (IOException ex) {
-					                    ex.printStackTrace();
-					                    setNotification("FAILED TO CONNECT TO SERVER!");
-					                }
-					            	
-					            	//Let the player attempt to connect again after finishing
-					            	connectAttempted = false;
+				        		//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+				            	try {
+				                	HadalGame.client.client.connect(5000, enterIP.getText(), KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
+				                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
+				                } catch (IOException ex) {
+				                    ex.printStackTrace();
+				                    setNotification("FAILED TO CONNECT TO SERVER!");
+				                }
+				            	
+				            	//Let the player attempt to connect again after finishing
+				            	connectAttempted = false;
 					         }
 						});
 			        }
@@ -239,7 +240,7 @@ public class TitleState extends GameState {
 						
 						SoundEffect.UISWITCH1.play(gsm);
 						
-						//Enter the Hub State.
+						//Enter the Setting State.
 						gsm.getApp().setRunAfterTransition(new Runnable() {
 
 							@Override
@@ -263,6 +264,7 @@ public class TitleState extends GameState {
 				
 				//Name Rand button generates a random name for the player
 				nameRand.addListener(new ClickListener() {
+					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
@@ -278,7 +280,9 @@ public class TitleState extends GameState {
 					
 					@Override
 			         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-			            if (!(event.getTarget() instanceof TextField)) setKeyboardFocus(null);
+			            if (!(event.getTarget() instanceof TextField)) {
+			            	setKeyboardFocus(null);
+			            }
 			            return false;
 			         }
 		         });

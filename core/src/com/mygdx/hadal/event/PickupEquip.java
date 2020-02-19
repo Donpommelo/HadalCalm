@@ -25,7 +25,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Triggering Behavior: This event will trigger its connected event when picked up.
  * 
  * Fields:
- * modPow: Int: number of mods to spawn with. Optional. Default: 0
  * pool: String, comma separated list of equipunlock enum names of all equips that could appear here.
  * 	if this is equal to "", return any weapon in the random pool.
  * 
@@ -62,6 +61,8 @@ public class PickupEquip extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (activator != null) {
+					
+					//alt messages can be used to reroll weapon or set it to a specific weapon
 					if (activator.getEvent() instanceof TriggerAlt) {
 						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
 						if (msg.equals("roll")) {
@@ -111,6 +112,9 @@ public class PickupEquip extends Event {
 		}
 	}
 	
+	/**
+	 * this rolls a random weapon
+	 */
 	public void rollWeapon() {
 		unlock = UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, pool));
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
@@ -128,8 +132,9 @@ public class PickupEquip extends Event {
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, equip.getName(), getPixelPosition().x - size.x / 2, y);
 	}
 	
-	public Equipable getEquip() { return equip; }
-
+	/**
+	 * This sets the weapon pickup to a specific equipable
+	 */
 	public void setEquip(Equipable equip) {
 		this.equip = equip;
 		setEventSprite(equip.getEventSprite());

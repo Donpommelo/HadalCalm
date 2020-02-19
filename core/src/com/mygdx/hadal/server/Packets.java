@@ -78,6 +78,8 @@ public class Packets {
 		 * Server receiving this should welcome the new Client and give them the down-low about the world they just entered.
 		 * 
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
+		 * @param name: The client's name
+		 * @param loadout: the client's starting loadout
 		 */
 		public ClientLoaded(boolean firstTime, String name, Loadout loadout) {
 			this.firstTime = firstTime;
@@ -125,8 +127,11 @@ public class Packets {
 		/**
 		 * A SyncClientWeapon is sent from the Client to the Server when the client attempts to change their loadout in the hub.
 		 * 
-		 * @param entityId: ID of the player to change
-		 * @param loadout: Player's new loadout
+		 * @param equip: An equip to be switched to this client's loadout
+		 * @param artifactAdd: An artifact to be added to this client's loadout
+		 * @param artifactRemove: An artifact to be removed to this client's loadout
+		 * @param active: An active item to be switched to this client's loadout
+		 * @param character: A character skin to be switched to this client's loadout
 		 */
 		public SyncClientLoadout(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove, UnlockActives active, UnlockCharacter character) {
 			this.equip = equip;
@@ -148,6 +153,8 @@ public class Packets {
 		 * to transition as well.
 		 * Clients receiving this begin fading to black the same way the Server does.
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
+		 * @param override: Should this override other transitions.
+		 * @param: If transitioning to a results screen, what text should be displayed
 		 */
 		public ClientStartTransition(TransitionState state, boolean override, String resultsText) {
 			this.state = state;
@@ -230,7 +237,7 @@ public class Packets {
 		
 		/**
 		 * This is sent from the client to the server at the results screen to indicate the client is ready to return.
-		 * @param: the id of the client who is ready
+		 * @param playerId: the id of the client who is ready
 		 */
 		public ClientReady(int playerId) {
 			this.playerId = playerId;
@@ -289,7 +296,7 @@ public class Packets {
 		
 		/**
 		 * This is sent from the server to the clients to give them their scores for all players
-		 * @param score: mapping of each players connId to their score
+		 * @param scores: mapping of each players connId to their score
 		 */
 		public SyncScore(HashMap<Integer, SavedPlayerFields> scores) {
 			this.scores = scores;
@@ -362,6 +369,7 @@ public class Packets {
 	
 	public static class CreatePlayer {
 		public String entityID;
+		public Vector2 startPosition;
 		public String name;
 		public Loadout loadout;
 		public CreatePlayer() {}
@@ -372,11 +380,13 @@ public class Packets {
 		 * This is because the Client reuses the same ClientState.getPlayer() which they already created.
 		 * 
 		 * @param entityID: ID of the new Player
+		 * @param startPosition: location of new player. Used by client to focus camera
 		 * @param name: name of the new Player
 		 * @param loadout: loadout of the new Player
 		 */
-		public CreatePlayer(String entityID, String name, Loadout loadout) {
+		public CreatePlayer(String entityID, Vector2 startPosition, String name, Loadout loadout) {
             this.entityID = entityID;
+            this.startPosition = startPosition;
             this.name = name;
             this.loadout = loadout;
         }
@@ -412,6 +422,7 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the new Pickup.
 		 * @param pos: position of the new Pickup
+		 * @param newPickup: The pickup that this event should start with.
          */
 		public CreatePickup(String entityID, Vector2 pos, String newPickup) {
 			this.entityID = entityID;
@@ -503,6 +514,7 @@ public class Packets {
 		/**
 		 * A SyncBoss is sent from the Server to the Client by the boss every engine tick.
 		 * atm, this just accounts for the boss' hp to be displayed in the client's ui
+		 * @param: hpPercent: The boss's current hp percent
 		 */
 		public SyncBoss(float hpPercent) {
 			this.hpPercent = hpPercent;
@@ -521,6 +533,10 @@ public class Packets {
 		/**
 		 * A SyncPlayer is sent from the Server to the Client every engine tick.
 		 * This packet (and similar packets) just tells the client how to change their own Player for ther purpose of their own ui.
+		 * @param fuelPercent: The client player's current fuel amount.
+		 * @param currentClip: The client player's current clip amount.
+		 * @param currentAmmo: The client player's current ammo amount.
+		 * @param activeCharge: The client player's current active item charge amount.
 		 */
 		public SyncPlayerSelf(float fuelPercent, int currentClip, int currentAmmo, float activeCharge) {
             this.fuelPercent = fuelPercent;
@@ -575,12 +591,8 @@ public class Packets {
         public SyncPlayerStats() {}
         
         /**
-         * 
-         * @param maxClip
-         * @param maxHp
-         * @param maxFuel
-         * @param airblastCost
-         * @param weaponSlots
+         * A SyncPlayerStats is sent from the server to the client whenever their stats change.
+         * This long list of fields is just the Player-specific information needed for Clients to properly render their own ui.
          */
         public SyncPlayerStats(int maxClip, float maxHp, float maxFuel, float airblastCost, int weaponSlots, int artifactSlots) {
         	 this.maxClip = maxClip;
@@ -636,6 +648,7 @@ public class Packets {
 		 * @param startOn: Does this effect start turned on?
 		 * @param linger: How long does an attached Particleentity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
+		 * @Param scale: The size multiplier of the particle effect
 		 */
 		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale) {
 			this.entityID = entityID;

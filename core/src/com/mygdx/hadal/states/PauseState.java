@@ -79,13 +79,17 @@ public class PauseState extends GameState {
 				exitOption = new Text("EXIT TO TITLE", 0, 0, true);
 				
 				resumeOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
 			        	unpause();
 			        }
 			    });
 				
 				hubOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
 			        	gsm.removeState(PauseState.class);
 			        	
 			        	if (ps.isServer()) {
@@ -103,7 +107,9 @@ public class PauseState extends GameState {
 			    });
 				
 				settingOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
 			        	gsm.addSettingState(ps, PauseState.class);
@@ -111,7 +117,9 @@ public class PauseState extends GameState {
 			    });
 				
 				exitOption.addListener(new ClickListener() {
-			        public void clicked(InputEvent e, float x, float y) {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
 			        	gsm.removeState(PauseState.class);
@@ -212,6 +220,9 @@ public class PauseState extends GameState {
 	@Override
 	public void dispose() { stage.dispose(); }
 
+	/**
+	 * Run when the game is unpaused.
+	 */
 	public void unpause() {
 		gsm.removeState(PauseState.class);
     	

@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.BossUtils;
+import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 
@@ -32,7 +32,7 @@ public class Scissorfish extends EnemySteering {
 	private static final int defaultMeleeKB = 20;
 	@Override
 	public void attackInitiate() {
-		BossUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
-		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.5f);
+		EnemyUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
+		EnemyUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.5f);
 	}
 }

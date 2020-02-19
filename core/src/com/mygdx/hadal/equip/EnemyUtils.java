@@ -23,7 +23,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
-import com.mygdx.hadal.schmucks.bodies.enemies.BossAction;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyAction;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating.BossState;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -31,23 +31,23 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.utils.Constants;
 
 /**
- * This contains several statichelper methods for creating boss attack patterns
+ * This contains several statichelper methods for creating enemy attack patterns
  * @author Zachary Tu
  *
  */
-public class BossUtils {
+public class EnemyUtils {
 
 	public static void moveToDummy(final PlayState state, final Enemy boss, final String dummyId, final int speed, float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
 				Event dummy = state.getDummyPoint(dummyId);
 				
 				if (dummy != null) {
-					boss.setMovementTarget(dummy.getPixelPosition());
-					boss.setMoveSpeed(speed);
+					enemy.setMovementTarget(dummy.getPixelPosition());
+					enemy.setMoveSpeed(speed);
 				}
 			}
 		});
@@ -55,7 +55,7 @@ public class BossUtils {
 	
 	public static void changeTrackingState(final EnemyFloating bossFloating, final BossState state, final float angle, float duration) {
 		
-		bossFloating.getActions().add(new BossAction(bossFloating, duration) {
+		bossFloating.getActions().add(new EnemyAction(bossFloating, duration) {
 			
 			@Override
 			public void execute() {
@@ -84,7 +84,7 @@ public class BossUtils {
 	
 	public static void spawnAdds(final PlayState state, Enemy boss, final enemyType type, final int amount, float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
@@ -92,13 +92,13 @@ public class BossUtils {
 				for (int i = 0; i < amount; i++) {
 					switch (type) {
 					case SCISSORFISH:
-						new Scissorfish(state, boss.getPixelPosition(), Constants.ENEMY_HITBOX, null);
+						new Scissorfish(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, null);
 						break;
 					case SPITTLEFISH:
-						new Spittlefish(state, boss.getPixelPosition(), Constants.ENEMY_HITBOX, null);
+						new Spittlefish(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, null);
 						break;
 					case TORPEDOFISH:
-						new Torpedofish(state, boss.getPixelPosition(), Constants.ENEMY_HITBOX, null);
+						new Torpedofish(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, null);
 						break;
 					default:
 						break;
@@ -110,7 +110,7 @@ public class BossUtils {
 	
 	public static void moveToPlayer(final PlayState state, Enemy boss, final HadalEntity target, final int moveSpeed, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
@@ -119,15 +119,15 @@ public class BossUtils {
 					return;
 				}
 				
-				Vector2 dist = target.getPixelPosition().sub(boss.getPixelPosition());
-				boss.setLinearVelocity(dist.nor().scl(moveSpeed));
+				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
+				enemy.setLinearVelocity(dist.nor().scl(moveSpeed));
 			}
 		});
 	}
 	
 	public static void trackPlayerXY(final PlayState state, Enemy boss, final HadalEntity target, final int moveSpeed, final float duration, final boolean x) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
@@ -136,12 +136,12 @@ public class BossUtils {
 					return;
 				}
 				
-				boss.setMovementTarget(null);
-				Vector2 dist = target.getPixelPosition().sub(boss.getPixelPosition());
+				enemy.setMovementTarget(null);
+				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());
 				if (x) {
-					boss.setLinearVelocity(new Vector2(dist.nor().scl(moveSpeed).x, 0));
+					enemy.setLinearVelocity(new Vector2(dist.nor().scl(moveSpeed).x, 0));
 				} else {
-					boss.setLinearVelocity(new Vector2(0, dist.nor().scl(moveSpeed).y));
+					enemy.setLinearVelocity(new Vector2(0, dist.nor().scl(moveSpeed).y));
 				}
 			}
 		});
@@ -149,33 +149,33 @@ public class BossUtils {
 
 	public static void meleeAttack(final PlayState state, Enemy boss, final float damage, final float knockback, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, 0) {
+		boss.getActions().add(new EnemyAction(boss, 0) {
 			
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), boss.getSize(), duration, boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.makeUnreflectable();
-				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new DamageStatic(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new FixedToUser(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
+				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(0, 1), new Vector2(), true));
 			}
 		});
 	}
 
 	public static void meleeAttackContinuous(final PlayState state, Enemy boss, final float damage, final float attackInterval, final float knockback, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, 0) {
+		boss.getActions().add(new EnemyAction(boss, 0) {
 			
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), boss.getSize(), duration, boss.getLinearVelocity(), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.makeUnreflectable();
-				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new DamageStatic(state, hbox, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new FixedToUser(state, hbox, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
-				hbox.addStrategy((new HitboxStrategy(state, hbox, boss.getBodyData()) {
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
+				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
 				
 					private float controllerCount = 0;
 				
@@ -187,10 +187,10 @@ public class BossUtils {
 						while (controllerCount >= attackInterval) {
 							controllerCount -= attackInterval;
 							
-							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), boss.getSize(), attackInterval, new Vector2(0, 0), boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
-							pulse.addStrategy(new ControllerDefault(state, pulse, boss.getBodyData()));
-							pulse.addStrategy(new DamageStatic(state, pulse, boss.getBodyData(), damage, knockback, DamageTypes.MELEE));
-							pulse.addStrategy(new FixedToUser(state, pulse, boss.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
+							pulse.addStrategy(new DamageStatic(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
+							pulse.addStrategy(new FixedToUser(state, pulse, enemy.getBodyData(), new Vector2(0, 1), new Vector2(), true));
 						}
 					}
 				}));
@@ -201,101 +201,101 @@ public class BossUtils {
 	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
 			final float lifespan, final float fireDuration, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
-						boss.getHitboxfilter(), false, true, boss, Sprite.NOTHING);
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle()),
+						enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new ContactUnitStatus(state, hbox, boss.getBodyData(), 
-						new Ablaze(state, fireDuration, boss.getBodyData(), boss.getBodyData(), fireDamage)));
-				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
-				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), Particle.FIRE, 3.0f));
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new ContactUnitStatus(state, hbox, enemy.getBodyData(), 
+						new Ablaze(state, fireDuration, enemy.getBodyData(), enemy.getBodyData(), fireDamage)));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 3.0f));
 			}
 		});
 	}
 	
 	public static void fireLaser(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final Particle particle) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
 				
-				RangedHitbox hbox = new RangedHitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
-						boss.getHitboxfilter(), true, true, boss, Sprite.NOTHING);
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle()),
+						enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), particle, lifespan));
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, lifespan));
 			}
 		});
 	}
 	
 	public static void bouncingBall(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
-						boss.getHitboxfilter(), false, true, boss, Sprite.ORB_RED);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle()),
+						enemy.getHitboxfilter(), false, true, enemy, Sprite.ORB_RED);
 				hbox.setGravity(10.0f);
 				hbox.setRestitution(1);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				hbox.addStrategy(new CreateParticles(state, hbox, boss.getBodyData(), Particle.FIRE, lifespan));
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, lifespan));
 				
 			}
 		});
 	}
 	
 	public static void shootBullet(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				Hitbox hbox = new Hitbox(state, boss.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(boss.getAttackAngle()),
-						boss.getHitboxfilter(), true, true, boss, Sprite.ORB_RED);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle()),
+						enemy.getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
 			}
 		});
 	}
 	
 	public static void vengefulSpirit(final PlayState state, Enemy boss, final Vector2 pos, final float baseDamage, final float knockback, final float lifespan, final float duration) {
 		
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				WeaponUtils.releaseVengefulSpirits(state, pos, lifespan, baseDamage, knockback, boss.getBodyData(), boss.getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, pos, lifespan, baseDamage, knockback, enemy.getBodyData(), enemy.getHitboxfilter());
 			}
 		});
 	}
 	
 	public static void createExplosion(final PlayState state, Enemy boss, final Vector2 pos, final float size, final float baseDamage, final float knockback, final float duration) {
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				WeaponUtils.createExplosion(state, pos, size, boss, baseDamage, knockback, boss.getHitboxfilter());
+				WeaponUtils.createExplosion(state, pos, size, enemy, baseDamage, knockback, enemy.getHitboxfilter());
 			}
 		});
 	}
 	
 	public static void createPoison(final PlayState state, Enemy boss, final Vector2 pos, final Vector2 size, final float damage, final float lifespan, final float duration) {
 		
-		boss.getSecondaryActions().add(new BossAction(boss, duration) {
+		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {
 			@Override
 			public void execute() {
-				new Poison(state, pos, size, damage, lifespan, boss, true, boss.getHitboxfilter());
+				new Poison(state, pos, size, damage, lifespan, enemy, true, enemy.getHitboxfilter());
 			}
 		});
 	}
@@ -303,7 +303,7 @@ public class BossUtils {
 	private final static Sprite[] debrisSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
 	public static void fallingDebris(final PlayState state, Enemy boss, final float baseDamage, final int size, final float knockback, final float lifespan, final float duration) {
 		
-		boss.getSecondaryActions().add(new BossAction(boss, duration) {
+		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
@@ -315,13 +315,13 @@ public class BossUtils {
 					int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
 					Sprite projSprite = debrisSprites[randomIndex];
 					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getSize().x, 0)),
-							new Vector2(size, size), lifespan, new Vector2(),	boss.getHitboxfilter(), true, true, boss, projSprite);
+							new Vector2(size, size), lifespan, new Vector2(),	enemy.getHitboxfilter(), true, true, enemy, projSprite);
 					
 					hbox.setGravity(1.0f);
 					
-					hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
+					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
 				}
 			}
 		});
@@ -331,16 +331,16 @@ public class BossUtils {
 		int rand = GameStateManager.generator.nextInt(4);
 		switch(rand) {
 		case 0:
-			BossUtils.moveToDummy(state, boss, "0", speed, duration);
+			EnemyUtils.moveToDummy(state, boss, "0", speed, duration);
 			break;
 		case 1:
-			BossUtils.moveToDummy(state, boss, "2", speed, duration);
+			EnemyUtils.moveToDummy(state, boss, "2", speed, duration);
 			break;
 		case 2:
-			BossUtils.moveToDummy(state, boss, "6", speed, duration);
+			EnemyUtils.moveToDummy(state, boss, "6", speed, duration);
 			break;
 		case 3:
-			BossUtils.moveToDummy(state, boss, "8", speed, duration);
+			EnemyUtils.moveToDummy(state, boss, "8", speed, duration);
 			break;
 		default:
 		}
@@ -351,21 +351,21 @@ public class BossUtils {
 		int rand = GameStateManager.generator.nextInt(2);
 		switch(rand) {
 		case 0:
-			BossUtils.moveToDummy(state, boss, "3", speed, duration);
+			EnemyUtils.moveToDummy(state, boss, "3", speed, duration);
 			break;
 		case 1:
-			BossUtils.moveToDummy(state, boss, "5", speed, duration);
+			EnemyUtils.moveToDummy(state, boss, "5", speed, duration);
 			break;
 		}
 		return rand;
 	}
 	
 	public static void stopStill(Enemy boss, final float duration) {
-		boss.getActions().add(new BossAction(boss, duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				boss.setLinearVelocity(0, 0);
+				enemy.setLinearVelocity(0, 0);
 			}
 		});
 	}

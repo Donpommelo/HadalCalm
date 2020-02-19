@@ -48,7 +48,6 @@ public abstract class GameState {
 	 */
 	public abstract void render(float delta);
 	
-	
 	/**
 	 * This will be run upon deleting the state and will dispose of any unneeded object in the state. 
 	 */

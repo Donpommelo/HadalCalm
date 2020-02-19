@@ -86,6 +86,10 @@ public class PortalTouch extends Event {
 		}	
 	}
 
+	/**
+	 * Returns a list of entities that just teleported and cannot teleport using the same portal right away.
+	 * @return
+	 */
 	public Set<HadalEntity> getJustTeleported() {
 		
 		if (getStandardParticle() != null) {

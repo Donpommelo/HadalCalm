@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy randomly changes a hboxsvelocity after it is created.
+ * This strategy randomly changes a hbox's velocity after it is created.
  * @author Zachary Tu
  *
  */

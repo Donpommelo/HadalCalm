@@ -161,7 +161,6 @@ public class HadalGame extends ApplicationAdapter {
 				if (runAfterTransition != null) {
 					Gdx.app.postRunnable(runAfterTransition);
 				}
-//				fadeIn();
 			}
 		}
 				

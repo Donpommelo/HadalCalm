@@ -125,6 +125,10 @@ public class UIHub {
 		}
 	}
 	
+	/**
+	 * This refreshes the ui element when a selection is made.
+	 * atm, this only affects the reliquary due to having to update the artifact slots.
+	 */
 	public void refreshHub() {
 		switch(type) {
 		case RELIQUARY:
@@ -135,6 +139,9 @@ public class UIHub {
 		}
 	}
 	
+	/**
+	 * When the player equips/unequips an artifact, this is run, displaying the new artifacts and remaining slots in the info table.
+	 */
 	public void refreshReliquary() {
 		tableExtra.clear();
 		for (UnlockArtifact c: state.getPlayer().getPlayerData().getLoadout().artifacts) {

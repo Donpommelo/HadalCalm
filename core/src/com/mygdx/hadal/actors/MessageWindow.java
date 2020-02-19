@@ -57,6 +57,7 @@ public class MessageWindow {
 	 */
 	public void toggleWindow() {
 		
+		//enables message to be run and window to be scrolled. Ran after actor enters screen.
 		Runnable enableMsg = new Runnable() {
 
 			@Override
@@ -67,6 +68,7 @@ public class MessageWindow {
 			}
 		};
 		
+		//disables typing and scrolling for actoe. Ran after actor eits screen.
 		Runnable disableMsg = new Runnable() {
 
 			@Override
@@ -164,6 +166,10 @@ public class MessageWindow {
 		active = false;
 	}
 	
+	/**
+	 * This adds a text to the text log. Called whenever a dialog is added to the dialog box.
+	 * @param text
+	 */
 	public void addText(String text) {
 		Text newEntry = new Text(text, 0, 0, false);
 		newEntry.setScale(logScale);

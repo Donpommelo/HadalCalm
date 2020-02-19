@@ -11,7 +11,8 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Enemies are Schmucks that attack the player.
- * Floating enemies are the basic fish-enemies of the game
+ * Floating enemies are the basic fish-enemies of the game.
+ * These enemies can rotate to face the player.
  * @author Zachary Tu
  *
  */

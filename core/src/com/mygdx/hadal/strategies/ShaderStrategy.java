@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * A ShaderStrategy implements the methods used to affect a shader after it has been created
  * @author Zachary Tu
- *
  */
 public abstract class ShaderStrategy implements IShaderStrategy {
 

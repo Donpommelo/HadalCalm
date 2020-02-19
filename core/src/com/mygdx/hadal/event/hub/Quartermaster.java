@@ -21,6 +21,7 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Quartermaster extends HubEvent {
 
+	//This contains information about this shop's selection
 	private ShopInfo shopInfo;
 	
 	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, String shopId) {

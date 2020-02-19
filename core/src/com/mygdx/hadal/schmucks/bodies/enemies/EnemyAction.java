@@ -1,20 +1,20 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 /**
- * A BossAction is any action that the boss performs. Most attacks are a sequence of BossActions performed in succession.
+ * A BossAction is any action that the enemy performs. Most attacks are a sequence of EnemyActions performed in succession.
  * @author Zachary Tu
  *
  */
-public class BossAction {
+public class EnemyAction {
 
 	//this boss that performs this action
-	protected Enemy boss;
+	protected Enemy enemy;
 	
 	//this is the amount of time that this action will take before the next action in the queue will begin
 	private float duration;
 	
-	public BossAction(Enemy boss, float duration) {
-		this.boss = boss;
+	public EnemyAction(Enemy enemy, float duration) {
+		this.enemy = enemy;
 		this.duration = duration;
 	}
 	

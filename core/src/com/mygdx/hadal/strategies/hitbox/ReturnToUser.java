@@ -28,7 +28,7 @@ public class ReturnToUser extends HitboxStrategy {
 	public void controller(float delta) {
 		controllerCount += delta;
 
-		//Boomerang repeatedly is pushed towards player. Controllercount is checked to ensure framerate does not affect speed
+		//hbox repeatedly is pushed towards player. Controllercount is checked to ensure framerate does not affect speed
 		while (controllerCount >= pushInterval) {
 			controllerCount -= pushInterval;
 			diff.set(creator.getSchmuck().getPixelPosition().x - hbox.getPixelPosition().x, creator.getSchmuck().getPixelPosition().y - hbox.getPixelPosition().y);

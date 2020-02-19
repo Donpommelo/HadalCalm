@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.BossUtils;
+import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
@@ -149,12 +149,12 @@ public class Boss2 extends EnemyFloating {
 	private static final int defaultMeleeKB = 50;
 	private final static int returnSpeed = 15;
 	public void meleeAttack() {
-		BossUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
-		BossUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.0f);
-		BossUtils.moveToDummy(state, this, "platformCenter", charge1Speed, driftDurationMax);
-		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, angle, 0.5f);
-		BossUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
-		BossUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
+		EnemyUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.0f);
+		EnemyUtils.moveToDummy(state, this, "platformCenter", charge1Speed, driftDurationMax);
+		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, angle, 0.5f);
+		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
 	
 	private static final float laser1Interval = 0.03f;
@@ -166,15 +166,15 @@ public class Boss2 extends EnemyFloating {
 	private static final float laserLifespan = 1.2f;
 	
 	public void horizontalLaser() {
-		BossUtils.moveToDummy(state, this, "platformLip", driftSpeed, driftDurationMax);
-		BossUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.5f);
-		BossUtils.stopStill(this, 0.2f);
+		EnemyUtils.moveToDummy(state, this, "platformLip", driftSpeed, driftDurationMax);
+		EnemyUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.5f);
+		EnemyUtils.stopStill(this, 0.2f);
 		for (int i = 0; i < laser1Amount; i++) {
-			BossUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
+			EnemyUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
 		}
-		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, angle, 0.5f);
-		BossUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
-		BossUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, angle, 0.5f);
+		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
 	
 	private static final int fireballDamage = 4;
@@ -189,15 +189,15 @@ public class Boss2 extends EnemyFloating {
 	private static final float fireballInterval = 0.02f;
 	
 	private void fireBreath() {
-		BossUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
-		BossUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.5f);
-		BossUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.0f);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.5f);
+		EnemyUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			BossUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
+			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
 		}
-		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
-		BossUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
-		BossUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
 	
 	private static final float laser2Interval = 0.04f;
@@ -212,19 +212,19 @@ public class Boss2 extends EnemyFloating {
 	private static final float explosionInterval = 0.25f;
 	
 	private void sweepingLaser() {
-		BossUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
-		BossUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.0f);
-		BossUtils.changeTrackingState(this, BossState.FREE, -165.0f, 0.0f);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.0f);
+		EnemyUtils.changeTrackingState(this, BossState.FREE, -165.0f, 0.0f);
 		for (int i = 0; i < laser3Amount; i++) {
-			BossUtils.fireLaser(state, this, laser3Damage, laser3Speed, laser3Knockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
+			EnemyUtils.fireLaser(state, this, laser3Damage, laser3Speed, laser3Knockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 		}
 		for (int i = 1; i <= explosionNumber; i++) {
-			BossUtils.createExplosion(state, this, new Vector2(BossUtils.getRightSide(state) - i * explosionSize / 2,
-					BossUtils.floorHeight(state)), explosionSize, explosionDamage, explosionKnockback, explosionInterval);
+			EnemyUtils.createExplosion(state, this, new Vector2(EnemyUtils.getRightSide(state) - i * explosionSize / 2,
+					EnemyUtils.floorHeight(state)), explosionSize, explosionDamage, explosionKnockback, explosionInterval);
 		}
-		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
-		BossUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
-		BossUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
 	
 	/**

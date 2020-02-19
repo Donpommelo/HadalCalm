@@ -9,9 +9,12 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
-
- * N/A
+ * A Wrapping portal transports players that touch it to a destination but keep the player's x or y coordinate constant.
+ * Triggered Behavior: N/A
+ * Triggering Behavior: This is the event that the player will be teleported to.
  * 
+ * Fields:
+ * axis: boolean do we keep the player's x constant or y?. Default: true (x)
  * @author Zachary Tu
  *
  */
@@ -45,7 +48,10 @@ public class PortalWrap extends Event {
 					s.setTransform(s.getPosition().x, getConnectedEvent().getPosition().y, 0);
 				}
 				
-				state.camera.position.set(new Vector3(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0).add(newCamera));
+				//If the player is being teleported, instantly adjust the camera to make for a seamless movement.
+				if(s.equals(state.getPlayer())) {
+					state.camera.position.set(new Vector3(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0).add(newCamera));
+				}
 			}
 		}	
 	}

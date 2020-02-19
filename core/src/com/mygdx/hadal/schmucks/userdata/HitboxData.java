@@ -39,6 +39,7 @@ public class HitboxData extends HadalData {
 		if (!hbox.isAlive())
 			return;
 		
+		//process hboc reflections/deflections
 		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && hbox.isAlive() && hbox.isReflectable()) {
 			super.receiveDamage(basedamage, knockback, perp, procEffects, tags);
 		}

@@ -1,5 +1,11 @@
 package com.mygdx.hadal.dialog;
 
+/**
+ * A DialogInfo is information about a single Dialog.
+ * These are read from json
+ * @author Zachary Tu
+ *
+ */
 public class DialogInfo {
 
 	//These strings are to be displayed in the box

@@ -29,6 +29,7 @@ public class DestructableBlock extends Event {
 	//psuedo-hp. This event does not proc on-damage effects but can be destroyed.
 	private int hp;
 	
+	//when damaged, the event flashes for this duration
 	private final static float flashDuration = 0.1f;
 	
 	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp) {
@@ -45,6 +46,7 @@ public class DestructableBlock extends Event {
 			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 				hp -= basedamage;
 				
+				//flash and spawn particles when damaged.
 				if (standardParticle != null) {
 					standardParticle.onForBurst(0.5f);
 				}
@@ -54,6 +56,7 @@ public class DestructableBlock extends Event {
 				if (hp <= 0) {
 					event.queueDeletion();
 					
+					//activated connected event when destroyed.
 					if (event.getConnectedEvent() != null) {
 						event.getConnectedEvent().getEventData().preActivate(this, null);
 					}

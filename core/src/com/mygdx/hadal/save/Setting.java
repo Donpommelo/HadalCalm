@@ -7,12 +7,12 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
+ * A Setting contains all saved game settings.
  * @author Zachary Tu
  *
  */
 public class Setting {
 
-	//height/width of the screen
 	private int resolution;
 	private int framerate;
 	private boolean fullscreen;
@@ -33,12 +33,15 @@ public class Setting {
 	public Setting() {}
 	
 	/**
-	 * This simple saves the settings in a designated file
+	 * This simply saves the settings in a designated file
 	 */
 	public void saveSetting() {
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(this), false);
 	}
 	
+	/**
+	 * This sets display settings, changing screen size/vsync/framerate
+	 */
 	public void setDisplay(HadalGame game) {
 		Monitor currMonitor = Gdx.graphics.getMonitor();
     	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
@@ -66,6 +69,7 @@ public class Setting {
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
 	}
 	
+	//sets display settings to default values
 	public void resetDisplay() {
 		resolution = 1;
 		framerate = 1;
@@ -73,6 +77,7 @@ public class Setting {
 		vsync = false;
 	}
 	
+	//sets audio settings to default values
 	public void resetAudio() {
 		soundVolume = 0.5f;
 		musicVolume = 0.5f;
@@ -94,6 +99,9 @@ public class Setting {
 		saveSetting();
 	}
 	
+	/**
+	 * Convert resolution from index in list to actual setting
+	 */
 	public void indexToResolution() {
 		switch(resolution) {
 		case 0:
@@ -111,6 +119,9 @@ public class Setting {
 		}
 	}
 	
+	/**
+	 * Convert framerate from index in list to actual framerate
+	 */
 	public int indexToFramerate() {
 		switch(framerate) {
 		case 0:
@@ -126,6 +137,9 @@ public class Setting {
 		}
 	}
 	
+	/**
+	 * Convert timer from index in list to actual time amount
+	 */
 	public static float indexToTimer(int index) {
 		switch(index) {
 		case 0:

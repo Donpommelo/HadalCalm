@@ -126,6 +126,7 @@ public class ClientState extends PlayState {
 		}
 	}
 	
+	@Override
 	public void transitionState() {
 		switch (nextState) {
 		case RESPAWN:

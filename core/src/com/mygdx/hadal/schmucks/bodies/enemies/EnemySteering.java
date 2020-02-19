@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Enemies are Schmucks that attack the player.
- * Floating enemies are the basic fish-enemies of the game
+ * Steering enemies use gdx ai to move towards a targer
  * @author Zachary Tu
  *
  */
@@ -37,6 +37,7 @@ public class EnemySteering extends EnemyFloating {
 	public void create() {
 		super.create();
 		
+		//default action is to roam
 		roam = new Wander<Vector2>(this)
 				.setWanderOffset(100)
 				.setWanderRadius(100)
@@ -49,6 +50,7 @@ public class EnemySteering extends EnemyFloating {
 	public void controller(float delta) {		
 		super.controller(delta);
 		
+		//if a steering enemy finds a target, it pursues it
 		if (target != null) {
 			setTarget(target, new Pursue<Vector2>(this, target));
 		}

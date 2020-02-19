@@ -57,8 +57,10 @@ public class Event extends HadalEntity {
      */
     private eventSyncTypes syncType = eventSyncTypes.ILLUSION;
 	
+    //speed of animation for events
     private final static float animationSpeed = 0.1f;
     
+    //all pickups will have this height and width as default.
     public final static int defaultPickupEventSize = 96;
     
     //this is the map object from Tiled that this event was read from.
@@ -146,7 +148,8 @@ public class Event extends HadalEntity {
 						getPixelPosition().x - size.x / 2,
 						getPixelPosition().y - size.y / 2,
 						size.x / 2, size.y / 2,
-	                    size.x, size.y, 1, 1, (float) (body.getAngle() / Math.PI * 180));
+	                    size.x, size.y, 
+	                    1, 1, (float) Math.toDegrees(getOrientation()));
 				break;
 			default:
 				break;

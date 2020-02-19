@@ -4,6 +4,14 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * Rotators connect to other events and either apply a continuous or instant rotation
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: This event's connected event is the event that will be rotated
+ * 
+ * Fields:
+ * continuous: do we apply rotation continuously or instantly? Default: true
+ * angle: The amount of rotation to apply (either set its angular velicity or its angle) 
  * 
  * @author Zachary Tu
  *
@@ -37,7 +45,6 @@ public class Rotator extends Event {
 					} else {
 						getConnectedEvent().getBody().setTransform(getConnectedEvent().getBody().getPosition(), angle);
 					}
-					
 				}
 			}
 		}

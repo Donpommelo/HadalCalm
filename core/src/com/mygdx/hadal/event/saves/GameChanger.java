@@ -6,11 +6,14 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * GameChangers change some aspect of the game when activated.
+ * atm, this consists of lives, score and timer settings
  * 
  * Fields:
  * lives: Integer specifying how much to change the "lives" field in the ui. Optional. Default: 0
  * score: Integer specifying how much to change the "score" field in the ui. Optional. Default: 0
  * timer: Float specifying how much to change the "timer" field in the ui. Optional. Default: 0.0f
+ * timerIncr: Float specifying how much the timer should change (usually -1, 0, 1). Optional. Default: 0.0f
  * 
  * @author Zachary Tu
  *

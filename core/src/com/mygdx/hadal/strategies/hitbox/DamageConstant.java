@@ -9,9 +9,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy is used by explosives.
- * Explosions deal damage to all units but less damage to the user.
- * Because explosions are static, their knock back is based on positioning rather than their own momentum
+ * This strategy is used by hitboxes that do set knockback on hit regardless of its own position or direction.
+ * This is used by airblast
  * @author Zachary Tu
  *
  */

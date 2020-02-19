@@ -9,6 +9,9 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * The Codex is a hub event found in the multiplayer hub.
+ * Interacting with it gives the player options to change match settings.
+ * Settings are saved upon exiting the menu.
  * @author Zachary Tu
  *
  */

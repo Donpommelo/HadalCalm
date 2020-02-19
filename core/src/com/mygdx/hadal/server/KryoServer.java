@@ -13,7 +13,7 @@ import com.esotericsoftware.kryonet.Server;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.event.Start;
+import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -356,7 +356,7 @@ public class KryoServer {
 
 			@Override
 			public void execute() {
-				Start newSave = ps.getSavePoint();
+				StartPoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
 				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset);
@@ -378,6 +378,7 @@ public class KryoServer {
 		        //Inform the client that their new player has been created and give them their new id
 		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
 		        
+		        //sync client ui elements
 		        server.sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
 			}
 		});

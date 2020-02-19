@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import java.util.Arrays;
 
-import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.NothingActive;
@@ -61,7 +60,7 @@ public class PlayerBodyData extends BodyData {
 	private Player player;
 
 	//This is used by clients to display each player's hp percent in the ui and artifact slots in hub
-	private float overrideHpPercent, overrideArtifactSlots;
+	private float overrideHpPercent;
 	private boolean overrideOutOfAmmo;
 	
 	public PlayerBodyData(Player player, Loadout loadout) {
@@ -136,7 +135,6 @@ public class PlayerBodyData extends BodyData {
 	
 	/**
 	 * This is run when the server receives a request from a client to make a change to their loadout.
-	 * @param loadout
 	 */
 	public void syncLoadoutFromClient(UnlockEquip equip, UnlockArtifact artifactAdd, UnlockArtifact artifactRemove, UnlockActives active, UnlockCharacter character) {
 		
@@ -164,9 +162,9 @@ public class PlayerBodyData extends BodyData {
 	
 	/**
 	 * This is run when transitioning the player into a new map/world or respawning
-	 * @param newPlayer
+	 * @param newPlayer: the new player that this data belongs to.
 	 */
-	public void updateOldData(Player newPlayer, World newWorld) {
+	public void updateOldData(Player newPlayer) {
 		this.setEntity(newPlayer);
 		this.schmuck = newPlayer;
 		this.player = newPlayer;
@@ -424,6 +422,9 @@ public class PlayerBodyData extends BodyData {
 		syncServerLoadoutChange();
 	}
 	
+	/**
+	 * This checks if the player has too many artifacts and removes all of the ones over carrying capacity
+	 */
 	public void checkArtifactSlotCosts() {
 		
 		int slotsUsed = 0;
@@ -481,19 +482,25 @@ public class PlayerBodyData extends BodyData {
 			setEquip();
 		}
 		
+		//if this is a client, we send them a packet telling them to update their ui to match the new stats.
 		if (player.getState().isServer()) {
-			if (player.getConnID() == 0) {
-				
-			} else {
+			if (player.getConnID() != 0) {
 				HadalGame.server.sendPacketToPlayer(player, new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL), getAirblastCost(), getNumWeaponSlots(), getNumArtifactSlots()));
 			}
 		}
 	}
 	
+	/**
+	 * This returns the number of weapon slots after modifications
+	 */
 	public int getNumWeaponSlots() {
 		return Math.min((int) (Loadout.baseWeaponSlots + getStat(Stats.WEAPON_SLOTS)), Loadout.maxWeaponSlots);
 	}
 	
+	/**
+	 * This returns the number of artifact slots after modifications
+	 * The extra if/else is there b/c artifact slots are checked by the client when they use the reliquary hub event.
+	 */
 	public int getNumArtifactSlots() {
 		if (player.getState().isServer()) {
 			return Math.min((int) (Loadout.baseArtifactSlots + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
@@ -502,6 +509,9 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
+	/**
+	 * This returns the number of unused artifact slots
+	 */
 	public int getArtifactSlotsRemaining() {
 		int slotsUsed = 0;
 		
@@ -626,13 +636,7 @@ public class PlayerBodyData extends BodyData {
 
 	public void setOverrideHpPercent(float overrideHpPercent) {	this.overrideHpPercent = overrideHpPercent;	}
 	
-	public float getOverrideArtifactSlots() { return overrideArtifactSlots; }
-
-	public void setOverrideArtifactSlots(float overrideArtifactSlots) {	this.overrideArtifactSlots = overrideArtifactSlots;	}
-
 	public boolean isOverrideOutOfAmmo() { return overrideOutOfAmmo; }
 
 	public void setOverrideOutOfAmmo(boolean overrideOutOfAmmo) { this.overrideOutOfAmmo = overrideOutOfAmmo; }
-	
-	
 }

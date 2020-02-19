@@ -29,7 +29,7 @@ public class Ragdoll extends HadalEntity {
 	private TextureRegion ragdollSprite;
 	
 	//spread is for giving the initial ragdool a random velocity
-	private final static int spread = 60;
+	private final static int spread = 120;
 	
 	//how long does the ragdoll last
 	private float ragdollDuration;
@@ -99,6 +99,6 @@ public class Ragdoll extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(size), getPixelPosition(), sprite, ObjectSyncLayers.STANDARD, alignType.RAGDOLL);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(size), getPixelPosition(), sprite, ObjectSyncLayers.STANDARD, alignType.ROTATE);
 	}
 }

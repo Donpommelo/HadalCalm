@@ -35,8 +35,10 @@ public class Hitbox extends HadalEntity {
 	//lifespan is the time in seconds that the hitbox will exist before timing out.
 	protected float maxLifespan, lifeSpan;
 	
-	//filter describes the type of body the hitbox will register a hit on .(player, enemy or neutral)
+	//filter describes the type of schmuck the hitbox will register a hit on .(player, enemy or neutral)
 	protected short filter;
+	
+	//passability describes what types of entities the hitbox can collide with.
 	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL);
 	
 	public final static float defaultGravity = 0.0f;

@@ -22,6 +22,7 @@ public class Text extends AHadalActor {
 
 	protected float scale = 1.0f;
 	
+	//is this actor being moused over?
 	private boolean hover = false;
 	
 	private static float padding = 20.0f;
@@ -32,6 +33,7 @@ public class Text extends AHadalActor {
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = HadalGame.DEFAULT_TEXT_COLOR;
 		
+		//if the actor is a button, we check if it is moused over to display some visual indication of its size
 		if (button) {
 			this.addListener(new InputListener(){
 				
@@ -53,6 +55,7 @@ public class Text extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 		
+		//draw an additional window beneath this actor to indicate a button
 		if (hover) {
 			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY() - padding / 2, getWidth() + padding, getHeight() + padding);
 		}

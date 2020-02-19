@@ -57,10 +57,6 @@ public class MouseTracker extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {}
 
-	public Vector2 getDesiredLocation() {
-		return desiredLocation;
-	}
-
 	/**
 	 * When receiving a mouse location from client, the server updates that client's mouse
 	 */

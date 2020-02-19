@@ -6,6 +6,11 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.AssetList;
 
+/**
+ * This is a single sprite that can be drawn
+ * @author Zachary Tu
+ *
+ */
 public enum Sprite {
 	NOTHING(SpriteType.MISC, ""),
 	
@@ -156,8 +161,13 @@ public enum Sprite {
 	STAR(SpriteType.STAR, "starshot"),
 	;
 	
+	//this represents the atlas that we should read the sprite off of.
 	private SpriteType type;
+	
+	//this is the filename of the sprite
 	private String spriteId;
+	
+	//These are the frames of the sprite.
 	private Array<? extends TextureRegion> frames;
 	
 	Sprite(SpriteType type, String spriteId) {

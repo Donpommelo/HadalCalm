@@ -8,6 +8,11 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 import com.mygdx.hadal.strategies.shader.*;
 
+/**
+ * A Shader represents a vertex and fragment shader shader.
+ * @author Zachary Tu
+ *
+ */
 public enum Shader {
 
 	NOTHING("", "", true),
@@ -20,9 +25,16 @@ public enum Shader {
 	PLAYER_LIGHT("shaders/pass.vert", "shaders/darkness.frag", false, new Resolution(), new PlayerCoord(), new Light()),
 	;
 	
+	//filename for the vertex and fragment shaders
 	private String vertId, fragId;
+	
+	//the shader program.
 	private ShaderProgram shader;
+	
+	//a list of strategies the shader can use to read game information.
 	private ShaderStrategy[] strategies;
+	
+	//is this shader displayed in the background or foreground?
 	private boolean background;
 	
 	Shader(String vertId, String fragId, Boolean background, ShaderStrategy... strategies) {
@@ -32,12 +44,19 @@ public enum Shader {
 		this.background = background;
 	}
 	
+	/**
+	 * 
+	 * @param state: The game state
+	 * @param entityId: The id of the entity that will be shaded
+	 * @param duration: how long will this shader last?
+	 */
 	public void loadShader(PlayState state, String entityId, float duration) {
 		
 		if (this.equals(NOTHING)) {
 			return;
 		}
 		
+		//load the shader and create its strategies
 		shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
 		shader.begin();
 		
@@ -47,17 +66,24 @@ public enum Shader {
 		
 		shader.end();
 		
+		//The server tells the client to also display the shader
 		if (state.isServer()) {
 			HadalGame.server.sendToAllTCP(new Packets.SyncShader(entityId, this, duration));
 		}
 	}
 	
+	/**
+	 * This is run every game update and defers to the shader strategies to process game information
+	 */
 	public void shaderUpdate(PlayState state, float delta) {
 		for (ShaderStrategy strat: strategies) {
 			strat.controller(state, shader, delta);
 		}
 	}
 	
+	/**
+	 * This is run when the game window is resized and defers to the shader strategies to process game information
+	 */
 	public void shaderResize(PlayState state) {
 		for (ShaderStrategy strat: strategies) {
 			strat.resize(state, shader);
@@ -68,4 +94,3 @@ public enum Shader {
 	
 	public boolean isBackground() { return background; }
 }
-

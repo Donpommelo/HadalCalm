@@ -11,12 +11,16 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * Displacers apply a continuous displacement to entities overlapping them. This is distinct from currents in that it directly transforms the entity's position instead of using physics.
+ * This can be used for conveyor belts as well as moving platforms (see triggering behavior).
  * 
  * Triggered Behavior: N/A
- * Triggering Behavior: N/A
+ * Triggering Behavior: If not null, this represents an event that the displacer is connected to and will follow the movements of another event. 
+ * 
+ * When following another event, the displacer displaces equal to its own movement. This makes a player follow a horizontal platform they are standing on with no friction.
  * 
  * Fields:
- * N/A
+ * displaceX, displaceY: floats that indicate the amount of movement that should be performed.
  * 
  * @author Zachary Tu
  *
@@ -43,6 +47,8 @@ public class Displacer extends Event {
 			@Override
 			public void onRelease(HadalData fixB) {
 				super.onRelease(fixB);
+				
+				//when leaving a displacer, we simulate physics by applying a push in the direction of the displacement
 				if (fixB != null) {
 					if (fixB.getEntity().getBody() != null) {
 						fixB.getEntity().setLinearVelocity(fixB.getEntity().getLinearVelocity().add(vec.x * momentumScale, vec.y * momentumScale));
@@ -54,7 +60,6 @@ public class Displacer extends Event {
 					}
 				}
 			}
-			
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, 
@@ -65,11 +70,14 @@ public class Displacer extends Event {
 	@Override
 	public void controller(float delta) {
 		if (getConnectedEvent() == null) {
+			
+			//no connected event: displace all affected entities.
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				entity.setTransform(entity.getPosition().add(vec), entity.getBody().getAngle());
 			}
 		} else if (!getConnectedEvent().getBody().equals(null)) {
 			
+			//calculate movement of connected event. Move self and all affected entities by that amount
 			if (offset == null) {
 				offset = new Vector2(getConnectedEvent().getPixelPosition()).sub(startPos).scl(1 / PPM);
 			}

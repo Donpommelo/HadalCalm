@@ -109,6 +109,9 @@ public class MovingPoint extends Event {
 		} 
 	}
 	
+	/**
+	 * Add another event to be connected to this moving point
+	 */
 	public void addConnection(Event e) {
 		if (e != null) {
 			connected.add(e);
@@ -116,5 +119,8 @@ public class MovingPoint extends Event {
 		}
 	}
 
+	/**
+	 * This returns all connected events. This is so that event movers can move all connected events at once.
+	 */
 	public ArrayList<Event> getConnected() { return connected; }
 }

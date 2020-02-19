@@ -9,7 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * This ui element appears in the top left corner of the screen and displays a list of the player's artifacts
+ * This ui element appears in the bottom middle of the screen and displays a list of the player's artifacts
  * These statuses are in the form of an Artifact Tag, an object that allows the player to get more info by mousing over
  * 
  * @author Zachary Tu

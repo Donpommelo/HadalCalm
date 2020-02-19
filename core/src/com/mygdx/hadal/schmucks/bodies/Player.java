@@ -16,7 +16,7 @@ import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.Start;
+import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -74,6 +74,9 @@ public class Player extends PhysicsSchmuck {
 	private TextureRegion bodyBackSprite, armSprite, gemSprite, gemInactiveSprite, toolSprite;
 	private Animation<TextureRegion> bodyStillSprite, bodyRunSprite, headSprite;
 	
+	private TextureRegion reload, reloadMeter, reloadBar;
+	private Texture empty, full;
+	
 	private int armWidth, armHeight, headWidth, headHeight, bodyWidth, bodyHeight, bodyBackWidth, bodyBackHeight,
 	toolHeight, toolWidth, gemHeight, gemWidth;
 	
@@ -81,11 +84,8 @@ public class Player extends PhysicsSchmuck {
 	private Fixture feet, rightSensor, leftSensor;
 	private FeetData feetData, rightData, leftData;
 	
-	//These track whether the schmuck has specific artifacts equipped.
+	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.
 	private boolean scaling;
-		
-	private TextureRegion reload, reloadMeter, reloadBar;
-	private Texture empty, full;
 	
 	//counters for various cooldowns.
 	private final static float hoverCd = 0.08f;
@@ -147,17 +147,21 @@ public class Player extends PhysicsSchmuck {
 	private boolean reset;
 	
 	//this is the point we are starting at.
-	private Start start;
+	private StartPoint start;
 	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
-	 * @param x: player starting x position.
-	 * @param y: player starting x position.
+	 * @param startPos: the player's starting location
+	 * @param name: the player's name
 	 * @param startLoadout: This is the player's starting loadout
+	 * @param: oldData: If created after a stage transition, this is the data of the previous player.
+	 * @param connID: connection id. 0 if server.
+	 * @param reset: do we reset the player's stats after creating them?
+	 * @param start: the start point that the player spawns at.
 	 * 
 	 */
-	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, Start start) {
+	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
@@ -242,13 +246,14 @@ public class Player extends PhysicsSchmuck {
 		if (reset) {
 			playerData = new PlayerBodyData(this, startLoadout);
 		} else {
-			playerData.updateOldData(this, world);
+			playerData.updateOldData(this);
 		}
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, playerDensity, 0.0f, 0.0f, false, true, Constants.BIT_PLAYER, 
 				(short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY),
 				hitboxfilter, false, playerData);
 		
+		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
 		if (state.isServer()) {
 			this.feetData = new FeetData(UserDataTypes.FEET, this); 
 			
@@ -272,12 +277,9 @@ public class Player extends PhysicsSchmuck {
 			rightSensor.setUserData(rightData);
 		}
 		
+		//If the player is spawning into a new level, initialize loadout and give brief invulnerability.
 		if (reset) {
 			playerData.initLoadout();
-		}
-		
-		//Temp invuln on spawn
-		if (reset) {
 			playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
 		}
 				
@@ -292,6 +294,8 @@ public class Player extends PhysicsSchmuck {
 			playerData.statusProcTime(new ProcTime.PlayerCreate());
 		}
 		
+		//activate start point events (these usually just set up camera bounds/zoom and stuff like that
+		//This line is here so that it does not occur before events are done being created.
 		if (start != null && state.getPlayer().equals(this)) {
 			start.playerStart(this);
 		}
@@ -304,9 +308,12 @@ public class Player extends PhysicsSchmuck {
 	public void controller(float delta) {
 		
 		controllerCount += delta;
+		
+		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
 
+			//if the player is successfully hovering, run hover(). We check if hover is successful so that effects that run when hovering do not activate when not actually hovering (white smoker)
 			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&	playerData.getCurrentFuel() >= playerData.getHoverCost()) {
 				if (jumpCdCount < 0) {
 					hover();
@@ -345,10 +352,12 @@ public class Player extends PhysicsSchmuck {
 			playerData.getCurrentTool().reload(delta);
 		}
 		
+		//charge active item if it charges with time.
 		if (playerData.getActiveItem().getStyle().equals(chargeStyle.byTime)) {
 			playerData.getActiveItem().gainCharge(delta);
 		}
 		
+		//keep track of reload/charge percent to properly sync those fields in the ui
 		reloadPercent = getPlayerData().getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
 		chargePercent = getPlayerData().getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
 		
@@ -476,18 +485,6 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public void switchToSlot(int slot) {
 		playerData.switchWeapon(slot);
-	}
-	
-	/**
-	 * This returns the angle of the player's arm. What was this needed for again?
-	 */
-	@Override
-	public float getAttackAngle() {
-		if (armSprite.isFlipX()) {
-			return (float) Math.toRadians(attackAngle - 180);
-		} else {
-			return (float) Math.toRadians(attackAngle);
-		}
 	}
 	
 	private float armConnectXReal;
@@ -637,14 +634,13 @@ public class Player extends PhysicsSchmuck {
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 		}
 		
-		
-		
 		//This draws a heart by the player's sprite to indicate hp remaining
 		float heartX = getPixelPosition().x - Player.hbWidth * scale - empty.getWidth() * uiScale + 10;
 		float heartY = getPixelPosition().y + Player.hbHeight * scale / 2 - 5;
 		
 		float hpRatio = 0.0f;
 		
+		//render "out of ammo"
 		if (state.isServer()) {
 			hpRatio = playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP);
 			
@@ -730,12 +726,14 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), name, playerData.getLoadout());
+		return new Packets.CreatePlayer(entityID.toString(), startPos, name, playerData.getLoadout());
 	}
 	
 	/**
-	 * This is called every engine tick. The server player sends a packet to the corresponding client player.
-	 * This packet updates mouse location, groundedness, loadout and stat information
+	 * This is called every engine tick. 
+	 * The server player sends one packet to the corresponding client player and one to all players.
+	 * The unique packet contains info only needed for that client's ui (fuel, clip, ammo and active itemcharge percent.)
+	 * The universal packet contains location, arm angle, hp, weapon, groundedness, reload/charge/outofammo notifications
 	 */
 	@Override
 	public void onServerSync() {
@@ -778,13 +776,12 @@ public class Player extends PhysicsSchmuck {
 	private Vector2 endPt = new Vector2();
 	private Vector2 offset = new Vector2();
 	private final static float spawnDist = 2.0f;
-	
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
 	 */
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
-		
+
 		originPt.set(getPosition());
 		offset.set(startVelo);
 		endPt.set(getPosition()).add(offset.nor().scl(spawnDist + projSize / 4 / PPM));
@@ -797,16 +794,18 @@ public class Player extends PhysicsSchmuck {
 				@Override
 				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 					
-					if (fixture.getFilterData().categoryBits == Constants.BIT_WALL && fraction < shortestFraction) {
-							shortestFraction = fraction;
-							return fraction;
+					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL && fraction < shortestFraction) {
+						shortestFraction = fraction;
+						return fraction;
 					}
 					return -1.0f;
 				}
 				
 			}, originPt, endPt);
 		}
-		return originPt.add(offset.nor().scl((spawnDist + projSize / 4 / PPM) * shortestFraction)).scl(PPM);
+		
+		//The -1 here is just to deal with some weird physics stuff that made this act differently on different maps for some reason.
+		return originPt.add(offset.nor().scl((spawnDist + projSize / 4 / PPM) * shortestFraction - 1)).scl(PPM);
 	}
 	
 	@Override
@@ -861,5 +860,5 @@ public class Player extends PhysicsSchmuck {
 
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	
-	public Start getStart() { return start; }
+	public StartPoint getStart() { return start; }
 }

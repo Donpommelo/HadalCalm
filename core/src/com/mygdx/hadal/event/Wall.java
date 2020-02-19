@@ -11,16 +11,12 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 
 /**
- * A Semipermeable wall is a wall that some objects can pass through
+ * A Wall is a solid wall parsed from polylines from tiled.
  * 
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
  * 
  * Fields:
- * player: Boolean that describes whether players can pass through this. Default: true
- * hbox: Boolean that describes whether hitboxes can pass through this. Optional. Default: true
- * event: Boolean that describes whether this sensor touches events. Optional. Default: true
- * enemy: Boolean that describes whether this sensor touches enemies. Optional. Default: true
  * @author Zachary Tu
  *
  */

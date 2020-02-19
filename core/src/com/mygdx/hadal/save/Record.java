@@ -34,13 +34,13 @@ public class Record {
 	private Map<String, Boolean> unlockCharacter;
 	private Map<String, Boolean> unlockLevel;
 	
+	//max size of name createable in title screen
 	private static final int maxNameLength = 100;
 	
 	public Record() {}
 	
 	/**
 	 * This increments the player's scrap and saves
-	 * @param amount
 	 */
 	public void incrementScrap(int amount) {
 		scrap = scrap + amount;

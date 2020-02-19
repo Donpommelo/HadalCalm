@@ -51,6 +51,7 @@ public class DialogBox extends AHadalActor {
 	//For example, the text will appear when the window's x = maxX * this variable
 	private static final float textAppearThreshold = 0.9f;
 	
+	//this keeps track of the actor's animation frames
 	protected float animCdCount;
 	
 	public DialogBox(PlayState ps, int x, int y) {
@@ -132,6 +133,8 @@ public class DialogBox extends AHadalActor {
 			currY = 0;
 		}
 		dialogs.addLast(new Dialog(info, radio, trigger));
+		
+		//add new dialog to the message log.
 		ps.getMessageWindow().addText(dialogs.last().getInfo().getName() + ": " + dialogs.last().getInfo().getText());
 	}
 	

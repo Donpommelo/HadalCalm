@@ -23,7 +23,7 @@ import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * Bosses are enemies with certain actions
+ * enemies are schumcks that attack the player.
  * @author Zachary Tu
  *
  */
@@ -39,10 +39,10 @@ public class Enemy extends Schmuck {
     private boolean isBoss = false;
     private String name;
 	    
-	//the default speed that the boss moves around
+	//the default speed that the enemy moves around
 	protected int moveSpeed;
 	
-	//This is the default cooldown between attacks for the boss
+	//This is the default cooldown between attacks for the enemy
 	private float attackCd;
 	
 	//This is the range that the enemy will be able to detect targets
@@ -51,32 +51,32 @@ public class Enemy extends Schmuck {
     //This is the entity this enemy is trying to attack
   	protected HadalEntity target;
   	
-	//This is the duration until the boss will attack gain
+	//This is the duration until the enemy will attack gain
     private float aiAttackCdCount = 0.0f;
     
-    //This is the duration until the boss will perform the next action in its action queue (or secondary action queue)
+    //This is the duration until the enemy will perform the next action in its action queue (or secondary action queue)
     private float aiActionCdCount = 0.0f;
     private float aiSecondaryActionCdCount = 0.0f;
 	
-  	//These are used for raycasting to determing whether the player is in vision of the fish.
+  	//These are used for raycasting to determing whether the player is in vision of the fenemyish.
   	private float shortestFraction;
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
-	//this is the angle that the boss is currently attacking in
+	//this is the angle that the enemy is currently attacking in
 	protected float attackAngle;
 	
-	//This is a dummy event in the map that the boss is moving towards
+	//This is a dummy event in the map that the enemy is moving towards
 	private Vector2 movementTarget;
 	
-	//The action queues and current action hold the boss' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
-	private ArrayList<BossAction> actions;
-	private BossAction currentAction;
+	//The action queues and current action hold the enemy' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
+	private ArrayList<EnemyAction> actions;
+	private EnemyAction currentAction;
 	
-	private ArrayList<BossAction> secondaryActions;
-	private BossAction currentSecondaryAction;
+	private ArrayList<EnemyAction> secondaryActions;
+	private EnemyAction currentSecondaryAction;
 	
-	//this is the boss's sprite
+	//this is the enemy sprite
 	protected Sprite sprite;
 
 	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
@@ -90,8 +90,8 @@ public class Enemy extends Schmuck {
 		this.spawner = spawner;
 		this.sprite = sprite;
 		
-		this.actions = new ArrayList<BossAction>();
-		this.secondaryActions = new ArrayList<BossAction>();
+		this.actions = new ArrayList<EnemyAction>();
+		this.secondaryActions = new ArrayList<EnemyAction>();
 	}
 	
 	@Override
@@ -101,6 +101,7 @@ public class Enemy extends Schmuck {
 		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, false, true, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 				hitboxfilter, false, getBodyData());
 		
+		//on death, the enemy will activate its spawner's connected event (if existent)
 		getBodyData().addStatus(new Status(state, getBodyData()) {
 			
 			@Override
@@ -111,6 +112,7 @@ public class Enemy extends Schmuck {
 			}
 		});
 		
+		//if boss, activate on boss spawn statuses for all players
 		if (isBoss) {
 			state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
 			if (state.isServer()) {
@@ -184,8 +186,14 @@ public class Enemy extends Schmuck {
 		}
 	}
 	
+	/**
+	 * This is run when the enemy performs an action. Override in child classes.
+	 */
 	public void attackInitiate() {};
 	
+	/**
+	 * This is used by the enemy to find a valid target
+	 */
 	public void acquireTarget() {
 		
 		target = null;
@@ -253,8 +261,6 @@ public class Enemy extends Schmuck {
 		return new Packets.CreateEnemy(entityID.toString(), type, isBoss, name);
 	}
 
-	public HadalEntity getTarget() { return target; }
-
 	public void setTarget(HadalEntity target, SteeringBehavior<Vector2> behavior) {
 		super.setBehavior(behavior);
 		this.target = target;
@@ -272,11 +278,11 @@ public class Enemy extends Schmuck {
 
 	public void setMovementTarget(Vector2 movementTarget) { this.movementTarget = movementTarget; }
 
-	public ArrayList<BossAction> getActions()  {return actions; }
+	public ArrayList<EnemyAction> getActions()  {return actions; }
 
-	public ArrayList<BossAction> getSecondaryActions() { return secondaryActions; }
+	public ArrayList<EnemyAction> getSecondaryActions() { return secondaryActions; }
 
-	public void setSecondaryActions(ArrayList<BossAction> secondaryActions) { this.secondaryActions = secondaryActions; }
+	public void setSecondaryActions(ArrayList<EnemyAction> secondaryActions) { this.secondaryActions = secondaryActions; }
 
 	public float getAttackAngle() {	return attackAngle; }
 

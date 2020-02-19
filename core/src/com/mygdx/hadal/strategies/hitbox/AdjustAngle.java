@@ -6,7 +6,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This is the default strategy that most hboxes have
+ * This strategy makes hboxes adjust their angle according to their velocity.
+ * Usually used by long hitboxes
  * @author Zachary Tu
  *
  */

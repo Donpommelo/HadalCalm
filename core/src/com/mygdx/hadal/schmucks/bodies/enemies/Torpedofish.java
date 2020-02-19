@@ -2,7 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.BossUtils;
+import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -47,8 +47,8 @@ public class Torpedofish extends EnemySteering {
 	private final static float explosionKnockback = 25.0f;
 	@Override
 	public void attackInitiate() {
-		BossUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
-		getActions().add(new BossAction(this, 0.0f) {
+		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
+		getActions().add(new EnemyAction(this, 0.0f) {
 			
 			@Override
 			public void execute() {
@@ -57,14 +57,14 @@ public class Torpedofish extends EnemySteering {
 					return;
 				}
 				
-				Vector2 dist = new Vector2(target.getPixelPosition().sub(boss.getPixelPosition())).nor().scl(projectileSpeed);
-				Hitbox hbox = new RangedHitbox(state, boss.getPixelPosition(), projectileSize, lifespan, dist, boss.getHitboxfilter(), true, true, boss, projSprite);
+				Vector2 dist = new Vector2(target.getPixelPosition().sub(enemy.getPixelPosition())).nor().scl(projectileSpeed);
+				Hitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), projectileSize, lifespan, dist, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new ContactUnitDie(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new ContactWallDie(state, hbox, boss.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, boss.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
-				hbox.addStrategy(new DieExplode(state, hbox, boss.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
+				hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
 			}
 		});
 	};

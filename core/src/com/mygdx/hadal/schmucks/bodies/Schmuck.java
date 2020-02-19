@@ -153,8 +153,7 @@ public class Schmuck extends HadalEntity {
 	 * instead of after pressing.
 	 * @param tool: tool to release
 	 * @param hitbox: aka filter. Who will be affected by this equipment? Player or enemy or neutral?
-	 * @param x: x screen coordinate that represents where the tool is being directed.
-	 * @param y: y screen coordinate that represents where the tool is being directed.
+	 * @param mouseLocation: screen coordinate that represents where the tool is being directed.
 	 */
 	public void useToolRelease(Equipable tool, short hitbox, Vector2 mouseLocation) {
 		tool.release(state, getBodyData());
@@ -162,7 +161,7 @@ public class Schmuck extends HadalEntity {
 	
 	/**
 	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
-	 * This packet updates movestate, hp, fuel and flashingness
+	 * This packet updates movestate.
 	 */
 	@Override
 	public void onServerSync() {
@@ -195,8 +194,6 @@ public class Schmuck extends HadalEntity {
 	public HadalData getHadalData() { return bodyData; }
 	
 	public BodyData getBodyData() {	return bodyData; }
-	
-	public float getAttackAngle() {	return 0; }
 	
 	public SchmuckMoveStates getMoveState() { return moveState; }
 	

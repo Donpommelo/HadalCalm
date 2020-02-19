@@ -31,5 +31,8 @@ public abstract class Prefabrication {
 	 */
 	public abstract void generateParts();
 	
+	/**
+	 * This returns a list of ids of the events that make up the prefab that should be moved if the prefab is attached to a move point.
+	 */
 	public ArrayList<String> getConnectedEvents() { return new ArrayList<String>(); };
 }

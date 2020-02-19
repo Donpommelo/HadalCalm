@@ -34,7 +34,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.Event;
-import com.mygdx.hadal.event.Start;
+import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.event.utility.PositionDummy;
 import com.mygdx.hadal.handlers.WorldContactListener;
 import com.mygdx.hadal.input.PlayerController;
@@ -123,6 +123,7 @@ public class PlayState extends GameState {
 	//If there is an objective target that has a display if offscreen, this is that entity.
 	protected HadalEntity objectiveTarget;
 	
+	//do players have infinite lives in this map?
 	private boolean unlimitedLife;
 	
 	//The current zoom of the camera
@@ -132,7 +133,7 @@ public class PlayState extends GameState {
 	protected float zoomDesired;
 	
 	//If a player respawns, they will respawn at the coordinates of a safe point from this list.
-	private ArrayList<Start> savePoints;
+	private ArrayList<StartPoint> savePoints;
 	
 	//This is an arrayList of ids to dummy events. These are used for enemy ai processing
 	private HashMap<String, PositionDummy> dummyPoints;
@@ -242,7 +243,7 @@ public class PlayState extends GameState {
 		TiledObjectUtil.clearEvents();
 		
 		//Set up "save point" as starting point
-		this.savePoints = new ArrayList<Start>();
+		this.savePoints = new ArrayList<StartPoint>();
 				
 		//Only the server processes collision objects, events and triggers
 		if (server) {
@@ -253,7 +254,7 @@ public class PlayState extends GameState {
 		}
 
 		//Create the player and make the camera focus on it
-		Start getSave = getSavePoint(startId);
+		StartPoint getSave = getSavePoint(startId);
 		this.player = createPlayer(getSave, gsm.getRecord().getName(), loadout, old, 0, reset);
 		if (getSave != null) {
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
@@ -346,6 +347,7 @@ public class PlayState extends GameState {
 		
 		accumulator += delta;
 		
+		//this makes the physics separate from the game framerate
 		while (accumulator >= physicsTime) {
 			accumulator -= physicsTime;
 			
@@ -460,7 +462,6 @@ public class PlayState extends GameState {
 	public void processCommonStateProperties(float delta) {
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
-		
 		synchronized(addPacketEffects) {
 			for (PacketEffect effect: addPacketEffects) {
 				packetEffects.add(effect);
@@ -609,11 +610,12 @@ public class PlayState extends GameState {
 		switch (nextState) {
 		case RESPAWN:
 			gsm.getApp().fadeIn();
-			Start getSave = getSavePoint();
+			StartPoint getSave = getSavePoint();
 			
 			//Create a new player
 			player = createPlayer(getSave, gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
-			
+			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
+
 			((PlayerController)controller).setPlayer(player);
 
 			//Make nextState null so we can transition again
@@ -685,7 +687,7 @@ public class PlayState extends GameState {
 	 * @param reset: should we reset the new player's hp/fuel/ammo?
 	 * @return the newly created player
 	 */
-	public Player createPlayer(Start start, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
+	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 		
@@ -927,10 +929,10 @@ public class PlayState extends GameState {
 	 * This acquires the level's save points. If none, respawn at starting location. If many, choose one randomly
 	 * @return a save point to spawn a respawned player at
 	 */
-	public Start getSavePoint(String startId) {
-		ArrayList<Start> validStarts = new ArrayList<Start>();
+	public StartPoint getSavePoint(String startId) {
+		ArrayList<StartPoint> validStarts = new ArrayList<StartPoint>();
 		
-		for(Start s: savePoints) {
+		for(StartPoint s: savePoints) {
 			if (s.getStartId().equals(startId)) {
 				validStarts.add(s);
 			}
@@ -944,14 +946,14 @@ public class PlayState extends GameState {
 		return validStarts.get(randomIndex);
 	}
 	
-	public Start getSavePoint() {
+	public StartPoint getSavePoint() {
 		return getSavePoint(startId);
 	}
 	
 	/**
 	 * This adds a save point to the list of available spawns
 	 */
-	public void addSavePoint(Start start) {
+	public void addSavePoint(StartPoint start) {
 		savePoints.add(start);
 	}
 	

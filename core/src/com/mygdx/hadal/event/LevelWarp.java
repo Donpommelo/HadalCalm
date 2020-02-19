@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  * Fields:
  * level: The string filename of the level that the player will be warped to.
  * reset: should we reset the player's loadout? Optional. Default: false.
- * instant: should we transport instantly or have a transition?. Optional. Default: true.
+ * startId: which start event should we start at? 
  * 
  * @author Zachary Tu
  *
@@ -24,6 +24,8 @@ public class LevelWarp extends Event {
 
 	private String level;
 	private String startId;
+	
+	//have we warped yet? Do we reset player stats on warp?
 	private boolean warpStart, reset;
 	
 	public LevelWarp(PlayState state, String level, boolean reset, String startId) {
@@ -48,6 +50,8 @@ public class LevelWarp extends Event {
 	
 	@Override
 	public void controller(float delta) {
+		
+		//check warpstart to avoid double loading level. Only the server does warps.
 		if (warpStart && state.isServer()) {
 			warpStart = false;
 			

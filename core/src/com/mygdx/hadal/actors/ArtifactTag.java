@@ -18,6 +18,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
  */
 public class ArtifactTag extends AHadalActor {
 
+	//This is the artifact that this tag represents
 	private UnlockArtifact artifact;
 	
 	private BitmapFont font;
@@ -27,6 +28,7 @@ public class ArtifactTag extends AHadalActor {
 	
 	private TextureRegion ready;
 	
+	//is this ui element moused over? display extra info if it is.
 	private boolean mouseOver;
 	
 	public ArtifactTag(UnlockArtifact artifact) {
@@ -40,6 +42,7 @@ public class ArtifactTag extends AHadalActor {
 		mouseOver = false;
 		
 		addListener(new ClickListener() {
+			
 			@Override
 			public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 				super.enter(event, x, y, pointer, fromActor);
