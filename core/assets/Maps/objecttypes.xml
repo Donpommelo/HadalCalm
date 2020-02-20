@@ -242,6 +242,12 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="Pusher" color="#a0a0a4">
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+  <property name="xPush" type="float" default="0"/>
+  <property name="yPush" type="float" default="0"/>
+ </objecttype>
  <objecttype name="Quartermaster" color="#a0a0a4">
   <property name="shopId" type="string"/>
   <property name="tag" type="string" default="QUARTERMASTER"/>

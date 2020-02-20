@@ -29,7 +29,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class SettingState extends GameState {
 	
 	//These are all of the display and buttons visible to the player.
-	private Text displayOption, controlOption, audioOption, exitOption, saveOption, resetOption;
+	private Text displayOption, controlOption, audioOption, miscOption, exitOption, saveOption, resetOption;
 	
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
@@ -47,7 +47,7 @@ public class SettingState extends GameState {
 	
 	private SelectBox<String> resolutionOptions, framerateOptions;
 	private Slider sound, music, master;
-	private CheckBox fullscreen, vsync;
+	private CheckBox fullscreen, vsync, randomNameAlliteration;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
@@ -127,6 +127,18 @@ public class SettingState extends GameState {
 			    });
 				audioOption.setScale(optionsScale);
 				
+				miscOption = new Text("MISC", 0, 0, true);
+				miscOption.addListener(new ClickListener() {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH1.play(gsm);
+						miscSelected();
+			        }
+					
+			    });
+				miscOption.setScale(optionsScale);
+				
 				exitOption = new Text("EXIT?", 0, 0, true);
 				exitOption.addListener(new ClickListener() {
 					
@@ -178,6 +190,7 @@ public class SettingState extends GameState {
 				options.add(displayOption).pad(optionsPad).row();
 				options.add(controlOption).pad(optionsPad).row();
 				options.add(audioOption).pad(optionsPad).row();
+				options.add(miscOption).pad(optionsPad).row();
 				options.add(saveOption).pad(optionsPad).row();
 				options.add(resetOption).pad(optionsPad).row();
 				options.add(exitOption).pad(optionsPad).row();
@@ -371,6 +384,17 @@ public class SettingState extends GameState {
 		details.add(master).row();
 	}
 	
+	public void miscSelected() {
+		details.clear();
+		currentlyEditing = null;
+		currentTab = settingTab.MISC;
+		
+		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
+		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
+		
+		details.add(randomNameAlliteration).row();
+	}
+	
 	/**
 	 * Save the player chosen settings of whichever tab they are editing
 	 */
@@ -395,6 +419,10 @@ public class SettingState extends GameState {
 			gsm.getSetting().setMasterVolume(master.getValue());
 			gsm.getSetting().saveSetting();
 			audioSelected();
+		case MISC:
+			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
+			gsm.getSetting().saveSetting();
+			miscSelected();
 		default:
 			break;
 		}
@@ -419,6 +447,10 @@ public class SettingState extends GameState {
 			gsm.getSetting().resetAudio();
 			gsm.getSetting().saveSetting();
 			audioSelected();
+		case MISC:
+			gsm.getSetting().resetMisc();
+			gsm.getSetting().saveSetting();
+			miscSelected();
 		default:
 			break;
 		}
@@ -481,6 +513,7 @@ public class SettingState extends GameState {
 		DISPLAY,
 		CONTROLS,
 		AUDIO,
+		MISC,
 		GAMEPLAY,
 		MULTIPLAYER,
 		

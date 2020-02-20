@@ -303,6 +303,11 @@ public class TiledObjectUtil {
 					object.getProperties().get("continuous", true, boolean.class),
 					object.getProperties().get("angle", 0.0f, float.class));
 		}
+		if (object.getName().equals("Pusher")) {
+			e = new Pusher(state,
+					object.getProperties().get("xPush", 0.0f, float.class),
+					object.getProperties().get("yPush", 0.0f, float.class));
+		}
 		if (object.getName().equals("Platform")) {
 			e = new Platform(state, position, size, 
 					object.getProperties().get("restitution", 0.0f, float.class), 

@@ -20,6 +20,7 @@ public class Setting {
 	private float soundVolume;
 	private float musicVolume;
 	private float masterVolume;
+	private boolean randomNameAlliteration;
 	
 	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
 	private int timer;
@@ -69,7 +70,6 @@ public class Setting {
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
 	}
 	
-	//sets display settings to default values
 	public void resetDisplay() {
 		resolution = 1;
 		framerate = 1;
@@ -77,11 +77,14 @@ public class Setting {
 		vsync = false;
 	}
 	
-	//sets audio settings to default values
 	public void resetAudio() {
 		soundVolume = 0.5f;
 		musicVolume = 0.5f;
 		masterVolume = 0.5f;
+	}
+	
+	public void resetMisc() {
+		randomNameAlliteration = true;
 	}
 	
 	public void setTimer(int timer) {
@@ -173,6 +176,8 @@ public class Setting {
 
 	public void setMasterVolume(float masterVolume) { this.masterVolume = masterVolume; }
 
+	public void setRandomNameAlliteration(boolean randomNameAlliteration) { this.randomNameAlliteration = randomNameAlliteration; }
+
 	public int getResolution() { return resolution; }
 	
 	public int getFramerate() { return framerate; }
@@ -186,6 +191,8 @@ public class Setting {
 	public float getMusicVolume() {	return musicVolume; }
 
 	public float getMasterVolume() { return masterVolume; }
+	
+	public boolean isRandomNameAlliteration() {	return randomNameAlliteration; }
 	
 	public int getTimer() { return timer; }
 	

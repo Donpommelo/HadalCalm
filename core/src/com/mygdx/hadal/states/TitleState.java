@@ -270,7 +270,7 @@ public class TitleState extends GameState {
 						
 						SoundEffect.UISWITCH3.play(gsm);
 						
-						enterName.setText(NameGenerator.generateFirstLast(true));
+						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
 			        	setNotification("RANDOM NAME GENERATED!");
 			        }
 				});

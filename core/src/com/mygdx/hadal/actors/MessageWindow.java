@@ -1,5 +1,7 @@
 package com.mygdx.hadal.actors;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -30,6 +32,8 @@ public class MessageWindow {
 	public static final int logEntryHeight = 20;
 	public static final float logScale = 0.25f;
 	
+	public static final float logPadding = 10.0f;
+	
 	private PlayState state;
 	
 	private Table tableOuter, tableInner, tableLog; 
@@ -41,13 +45,18 @@ public class MessageWindow {
 	//is this window currently visible?
 	private boolean active;
 	
+	private final static int maxMessageLength = 50;
+	
+	private static ArrayList<String> textRecord = new ArrayList<String>();
+	
 	public MessageWindow(PlayState state) {
 		this.state = state;
 		this.active = false;
 		
 		this.tableOuter = new Table().center();
 		this.tableInner = new Table().center();
-		tableLog = new Table().center();
+		this.tableLog = new Table().center();
+//		this.tableLog.setDebug(true);
 		addTable();
 	}
 	
@@ -128,10 +137,14 @@ public class MessageWindow {
 		tableInner.setHeight(height);
 		tableOuter.add(new MenuWindow(0, 0, width, height));
 		
+		tableLog.setWidth(width);
+		tableLog.setHeight(height);
+		
 		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
 		textLog.setFadeScrollBars(true);
 		
 		enterMessage = new TextField("", GameStateManager.getSkin());
+		enterMessage.setMaxLength(maxMessageLength);
 		
 		sendMessage = new Text("SEND", 0, 0, true);
 		sendMessage.setScale(0.5f);
@@ -157,13 +170,18 @@ public class MessageWindow {
 			}
 		});
 
-		tableInner.add(textLog).colspan(2).expand().pad(15).top().row();
+		tableInner.add(textLog).colspan(2).expand().pad(15).top().left().row();
 		tableInner.add(enterMessage).colspan(2).expand(1, 0).bottom().row();
-		tableInner.add(sendMessage).pad(15).bottom().left();
-		tableInner.add(backButton).pad(15).bottom().right();
+		tableInner.add(backButton).pad(15).bottom().left();
+		tableInner.add(sendMessage).pad(15).bottom().right();
 		
 		//windows starts off retracted
 		active = false;
+		
+		//load previously sent messages so chat log doesn't clear on level transition
+		for (String s: textRecord) {
+			addTextLine(s);
+		}
 	}
 	
 	/**
@@ -171,10 +189,14 @@ public class MessageWindow {
 	 * @param text
 	 */
 	public void addText(String text) {
+		textRecord.add(text);
+		addTextLine(text);
+	}
+	
+	public void addTextLine(String text) {
 		Text newEntry = new Text(text, 0, 0, false);
 		newEntry.setScale(logScale);
-		tableLog.add(newEntry).height(logEntryHeight).left();
-		tableLog.row();
+		tableLog.add(newEntry).height(logEntryHeight).pad(logPadding, logPadding, logPadding, logPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 	}
 }

@@ -47,10 +47,8 @@ public class Navigations extends HubEvent {
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);
-			hub.getTableOptions().add(itemChoose).pad(UIHub.optionsPadding, 0, UIHub.optionsPadding, 0);
-			hub.getTableOptions().row();
+			hub.getTableOptions().add(itemChoose).pad(UIHub.optionsPadding, 0, UIHub.optionsPadding, 0).row();
 		}
-		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight);
-		hub.getTableOptions().row();
+		hub.getTableOptions().add(new Text("", 0, 0, false)).height(UIHub.optionsHeight).row();
 	}
 }

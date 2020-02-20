@@ -95,7 +95,7 @@
   </object>
   <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="928" width="288" height="16"/>
   <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="928" width="288" height="16"/>
-  <object id="30" name="Buzzsaw" type="Buzzsaw" x="576" y="1248" width="160" height="160">
+  <object id="30" name="Buzzsaw" type="Buzzsaw" x="592" y="1264" width="128" height="128">
    <properties>
     <property name="damage" type="float" value="5"/>
     <property name="triggeredId" value="saw1"/>
@@ -157,7 +157,7 @@
     <property name="triggeringId" value="dummy9"/>
    </properties>
   </object>
-  <object id="40" name="Buzzsaw" type="Buzzsaw" x="1152" y="416" width="160" height="160">
+  <object id="40" name="Buzzsaw" type="Buzzsaw" x="1168" y="432" width="128" height="128">
    <properties>
     <property name="damage" type="float" value="5"/>
     <property name="triggeredId" value="saw2"/>
@@ -213,7 +213,7 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="48" name="Buzzsaw" type="Buzzsaw" x="864" y="864" width="160" height="160">
+  <object id="48" name="Buzzsaw" type="Buzzsaw" x="880" y="880" width="128" height="128">
    <properties>
     <property name="damage" type="float" value="5"/>
     <property name="triggeredId" value="saw3"/>

@@ -4,6 +4,7 @@ framerate: 3
 soundVolume: 1
 musicVolume: 0.5
 masterVolume: 0.5
+randomNameAlliteration: true
 timer: 2
 lives: 3
 loadoutType: 1

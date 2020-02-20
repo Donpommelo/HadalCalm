@@ -39,6 +39,8 @@ public class Buzzsaw extends Event {
 	private final static float spinSpeed = 7.5f;
 	private final static float damageInterval = 1 / 60f;
 	
+	private final static float spriteScale = 1.4f;
+	
 	public Buzzsaw(PlayState state, Vector2 startPos, Vector2 size, float dps, short filter) {
 		super(state,  startPos, size);
 		this.dps = dps;
@@ -81,10 +83,10 @@ public class Buzzsaw extends Event {
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
-				getPixelPosition().x - size.x / 2,
-				getPixelPosition().y - size.y / 2,
-                size.x / 2, size.y / 2,
-                size.x, size.y, 1, 1, angle);
+				getPixelPosition().x - size.x / 2 * spriteScale,
+				getPixelPosition().y - size.y / 2 * spriteScale,
+                size.x / 2 * spriteScale, size.y / 2 * spriteScale,
+                size.x * spriteScale, size.y * spriteScale, 1, 1, angle);
 	}
 	
 	@Override
