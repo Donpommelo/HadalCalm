@@ -39,14 +39,14 @@
     <property name="triggeringId" value="portal2"/>
    </properties>
   </object>
-  <object id="12" name="Prefab" type="Prefab" x="1472" y="3328" width="96" height="96">
+  <object id="12" name="Prefab" type="PrefabWeapon" x="1472" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
   <object id="16" name="Destr_Obj" type="Destr_Obj" x="2400" y="3200" width="64" height="64"/>
-  <object id="20" name="Prefab" type="Prefab" x="448" y="3328" width="96" height="96">
+  <object id="20" name="Prefab" type="PrefabLeverActivate" x="448" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="shaderTest1"/>
@@ -59,7 +59,7 @@
     <property name="triggeredId" value="shaderTest1"/>
    </properties>
   </object>
-  <object id="23" name="Prefab" type="Prefab" x="608" y="3328" width="96" height="96">
+  <object id="23" name="Prefab" type="PrefabLeverActivate" x="608" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="shaderTest2"/>
@@ -72,7 +72,7 @@
     <property name="triggeredId" value="shaderTest2"/>
    </properties>
   </object>
-  <object id="25" name="Prefab" type="Prefab" x="768" y="3328" width="96" height="96">
+  <object id="25" name="Prefab" type="PrefabLeverActivate" x="768" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="shaderTest3"/>
@@ -85,7 +85,7 @@
     <property name="triggeredId" value="shaderTest3"/>
    </properties>
   </object>
-  <object id="27" name="Prefab" type="Prefab" x="1088" y="3328" width="96" height="96">
+  <object id="27" name="Prefab" type="PrefabLeverActivate" x="1088" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="shaderTest5"/>
@@ -105,7 +105,7 @@
     <property name="triggeredId" value="testSpawn"/>
    </properties>
   </object>
-  <object id="36" name="Prefab" type="Prefab" x="2176" y="2336" width="96" height="96">
+  <object id="36" name="Prefab" type="PrefabLeverActivate" x="2176" y="2336" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="testSpawn"/>
@@ -117,7 +117,7 @@
     <property name="currentY" type="float" value="5"/>
    </properties>
   </object>
-  <object id="40" name="Prefab" type="Prefab" x="928" y="3328" width="96" height="96">
+  <object id="40" name="Prefab" type="PrefabLeverActivate" x="928" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="shaderTest4"/>
@@ -131,7 +131,7 @@
    </properties>
   </object>
   <object id="42" name="Dropthrough" type="Dropthrough" x="768" y="2944" width="576" height="32"/>
-  <object id="44" name="Prefab" type="Prefab" x="1472" y="3040" width="96" height="96">
+  <object id="44" name="Prefab" type="PrefabSpawnerUnlock" x="1472" y="3040" width="96" height="96">
    <properties>
     <property name="name" value="RING_OF_TESTING"/>
     <property name="prefabId" value="SpawnerUnlock"/>
@@ -140,7 +140,7 @@
    </properties>
   </object>
   <object id="45" name="Dropthrough" type="Dropthrough" x="1440" y="3136" width="480" height="32"/>
-  <object id="48" name="Prefab" type="Prefab" x="1728" y="3040" width="96" height="96">
+  <object id="48" name="Prefab" type="PrefabSpawnerUnlock" x="1728" y="3040" width="96" height="96">
    <properties>
     <property name="name" value="ANCHOR_SMASH"/>
     <property name="prefabId" value="SpawnerUnlock"/>
@@ -148,7 +148,7 @@
     <property name="type" value="ACTIVE"/>
    </properties>
   </object>
-  <object id="49" name="Prefab" type="Prefab" x="1600" y="3040" width="96" height="96">
+  <object id="49" name="Prefab" type="PrefabSpawnerUnlock" x="1600" y="3040" width="96" height="96">
    <properties>
     <property name="name" value="MORAYGUN"/>
     <property name="prefabId" value="SpawnerUnlock"/>
@@ -169,7 +169,7 @@
     <property name="triggeringId" value="startTimer,u1,u2,u3"/>
    </properties>
   </object>
-  <object id="52" name="Prefab" type="Prefab" x="1600" y="3328" width="96" height="96">
+  <object id="52" name="Prefab" type="PrefabWeapon" x="1600" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w2"/>
@@ -201,7 +201,7 @@
     <property name="sprite" value="NOTHING"/>
    </properties>
   </object>
-  <object id="59" name="Prefab" type="Prefab" x="1920" y="3232" width="96" height="192">
+  <object id="59" name="Prefab" type="PrefabDoor" x="1920" y="3232" width="96" height="192">
    <properties>
     <property name="prefabId" value="Door"/>
     <property name="speed" type="float" value="7.5"/>
@@ -216,7 +216,7 @@
   </object>
   <object id="62" name="Destr_Obj" type="Destr_Obj" x="2400" y="3136" width="64" height="64"/>
   <object id="63" name="Destr_Obj" type="Destr_Obj" x="2400" y="3072" width="64" height="64"/>
-  <object id="66" name="Prefab" type="Prefab" x="2528" y="3168" width="96" height="96">
+  <object id="66" name="Prefab" type="PrefabSpawnerTriggered" x="2528" y="3168" width="96" height="96">
    <properties>
     <property name="power" type="float" value="100"/>
     <property name="prefabId" value="SpawnerTriggered"/>
@@ -224,7 +224,7 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="67" name="Prefab" type="Prefab" x="2784" y="3168" width="96" height="96">
+  <object id="67" name="Prefab" type="PrefabSpawnerTriggered" x="2784" y="3168" width="96" height="96">
    <properties>
     <property name="power" type="float" value="100"/>
     <property name="prefabId" value="SpawnerTriggered"/>
@@ -232,13 +232,13 @@
     <property name="type" type="int" value="0"/>
    </properties>
   </object>
-  <object id="68" name="Prefab" type="Prefab" x="2656" y="3168" width="96" height="96">
+  <object id="68" name="Prefab" type="PrefabLeverActivate" x="2656" y="3168" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="fuel1"/>
    </properties>
   </object>
-  <object id="69" name="Prefab" type="Prefab" x="2912" y="3168" width="96" height="96">
+  <object id="69" name="Prefab" type="PrefabLeverActivate" x="2912" y="3168" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="hp1"/>
@@ -276,13 +276,13 @@
   <object id="76" name="Reliquary" type="Reliquary" x="1760" y="2688" width="96" height="96"/>
   <object id="77" name="Dispensary" type="Dispensary" x="1888" y="2688" width="96" height="96"/>
   <object id="78" name="Dormitory" type="Dormitory" x="2016" y="2688" width="96" height="96"/>
-  <object id="80" name="Prefab" type="Prefab" x="2048" y="3328" width="96" height="96">
+  <object id="80" name="Prefab" type="PrefabLeverActivate" x="2048" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="door1"/>
    </properties>
   </object>
-  <object id="81" name="Prefab" type="Prefab" x="1792" y="3328" width="96" height="96">
+  <object id="81" name="Prefab" type="PrefabLeverActivate" x="1792" y="3328" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="door1"/>
@@ -358,21 +358,21 @@
     <property name="triggeringId" value="dummy3"/>
    </properties>
   </object>
-  <object id="101" name="Prefab" type="Prefab" x="2752" y="2880" width="96" height="96">
+  <object id="101" name="Prefab" type="PrefabLeverActivate" x="2752" y="2880" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="prefabMove1"/>
     <property name="triggeringId" value="prefabMove2"/>
    </properties>
   </object>
-  <object id="102" name="Prefab" type="Prefab" x="3072" y="2880" width="96" height="96">
+  <object id="102" name="Prefab" type="PrefabLeverActivate" x="3072" y="2880" width="96" height="96">
    <properties>
-    <property name="prefabId" value="LeverActivateOnce"/>
+    <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="prefabMove3"/>
     <property name="triggeringId" value="prefabMove2"/>
    </properties>
   </object>
-  <object id="103" name="Prefab" type="Prefab" x="2912" y="2880" width="96" height="96">
+  <object id="103" name="Prefab" type="PrefabSpawnerTriggered" x="2912" y="2880" width="96" height="96">
    <properties>
     <property name="power" type="float" value="100"/>
     <property name="prefabId" value="SpawnerTriggered"/>
@@ -428,7 +428,7 @@
     <property name="triggeringId" value="rplat2"/>
    </properties>
   </object>
-  <object id="115" name="Prefab" type="Prefab" x="3488" y="3168" width="96" height="96">
+  <object id="115" name="Prefab" type="PrefabLeverActivate" x="3488" y="3168" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="drawSprite"/>

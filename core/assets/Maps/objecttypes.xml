@@ -179,8 +179,66 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
- <objecttype name="Prefab" color="#000000">
-  <property name="prefabId" type="string"/>
+ <objecttype name="PrefabAlternator" color="#a0a0a4">
+  <property name="align" type="int" default="0"/>
+  <property name="point1" type="string"/>
+  <property name="point2" type="string"/>
+  <property name="prefabId" type="string" default="Alternator"/>
+ </objecttype>
+ <objecttype name="PrefabCamera" color="#a0a0a4">
+  <property name="align" type="int" default="0"/>
+  <property name="point1" type="string"/>
+  <property name="point2" type="string"/>
+  <property name="prefabId" type="string" default="Camera"/>
+  <property name="zoom1" type="float" default="1"/>
+  <property name="zoom2" type="float" default="1"/>
+ </objecttype>
+ <objecttype name="PrefabDoor" color="#a0a0a4">
+  <property name="prefabId" type="string" default="Door"/>
+  <property name="speed" type="float" default="1"/>
+  <property name="triggeredId" type="string"/>
+  <property name="xDisplace" type="int" default="0"/>
+  <property name="yDisplace" type="int" default="0"/>
+ </objecttype>
+ <objecttype name="PrefabLeverActivate" color="#a0a0a4">
+  <property name="prefabId" type="string" default="LeverActivate"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="PrefabLeverActivateOnce" color="#a0a0a4">
+  <property name="prefabId" type="string" default="LeverActivateOnce"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="PrefabLimit" color="#a0a0a4">
+  <property name="limit" type="int" default="0"/>
+  <property name="prefabId" type="string" default="Limit"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="PrefabPVPSettingSetter" color="#a0a0a4">
+  <property name="prefabId" type="string" default="PVPSettingSetter"/>
+ </objecttype>
+ <objecttype name="PrefabSpawner" color="#a0a0a4">
+  <property name="interval" type="float" default="1"/>
+  <property name="power" type="float" default="0"/>
+  <property name="prefabId" type="string" default="Spawner"/>
+  <property name="type" type="int" default="0"/>
+ </objecttype>
+ <objecttype name="PrefabSpawnerTriggered" color="#a0a0a4">
+  <property name="power" type="float" default="0"/>
+  <property name="prefabId" type="string" default="SpawnerTriggered"/>
+  <property name="triggeredId" type="string"/>
+  <property name="type" type="int" default="0"/>
+ </objecttype>
+ <objecttype name="PrefabSpawnerUnlock" color="#a0a0a4">
+  <property name="name" type="string"/>
+  <property name="prefabId" type="string" default="SpawnerUnlock"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+  <property name="type" type="string"/>
+ </objecttype>
+ <objecttype name="PrefabWeapon" color="#a0a0a4">
+  <property name="pool" type="string"/>
+  <property name="prefabId" type="string" default="Weapon"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

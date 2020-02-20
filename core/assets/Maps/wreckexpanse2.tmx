@@ -62,7 +62,7 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="12" name="Prefab" type="Prefab" x="1632" y="1440" width="128" height="96">
+  <object id="12" name="Prefab" type="PrefabAlternator" x="1632" y="1440" width="128" height="96">
    <properties>
     <property name="align" type="int" value="1"/>
     <property name="event1" value="boundszoom"/>

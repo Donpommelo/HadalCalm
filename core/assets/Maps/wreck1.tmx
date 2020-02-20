@@ -17,7 +17,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="3" name="Prefab" type="Prefab" x="768" y="2336" width="96" height="128">
+  <object id="3" name="Prefab" type="PrefabDoor" x="768" y="2336" width="96" height="128">
    <properties>
     <property name="prefabId" value="Door"/>
     <property name="speed" type="float" value="3"/>
@@ -25,7 +25,7 @@
     <property name="yDisplace" type="int" value="-4"/>
    </properties>
   </object>
-  <object id="4" name="Prefab" type="Prefab" x="544" y="2464" width="96" height="96">
+  <object id="4" name="Prefab" type="PrefabLeverActivateOnce" x="544" y="2464" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivateOnce"/>
     <property name="triggeringId" value="sc0"/>
@@ -50,7 +50,7 @@
     <property name="triggeringId" value="warp0"/>
    </properties>
   </object>
-  <object id="11" name="Prefab" type="Prefab" x="1824" y="2368" width="96" height="96">
+  <object id="11" name="Prefab" type="PrefabDoor" x="1824" y="2368" width="96" height="96">
    <properties>
     <property name="prefabId" value="Door"/>
     <property name="speed" type="float" value="3"/>
@@ -58,7 +58,7 @@
     <property name="yDisplace" type="int" value="-4"/>
    </properties>
   </object>
-  <object id="12" name="Prefab" type="Prefab" x="1952" y="2368" width="96" height="96">
+  <object id="12" name="Prefab" type="PrefabLeverActivateOnce" x="1952" y="2368" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivateOnce"/>
     <property name="triggeringId" value="sc1"/>
@@ -245,7 +245,7 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="55" name="Prefab" type="Prefab" x="1664" y="2080" width="96" height="96">
+  <object id="55" name="Prefab" type="PrefabWeapon" x="1664" y="2080" width="96" height="96">
    <properties>
     <property name="pool" value="DIAMOND_CUTTER"/>
     <property name="prefabId" value="Weapon"/>
@@ -275,7 +275,7 @@
     <property name="triggeredId" value="elevatormove"/>
    </properties>
   </object>
-  <object id="63" name="Prefab" type="Prefab" x="2912" y="768" width="96" height="96">
+  <object id="63" name="Prefab" type="PrefabLeverActivate" x="2912" y="768" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchup"/>
@@ -349,7 +349,7 @@
     <property name="triggeringId" value="door1"/>
    </properties>
   </object>
-  <object id="94" name="Prefab" type="Prefab" x="2720" y="1600" width="96" height="96">
+  <object id="94" name="Prefab" type="PrefabLeverActivate" x="2720" y="1600" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="tofloor1"/>

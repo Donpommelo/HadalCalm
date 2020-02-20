@@ -29,7 +29,7 @@
     <property name="triggeredId" value="elevatormovea"/>
    </properties>
   </object>
-  <object id="17" name="Prefab" type="Prefab" x="1920" y="1920" width="96" height="96">
+  <object id="17" name="Prefab" type="PrefabLeverActivate" x="1920" y="1920" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switcha"/>
@@ -99,7 +99,7 @@
     <property name="triggeringId" value="startTimer,tofloor2a,sccheck1,sccheck2"/>
    </properties>
   </object>
-  <object id="28" name="Prefab" type="Prefab" x="1504" y="1216" width="96" height="224">
+  <object id="28" name="Prefab" type="PrefabDoor" x="1504" y="1216" width="96" height="224">
    <properties>
     <property name="prefabId" value="Door"/>
     <property name="speed" type="float" value="3"/>
@@ -107,7 +107,7 @@
     <property name="yDisplace" type="int" value="-6"/>
    </properties>
   </object>
-  <object id="29" name="Prefab" type="Prefab" x="992" y="832" width="160" height="64">
+  <object id="29" name="Prefab" type="PrefabDoor" x="992" y="832" width="160" height="64">
    <properties>
     <property name="prefabId" value="Door"/>
     <property name="speed" type="float" value="3"/>

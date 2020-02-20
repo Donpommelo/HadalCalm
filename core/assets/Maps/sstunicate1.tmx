@@ -176,33 +176,33 @@
     <property name="triggeringId" value="downpressed"/>
    </properties>
   </object>
-  <object id="41" name="Prefab" type="Prefab" x="2528" y="1760" width="96" height="96">
+  <object id="41" name="Prefab" type="PrefabLeverActivate" x="2528" y="1760" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="setfloor2"/>
    </properties>
   </object>
-  <object id="42" name="Prefab" type="Prefab" x="2528" y="1184" width="96" height="96">
+  <object id="42" name="Prefab" type="PrefabLeverActivate" x="2528" y="1184" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="setfloor3"/>
    </properties>
   </object>
-  <object id="43" name="Prefab" type="Prefab" x="2528" y="2656" width="96" height="96">
+  <object id="43" name="Prefab" type="PrefabLeverActivate" x="2528" y="2656" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="setfloor1"/>
    </properties>
   </object>
-  <object id="44" name="Prefab" type="Prefab" x="2688" y="2240" width="96" height="96">
+  <object id="44" name="Prefab" type="PrefabLeverActivate" x="2688" y="2240" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="upbutton"/>
     <property name="triggeringId" value="uppressed"/>
    </properties>
   </object>
-  <object id="45" name="Prefab" type="Prefab" x="2880" y="2240" width="96" height="96">
+  <object id="45" name="Prefab" type="PrefabLeverActivate" x="2880" y="2240" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="downbutton"/>
@@ -249,7 +249,7 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="56" name="Prefab" type="Prefab" x="1088" y="1984" width="96" height="192">
+  <object id="56" name="Prefab" type="PrefabAlternator" x="1088" y="1984" width="96" height="192">
    <properties>
     <property name="align" type="int" value="0"/>
     <property name="event1" value="enterfromleft"/>
@@ -273,7 +273,7 @@
     <property name="triggeredId" value="bounds1l"/>
    </properties>
   </object>
-  <object id="59" name="Prefab" type="Prefab" x="2592" y="1600" width="96" height="256">
+  <object id="59" name="Prefab" type="PrefabAlternator" x="2592" y="1600" width="96" height="256">
    <properties>
     <property name="align" type="int" value="0"/>
     <property name="event1" value="enterfromcenter"/>
@@ -336,7 +336,7 @@
     <property name="triggeredId" value="bounds13"/>
    </properties>
   </object>
-  <object id="73" name="Prefab" type="Prefab" x="2688" y="1280" width="288" height="96">
+  <object id="73" name="Prefab" type="PrefabAlternator" x="2688" y="1280" width="288" height="96">
    <properties>
     <property name="align" type="int" value="1"/>
     <property name="event1" value="entershaft"/>
@@ -346,7 +346,7 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="74" name="Prefab" type="Prefab" x="2688" y="2464" width="288" height="96">
+  <object id="74" name="Prefab" type="PrefabAlternator" x="2688" y="2464" width="288" height="96">
    <properties>
     <property name="align" type="int" value="1"/>
     <property name="event1" value="enterf1"/>
@@ -402,7 +402,7 @@
     <property name="zoom" type="float" value="0.75"/>
    </properties>
   </object>
-  <object id="82" name="Prefab" type="Prefab" x="3168" y="2784" width="96" height="160">
+  <object id="82" name="Prefab" type="PrefabAlternator" x="3168" y="2784" width="96" height="160">
    <properties>
     <property name="align" type="int" value="0"/>
     <property name="event1" value="enterf1"/>

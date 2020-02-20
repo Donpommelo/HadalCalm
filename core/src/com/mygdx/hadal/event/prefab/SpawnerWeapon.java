@@ -15,16 +15,14 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class SpawnerWeapon extends Prefabrication {
 
 	private String triggeredId, triggeringId;
-	private int mods;
 	private String pool;
 	
 	private String baseId, pickupId;
 	
-	public SpawnerWeapon(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, int mods, String pool) {
+	public SpawnerWeapon(PlayState state, int width, int height, int x, int y, String triggeredId, String triggeringId, String pool) {
 		super(state, width, height, x , y);
 		this.triggeredId = triggeredId;
 		this.triggeringId = triggeringId;
-		this.mods = mods;
 		this.pool = pool;
 	}
 	
@@ -55,7 +53,6 @@ public class SpawnerWeapon extends Prefabrication {
 		weapon.getProperties().put("particle_std", "EVENT_HOLO");
 		weapon.getProperties().put("triggeredId", pickupId);
 		weapon.getProperties().put("triggeringId", triggeringId);
-		weapon.getProperties().put("mods", mods);
 		weapon.getProperties().put("pool", pool);
 		
 		TiledObjectUtil.parseTiledEvent(state, base);

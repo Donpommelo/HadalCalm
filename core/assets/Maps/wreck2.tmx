@@ -61,7 +61,7 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="11" name="Prefab" type="Prefab" x="576" y="2336" width="96" height="96">
+  <object id="11" name="Prefab" type="PrefabWeapon" x="576" y="2336" width="96" height="96">
    <properties>
     <property name="pool" value="SPEARGUN"/>
     <property name="prefabId" value="Weapon"/>
@@ -98,7 +98,7 @@
     <property name="triggeredId" value="elevatormove"/>
    </properties>
   </object>
-  <object id="17" name="Prefab" type="Prefab" x="3136" y="2432" width="96" height="96">
+  <object id="17" name="Prefab" type="PrefabLeverActivate" x="3136" y="2432" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchdown"/>
@@ -163,7 +163,7 @@
     <property name="triggeredId" value="floor2b"/>
    </properties>
   </object>
-  <object id="41" name="Prefab" type="Prefab" x="2560" y="768" width="96" height="96">
+  <object id="41" name="Prefab" type="PrefabLeverActivate" x="2560" y="768" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchup"/>
@@ -299,20 +299,20 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="67" name="Prefab" type="Prefab" x="2912" y="2144" width="96" height="96">
+  <object id="67" name="Prefab" type="PrefabLeverActivate" x="2912" y="2144" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="tofloor2"/>
    </properties>
   </object>
-  <object id="68" name="Prefab" type="Prefab" x="2816" y="1376" width="96" height="96">
+  <object id="68" name="Prefab" type="PrefabLeverActivate" x="2816" y="1376" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="tofloor1b"/>
    </properties>
   </object>
   <object id="69" name="Dropthrough" type="Dropthrough" x="2752" y="1472" width="224" height="16"/>
-  <object id="70" name="Prefab" type="Prefab" x="1536" y="2240" width="96" height="96">
+  <object id="70" name="Prefab" type="PrefabSpawnerTriggered" x="1536" y="2240" width="96" height="96">
    <properties>
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="SpawnerTriggered"/>

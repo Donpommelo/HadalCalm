@@ -84,7 +84,7 @@ public class MeteorStrike extends ActiveItem {
 					procCdCount -= meteorInterval;
 
 					Hitbox hbox = new Hitbox(state, new Vector2(originPt).add((GameStateManager.generator.nextFloat() -  0.5f) * spread, 0), projectileSize, lifespan, new Vector2(0, -projectileSpeed),
-							user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.NOTHING);
+							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.NOTHING);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, user));
 					hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));

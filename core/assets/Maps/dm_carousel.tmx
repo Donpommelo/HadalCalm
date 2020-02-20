@@ -446,19 +446,19 @@
     <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
-  <object id="98" name="Prefab" type="Prefab" x="896" y="552" width="96" height="96">
+  <object id="98" name="Prefab" type="PrefabWeapon" x="896" y="552" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
-  <object id="99" name="Prefab" type="Prefab" x="2048" y="552" width="96" height="96">
+  <object id="99" name="Prefab" type="PrefabWeapon" x="2048" y="552" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="100" name="Prefab" type="Prefab" x="896" y="1352" width="96" height="96">
+  <object id="100" name="Prefab" type="PrefabSpawner" x="896" y="1352" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>
     <property name="power" type="float" value="50"/>
@@ -467,7 +467,7 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="101" name="Prefab" type="Prefab" x="2048" y="1352" width="96" height="96">
+  <object id="101" name="Prefab" type="PrefabSpawner" x="2048" y="1352" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>
     <property name="power" type="float" value="50"/>
@@ -503,7 +503,7 @@
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>
-  <object id="110" name="Prefab" type="Prefab" x="640" y="352" width="32" height="32">
+  <object id="110" name="Prefab" type="PrefabPVPSettingSetter" x="640" y="352" width="32" height="32">
    <properties>
     <property name="prefabId" value="PVPSettingSetter"/>
     <property name="triggeredId" value=""/>

@@ -469,7 +469,6 @@ public class TiledObjectUtil {
     		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
-					object.getProperties().get("mods", 0, int.class),
 					object.getProperties().get("pool", "", String.class));
     	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivate")) {

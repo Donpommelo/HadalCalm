@@ -52,7 +52,7 @@
     <property name="triggeredId" value="elevatormovea"/>
    </properties>
   </object>
-  <object id="7" name="Prefab" type="Prefab" x="2400" y="2464" width="96" height="96">
+  <object id="7" name="Prefab" type="PrefabLeverActivate" x="2400" y="2464" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switcha"/>
@@ -82,7 +82,7 @@
     <property name="triggeredId" value="elevatormoveb"/>
    </properties>
   </object>
-  <object id="13" name="Prefab" type="Prefab" x="1888" y="1856" width="96" height="96">
+  <object id="13" name="Prefab" type="PrefabLeverActivate" x="1888" y="1856" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchupb"/>
@@ -167,7 +167,7 @@
     <property name="triggeredId" value="floor2d"/>
    </properties>
   </object>
-  <object id="40" name="Prefab" type="Prefab" x="2016" y="1856" width="96" height="96">
+  <object id="40" name="Prefab" type="PrefabLeverActivate" x="2016" y="1856" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchdownb"/>
@@ -200,7 +200,7 @@
     <property name="triggeringId" value="tofloor1b,tofloor1d,downpressed"/>
    </properties>
   </object>
-  <object id="57" name="Prefab" type="Prefab" x="1952" y="1568" width="96" height="96">
+  <object id="57" name="Prefab" type="PrefabSpawnerUnlock" x="1952" y="1568" width="96" height="96">
    <properties>
     <property name="name" value="RING_OF_TESTING"/>
     <property name="prefabId" value="SpawnerUnlock"/>
@@ -226,7 +226,7 @@
     <property name="triggeredId" value="elevatormoved"/>
    </properties>
   </object>
-  <object id="61" name="Prefab" type="Prefab" x="736" y="1472" width="96" height="96">
+  <object id="61" name="Prefab" type="PrefabLeverActivate" x="736" y="1472" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchupd"/>
@@ -239,7 +239,7 @@
     <property name="triggeringId" value="elevatorfloord"/>
    </properties>
   </object>
-  <object id="64" name="Prefab" type="Prefab" x="864" y="1472" width="96" height="96">
+  <object id="64" name="Prefab" type="PrefabLeverActivate" x="864" y="1472" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchdownd"/>
@@ -296,14 +296,14 @@
     <property name="triggeringId" value="elevatorwallc"/>
    </properties>
   </object>
-  <object id="73" name="Prefab" type="Prefab" x="1312" y="1856" width="96" height="96">
+  <object id="73" name="Prefab" type="PrefabLeverActivate" x="1312" y="1856" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchupc"/>
     <property name="triggeringId" value="switchuppressed"/>
    </properties>
   </object>
-  <object id="74" name="Prefab" type="Prefab" x="1440" y="1856" width="96" height="96">
+  <object id="74" name="Prefab" type="PrefabLeverActivate" x="1440" y="1856" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchdownc"/>
@@ -315,7 +315,7 @@
     <property name="triggeredId" value="elevatorceilingc"/>
    </properties>
   </object>
-  <object id="77" name="Prefab" type="Prefab" x="800" y="1824" width="96" height="96">
+  <object id="77" name="Prefab" type="PrefabSpawnerUnlock" x="800" y="1824" width="96" height="96">
    <properties>
     <property name="name" value="RING_OF_TESTING"/>
     <property name="prefabId" value="SpawnerUnlock"/>

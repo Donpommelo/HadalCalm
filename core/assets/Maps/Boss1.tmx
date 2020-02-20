@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="32">
- <properties>
-  <property name="zoom" type="float" value="1.2"/>
- </properties>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="34">
  <tileset firstgid="1" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
@@ -15,7 +12,11 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="event-layer">
-  <object id="3" name="Start" type="Start" x="416" y="1344" width="32" height="32"/>
+  <object id="3" name="Start" type="Start" x="416" y="1344" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
   <object id="4" name="Dummy" type="Dummy" x="416" y="896" width="32" height="32">
    <properties>
     <property name="dummyId" value="0"/>
@@ -46,7 +47,7 @@
   <object id="12" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
    <properties>
     <property name="triggeredId" value="initLimiter"/>
-    <property name="triggeringId" value="startTimer,spawn0,bounds1,bounds2,save1,particle1"/>
+    <property name="triggeringId" value="startTimer,spawn0,particle1"/>
    </properties>
   </object>
   <object id="14" name="Dropthrough" type="Dropthrough" x="448" y="1152" width="256" height="16"/>
@@ -100,7 +101,7 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="25" name="Prefab" type="Prefab" x="512" y="1376" width="96" height="96">
+  <object id="25" name="Prefab" type="PrefabWeapon" x="512" y="1376" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
@@ -112,7 +113,7 @@
     <property name="triggeringId" value="w1"/>
    </properties>
   </object>
-  <object id="27" name="Prefab" type="Prefab" x="992" y="1376" width="96" height="96">
+  <object id="27" name="Prefab" type="PrefabSpawner" x="992" y="1376" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="40"/>
     <property name="power" type="float" value="25"/>
@@ -130,18 +131,24 @@
     <property name="dummyId" value="floor"/>
    </properties>
   </object>
-  <object id="30" name="Save" type="Save" x="416" y="1344" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="save1"/>
-    <property name="zoom" type="float" value="1.5"/>
-   </properties>
-  </object>
   <object id="31" name="Particle" type="Particle" x="992" y="1344" width="32" height="32">
    <properties>
     <property name="duration" type="float" value="2"/>
     <property name="particle" value="RING"/>
     <property name="triggeredId" value="particle1"/>
     <property name="triggeringId" value="spawn0"/>
+   </properties>
+  </object>
+  <object id="32" name="Multitrigger" type="Multitrigger" x="96" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="33" name="Camera" type="Camera" x="160" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="zoom" type="float" value="1.2"/>
    </properties>
   </object>
  </objectgroup>

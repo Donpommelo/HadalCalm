@@ -35,7 +35,7 @@
     <property name="triggeredId" value="elevatormovea"/>
    </properties>
   </object>
-  <object id="4" name="Prefab" type="Prefab" x="1792" y="2592" width="96" height="96">
+  <object id="4" name="Prefab" type="PrefabLeverActivate" x="1792" y="2592" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switcha"/>
@@ -152,7 +152,7 @@
     <property name="triggeredId" value="elevatormoveb"/>
    </properties>
   </object>
-  <object id="27" name="Prefab" type="Prefab" x="1504" y="1824" width="96" height="96">
+  <object id="27" name="Prefab" type="PrefabLeverActivate" x="1504" y="1824" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchb"/>
@@ -281,7 +281,7 @@
     <property name="triggeredId" value="elevatormovec"/>
    </properties>
   </object>
-  <object id="50" name="Prefab" type="Prefab" x="2080" y="1536" width="96" height="96">
+  <object id="50" name="Prefab" type="PrefabLeverActivate" x="2080" y="1536" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchc"/>
@@ -372,7 +372,7 @@
     <property name="triggeredId" value="elevatormoved"/>
    </properties>
   </object>
-  <object id="64" name="Prefab" type="Prefab" x="2656" y="992" width="96" height="96">
+  <object id="64" name="Prefab" type="PrefabLeverActivate" x="2656" y="992" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switchd"/>
@@ -464,7 +464,7 @@
     <property name="triggeredId" value="elevatormovee"/>
    </properties>
   </object>
-  <object id="81" name="Prefab" type="Prefab" x="416" y="1088" width="96" height="96">
+  <object id="81" name="Prefab" type="PrefabLeverActivate" x="416" y="1088" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeredId" value="switche"/>
