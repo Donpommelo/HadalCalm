@@ -35,7 +35,6 @@ public class Pusher extends Event {
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() == null) {
 					if (p != null) {
-						System.out.println(p.getBody());
 						p.push(push);
 					}
 				} else {

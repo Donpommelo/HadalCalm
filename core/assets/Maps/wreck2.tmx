@@ -52,7 +52,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="10" name="Bounds" type="Bounds" x="3072" y="2208" width="32" height="32">
+  <object id="10" name="Bounds" type="Bounds" x="3072" y="2176" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>
@@ -212,7 +212,7 @@
     <property name="triggeringId" value="triggerSpawn"/>
    </properties>
   </object>
-  <object id="53" name="Prefab" type="Prefab" x="1888" y="2464" width="32" height="32">
+  <object id="53" name="Prefab" type="PrefabLimit" x="1888" y="2464" width="32" height="32">
    <properties>
     <property name="limit" type="int" value="1"/>
     <property name="prefabId" value="Limit"/>
@@ -287,7 +287,7 @@
   </object>
   <object id="65" name="Warp" type="Warp" x="2176" y="544" width="32" height="32">
    <properties>
-    <property name="level" value="WRECKUPPER1"/>
+    <property name="level" value="DERELICT1"/>
     <property name="startId" value="start0"/>
     <property name="triggeredId" value="warp3"/>
    </properties>

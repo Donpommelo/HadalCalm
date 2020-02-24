@@ -470,6 +470,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("limit", 0, int.class));
     	}
+    	if (object.getProperties().get("prefabId", "", String.class).equals("Cooldown")) {
+    		p = new Cooldowner(state,
+					object.getProperties().get("triggeredId", "", String.class),
+					object.getProperties().get("triggeringId", "", String.class),
+					object.getProperties().get("cooldown", 0.0f, float.class));
+    	}
     	if (object.getProperties().get("prefabId", "", String.class).equals("Weapon")) {
     		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
 					object.getProperties().get("triggeredId", "", String.class),

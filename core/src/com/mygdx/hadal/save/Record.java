@@ -67,8 +67,14 @@ public class Record {
 		newRecord.flags.put("BOSS1", 0);
 		newRecord.flags.put("WRECK0SC", 0);
 		newRecord.flags.put("WRECK1SC", 0);
-		newRecord.flags.put("DERELICT1", 0);
-		newRecord.flags.put("DERELICT2", 0);
+		newRecord.flags.put("DERELICTA1", 0);
+		newRecord.flags.put("DERELICTA2", 0);
+		newRecord.flags.put("DERELICTB1", 0);
+		newRecord.flags.put("DERELICTB2", 0);
+		newRecord.flags.put("DERELICTB3", 0);
+		newRecord.flags.put("DERELICTB4", 0);
+		newRecord.flags.put("DERELICTB5", 0);
+		newRecord.flags.put("DERELICTB6", 0);
 
 		newRecord.equips = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newRecord.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};

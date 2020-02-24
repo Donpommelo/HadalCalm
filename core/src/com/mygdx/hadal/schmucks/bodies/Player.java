@@ -578,7 +578,7 @@ public class Player extends PhysicsSchmuck {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			}
 			
-			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
+			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime), 
 					(flip ? bodyWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2  + bodyConnectX * scale, 
 					getPixelPosition().y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
@@ -591,7 +591,7 @@ public class Player extends PhysicsSchmuck {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP);
 			}
 			
-			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(grounded ? animationTime : getFreezeFrame(reverse), true), 
+			batch.draw((TextureRegion) bodyRunSprite.getKeyFrame(animationTime), 
 					(flip ? bodyWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2  + bodyConnectX * scale, 
 					getPixelPosition().y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,

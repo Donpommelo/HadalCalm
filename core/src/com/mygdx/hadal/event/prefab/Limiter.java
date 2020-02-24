@@ -40,7 +40,7 @@ public class Limiter extends Prefabrication {
 		multi.setName("Multitrigger");
 		multi.getProperties().put("triggeredId", multiId);
 		multi.getProperties().put("triggeringId", counterId + "," + triggeringId);
-		
+
 		RectangleMapObject counter = new RectangleMapObject();
 		counter.setName("Counter");
 		counter.getProperties().put("count", limit);

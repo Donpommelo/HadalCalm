@@ -1,5 +1,6 @@
 package com.mygdx.hadal.input;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.schmucks.bodies.Player;
 
@@ -15,6 +16,17 @@ public class PlayerController implements InputProcessor {
 	
 	public PlayerController(Player player) {
 		this.player = player;
+		
+		if (player == null) return;
+
+		if (player.getController() == null) return;
+		
+		//Let game account for all buttons held down before the processor is created.
+		for (PlayerAction a: PlayerAction.values()) {
+			if (Gdx.input.isKeyPressed(a.getKey())) {
+				player.getController().keyDown(a);
+			}
+		}
 	}
 	
 	@Override

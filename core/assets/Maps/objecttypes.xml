@@ -193,6 +193,12 @@
   <property name="zoom1" type="float" default="1"/>
   <property name="zoom2" type="float" default="1"/>
  </objecttype>
+ <objecttype name="PrefabCooldown" color="#a0a0a4">
+  <property name="cooldown" type="float" default="0"/>
+  <property name="prefabId" type="string" default="Cooldown"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
  <objecttype name="PrefabDoor" color="#a0a0a4">
   <property name="prefabId" type="string" default="Door"/>
   <property name="speed" type="float" default="1"/>

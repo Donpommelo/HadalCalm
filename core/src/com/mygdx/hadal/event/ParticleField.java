@@ -53,8 +53,8 @@ public class ParticleField extends Event {
 		currParticleSpawnTimer += delta;
 		while (currParticleSpawnTimer >= spawnTimerLimit) {
 			currParticleSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
+			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
+			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 			new ParticleEntity(state, new Vector2(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
 		}
 	}
@@ -68,8 +68,8 @@ public class ParticleField extends Event {
 		currParticleSpawnTimer += delta;
 		while (currParticleSpawnTimer >= spawnTimerLimit) {
 			currParticleSpawnTimer -= spawnTimerLimit;
-			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
+			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
+			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 			ParticleEntity field = new ParticleEntity(state, new Vector2(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
 			((ClientState)state).addEntity(field.getEntityID().toString(), field, ObjectSyncLayers.STANDARD);
 		}

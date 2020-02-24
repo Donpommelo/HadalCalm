@@ -24,6 +24,7 @@ public enum UnlockLevel {
 	WRECK1("Maps/wreck1.tmx"),
 	WRECK2("Maps/wreck2.tmx"),
 	DERELICT1("Maps/derelict1.tmx"),
+	DERELICT2("Maps/derelict2.tmx"),
 	WRECKUPPER1("Maps/wreckupper1.tmx"),
 	WRECKUPPER2("Maps/wreckupper2.tmx"),
 	WRECKUPPERSHAFT("Maps/wreckuppershaft.tmx"),

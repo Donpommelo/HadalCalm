@@ -74,7 +74,7 @@ public class Currents extends Event {
 			
 			//push is done through damage so that +knockback resistance will reduce the push.
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.getHadalData().receiveDamage(0.0f, vec, state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
+				entity.getHadalData().receiveDamage(0.0f, new Vector2(vec), state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
 			}
 		}
 		
