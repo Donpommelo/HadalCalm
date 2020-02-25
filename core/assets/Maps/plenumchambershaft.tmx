@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="80" height="310" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="68">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="80" height="310">
+  <data encoding="base64" compression="zlib">
+   eJztmMlSFAEUBAdxxe2g//+tgsaE3CAqB7pqyIzoI5Y+yJSe00lERERERERERGSLO5+/z7vwfj99/j5fXvF+3++f2yt5fhxwv3Srkfenf/+mX/fPx+Drvd9/p74FX+/99JdA75c09zP7K1dB+/fWof1761B/G7g5sXcAwjXc78h/wzX0r+F+af+Ofm9/eH6fjr/fa/7+1/YOTzji97+2d3iC/bvM9urvfx9O2/07mq+nDn9X7/dAg7/2j23bv4x1f+0fp8Ff+8e27V/Gur/2j9Pgr/1j2/YvY91f+8dp8Nf+sW37l7Hur/3jNPhr/9i2/ctY99f+cRr8tX9s2/5lrPtr/zgN/to/tm3/Mtb9tX+cBn/tH9u2fxnr/to/ToO/9o9t27+MdX/tH6fBX/vHtu1fxrq/9o/T4K/9Y9v2L2PdX/vHafDX/rFt+5ex7q/94zT4a//Ytv3LWPfX/nEa/LV/bNv+Zaz7a/84Df7aP7Zt/zLW/bV/nAZ/V+939veI/hy5fQm8XY63y/F2Od4ux9vleLscb5fj7XK8HaPhvczPpdj26s+fn0sx/FyK0+Cv/WPb9i9j3V/7x2nw1/6xbfuXse6v/eM0+Gv/2Lb9y1j31/5xGvy1f2zb/mWs+2v/OA3+2j+2bf8y1v21f5wGf+0f27Z/Gev+2j9Og7/2j23bv4x1f+0fp8Ff+8e27V/Gur/2j9Pgr/1j2/YvY91f+8dp8Nf+sW37l7Hur/3jNPhr/9i2/ctY99f+cRr8tX9s2/5lrPtr/zgN/to/tm3/Mtb9tX+cBn/tH9u2fxnr/to/ToO/9o9t27+MdX/tH6fBX/vHtu1fxrq/9o/T4K/9Y9v2L2PdX/vHafDX/rFt+5ex7q/94zT4a//Ytv3LWPfX/nEa/LV/bNv+Zaz7a/84Df7aP7Zt/zLW/bV/nAZ/7R/btn8Z6/7aP06Dv/aPbdu/jHV/7R+nwV/7x7btX8a6v/aP0+Cv/WPb9i9j3V/7x2nw1/6xbfuXse6v/eM0+Gv/2Lb9y1j31/5xGvy1f2zb/mWs+2v/OA3+2j+2bf8y1v21f5wGf+0f27Z/Gev+2j9Og7/2j23bv4x1f+0fp8Ff+8e27V/Gur/2j9Pgr/1j2/YvY91f+8dp8Nf+sW37l7Hur/3jNPhr/9i2/ctY99f+cRr8tX9s2/5lrPtr/zgN/to/tm3/Mtb9tX+cBn/tH9u2fxnr/to/ToO/9o9t27+MdX/tH6fBX/vHtu1fxrq/9o/T4K/9Y9v2L2PdX/vHafDX/rFt+5ex7q/94zT4a//Ytv3LWPfX/nEa/LV/bNv+ZRzxvbu5f+4u9Jxv95bud9689PNW+ve4GbcXfD6/0t//MUf07xr+zz9zpL/eb2fzpTiyf9d0P/uXob8M78ewfwz7xzjS34ef+fN77LsnvuY578xP/RkvQcv771P7z3lnfvz9eK3niM9+Pp3+v7M+97Pjl3pnXn73fuC5P//X1MxL4v0Y3o/h/Rjej+H9GN5PRETO/AHh9GaK
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="160" y="736">
+   <polyline points="0,0 448,0 448,-160 2048,-160 2048,2304 1728,2624 1728,8768 832,8768 832,8736 512,8736 512,9056 288,9056 288,8736 192,8736 192,8448 832,8448 832,2624 1152,2304 1152,64 1056,64 1056,160 0,160 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="2" name="Sensor" type="Sensor" x="160" y="736" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="3" name="Start" type="Start" x="288" y="832" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfromtop"/>
+   </properties>
+  </object>
+  <object id="4" name="Warp" type="Warp" x="96" y="800" width="32" height="32">
+   <properties>
+    <property name="level" value="PLENUMCHAMBER2"/>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="5" name="Multitrigger" type="Multitrigger" x="160" y="352" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="enterfromtop"/>
+    <property name="triggeringId" value="setcamera,deletebot1,deletebot2,deletebot3,deletebot4,deletebot5"/>
+   </properties>
+  </object>
+  <object id="6" name="Multitrigger" type="Multitrigger" x="224" y="352" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setcamera"/>
+    <property name="triggeringId" value="bounds1,bounds2,cameramain"/>
+   </properties>
+  </object>
+  <object id="7" name="Multitrigger" type="Multitrigger" x="160" y="416" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="enterfrombottom"/>
+    <property name="triggeringId" value="setcamera,deletetop1,deletetop2,deletetop3,deletetop4,deletetop5,setbotcamerapoint,push1"/>
+   </properties>
+  </object>
+  <object id="8" name="Platform" type="Platform" x="1280" y="800" width="960" height="32">
+   <properties>
+    <property name="triggeredId" value="platformtop"/>
+   </properties>
+  </object>
+  <object id="10" name="MovePoint" type="MovePoint" x="1584" y="800" width="32" height="32">
+   <properties>
+    <property name="connections" value="platformtop,platformtopceiling,platformtopwall,camerashaftpoint"/>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="movetop"/>
+   </properties>
+  </object>
+  <object id="11" name="Dummy" type="Dummy" x="1584" y="3008" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="top1"/>
+    <property name="triggeringId" value="top2"/>
+   </properties>
+  </object>
+  <object id="12" name="Dummy" type="Dummy" x="1264" y="3328" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="top2"/>
+    <property name="triggeringId" value="top3"/>
+   </properties>
+  </object>
+  <object id="13" name="Dummy" type="Dummy" x="1264" y="9472" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="top3"/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="14" name="Sensor" type="Sensor" x="1376" y="792" width="832" height="8">
+   <properties>
+    <property name="triggeredId" value="platformtopsensor"/>
+    <property name="triggeringId" value="begindescent"/>
+   </properties>
+  </object>
+  <object id="15" name="Multitrigger" type="Multitrigger" x="2400" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="descend"/>
+    <property name="triggeringId" value="lockshafttop,tofloor1"/>
+   </properties>
+  </object>
+  <object id="16" name="Prefab" type="PrefabLimit" x="2336" y="768" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="begindescent"/>
+    <property name="triggeringId" value="descend"/>
+   </properties>
+  </object>
+  <object id="17" name="Redirecttrigger" type="Redirecttrigger" x="2400" y="832" width="32" height="32">
+   <properties>
+    <property name="blameId" value="top1"/>
+    <property name="triggeredId" value="tofloor1"/>
+    <property name="triggeringId" value="movetop"/>
+   </properties>
+  </object>
+  <object id="18" name="Platform" type="Platform" x="1280" y="192" width="960" height="32">
+   <properties>
+    <property name="triggeredId" value="platformtopceiling"/>
+   </properties>
+  </object>
+  <object id="19" name="EventMove" type="EventMove" x="1248" y="672" width="32" height="32">
+   <properties>
+    <property name="gravity" type="float" value="0"/>
+    <property name="triggeredId" value="lockshafttop"/>
+    <property name="triggeringId" value="door1"/>
+   </properties>
+  </object>
+  <object id="20" name="Platform" type="Platform" x="256" y="64" width="96" height="224">
+   <properties>
+    <property name="triggeredId" value="door1"/>
+   </properties>
+  </object>
+  <object id="22" name="Bounds" type="Bounds" x="896" y="672" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="23" name="Bounds" type="Bounds" x="1632" y="9216" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="25" name="Camera" type="Camera" x="288" y="352" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="cameramain"/>
+    <property name="triggeringId" value=""/>
+    <property name="zoom" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="26" name="Bounds" type="Bounds" x="160" y="160" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds3"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="27" name="Bounds" type="Bounds" x="2432" y="9760" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds4"/>
+   </properties>
+  </object>
+  <object id="28" name="Camera" type="Camera" x="288" y="416" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camerashaft"/>
+    <property name="triggeringId" value="camerashaftpoint"/>
+    <property name="zoom" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="29" name="Displacer" type="Displacer" x="1288" y="792" width="920" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeredId" value="platformtopdisplacer"/>
+    <property name="triggeringId" value="platformtop"/>
+   </properties>
+  </object>
+  <object id="30" name="Dummy" type="Dummy" x="1744" y="512" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="camerashaftpoint"/>
+   </properties>
+  </object>
+  <object id="31" name="Multitrigger" type="Multitrigger" x="224" y="416" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="setcamerashaft"/>
+    <property name="triggeringId" value="bounds3,bounds4,camerashaft"/>
+   </properties>
+  </object>
+  <object id="32" name="Prefab" type="PrefabAlternator" x="1216" y="576" width="96" height="224">
+   <properties>
+    <property name="align" type="int" value="0"/>
+    <property name="event1" value="setcamera"/>
+    <property name="event2" value="setcamerashaft"/>
+    <property name="prefabId" value="Alternator"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="33" name="Prefab" type="PrefabAlternator" x="896" y="9184" width="96" height="288">
+   <properties>
+    <property name="align" type="int" value="0"/>
+    <property name="event1" value="setcamera"/>
+    <property name="event2" value="setcamerashaft"/>
+    <property name="prefabId" value="Alternator"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="34" name="Platform" type="Platform" x="2208" y="224" width="32" height="576">
+   <properties>
+    <property name="triggeredId" value="platformtopwall"/>
+   </properties>
+  </object>
+  <object id="35" name="EventDelete" type="EventDelete" x="448" y="96" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="delete"/>
+   </properties>
+  </object>
+  <object id="36" name="Redirecttrigger" type="Redirecttrigger" x="512" y="96" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformtopceiling"/>
+    <property name="triggeredId" value="deletetop1"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="37" name="Redirecttrigger" type="Redirecttrigger" x="512" y="160" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformtopwall"/>
+    <property name="triggeredId" value="deletetop2"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="38" name="Redirecttrigger" type="Redirecttrigger" x="512" y="224" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformtop"/>
+    <property name="triggeredId" value="deletetop3"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="39" name="Redirecttrigger" type="Redirecttrigger" x="512" y="288" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformtopsensor"/>
+    <property name="triggeredId" value="deletetop4"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="40" name="Redirecttrigger" type="Redirecttrigger" x="576" y="96" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformbotceiling"/>
+    <property name="triggeredId" value="deletebot1"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="41" name="Redirecttrigger" type="Redirecttrigger" x="576" y="160" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformbotwall"/>
+    <property name="triggeredId" value="deletebot2"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="42" name="Redirecttrigger" type="Redirecttrigger" x="576" y="224" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformbot"/>
+    <property name="triggeredId" value="deletebot3"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="43" name="Redirecttrigger" type="Redirecttrigger" x="576" y="288" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformbotsensor"/>
+    <property name="triggeredId" value="deletebot4"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="44" name="Platform" type="Platform" x="352" y="0" width="96" height="288">
+   <properties>
+    <property name="triggeredId" value="door2"/>
+   </properties>
+  </object>
+  <object id="45" name="EventMove" type="EventMove" x="928" y="9312" width="32" height="32">
+   <properties>
+    <property name="gravity" type="float" value="0"/>
+    <property name="triggeredId" value="lockshaftbot"/>
+    <property name="triggeringId" value="door2"/>
+   </properties>
+  </object>
+  <object id="46" name="Platform" type="Platform" x="960" y="9472" width="960" height="32">
+   <properties>
+    <property name="triggeredId" value="platformbot"/>
+   </properties>
+  </object>
+  <object id="47" name="Platform" type="Platform" x="960" y="8864" width="960" height="32">
+   <properties>
+    <property name="triggeredId" value="platformbotceiling"/>
+   </properties>
+  </object>
+  <object id="48" name="Platform" type="Platform" x="1888" y="8896" width="32" height="576">
+   <properties>
+    <property name="triggeredId" value="platformbotwall"/>
+   </properties>
+  </object>
+  <object id="49" name="Sensor" type="Sensor" x="1088" y="9464" width="832" height="8">
+   <properties>
+    <property name="triggeredId" value="platformbotsensor"/>
+    <property name="triggeringId" value="beginascent"/>
+   </properties>
+  </object>
+  <object id="50" name="Displacer" type="Displacer" x="968" y="9464" width="920" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeredId" value="platformbotdisplacer"/>
+    <property name="triggeringId" value="platformbot"/>
+   </properties>
+  </object>
+  <object id="51" name="Multitrigger" type="Multitrigger" x="2112" y="9024" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="ascend"/>
+    <property name="triggeringId" value="lockshaftbot,tofloor2"/>
+   </properties>
+  </object>
+  <object id="52" name="Prefab" type="PrefabLimit" x="2048" y="9024" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="beginascent"/>
+    <property name="triggeringId" value="ascend"/>
+   </properties>
+  </object>
+  <object id="53" name="Redirecttrigger" type="Redirecttrigger" x="2112" y="9088" width="32" height="32">
+   <properties>
+    <property name="blameId" value="bot1"/>
+    <property name="triggeredId" value="tofloor2"/>
+    <property name="triggeringId" value="movebot"/>
+   </properties>
+  </object>
+  <object id="54" name="MovePoint" type="MovePoint" x="1584" y="9472" width="32" height="32">
+   <properties>
+    <property name="connections" value="platformbot,platformbotceiling,platformbotwall,camerashaftpoint"/>
+    <property name="speed" type="float" value="6"/>
+    <property name="triggeredId" value="movebot"/>
+   </properties>
+  </object>
+  <object id="55" name="Dummy" type="Dummy" x="1584" y="3328" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="bot1"/>
+    <property name="triggeringId" value="bot2"/>
+   </properties>
+  </object>
+  <object id="56" name="Dummy" type="Dummy" x="1904" y="3008" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="bot2"/>
+    <property name="triggeringId" value="bot3"/>
+   </properties>
+  </object>
+  <object id="57" name="Dummy" type="Dummy" x="1904" y="800" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="bot3"/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="60" name="EventMove" type="EventMove" x="1424" y="9184" width="32" height="32">
+   <properties>
+    <property name="gravity" type="float" value="0"/>
+    <property name="triggeredId" value="setbotcamerapoint"/>
+    <property name="triggeringId" value="camerashaftpoint"/>
+   </properties>
+  </object>
+  <object id="61" name="Sensor" type="Sensor" x="448" y="9696" width="224" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="62" name="Start" type="Start" x="544" y="9600" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfrombottom"/>
+   </properties>
+  </object>
+  <object id="63" name="Warp" type="Warp" x="544" y="9824" width="32" height="32">
+   <properties>
+    <property name="level" value="PLENUMCHAMBER3"/>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="64" name="Dropthrough" type="Dropthrough" x="448" y="9568" width="224" height="16"/>
+  <object id="65" name="Pusher" type="Pusher" x="640" y="9824" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="push1"/>
+    <property name="xPush" type="float" value="0"/>
+    <property name="yPush" type="float" value="30"/>
+   </properties>
+  </object>
+  <object id="66" name="Redirecttrigger" type="Redirecttrigger" x="512" y="352" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformtopdisplacer"/>
+    <property name="triggeredId" value="deletetop5"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="67" name="Redirecttrigger" type="Redirecttrigger" x="576" y="352" width="32" height="32">
+   <properties>
+    <property name="blameId" value="platformbotdisplacer"/>
+    <property name="triggeredId" value="deletebot5"/>
+    <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

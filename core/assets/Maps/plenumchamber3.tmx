@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="100">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="103">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="90" height="90">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="24" x="352" y="928">
-   <polyline points="576,-384 576,-768 800,-768 800,-96 640,-96 640,480 928,480 928,288 736,288 736,0 2144,0 2144,768 1792,768 1792,1248 1504,1248 1504,1344 2368,1344 2368,1664 1216,1664 1216,1248 768,1248 768,1088 928,1088 928,768 640,768 640,800 576,800 576,992 416,992 416,800 352,800 352,768 0,768 0,608 352,608 352,288 352,-384 576,-384"/>
+   <polyline points="576,-480 576,-768 800,-768 800,-96 640,-96 640,480 928,480 928,288 736,288 736,0 2144,0 2144,768 1792,768 1792,1248 1504,1248 1504,1344 2368,1344 2368,1664 1216,1664 1216,1248 768,1248 768,1088 928,1088 928,768 640,768 640,800 576,800 576,992 416,992 416,800 352,800 352,768 0,768 0,608 352,608 352,288 352,-480 576,-480"/>
   </object>
   <object id="25" x="1568" y="1696">
    <polyline points="0,0 288,0 288,160 0,160 0,0"/>
@@ -103,7 +103,7 @@
   </object>
   <object id="28" name="Warp" type="Warp" x="2656" y="2112" width="32" height="32">
    <properties>
-    <property name="level" value="WRECKUPPER1"/>
+    <property name="level" value="PLENUMCHAMBER4"/>
     <property name="startId" value="start1"/>
     <property name="triggeredId" value="warp0"/>
    </properties>
@@ -290,10 +290,10 @@
     <property name="triggeredId" value="elevatorfloorc"/>
    </properties>
   </object>
-  <object id="72" name="Displacer" type="Displacer" x="1312" y="1944" width="248" height="8">
+  <object id="72" name="Displacer" type="Displacer" x="1288" y="1944" width="272" height="8">
    <properties>
     <property name="displaceX" type="float" value="0"/>
-    <property name="triggeringId" value="elevatorwallc"/>
+    <property name="triggeringId" value="elevatorfloorc"/>
    </properties>
   </object>
   <object id="73" name="Prefab" type="PrefabLeverActivate" x="1312" y="1856" width="96" height="96">
@@ -453,5 +453,25 @@
   </object>
   <object id="98" name="Dropthrough" type="Dropthrough" x="2336" y="1392" width="160" height="16"/>
   <object id="99" name="Dropthrough" type="Dropthrough" x="928" y="384" width="224" height="16"/>
+  <object id="100" name="Sensor" type="Sensor" x="928" y="160" width="224" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="101" name="Start" type="Start" x="1024" y="288" width="32" height="32">
+   <properties>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfromtop"/>
+   </properties>
+  </object>
+  <object id="102" name="Warp" type="Warp" x="1024" y="96" width="32" height="32">
+   <properties>
+    <property name="level" value="PLENUMCHAMBERSHAFT"/>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value="warp2"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

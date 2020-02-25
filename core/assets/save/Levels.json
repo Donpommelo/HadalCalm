@@ -78,8 +78,8 @@ SSTUNICATE1: {
         PVP
 	]
 }
-WRECKUPPER1: {
-	name: WRECKUPPER1
+PLENUMCHAMBER4: {
+	name: PLENUMCHAMBER4
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
