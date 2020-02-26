@@ -73,7 +73,7 @@ public class BodyData extends HadalData {
 	 * @param schmuck: the entity that has this data
 	 * @param maxHp: the unit's hp
 	 */
-	public BodyData(Schmuck schmuck, int maxHp) {
+	public BodyData(Schmuck schmuck, float maxHp) {
 		super(UserDataTypes.BODY, schmuck);
 		this.schmuck = schmuck;	
 		

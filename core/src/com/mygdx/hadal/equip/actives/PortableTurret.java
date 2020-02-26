@@ -4,8 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
-import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
+import com.mygdx.hadal.schmucks.bodies.enemies.TurretFlak;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -24,7 +23,7 @@ public class PortableTurret extends ActiveItem {
 	private final static float lifespan = 3.0f;
 
 	private final static float projectileSpeed = 12.0f;
-	private final static float turretLifespan = 10.0f;
+	private final static float turretLifespan = 15.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
@@ -53,7 +52,7 @@ public class PortableTurret extends ActiveItem {
 			
 			@Override
 			public void die() {
-				new Turret(state, hbox.getPixelPosition(), EnemyType.TURRET_FLAK, faceRight ? 0 : 180, hbox.getFilter(), null) {
+				new TurretFlak(state, hbox.getPixelPosition(), faceRight ? 0 : 180, hbox.getFilter(), null) {
 					
 					@Override
 					public void create() {

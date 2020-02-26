@@ -3,6 +3,8 @@ package com.mygdx.hadal.equip;
 import com.mygdx.hadal.schmucks.bodies.enemies.Scissorfish;
 import com.mygdx.hadal.schmucks.bodies.enemies.Spittlefish;
 import com.mygdx.hadal.schmucks.bodies.enemies.Torpedofish;
+import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
+import com.mygdx.hadal.schmucks.bodies.enemies.Turret.TurretState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -20,6 +22,7 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyAction;
@@ -51,6 +54,17 @@ public class EnemyUtils {
 					enemy.setMovementTarget(dummy.getPixelPosition());
 					enemy.setMoveSpeed(speed);
 				}
+			}
+		});
+	}
+	
+	public static void changeMoveState(final PlayState state, final Enemy boss, final MoveState moveState, float duration) {
+		
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				boss.setMoveState(moveState);
 			}
 		});
 	}
@@ -98,6 +112,30 @@ public class EnemyUtils {
 					break;
 				case STILL:
 					bossCrawling.setMoveDirection(0);
+					break;
+				default:
+					break;
+				}
+			}
+		});
+	}
+	
+	public static void changeTurretState(final Turret turret, final TurretState state, final float angle, float duration) {
+		
+		turret.getActions().add(new EnemyAction(turret, duration) {
+			
+			@Override
+			public void execute() {
+				turret.setCurrentState(state);
+				turret.setAngle(normalizeAngle((int) turret.getAngle()));
+				switch (state) {
+				case FREE:
+					turret.setDesiredAngle(angle);
+					break;
+				case FIXED:
+					turret.setAngle(angle);
+					break;
+				case TRACKING:
 					break;
 				default:
 					break;
@@ -283,8 +321,8 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle()),
-						enemy.getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));

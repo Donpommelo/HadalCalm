@@ -14,7 +14,7 @@ import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
-import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
@@ -488,7 +488,7 @@ public class Packets {
 	
 	public static class SyncSchmuck {
 		public String entityID;
-		public SchmuckMoveStates moveState;
+		public MoveState moveState;
 
 		public SyncSchmuck() {}
 		
@@ -500,7 +500,7 @@ public class Packets {
 		 * @param entityID: ID of the Schmuck to be synced
 		 * @param moveState: The State of the Schmuck. Used for animations on the Client's end
 		 */
-		public SyncSchmuck(String entityID, SchmuckMoveStates moveState) {
+		public SyncSchmuck(String entityID, MoveState moveState) {
 			this.entityID = entityID;
 			this.moveState = moveState;
 		}
@@ -550,7 +550,7 @@ public class Packets {
 		public String entityID;
         public float attackAngle;
         public float hpPercent;
-        public SchmuckMoveStates moveState;
+        public MoveState moveState;
         public boolean grounded;
         public int currentSlot;
         public boolean reloading;

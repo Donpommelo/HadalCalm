@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
@@ -33,8 +34,14 @@ public class Crawler1 extends EnemyCrawling {
 		getBodyData().setStat(Stats.GROUND_SPD, groundSpeed);
 	}
 	
+	private static final int charge1Damage = 10;
+	private static final float attackInterval = 1 / 60.0f;
+	private static final int defaultMeleeKB = 20;
 	@Override
 	public void attackInitiate() {
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
+		
+//		EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0, 0.25f);
 		
 	};
 }

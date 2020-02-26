@@ -22,6 +22,14 @@ BOSS2: {
         PVP
 	]
 }
+BOSS3: {
+	name: BOSS3
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP
+	]
+}
 NASU: {
 	name: NASU
 	description: TEMP

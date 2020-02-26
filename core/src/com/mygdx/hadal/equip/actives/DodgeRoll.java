@@ -1,7 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -24,9 +24,9 @@ public class DodgeRoll extends ActiveItem {
 		
 		int direction = 0;
 		
-		if (user.getPlayer().getMoveState().equals(SchmuckMoveStates.MOVE_LEFT)) {
+		if (user.getPlayer().getMoveState().equals(MoveState.MOVE_LEFT)) {
 			direction = -1;
-		} else if (user.getPlayer().getMoveState().equals(SchmuckMoveStates.MOVE_RIGHT)) {
+		} else if (user.getPlayer().getMoveState().equals(MoveState.MOVE_RIGHT)) {
 			direction = 1;
 		} else if (weaponVelo.x > 0){
 			direction = 1;

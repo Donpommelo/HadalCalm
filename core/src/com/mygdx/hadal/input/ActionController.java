@@ -1,6 +1,6 @@
 package com.mygdx.hadal.input;
 
-import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -33,18 +33,18 @@ public class ActionController {
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = true;
 			if (!rightDown) {
-				player.setMoveState(SchmuckMoveStates.MOVE_LEFT);
+				player.setMoveState(MoveState.MOVE_LEFT);
 			} else {
-				player.setMoveState(SchmuckMoveStates.STAND);
+				player.setMoveState(MoveState.STAND);
 			}
 		}
 		
 		if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = true;
 			if (!leftDown) {
-				player.setMoveState(SchmuckMoveStates.MOVE_RIGHT);
+				player.setMoveState(MoveState.MOVE_RIGHT);
 			} else {
-				player.setMoveState(SchmuckMoveStates.STAND);
+				player.setMoveState(MoveState.STAND);
 			}
 		}
 		
@@ -138,18 +138,18 @@ public class ActionController {
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = false;
 			if (rightDown) {
-				player.setMoveState(SchmuckMoveStates.MOVE_RIGHT);
+				player.setMoveState(MoveState.MOVE_RIGHT);
 			} else {
-				player.setMoveState(SchmuckMoveStates.STAND);
+				player.setMoveState(MoveState.STAND);
 			}
 		}
 		
 		if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = false;
 			if (leftDown) {
-				player.setMoveState(SchmuckMoveStates.MOVE_LEFT);
+				player.setMoveState(MoveState.MOVE_LEFT);
 			} else {
-				player.setMoveState(SchmuckMoveStates.STAND);
+				player.setMoveState(MoveState.STAND);
 			}
 		}
 		

@@ -82,7 +82,7 @@ public class Enemy extends Schmuck {
 	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
-	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int baseHp, float attackCd, SpawnerSchmuck spawner) {
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, SpawnerSchmuck spawner) {
 		super(state, startPos, size, filter, baseHp);
 		this.hboxSize = hboxSize;
 		this.type = type;

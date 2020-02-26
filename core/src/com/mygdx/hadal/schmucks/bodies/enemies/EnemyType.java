@@ -42,7 +42,7 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Turret(state, startPos, EnemyType.TURRET_FLAK, extraField, filter, spawner);
+			return new TurretFlak(state, startPos, extraField, filter, spawner);
 		}
 	},
 	
@@ -50,7 +50,7 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Turret(state, startPos, EnemyType.TURRET_VOLLEY, extraField, filter, spawner);
+			return new TurretVolley(state, startPos, extraField, filter, spawner);
 		}
 	},
 	
@@ -70,6 +70,13 @@ public enum EnemyType {
 		}
 	},
 	
+	TURRET_BOSS() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new TurretBoss(state, startPos, extraField, filter, spawner);
+		}
+	},
 	;
 	
 	

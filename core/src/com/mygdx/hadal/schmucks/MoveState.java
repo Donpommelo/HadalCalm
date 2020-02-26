@@ -5,11 +5,12 @@ package com.mygdx.hadal.schmucks;
  * @author Zachary Tu
  *
  */
-public enum SchmuckMoveStates {
+public enum MoveState {
 	STAND,
 	MOVE_LEFT,
 	MOVE_RIGHT,
 	
-	TURRET_SHOOTING,
-	TURRET_NOTSHOOTING,
+	DEFAULT,
+	ANIM1,
+	ANIM2
 }

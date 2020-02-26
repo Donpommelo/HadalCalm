@@ -9,7 +9,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -21,16 +21,16 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Turret extends Enemy {
 
-	private static final int baseHp = 200;
-	private static final float aiAttackCd = 0.5f;
-	    
 	private float angle;
 	private float desiredAngle;
 	private float startAngle;
 	
-	private Sprite turretBarrelSprite;
-	protected Animation<? extends TextureRegion> turretBase, turretBarrel;
+	private TurretState currentState;
 	
+	private Sprite turretBarrelSprite;
+	private  Animation<? extends TextureRegion> turretBase, turretBarrel;
+	private float scale = 0.5f;
+
 	private static final int baseWidth = 528;
 	private static final int baseHeight = 252;
 	
@@ -40,17 +40,17 @@ public class Turret extends Enemy {
 	private static final int rotationX = 131;
 	private static final int rotationY = 114;
 	
-	private static final float scale = 0.5f;
 	
 	private static final Sprite base = Sprite.TURRET_BASE;
 	private static final Sprite flak = Sprite.TURRET_FLAK;
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
-	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, aiAttackCd, spawner);		
+	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, float baseHp, float attackCd, float scale, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, attackCd, spawner);		
 		this.angle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;
+		this.scale = scale;
 		
 		this.turretBase = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, base.getFrames());
 		
@@ -65,7 +65,8 @@ public class Turret extends Enemy {
 			break;
 		}
 		this.turretBarrel = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, turretBarrelSprite.getFrames());
-		moveState = SchmuckMoveStates.TURRET_NOTSHOOTING;
+		moveState = MoveState.DEFAULT;
+		currentState = TurretState.STARTING;
 	}
 	
 	/**
@@ -74,29 +75,20 @@ public class Turret extends Enemy {
 	@Override
 	public void create() {
 		super.create();
-		this.body.setType(BodyDef.BodyType.StaticBody);
+		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	
-	/**
-	 * Enemy ai goes here. Default enemy behavior: don't move. shoot player on sight.
-	 */
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
-
-		if (target == null) {
-			moveState = SchmuckMoveStates.TURRET_NOTSHOOTING;
-		} else {
-			moveState = SchmuckMoveStates.TURRET_SHOOTING;
-		}
 		
 		angle = angle + (desiredAngle - angle) * 0.05f;
 		
-		switch(moveState) {
-			case TURRET_NOTSHOOTING:
+		switch(currentState) {
+			case STARTING:
 				desiredAngle = startAngle;
 				break;
-			case TURRET_SHOOTING:
+			case TRACKING:
 				if (target.isAlive()) {
 					desiredAngle =  (float)(Math.atan2(
 							target.getPosition().y - getPosition().y ,
@@ -130,16 +122,16 @@ public class Turret extends Enemy {
 			rotationYReal = size.y / scale - rotationY;
 		}
 		
-		if(moveState == SchmuckMoveStates.TURRET_NOTSHOOTING) {
+		if(moveState == MoveState.DEFAULT) {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(0, true), 
 					getPixelPosition().x - hboxSize.x / 2, 
-					(flip ? size.y - 12 : 0) + getPixelPosition().y - hboxSize.y / 2, 
+					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - hboxSize.y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
 		} else {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(animationTime, true), 
 					getPixelPosition().x - hboxSize.x / 2, 
-					(flip ? size.y - 12: 0) + getPixelPosition().y - hboxSize.y / 2, 
+					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - hboxSize.y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
 		}
@@ -158,9 +150,7 @@ public class Turret extends Enemy {
 	private final static float projInterval = 0.5f;
 	@Override
 	public void attackInitiate() {
-		if (moveState.equals(SchmuckMoveStates.TURRET_SHOOTING)) {
-			EnemyUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
-		}
+		EnemyUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
 	}
 	
 	//Turrets send their attack angle as a body angle because I don't feel like making a specific packet for them.
@@ -191,6 +181,34 @@ public class Turret extends Enemy {
 		return super.queueDeletion();
 	}
 	
+	private Vector2 originPt = new Vector2();
+	private final static float spawnDist = 350.0f;
+	/**
+	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
+	 */
 	@Override
-	public float getAttackAngle() {	return angle;}
+	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
+		originPt.set(getPixelPosition()).add(new Vector2(startVelo).nor().scl(scale * spawnDist));
+		return originPt;
+	}
+	
+	public TurretState getCurrentState() {	return currentState; }
+
+	public void setCurrentState(TurretState currentState) { this.currentState = currentState; }
+	
+	public float getAngle() { return angle; }
+
+	public void setAngle(float angle) { this.angle = angle; }
+
+	public void setDesiredAngle(float desiredAngle) { this.desiredAngle = desiredAngle; }
+
+	@Override
+	public float getAttackAngle() {	return angle; }
+	
+	public enum TurretState {
+		STARTING,
+		TRACKING,
+		FIXED,
+		FREE
+	}
 }

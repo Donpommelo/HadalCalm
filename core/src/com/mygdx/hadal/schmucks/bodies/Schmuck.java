@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
-import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -24,13 +24,13 @@ import com.mygdx.hadal.utils.Stats;
 public class Schmuck extends HadalEntity {
 
 	//The current movestate of this schmuck
-	protected SchmuckMoveStates moveState;
+	protected MoveState moveState;
 	
 	//user data.
 	private BodyData bodyData;
 	
 	//the enemy's base hp.
-    protected int baseHp;
+    protected float baseHp;
     
 	//Is this schmuck currently standing on a solid surface?
 	protected boolean grounded;
@@ -64,7 +64,7 @@ public class Schmuck extends HadalEntity {
 	 * @param startX: starting x position
 	 * @param startY: starting y position
 	 */
-	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter, int baseHp) {
+	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter, float baseHp) {
 		super(state, startPos, size);
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
@@ -206,9 +206,9 @@ public class Schmuck extends HadalEntity {
 	
 	public BodyData getBodyData() {	return bodyData; }
 	
-	public SchmuckMoveStates getMoveState() { return moveState; }
+	public MoveState getMoveState() { return moveState; }
 	
-	public void setMoveState(SchmuckMoveStates moveState) { this.moveState = moveState; }
+	public void setMoveState(MoveState moveState) { this.moveState = moveState; }
 	
 	public float getShootCdCount() { return shootCdCount; }
 	
@@ -218,7 +218,7 @@ public class Schmuck extends HadalEntity {
 	
 	public short getHitboxfilter() { return hitboxfilter; }
 	
-	public int getBaseHp() { return baseHp; }
+	public float getBaseHp() { return baseHp; }
 
 	public boolean isGrounded() { return grounded; }
 }

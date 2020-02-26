@@ -20,7 +20,7 @@ import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.input.ActionController;
 import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.save.UnlockCharacter;
-import com.mygdx.hadal.schmucks.SchmuckMoveStates;
+import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
@@ -171,7 +171,7 @@ public class Player extends PhysicsSchmuck {
 		this.toolHeight = toolSprite.getRegionHeight();
 		this.toolWidth = toolSprite.getRegionWidth();
 		
-		this.moveState = SchmuckMoveStates.STAND;
+		this.moveState = MoveState.STAND;
 
 		this.startLoadout = startLoadout;
 		this.playerData = oldData;
@@ -522,7 +522,7 @@ public class Player extends PhysicsSchmuck {
 		
 		//This switch determines the total body y-offset to make the body bob up and down when running.
 		int yOffset = 0;
-		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT) || moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
+		if (moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) {
 			switch(bodyRunSprite.getKeyFrameIndex(animationTime)) {
 			case 0:
 			case 1:
@@ -569,7 +569,7 @@ public class Player extends PhysicsSchmuck {
 		
 		boolean reverse = false;
 
-		if (moveState.equals(SchmuckMoveStates.MOVE_LEFT)) {
+		if (moveState.equals(MoveState.MOVE_LEFT)) {
 			
 			if (Math.abs(attackAngle) > 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
@@ -583,7 +583,7 @@ public class Player extends PhysicsSchmuck {
 					getPixelPosition().y - hbHeight * scale / 2  + bodyConnectY + yOffset, 
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
-		} else if (moveState.equals(SchmuckMoveStates.MOVE_RIGHT)) {
+		} else if (moveState.equals(MoveState.MOVE_RIGHT)) {
 			if (Math.abs(attackAngle) < 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
 				reverse = true;

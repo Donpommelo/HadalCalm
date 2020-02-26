@@ -13,6 +13,7 @@ public enum UnlockLevel {
 	NASU("Maps/nasu.tmx"),
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
+	BOSS3("Maps/Boss3.tmx"),
 	
 	SANDBOX("Maps/sandbox.tmx"),
 	

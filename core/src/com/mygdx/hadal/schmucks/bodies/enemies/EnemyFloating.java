@@ -119,7 +119,7 @@ public class EnemyFloating extends Enemy {
 	public void setSpinSpeed(int spinSpeed) { this.spinSpeed = spinSpeed; }
 	
 	@Override
-	public float getAttackAngle() {	return angle;}
+	public float getAttackAngle() {	return angle; }
 	
 	public enum FloatingState {
 		TRACKING_PLAYER,
