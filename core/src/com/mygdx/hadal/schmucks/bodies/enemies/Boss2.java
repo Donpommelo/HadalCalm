@@ -152,7 +152,7 @@ public class Boss2 extends EnemyFloating {
 		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
 		EnemyUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.0f);
 		EnemyUtils.moveToDummy(state, this, "platformCenter", charge1Speed, driftDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, getAngle(), 0.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.5f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
@@ -167,12 +167,12 @@ public class Boss2 extends EnemyFloating {
 	
 	public void horizontalLaser() {
 		EnemyUtils.moveToDummy(state, this, "platformLip", driftSpeed, driftDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.5f);
 		EnemyUtils.stopStill(this, 0.2f);
 		for (int i = 0; i < laser1Amount; i++) {
 			EnemyUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, getAngle(), 0.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.5f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
@@ -190,12 +190,12 @@ public class Boss2 extends EnemyFloating {
 	
 	private void fireBreath() {
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.5f);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
 			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
@@ -213,8 +213,8 @@ public class Boss2 extends EnemyFloating {
 	
 	private void sweepingLaser() {
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.0f);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -165.0f, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -165.0f, 0.0f);
 		for (int i = 0; i < laser3Amount; i++) {
 			EnemyUtils.fireLaser(state, this, laser3Damage, laser3Speed, laser3Knockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 		}
@@ -222,7 +222,7 @@ public class Boss2 extends EnemyFloating {
 			EnemyUtils.createExplosion(state, this, new Vector2(EnemyUtils.getRightSide(state) - i * explosionSize / 2,
 					EnemyUtils.floorHeight(state)), explosionSize, explosionDamage, explosionKnockback, explosionInterval);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}

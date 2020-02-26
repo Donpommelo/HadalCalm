@@ -50,6 +50,7 @@
  </objecttype>
  <objecttype name="Destr_Obj" color="#a0a0a4">
   <property name="hp" type="int" default="100"/>
+  <property name="static" type="bool" default="true"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

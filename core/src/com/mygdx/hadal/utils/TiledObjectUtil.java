@@ -273,7 +273,9 @@ public class TiledObjectUtil {
 			e = new End(state, object.getProperties().get("text", "", String.class));
 		}
 		if (object.getName().equals("Destr_Obj")) {
-			e = new DestructableBlock(state, position, size, object.getProperties().get("Hp", 100, int.class));
+			e = new DestructableBlock(state, position, size, 
+					object.getProperties().get("Hp", 100, int.class),
+					object.getProperties().get("static", true, boolean.class));
 		}
 		if (object.getName().equals("Warp")) {
 			e = new LevelWarp(state,

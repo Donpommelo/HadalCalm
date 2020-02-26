@@ -20,7 +20,7 @@
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="true"/>
     <property name="bossname" value="King Kamaboko"/>
-    <property name="enemyId" type="int" value="8"/>
+    <property name="enemyId" value="BOSS2"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="spawn0"/>
    </properties>

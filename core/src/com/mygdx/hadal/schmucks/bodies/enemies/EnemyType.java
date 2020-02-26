@@ -12,7 +12,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Crawler1(state, startPos, filter, spawner);
 		}
-		
 	},
 	
 	SCISSORFISH() {
@@ -21,7 +20,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Scissorfish(state, startPos, filter, spawner);
 		}
-		
 	},
 	
 	SPITTLEFISH() {
@@ -30,7 +28,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Spittlefish(state, startPos, filter, spawner);
 		}
-		
 	},
 	
 	TORPEDOFISH() {
@@ -39,7 +36,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Torpedofish(state, startPos, filter, spawner);
 		}
-		
 	},
 	
 	TURRET_FLAK() {
@@ -48,7 +44,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Turret(state, startPos, EnemyType.TURRET_FLAK, extraField, filter, spawner);
 		}
-		
 	},
 	
 	TURRET_VOLLEY() {
@@ -57,7 +52,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Turret(state, startPos, EnemyType.TURRET_VOLLEY, extraField, filter, spawner);
 		}
-		
 	},
 	
 	BOSS1() {
@@ -66,7 +60,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Boss1(state, startPos, filter, spawner);
 		}
-		
 	},
 	
 	BOSS2() {
@@ -75,7 +68,6 @@ public enum EnemyType {
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Boss2(state, startPos, filter, spawner);
 		}
-		
 	},
 	
 	;

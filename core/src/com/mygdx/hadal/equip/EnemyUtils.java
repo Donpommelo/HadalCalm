@@ -23,8 +23,10 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyAction;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyCrawling;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyCrawling.CrawlingState;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating;
-import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating.BossState;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating.FloatingState;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -53,7 +55,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void changeTrackingState(final EnemyFloating bossFloating, final BossState state, final float angle, float duration) {
+	public static void changeFloatingState(final EnemyFloating bossFloating, final FloatingState state, final float angle, float duration) {
 		
 		bossFloating.getActions().add(new EnemyAction(bossFloating, duration) {
 			
@@ -76,7 +78,29 @@ public class EnemyUtils {
 					break;
 				default:
 					break;
-				
+				}
+			}
+		});
+	}
+	
+	public static void changeCrawlingState(final EnemyCrawling bossCrawling, final CrawlingState state, final float direction, float duration) {
+		
+		bossCrawling.getActions().add(new EnemyAction(bossCrawling, duration) {
+			
+			@Override
+			public void execute() {
+				bossCrawling.setCurrentState(state);
+				switch (state) {
+				case BACK_FORTH:
+				case AVOID_PITS:
+				case CHASE_PLAYER:
+					bossCrawling.setMoveDirection(direction);
+					break;
+				case STILL:
+					bossCrawling.setMoveDirection(0);
+					break;
+				default:
+					break;
 				}
 			}
 		});

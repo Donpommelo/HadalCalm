@@ -28,13 +28,13 @@ public class EnemyCrawling extends Enemy {
 	private Animation<TextureRegion> floatingSprite;
 
 	private float moveDirection;
-	private BossState currentState;
+	private CrawlingState currentState;
 	
 	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, spawner);
 		
 		this.moveDirection = 1.0f;
-		this.currentState = BossState.STILL;
+		this.currentState = CrawlingState.STILL;
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
 			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
@@ -187,9 +187,9 @@ public class EnemyCrawling extends Enemy {
 	
 	public void setMoveDirection(float moveDirection) { this.moveDirection = moveDirection; }
 
-	public void setCurrentState(BossState currentState) { this.currentState = currentState; }
+	public void setCurrentState(CrawlingState currentState) { this.currentState = currentState; }
 
-	public enum BossState {
+	public enum CrawlingState {
 		BACK_FORTH,
 		AVOID_PITS,
 		CHASE_PLAYER,

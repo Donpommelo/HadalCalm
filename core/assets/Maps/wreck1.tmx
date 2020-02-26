@@ -252,7 +252,11 @@
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
-  <object id="56" name="Destr_Obj" type="Destr_Obj" x="1856" y="1952" width="96" height="224"/>
+  <object id="56" name="Destr_Obj" type="Destr_Obj" x="1856" y="1952" width="96" height="224">
+   <properties>
+    <property name="sprite" value="SCRAP_C"/>
+   </properties>
+  </object>
   <object id="57" name="Dummy" type="Dummy" x="2944" y="448" width="32" height="32">
    <properties>
     <property name="triggeredId" value="floor2"/>

@@ -27,7 +27,7 @@ public class EnemyFloating extends Enemy {
 	private int spinSpeed;
 	
 	//The boss's current state in terms of passive behavior (is it tracking the player, still, spinning etc)
-	private BossState currentState;
+	private FloatingState currentState;
 	
 	//this is the boss's sprite
 	private Animation<TextureRegion> floatingSprite;
@@ -38,7 +38,7 @@ public class EnemyFloating extends Enemy {
 		this.angle = 0;
 		this.desiredAngle = 0;
 		
-		this.currentState = BossState.TRACKING_PLAYER;
+		this.currentState = FloatingState.TRACKING_PLAYER;
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
 			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
@@ -106,7 +106,7 @@ public class EnemyFloating extends Enemy {
 		return super.queueDeletion();
 	}
 	
-	public void setCurrentState(BossState currentState) { this.currentState = currentState; }
+	public void setCurrentState(FloatingState currentState) { this.currentState = currentState; }
 	
 	public float getAngle() { return angle; }
 
@@ -121,7 +121,7 @@ public class EnemyFloating extends Enemy {
 	@Override
 	public float getAttackAngle() {	return angle;}
 	
-	public enum BossState {
+	public enum FloatingState {
 		TRACKING_PLAYER,
 		LOCKED,
 		FREE,

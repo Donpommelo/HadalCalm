@@ -181,15 +181,15 @@ public class Boss1 extends EnemyFloating {
 	
 	private void chargeAttack1() {
 		EnemyUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 1.2f);
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
+		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 1.2f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		EnemyUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, charge1Knockback, charge1AttackDuration);
 	}
 	
 	private void chargeAttack2() {
 		int corner = EnemyUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.5f);
 		EnemyUtils.meleeAttackContinuous(state, this, charge2Damage, chargeAttackInterval, charge2Knockback, charge2AttacksDuration);
 		
 		switch (corner) {
@@ -218,7 +218,7 @@ public class Boss1 extends EnemyFloating {
 			EnemyUtils.moveToDummy(state, this, "8", charge2Speed, moveDurationMax);
 			break;
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private static final int fireballDamage = 4;
@@ -234,22 +234,22 @@ public class Boss1 extends EnemyFloating {
 	
 	private void fireBreath() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.5f);
 		switch (wall) {
 		case 0 :
-			EnemyUtils.changeTrackingState(this, BossState.FREE, 0.0f, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 			for (int i = 0; i < fireballNumber; i++) {
 				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
 			}
 			break;
 		case 1: 
-			EnemyUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 			for (int i = 0; i < fireballNumber; i++) {
 				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
 			}
 			break;
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private static final float trackInterval = 0.25f;
@@ -269,7 +269,7 @@ public class Boss1 extends EnemyFloating {
 		switch (wall) {
 		case 0 :
 			
-			EnemyUtils.changeTrackingState(this, BossState.FREE, 0.0f, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 			for (int i = 0; i < trackAmount; i++) {
 				EnemyUtils.trackPlayerXY(state, this, target, trackSpeed, trackInterval, false);
 			}
@@ -279,7 +279,7 @@ public class Boss1 extends EnemyFloating {
 			}
 			break;
 		case 1: 
-			EnemyUtils.changeTrackingState(this, BossState.FREE, -180.0f, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 			for (int i = 0; i < trackAmount; i++) {
 				EnemyUtils.trackPlayerXY(state, this, target, trackSpeed, trackInterval, false);
 			}
@@ -289,7 +289,7 @@ public class Boss1 extends EnemyFloating {
 			}
 			break;
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private static final float rotateSpeed = 2.5f;
@@ -300,20 +300,20 @@ public class Boss1 extends EnemyFloating {
 	
 	private void rotatingLaser() {
 		EnemyUtils.moveToDummy(state, this, "4", moveSpeed, moveDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -90.0f, 2.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 2.0f);
 		
 		boolean random = GameStateManager.generator.nextBoolean();
 		
 		if (random) {
-			EnemyUtils.changeTrackingState(this, BossState.ROTATING, rotateSpeed, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.ROTATING, rotateSpeed, 0.0f);
 		} else {
-			EnemyUtils.changeTrackingState(this, BossState.ROTATING, -rotateSpeed, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.ROTATING, -rotateSpeed, 0.0f);
 		}
 		
 		for (int i = 0; i < laser2Amount; i++) {
 			EnemyUtils.fireLaser(state, this, laser2Damage, laser2Speed, laserKnockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 1.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 1.0f);
 	}
 	
 	private static final int laser3Amount = 25;
@@ -328,11 +328,11 @@ public class Boss1 extends EnemyFloating {
 	
 	private void sweepingLaser() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.FREE, -90.0f, 1.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.0f);
 		
 		switch (wall) {
 		case 0 :
-			EnemyUtils.changeTrackingState(this, BossState.FREE, -15.0f, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -15.0f, 0.0f);
 			for (int i = 0; i < laser3Amount; i++) {
 				EnemyUtils.fireLaser(state, this, laser3Damage, laser3Speed, laser3Knockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 			}
@@ -342,7 +342,7 @@ public class Boss1 extends EnemyFloating {
 			}
 			break;
 		case 1: 
-			EnemyUtils.changeTrackingState(this, BossState.FREE, -165.0f, 0.0f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -165.0f, 0.0f);
 			for (int i = 0; i < laser3Amount; i++) {
 				EnemyUtils.fireLaser(state, this, laser3Damage, laser3Speed, laserKnockback, laserSize, laserLifespan, laser2Interval, Particle.LASER_PULSE);
 			}
@@ -352,7 +352,7 @@ public class Boss1 extends EnemyFloating {
 			}
 			break;
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private static final int numBalls = 3;
@@ -376,10 +376,10 @@ public class Boss1 extends EnemyFloating {
 		}
 		
 		for (int i = 0; i < numBalls; i++) {
-			EnemyUtils.changeTrackingState(this, BossState.FREE, baseAngle + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), ballInterval);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, baseAngle + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)), ballInterval);
 			EnemyUtils.bouncingBall(state, this, ballDamage, ballSpeed, ballKnockback, ballSize, ballLifespan, 0.0f);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 2.0f);
 	}
 	
 	
@@ -388,8 +388,8 @@ public class Boss1 extends EnemyFloating {
 	private static final float spiritLifespan= 5.0f;
 	private Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
-		EnemyUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.75f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		
 		spiritPos.set(getPixelPosition()).add(0, 100);
 		EnemyUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
@@ -411,30 +411,30 @@ public class Boss1 extends EnemyFloating {
 	private void poisonCloud() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		if (wall == 0) {
-			EnemyUtils.changeTrackingState(this, BossState.FREE, -75.0f, 2.5f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -75.0f, 2.5f);
 			for (int i = 0; i < numPoison; i++) {
 				EnemyUtils.createPoison(state, this, new Vector2(EnemyUtils.getLeftSide(state) + i * poisonWidth, EnemyUtils.floorHeight(state) + poisonHeight / 2),
 						new Vector2(poisonWidth, poisonHeight), poisonDamage, poisonDuration, poisonInterval);
 			}
 		} else {
-			EnemyUtils.changeTrackingState(this, BossState.FREE, -105.0f, 2.5f);
+			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -105.0f, 2.5f);
 			for (int i = 0; i < numPoison; i++) {
 				EnemyUtils.createPoison(state, this, new Vector2(EnemyUtils.getRightSide(state) - i * poisonWidth, EnemyUtils.floorHeight(state) + poisonHeight / 2),
 						new Vector2(poisonWidth, poisonHeight), poisonDamage, poisonDuration, poisonInterval);
 			}
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private static final int numAdds = 3;
 	private void spawnAdds() {
 		EnemyUtils.moveToDummy(state, this, "4", moveSpeed, moveDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.75f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		for (int i = 0; i < numAdds; i++) {
 			EnemyUtils.spawnAdds(state, this, EnemyType.TORPEDOFISH, 1, 1.5f);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 2.0f);
 	}
 	
 	private static final int numDebris = 18;
@@ -445,11 +445,11 @@ public class Boss1 extends EnemyFloating {
 	private static final float debrisKnockback= 15.0f;
 	private static final float debrisLifespan= 3.0f;
 	private void fallingDebris() {
-		EnemyUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 1.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 1.0f);
 		for (int i = 0; i < numDebris; i++) {
 			EnemyUtils.fallingDebris(state, this, debrisDamage, debrisSize, debrisKnockback, debrisLifespan, debrisInterval);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	private void fallingDebrisPassive() {

@@ -102,7 +102,7 @@
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="true"/>
     <property name="bossname" value="slightly larger fish"/>
-    <property name="enemyId" type="int" value="7"/>
+    <property name="enemyId" value="BOSS1"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="spawn0"/>
     <property name="triggeringId" value="bosswin"/>

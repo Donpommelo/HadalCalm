@@ -17,6 +17,7 @@ public enum UnlockLevel {
 	SANDBOX("Maps/sandbox.tmx"),
 	
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
+	DM_FALLDOWN("Maps/dm_falldown.tmx"),
 	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx"),
 	DM_SAWMILL("Maps/dm_sawmill.tmx"),

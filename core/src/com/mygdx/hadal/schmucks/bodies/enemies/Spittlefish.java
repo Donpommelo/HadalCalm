@@ -44,7 +44,7 @@ public class Spittlefish extends EnemySteering {
 	private final static float lifespan = 5.0f;
 	@Override
 	public void attackInitiate() {
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.4f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
 			@Override

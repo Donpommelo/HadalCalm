@@ -32,9 +32,12 @@ public class DestructableBlock extends Event {
 	//when damaged, the event flashes for this duration
 	private final static float flashDuration = 0.1f;
 	
-	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp) {
+	private boolean isStatic;
+	
+	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp, boolean isStatic) {
 		super(state, startPos, size);
 		this.hp = hp;
+		this.isStatic = isStatic;
 	}
 
 	@Override
@@ -64,15 +67,16 @@ public class DestructableBlock extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, 
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0, isStatic, true, 
 				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 	}
 	
 	@Override
 	public void loadDefaultProperties() {
-		setEventSprite(Sprite.SCRAP_C);
+		setEventSprite(Sprite.UI_MAIN_HEALTH_MISSING);
 		setScaleAlign("CENTER_STRETCH");
 		setStandardParticle(Particle.IMPACT);
+		setGravity(0.0f);
 	}
 }
