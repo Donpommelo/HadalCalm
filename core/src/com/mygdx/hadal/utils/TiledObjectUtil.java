@@ -182,7 +182,7 @@ public class TiledObjectUtil {
 		}
 		if (object.getName().equals("SchmuckSpawn")) {
 			e = new SpawnerSchmuck(state, position, size, 
-					object.getProperties().get("enemyId", int.class), 
+					object.getProperties().get("enemyId", String.class), 
 					object.getProperties().get("amount", 1, int.class), 
 					object.getProperties().get("extra", 0, int.class),
 					object.getProperties().get("boss", false, boolean.class),

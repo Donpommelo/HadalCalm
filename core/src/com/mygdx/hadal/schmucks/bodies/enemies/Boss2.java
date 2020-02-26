@@ -43,8 +43,8 @@ public class Boss2 extends EnemyFloating {
 	private Body[] links = new Body[5];
 	private TextureRegion headSprite, bodySprite, faceSprite;
 	
-	public Boss2(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, type, filter, hp, aiAttackCd, spawner);
+	public Boss2(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, spawner);
 		this.headSprite = Sprite.KAMABOKO_BODY.getFrames().get(0);
 		this.bodySprite = Sprite.KAMABOKO_BODY.getFrames().get(1);
 		setFaceSprite();
@@ -152,7 +152,7 @@ public class Boss2 extends EnemyFloating {
 		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
 		EnemyUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.0f);
 		EnemyUtils.moveToDummy(state, this, "platformCenter", charge1Speed, driftDurationMax);
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, angle, 0.5f);
+		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, getAngle(), 0.5f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
@@ -172,7 +172,7 @@ public class Boss2 extends EnemyFloating {
 		for (int i = 0; i < laser1Amount; i++) {
 			EnemyUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
 		}
-		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, angle, 0.5f);
+		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, getAngle(), 0.5f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}

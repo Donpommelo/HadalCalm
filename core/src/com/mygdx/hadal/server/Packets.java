@@ -16,7 +16,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.SchmuckMoveStates;
 import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
@@ -334,7 +334,7 @@ public class Packets {
 	
 	public static class CreateEnemy {
 		public String entityID;
-		public enemyType type;
+		public EnemyType type;
 		public boolean boss;
 		public String name;
 		public CreateEnemy() {}
@@ -346,7 +346,7 @@ public class Packets {
 		 * @param boss: is this a boss enemy?
 		 * @param name: if a boss, what name shows up in the ui?
 		 */
-		public CreateEnemy(String entityID, enemyType type, boolean boss, String name) {
+		public CreateEnemy(String entityID, EnemyType type, boolean boss, String name) {
             this.entityID = entityID;
             this.type = type;
             this.boss = boss;

@@ -30,7 +30,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Enemy extends Schmuck {
 	
 	//This is the type of enemy
-	protected enemyType type;		
+	protected EnemyType type;		
 
     //this is the size of the enemy's hitbox
     protected Vector2 hboxSize;
@@ -82,7 +82,7 @@ public class Enemy extends Schmuck {
 	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
-	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, enemyType type, short filter, int baseHp, float attackCd, SpawnerSchmuck spawner) {
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int baseHp, float attackCd, SpawnerSchmuck spawner) {
 		super(state, startPos, size, filter, baseHp);
 		this.hboxSize = hboxSize;
 		this.type = type;
@@ -290,13 +290,4 @@ public class Enemy extends Schmuck {
 
 	public void setAttackCd(float attackCd) { this.attackCd = attackCd; }
 	
-	public enum enemyType {
-		SCISSORFISH,
-		SPITTLEFISH,
-		TORPEDOFISH,
-		TURRET_FLAK,
-		TURRET_VOLLEY,
-		MISC, 
-		BOSS,
-	}
 }

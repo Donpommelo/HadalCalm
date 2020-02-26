@@ -204,7 +204,7 @@ public class PlayState extends GameState {
 		World.setVelocityThreshold(0);
 
 		b2dr = new Box2DDebugRenderer();
-//		b2dr.setDrawBodies(false);
+		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities and packet effects
 		entities = new LinkedHashSet<HadalEntity>();
@@ -437,8 +437,8 @@ public class PlayState extends GameState {
 		tmr.render();				
 
 		//Render debug lines for box2d objects.
-		b2dr.render(world, camera.combined.scl(32));
-		camera.combined.scl(1 / 32.0f);
+//		b2dr.render(world, camera.combined.scl(32));
+//		camera.combined.scl(1 / 32.0f);
 		
 		//Iterate through entities in the world to render visible entities
 		batch.setProjectionMatrix(camera.combined);

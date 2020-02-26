@@ -33,7 +33,7 @@ public class Torpedofish extends EnemySteering {
 	private final static Sprite projSprite = Sprite.ORB_RED;
 	
 	public Torpedofish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, enemyType.TORPEDOFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.TORPEDOFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, spawner);
 	}
 	
 	private final static float baseDamage = 5.0f;

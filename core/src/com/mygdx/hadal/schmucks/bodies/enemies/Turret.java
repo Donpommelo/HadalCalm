@@ -46,7 +46,7 @@ public class Turret extends Enemy {
 	private static final Sprite flak = Sprite.TURRET_FLAK;
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
-	public Turret(PlayState state, Vector2 startPos, enemyType type, int startAngle, short filter, SpawnerSchmuck spawner) {
+	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, aiAttackCd, spawner);		
 		this.angle = 0;
 		this.startAngle = startAngle;

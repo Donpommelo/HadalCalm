@@ -22,10 +22,10 @@ import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyAction;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating.BossState;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.utils.Constants;
@@ -82,7 +82,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void spawnAdds(final PlayState state, Enemy boss, final enemyType type, final int amount, float duration) {
+	public static void spawnAdds(final PlayState state, Enemy boss, final EnemyType type, final int amount, float duration) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			

@@ -41,8 +41,8 @@ public class Boss1 extends EnemyFloating {
 	private static final float phaseThreshold2 = 0.70f;
 	private static final float phaseThreshold3 = 0.35f;
 	
-	public Boss1(PlayState state, Vector2 startPos, enemyType type, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, type, filter, hp, aiAttackCd, spawner);
+	public Boss1(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, spawner);
 	}
 	
 	@Override
@@ -432,7 +432,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeTrackingState(this, BossState.SPINNING, spinSpeed, 0.75f);
 		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 0.0f);
 		for (int i = 0; i < numAdds; i++) {
-			EnemyUtils.spawnAdds(state, this, enemyType.TORPEDOFISH, 1, 1.5f);
+			EnemyUtils.spawnAdds(state, this, EnemyType.TORPEDOFISH, 1, 1.5f);
 		}
 		EnemyUtils.changeTrackingState(this, BossState.TRACKING_PLAYER, 0, 2.0f);
 	}

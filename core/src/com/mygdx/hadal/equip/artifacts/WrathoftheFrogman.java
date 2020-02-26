@@ -28,6 +28,10 @@ public class WrathoftheFrogman extends Artifact {
 			@Override
 			public void whileAttacking(float delta, Equipable tool) {
 				
+				if (tool.isReloading()) {
+					return;
+				}
+				
 				if (procCdCount < procCd) {
 					procCdCount += delta;
 				}

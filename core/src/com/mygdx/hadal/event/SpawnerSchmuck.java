@@ -6,7 +6,6 @@ import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -30,7 +29,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class SpawnerSchmuck extends Event {
 	
-	private int id;
 	private int limit;
 	
 	//this is the amount of enemies left
@@ -43,9 +41,11 @@ public class SpawnerSchmuck extends Event {
 	private boolean boss;
 	private String bossName;
 	
-	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, int schmuckId, int limit, int extraField, boolean boss, String bossName) {
+	private EnemyType type;
+	
+	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, String schmuckId, int limit, int extraField, boolean boss, String bossName) {
 		super(state, startPos, size);
-		this.id = schmuckId;
+		this.type = EnemyType.valueOf(schmuckId);
 		this.limit = limit;
 		this.extraField = extraField;
 		this.boss = boss;
@@ -65,40 +65,8 @@ public class SpawnerSchmuck extends Event {
 					
 					for (int i = 0; i < limit; i++) {
 						
-						Enemy enemy = null;
+						Enemy enemy = type.generateEnemy(state, startPos, Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event);
 						
-						switch(id) {
-						case 1:
-							if (Math.random() > 0.4f) {
-								enemy = new Scissorfish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							} else if (Math.random() > 0.7f){
-								enemy = new Spittlefish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							} else {
-								enemy = new Torpedofish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							}
-							break;
-						case 2:
-							enemy = new Scissorfish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							break;
-						case 3:
-							enemy = new Spittlefish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							break;
-						case 4:
-							enemy = new Torpedofish(state, startPos, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							break;
-						case 5:
-							enemy = new Turret(state, startPos, enemyType.TURRET_FLAK, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							break;
-						case 6:
-							enemy = new Turret(state, startPos, enemyType.TURRET_VOLLEY, extraField, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							break;
-						case 7:
-							enemy = new Boss1(state, startPos, enemyType.BOSS, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							break;
-						case 8:
-							enemy = new Boss2(state, startPos, enemyType.BOSS, Constants.ENEMY_HITBOX, (SpawnerSchmuck) event);
-							break;
-						}
 						amountLeft++;
 						
 						enemy.setBoss(boss);

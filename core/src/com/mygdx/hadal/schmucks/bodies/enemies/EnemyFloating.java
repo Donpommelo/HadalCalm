@@ -19,9 +19,9 @@ import com.mygdx.hadal.states.PlayState;
 public class EnemyFloating extends Enemy {
 				
 	//the angle that the boss is facing and the angle that it lerps towards.
-    protected float angle;
+	private float angle;
 
-    protected float desiredAngle;
+    private float desiredAngle;
 	
     //the speed that the boss spins when spinning
 	private int spinSpeed;
@@ -30,9 +30,9 @@ public class EnemyFloating extends Enemy {
 	private BossState currentState;
 	
 	//this is the boss's sprite
-	protected Animation<TextureRegion> floatingSprite;
+	private Animation<TextureRegion> floatingSprite;
 
-	public EnemyFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, enemyType type, short filter, int hp, float attackCd, SpawnerSchmuck spawner) {
+	public EnemyFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, spawner);
 		
 		this.angle = 0;

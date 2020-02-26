@@ -24,7 +24,6 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
-import com.mygdx.hadal.schmucks.bodies.enemies.Enemy.enemyType;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -309,30 +308,8 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						
-        						Enemy enemy = null;
-        						switch(p.type) {
-								case MISC:
-									break;
-								case SCISSORFISH:
-									enemy = new Scissorfish(cs, new Vector2(), Constants.ENEMY_HITBOX, null);
-									break;
-								case SPITTLEFISH:
-									enemy = new Spittlefish(cs, new Vector2(), Constants.ENEMY_HITBOX, null);
-									break;
-								case TORPEDOFISH:
-									enemy = new Torpedofish(cs, new Vector2(), Constants.ENEMY_HITBOX, null);
-									break;
-								case TURRET_FLAK:
-								case TURRET_VOLLEY:
-									enemy = new Turret(cs, new Vector2(), p.type, 0, Constants.ENEMY_HITBOX, null);
-									break;
-								case BOSS:
-									enemy = new Boss1(cs, new Vector2(), enemyType.BOSS, Constants.ENEMY_HITBOX, null);
-									break;
-								default:
-									break;
+        						Enemy enemy = p.type.generateEnemy(cs, new Vector2(), Constants.ENEMY_HITBOX, 0, null);
         						
-        						}
         						if (enemy != null) {
         							cs.addEntity(p.entityID, enemy, ObjectSyncLayers.STANDARD);
         							if (p.boss) {

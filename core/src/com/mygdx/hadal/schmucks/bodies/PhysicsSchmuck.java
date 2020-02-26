@@ -19,6 +19,7 @@ public class PhysicsSchmuck extends Schmuck {
 	}
 	
 	private Vector2 force = new Vector2();
+	private Vector2 currentVel = new Vector2();
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
@@ -28,7 +29,7 @@ public class PhysicsSchmuck extends Schmuck {
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
 						
-			Vector2 currentVel = getLinearVelocity();
+			currentVel.set(getLinearVelocity());
 			float desiredXVel = 0.0f;
 			float desiredYVel = 0.0f;
 			

@@ -24,7 +24,7 @@ public class Scissorfish extends EnemySteering {
 	private static final Sprite sprite = Sprite.FISH_SCISSOR;
 	
 	public Scissorfish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, enemyType.SCISSORFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SCISSORFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, spawner);
 	}
 	
 	private static final int charge1Speed = 10;
