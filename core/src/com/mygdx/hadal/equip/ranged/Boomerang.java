@@ -28,7 +28,7 @@ public class Boomerang extends RangedWeapon {
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 35.0f;
 	private final static Vector2 projectileSize = new Vector2(60, 60);
-	private final static float lifespanx = 3.0f;
+	private final static float lifespan = 2.0f;
 	private final static float returnAmp = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.BOOMERANG;
@@ -42,7 +42,7 @@ public class Boomerang extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespanx, startVelocity, filter, false, true, user, projSprite);		
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);		
 		hbox.setRestitution(0.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

@@ -52,6 +52,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.schmucks.bodies.AnchorPoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.utils.CameraStyles;
@@ -106,6 +107,7 @@ public class PlayState extends GameState {
 	
 	//sourced effects from the world are attributed to this dummy.
 	private Schmuck worldDummy;
+	private AnchorPoint anchor;
 	
 	//this is the current level
 	protected UnlockLevel level;
@@ -218,6 +220,7 @@ public class PlayState extends GameState {
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
 		worldDummy = new Schmuck(this, new Vector2(-1000, -1000), new Vector2(1, 1), Constants.ENEMY_HITBOX, 0);
+		anchor = new AnchorPoint(this);
 		
 		//The mouse tracker is the player's mouse position
 		mouse = new MouseTracker(this, true);
@@ -485,11 +488,11 @@ public class PlayState extends GameState {
 	 * Render all entities in the world
 	 */
 	public void renderEntities(float delta) {
-		for (HadalEntity hitbox : hitboxes) {
-			renderEntity(hitbox, delta);
-		}
 		for (HadalEntity schmuck : entities) {
 			renderEntity(schmuck, delta);
+		}
+		for (HadalEntity hitbox : hitboxes) {
+			renderEntity(hitbox, delta);
 		}
 	}
 	
@@ -1027,6 +1030,8 @@ public class PlayState extends GameState {
 	public World getWorld() { return world; }
 	
 	public Schmuck getWorldDummy() { return worldDummy; }
+	
+	public AnchorPoint getAnchor() { return anchor; }
 
 	public UnlockLevel getLevel() { return level; }
 

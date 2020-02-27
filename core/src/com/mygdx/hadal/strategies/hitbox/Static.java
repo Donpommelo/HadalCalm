@@ -1,14 +1,13 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy simply makes a hbox static after it has been created.
- * It is used for non-moving hitboxes like explosions
+ * This strategy makes a hbox static and unmoving.
  * @author Zachary Tu
  *
  */
@@ -20,6 +19,11 @@ public class Static extends HitboxStrategy{
 	
 	@Override
 	public void create() {
-		hbox.getBody().setType(BodyType.StaticBody);
+		WeldJointDef joint = new WeldJointDef();
+		joint.bodyA = state.getAnchor().getBody();
+		joint.bodyB = hbox.getBody();
+		joint.localAnchorA.set(hbox.getPosition().x, hbox.getPosition().y);
+		joint.localAnchorB.set(0, 0);
+		state.getWorld().createJoint(joint);
 	}
 }

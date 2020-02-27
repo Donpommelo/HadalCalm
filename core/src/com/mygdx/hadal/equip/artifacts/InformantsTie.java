@@ -6,7 +6,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
 import com.mygdx.hadal.utils.Stats;
 
@@ -32,7 +31,6 @@ public class InformantsTie extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new HomingUnit(state, hbox, b, inflicted.getSchmuck().getHitboxfilter()));
-				hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
 				hbox.setGravity(0.0f);
 			}
 		});

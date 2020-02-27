@@ -6,7 +6,6 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 import com.mygdx.hadal.utils.Stats;
 
@@ -35,7 +34,6 @@ public class KinesisLens extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new HomingMouse(state, hbox, inflicted, maxLinSpd, maxLinAcc));
-				hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
 				hbox.setGravity(0.0f);
 			}
 		});

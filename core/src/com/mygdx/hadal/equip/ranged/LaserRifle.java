@@ -5,7 +5,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.effects.Sprite;
@@ -96,8 +95,6 @@ public class LaserRifle extends RangedWeapon {
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
 				newPosition.set(getPosition()).add(new Vector2(startVelocity).nor().scl(size.x / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
-				
-				this.body.setType(BodyDef.BodyType.StaticBody);
 			}
 			
 			@Override

@@ -1,0 +1,33 @@
+package com.mygdx.hadal.schmucks.bodies;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.b2d.BodyBuilder;
+
+/**
+ * @author Zachary Tu
+ *
+ */
+public class AnchorPoint extends HadalEntity {
+	
+	
+	public AnchorPoint(PlayState state) {
+		super(state, new Vector2(), new Vector2(1, 1));
+	}
+
+	@Override
+	public void create() {
+		this.hadalData = new HadalData(UserDataTypes.EVENT, this);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, hadalData);
+	}
+
+	@Override
+	public void controller(float delta) {}
+
+	@Override
+	public void render(SpriteBatch batch) {}
+}
