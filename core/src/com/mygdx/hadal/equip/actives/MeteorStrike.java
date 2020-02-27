@@ -99,7 +99,7 @@ public class MeteorStrike extends ActiveItem {
 						}
 					});
 					
-					hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.FIRE, 3.0f));
+					hbox.addStrategy(new CreateParticles(state, hbox, user, Particle.FIRE, 0.0f, 3.0f));
 				}
 				procCdCount += delta;
 			}

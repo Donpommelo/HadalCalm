@@ -146,6 +146,8 @@ public class Packets {
 		public TransitionState state;
 		public boolean override;
 		public String resultsText;
+		public float fadeSpeed;
+		public float fadeDelay;
 		public ClientStartTransition() {}
 		
 		/**
@@ -154,12 +156,16 @@ public class Packets {
 		 * Clients receiving this begin fading to black the same way the Server does.
 		 * @param state: Are we transitioning to a new level, a gameover screen or whatever else?
 		 * @param override: Should this override other transitions.
-		 * @param: If transitioning to a results screen, what text should be displayed
+		 * @param: resultsText: If transitioning to a results screen, what text should be displayed
+		 * @param: fadeSpeed: speed of the fade transition
+		 * @param: fadeDelay: Amount of delay before transition
 		 */
-		public ClientStartTransition(TransitionState state, boolean override, String resultsText) {
+		public ClientStartTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
 			this.state = state;
 			this.override = override;
 			this.resultsText = resultsText;
+			this.fadeSpeed = fadeSpeed;
+			this.fadeDelay = fadeDelay;
 		}
 	}
 	

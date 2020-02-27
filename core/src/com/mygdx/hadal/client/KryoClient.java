@@ -181,7 +181,7 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						cs.beginTransition(p.state, p.override, p.resultsText);
+        						cs.beginTransition(p.state, p.override, p.resultsText, p.fadeSpeed, p.fadeDelay);
         					}
         				});
 					}

@@ -15,32 +15,31 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class CreateParticles extends HitboxStrategy {
 	
-	private final static float defaultLinger = 3.0f;
-	
 	//the effect that is to be created.
 	private Particle effect;
 	
-	//how long should the particles last?
-	private float duration;
+	//how long should the particles last? After the body is deleted?
+	private float duration, linger;
 	
 	//the base size of the particle effect.
 	//atm, this is just used for attaching particles to hitboxes of varying sizes.
 	private float particleSize;
 	
-	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
+	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
 		super(state, proj, user);
 		this.effect = effect;
 		this.duration = duration;
+		this.linger = linger;
 	}
 	
-	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float particleSize) {
-		this(state, proj, user, effect, duration);
+	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger, float particleSize) {
+		this(state, proj, user, effect, duration, linger);
 		this.particleSize = particleSize;
 	}
 	
 	@Override
 	public void create() {
-		ParticleEntity particle = new ParticleEntity(state, hbox, effect, defaultLinger, duration, true, particleSyncType.CREATESYNC);
+		ParticleEntity particle = new ParticleEntity(state, hbox, effect, linger, duration, true, particleSyncType.CREATESYNC);
 		
 		if (particleSize == 0) {
 			particle.setScale(hbox.getScale());

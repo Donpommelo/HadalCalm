@@ -56,12 +56,15 @@ public class HadalGame extends ApplicationAdapter {
     private Stage currentMenu;
     
     //this is the rate at which the screen fades from/to black.
-  	private final static float defaultFadeInSpeed = -0.02f;
-  	private final static float defaultFadeOutSpeed = 0.02f;
+  	private final static float defaultFadeInSpeed = -2.0f;
+  	private final static float defaultFadeOutSpeed = 2.0f;
   	
   	//This is the how faded the black screen is. (starts off black)
   	protected float fadeLevel = 1.0f;
-  			
+  	
+  	//Amount of delay before fade transition occurs
+  	protected float fadeDelay = 0.0f;
+  	
   	//This is how much the fade changes every engine tick (starts out fading in)
   	protected float fadeDelta = defaultFadeInSpeed;
   	
@@ -113,14 +116,16 @@ public class HadalGame extends ApplicationAdapter {
 	@Override
 	public void render() {
 		
-		gsm.update(Gdx.graphics.getDeltaTime());
+		float delta = Gdx.graphics.getDeltaTime();
+		
+		gsm.update(delta);
 		currentMenu.act();
 
 		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		viewportCamera.apply();
-		gsm.render(Gdx.graphics.getDeltaTime());
+		gsm.render(delta);
 		
 		currentMenu.getViewport().apply();
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
@@ -139,10 +144,11 @@ public class HadalGame extends ApplicationAdapter {
 		}
 		
 		//If we are in the delay period of a transition, decrement the delay
-		if (fadeDelta < 0f) {
-			
+		if (fadeDelay > 0.0f) {
+			fadeDelay -= delta;
+		} else if (fadeDelta < 0f) {
 			//If we are fading in and not done yet, decrease fade.
-			fadeLevel += fadeDelta;
+			fadeLevel += fadeDelta * delta;
 			
 			//If we just finished fading in, set fade to 0
 			if (fadeLevel < 0f) {
@@ -152,7 +158,7 @@ public class HadalGame extends ApplicationAdapter {
 		} else if (fadeDelta > 0f) {
 			
 			//If we are fading out and not done yet, increase fade.
-			fadeLevel += fadeDelta;
+			fadeLevel += fadeDelta * delta;
 			
 			//If we just finished fading out, set fade to 1 and do a transition
 			if (fadeLevel >= 1f) {
@@ -210,6 +216,14 @@ public class HadalGame extends ApplicationAdapter {
 	
 	public void fadeIn() { fadeDelta = defaultFadeInSpeed; }
 	
+	/**
+	 * This makes the game fade at a specific speed. Can be positive or negative to fade out or in
+	 */
+	public void fadeSpecificSpeed(float fadeSpeed, float fadeDelay) { 
+		this.fadeDelta = fadeSpeed; 
+		this.fadeDelay = fadeDelay;
+	}
+
 	public void setFadeLevel(float fadeLevel) { this.fadeLevel = fadeLevel; }
 	
 	public void setRunAfterTransition(Runnable runAfterTransition) { this.runAfterTransition = runAfterTransition; }

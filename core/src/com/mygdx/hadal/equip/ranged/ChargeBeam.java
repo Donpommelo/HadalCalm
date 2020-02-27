@@ -120,7 +120,7 @@ public class ChargeBeam extends RangedWeapon {
 		});
 		
 		if (chargeStage == 2) {
-			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 3.0f));
+			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, 3.0f));
 		}
 	}
 }

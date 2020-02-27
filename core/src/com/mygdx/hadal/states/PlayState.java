@@ -175,6 +175,11 @@ public class PlayState extends GameState {
 	//global variables
 	public static final float spriteAnimationSpeed = 0.08f;
 	
+	public static final float defaultFadeOutSpeed = 2.0f;
+	public static final float defaultFadeDelay = 0.0f;
+	public static final float deathFadeDelay = 1.5f;
+
+	
 	//Special designated events parsed from map
 	private Event globalTimer;
 	
@@ -674,10 +679,10 @@ public class PlayState extends GameState {
 			//begin transitioning to the designated next level
 			nextLevel = level;
 			this.nextStartId = nextStartId;
-			beginTransition(state, false, "");
+			beginTransition(state, false, "", defaultFadeOutSpeed, defaultFadeDelay);
 			
 			//Server tells clients to begin a transition to the new state
-			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, ""));
+			HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(nextState, false, "", defaultFadeOutSpeed, defaultFadeDelay));
 		}
 	}
 	
@@ -814,24 +819,24 @@ public class PlayState extends GameState {
 			
 			//if athe match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
 			if (allded) {
-				beginTransition(TransitionState.RESULTS, true, resultsText);
-				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText));
+				beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
+				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));
 			} else {
 				
 				//the player that dies respawns if there are lives left and becomes a spectator otherwise
 				if (this.player.equals(player)) {
 					if (HadalGame.server.getScores().get(player.getConnID()).getLives() > 0) {
-						beginTransition(TransitionState.RESPAWN, false, "");
+						beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
 					} else {
-						beginTransition(TransitionState.SPECTATOR, false, "");
+						beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
 					}
 				} else {
 					
 					//If a client dies, we tell them to transition to a spectator or respawn state.
 					if (HadalGame.server.getScores().get(player.getConnID()).getLives() > 0) {
-						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, ""));
+						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
 					} else {
-						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, ""));
+						HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
 					}
 				}
 			}
@@ -839,9 +844,9 @@ public class PlayState extends GameState {
 			
 			//if there are infinite lives, we respawn the dead player
 			if (this.player.equals(player)) {
-				beginTransition(TransitionState.RESPAWN, false, "");
+				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
 			} else {
-				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, ""));
+				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
 			}
 		}
 	}
@@ -851,21 +856,23 @@ public class PlayState extends GameState {
 	 * @param state: Is it ending as a gameover or a results screen?
 	 */
 	public void levelEnd(String text) {
-		beginTransition(TransitionState.RESULTS, false, text);
-		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, false, text));
+		beginTransition(TransitionState.RESULTS, false, text, defaultFadeOutSpeed, deathFadeDelay);
+		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, false, text, defaultFadeOutSpeed, deathFadeDelay));
 	}
 	
 	/**
 	 * This is called whenever we transition to a new state. Begin transition and set new state.
 	 * @param state: The state we are transitioning towards
 	 * @param override: Does this transition override other transitions?
+	 * @param fadeSpeed: speed of transition
+	 * @param fadeDelay: amonut of delay before transition
 	 */
-	public void beginTransition(TransitionState state, boolean override, String resultsText) {
+	public void beginTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (nextState == null || override) {
 			this.resultsText = resultsText;
 			nextState = state;
-			gsm.getApp().fadeOut();
+			gsm.getApp().fadeSpecificSpeed(fadeSpeed, fadeDelay);
 			gsm.getApp().setRunAfterTransition(new Runnable() {
 
 				@Override
@@ -887,7 +894,7 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.client.client.stop();
 		}
-		beginTransition(TransitionState.TITLE, true, "");
+		beginTransition(TransitionState.TITLE, true, "", defaultFadeOutSpeed, defaultFadeDelay);
 	}
 	
 	/**

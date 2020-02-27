@@ -254,6 +254,8 @@ public class EnemyUtils {
 		});
 	}
 
+	private static final float fireLinger = 3.0f;
+	private static final float laserLinger = 0.0f;
 	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
 			final float lifespan, final float fireDuration, final float duration) {
 		
@@ -269,7 +271,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new ContactUnitStatus(state, hbox, enemy.getBodyData(), 
 						new Ablaze(state, fireDuration, enemy.getBodyData(), enemy.getBodyData(), fireDamage)));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 3.0f));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 0.0f, fireLinger));
 			}
 		});
 	}
@@ -287,7 +289,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, lifespan));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, laserLinger));
 			}
 		});
 	}
@@ -304,7 +306,7 @@ public class EnemyUtils {
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, lifespan));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 0.0f, fireLinger));
 				
 			}
 		});

@@ -97,7 +97,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 3.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
 		
 		return hbox;
 	}
@@ -168,7 +168,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback));
 		hbox.addStrategy(new HomingUnit(state, hbox, creator, filter));
-		hbox.addStrategy(new CreateParticles(state, hbox, creator, Particle.SHADOW_PATH, 0.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, creator, Particle.SHADOW_PATH, 0.0f, 3.0f));
 	}
 	
 	public static final int pickupSize = 64;
