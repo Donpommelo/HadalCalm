@@ -2,7 +2,7 @@
 NUMBER_ONE_BOSS_MUG: {
 	name: "#1 Boss Mug"
 	description: "Occasionally Drop Ammo on Kill"
-    descriptionLong: "Coffee mug belonging to the #1 boss."
+    descriptionLong: "Coffee mug belonging to the #1 boss.\n\nA mug, sunk to the bottom of the sea, carries within itself the entire ocean."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -11,7 +11,7 @@ NUMBER_ONE_BOSS_MUG: {
 EIGHT_BALL: {
 	name: "8-Ball"
 	description: "+Damage and -Accuracy"
-    descriptionLong: "An inky black sphere made of smooth ivory, radiating with unfortunate energies."
+    descriptionLong: "An inky black sphere made of smooth ivory.\n\nWithin the Midnight Pool, each ball lands in its preordained pocket regardless of the angle of the stroke."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -20,7 +20,7 @@ EIGHT_BALL: {
 ABYSSAL_INSIGNIA: {
 	name: Abyssal Insignia
 	description: "Release Vengeful Spirit Upon Killing or Dying"
-    descriptionLong: "A twisted bone sigil used to worship the chaotic beings of the deep."
+    descriptionLong: "A twisted bone sigil used in the worship of Bright Ones.\n\nArtifacts carried into the deepest recesses of the abyss find their form warped by the pressures of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -29,7 +29,7 @@ ABYSSAL_INSIGNIA: {
 ADMINISTRATOR_CARD: {
 	name: Administrator Card
 	description: "Upon Spawning, Get 3 Random Artifacts"
-    descriptionLong: "Administrative figures carry these sturdy plastic cards to access extra privileges."
+    descriptionLong: "An inornate identification card printed on sturdy plastic.\n\nSalvagers are rarely promoted to administrative positions, and are thus rarely seen carrying these coveted tokens."
 	tags: [
 		RELIQUARY,
 	]
@@ -37,7 +37,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Hp, Become Heavier"
-    descriptionLong: "TEST"
+    descriptionLong: "A burdensome artifact in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -46,7 +46,7 @@ ALBATROSS_NECKLACE: {
 ANARCHISTS_COOKBOOK: {
 	name: Anarchist's Cookbook
 	description: "Periodically Spawns Bombs"
-    descriptionLong: "An ancient text printed on singed (and waterproof) pages."
+    descriptionLong: "An ancient text printed on singed (and waterproof) pages.\n\nAnarchists seeking chaos amidst the Noiseless Sea would be disappointed by the order that arose around Bright Ones."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -55,7 +55,7 @@ ANARCHISTS_COOKBOOK: {
 ANCHOR_TALISMAN: {
 	name: Anchor Talisman
 	description: "+Damage Reduction When Grounded"
-    descriptionLong: "A pendant depicting the company insignia; a sturdy anchor."
+    descriptionLong: "A pendant depicting the company insignia; a sturdy anchor.\n\nManagement long held the belief that to forgo one's connection to the Earth would be to irreversibly abandon humanity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -64,7 +64,7 @@ ANCHOR_TALISMAN: {
 ANCIENT_SYNAPSE: {
 	name: Ancient Synapse
 	description: "Delays Incoming Damage"
-    descriptionLong: "TEST"
+    descriptionLong: "The petrified nervous tissue of a drowned behemoth.\n\nTo those willing to abandon physical sensation, the Noiseless sea offers a quiet and peaceful place to observe eternity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -73,7 +73,7 @@ ANCIENT_SYNAPSE: {
 AU_COURANT: {
 	name: Au Courant
 	description: "Passively Reloads Inactive Weapons. -Reload Speed"
-    descriptionLong: ""
+    descriptionLong: "A flowing sash woven from current-swept fabric.\n\nAll Sunk things, resigned to their fates, make a habit of keeping current and going with the flow."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -82,7 +82,7 @@ AU_COURANT: {
 BACKPACK_BUDDY: {
 	name: Backpack Buddy
 	description: "+Artifact Slot, -Max Hp"
-    descriptionLong: ""
+    descriptionLong: "A sodden doll once occupying a child's backpack.\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -91,7 +91,7 @@ BACKPACK_BUDDY: {
 BLASTEMA: {
 	name: Blastema
 	description: "Receiving Damage Grants +Hp Regeneration"
-    descriptionLong: "TEST"
+    descriptionLong: "A cluster of self-replicating cells used to regrow damaged tissue.\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally grown spare limbs of all shapes and sizes."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -100,7 +100,7 @@ BLASTEMA: {
 BLOODWOODS_GLOVE: {
 	name: Bloodwood's Glove
 	description: "+Actives and Weapons Charge Rate"
-    descriptionLong: "A glove once worn by an esteemed company researcher. It appears to be in pristine condition."
+    descriptionLong: "A pristine white glove once worn by an esteemed company researcher.\n\nWithin the endless halls of a sterile labyrinth, a bespeckled man sits making puppets in the shapes of your loved ones."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -109,7 +109,7 @@ BLOODWOODS_GLOVE: {
 BOTTOM_OF_THE_BARREL: {
 	name: Bottom of the Barrel
 	description: "+Damage with Low Ammo"
-    descriptionLong: "TEST"
+    descriptionLong: "Wooden slat encrusted with resentful detritus.\n\nThe grinders of the Kamabokory are welcoming to even the lowliest of dregs seeking to be remade."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -118,7 +118,7 @@ BOTTOM_OF_THE_BARREL: {
 BRIGGLES_BLADED_BOOT: {
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps"
-    descriptionLong: "Footwear once belonging to an ancient general, known for being armed to the feet."
+    descriptionLong: "Serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -127,7 +127,7 @@ BRIGGLES_BLADED_BOOT: {
 BRITTLING_POWDER: {
 	name: Brittling Powder
 	description: "Projectile Fragmentation"
-    descriptionLong: "TEST"
+    descriptionLong: "Insidious powder that renders brittle with the slightest contact.\n\nResidents of the Kamabokory have accepted that the destruction of their original bodies is a necessary step in the factory's ungodly process."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -136,7 +136,7 @@ BRITTLING_POWDER: {
 BUCKET_OF_BATTERIES: {
 	name: Bucket of Batteries
 	description: "Projectiles Create Chain Lightning"
-    descriptionLong: "A bucket filled with batteries floating in a dubious liquid."
+    descriptionLong: "A bucket filled with batteries floating in a dubious liquid.\n\nWhile the Plenum Chamber's mechanical palpitations serve as the power source of nearby facilities, its own power source remains indiscernible."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -145,7 +145,7 @@ BUCKET_OF_BATTERIES: {
 CALL_OF_THE_VOID: {
 	name: Call of the Void
 	description: "+Damage Inflicted and Received"
-    descriptionLong: "A sinister mark that allows its bearer to channel their innate desire for the unseen."
+    descriptionLong: "A sinister mark in the shape of a spiral.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -172,7 +172,7 @@ CELESTIAL_ANOINTMENT: {
 CLAWS_OF_FESTUS: {
 	name: Claws of Festus
 	description: "Enables Wall-Climbing"
-    descriptionLong: "A pair of long, wiry clawed gloves, once used for transmission of vibrations."
+    descriptionLong: "A pair of wiry clawed gloves, once used for transmission of vibrations.\n\nBehind the curtains of a silent theater, a masked man wanders in search of the source of a song no one else can hear."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -181,7 +181,7 @@ CLAWS_OF_FESTUS: {
 CLOCKWISE_CAGE: {
 	name: Clockwise Cage
 	description: "Projectile Echo"
-    descriptionLong: "A round metal birdcage occupied by a temporarily improbable bird. It looks familiar."
+    descriptionLong: "A metal birdcage occupied by a temporally improbable bird.\n\nTime, like all other things, flows according to the inexorable whims of ocean currents."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -362,14 +362,14 @@ HORNS_OF_AMMON: {
 HUMANITY_MODULE: {
 	name: Humanity Module
 	description: "+Active Charge Rate, Reroll Active on Use"
-    descriptionLong: "A bucket filled with batteries floating in a dubious liquid."
+    descriptionLong: "A disk encoding data in an unreadable format.\n\nManagement could never agree amongst themselves which aspects of humanity could not be relinquished without also losing the label of 'human'."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
 INFORMANTS_TIE: {
-	name:Informant's Tie
+	name: Informant's Tie
 	description: "Homing Projectiles"
     descriptionLong: "TEST"
 	tags: [
@@ -398,7 +398,7 @@ JELLOFELLOW_COSPLAY: {
 KINEATER: {
 	name: Kineater
 	description: "Lowers Boss Hp"
-    descriptionLong: "TEST"
+    descriptionLong: "Wriggling invertebrate that attaches to host membranes with a hooked tail.\n\nBurrowed in the flesh of unsuspecting hosts, parasites are often carried by the currents to destinations not befitting themselves."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -479,7 +479,7 @@ MOON_FLUTHER: {
 MOUTHBREATHER_TALISMAN: {
 	name: Mouthbreather Talisman
 	description: "+Self-Damage Resistance"
-    descriptionLong: "TEST"
+    descriptionLong: "Protective padding to be worn by fledgling or suicidal salvagers.\n\nManagement's long list of attempts to reduce the high attrition rate of Salvaging does not include the ceasing of high-risk operations."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -506,7 +506,7 @@ NICE_SHOES: {
 NOTHING: {
 	name: NOTHING
 	description: "Doesn't Do Much"
-    descriptionLong: "TEST"
+    descriptionLong: "ain't much"
 	tags: []
 }
 NUCLEAR_PUNCH_THRUSTERS: {
@@ -521,7 +521,7 @@ NUCLEAR_PUNCH_THRUSTERS: {
 NURDLER: {
 	name: Nurdler
 	description: "Fire Pellets When Attacking"
-    descriptionLong: "TEST"
+    descriptionLong: "A handful of hardened, plastic pellets, byproduct of some long-lost industry.\n\nThrough inconspicuousness, items of extreme worthlessness can sometimes evade the grinding blades of the Kamabokory."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -548,7 +548,7 @@ ORIGIN_COIL: {
 PAIN_SCALE: {
 	name: Pain Scale
 	description: "Charge Active Item Upon Receiving Damage"
-    descriptionLong: "TEST"
+    descriptionLong: "A surgically attached LED light widget.\n\nDuring the training process, Salvagers have their pain replaced with an analog display that lights up if the Salvager should stop doing whatever they are doing."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -628,7 +628,7 @@ ROYAL_JUJUBE_BANG: {
 SALIGRAM: {
 	name: Saligram
 	description: "+Damage Resistance"
-    descriptionLong: "TEST"
+    descriptionLong: "Petrified artifact imbued with the blessing of the spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -691,7 +691,7 @@ SIMPLE_MIND: {
 SINKING_FEELING: {
 	name: Sinking Feeling
 	description: "+Fastfall Power"
-    descriptionLong: ""
+    descriptionLong: "An abstract and incorporeal sentiment of despair.\n\nSalvagers are advised to surrender their memories of land; even if they were to ever resurface, it would not be as they had remembered."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -790,7 +790,7 @@ VOID_HYPONOME: {
 WHITE_SMOKER: {
 	name: White Smoker
 	description: "Fiery Hovering"
-    descriptionLong: "TEST"
+    descriptionLong: "An organic tube structure emanating an endless stream of pale smoke.\n\nAs the only sources of energy in an otherwise closed system, Bright Ones see new life arise within their vicinity, usually in their own likeness."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -799,7 +799,7 @@ WHITE_SMOKER: {
 WHITE_WHALE_CHARM: {
 	name: White Whale Charm
 	description: "+Damage and Projectile Size, -Attack Speed"
-    descriptionLong: "TEST"
+    descriptionLong: "An ornamental artifact carved from the tusk of the white whale.\n\nThe white whale dreamt of an eye at the bottom of the sea and the world that lay beneath its unblinking gaze."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

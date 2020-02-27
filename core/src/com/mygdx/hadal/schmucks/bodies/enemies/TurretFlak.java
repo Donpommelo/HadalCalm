@@ -45,7 +45,7 @@ public class TurretFlak extends Turret {
 	public void attackInitiate() {
 		
 		if (getCurrentState().equals(TurretState.TRACKING)) {
-			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, 0.2f);
+			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, 0.5f);
 			animationTime = 0;
 			EnemyUtils.shootBullet(state, this, baseDamage, projSpeed, knockback, projSize, projLifespan, projInterval);
 			EnemyUtils.changeMoveState(state, this, MoveState.DEFAULT, 0.0f);

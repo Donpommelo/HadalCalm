@@ -85,9 +85,6 @@ public class EnemyUtils {
 				case ROTATING:
 					bossFloating.setSpinSpeed((int)angle);
 					break;
-				case LOCKED:
-					bossFloating.setAngle(angle);
-					break;
 				case TRACKING_PLAYER:
 					break;
 				default:
@@ -131,9 +128,6 @@ public class EnemyUtils {
 				switch (state) {
 				case FREE:
 					turret.setDesiredAngle(angle);
-					break;
-				case FIXED:
-					turret.setAngle(angle);
 					break;
 				case TRACKING:
 					break;

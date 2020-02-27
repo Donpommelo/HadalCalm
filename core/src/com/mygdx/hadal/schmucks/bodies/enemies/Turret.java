@@ -82,7 +82,8 @@ public class Turret extends Enemy {
 	public void controller(float delta) {
 		super.controller(delta);
 		
-		angle = angle + (desiredAngle - angle) * 0.05f;
+		float dist = (desiredAngle - angle) % 360;
+		angle = angle + (2 * dist % 360 - dist) * 0.02f;
 		
 		switch(currentState) {
 			case STARTING:
@@ -182,7 +183,7 @@ public class Turret extends Enemy {
 	}
 	
 	private Vector2 originPt = new Vector2();
-	private final static float spawnDist = 350.0f;
+	private final static float spawnDist = 300.0f;
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
 	 */
@@ -208,7 +209,6 @@ public class Turret extends Enemy {
 	public enum TurretState {
 		STARTING,
 		TRACKING,
-		FIXED,
 		FREE
 	}
 }

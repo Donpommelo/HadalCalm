@@ -76,7 +76,7 @@ public class UIHub {
 				font.getData().setScale(0.30f);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), optionsWidthOuter, optionsHeightOuter);
 				GameStateManager.getSimplePatch().draw(batch, getX(), getY(), infoWidth, infoHeight);
-			    font.draw(batch, info, getX(), getY() + infoHeight - 25, infoWidth, -1, true);
+			    font.draw(batch, info, getX() + 5, getY() + infoHeight - 25, infoWidth - 10, -1, true);
 		    }
 		};
 		

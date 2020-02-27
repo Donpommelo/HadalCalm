@@ -123,7 +123,6 @@ public class EnemyFloating extends Enemy {
 	
 	public enum FloatingState {
 		TRACKING_PLAYER,
-		LOCKED,
 		FREE,
 		ROTATING,
 		SPINNING
