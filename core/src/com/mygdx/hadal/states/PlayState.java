@@ -116,14 +116,15 @@ public class PlayState extends GameState {
 	private String startId;
 	
 	//This is the entity that the camera tries to focus on
-	protected Vector2 cameraTarget;
+	private Vector2 cameraTarget;
 	
 	//These are the bounds of the camera movement
 	private float[] cameraBounds = {0.0f, 0.0f, 0.0f, 0.0f};
 	private boolean[] cameraBounded = {false, false, false, false};
 	
 	//If there is an objective target that has a display if offscreen, this is that entity.
-	protected HadalEntity objectiveTarget;
+	private HadalEntity objectiveTarget;
+	private boolean displayObjective;
 	
 	//do players have infinite lives in this map?
 	private boolean unlimitedLife;
@@ -141,7 +142,7 @@ public class PlayState extends GameState {
 	private HashMap<String, PositionDummy> dummyPoints;
 	
 	//Can players hurt each other? Is it the hub map? Is this the server?
-	protected boolean pvp, hub, server;
+	private boolean pvp, hub, server;
 	
 	//Various play state ui elements
 	protected UIPlay uiPlay;
@@ -154,8 +155,8 @@ public class PlayState extends GameState {
 	protected DialogBox dialogBox;
 	
 	//Background and black screen used for transitions
-	protected Texture bg;
-	protected Shader shaderBase;
+	private Texture bg;
+	private Shader shaderBase;
 	
 	protected TransitionState nextState;
 	
@@ -1078,6 +1079,10 @@ public class PlayState extends GameState {
 	public DialogBox getDialogBox() { return dialogBox; }
 	
 	public void setObjectiveTarget(HadalEntity objectiveTarget) { this.objectiveTarget = objectiveTarget; }
+	
+	public boolean isDisplayObjective() { return displayObjective; }
+
+	public void setDisplayObjective(boolean displayObjective) { this.displayObjective = displayObjective; }
 
 	public float getZoom() { return zoom; }
 	

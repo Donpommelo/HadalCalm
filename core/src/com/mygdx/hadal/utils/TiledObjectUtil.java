@@ -157,7 +157,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("down", false, boolean.class));
 		} else if (object.getName().equals("Objective")) {
 			
-			e = new ObjectiveChanger(state);
+			e = new ObjectiveChanger(state, object.getProperties().get("display", false, boolean.class));
 		} else if (object.getName().equals("Player")) {
 			
 			e = new PlayerChanger(state,

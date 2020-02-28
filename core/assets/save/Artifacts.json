@@ -341,6 +341,14 @@ GOOD_HEALTH: {
 		RANDOM_POOL,
 	]
 }
+HAND_OF_GLORY: {
+	name: Hand of Glory
+	description: "+Scrap Drops"
+    descriptionLong: ""
+	tags: [
+		RELIQUARY,
+	]
+}
 HEART_OF_SPEROS: {
 	name: Heart of Speros
 	description: "Use Fuel as Ammo"
@@ -428,7 +436,6 @@ LUMINOUS_ESCA: {
     descriptionLong: ""
 	tags: [
 		RELIQUARY,
-		RANDOM_POOL,
 	]
 }
 MACHINE_GHOST: {

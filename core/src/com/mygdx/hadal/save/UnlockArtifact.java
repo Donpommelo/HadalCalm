@@ -50,6 +50,7 @@ public enum UnlockArtifact {
 	GLUTTONOUS_GREY_GLOVE(new GluttonousGreyGlove()),
 	GOMEZS_AMYGDALA(new GomezsAmygdala()),
 	GOOD_HEALTH(new GoodHealth()),
+	HAND_OF_GLORY(new HandofGlory()),
 	HEART_OF_SPEROS(new HeartofSperos()),
 	HORNS_OF_AMMON(new HornsofAmmon()),
 	HUMANITY_MODULE(new HumanityModule()),

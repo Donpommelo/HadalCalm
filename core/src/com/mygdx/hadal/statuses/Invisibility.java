@@ -13,12 +13,12 @@ public class Invisibility extends Status {
 	public Invisibility(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
 		p.getSchmuck().setShader(Shader.INVISIBLE, i);
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 0.5f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
 	}
 	
 	@Override
 	public void onRemove() {
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 0.5f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
 		inflicted.getSchmuck().decreaseShaderCount(duration);
 	}
 	

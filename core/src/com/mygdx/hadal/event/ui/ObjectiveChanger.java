@@ -19,7 +19,10 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ObjectiveChanger extends Event {
 
-	public ObjectiveChanger(PlayState state) {
+	//do we display the objective marker?
+	private boolean display;
+	
+	public ObjectiveChanger(PlayState state, boolean display) {
 		super(state);
 	}
 	
@@ -31,6 +34,7 @@ public class ObjectiveChanger extends Event {
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 					state.setObjectiveTarget(event.getConnectedEvent());
+					state.setDisplayObjective(display);
 				}
 			}
 		};
