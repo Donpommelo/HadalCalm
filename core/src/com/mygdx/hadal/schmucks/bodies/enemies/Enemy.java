@@ -17,6 +17,7 @@ import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Constants;
@@ -221,9 +222,13 @@ public class Enemy extends Schmuck {
 								if (fixture.getUserData() instanceof BodyData) {
 									if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
 										if (fraction < shortestFraction) {
-											shortestFraction = fraction;
-											closestFixture = fixture;
-											return fraction;
+											
+											//enemies will not see invisible units
+											if (((BodyData)fixture.getUserData()).getStatus(Invisibility.class) == null) {
+												shortestFraction = fraction;
+												closestFixture = fixture;
+												return fraction;
+											}
 										}
 									}
 								} 

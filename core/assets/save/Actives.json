@@ -53,6 +53,15 @@ RADIAL_BARRAGE: {
 		RANDOM_POOL,
 	]
 }
+RING_OF_GYGES: {
+	name: Ring of Gyges
+	description: "Become Invisible."
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 TAINTED_WATER: {
 	name: Tainted Water
 	description: "Release a poisonous cloud."

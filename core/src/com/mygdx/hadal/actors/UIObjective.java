@@ -76,6 +76,7 @@ public class UIObjective extends AHadalActor {
 			}
 			
 			batch.draw(icon, x - icon.getRegionWidth() * scale / 2, y - icon.getRegionHeight() * scale / 2, icon.getRegionWidth() * scale, icon.getRegionHeight() * scale);
+			batch.setProjectionMatrix(state.hud.combined);
 		}
 	}
 

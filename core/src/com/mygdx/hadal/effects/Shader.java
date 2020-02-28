@@ -16,12 +16,14 @@ import com.mygdx.hadal.strategies.shader.*;
 public enum Shader {
 
 	NOTHING("", "", true),
+	INVISIBLE("shaders/pass.vert", "shaders/pass.frag", true),
 	WHITE("shaders/pass.vert", "shaders/white.frag", true),
 	INVERT("shaders/pass.vert", "shaders/invert.frag", true, new Resolution(), new Timer()),
 	SPLASH("shaders/pass.vert", "shaders/splash.frag", true, new Resolution(), new Timer()),
 	DRIP("shaders/pass.vert", "shaders/drip.frag", true, new Resolution(), new Timer()),
 	WAVE("shaders/pass.vert", "shaders/wave.frag", true, new Resolution(), new Timer()),
 	WORM("shaders/pass.vert", "shaders/worm.frag", true, new Resolution(), new Timer()),
+	WHIRLPOOL("shaders/pass.vert", "shaders/whirlpool.frag", true, new Resolution(), new Timer(), new ObjectiveCoord()),
 	PLAYER_LIGHT("shaders/pass.vert", "shaders/darkness.frag", false, new Resolution(), new PlayerCoord(), new Light()),
 	;
 	

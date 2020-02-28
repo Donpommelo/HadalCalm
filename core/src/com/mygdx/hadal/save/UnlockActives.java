@@ -22,6 +22,7 @@ public enum UnlockActives {
 	MISSILE_POD(MissilePod.class),
 	NAUTICAL_MINE(NauticalMine.class),
 	RADIAL_BARRAGE(RadialBarrage.class),
+	RING_OF_GYGES(RingofGyges.class),
 	TAINTED_WATER(TaintedWater.class),
 	TRACTOR_BEAM(TractorBeam.class),
 	
