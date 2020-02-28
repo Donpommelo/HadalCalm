@@ -113,7 +113,7 @@ public class KryoClient {
                     	gsm.removeState(PauseState.class);
                     	
                     	if (cs != null) {
-                    		cs.returnToTitle();
+                    		cs.returnToTitle(1.5f);
                     	} else {
                     		gsm.removeState(ClientState.class);
                     	}
@@ -232,7 +232,13 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						addNotification(cs, p.name, p.text);
+						Gdx.app.postRunnable(new Runnable() {
+	        				
+	                        @Override
+	                        public void run() {
+	                        	addNotification(cs, p.name, p.text);
+	                        }
+						});
 					}
         		}
         		

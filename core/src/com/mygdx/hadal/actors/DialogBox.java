@@ -136,7 +136,7 @@ public class DialogBox extends AHadalActor {
 		dialogs.addLast(new Dialog(info, radio, trigger));
 		
 		//add new dialog to the message log.
-		ps.getMessageWindow().addText(dialogs.last().getInfo().getName() + ": " + dialogs.last().getInfo().getText());
+		ps.getMessageWindow().addText(info.getName() + ": " + info.getText());
 	}
 	
 	/**

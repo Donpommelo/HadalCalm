@@ -29,7 +29,6 @@ public class MessageWindow {
 	private static final int windowYActive = 0;
 	private static final int windowYInactive = -height;
 	
-	public static final int logEntryHeight = 20;
 	public static final float logScale = 0.25f;
 	
 	public static final float logPadding = 10.0f;
@@ -56,7 +55,7 @@ public class MessageWindow {
 		this.tableOuter = new Table().center();
 		this.tableInner = new Table().center();
 		this.tableLog = new Table().center();
-//		this.tableLog.setDebug(true);
+
 		addTable();
 	}
 	
@@ -112,7 +111,7 @@ public class MessageWindow {
 				if (state.isServer()) {
 					HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText());
 				} else {
-					HadalGame.client.client.sendTCP(new Packets.Notification(state.getPlayer().getName(),  enterMessage.getText()));
+					HadalGame.client.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText()));
 				}
 			}
 		}
@@ -196,7 +195,8 @@ public class MessageWindow {
 	public void addTextLine(String text) {
 		Text newEntry = new Text(text, 0, 0, false, true, width - 50);
 		newEntry.setScale(logScale);
-		tableLog.add(newEntry).height(logEntryHeight).pad(logPadding, logPadding, logPadding, logPadding).left().row();
+
+		tableLog.add(newEntry).pad(logPadding, logPadding, logPadding, logPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 	}
 }

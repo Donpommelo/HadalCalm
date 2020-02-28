@@ -888,7 +888,7 @@ public class PlayState extends GameState {
 	/**
 	 * Return to the title screen after a disconnect or selecting return in the pause menu. Overrides other transitions.
 	 */
-	public void returnToTitle() {
+	public void returnToTitle(float delay) {
 		if (server) {
 			if (HadalGame.server.getServer() != null) {
 				HadalGame.server.getServer().stop();
@@ -896,7 +896,7 @@ public class PlayState extends GameState {
 		} else {
 			HadalGame.client.client.stop();
 		}
-		beginTransition(TransitionState.TITLE, true, "", defaultFadeOutSpeed, defaultFadeDelay);
+		beginTransition(TransitionState.TITLE, true, "", defaultFadeOutSpeed, delay);
 	}
 	
 	/**

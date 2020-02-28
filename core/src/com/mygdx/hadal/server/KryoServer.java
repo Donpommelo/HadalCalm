@@ -491,10 +491,16 @@ public class KryoServer {
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 */
-	public void addNotificationToAll(PlayState ps, String name, String text) {
+	public void addNotificationToAll(final PlayState ps, final String name, final String text) {
 		if (ps.getDialogBox() != null && server != null) {
-			ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
-	        server.sendToAllTCP(new Packets.Notification(name, text));	
+			server.sendToAllTCP(new Packets.Notification(name, text));	
+			Gdx.app.postRunnable(new Runnable() {
+				
+				@Override
+                public void run() {
+					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+                }
+			});
 		}
 	}
 	
@@ -505,10 +511,16 @@ public class KryoServer {
 	 * @param name: name giving the notification
 	 * @param text: notification text
 	 */
-	public void addNotificationToAllExcept(PlayState ps, int connId, String name, String text) {
+	public void addNotificationToAllExcept(final PlayState ps, int connId, final String name, final String text) {
 		if (ps.getDialogBox() != null && server != null) {
-			ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
-	        server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
+			server.sendToAllExceptTCP(connId, new Packets.Notification(name, text));
+			Gdx.app.postRunnable(new Runnable() {
+				
+				@Override
+                public void run() {
+					ps.getDialogBox().addDialogue(name, text, "", true, true, true, 3.0f, null, null);
+                }
+			});
 		}
 	}
 	

@@ -123,7 +123,7 @@ public class PauseState extends GameState {
 			        	
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
 			        	gsm.removeState(PauseState.class);
-			        	ps.returnToTitle();
+			        	ps.returnToTitle(0.0f);
 			        }
 			    });
 				
