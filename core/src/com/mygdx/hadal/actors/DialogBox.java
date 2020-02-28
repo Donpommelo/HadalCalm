@@ -3,6 +3,7 @@ package com.mygdx.hadal.actors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -183,7 +184,7 @@ public class DialogBox extends AHadalActor {
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
-					font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 20, getY() - 20, maxXSmall, -1, true);
+					font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 20, getY() - 20, maxXSmall, Align.left, true);
 				}
 			} else {
 				font.getData().setScale(scale);
@@ -191,7 +192,7 @@ public class DialogBox extends AHadalActor {
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxX * textAppearThreshold) {
-			        font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 150, getY() - 20, maxX - 150, -1, true);
+			        font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 150, getY() - 20, maxX - 150, Align.left, true);
 				}
 				 
 				if (first.getBust() != null) {

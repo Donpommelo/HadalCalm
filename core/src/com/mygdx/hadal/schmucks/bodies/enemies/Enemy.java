@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -38,12 +39,15 @@ public class Enemy extends Schmuck {
     //is this enemy a boss? (makes it show up in the boss ui)
     private boolean isBoss = false;
     private String name;
-	    
+    
 	//the default speed that the enemy moves around
 	protected int moveSpeed;
 	
 	//This is the default cooldown between attacks for the enemy
 	private float attackCd;
+	
+	//this is the amount of currency dropped when this enemy is defeated
+	private int scrapDrop;
 	
 	//This is the range that the enemy will be able to detect targets
     protected static final float aiRadius = 2000;
@@ -82,11 +86,12 @@ public class Enemy extends Schmuck {
 	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
-	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, SpawnerSchmuck spawner) {
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, filter, baseHp);
 		this.hboxSize = hboxSize;
 		this.type = type;
 		this.attackCd = attackCd;
+		this.scrapDrop = scrapDrop;
 		this.spawner = spawner;
 		this.sprite = sprite;
 		
@@ -240,6 +245,14 @@ public class Enemy extends Schmuck {
 			getPosition().x + aiRadius, getPosition().y + aiRadius);
 	}
 	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition());
+		}
+		return super.queueDeletion();
+	}
+	
 	/**
 	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
 	 * This packet updates movestate, hp, fuel and flashingness
@@ -289,5 +302,8 @@ public class Enemy extends Schmuck {
 	public void setAttackAngle(float attackAngle) {	this.attackAngle = attackAngle;	}
 
 	public void setAttackCd(float attackCd) { this.attackCd = attackCd; }
-	
+
+	public int getScrapDrop() {	return scrapDrop; }
+
+	public void setScrapDrop(int scrapDrop) { this.scrapDrop = scrapDrop; }
 }

@@ -28,7 +28,7 @@ public class Ragdoll extends HadalEntity {
 	private Sprite sprite;
 	private TextureRegion ragdollSprite;
 	
-	//spread is for giving the initial ragdool a random velocity
+	//spread is for giving the initial ragdoll a random velocity
 	private final static int spread = 120;
 	
 	//how long does the ragdoll last

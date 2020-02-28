@@ -5,11 +5,14 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
 public class Crawler1 extends EnemyCrawling {
 
 	private final static int baseHp = 100;
+
+	private final static int scrapDrop = 1;
 
 	private static final int width = 63;
 	private static final int height = 40;
@@ -23,7 +26,7 @@ public class Crawler1 extends EnemyCrawling {
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	
 	public Crawler1(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, filter, baseHp, attackCd, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, filter, baseHp, attackCd, scrapDrop, spawner);
 
 		setCurrentState(CrawlingState.AVOID_PITS);
 	}
@@ -31,7 +34,7 @@ public class Crawler1 extends EnemyCrawling {
 	@Override
 	public void create() {
 		super.create();
-		getBodyData().setStat(Stats.GROUND_SPD, groundSpeed);
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
 	}
 	
 	private static final int charge1Damage = 10;
@@ -40,8 +43,6 @@ public class Crawler1 extends EnemyCrawling {
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
-		
 //		EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0, 0.25f);
-		
 	};
 }

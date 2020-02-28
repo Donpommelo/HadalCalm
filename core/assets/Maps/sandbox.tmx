@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="122">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="120" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="125">
  <properties>
   <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
+  <property name="startUI" value="SANDBOX,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
- <tileset firstgid="36" source="main.tsx"/>
+ <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="120" height="120">
   <data encoding="base64" compression="zlib">
    eAHt3FuPozAMhuHZ8+z5Yvf//9aJLyxFEUwxcRKnfpGqTimE+PmgDS2dlxcmBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAgewCHwrAD6fbx+yYAev/XPr01+n2PWB92btEvs+9B5Av+V59/eb1Od6+wvEbLxPPHpGvp2a8tsg3XiaePSJfT814bX0rXfrkdHuNVx49QgABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAIKWA5+8d2t9N8PuH9buU5/U87XW3XF8bJ9/fpSte1/X8KW1J1uQbJ1/PLPQ1wbPN9VJ79mBEFiPa3FN3fa9HZDGizfVSe/ZgRBba5r9C0o6pVz7+umdEXb3WLDzfK7XNdjy9+rHsb9ky1iw88/W8xt5rTC/tyLg+W8Yj8u16QRm48s+EGWfKV3adbBlny7fN2Dre2+39O2O+dcbWMd9u799Z89WMreO33cZomfOVjK3Tbu/f5GtNeK8xGvna85U16uPYOkaT5Wd9Nz4i3yzXDGjG1jGaLO/5eZLsb2fTiHy1zTt1P1pnlsuZVztfMraM0WZ/N65ZeLppm1evGdBM2+XVop6/+/8EURtP73afqx+P2J61zbPlz+bX/d/t79k1jdietU39PqI9Nq3t7JD17JpGbM+rTa92IuU+u6YR2zs7Hq3OI/pm7YP38rNrmr09i1fkvlnqqJedXdPs7dW1Pvo7ct8e9f3s+d6arJ8t6LnJrPH6Wd1H83stjtpcPa+3Jl1fc7t6T75zktd87nrr+vVnAlc+X2nPTeZU+/5WtJa7Fu+3vubZ3pp6119T9fFWn6kWrbC3pt71tR8R7r3OsyLUon3ozad3fe0H92MEevPpXX9MVXNb/VI2d+c7Wa91/pfty7j2qD197u6YInu+kq0aXj13WLEc+ZagjJNmaz13uHJ+4b3M3fOVrMdvne0v436x0+IZ882SreyHmm+032YejTW85sn7rbwmP/NxK9nKpPmuGDOs2maWbCVf/UzAezwQub0Mx61ky4QAAggggAACCCCAAAIIIIAAAggggMBKgTdOii04
@@ -401,6 +402,8 @@
     <property name="friction" type="float" value="0"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
    </properties>
   </object>
@@ -418,6 +421,8 @@
     <property name="friction" type="float" value="0"/>
     <property name="player" type="bool" value="true"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
    </properties>
   </object>
@@ -463,6 +468,18 @@
     <property name="friction" type="float" value="0"/>
     <property name="player" type="bool" value="true"/>
     <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="122" name="Prefab" type="PrefabLeverActivate" x="800" y="2144" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivate"/>
+    <property name="triggeringId" value="scrapSpawn"/>
+   </properties>
+  </object>
+  <object id="123" name="ScrapSpawn" type="ScrapSpawn" x="992" y="2208" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="10"/>
+    <property name="triggeredId" value="scrapSpawn"/>
    </properties>
   </object>
  </objectgroup>

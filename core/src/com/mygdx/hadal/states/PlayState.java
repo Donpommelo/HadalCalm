@@ -303,6 +303,7 @@ public class PlayState extends GameState {
 			uiObjective = new UIObjective(this, player);
 			uiArtifact = new UIArtifacts(this, player);
 			uiExtra = new UIExtra(this);
+			uiExtra.changeTypes(map.getProperties().get("startUI", "", String.class), true);
 			uiHub = new UIHub(this);
 			
 			messageWindow = new MessageWindow(this);

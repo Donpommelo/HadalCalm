@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 
@@ -30,8 +32,8 @@ public class EnemyCrawling extends Enemy {
 	private float moveDirection;
 	private CrawlingState currentState;
 	
-	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, SpawnerSchmuck spawner) {
-		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, spawner);
+	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		
 		this.moveDirection = 1.0f;
 		this.currentState = CrawlingState.STILL;
@@ -175,6 +177,23 @@ public class EnemyCrawling extends Enemy {
 				hboxSize.x / 2,
 				(flip ? 1 : -1) * hboxSize.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
+	}
+	
+	@Override
+	public void onServerSync() {
+		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), moveDirection));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState));
+	}
+	
+	@Override
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncEntity) {
+			Packets.SyncEntity p = (Packets.SyncEntity) o;
+			setTransform(p.pos, 0);
+			moveDirection = p.angle;
+		} else {
+			super.onClientSync(o);
+		}
 	}
 	
 	@Override

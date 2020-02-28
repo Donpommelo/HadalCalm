@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -21,15 +22,24 @@ public class Text extends AHadalActor {
 	protected GlyphLayout layout;
 
 	protected float scale = 1.0f;
+	private float targetWidth;
 	
 	//is this actor being moused over?
 	private boolean hover = false;
 	
+	private boolean wrap;
+	
 	private static float padding = 20.0f;
 	
 	public Text(String text, int x, int y, boolean button) {
+		this(text, x, y, button, false, 0);
+	}
+	
+	public Text(String text, int x, int y, boolean button, boolean wrap, float targetWidth) {
 		super(x, y);
 		this.text = text;
+		this.wrap = wrap;
+		this.targetWidth = targetWidth;
 		font = HadalGame.SYSTEM_FONT_UI;
 		color = HadalGame.DEFAULT_TEXT_COLOR;
 		
@@ -62,7 +72,7 @@ public class Text extends AHadalActor {
 		
 		 font.getData().setScale(scale);
 		 font.setColor(color);
-         font.draw(batch, text, getX(), getY() + layout.height);
+         font.draw(batch, text, getX(), getY() + layout.height, targetWidth, Align.left, wrap);
          
          //Return scale and color to default values.
          font.getData().setScale(1.0f);
@@ -71,7 +81,8 @@ public class Text extends AHadalActor {
 	
 	public void updateHitBox() {
 		font.getData().setScale(scale);
-		layout = new GlyphLayout(font, text);
+		layout = new GlyphLayout();
+		layout.setText(font, text, color, targetWidth, Align.left, wrap);
 		setWidth(layout.width);
 		setHeight(layout.height);
 		font.getData().setScale(1.0f);

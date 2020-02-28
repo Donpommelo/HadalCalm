@@ -19,8 +19,8 @@ public class EnemySteering extends EnemyFloating {
 				
 	protected SteeringBehavior<Vector2> roam;
 
-	public EnemySteering(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float maxLinSpd, float maxLinAcc, short filter, int hp, float attackCd, SpawnerSchmuck spawner) {
-		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, spawner);
+	public EnemySteering(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float maxLinSpd, float maxLinAcc, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		
 		this.maxLinearSpeed = maxLinSpd;
 		this.maxLinearAcceleration = maxLinAcc;

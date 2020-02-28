@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="13">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="14">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="60" height="60">
   <data encoding="base64" compression="zlib">
-   eJztz7EJgFAUBMEPmmj/BWtudGBwT2dgC9i1AAAAAAAAAJ6Ou21Q+wu/k/jN+O3mN+O3m9+M325+M367+c347eY347eb34zfbn4zf/s9hwV8ywVDJgN/
+   eAHt0jEKhEAUBUFBk/X+B9aNjTr5OFjCJPKSqelt8xEgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQOAp8Lt/7Qud43mF9Od/35U+922v5X2b1/Raz01cz81req3nJq7n5jW91nMT13Pzml7ruYnruXlNr/XcxPXcvKbXem7iem5e02s9N/Gv9XzePCud9prWBAi8XeACQyYDfw==
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -49,6 +49,7 @@
     <property name="boss" type="bool" value="true"/>
     <property name="bossname" value="slightly larger turret"/>
     <property name="enemyId" value="TURRET_BOSS"/>
+    <property name="extra" type="int" value="180"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="spawn0"/>
    </properties>
@@ -69,7 +70,7 @@
     <property name="triggeringId" value="spawn0"/>
    </properties>
   </object>
-  <object id="10" name="Start" type="Start" x="1088" y="1504" width="32" height="32">
+  <object id="10" name="Start" type="Start" x="1152" y="1408" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
@@ -88,5 +89,6 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
+  <object id="13" name="Dropthrough" type="Dropthrough" x="640" y="1504" width="440" height="16"/>
  </objectgroup>
 </map>

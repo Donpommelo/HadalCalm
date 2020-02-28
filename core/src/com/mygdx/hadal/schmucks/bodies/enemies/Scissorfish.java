@@ -10,6 +10,8 @@ public class Scissorfish extends EnemySteering {
 
 	private final static int baseHp = 100;
 
+	private final static int scrapDrop = 2;
+	
 	private static final int width = 72;
 	private static final int height = 30;
 	
@@ -24,7 +26,7 @@ public class Scissorfish extends EnemySteering {
 	private static final Sprite sprite = Sprite.FISH_SCISSOR;
 	
 	public Scissorfish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SCISSORFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SCISSORFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, scrapDrop, spawner);
 	}
 	
 	private static final int charge1Speed = 10;

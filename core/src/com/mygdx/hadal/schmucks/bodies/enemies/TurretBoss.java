@@ -14,12 +14,15 @@ import com.mygdx.hadal.states.PlayState;
 public class TurretBoss extends Turret {
 
 	private static final int baseHp = 6000;
+	
+	private final static int scrapDrop = 30;
+	
 	private static final float aiAttackCd = 3.0f;
 	
 	private static final float scale = 1.5f;
 	
 	public TurretBoss(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, EnemyType.TURRET_FLAK, startAngle, filter, baseHp, aiAttackCd, scale, spawner);		
+		super(state, startPos, EnemyType.TURRET_FLAK, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);		
 		moveState = MoveState.DEFAULT;
 		setCurrentState(TurretState.TRACKING);
 	}
@@ -30,14 +33,17 @@ public class TurretBoss extends Turret {
 	private static final int bulletSize = 60;
 	private static final float bulletLifespan = 1.5f;
 
-	private static final int bulletNumber = 4;
-	private static final float bulletInterval = 0.5f;
+	private static final int bulletNumber = 8;
+	private static final float bulletInterval = 0.25f;
 	@Override
 	public void attackInitiate() {
+		sprayShot();
+	}
+	
+	public void sprayShot() {
 		EnemyUtils.changeTurretState(this, TurretState.FREE, 180.0f, 1.0f);
-
 		for (int i = 0; i < bulletNumber; i++) {
-			EnemyUtils.changeTurretState(this, TurretState.FREE, 180.0f - i * 20, 0);
+			EnemyUtils.changeTurretState(this, TurretState.FREE, 180.0f - i * 10, 0);
 			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, 0.2f);
 			animationTime = 0;
 			EnemyUtils.changeMoveState(state, this, MoveState.DEFAULT, 0);
@@ -45,6 +51,5 @@ public class TurretBoss extends Turret {
 		}
 		EnemyUtils.changeTurretState(this, TurretState.TRACKING, 0.0f, 0.0f);
 	}
-	
 	
 }

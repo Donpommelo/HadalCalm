@@ -45,8 +45,8 @@ public class Turret extends Enemy {
 	private static final Sprite flak = Sprite.TURRET_FLAK;
 	private static final Sprite volley = Sprite.TURRET_VOLLEY;
 	
-	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, float baseHp, float attackCd, float scale, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, attackCd, spawner);		
+	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, float baseHp, float attackCd, int scrapDrop, float scale, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, attackCd, scrapDrop, spawner);		
 		this.angle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;
@@ -83,7 +83,7 @@ public class Turret extends Enemy {
 		super.controller(delta);
 		
 		float dist = (desiredAngle - angle) % 360;
-		angle = angle + (2 * dist % 360 - dist) * 0.02f;
+		angle = angle + (2 * dist % 360 - dist) * 0.04f;
 		
 		switch(currentState) {
 			case STARTING:

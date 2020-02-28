@@ -14,12 +14,14 @@ import com.mygdx.hadal.states.PlayState;
 public class TurretFlak extends Turret {
 
 	private static final int baseHp = 200;
+	private final static int scrapDrop = 3;
+	
 	private static final float aiAttackCd = 0.5f;
 	
 	private static final float scale = 0.5f;
 	
 	public TurretFlak(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, EnemyType.TURRET_FLAK, startAngle, filter, baseHp, aiAttackCd, scale, spawner);		
+		super(state, startPos, EnemyType.TURRET_FLAK, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);		
 		moveState = MoveState.DEFAULT;
 	}
 	

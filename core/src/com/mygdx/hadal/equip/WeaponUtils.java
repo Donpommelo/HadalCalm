@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
+import com.mygdx.hadal.event.Scrap;
 import com.mygdx.hadal.event.Event.eventSyncTypes;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.Sensor;
@@ -239,6 +240,12 @@ public class WeaponUtils {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	public static void spawnScrap(PlayState state, int amount, Vector2 startPos) {
+		for (int i = 0; i < amount; i++) {
+			new Scrap(state, startPos);
 		}
 	}
 	

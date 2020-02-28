@@ -88,117 +88,118 @@ public class TiledObjectUtil {
 		
 		Event e = null;
 		
-		//this sets the starting point of the map to the Start object with the corresponding startId
+		//Go through every event type to create events
 		if (object.getName().equals("Start")) {
 			
 			e = new StartPoint(state, position, size, 
 					object.getProperties().get("startId", "", String.class));
 			state.addSavePoint((StartPoint) e);
-		}
-		
-		//Go through every event type to create events
-		if (object.getName().equals("Switch")) {
+		} else if (object.getName().equals("Switch")) {
+			
 			e = new Switch(state, position, size);
-		}
-		if (object.getName().equals("Sensor")) {
+		} else if (object.getName().equals("Sensor")) {
+			
 			e = new Sensor(state, position, size, 
 					object.getProperties().get("player", true, boolean.class), object.getProperties().get("hbox", false, boolean.class), 
 					object.getProperties().get("event", false, boolean.class), object.getProperties().get("enemy", false, boolean.class),
 					object.getProperties().get("gravity", 0.0f, float.class), object.getProperties().get("collision", false, boolean.class));
-		}
-		if (object.getName().equals("Timer")) {
+		} else if (object.getName().equals("Timer")) {
+			
 			e = new Timer(state, object.getProperties().get("interval", 0.0f, float.class),
 					object.getProperties().get("startOn", true, boolean.class));
-		}
-		if (object.getName().equals("Counter")) {
+		} else if (object.getName().equals("Counter")) {
+			
 			e = new Counter(state, object.getProperties().get("count", int.class), object.getProperties().get("countStart", 0, int.class));
-		}
-		if (object.getName().equals("Multitrigger")) {
+		} else if (object.getName().equals("Multitrigger")) {
+			
 			e = new TriggerMulti(state);
 			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
-		}
-		if (object.getName().equals("Condtrigger")) {
+		} else if (object.getName().equals("Condtrigger")) {
+			
 			e = new TriggerCond(state, object.getProperties().get("start", "", String.class));
 			condTriggeringEvents.put((TriggerCond)e, object.getProperties().get("triggeringId", "", String.class));
-		}
-		if (object.getName().equals("Alttrigger")) {
+		} else if (object.getName().equals("Alttrigger")) {
+			
 			e = new TriggerAlt(state, object.getProperties().get("message", "", String.class));
-		}
-		if (object.getName().equals("Redirecttrigger")) {
+		} else if (object.getName().equals("Redirecttrigger")) {
+			
 			e = new TriggerRedirect(state);
 			redirectTriggeringEvents.put((TriggerRedirect)e, object.getProperties().get("blameId", "", String.class));
-		}
-		if (object.getName().equals("Dummy")) {
+		} else if (object.getName().equals("Dummy")) {
+			
 			e = new PositionDummy(state, position, size, 
 					object.getProperties().get("dummyId", "", String.class));
-		}
-		if (object.getName().equals("UI")) {
+		} else if (object.getName().equals("UI")) {
+			
 			e = new UIChanger(state,
 					object.getProperties().get("tags", "", String.class),
 					object.getProperties().get("clear", false, boolean.class));
-		}
-		if (object.getName().equals("Game")) {
+		} else if (object.getName().equals("Game")) {
+			
 			e = new GameChanger(state,
 					object.getProperties().get("lives", 0, int.class), 
 					object.getProperties().get("score", 0, int.class),
 					object.getProperties().get("timer", 0.0f, float.class),
 					object.getProperties().get("timerIncr", 0.0f, float.class));
-		}
-		if (object.getName().equals("Camera")) {
+		} else if (object.getName().equals("Camera")) {
+			
 			e = new CameraChanger(state, object.getProperties().get("zoom", 1.0f, float.class));
-		}
-		if (object.getName().equals("Shader")) {
+		} else if (object.getName().equals("Shader")) {
+			
 			e = new ShaderChanger(state, 
 					object.getProperties().get("shader", String.class));
-		}
-		if (object.getName().equals("Bounds")) {
+		} else if (object.getName().equals("Bounds")) {
+			
 			e = new CameraBounder(state, position, size, 
 					object.getProperties().get("right", false, boolean.class),
 					object.getProperties().get("left", false, boolean.class),
 					object.getProperties().get("up", false, boolean.class),
 					object.getProperties().get("down", false, boolean.class));
-		}
-		if (object.getName().equals("Objective")) {
+		} else if (object.getName().equals("Objective")) {
+			
 			e = new ObjectiveChanger(state);
-		}
-		if (object.getName().equals("Player")) {
+		} else if (object.getName().equals("Player")) {
+			
 			e = new PlayerChanger(state,
 					object.getProperties().get("hp", 0.0f, float.class), 
 					object.getProperties().get("fuel", 0.0f, float.class), 
-					object.getProperties().get("ammo", 0.0f, float.class), 
-					object.getProperties().get("scrap", 0, int.class));
-		}
-		if (object.getName().equals("Particle")) {
+					object.getProperties().get("ammo", 0.0f, float.class));
+		} else if (object.getName().equals("Particle")) {
+			
 			e = new ParticleCreator(state, 
 					Particle.valueOf(object.getProperties().get("particle", String.class)), 
 					object.getProperties().get("duration", 0.0f, float.class),
 					object.getProperties().get("startOn", false, Boolean.class));	
-		}
-		if (object.getName().equals("ParticleField")) {
+		} else if (object.getName().equals("ParticleField")) {
+			
 			e = new ParticleField(state, position, size,
 					Particle.valueOf(object.getProperties().get("particle", "NOTHING", String.class)),
 					object.getProperties().get("speed", 1.0f, float.class),
 					object.getProperties().get("duration", 1.0f, float.class));	
-		}
-		if (object.getName().equals("SchmuckSpawn")) {
+		} else if (object.getName().equals("SchmuckSpawn")) {
+			
 			e = new SpawnerSchmuck(state, position, size, 
 					object.getProperties().get("enemyId", String.class), 
 					object.getProperties().get("amount", 1, int.class), 
 					object.getProperties().get("extra", 0, int.class),
 					object.getProperties().get("boss", false, boolean.class),
 					object.getProperties().get("bossname", "", String.class));	
-		}
-		if (object.getName().equals("EventClone")) {
+		} else if (object.getName().equals("ScrapSpawn")) {
+			
+			e = new SpawnerScrap(state, position, size, 
+					object.getProperties().get("scrap", 0, int.class));
+		} else if (object.getName().equals("EventClone")) {
+			
 			e = new EventCloner(state, position, size);	
-		}
-		if (object.getName().equals("EventDelete")) {
+		} else if (object.getName().equals("EventDelete")) {
+			
 			e = new EventDeleter(state);	
-		}
-		if (object.getName().equals("EventMove")) {
+		} else if (object.getName().equals("EventMove")) {
+			
 			e = new EventMover(state, position, size, 
 					object.getProperties().get("gravity", -1.0f, float.class));	
-		}
-		if (object.getName().equals("SpriteChange")) {
+		} else if (object.getName().equals("SpriteChange")) {
+			
 			e = new SpriteChanger(state, 
 					object.getProperties().get("newSprite", String.class),
 					object.getProperties().get("mode", "NORMAL", String.class),
@@ -207,156 +208,156 @@ public class TiledObjectUtil {
 					object.getProperties().get("speed", 0.8f, float.class), 
 					object.getProperties().get("align", "NONE", String.class),
 					object.getProperties().get("scale", -1.0f, float.class));	
-		}
-		if (object.getName().equals("QuestChange")) {
+		} else if (object.getName().equals("QuestChange")) {
+			
 			e = new QuestChanger(state, 
 					object.getProperties().get("quest", String.class), 
 					object.getProperties().get("change", 0, int.class));	
-		}
-		if (object.getName().equals("QuestCheck")) {
+		} else if (object.getName().equals("QuestCheck")) {
+			
 			e = new QuestChecker(state, 
 					object.getProperties().get("quest", String.class), 
 					object.getProperties().get("check", 0, int.class));	
-		}
-		if (object.getName().equals("ItemUnlock")) {
+		} else if (object.getName().equals("ItemUnlock")) {
+			
 			e = new ItemUnlocker(state, 
 					object.getProperties().get("type", String.class), 
 					object.getProperties().get("item", String.class));	
-		}
-		if (object.getName().equals("UnlockCheck")) {
+		} else if (object.getName().equals("UnlockCheck")) {
+			
 			e = new UnlockChecker(state, 
 					object.getProperties().get("type", String.class), 
 					object.getProperties().get("item", String.class),
 					object.getProperties().get("unlock", false, Boolean.class));	
-		}
-		if (object.getName().equals("PlayerMove")) {		
+		} else if (object.getName().equals("PlayerMove")) {		
+			
 			e = new PlayerMover(state);
-		}
-		if (object.getName().equals("TouchPortal")) {		
+		} else if (object.getName().equals("TouchPortal")) {		
+			
 			e = new PortalTouch(state, position, size);
-		}
-		if (object.getName().equals("WrapPortal")) {		
+		} else if (object.getName().equals("WrapPortal")) {		
+			
 			e = new PortalWrap(state, position, size, 
 					object.getProperties().get("axis", true, boolean.class));
-		}
-		if (object.getName().equals("Text")) {		
+		} else if (object.getName().equals("Text")) {		
+			
 			e = new Text(state, position, size,
 					object.getProperties().get("text", String.class));
-		}
-		if (object.getName().equals("Current")) {
+		} else if (object.getName().equals("Current")) {
+			
 			Vector2 power = new Vector2(object.getProperties().get("currentX", 0.0f, float.class), object.getProperties().get("currentY", 0.0f, float.class));
 			if (object.getProperties().get("duration", 0.0f, float.class) == 0) {
 				e = new Currents(state, position, size, power);
 			} else {
 				e = new Currents(state, position, size, power, object.getProperties().get("duration", 0.0f, float.class));
 			}
-		}
-		if (object.getName().equals("Displacer")) {
+		} else if (object.getName().equals("Displacer")) {
+			
 			Vector2 power = new Vector2(object.getProperties().get("displaceX", 0.0f, float.class), object.getProperties().get("displaceY", 0.0f, float.class));
 			e = new Displacer(state, position, size, power);
-		}
-		if (object.getName().equals("Spring")) {
+		} else if (object.getName().equals("Spring")) {
+			
 			Vector2 power = new Vector2(object.getProperties().get("springX", 0.0f, float.class), object.getProperties().get("springY", 0.0f, float.class));
 			e = new Spring(state, position, size, power);
-		}
-		if (object.getName().equals("Equip")) {
+		} else if (object.getName().equals("Equip")) {
+			
 			e = new PickupEquip(state, position, 
 					object.getProperties().get("pool", "", String.class));
-		}
-		if (object.getName().equals("Dropthrough")) {
+		} else if (object.getName().equals("Dropthrough")) {
+			
 			e = new DropThroughPlatform(state, position, size);
-		}
-		if (object.getName().equals("Dialog")) {
+		} else if (object.getName().equals("Dialog")) {
+			
 			e = new Dialog(state, object.getProperties().get("textId", String.class));
-		}
-		if (object.getName().equals("End")) {
+		} else if (object.getName().equals("End")) {
+			
 			e = new End(state, object.getProperties().get("text", "", String.class));
-		}
-		if (object.getName().equals("Destr_Obj")) {
+		} else if (object.getName().equals("Destr_Obj")) {
+			
 			e = new DestructableBlock(state, position, size, 
 					object.getProperties().get("Hp", 100, int.class),
 					object.getProperties().get("static", true, boolean.class));
-		}
-		if (object.getName().equals("Warp")) {
+		} else if (object.getName().equals("Warp")) {
+			
 			e = new LevelWarp(state,
 					object.getProperties().get("level", String.class), 
 					object.getProperties().get("reset", false, Boolean.class), 
 					object.getProperties().get("startId", "", String.class));
-		}
-		if (object.getName().equals("Poison")) {
+		} else if (object.getName().equals("Poison")) {
+			
 			e = new Poison(state, position, size, 
 					object.getProperties().get("damage", 0.0f, float.class),
 					object.getProperties().get("draw", true, boolean.class), 
 					object.getProperties().get("filter", (short)0, short.class));
-		}
-		if (object.getName().equals("Buzzsaw")) {
+		} else if (object.getName().equals("Buzzsaw")) {
+			
 			e = new Buzzsaw(state, position, size, 
 					object.getProperties().get("damage", 0.0f, float.class),
 					object.getProperties().get("filter", (short)0, short.class));
-		}
-		if (object.getName().equals("MovePoint")) {
+		} else if (object.getName().equals("MovePoint")) {
+			
 			e = new MovingPoint(state, position, size, 
 					object.getProperties().get("speed", 1.0f, float.class),
 					object.getProperties().get("pause", false, boolean.class));
 			movePointConnections.put((MovingPoint)e, object.getProperties().get("connections", "", String.class));
-		}
-		if (object.getName().equals("Rotator")) {
+		} else if (object.getName().equals("Rotator")) {
+			
 			e = new Rotator(state,
 					object.getProperties().get("continuous", true, boolean.class),
 					object.getProperties().get("angle", 0.0f, float.class));
-		}
-		if (object.getName().equals("Pusher")) {
+		} else if (object.getName().equals("Pusher")) {
+			
 			e = new Pusher(state,
 					object.getProperties().get("xPush", 0.0f, float.class),
 					object.getProperties().get("yPush", 0.0f, float.class));
-		}
-		if (object.getName().equals("Platform")) {
+		} else if (object.getName().equals("Platform")) {
+			
 			e = new Platform(state, position, size, 
 					object.getProperties().get("restitution", 0.0f, float.class), 
 					object.getProperties().get("player", true, boolean.class), object.getProperties().get("hbox", true, boolean.class), 
 					object.getProperties().get("event", true, boolean.class), object.getProperties().get("enemy", true, boolean.class));
-		}
-		if (object.getName().equals("Armory")) {
+		} else if (object.getName().equals("Armory")) {
+			
 			e = new Armory(state, position, size,
 					object.getProperties().get("title", "Armory", String.class),
 					object.getProperties().get("tag", "ARMORY", String.class),
 					object.getProperties().get("unlock", true, Boolean.class));
-		}
-		if (object.getName().equals("Reliquary")) {
+		} else if (object.getName().equals("Reliquary")) {
+			
 			e = new Reliquary(state, position, size,
 					object.getProperties().get("title", "Reliquary", String.class),
 					object.getProperties().get("tag", "RELIQUARY", String.class),
 					object.getProperties().get("unlock", true, Boolean.class));
-		}
-		if (object.getName().equals("Dispensary")) {
+		} else if (object.getName().equals("Dispensary")) {
+			
 			e = new Dispensary(state, position, size,
 					object.getProperties().get("title", "Dispensary", String.class),
 					object.getProperties().get("tag", "DISPENSARY", String.class),
 					object.getProperties().get("unlock", true, Boolean.class));
-		}
-		if (object.getName().equals("Dormitory")) {
+		} else if (object.getName().equals("Dormitory")) {
+			
 			e = new Dormitory(state, position, size,
 					object.getProperties().get("title", "Dormitory", String.class),
 					object.getProperties().get("tag", "DORMITORY", String.class),
 					object.getProperties().get("unlock", true, Boolean.class));
-		}
-		if (object.getName().equals("Navigation")) {
+		} else if (object.getName().equals("Navigation")) {
+			
 			e = new Navigations(state, position, size, 
 					object.getProperties().get("title", "Navigations", String.class),
 					object.getProperties().get("tag", "NAVIGATIONS", String.class),
 					object.getProperties().get("unlock", true, Boolean.class));
-		}
-		if (object.getName().equals("Quartermaster")) {
+		} else if (object.getName().equals("Quartermaster")) {
+			
 			e = new Quartermaster(state, position, size,
 					object.getProperties().get("title", "Quartermaster", String.class),
 					object.getProperties().get("tag", "QUARTERMASTER", String.class),
 					object.getProperties().get("unlock", true, Boolean.class),
 					object.getProperties().get("shopId", String.class));
-		}
-		if (object.getName().equals("Codex")) {
+		} else if (object.getName().equals("Codex")) {
+			
 			e = new Codex(state, position, size);
-		}
-		if (object.getName().equals("Prefab")) {
+		} else if (object.getName().equals("Prefab")) {
+			
 			genPrefab(state, object, rect);
 		}
 		

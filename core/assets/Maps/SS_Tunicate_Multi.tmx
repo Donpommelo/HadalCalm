@@ -4,6 +4,7 @@
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
+  <property name="startUI" value="THE S.S TUNICATE,EMPTY,WINS"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="120">
@@ -262,13 +263,7 @@
   <object id="52" name="Multitrigger" type="Multitrigger" x="160" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,ui1,multiDialog"/>
-   </properties>
-  </object>
-  <object id="54" name="UI" type="UI" x="224" y="96" width="32" height="32">
-   <properties>
-    <property name="tags" value="THE S.S TUNICATE,EMPTY,WINS"/>
-    <property name="triggeredId" value="ui1"/>
+    <property name="triggeringId" value="startTimer,multiDialog"/>
    </properties>
   </object>
   <object id="55" name="Condtrigger" type="Condtrigger" x="224" y="160" width="32" height="32">

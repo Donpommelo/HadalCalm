@@ -38,13 +38,11 @@ import com.mygdx.hadal.utils.Stats;
 public class PlayerChanger extends Event {
 
 	private float hp, fuel, ammo;
-	private int scrap;
 	
-	public PlayerChanger(PlayState state, float hp, float fuel, float ammo, int scrap) {
+	public PlayerChanger(PlayState state, float hp, float fuel, float ammo) {
 		super(state);
 		this.hp = hp;
 		this.fuel = fuel;
-		this.scrap = scrap;
 		this.ammo = ammo;
 	}
 	
@@ -75,12 +73,6 @@ public class PlayerChanger extends Event {
 				
 				if (hp < 0) {
 					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false);
-					activated = true;
-				}
-				
-				if (scrap > 0) {
-					state.getGsm().getRecord().incrementScrap(scrap);
-					state.getUiExtra().syncData();
 					activated = true;
 				}
 				

@@ -43,6 +43,7 @@ public class Ablaze extends Status {
 		}
 	}
 	
+	@Override
 	public statusStackType getStackType() {
 		return statusStackType.REPLACE;
 	}

@@ -45,7 +45,7 @@ public class MessageWindow {
 	//is this window currently visible?
 	private boolean active;
 	
-	private final static int maxMessageLength = 50;
+	private final static int maxMessageLength = 100;
 	
 	private static ArrayList<String> textRecord = new ArrayList<String>();
 	
@@ -194,7 +194,7 @@ public class MessageWindow {
 	}
 	
 	public void addTextLine(String text) {
-		Text newEntry = new Text(text, 0, 0, false);
+		Text newEntry = new Text(text, 0, 0, false, true, width - 50);
 		newEntry.setScale(logScale);
 		tableLog.add(newEntry).height(logEntryHeight).pad(logPadding, logPadding, logPadding, logPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);

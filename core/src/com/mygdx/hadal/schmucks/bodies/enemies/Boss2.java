@@ -27,7 +27,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Boss2 extends EnemyFloating {
 				
     private static final float aiAttackCd = 3.0f;
-	
+    
+    private final static int scrapDrop = 15;
+    
 	private static final int width = 250;
 	private static final int height = 250;
 	
@@ -44,7 +46,7 @@ public class Boss2 extends EnemyFloating {
 	private TextureRegion headSprite, bodySprite, faceSprite;
 	
 	public Boss2(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, scrapDrop, spawner);
 		this.headSprite = Sprite.KAMABOKO_BODY.getFrames().get(0);
 		this.bodySprite = Sprite.KAMABOKO_BODY.getFrames().get(1);
 		setFaceSprite();

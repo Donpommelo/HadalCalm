@@ -17,7 +17,9 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class Spittlefish extends EnemySteering {
 
 	private final static int baseHp = 100;
-
+	
+	private final static int scrapDrop = 2;
+	
 	private static final int width = 49;
 	private static final int height = 19;
 	
@@ -34,7 +36,7 @@ public class Spittlefish extends EnemySteering {
 	private final static Sprite projSprite = Sprite.SPIT;
 	
 	public Spittlefish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SPITTLEFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SPITTLEFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, scrapDrop, spawner);
 	}
 	
 	private final static float baseDamage = 5.0f;

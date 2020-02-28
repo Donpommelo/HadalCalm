@@ -27,13 +27,13 @@ public class WaveCannon extends RangedWeapon {
 	private final static float knockback = 28.0f;
 	private final static float projectileSpeed = 40.0f;
 	private final static Vector2 projectileSize = new Vector2(15, 15);
-	private final static float lifespan = 0.6f;
+	private final static float lifespan = 2.6f;
 	
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float amplitude = 0.20f;
+	private final static float amplitude = 0.30f;
 	private final static float frequency = 30;
 
 	private final static float pushInterval = 1 / 60f;
@@ -43,7 +43,7 @@ public class WaveCannon extends RangedWeapon {
 	}
 	
 	@Override
-	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
@@ -69,7 +69,7 @@ public class WaveCannon extends RangedWeapon {
 					float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
 					float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 
-					float wobble = amplitude * (float)Math.cos(frequency * elapsed) * frequency;
+					float wobble = (float) (amplitude * Math.cos(frequency * elapsed) * frequency);
 
 					hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
 				}
@@ -100,7 +100,7 @@ public class WaveCannon extends RangedWeapon {
 					float c = (float)(Math.cos(hbox.getLinearVelocity().angleRad()));
 					float s = (float)(Math.sin(hbox.getLinearVelocity().angleRad()));
 
-					float wobble = -amplitude * (float)Math.cos(frequency * elapsed) * frequency;
+					float wobble = (float) (-amplitude * Math.cos(frequency * elapsed) * frequency);
 
 					hbox.setLinearVelocity(c * projectileSpeed - s * wobble, s * projectileSpeed + c * wobble);
 				}

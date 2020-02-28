@@ -32,8 +32,8 @@ public class EnemyFloating extends Enemy {
 	//this is the boss's sprite
 	private Animation<TextureRegion> floatingSprite;
 
-	public EnemyFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, SpawnerSchmuck spawner) {
-		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, spawner);
+	public EnemyFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		
 		this.angle = 0;
 		this.desiredAngle = 0;

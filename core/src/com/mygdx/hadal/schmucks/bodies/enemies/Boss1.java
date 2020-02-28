@@ -23,6 +23,8 @@ public class Boss1 extends EnemyFloating {
     private static final float aiAttackCd2 = 2.2f;
     private static final float aiAttackCd3 = 1.5f;
 	
+    private final static int scrapDrop = 15;
+    
 	private static final int width = 250;
 	private static final int height = 161;
 	
@@ -42,7 +44,7 @@ public class Boss1 extends EnemyFloating {
 	private static final float phaseThreshold3 = 0.35f;
 	
 	public Boss1(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, spawner);
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), sprite, EnemyType.BOSS1, filter, hp, aiAttackCd, scrapDrop, spawner);
 	}
 	
 	@Override
