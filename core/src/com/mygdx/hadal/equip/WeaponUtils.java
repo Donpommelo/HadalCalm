@@ -247,10 +247,10 @@ public class WeaponUtils {
 		
 		int modifiedAmount = 0;
 		
-		if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f) {
+		if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f && state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
 			modifiedAmount = amount + 1;
 		} else {
-			modifiedAmount = (int) (amount * state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP));
+			modifiedAmount = (int) (amount * (1 + state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)));
 		}
 		for (int i = 0; i < modifiedAmount; i++) {
 			new Scrap(state, startPos);

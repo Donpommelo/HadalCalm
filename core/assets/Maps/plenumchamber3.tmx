@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="103">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="90" height="90" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="106">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
@@ -474,6 +474,26 @@
     <property name="level" value="PLENUMCHAMBERSHAFT"/>
     <property name="startId" value="start1"/>
     <property name="triggeredId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="103" name="Start" type="Start" x="480" y="1632" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterfromtop"/>
+   </properties>
+  </object>
+  <object id="104" name="Sensor" type="Sensor" x="352" y="1536" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="105" name="Warp" type="Warp" x="288" y="1632" width="32" height="32">
+   <properties>
+    <property name="level" value="PLENUMCHAMBEREXTRA1"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
  </objectgroup>

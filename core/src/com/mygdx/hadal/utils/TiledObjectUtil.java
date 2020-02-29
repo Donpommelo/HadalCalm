@@ -164,6 +164,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("hp", 0.0f, float.class), 
 					object.getProperties().get("fuel", 0.0f, float.class), 
 					object.getProperties().get("ammo", 0.0f, float.class));
+		} else if (object.getName().equals("StatChange")) {
+			
+			e = new StatusInflicter(state,
+					object.getProperties().get("stat", 0, int.class), 
+					object.getProperties().get("amount", 0.0f, float.class), 
+					object.getProperties().get("duration", 0.0f, float.class));
 		} else if (object.getName().equals("Particle")) {
 			
 			e = new ParticleCreator(state, 

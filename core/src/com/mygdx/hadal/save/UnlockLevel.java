@@ -27,7 +27,6 @@ public enum UnlockLevel {
 	WRECK2("Maps/wreck2.tmx"),
 	DERELICT1("Maps/derelict1.tmx"),
 	DERELICT2("Maps/derelict2.tmx"),
-	WRECKUPPERSHAFT("Maps/wreckuppershaft.tmx"),
 	WRECKEXPANSE1("Maps/wreckexpanse1.tmx"),
 	WRECKEXPANSE2("Maps/wreckexpanse2.tmx"),
 	WRECKEXPANSEBOSS("Maps/wreckexpanseboss.tmx"),
@@ -36,7 +35,9 @@ public enum UnlockLevel {
 	PLENUMCHAMBER2("Maps/plenumchamber2.tmx"),
 	PLENUMCHAMBER3("Maps/plenumchamber3.tmx"),
 	PLENUMCHAMBER4("Maps/plenumchamber4.tmx"),
+	PLENUMCHAMBER5("Maps/plenumchamber5.tmx"),
 	PLENUMCHAMBERSHAFT("Maps/plenumchambershaft.tmx"),
+	PLENUMCHAMBEREXTRA1("Maps/plenumchamberextra1.tmx"),
 	NOISELESSSEA1("Maps/noiselesssea1.tmx"),
 
 	

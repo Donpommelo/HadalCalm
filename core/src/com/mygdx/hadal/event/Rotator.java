@@ -1,12 +1,13 @@
 package com.mygdx.hadal.event;
 
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
  * Rotators connect to other events and either apply a continuous or instant rotation
  * 
- * Triggered Behavior: N/A
+ * Triggered Behavior: when triggered, if continuous, this event will toggle on/off the rotating of the connected event
  * Triggering Behavior: This event's connected event is the event that will be rotated
  * 
  * Fields:
@@ -31,7 +32,23 @@ public class Rotator extends Event {
 	
 	@Override
 	public void create() {
-		this.eventData = new EventData(this);
+		this.eventData = new EventData(this) {
+			
+			@Override
+			public void onActivate(EventData activator, Player p) {
+				if (continuous) {
+					if (getConnectedEvent() != null) {
+						if (getConnectedEvent().getBody() != null) {
+							if (getConnectedEvent().getBody().getAngularVelocity() == 0) {
+								getConnectedEvent().getBody().setAngularVelocity(angle);
+							} else {
+								getConnectedEvent().getBody().setAngularVelocity(0);
+							}
+						}
+					}
+				}
+			}
+		};
 	}
 	
 	@Override
