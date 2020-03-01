@@ -124,6 +124,7 @@
   </object>
   <object id="20" name="Platform" type="Platform" x="256" y="64" width="96" height="224">
    <properties>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door1"/>
    </properties>
   </object>
@@ -276,6 +277,7 @@
   </object>
   <object id="44" name="Platform" type="Platform" x="352" y="0" width="96" height="288">
    <properties>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="door2"/>
    </properties>
   </object>

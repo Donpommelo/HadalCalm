@@ -237,7 +237,9 @@ public class TiledObjectUtil {
 					object.getProperties().get("unlock", false, Boolean.class));	
 		} else if (object.getName().equals("PlayerMove")) {		
 			
-			e = new PlayerMover(state);
+			e = new PlayerMover(state, 
+					object.getProperties().get("all", false, boolean.class),
+					object.getProperties().get("exclude", false, boolean.class));
 		} else if (object.getName().equals("TouchPortal")) {		
 			
 			e = new PortalTouch(state, position, size);

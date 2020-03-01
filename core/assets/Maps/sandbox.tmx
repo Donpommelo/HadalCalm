@@ -106,7 +106,7 @@
   <object id="33" name="SchmuckSpawn" type="SchmuckSpawn" x="1856" y="2144" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
-    <property name="enemyId" value="CRAWLER1"/>
+    <property name="enemyId" value="CRAWLER3"/>
     <property name="triggeredId" value="testSpawn"/>
    </properties>
   </object>

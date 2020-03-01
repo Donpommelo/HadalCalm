@@ -117,6 +117,20 @@ public class EnemyUtils {
 		});
 	}
 	
+	public static void setCrawlingChaseState(final EnemyCrawling bossCrawling, final float speed, final float minRange, final float maxRange, float duration) {
+		
+		bossCrawling.getActions().add(new EnemyAction(bossCrawling, duration) {
+			
+			@Override
+			public void execute() {
+				bossCrawling.setCurrentState(CrawlingState.CHASE_PLAYER);
+				bossCrawling.setMinRange(minRange);
+				bossCrawling.setMaxRange(maxRange);
+				bossCrawling.setMoveSpeed(speed);
+			}
+		});
+	}
+
 	public static void changeTurretState(final Turret turret, final TurretState state, final float angle, float duration) {
 		
 		turret.getActions().add(new EnemyAction(turret, duration) {

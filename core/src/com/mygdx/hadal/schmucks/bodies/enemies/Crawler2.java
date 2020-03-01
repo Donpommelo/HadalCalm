@@ -25,13 +25,13 @@ public class Crawler2 extends EnemyCrawling {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float attackCd = 2.0f;
+	private static final float attackCd = 1.0f;
 	private static final float groundSpeed = -0.2f;
 			
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	
-	public Crawler2(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, filter, baseHp, attackCd, scrapDrop, spawner);
+	public Crawler2(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 
 		EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0.5f, 0.0f);
 	}
@@ -42,30 +42,29 @@ public class Crawler2 extends EnemyCrawling {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
 	}
 	
-	@Override
-	public void controller(float delta) {
-		super.controller(delta);
-		if (target != null) {
-			EnemyUtils.changeCrawlingState(this, CrawlingState.CHASE_PLAYER, 1.0f, 0.0f);
-		} else {
-			EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0.5f, 0.0f);
-		}
-	}
-	
+	private static final float minRange = 0.0f;
+	private static final float maxRange = 100.0f;
+
 	private static final int attack1Amount = 4;
 	private static final int attack1Damage = 8;
 	private static final int defaultMeleeKB = 20;
-	private static final int meleeSize = 80;
+	private static final int meleeSize = 100;
 	private static final int meleeRange = 1;
 	private static final float meleeInterval = 0.25f;
 	@Override
 	public void attackInitiate() {
 		
 		if (target != null) {
-			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.4f);
+			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		} else {
+			EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0.5f, 0.0f);
+		}
+		
+		if (target != null) {
+			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.2f);
 			for (int i = 0; i < attack1Amount; i++) {
 				
-				getActions().add(new EnemyAction(this, 0) {
+				getActions().add(new EnemyAction(this, meleeInterval) {
 					
 					@Override
 					public void execute() {
@@ -77,10 +76,8 @@ public class Crawler2 extends EnemyCrawling {
 						hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(meleeRange * getMoveDirection(), 0), true));
 					}
 				});
-				EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, meleeInterval);
-				
 			}
-			EnemyUtils.changeCrawlingState(this, CrawlingState.CHASE_PLAYER, 1.0f, 0.0f);
+			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		}
 	};
 }

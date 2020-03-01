@@ -29,13 +29,13 @@ public class EnemyCrawling extends Enemy {
 	//this is the boss's sprite
 	private Animation<TextureRegion> floatingSprite;
 
-	private float moveDirection, moveSpeed;
+	private float moveDirection, moveSpeed, minRange, maxRange;
 	private CrawlingState currentState;
 	
-	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		
-		this.moveDirection = 1.0f;
+		this.moveDirection = startAngle;
 		this.moveSpeed = 1.0f;
 		this.currentState = CrawlingState.STILL;
 		
@@ -66,10 +66,23 @@ public class EnemyCrawling extends Enemy {
 		case CHASE_PLAYER:
 			if (target != null) {				
 				if (target.isAlive()) {
-					if (target.getPosition().x > getPosition().x) {
-						moveDirection = 1.0f;
-					} else {
+					moveSpeed = 1.0f;
+					float dist = getPixelPosition().x - target.getPixelPosition().x;
+					if (dist > maxRange) {
 						moveDirection = -1.0f;
+					} else if (dist < -maxRange) {
+						moveDirection = 1.0f;
+					} else if (dist < minRange && dist > 0) {
+						moveDirection = 1.0f;
+					} else if (dist > -minRange && dist < 0) {
+						moveDirection = -1.0f;
+					} else {
+						if (dist > 0) {
+							moveDirection = -1.0f;
+						} else {
+							moveDirection = 1.0f;
+						}
+						moveSpeed = 0.0f;
 					}
 				}
 			}
@@ -109,6 +122,10 @@ public class EnemyCrawling extends Enemy {
 	private final static float distCheck = 2.0f;
 	private float shortestFraction;
 	private void processCollision(boolean avoidPits) {
+		
+		if (moveDirection == 0) {
+			moveDirection = 1.0f;
+		}
 		
 		endPt.set(getPosition()).add(distCheck * moveDirection, 0);
 		shortestFraction = 1.0f;
@@ -210,6 +227,10 @@ public class EnemyCrawling extends Enemy {
 	public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
 
 	public void setCurrentState(CrawlingState currentState) { this.currentState = currentState; }
+
+	public void setMinRange(float minRange) { this.minRange = minRange; }
+
+	public void setMaxRange(float maxRange) { this.maxRange = maxRange; }
 
 	public enum CrawlingState {
 		BACK_FORTH,

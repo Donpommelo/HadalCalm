@@ -50,6 +50,7 @@ public class Door extends Prefabrication {
 		door.getRectangle().set(x, y, width, height);
 		door.setName("Platform");
 		door.getProperties().put("triggeredId", doorId);
+		door.getProperties().put("synced", true);
 		
 		RectangleMapObject mover = new RectangleMapObject();
 		mover.getRectangle().set(x, y, width, height);

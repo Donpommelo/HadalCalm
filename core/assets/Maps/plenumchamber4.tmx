@@ -54,7 +54,7 @@
   <object id="6" name="Start" type="Start" x="1824" y="2592" width="32" height="32">
    <properties>
     <property name="startId" value="start0"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="start0"/>
     <property name="triggeringId" value="enterfrombot"/>
    </properties>
   </object>
@@ -297,10 +297,10 @@
     <property name="triggeringId" value="elevatorfloorc"/>
    </properties>
   </object>
-  <object id="52" name="Start" type="Start" x="448" y="1120" width="32" height="32">
+  <object id="52" name="Start" type="Start" x="448" y="1088" width="32" height="32">
    <properties>
     <property name="startId" value="start1"/>
-    <property name="triggeredId" value=""/>
+    <property name="triggeredId" value="start1"/>
     <property name="triggeringId" value="enterfromtop"/>
    </properties>
   </object>

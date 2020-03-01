@@ -36,12 +36,10 @@ public class PhysicsSchmuck extends Schmuck {
 			//set desired velocity depending on move states.
 			switch(moveState) {
 			case MOVE_LEFT:
-				desiredXVel = grounded ? 
-						-getBodyData().getXGroundSpeed() : -getBodyData().getXAirSpeed();
+				desiredXVel = grounded ? -getBodyData().getXGroundSpeed() : -getBodyData().getXAirSpeed();
 				break;
 			case MOVE_RIGHT:
-				desiredXVel = grounded ? 
-						getBodyData().getXGroundSpeed() : getBodyData().getXAirSpeed();
+				desiredXVel = grounded ? getBodyData().getXGroundSpeed() : getBodyData().getXAirSpeed();
 				break;
 			default:
 				break;
@@ -52,21 +50,17 @@ public class PhysicsSchmuck extends Schmuck {
 			
 			//Process acceleration based on bodyData stats.
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
-				accelX = grounded ? 
-						getBodyData().getXGroundAccel(): getBodyData().getXAirAccel();
+				accelX = grounded ? getBodyData().getXGroundAccel(): getBodyData().getXAirAccel();
 			} else {
-				accelX = grounded ? 
-						getBodyData().getXGroundDeaccel() : getBodyData().getXAirDeaccel();
+				accelX = grounded ? getBodyData().getXGroundDeaccel() : getBodyData().getXAirDeaccel();
 			}
 			
 			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
 			
 			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
-				accelY = grounded ? 
-						getBodyData().getYGroundAccel(): getBodyData().getYAirAccel();
+				accelY = grounded ? getBodyData().getYGroundAccel(): getBodyData().getYAirAccel();
 			} else {
-				accelY = grounded ? 
-						getBodyData().getYGroundDeaccel() : getBodyData().getYAirDeaccel();
+				accelY = grounded ? getBodyData().getYGroundDeaccel() : getBodyData().getYAirDeaccel();
 			}
 			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;

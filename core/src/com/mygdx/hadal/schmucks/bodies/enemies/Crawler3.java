@@ -12,6 +12,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -35,8 +36,8 @@ public class Crawler3 extends EnemyCrawling {
 			
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	
-	public Crawler3(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, filter, baseHp, attackCd, scrapDrop, spawner);
+	public Crawler3(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 
 		EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 1.0f, 0.0f);
 	}
@@ -47,15 +48,8 @@ public class Crawler3 extends EnemyCrawling {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
 	}
 	
-	@Override
-	public void controller(float delta) {
-		super.controller(delta);
-		if (target != null) {
-			EnemyUtils.changeCrawlingState(this, CrawlingState.CHASE_PLAYER, 1.0f, 0.0f);
-		} else {
-			EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 1.0f, 0.0f);
-		}
-	}
+	private static final float minRange = 0.0f;
+	private static final float maxRange = 500.0f;
 	
 	private final static int numProj = 5;
 	private final static int spread = 10;
@@ -69,6 +63,13 @@ public class Crawler3 extends EnemyCrawling {
 	private Vector2 startVelocity = new Vector2();
 	@Override
 	public void attackInitiate() {
+		
+		if (target != null) {
+			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		} else {
+			EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 1.0f, 0.0f);
+		}
+		
 		if (target != null) {
 			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.4f);
 			
@@ -88,12 +89,12 @@ public class Crawler3 extends EnemyCrawling {
 						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 						hbox.addStrategy(new ContactWallParticles(state, hbox, getBodyData(), Particle.SPARK_TRAIL));
 						hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
+						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, getBodyData()));
 						hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 					}
 				});
-				
 			}
-			EnemyUtils.changeCrawlingState(this, CrawlingState.CHASE_PLAYER, 1.0f, 0.4f);
+			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		}
 	};
 }
