@@ -25,8 +25,8 @@ public class Boss1 extends EnemyFloating {
 	
     private final static int scrapDrop = 15;
     
-	private static final int width = 250;
-	private static final int height = 161;
+	private static final int width = 161;
+	private static final int height = 250;
 	
 	private static final int hbWidth = 161;
 	private static final int hbHeight = 250;

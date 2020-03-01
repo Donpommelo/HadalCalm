@@ -91,10 +91,10 @@ public class EnemyFloating extends Enemy {
 		
 		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
 				getPixelPosition().x - hboxSize.y / 2, 
-				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
+				(flip ? size.x : 0) + getPixelPosition().y - hboxSize.x / 2, 
 				hboxSize.y / 2, 
 				(flip ? -1 : 1) * hboxSize.x / 2,
-				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
+				size.y, (flip ? -1 : 1) * size.x, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
 	}
 	

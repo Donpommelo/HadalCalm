@@ -43,6 +43,5 @@ public class Crawler1 extends EnemyCrawling {
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
-//		EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0, 0.25f);
 	};
 }

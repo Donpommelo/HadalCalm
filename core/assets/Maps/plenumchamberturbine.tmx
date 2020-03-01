@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eAHt2O1OwjAYgNElfiSKHz/0/q/VNviGMTdcgY6GniWzYJC9O8/MxGGwESBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIELgfgc90KiX7/Zx5e2eSO7yn/WHl/pFel3/GViaw9nrPLd4K3nqXXqtJAdjvS9f0KG0RU2gSEuvX/3qc2yIm0CQk1q2nelzaIibQJCROr1u0iAk0CYnldanHtX4vpkfWZCpy/HyuR60WcWRNQuLvOu1Ru0VMoElIHK/jHlu1iAl6bjJ2n3u8dYvemyz9jyM+P78E0A3Wx3TMfI3YhiEs9GjjatCjjQ4xhR4h0caqRxsdYgo9QqKNVY82OsQUeoREG6sebXSIKfQIiTbW6PGVxnm+wUhP6Zjfaff5fI8fPbLH1k202DcYfx332LKJFuMKh8fTHls00eLgP30016NmEy2mBY6fL/Wo0aTHFq+Ju2SPv22y/9x+rXt8jy3ylT9neun3Lm3Sa4taPXLPc5v03CL3qLWd00SLWjX27xtN1t6f4t5Ud6q+3730XtS3lrMnQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQKAngR/UexI4
+  </data>
+ </layer>
+ <objectgroup id="2" name="event-layer"/>
+ <objectgroup id="3" name="collision-layer"/>
+</map>

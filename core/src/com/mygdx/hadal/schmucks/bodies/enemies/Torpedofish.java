@@ -20,8 +20,8 @@ public class Torpedofish extends EnemySteering {
 	
 	private final static int scrapDrop = 2;
 	
-	private static final int width = 63;
-	private static final int height = 40;
+	private static final int width = 40;
+	private static final int height = 63;
 	
 	private static final int hboxWidth = 40;
 	private static final int hboxHeight = 63;

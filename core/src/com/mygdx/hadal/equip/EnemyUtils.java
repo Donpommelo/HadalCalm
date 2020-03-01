@@ -94,7 +94,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void changeCrawlingState(final EnemyCrawling bossCrawling, final CrawlingState state, final float direction, float duration) {
+	public static void changeCrawlingState(final EnemyCrawling bossCrawling, final CrawlingState state, final float speed, float duration) {
 		
 		bossCrawling.getActions().add(new EnemyAction(bossCrawling, duration) {
 			
@@ -105,10 +105,10 @@ public class EnemyUtils {
 				case BACK_FORTH:
 				case AVOID_PITS:
 				case CHASE_PLAYER:
-					bossCrawling.setMoveDirection(direction);
+					bossCrawling.setMoveSpeed(speed);
 					break;
 				case STILL:
-					bossCrawling.setMoveDirection(0);
+					bossCrawling.setMoveSpeed(0);
 					break;
 				default:
 					break;
@@ -203,18 +203,22 @@ public class EnemyUtils {
 		});
 	}
 
-	public static void meleeAttack(final PlayState state, Enemy boss, final float damage, final float knockback, final float duration) {
+	public static void meleeAttackContact(final PlayState state, Enemy boss, final float damage, final float knockback, final float duration) {
+		meleeAttack(state, boss, new Vector2(), boss.getSize(), damage, knockback, duration, Sprite.NOTHING);
+	}
+
+	public static void meleeAttack(final PlayState state, Enemy boss, final Vector2 position, final Vector2 size, final float damage, final float knockback, final float duration, final Sprite sprite) {
 		
 		boss.getActions().add(new EnemyAction(boss, 0) {
 			
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), size, duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, sprite);
 				hbox.makeUnreflectable();
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(), position, true));
 			}
 		});
 	}
@@ -230,7 +234,7 @@ public class EnemyUtils {
 				hbox.makeUnreflectable();
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(), true));
 				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
 				
 					private float controllerCount = 0;
@@ -246,7 +250,7 @@ public class EnemyUtils {
 							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
 							pulse.addStrategy(new DamageStatic(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
-							pulse.addStrategy(new FixedToUser(state, pulse, enemy.getBodyData(), new Vector2(0, 1), new Vector2(), true));
+							pulse.addStrategy(new FixedToUser(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2(), true));
 						}
 					}
 				}));

@@ -35,7 +35,7 @@ public class Fisticuffs extends MeleeWeapon {
 		
 		Vector2 projOffset = new Vector2(((Player)user).getMouse().getPixelPosition()).sub(user.getPixelPosition()).nor().scl(range).add(user.getPixelPosition());
 		
-		Hitbox hbox = new Hitbox(state, projOffset, projectileSize, lifespan, new Vector2(0, 0),	filter, true, true, user, projSprite);
+		Hitbox hbox = new Hitbox(state, projOffset, projectileSize, lifespan, new Vector2(0, 0), filter, true, true, user, projSprite);
 		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

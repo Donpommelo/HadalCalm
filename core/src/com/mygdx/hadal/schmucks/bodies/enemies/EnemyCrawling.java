@@ -29,13 +29,14 @@ public class EnemyCrawling extends Enemy {
 	//this is the boss's sprite
 	private Animation<TextureRegion> floatingSprite;
 
-	private float moveDirection;
+	private float moveDirection, moveSpeed;
 	private CrawlingState currentState;
 	
 	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		
 		this.moveDirection = 1.0f;
+		this.moveSpeed = 1.0f;
 		this.currentState = CrawlingState.STILL;
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
@@ -74,7 +75,7 @@ public class EnemyCrawling extends Enemy {
 			}
 			break;
 		case STILL:
-			moveDirection = 0;
+			moveSpeed = 0;
 			break;
 		default:
 			break;
@@ -87,7 +88,7 @@ public class EnemyCrawling extends Enemy {
 						
 			currentVel.set(getLinearVelocity());
 
-			float desiredXVel = getBodyData().getXGroundSpeed() * moveDirection;
+			float desiredXVel = getBodyData().getXGroundSpeed() * moveDirection * moveSpeed;
 			
 			float accelX = 0.0f;
 			
@@ -204,7 +205,9 @@ public class EnemyCrawling extends Enemy {
 		return super.queueDeletion();
 	}
 	
-	public void setMoveDirection(float moveDirection) { this.moveDirection = moveDirection; }
+	public float getMoveDirection() { return moveDirection; }
+
+	public void setMoveSpeed(float moveSpeed) { this.moveSpeed = moveSpeed; }
 
 	public void setCurrentState(CrawlingState currentState) { this.currentState = currentState; }
 

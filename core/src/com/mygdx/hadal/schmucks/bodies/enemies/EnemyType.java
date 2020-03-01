@@ -10,7 +10,15 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Crawler1(state, startPos, filter, spawner);
+			return new Crawler3(state, startPos, filter, spawner);
+		}
+	},
+	
+	CRAWLER2() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new Crawler2(state, startPos, filter, spawner);
 		}
 	},
 	

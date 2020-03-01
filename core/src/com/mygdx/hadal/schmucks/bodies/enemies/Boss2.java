@@ -59,7 +59,7 @@ public class Boss2 extends EnemyFloating {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 		
 		for (int i = 0; i < links.length; i ++) {
-			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2), hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
+			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2 * scale), hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
 					(short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 					hitboxfilter, false, getBodyData());
 			
@@ -73,8 +73,8 @@ public class Boss2 extends EnemyFloating {
 			
 			joint1.bodyB = links[i];
 			joint1.collideConnected = false;
-			joint1.localAnchorA.set(0, -width / 2 / 32);
-			joint1.localAnchorB.set(0, width / 2 / 32);
+			joint1.localAnchorA.set(0, -width / 2 / 32 * scale);
+			joint1.localAnchorB.set(0, width / 2 / 32 * scale);
 			joint1.enableLimit = true;
 			joint1.lowerAngle = -1.5f;
 			joint1.upperAngle = 1.5f;
@@ -152,7 +152,7 @@ public class Boss2 extends EnemyFloating {
 	private final static int returnSpeed = 15;
 	public void meleeAttack() {
 		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
-		EnemyUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.0f);
+		EnemyUtils.meleeAttackContact(state, this, charge1Damage, defaultMeleeKB, 1.0f);
 		EnemyUtils.moveToDummy(state, this, "platformCenter", charge1Speed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.5f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
@@ -191,7 +191,7 @@ public class Boss2 extends EnemyFloating {
 	private static final float fireballInterval = 0.02f;
 	
 	private void fireBreath() {
-		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "high", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.5f);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
@@ -214,7 +214,7 @@ public class Boss2 extends EnemyFloating {
 	private static final float explosionInterval = 0.25f;
 	
 	private void sweepingLaser() {
-		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "high", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -165.0f, 0.0f);
 		for (int i = 0; i < laser3Amount; i++) {

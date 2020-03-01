@@ -12,8 +12,8 @@ public class Scissorfish extends EnemySteering {
 
 	private final static int scrapDrop = 2;
 	
-	private static final int width = 72;
-	private static final int height = 30;
+	private static final int width = 30;
+	private static final int height = 72;
 	
 	private static final int hboxWidth = 30;
 	private static final int hboxHeight = 72;
@@ -35,6 +35,6 @@ public class Scissorfish extends EnemySteering {
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
-		EnemyUtils.meleeAttack(state, this, charge1Damage, defaultMeleeKB, 1.5f);
+		EnemyUtils.meleeAttackContact(state, this, charge1Damage, defaultMeleeKB, 1.5f);
 	}
 }
