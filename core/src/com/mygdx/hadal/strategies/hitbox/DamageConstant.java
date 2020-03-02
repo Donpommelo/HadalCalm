@@ -1,5 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -23,17 +25,24 @@ public class DamageConstant extends HitboxStrategy{
 	//damage tags determine the type of damage inflicted and is used for certain effects
 	private DamageTypes[] tags;
 	
+	private ArrayList<HadalData> damaged;
+	
 	public DamageConstant(PlayState state, Hitbox proj, BodyData user, float damage, Vector2 knockback, DamageTypes... tags) {
 		super(state, proj, user);
 		this.baseDamage = damage;
 		this.knockback = knockback;
 		this.tags = tags;
+		
+		damaged = new ArrayList<HadalData>();
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			fixB.receiveDamage(baseDamage, knockback, creator, true, tags);
+			if (!damaged.contains(fixB)) {
+				damaged.add(fixB);
+				fixB.receiveDamage(baseDamage, knockback, creator, true, tags);
+			}
 		}
 	}
 }

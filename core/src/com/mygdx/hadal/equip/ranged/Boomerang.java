@@ -7,12 +7,12 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
+import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.ReturnToUser;
 
 public class Boomerang extends RangedWeapon {
@@ -48,7 +48,6 @@ public class Boomerang extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new ReturnToUser(state, hbox, user.getBodyData(), hbox.getStartVelo().len() * returnAmp));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
@@ -57,6 +56,13 @@ public class Boomerang extends RangedWeapon {
 				
 				//Set boomerang to have constant angular velocity for visual effect.
 				hbox.setAngularVelocity(10);
+			}
+			
+			@Override
+			public void onHit(HadalData fixB) {
+				if (fixB != null) {
+					fixB.receiveDamage(baseDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.RANGED);
+				}
 			}
 		});	
 	}

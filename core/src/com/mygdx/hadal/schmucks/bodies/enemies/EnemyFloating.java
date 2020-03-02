@@ -74,7 +74,7 @@ public class EnemyFloating extends Enemy {
 		default:
 			break;
 		}
-		setOrientation((float) ((angle + 270) * Math.PI / 180));
+		setOrientation((float) ((angle) * Math.PI / 180));
 	}
 	
 	/**
@@ -83,19 +83,18 @@ public class EnemyFloating extends Enemy {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		boolean flip = false;
+		boolean flip = true;
 		double realAngle = getOrientation() % (Math.PI * 2);
-		if ((realAngle > Math.PI && realAngle < 2 * Math.PI) || (realAngle < 0 && realAngle > -Math.PI)) {
-			flip = true;
+		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
+			flip = false;
 		}
-		
 		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
-				getPixelPosition().x - getHboxSize().y / 2, 
-				(flip ? size.x : 0) + getPixelPosition().y - getHboxSize().x / 2, 
-				getHboxSize().y / 2, 
-				(flip ? -1 : 1) * getHboxSize().x / 2,
-				size.y, (flip ? -1 : 1) * size.x, 1, 1, 
-				(float) Math.toDegrees(getOrientation()) - 90);
+				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
+				getPixelPosition().y - getHboxSize().y / 2, 
+				(flip ? -1 : 1) * size.x / 2, 
+				size.y / 2,
+				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
+				(flip ? 0 : 180) + (float) Math.toDegrees(getOrientation()));
 	}
 	
 	@Override

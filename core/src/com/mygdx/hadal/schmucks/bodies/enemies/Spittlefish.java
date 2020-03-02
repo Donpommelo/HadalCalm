@@ -20,11 +20,11 @@ public class Spittlefish extends EnemySteering {
 	
 	private final static int scrapDrop = 2;
 	
-	private static final int width = 19;
-	private static final int height = 49;
+	private static final int width = 49;
+	private static final int height = 19;
 	
-	private static final int hboxWidth = 19;
-	private static final int hboxHeight = 49;
+	private static final int hboxWidth = 49;
+	private static final int hboxHeight = 19;
 	
 	private static final float maxLinearSpeed = 600;
 	private static final float maxLinearAcceleration = 200;

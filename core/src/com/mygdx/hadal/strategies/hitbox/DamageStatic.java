@@ -1,5 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -23,19 +25,26 @@ public class DamageStatic extends HitboxStrategy{
 	//damage tags determine the type of damage inflicted and is used for certain effects
 	private DamageTypes[] tags;
 	
+	private ArrayList<HadalData> damaged;
+
 	public DamageStatic(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {
 		super(state, proj, user);
 		this.baseDamage = damage;
 		this.knockback = knockback;
 		this.tags = tags;
+		
+		damaged = new ArrayList<HadalData>();
 	}
 	
 	private Vector2 kb = new Vector2();
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			kb.set(fixB.getEntity().getPixelPosition().x - this.hbox.getPixelPosition().x, fixB.getEntity().getPixelPosition().y - this.hbox.getPixelPosition().y);
-			fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, tags);
+			if (!damaged.contains(fixB)) {
+				damaged.add(fixB);
+				kb.set(fixB.getEntity().getPixelPosition().x - this.hbox.getPixelPosition().x, fixB.getEntity().getPixelPosition().y - this.hbox.getPixelPosition().y);
+				fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, tags);
+			}
 		}
 	}
 }

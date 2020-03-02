@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 
 /**
  * Enemies are Schmucks that attack the player.
- * Steering enemies use gdx ai to move towards a targer
+ * Steering enemies use gdx ai to move towards a target
  * @author Zachary Tu
  *
  */

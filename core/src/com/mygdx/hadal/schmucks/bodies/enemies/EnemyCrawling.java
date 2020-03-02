@@ -174,10 +174,7 @@ public class EnemyCrawling extends Enemy {
 			}
 		}
 	}
-	
-	/**
-	 * draws enemy
-	 */
+
 	@Override
 	public void render(SpriteBatch batch) {
 		

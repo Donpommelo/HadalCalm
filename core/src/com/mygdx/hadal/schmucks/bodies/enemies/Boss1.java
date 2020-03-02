@@ -25,11 +25,11 @@ public class Boss1 extends EnemyFloating {
 	
     private final static int scrapDrop = 15;
     
-	private static final int width = 161;
-	private static final int height = 250;
+	private static final int width = 250;
+	private static final int height = 161;
 	
-	private static final int hbWidth = 161;
-	private static final int hbHeight = 250;
+	private static final int hbWidth = 250;
+	private static final int hbHeight = 161;
 	
 	private static final float scale = 1.0f;
 	
@@ -170,10 +170,10 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final int charge1Speed = 35;
 	private static final int charge2Speed = 25;
-	private static final float charge1Damage = 1.5f;
+	private static final float charge1Damage = 2.5f;
 	private static final float charge2Damage = 1.5f;
-	private static final int charge1Knockback = 6;
-	private static final int charge2Knockback = 6;
+	private static final int charge1Knockback = 12;
+	private static final int charge2Knockback = 12;
 
 	private static final float moveDurationMax = 5.0f;
 	

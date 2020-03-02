@@ -20,11 +20,11 @@ public class Torpedofish extends EnemySteering {
 	
 	private final static int scrapDrop = 2;
 	
-	private static final int width = 40;
-	private static final int height = 63;
+	private static final int width = 63;
+	private static final int height = 40;
 	
-	private static final int hboxWidth = 40;
-	private static final int hboxHeight = 63;
+	private static final int hboxWidth = 63;
+	private static final int hboxHeight = 40;
 	
 	private static final float maxLinearSpeed = 600;
 	private static final float maxLinearAcceleration = 800;

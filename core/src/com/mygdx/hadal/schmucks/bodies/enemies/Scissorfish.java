@@ -12,11 +12,11 @@ public class Scissorfish extends EnemySteering {
 
 	private final static int scrapDrop = 2;
 	
-	private static final int width = 30;
-	private static final int height = 72;
+	private static final int width = 72;
+	private static final int height = 30;
 	
-	private static final int hboxWidth = 30;
-	private static final int hboxHeight = 72;
+	private static final int hboxWidth = 72;
+	private static final int hboxHeight = 30;
 	
 	private static final float maxLinearSpeed = 800;
 	private static final float maxLinearAcceleration = 1000;

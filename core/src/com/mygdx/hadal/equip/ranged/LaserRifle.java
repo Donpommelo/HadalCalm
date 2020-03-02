@@ -13,12 +13,10 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
-import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageConstant;
 import com.mygdx.hadal.strategies.hitbox.Static;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
@@ -117,17 +115,7 @@ public class LaserRifle extends RangedWeapon {
 		};
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.RANGED));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-			@Override
-			public void onHit(HadalData fixB) {
-				if (fixB != null) {
-					
-					//hard coded way of making a static hbox apply knockback
-					fixB.receiveDamage(0, startVelocity.nor().scl(knockback), creator, false);
-				}
-			}
-		});
 	}
 }
