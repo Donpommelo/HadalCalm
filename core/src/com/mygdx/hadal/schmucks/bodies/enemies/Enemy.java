@@ -32,10 +32,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class Enemy extends Schmuck {
 	
 	//This is the type of enemy
-	protected EnemyType type;		
+	private EnemyType type;		
 
     //this is the size of the enemy's hitbox
-    protected Vector2 hboxSize;
+	private Vector2 hboxSize;
     
     //is this enemy a boss? (makes it show up in the boss ui)
     private boolean isBoss = false;
@@ -285,6 +285,8 @@ public class Enemy extends Schmuck {
 	}
 	
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
+
+	public Vector2 getHboxSize() { return hboxSize; }
 
 	public String getName() { return name; }
 

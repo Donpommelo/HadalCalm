@@ -14,16 +14,16 @@ public class Crawler1 extends EnemyCrawling {
 
 	private final static int scrapDrop = 1;
 
-	private static final int width = 63;
-	private static final int height = 40;
+	private static final int width = 256;
+	private static final int height = 256;
 	
-	private static final int hboxWidth = 63;
-	private static final int hboxHeight = 40;
+	private static final int hboxWidth = 140;
+	private static final int hboxHeight = 60;
 	
 	private static final float attackCd = 2.0f;
 	private static final float groundSpeed = -0.75f;
 			
-	private static final Sprite sprite = Sprite.FISH_TORPEDO;
+	private static final Sprite sprite = Sprite.KAMABOKO_CRAWL;
 	
 	public Crawler1(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);

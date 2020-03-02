@@ -1,432 +1,426 @@
 
 telemachus_point.png
-size: 4096,4096
+size: 4096,2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 Final 2_0_small
   rotate: false
-  xy: 2, 3086
-  size: 512, 512
-  orig: 512, 512
+  xy: 2, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_10_small
   rotate: false
-  xy: 2, 2572
-  size: 512, 512
-  orig: 512, 512
+  xy: 2, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_11_small
   rotate: false
-  xy: 516, 3086
-  size: 512, 512
-  orig: 512, 512
+  xy: 260, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_12_small
   rotate: false
-  xy: 2, 2058
-  size: 512, 512
-  orig: 512, 512
+  xy: 2, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_13_small
   rotate: false
-  xy: 516, 2572
-  size: 512, 512
-  orig: 512, 512
+  xy: 260, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_14_small
   rotate: false
-  xy: 1030, 3086
-  size: 512, 512
-  orig: 512, 512
+  xy: 518, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_15_small
   rotate: false
-  xy: 2, 1544
-  size: 512, 512
-  orig: 512, 512
+  xy: 2, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_16_small
   rotate: false
-  xy: 516, 2058
-  size: 512, 512
-  orig: 512, 512
+  xy: 260, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_17_small
   rotate: false
-  xy: 1030, 2572
-  size: 512, 512
-  orig: 512, 512
+  xy: 518, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_18_small
   rotate: false
-  xy: 1544, 3086
-  size: 512, 512
-  orig: 512, 512
+  xy: 776, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_19_small
   rotate: false
-  xy: 2, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 2, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_1_small
   rotate: false
-  xy: 516, 1544
-  size: 512, 512
-  orig: 512, 512
+  xy: 260, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_20_small
   rotate: false
-  xy: 1030, 2058
-  size: 512, 512
-  orig: 512, 512
+  xy: 518, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_21_small
   rotate: false
-  xy: 1544, 2572
-  size: 512, 512
-  orig: 512, 512
+  xy: 776, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_22_small
   rotate: false
-  xy: 2058, 3086
-  size: 512, 512
-  orig: 512, 512
+  xy: 1034, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_23_small
   rotate: false
-  xy: 2, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 2, 260
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_24_small
   rotate: false
-  xy: 516, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 260, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_25_small
   rotate: false
-  xy: 1030, 1544
-  size: 512, 512
-  orig: 512, 512
+  xy: 518, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_26_small
   rotate: false
-  xy: 1544, 2058
-  size: 512, 512
-  orig: 512, 512
+  xy: 776, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_27_small
   rotate: false
-  xy: 2058, 2572
-  size: 512, 512
-  orig: 512, 512
+  xy: 1034, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_28_small
   rotate: false
-  xy: 2572, 3086
-  size: 512, 512
-  orig: 512, 512
+  xy: 1292, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_29_small
   rotate: false
   xy: 2, 2
-  size: 512, 512
-  orig: 512, 512
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_2_small
   rotate: false
-  xy: 516, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 260, 260
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_30_small
   rotate: false
-  xy: 1030, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 518, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_31_small
   rotate: false
-  xy: 1544, 1544
-  size: 512, 512
-  orig: 512, 512
+  xy: 776, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_32_small
   rotate: false
-  xy: 2058, 2058
-  size: 512, 512
-  orig: 512, 512
+  xy: 1034, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_33_small
   rotate: false
-  xy: 2572, 2572
-  size: 512, 512
-  orig: 512, 512
+  xy: 1292, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_34_small
   rotate: false
-  xy: 3086, 3086
-  size: 512, 512
-  orig: 512, 512
+  xy: 1550, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_35_small
   rotate: false
-  xy: 516, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 260, 2
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_36_small
   rotate: false
-  xy: 1030, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 518, 260
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_37_small
   rotate: false
-  xy: 1544, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 776, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_38_small
   rotate: false
-  xy: 2058, 1544
-  size: 512, 512
-  orig: 512, 512
+  xy: 1034, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_39_small
   rotate: false
-  xy: 2572, 2058
-  size: 512, 512
-  orig: 512, 512
+  xy: 1292, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_3_small
   rotate: false
-  xy: 3086, 2572
-  size: 512, 512
-  orig: 512, 512
+  xy: 1550, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_40_small
   rotate: false
-  xy: 1030, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 1808, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_41_small
   rotate: false
-  xy: 1544, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 518, 2
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_42_small
   rotate: false
-  xy: 2058, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 776, 260
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_43_small
   rotate: false
-  xy: 2572, 1544
-  size: 512, 512
-  orig: 512, 512
+  xy: 1034, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_44_small
   rotate: false
-  xy: 3086, 2058
-  size: 512, 512
-  orig: 512, 512
+  xy: 1292, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_45_small
   rotate: false
-  xy: 1544, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 1550, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_46_small
   rotate: false
-  xy: 2058, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 1808, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_47_small
   rotate: false
-  xy: 2572, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 2066, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_48_small
   rotate: false
-  xy: 3086, 1544
-  size: 512, 512
-  orig: 512, 512
+  xy: 776, 2
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_49_small
   rotate: false
-  xy: 2058, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 1034, 260
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_4_small
   rotate: false
-  xy: 2572, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 1292, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_50_small
   rotate: false
-  xy: 3086, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 1550, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_51_small
   rotate: false
-  xy: 2572, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 1808, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_52_small
   rotate: false
-  xy: 3086, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 2066, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_53_small
   rotate: false
-  xy: 3086, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 2324, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
-
-telemachus_point2.png
-size: 4096,2048
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
 Final 2_54_small
   rotate: false
-  xy: 2, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 1034, 2
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_55_small
   rotate: false
-  xy: 2, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 1292, 260
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_56_small
   rotate: false
-  xy: 516, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 1550, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_57_small
   rotate: false
-  xy: 2, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 1808, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_58_small
   rotate: false
-  xy: 516, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 2066, 1034
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_59_small
   rotate: false
-  xy: 1030, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 2324, 1292
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_5_small
   rotate: false
-  xy: 516, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 2582, 1550
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_6_small
   rotate: false
-  xy: 1030, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 1292, 2
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_7_small
   rotate: false
-  xy: 1544, 1030
-  size: 512, 512
-  orig: 512, 512
+  xy: 1550, 260
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_8_small
   rotate: false
-  xy: 1030, 2
-  size: 512, 512
-  orig: 512, 512
+  xy: 1808, 518
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1
 Final 2_9_small
   rotate: false
-  xy: 1544, 516
-  size: 512, 512
-  orig: 512, 512
+  xy: 2066, 776
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
   index: -1

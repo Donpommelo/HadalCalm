@@ -59,7 +59,7 @@ public class Boss2 extends EnemyFloating {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 		
 		for (int i = 0; i < links.length; i ++) {
-			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2 * scale), hboxSize, 0, 1, 0, false, false, Constants.BIT_ENEMY, 
+			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2 * scale), getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, 
 					(short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 					hitboxfilter, false, getBodyData());
 			
@@ -95,27 +95,27 @@ public class Boss2 extends EnemyFloating {
 		
 		for (int i = links.length - 1; i >= 0; i--) {
 			batch.draw(bodySprite, 
-					links[i].getPosition().x * PPM - hboxSize.y / 2, 
-					(flip ? size.y : 0) + links[i].getPosition().y * PPM - hboxSize.x / 2, 
-					hboxSize.y / 2, 
-					(flip ? -1 : 1) * hboxSize.x / 2,
+					links[i].getPosition().x * PPM - getHboxSize().y / 2, 
+					(flip ? size.y : 0) + links[i].getPosition().y * PPM - getHboxSize().x / 2, 
+					getHboxSize().y / 2, 
+					(flip ? -1 : 1) * getHboxSize().x / 2,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 					(float) Math.toDegrees(links[i].getAngle()) - 90);
 		}
 		
 		batch.draw(headSprite, 
-				getPixelPosition().x - hboxSize.y / 2, 
-				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
-				hboxSize.y / 2, 
-				(flip ? -1 : 1) * hboxSize.x / 2,
+				getPixelPosition().x - getHboxSize().y / 2, 
+				(flip ? size.y : 0) + getPixelPosition().y - getHboxSize().x / 2, 
+				getHboxSize().y / 2, 
+				(flip ? -1 : 1) * getHboxSize().x / 2,
 				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
 		
 		batch.draw(faceSprite, 
-				getPixelPosition().x - hboxSize.y / 2, 
-				(flip ? size.y : 0) + getPixelPosition().y - hboxSize.x / 2, 
-				hboxSize.y / 2, 
-				(flip ? -1 : 1) * hboxSize.x / 2,
+				getPixelPosition().x - getHboxSize().y / 2, 
+				(flip ? size.y : 0) + getPixelPosition().y - getHboxSize().x / 2, 
+				getHboxSize().y / 2, 
+				(flip ? -1 : 1) * getHboxSize().x / 2,
 				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
 				(float) Math.toDegrees(getOrientation()) - 90);
 	}

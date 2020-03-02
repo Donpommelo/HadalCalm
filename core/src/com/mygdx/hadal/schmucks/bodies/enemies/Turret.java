@@ -125,21 +125,21 @@ public class Turret extends Enemy {
 		
 		if(moveState == MoveState.DEFAULT) {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(0, true), 
-					getPixelPosition().x - hboxSize.x / 2, 
-					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - hboxSize.y / 2, 
+					getPixelPosition().x - getHboxSize().x / 2, 
+					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
 		} else {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(animationTime, true), 
-					getPixelPosition().x - hboxSize.x / 2, 
-					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - hboxSize.y / 2, 
+					getPixelPosition().x - getHboxSize().x / 2, 
+					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
 					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
 		}
 		
 		batch.draw((TextureRegion) turretBase.getKeyFrame(animationTime, true), 
-				getPixelPosition().x - hboxSize.x / 2, 
-				getPixelPosition().y - hboxSize.y / 2, 
+				getPixelPosition().x - getHboxSize().x / 2, 
+				getPixelPosition().y - getHboxSize().y / 2, 
 				0, 0, size.x, size.y, 1, 1, 0.0f);	
 	}
 	

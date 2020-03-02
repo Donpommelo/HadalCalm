@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="310" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="68">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="310" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="72">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
@@ -92,7 +92,7 @@
   <object id="15" name="Multitrigger" type="Multitrigger" x="2400" y="768" width="32" height="32">
    <properties>
     <property name="triggeredId" value="descend"/>
-    <property name="triggeringId" value="lockshafttop,tofloor1"/>
+    <property name="triggeringId" value="lockshafttop,tofloor1,arenalock"/>
    </properties>
   </object>
   <object id="16" name="Prefab" type="PrefabLimit" x="2336" y="768" width="32" height="32">
@@ -319,7 +319,7 @@
   <object id="51" name="Multitrigger" type="Multitrigger" x="2112" y="9024" width="32" height="32">
    <properties>
     <property name="triggeredId" value="ascend"/>
-    <property name="triggeringId" value="lockshaftbot,tofloor2"/>
+    <property name="triggeringId" value="lockshaftbot,tofloor2,arenalockbot"/>
    </properties>
   </object>
   <object id="52" name="Prefab" type="PrefabLimit" x="2048" y="9024" width="32" height="32">
@@ -409,6 +409,32 @@
     <property name="blameId" value="platformbotdisplacer"/>
     <property name="triggeredId" value="deletebot5"/>
     <property name="triggeringId" value="delete"/>
+   </properties>
+  </object>
+  <object id="68" name="PlayerMove" type="PlayerMove" x="2464" y="768" width="32" height="32">
+   <properties>
+    <property name="all" type="bool" value="true"/>
+    <property name="exclude" type="bool" value="true"/>
+    <property name="triggeredId" value="arenalock"/>
+    <property name="triggeringId" value="playerlock"/>
+   </properties>
+  </object>
+  <object id="69" name="Dummy" type="Dummy" x="1856" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerlock"/>
+   </properties>
+  </object>
+  <object id="70" name="PlayerMove" type="PlayerMove" x="2176" y="9024" width="32" height="32">
+   <properties>
+    <property name="all" type="bool" value="true"/>
+    <property name="exclude" type="bool" value="true"/>
+    <property name="triggeredId" value="arenalockbot"/>
+    <property name="triggeringId" value="playerlockbot"/>
+   </properties>
+  </object>
+  <object id="71" name="Dummy" type="Dummy" x="1536" y="9344" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerlockbot"/>
    </properties>
   </object>
  </objectgroup>

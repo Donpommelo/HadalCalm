@@ -190,10 +190,10 @@ public class EnemyCrawling extends Enemy {
 		}
 
 		batch.draw((TextureRegion) floatingSprite.getKeyFrame(animationTime, true), 
-				(flip ? 0 : size.x) + getPixelPosition().x - hboxSize.x / 2, 
-				getPixelPosition().y - hboxSize.y / 2, 
-				hboxSize.x / 2,
-				(flip ? 1 : -1) * hboxSize.y / 2, 
+				(flip ? 0 : size.x) + getPixelPosition().x - size.x / 2, 
+				getPixelPosition().y - getHboxSize().y / 2, 
+				size.x / 2,
+				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
 	}
 	

@@ -218,7 +218,7 @@ public class EnemyUtils {
 	}
 
 	public static void meleeAttackContact(final PlayState state, Enemy boss, final float damage, final float knockback, final float duration) {
-		meleeAttack(state, boss, new Vector2(), boss.getSize(), damage, knockback, duration, Sprite.NOTHING);
+		meleeAttack(state, boss, new Vector2(), boss.getHboxSize(), damage, knockback, duration, Sprite.NOTHING);
 	}
 
 	public static void meleeAttack(final PlayState state, Enemy boss, final Vector2 position, final Vector2 size, final float damage, final float knockback, final float duration, final Sprite sprite) {
@@ -244,7 +244,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.makeUnreflectable();
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
@@ -261,7 +261,7 @@ public class EnemyUtils {
 						while (controllerCount >= attackInterval) {
 							controllerCount -= attackInterval;
 							
-							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getHboxSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
 							pulse.addStrategy(new DamageStatic(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
 							pulse.addStrategy(new FixedToUser(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2(), true));

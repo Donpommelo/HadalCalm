@@ -78,6 +78,30 @@ DM_CAROUSEL: {
         PVP
 	]
 }
+DM_BIRD: {
+	name: DM_BIRD
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP
+	]
+}
+DM_BIRD2: {
+	name: DM_BIRD2
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP
+	]
+}
+DM_HORIZON: {
+	name: DM_HORIZON
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP
+	]
+}
 DM_PINWHEEL: {
 	name: DM_PINWHEEL
 	description: TEMP
