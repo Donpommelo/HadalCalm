@@ -30,6 +30,14 @@ public enum EnemyType {
 		}
 	},
 	
+	SWIMMER1() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new Swimmer1(state, startPos, filter, spawner);
+		}
+	},
+	
 	SCISSORFISH() {
 
 		@Override

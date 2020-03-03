@@ -63,7 +63,7 @@ public class EnemyCrawling extends Enemy {
 		case BACK_FORTH:
 			processCollision(false);
 			break;
-		case CHASE_PLAYER:
+		case CHASE:
 			if (target != null) {				
 				if (target.isAlive()) {
 					moveSpeed = 1.0f;
@@ -232,7 +232,7 @@ public class EnemyCrawling extends Enemy {
 	public enum CrawlingState {
 		BACK_FORTH,
 		AVOID_PITS,
-		CHASE_PLAYER,
+		CHASE,
 		STILL
 	}
 }

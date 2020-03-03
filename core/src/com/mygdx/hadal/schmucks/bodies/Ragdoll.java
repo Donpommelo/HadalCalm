@@ -36,7 +36,7 @@ public class Ragdoll extends HadalEntity {
 	private float gravity;
 	
 	//starting multiplier on starting velocity and direction
-	private final static float veloAmp = 5.0f;
+	private final static float veloAmp = 3.0f;
 	private final static float baseAngle = 10.0f;
 	
 	private Vector2 startVelo;

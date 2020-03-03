@@ -30,6 +30,8 @@ import com.mygdx.hadal.schmucks.bodies.enemies.EnemyCrawling;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyCrawling.CrawlingState;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyFloating.FloatingState;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemySwimming;
+import com.mygdx.hadal.schmucks.bodies.enemies.EnemySwimming.SwimmingState;
 import com.mygdx.hadal.schmucks.bodies.enemies.EnemyType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -104,7 +106,7 @@ public class EnemyUtils {
 				switch (state) {
 				case BACK_FORTH:
 				case AVOID_PITS:
-				case CHASE_PLAYER:
+				case CHASE:
 					bossCrawling.setMoveSpeed(speed);
 					break;
 				case STILL:
@@ -123,10 +125,44 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				bossCrawling.setCurrentState(CrawlingState.CHASE_PLAYER);
+				bossCrawling.setCurrentState(CrawlingState.CHASE);
 				bossCrawling.setMinRange(minRange);
 				bossCrawling.setMaxRange(maxRange);
 				bossCrawling.setMoveSpeed(speed);
+			}
+		});
+	}
+	
+	public static void changeSwimmingState(final EnemySwimming bossSwimming, final SwimmingState state, final float speed, float duration) {
+		
+		bossSwimming.getActions().add(new EnemyAction(bossSwimming, duration) {
+			
+			@Override
+			public void execute() {
+				bossSwimming.setCurrentState(state);
+				switch (state) {
+				case CHASE:
+					bossSwimming.setMoveSpeed(speed);
+					break;
+				case STILL:
+					bossSwimming.setMoveSpeed(0);
+				default:
+					break;
+				}
+			}
+		});
+	}
+
+	public static void setSwimmingChaseState(final EnemySwimming bossSwimming, final float speed, final float minRange, final float maxRange, float duration) {
+		
+		bossSwimming.getActions().add(new EnemyAction(bossSwimming, duration) {
+			
+			@Override
+			public void execute() {
+				bossSwimming.setCurrentState(SwimmingState.CHASE);
+				bossSwimming.setMinRange(minRange);
+				bossSwimming.setMaxRange(maxRange);
+				bossSwimming.setMoveSpeed(speed);
 			}
 		});
 	}
