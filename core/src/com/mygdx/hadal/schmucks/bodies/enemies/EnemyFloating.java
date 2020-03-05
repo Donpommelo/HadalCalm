@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -42,6 +43,7 @@ public class EnemyFloating extends Enemy {
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
 			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
 		}
 	}
 

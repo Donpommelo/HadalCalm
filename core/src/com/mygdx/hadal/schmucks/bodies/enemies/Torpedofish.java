@@ -8,13 +8,15 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.utils.Stats;
 
-public class Torpedofish extends EnemySteering {
+public class Torpedofish extends EnemySwimming {
 
 	private final static int baseHp = 100;
 	
@@ -26,16 +28,24 @@ public class Torpedofish extends EnemySteering {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float maxLinearSpeed = 600;
-	private static final float maxLinearAcceleration = 800;
-	
 	private static final float attackCd = 2.0f;
-			
+	private static final float airSpeed = -0.5f;
+	
+	private static final float minRange = 5.0f;
+	private static final float maxRange = 10.0f;
+	
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	private final static Sprite projSprite = Sprite.ORB_RED;
 	
-	public Torpedofish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.TORPEDOFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, scrapDrop, spawner);
+	public Torpedofish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.TORPEDOFISH, startAngle,  filter, baseHp, attackCd, scrapDrop, spawner);
+		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+	}
+	
+	@Override
+	public void create() {
+		super.create();
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
 	}
 	
 	private final static float baseDamage = 5.0f;

@@ -8,13 +8,15 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.utils.Stats;
 
-public class Spittlefish extends EnemySteering {
+public class Spittlefish extends EnemySwimming {
 
 	private final static int baseHp = 100;
 	
@@ -26,17 +28,25 @@ public class Spittlefish extends EnemySteering {
 	private static final int hboxWidth = 49;
 	private static final int hboxHeight = 19;
 	
-	private static final float maxLinearSpeed = 600;
-	private static final float maxLinearAcceleration = 200;
-	
 	private static final float attackCd = 0.5f;
+	private static final float airSpeed = -0.5f;
+	
+	private static final float minRange = 6.0f;
+	private static final float maxRange = 12.0f;
 	
 	private static final Sprite sprite = Sprite.FISH_SPITTLE;
 
 	private final static Sprite projSprite = Sprite.SPIT;
 	
-	public Spittlefish(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SPITTLEFISH, maxLinearSpeed, maxLinearAcceleration, filter, baseHp, attackCd, scrapDrop, spawner);
+	public Spittlefish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SPITTLEFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+	}
+	
+	@Override
+	public void create() {
+		super.create();
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
 	}
 	
 	private final static float baseDamage = 5.0f;

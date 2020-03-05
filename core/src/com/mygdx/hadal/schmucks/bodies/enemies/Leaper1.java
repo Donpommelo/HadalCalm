@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
-public class Crawler1 extends EnemyCrawling {
+public class Leaper1 extends EnemyCrawling {
 
 	private final static int baseHp = 100;
 
@@ -34,10 +34,10 @@ public class Crawler1 extends EnemyCrawling {
 	
 	private TextureRegion faceSprite;
 	
-	public Crawler1(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+	public Leaper1(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
-		setCurrentState(CrawlingState.AVOID_PITS);
+		setCurrentState(CrawlingState.CHASE);
 	}
 	
 	@Override
@@ -52,6 +52,7 @@ public class Crawler1 extends EnemyCrawling {
 	@Override
 	public void attackInitiate() {
 		
+		push(new Vector2(0, 15));
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
 	};
 	

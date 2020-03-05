@@ -19,10 +19,10 @@ public class EnemySwimming extends EnemyFloating {
 	private float moveSpeed, minRange, maxRange;
 	private Vector2 moveDirection = new Vector2();
 	
-	public EnemySwimming(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+	public EnemySwimming(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		this.moveSpeed = 1.0f;
-		
+		this.moveDirection = new Vector2(1, 0).setAngle(startAngle);
 		currentState = SwimmingState.STILL;
 	}
 	
@@ -41,7 +41,7 @@ public class EnemySwimming extends EnemyFloating {
 					moveDirection.set(getPosition()).sub(target.getPosition());
 					float dist = moveDirection.len();
 
-					if (dist > maxRange) {
+					 if (dist > maxRange) {
 						moveDirection.scl(-1.0f);
 					} else if (dist < maxRange && dist > minRange){
 						moveSpeed = 0.0f;

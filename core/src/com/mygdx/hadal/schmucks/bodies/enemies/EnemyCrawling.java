@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -41,6 +42,7 @@ public class EnemyCrawling extends Enemy {
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
 			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
 		}
 	}
 

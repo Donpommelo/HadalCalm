@@ -434,7 +434,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.75f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		for (int i = 0; i < numAdds; i++) {
-			EnemyUtils.spawnAdds(state, this, EnemyType.TORPEDOFISH, 1, 1.5f);
+			EnemyUtils.spawnAdds(state, this, EnemyType.TORPEDOFISH, 1, 0.0f, 1.5f);
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 2.0f);
 	}

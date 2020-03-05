@@ -1,8 +1,5 @@
 package com.mygdx.hadal.equip;
 
-import com.mygdx.hadal.schmucks.bodies.enemies.Scissorfish;
-import com.mygdx.hadal.schmucks.bodies.enemies.Spittlefish;
-import com.mygdx.hadal.schmucks.bodies.enemies.Torpedofish;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret.TurretState;
 import com.mygdx.hadal.states.PlayState;
@@ -188,7 +185,7 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void spawnAdds(final PlayState state, Enemy boss, final EnemyType type, final int amount, float duration) {
+	public static void spawnAdds(final PlayState state, Enemy boss, final EnemyType type, final int amount, final float extraField, float duration) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
@@ -196,19 +193,7 @@ public class EnemyUtils {
 			public void execute() {
 				
 				for (int i = 0; i < amount; i++) {
-					switch (type) {
-					case SCISSORFISH:
-						new Scissorfish(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, null);
-						break;
-					case SPITTLEFISH:
-						new Spittlefish(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, null);
-						break;
-					case TORPEDOFISH:
-						new Torpedofish(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, null);
-						break;
-					default:
-						break;
-					}
+					type.generateEnemy(state, enemy.getPixelPosition(), Constants.ENEMY_HITBOX, extraField, null);
 				}
 			}
 		});

@@ -30,11 +30,19 @@ public enum EnemyType {
 		}
 	},
 	
+	LEAPER1() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new Leaper1(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
 	SWIMMER1() {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Swimmer1(state, startPos, filter, spawner);
+			return new Swimmer1(state, startPos, extraField, filter, spawner);
 		}
 	},
 	
@@ -42,7 +50,7 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Scissorfish(state, startPos, filter, spawner);
+			return new Scissorfish(state, startPos, extraField, filter, spawner);
 		}
 	},
 	
@@ -50,7 +58,7 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Spittlefish(state, startPos, filter, spawner);
+			return new Spittlefish(state, startPos, extraField, filter, spawner);
 		}
 	},
 	
@@ -58,7 +66,7 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Torpedofish(state, startPos, filter, spawner);
+			return new Torpedofish(state, startPos, extraField, filter, spawner);
 		}
 	},
 	
