@@ -7,6 +7,13 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * A ShaderChanger changes the shader of the state (the state background).
+ * 
+ * Triggered Behavior: When triggered, this event will change the shader.
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * shader: the shader to use, Default: NOTHING
  * 
  * @author Zachary Tu
  *

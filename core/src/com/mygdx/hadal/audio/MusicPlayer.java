@@ -14,7 +14,6 @@ public class MusicPlayer {
     public Music getCurrentSong() { return currentSong; }
 
 	 private Music currentSong = null;
-	 private int currentTrackNumber = -1;
 	    
 	 public MusicPlayer() {
         trackListByName = new HashMap<String, String>(NUM_TRACKS);
@@ -44,28 +43,6 @@ public class MusicPlayer {
         currentSong = Gdx.audio.newMusic(Gdx.files.internal(trackListByName.get(name)));
         currentSong.setVolume(volume);
         currentSong.play();
-    }
-
-    // Play next song.
-    public void playNext(){
-        if (currentSong == null || currentTrackNumber == -1 || currentTrackNumber == trackListByNumber.size() - 1){
-            currentSong = Gdx.audio.newMusic(Gdx.files.internal(trackListByNumber.get(0)));
-            currentTrackNumber = 0;
-        } else {
-            currentSong = Gdx.audio.newMusic(Gdx.files.internal(trackListByNumber.get(currentTrackNumber++)));
-            currentTrackNumber++;
-        }
-    }
-
-    // Play previous song.
-    public void playPrevious(){
-        if (currentSong == null || currentTrackNumber == -1 || currentTrackNumber == 0){
-            currentSong = Gdx.audio.newMusic(Gdx.files.internal(trackListByNumber.get(trackListByNumber.size() - 1)));
-            currentTrackNumber = trackListByNumber.size() - 1;
-        } else {
-            currentSong = Gdx.audio.newMusic(Gdx.files.internal(trackListByNumber.get(currentTrackNumber--)));
-            currentTrackNumber--;
-        }
     }
 
     // Resumes the current song.

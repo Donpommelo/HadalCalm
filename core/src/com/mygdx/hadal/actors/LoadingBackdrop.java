@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * Background actor for initializing screen.
  */
-public class LoadingBackdrop extends AHadalActor{
+public class LoadingBackdrop extends AHadalActor {
 	
 	private TextureAtlas atlas;
 	

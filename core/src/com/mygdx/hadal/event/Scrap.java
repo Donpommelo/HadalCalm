@@ -16,7 +16,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
- *
+ * A scrap event is a single currency unit that the player picks up if they touch it.
+ * This does not have a blueprint and is not parsed from tiled.
+ * 
+ * If a client picks up scrap, it will be counted towards the host's money.
  */
 public class Scrap extends Event {
 

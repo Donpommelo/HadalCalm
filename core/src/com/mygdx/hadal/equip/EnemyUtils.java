@@ -283,6 +283,7 @@ public class EnemyUtils {
 							controllerCount -= attackInterval;
 							
 							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getHboxSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
 							pulse.addStrategy(new DamageStatic(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
 							pulse.addStrategy(new FixedToUser(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2(), true));

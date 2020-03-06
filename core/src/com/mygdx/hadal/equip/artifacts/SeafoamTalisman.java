@@ -14,7 +14,7 @@ public class SeafoamTalisman extends Artifact {
 	
 	private static float bonusAtkSpd = 0.2f;
 	private static float bonusReloadSpd = 0.2f;
-	private static float gravityReduction = -5.0f;
+	private static float gravityReduction = -3.0f;
 	
 	public SeafoamTalisman() {
 		super(slotCost, statusNum);

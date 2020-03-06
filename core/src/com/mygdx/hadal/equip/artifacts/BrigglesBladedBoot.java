@@ -48,7 +48,7 @@ public class BrigglesBladedBoot extends Artifact {
 					
 					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, procCd, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, 
 							inflicted.getSchmuck(), Sprite.NOTHING);
-					
+					hbox.makeUnreflectable();
 					hbox.setPassability((short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));

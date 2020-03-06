@@ -22,13 +22,14 @@ public class Text extends AHadalActor {
 	protected GlyphLayout layout;
 
 	protected float scale = 1.0f;
-	private float targetWidth;
 	
 	//is this actor being moused over?
 	private boolean hover = false;
 	
+	//does the text wrap? If so, it is set to targetWidth length.
 	private boolean wrap;
-	
+	private float targetWidth;
+
 	private static float padding = 20.0f;
 	
 	public Text(String text, int x, int y, boolean button) {

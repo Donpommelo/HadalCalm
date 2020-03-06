@@ -171,7 +171,6 @@ public class DialogBox extends AHadalActor {
 		}
 	}
 	
-	
 	private Dialog first;
 	@Override
     public void draw(Batch batch, float alpha) {	 

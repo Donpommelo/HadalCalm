@@ -419,10 +419,12 @@ public class SettingState extends GameState {
 			gsm.getSetting().setMasterVolume(master.getValue());
 			gsm.getSetting().saveSetting();
 			audioSelected();
+			break;
 		case MISC:
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();
+			break;
 		default:
 			break;
 		}

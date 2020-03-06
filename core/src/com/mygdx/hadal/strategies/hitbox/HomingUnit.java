@@ -139,6 +139,6 @@ public class HomingUnit extends HitboxStrategy {
 			.sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
 		}
 		
-		hbox.push(homingPush);
+		hbox.applyForceToCenter(homingPush);
 	}
 }

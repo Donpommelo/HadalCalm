@@ -72,13 +72,15 @@ public enum PlayerAction {
 	
 	/**
 	 * Retrieve saved bindings from save file.
-	 * TODO: If fail to read file, reset to default?
 	 */
 	public static void retrieveKeys() {
-		JsonValue base;
-		base = GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"));
 		
-		for (JsonValue d : base) {
+		if (!Gdx.files.internal("save/Keybind.json").exists()) {
+			resetKeys();
+			saveKeys();
+		}
+		
+		for (JsonValue d : GameStateManager.reader.parse(Gdx.files.internal("save/Keybind.json"))) {
 			PlayerAction.valueOf(d.name()).setKey(d.getInt("value"));
 		}
 	}

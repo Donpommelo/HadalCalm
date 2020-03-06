@@ -56,14 +56,7 @@ public class WeaponUtils {
 		
 		float newSize = size * (1 + user.getBodyData().getStat(Stats.EXPLOSION_SIZE));
 		
-		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite) {
-			
-			@Override
-			public void controller(float delta) {
-				setLinearVelocity(0, 0);
-				super.controller(delta);
-			}
-		};
+		Hitbox hbox = new Hitbox(state, startPos, new Vector2(newSize, newSize), 0.4f, new Vector2(0, 0), filter, true, false, user, boomSprite);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));

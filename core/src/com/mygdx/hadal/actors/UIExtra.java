@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -16,12 +17,13 @@ import com.mygdx.hadal.states.PlayState;
  * @author Zachary Tu
  *
  */
-public class UIExtra extends AHadalActor{
+public class UIExtra extends AHadalActor {
 
 	private PlayState state;
 	private BitmapFont font;
 	
-	private final static int x = 150;
+	private final static int x = 175;
+	private final static int width = 150;
 	private final static int y = 10;
 	private final static float scale = 0.25f;
 	
@@ -75,7 +77,7 @@ public class UIExtra extends AHadalActor{
 			}	
 		}
 		font.getData().setScale(scale);
-		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y, x, -1, true);
+		font.draw(batch, text.toString(), HadalGame.CONFIG_WIDTH - x, HadalGame.CONFIG_HEIGHT - y, width, Align.right, true);
 	}
 
 	/**

@@ -10,6 +10,13 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * A scrap spawner spawns scrap when activated.
+ * 
+ * Triggered Behavior: When triggered, spawn scrap
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * scrap: The amount of scrap to spawn. Default: 0
  * @author Zachary Tu
  *
  */

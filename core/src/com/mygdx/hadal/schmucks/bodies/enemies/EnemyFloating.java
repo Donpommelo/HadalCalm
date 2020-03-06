@@ -37,7 +37,7 @@ public class EnemyFloating extends Enemy {
 		this.currentState = FloatingState.TRACKING_PLAYER;
 		
 		if (!sprite.equals(Sprite.NOTHING)) {
-			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+			this.floatingSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
 			this.floatingSprite.setPlayMode(PlayMode.LOOP_PINGPONG);
 		}
 	}

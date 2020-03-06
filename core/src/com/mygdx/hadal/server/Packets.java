@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
@@ -729,6 +730,26 @@ public class Packets {
 		}
 	}
 	
+	public static class SyncSound {
+		public SoundEffect sound;
+		public Vector2 worldPos;
+		public float volume;
+		
+		public SyncSound() {}
+		
+		/**
+		 * A SyncSound is sent from the Server to the Client to tell the client to play a specific sound effect.
+		 * @param sound: The sound effect to play
+		 * @param worldPos: This is the world location of the source of the sound. used to manage sound pan (null if not sourced to an entity)
+		 * @param volume: volume of the sound. 1.0f = full volume.
+		 */
+		public SyncSound(SoundEffect sound, Vector2 worldPos, float volume) {
+			this.sound = sound;
+			this.worldPos = worldPos;
+			this.volume = volume;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -769,5 +790,6 @@ public class Packets {
     	kryo.register(SyncBoss.class);
     	kryo.register(SyncUI.class);
     	kryo.register(SyncShader.class);
+    	kryo.register(SyncSound.class);
     }
 }

@@ -134,7 +134,7 @@ public abstract class Equipable {
 	 * Get an extra string representing the weapon in the ui.
 	 * @return
 	 */
-	public String getAmmoText() {return ""; }
+	public String getAmmoText() { return ""; }
 	
 	public void gainClip(int gained) {}
 

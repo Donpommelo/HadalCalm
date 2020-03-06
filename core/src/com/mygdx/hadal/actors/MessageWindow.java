@@ -76,7 +76,7 @@ public class MessageWindow {
 			}
 		};
 		
-		//disables typing and scrolling for actoe. Ran after actor eits screen.
+		//disables typing and scrolling for actoe. Ran after actor exits screen.
 		Runnable disableMsg = new Runnable() {
 
 			@Override
@@ -192,6 +192,9 @@ public class MessageWindow {
 		addTextLine(text);
 	}
 	
+	/**
+	 * After adding a text to the dialog record, we create a text actor for it and add that to the dialog box actor.
+	 */
 	public void addTextLine(String text) {
 		Text newEntry = new Text(text, 0, 0, false, true, width - 50);
 		newEntry.setScale(logScale);

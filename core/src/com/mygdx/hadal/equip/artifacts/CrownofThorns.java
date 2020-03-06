@@ -8,6 +8,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactStick;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -53,6 +54,7 @@ public class CrownofThorns extends Artifact {
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
 				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, inflicted));
+				hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
 				hbox.addStrategy(new ContactStick(state, hbox, inflicted, true, false));
 				hbox.addStrategy(new DamageStandard(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.RANGED));
 				

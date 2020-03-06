@@ -645,6 +645,26 @@ public class KryoClient {
 						});
 					}
         		}
+        		
+        		if (o instanceof Packets.SyncSound) {
+        			final Packets.SyncSound p = (Packets.SyncSound) o;
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+								if (p.worldPos != null) {
+									p.sound.playSourced(gsm, p.worldPos, cs.getPlayer(), p.volume);
+								} else {
+									p.sound.play(gsm, p.volume);
+								}
+							}
+							
+						});
+					}
+        		}
         	}
         });       
 	}

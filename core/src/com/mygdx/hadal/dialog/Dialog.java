@@ -8,7 +8,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.managers.AssetList;
 
 /**
- * A Dialogue is a instance of a dude saying a thing. These are used by the DialogueBox in a PlayStateStage to display conversations to the player 
+ * A Dialogue is a instance of a fella saying a thing. These are used by the DialogueBox in a PlayStateStage to display conversations to the player 
  * @author Zachary Tu
  *
  */
@@ -53,17 +53,11 @@ public class Dialog {
 		public String getSprite() {	return sprite; }		
 	}
 
-	public DialogInfo getInfo() {	return info; }
+	public DialogInfo getInfo() { return info; }
 	
 	public Animation<TextureRegion> getBust() { return bust; }
 
-	public void setBust(Animation<TextureRegion> bust) { this.bust = bust; }
-
 	public EventData getRadio() { return radio; }
 
-	public void setRadio(EventData radio) {	this.radio = radio; }
-
 	public EventData getTrigger() {	return trigger; }
-
-	public void setTrigger(EventData trigger) {	this.trigger = trigger; }
 }

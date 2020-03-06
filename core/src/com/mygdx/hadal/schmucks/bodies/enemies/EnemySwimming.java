@@ -28,6 +28,7 @@ public class EnemySwimming extends EnemyFloating {
 	
 	private Vector2 force = new Vector2();
 	private Vector2 currentVel = new Vector2();
+	private Vector2 currentDirection = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
@@ -39,11 +40,11 @@ public class EnemySwimming extends EnemyFloating {
 					moveSpeed = 1.0f;
 					
 					moveDirection.set(getPosition()).sub(target.getPosition());
-					float dist = moveDirection.len();
+					float dist = moveDirection.len2();
 
-					 if (dist > maxRange) {
+					 if (dist > maxRange * maxRange) {
 						moveDirection.scl(-1.0f);
-					} else if (dist < maxRange && dist > minRange){
+					} else if (dist < maxRange * maxRange && dist > minRange * minRange){
 						moveSpeed = 0.0f;
 					}
 				}
@@ -63,9 +64,9 @@ public class EnemySwimming extends EnemyFloating {
 			controllerCount -= controllerInterval;
 						
 			currentVel.set(getLinearVelocity());
-			
-			float desiredXVel = getBodyData().getXAirSpeed() * moveDirection.x * moveSpeed / moveDirection.len();
-			float desiredYVel = getBodyData().getXAirSpeed() * moveDirection.y * moveSpeed / moveDirection.len();
+			currentDirection.set(moveDirection).nor().scl(moveSpeed);
+			float desiredXVel = getBodyData().getXAirSpeed() * currentDirection.x;
+			float desiredYVel = getBodyData().getXAirSpeed() * currentDirection.y ;
 
 			float accelX = 0.0f;
 			float accelY = 0.0f;

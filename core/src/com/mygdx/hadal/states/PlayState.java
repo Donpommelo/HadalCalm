@@ -174,6 +174,7 @@ public class PlayState extends GameState {
 	
 	//global variables
 	public static final float spriteAnimationSpeed = 0.08f;
+	public static final float spriteAnimationSpeedFast = 0.04f;
 	
 	public static final float defaultFadeOutSpeed = 2.0f;
 	public static final float defaultFadeDelay = 0.0f;
@@ -778,8 +779,8 @@ public class PlayState extends GameState {
 			//check if all players are out
 			boolean allded = true;
 			
-			//in pvp, game ends if all players left are on the same team
-			if (pvp) {
+			//in pvp, game ends if all players left are on the same team. (if only 1 player, do not register end until all lives are used. mostly for testing)
+			if (pvp && HadalGame.server.getScores().size() > 1) {
 				
 				short factionLeft = -1;
 				for (int f: HadalGame.server.getScores().keySet()) {

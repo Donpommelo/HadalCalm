@@ -6,11 +6,15 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 
 /**
+ * A Status inflicter inflicts a stat change etatus on the player that activates it.
  * 
  * Triggered Behavior: When triggered, inflict a status to the activating player
  * Triggering Behavior: N/A
  * 
  * Fields:
+ * stat: int constant of the stat to modify. Look up each stat in the stats file in utils. Default: 0 (max Hp)
+ * amount: float amount to modify the stat by. default: 0.0f
+ * duration: duration of the status. If 0, the status is permanent (until leaving the stage) default: 0.0f
  * 
  * @author Zachary Tu
  *

@@ -6,7 +6,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * Static background actor for various windows and ui elements.
  */
-public class MenuWindow extends AHadalActor{
+public class MenuWindow extends AHadalActor {
 	
 	public MenuWindow(int x, int y, int width, int height) {
 		super(x, y, width, height);

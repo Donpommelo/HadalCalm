@@ -43,6 +43,7 @@ public class CommutersParasol extends Artifact {
 					
 					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, lifespan, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, 
 							inflicted.getSchmuck(), sprite);
+					hbox.makeUnreflectable();
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
 					hbox.addStrategy(new FixedToUser(state, hbox, inflicted, new Vector2(0, 0), position, false));
