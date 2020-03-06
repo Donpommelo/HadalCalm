@@ -3,10 +3,9 @@ package com.mygdx.hadal.equip;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret;
 import com.mygdx.hadal.schmucks.bodies.enemies.Turret.TurretState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitStatus;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -308,8 +307,7 @@ public class EnemyUtils {
 						enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitStatus(state, hbox, enemy.getBodyData(), 
-						new Ablaze(state, fireDuration, enemy.getBodyData(), enemy.getBodyData(), fireDamage)));
+				hbox.addStrategy(new ContactUnitBurn(state, hbox, enemy.getBodyData(), fireDuration, fireDamage));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
 				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 0.0f, fireLinger));
 			}

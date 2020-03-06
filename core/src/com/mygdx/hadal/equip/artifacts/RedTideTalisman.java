@@ -4,9 +4,8 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Ablaze;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitStatus;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 
 public class RedTideTalisman extends Artifact {
@@ -27,7 +26,7 @@ public class RedTideTalisman extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new ContactUnitStatus(state, hbox, inflicted, new Ablaze(state, fireDuration, inflicted, inflicted, fireDamage)));
+				hbox.addStrategy(new ContactUnitBurn(state, hbox, inflicted, fireDuration, fireDamage));
 				hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, 3.0f, 50));
 			}
 		};
