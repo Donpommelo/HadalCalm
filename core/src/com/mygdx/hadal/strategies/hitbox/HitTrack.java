@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class HitTrack extends HitboxStrategy{
+public class HitTrack extends HitboxStrategy {
 	
 	//has this hbox stuck onto a target yet? 
 	private boolean tracked; 
@@ -58,8 +58,4 @@ public class HitTrack extends HitboxStrategy{
 	public HadalEntity getTarget() {
 		return target;
 	}
-
-	public void setTarget(HadalEntity target) {
-		this.target = target;
-	}	
 }

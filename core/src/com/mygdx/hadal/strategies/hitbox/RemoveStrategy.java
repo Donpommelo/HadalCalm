@@ -11,7 +11,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class RemoveStrategy extends HitboxStrategy{
+public class RemoveStrategy extends HitboxStrategy {
 	
 	//this is the strategy that we want to remove
 	private Class<? extends HitboxStrategy> toRemove;

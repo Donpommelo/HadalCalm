@@ -73,7 +73,6 @@ public class Swimmer1 extends EnemySwimming {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getOrientation()));
-		
+				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 	}
 }

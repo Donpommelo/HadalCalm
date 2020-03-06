@@ -51,9 +51,7 @@ public class OriginCoil extends Artifact {
 					@Override
 					public void controller(float delta) {
 						if (count > 0) {
-							
 							count -= delta;
-							
 						} else {
 							controllerCount += delta;
 

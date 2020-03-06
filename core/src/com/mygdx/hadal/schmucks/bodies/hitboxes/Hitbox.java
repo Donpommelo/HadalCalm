@@ -186,7 +186,7 @@ public class Hitbox extends HadalEntity {
 					getPixelPosition().y - size.y / 2, 
 					size.x / 2, size.y / 2,
 					size.x, size.y, -1, 1, 
-					(float) Math.toDegrees(getOrientation()));
+					(float) Math.toDegrees(getAngle()));
 		}
 	}
 	

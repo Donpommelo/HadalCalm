@@ -27,6 +27,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.ExplosionDefault;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
@@ -45,7 +46,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  */
 public class WeaponUtils {
 
-	private static final float selfDamageReduction = 0.75f;
+	private static final float selfDamageReduction = 0.5f;
 	private final static Sprite boomSprite = Sprite.BOOM;
 	private final static Sprite grenadeSprite = Sprite.GRENADE;
 	private final static Sprite torpedoSprite = Sprite.TORPEDO;
@@ -111,6 +112,7 @@ public class WeaponUtils {
 	private static final int torpedoHeight = 10;
 	private static final float torpedoLifespan = 8.0f;
 	private static final int torpedoSpread = 30;
+	private static final float torpedoHoming = 60;
 	
 	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, final Schmuck user, float damage, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
@@ -126,7 +128,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), torpedoBaseDamage, torpedoBaseKnockback, DamageTypes.RANGED));
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
-			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), filter));
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
 		}
 		
@@ -139,10 +141,8 @@ public class WeaponUtils {
 	private static final int beeHeight = 12;
 	private static final int beeDurability = 3;
 	private static final float beeLifespan = 4.0f;
-	private static final float beeMaxLinSpd = 8000;
-	private static final float beeMaxLinAcc = 4000;
-	private final static float beeHomeRadius = 9600;
 	private final static int beeSpread = 60;
+	private final static float beeHoming = 90;
 	
 	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
 		
@@ -153,8 +153,8 @@ public class WeaponUtils {
 			hbox.setDurability(beeDurability);
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
-			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeMaxLinSpd, beeMaxLinAcc, beeHomeRadius, filter));
+			hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.RANGED));	
+			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
 		}
 		
@@ -162,13 +162,14 @@ public class WeaponUtils {
 	}
 	
 	private static final int spiritSize = 25;
+	private static final float spiritHoming = 50;
 	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, short filter) {		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, creator));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback));
-		hbox.addStrategy(new HomingUnit(state, hbox, creator, filter));
+		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, filter));
 		hbox.addStrategy(new CreateParticles(state, hbox, creator, Particle.SHADOW_PATH, 0.0f, 3.0f));
 	}
 	

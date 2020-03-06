@@ -84,8 +84,7 @@ public class DiamondCutter extends MeleeWeapon {
 					hbox.setTransform(
 							shooter.getSchmuck().getPosition().x + projOffset.x / PPM,  
 							shooter.getSchmuck().getPosition().y + projOffset.y / PPM,
-							hbox.getBody().getAngle());
-					
+							hbox.getAngle());
 					
 					controllerCount += delta;
 					

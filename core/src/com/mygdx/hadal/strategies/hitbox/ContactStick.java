@@ -15,7 +15,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ContactStick extends HitboxStrategy{
+public class ContactStick extends HitboxStrategy {
 	
 	//does this hbox stick to walls and units? If so, is it already stuck to a wall or unit?
 	private boolean stickToWalls, stickToDudes, stuckToWall, stuckToDude;
@@ -48,7 +48,7 @@ public class ContactStick extends HitboxStrategy{
 				if (fixB.getType().equals(UserDataTypes.BODY) && stickToDudes) {
 					stuckToDude = true;
 					target = fixB.getEntity();
-					angle = hbox.getOrientation();
+					angle = hbox.getAngle();
 					location.set(
 							hbox.getPosition().x - target.getPosition().x, 
 							hbox.getPosition().y - target.getPosition().y);		
@@ -56,7 +56,7 @@ public class ContactStick extends HitboxStrategy{
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
 					stuckToWall = true;
 					target = fixB.getEntity();
-					angle = hbox.getOrientation();
+					angle = hbox.getAngle();
 					
 					if (fixB.getEntity() instanceof Wall) {
 						location.set(hbox.getPosition());

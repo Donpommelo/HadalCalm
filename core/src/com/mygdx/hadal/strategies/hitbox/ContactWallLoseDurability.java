@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ContactWallLoseDurability extends HitboxStrategy{
+public class ContactWallLoseDurability extends HitboxStrategy {
 	
 	public ContactWallLoseDurability(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);

@@ -12,7 +12,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ContactUnitStatus extends HitboxStrategy{
+public class ContactUnitStatus extends HitboxStrategy {
 	
 	//the status that is to be inflicted
 	private Status s;

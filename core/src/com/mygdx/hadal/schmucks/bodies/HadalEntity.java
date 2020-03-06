@@ -4,10 +4,6 @@ import java.util.UUID;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.ai.steer.Steerable;
-import com.badlogic.gdx.ai.steer.SteeringAcceleration;
-import com.badlogic.gdx.ai.steer.SteeringBehavior;
-import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +14,6 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.utils.SteeringUtil;
 
 /**
  * A HadalEntity is enything in the Game world that does stuff.
@@ -29,7 +24,7 @@ import com.mygdx.hadal.utils.SteeringUtil;
  * @author Zachary Tu
  *
  */
-public abstract class HadalEntity implements Steerable<Vector2> {
+public abstract class HadalEntity {
 
 	//References to game fields.
 	protected PlayState state;
@@ -43,12 +38,6 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	
 	//is the entity queued up for deletion? has it been destroyed yet?
 	protected boolean alive = true, destroyed = false;
-	
-	//The below fields are only used for steering entities. most things will ignore these
-	protected boolean tagged;
-	protected float maxLinearSpeed, maxLinearAcceleration;
-	protected SteeringBehavior<Vector2> behavior;
-	protected SteeringAcceleration<Vector2> steeringOutput;
 	
 	//counter and method to keep up with animation frames
 	protected float animationTime = 0;
@@ -179,7 +168,7 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	 */
 	public void onServerSync() {
 		if (body != null) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getOrientation()));
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getAngle()));
 		}
 	}
 	
@@ -258,94 +247,17 @@ public abstract class HadalEntity implements Steerable<Vector2> {
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }
 	
-	//Steering utilities
-	public void applySteering(float delta) {
-		
-		if (!steeringOutput.linear.isZero()) {
-			Vector2 force = new Vector2(steeringOutput.linear).scl(delta);
-			applyForceToCenter(force);
-			
-			Vector2 velocity = new Vector2(getLinearVelocity());
-			float currentSpeedSquare = velocity.len2();
-			
-			if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-				setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
-			}
-		}
-	}
-	
-	@Override
 	public Vector2 getPosition() { return body.getPosition(); }
 
-	@Override
-	public float getOrientation() {	return body.getAngle(); }
+	public float getAngle() { return body.getAngle(); }
 
-	@Override
-	public void setOrientation(float orientation) {	setTransform(getPosition(), orientation); }
+	public float getAngularVelocity() { return body.getAngularVelocity(); }
 
-	@Override
-	public float vectorToAngle(Vector2 vector) { return SteeringUtil.vectorToAngle(vector); }
+	public void setAngle(float angle) { setTransform(getPosition(), angle); }
 
-	@Override
-	public Vector2 angleToVector(Vector2 outVector, float angle) { return SteeringUtil.angleToVector(outVector, angle); }
-
-	@Override
-	public Location<Vector2> newLocation() { return null; }
-	
-	@Override
-	public float getZeroLinearSpeedThreshold() { return 0; }
-
-	@Override
-	public void setZeroLinearSpeedThreshold(float value) {}
-
-	@Override
-	public float getMaxLinearSpeed() { return maxLinearSpeed; }
-
-	@Override
-	public void setMaxLinearSpeed(float maxLinearSpeed) { this.maxLinearSpeed = maxLinearSpeed; }
-
-	@Override
-	public float getMaxLinearAcceleration() { return maxLinearAcceleration; }
-
-	@Override
-	public void setMaxLinearAcceleration(float maxLinearAcceleration) { this.maxLinearAcceleration = maxLinearAcceleration; }
-
-	@Override
-	public float getMaxAngularSpeed() {	return 0; }
-	
-	@Override
-	public void setMaxAngularSpeed(float maxAngularSpeed) { }
-
-	@Override
-	public float getMaxAngularAcceleration() { return 0; }
-
-	@Override
-	public void setMaxAngularAcceleration(float maxAngularAcceleration) {  }
-
-	@Override
 	public Vector2 getLinearVelocity() { return body.getLinearVelocity(); }
 
-	@Override
-	public float getAngularVelocity() {	return 0; }
-
-	@Override
-	public float getBoundingRadius() { return 0; }
-
-	@Override
-	public boolean isTagged() { return tagged; }
-
-	@Override
-	public void setTagged(boolean tagged) { this.tagged = tagged; }
-	
-	public SteeringBehavior<Vector2> getBehavior() { return behavior; }
-	
-	public void setBehavior(SteeringBehavior<Vector2> behavior) { this.behavior = behavior; }
-	
-	public SteeringAcceleration<Vector2> getSteeringOutput() { return steeringOutput; }
-	
 	public float getMass() { return body.getMass(); }
-	
-	public void setSteeringOutput(SteeringAcceleration<Vector2> steeringOutput) { this.steeringOutput = steeringOutput; }
 	
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null) {

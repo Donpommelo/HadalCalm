@@ -12,7 +12,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class DiePoison extends HitboxStrategy{
+public class DiePoison extends HitboxStrategy {
 	
 	//the amount of damage the poison will deal, how long it will last and its size
 	private float poisonDamage, poisonDuration;

@@ -21,7 +21,7 @@ public class PoisonTrail extends HitboxStrategy {
 	//the hbox filter that determines who can be damaged by the poison
 	private short filter;
 	
-	//the time interval between creating poision
+	//the time interval between creating poison
 	private Vector2 lastPosition = new Vector2();
 	
 	public PoisonTrail(PlayState state, Hitbox proj, BodyData user, int poisonRadius, float poisonDamage, float poisonDuration, short filter) {

@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ControllerDefault extends HitboxStrategy{
+public class ControllerDefault extends HitboxStrategy {
 	
 	public ControllerDefault(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
@@ -31,7 +31,7 @@ public class ControllerDefault extends HitboxStrategy{
 
 	@Override
 	public void push(Vector2 push) {
-		hbox.applyLinearImpulse(push.scl(0.2f));
+		hbox.applyForceToCenter(push);
 	}
 	
 	@Override

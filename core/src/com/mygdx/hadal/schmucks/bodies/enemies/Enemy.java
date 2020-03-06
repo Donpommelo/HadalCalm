@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -68,8 +67,8 @@ public class Enemy extends Schmuck {
   	private Schmuck homeAttempt;
 	private Fixture closestFixture;
   	
-	//this is the angle that the enemy is currently attacking in
-	protected float attackAngle;
+	//this is the angle that the enemy is currently attacking in/angle they are turning towards.
+	protected float attackAngle, desiredAngle;
 	
 	//This is a dummy event in the map that the enemy is moving towards
 	private Vector2 movementTarget;
@@ -279,8 +278,7 @@ public class Enemy extends Schmuck {
 		return new Packets.CreateEnemy(entityID.toString(), type, isBoss, name);
 	}
 
-	public void setTarget(HadalEntity target, SteeringBehavior<Vector2> behavior) {
-		super.setBehavior(behavior);
+	public void setTarget(HadalEntity target) {
 		this.target = target;
 	}
 	
@@ -308,6 +306,10 @@ public class Enemy extends Schmuck {
 
 	public void setAttackAngle(float attackAngle) {	this.attackAngle = attackAngle;	}
 
+	public float getDesiredAngle() { return desiredAngle; }
+
+	public void setDesiredAngle(float desiredAngle) { this.desiredAngle = desiredAngle; }
+	
 	public void setAttackCd(float attackCd) { this.attackCd = attackCd; }
 
 	public int getScrapDrop() {	return scrapDrop; }

@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ContactDestroyProjectiles extends HitboxStrategy{
+public class ContactDestroyProjectiles extends HitboxStrategy {
 	
 	public ContactDestroyProjectiles(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);

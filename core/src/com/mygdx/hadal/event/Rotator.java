@@ -39,10 +39,10 @@ public class Rotator extends Event {
 				if (continuous) {
 					if (getConnectedEvent() != null) {
 						if (getConnectedEvent().getBody() != null) {
-							if (getConnectedEvent().getBody().getAngularVelocity() == 0) {
-								getConnectedEvent().getBody().setAngularVelocity(angle);
+							if (getConnectedEvent().getAngularVelocity() == 0) {
+								getConnectedEvent().setAngularVelocity(angle);
 							} else {
-								getConnectedEvent().getBody().setAngularVelocity(0);
+								getConnectedEvent().setAngularVelocity(0);
 							}
 						}
 					}
@@ -58,9 +58,9 @@ public class Rotator extends Event {
 			if (getConnectedEvent() != null) {
 				if (getConnectedEvent().getBody() != null) {
 					if (continuous) {
-						getConnectedEvent().getBody().setAngularVelocity(angle);
+						getConnectedEvent().setAngularVelocity(angle);
 					} else {
-						getConnectedEvent().getBody().setTransform(getConnectedEvent().getBody().getPosition(), angle);
+						getConnectedEvent().setTransform(getConnectedEvent().getPosition(), angle);
 					}
 				}
 			}

@@ -12,7 +12,7 @@ public class SenescentShield extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static float knockbackProj = 100.0f;
+	private final static float knockbackProj = 10.0f;
 
 	public SenescentShield() {
 		super(slotCost, statusNum);

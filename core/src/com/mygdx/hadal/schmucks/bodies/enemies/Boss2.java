@@ -88,7 +88,7 @@ public class Boss2 extends EnemyFloating {
 	@Override
 	public void render(SpriteBatch batch) {	
 		boolean flip = false;
-		double realAngle = getOrientation() % (Math.PI * 2);
+		double realAngle = getAngle() % (Math.PI * 2);
 		if ((realAngle > Math.PI && realAngle < 2 * Math.PI) || (realAngle < 0 && realAngle > -Math.PI)) {
 			flip = true;
 		}
@@ -109,7 +109,7 @@ public class Boss2 extends EnemyFloating {
 				getHboxSize().y / 2, 
 				(flip ? -1 : 1) * getHboxSize().x / 2,
 				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
-				(float) Math.toDegrees(getOrientation()) - 90);
+				(float) Math.toDegrees(getAngle()) - 90);
 		
 		batch.draw(faceSprite, 
 				getPixelPosition().x - getHboxSize().y / 2, 
@@ -117,7 +117,7 @@ public class Boss2 extends EnemyFloating {
 				getHboxSize().y / 2, 
 				(flip ? -1 : 1) * getHboxSize().x / 2,
 				size.x, (flip ? -1 : 1) * size.y, 1, 1, 
-				(float) Math.toDegrees(getOrientation()) - 90);
+				(float) Math.toDegrees(getAngle()) - 90);
 	}
 	
 	public void setFaceSprite() {

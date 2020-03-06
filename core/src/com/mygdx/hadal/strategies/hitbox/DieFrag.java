@@ -12,7 +12,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy creates a number of fiery projectiles when its hbox dies
+ * This strategy creates a number of projectiles when its hbox dies
  * @author Zachary Tu
  *
  */

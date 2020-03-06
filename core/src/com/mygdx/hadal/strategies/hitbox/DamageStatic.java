@@ -17,7 +17,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class DamageStatic extends HitboxStrategy{
+public class DamageStatic extends HitboxStrategy {
 	
 	//the amount of damage and knockback this hbox will inflict
 	private float baseDamage, knockback;

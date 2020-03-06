@@ -16,7 +16,8 @@ public class InformantsTie extends Artifact {
 	
 	private final static float projSpdReduction = -0.75f;
 	private final static float bonusProjLifespan = 0.75f;
-	
+	private final static float homePower = 60.0f;
+
 	public InformantsTie() {
 		super(slotCost, statusNum);
 	}
@@ -30,7 +31,7 @@ public class InformantsTie extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HomingUnit(state, hbox, b, inflicted.getSchmuck().getHitboxfilter()));
+				hbox.addStrategy(new HomingUnit(state, hbox, b, homePower, inflicted.getSchmuck().getHitboxfilter()));
 				hbox.setGravity(0.0f);
 			}
 		});

@@ -19,11 +19,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class EnemyFloating extends Enemy {
 				
-	//the angle that the boss is facing and the angle that it lerps towards.
-	private float angle;
-
-    private float desiredAngle;
-	
     //the speed that the boss spins when spinning
 	private int spinSpeed;
 	
@@ -36,7 +31,7 @@ public class EnemyFloating extends Enemy {
 	public EnemyFloating(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		
-		this.angle = 0;
+		this.attackAngle = 0;
 		this.desiredAngle = 0;
 		
 		this.currentState = FloatingState.TRACKING_PLAYER;
@@ -47,14 +42,13 @@ public class EnemyFloating extends Enemy {
 		}
 	}
 
-
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
 		
 		//lerp towards desired angle
-		float dist = (desiredAngle - angle) % 360;
-		angle = angle + (2 * dist % 360 - dist) * 0.04f;		
+		float dist = (desiredAngle - attackAngle) % 360;
+		attackAngle = attackAngle + (2 * dist % 360 - dist) * 0.04f;		
 		
 		//when spinning, spin at a constant speed. When tracking, set desired angle to face player
 		switch(currentState) {
@@ -62,7 +56,7 @@ public class EnemyFloating extends Enemy {
 			desiredAngle += spinSpeed;
 			break;
 		case SPINNING:
-			angle += spinSpeed;
+			attackAngle += spinSpeed;
 			break;
 		case TRACKING_PLAYER:
 			if (target != null) {				
@@ -76,7 +70,7 @@ public class EnemyFloating extends Enemy {
 		default:
 			break;
 		}
-		setOrientation((float) ((angle) * Math.PI / 180));
+		setAngle((float) ((attackAngle) * Math.PI / 180));
 	}
 	
 	/**
@@ -86,7 +80,7 @@ public class EnemyFloating extends Enemy {
 	public void render(SpriteBatch batch) {
 		
 		boolean flip = true;
-		double realAngle = getOrientation() % (Math.PI * 2);
+		double realAngle = getAngle() % (Math.PI * 2);
 		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
 			flip = false;
 		}
@@ -96,7 +90,7 @@ public class EnemyFloating extends Enemy {
 				(flip ? -1 : 1) * size.x / 2, 
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getOrientation()));
+				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 	}
 	
 	@Override
@@ -109,18 +103,7 @@ public class EnemyFloating extends Enemy {
 	
 	public void setCurrentState(FloatingState currentState) { this.currentState = currentState; }
 	
-	public float getAngle() { return angle; }
-
-	public void setAngle(float angle) { this.angle = angle; }
-	
-	public float getDesiredAngle() { return desiredAngle; }
-
-	public void setDesiredAngle(float desiredAngle) { this.desiredAngle = desiredAngle; }
-
 	public void setSpinSpeed(int spinSpeed) { this.spinSpeed = spinSpeed; }
-	
-	@Override
-	public float getAttackAngle() {	return angle; }
 	
 	public enum FloatingState {
 		TRACKING_PLAYER,

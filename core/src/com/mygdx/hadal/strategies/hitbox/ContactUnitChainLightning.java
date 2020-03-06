@@ -17,7 +17,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ContactUnitChainLightning extends HitboxStrategy{
+public class ContactUnitChainLightning extends HitboxStrategy {
 	
 	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 1.0f;

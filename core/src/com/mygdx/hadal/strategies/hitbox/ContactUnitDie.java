@@ -12,7 +12,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ContactUnitDie extends HitboxStrategy{
+public class ContactUnitDie extends HitboxStrategy {
 	
 	public ContactUnitDie(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);

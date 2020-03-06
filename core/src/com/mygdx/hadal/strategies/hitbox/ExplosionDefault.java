@@ -15,7 +15,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ExplosionDefault extends HitboxStrategy{
+public class ExplosionDefault extends HitboxStrategy {
 	
 	//the amount of damage and knockback this hbox will inflict and the percentage reduction on self damage
 	private float baseDamage, knockback, selfDamageReduction;

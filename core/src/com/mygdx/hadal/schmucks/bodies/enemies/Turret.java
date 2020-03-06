@@ -21,7 +21,6 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Turret extends Enemy {
 
-	private float angle;
 	private float desiredAngle;
 	private float startAngle;
 	
@@ -47,7 +46,7 @@ public class Turret extends Enemy {
 	
 	public Turret(PlayState state, Vector2 startPos, EnemyType type, float startAngle, short filter, float baseHp, float attackCd, int scrapDrop, float scale, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(baseWidth, baseHeight).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), Sprite.NOTHING, type, filter, baseHp, attackCd, scrapDrop, spawner);		
-		this.angle = 0;
+		this.attackAngle = 0;
 		this.startAngle = startAngle;
 		this.desiredAngle = startAngle;
 		this.scale = scale;
@@ -82,8 +81,8 @@ public class Turret extends Enemy {
 	public void controller(float delta) {
 		super.controller(delta);
 		
-		float dist = (desiredAngle - angle) % 360;
-		angle = angle + (2 * dist % 360 - dist) * 0.04f;
+		float dist = (desiredAngle - attackAngle) % 360;
+		attackAngle = attackAngle + (2 * dist % 360 - dist) * 0.04f;
 		
 		switch(currentState) {
 			case STARTING:
@@ -113,7 +112,7 @@ public class Turret extends Enemy {
 	public void render(SpriteBatch batch) {
 		boolean flip = false;
 		
-		if (Math.abs(angle) > 90) {
+		if (Math.abs(attackAngle) > 90) {
 			flip = true;
 		}
 		
@@ -128,13 +127,13 @@ public class Turret extends Enemy {
 					getPixelPosition().x - getHboxSize().x / 2, 
 					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
-					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
+					size.x, (flip ? -1 : 1) * size.y, 1, 1, attackAngle);
 		} else {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(animationTime, true), 
 					getPixelPosition().x - getHboxSize().x / 2, 
 					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - getHboxSize().y / 2, 
 					rotationX * scale, (flip ? -size.y : 0) + rotationYReal * scale,
-					size.x, (flip ? -1 : 1) * size.y, 1, 1, angle);
+					size.x, (flip ? -1 : 1) * size.y, 1, 1, attackAngle);
 		}
 		
 		batch.draw((TextureRegion) turretBase.getKeyFrame(animationTime, true), 
@@ -158,7 +157,7 @@ public class Turret extends Enemy {
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), angle));
+		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), attackAngle));
 		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState));
 	}
 	
@@ -167,7 +166,7 @@ public class Turret extends Enemy {
 		if (o instanceof Packets.SyncEntity) {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
 			setTransform(p.pos, 0);
-			angle = p.angle;
+			attackAngle = p.angle;
 		} else {
 			super.onClientSync(o);
 		}
@@ -196,15 +195,6 @@ public class Turret extends Enemy {
 	public TurretState getCurrentState() {	return currentState; }
 
 	public void setCurrentState(TurretState currentState) { this.currentState = currentState; }
-	
-	public float getAngle() { return angle; }
-
-	public void setAngle(float angle) { this.angle = angle; }
-
-	public void setDesiredAngle(float desiredAngle) { this.desiredAngle = desiredAngle; }
-
-	@Override
-	public float getAttackAngle() {	return angle; }
 	
 	public enum TurretState {
 		STARTING,

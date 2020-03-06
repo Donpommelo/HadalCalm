@@ -75,7 +75,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				bossFloating.setCurrentState(state);
-				bossFloating.setAngle(normalizeAngle((int) bossFloating.getAngle()));
+				bossFloating.setAttackAngle(normalizeAngle((int) bossFloating.getAttackAngle()));
 				switch (state) {
 				case FREE:
 					bossFloating.setDesiredAngle(angle);
@@ -171,7 +171,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				turret.setCurrentState(state);
-				turret.setAngle(normalizeAngle((int) turret.getAngle()));
+				turret.setAttackAngle(normalizeAngle((int) turret.getAttackAngle()));
 				switch (state) {
 				case FREE:
 					turret.setDesiredAngle(angle);

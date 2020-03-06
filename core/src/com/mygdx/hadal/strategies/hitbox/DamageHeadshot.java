@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class DamageHeadshot extends HitboxStrategy{
+public class DamageHeadshot extends HitboxStrategy {
 	
 	//the top percent of the units body that counts as a "head"
 	private static float headshotThreshold = 0.25f;

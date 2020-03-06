@@ -72,7 +72,7 @@ public class Displacer extends Event {
 			
 			//no connected event: displace all affected entities.
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.setTransform(entity.getPosition().add(vec), entity.getBody().getAngle());
+				entity.setTransform(entity.getPosition().add(vec), entity.getAngle());
 			}
 		} else if (!getConnectedEvent().getBody().equals(null) && getConnectedEvent().isAlive()) {
 			
@@ -81,13 +81,13 @@ public class Displacer extends Event {
 				offset = new Vector2(getConnectedEvent().getPixelPosition()).sub(startPos).scl(1 / PPM);
 			}
 			
-			newOffset.set(getConnectedEvent().getBody().getPosition()).sub(offset).sub(getBody().getPosition());
+			newOffset.set(getConnectedEvent().getPosition()).sub(offset).sub(getPosition());
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
-				entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getBody().getAngle());
+				entity.setTransform(entity.getPosition().add(newOffset.x, 0), entity.getAngle());
 			}
 
-			setTransform(getConnectedEvent().getBody().getPosition().sub(offset), getBody().getAngle());
+			setTransform(getConnectedEvent().getPosition().sub(offset), getAngle());
 		}
 	}
 }

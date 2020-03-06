@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class ContactBlockProjectiles extends HitboxStrategy{
+public class ContactBlockProjectiles extends HitboxStrategy {
 	
 	//this is the knockback that should be administered to the other hbox
 	private float knockback;

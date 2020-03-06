@@ -1,7 +1,5 @@
 package com.mygdx.hadal.strategies.hitbox;
 
-import com.badlogic.gdx.ai.steer.SteeringAcceleration;
-import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -18,44 +16,45 @@ import com.mygdx.hadal.utils.Constants;
  * @author Zachary Tu
  *
  */
-public class HomingUnit extends HitboxStrategy{
+public class HomingUnit extends HitboxStrategy {
 	
+	//this is the schmuck we are homing towards
 	private Schmuck homing;
+	
+	//these variables are used in raycasting to find a homing target.
 	private Schmuck homeAttempt;
 	private Fixture closestFixture;
-	
 	private float shortestFraction = 1.0f;
 	
-	private float radius;
+	//this is the faction filter that describes which units this should home towards.
 	private short filter;
 	
-	private static final float maxLinSpd = 8000;
-	private static final float maxLinAcc = 8000;
+	//this is the power of the force applied to the hbox when it tries to home.
+	private float homePower;
 	
+	//this is the amount of seconds the hbox will attempt to predict its target's position
+	private float maxPredictionTime = 0.5f;
+	
+	//this is the distance that the hbox will search for a homing target.
 	private static final int homeRadius = 2000;
 	
-	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float maxLinSpd, float maxLinAcc, float radius, short filter) {
-		super(state, proj, user);
-		this.radius = radius;
-		this.filter = filter;
-		
-		hbox.setMaxLinearSpeed(maxLinSpd);
-		hbox.setMaxLinearAcceleration(maxLinAcc);
-		
-		hbox.setTagged(false);
-		hbox.setSteeringOutput(new SteeringAcceleration<Vector2>(new Vector2()));
-	}
+	private final static float pushInterval = 1 / 60f;
+	private float controllerCount = 0;
 	
-	public HomingUnit(PlayState state, Hitbox proj, BodyData user, short filter) {
-		this(state, proj, user, maxLinSpd, maxLinAcc, homeRadius, filter);
+	public HomingUnit(PlayState state, Hitbox proj, BodyData user, float homePower, short filter) {
+		super(state, proj, user);
+		this.homePower = homePower;
+		this.filter = filter;
 	}
 	
 	@Override
 	public void controller(float delta) {		
 		if (homing != null && homing.isAlive()) {
-			if (hbox.getBehavior() != null) {
-				hbox.getBehavior().calculateSteering(hbox.getSteeringOutput());
-				hbox.applySteering(delta);
+			controllerCount += delta;
+
+			while (controllerCount >= pushInterval) {
+				controllerCount -= pushInterval;
+				homing();
 			}
 		} else {
 			hbox.getWorld().QueryAABB(new QueryCallback() {
@@ -97,8 +96,6 @@ public class HomingUnit extends HitboxStrategy{
 								if (closestFixture.getUserData() instanceof BodyData) {
 									
 									homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
-									Pursue<Vector2> seek = new Pursue<Vector2>(hbox, homing);
-									hbox.setBehavior(seek);
 								}
 							}	
 						}									
@@ -107,8 +104,41 @@ public class HomingUnit extends HitboxStrategy{
 				}
 				
 			}, 
-			hbox.getPosition().x - radius, hbox.getPosition().y - radius, 
-			hbox.getPosition().x + radius, hbox.getPosition().y + radius);
+			hbox.getPosition().x - homeRadius, hbox.getPosition().y - homeRadius, 
+			hbox.getPosition().x + homeRadius, hbox.getPosition().y + homeRadius);
 		}
-	}	
+	}
+	
+	private Vector2 homingPush = new Vector2();
+	/**
+	 * This method pushes a hbox towards its homing target
+	 */
+	private void homing() {
+		
+		float squareDistance = homingPush.set(homing.getPosition()).sub(hbox.getPosition()).len2();
+		
+		float squareSpeed = hbox.getLinearVelocity().len2();
+
+		//if this hbox is moving , we check its distance to its target
+		if (squareSpeed > 0) {
+
+			float squarePredictionTime = squareDistance / squareSpeed;
+			
+			//if the hbox is close enough to its target, we push it towards its target, accounting for its target's movement
+			if (squarePredictionTime < maxPredictionTime * maxPredictionTime) {
+				homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), (float)Math.sqrt(squarePredictionTime))
+				.sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
+			} else {
+				
+				//at further distance, we also take into account the hbox's movement to compensate for its current velocity.
+				homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), maxPredictionTime)
+				.sub(hbox.getPosition().mulAdd(hbox.getLinearVelocity(), maxPredictionTime)).nor().scl(homePower * hbox.getMass());
+			}
+		} else {
+			homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), maxPredictionTime)
+			.sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
+		}
+		
+		hbox.push(homingPush);
+	}
 }

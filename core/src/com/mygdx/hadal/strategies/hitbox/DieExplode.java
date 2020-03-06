@@ -11,7 +11,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class DieExplode extends HitboxStrategy{
+public class DieExplode extends HitboxStrategy {
 	
 	//explosion stats
 	private float explosionDamage, explosionKnockback;

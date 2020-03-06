@@ -37,7 +37,7 @@ public class FixedToUser extends HitboxStrategy {
 		} else {
 			Vector2 hbLocation = creator.getSchmuck().getPosition().add(center);
 			if (rotate) {
-				hbox.setTransform(hbLocation, creator.getSchmuck().getBody().getAngle() + angle.angleRad());
+				hbox.setTransform(hbLocation, creator.getSchmuck().getAngle() + angle.angleRad());
 			} else {
 				hbox.setTransform(hbLocation, angle.angleRad());
 			}

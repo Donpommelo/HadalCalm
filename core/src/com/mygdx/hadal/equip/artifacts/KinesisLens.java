@@ -12,14 +12,12 @@ import com.mygdx.hadal.utils.Stats;
 public class KinesisLens extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 1;
-	
-	private static final float maxLinSpd = 1200;
-	private static final float maxLinAcc = 3000;
+	private final static int slotCost = 2;
 	
 	private final static float projSpdReduction = -0.6f;
 	private final static float bonusProjLifespan = 0.6f;
-	
+	private final static float homePower = 150.0f;
+
 	public KinesisLens() {
 		super(slotCost, statusNum);
 	}
@@ -33,7 +31,7 @@ public class KinesisLens extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new HomingMouse(state, hbox, inflicted, maxLinSpd, maxLinAcc));
+				hbox.addStrategy(new HomingMouse(state, hbox, inflicted, homePower));
 				hbox.setGravity(0.0f);
 			}
 		});

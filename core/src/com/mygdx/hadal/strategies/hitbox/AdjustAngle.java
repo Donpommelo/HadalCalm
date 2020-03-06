@@ -11,7 +11,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class AdjustAngle extends HitboxStrategy{
+public class AdjustAngle extends HitboxStrategy {
 	
 	public AdjustAngle(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);

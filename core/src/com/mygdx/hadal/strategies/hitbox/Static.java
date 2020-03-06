@@ -11,7 +11,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class Static extends HitboxStrategy{
+public class Static extends HitboxStrategy {
 	
 	public Static(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);

@@ -12,8 +12,9 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class Spread extends HitboxStrategy{
+public class Spread extends HitboxStrategy {
 	
+	//this is the range of spread in degrees that the hbox can be set to
 	private int spread;
 	
 	public Spread(PlayState state, Hitbox proj, BodyData user, int spread) {
@@ -24,6 +25,6 @@ public class Spread extends HitboxStrategy{
 	@Override
 	public void create() {
 		float newDegrees = (float) (hbox.getStartVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-		hbox.getBody().setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
+		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
 	}
 }

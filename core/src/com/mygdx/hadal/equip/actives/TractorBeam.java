@@ -28,12 +28,11 @@ public class TractorBeam extends ActiveItem {
 	private final static float knockback = 35.0f;
 	private final static float projectileSpeed = 30.0f;
 	
+	private final static float homePower = 150.0f;
+
 	private final static Vector2 projectileSize = new Vector2(60, 60);
 	
 	private final static float lifespan = 4.0f;
-	
-	private static final float maxLinSpd = 600;
-	private static final float maxLinAcc = 3000;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 
@@ -73,7 +72,7 @@ public class TractorBeam extends ActiveItem {
 						oneTime = false;
 						hbox.removeStrategy(start);
 						hbox.removeStrategy(this);
-						hbox.addStrategy(new HomingMouse(state, hbox, user, maxLinSpd, maxLinAcc));
+						hbox.addStrategy(new HomingMouse(state, hbox, user, homePower));
 						hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 							
 							@Override

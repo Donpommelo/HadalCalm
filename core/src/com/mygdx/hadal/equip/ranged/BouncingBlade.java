@@ -12,7 +12,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 
 public class BouncingBlade extends RangedWeapon {
 
@@ -46,6 +46,6 @@ public class BouncingBlade extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new ContactWallLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
 	}
 }
