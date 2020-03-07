@@ -55,6 +55,7 @@ public class TiledObjectUtil {
     static Map<TriggerCond, String> condTriggeringEvents = new HashMap<TriggerCond, String>();
     static Map<TriggerRedirect, String> redirectTriggeringEvents = new HashMap<TriggerRedirect, String>();
     static Map<MovingPoint, String> movePointConnections = new HashMap<MovingPoint, String>();
+    static Map<ChoiceBranch, String> choiceBranchOptions = new HashMap<ChoiceBranch, String>();
     static Map<String, Prefabrication> prefabrications = new HashMap<String, Prefabrication>();
 
     /**
@@ -364,6 +365,12 @@ public class TiledObjectUtil {
 		} else if (object.getName().equals("Codex")) {
 			
 			e = new Codex(state, position, size);
+		} else if (object.getName().equals("ChoiceBranch")) {
+			
+			e = new ChoiceBranch(state, position, size, 
+					object.getProperties().get("title", "Choice", String.class),
+					object.getProperties().get("optionNames", "", String.class));
+			choiceBranchOptions.put((ChoiceBranch)e, object.getProperties().get("options", "", String.class));
 		} else if (object.getName().equals("Prefab")) {
 			
 			genPrefab(state, object, rect);
@@ -577,7 +584,15 @@ public class TiledObjectUtil {
         			}
     			}
     		}
-    	}    
+    	} 
+    	for (ChoiceBranch branch : choiceBranchOptions.keySet()) {
+    		String[] options = choiceBranchOptions.get(branch).split(",");
+    		for (int i = 0; i < options.length; i++) {
+    			if (!options[i].equals("")) {
+        			branch.addOption(branch.getOptionNames()[i], triggeredEvents.getOrDefault(options[i], null));
+    			}
+    		}
+    	}  
     }
     
     /**
@@ -616,6 +631,14 @@ public class TiledObjectUtil {
     			}
     		}
     	}   
+    	for (ChoiceBranch branch : choiceBranchOptions.keySet()) {
+    		String[] options = choiceBranchOptions.get(branch).split(",");
+    		for (int i = 0; i < options.length; i++) {
+    			if (!options[i].equals("") && options[i].equals(triggeredId)) {
+        			branch.addOption(branch.getOptionNames()[i], e);
+    			}
+    		}
+    	}  
     	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     }
     
@@ -641,6 +664,7 @@ public class TiledObjectUtil {
     	condTriggeringEvents.clear();
     	redirectTriggeringEvents.clear();
     	movePointConnections.clear();
+    	choiceBranchOptions.clear();
     	prefabrications.clear();
     }
     

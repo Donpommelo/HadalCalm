@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="21">
+ <properties>
+  <property name="lives" type="bool" value="true"/>
+  <property name="pvp" type="bool" value="true"/>
+  <property name="startUI" value="SANDBOX,EMPTY,SCRAP"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="60" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztz9kJgEAQBcH1AI8f88/W2SAeDFoFHUCPAQAAAABAR0t1N2kNv0579TTpCr9Ofv369evXr1+/aX79+vXr169fv2l+/X7p96i2Jp3hVwAA4F9ewYsuvw==
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="384" y="736">
+   <polyline points="0,0 1152,0 1152,768 0,768 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="2" name="Start" type="Start" x="928" y="1088" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerStart"/>
+   </properties>
+  </object>
+  <object id="3" name="Dropthrough" type="Dropthrough" x="1248" y="1184" width="288" height="16"/>
+  <object id="4" name="Dropthrough" type="Dropthrough" x="384" y="1184" width="288" height="16"/>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="800" y="1184" width="288" height="16"/>
+  <object id="6" name="Multitrigger" type="Multitrigger" x="160" y="448" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerStart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="7" name="Bounds" type="Bounds" x="800" y="1056" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="8" name="Bounds" type="Bounds" x="1056" y="1184" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="9" name="Switch" type="Switch" x="448" y="1376" width="96" height="96">
+   <properties>
+    <property name="particle_amb" value="PORTAL"/>
+    <property name="sprite" value="PORTAL"/>
+    <property name="triggeringId" value="toEnemy"/>
+   </properties>
+  </object>
+  <object id="10" name="Warp" type="Warp" x="480" y="1536" width="32" height="32">
+   <properties>
+    <property name="level" value="SANDBOX_ENEMY"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="toEnemy"/>
+   </properties>
+  </object>
+  <object id="11" name="Start" type="Start" x="480" y="1408" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="start0"/>
+    <property name="triggeringId" value="playerStart"/>
+   </properties>
+  </object>
+  <object id="12" name="Text" type="Text" x="448" y="1312" width="32" height="32">
+   <properties>
+    <property name="text" value="ENEMIES"/>
+   </properties>
+  </object>
+  <object id="13" name="Switch" type="Switch" x="896" y="1056" width="96" height="96">
+   <properties>
+    <property name="particle_amb" value="PORTAL"/>
+    <property name="sprite" value="PORTAL"/>
+    <property name="triggeringId" value="toHub"/>
+   </properties>
+  </object>
+  <object id="14" name="Warp" type="Warp" x="480" y="1600" width="32" height="32">
+   <properties>
+    <property name="level" value="SSTUNICATE1"/>
+    <property name="startId" value=""/>
+    <property name="triggeredId" value="toHub"/>
+   </properties>
+  </object>
+  <object id="16" name="Text" type="Text" x="896" y="992" width="32" height="32">
+   <properties>
+    <property name="text" value="HUB"/>
+   </properties>
+  </object>
+  <object id="17" name="Switch" type="Switch" x="640" y="1376" width="96" height="96">
+   <properties>
+    <property name="particle_amb" value="PORTAL"/>
+    <property name="sprite" value="PORTAL"/>
+    <property name="triggeringId" value="toEvents"/>
+   </properties>
+  </object>
+  <object id="18" name="Start" type="Start" x="672" y="1408" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="start1"/>
+    <property name="triggeringId" value="playerStart"/>
+   </properties>
+  </object>
+  <object id="19" name="Text" type="Text" x="640" y="1312" width="32" height="32">
+   <properties>
+    <property name="text" value="EVENTS"/>
+   </properties>
+  </object>
+  <object id="20" name="Warp" type="Warp" x="480" y="1664" width="32" height="32">
+   <properties>
+    <property name="level" value="SANDBOX_EVENTS"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="toEvents"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

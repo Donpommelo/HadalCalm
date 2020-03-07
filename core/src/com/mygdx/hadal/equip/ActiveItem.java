@@ -104,7 +104,19 @@ public class ActiveItem extends Equipable {
 
 	public float getCurrentCharge() { return currentCharge; }
 
-	public void setCurrentCharge(float currentCharge) {	this.currentCharge = currentCharge; }
+	public void setCurrentCharge(float currentCharge) {	
+		this.currentCharge = currentCharge; 
+		if (this.currentCharge > maxCharge) {
+			this.currentCharge = maxCharge;
+		}
+	}
+
+	public void setCurrentChargePercent(float currentCharge) {	
+		this.currentCharge = currentCharge * maxCharge; 
+		if (this.currentCharge > maxCharge) {
+			this.currentCharge = maxCharge;
+		}
+	}
 
 	public chargeStyle getStyle() { return style; }
 

@@ -29,6 +29,11 @@
   <property name="triggeringId" type="string"/>
   <property name="zoom" type="float" default="1"/>
  </objecttype>
+ <objecttype name="ChoiceBranch" color="#a0a0a4">
+  <property name="optionNames" type="string"/>
+  <property name="options" type="string"/>
+  <property name="title" type="string"/>
+ </objecttype>
  <objecttype name="Codex" color="#a0a0a4"/>
  <objecttype name="Condtrigger" color="#a0a0a4">
   <property name="start" type="string"/>

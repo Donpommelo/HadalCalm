@@ -47,7 +47,7 @@ public class SettingState extends GameState {
 	
 	private SelectBox<String> resolutionOptions, framerateOptions;
 	private Slider sound, music, master;
-	private CheckBox fullscreen, vsync, randomNameAlliteration;
+	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
@@ -392,7 +392,11 @@ public class SettingState extends GameState {
 		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
 		
+		consoleEnabled = new CheckBox("Console Enabled?", GameStateManager.getSkin());
+		consoleEnabled.setChecked(gsm.getSetting().isConsoleEnabled());
+		
 		details.add(randomNameAlliteration).row();
+		details.add(consoleEnabled).row();
 	}
 	
 	/**
@@ -422,6 +426,7 @@ public class SettingState extends GameState {
 			break;
 		case MISC:
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
+			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();
 			break;

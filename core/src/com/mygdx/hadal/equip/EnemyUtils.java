@@ -67,6 +67,17 @@ public class EnemyUtils {
 		});
 	}
 	
+	public static void changeFloatingTrackSpeed(final EnemyFloating bossFloating, final float speed, float duration) {
+		
+		bossFloating.getActions().add(new EnemyAction(bossFloating, duration) {
+			
+			@Override
+			public void execute() {
+				bossFloating.setTrackSpeed(speed);
+			}
+		});
+	}
+	
 	public static void changeFloatingState(final EnemyFloating bossFloating, final FloatingState state, final float angle, float duration) {
 		
 		bossFloating.getActions().add(new EnemyAction(bossFloating, duration) {
@@ -88,6 +99,19 @@ public class EnemyUtils {
 				default:
 					break;
 				}
+			}
+		});
+	}
+	
+	public static void changeFloatingFreeAngle(final EnemyFloating bossFloating, final float angle, float duration) {
+		
+		bossFloating.getActions().add(new EnemyAction(bossFloating, duration) {
+			
+			@Override
+			public void execute() {
+				bossFloating.setCurrentState(FloatingState.FREE);
+				bossFloating.setAttackAngle(normalizeAngle((int) bossFloating.getAttackAngle()));
+				bossFloating.setDesiredAngle(bossFloating.getAttackAngle() + angle);
 			}
 		});
 	}
@@ -142,6 +166,7 @@ public class EnemyUtils {
 					break;
 				case STILL:
 					bossSwimming.setMoveSpeed(0);
+					break;
 				default:
 					break;
 				}
@@ -302,9 +327,8 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				
-				RangedHitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), new Vector2(size, size), lifespan, new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle()),
-						enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new ContactUnitBurn(state, hbox, enemy.getBodyData(), fireDuration, fireDamage));

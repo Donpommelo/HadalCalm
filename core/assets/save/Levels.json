@@ -38,8 +38,8 @@ NASU: {
         PVP
 	]
 }
-SANDBOX: {
-	name: SANDBOX
+SANDBOX_HUB: {
+	name: SANDBOX_HUB
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

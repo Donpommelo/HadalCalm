@@ -201,6 +201,7 @@ public class UIHub {
 		DORMITORY,
 		NAVIGATIONS,
 		QUARTERMASTER,
-		CODEX
+		CODEX,
+		MISC
 	}
 }

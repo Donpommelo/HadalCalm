@@ -15,7 +15,9 @@ public enum UnlockLevel {
 	BOSS2("Maps/Boss2.tmx"),
 	BOSS3("Maps/Boss3.tmx"),
 	
-	SANDBOX("Maps/sandbox.tmx"),
+	SANDBOX_HUB("Maps/sandboxhub.tmx"),
+	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),
+	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
 	
 	DM_BIRD("Maps/dm_bird.tmx"),
 	DM_BIRD2("Maps/dm_bird2.tmx"),

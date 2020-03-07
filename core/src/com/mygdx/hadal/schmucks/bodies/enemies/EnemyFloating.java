@@ -22,6 +22,8 @@ public class EnemyFloating extends Enemy {
     //the speed that the boss spins when spinning
 	private int spinSpeed;
 	
+	private float trackSpeed = 0.04f;
+	
 	//The boss's current state in terms of passive behavior (is it tracking the player, still, spinning etc)
 	private FloatingState currentState;
 	
@@ -48,7 +50,7 @@ public class EnemyFloating extends Enemy {
 		
 		//lerp towards desired angle
 		float dist = (desiredAngle - attackAngle) % 360;
-		attackAngle = attackAngle + (2 * dist % 360 - dist) * 0.04f;		
+		attackAngle = attackAngle + (2 * dist % 360 - dist) * trackSpeed;		
 		
 		//when spinning, spin at a constant speed. When tracking, set desired angle to face player
 		switch(currentState) {
@@ -104,6 +106,8 @@ public class EnemyFloating extends Enemy {
 	public void setCurrentState(FloatingState currentState) { this.currentState = currentState; }
 	
 	public void setSpinSpeed(int spinSpeed) { this.spinSpeed = spinSpeed; }
+	
+	public void setTrackSpeed(float trackSpeed) { this.trackSpeed = trackSpeed; }
 	
 	public enum FloatingState {
 		TRACKING_PLAYER,

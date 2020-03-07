@@ -13,6 +13,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.ConsoleCommandUtil;
 
 /**
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
@@ -70,9 +71,11 @@ public class MessageWindow {
 
 			@Override
 			public void run() {
-				state.getStage().setKeyboardFocus(enterMessage);
-				state.getStage().setScrollFocus(textLog);
-				textLog.scrollTo(0, 0, 0, 0);
+				if (state.getStage() != null) {
+					state.getStage().setKeyboardFocus(enterMessage);
+					state.getStage().setScrollFocus(textLog);
+					textLog.scrollTo(0, 0, 0, 0);
+				}
 			}
 		};
 		
@@ -81,9 +84,12 @@ public class MessageWindow {
 
 			@Override
 			public void run() {
-				state.getStage().setKeyboardFocus(null);
-				if (state.getStage().getScrollFocus().equals(textLog)) {
-					state.getStage().setScrollFocus(null);
+				
+				if (state.getStage() != null) {
+					state.getStage().setKeyboardFocus(null);
+					if (state.getStage().getScrollFocus().equals(textLog)) {
+						state.getStage().setScrollFocus(null);
+					}
 				}
 			}
 		};
@@ -110,6 +116,11 @@ public class MessageWindow {
 			if (!enterMessage.getText().equals("")) {
 				if (state.isServer()) {
 					HadalGame.server.addNotificationToAll(state, state.getPlayer().getName(), enterMessage.getText());
+					
+					if (state.getGsm().getSetting().isConsoleEnabled()) {
+						ConsoleCommandUtil.parseCommand(state, enterMessage.getText());
+					}
+					
 				} else {
 					HadalGame.client.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText()));
 				}

@@ -26,7 +26,7 @@ public class Crawler2 extends EnemyCrawling {
 	private static final int hboxHeight = 40;
 	
 	private static final float attackCd = 1.0f;
-	private static final float groundSpeed = -0.2f;
+	private static final float groundSpeed = 0.1f;
 			
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	

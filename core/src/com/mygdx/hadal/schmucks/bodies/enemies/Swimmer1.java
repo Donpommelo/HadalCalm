@@ -59,12 +59,10 @@ public class Swimmer1 extends EnemySwimming {
 	public void render(SpriteBatch batch) {
 		super.render(batch);
 		
-		boolean flip = false;
-		
-		if (getMoveDirection().x < 0) {
+		boolean flip = true;
+		double realAngle = getAngle() % (Math.PI * 2);
+		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
 			flip = false;
-		} else if (getMoveDirection().x > 0) {
-			flip = true;
 		}
 
 		batch.draw(faceSprite, 
