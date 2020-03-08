@@ -96,10 +96,6 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.DIALOGUE);
 		}
 		
-		if (keycode == PlayerAction.PAUSE.getKey()) {
-			player.getController().keyDown(PlayerAction.PAUSE);
-		}
-		
 		if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
 			player.getController().keyDown(PlayerAction.WEAPON_CYCLE_DOWN);
 		}
@@ -144,6 +140,10 @@ public class PlayerController implements InputProcessor {
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
 			player.getController().keyUp(PlayerAction.FIRE);
+		}
+		
+		if (keycode == PlayerAction.PAUSE.getKey()) {
+			player.getController().keyUp(PlayerAction.PAUSE);
 		}
 		
 		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {

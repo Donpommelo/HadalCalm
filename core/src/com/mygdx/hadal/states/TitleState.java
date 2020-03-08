@@ -279,7 +279,7 @@ public class TitleState extends GameState {
 				addCaptureListener(new InputListener() {
 					
 					@Override
-			         public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+			         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 			            if (!(event.getTarget() instanceof TextField)) {
 			            	setKeyboardFocus(null);
 			            }

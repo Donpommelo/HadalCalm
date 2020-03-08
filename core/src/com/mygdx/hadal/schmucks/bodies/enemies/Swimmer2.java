@@ -48,10 +48,10 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float maxRange = 10.0f;
 	
 	private static final float defaultTrack = 0.04f;
-	private static final float attackTrack = 0.02f;
+	private static final float attackTrack = 0.01f;
 
 	private static final float attackWindup = 0.5f;
-	private static final float attackSwingAngle = 40.0f;
+	private static final float attackSwingAngle = 45.0f;
 	
 	private static final int fireballDamage = 8;
 	private static final int burnDamage = 1;
@@ -61,7 +61,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float fireLifespan = 1.0f;
 	private static final float burnDuration = 4.0f;
 
-	private static final int fireballNumber = 10;
+	private static final int fireballNumber = 15;
 	private static final float fireballInterval = 0.1f;
 	@Override
 	public void attackInitiate() {

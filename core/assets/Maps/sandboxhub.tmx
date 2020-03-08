@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="21">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="21">
  <properties>
   <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
@@ -8,7 +8,7 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="60" height="60">
   <data encoding="base64" compression="zlib">
-   eJztz9kJgEAQBcH1AI8f88/W2SAeDFoFHUCPAQAAAABAR0t1N2kNv0579TTpCr9Ofv369evXr1+/aX79+vXr169fv2l+/X7p96i2Jp3hVwAA4F9ewYsuvw==
+   eAHt1TsOgCAQBUD8JH4a739b6WmIC0gxJtsQiTi+XVNyESBAgAABAgQIECBAgAABAgQIECBAgMCMAks+1D1JrQOA9vyMZ5K6vG9zAd/3v3zLc/M4J3mW51H/K/2rf6MC5pV5ZV71yYD5HJ1O5X7zqk9Wa2aAPJd5jK7IszzX9F6Le/RvtFvL/Ude2iapszyeFQIECBAgQIAAAQIECHwWeAHBiy6/
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -61,7 +61,8 @@
   </object>
   <object id="11" name="Start" type="Start" x="480" y="1408" width="32" height="32">
    <properties>
-    <property name="triggeredId" value="start0"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
     <property name="triggeringId" value="playerStart"/>
    </properties>
   </object>
@@ -98,7 +99,8 @@
   </object>
   <object id="18" name="Start" type="Start" x="672" y="1408" width="32" height="32">
    <properties>
-    <property name="triggeredId" value="start1"/>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
     <property name="triggeringId" value="playerStart"/>
    </properties>
   </object>

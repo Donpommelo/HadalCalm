@@ -948,7 +948,11 @@ public class PlayState extends GameState {
 		}
 		
 		if (validStarts.isEmpty()) {
-			return null;
+			if (savePoints.isEmpty()) {
+				return null;
+			} else {
+				return savePoints.get(0);
+			}
 		}
 		
 		int randomIndex = GameStateManager.generator.nextInt(validStarts.size());

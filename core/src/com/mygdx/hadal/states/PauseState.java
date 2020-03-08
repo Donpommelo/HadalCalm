@@ -148,9 +148,6 @@ public class PauseState extends GameState {
 
 			@Override
 			public boolean keyDown(int keycode) {				
-				if (keycode == PlayerAction.PAUSE.getKey()) {
-					unpause();
-				}
 				if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
 					ps.getController().keyDown(keycode);
 				}
@@ -162,11 +159,12 @@ public class PauseState extends GameState {
 			}
 
 			@Override
-			public boolean keyUp(int keycode) {
-				if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-					ps.getScoreWindow().setVisibility(false);
+			public boolean keyUp(int keycode) {	
+				if (keycode == PlayerAction.PAUSE.getKey()) {
+					unpause();
 				}
-				return false;
+				
+				return false; 
 			}
 
 			@Override
@@ -224,7 +222,7 @@ public class PauseState extends GameState {
 	 * Run when the game is unpaused.
 	 */
 	public void unpause() {
-		gsm.removeState(PauseState.class);
+		toRemove = true;
     	
     	if (ps.isServer()) {
     		

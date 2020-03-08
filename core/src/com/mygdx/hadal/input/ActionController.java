@@ -108,10 +108,6 @@ public class ActionController {
 			}
 		}
 		
-		if (action == PlayerAction.PAUSE) {
-			state.getGsm().addPauseState(state, player.getName(), PlayState.class);
-		}
-		
 		if (action == PlayerAction.WEAPON_CYCLE_UP) {
 			player.getPlayerData().switchUp();
 		}
@@ -164,6 +160,10 @@ public class ActionController {
 		if (action == PlayerAction.FIRE) {
 			player.setShooting(false);
 			player.release();
+		}
+		
+		if (action == PlayerAction.PAUSE) {
+			state.getGsm().addPauseState(state, player.getName(), PlayState.class);
 		}
 		
 		if (action == PlayerAction.SCORE_WINDOW) {

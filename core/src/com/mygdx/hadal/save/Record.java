@@ -47,6 +47,11 @@ public class Record {
 		saveRecord();
 	}
 	
+	public void setScrap(int scrap) {
+		this.scrap = scrap;
+		saveRecord();
+	}
+	
 	/**
 	 * This simple saves the record in a designated file
 	 */

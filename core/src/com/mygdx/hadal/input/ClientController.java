@@ -89,10 +89,6 @@ public class ClientController implements InputProcessor {
 			}
 		}
 		
-		if (keycode == PlayerAction.PAUSE.getKey()) {
-			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.PAUSE));
-		}
-		
 		if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_UP));
 		}
@@ -135,6 +131,10 @@ public class ClientController implements InputProcessor {
 		
 		if (keycode == PlayerAction.FIRE.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.FIRE));
+		}
+		
+		if (keycode == PlayerAction.PAUSE.getKey()) {
+			HadalGame.client.client.sendTCP(new Packets.KeyUp(PlayerAction.PAUSE));
 		}
 		
 		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {

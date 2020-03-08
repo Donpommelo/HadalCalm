@@ -45,7 +45,7 @@
   <object id="12" name="Armory" type="Armory" x="2144" y="2080" width="96" height="96"/>
   <object id="13" name="Reliquary" type="Reliquary" x="2304" y="2080" width="96" height="96"/>
   <object id="15" name="Dispensary" type="Dispensary" x="2464" y="2080" width="96" height="96"/>
-  <object id="16" name="Start" type="Start" x="1856" y="2016" width="32" height="32">
+  <object id="16" name="Start" type="Start" x="1856" y="1952" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
    </properties>
