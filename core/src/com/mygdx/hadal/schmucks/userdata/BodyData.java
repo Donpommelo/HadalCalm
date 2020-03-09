@@ -67,6 +67,8 @@ public class BodyData extends HadalData {
 	//This is the last schumck who damaged this entity. Used for kill credit
 	private BodyData lastDamagedBy;
 	
+	private float overrideHpPercent;
+
 	/**
 	 * This is created upon the create() method of any schmuck.
 	 * Schmucks are the Body data type.
@@ -412,4 +414,8 @@ public class BodyData extends HadalData {
 	public float getYGroundDeaccel() { return groundYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
 	
 	public float getYAirDeaccel() {	return airYDeaccel * (1 + getStat(Stats.AIR_DRAG)); }
+	
+	public float getOverrideHpPercent() { return overrideHpPercent; }
+
+	public void setOverrideHpPercent(float overrideHpPercent) {	this.overrideHpPercent = overrideHpPercent;	}
 }

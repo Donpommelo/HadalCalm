@@ -24,6 +24,7 @@ public class UIPlayClient extends UIPlay {
 	private int overrideArtifactSlots;
 	private float overrideActivePercent;
 	private float overrideBossHpPercent;
+	private float overrideHealthVisibility;
 	
 	public UIPlayClient(PlayState state, Player player) {
 		super(state, player);
@@ -77,5 +78,10 @@ public class UIPlayClient extends UIPlay {
 	
 	public void setOverrideArtifactSlots(int overrideArtifactSlots) { this.overrideArtifactSlots = overrideArtifactSlots; }
 	
+	public void setOverrideHealthVisibility(float overrideHealthVisibility) { this.overrideHealthVisibility = overrideHealthVisibility; }
+	
 	public int getOverrideArtifactSlots() { return this.overrideArtifactSlots; }
+	
+	public float getHealthVisibility() { return this.overrideHealthVisibility; }
+
 }

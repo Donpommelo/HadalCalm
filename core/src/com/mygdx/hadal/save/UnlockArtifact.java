@@ -34,6 +34,7 @@ public enum UnlockArtifact {
 	CLAWS_OF_FESTUS(new ClawsofFestus()),
 	CLOCKWISE_CAGE(new ClockwiseCage()),
 	COMMUTERS_PARASOL(new CommutersParasol()),
+	COMPOUND_VITREOUS(new CompoundVitreous()),
 	CONFIDENCE(new Confidence()),
 	CROWN_OF_THORNS(new CrownofThorns()),
 	CURIOUS_SAUCE(new CuriousSauce()),

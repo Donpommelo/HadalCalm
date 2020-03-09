@@ -13,6 +13,7 @@ import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
@@ -139,7 +140,9 @@ public class Turret extends Enemy {
 		batch.draw((TextureRegion) turretBase.getKeyFrame(animationTime, true), 
 				getPixelPosition().x - getHboxSize().x / 2, 
 				getPixelPosition().y - getHboxSize().y / 2, 
-				0, 0, size.x, size.y, 1, 1, 0.0f);	
+				0, 0, size.x, size.y, 1, 1, 0.0f);
+		
+		super.render(batch);
 	}
 	
 	private final static float baseDamage = 20.0f;
@@ -158,7 +161,7 @@ public class Turret extends Enemy {
 	@Override
 	public void onServerSync() {
 		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), attackAngle));
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
 	}
 	
 	@Override

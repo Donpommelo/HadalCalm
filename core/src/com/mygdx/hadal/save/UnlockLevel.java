@@ -43,6 +43,7 @@ public enum UnlockLevel {
 	PLENUMCHAMBER5("Maps/plenumchamber5.tmx"),
 	PLENUMCHAMBERSHAFT("Maps/plenumchambershaft.tmx"),
 	PLENUMCHAMBEREXTRA1("Maps/plenumchamberextra1.tmx"),
+	PLENUMCHAMBERTURBINE("Maps/plenumchamberturbine.tmx"),
 	NOISELESSSEA1("Maps/noiselesssea1.tmx"),
 
 	

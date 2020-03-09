@@ -37,7 +37,7 @@ public class Crawler3 extends EnemyCrawling {
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	
 	public Crawler3(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.CRAWLER3, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 
 		EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 1.0f, 0.0f);
 	}

@@ -23,6 +23,7 @@ import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -655,16 +656,30 @@ public class Player extends PhysicsSchmuck {
 			}
 		}
 		
-		batch.draw(empty, heartX - empty.getWidth() / 2 * uiScale, heartY - empty.getHeight() / 2 * uiScale,
-                empty.getWidth() / 2, empty.getHeight() / 2,
-                empty.getWidth(), empty.getHeight(),
-                uiScale, uiScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
+		boolean visible = false;
+		
+		if (state.isServer()) {
+			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
+				visible = true;
+			}
+		} else {
+			if (((ClientState)state).getUiPlay().getHealthVisibility() > 0) {
+				visible = true;
+			}
+		}
+		
+		if (visible || equals(state.getPlayer())) {
+			batch.draw(empty, heartX - empty.getWidth() / 2 * uiScale, heartY - empty.getHeight() / 2 * uiScale,
+	                empty.getWidth() / 2, empty.getHeight() / 2,
+	                empty.getWidth(), empty.getHeight(),
+	                uiScale, uiScale, 0, 0, 0, empty.getWidth(), empty.getHeight(), false, false);
 
-        batch.draw(full, heartX - full.getWidth() / 2 * uiScale, heartY - full.getHeight() / 2 * uiScale - (int)(full.getHeight() * (1 - hpRatio) * uiScale),
-                full.getWidth() / 2, full.getHeight() / 2,
-                full.getWidth(), full.getHeight(),
-                uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
-                full.getWidth(), full.getHeight(), false, false);
+	        batch.draw(full, heartX - full.getWidth() / 2 * uiScale, heartY - full.getHeight() / 2 * uiScale - (int)(full.getHeight() * (1 - hpRatio) * uiScale),
+	                full.getWidth() / 2, full.getHeight() / 2,
+	                full.getWidth(), full.getHeight(),
+	                uiScale, uiScale, 0, 0, (int) (full.getHeight() * (1 - hpRatio)),
+	                full.getWidth(), full.getHeight(), false, false);
+		}
 		
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name, 
@@ -740,7 +755,7 @@ public class Player extends PhysicsSchmuck {
 		super.onServerSync();
 		
 		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float)(Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
-				playerData.getCurrentHp() / playerData.getStat(Stats.MAX_HP), grounded, playerData.getCurrentSlot(), 
+				grounded, playerData.getCurrentSlot(), 
 				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo()));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
@@ -756,16 +771,15 @@ public class Player extends PhysicsSchmuck {
 			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
 
 			attackAngleClient = p.attackAngle;
-			playerData.setOverrideHpPercent(p.hpPercent);
 			grounded = p.grounded;
-			playerData.setCurrentSlot(p.currentSlot);
-			playerData.setCurrentTool(playerData.getMultitools()[p.currentSlot]);
+			getPlayerData().setCurrentSlot(p.currentSlot);
+			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
 			setToolSprite(playerData.getCurrentTool().getWeaponSprite().getFrame());
-			playerData.getCurrentTool().setReloading(p.reloading);
+			getPlayerData().getCurrentTool().setReloading(p.reloading);
 			reloadPercent = p.reloadPercent;
-			playerData.getCurrentTool().setCharging(p.charging);
+			getPlayerData().getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;
-			playerData.setOverrideOutOfAmmo(p.outOfAmmo);
+			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
 		} else {
 			super.onClientSync(o);
 		}

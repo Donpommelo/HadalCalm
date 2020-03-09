@@ -60,7 +60,6 @@ public class PlayerBodyData extends BodyData {
 	private Player player;
 
 	//This is used by clients to display each player's hp percent in the ui and artifact slots in hub
-	private float overrideHpPercent;
 	private boolean overrideOutOfAmmo;
 	
 	public PlayerBodyData(Player player, Loadout loadout) {
@@ -485,7 +484,8 @@ public class PlayerBodyData extends BodyData {
 		//if this is a client, we send them a packet telling them to update their ui to match the new stats.
 		if (player.getState().isServer()) {
 			if (player.getConnID() != 0) {
-				HadalGame.server.sendPacketToPlayer(player, new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL), getAirblastCost(), getNumWeaponSlots(), getNumArtifactSlots()));
+				HadalGame.server.sendPacketToPlayer(player, new SyncPlayerStats(getCurrentTool().getClipSize(), getStat(Stats.MAX_HP), getStat(Stats.MAX_FUEL), 
+						getAirblastCost(), getNumWeaponSlots(), getNumArtifactSlots(), getStat(Stats.HEALTH_VISIBILITY)));
 			}
 		}
 	}
@@ -632,10 +632,6 @@ public class PlayerBodyData extends BodyData {
 
 	public Loadout getLoadout() { return loadout; }
 
-	public float getOverrideHpPercent() { return overrideHpPercent; }
-
-	public void setOverrideHpPercent(float overrideHpPercent) {	this.overrideHpPercent = overrideHpPercent;	}
-	
 	public boolean isOverrideOutOfAmmo() { return overrideOutOfAmmo; }
 
 	public void setOverrideOutOfAmmo(boolean overrideOutOfAmmo) { this.overrideOutOfAmmo = overrideOutOfAmmo; }

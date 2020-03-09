@@ -14,6 +14,7 @@ import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
+import com.mygdx.hadal.utils.Stats;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -194,12 +195,14 @@ public class EnemyCrawling extends Enemy {
 				size.x / 2,
 				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
+		
+		super.render(batch);
 	}
 	
 	@Override
 	public void onServerSync() {
 		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), moveDirection));
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState));
+		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
 	}
 	
 	@Override

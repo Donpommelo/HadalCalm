@@ -93,6 +93,8 @@ public class EnemyFloating extends Enemy {
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+		
+		super.render(batch);
 	}
 	
 	@Override

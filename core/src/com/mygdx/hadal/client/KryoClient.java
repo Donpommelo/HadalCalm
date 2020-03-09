@@ -315,9 +315,9 @@ public class KryoClient {
         					public void execute() {
         						
         						Enemy enemy = p.type.generateEnemy(cs, new Vector2(), Constants.ENEMY_HITBOX, 0, null);
-        						
         						if (enemy != null) {
         							cs.addEntity(p.entityID, enemy, ObjectSyncLayers.STANDARD);
+        							enemy.setBoss(p.boss);
         							if (p.boss) {
         								enemy.setName(p.name);
             							cs.setBoss(enemy);
@@ -506,6 +506,7 @@ public class KryoClient {
 							cs.getUiPlay().setOverrideAirblastCost(p.airblastCost);
 							cs.getUiPlay().setOverrideWeaponSlots(p.weaponSlots);
 							cs.getUiPlay().setOverrideArtifactSlots(p.artifactSlots);
+							cs.getUiPlay().setOverrideHealthVisibility(p.healthVisible);
 						}
 					}
         		}

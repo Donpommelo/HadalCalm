@@ -145,7 +145,7 @@ BUCKET_OF_BATTERIES: {
 CALL_OF_THE_VOID: {
 	name: Call of the Void
 	description: "+Damage Inflicted and Received"
-    descriptionLong: "A sinister mark in the shape of a spiral.\n\n"
+    descriptionLong: "A sinister mark in the shape of a spiral.\n\nThe ocean’s genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -154,7 +154,7 @@ CALL_OF_THE_VOID: {
 CATALOG_OF_WANT: {
 	name: Catalog of Want
 	description: "Spend Hp to use Uncharged Actives"
-    descriptionLong: "TEST"
+    descriptionLong: "The last edition of a demonic shopping catalog that has ceased publication.\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -163,7 +163,7 @@ CATALOG_OF_WANT: {
 CELESTIAL_ANOINTMENT: {
 	name: Celestial Anointment
 	description: "Active Item Echo, -Active Item Charge Rate"
-    descriptionLong: ""
+    descriptionLong: "A vial of twinkling ichor originating from far above.\n\nEven the slightest remnant of a Bright One is best kept insulated within an inert liquid of appropriate volume."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -190,6 +190,15 @@ CLOCKWISE_CAGE: {
 COMMUTERS_PARASOL: {
 	name: Commuter's Parasol
 	description: "Periodically Blocks Projectiles from Above"
+    descriptionLong: "TEST"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+COMPOUND_VITREOUS: {
+	name: Compound Vitreous
+	description: "Reveal Enemy Health"
     descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,
@@ -263,7 +272,7 @@ EELSKIN_COVER: {
 EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
 	description: "Projectile Split-Shot"
-    descriptionLong: "A crystalline prism, splitting light into a "
+    descriptionLong: ""
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

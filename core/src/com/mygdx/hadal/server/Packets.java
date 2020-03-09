@@ -496,7 +496,8 @@ public class Packets {
 	public static class SyncSchmuck {
 		public String entityID;
 		public MoveState moveState;
-
+		public float hpPercent;
+		
 		public SyncSchmuck() {}
 		
 		/**
@@ -506,10 +507,12 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the Schmuck to be synced
 		 * @param moveState: The State of the Schmuck. Used for animations on the Client's end
+		 * @param hpPercent: The percent of remaining hp this schmuck has.
 		 */
-		public SyncSchmuck(String entityID, MoveState moveState) {
+		public SyncSchmuck(String entityID, MoveState moveState, float hpPercent) {
 			this.entityID = entityID;
 			this.moveState = moveState;
+			this.hpPercent = hpPercent;
 		}
 	}
 	
@@ -556,7 +559,6 @@ public class Packets {
 	public static class SyncPlayerAll {
 		public String entityID;
         public float attackAngle;
-        public float hpPercent;
         public MoveState moveState;
         public boolean grounded;
         public int currentSlot;
@@ -573,13 +575,11 @@ public class Packets {
 		 * This packet (and similar packets) just tell the client how to change their version of each Player.
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
-		public SyncPlayerAll(String entityID, float a, float hpPercent, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo) {
+		public SyncPlayerAll(String entityID, float a, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo) {
             this.entityID = entityID;
             this.attackAngle = a;
-            this.hpPercent = hpPercent;
             this.grounded = grounded;
             this.currentSlot = currentSlot;
-            
             this.reloading = reloading;
             this.reloadPercent = reloadPercent;
             this.charging = charging;
@@ -595,19 +595,21 @@ public class Packets {
         public float airblastCost;
         public int weaponSlots;
         public int artifactSlots;
+        public float healthVisible;
         public SyncPlayerStats() {}
         
         /**
          * A SyncPlayerStats is sent from the server to the client whenever their stats change.
          * This long list of fields is just the Player-specific information needed for Clients to properly render their own ui.
          */
-        public SyncPlayerStats(int maxClip, float maxHp, float maxFuel, float airblastCost, int weaponSlots, int artifactSlots) {
+        public SyncPlayerStats(int maxClip, float maxHp, float maxFuel, float airblastCost, int weaponSlots, int artifactSlots, float healthVisible) {
         	 this.maxClip = maxClip;
              this.maxHp = maxHp;
              this.maxFuel = maxFuel;
              this.airblastCost = airblastCost;
              this.weaponSlots = weaponSlots;
              this.artifactSlots = artifactSlots;
+             this.healthVisible = healthVisible;
         }
 	}
 	

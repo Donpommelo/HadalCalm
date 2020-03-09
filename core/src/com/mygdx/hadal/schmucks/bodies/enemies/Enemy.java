@@ -2,6 +2,8 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
@@ -15,6 +17,7 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.ProcTime;
@@ -82,7 +85,12 @@ public class Enemy extends Schmuck {
 	
 	//this is the enemy sprite
 	protected Sprite sprite;
+	private TextureRegion hpSprite;
+	private final static float uiScale = 0.2f;
+	private final static float hpX = 10.0f;
+	private final static float hpY = 20.0f;
 
+	
 	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
@@ -94,6 +102,8 @@ public class Enemy extends Schmuck {
 		this.scrapDrop = scrapDrop;
 		this.spawner = spawner;
 		this.sprite = sprite;
+		
+		this.hpSprite = Sprite.UI_MAIN_HEALTHBAR.getFrame();
 		
 		this.actions = new ArrayList<EnemyAction>();
 		this.secondaryActions = new ArrayList<EnemyAction>();
@@ -118,12 +128,10 @@ public class Enemy extends Schmuck {
 		});
 		
 		//if boss, activate on boss spawn statuses for all players
-		if (isBoss) {
+		if (isBoss && state.isServer()) {
 			state.getPlayer().getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
-			if (state.isServer()) {
-				for (Player player : HadalGame.server.getPlayers().values()) {
-					player.getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
-				}
+			for (Player player : HadalGame.server.getPlayers().values()) {
+				player.getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
 			}
 		}
 	}
@@ -188,6 +196,37 @@ public class Enemy extends Schmuck {
 				aiSecondaryActionCdCount = currentSecondaryAction.getDuration();
 				currentSecondaryAction.execute();
 			}
+		}
+	}
+	
+	/**
+	 * draws enemy
+	 */
+	@Override
+	public void render(SpriteBatch batch) {
+		
+		boolean visible = false;
+		
+		if (state.isServer()) {
+			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
+				visible = true;
+			}
+		} else {
+			if (((ClientState)state).getUiPlay().getHealthVisibility() > 0) {
+				visible = true;
+			}
+		}
+		
+		if (visible && !isBoss) {
+			float hpRatio = 0.0f;
+			
+			if (state.isServer()) {
+				hpRatio = getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP);
+			} else {
+				hpRatio = getBodyData().getOverrideHpPercent();
+			}
+			
+			batch.draw(hpSprite, hpX + getPixelPosition().x - hboxSize.x / 2, hpY + getPixelPosition().y - hboxSize.y / 2, hpSprite.getRegionWidth() * uiScale * hpRatio, hpSprite.getRegionHeight() * uiScale);
 		}
 	}
 	
@@ -257,17 +296,18 @@ public class Enemy extends Schmuck {
 		return super.queueDeletion();
 	}
 	
-	/**
-	 * This is called every engine tick. The server schmuck sends a packet to the corresponding client schmuck.
-	 * This packet updates movestate, hp, fuel and flashingness
-	 */
 	@Override
-	public void onServerSync() {
-		super.onServerSync();
-		
-		if (isBoss)	{
-			HadalGame.server.sendToAllUDP(new Packets.SyncBoss(getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
+	public void onClientSync(Object o) {
+		if (o instanceof Packets.SyncSchmuck) {
+			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+			if (isBoss) {
+				((ClientState)state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
+				if (p.hpPercent <= 0.0f) {
+					state.clearBoss();
+				}
+			}
 		}
+		super.onClientSync(o);
 	}
 	
 	/**
