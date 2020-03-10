@@ -17,6 +17,11 @@ public class EnemySwimming extends EnemyFloating {
 	private SwimmingState currentState;
 	
 	private float moveSpeed, minRange, maxRange;
+	
+	private float noiseCd = 1.0f;
+	private float noiseCdCount = noiseCd;
+	private float noiseRadius = 5.0f;
+	
 	private Vector2 moveDirection = new Vector2();
 	
 	public EnemySwimming(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
@@ -29,6 +34,7 @@ public class EnemySwimming extends EnemyFloating {
 	private Vector2 force = new Vector2();
 	private Vector2 currentVel = new Vector2();
 	private Vector2 currentDirection = new Vector2();
+	private Vector2 currentNoise = new Vector2();
 	@Override
 	public void controller(float delta) {		
 		super.controller(delta);
@@ -44,7 +50,7 @@ public class EnemySwimming extends EnemyFloating {
 
 					 if (dist > maxRange * maxRange) {
 						moveDirection.scl(-1.0f);
-					} else if (dist < maxRange * maxRange && dist > minRange * minRange){
+					} else if (dist < maxRange * maxRange && dist > minRange * minRange) {
 						moveSpeed = 0.0f;
 					}
 				}
@@ -54,10 +60,18 @@ public class EnemySwimming extends EnemyFloating {
 			moveSpeed = 0;
 			break;
 		case WANDER:
+			moveDirection.set(currentNoise);
 			break;
 		default:
 			break;
 		}
+		
+		noiseCdCount += delta;
+		while (noiseCdCount >= noiseCd) {
+			noiseCdCount -= noiseCd;
+			currentNoise.setToRandomDirection().scl(noiseRadius);
+		}
+		moveDirection.add(currentNoise);
 		
 		controllerCount += delta;
 		while (controllerCount >= controllerInterval) {
@@ -91,17 +105,6 @@ public class EnemySwimming extends EnemyFloating {
 
 			applyLinearImpulse(force);
 		}
-	}
-	
-	private Vector2 originPt = new Vector2();
-	private final static float spawnDist = 50.0f;
-	/**
-	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
-	 */
-	@Override
-	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
-		originPt.set(getPixelPosition()).add(new Vector2(startVelo).nor().scl(spawnDist));
-		return originPt;
 	}
 	
 	public Vector2 getMoveDirection() { return this.moveDirection; }

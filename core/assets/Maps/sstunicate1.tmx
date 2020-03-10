@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="100">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="106">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -472,6 +472,42 @@
   <object id="95" name="Quartermaster" type="Quartermaster" x="2240" y="1184" width="96" height="96">
    <properties>
     <property name="shopId" value="weapons1"/>
+   </properties>
+  </object>
+  <object id="100" name="Text" type="Text" x="2144" y="2080" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="ARMORY"/>
+   </properties>
+  </object>
+  <object id="101" name="Text" type="Text" x="2304" y="2080" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="RELIQUARY"/>
+   </properties>
+  </object>
+  <object id="102" name="Text" type="Text" x="2464" y="2080" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="DISPENSARY"/>
+   </properties>
+  </object>
+  <object id="103" name="Text" type="Text" x="1824" y="1984" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="NAVIGATIONS"/>
+   </properties>
+  </object>
+  <object id="104" name="Text" type="Text" x="2240" y="1184" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="QUARTERMASTER"/>
+   </properties>
+  </object>
+  <object id="105" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="DORMITORY"/>
    </properties>
   </object>
  </objectgroup>

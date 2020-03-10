@@ -82,8 +82,8 @@ public class Crawler3 extends EnemyCrawling {
 						startVelocity.set(getMoveDirection() * projectileSpeed, projectileSpeed / 2);
 
 						float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-						
-						Hitbox hbox = new RangedHitbox(state, getPixelPosition(), projectileSize, lifespan, new Vector2(startVelocity.setAngle(newDegrees)), getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
+						Vector2 startVelo = new Vector2(startVelocity.setAngle(newDegrees));
+						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 						hbox.setGravity(3.0f);
 						
 						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));

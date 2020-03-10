@@ -251,7 +251,8 @@ public class TiledObjectUtil {
 		} else if (object.getName().equals("Text")) {		
 			
 			e = new Text(state, position, size,
-					object.getProperties().get("text", String.class));
+					object.getProperties().get("text", String.class),
+					object.getProperties().get("scale", 0.5f, float.class));
 		} else if (object.getName().equals("Current")) {
 			
 			Vector2 power = new Vector2(object.getProperties().get("currentX", 0.0f, float.class), object.getProperties().get("currentY", 0.0f, float.class));

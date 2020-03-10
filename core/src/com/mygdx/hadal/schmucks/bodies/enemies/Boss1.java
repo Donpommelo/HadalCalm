@@ -34,7 +34,7 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 1000;
+	private static final int hp = 4500;
 	private static final int moveSpeed = 20;
 	private static final int spinSpeed = 40;
 	

@@ -65,9 +65,8 @@ public class Spittlefish extends EnemySwimming {
 				if (target == null) {
 					return;
 				}
-				
-				Vector2 dist = new Vector2(target.getPixelPosition().sub(enemy.getPixelPosition())).nor().scl(projectileSpeed);
-				Hitbox hbox = new RangedHitbox(state, enemy.getPixelPosition(), projectileSize, lifespan, dist, enemy.getHitboxfilter(), true, true, enemy, projSprite);
+				Vector2 startVelo = new Vector2(target.getPixelPosition().sub(enemy.getPixelPosition())).nor().scl(projectileSpeed);
+				Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));

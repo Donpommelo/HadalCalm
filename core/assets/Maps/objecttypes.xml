@@ -357,6 +357,7 @@
   <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Text" color="#a0a0a4">
+  <property name="scale" type="float" default="0.5"/>
   <property name="text" type="string"/>
  </objecttype>
  <objecttype name="Timer" color="#a0a0a4">

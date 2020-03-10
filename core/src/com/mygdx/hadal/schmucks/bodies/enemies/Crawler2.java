@@ -68,7 +68,6 @@ public class Crawler2 extends EnemyCrawling {
 					
 					@Override
 					public void execute() {
-						
 						Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), new Vector2(meleeSize, meleeSize), meleeInterval, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.IMPACT);
 						hbox.makeUnreflectable();
 						hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));

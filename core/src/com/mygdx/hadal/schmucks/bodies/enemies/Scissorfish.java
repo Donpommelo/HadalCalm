@@ -39,7 +39,7 @@ public class Scissorfish extends EnemySwimming {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
 	}
 	
-	private static final int charge1Speed = 10;
+	private static final int charge1Speed = 15;
 	private static final int charge1Damage = 10;
 	private static final int defaultMeleeKB = 20;
 	@Override

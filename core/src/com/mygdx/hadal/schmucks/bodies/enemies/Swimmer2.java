@@ -79,11 +79,6 @@ public class Swimmer2 extends EnemySwimming {
 			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
 		}
 		
-		EnemyUtils.changeFloatingFreeAngle(this, 2 * attackSwingAngle, 0.0f);
-		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
-		}
-		
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		EnemyUtils.changeFloatingTrackSpeed(this, defaultTrack, 0.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0.0f, 0.0f);
