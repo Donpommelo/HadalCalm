@@ -21,8 +21,11 @@ public enum UnlockActives {
 	METEOR_STRIKE(MeteorStrike.class),
 	MISSILE_POD(MissilePod.class),
 	NAUTICAL_MINE(NauticalMine.class),
+	ORBITAL_SHIELD(OrbitalShield.class),
 	RADIAL_BARRAGE(RadialBarrage.class),
 	RING_OF_GYGES(RingofGyges.class),
+	SPIRIT_RELEASE(SpiritRelease.class),
+	STORM_CLOUD(StormCloud.class),
 	TAINTED_WATER(TaintedWater.class),
 	TRACTOR_BEAM(TractorBeam.class),
 	

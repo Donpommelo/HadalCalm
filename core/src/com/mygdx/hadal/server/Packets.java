@@ -516,21 +516,6 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncBoss {
-        public float hpPercent;
-
-		public SyncBoss() {}
-		
-		/**
-		 * A SyncBoss is sent from the Server to the Client by the boss every engine tick.
-		 * atm, this just accounts for the boss' hp to be displayed in the client's ui
-		 * @param: hpPercent: The boss's current hp percent
-		 */
-		public SyncBoss(float hpPercent) {
-			this.hpPercent = hpPercent;
-		}
-	}
-	
 	public static class SyncPlayerSelf {
 
         public float fuelPercent;
@@ -789,7 +774,6 @@ public class Packets {
     	kryo.register(SyncPlayerSelf.class);
     	kryo.register(SyncPlayerAll.class);
     	kryo.register(SyncParticles.class);
-    	kryo.register(SyncBoss.class);
     	kryo.register(SyncUI.class);
     	kryo.register(SyncShader.class);
     	kryo.register(SyncSound.class);

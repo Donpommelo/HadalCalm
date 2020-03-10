@@ -578,27 +578,6 @@ public class KryoClient {
     					});
 					}
         		}
-
-        		/*
-        		 * The Server tells us to sync a boss's hp. (spawning is taken care of in the CreateEnemy packet)
-        		 */
-        		if (o instanceof Packets.SyncBoss) {
-        			final Packets.SyncBoss p = (Packets.SyncBoss) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-
-							@Override
-							public void execute() {
-								cs.getUiPlay().setOverrideBossHpPercent(p.hpPercent);
-								if (p.hpPercent <= 0.0f) {
-									cs.clearBoss();
-								}
-							}
-						});
-					}
-        		}
         		
         		/**
         		 * When a client player is spawned, we are told which ui elements to fill our uieExtra with.

@@ -910,9 +910,6 @@ public class PlayState extends GameState {
 	 */
 	public void clearBoss() {
 		uiPlay.clearBoss();
-		if (server) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncBoss(0.0f));
-		}
 	}
 	
 	/**

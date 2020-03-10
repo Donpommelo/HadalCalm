@@ -33,6 +33,8 @@ public class Spring extends Event {
 	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
 		super(state, startPos, size, duration);
 		this.vec = vec;
+		
+		setEventSprite(Sprite.SPRING);
 	}
 	
 	@Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
@@ -33,7 +34,7 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 4500;
+	private static final int hp = 1000;
 	private static final int moveSpeed = 20;
 	private static final int spinSpeed = 40;
 	
@@ -393,14 +394,18 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.75f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		
-		spiritPos.set(getPixelPosition()).add(0, 100);
-		EnemyUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
-		
-		spiritPos.set(getPixelPosition()).add(100, 0);
-		EnemyUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
-		
-		spiritPos.set(getPixelPosition()).add(-100, 0);
-		EnemyUtils.vengefulSpirit(state, this, new Vector2(spiritPos), spiritDamage, spiritKnockback, spiritLifespan, 0.0f);
+		getActions().add(new EnemyAction(this, 0.0f) {
+			
+			@Override
+			public void execute() {
+				spiritPos.set(getPixelPosition()).add(0, 100);
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, enemy.getBodyData(), enemy.getHitboxfilter());
+				spiritPos.set(getPixelPosition()).add(100, 0);
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, enemy.getBodyData(), enemy.getHitboxfilter());
+				spiritPos.set(getPixelPosition()).add(-100, 0);
+				WeaponUtils.releaseVengefulSpirits(state, new Vector2(spiritPos), spiritLifespan, spiritDamage, spiritKnockback, enemy.getBodyData(), enemy.getHitboxfilter());
+			}
+		});
 	}
 	
 	private static final int numPoison = 7;

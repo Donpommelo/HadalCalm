@@ -318,6 +318,16 @@ public class Enemy extends Schmuck {
 		return new Packets.CreateEnemy(entityID.toString(), type, isBoss, name);
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		
+		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
+		if (isBoss) {
+			state.clearBoss();
+		}
+	}
+	
 	public void setTarget(HadalEntity target) {
 		this.target = target;
 	}

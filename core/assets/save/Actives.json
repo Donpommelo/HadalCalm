@@ -44,6 +44,15 @@ MERIDIAN_MAKER: {
 		RANDOM_POOL,
 	]
 }
+ORBITAL_SHIELD: {
+	name: Orbital Shield
+	description: "Create several projectiles that orbit the user."
+    descriptionLong: "."
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 RADIAL_BARRAGE: {
 	name: Radial Barrage
 	description: "Fire Weapon in All Directions"
@@ -57,6 +66,24 @@ RING_OF_GYGES: {
 	name: Ring of Gyges
 	description: "Become Invisible."
     descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+SPIRIT_RELEASE: {
+	name: Spirit Release
+	description: "Release several Vengeful Spirits."
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+STORM_CLOUD: {
+	name: Storm Cloud
+	description: "Create a Storm Cloud"
+    descriptionLong: "."
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

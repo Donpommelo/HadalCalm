@@ -16,7 +16,7 @@ public class TomeOfPhilopatry extends Artifact {
 	
 	private final static float bonusProjLifespan = 0.5f;
 	private final static float bonusProjDurability = 1.0f;
-	private final static float returnAmp = 1.5f;
+	private final static float returnAmp = 4.0f;
 	
 	public TomeOfPhilopatry() {
 		super(slotCost, statusNum);
