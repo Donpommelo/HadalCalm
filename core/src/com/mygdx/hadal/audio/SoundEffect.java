@@ -48,8 +48,10 @@ public enum SoundEffect {
 	private final static float maxDist = 1000.0f;
 	
 	private Vector2 soundPosition = new Vector2();
-	public long playSourced(GameStateManager gsm, Vector2 worldPos, Player player, float volume) {
+	public long playSourced(PlayState state, Vector2 worldPos, float volume) {
 		long soundId = 0;
+		
+		Player player = state.getPlayer();
 		if (player.getBody() != null) {
 			
 			soundPosition.set(worldPos).sub(player.getPixelPosition());
@@ -72,24 +74,53 @@ public enum SoundEffect {
 			} else {
 				newVolume = dist / maxDist;
 			}
-			soundId = getSound().play(newVolume * volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume(), 1.0f, pan);
+			soundId = getSound().play(newVolume * volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume(), 1.0f, pan);
 		} else {
-			soundId = getSound().play(gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume());
+			soundId = getSound().play(state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
 		}
 		
 		return soundId;
 	}
 	
-	public long playSourced(GameStateManager gsm, Vector2 worldPos, Player player) {
-		return playSourced(gsm, worldPos, player, 1.0f);
+	public long playSourced(PlayState state, Vector2 worldPos) {
+		return playSourced(state, worldPos, 1.0f);
 	}
 	
-	public long playGlobal(PlayState state, Vector2 worldPos, float volume) {
+	/**
+	 * This plays a sound effect for all players.
+	 */
+	public long playUniversal(PlayState state, Vector2 worldPos, float volume) {
 		
 		if (state.isServer()) {
 			HadalGame.server.sendToAllTCP(new Packets.SyncSound(this, worldPos, volume));
 		}
 		
-		return play(state.getGsm());
+		if (worldPos == null) {
+			return play(state.getGsm(), volume);
+		} else {
+			return playSourced(state, worldPos, volume);
+		}
+	}
+	
+	/**
+	 * This plays a sound effect for a single player.
+	 */
+	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume) {
+		
+		if (state.isServer() && player != null) {
+			
+			if (player.getConnID() == 0) {
+				if (worldPos == null) {
+					return play(state.getGsm(), volume);
+				} else {
+					return playSourced(state, worldPos, volume);
+				}
+			} else {
+				HadalGame.server.sendPacketToPlayer(player, new Packets.SyncSound(this, worldPos, volume));
+			}
+		}
+		
+		//this line hopefully doesn't get run. (b/c this should not get run on the client or with no input player)
+		return play(state.getGsm(), volume);
 	}
 }

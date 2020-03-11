@@ -17,12 +17,10 @@ public class HomingMouse extends HitboxStrategy {
 	
 	private final static float pushInterval = 1 / 60f;
 	private float controllerCount = 0;
+	
 	//this is the power of the force applied to the hbox when it tries to home.
 	private float homePower;
 	
-	//this is the amount of seconds the hbox will attempt to predict its target's position
-	private float maxPredictionTime = 0.5f;
-
 	//this is the entity we home towards. (either the player's mouse or the player)
 	private HadalEntity target;
 	
@@ -45,10 +43,9 @@ public class HomingMouse extends HitboxStrategy {
 		while (controllerCount >= pushInterval) {
 			controllerCount -= pushInterval;
 			
-			homingPush.set(target.getPosition())
-			.sub(hbox.getPosition().mulAdd(hbox.getLinearVelocity(), maxPredictionTime)).nor().scl(homePower * hbox.getMass());
+			homingPush.set(target.getPosition()).sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
 			
-			hbox.push(homingPush);
+			hbox.applyForceToCenter(homingPush);
 		}
 	}	
 }

@@ -636,7 +636,7 @@ public class KryoClient {
 							@Override
 							public void execute() {
 								if (p.worldPos != null) {
-									p.sound.playSourced(gsm, p.worldPos, cs.getPlayer(), p.volume);
+									p.sound.playSourced(cs, p.worldPos, p.volume);
 								} else {
 									p.sound.play(gsm, p.volume);
 								}

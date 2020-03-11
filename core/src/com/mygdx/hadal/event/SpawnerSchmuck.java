@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -23,7 +24,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * id: The id of the type of enemy to spawn
  * limit: The number of enemies to spawn simultaneously
  * boss: boolean of whether this spawns a boss enemy
- * bossName: nanme of the boss spawned (if a boss is spawned)
+ * bossName: name of the boss spawned (if a boss is spawned)
  * @author Zachary Tu
  *
  */
@@ -65,7 +66,7 @@ public class SpawnerSchmuck extends Event {
 					
 					for (int i = 0; i < limit; i++) {
 						
-						Enemy enemy = type.generateEnemy(state, startPos, Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event);
+						Enemy enemy = type.generateEnemy(state, event.getPixelPosition(), Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event);
 						
 						amountLeft++;
 						
@@ -80,6 +81,7 @@ public class SpawnerSchmuck extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, eventData);
+		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	
 	/**

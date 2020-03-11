@@ -117,6 +117,25 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="HboxSpawn" color="#a0a0a4">
+  <property name="damage" type="float" default="0"/>
+  <property name="dieSchmuck" type="bool" default="true"/>
+  <property name="dieWall" type="bool" default="true"/>
+  <property name="friction" type="float" default="1"/>
+  <property name="gravity" type="float" default="1"/>
+  <property name="knockback" type="float" default="0"/>
+  <property name="lifespan" type="float" default="0"/>
+  <property name="particle" type="string" default="NOTHING"/>
+  <property name="restitution" type="float" default="0"/>
+  <property name="sensor" type="bool" default="true"/>
+  <property name="sizeX" type="float" default="0"/>
+  <property name="sizeY" type="float" default="0"/>
+  <property name="sprite" type="string" default="NOTHING"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+  <property name="veloX" type="float" default="0"/>
+  <property name="veloY" type="float" default="0"/>
+ </objecttype>
  <objecttype name="ItemUnlock" color="#a0a0a4">
   <property name="item" type="string"/>
   <property name="triggeredId" type="string"/>
@@ -324,6 +343,14 @@
   <property name="shader" type="string"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
+ </objecttype>
+ <objecttype name="Sound" color="#a0a0a4">
+  <property name="global" type="bool" default="true"/>
+  <property name="sound" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+  <property name="universal" type="bool" default="true"/>
+  <property name="volume" type="float" default="1"/>
  </objecttype>
  <objecttype name="Spring" color="#a0a0a4">
   <property name="springX" type="float" default="0"/>

@@ -12,7 +12,7 @@ public class LochShield extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float res = 0.5f;
+	private final static float res = 0.6f;
 	
 	public LochShield() {
 		super(slotCost, statusNum);

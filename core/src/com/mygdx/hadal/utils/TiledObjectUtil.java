@@ -156,6 +156,13 @@ public class TiledObjectUtil {
 					object.getProperties().get("left", false, boolean.class),
 					object.getProperties().get("up", false, boolean.class),
 					object.getProperties().get("down", false, boolean.class));
+		} else if (object.getName().equals("Sound")) {
+			
+			e = new SoundEmitter(state, position, size, 
+					object.getProperties().get("sound", String.class),
+					object.getProperties().get("float", 1.0f, float.class),
+					object.getProperties().get("global", true, boolean.class),
+					object.getProperties().get("universal", true, boolean.class));
 		} else if (object.getName().equals("Objective")) {
 			
 			e = new ObjectiveChanger(state, object.getProperties().get("display", false, boolean.class));
@@ -191,6 +198,22 @@ public class TiledObjectUtil {
 					object.getProperties().get("extra", 0, int.class),
 					object.getProperties().get("boss", false, boolean.class),
 					object.getProperties().get("bossname", "", String.class));	
+		} else if (object.getName().equals("HboxSpawn")) {
+			
+			e = new SpawnerHitbox(state, position, size, 
+					new Vector2(object.getProperties().get("sizeX", float.class), object.getProperties().get("sizeY", float.class)),
+					object.getProperties().get("lifespan", float.class), 
+					new Vector2(object.getProperties().get("veloX", 0.0f, float.class), object.getProperties().get("veloY", 0.0f, float.class)),
+					object.getProperties().get("sensor", true, boolean.class), 
+					object.getProperties().get("sprite", "NOTHING", String.class),
+					object.getProperties().get("particle", "NOTHING", String.class),
+					object.getProperties().get("gravity", 1.0f, float.class), 
+					object.getProperties().get("restitution", 0.0f, float.class), 
+					object.getProperties().get("friction", 1.0f,float.class), 
+					object.getProperties().get("damage", 0.0f, float.class), 
+					object.getProperties().get("knockback", 0.0f, float.class), 
+					object.getProperties().get("dieWall", true, boolean.class), 
+					object.getProperties().get("dieSchmuck", true, boolean.class));	
 		} else if (object.getName().equals("ScrapSpawn")) {
 			
 			e = new SpawnerScrap(state, position, size, 

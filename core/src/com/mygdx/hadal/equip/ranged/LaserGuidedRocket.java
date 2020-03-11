@@ -37,7 +37,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float explosionDamage = 50.0f;
 	private final static float explosionKnockback = 35.0f;
 	
-	private final static float homePower = 150.0f;
+	private final static float homePower = 200.0f;
 
 	private final static Sprite projSprite = Sprite.TORPEDO;
 	private final static Sprite weaponSprite = Sprite.MT_LASERROCKET;
