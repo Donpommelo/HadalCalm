@@ -144,7 +144,7 @@ public class SettingState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.NEGATIVE.play(gsm);
 						if (ps == null) {
 							gsm.getApp().fadeOut();
 							gsm.getApp().setRunAfterTransition(new Runnable() {

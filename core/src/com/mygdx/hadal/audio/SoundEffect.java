@@ -11,6 +11,13 @@ import com.mygdx.hadal.states.PlayState;
 
 public enum SoundEffect {
 
+	BLOP("sound/blop.mp3"),
+	DOORBELL("sound/doorbell.wav"),
+	GUN("sound/gun.mp3"),
+	NEGATIVE("sound/negative0.wav"),
+	POSITIVE("sound/positive0.wav"),
+	PREFIRE("sound/prefire.mp3"),
+
 	UISWITCH1("sound/switch5.wav"),
 	UISWITCH2("sound/switch7.wav"),
 	UISWITCH3("sound/switch10.wav"),

@@ -108,7 +108,7 @@ public class Hitbox extends HadalEntity {
 		//use Sprite.Nothing for spriteless hitboxes (like ones that just use particles)
 		this.sprite = sprite;
 		if (!sprite.equals(Sprite.NOTHING)) {
-			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeed, sprite.getFrames());
+			projectileSprite = new Animation<TextureRegion>(PlayState.spriteAnimationSpeedFast, sprite.getFrames());
 		}
 	}
 	

@@ -258,7 +258,7 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-			        	Gdx.app.exit();
+						Gdx.app.exit();
 			        }
 			    });
 				

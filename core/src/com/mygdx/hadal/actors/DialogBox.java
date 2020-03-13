@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.dialog.Dialog;
 import com.mygdx.hadal.dialog.DialogInfo;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -132,6 +133,8 @@ public class DialogBox extends AHadalActor {
 			
 			currX = 0;
 			currY = 0;
+			
+			SoundEffect.BLOP.play(ps.getGsm());
 		}
 		dialogs.addLast(new Dialog(info, radio, trigger));
 		
@@ -168,6 +171,8 @@ public class DialogBox extends AHadalActor {
 				currX = 0;
 				currY = 0;
 			}
+			
+			SoundEffect.BLOP.play(ps.getGsm());
 		}
 	}
 	

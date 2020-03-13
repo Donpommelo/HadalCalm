@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
@@ -56,6 +57,8 @@ public class PauseState extends GameState {
 		if (ps.isServer()) {
 			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser));
 		}
+		
+		SoundEffect.POSITIVE.play(gsm);
 	}
 
 	@Override
@@ -103,6 +106,7 @@ public class PauseState extends GameState {
 				        		ps.loadLevel(UnlockLevel.HUB_MULTI, TransitionState.NEWLEVEL, "");
 				        	}
 	    				}
+			        	SoundEffect.NEGATIVE.play(gsm);
 			        }
 			    });
 				
@@ -113,6 +117,7 @@ public class PauseState extends GameState {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
 			        	gsm.addSettingState(ps, PauseState.class);
+			        	SoundEffect.UISWITCH1.play(gsm);
 			        }
 			    });
 				
@@ -124,6 +129,8 @@ public class PauseState extends GameState {
 			        	//Exiting returns to the title state and stops the server/client, disconnecting.
 			        	gsm.removeState(PauseState.class);
 			        	ps.returnToTitle(0.0f);
+			        	
+			        	SoundEffect.NEGATIVE.play(gsm);
 			        }
 			    });
 				
@@ -200,6 +207,7 @@ public class PauseState extends GameState {
 		
 		//If the state has been unpaused, remove it
 		if (toRemove) {
+			SoundEffect.NEGATIVE.play(gsm);
 			gsm.removeState(PauseState.class);
 		}
 	}

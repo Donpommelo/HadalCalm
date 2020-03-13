@@ -80,6 +80,7 @@ public class Record {
 		newRecord.flags.put("DERELICTB4", 0);
 		newRecord.flags.put("DERELICTB5", 0);
 		newRecord.flags.put("DERELICTB6", 0);
+		newRecord.flags.put("PLENUMTURBINE", 0);
 
 		newRecord.equips = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newRecord.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};

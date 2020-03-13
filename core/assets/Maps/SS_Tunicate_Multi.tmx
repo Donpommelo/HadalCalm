@@ -27,8 +27,8 @@
    </properties>
   </object>
   <object id="8" name="Dispensary" type="Dispensary" x="1952" y="1472" width="96" height="96"/>
-  <object id="9" name="Dropthrough" type="Dropthrough" x="1696" y="1664" width="160" height="16"/>
-  <object id="10" name="Dropthrough" type="Dropthrough" x="1952" y="1568" width="256" height="16"/>
+  <object id="9" name="Dropthrough" type="Dropthrough" x="1696" y="1664" width="160" height="8"/>
+  <object id="10" name="Dropthrough" type="Dropthrough" x="1952" y="1568" width="256" height="8"/>
   <object id="11" name="Start" type="Start" x="2176" y="1504" width="32" height="32">
    <properties>
     <property name="triggeringId" value="startCamera"/>

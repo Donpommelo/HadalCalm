@@ -16,7 +16,7 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="2" name="Dropthrough" type="Dropthrough" x="832" y="648" width="224" height="16">
+  <object id="2" name="Dropthrough" type="Dropthrough" x="832" y="648" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat1"/>
    </properties>
@@ -136,7 +136,7 @@
     <property name="triggeringId" value="plat1"/>
    </properties>
   </object>
-  <object id="49" name="Dropthrough" type="Dropthrough" x="1120" y="744" width="224" height="16">
+  <object id="49" name="Dropthrough" type="Dropthrough" x="1120" y="744" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat2"/>
    </properties>
@@ -155,7 +155,7 @@
     <property name="triggeringId" value="plat2"/>
    </properties>
   </object>
-  <object id="52" name="Dropthrough" type="Dropthrough" x="1248" y="1032" width="224" height="16">
+  <object id="52" name="Dropthrough" type="Dropthrough" x="1248" y="1032" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat3"/>
    </properties>
@@ -174,7 +174,7 @@
     <property name="triggeringId" value="plat3"/>
    </properties>
   </object>
-  <object id="55" name="Dropthrough" type="Dropthrough" x="1120" y="1320" width="224" height="16">
+  <object id="55" name="Dropthrough" type="Dropthrough" x="1120" y="1320" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat4"/>
    </properties>
@@ -193,7 +193,7 @@
     <property name="triggeringId" value="plat4"/>
    </properties>
   </object>
-  <object id="58" name="Dropthrough" type="Dropthrough" x="832" y="1448" width="224" height="16">
+  <object id="58" name="Dropthrough" type="Dropthrough" x="832" y="1448" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat5"/>
    </properties>
@@ -212,7 +212,7 @@
     <property name="triggeringId" value="plat5"/>
    </properties>
   </object>
-  <object id="61" name="Dropthrough" type="Dropthrough" x="544" y="1320" width="224" height="16">
+  <object id="61" name="Dropthrough" type="Dropthrough" x="544" y="1320" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat6"/>
    </properties>
@@ -231,7 +231,7 @@
     <property name="triggeringId" value="plat6"/>
    </properties>
   </object>
-  <object id="64" name="Dropthrough" type="Dropthrough" x="416" y="1032" width="224" height="16">
+  <object id="64" name="Dropthrough" type="Dropthrough" x="416" y="1032" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat7"/>
    </properties>
@@ -250,7 +250,7 @@
     <property name="triggeringId" value="plat7"/>
    </properties>
   </object>
-  <object id="67" name="Dropthrough" type="Dropthrough" x="544" y="744" width="224" height="16">
+  <object id="67" name="Dropthrough" type="Dropthrough" x="544" y="744" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat8"/>
    </properties>
@@ -269,7 +269,7 @@
     <property name="triggeringId" value="plat8"/>
    </properties>
   </object>
-  <object id="70" name="Dropthrough" type="Dropthrough" x="1984" y="648" width="224" height="16">
+  <object id="70" name="Dropthrough" type="Dropthrough" x="1984" y="648" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat9"/>
    </properties>
@@ -288,7 +288,7 @@
     <property name="triggeringId" value="plat9"/>
    </properties>
   </object>
-  <object id="73" name="Dropthrough" type="Dropthrough" x="1696" y="744" width="224" height="16">
+  <object id="73" name="Dropthrough" type="Dropthrough" x="1696" y="744" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat10"/>
    </properties>
@@ -307,7 +307,7 @@
     <property name="triggeringId" value="plat10"/>
    </properties>
   </object>
-  <object id="76" name="Dropthrough" type="Dropthrough" x="1568" y="1032" width="224" height="16">
+  <object id="76" name="Dropthrough" type="Dropthrough" x="1568" y="1032" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat11"/>
    </properties>
@@ -326,7 +326,7 @@
     <property name="triggeringId" value="plat11"/>
    </properties>
   </object>
-  <object id="79" name="Dropthrough" type="Dropthrough" x="1696" y="1320" width="224" height="16">
+  <object id="79" name="Dropthrough" type="Dropthrough" x="1696" y="1320" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat12"/>
    </properties>
@@ -345,7 +345,7 @@
     <property name="triggeringId" value="plat12"/>
    </properties>
   </object>
-  <object id="82" name="Dropthrough" type="Dropthrough" x="1984" y="1448" width="224" height="16">
+  <object id="82" name="Dropthrough" type="Dropthrough" x="1984" y="1448" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat13"/>
    </properties>
@@ -364,7 +364,7 @@
     <property name="triggeringId" value="plat13"/>
    </properties>
   </object>
-  <object id="85" name="Dropthrough" type="Dropthrough" x="2272" y="1320" width="224" height="16">
+  <object id="85" name="Dropthrough" type="Dropthrough" x="2272" y="1320" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat14"/>
    </properties>
@@ -383,7 +383,7 @@
     <property name="triggeringId" value="plat14"/>
    </properties>
   </object>
-  <object id="88" name="Dropthrough" type="Dropthrough" x="2400" y="1032" width="224" height="16">
+  <object id="88" name="Dropthrough" type="Dropthrough" x="2400" y="1032" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat15"/>
    </properties>
@@ -402,7 +402,7 @@
     <property name="triggeringId" value="plat15"/>
    </properties>
   </object>
-  <object id="91" name="Dropthrough" type="Dropthrough" x="2272" y="744" width="224" height="16">
+  <object id="91" name="Dropthrough" type="Dropthrough" x="2272" y="744" width="224" height="8">
    <properties>
     <property name="triggeredId" value="plat16"/>
    </properties>

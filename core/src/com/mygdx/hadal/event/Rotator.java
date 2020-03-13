@@ -19,15 +19,13 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Rotator extends Event {
 
-	private boolean continuous, alreadyUsed;
+	private boolean continuous;
 	private float angle;
 	
 	public Rotator(PlayState state, boolean continuous, float angle) {
 		super(state);
 		this.continuous = continuous;
 		this.angle = angle;
-		
-		alreadyUsed = false;
 	}
 	
 	@Override
@@ -46,24 +44,10 @@ public class Rotator extends Event {
 							}
 						}
 					}
+				} else {
+					getConnectedEvent().setTransform(getConnectedEvent().getPosition(), (float) (angle * Math.PI / 180));
 				}
 			}
 		};
-	}
-	
-	@Override
-	public void controller(float delta) {
-		if (!alreadyUsed) {
-			alreadyUsed = true;
-			if (getConnectedEvent() != null) {
-				if (getConnectedEvent().getBody() != null) {
-					if (continuous) {
-						getConnectedEvent().setAngularVelocity(angle);
-					} else {
-						getConnectedEvent().setTransform(getConnectedEvent().getPosition(), angle);
-					}
-				}
-			}
-		}
 	}
 }

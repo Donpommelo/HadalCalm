@@ -29,7 +29,6 @@ public class Stormcaller extends RangedWeapon {
 	private final static float lifespan = 1.8f;
 	
 	private final static float explosionInterval = 1 / 60f;
-	private final static Vector2 explosionSize = new Vector2(0, 0);
 	private final static int explosionMaxSize = 175;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
@@ -44,13 +43,12 @@ public class Stormcaller extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		
-		explosionSize.set(projectileSize);
-		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float controllerCount = 0;
+			private Vector2 explosionSize = new Vector2(projectileSize);
 			
 			@Override
 			public void controller(float delta) {
@@ -67,7 +65,7 @@ public class Stormcaller extends RangedWeapon {
 					
 					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {
-						explosionSize.add(3, 3);
+						explosionSize.add(2, 2);
 					}
 				}
 			}

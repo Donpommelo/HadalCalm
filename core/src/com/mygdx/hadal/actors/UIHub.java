@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.states.PlayState;
@@ -110,6 +111,8 @@ public class UIHub {
 		tableOuter.addAction(Actions.moveTo(tableX - optionsWidthOuter, tableY, .5f, Interpolation.pow5Out));
 		
 		info = "";
+		
+		SoundEffect.DOORBELL.play(state.getGsm());
 	}
 	
 	/**
@@ -123,6 +126,8 @@ public class UIHub {
 				state.getStage().setScrollFocus(null);
 			}
 		}
+		
+		SoundEffect.DOORBELL.play(state.getGsm());
 	}
 	
 	/**

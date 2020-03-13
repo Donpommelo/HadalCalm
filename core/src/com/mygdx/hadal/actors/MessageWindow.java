@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -98,9 +99,13 @@ public class MessageWindow {
 		if (active) {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out), Actions.run(disableMsg)));
+			
+			SoundEffect.UISWITCH2.play(state.getGsm());
 		} else {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYActive, .5f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.moveTo(windowX, windowYActive, .25f, Interpolation.pow5Out), Actions.run(enableMsg)));
+			
+			SoundEffect.UISWITCH2.play(state.getGsm());
 		}
 		
 		active = !active;

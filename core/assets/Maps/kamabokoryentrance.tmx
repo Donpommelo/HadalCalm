@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt08EKwjAQRdGCQlWQLvz/f7XbLKY1JTATOQfeVsNcXRYAAIBcW+KeB++6J7/tykbQQw89YnrooUdMDz30iOmhhx4xPfTQI6aHHnrE9NBDj5geeuhxXc973vtuHXscfO/a+Vln+xejfu+MoUctetSiRy161KJHLXrUokctetSiRy161PNrj8++1ySbWc9/ZJbNLPt2erSyb6dHK/t2erSyb6dHK/t2erSyb6cHAAAAAAAAAAAAAAAAAAAAAAAAAAAAkS8B2mwy
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer"/>
+ <objectgroup id="3" name="event-layer"/>
+</map>

@@ -190,7 +190,7 @@ CLOCKWISE_CAGE: {
 COMMUTERS_PARASOL: {
 	name: Commuter's Parasol
 	description: "Periodically Blocks Projectiles from Above"
-    descriptionLong: "TEST"
+    descriptionLong: "A worn but sturdy umbrella painted with a pattern of vines.\n\nA Salvager may never know a world where nothing more than an umbrella is needed to get to work dry."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -199,7 +199,7 @@ COMMUTERS_PARASOL: {
 COMPOUND_VITREOUS: {
 	name: Compound Vitreous
 	description: "Reveal Enemy Health"
-    descriptionLong: "TEST"
+    descriptionLong: "Iridescent compound eye made of glass-like organic material.\n\nOnly through special means can individuals see beyond the firmaments that lie at the top and bottom of the world."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -217,7 +217,7 @@ CONFIDENCE: {
 CROWN_OF_THORNS: {
 	name: Crown of Thorns
 	description: "Drop Thorns Upon Receiving Damage"
-    descriptionLong: "Thorny headgear of nondiscriminatory wrath. To be worn on the outside of the helmet."
+    descriptionLong: "Spiky echinoderm that doubles as protective headgear.\n\nOf all traits retained by Sunk things, the most common is the simple desire to not be touched."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -226,7 +226,7 @@ CROWN_OF_THORNS: {
 CURSED_CILICE: {
 	name: Cursed Cilice
 	description: "Receiving Damage Regenerates Fuel"
-    descriptionLong: "A bristle-lined band worn around the leg. For those who believe that pain builds character."
+    descriptionLong: "A band lined with thorns along its innermost layer.\n\nThe deeper the ocean layer, the greater the cost of entrance that must be paid in life or thereafter."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -235,7 +235,7 @@ CURSED_CILICE: {
 CURIOUS_SAUCE: {
 	name: Curious Sauce
 	description: "Bouncy Projectiles"
-    descriptionLong: "A jar of perplexing and unstudied substance."
+    descriptionLong: "A jar of a most very curious sauce.\n\nCountless unsolved oddities from before the ocean’s advent now outlive the ones that sought to study them."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -245,7 +245,7 @@ DEAD_MANS_HAND: {
 	
 	name: Dead Man's Hand
 	description: "+1 Weapon Slot"
-    descriptionLong: ""
+    descriptionLong: "The petrified hand of nothing in particular.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -254,7 +254,7 @@ DEAD_MANS_HAND: {
 DEPLORABLE_APPARATUS: {
 	name: Deplorable Apparatus
 	description: "-Max Hp, +Hp Regen"
-    descriptionLong: "A rusty, surgically-attached machine. Grants life whether the bearer wants it or not."
+    descriptionLong: "A rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -288,7 +288,7 @@ EXTRA_ROW_OF_TEETH: {
 	]
 }
 FARADAYS_CAGE: {
-	name: Faraday's Cage
+	name: Faraday Cage
 	description: "Absorbs Incoming Damage with Fuel"
     descriptionLong: "TEST"
 	tags: [

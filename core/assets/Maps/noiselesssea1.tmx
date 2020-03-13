@@ -81,7 +81,7 @@
     <property name="triggeringId" value="dummy1"/>
    </properties>
   </object>
-  <object id="20" name="Dropthrough" type="Dropthrough" x="3008" y="2176" width="352" height="16">
+  <object id="20" name="Dropthrough" type="Dropthrough" x="3008" y="2176" width="352" height="8">
    <properties>
     <property name="triggeredId" value="plat1"/>
    </properties>
@@ -112,7 +112,7 @@
     <property name="triggeringId" value="dummy3"/>
    </properties>
   </object>
-  <object id="25" name="Dropthrough" type="Dropthrough" x="4768" y="2368" width="352" height="16">
+  <object id="25" name="Dropthrough" type="Dropthrough" x="4768" y="2368" width="352" height="8">
    <properties>
     <property name="triggeredId" value="plat2"/>
    </properties>
@@ -143,7 +143,7 @@
     <property name="triggeringId" value="dummy5"/>
    </properties>
   </object>
-  <object id="30" name="Dropthrough" type="Dropthrough" x="4096" y="768" width="352" height="16">
+  <object id="30" name="Dropthrough" type="Dropthrough" x="4096" y="768" width="352" height="8">
    <properties>
     <property name="triggeredId" value="plat3"/>
    </properties>
@@ -174,7 +174,7 @@
     <property name="triggeringId" value="dummy7"/>
    </properties>
   </object>
-  <object id="35" name="Dropthrough" type="Dropthrough" x="4096" y="4096" width="352" height="16">
+  <object id="35" name="Dropthrough" type="Dropthrough" x="4096" y="4096" width="352" height="8">
    <properties>
     <property name="triggeredId" value="plat4"/>
    </properties>

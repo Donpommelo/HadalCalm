@@ -226,7 +226,7 @@ public class Boss1 extends EnemyFloating {
 	
 	private static final int fireballDamage = 4;
 	private static final int burnDamage = 3;
-	private static final int fireSpeed = 12;
+	private static final int fireSpeed = 11;
 	private static final int fireKB = 10;
 	private static final int fireSize = 50;
 	private static final float fireLifespan = 1.5f;

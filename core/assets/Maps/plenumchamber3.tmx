@@ -454,8 +454,8 @@
     <property name="triggeredId" value="elevatorwallb"/>
    </properties>
   </object>
-  <object id="98" name="Dropthrough" type="Dropthrough" x="2336" y="1392" width="160" height="16"/>
-  <object id="99" name="Dropthrough" type="Dropthrough" x="928" y="384" width="224" height="16"/>
+  <object id="98" name="Dropthrough" type="Dropthrough" x="2336" y="1400" width="160" height="8"/>
+  <object id="99" name="Dropthrough" type="Dropthrough" x="928" y="392" width="224" height="8"/>
   <object id="100" name="Sensor" type="Sensor" x="928" y="160" width="224" height="96">
    <properties>
     <property name="triggeredId" value=""/>

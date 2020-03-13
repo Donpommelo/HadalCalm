@@ -88,9 +88,8 @@ public class Enemy extends Schmuck {
 	private TextureRegion hpSprite;
 	private final static float uiScale = 0.2f;
 	private final static float hpX = 10.0f;
-	private final static float hpY = 20.0f;
+	private final static float hpY = 30.0f;
 
-	
 	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     

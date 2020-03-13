@@ -74,7 +74,7 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="19" name="Dropthrough" type="Dropthrough" x="800" y="512" width="288" height="16"/>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="800" y="512" width="288" height="8"/>
   <object id="22" name="Prefab" type="PrefabSpawner" x="896" y="416" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="25"/>
@@ -93,8 +93,8 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="928" width="288" height="16"/>
-  <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="928" width="288" height="16"/>
+  <object id="28" name="Dropthrough" type="Dropthrough" x="256" y="928" width="288" height="8"/>
+  <object id="29" name="Dropthrough" type="Dropthrough" x="1344" y="928" width="288" height="8"/>
   <object id="30" name="Buzzsaw" type="Buzzsaw" x="592" y="1264" width="128" height="128">
    <properties>
     <property name="damage" type="float" value="5"/>

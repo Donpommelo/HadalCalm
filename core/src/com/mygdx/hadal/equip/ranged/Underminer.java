@@ -48,9 +48,9 @@ public class Underminer extends RangedWeapon {
 	private final static int numProj = 10;
 	private final static int spread = 30;
 	private final static Vector2 fragSize = new Vector2(20, 20);
-	private final static float fragLifespan = 0.5f;
+	private final static float fragLifespan = 0.25f;
 	private final static float fragDamage = 16.0f;
-	private final static float fragSpeed = 40.0f;
+	private final static float fragSpeed = 30.0f;
 	
 	public Underminer(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

@@ -89,6 +89,6 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="13" name="Dropthrough" type="Dropthrough" x="640" y="1504" width="440" height="16"/>
+  <object id="13" name="Dropthrough" type="Dropthrough" x="640" y="1504" width="440" height="8"/>
  </objectgroup>
 </map>

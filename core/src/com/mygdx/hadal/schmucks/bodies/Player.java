@@ -334,10 +334,16 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Determine if the player is in the air or on ground.
+		
+		boolean oldGrounded = grounded;
 		if (scaling) {
 			grounded = feetData.getNumContacts() > 0 || leftData.getNumContacts() > 0 || rightData.getNumContacts() > 0;
 		} else {
 			grounded = feetData.getNumContacts() > 0;
+		}
+		
+		if (!oldGrounded && grounded) {
+			new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.DUST, 1.0f, true, particleSyncType.CREATESYNC);
 		}
 		
 		//player's jumps are refreshed on the ground
@@ -394,6 +400,8 @@ public class Player extends PhysicsSchmuck {
 			if (jumpCdCount < 0) {
 				jumpCdCount = jumpCd;
 				pushMomentumMitigation(0, playerData.getJumpPower());
+				
+				new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
 			}
 		} else {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
@@ -401,6 +409,8 @@ public class Player extends PhysicsSchmuck {
 					jumpCdCount = jumpCd;
 					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 					pushMomentumMitigation(0, playerData.getJumpPower());
+					
+					new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
 				}
 			}
 		}
