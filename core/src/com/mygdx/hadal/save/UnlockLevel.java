@@ -10,7 +10,6 @@ import com.mygdx.hadal.states.PlayState;
 public enum UnlockLevel {
 
 	HUB_MULTI("Maps/SS_Tunicate_Multi.tmx"),
-	NASU("Maps/nasu.tmx"),
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
 	BOSS3("Maps/Boss3.tmx"),
@@ -19,6 +18,8 @@ public enum UnlockLevel {
 	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),
 	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
 	
+	ARENA_HORIZON("Maps/arena_horizon.tmx"),
+
 	DM_BIRD("Maps/dm_bird.tmx"),
 	DM_BIRD2("Maps/dm_bird2.tmx"),
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
@@ -41,9 +42,11 @@ public enum UnlockLevel {
 	PLENUMCHAMBER3("Maps/plenumchamber3.tmx"),
 	PLENUMCHAMBER4("Maps/plenumchamber4.tmx"),
 	PLENUMCHAMBER5("Maps/plenumchamber5.tmx"),
+	PLENUMCHAMBER6("Maps/plenumchamber6.tmx"),
 	PLENUMCHAMBERSHAFT("Maps/plenumchambershaft.tmx"),
 	PLENUMCHAMBEREXTRA1("Maps/plenumchamberextra1.tmx"),
 	PLENUMCHAMBERTURBINE("Maps/plenumchamberturbine.tmx"),
+	PLENUMCHAMBERBALCONY("Maps/plenumchamberbalcony.tmx"),
 	NOISELESSSEA1("Maps/noiselesssea1.tmx"),
 
 	

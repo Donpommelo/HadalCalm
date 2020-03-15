@@ -155,7 +155,7 @@ public class UIExtra extends AHadalActor {
 	 * @param p: The player whose field has changed. If null, this change applies to all players.
 	 * @param score, lives, timerSet, timerIncrement: Amount to change. default 0.
 	 */
-	public void changeFields(Player p, int score, int lives, float timerSet, float timerIncrement) {
+	public void changeFields(Player p, int score, int lives, float timerSet, float timerIncrement, boolean changeTimer) {
 		
 		if (!state.isServer()) {
 			return;
@@ -187,8 +187,10 @@ public class UIExtra extends AHadalActor {
 			}
 		}
 		
-		timer = timerSet;
-		timerIncr = timerIncrement;
+		if (changeTimer) {
+			timer = timerSet;
+			timerIncr = timerIncrement;
+		}
 		
 		state.getScoreWindow().syncTable();
 	}

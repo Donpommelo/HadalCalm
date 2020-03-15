@@ -18,9 +18,9 @@ public class EnemySwimming extends EnemyFloating {
 	
 	private float moveSpeed, minRange, maxRange;
 	
-	private float noiseCd = 1.0f;
+	private float noiseCd = 0.75f;
 	private float noiseCdCount = noiseCd;
-	private float noiseRadius = 5.0f;
+	private float noiseRadius = 8.0f;
 	
 	private Vector2 moveDirection = new Vector2();
 	

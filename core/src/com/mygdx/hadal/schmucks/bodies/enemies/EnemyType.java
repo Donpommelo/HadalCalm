@@ -78,6 +78,21 @@ public enum EnemyType {
 		}
 	},
 	
+	MISCFISH() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			double randNum = Math.random();
+			if (randNum < 0.3f) {
+				return new Scissorfish(state, startPos, extraField, filter, spawner);
+			} else if (randNum < 0.7f) {
+				return new Spittlefish(state, startPos, extraField, filter, spawner);
+			} else {
+				return new Torpedofish(state, startPos, extraField, filter, spawner);
+			}
+		}
+	},
+	
 	TURRET_FLAK() {
 
 		@Override

@@ -30,20 +30,20 @@ BOSS3: {
         PVP
 	]
 }
-NASU: {
-	name: NASU
-	description: TEMP
-	tags: [
-		NAVIGATIONS,
-        PVP
-	]
-}
 SANDBOX_HUB: {
 	name: SANDBOX_HUB
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
         PVP
+	]
+}
+ARENA_HORIZON: {
+	name: ARENA_HORIZON
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        ARENA
 	]
 }
 DM_FALLDOWN: {

@@ -25,6 +25,7 @@ public class FishGang extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
 		for (int i = 0; i < numFish; i++) {
+			
 			if (Math.random() > 0.4f) {
 				new Scissorfish(state, user.getPlayer().getPixelPosition(), 0.0f, user.getPlayer().getHitboxfilter(), null) {
 					
@@ -45,7 +46,7 @@ public class FishGang extends ActiveItem {
 					}
 				};
 			} else {
-				new Torpedofish(state, user.getPlayer().getPixelPosition(), 0.0f, user.getPlayer().getHitboxfilter(), null){
+				new Torpedofish(state, user.getPlayer().getPixelPosition(), 0.0f, user.getPlayer().getHitboxfilter(), null) {
 					
 					@Override
 					public void create() {

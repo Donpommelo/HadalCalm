@@ -110,6 +110,7 @@
   <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Game" color="#a0a0a4">
+  <property name="changeTimer" type="bool" default="true"/>
   <property name="lives" type="int" default="0"/>
   <property name="score" type="int" default="0"/>
   <property name="timer" type="float" default="0"/>
@@ -211,6 +212,9 @@
   <property name="point1" type="string"/>
   <property name="point2" type="string"/>
   <property name="prefabId" type="string" default="Alternator"/>
+ </objecttype>
+ <objecttype name="PrefabArenaSettingSetter" color="#a0a0a4">
+  <property name="prefabId" type="string"/>
  </objecttype>
  <objecttype name="PrefabCamera" color="#a0a0a4">
   <property name="align" type="int" default="0"/>
@@ -416,6 +420,7 @@
  </objecttype>
  <objecttype name="WrapPortal" color="#a0a0a4">
   <property name="axis" type="bool" default="true"/>
+  <property name="direction" type="bool" default="false"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

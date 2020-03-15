@@ -12,9 +12,9 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * @author Zachary Tu
  *
  */
-public class PVPSettingSetter extends Prefabrication {
+public class ArenaSettingSetter extends Prefabrication {
 
-	public PVPSettingSetter(PlayState state) {
+	public ArenaSettingSetter(PlayState state) {
 		super(state);
 	}
 	
@@ -23,9 +23,7 @@ public class PVPSettingSetter extends Prefabrication {
 		String timerId = TiledObjectUtil.getPrefabTriggerId();
 		String multiId = TiledObjectUtil.getPrefabTriggerId();
 		String uiTimerId = TiledObjectUtil.getPrefabTriggerId();
-		String uiLivesId = TiledObjectUtil.getPrefabTriggerId();
 		String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
-		String gameLivesId = TiledObjectUtil.getPrefabTriggerId();
 		
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
@@ -36,10 +34,9 @@ public class PVPSettingSetter extends Prefabrication {
 		RectangleMapObject multi = new RectangleMapObject();
 		multi.setName("Multitrigger");
 		multi.getProperties().put("triggeredId", multiId);
-		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + uiLivesId + "," + gameTimerId + "," + gameLivesId);
+		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + gameTimerId);
 		
 		int startTimer = state.getGsm().getSetting().getTimer();
-		int startLives = state.getGsm().getSetting().getLives();
 		
 		RectangleMapObject game = new RectangleMapObject();
 		game.setName("Game");
@@ -50,7 +47,7 @@ public class PVPSettingSetter extends Prefabrication {
 		if (startTimer != 0) {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY,TIMER");
+			ui.getProperties().put("tags", "Survive!,EMPTY,SCORE,TIMER");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
@@ -60,30 +57,17 @@ public class PVPSettingSetter extends Prefabrication {
 		} else {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY");
+			ui.getProperties().put("tags", "Survive!,EMPTY,SCORE,ENDLESS");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			TiledObjectUtil.parseTiledEvent(state, ui);
-		}
-		
-		if (startLives != 0) {
-			RectangleMapObject ui = new RectangleMapObject();
-			ui.setName("UI");
-			ui.getProperties().put("tags", "LIVES");
-			ui.getProperties().put("triggeredId", uiLivesId);
-			
-			game.getProperties().put("lives", startLives - 1);
-			
-			TiledObjectUtil.parseTiledEvent(state, ui);
-		} else {
-			state.setUnlimitedLife(true);
 		}
 		
 		TiledObjectUtil.parseTiledEvent(state, game);
 		
 		RectangleMapObject end = new RectangleMapObject();
 		end.setName("End");
-		end.getProperties().put("text", "Match Over");
+		end.getProperties().put("text", "Victory!");
 		end.getProperties().put("triggeredId", "runOnGlobalTimerConclude");
 		
 		TiledObjectUtil.parseTiledEvent(state, timer);

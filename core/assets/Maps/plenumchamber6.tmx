@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="20">
+ <properties>
+  <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="150" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztndtu3DAMBd37JW3z0P7/t3aNwkBq2KsjWaRIeQbgWxJT1MDWyox2WQAAAAAAAGDPa+f4Jl73o8G1X1sKACbgFViAV2ABXrVjNQYCr0bX+y6BVwReXQOv4nn15REfGuJX4fqe4FU8r1opzaUneIVXI3Ih8MoiFwKvLHIh8MoiF6IcPxft89pXcU5awau5wvo+pIJXcwVe1edyFOp93zvwKq9Xq1M/nHNUeVnwKqNXkZ3aGOEWXtXnksmpjdWt0rsyvBqbSzanNq66VbOGtN4/UMnkVUanNlqfiVnHnMWrrPV9S61bmcecwavM9d2jPhOzjzm6V9nre0TJrRnGHNmrGep7xurW2dp7hjFH9irKZ2aoB6/AAryC3nx6xJ+lj1fvHvH9YuyvjVf5UJyq8cqixwWvcqE61eLVlb6V/Wfv2b3qcY/vHe8v5Ko61eLVFRfutr6K2Md4VvPeudbWCK908EqvEV7p4JVeI7zSwSu9Rldc2J8xEaWXyAq80ms0+z2mJ3il1wivdPBKrxFe6Xh7pewtnq09ep+DVVsjvNLx9GpUz9HZGGt/H690vLwa2ccWwaujdwWfL/y9yNS8S8vq1EoEr45y+L3M55aXUxGeH1G9ms0tT6fw6nkOs7jl7RRePc9hBrdGOIVXz3PI7tYop9Yordlbe8DO+rT2ZPEqm1uRnVpp3eu4+n0VKp5eZXFrlFM1ewt4lcutkfepmjlo9WqtvfJczOjV0fiixCinvLxSr5nVK0Kf46M1ei//8Wr+8Op1wat7BV5pORB4hVfjA6+0HAi8wqvxgVdaDgReWXoV4btwPM/4xysfr0b3fKxkuKfilZYDXuEVXsXNPSN4FT/3jFic+xHxO4Xwype7/F8qXvmCV3hlAV7hlQV4hVcW4BVeWbDV27LfXP2fNUvwyhePfegIc4NXvrSe51bzrjfC3ODVPERau+HVPOAVWIBXYAFegQV4BRbgFVgQyavSfsq2J7LvxY/Q4wP/E8mrEplyvTuZ5ipTrnfnZfn3fKk5R207k6f0TlH9ORW8ykWtW+r89vYAr/JR4xZeQQ1v3VLOYVS96tXfo14X4rG51WPfyKq/B69ysrrVo7dm86r32Q/sV83JqPUVzA1egQV4BRbgFQAAWPEXw4sK6w==
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="3648" y="160">
+   <polyline points="0,0 0,448 -320,448 -320,672 -672,672 -832,832 -1024,832 -1312,544 -2496,544 -2784,832 -2784,1184 -2944,1184 -2944,1024 -3392,1024 -3392,2272 -2656,2272 -2656,2656 -2560,2752 -2336,2752 -2336,2656 -2240,2656 -2240,2976 -2016,2976 -2016,2656 -1920,2656 -1920,2752 -1376,2752 -1376,2592 -1632,2592 -1632,1952 -2656,1952 -2656,2112 -2944,2112 -2944,1344 -2784,1344 -2496,1632 -1312,1632 -1024,1344 -1024,992 192,992 192,1280 -96,1280 -192,1376 -192,1504 -288,1600 -288,2016 -128,2016 -128,1664 32,1664 32,1504 512,1504 512,1600 640,1600 640,2016 800,2016 800,1280 352,1280 352,992 640,992 736,896 736,256 288,256 288,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="2" name="Start" type="Start" x="3776" y="288" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="entertop"/>
+   </properties>
+  </object>
+  <object id="3" name="Sensor" type="Sensor" x="3648" y="160" width="288" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="4" name="Warp" type="Warp" x="3776" y="96" width="32" height="32">
+   <properties>
+    <property name="level" value="PLENUMCHAMBERTURBINE"/>
+    <property name="startId" value="start3"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="5" name="Dropthrough" type="Dropthrough" x="3648" y="408" width="288" height="8"/>
+  <object id="6" name="Dropthrough" type="Dropthrough" x="3648" y="600" width="288" height="8"/>
+  <object id="7" name="Dropthrough" type="Dropthrough" x="4096" y="864" width="288" height="8"/>
+  <object id="8" name="Dropthrough" type="Dropthrough" x="1320" y="2496" width="408" height="8"/>
+  <object id="9" name="Dropthrough" type="Dropthrough" x="544" y="2144" width="160" height="8"/>
+  <object id="10" name="Dropthrough" type="Dropthrough" x="256" y="1792" width="160" height="8"/>
+  <object id="11" name="Multitrigger" type="Multitrigger" x="224" y="288" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="entertop"/>
+    <property name="triggeringId" value="bounds1t,bounds2t,cameradefault"/>
+   </properties>
+  </object>
+  <object id="12" name="Multitrigger" type="Multitrigger" x="224" y="352" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="enterbot"/>
+    <property name="triggeringId" value="bounds1b,bounds2b,cameradefault"/>
+   </properties>
+  </object>
+  <object id="13" name="Camera" type="Camera" x="288" y="288" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="cameradefault"/>
+    <property name="triggeringId" value=""/>
+    <property name="zoom" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="14" name="Bounds" type="Bounds" x="800" y="672" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1t"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="15" name="Bounds" type="Bounds" x="3808" y="2656" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2t"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="16" name="Bounds" type="Bounds" x="3872" y="1408" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1b"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="17" name="Bounds" type="Bounds" x="3936" y="1696" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2b"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="18" name="Prefab" type="PrefabAlternator" x="3840" y="1152" width="160" height="96">
+   <properties>
+    <property name="align" type="int" value="1"/>
+    <property name="event1" value="enterbot"/>
+    <property name="event2" value="entertop"/>
+    <property name="prefabId" value="Alternator"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="19" name="Dropthrough" type="Dropthrough" x="3840" y="1432" width="160" height="8"/>
+ </objectgroup>
+</map>

@@ -22,13 +22,15 @@ public class GameChanger extends Event {
 
 	private int scoreIncr, livesIncr;
 	private float timerSet, timerIncr;
+	private boolean changeTimer;
 	
-	public GameChanger(PlayState state, int lives, int score, float timerSet, float timerIncr) {
+	public GameChanger(PlayState state, int lives, int score, float timerSet, float timerIncr, boolean changeTimer) {
 		super(state);
 		this.livesIncr = lives;
 		this.scoreIncr = score;
 		this.timerSet = timerSet;
 		this.timerIncr = timerIncr;
+		this.changeTimer = changeTimer;
 	}
 	
 	@Override
@@ -37,7 +39,7 @@ public class GameChanger extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				state.getUiExtra().changeFields(p, scoreIncr, livesIncr, timerSet, timerIncr);
+				state.getUiExtra().changeFields(p, scoreIncr, livesIncr, timerSet, timerIncr, changeTimer);
 			}
 		};
 	}

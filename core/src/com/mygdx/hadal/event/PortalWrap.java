@@ -20,11 +20,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  */
 public class PortalWrap extends Event {
 
-	private boolean axis;
+	private boolean axis, direction;
 	
-	public PortalWrap(PlayState state, Vector2 startPos, Vector2 size, boolean axis) {
+	public PortalWrap(PlayState state, Vector2 startPos, Vector2 size, boolean axis, boolean direction) {
 		super(state, startPos, size);
 		this.axis = axis;
+		this.direction = direction;
 	}
 	
 	@Override
@@ -43,9 +44,17 @@ public class PortalWrap extends Event {
 				Vector3 newCamera= new Vector3(state.camera.position).sub(new Vector3(state.getPlayer().getPixelPosition().x, state.getPlayer().getPixelPosition().y, 0));
 
 				if (axis) {
-					s.setTransform(getConnectedEvent().getPosition().x, s.getPosition().y, 0);
+					if (direction) {
+						s.setTransform(getConnectedEvent().getPosition().x + s.getSize().x / 64, s.getPosition().y, 0);
+					} else {
+						s.setTransform(getConnectedEvent().getPosition().x - s.getSize().x / 64, s.getPosition().y, 0);
+					}
 				} else {
-					s.setTransform(s.getPosition().x, getConnectedEvent().getPosition().y, 0);
+					if (direction) {
+						s.setTransform(s.getPosition().x, getConnectedEvent().getPosition().y + s.getSize().y / 64, 0);
+					} else {
+						s.setTransform(s.getPosition().x, getConnectedEvent().getPosition().y - s.getSize().y / 64, 0);
+					}
 				}
 				
 				//If the player is being teleported, instantly adjust the camera to make for a seamless movement.

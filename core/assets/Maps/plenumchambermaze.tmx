@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="110" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <properties>
+  <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="180" height="110">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer"/>
+ <objectgroup id="3" name="event-layer"/>
+</map>

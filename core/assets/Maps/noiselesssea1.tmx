@@ -56,6 +56,7 @@
   <object id="11" name="WrapPortal" type="WrapPortal" x="1504" y="3968" width="4128" height="64">
    <properties>
     <property name="axis" type="bool" value="false"/>
+    <property name="direction" type="bool" value="true"/>
     <property name="triggeringId" value="top"/>
    </properties>
   </object>
@@ -65,12 +66,12 @@
     <property name="triggeringId" value="bottom"/>
    </properties>
   </object>
-  <object id="14" name="Dummy" type="Dummy" x="1440" y="576" width="32" height="32">
+  <object id="14" name="Dummy" type="Dummy" x="1424" y="624" width="32" height="32">
    <properties>
     <property name="triggeredId" value="top"/>
    </properties>
   </object>
-  <object id="18" name="Dummy" type="Dummy" x="1440" y="3872" width="32" height="32">
+  <object id="18" name="Dummy" type="Dummy" x="1440" y="3824" width="32" height="32">
    <properties>
     <property name="triggeredId" value="bottom"/>
    </properties>
