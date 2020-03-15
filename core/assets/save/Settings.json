@@ -1,11 +1,11 @@
 {
 resolution: 1
-framerate: 3
+framerate: 1
+fullscreen: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
 randomNameAlliteration: true
 consoleEnabled: true
-lives: 3
-loadoutType: 1
+lives: 1
 }

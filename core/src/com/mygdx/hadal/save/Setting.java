@@ -84,6 +84,12 @@ public class Setting {
 		masterVolume = 0.5f;
 	}
 	
+	public void resetGameplay() {
+		timer = 0;
+		lives = 1;
+		loadoutType = 0;
+	}
+	
 	public void resetMisc() {
 		randomNameAlliteration = true;
 		consoleEnabled = true;

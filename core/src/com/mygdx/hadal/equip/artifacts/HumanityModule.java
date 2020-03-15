@@ -14,9 +14,9 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 public class HumanityModule extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
-	private final static float bonusActiveCharge = 0.4f;
+	private final static float bonusActiveCharge = 0.25f;
 	
 	public HumanityModule() {
 		super(slotCost, statusNum);

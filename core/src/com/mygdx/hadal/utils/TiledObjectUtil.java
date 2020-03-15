@@ -388,9 +388,6 @@ public class TiledObjectUtil {
 					object.getProperties().get("tag", "QUARTERMASTER", String.class),
 					object.getProperties().get("unlock", true, Boolean.class),
 					object.getProperties().get("shopId", String.class));
-		} else if (object.getName().equals("Codex")) {
-			
-			e = new Codex(state, position, size);
 		} else if (object.getName().equals("ChoiceBranch")) {
 			
 			e = new ChoiceBranch(state, position, size, 

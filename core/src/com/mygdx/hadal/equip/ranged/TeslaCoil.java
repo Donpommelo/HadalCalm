@@ -20,7 +20,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 
 public class TeslaCoil extends RangedWeapon {
 
@@ -44,6 +44,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final static float pulseDuration = 0.1f;
 	private final static Vector2 pulseSize = new Vector2(40, 40);
 	private final static float pulseDamage = 7.5f;
+	private final static float pulseKnockback = 15.0f;
 	
 	//kep track of all coils laid so far
 	private ArrayList<Hitbox> coilsLaid = new ArrayList<Hitbox>();
@@ -168,7 +169,7 @@ public class TeslaCoil extends RangedWeapon {
 						
 						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-						pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(), pulseDamage, 0, DamageTypes.RANGED));
+						pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), pulseDamage, pulseKnockback, DamageTypes.RANGED));
 						pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.0f));
 					}
 				}

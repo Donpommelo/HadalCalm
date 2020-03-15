@@ -36,7 +36,7 @@ ADMINISTRATOR_CARD: {
 }
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
-	description: "+Hp, Become Heavier"
+	description: "+Max Hp, Become Heavier"
     descriptionLong: "A burdensome artifact in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
@@ -145,7 +145,7 @@ BUCKET_OF_BATTERIES: {
 CALL_OF_THE_VOID: {
 	name: Call of the Void
 	description: "+Damage Inflicted and Received"
-    descriptionLong: "A sinister mark in the shape of a spiral.\n\nThe ocean’s genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
+    descriptionLong: "A sinister mark in the shape of a spiral.\n\nThe ocean's genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -235,7 +235,7 @@ CURSED_CILICE: {
 CURIOUS_SAUCE: {
 	name: Curious Sauce
 	description: "Bouncy Projectiles"
-    descriptionLong: "A jar of a most very curious sauce.\n\nCountless unsolved oddities from before the ocean’s advent now outlive the ones that sought to study them."
+    descriptionLong: "A jar of a most very curious sauce.\n\nCountless unsolved oddities from before the ocean's advent now outlive the ones that sought to study them."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -405,7 +405,7 @@ IRON_SIGHTS: {
 }
 JELLOFELLOW_COSPLAY: {
 	name: Jellofellow Cosplay
-	description: "+Hp, Bouncy!"
+	description: "+Max Hp, Bouncy!"
     descriptionLong: "TEST"
 	tags: [
 		RELIQUARY,

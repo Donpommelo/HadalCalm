@@ -29,7 +29,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class SettingState extends GameState {
 	
 	//These are all of the display and buttons visible to the player.
-	private Text displayOption, controlOption, audioOption, miscOption, exitOption, saveOption, resetOption;
+	private Text displayOption, controlOption, audioOption, gameOption, miscOption, exitOption, saveOption, resetOption;
 	
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
@@ -45,15 +45,15 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions;
+	private SelectBox<String> resolutionOptions, framerateOptions, timerOptions, livesOptions, loadoutOptions;
 	private Slider sound, music, master;
 	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
-	private final static int optionsY = 200;
+	private final static int optionsY = 100;
 	private final static int optionsWidth = 300;
-	private final static int optionsHeight = 400;
+	private final static int optionsHeight = 600;
 	
 	private final static int detailsX = 320;
 	private final static int detailsY = 100;
@@ -127,6 +127,18 @@ public class SettingState extends GameState {
 			    });
 				audioOption.setScale(optionsScale);
 				
+				gameOption = new Text("GAME", 0, 0, true);
+				gameOption.addListener(new ClickListener() {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						SoundEffect.UISWITCH1.play(gsm);
+						gameSelected();
+			        }
+					
+			    });
+				gameOption.setScale(optionsScale);
+				
 				miscOption = new Text("MISC", 0, 0, true);
 				miscOption.addListener(new ClickListener() {
 			        
@@ -190,6 +202,7 @@ public class SettingState extends GameState {
 				options.add(displayOption).pad(optionsPad).row();
 				options.add(controlOption).pad(optionsPad).row();
 				options.add(audioOption).pad(optionsPad).row();
+				options.add(gameOption).pad(optionsPad).row();
 				options.add(miscOption).pad(optionsPad).row();
 				options.add(saveOption).pad(optionsPad).row();
 				options.add(resetOption).pad(optionsPad).row();
@@ -384,6 +397,46 @@ public class SettingState extends GameState {
 		details.add(master).row();
 	}
 	
+	public void gameSelected() {
+		details.clear();
+		currentlyEditing = null;
+		currentTab = settingTab.GAMEPLAY;
+		
+		Text timer = new Text("MATCH TIME: ", 0, 0, false);
+		timer.setScale(0.25f);
+		
+		Text lives = new Text("LIVES: ", 0, 0, false);
+		lives.setScale(0.25f);
+		
+		Text loadout = new Text("LOADOUT: ", 0, 0, false);
+		loadout.setScale(0.25f);
+		
+		timerOptions = new SelectBox<String>(GameStateManager.getSkin());
+		timerOptions.setItems("NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN");
+		timerOptions.setWidth(100);
+		
+		timerOptions.setSelectedIndex(gsm.getSetting().getTimer());
+		
+		livesOptions = new SelectBox<String>(GameStateManager.getSkin());
+		livesOptions.setItems("UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES");
+		livesOptions.setWidth(100);
+		
+		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
+		
+		loadoutOptions = new SelectBox<String>(GameStateManager.getSkin());
+		loadoutOptions.setItems("DEFAULT", "SELECTED", "RANDOM");
+		loadoutOptions.setWidth(100);
+		
+		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
+		
+		details.add(timer);
+		details.add(timerOptions).row();
+		details.add(lives);
+		details.add(livesOptions).row();
+		details.add(loadout);
+		details.add(loadoutOptions).row();
+	}
+	
 	public void miscSelected() {
 		details.clear();
 		currentlyEditing = null;
@@ -424,6 +477,13 @@ public class SettingState extends GameState {
 			gsm.getSetting().saveSetting();
 			audioSelected();
 			break;
+		case GAMEPLAY:
+			gsm.getSetting().setTimer(timerOptions.getSelectedIndex());
+			gsm.getSetting().setLives(livesOptions.getSelectedIndex());
+			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
+			gsm.getSetting().saveSetting();
+			gameSelected();
+			break;
 		case MISC:
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
@@ -454,6 +514,9 @@ public class SettingState extends GameState {
 			gsm.getSetting().resetAudio();
 			gsm.getSetting().saveSetting();
 			audioSelected();
+		case GAMEPLAY:
+			gsm.getSetting().resetGameplay();
+			break;
 		case MISC:
 			gsm.getSetting().resetMisc();
 			gsm.getSetting().saveSetting();
@@ -520,8 +583,8 @@ public class SettingState extends GameState {
 		DISPLAY,
 		CONTROLS,
 		AUDIO,
-		MISC,
 		GAMEPLAY,
+		MISC,
 		MULTIPLAYER,
 		
 	}

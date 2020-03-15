@@ -72,7 +72,7 @@
   <object id="12" name="Multitrigger" type="Multitrigger" x="160" y="3680" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,startTimer"/>
+    <property name="triggeringId" value="spawnWeapons,nextWave,startTimer"/>
    </properties>
   </object>
   <object id="13" name="Multitrigger" type="Multitrigger" x="224" y="3744" width="32" height="32">
