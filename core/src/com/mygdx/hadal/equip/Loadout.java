@@ -2,7 +2,7 @@ package com.mygdx.hadal.equip;
 
 import java.util.Arrays;
 
-import com.mygdx.hadal.save.Record;
+import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -32,26 +32,26 @@ public class Loadout {
 	 * This method loads a loadout from an input save record.
 	 * Usually used when creating a brand new player.
 	 */
-	public Loadout(Record record) {
+	public Loadout(SavedLoadout loadout) {
 		multitools = new UnlockEquip[maxWeaponSlots];
 		artifacts = new UnlockArtifact[maxArtifactSlots];
 		Arrays.fill(multitools, UnlockEquip.NOTHING);
 		Arrays.fill(artifacts, UnlockArtifact.NOTHING);
 		
 		for (int i = 0; i < maxWeaponSlots; i++) {
-			if (record.getEquips().length > i) {
-				multitools[i] = UnlockEquip.valueOf(record.getEquips()[i]);
+			if (loadout.getEquips().length > i) {
+				multitools[i] = UnlockEquip.valueOf(loadout.getEquips()[i]);
 			}
 		}
 		
 		for (int i = 0; i < maxArtifactSlots; i++) {
-			if (record.getEquips().length > i) {
-				artifacts[i] = UnlockArtifact.valueOf(record.getArtifacts()[i]);
+			if (loadout.getEquips().length > i) {
+				artifacts[i] = UnlockArtifact.valueOf(loadout.getArtifacts()[i]);
 			}
 		}
 		
-		activeItem = UnlockActives.valueOf(record.getActive());
-		character = UnlockCharacter.valueOf(record.getCharacter());
+		activeItem = UnlockActives.valueOf(loadout.getActive());
+		character = UnlockCharacter.valueOf(loadout.getCharacter());
 	}
 	
 	/**

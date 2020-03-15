@@ -264,7 +264,7 @@ public class PlayState extends GameState {
 
 		//Create the player and make the camera focus on it
 		StartPoint getSave = getSavePoint(startId);
-		this.player = createPlayer(getSave, gsm.getRecord().getName(), loadout, old, 0, reset);
+		this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset);
 		if (getSave != null) {
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 		}
@@ -620,7 +620,7 @@ public class PlayState extends GameState {
 			StartPoint getSave = getSavePoint();
 			
 			//Create a new player
-			player = createPlayer(getSave, gsm.getRecord().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
+			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 
 			((PlayerController)controller).setPlayer(player);
@@ -644,7 +644,7 @@ public class PlayState extends GameState {
 			
 			//remove this state and add a new play state with a fresh loadout
 			gsm.removeState(PlayState.class);
-			gsm.addPlayState(nextLevel, new Loadout(gsm.getRecord()), null, TitleState.class, true, nextStartId);
+			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), null, TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
 			

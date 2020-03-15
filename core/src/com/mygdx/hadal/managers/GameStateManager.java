@@ -19,6 +19,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.Record;
+import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.Setting;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
@@ -53,6 +54,7 @@ public class GameStateManager {
 	//This is the player's record. This stores player info.
 	private Record record;
 	private Setting setting;
+	private SavedLoadout loadout;
 	private static JsonValue shops;
 	
 	//Json reader here. Use this instead of creating new ones elsewhere.
@@ -96,12 +98,16 @@ public class GameStateManager {
 		if (!Gdx.files.internal("save/Records.json").exists()) {
 			Record.createNewRecord();
 		}
+		if (!Gdx.files.internal("save/Loadout.json").exists()) {
+			SavedLoadout.createNewLoadout();
+		}
 		if (!Gdx.files.internal("save/Settings.json").exists()) {
 			Setting.createNewSetting();
 		}
 		
 		//Load player records and game dialogs, also from json
 		record = json.fromJson(Record.class, reader.parse(Gdx.files.internal("save/Records.json")).toJson(OutputType.minimal));
+		loadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(OutputType.minimal));
 		setting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(OutputType.minimal));
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
@@ -295,10 +301,16 @@ public class GameStateManager {
 	 */
 	public void gotoHubState() {
 		if (currentMode == Mode.SINGLE) {
-			addPlayState(UnlockLevel.SSTUNICATE1, new Loadout(record), null, TitleState.class, true, "");
-		}
-		if (currentMode == Mode.MULTI) {
-			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(record), null, TitleState.class, true, "");
+			
+			//if the player has not done the tutorial yet, they are spawned into the tutorial section.
+			//otherwise, they are spawned into the hub
+			if (getRecord().getFlags().get("HUB_REACHED").equals(0)) {
+				addPlayState(UnlockLevel.WRECK1, new Loadout(loadout), null, TitleState.class, true, "");
+			} else {
+				addPlayState(UnlockLevel.SSTUNICATE1, new Loadout(loadout), null, TitleState.class, true, "");
+			}
+		} else if (currentMode == Mode.MULTI) {
+			addPlayState(UnlockLevel.HUB_MULTI, new Loadout(loadout), null, TitleState.class, true, "");
 		}
 	}
 	
@@ -335,6 +347,8 @@ public class GameStateManager {
 	
 	public Record getRecord() {	return record; }
 
+	public SavedLoadout getLoadout() { return loadout; }
+	
 	public Setting getSetting() { return setting; }
 	
 	public static Skin getSkin() {	return skin; }

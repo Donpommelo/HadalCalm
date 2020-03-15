@@ -88,7 +88,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                client.sendTCP(new Packets.PlayerConnect(true, gsm.getRecord().getName()));
+                client.sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName()));
                 connID = c.getID();
             }
         	
@@ -142,8 +142,8 @@ public class KryoClient {
 								public void run() {
 									gsm.removeState(ResultsState.class);
 		                        	gsm.removeState(ClientState.class);
-		                			gsm.addClientPlayState(p.level, new Loadout(gsm.getRecord()), TitleState.class);
-		                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime, gsm.getRecord().getName(), new Loadout(gsm.getRecord())));
+		                			gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), TitleState.class);
+		                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 								}
                         	});
                         }
@@ -164,7 +164,7 @@ public class KryoClient {
         		 * Ask the server to let us connect
         		 */
         		if (o instanceof Packets.ServerLoaded) {
-        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getRecord().getName());
+        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName());
                     client.sendTCP(connected);
         		}
         		

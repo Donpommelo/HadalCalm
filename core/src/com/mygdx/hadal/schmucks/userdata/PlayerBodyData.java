@@ -459,7 +459,7 @@ public class PlayerBodyData extends BodyData {
 		
 		if (player.equals(player.getState().getPlayer())) {
 			for(int i = 0; i < Loadout.maxArtifactSlots; i++) {
-				player.getState().getGsm().getRecord().setArtifact(i, loadout.artifacts[i].toString());
+				player.getState().getGsm().getLoadout().setArtifact(i, loadout.artifacts[i].toString());
 			}
 		}
 	}

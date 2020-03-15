@@ -58,7 +58,7 @@ public class KryoServer {
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
 		
-		scores.put(0, new SavedPlayerFields(gsm.getRecord().getName()));
+		scores.put(0, new SavedPlayerFields(gsm.getLoadout().getName()));
 		
 		if (!start) {
 			return;

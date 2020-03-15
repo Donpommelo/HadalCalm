@@ -43,7 +43,7 @@ public class Armory extends HubEvent {
 					} else {
 			        	state.getPlayer().getPlayerData().syncClientLoadoutChangeWeapon(selected);
 					}
-					state.getGsm().getRecord().setEquips(state.getPlayer().getPlayerData().getCurrentSlot(), selected.name());
+					state.getGsm().getLoadout().setEquips(state.getPlayer().getPlayerData().getCurrentSlot(), selected.name());
 		        }
 				
 				@Override

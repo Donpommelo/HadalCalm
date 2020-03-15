@@ -17,10 +17,8 @@ import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.client.KryoClient;
-import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
-import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.utils.NameGenerator;
 
 /**
@@ -104,7 +102,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm);
 						
 						//Save current name into records.
-						gsm.getRecord().setName(enterName.getText());
+						gsm.getLoadout().setName(enterName.getText());
 						
 						//Start up the server in multiplayer mode
 						HadalGame.server.init(true);
@@ -131,7 +129,7 @@ public class TitleState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm);
 						
 						//Save current name into records.
-						gsm.getRecord().setName(enterName.getText());
+						gsm.getLoadout().setName(enterName.getText());
 						
 						//Start up the server in singleplayer mode
 						HadalGame.server.init(false);
@@ -142,14 +140,7 @@ public class TitleState extends GameState {
 
 							@Override
 							public void run() {
-								
-								//if the player has not done the tutorial yet, they are spawned into the tutorial section.
-								//otherwise, they are spawned into the hub
-								if (gsm.getRecord().getFlags().get("HUB_REACHED").equals(0)) {
-									gsm.addPlayState(UnlockLevel.WRECK1, new Loadout(gsm.getRecord()), null, TitleState.class, true, "");
-								} else {
-									gsm.gotoHubState();
-								}
+								gsm.gotoHubState();
 							}
 							
 						});
@@ -171,7 +162,7 @@ public class TitleState extends GameState {
 						connectAttempted = true;
 						
 						//Save current name into records.
-						gsm.getRecord().setName(enterName.getText());
+						gsm.getLoadout().setName(enterName.getText());
 						
 						//Start up the Client
 						HadalGame.client.init();
@@ -291,7 +282,7 @@ public class TitleState extends GameState {
 				enterIP.setMessageText("ENTER IP");
 				
 				enterName = new TextField("", GameStateManager.getSkin());
-				enterName.setText(gsm.getRecord().getName());
+				enterName.setText(gsm.getLoadout().getName());
 				enterName.setMessageText("ENTER NAME");
 				
 				table.add(nameDisplay).pad(5).expandY();

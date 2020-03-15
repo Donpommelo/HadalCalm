@@ -36,7 +36,6 @@ public class QuestChecker extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				
 				if (state.getGsm().getRecord().getFlags().get(quest) == val && event.getConnectedEvent() != null) {
 					event.getConnectedEvent().getEventData().preActivate(this, p);
 				}

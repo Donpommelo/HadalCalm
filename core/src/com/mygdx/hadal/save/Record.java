@@ -16,14 +16,6 @@ public class Record {
 	//This is the amount of currency the player has accrued
 	private int scrap;
 	
-	//This is the player's current loadout that they will start with
-	private String[] equips;
-	private String[] artifacts;
-	private String active, character;
-	
-	//This is the player's starting name
-	private String name;
-	
 	//This is a map of the player's quest flags
 	private Map<String, Integer> flags;
 	
@@ -33,9 +25,6 @@ public class Record {
 	private Map<String, Boolean> unlockActive;
 	private Map<String, Boolean> unlockCharacter;
 	private Map<String, Boolean> unlockLevel;
-	
-	//max size of name createable in title screen
-	private static final int maxNameLength = 100;
 	
 	public Record() {}
 	
@@ -72,21 +61,15 @@ public class Record {
 		newRecord.flags.put("BOSS1", 0);
 		newRecord.flags.put("WRECK0SC", 0);
 		newRecord.flags.put("WRECK1SC", 0);
-		newRecord.flags.put("DERELICTA1", 0);
-		newRecord.flags.put("DERELICTA2", 0);
-		newRecord.flags.put("DERELICTB1", 0);
-		newRecord.flags.put("DERELICTB2", 0);
-		newRecord.flags.put("DERELICTB3", 0);
-		newRecord.flags.put("DERELICTB4", 0);
-		newRecord.flags.put("DERELICTB5", 0);
-		newRecord.flags.put("DERELICTB6", 0);
+		newRecord.flags.put("DERELICTTA1", 0);
+		newRecord.flags.put("DERELICTTA2", 0);
+		newRecord.flags.put("DERELICTTB1", 0);
+		newRecord.flags.put("DERELICTTB2", 0);
+		newRecord.flags.put("DERELICTTB3", 0);
+		newRecord.flags.put("DERELICTTB4", 0);
+		newRecord.flags.put("DERELICTTB5", 0);
+		newRecord.flags.put("DERELICTTB6", 0);
 		newRecord.flags.put("PLENUMTURBINE", 0);
-
-		newRecord.equips = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING"};
-		newRecord.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
-		newRecord.active = "NOTHING";
-		newRecord.character = "MOREAU";
-		newRecord.name = "";
 		
 		newRecord.unlockEquip = new HashMap<String, Boolean>();
 		newRecord.unlockArtifact = new HashMap<String, Boolean>();
@@ -117,44 +100,9 @@ public class Record {
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
 	}
 	
-	public void setEquips(int index, String equip) {
-		this.equips[index] = equip;
-		saveRecord();
-	}
-	
-	public void setArtifact(int index, String artifact) {
-		this.artifacts[index] = artifact;
-		saveRecord();
-	}
-	
-	public void setActive(String active) {
-		this.active = active;
-		saveRecord();
-	}
-	
-	public void setCharacter(String character) {
-		this.character = character;
-		saveRecord();
-	}
-	
-	public void setName(String name) {
-		this.name = name.substring(0, Math.min(name.length(), maxNameLength));
-		saveRecord();
-	}
-	
 	public int getScrap() { return scrap; }
 	
 	public Map<String, Integer> getFlags() { return flags; }
-
-	public String[] getEquips() {return equips;}
-
-	public String[] getArtifacts() { return artifacts; }
-
-	public String getActive() {	return active; }
-
-	public String getCharacter() { return character; }
-
-	public String getName() { return name.substring(0, Math.min(name.length(), maxNameLength)); }
 
 	public Map<String, Boolean> getUnlockEquip() { return unlockEquip; }
 

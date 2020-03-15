@@ -43,7 +43,7 @@ public class Dormitory extends HubEvent {
 					} else {
 						state.getPlayer().getPlayerData().syncClientLoadoutChangeCharacter(selected);
 					}
-					state.getGsm().getRecord().setCharacter(selected.name());
+					state.getGsm().getLoadout().setCharacter(selected.name());
 		        }
 		        
 		        @Override
