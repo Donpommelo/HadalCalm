@@ -26,7 +26,6 @@ public class MeteorStrike extends ActiveItem {
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
 	private final static float maxCharge = 18.0f;
-	
 
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 5.0f;
@@ -35,7 +34,7 @@ public class MeteorStrike extends ActiveItem {
 	private final static float range = 1800.0f;
 	
 	private final static float baseDamage = 15.0f;
-	private final static float knockback = 50.0f;
+	private final static float knockback = 15.0f;
 	
 	private final static float meteorDuration = 3.0f;
 	private final static float meteorInterval = 0.1f;

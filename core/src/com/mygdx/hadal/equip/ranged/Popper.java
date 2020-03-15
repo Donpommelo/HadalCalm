@@ -19,13 +19,13 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class Popper extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 22;
+	private final static int ammoSize = 25;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.2f;
-	private final static float reloadTime = 0.6f;
+	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 40.0f;
-	private final static float recoil = 18.0f;
+	private final static float recoil = 12.0f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 100.0f;
 	private final static Vector2 projectileSize = new Vector2(45, 45);
@@ -36,7 +36,8 @@ public class Popper extends RangedWeapon {
 	private final static float fragSpeed = 30.0f;
 	private final static Vector2 fragSize = new Vector2(15, 15);
 	private final static float fragLifespan = 1.0f;
-	private final static float fragDamage = 3.0f;
+	private final static float fragDamage = 4.5f;
+	private final static float fragKnockback = 5.0f;
 
 	private final static float projDampen = 10.0f;
 	private final static float fragDampen = 3.0f;
@@ -88,7 +89,7 @@ public class Popper extends RangedWeapon {
 					frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
 					frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
 					frag.addStrategy(new ContactWallDie(state, frag, user.getBodyData()));
-					frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
+					frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), fragDamage, fragKnockback, DamageTypes.RANGED));
 				}
 			}
 		});

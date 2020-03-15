@@ -23,7 +23,7 @@ public class PortableTurret extends ActiveItem {
 	private final static float lifespan = 3.0f;
 
 	private final static float projectileSpeed = 12.0f;
-	private final static float turretLifespan = 15.0f;
+	private final static float turretLifespan = 20.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 

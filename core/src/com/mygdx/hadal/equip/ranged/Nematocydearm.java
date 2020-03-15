@@ -20,14 +20,14 @@ public class Nematocydearm extends RangedWeapon {
 	private final static int ammoSize = 48;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 0.9f;
+	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 0.0f;
-	private final static float knockback = 25.0f;
+	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 40.0f;
 	private final static Vector2 projectileSize = new Vector2(72, 9);
-	private final static float lifespan = 6.0f;
+	private final static float lifespan = 12.0f;
 		
 	private final static Sprite projSprite = Sprite.BULLET;
 	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;

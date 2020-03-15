@@ -9,4 +9,5 @@ masterVolume: 1
 randomNameAlliteration: true
 consoleEnabled: true
 lives: 1
+loadoutType: 1
 }

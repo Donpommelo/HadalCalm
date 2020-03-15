@@ -216,14 +216,15 @@
   </object>
   <object id="35" name="Alttrigger" type="Alttrigger" x="736" y="3584" width="32" height="32">
    <properties>
-    <property name="message" value="2"/>
+    <property name="message" value="1"/>
     <property name="triggeredId" value="increaseWaveSize"/>
     <property name="triggeringId" value="waveSpawn"/>
    </properties>
   </object>
   <object id="36" name="Prefab" type="PrefabLimit" x="672" y="3584" width="32" height="32">
    <properties>
-    <property name="limit" type="int" value="6"/>
+    <property name="limit" type="int" value="7"/>
+    <property name="prefabId" value="Limit"/>
     <property name="triggeredId" value="waveSizeLimit"/>
     <property name="triggeringId" value="increaseWaveSize"/>
    </properties>

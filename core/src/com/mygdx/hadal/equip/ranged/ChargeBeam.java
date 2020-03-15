@@ -90,7 +90,7 @@ public class ChargeBeam extends RangedWeapon {
 			sizeMultiplier = 1.5f;
 			speedMultiplier = 2.5f;
 			damageMultiplier = 5.0f;
-			kbMultiplier = 4.5f;
+			kbMultiplier = 4.0f;
 			break;
 		case 1:
 			sizeMultiplier = 1.2f;

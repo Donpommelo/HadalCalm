@@ -13,7 +13,8 @@ public class MatterUniversalizer extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final float amount = 30.f;
+	private final float amountEnemy = 20.f;
+	private final float amountPlayer = 30.f;
 	private final float particleDura = 1.5f;
 	
 	public MatterUniversalizer() {
@@ -27,7 +28,13 @@ public class MatterUniversalizer extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
-				((PlayerBodyData)inflicted).fuelGain(amount);
+				
+				if (vic instanceof PlayerBodyData) {
+					((PlayerBodyData)inflicted).fuelGain(amountPlayer);
+
+				} else {
+					((PlayerBodyData)inflicted).fuelGain(amountEnemy);
+				}
 			}
 		};
 		return enchantment;

@@ -12,22 +12,22 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 public class Moraygun extends RangedWeapon {
 
 	private final static int clipSize = 7;
-	private final static int ammoSize = 28;
+	private final static int ammoSize = 35;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 9.0f;
+	private final static float baseDamage = 11.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 5.0f;
-	private final static float projectileSpeedStart = 100.0f;
+	private final static float projectileSpeedStart = 150.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 5.0f;
 	
@@ -55,7 +55,7 @@ public class Moraygun extends RangedWeapon {
 			final int num = i;
 			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			

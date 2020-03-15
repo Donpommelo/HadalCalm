@@ -18,12 +18,12 @@ public class Boiler extends RangedWeapon {
 
 	private final static int clipSize = 90;
 	private final static int ammoSize = 270;
-	private final static float shootCd = 0.02f;
+	private final static float shootCd = 0.03f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 2.5f;
-	private final static float recoil = 1.0f;
+	private final static float baseDamage = 3.5f;
+	private final static float recoil = 2.0f;
 	private final static float knockback = 2.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static Vector2 projectileSize = new Vector2(100, 50);

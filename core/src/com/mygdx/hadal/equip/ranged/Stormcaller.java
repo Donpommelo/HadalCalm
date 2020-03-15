@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class Stormcaller extends RangedWeapon {
 
 	private final static int clipSize = 3;
-	private final static int ammoSize = 14;
+	private final static int ammoSize = 18;
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;

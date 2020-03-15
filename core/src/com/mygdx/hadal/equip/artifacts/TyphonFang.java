@@ -12,7 +12,7 @@ import com.mygdx.hadal.utils.Stats;
 public class TyphonFang extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private final static int slotCost = 2;
 	
 	private static final float bonusReloadSpd = -0.5f;
 	private static final float cliprefill = 0.50f;
@@ -36,7 +36,6 @@ public class TyphonFang extends Artifact {
 					}
 				}
 			}
-			
 		});
 		return enchantment;
 	}

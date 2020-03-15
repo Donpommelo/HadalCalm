@@ -19,7 +19,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class PearlRevolver extends RangedWeapon {
 
 	private final static int clipSize = 6;
-	private final static int ammoSize = 36;
+	private final static int ammoSize = 48;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;

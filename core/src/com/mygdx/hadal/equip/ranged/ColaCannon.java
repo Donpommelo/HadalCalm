@@ -26,7 +26,7 @@ public class ColaCannon extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 8.0f;
+	private final static float baseDamage = 10.0f;
 	private final static float recoil = 18.0f;
 	private final static float knockback = 7.5f;
 	private final static float projectileSpeed = 50.0f;
@@ -34,7 +34,7 @@ public class ColaCannon extends RangedWeapon {
 	private final static float lifespan = 2.0f;
 
 	private final static float procCd = .05f;
-	private final static float fireDuration = 1.6f;
+	private final static float fireDuration = 2.0f;
 	private final static float veloDeprec = 1.0f;
 	private final static float minVelo = 9.0f;
 	private final static float minDuration = 0.5f;
@@ -43,7 +43,7 @@ public class ColaCannon extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float maxCharge = 6400.0f;
+	private final static float maxCharge = 6000.0f;
 
 	private Vector2 lastMouse = new Vector2();
 	

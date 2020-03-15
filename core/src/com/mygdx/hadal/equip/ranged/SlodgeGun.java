@@ -28,7 +28,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static float shootDelay = 0.25f;
 	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 4.0f;
+	private final static float baseDamage = 6.0f;
 	private final static float recoil = 24.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 25.0f;
@@ -38,8 +38,8 @@ public class SlodgeGun extends RangedWeapon {
 	private final static float procCd = .05f;
 
 	private final static float slowDura = 3.0f;
-	private final static float slow = 0.75f;
-	private final static float fireDuration = 0.75f;
+	private final static float slow = 0.8f;
+	private final static float fireDuration = 0.8f;
 
 	private final static Sprite weaponSprite = Sprite.MT_SLODGEGUN;
 	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;

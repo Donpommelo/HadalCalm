@@ -22,12 +22,12 @@ public class WaveCannon extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 20.0f;
+	private final static float baseDamage = 30.0f;
 	private final static float recoil = 12.5f;
 	private final static float knockback = 28.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(15, 15);
-	private final static float lifespan = 2.6f;
+	private final static Vector2 projectileSize = new Vector2(20, 20);
+	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;

@@ -25,19 +25,19 @@ import com.mygdx.hadal.utils.Stats;
 public class Screecher extends RangedWeapon {
 
 	private final static int clipSize = 40;
-	private final static int ammoSize = 150;
+	private final static int ammoSize = 160;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 6.0f;
+	private final static float baseDamage = 7.5f;
 	private final static float recoil = 1.5f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 10.0f;
 	private final static int range = 40;
 	private final static Vector2 projectileSize = new Vector2(70, 70);
 	private final static float lifespan = 0.5f;
-	private final static int spread = 10;
+	private final static int spread = 5;
 	
 	private final static Sprite projSprite = Sprite.IMPACT;
 

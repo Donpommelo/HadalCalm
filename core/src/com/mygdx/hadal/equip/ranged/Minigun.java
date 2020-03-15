@@ -21,8 +21,8 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Minigun extends RangedWeapon {
 
-	private final static int clipSize = 90;
-	private final static int ammoSize = 270;
+	private final static int clipSize = 180;
+	private final static int ammoSize = 540;
 	private final static float shootCd = 0.03f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 2.0f;
@@ -31,10 +31,10 @@ public class Minigun extends RangedWeapon {
 	private final static float recoil = 0.25f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(48, 12);
+	private final static Vector2 projectileSize = new Vector2(40, 10);
 	private final static float lifespan = 1.20f;
 	
-	private final static int spread = 10;
+	private final static int spread = 8;
 
 	private final static Sprite projSprite = Sprite.BULLET;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;

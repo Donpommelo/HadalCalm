@@ -16,7 +16,7 @@ public class FishGang extends ActiveItem {
 	private final static float maxCharge = 600.0f;
 	
 	private final static int numFish = 5;
-	private final static float fishLifespan = 10.0f;
+	private final static float fishLifespan = 20.0f;
 	
 	public FishGang(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byDamageInflict);

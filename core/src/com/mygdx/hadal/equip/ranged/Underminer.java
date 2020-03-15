@@ -27,7 +27,7 @@ public class Underminer extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 25.0f;
+	private final static float baseDamage = 40.0f;
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
 	private final static float projectileSpeed = 30.0f;

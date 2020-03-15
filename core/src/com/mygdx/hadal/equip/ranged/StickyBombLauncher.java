@@ -18,7 +18,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int ammoSize = 32;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.25f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 40.0f;
@@ -26,8 +26,8 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 175;
-	private final static float explosionDamage = 40.0f;
-	private final static float explosionKnockback = 21.0f;	
+	private final static float explosionDamage = 50.0f;
+	private final static float explosionKnockback = 25.0f;	
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_STICKYBOMB;
