@@ -45,7 +45,7 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions, timerOptions, livesOptions, loadoutOptions;
+	private SelectBox<String> resolutionOptions, framerateOptions, timerOptions, livesOptions, loadoutOptions, playerCapacity;
 	private Slider sound, music, master;
 	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled;
 		
@@ -442,14 +442,25 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
 		
+		Text maxPlayers = new Text("MAX PLAYERS: ", 0, 0, false);
+		maxPlayers.setScale(0.25f);
+		
 		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
 		
 		consoleEnabled = new CheckBox("Console Enabled?", GameStateManager.getSkin());
 		consoleEnabled.setChecked(gsm.getSetting().isConsoleEnabled());
 		
+		playerCapacity = new SelectBox<String>(GameStateManager.getSkin());
+		playerCapacity.setItems("1", "2", "3", "4", "5", "6");
+		playerCapacity.setWidth(100);
+		
+		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
+		
 		details.add(randomNameAlliteration).row();
 		details.add(consoleEnabled).row();
+		details.add(maxPlayers);
+		details.add(playerCapacity).row();
 	}
 	
 	/**
@@ -487,6 +498,7 @@ public class SettingState extends GameState {
 		case MISC:
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
+			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
 			gsm.getSetting().saveSetting();
 			miscSelected();
 			break;
@@ -516,6 +528,8 @@ public class SettingState extends GameState {
 			audioSelected();
 		case GAMEPLAY:
 			gsm.getSetting().resetGameplay();
+			gsm.getSetting().saveSetting();
+			gameSelected();
 			break;
 		case MISC:
 			gsm.getSetting().resetMisc();

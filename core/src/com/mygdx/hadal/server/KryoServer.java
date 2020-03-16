@@ -69,7 +69,7 @@ public class KryoServer {
 			@Override
 			public void disconnected(final Connection c) {
 				final PlayState ps = getPlayState();
-				
+
 				if (ps != null) {
 					
 					//Identify the player that disconnected
@@ -94,9 +94,7 @@ public class KryoServer {
 					});
 				}
 				
-				/**
-				 * If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
-				 */
+				//If in a victory state, count a disconnect as ready so disconnected players don't prevent return to hub.
 				if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 					final ResultsState vs =  (ResultsState) gsm.getStates().peek();
 					Gdx.app.postRunnable(new Runnable() {
@@ -109,18 +107,90 @@ public class KryoServer {
 				}
 			}
 			
+			
+			/**
+        	 * Note that the order of these if/elses is according to approximate frequency of packets.
+        	 * This might have a (very minor) effect on performance or something idk
+        	 */
+			@Override
 			public void received(final Connection c, Object o) {
 
+				/*
+				 * A Client has performed an action involving pressing a key down
+				 * Register the keystroke for that client's player.
+				 */
+				if (o instanceof Packets.KeyDown) {
+					final Packets.KeyDown p = (Packets.KeyDown) o;
+					final PlayState ps = getPlayState();
+					final Player player = players.get(c.getID());
+					if (ps != null && player != null) {
+						
+						ps.addPacketEffect(new PacketEffect() {
+    						
+    						@Override
+							public void execute() {
+    							if (player.getController() != null) {
+    								player.getController().keyDown(p.action);
+    							}
+    						}
+        				});
+					}	
+				}
+				
+				/*
+				 * A Client has performed an action involving pressing a key up
+				 * Register the keystroke for that client's player.
+				 */
+				else if (o instanceof Packets.KeyUp) {
+					final Packets.KeyUp p = (Packets.KeyUp) o;
+					final PlayState ps = getPlayState();
+					final Player player = players.get(c.getID());
+					if (ps != null && player != null) {
+						ps.addPacketEffect(new PacketEffect() {
+    						
+    						@Override
+							public void execute() {
+    							if (player.getController() != null) {
+    								player.getController().keyUp(p.action);
+    							}
+    						}
+        				});
+					}
+				}
+				
+				/*
+				 * A Client sends this every engine tick to send their mouse location.
+				 * Update the client's player's mouse pointer.
+				 */
+				else if (o instanceof Packets.MouseMove) {
+					final Packets.MouseMove p = (Packets.MouseMove) o;
+					final PlayState ps = getPlayState();
+					final MouseTracker mouse = mice.get(c.getID());
+					if (ps != null && mouse != null) {
+						mouse.setDesiredLocation(p.x, p.y);
+					}
+				}
+				
 				/*
 				 * The Client has connected.
 				 * Notify clients and create a new player for the client. Also, tell the new client what level to load
 				 */
-				if (o instanceof Packets.PlayerConnect) {
+				else if (o instanceof Packets.PlayerConnect) {
 					final Packets.PlayerConnect p = (Packets.PlayerConnect) o;
 					final PlayState ps = getPlayState();
 					
 					if (ps != null) {
 						if (p.firstTime) {
+							if (players.size() >= ps.getGsm().getSetting().getMaxPlayers()) {
+								sendToTCP(c.getID(), new Packets.ConnectReject("CONNECTION FAILED. SERVER FULL."));
+								return;
+							}
+							
+							if (!ps.isHub()) {
+								sendToTCP(c.getID(), new Packets.ConnectReject("CONNECTION FAILED. GAME IN SESSION."));
+								return;
+							}
+							
 							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
 						}
                         sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
@@ -131,7 +201,7 @@ public class KryoServer {
 				 * The Client has loaded the level.
 				 * Announce the new player joining and catchup the new client.
 				 */
-				if (o instanceof Packets.ClientLoaded) {
+				else if (o instanceof Packets.ClientLoaded) {
 					final Packets.ClientLoaded p = (Packets.ClientLoaded) o;
 					final PlayState ps = getPlayState();
 					
@@ -174,7 +244,7 @@ public class KryoServer {
 				 * The Client has loaded the level.
 				 * Announce the new player joining and catchup the new client.
 				 */
-				if (o instanceof Packets.ClientPlayerCreated) {
+				else if (o instanceof Packets.ClientPlayerCreated) {
 					final Player player = players.get(c.getID());
 					if (player != null) {
 						HadalGame.server.sendToAllTCP(new Packets.SyncServerLoadout(player.getEntityID().toString(), player.getPlayerData().getLoadout()));
@@ -188,7 +258,7 @@ public class KryoServer {
 				 * The Client has changed their loadout (in the hub because anywhere else is handled server side)
 				 * Find the client changing and update their player loadout
 				 */
-				if (o instanceof Packets.SyncClientLoadout) {
+				else if (o instanceof Packets.SyncClientLoadout) {
         			final Packets.SyncClientLoadout p = (Packets.SyncClientLoadout) o;
         			final Player player = players.get(c.getID());
     				final PlayState ps = getPlayState();
@@ -209,7 +279,7 @@ public class KryoServer {
 				 * The client has finished respawning (after transitioning to black.
 				 * We spawn a new player for them
 				 */
-				if (o instanceof Packets.ClientFinishRespawn) {
+				else if (o instanceof Packets.ClientFinishRespawn) {
 					final PlayState ps = getPlayState();
 					
 					//acquire the client's name and data
@@ -225,7 +295,7 @@ public class KryoServer {
 				 * A Client has unpaused the game
 				 * Return to the PlayState and inform everyone who unpaused.
 				 */
-				if (o instanceof Packets.Unpaused) {
+				else if (o instanceof Packets.Unpaused) {
         			if (!gsm.getStates().empty()) {
         				
         				Player p = players.get(c.getID());
@@ -247,7 +317,7 @@ public class KryoServer {
 				 * A Client has sent the server a notification.
 				 * Display the notification and echo it to all clients  
 				 */
-				if (o instanceof Packets.Notification) {
+				else if (o instanceof Packets.Notification) {
 					final Packets.Notification p = (Packets.Notification) o;
 					final PlayState ps = getPlayState();
 					if (ps != null) {
@@ -259,7 +329,7 @@ public class KryoServer {
 				 * A Client has said they are ready to return to hub state from results state
 				 * Ready that player in the results state.
 				 */
-				if (o instanceof Packets.ClientReady) {
+				else if (o instanceof Packets.ClientReady) {
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
 						final ResultsState vs =  (ResultsState) gsm.getStates().peek();
 						Gdx.app.postRunnable(new Runnable() {
@@ -271,71 +341,12 @@ public class KryoServer {
 						});
 					}
 				}
-				
-				/*
-				 * A Client has performed an action involving pressing a key down
-				 * Register the keystroke for that client's player.
-				 */
-				if (o instanceof Packets.KeyDown) {
-					final Packets.KeyDown p = (Packets.KeyDown) o;
-					final PlayState ps = getPlayState();
-					final Player player = players.get(c.getID());
-					if (ps != null && player != null) {
-						
-						ps.addPacketEffect(new PacketEffect() {
-    						
-    						@Override
-							public void execute() {
-    							if (player.getController() != null) {
-    								player.getController().keyDown(p.action);
-    							}
-    						}
-        				});
-					}	
-				}
-				
-				/*
-				 * A Client has performed an action involving pressing a key up
-				 * Register the keystroke for that client's player.
-				 */
-				if (o instanceof Packets.KeyUp) {
-					final Packets.KeyUp p = (Packets.KeyUp) o;
-					final PlayState ps = getPlayState();
-					final Player player = players.get(c.getID());
-					if (ps != null && player != null) {
-						ps.addPacketEffect(new PacketEffect() {
-    						
-    						@Override
-							public void execute() {
-    							if (player.getController() != null) {
-    								player.getController().keyUp(p.action);
-    							}
-    						}
-        				});
-					}
-				}
-				
-				/*
-				 * A Client sends this every engine tick to send their mouse location.
-				 * Update the client's player's mouse pointer.
-				 */
-				if (o instanceof Packets.MouseMove) {
-					final Packets.MouseMove p = (Packets.MouseMove) o;
-					final PlayState ps = getPlayState();
-					final MouseTracker mouse = mice.get(c.getID());
-					if (ps != null && mouse != null) {
-						mouse.setDesiredLocation(p.x, p.y);
-					}
-				}
 			}
 		});
 		
 		try {
 			server.bind(KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		} catch (IOException e) {}	
 		registerPackets();
 		server.start();
 	}

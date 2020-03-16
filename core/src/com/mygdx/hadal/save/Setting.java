@@ -32,6 +32,8 @@ public class Setting {
 	//for pvp, how should we give new players loadout? (this variable is an index in an array. 0 = start with default, 1 = start with chosen, 2 = start with random)
 	private int loadoutType;
 	
+	private int maxPlayers;
+	
 	public Setting() {}
 	
 	/**
@@ -93,22 +95,16 @@ public class Setting {
 	public void resetMisc() {
 		randomNameAlliteration = true;
 		consoleEnabled = true;
+		maxPlayers = 4;
 	}
 	
-	public void setTimer(int timer) {
-		this.timer = timer;
-		saveSetting();
-	}
+	public void setTimer(int timer) { this.timer = timer; }
 	
-	public void setLives(int lives) {
-		this.lives = lives;
-		saveSetting();
-	}
+	public void setLives(int lives) { this.lives = lives; }
 	
-	public void setLoadoutType(int loadoutType) {
-		this.loadoutType = loadoutType;
-		saveSetting();
-	}
+	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
+	
+	public void setMaxPlayers(int maxPlayers) { this.maxPlayers = maxPlayers; }
 	
 	/**
 	 * Convert resolution from index in list to actual setting
@@ -211,4 +207,6 @@ public class Setting {
 	public int getLives() { return lives; }
 	
 	public int getLoadoutType() { return loadoutType; }
+	
+	public int getMaxPlayers() { return maxPlayers; }
 }

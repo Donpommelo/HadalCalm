@@ -166,7 +166,7 @@ public class TitleState extends GameState {
 						
 						//Start up the Client
 						HadalGame.client.init();
-						
+						setNotification("SEARCHING FOR SERVER!");
 						//Attempt to connect to the chosen ip
 						Gdx.app.postRunnable(new Runnable() {
 					        
@@ -177,7 +177,6 @@ public class TitleState extends GameState {
 				                	HadalGame.client.client.connect(5000, enterIP.getText(), KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
 				                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
 				                } catch (IOException ex) {
-				                    ex.printStackTrace();
 				                    setNotification("FAILED TO CONNECT TO SERVER!");
 				                }
 				            	

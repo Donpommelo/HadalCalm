@@ -29,6 +29,21 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  */
 public class Packets {
 
+	public static class ConnectReject {
+		public String msg;
+		public ConnectReject() {}
+		
+		/**
+		 * ConnectReject is sent from the Server to the Client to reject a connection.
+		 * This is done when the server is full, or if the server is in the middle of a game. (until we implement spectator mode or player blocking)
+		 * 
+		 * @param name: message to be displayed by the client
+		 */
+		public ConnectReject(String msg) {
+			this.msg = msg;
+		}
+	}
+	
 	public static class PlayerConnect {
 		public boolean firstTime;
 		public String name;
@@ -742,6 +757,7 @@ public class Packets {
      * @param kryo The kryo object
      */
     public static void allPackets(Kryo kryo) {
+    	kryo.register(ConnectReject.class);
     	kryo.register(PlayerConnect.class);
     	kryo.register(ServerLoaded.class);
     	kryo.register(Paused.class);

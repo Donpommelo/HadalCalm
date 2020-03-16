@@ -654,6 +654,11 @@ public class PlayState extends GameState {
 			break;
 		case TITLE:
 			gsm.removeState(PlayState.class);
+			if (!gsm.getStates().isEmpty()) {
+				if (gsm.getStates().peek() instanceof TitleState) {
+					((TitleState)gsm.getStates().peek()).setNotification(resultsText);
+				}
+			}
 			break;
 		default:
 			break;

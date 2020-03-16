@@ -323,10 +323,10 @@ public class GameStateManager {
 	 */
 	public GameState getState(State state) {
 		switch(state) {
-		case TITLE: return new TitleState(this);
-		case SPLASH: return new InitState(this);
-		default:
-			break;
+			case TITLE: return new TitleState(this);
+			case SPLASH: return new InitState(this);
+			default:
+				break;
 		}
 		return null;
 	}
