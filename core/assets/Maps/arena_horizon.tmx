@@ -197,7 +197,7 @@
   <object id="32" name="Multitrigger" type="Multitrigger" x="480" y="3584" width="32" height="32">
    <properties>
     <property name="triggeredId" value="nextWave"/>
-    <property name="triggeringId" value="resetWaveTimer,waveSpawn,incrementWave,incrementScore"/>
+    <property name="triggeringId" value="resetWaveTimer,waveSpawn,incrementWave"/>
    </properties>
   </object>
   <object id="33" name="Alttrigger" type="Alttrigger" x="544" y="3584" width="32" height="32">
@@ -227,14 +227,6 @@
     <property name="prefabId" value="Limit"/>
     <property name="triggeredId" value="waveSizeLimit"/>
     <property name="triggeringId" value="increaseWaveSize"/>
-   </properties>
-  </object>
-  <object id="37" name="Game" type="Game" x="800" y="3584" width="32" height="32">
-   <properties>
-    <property name="changeTimer" type="bool" value="false"/>
-    <property name="score" type="int" value="1"/>
-    <property name="timerIncr" type="float" value="0"/>
-    <property name="triggeredId" value="incrementScore"/>
    </properties>
   </object>
   <object id="38" name="Dropthrough" type="Dropthrough" x="1280" y="1088" width="288" height="8"/>

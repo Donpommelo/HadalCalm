@@ -31,7 +31,7 @@ public class UIExtra extends AHadalActor {
 	private ArrayList<UITag> uiTags;
 	
 	//These variables are all fields that are displayed in the default tags for the ui
-	private int scrap, score, lives, wins;
+	private int scrap, score, hiscore, lives, wins;
 	
 	//Timer is used for timed scripted events. timerIncr is how much the timer should tick every update cycle (usually -1, 0 or 1)
 	private float timer, timerIncr;
@@ -59,6 +59,9 @@ public class UIExtra extends AHadalActor {
 				break;
 			case SCORE:
 				text = text.append("SCORE: " + score + "\n");
+				break;
+			case HISCORE:
+				text = text.append("HISCORE: " + hiscore + "\n");
 				break;
 			case WINS:
 				text = text.append("WINS: " + wins + "\n");
@@ -134,6 +137,10 @@ public class UIExtra extends AHadalActor {
 	 */
 	public void syncData() {
 		scrap = state.getGsm().getRecord().getScrap();
+		
+		if (state.getGsm().getRecord().getHiScores().containsKey(state.getLevel().toString())) {
+			hiscore = state.getGsm().getRecord().getHiScores().get(state.getLevel().toString());
+		}
 		
 		SavedPlayerFields field = null;
 		

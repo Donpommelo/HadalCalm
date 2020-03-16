@@ -45,4 +45,9 @@ public class Text extends Event {
 		HadalGame.SYSTEM_FONT_UI.getData().setScale(scale);
 		HadalGame.SYSTEM_FONT_UI.draw(batch, text, getPixelPosition().x, getPixelPosition().y);
 	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(eventSyncTypes.ALL);
+	}
 }

@@ -20,6 +20,7 @@ public class Record {
 	private Map<String, Integer> flags;
 	
 	//This is a map of the player's unlocks
+	private Map<String, Integer> hiScores;
 	private Map<String, Boolean> unlockEquip;
 	private Map<String, Boolean> unlockArtifact;
 	private Map<String, Boolean> unlockActive;
@@ -27,6 +28,18 @@ public class Record {
 	private Map<String, Boolean> unlockLevel;
 	
 	public Record() {}
+	
+	public boolean updateScore(int score, UnlockLevel level) {
+		if (hiScores.containsKey(level.toString())) {
+			if (score > hiScores.get(level.toString())) {
+				hiScores.put(level.toString(), score);
+				
+				saveRecord();
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * This increments the player's scrap and saves
@@ -71,6 +84,7 @@ public class Record {
 		newRecord.flags.put("DERELICTTB6", 0);
 		newRecord.flags.put("PLENUMTURBINE", 0);
 		
+		newRecord.hiScores = new HashMap<String, Integer>();
 		newRecord.unlockEquip = new HashMap<String, Boolean>();
 		newRecord.unlockArtifact = new HashMap<String, Boolean>();
 		newRecord.unlockActive = new HashMap<String, Boolean>();
@@ -97,6 +111,8 @@ public class Record {
 			newRecord.unlockLevel.put(level.toString(), true);
 		}
 		
+		newRecord.hiScores.put("ARENA_HORIZON", 0);
+		
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
 	}
 	
@@ -104,6 +120,8 @@ public class Record {
 	
 	public Map<String, Integer> getFlags() { return flags; }
 
+	public Map<String, Integer> getHiScores() { return hiScores; }
+	
 	public Map<String, Boolean> getUnlockEquip() { return unlockEquip; }
 
 	public Map<String, Boolean> getUnlockArtifact() { return unlockArtifact; }

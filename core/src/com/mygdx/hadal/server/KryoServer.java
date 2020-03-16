@@ -402,18 +402,21 @@ public class KryoServer {
 					scores.get(0).registerKill();
 				}
 			}
-			
-			if (vic.equals(ps.getPlayer())) {
-				scores.get(0).registerDeath();
+			if (vic != null) {
+				if (vic.equals(ps.getPlayer())) {
+					scores.get(0).registerDeath();
+				}
 			}
 			
 			//Otherwise, update score of client matching the players involved
-			for (Entry<Integer, Player> conn: players.entrySet()) {
-				if (conn.getValue().equals(vic)) {
-					if (scores.containsKey(conn.getKey())) {
-						scores.get(conn.getKey()).registerDeath();
+			if (vic != null) {
+				for (Entry<Integer, Player> conn: players.entrySet()) {
+					if (conn.getValue().equals(vic)) {
+						if (scores.containsKey(conn.getKey())) {
+							scores.get(conn.getKey()).registerDeath();
+						}
+						break;
 					}
-					break;
 				}
 			}
 			

@@ -1,7 +1,6 @@
 {
 resolution: 1
 framerate: 3
-fullscreen: true
 vsync: true
 soundVolume: 1
 musicVolume: 1

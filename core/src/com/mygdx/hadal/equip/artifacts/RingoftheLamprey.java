@@ -13,7 +13,7 @@ public class RingoftheLamprey extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static float lifesteal = 0.03f;
+	private final static float lifesteal = 0.05f;
 	private final static float damage = 2.5f;
 	private final static float hpThreshold = 0.50f;
 	

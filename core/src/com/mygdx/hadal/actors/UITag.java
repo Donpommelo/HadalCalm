@@ -46,6 +46,7 @@ public class UITag {
 	 */
 	public enum uiType {
 		SCORE,
+		HISCORE,
 		WINS,
 		SCRAP,
 		LIVES,

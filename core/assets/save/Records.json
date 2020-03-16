@@ -1,5 +1,5 @@
 {
-scrap: 116
+scrap: 34
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -15,6 +15,10 @@ flags: {
 	PLENUMTURBINE: 0
 	WRECK0SC: 1
 	WRECK1SC: 1
+}
+hiScores: {
+	class: java.util.HashMap
+	ARENA_HORIZON: 21
 }
 unlockEquip: {
 	class: java.util.HashMap

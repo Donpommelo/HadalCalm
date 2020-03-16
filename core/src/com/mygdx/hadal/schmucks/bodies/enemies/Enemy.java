@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -116,12 +117,16 @@ public class Enemy extends Schmuck {
 				hitboxfilter, false, getBodyData());
 		
 		//on death, the enemy will activate its spawner's connected event (if existent)
+		//this also increments player score if coop/single player arena
 		getBodyData().addStatus(new Status(state, getBodyData()) {
 			
 			@Override
 			public void onDeath(BodyData perp) {
 				if (spawner != null) {
 					spawner.onDeath(inflicted.getSchmuck());
+				}
+				if (!state.isPvp() && perp instanceof PlayerBodyData) {
+					HadalGame.server.registerKill((Player) perp.getSchmuck(), null);
 				}
 			}
 		});
