@@ -1,12 +1,14 @@
 {
 resolution: 1
 framerate: 3
+fullscreen: true
 vsync: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
 randomNameAlliteration: true
 consoleEnabled: true
-lives: 1
+lives: 2
 loadoutType: 1
+maxPlayers: 4
 }

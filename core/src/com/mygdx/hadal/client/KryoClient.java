@@ -454,7 +454,7 @@ public class KryoClient {
         					((TitleState)gsm.getStates().peek()).setNotification(p.msg);
         				}
         			}
-        			client.close();
+        			client.stop();
         		}
         		
         		/*
