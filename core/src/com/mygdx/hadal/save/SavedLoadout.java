@@ -19,7 +19,7 @@ public class SavedLoadout {
 	private String name;
 
 	//max size of name createable in title screen
-	private static final int maxNameLength = 100;
+	private static final int maxNameLength = 50;
 	
 	public SavedLoadout() {}
 	

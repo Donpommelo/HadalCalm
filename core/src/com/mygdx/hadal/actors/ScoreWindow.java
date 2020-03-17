@@ -61,7 +61,14 @@ public class ScoreWindow {
 		if (state.isServer()) {
 			
 			for (SavedPlayerFields field: HadalGame.server.getScores().values()) {			
-				Text name = new Text(field.getName(), 0, 0, false);
+				
+				String displayedName = field.getName();
+				
+				if (displayedName.length() > 20) {
+					displayedName = displayedName.substring(0, 20).concat("...");
+				}
+				
+				Text name = new Text(displayedName, 0, 0, false);
 				name.setScale(scale);
 				
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);
@@ -81,7 +88,14 @@ public class ScoreWindow {
 			}
 		} else {
 			for (SavedPlayerFields field: HadalGame.client.getScores().values()) {				
-				Text name = new Text(field.getName(), 0, 0, false);
+				
+				String displayedName = field.getName();
+				
+				if (displayedName.length() > 20) {
+					displayedName = displayedName.substring(0, 20).concat("...");
+				}
+				
+				Text name = new Text(displayedName, 0, 0, false);
 				name.setScale(scale);
 				
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);

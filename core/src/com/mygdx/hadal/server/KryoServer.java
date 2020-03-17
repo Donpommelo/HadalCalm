@@ -102,6 +102,10 @@ public class KryoServer {
                         @Override
                         public void run() {
                         	vs.readyPlayer(c.getID());
+                        	//remove disconnecting player from all tracked lists
+							players.remove(c.getID());
+							mice.remove(c.getID());
+							scores.remove(c.getID());
                         }
 					});
 				}

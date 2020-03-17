@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public enum AssetList {
 
 	TITLE_CARD("HADAL_PANIC_3.jpg", Texture.class),
+	RESULTS_CARD("same.png", Texture.class),
 	FIXEDSYS_FONT("fonts/fixedsys.fnt", null),
 	
 	// Player and enemy sprites.

@@ -2,6 +2,7 @@ package com.mygdx.hadal.actors;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -159,7 +160,24 @@ public class MessageWindow {
 		textLog = new ScrollPane(tableLog, GameStateManager.getSkin());
 		textLog.setFadeScrollBars(true);
 		
-		enterMessage = new TextField("", GameStateManager.getSkin());
+		enterMessage = new TextField("", GameStateManager.getSkin()) {
+			
+			@Override
+			protected InputListener createInputListener () {
+				
+				return  new TextFieldClickListener() {
+		            
+					@Override
+		            public boolean keyUp(InputEvent event, int keycode) {
+		                if (keycode == Keys.ENTER) {
+		                	sendMessage();
+		                }
+		                return super.keyUp(event, keycode);
+		            };
+		        };
+			}
+		};
+
 		enterMessage.setMaxLength(maxMessageLength);
 		
 		sendMessage = new Text("SEND", 0, 0, true);

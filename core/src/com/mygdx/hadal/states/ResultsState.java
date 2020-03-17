@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.MenuWindow;
+import com.mygdx.hadal.actors.ResultsBackdrop;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
@@ -28,7 +30,7 @@ public class ResultsState extends GameState {
 	private Table table;
 		
 	//These are all of the display and buttons visible to the player.
-	private Text readyOption;
+	private Text readyOption, forceReadyOption;
 	
 	//This is the playstate that the results state is placed on top of
 	private PlayState ps;
@@ -43,7 +45,9 @@ public class ResultsState extends GameState {
 	
 	//Dimentions and position of the results menu
 	private final static int width = 1000;
-	private final static int height = 600;
+	private final static int baseHeight = 75;
+	private final static int titleHeight = 60;
+	private final static int rowHeight = 50;
 	private static final float scale = 0.5f;
 	
 	/**
@@ -63,7 +67,6 @@ public class ResultsState extends GameState {
 			gsm.getRecord().updateScore(scores.get(0).getScore(), ps.level);
 		} else {
 			scores = new ArrayList<SavedPlayerFields>(HadalGame.client.getScores().values());
-//			gsm.getRecord().updateScore(scores.get(HadalGame.client.connID).getScore(), ps.level);
 		}
 		
 		//Then, we sort according to score and give the winner(s) a win.
@@ -88,12 +91,15 @@ public class ResultsState extends GameState {
 	public void show() {
 		stage = new Stage() {
 			{
+				int tableHeight = baseHeight + titleHeight * 2 + rowHeight * scores.size();
+				
+				addActor(new ResultsBackdrop());
+				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT - tableHeight, width, tableHeight));
 				table = new Table();
-				table.setLayoutEnabled(true);
 				table.setPosition(
 						HadalGame.CONFIG_WIDTH / 2 - width / 2, 
-						HadalGame.CONFIG_HEIGHT / 2 - height / 2);
-				table.setSize(width, height);
+						HadalGame.CONFIG_HEIGHT - tableHeight);
+				table.setSize(width, tableHeight);
 				addActor(table);
 				syncScoreTable();
 			}
@@ -109,27 +115,56 @@ public class ResultsState extends GameState {
 	public void syncScoreTable() {
 		table.clear();
 		
-		table.add(new Text(text, 0, 0, false)).padBottom(50).colspan(5).row();
-		table.add(new Text("PLAYER", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("KILLS", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("DEATH", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("SCORE", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("STATUS", 0, 0, false)).padBottom(50).row();
+		Text title = new Text(text, 0, 0, false);
+		title.setScale(scale);
+		
+		Text playerLabel = new Text("PLAYER", 0, 0, false);
+		playerLabel.setScale(scale);
+		
+		Text killsLabel = new Text("KILLS", 0, 0, false);
+		killsLabel.setScale(scale);
+		
+		Text deathsLabel = new Text("DEATHS", 0, 0, false);
+		deathsLabel.setScale(scale);
+		
+		Text scoreLabel = new Text("SCORE", 0, 0, false);
+		scoreLabel.setScale(scale);
+		
+		Text statusLabel = new Text("STATUS", 0, 0, false);
+		statusLabel.setScale(scale);
+		
+		table.add(title).height(titleHeight).colspan(5).row();
+		table.add(playerLabel).height(titleHeight).padRight(20);
+		table.add(killsLabel).height(titleHeight).padRight(20);
+		table.add(deathsLabel).height(titleHeight).padRight(20);
+		table.add(scoreLabel).height(titleHeight).padRight(20);
+		table.add(statusLabel).height(titleHeight).row();
 		
 		for (SavedPlayerFields score: scores) {
-			Text name = new Text(score.getName(), 0, 0, false);
+			
+			String displayedName = score.getName();
+			
+			if (displayedName.length() > 20) {
+				displayedName = displayedName.substring(0, 20).concat("...");
+			}
+			
+			Text name = new Text(displayedName, 0, 0, false);
 			name.setScale(scale);
 			
 			Text kills = new Text(score.getKills() + " ", 0, 0, false);
+			kills.setScale(scale);
 			Text death = new Text(score.getDeaths() + " ", 0, 0, false);
+			death.setScale(scale);
 			Text points = new Text(score.getScore() + " ", 0, 0, false);
+			points.setScale(scale);
 			Text status = new Text(ready.get(score) ? "READY" : "WAITING", 0, 0, false);
-				
-			table.add(name).padBottom(25);
-			table.add(kills).padBottom(25);
-			table.add(death).padBottom(25);
-			table.add(points).padBottom(25);
-			table.add(status).padBottom(25).row();
+			status.setScale(scale);
+
+			table.add(name).height(rowHeight).padBottom(25);
+			table.add(kills).height(rowHeight).padBottom(25);
+			table.add(death).height(rowHeight).padBottom(25);
+			table.add(points).height(rowHeight).padBottom(25);
+			table.add(status).height(rowHeight).padBottom(25).row();
 		}
 		
 		readyOption = new Text("RETURN TO LOADOUT?", 0, 0, true);
@@ -149,13 +184,29 @@ public class ResultsState extends GameState {
 	    });
 		readyOption.setScale(0.5f);
 		
-		table.add(readyOption).padLeft(25);
+		forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
+		
+		forceReadyOption.addListener(new ClickListener() {
+	        
+			@Override
+			public void clicked(InputEvent e, float x, float y) {
+	        	
+	        	//When pressed, the force ready option forces a transition.
+				returnToHub();
+	        }
+	    });
+		forceReadyOption.setScale(0.5f);
+		
+		table.add(readyOption).expandX();
+		if (ps.isServer()) {
+			table.add(forceReadyOption).expandX();
+		}
 	}
 	
 	/**
 	 * This is pressed whenever a player gets ready.
 	 * @param playerId: If this is run by the server, this is the player's connID (or 0, if the host themselves).
-	 * For the client, playerId is the indix in scores of thte player that readies.
+	 * For the client, playerId is the index in scores of thte player that readies.
 	 */
 	public void readyPlayer(int playerId) {
 		if (ps.isServer()) {
@@ -185,23 +236,27 @@ public class ResultsState extends GameState {
 		
 		//When the server is ready, we return to hub and tell all clients to do the same.
 		if (reddy) {
-			if (ps.isServer()) {
-				gsm.getApp().setRunAfterTransition(new Runnable() {
-
-					@Override
-					public void run() {
-						gsm.removeState(ResultsState.class);
-						gsm.removeState(PlayState.class);
-						gsm.gotoHubState();
-					}
-					
-				});
-			}
+			returnToHub();
 			
-			gsm.getApp().fadeOut();
 		}
 	}
 
+	public void returnToHub() {
+		if (ps.isServer()) {
+			gsm.getApp().setRunAfterTransition(new Runnable() {
+
+				@Override
+				public void run() {
+					gsm.removeState(ResultsState.class);
+					gsm.removeState(PlayState.class);
+					gsm.gotoHubState();
+				}
+				
+			});
+		}
+		gsm.getApp().fadeOut();
+	}
+	
 	@Override
 	public void update(float delta) {}
 

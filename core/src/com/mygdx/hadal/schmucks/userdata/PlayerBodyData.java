@@ -600,6 +600,8 @@ public class PlayerBodyData extends BodyData {
 			if (perp instanceof PlayerBodyData) {
 				Player p = (Player)perp.getSchmuck();
 				HadalGame.server.addNotificationToAll(player.getState(), player.getName(),  "was killed by " + p.getName());
+			} else {
+				HadalGame.server.addNotificationToAll(player.getState(), player.getName(),  "died.");
 			}
 		}
 	}
