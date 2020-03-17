@@ -89,10 +89,8 @@ public class MessageWindow {
 				
 				if (state.getStage() != null) {
 					state.getStage().setKeyboardFocus(null);
-					if (!state.getStage().getScrollFocus().equals(null)) {
-						if (state.getStage().getScrollFocus().equals(textLog)) {
-							state.getStage().setScrollFocus(null);
-						}
+					if (state.getStage().getScrollFocus() == textLog) {
+						state.getStage().setScrollFocus(null);
 					}
 				}
 			}
