@@ -58,4 +58,6 @@ public abstract class GameState {
 	public GameStateManager getGsm() {return gsm; }
 
 	public Stage getStage() { return stage; }
+	
+	public boolean processTransitions() { return true; }
 }

@@ -210,7 +210,10 @@ public class SettingState extends GameState {
 			}
 		};
 		app.newMenu(stage);
-		gsm.getApp().fadeIn();
+		
+		if (gsm.getApp().getFadeLevel() >= 1.0f) {
+			gsm.getApp().fadeIn();
+		}
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(new InputProcessor() {
@@ -592,6 +595,13 @@ public class SettingState extends GameState {
 	public void dispose() { stage.dispose(); }
 	
 	public PlayState getPs() { return ps; }
+	
+	@Override
+	public boolean processTransitions() { 
+		
+		//if this is a setting state over a play state, we don't process transitions
+		return ps == null; 
+	}
 	
 	public enum settingTab {
 		DISPLAY,

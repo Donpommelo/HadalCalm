@@ -244,6 +244,7 @@ public class GameStateManager {
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState) {
+		
 		if (states.empty()) {
 			states.push(new PauseState(this, ps, pauser));
 			states.peek().show();

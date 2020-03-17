@@ -251,4 +251,7 @@ public class PauseState extends GameState {
 	public PlayState getPs() { return ps; }
 
 	public String getPauser() {	return pauser; }	
+	
+	@Override
+	public boolean processTransitions() { return false; }
 }

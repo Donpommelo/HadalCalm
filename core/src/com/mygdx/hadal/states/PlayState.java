@@ -320,7 +320,10 @@ public class PlayState extends GameState {
 
 		app.newMenu(stage);
 		resetController();
-		gsm.getApp().fadeIn();
+		
+		if (gsm.getApp().getFadeLevel() >= 1.0f) {
+			gsm.getApp().fadeIn();
+		}
 	}
 
 	/**
@@ -677,8 +680,8 @@ public class PlayState extends GameState {
 		if (!server) {
 			return;
 		}
-		
-		if (nextLevel == null) {
+
+		if (nextState == null) {
 			
 			//begin transitioning to the designated next level
 			nextLevel = level;
@@ -860,7 +863,7 @@ public class PlayState extends GameState {
 	 * @param state: Is it ending as a gameover or a results screen?
 	 */
 	public void levelEnd(String text) {
-		beginTransition(TransitionState.RESULTS, false, text, defaultFadeOutSpeed, deathFadeDelay);
+		beginTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay);
 		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, false, text, defaultFadeOutSpeed, deathFadeDelay));
 	}
 	

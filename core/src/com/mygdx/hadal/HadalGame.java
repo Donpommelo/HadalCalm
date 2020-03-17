@@ -143,29 +143,31 @@ public class HadalGame extends ApplicationAdapter {
 			batch.end();
 		}
 		
-		//If we are in the delay period of a transition, decrement the delay
-		if (fadeDelay > 0.0f) {
-			fadeDelay -= delta;
-		} else if (fadeDelta < 0f) {
-			//If we are fading in and not done yet, decrease fade.
-			fadeLevel += fadeDelta * delta;
-			
-			//If we just finished fading in, set fade to 0
-			if (fadeLevel < 0f) {
-				fadeLevel = 0f;
-				fadeDelta = 0;
-			}
-		} else if (fadeDelta > 0f) {
-			
-			//If we are fading out and not done yet, increase fade.
-			fadeLevel += fadeDelta * delta;
-			
-			//If we just finished fading out, set fade to 1 and do a transition
-			if (fadeLevel >= 1f) {
-				fadeLevel = 1f;
-				fadeDelta = 0;
-				if (runAfterTransition != null) {
-					Gdx.app.postRunnable(runAfterTransition);
+		if (gsm.getStates().peek().processTransitions()) {
+			//If we are in the delay period of a transition, decrement the delay
+			if (fadeDelay > 0.0f) {
+				fadeDelay -= delta;
+			} else if (fadeDelta < 0f) {
+				//If we are fading in and not done yet, decrease fade.
+				fadeLevel += fadeDelta * delta;
+				
+				//If we just finished fading in, set fade to 0
+				if (fadeLevel < 0f) {
+					fadeLevel = 0f;
+					fadeDelta = 0;
+				}
+			} else if (fadeDelta > 0f) {
+				
+				//If we are fading out and not done yet, increase fade.
+				fadeLevel += fadeDelta * delta;
+				
+				//If we just finished fading out, set fade to 1 and do a transition
+				if (fadeLevel >= 1f) {
+					fadeLevel = 1f;
+					fadeDelta = 0;
+					if (runAfterTransition != null) {
+						Gdx.app.postRunnable(runAfterTransition);
+					}
 				}
 			}
 		}
@@ -233,6 +235,8 @@ public class HadalGame extends ApplicationAdapter {
 	 * This is extended in the desktop launcher to expose the config
 	 */
 	public void setFrameRate(int framerate) {};
+	
+	public float getFadeLevel() { return fadeLevel; }
 	
 	public OrthographicCamera getHud() { return hud; }
 	
