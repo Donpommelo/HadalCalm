@@ -30,6 +30,7 @@ public class Spittlefish extends EnemySwimming {
 	
 	private static final float attackCd = 0.5f;
 	private static final float airSpeed = -0.5f;
+	private static final float kbRes = 0.5f;
 	
 	private static final float minRange = 6.0f;
 	private static final float maxRange = 12.0f;
@@ -47,6 +48,7 @@ public class Spittlefish extends EnemySwimming {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, kbRes, getBodyData()));
 	}
 	
 	private final static float baseDamage = 5.0f;

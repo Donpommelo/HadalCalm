@@ -115,7 +115,7 @@ public class Enemy extends Schmuck {
 		
 		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, false, true, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 				hitboxfilter, false, getBodyData());
-		
+
 		//on death, the enemy will activate its spawner's connected event (if existent)
 		//this also increments player score if coop/single player arena
 		getBodyData().addStatus(new Status(state, getBodyData()) {

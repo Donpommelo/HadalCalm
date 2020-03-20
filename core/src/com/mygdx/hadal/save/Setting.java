@@ -89,7 +89,7 @@ public class Setting {
 	public void resetGameplay() {
 		timer = 0;
 		lives = 1;
-		loadoutType = 0;
+		loadoutType = 1;
 	}
 	
 	public void resetMisc() {

@@ -213,7 +213,11 @@ public abstract class HadalEntity {
 	 * use when you want screen coordinates instead of getPosition()
 	 */
 	private Vector2 pixelPosition = new Vector2();
-	public Vector2 getPixelPosition() {	return pixelPosition.set(body.getPosition()).scl(PPM); }
+	public Vector2 getPixelPosition() {	
+		if (body != null) {
+			return pixelPosition.set(body.getPosition()).scl(PPM); 
+		} else { return pixelPosition.scl(PPM); }
+	}
 	
 	public Body getBody() { return body; }
 	

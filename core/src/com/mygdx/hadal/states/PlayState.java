@@ -710,14 +710,17 @@ public class PlayState extends GameState {
 		if (pvp && !hub) {
 			switch(gsm.getSetting().getLoadoutType()) {
 			
-			//default setting: each player starts with a basic weapon
+			//copy setting: each player starts with the same loadout as the host (used for custom games)
 			case 0:
-				newLoadout.multitools[0] = UnlockEquip.SPEARGUN;
-				for (int i = 1; i < Loadout.maxWeaponSlots; i++) {
-					newLoadout.multitools[i] = UnlockEquip.NOTHING;
+				for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+					newLoadout.multitools[i] = UnlockEquip.valueOf(gsm.getLoadout().getEquips()[i]);
 				}
-				break;
+				for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+					newLoadout.artifacts[i] = UnlockArtifact.valueOf(gsm.getLoadout().getArtifacts()[i]);
+				}
+				newLoadout.activeItem = UnlockActives.valueOf(gsm.getLoadout().getActive());
 				
+				break;
 			//select setting: each player starts with the weapons they selected in the hub
 			case 1:
 				break;

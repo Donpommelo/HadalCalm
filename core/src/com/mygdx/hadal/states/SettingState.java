@@ -427,7 +427,7 @@ public class SettingState extends GameState {
 		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
 		
 		loadoutOptions = new SelectBox<String>(GameStateManager.getSkin());
-		loadoutOptions.setItems("DEFAULT", "SELECTED", "RANDOM");
+		loadoutOptions.setItems("COPY HOST", "SELECTED", "RANDOM");
 		loadoutOptions.setWidth(100);
 		
 		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
