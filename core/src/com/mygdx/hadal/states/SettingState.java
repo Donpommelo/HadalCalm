@@ -45,7 +45,7 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions, timerOptions, livesOptions, loadoutOptions, playerCapacity;
+	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, playerCapacity;
 	private Slider sound, music, master;
 	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled;
 		
@@ -279,11 +279,34 @@ public class SettingState extends GameState {
 		Text framerate = new Text("FRAMERATE: ", 0, 0, false);
 		framerate.setScale(detailsScale);
 		
+		Text cursortype = new Text("CURSOR TYPE: ", 0, 0, false);
+		cursortype.setScale(detailsScale);
+		
+		Text cursorsize = new Text("CURSOR SIZE: ", 0, 0, false);
+		cursorsize.setScale(detailsScale);
+		
+		Text cursorcolor = new Text("CURSOR COLOR: ", 0, 0, false);
+		cursorcolor.setScale(detailsScale);
+		
 		framerateOptions = new SelectBox<String>(GameStateManager.getSkin());
 		framerateOptions.setItems("30 fps", "60 fps", "90 fps", "120 fps");
-		framerateOptions.setWidth(100);
 		
 		framerateOptions.setSelectedIndex(gsm.getSetting().getFramerate());
+		
+		cursorOptions = new SelectBox<String>(GameStateManager.getSkin());
+		cursorOptions.setItems("DEFAULT", "CROSSHAIR", "DOT");
+		
+		cursorOptions.setSelectedIndex(gsm.getSetting().getCursorType());
+
+		cursorSize = new SelectBox<String>(GameStateManager.getSkin());
+		cursorSize.setItems("SMALL", "MEDIUM", "LARGE");
+		
+		cursorSize.setSelectedIndex(gsm.getSetting().getCursorSize());
+		
+		cursorColor = new SelectBox<String>(GameStateManager.getSkin());
+		cursorColor.setItems("BLACK", "CYAN", "LIME", "MAGENTA", "RED", "WHITE", "YELLOW");
+		
+		cursorColor.setSelectedIndex(gsm.getSetting().getCursorColor());
 		
 		fullscreen = new CheckBox("FULLSCREEN", GameStateManager.getSkin());
 		vsync = new CheckBox("VSYNC", GameStateManager.getSkin());
@@ -297,6 +320,12 @@ public class SettingState extends GameState {
 		details.add(framerateOptions).row();
 		details.add(fullscreen).row();
 		details.add(vsync).row();
+		details.add(cursortype);
+		details.add(cursorOptions).row();
+		details.add(cursorsize);
+		details.add(cursorSize).row();
+		details.add(cursorcolor);
+		details.add(cursorColor).row();
 	}
 	
 	/**
@@ -422,13 +451,11 @@ public class SettingState extends GameState {
 		
 		livesOptions = new SelectBox<String>(GameStateManager.getSkin());
 		livesOptions.setItems("UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES");
-		livesOptions.setWidth(100);
 		
 		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
 		
 		loadoutOptions = new SelectBox<String>(GameStateManager.getSkin());
 		loadoutOptions.setItems("COPY HOST", "SELECTED", "RANDOM");
-		loadoutOptions.setWidth(100);
 		
 		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
 		
@@ -480,6 +507,9 @@ public class SettingState extends GameState {
 			gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
 			gsm.getSetting().setFullscreen(fullscreen.isChecked());
 			gsm.getSetting().setVsync(vsync.isChecked());
+			gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
+			gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
+			gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
 			gsm.getSetting().setDisplay(gsm.getApp());
 			gsm.getSetting().saveSetting();
 			displaySelected();

@@ -6,6 +6,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
@@ -34,7 +35,7 @@ public class DamageHeadshot extends HitboxStrategy {
 			if (fixB instanceof PlayerBodyData) {
 				PlayerBodyData p = (PlayerBodyData) fixB;
 				if ((hbox.getPixelPosition().y - p.getPlayer().getPixelPosition().y) > headshotThreshold * Player.hbHeight * Player.scale) {
-					fixB.receiveDamage(bonusDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true);
+					fixB.receiveDamage(bonusDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.SNIPE);
 				}
 			}
 		}

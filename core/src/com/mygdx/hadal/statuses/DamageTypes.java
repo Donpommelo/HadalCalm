@@ -8,12 +8,32 @@ package com.mygdx.hadal.statuses;
 public enum DamageTypes {
 	DEFLECT,
 	REFLECT,
+	
 	MELEE,
 	RANGED,
+	
+	DECAPITATION,
+	IMPALEMENT,
+	CRUSHING,
+	
+	BEES,
+	BULLET,
+	ELECTRICITY,
 	EXPLOSIVE,
-	AIR,
 	FIRE,
+	LASER,
+	MAGIC,
 	POISON,
+	SHRAPNEL,
+	SLODGE,
+	SNIPE,
+	SOUND,
+	WATER,
+	
+	DISCONNECT,
+	LIVES_OUT,
+	BLASTZONE,
+	
 	REGEN,
 	MEDPAK,
 	LIFESTEAL,

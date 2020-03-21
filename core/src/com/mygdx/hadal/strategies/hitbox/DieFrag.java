@@ -46,7 +46,7 @@ public class DieFrag extends HitboxStrategy {
 			Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), projectileSize, lifespan, fragVelo, hbox.getFilter(), true, false, creator.getSchmuck(), projSprite);
 			
 			frag.addStrategy(new ControllerDefault(state, frag, creator));
-			frag.addStrategy(new DamageStandard(state, frag, creator, baseDamage, knockback, DamageTypes.RANGED));
+			frag.addStrategy(new DamageStandard(state, frag, creator, baseDamage, knockback, DamageTypes.SHRAPNEL));
 		}
 	}
 }

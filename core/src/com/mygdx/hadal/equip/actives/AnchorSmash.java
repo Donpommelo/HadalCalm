@@ -68,7 +68,7 @@ public class AnchorSmash extends ActiveItem {
 		Hitbox hbox = new Hitbox(state, originPt, projectileSize, lifespan, new Vector2(0, -projectileSpeed),
 				user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.ORB_BLUE);
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.CRUSHING, DamageTypes.MAGIC));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			
 			@Override

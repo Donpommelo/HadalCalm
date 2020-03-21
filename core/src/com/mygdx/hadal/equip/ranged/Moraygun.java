@@ -55,7 +55,7 @@ public class Moraygun extends RangedWeapon {
 			final int num = i;
 			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+			hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.LASER, DamageTypes.RANGED));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			

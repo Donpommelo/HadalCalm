@@ -45,7 +45,7 @@ public class Airblaster extends MeleeWeapon {
 		hbox.makeUnreflectable();
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW))),
-				DamageTypes.AIR, DamageTypes.DEFLECT, DamageTypes.REFLECT));
+				DamageTypes.DEFLECT, DamageTypes.REFLECT));
 		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

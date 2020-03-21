@@ -1,6 +1,10 @@
 {
 resolution: 1
 framerate: 3
+cursorType: 1
+cursorSize: 1
+cursorColor: 3
+maxPlayers: 4
 vsync: true
 soundVolume: 1
 musicVolume: 1
@@ -8,5 +12,5 @@ masterVolume: 1
 randomNameAlliteration: true
 consoleEnabled: true
 lives: 2
-maxPlayers: 4
+loadoutType: 1
 }

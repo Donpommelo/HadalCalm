@@ -20,7 +20,9 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
 import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
+import com.mygdx.hadal.utils.DeathTextUtil;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -584,7 +586,7 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	@Override
-	public void die(BodyData perp) {
+	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
 			
 			player.createGibs();
@@ -594,15 +596,10 @@ public class PlayerBodyData extends BodyData {
 			if (player.getMouse() != player.getState().getMouse()) {
 				player.getMouse().queueDeletion();
 			}
-			super.die(perp);
+			super.die(perp, tags);
 			
 			//Send death notification to all players
-			if (perp instanceof PlayerBodyData) {
-				Player p = (Player)perp.getSchmuck();
-				HadalGame.server.addNotificationToAll(player.getState(), player.getName(),  "was killed by " + p.getName());
-			} else {
-				HadalGame.server.addNotificationToAll(player.getState(), player.getName(),  "died.");
-			}
+			HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(perp.getSchmuck(), player, tags));
 		}
 	}
 	

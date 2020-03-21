@@ -72,7 +72,7 @@ public class PlayerChanger extends Event {
 				}				
 				
 				if (hp < 0) {
-					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false);
+					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false, DamageTypes.BLASTZONE);
 					activated = true;
 				}
 				

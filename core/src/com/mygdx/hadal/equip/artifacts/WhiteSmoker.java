@@ -53,7 +53,7 @@ public class WhiteSmoker extends Artifact {
 							
 							hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
 							hbox.addStrategy(new ContactUnitBurn(state, hbox, inflicted, fireDuration, fireDamage));
-							hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.RANGED));
+							hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.FIRE, DamageTypes.RANGED));
 							hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, 0.0f, 3.0f));
 						}
 					}

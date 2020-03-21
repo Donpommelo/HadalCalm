@@ -49,7 +49,7 @@ public class MeridianMaker extends ActiveItem {
 		hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MAGIC));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			

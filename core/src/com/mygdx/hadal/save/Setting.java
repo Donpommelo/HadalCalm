@@ -3,6 +3,9 @@ package com.mygdx.hadal.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Graphics.Monitor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
 
@@ -13,8 +16,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public class Setting {
 
-	private int resolution;
-	private int framerate;
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers;
 	private boolean fullscreen;
 	private boolean vsync;
 	private float soundVolume;
@@ -31,8 +33,6 @@ public class Setting {
 	
 	//for pvp, how should we give new players loadout? (this variable is an index in an array. 0 = start with default, 1 = start with chosen, 2 = start with random)
 	private int loadoutType;
-	
-	private int maxPlayers;
 	
 	public Setting() {}
 	
@@ -59,6 +59,29 @@ public class Setting {
     	Gdx.graphics.setVSync(vsync);
     	
     	game.setFrameRate(indexToFramerate());
+    	
+    	setCursor();
+	}
+	
+	public void setCursor() {
+		if (cursorType == 0) {
+			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
+		} else {
+			Pixmap pm = new Pixmap(indexToCursorSize(), indexToCursorSize(), Pixmap.Format.RGBA8888);
+			pm.setColor(indexToCursorColor());
+			
+			if (cursorType == 1) {
+				pm.drawCircle(indexToCursorSize() / 2, indexToCursorSize() / 2, indexToCursorSize() / 4);
+				pm.drawLine(0, indexToCursorSize() / 2, indexToCursorSize(), indexToCursorSize() / 2);
+				pm.drawLine(indexToCursorSize() / 2, 0, indexToCursorSize() / 2, indexToCursorSize());
+			}
+			if (cursorType == 2) {
+				pm.fillCircle(indexToCursorSize() / 2, indexToCursorSize() / 2, indexToCursorSize() / 3);
+			}
+			
+	    	Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, indexToCursorSize() / 2, indexToCursorSize() / 2));
+	    	pm.dispose();
+		}
 	}
 	
 	/**
@@ -69,6 +92,8 @@ public class Setting {
 		Setting newSetting = new Setting();
 		newSetting.resetDisplay();
 		newSetting.resetAudio();
+		newSetting.resetGameplay();
+		newSetting.resetMisc();
 		
 		Gdx.files.local("save/Settings.json").writeString(GameStateManager.json.prettyPrint(newSetting), false);
 	}
@@ -78,6 +103,9 @@ public class Setting {
 		framerate = 1;
 		fullscreen = false;
 		vsync = false;
+		cursorType = 1;
+		cursorSize = 1;
+		cursorColor = 4;
 	}
 	
 	public void resetAudio() {
@@ -166,6 +194,43 @@ public class Setting {
 		}
 	}
 	
+	/**
+	 * Convert framerate from index in list to actual framerate
+	 */
+	public int indexToCursorSize() {
+		switch(cursorSize) {
+		case 0:
+			return 16;
+		case 1:
+			return 32;
+		case 2:
+			return 64;
+		default:
+			return 32;
+		}
+	}
+	
+	public Color indexToCursorColor() {
+		switch(cursorColor) {
+		case 0:
+			return Color.BLACK;
+		case 1:
+			return Color.CYAN;
+		case 2:
+			return Color.LIME;
+		case 3:
+			return Color.MAGENTA;
+		case 4:
+			return Color.RED;
+		case 5:
+			return Color.WHITE;
+		case 6:
+			return Color.YELLOW;
+		default:
+			return Color.WHITE;
+		}
+	}
+	
 	public void setResolution(int resolution) { this.resolution = resolution; }
 
 	public void setFramerate(int framerate) { this.framerate = framerate; }
@@ -173,7 +238,13 @@ public class Setting {
 	public void setFullscreen(boolean fullscreen) { this.fullscreen = fullscreen; }
 
 	public void setVsync(boolean vsync) { this.vsync = vsync; }
-		
+	
+	public void setCursorType(int cursorType) {	this.cursorType = cursorType; }
+
+	public void setCursorSize(int cursorSize) { this.cursorSize = cursorSize; }
+
+	public void setCursorColor(int cursorColor) { this.cursorColor = cursorColor; }
+
 	public void setSoundVolume(float soundVolume) {	this.soundVolume = soundVolume; }
 
 	public void setMusicVolume(float musicVolume) {	this.musicVolume = musicVolume;	}
@@ -191,6 +262,12 @@ public class Setting {
 	public boolean isFullscreen() { return fullscreen; }
 	
 	public boolean isVSync() { return vsync; }
+	
+	public int getCursorType() { return cursorType; }
+	
+	public int getCursorSize() { return cursorSize; }
+	
+	public int getCursorColor() { return cursorColor; }
 	
 	public float getSoundVolume() {	return soundVolume; }
 

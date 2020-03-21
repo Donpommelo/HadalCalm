@@ -320,7 +320,7 @@ public class BodyData extends HadalData {
 		
 		if (currentHp <= 0) {
 			currentHp = 0;
-			die(lastDamagedBy);
+			die(lastDamagedBy, tags);
 		}
 		
 		//charge on-damage active item
@@ -354,8 +354,9 @@ public class BodyData extends HadalData {
 	
 	/**
 	 * This method is called when the schmuck dies. Queue up to be deleted next engine tick.
+	 * @param tags 
 	 */
-	public void die(BodyData perp) {
+	public void die(BodyData perp, DamageTypes... tags) {
 		if (schmuck.queueDeletion()) {
 			perp.statusProcTime(new ProcTime.Kill(this));
 			statusProcTime(new ProcTime.Death(perp));

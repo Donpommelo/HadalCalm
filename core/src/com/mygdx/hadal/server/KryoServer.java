@@ -19,6 +19,7 @@ import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.SettingState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
 import com.mygdx.hadal.states.PlayState;
@@ -81,8 +82,7 @@ public class KryoServer {
 							if (p != null) {
 								
 								//Inform all that the player disconnected and kill the player
-								addNotificationToAllExcept(ps, c.getID(), p.getName(), "PLAYER DISCONNECTED!");
-								p.getPlayerData().die(ps.getWorldDummy().getBodyData());
+								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
 								
 								//remove disconnecting player from all tracked lists
 								players.remove(c.getID());

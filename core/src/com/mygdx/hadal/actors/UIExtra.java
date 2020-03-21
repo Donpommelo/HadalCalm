@@ -10,6 +10,7 @@ import com.mygdx.hadal.actors.UITag.uiType;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 
 /**
  * The UIExtra is an extra ui actor displayed in the upper right hand side.
@@ -189,7 +190,7 @@ public class UIExtra extends AHadalActor {
 				
 				//If a single player runs out of lives, they die
 				if (field.getLives() <= 0) {
-					p.getPlayerData().die(state.getWorldDummy().getBodyData());
+					p.getPlayerData().die(state.getWorldDummy().getBodyData(), DamageTypes.LIVES_OUT);
 				}
 			}
 		}

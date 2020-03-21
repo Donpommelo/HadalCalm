@@ -66,7 +66,7 @@ public class StormCloud extends ActiveItem {
 							user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.SPIT);
 					
 					rain.addStrategy(new ControllerDefault(state, rain, user));
-					rain.addStrategy(new DamageStandard(state, rain, user, rainDamage, rainKnockback, DamageTypes.RANGED));
+					rain.addStrategy(new DamageStandard(state, rain, user, rainDamage, rainKnockback, DamageTypes.WATER));
 					rain.addStrategy(new AdjustAngle(state, rain, user));
 					rain.addStrategy(new DieParticles(state, rain, user, Particle.BUBBLE_IMPACT));
 					rain.addStrategy(new ContactUnitLoseDurability(state, rain, user));

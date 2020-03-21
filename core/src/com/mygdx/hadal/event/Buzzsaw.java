@@ -8,6 +8,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -64,7 +65,7 @@ public class Buzzsaw extends Event {
 			
 			for (HadalEntity entity : eventData.getSchmucks()) {
 				if (entity instanceof Schmuck) {
-					((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(), state.getWorldDummy().getBodyData(), true);
+					((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(), state.getWorldDummy().getBodyData(), true, DamageTypes.DECAPITATION);
 				}
 			}
 		}
