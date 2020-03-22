@@ -17,13 +17,11 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers;
-	private boolean fullscreen;
-	private boolean vsync;
+	private boolean fullscreen, vsync, consoleEnabled, verboseDeathMessage;
 	private float soundVolume;
 	private float musicVolume;
 	private float masterVolume;
 	private boolean randomNameAlliteration;
-	private boolean consoleEnabled;
 
 	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
 	private int timer;
@@ -123,6 +121,7 @@ public class Setting {
 	public void resetMisc() {
 		randomNameAlliteration = true;
 		consoleEnabled = true;
+		verboseDeathMessage = false;
 		maxPlayers = 4;
 	}
 	
@@ -254,6 +253,8 @@ public class Setting {
 	public void setRandomNameAlliteration(boolean randomNameAlliteration) { this.randomNameAlliteration = randomNameAlliteration; }
 	
 	public void setConsoleEnabled(boolean consoleEnabled) { this.consoleEnabled = consoleEnabled; }
+	
+	public void setVerboseDeathMessage(boolean verboseDeathMessage) { this.verboseDeathMessage = verboseDeathMessage; }
 
 	public int getResolution() { return resolution; }
 	
@@ -278,6 +279,8 @@ public class Setting {
 	public boolean isRandomNameAlliteration() {	return randomNameAlliteration; }
 	
 	public boolean isConsoleEnabled() {	return consoleEnabled; }
+	
+	public boolean isVerboseDeathMessage() { return verboseDeathMessage; }
 
 	public int getTimer() { return timer; }
 	

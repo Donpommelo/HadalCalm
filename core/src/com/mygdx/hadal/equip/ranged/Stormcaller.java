@@ -61,7 +61,7 @@ public class Stormcaller extends RangedWeapon {
 					
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval * 2, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.ELECTRICITY, DamageTypes.RANGED));
+					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 					
 					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {

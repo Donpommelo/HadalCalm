@@ -53,7 +53,7 @@ public class BrigglesBladedBoot extends Artifact {
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
 					hbox.addStrategy(new FixedToUser(state, hbox, inflicted, new Vector2(0, 0), position, false));
-					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.CRUSHING, DamageTypes.MELEE));
+					hbox.addStrategy(new DamageStandard(state, hbox, inflicted, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 						
 						@Override

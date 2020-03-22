@@ -83,14 +83,14 @@ public class TractorBeam extends ActiveItem {
 										if (fixB != null && track.getTarget().getBody() != null) {
 
 											if (fixB.getType().equals(UserDataTypes.BODY) || fixB.getType().equals(UserDataTypes.WALL)) {
-												track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.CRUSHING);
+												track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.WHACKING);
 											}
 
 											if (fixB.getType().equals(UserDataTypes.BODY)) {
-												fixB.receiveDamage(primaryDamage, this.hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.CRUSHING);
+												fixB.receiveDamage(primaryDamage, this.hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.WHACKING);
 											}
 										} else {
-											track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.CRUSHING);
+											track.getTarget().getHadalData().receiveDamage(secondaryDamage, new Vector2(0, 0), creator, true, DamageTypes.WHACKING);
 										}
 									}
 								}

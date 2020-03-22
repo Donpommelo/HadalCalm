@@ -222,4 +222,6 @@ public class Schmuck extends HadalEntity {
 	public float getBaseHp() { return baseHp; }
 
 	public boolean isGrounded() { return grounded; }
+
+	public String getName() { return "SCHMUCK"; }
 }

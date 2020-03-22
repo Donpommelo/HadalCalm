@@ -12,9 +12,9 @@ public enum DamageTypes {
 	MELEE,
 	RANGED,
 	
-	DECAPITATION,
-	IMPALEMENT,
-	CRUSHING,
+	CUTTING,
+	POKING,
+	WHACKING,
 	
 	BEES,
 	BULLET,
@@ -25,10 +25,13 @@ public enum DamageTypes {
 	MAGIC,
 	POISON,
 	SHRAPNEL,
-	SLODGE,
-	SNIPE,
 	SOUND,
 	WATER,
+	
+	COLA,
+	SLODGE,
+	SNIPE,
+	TRICK,
 	
 	DISCONNECT,
 	LIVES_OUT,

@@ -48,14 +48,13 @@ public class GameStateManager {
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
 	public static TextureAtlas particleAtlas, exclamationAtlas, impactAtlas, starShotAtlas;
 	
-	//This is a stored list of all the dialog in the game, read from json file.
-	private static JsonValue dialogs;
+	//This is a stored list of all the dialogs/death messages in the game, read from json file.
+	public static JsonValue dialogs, deathMessages, shops, miscText;
 	
 	//This is the player's record. This stores player info.
 	private Record record;
 	private Setting setting;
 	private SavedLoadout loadout;
-	private static JsonValue shops;
 	
 	//Json reader here. Use this instead of creating new ones elsewhere.
 	public static Json json = new Json();
@@ -110,6 +109,9 @@ public class GameStateManager {
 		loadout = json.fromJson(SavedLoadout.class, reader.parse(Gdx.files.internal("save/Loadout.json")).toJson(OutputType.minimal));
 		setting = json.fromJson(Setting.class, reader.parse(Gdx.files.internal("save/Settings.json")).toJson(OutputType.minimal));
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
+		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
+		miscText = reader.parse(Gdx.files.internal("text/MiscText.json"));
+
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
 		
 		generator = new Random();
@@ -341,10 +343,6 @@ public class GameStateManager {
 	public Stack<GameState> getStates() { return states; }
 
 	public HadalGame getApp() { return app;	}
-	
-	public static JsonValue getDialogs() { return dialogs; }
-
-	public static JsonValue getShops() { return shops; }
 	
 	public Record getRecord() {	return record; }
 

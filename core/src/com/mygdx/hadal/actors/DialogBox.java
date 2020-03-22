@@ -49,6 +49,9 @@ public class DialogBox extends AHadalActor {
 	private static final int maxXSmall = 700;
 	private static final int maxYSmall = 80;
 	
+	private static final int maxTextWidth = 650;
+	private static final int maxTextWidthSmall = 675;
+
 	//This float is the ratio of the max dimensions of the window before the text appears.
 	//For example, the text will appear when the window's x = maxX * this variable
 	private static final float textAppearThreshold = 0.9f;
@@ -112,7 +115,7 @@ public class DialogBox extends AHadalActor {
 			}
 		}
 		
-		JsonValue dialog = GameStateManager.getDialogs().get(id);
+		JsonValue dialog = GameStateManager.dialogs.get(id);
 		
 		if (dialog != null) {
 			for (JsonValue d : dialog) {
@@ -139,7 +142,11 @@ public class DialogBox extends AHadalActor {
 		dialogs.addLast(new Dialog(info, radio, trigger));
 		
 		//add new dialog to the message log.
-		ps.getMessageWindow().addText(info.getName() + ": " + info.getText());
+		if (info.getName().equals("")) {
+			ps.getMessageWindow().addText(info.getText());
+		} else {
+			ps.getMessageWindow().addText(info.getName() + ": " + info.getText());
+		}
 	}
 	
 	/**
@@ -188,7 +195,11 @@ public class DialogBox extends AHadalActor {
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
-					font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 20, getY() - 20, maxXSmall, Align.left, true);
+					if (first.getInfo().getName().equals("")) {
+						font.draw(batch, first.getInfo().getText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
+					} else {
+						font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
+					}
 				}
 			} else {
 				font.getData().setScale(scale);
@@ -196,7 +207,11 @@ public class DialogBox extends AHadalActor {
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxX * textAppearThreshold) {
-			        font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 150, getY() - 20, maxX - 150, Align.left, true);
+					if (first.getInfo().getName().equals("")) {
+				        font.draw(batch, first.getInfo().getText(), getX() + 150, getY() - 20, maxTextWidth, Align.left, true);
+					} else {
+				        font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 150, getY() - 20, maxTextWidth, Align.left, true);
+					}
 				}
 				 
 				if (first.getBust() != null) {

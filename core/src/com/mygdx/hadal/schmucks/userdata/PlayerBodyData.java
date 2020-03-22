@@ -599,7 +599,7 @@ public class PlayerBodyData extends BodyData {
 			super.die(perp, tags);
 			
 			//Send death notification to all players
-			HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(perp.getSchmuck(), player, tags));
+			HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(player.getState().getGsm(), perp.getSchmuck(), player, tags));
 		}
 	}
 	

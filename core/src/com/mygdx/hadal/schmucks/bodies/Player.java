@@ -876,6 +876,7 @@ public class Player extends PhysicsSchmuck {
 
 	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
 
+	@Override
 	public String getName() { return name; }
 	
 	public int getConnID() { return connID;	}

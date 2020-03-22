@@ -42,7 +42,7 @@ public class Enemy extends Schmuck {
     
     //is this enemy a boss? (makes it show up in the boss ui)
     private boolean isBoss = false;
-    private String name;
+    private String name = "MONSTER";
     
 	//the default speed that the enemy moves around
 	protected int moveSpeed;
@@ -340,6 +340,7 @@ public class Enemy extends Schmuck {
 
 	public Vector2 getHboxSize() { return hboxSize; }
 
+	@Override
 	public String getName() { return name; }
 
 	public void setName(String name) { this.name = name; }

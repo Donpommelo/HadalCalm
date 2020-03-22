@@ -26,7 +26,7 @@ public class Quartermaster extends HubEvent {
 	
 	public Quartermaster(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, String shopId) {
 		super(state, startPos, size, title, tag, checkUnlock, hubTypes.QUARTERMASTER);
-		this.shopInfo = GameStateManager.json.fromJson(ShopInfo.class, GameStateManager.getShops().get(shopId).toJson(OutputType.minimal));
+		this.shopInfo = GameStateManager.json.fromJson(ShopInfo.class, GameStateManager.shops.get(shopId).toJson(OutputType.minimal));
 	}
 	
 	public void enter() {

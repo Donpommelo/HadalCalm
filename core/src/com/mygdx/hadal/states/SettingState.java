@@ -47,7 +47,7 @@ public class SettingState extends GameState {
 	
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, playerCapacity;
 	private Slider sound, music, master;
-	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled;
+	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
@@ -481,6 +481,9 @@ public class SettingState extends GameState {
 		consoleEnabled = new CheckBox("Console Enabled?", GameStateManager.getSkin());
 		consoleEnabled.setChecked(gsm.getSetting().isConsoleEnabled());
 		
+		verboseDeathMessage = new CheckBox("Verbose Death Messages?", GameStateManager.getSkin());
+		verboseDeathMessage.setChecked(gsm.getSetting().isVerboseDeathMessage());
+		
 		playerCapacity = new SelectBox<String>(GameStateManager.getSkin());
 		playerCapacity.setItems("1", "2", "3", "4", "5", "6");
 		playerCapacity.setWidth(100);
@@ -489,6 +492,7 @@ public class SettingState extends GameState {
 		
 		details.add(randomNameAlliteration).row();
 		details.add(consoleEnabled).row();
+		details.add(verboseDeathMessage).row();
 		details.add(maxPlayers);
 		details.add(playerCapacity).row();
 	}
@@ -531,6 +535,7 @@ public class SettingState extends GameState {
 		case MISC:
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
+			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
 			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
 			gsm.getSetting().saveSetting();
 			miscSelected();
