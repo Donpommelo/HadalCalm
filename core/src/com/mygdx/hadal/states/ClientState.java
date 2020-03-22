@@ -60,13 +60,17 @@ public class ClientState extends PlayState {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
+	private Vector3 lastMouseLocation = new Vector3();
 	@Override
 	public void update(float delta) {
 		
 		//Send mouse position to the server.
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
-		HadalGame.client.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
+		if (!lastMouseLocation.equals(mousePosition)) {
+			HadalGame.client.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
+		}
+		lastMouseLocation.set(mousePosition);
 		
 		//All entities that are set to be created are created and assigned their entityId
 		for (Object[] pair: createListClient) {

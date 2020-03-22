@@ -3,7 +3,7 @@ resolution: 1
 framerate: 3
 cursorType: 1
 cursorSize: 1
-cursorColor: 3
+cursorColor: 4
 maxPlayers: 4
 vsync: true
 consoleEnabled: true

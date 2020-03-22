@@ -472,7 +472,7 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
 		
-		Text maxPlayers = new Text("MAX PLAYERS: ", 0, 0, false);
+		Text maxPlayers = new Text("MAX SERVER SIZE: ", 0, 0, false);
 		maxPlayers.setScale(0.25f);
 		
 		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());

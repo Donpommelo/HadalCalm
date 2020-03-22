@@ -44,14 +44,17 @@ public class Nurdler extends Artifact {
 			private Vector2 startVelo = new Vector2();
 			
 			@Override
+			public void timePassing(float delta) {
+				if (procCdCount < procCd) {
+					procCdCount += delta;
+				}
+			}
+			
+			@Override
 			public void whileAttacking(float delta, Equipable tool) {
 				
 				if (tool.isReloading()) {
 					return;
-				}
-				
-				if (procCdCount < procCd) {
-					procCdCount += delta;
 				}
 				
 				if (procCdCount >= procCd) {

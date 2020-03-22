@@ -12,7 +12,7 @@ public class ForagersHive extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float procCd = 0.75f;
+	private final static float procCd = 0.8f;
 	
 	public ForagersHive() {
 		super(slotCost, statusNum);
@@ -25,19 +25,21 @@ public class ForagersHive extends Artifact {
 			private float procCdCount;
 			
 			@Override
+			public void timePassing(float delta) {
+				if (procCdCount < procCd) {
+					procCdCount += delta;
+				}
+			}
+			
+			@Override
 			public void whileAttacking(float delta, Equipable tool) {
 				
 				if (tool.isReloading()) {
 					return;
 				}
 				
-				if (procCdCount < procCd) {
-					procCdCount += delta;
-				}
-				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					
 					WeaponUtils.createBees(state, inflicted.getSchmuck().getPixelPosition(), inflicted.getSchmuck(), 1, new Vector2(1, 1), false, inflicted.getSchmuck().getHitboxfilter());
 				}
 			}

@@ -577,7 +577,5 @@ public class KryoServer {
 
 	public HashMap<Integer, Player> getPlayers() { return players; }
 
-	public HashMap<Integer, MouseTracker> getMice() { return mice; }
-
 	public HashMap<Integer, SavedPlayerFields> getScores() { return scores; }
 }
