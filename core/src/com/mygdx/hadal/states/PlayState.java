@@ -225,7 +225,7 @@ public class PlayState extends GameState {
 		addPacketEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new Schmuck(this, new Vector2(-1000, -1000), new Vector2(1, 1), Constants.ENEMY_HITBOX, 0);
+		worldDummy = new Schmuck(this, new Vector2(-1000, -1000), new Vector2(1, 1), "WORLD DUMMY", Constants.ENEMY_HITBOX, 0);
 		anchor = new AnchorPoint(this);
 		
 		//The mouse tracker is the player's mouse position

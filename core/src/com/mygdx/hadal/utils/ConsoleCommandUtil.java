@@ -6,8 +6,17 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
+/**
+ * This utility manages the players console commands
+ * enter console commands in the message window (default binding: m)
+ * @author Zachary Tu
+ *
+ */
 public class ConsoleCommandUtil {
 
+	/**
+	 * This attempts to parse an input line of text into a command
+	 */
 	public static int parseCommand(PlayState state, String command) {
 		String[] commands = command.split(" ");
 		
@@ -51,6 +60,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 	
+	/**
+	 * The player enters "hp x" to set their hp to x amount
+	 */
 	public static int setHp(PlayState state, String command) {
 		
 		try {
@@ -64,6 +76,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 	
+	/**
+	 * The player enters "am x" to set their ammo to x amount
+	 */
 	public static int setAmmo(PlayState state, String command) {
 		
 		try {
@@ -77,6 +92,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 	
+	/**
+	 * The player enters "act x" to set their active charge amount to x amount
+	 */
 	public static int setActiveCharge(PlayState state, String command) {
 		
 		try {
@@ -90,6 +108,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 	
+	/**
+	 * The player enters "eq x" to set their current weapon or active item to x (where x is the enum name of the equipable)
+	 */
 	public static int setEquip(PlayState state, String command) {
 		
 		try {
@@ -109,6 +130,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 	
+	/**
+	 * The player enters "scr x" to set their scrap amount to x amount
+	 */
 	public static int setScrap(PlayState state, String command) {
 		
 		try {
@@ -123,6 +147,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 	
+	/**
+	 * The player enters "warp x" to teleport to x level (where x is the enum name of the level)
+	 */
 	public static int warp(PlayState state, String command) {
 		
 		try {

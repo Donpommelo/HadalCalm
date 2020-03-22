@@ -14,8 +14,8 @@ public class PhysicsSchmuck extends Schmuck {
 	//this the frequency that the physics occurs
 	private final static float controllerInterval = 1 / 60f;
 	
-	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter, int baseHp) {
-		super(state, startPos, size, hitboxFilter, baseHp);
+	public PhysicsSchmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, int baseHp) {
+		super(state, startPos, size, name, hitboxFilter, baseHp);
 	}
 	
 	private Vector2 force = new Vector2();

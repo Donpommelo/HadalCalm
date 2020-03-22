@@ -23,6 +23,9 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class Schmuck extends HadalEntity {
 
+	//the name of this schmuck
+	protected String name;
+	
 	//The current movestate of this schmuck
 	protected MoveState moveState;
 	
@@ -64,8 +67,9 @@ public class Schmuck extends HadalEntity {
 	 * @param startX: starting x position
 	 * @param startY: starting y position
 	 */
-	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, short hitboxFilter, float baseHp) {
+	public Schmuck(PlayState state, Vector2 startPos, Vector2 size, String name, short hitboxFilter, float baseHp) {
 		super(state, startPos, size);
+		this.name = name;
 		this.grounded = false;
 		this.hitboxfilter = hitboxFilter;
 		this.baseHp = baseHp;
@@ -223,5 +227,5 @@ public class Schmuck extends HadalEntity {
 
 	public boolean isGrounded() { return grounded; }
 
-	public String getName() { return "SCHMUCK"; }
+	public String getName() { return name; }
 }

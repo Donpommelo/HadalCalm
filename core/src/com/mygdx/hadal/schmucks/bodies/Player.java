@@ -44,9 +44,6 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  */
 public class Player extends PhysicsSchmuck {
 	
-	//Name of the player as chosen in the Title screen
-	private String name;
-	
 	private final static int baseHp = 100;
 	
 	private final static float playerDensity = 1.0f;
@@ -163,7 +160,7 @@ public class Player extends PhysicsSchmuck {
 	 * 
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
-		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX, baseHp);
+		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		
@@ -876,9 +873,6 @@ public class Player extends PhysicsSchmuck {
 
 	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
 
-	@Override
-	public String getName() { return name; }
-	
 	public int getConnID() { return connID;	}
 	
 	public boolean isScaling() { return scaling; }

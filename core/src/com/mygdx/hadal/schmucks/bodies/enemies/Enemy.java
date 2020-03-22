@@ -42,7 +42,6 @@ public class Enemy extends Schmuck {
     
     //is this enemy a boss? (makes it show up in the boss ui)
     private boolean isBoss = false;
-    private String name = "MONSTER";
     
 	//the default speed that the enemy moves around
 	protected int moveSpeed;
@@ -94,8 +93,8 @@ public class Enemy extends Schmuck {
 	 //This is the event that spwner this enemy. Is null for the client and for enemies spawned in other ways.
     protected SpawnerSchmuck spawner;
     
-	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
-		super(state, startPos, size, filter, baseHp);
+	public Enemy(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, String name, Sprite sprite, EnemyType type, short filter, float baseHp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
+		super(state, startPos, size, name, filter, baseHp);
 		this.hboxSize = hboxSize;
 		this.type = type;
 		this.attackCd = attackCd;
@@ -113,7 +112,7 @@ public class Enemy extends Schmuck {
 	public void create() {
 		super.create();
 		
-		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, false, true, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
+		this.body = BodyBuilder.createBox(world, startPos, hboxSize, 0, 1, 0, 0, false, true, Constants.BIT_ENEMY, (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 				hitboxfilter, false, getBodyData());
 
 		//on death, the enemy will activate its spawner's connected event (if existent)
@@ -339,9 +338,6 @@ public class Enemy extends Schmuck {
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
 
 	public Vector2 getHboxSize() { return hboxSize; }
-
-	@Override
-	public String getName() { return name; }
 
 	public void setName(String name) { this.name = name; }
 

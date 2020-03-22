@@ -19,6 +19,7 @@ import com.mygdx.hadal.utils.Stats;
 public class Spittlefish extends EnemySwimming {
 
 	private final static int baseHp = 100;
+	private final static String name = "SPITTLEFISH";
 	
 	private final static int scrapDrop = 2;
 	
@@ -40,7 +41,7 @@ public class Spittlefish extends EnemySwimming {
 	private final static Sprite projSprite = Sprite.SPIT;
 	
 	public Spittlefish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), sprite, EnemyType.SPITTLEFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.SPITTLEFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 	}
 	

@@ -48,7 +48,7 @@ public class GameStateManager {
 	public static TextureAtlas projectileAtlas, multitoolAtlas, fishAtlas, turretAtlas, eventAtlas, explosionAtlas, uiAtlas;
 	public static TextureAtlas particleAtlas, exclamationAtlas, impactAtlas, starShotAtlas;
 	
-	//This is a stored list of all the dialogs/death messages in the game, read from json file.
+	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
 	public static JsonValue dialogs, deathMessages, shops, miscText;
 	
 	//This is the player's record. This stores player info.

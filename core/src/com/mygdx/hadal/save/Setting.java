@@ -17,11 +17,8 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers;
-	private boolean fullscreen, vsync, consoleEnabled, verboseDeathMessage;
-	private float soundVolume;
-	private float musicVolume;
-	private float masterVolume;
-	private boolean randomNameAlliteration;
+	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage;
+	private float soundVolume, musicVolume, masterVolume;
 
 	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
 	private int timer;
@@ -61,6 +58,12 @@ public class Setting {
     	setCursor();
 	}
 	
+	/**
+	 * This sets the player's cursor according to their saved settings
+	 * cursorType == 0: default cursor
+	 * cursorType == 1: crosshair cursor
+	 * cursorType == 2: dot cursor
+	 */
 	public void setCursor() {
 		if (cursorType == 0) {
 			Gdx.graphics.setSystemCursor(SystemCursor.Arrow);
@@ -194,7 +197,7 @@ public class Setting {
 	}
 	
 	/**
-	 * Convert framerate from index in list to actual framerate
+	 * Convert cursor size from index in list
 	 */
 	public int indexToCursorSize() {
 		switch(cursorSize) {
@@ -209,6 +212,9 @@ public class Setting {
 		}
 	}
 	
+	/**
+	 * Convert cursor color from index in list
+	 */
 	public Color indexToCursorColor() {
 		switch(cursorColor) {
 		case 0:
