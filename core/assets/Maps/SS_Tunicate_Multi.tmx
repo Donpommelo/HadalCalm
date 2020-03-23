@@ -23,7 +23,7 @@
   <object id="6" name="Reliquary" type="Reliquary" x="1888" y="1760" width="96" height="96"/>
   <object id="7" name="Navigation" type="Navigation" x="2400" y="1568" width="96" height="96">
    <properties>
-    <property name="tag" value="PVP"/>
+    <property name="tag" value="MULTIPLAYER"/>
    </properties>
   </object>
   <object id="8" name="Dispensary" type="Dispensary" x="2016" y="1472" width="96" height="96"/>

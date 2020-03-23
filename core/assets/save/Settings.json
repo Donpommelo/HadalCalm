@@ -6,12 +6,12 @@ cursorSize: 1
 cursorColor: 4
 maxPlayers: 4
 vsync: true
+randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
-randomNameAlliteration: true
 lives: 2
 loadoutType: 1
 }

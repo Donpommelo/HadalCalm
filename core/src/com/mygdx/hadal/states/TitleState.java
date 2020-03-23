@@ -44,6 +44,8 @@ public class TitleState extends GameState {
 	private final static int width = 700;
 	private final static int height = 240;
 
+	private final static float scale = 0.4f;
+
 	//This boolean determines if connection was attempted. Used to avoid multiple connections.
 	private boolean connectAttempted = false;
 	
@@ -67,31 +69,31 @@ public class TitleState extends GameState {
 				addActor(table);
 				
 				nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
-				nameDisplay.setScale(0.5f);
+				nameDisplay.setScale(scale);
 				nameDisplay.setColor(Color.BLACK);
 				nameRand = new Text("RANDOM?", 0, 0, true);
-				nameRand.setScale(0.5f);
+				nameRand.setScale(scale);
 				nameRand.setColor(Color.BLACK);
 				hostOption = new Text("HOST SERVER", 0, 0, true);
-				hostOption.setScale(0.5f);
+				hostOption.setScale(scale);
 				hostOption.setColor(Color.BLACK);
 				singleOption = new Text("SINGLE PLAYER", 0, 0, true);
-				singleOption.setScale(0.5f);
+				singleOption.setScale(scale);
 				singleOption.setColor(Color.BLACK);
-				joinOption = new Text("JOIN", 0, 0, true);
-				joinOption.setScale(0.5f);
+				joinOption = new Text("JOIN SERVER: ", 0, 0, true);
+				joinOption.setScale(scale);
 				joinOption.setColor(Color.BLACK);
 				searchOption = new Text("SEARCH?", 0, 0, true);
-				searchOption.setScale(0.5f);
+				searchOption.setScale(scale);
 				searchOption.setColor(Color.BLACK);
 				settingsOption = new Text("SETTINGS", 0, 0, true);
-				settingsOption.setScale(0.5f);
+				settingsOption.setScale(scale);
 				settingsOption.setColor(Color.BLACK);
 				exitOption = new Text("EXIT?", 0, 0, true);
-				exitOption.setScale(0.5f);
+				exitOption.setScale(scale);
 				exitOption.setColor(Color.BLACK);
 				notifications = new Text("", 0, 0, false);
-				notifications.setScale(0.5f);
+				notifications.setScale(scale);
 				notifications.setColor(Color.BLACK);
 				
 				hostOption.addListener(new ClickListener() {

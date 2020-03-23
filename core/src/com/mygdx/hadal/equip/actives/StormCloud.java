@@ -30,8 +30,8 @@ public class StormCloud extends ActiveItem {
 	
 	private final static Vector2 rainSize = new Vector2(30, 20);
 	
-	private final static float rainDamage = 6.0f;
-	private final static float rainKnockback = 10.0f;
+	private final static float rainDamage = 9.0f;
+	private final static float rainKnockback = 4.0f;
 	
 	private final static float projectileSpeed = 4.0f;
 	private final static float rainSpeed = 15.0f;

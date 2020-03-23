@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -14,6 +15,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.utils.Stats;
 
 public class Spittlefish extends EnemySwimming {
@@ -56,26 +58,35 @@ public class Spittlefish extends EnemySwimming {
 	private final static float knockback = 4.5f;
 	private final static float projectileSpeed = 12.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 20);
-	private final static float lifespan = 5.0f;
+	private final static float lifespan = 3.0f;
+	private final static float range = 900.0f;
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
+			private Vector2 startVelo = new Vector2();
 			@Override
 			public void execute() {
 				
 				if (target == null) {
 					return;
 				}
-				Vector2 startVelo = new Vector2(target.getPixelPosition().sub(enemy.getPixelPosition())).nor().scl(projectileSpeed);
-				Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				startVelo.set(target.getPixelPosition()).sub(enemy.getPixelPosition());
+				
+				if (startVelo.len2() < range * range) {
+					startVelo.nor().scl(projectileSpeed);
+					
+					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
+					
+					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.BUBBLE_IMPACT));
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				}
 			}
 		});
 	};

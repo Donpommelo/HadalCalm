@@ -40,7 +40,17 @@ ARENA_HORIZON: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        ARENA
+        ARENA,
+        MULTIPLAYER
+	]
+}
+ARENA_LAGAN: {
+	name: ARENA_LAGAN
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_FALLDOWN: {
@@ -48,7 +58,8 @@ DM_FALLDOWN: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_GULLY: {
@@ -56,7 +67,8 @@ DM_GULLY: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_SAWMILL: {
@@ -64,7 +76,8 @@ DM_SAWMILL: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_CAROUSEL: {
@@ -72,7 +85,8 @@ DM_CAROUSEL: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_BIRD: {
@@ -80,7 +94,8 @@ DM_BIRD: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_BIRD2: {
@@ -88,7 +103,8 @@ DM_BIRD2: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_HORIZON: {
@@ -96,7 +112,8 @@ DM_HORIZON: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 DM_PINWHEEL: {
@@ -104,7 +121,8 @@ DM_PINWHEEL: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 SSTUNICATE1: {

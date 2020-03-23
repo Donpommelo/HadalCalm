@@ -146,7 +146,8 @@ public class UnlockManager {
 		NASU,
 		MISC,
 		PVP,
-		ARENA
+		ARENA,
+		MULTIPLAYER
 	}
 	
 	public enum UnlockType {

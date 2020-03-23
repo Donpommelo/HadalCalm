@@ -230,10 +230,10 @@ public class PauseState extends GameState {
 	 * Run when the game is unpaused.
 	 */
 	public void unpause() {
-		toRemove = true;
     	
     	if (ps.isServer()) {
-    		
+    		toRemove = true;
+
     		//If the server unpauses, send a message and notification to all players to unpause.
     		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");

@@ -34,7 +34,7 @@ public class MeteorStrike extends ActiveItem {
 	private final static float range = 1800.0f;
 	
 	private final static float baseDamage = 15.0f;
-	private final static float knockback = 15.0f;
+	private final static float knockback = 8.0f;
 	
 	private final static float meteorDuration = 3.0f;
 	private final static float meteorInterval = 0.1f;

@@ -112,9 +112,13 @@ public class ClientState extends PlayState {
 		//While most objects don't do any processing on client side, the clientController is run for the exceptions.
 		for (HadalEntity entity : hitboxes.values()) {
 			entity.clientController(delta);
+			entity.decreaseShaderCount(delta);
+			entity.increaseAnimationTime(delta);
 		}
 		for (HadalEntity entity : entities.values()) {
 			entity.clientController(delta);
+			entity.decreaseShaderCount(delta);
+			entity.increaseAnimationTime(delta);
 		}
 		
 		processCommonStateProperties(delta);

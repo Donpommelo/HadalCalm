@@ -312,7 +312,7 @@ public class KryoServer {
         						final SettingState ss = (SettingState) gsm.getStates().peek();
                 				ss.setToRemove(true);
         					}
-            				HadalGame.server.sendToAllExceptTCP(c.getID(), new Packets.Unpaused(p.getName()));
+            				HadalGame.server.sendToAllTCP(new Packets.Unpaused(p.getName()));
         				}
         			}
 				}

@@ -91,6 +91,23 @@ public class Buzzsaw extends Event {
 	}
 	
 	@Override
+	public boolean isVisible() {
+		if (body == null) {
+			return false;
+		} else {
+			if (
+					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) || 
+					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y + size.y * spriteScale / 2, 0) ||
+					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0) ||
+					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x * spriteScale / 2, getPixelPosition().y - size.y * spriteScale / 2, 0)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+	
+	@Override
 	public void loadDefaultProperties() {
 		setSyncType(eventSyncTypes.ALL);
 		setEventSprite(Sprite.BUZZSAW);

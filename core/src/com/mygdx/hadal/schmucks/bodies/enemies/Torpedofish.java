@@ -58,26 +58,34 @@ public class Torpedofish extends EnemySwimming {
 	private final static int explosionRadius = 100;
 	private final static float explosionDamage = 10.0f;
 	private final static float explosionKnockback = 25.0f;
+	
+	private final static float range = 900.0f;
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
+			private Vector2 startVelo = new Vector2();
 			@Override
 			public void execute() {
 				
 				if (target == null) {
 					return;
 				}
-				Vector2 startVelo = new Vector2(target.getPixelPosition().sub(enemy.getPixelPosition())).nor().scl(projectileSpeed);
-
-				Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 				
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
-				hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+				startVelo.set(target.getPixelPosition()).sub(enemy.getPixelPosition());
+				
+				if (startVelo.len2() < range * range) {
+					startVelo.nor().scl(projectileSpeed);
+					
+					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
+					
+					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
+					hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+				}
 			}
 		});
 	};

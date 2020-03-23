@@ -112,6 +112,7 @@ public class Record {
 		}
 		
 		newRecord.hiScores.put("ARENA_HORIZON", 0);
+		newRecord.hiScores.put("ARENA_LAGAN", 0);
 		
 		Gdx.files.local("save/Records.json").writeString(GameStateManager.json.prettyPrint(newRecord), false);
 	}

@@ -399,14 +399,7 @@ public class PlayState extends GameState {
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		//We also send client a sync packet if the entity requires.
 		if (HadalGame.server.getServer() != null) {
-			for (HadalEntity entity : hitboxes) {
-				entity.controller(delta);
-				entity.onServerSync();
-			}
-			for (HadalEntity entity : entities) {
-				entity.controller(delta);
-				entity.onServerSync();
-			}
+			controllerEntities(delta);
 		}
 		
 		processCommonStateProperties(delta);
@@ -504,14 +497,29 @@ public class PlayState extends GameState {
 	}
 	
 	/**
+	 * Run the controller method for all entities in the world
+	 */
+	public void controllerEntities(float delta) {
+		for (HadalEntity entity : hitboxes) {
+			entity.controller(delta);
+			entity.onServerSync();
+			entity.decreaseShaderCount(delta);
+			entity.increaseAnimationTime(delta);
+		}
+		for (HadalEntity entity : entities) {
+			entity.controller(delta);
+			entity.onServerSync();
+			entity.decreaseShaderCount(delta);
+			entity.increaseAnimationTime(delta);
+		}
+	}
+	
+	/**
 	 * This method renders a single entity.
 	 * @param entity
 	 * @param delta
 	 */
 	public void renderEntity(HadalEntity entity, float delta) {
-		
-		entity.decreaseShaderCount(delta);
-		entity.increaseAnimationTime(delta);
 		
 		if (entity.isVisible()) {
 			if (entity.getShaderCount() > 0) {

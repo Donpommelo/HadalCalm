@@ -19,6 +19,7 @@ public enum UnlockLevel {
 	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
 	
 	ARENA_HORIZON("Maps/arena_horizon.tmx"),
+	ARENA_LAGAN("Maps/arena_lagan.tmx"),
 
 	DM_BIRD("Maps/dm_bird.tmx"),
 	DM_BIRD2("Maps/dm_bird2.tmx"),
