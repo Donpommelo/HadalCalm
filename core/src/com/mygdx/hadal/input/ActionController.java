@@ -163,7 +163,9 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.PAUSE) {
-			state.getGsm().addPauseState(state, player.getName(), PlayState.class);
+			if (state.getPlayer().equals(player) || state.getGsm().getSetting().isClientPause()) {
+				state.getGsm().addPauseState(state, player.getName(), PlayState.class);
+			}
 		}
 		
 		if (action == PlayerAction.SCORE_WINDOW) {

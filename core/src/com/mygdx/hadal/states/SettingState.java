@@ -43,11 +43,11 @@ public class SettingState extends GameState {
 	private boolean toRemove = false;
 	
 	//This table contains the ui elements of the pause screen
-	private Table options, details;
+	private Table options, details, extra;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, playerCapacity;
+	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, artifactSlots, playerCapacity;
 	private Slider sound, music, master;
-	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage;
+	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
@@ -60,9 +60,17 @@ public class SettingState extends GameState {
 	private final static int detailsWidth = 500;
 	private final static int detailsHeight = 600;
 	
+	private final static int extraX = 820;
+	private final static int extraY = 600;
+	private final static int extraWidth = 180;
+	private final static int extraHeight = 100;
+	
 	private final static float optionsScale = 0.5f;
-	private final static float optionsPad = 10.0f;
+	private final static float optionsPad = 15.0f;
 	private final static float detailsScale = 0.3f;
+	
+	private final static float titlePad = 25.0f;
+	private final static float detailsPad = 15.0f;
 	
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
@@ -78,19 +86,27 @@ public class SettingState extends GameState {
 			{
 				addActor(new MenuWindow(optionsX, optionsY, optionsWidth, optionsHeight));
 				addActor(new MenuWindow(detailsX, detailsY, detailsWidth, detailsHeight));
+				addActor(new MenuWindow(extraX, extraY, extraWidth, extraHeight));
 				
 				options = new Table();
 				options.setLayoutEnabled(true);
 				options.setPosition(optionsX, optionsY);
 				options.setSize(optionsWidth, optionsHeight);
+				options.top();
 				addActor(options);
 				
 				details = new Table();
 				details.setLayoutEnabled(true);
 				details.setPosition(detailsX, detailsY);
 				details.setSize(detailsWidth, detailsHeight);
+				details.top();
 				addActor(details);
 				
+				extra = new Table();
+				extra.setPosition(extraX, extraY);
+				extra.setSize(extraWidth, extraHeight);
+				addActor(extra);
+
 				displayOption = new Text("DISPLAY", 0, 0, true);
 				displayOption.addListener(new ClickListener() {
 			        
@@ -204,9 +220,10 @@ public class SettingState extends GameState {
 				options.add(audioOption).pad(optionsPad).row();
 				options.add(gameOption).pad(optionsPad).row();
 				options.add(miscOption).pad(optionsPad).row();
-				options.add(saveOption).pad(optionsPad).row();
-				options.add(resetOption).pad(optionsPad).row();
-				options.add(exitOption).pad(optionsPad).row();
+				options.add(exitOption).pad(optionsPad).expand().row();
+				
+				extra.add(saveOption).pad(optionsPad).row();
+				extra.add(resetOption).pad(optionsPad).row();
 			}
 		};
 		app.newMenu(stage);
@@ -220,6 +237,7 @@ public class SettingState extends GameState {
 
 			@Override
 			public boolean keyDown(int keycode) {
+				
 				//If the player is currently editing an action, bind it to the pressed key
 				if (currentlyEditing != null) {
 					currentlyEditing.setKey(keycode);
@@ -266,6 +284,8 @@ public class SettingState extends GameState {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.DISPLAY;
+		
+		details.add(new Text("DISPLAY", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
 		Text screen = new Text("RESOLUTION: ", 0, 0, false);
 		screen.setScale(detailsScale);
@@ -315,17 +335,17 @@ public class SettingState extends GameState {
 		vsync.setChecked(gsm.getSetting().isVSync());
 
 		details.add(screen);
-		details.add(resolutionOptions).row();
+		details.add(resolutionOptions).pad(detailsPad).row();
 		details.add(framerate);
-		details.add(framerateOptions).row();
-		details.add(fullscreen).row();
-		details.add(vsync).row();
+		details.add(framerateOptions).pad(detailsPad).row();
+		details.add(fullscreen);
+		details.add(vsync).pad(detailsPad).row();
 		details.add(cursortype);
-		details.add(cursorOptions).row();
+		details.add(cursorOptions).pad(detailsPad).row();
 		details.add(cursorsize);
-		details.add(cursorSize).row();
+		details.add(cursorSize).pad(detailsPad).row();
 		details.add(cursorcolor);
-		details.add(cursorColor).row();
+		details.add(cursorColor).pad(detailsPad).row();
 	}
 	
 	/**
@@ -336,8 +356,9 @@ public class SettingState extends GameState {
 		currentlyEditing = null;
 		currentTab = settingTab.CONTROLS;
 		
-		VerticalGroup actions = new VerticalGroup().space(10).pad(50);
-		actions.addActor(new Text("CONTROLS", 0, 0, false));
+		details.add(new Text("CONTROLS", 0, 0, false)).colspan(2).pad(titlePad).row();
+		
+		VerticalGroup actions = new VerticalGroup().space(detailsPad).pad(titlePad);
 		
 		for (PlayerAction a : PlayerAction.values()) {
 			
@@ -364,7 +385,6 @@ public class SettingState extends GameState {
 		}
 		
 		keybinds = new ScrollPane(actions, GameStateManager.getSkin());
-		keybinds.setFadeScrollBars(false);
 		keybinds.setSize(detailsWidth, detailsHeight);
 		
 		details.add(keybinds);
@@ -378,6 +398,8 @@ public class SettingState extends GameState {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.AUDIO;
+		
+		details.add(new Text("AUDIO", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
 		final Text soundText = new Text("SOUND VOLUME: " + (int)(gsm.getSetting().getSoundVolume() * 100), 0, 0, false);
 		soundText.setScale(detailsScale);
@@ -422,17 +444,19 @@ public class SettingState extends GameState {
 		});
 		
 		details.add(soundText);
-		details.add(sound).row();
+		details.add(sound).pad(detailsPad).row();
 		details.add(musicText);
-		details.add(music).row();
+		details.add(music).pad(detailsPad).row();
 		details.add(masterText);
-		details.add(master).row();
+		details.add(master).pad(detailsPad).row();
 	}
 	
 	public void gameSelected() {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.GAMEPLAY;
+		
+		details.add(new Text("GAMEPLAY", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
 		Text timer = new Text("MATCH TIME: ", 0, 0, false);
 		timer.setScale(0.25f);
@@ -442,6 +466,9 @@ public class SettingState extends GameState {
 		
 		Text loadout = new Text("LOADOUT: ", 0, 0, false);
 		loadout.setScale(0.25f);
+		
+		Text slots = new Text("ARTIFACT SLOTS: ", 0, 0, false);
+		slots.setScale(0.25f);
 		
 		timerOptions = new SelectBox<String>(GameStateManager.getSkin());
 		timerOptions.setItems("NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN");
@@ -459,18 +486,27 @@ public class SettingState extends GameState {
 		
 		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
 		
+		artifactSlots = new SelectBox<String>(GameStateManager.getSkin());
+		artifactSlots.setItems("0", "1", "2", "3", "4", "5", "6");
+		
+		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
+		
 		details.add(timer);
-		details.add(timerOptions).row();
+		details.add(timerOptions).pad(detailsPad).row();
 		details.add(lives);
-		details.add(livesOptions).row();
+		details.add(livesOptions).pad(detailsPad).row();
 		details.add(loadout);
-		details.add(loadoutOptions).row();
+		details.add(loadoutOptions).pad(detailsPad).row();
+		details.add(slots);
+		details.add(artifactSlots).pad(detailsPad).row();
 	}
 	
 	public void miscSelected() {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
+		
+		details.add(new Text("MISCELLANEOUS", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
 		Text maxPlayers = new Text("MAX SERVER SIZE: ", 0, 0, false);
 		maxPlayers.setScale(0.25f);
@@ -484,17 +520,21 @@ public class SettingState extends GameState {
 		verboseDeathMessage = new CheckBox("Verbose Death Messages?", GameStateManager.getSkin());
 		verboseDeathMessage.setChecked(gsm.getSetting().isVerboseDeathMessage());
 		
+		clientPause = new CheckBox("Enable Client Pause?", GameStateManager.getSkin());
+		clientPause.setChecked(gsm.getSetting().isClientPause());
+		
 		playerCapacity = new SelectBox<String>(GameStateManager.getSkin());
 		playerCapacity.setItems("1", "2", "3", "4", "5", "6");
 		playerCapacity.setWidth(100);
 		
 		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
 		
-		details.add(randomNameAlliteration).row();
-		details.add(consoleEnabled).row();
-		details.add(verboseDeathMessage).row();
+		details.add(randomNameAlliteration).colspan(2).pad(detailsPad).row();
+		details.add(consoleEnabled).colspan(2).pad(detailsPad).row();
+		details.add(verboseDeathMessage).colspan(2).pad(detailsPad).row();
+		details.add(clientPause).colspan(2).pad(detailsPad).row();
 		details.add(maxPlayers);
-		details.add(playerCapacity).row();
+		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
 	}
 	
 	/**
@@ -529,6 +569,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setTimer(timerOptions.getSelectedIndex());
 			gsm.getSetting().setLives(livesOptions.getSelectedIndex());
 			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
+			gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
 			gsm.getSetting().saveSetting();
 			gameSelected();
 			break;
@@ -536,6 +577,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
 			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
+			gsm.getSetting().setClientPause(clientPause.isChecked());
 			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
 			gsm.getSetting().saveSetting();
 			miscSelected();

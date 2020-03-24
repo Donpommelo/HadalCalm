@@ -1,5 +1,5 @@
 {
-scrap: 457
+scrap: 42
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -14,12 +14,17 @@ flags: {
 	HUB_REACHED: 1
 	PLENUMTURBINE: 0
 	WRECK0SC: 1
+	ARTIFACTSLOT1: 1
 	WRECK1SC: 1
+	ARTIFACTSLOT2: 1
+	ARTIFACTSLOT3: 1
+	ARTIFACTSLOT4: 1
+	ARTIFACTSLOT5: 0
 }
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 187
-	ARENA_HORIZON: 205
+	ARENA_LAGAN: 200
+	ARENA_HORIZON: 0
 }
 unlockEquip: {
 	class: java.util.HashMap
@@ -197,8 +202,8 @@ unlockLevel: {
 	PLENUMCHAMBER3: true
 	PLENUMCHAMBERTURBINE: true
 	PLENUMCHAMBER2: true
-	PLENUMCHAMBER1: true
 	ARENA_LAGAN: true
+	PLENUMCHAMBER1: true
 	PLENUMCHAMBER6: true
 	PLENUMCHAMBER5: true
 	SANDBOX_ENEMY: true

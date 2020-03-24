@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
@@ -29,8 +28,8 @@ import com.mygdx.hadal.utils.NameGenerator;
  */
 public class TitleState extends GameState {
 
-	//This table contains the options for the title.
-	private Table table;
+	//This table contains the option windows for the title.
+	private Table tableName, tableMain, tableIP;
 	
 	//These are all of the display and buttons visible to the player.
 	private Text nameDisplay, nameRand, hostOption, singleOption, joinOption, exitOption, settingsOption, searchOption, notifications;
@@ -39,12 +38,28 @@ public class TitleState extends GameState {
 	private TextField enterName, enterIP;
 	
 	//Dimentions and position of the title menu
-	private final static int menuX = 480;
-	private final static int menuY = 00;
-	private final static int width = 700;
-	private final static int height = 240;
+	private final static int menuX = 540;
+	private final static int menuY = 40;
+	private final static int width = 200;
+	private final static int height = 200;
+	
+	private final static int nameX = 780;
+	private final static int nameY = 620;
+	private final static int nameWidth = 500;
+	private final static int nameHeight = 100;
+	
+	private final static int ipX = 780;
+	private final static int ipY = 0;
+	private final static int ipWidth = 500;
+	private final static int ipHeight = 100;
+	
+	private final static int notificationX = 780;
+	private final static int notificationY = 120;
+	
+	private final static int textWidth = 300;
 
 	private final static float scale = 0.4f;
+	private final static float optionHeight = 35.0f;
 
 	//This boolean determines if connection was attempted. Used to avoid multiple connections.
 	private boolean connectAttempted = false;
@@ -62,39 +77,68 @@ public class TitleState extends GameState {
 			{
 				addActor(new TitleBackdrop());
 				addActor(new MenuWindow(menuX, menuY, width, height));
+				addActor(new MenuWindow(nameX, nameY, nameWidth, nameHeight));
+				addActor(new MenuWindow(ipX, ipY, ipWidth, ipHeight));
 				
-				table = new Table();
-				table.setPosition(menuX, menuY);
-				table.setSize(width, height);
-				addActor(table);
+				tableMain = new Table();
+				tableMain.setPosition(menuX, menuY);
+				tableMain.setSize(width, height);
+				addActor(tableMain);
+				
+				tableName = new Table();
+				tableName.setPosition(nameX, nameY);
+				tableName.setSize(nameWidth, nameHeight);
+				addActor(tableName);
+				
+				tableIP = new Table();
+				tableIP.setPosition(ipX, ipY);
+				tableIP.setSize(ipWidth, ipHeight);
+				addActor(tableIP);
 				
 				nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
 				nameDisplay.setScale(scale);
 				nameDisplay.setColor(Color.BLACK);
-				nameRand = new Text("RANDOM?", 0, 0, true);
+				nameDisplay.setHeight(optionHeight);
+				
+				nameRand = new Text("GENERATE RANDOM NAME", 0, 0, true);
 				nameRand.setScale(scale);
 				nameRand.setColor(Color.BLACK);
+				nameRand.setHeight(optionHeight);
+				
 				hostOption = new Text("HOST SERVER", 0, 0, true);
 				hostOption.setScale(scale);
 				hostOption.setColor(Color.BLACK);
+				hostOption.setHeight(optionHeight);
+				
 				singleOption = new Text("SINGLE PLAYER", 0, 0, true);
 				singleOption.setScale(scale);
 				singleOption.setColor(Color.BLACK);
-				joinOption = new Text("JOIN SERVER: ", 0, 0, true);
+				singleOption.setHeight(optionHeight);
+				
+				joinOption = new Text("JOIN SERVER", 0, 0, true);
 				joinOption.setScale(scale);
 				joinOption.setColor(Color.BLACK);
-				searchOption = new Text("SEARCH?", 0, 0, true);
+				joinOption.setHeight(optionHeight);
+				
+				searchOption = new Text("SEARCH FOR NEARBY SERVERS", 0, 0, true);
 				searchOption.setScale(scale);
 				searchOption.setColor(Color.BLACK);
+				searchOption.setHeight(optionHeight);
+				
 				settingsOption = new Text("SETTINGS", 0, 0, true);
 				settingsOption.setScale(scale);
 				settingsOption.setColor(Color.BLACK);
-				exitOption = new Text("EXIT?", 0, 0, true);
+				settingsOption.setHeight(optionHeight);
+				
+				exitOption = new Text("EXIT", 0, 0, true);
 				exitOption.setScale(scale);
 				exitOption.setColor(Color.BLACK);
-				notifications = new Text("", 0, 0, false);
+				exitOption.setHeight(optionHeight);
+				
+				notifications = new Text("", notificationX, notificationY, false);
 				notifications.setScale(scale);
 				notifications.setColor(Color.BLACK);
+				notifications.setHeight(optionHeight);
 				
 				hostOption.addListener(new ClickListener() {
 					
@@ -286,17 +330,20 @@ public class TitleState extends GameState {
 				enterName.setText(gsm.getLoadout().getName());
 				enterName.setMessageText("ENTER NAME");
 				
-				table.add(nameDisplay).pad(5).expandY();
-				table.add(enterName).width(300);
-				table.add(nameRand).row();
-				table.add(singleOption).expandY().row();
-				table.add(hostOption).expandY().row();
-				table.add(joinOption).expandY();
-				table.add(enterIP);
-				table.add(searchOption).row();
-				table.add(settingsOption).expandY().row();
-				table.add(exitOption).expandY().row();
-				table.add(notifications).expandY().align(Align.bottomRight);
+				tableName.add(nameDisplay).pad(5);
+				tableName.add(enterName).width(textWidth).height(optionHeight).row();
+				tableName.add(nameRand).colspan(2);
+				
+				tableMain.add(singleOption).row();
+				tableMain.add(hostOption).row();
+				tableMain.add(settingsOption).row();
+				tableMain.add(exitOption).row();
+				
+				tableIP.add(joinOption).pad(5);
+				tableIP.add(enterIP).height(optionHeight).row();
+				tableIP.add(searchOption).colspan(2);
+				
+				addActor(notifications);
 			}
 		};
 		app.newMenu(stage);

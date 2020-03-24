@@ -16,8 +16,8 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers;
-	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage;
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots;
+	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause;
 	private float soundVolume, musicVolume, masterVolume;
 
 	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
@@ -119,12 +119,14 @@ public class Setting {
 		timer = 0;
 		lives = 1;
 		loadoutType = 1;
+		artifactSlots = 4;
 	}
 	
 	public void resetMisc() {
 		randomNameAlliteration = true;
 		consoleEnabled = true;
 		verboseDeathMessage = false;
+		clientPause = true;
 		maxPlayers = 4;
 	}
 	
@@ -134,6 +136,8 @@ public class Setting {
 	
 	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
 	
+	public void setArtifactSlots(int artifactSlots) { this.artifactSlots = artifactSlots; }
+
 	public void setMaxPlayers(int maxPlayers) { this.maxPlayers = maxPlayers; }
 	
 	/**
@@ -262,6 +266,8 @@ public class Setting {
 	
 	public void setVerboseDeathMessage(boolean verboseDeathMessage) { this.verboseDeathMessage = verboseDeathMessage; }
 
+	public void setClientPause(boolean clientPause) { this.clientPause = clientPause; }
+
 	public int getResolution() { return resolution; }
 	
 	public int getFramerate() { return framerate; }
@@ -288,11 +294,15 @@ public class Setting {
 	
 	public boolean isVerboseDeathMessage() { return verboseDeathMessage; }
 
+	public boolean isClientPause() { return clientPause; }
+
 	public int getTimer() { return timer; }
 	
 	public int getLives() { return lives; }
 	
 	public int getLoadoutType() { return loadoutType; }
+	
+	public int getArtifactSlots() { return artifactSlots; }
 	
 	public int getMaxPlayers() { return maxPlayers; }
 }

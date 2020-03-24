@@ -70,6 +70,11 @@ public class Record {
 		newRecord.scrap = 0;
 		
 		newRecord.flags = new HashMap<String, Integer>();
+		newRecord.flags.put("ARTIFACTSLOT1", 0);
+		newRecord.flags.put("ARTIFACTSLOT2", 0);
+		newRecord.flags.put("ARTIFACTSLOT3", 0);
+		newRecord.flags.put("ARTIFACTSLOT4", 0);
+		newRecord.flags.put("ARTIFACTSLOT5", 0);
 		newRecord.flags.put("HUB_REACHED", 0);
 		newRecord.flags.put("BOSS1", 0);
 		newRecord.flags.put("WRECK0SC", 0);
@@ -118,6 +123,33 @@ public class Record {
 	}
 	
 	public int getScrap() { return scrap; }
+	
+	public int getSlotsUnlocked() { 
+		
+		int slots = 0;
+		
+		if (flags.get("ARTIFACTSLOT1") == 1) {
+			slots++;
+		}
+		
+		if (flags.get("ARTIFACTSLOT2") == 1) {
+			slots++;
+		}
+		
+		if (flags.get("ARTIFACTSLOT3") == 1) {
+			slots++;
+		}
+		
+		if (flags.get("ARTIFACTSLOT4") == 1) {
+			slots++;
+		}
+		
+		if (flags.get("ARTIFACTSLOT5") == 1) {
+			slots++;
+		}
+		
+		return slots; 
+	}
 	
 	public Map<String, Integer> getFlags() { return flags; }
 

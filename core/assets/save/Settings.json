@@ -5,13 +5,15 @@ cursorType: 1
 cursorSize: 1
 cursorColor: 4
 maxPlayers: 4
+artifactSlots: 5
+fullscreen: true
 vsync: true
 randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true
+clientPause: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
-lives: 2
 loadoutType: 1
 }

@@ -10,6 +10,8 @@ import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.melee.Fisticuffs;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
+import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -252,28 +254,23 @@ public class PlayerBodyData extends BodyData {
 		
 		UnlockEquip unlock = UnlockEquip.getUnlockFromEquip(equip.getClass());
 		
+		int slotToReplace = currentSlot;
+		
 		for (int i = 0; i < getNumWeaponSlots(); i++) {
-			if (multitools[i] instanceof NothingWeapon) {
-				multitools[i] = equip;
-				multitools[i].setUser(player);
-				currentSlot = i;
- 				setEquip();
- 				
- 				loadout.multitools[currentSlot] = unlock;
- 				syncServerLoadoutChange();
- 				return new NothingWeapon(player);
+			if (multitools[i] instanceof NothingWeapon || multitools[i].isOutofAmmo()) {
+				slotToReplace = i;
+				break;
 			}
 		}
 		
-		Equipable old = multitools[currentSlot];
+		Equipable old = multitools[slotToReplace];
 		
-		multitools[currentSlot] = equip;
-		multitools[currentSlot].setUser(player);
+		multitools[slotToReplace] = equip;
+		multitools[slotToReplace].setUser(player);
 		setEquip();
 		
-		loadout.multitools[currentSlot] = unlock;
+		loadout.multitools[slotToReplace] = unlock;
 		syncServerLoadoutChange();
-		
 		return old;
 	}
 	
@@ -345,26 +342,29 @@ public class PlayerBodyData extends BodyData {
 		if (artifactUnlock.equals(UnlockArtifact.NOTHING)) {
 			return false;
 		}
-		
+
 		Artifact newArtifact =  artifactUnlock.getArtifact();
 		int slotsUsed = 0;
 
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			
+			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
+			if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots() && !override) {
+				return false;
+			}
+			
 			if (!(loadout.artifacts[i].equals(UnlockArtifact.NOTHING))) {
-				slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 				
 				//new artifact fails to add if a repeat, locked or slot cost is too high
-				if (loadout.artifacts[i].equals(artifactUnlock)){
+				if (loadout.artifacts[i].equals(artifactUnlock)) {
 					return false;
 				} 
 				
-				if (!UnlockManager.checkUnlock(player.getState(), UnlockType.ARTIFACT, artifactUnlock.toString())){
+				if (!UnlockManager.checkUnlock(player.getState(), UnlockType.ARTIFACT, artifactUnlock.toString())) {
 					return false;
 				} 
 				
-				if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots() && !override) {
-					return false;
-				}
+				
 			} else {
 				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
 					addStatus(s);
@@ -372,12 +372,8 @@ public class PlayerBodyData extends BodyData {
 				}
 				loadout.artifacts[i] = artifactUnlock;
 
-				if (player.equals((player.getState().getPlayer()))) {
-					player.getState().getUiArtifact().syncArtifact();
-				}
+				syncArtifacts();
 				
-				saveArtifacts();
-				syncServerLoadoutChange();
 				return true;
 			}
 		}
@@ -395,6 +391,7 @@ public class PlayerBodyData extends BodyData {
 		
 		int indexRemoved = -1;
 		
+		//iterate through artifacts until we find the one we're trying to remove
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {			
 			if (loadout.artifacts[i].equals(artifact)) {
 				indexRemoved = i;
@@ -402,6 +399,7 @@ public class PlayerBodyData extends BodyData {
 			}
 		}
 
+		//if found, remove all of the artifact's statuses and move other artifacts up in the list
 		if (indexRemoved != -1) {
 			if (loadout.artifacts[indexRemoved] != null) {
 				removeArtifactStatus(artifact);
@@ -413,6 +411,26 @@ public class PlayerBodyData extends BodyData {
 			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
 		}
 		
+		syncArtifacts();
+	}
+	
+	/**
+	 * This checks if the player has too many artifacts and removes all of the ones over carrying capacity
+	 */
+	public void checkArtifactSlotCosts() {
+		int slotsUsed = 0;
+		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
+			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
+			if (slotsUsed > getNumArtifactSlots()) {
+				removeArtifact(loadout.artifacts[i]);
+			}
+		}
+	}
+	
+	/**
+	 * This is called when a player's artifacts may change to sync ui and clients
+	 */
+	public void syncArtifacts() {
 		checkArtifactSlotCosts();
 		
 		if (player.equals((player.getState().getPlayer()))) {
@@ -421,20 +439,7 @@ public class PlayerBodyData extends BodyData {
 		
 		saveArtifacts();
 		syncServerLoadoutChange();
-	}
-	
-	/**
-	 * This checks if the player has too many artifacts and removes all of the ones over carrying capacity
-	 */
-	public void checkArtifactSlotCosts() {
-		
-		int slotsUsed = 0;
-		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
-			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
-			if (slotsUsed > getNumArtifactSlots()) {
-				loadout.artifacts[i] = UnlockArtifact.NOTHING;
-			}
-		}
+		calcStats();
 	}
 	
 	/**
@@ -505,7 +510,13 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public int getNumArtifactSlots() {
 		if (player.getState().isServer()) {
-			return Math.min((int) (Loadout.baseArtifactSlots + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+			
+			if (GameStateManager.currentMode == Mode.SINGLE) {
+				return Math.min((int) (player.getState().getGsm().getRecord().getSlotsUnlocked() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+			} else {
+				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
+			}
+			
 		} else {
 			return Math.min((int) (((ClientState)player.getState()).getUiPlay().getOverrideArtifactSlots()), Loadout.maxArtifactSlots);
 		}

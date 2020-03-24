@@ -15,6 +15,7 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
@@ -137,7 +138,7 @@ public class PauseState extends GameState {
 				table.add(pause).pad(5).expand().top().row();
 				table.add(resumeOption).expand().row();
 				
-				if (ps.isServer() && gsm.getRecord().getFlags().get("HUB_REACHED").equals(1)) {
+				if (ps.isServer() && gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI) {
 					table.add(hubOption).expand().row();
 				}
 				table.add(settingOption).expand().row();
@@ -208,6 +209,17 @@ public class PauseState extends GameState {
 		//If the state has been unpaused, remove it
 		if (toRemove) {
 			SoundEffect.NEGATIVE.play(gsm);
+			
+			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
+			if (ps.isServer()) {
+				ps.getPlayer().getPlayerData().syncArtifacts();
+				for (Player player : HadalGame.server.getPlayers().values()) {
+					player.getPlayerData().syncArtifacts();
+				}
+			}
+			
+			ps.getUiHub().refreshHub();
+			
 			gsm.removeState(PauseState.class);
 		}
 	}
@@ -237,11 +249,11 @@ public class PauseState extends GameState {
     		//If the server unpauses, send a message and notification to all players to unpause.
     		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
+			
 		} else {
 			
 			//If a client unpauses, tell the server so it can echo it to everyone else
 			HadalGame.client.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
-			HadalGame.client.client.sendTCP(new Packets.Notification(ps.getPlayer().getName(), "UNPAUSED THE GAME!"));
 		}
 	}
 	

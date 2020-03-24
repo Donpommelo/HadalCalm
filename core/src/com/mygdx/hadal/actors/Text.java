@@ -68,7 +68,7 @@ public class Text extends AHadalActor {
 		
 		//draw an additional window beneath this actor to indicate a button
 		if (hover) {
-			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY() - padding / 2, getWidth() + padding, getHeight() + padding);
+			 GameStateManager.getSimplePatch().draw(batch, getX() - padding / 2, getY() - padding / 2, layout.width + padding, layout.height + padding);
 		}
 		
 		 font.getData().setScale(scale);
