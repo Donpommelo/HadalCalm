@@ -101,7 +101,7 @@ public class Setting {
 	
 	public void resetDisplay() {
 		resolution = 1;
-		framerate = 1;
+		framerate = 3;
 		fullscreen = false;
 		vsync = false;
 		cursorType = 1;
@@ -110,14 +110,14 @@ public class Setting {
 	}
 	
 	public void resetAudio() {
-		soundVolume = 0.5f;
-		musicVolume = 0.5f;
-		masterVolume = 0.5f;
+		soundVolume = 1.0f;
+		musicVolume = 1.0f;
+		masterVolume = 1.0f;
 	}
 	
 	public void resetGameplay() {
-		timer = 0;
-		lives = 1;
+		timer = 3;
+		lives = 0;
 		loadoutType = 1;
 		artifactSlots = 4;
 	}
@@ -125,7 +125,7 @@ public class Setting {
 	public void resetMisc() {
 		randomNameAlliteration = true;
 		consoleEnabled = true;
-		verboseDeathMessage = false;
+		verboseDeathMessage = true;
 		clientPause = true;
 		maxPlayers = 4;
 	}

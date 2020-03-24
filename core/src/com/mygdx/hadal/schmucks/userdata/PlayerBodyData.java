@@ -4,11 +4,9 @@ import java.util.Arrays;
 
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.equip.actives.NothingActive;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.artifacts.Artifact;
-import com.mygdx.hadal.equip.melee.Fisticuffs;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
@@ -281,11 +279,6 @@ public class PlayerBodyData extends BodyData {
 	public ActiveItem pickup(ActiveItem item) {
 		
 		UnlockActives unlock = UnlockActives.getUnlockFromActive(item.getClass());
-
-		if (activeItem instanceof NothingActive) {
-			activeItem = item;
-			return new NothingActive(player);
-		}
 		
 		ActiveItem old = activeItem;
 		activeItem = item;
@@ -296,41 +289,6 @@ public class PlayerBodyData extends BodyData {
 		syncServerLoadoutChange();
 
 		return old;
-	}
-	
-	/**
-	 * empties a slot. Used when running out of ammunition
-	 */
-	public void emptySlot(int slot) {
-		
-		if (slot >= multitools.length) {
-			return;
-		}
-		
-		multitools[slot] = new NothingWeapon(player);
-		multitools[slot].setUser(player);
-		
-		currentSlot = slot;
-		setEquip();
-		
-		loadout.multitools[currentSlot] = UnlockEquip.NOTHING;
-		
-		boolean allEmpty = true;
-		for (int i = 0; i < getNumWeaponSlots(); i++) {
-			if (!loadout.multitools[i].equals(UnlockEquip.NOTHING)) {
-				allEmpty = false;
-			}
-		}
-		
-		if (allEmpty) {
-			multitools[0] = new Fisticuffs(player);
-			multitools[0].setUser(player);
-			switchWeapon(1);
-		}
-		
-		syncServerLoadoutChange();
-		
-		switchDown();
 	}
 	
 	/**

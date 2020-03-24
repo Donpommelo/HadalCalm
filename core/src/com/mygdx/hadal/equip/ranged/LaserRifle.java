@@ -112,6 +112,11 @@ public class LaserRifle extends RangedWeapon {
 				
 				batch.setColor(1f, 1f, 1f, 1);
 			}
+			
+			@Override
+			public boolean isVisible() {
+				return true;
+			}
 		};
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
