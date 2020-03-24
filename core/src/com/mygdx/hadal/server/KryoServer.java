@@ -11,7 +11,6 @@ import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -19,6 +18,7 @@ import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.SettingState;
+import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
@@ -351,8 +351,12 @@ public class KryoServer {
 		});
 		
 		try {
-			server.bind(KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
-		} catch (IOException e) {}	
+			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+		} catch (IOException e) {
+			if (gsm.getStates().peek() instanceof TitleState) {
+				((TitleState)gsm.getStates().peek()).setNotification("COULD NOT OPEN SERVER AT PORT: " + gsm.getSetting().getPortNumber());
+			}
+		}	
 		registerPackets();
 		server.start();
 	}

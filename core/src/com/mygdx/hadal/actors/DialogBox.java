@@ -130,6 +130,9 @@ public class DialogBox extends AHadalActor {
 	 */
 	public void addDialogue(DialogInfo info, EventData radio, EventData trigger) {
 		
+		//this does text filtering/formatting for the new text
+		info.setDisplayedText();
+		
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
 		if (dialogs.size == 0) {
 			durationCount = info.getDuration();
@@ -142,11 +145,7 @@ public class DialogBox extends AHadalActor {
 		dialogs.addLast(new Dialog(info, radio, trigger));
 		
 		//add new dialog to the message log.
-		if (info.getName().equals("")) {
-			ps.getMessageWindow().addText(info.getText());
-		} else {
-			ps.getMessageWindow().addText(info.getName() + ": " + info.getText());
-		}
+		ps.getMessageWindow().addText(info.getDisplayedText());
 	}
 	
 	/**
@@ -195,11 +194,7 @@ public class DialogBox extends AHadalActor {
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxXSmall * textAppearThreshold) {
-					if (first.getInfo().getName().equals("")) {
-						font.draw(batch, first.getInfo().getText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
-					} else {
-						font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
-					}
+					font.draw(batch, first.getInfo().getDisplayedText(), getX() + 20, getY() - 20, maxTextWidthSmall, Align.left, true);
 				}
 			} else {
 				font.getData().setScale(scale);
@@ -207,11 +202,7 @@ public class DialogBox extends AHadalActor {
 				 
 				//Only draw dialogue text if window has reached specified size.
 				if (currX >= maxX * textAppearThreshold) {
-					if (first.getInfo().getName().equals("")) {
-				        font.draw(batch, first.getInfo().getText(), getX() + 150, getY() - 20, maxTextWidth, Align.left, true);
-					} else {
-				        font.draw(batch, first.getInfo().getName() +": " + first.getInfo().getText(), getX() + 150, getY() - 20, maxTextWidth, Align.left, true);
-					}
+					font.draw(batch, first.getInfo().getDisplayedText(), getX() + 150, getY() - 20, maxTextWidth, Align.left, true);
 				}
 				 
 				if (first.getBust() != null) {

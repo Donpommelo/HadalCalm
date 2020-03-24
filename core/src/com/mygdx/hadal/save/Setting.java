@@ -16,7 +16,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots;
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots, portNumber;
 	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause;
 	private float soundVolume, musicVolume, masterVolume;
 
@@ -128,6 +128,7 @@ public class Setting {
 		verboseDeathMessage = true;
 		clientPause = true;
 		maxPlayers = 4;
+		portNumber = 11100;
 	}
 	
 	public void setTimer(int timer) { this.timer = timer; }
@@ -268,6 +269,8 @@ public class Setting {
 
 	public void setClientPause(boolean clientPause) { this.clientPause = clientPause; }
 
+	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
+
 	public int getResolution() { return resolution; }
 	
 	public int getFramerate() { return framerate; }
@@ -296,6 +299,8 @@ public class Setting {
 
 	public boolean isClientPause() { return clientPause; }
 
+	public int getPortNumber() { return portNumber; }
+	
 	public int getTimer() { return timer; }
 	
 	public int getLives() { return lives; }

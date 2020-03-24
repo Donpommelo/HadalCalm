@@ -1,5 +1,7 @@
 package com.mygdx.hadal.dialog;
 
+import com.mygdx.hadal.utils.TextFilterUtil;
+
 /**
  * A DialogInfo is information about a single Dialog.
  * These are read from json
@@ -9,7 +11,7 @@ package com.mygdx.hadal.dialog;
 public class DialogInfo {
 
 	//These strings are to be displayed in the box
-	private String name, text, sprite;
+	private String name, text, sprite, displayedText;
 	
 	//This indicates whether this dialogue is the end of the conversation it is a part of
 	private boolean end;
@@ -35,9 +37,15 @@ public class DialogInfo {
 		this.duration = dura;
 	}
 	
-	public String getName() { return name; }
-
-	public String getText() { return text; }
+	//This is run before adding a dialog to the dialog box or message window.
+	//This filters and formats the text
+	public void setDisplayedText() {
+		if (name.equals("")) {
+			displayedText = TextFilterUtil.filterText(text);
+		} else {
+			displayedText = TextFilterUtil.filterText(name + ": " + text);
+		}
+	}
 
 	public String getSprite() {	return sprite; }
 
@@ -48,4 +56,6 @@ public class DialogInfo {
 	public boolean isSmall() { return small; }
 
 	public float getDuration() { return duration; }
+	
+	public String getDisplayedText() { return displayedText; }
 }

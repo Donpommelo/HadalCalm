@@ -15,7 +15,6 @@ import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.audio.SoundEffect;
-import com.mygdx.hadal.client.KryoClient;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.utils.NameGenerator;
@@ -220,7 +219,7 @@ public class TitleState extends GameState {
 					         public void run() {
 				        		//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
 				            	try {
-				                	HadalGame.client.client.connect(5000, enterIP.getText(), KryoClient.tcpPortSocket, KryoClient.udpPortSocket);
+				                	HadalGame.client.client.connect(5000, enterIP.getText(), gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 				                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
 				                } catch (IOException ex) {
 				                    setNotification("FAILED TO CONNECT TO SERVER!");
@@ -326,8 +325,7 @@ public class TitleState extends GameState {
 				enterIP = new TextField("", GameStateManager.getSkin());
 				enterIP.setMessageText("ENTER IP");
 				
-				enterName = new TextField("", GameStateManager.getSkin());
-				enterName.setText(gsm.getLoadout().getName());
+				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMessageText("ENTER NAME");
 				
 				tableName.add(nameDisplay).pad(5);

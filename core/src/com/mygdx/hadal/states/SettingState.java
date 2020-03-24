@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -30,9 +32,11 @@ public class SettingState extends GameState {
 	
 	//These are all of the display and buttons visible to the player.
 	private Text displayOption, controlOption, audioOption, gameOption, miscOption, exitOption, saveOption, resetOption;
-	
+	private TextField portNumber;
+
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
+	
 	
 	//This is the hotkey option that the player has selected to change
 	private PlayerAction currentlyEditing;
@@ -511,6 +515,9 @@ public class SettingState extends GameState {
 		Text maxPlayers = new Text("MAX SERVER SIZE: ", 0, 0, false);
 		maxPlayers.setScale(0.25f);
 		
+		Text port = new Text("PORT NUMBER: ", 0, 0, false);
+		port.setScale(0.25f);
+		
 		randomNameAlliteration = new CheckBox("RANDOM NAME ALLITERATION?", GameStateManager.getSkin());
 		randomNameAlliteration.setChecked(gsm.getSetting().isRandomNameAlliteration());
 		
@@ -529,12 +536,18 @@ public class SettingState extends GameState {
 		
 		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
 		
+		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
+		portNumber.setMessageText("PORT NUMBER");
+		portNumber.setTextFieldFilter(new TextFieldFilter.DigitsOnlyFilter());
+		
 		details.add(randomNameAlliteration).colspan(2).pad(detailsPad).row();
 		details.add(consoleEnabled).colspan(2).pad(detailsPad).row();
 		details.add(verboseDeathMessage).colspan(2).pad(detailsPad).row();
 		details.add(clientPause).colspan(2).pad(detailsPad).row();
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
+		details.add(port);
+		details.add(portNumber).colspan(2).pad(detailsPad).row();
 	}
 	
 	/**
@@ -579,6 +592,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
 			gsm.getSetting().setClientPause(clientPause.isChecked());
 			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
+			gsm.getSetting().setPortNumber(Integer.valueOf(portNumber.getText()));
 			gsm.getSetting().saveSetting();
 			miscSelected();
 			break;

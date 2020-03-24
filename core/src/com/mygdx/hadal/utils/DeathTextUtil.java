@@ -101,7 +101,6 @@ public class DeathTextUtil {
 	public static String filterDeathMessage(Schmuck perp, Player vic, String message) {
 		String filteredMessage = message.replaceAll("<vic>", vic.getName());
 		filteredMessage = filteredMessage.replaceAll("<perp>", perp.getName());
-		filteredMessage = TextFilterUtil.filterText(filteredMessage);
 		return filteredMessage;
 	}
 	
