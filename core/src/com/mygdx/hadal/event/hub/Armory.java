@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
@@ -43,7 +44,9 @@ public class Armory extends HubEvent {
 					} else {
 			        	state.getPlayer().getPlayerData().syncClientLoadoutChangeWeapon(selected);
 					}
-					state.getGsm().getLoadout().setEquips(state.getPlayer().getPlayerData().getCurrentSlot(), selected.name());
+					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
+						state.getGsm().getLoadout().setEquips(i, state.getPlayer().getPlayerData().getLoadout().multitools[i].name());
+					}
 		        }
 				
 				@Override

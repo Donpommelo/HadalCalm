@@ -262,7 +262,6 @@ public class PlayerBodyData extends BodyData {
 				break;
 			}
 		}
-		
 		Equipable old = multitools[slotToReplace];
 		
 		multitools[slotToReplace] = equip;

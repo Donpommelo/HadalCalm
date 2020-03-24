@@ -6,7 +6,7 @@ import com.mygdx.hadal.HadalGame;
 
 public class DesktopLauncher {
 	
-	private static final String TITLE = "Hadal Panic";
+	private static final String TITLE = "Hadal Calm";
 	
 	public static void main (String[] arg) {
 		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

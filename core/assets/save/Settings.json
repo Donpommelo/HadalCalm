@@ -1,19 +1,17 @@
 {
 resolution: 1
-framerate: 3
+framerate: 1
 cursorType: 1
 cursorSize: 1
 cursorColor: 4
 maxPlayers: 4
-artifactSlots: 5
-fullscreen: true
-vsync: true
+artifactSlots: 4
 randomNameAlliteration: true
 consoleEnabled: true
-verboseDeathMessage: true
 clientPause: true
-soundVolume: 1
-musicVolume: 1
-masterVolume: 1
+soundVolume: 0.5
+musicVolume: 0.5
+masterVolume: 0.5
+lives: 1
 loadoutType: 1
 }
