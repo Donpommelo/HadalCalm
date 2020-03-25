@@ -21,18 +21,18 @@ public class TractorBeam extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 10.0f;
+	private final static float maxCharge = 15.0f;
 	
-	private final static float primaryDamage = 12.0f;
-	private final static float secondaryDamage = 6.0f;
+	private final static float primaryDamage = 20.0f;
+	private final static float secondaryDamage = 10.0f;
 	private final static float knockback = 35.0f;
-	private final static float projectileSpeed = 30.0f;
+	private final static float projectileSpeed = 40.0f;
 	
-	private final static float homePower = 150.0f;
+	private final static float homePower = 250.0f;
 
 	private final static Vector2 projectileSize = new Vector2(60, 60);
 	
-	private final static float lifespan = 4.0f;
+	private final static float lifespan = 8.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 

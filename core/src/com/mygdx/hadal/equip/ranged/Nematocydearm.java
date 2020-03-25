@@ -13,22 +13,25 @@ import com.mygdx.hadal.strategies.hitbox.ContactStick;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Nematocydearm extends RangedWeapon {
 
-	private final static int clipSize = 6;
-	private final static int ammoSize = 48;
+	private final static int clipSize = 8;
+	private final static int ammoSize = 56;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 30.0f;
+	private final static float baseDamage = 35.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 40.0f;
 	private final static Vector2 projectileSize = new Vector2(72, 9);
 	private final static float lifespan = 12.0f;
-		
+	
+	private final static int spread = 3;
+
 	private final static Sprite projSprite = Sprite.BULLET;
 	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
 	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
@@ -46,5 +49,6 @@ public class Nematocydearm extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
+		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 	}
 }

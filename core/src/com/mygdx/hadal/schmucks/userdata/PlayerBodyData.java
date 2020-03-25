@@ -564,6 +564,7 @@ public class PlayerBodyData extends BodyData {
 			if (player.getMouse() != player.getState().getMouse()) {
 				player.getMouse().queueDeletion();
 			}
+			
 			super.die(perp, tags);
 			
 			//Send death notification to all players

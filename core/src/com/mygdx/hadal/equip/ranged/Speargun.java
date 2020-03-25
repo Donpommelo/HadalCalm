@@ -18,18 +18,18 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
 public class Speargun extends RangedWeapon {
 
-	private final static int clipSize = 7;
-	private final static int ammoSize = 77;
+	private final static int clipSize = 9;
+	private final static int ammoSize = 99;
 	private final static float shootCd = 0.2f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.4f;
+	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 2.5f;
 	private final static float knockback = 15.0f;
-	private final static float projectileSpeed = 22.5f;
+	private final static float projectileSpeed = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 12);
-	private final static float lifespan = 1.2f;
+	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.HARPOON;
 	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;

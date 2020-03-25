@@ -17,17 +17,17 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 public class BouncingBlade extends RangedWeapon {
 
 	private final static int clipSize = 5;
-	private final static int ammoSize = 30;
+	private final static int ammoSize = 35;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 18.0f;
+	private final static float baseDamage = 20.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 18.0f;
 	private final static float projectileSpeed = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(40, 40);
-	private final static float lifespan = 3.5f;
+	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.BUZZSAW;
 	private final static Sprite weaponSprite = Sprite.MT_BLADEGUN;

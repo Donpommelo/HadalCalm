@@ -22,7 +22,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class Underminer extends RangedWeapon {
 
 	private final static int clipSize = 4;
-	private final static int ammoSize = 18;
+	private final static int ammoSize = 24;
 	private final static float shootCd = 0.2f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.6f;
@@ -32,7 +32,7 @@ public class Underminer extends RangedWeapon {
 	private final static float knockback = 10.0f;
 	private final static float projectileSpeed = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 30);
-	private final static float lifespan = 3.5f;
+	private final static float lifespan = 3.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite fragSprite = Sprite.ORB_BLUE;
@@ -41,7 +41,7 @@ public class Underminer extends RangedWeapon {
 	
 	private final static float activatedSpeed = 10.0f;
 
-	private final static int explosionRadius = 200;
+	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 40.0f;
 	private final static float explosionKnockback = 18.0f;
 	
@@ -60,7 +60,7 @@ public class Underminer extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
 		
 		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-		hbox.setGravity(4.0f);
+		hbox.setGravity(2.0f);
 		hbox.setDurability(2);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));

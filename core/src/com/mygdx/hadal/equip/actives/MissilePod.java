@@ -12,12 +12,12 @@ public class MissilePod extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 8.0f;
+	private final static float maxCharge = 15.0f;
 	
-	private final static float duration = 1.0f;
+	private final static float duration = 1.2f;
 	
 	private static final float procCd = .1f;
-	private static final float damage = 7.5f;
+	private static final float damage = 18.0f;
 	
 	public MissilePod(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

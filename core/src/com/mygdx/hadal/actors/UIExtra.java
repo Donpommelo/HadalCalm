@@ -213,6 +213,7 @@ public class UIExtra extends AHadalActor {
 		if (timer <= 0 && timerIncr < 0) {
 			if (state.getGlobalTimer() != null) {
 				state.getGlobalTimer().getEventData().preActivate(null, null);
+				timerIncr = 0;
 			}
 		}
 	}

@@ -18,12 +18,12 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class TrickGun extends RangedWeapon {
 
 	private final static int clipSize = 5;
-	private final static int ammoSize = 28;
+	private final static int ammoSize = 30;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 40.0f;
+	private final static float baseDamage = 45.0f;
 	private final static float recoil = 16.0f;
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 25.0f;

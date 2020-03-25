@@ -538,6 +538,7 @@ public class SettingState extends GameState {
 		
 		portNumber = new TextField(String.valueOf(gsm.getSetting().getPortNumber()), GameStateManager.getSkin());
 		portNumber.setMessageText("PORT NUMBER");
+		portNumber.setMaxLength(5);
 		portNumber.setTextFieldFilter(new TextFieldFilter.DigitsOnlyFilter());
 		
 		details.add(randomNameAlliteration).colspan(2).pad(detailsPad).row();
@@ -547,7 +548,7 @@ public class SettingState extends GameState {
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
 		details.add(port);
-		details.add(portNumber).colspan(2).pad(detailsPad).row();
+		details.add(portNumber).colspan(2).width(100).pad(detailsPad).row();
 	}
 	
 	/**

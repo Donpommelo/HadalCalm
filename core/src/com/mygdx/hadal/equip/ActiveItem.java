@@ -20,6 +20,9 @@ public class ActiveItem extends Equipable {
 	
 	protected float currentCharge, maxCharge;
 	
+	//active items charge slower when damaging non-player enemies. (according to this float)
+	public static final float enemyDamageChargeMultiplier = 0.1f;
+	
 	//This indicates whether the active charges over time or by inflicting damage (or potentially, other)
 	private chargeStyle style;	
 	

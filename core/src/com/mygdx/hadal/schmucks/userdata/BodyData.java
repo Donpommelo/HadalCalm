@@ -7,6 +7,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.save.UnlockArtifact;
+import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -54,6 +55,8 @@ public class BodyData extends HadalData {
 	private static final float fuelRegen = 8.0f;
 	
 	private final static float flashDuration = 0.1f;
+	
+	private final static float damageVariance = 0.1f;
 	
 	protected float currentHp, currentFuel;
 
@@ -294,6 +297,8 @@ public class BodyData extends HadalData {
 		damage -= basedamage * (getStat(Stats.DAMAGE_RES));
 		damage += basedamage * (perp.getStat(Stats.DAMAGE_AMP));
 		
+		damage += basedamage * (-damageVariance + Math.random() * 2 * damageVariance);
+		
 		if (procEffects) {
 			damage = perp.statusProcTime(new ProcTime.InflictDamage(damage, this, tags));
 			damage = statusProcTime(new ProcTime.ReceiveDamage(damage, perp, tags));
@@ -326,7 +331,13 @@ public class BodyData extends HadalData {
 		//charge on-damage active item
 		if (perp instanceof PlayerBodyData) {
 			if (((PlayerBodyData) perp).getActiveItem().getStyle().equals(chargeStyle.byDamageInflict)) {
-				((PlayerBodyData) perp).getActiveItem().gainCharge(damage);
+				
+				//active item charges less against non-player enemies
+				if (this instanceof PlayerBodyData) {
+					((PlayerBodyData) perp).getActiveItem().gainCharge(damage);
+				} else {
+					((PlayerBodyData) perp).getActiveItem().gainCharge(damage * ActiveItem.enemyDamageChargeMultiplier);
+				}
 			}
 		}
 	}

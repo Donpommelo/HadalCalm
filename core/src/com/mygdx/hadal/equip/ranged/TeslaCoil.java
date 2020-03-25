@@ -32,18 +32,18 @@ public class TeslaCoil extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 80.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 40);
-	private final static float lifespan = 4.0f;
+	private final static Vector2 projectileSize = new Vector2(50, 50);
+	private final static float lifespan = 6.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
 	private final static float radius = 20.0f;
-	private final static float pulseInterval = 1.0f;
+	private final static float pulseInterval = 0.75f;
 	private final static float pulseDuration = 0.1f;
-	private final static Vector2 pulseSize = new Vector2(40, 40);
-	private final static float pulseDamage = 7.5f;
+	private final static Vector2 pulseSize = new Vector2(50, 50);
+	private final static float pulseDamage = 10.0f;
 	private final static float pulseKnockback = 15.0f;
 	
 	//kep track of all coils laid so far

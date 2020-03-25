@@ -20,15 +20,15 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 public class ChargeBeam extends RangedWeapon {
 
 	private final static int clipSize = 4;
-	private final static int ammoSize = 12;
+	private final static int ammoSize = 16;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.3f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 15.0f;
 	private final static float recoil = 7.5f;
-	private final static float knockback = 25.0f;
-	private final static float projectileSpeed = 35.0f;
+	private final static float knockback = 15.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(28, 28);
 	private final static float lifespan = 0.6f;
 	
@@ -83,20 +83,20 @@ public class ChargeBeam extends RangedWeapon {
 		float sizeMultiplier = 1.0f;
 		float speedMultiplier = 1.0f;
 		float damageMultiplier = 2.5f;
-		float kbMultiplier = 2;
+		float kbMultiplier = 1;
 
 		switch(chargeStage) {
 		case 2:
-			sizeMultiplier = 1.5f;
+			sizeMultiplier = 1.8f;
 			speedMultiplier = 2.5f;
 			damageMultiplier = 5.0f;
-			kbMultiplier = 4.0f;
+			kbMultiplier = 3.0f;
 			break;
 		case 1:
 			sizeMultiplier = 1.2f;
 			speedMultiplier = 1.5f;
 			damageMultiplier = 3.5f;
-			kbMultiplier = 3.0f;
+			kbMultiplier = 2.0f;
 			break;
 		}
 		

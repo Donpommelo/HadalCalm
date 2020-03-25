@@ -27,8 +27,8 @@ public class PearlRevolver extends RangedWeapon {
 	private final static float baseDamage = 30.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 9.0f;
-	private final static float projectileSpeed = 50.0f;
-	private final static Vector2 projectileSize = new Vector2(20, 20);
+	private final static float projectileSpeed = 55.0f;
+	private final static Vector2 projectileSize = new Vector2(25, 25);
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_YELLOW;

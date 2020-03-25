@@ -33,7 +33,7 @@ public class DodgeRoll extends ActiveItem {
 		} else {
 			direction = -1;
 		}
-		user.addStatus(new Invulnerability(state, 0.2f, user, user));
+		user.addStatus(new Invulnerability(state, 0.5f, user, user));
 		
 		user.getPlayer().pushMomentumMitigation(recoil * direction, 0);
 	}

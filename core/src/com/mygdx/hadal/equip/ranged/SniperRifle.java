@@ -19,15 +19,15 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class SniperRifle extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 18;
+	private final static int ammoSize = 21;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 50.0f;
-	private final static float recoil = 30.0f;
-	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 75.0f;
+	private final static float baseDamage = 60.0f;
+	private final static float recoil = 15.0f;
+	private final static float knockback = 45.0f;
+	private final static float projectileSpeed = 90.0f;
 	private final static Vector2 projectileSize = new Vector2(120, 12);
 	private final static float lifespan = 1.0f;
 	

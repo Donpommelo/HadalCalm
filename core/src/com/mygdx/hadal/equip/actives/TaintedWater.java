@@ -14,8 +14,8 @@ public class TaintedWater extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 15.0f;
 	
-	private final static float duration = 3.0f;
-	private static final float procCd = .5f;
+	private final static float duration = 2.0f;
+	private static final float procCd = .25f;
 	
 	private final static Vector2 poisonSize = new Vector2(101, 250);
 	private final static float poisonDamage = 50/60f;

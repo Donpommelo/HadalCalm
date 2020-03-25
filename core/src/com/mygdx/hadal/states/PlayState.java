@@ -871,7 +871,7 @@ public class PlayState extends GameState {
 	
 	/**
 	 * This is called when a level ends. Only called by the server. Begin a transition and tell all clients to follow suit.
-	 * @param state: Is it ending as a gameover or a results screen?
+	 * @param text: text displayed in results state?
 	 */
 	public void levelEnd(String text) {
 		beginTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay);
@@ -886,6 +886,7 @@ public class PlayState extends GameState {
 	 * @param fadeDelay: amonut of delay before transition
 	 */
 	public void beginTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
+		
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (nextState == null || override) {
 			this.resultsText = resultsText;

@@ -19,7 +19,7 @@ public class NauticalMine extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 11.0f;
+	private final static float maxCharge = 10.0f;
 	
 	private final static float baseDamage = 0.0f;
 	private final static float knockback = 0.0f;
@@ -27,7 +27,7 @@ public class NauticalMine extends ActiveItem {
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 600;
-	private final static float explosionDamage = 60.0f;
+	private final static float explosionDamage = 80.0f;
 	private final static float explosionKnockback = 40.0f;
 	
 	private final static float projectileSpeed = 7.5f;

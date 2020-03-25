@@ -22,7 +22,7 @@ public class IronBallLauncher extends RangedWeapon {
 	private final static float baseDamage = 50.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 50.0f;
-	private final static float projectileSpeed = 40.0f;
+	private final static float projectileSpeed = 50.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 2.5f;
 

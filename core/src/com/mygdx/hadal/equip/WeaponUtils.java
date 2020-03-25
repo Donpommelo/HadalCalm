@@ -105,7 +105,7 @@ public class WeaponUtils {
 	private static final int torpedoHeight = 10;
 	private static final float torpedoLifespan = 8.0f;
 	private static final int torpedoSpread = 30;
-	private static final float torpedoHoming = 60;
+	private static final float torpedoHoming = 100;
 	
 	public static Hitbox createHomingTorpedo(PlayState state, Vector2 startPos, final Schmuck user, float damage, int numTorp, int spread, Vector2 startVelocity, boolean procEffects, short filter) {
 		
@@ -132,10 +132,10 @@ public class WeaponUtils {
 	private static final float beeKnockback = 8.0f;
 	private static final int beeWidth = 13;
 	private static final int beeHeight = 12;
-	private static final int beeDurability = 3;
-	private static final float beeLifespan = 4.0f;
+	private static final int beeDurability = 5;
+	private static final float beeLifespan = 5.0f;
 	private final static int beeSpread = 60;
-	private final static float beeHoming = 90;
+	private final static float beeHoming = 110;
 	
 	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
 		
@@ -155,7 +155,7 @@ public class WeaponUtils {
 	}
 	
 	private static final int spiritSize = 25;
-	private static final float spiritHoming = 50;
+	private static final float spiritHoming = 80;
 	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, short filter) {		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		

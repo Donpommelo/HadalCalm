@@ -21,16 +21,15 @@ public class AnchorSmash extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 18.0f;
-	
+	private final static float maxCharge = 20.0f;
 
-	private final static Vector2 projectileSize = new Vector2(200, 150);
+	private final static Vector2 projectileSize = new Vector2(300, 200);
 	private final static float lifespan = 5.0f;
 	private final static float projectileSpeed = 90.0f;
 
 	private final static float range = 1800.0f;
 	
-	private final static float baseDamage = 75.0f;
+	private final static float baseDamage = 90.0f;
 	private final static float knockback = 50.0f;
 	
 	public AnchorSmash(Schmuck user) {

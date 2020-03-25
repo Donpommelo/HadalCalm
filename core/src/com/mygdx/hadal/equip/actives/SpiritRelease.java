@@ -11,11 +11,11 @@ public class SpiritRelease extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 8.0f;
+	private final static float maxCharge = 10.0f;
 	
-	private static final float spiritDamage= 35.0f;
+	private static final float spiritDamage= 40.0f;
 	private static final float spiritKnockback= 25.0f;
-	private static final float spiritLifespan= 5.0f;
+	private static final float spiritLifespan= 7.5f;
 	
 	private Vector2 spiritPos = new Vector2();
 	

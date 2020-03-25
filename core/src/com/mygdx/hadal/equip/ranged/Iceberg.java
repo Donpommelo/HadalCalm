@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class Iceberg extends RangedWeapon {
 
 	private final static int clipSize = 5;
-	private final static int ammoSize = 20;
+	private final static int ammoSize = 25;
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0.15f;
 	private final static float reloadTime = 1.4f;
@@ -24,7 +24,7 @@ public class Iceberg extends RangedWeapon {
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 33.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 3.0f;
+	private final static float lifespan = 4.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;

@@ -21,13 +21,13 @@ public class HydraulicUppercut extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 6.0f;
+	private final static float maxCharge = 8.0f;
 	
 	private final static float recoil = 150.0f;
 
-	private final static float baseDamage = 40.0f;
-	private final static Vector2 hitboxSize = new Vector2(125, 125);
-	private final static float lifespan = 0.25f;
+	private final static float baseDamage = 60.0f;
+	private final static Vector2 hitboxSize = new Vector2(150, 150);
+	private final static float lifespan = 0.5f;
 	private final static float knockback = 75.0f;
 	
 	public HydraulicUppercut(Schmuck user) {
@@ -36,7 +36,7 @@ public class HydraulicUppercut extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		user.addStatus(new Invulnerability(state, 0.5f, user, user));
+		user.addStatus(new Invulnerability(state, 0.75f, user, user));
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 10.0f, user, user));
 
 		user.getPlayer().pushMomentumMitigation(0, recoil);

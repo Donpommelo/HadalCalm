@@ -22,27 +22,27 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class Flounderbuss extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 13;
+	private final static int ammoSize = 18;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.2f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 13.0f;
 	private final static float recoil = 30.0f;
 	private final static float knockback = 12.0f;
-	private final static float projectileSpeed = 20.0f;
+	private final static float projectileSpeed = 25.0f;
 	private final static Vector2 projectileSize = new Vector2(16, 16);
-	private final static float lifespan = 1.2f;
+	private final static float lifespan = 2.0f;
 	
 	private final static Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 0.75f;
+	private static final float maxCharge = 0.6f;
 
-	private final static int maxNumProj = 35;
+	private final static int maxNumProj = 45;
 	private final static int spread = 30;
-	private final static float veloSpread = 3.0f;
+	private final static float veloSpread = 2.0f;
 	
 	public Flounderbuss(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
@@ -87,7 +87,7 @@ public class Flounderbuss extends RangedWeapon {
 			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() - 0.5f) * veloSpread);
 			
 			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(newVelocity.setAngle(newDegrees)), filter, true, true, user, projSprite);
-			hbox.setGravity(3.0f);
+			hbox.setGravity(2.0f);
 			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));

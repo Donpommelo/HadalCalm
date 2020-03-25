@@ -23,7 +23,7 @@ public class StormCloud extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 11.0f;
+	private final static float maxCharge = 15.0f;
 	
 	private final static Vector2 projectileSize = new Vector2(200, 50);
 	private final static float lifespan = 5.0f;
@@ -31,7 +31,7 @@ public class StormCloud extends ActiveItem {
 	private final static Vector2 rainSize = new Vector2(30, 20);
 	
 	private final static float rainDamage = 9.0f;
-	private final static float rainKnockback = 4.0f;
+	private final static float rainKnockback = 2.0f;
 	
 	private final static float projectileSpeed = 4.0f;
 	private final static float rainSpeed = 15.0f;

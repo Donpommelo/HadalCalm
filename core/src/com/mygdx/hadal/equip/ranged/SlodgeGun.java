@@ -23,12 +23,12 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class SlodgeGun extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 21;
+	private final static int ammoSize = 25;
 	private final static float shootCd = 0.1f;
 	private final static float shootDelay = 0.25f;
 	private final static float reloadTime = 1.2f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 6.0f;
+	private final static float baseDamage = 8.0f;
 	private final static float recoil = 24.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 25.0f;
@@ -37,7 +37,7 @@ public class SlodgeGun extends RangedWeapon {
 	
 	private final static float procCd = .05f;
 
-	private final static float slowDura = 3.0f;
+	private final static float slowDura = 4.0f;
 	private final static float slow = 0.8f;
 	private final static float fireDuration = 0.8f;
 
@@ -53,6 +53,7 @@ public class SlodgeGun extends RangedWeapon {
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hbox.setGravity(3.0f);
+		hbox.setDurability(3);
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));

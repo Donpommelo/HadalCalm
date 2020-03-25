@@ -14,6 +14,7 @@ clientPause: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
-timer: 3
+timer: 1
+lives: 1
 loadoutType: 1
 }

@@ -17,7 +17,7 @@ public class PortableTurret extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 800.0f;
+	private final static float maxCharge = 180.0f;
 	
 	private final static Vector2 projectileSize = new Vector2(70, 70);
 	private final static float lifespan = 3.0f;

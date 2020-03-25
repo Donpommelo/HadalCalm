@@ -20,14 +20,14 @@ public class MeridianMaker extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 11.0f;
+	private final static float maxCharge = 15.0f;
 	
-	private final static float baseDamage = 25.0f;
+	private final static float baseDamage = 40.0f;
 	private final static float knockback = 0.0f;
-	private final static Vector2 projectileSize = new Vector2(30, 30);
-	private final static float lifespan = 4.0f;
+	private final static Vector2 projectileSize = new Vector2(40, 40);
+	private final static float lifespan = 6.0f;
 	
-	private final static float projectileSpeed = 20.0f;
+	private final static float projectileSpeed = 30.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
