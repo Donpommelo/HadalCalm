@@ -20,7 +20,7 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 public class Machinegun extends RangedWeapon {
 
 	private final static int clipSize = 28;
-	private final static int ammoSize = 120;
+	private final static int ammoSize = 112;
 	private final static float shootCd = 0.05f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;

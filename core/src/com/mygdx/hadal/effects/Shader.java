@@ -63,7 +63,7 @@ public enum Shader {
 		shader.begin();
 		
 		for (ShaderStrategy strat: strategies) {
-			strat.create(state, shader);
+			strat.create(shader);
 		}
 		
 		shader.end();
@@ -74,21 +74,43 @@ public enum Shader {
 		}
 	}
 	
+	public void loadDefaultShader() {
+		if (this.equals(NOTHING)) {
+			return;
+		}
+		
+		//load the shader and create its strategies
+		shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
+		shader.begin();
+		
+		for (ShaderStrategy strat: strategies) {
+			strat.create(shader);
+		}
+		
+		shader.end();
+	}
+	
 	/**
 	 * This is run every game update and defers to the shader strategies to process game information
 	 */
-	public void shaderUpdate(PlayState state, float delta) {
+	public void shaderPlayUpdate(PlayState state, float delta) {
 		for (ShaderStrategy strat: strategies) {
-			strat.controller(state, shader, delta);
+			strat.playController(state, shader, delta);
+		}
+	}
+	
+	public void shaderDefaultUpdate(float delta) {
+		for (ShaderStrategy strat: strategies) {
+			strat.defaultController(shader, delta);
 		}
 	}
 	
 	/**
 	 * This is run when the game window is resized and defers to the shader strategies to process game information
 	 */
-	public void shaderResize(PlayState state) {
+	public void shaderResize() {
 		for (ShaderStrategy strat: strategies) {
-			strat.resize(state, shader);
+			strat.resize(shader);
 		}
 	}
 	

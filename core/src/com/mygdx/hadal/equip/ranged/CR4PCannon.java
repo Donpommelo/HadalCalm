@@ -20,7 +20,7 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 public class CR4PCannon extends RangedWeapon {
 
 	private final static int clipSize = 2;
-	private final static int ammoSize = 24;
+	private final static int ammoSize = 22;
 	private final static float shootCd = 0.15f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.2f;

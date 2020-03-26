@@ -421,7 +421,8 @@ public class PlayState extends GameState {
 		batch.begin();
 		if (shaderBase.getShader() != null) {
 			shaderBase.getShader().begin();
-			shaderBase.shaderUpdate(this, timer);
+			shaderBase.shaderPlayUpdate(this, timer);
+			shaderBase.shaderDefaultUpdate(timer);
 			shaderBase.getShader().end();
 			batch.setShader(shaderBase.getShader());
 		}
@@ -615,7 +616,7 @@ public class PlayState extends GameState {
 		
 		if(shaderBase.getShader() != null) {
 			shaderBase.getShader().begin();
-			shaderBase.shaderResize(this);
+			shaderBase.shaderResize();
 			shaderBase.getShader().end();
 		}
 	}

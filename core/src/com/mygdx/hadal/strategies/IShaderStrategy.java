@@ -11,9 +11,11 @@ import com.mygdx.hadal.states.PlayState;
  */
 public interface IShaderStrategy {
 
-	public void create(PlayState state, ShaderProgram shader);
+	public void create(ShaderProgram shader);
 	
-	public void controller(PlayState state, ShaderProgram shader, float delta);
+	public void playController(PlayState state, ShaderProgram shader, float delta);
 	
-	public void resize(PlayState state, ShaderProgram shader);
+	public void defaultController(ShaderProgram shader, float delta);
+
+	public void resize(ShaderProgram shader);
 }

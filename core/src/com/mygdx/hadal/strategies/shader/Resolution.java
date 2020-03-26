@@ -2,7 +2,6 @@ package com.mygdx.hadal.strategies.shader;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.mygdx.hadal.HadalGame;
-import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.ShaderStrategy;
 
 /**
@@ -14,12 +13,12 @@ import com.mygdx.hadal.strategies.ShaderStrategy;
 public class Resolution extends ShaderStrategy {
 
 	@Override
-	public void create(PlayState state, ShaderProgram shader) {
+	public void create(ShaderProgram shader) {
 		shader.setUniformf("u_resolution", HadalGame.viewportCamera.getScreenWidth(), HadalGame.viewportCamera.getScreenHeight());
 	}
 
 	@Override
-	public void resize(PlayState state, ShaderProgram shader) {
+	public void resize(ShaderProgram shader) {
 		shader.setUniformf("u_resolution", HadalGame.viewportCamera.getScreenWidth(), HadalGame.viewportCamera.getScreenHeight());
 	}
 }

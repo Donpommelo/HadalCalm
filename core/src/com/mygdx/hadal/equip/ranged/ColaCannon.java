@@ -21,7 +21,7 @@ import com.mygdx.hadal.strategies.hitbox.DieParticles;
 public class ColaCannon extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 15;
+	private final static int ammoSize = 13;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;

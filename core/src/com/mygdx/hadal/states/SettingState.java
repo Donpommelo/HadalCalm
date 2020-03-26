@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,10 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldFilter;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.actors.MenuWindow;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
@@ -79,9 +83,16 @@ public class SettingState extends GameState {
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
 	
+	private Shader shaderBackground;
+	private Texture bg;
+	
 	public SettingState(GameStateManager gsm, PlayState ps) {
 		super(gsm);
 		this.ps = ps;
+		
+		shaderBackground = Shader.WAVE;
+		shaderBackground.loadDefaultShader();
+		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND2.toString());
 	}
 
 	@Override
@@ -669,7 +680,8 @@ public class SettingState extends GameState {
 			gsm.removeState(PauseState.class);
 		}
 	}
-
+	
+	private float timer;
 	@Override
 	public void render(float delta) {
 		//Render the playstate and playstate ui underneath
@@ -677,6 +689,21 @@ public class SettingState extends GameState {
 			ps.render(delta);
 			ps.stage.getViewport().apply();
 			ps.stage.draw();
+		} else {
+			timer += delta;
+			
+			batch.begin();
+			
+			shaderBackground.getShader().begin();
+			shaderBackground.shaderDefaultUpdate(timer);
+			shaderBackground.getShader().end();
+			batch.setShader(shaderBackground.getShader());
+			
+			batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+			
+			batch.setShader(null);
+			
+			batch.end();
 		}
 	}
 	

@@ -17,7 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.DiePoison;
 public class Fugun extends RangedWeapon {
 
 	private final static int clipSize = 2;
-	private final static int ammoSize = 15;
+	private final static int ammoSize = 14;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.2f;

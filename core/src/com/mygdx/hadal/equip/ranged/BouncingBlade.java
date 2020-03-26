@@ -17,7 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 public class BouncingBlade extends RangedWeapon {
 
 	private final static int clipSize = 5;
-	private final static int ammoSize = 35;
+	private final static int ammoSize = 30;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;

@@ -19,7 +19,7 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 public class Moraygun extends RangedWeapon {
 
 	private final static int clipSize = 7;
-	private final static int ammoSize = 49;
+	private final static int ammoSize = 42;
 	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;

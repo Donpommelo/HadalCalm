@@ -10,7 +10,7 @@ import com.mygdx.hadal.states.PlayState;
 public class TorpedoLauncher extends RangedWeapon {
 
 	private final static int clipSize = 4;
-	private final static int ammoSize = 26;
+	private final static int ammoSize = 24;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 0.7f;

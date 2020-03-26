@@ -14,7 +14,7 @@ public class PlayerCoord extends ShaderStrategy {
 
 	Vector3 screenCoord = new Vector3();
 	@Override
-	public void controller(PlayState state, ShaderProgram shader, float delta) {
+	public void playController(PlayState state, ShaderProgram shader, float delta) {
 		if (state.getPlayer() != null) {
 			screenCoord.x = state.getPlayer().getPixelPosition().x;
 			screenCoord.y = state.getPlayer().getPixelPosition().y;

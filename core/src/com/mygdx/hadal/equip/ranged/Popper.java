@@ -18,14 +18,14 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class Popper extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 25;
+	private final static int ammoSize = 22;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.2f;
 	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 12.0f;
-	private final static float knockback = 12.0f;
+	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 100.0f;
 	private final static Vector2 projectileSize = new Vector2(45, 45);
 	private final static float lifespan = 0.3f;

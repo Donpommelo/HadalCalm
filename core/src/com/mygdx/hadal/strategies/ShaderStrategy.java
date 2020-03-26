@@ -10,11 +10,14 @@ import com.mygdx.hadal.states.PlayState;
 public abstract class ShaderStrategy implements IShaderStrategy {
 
 	@Override
-	public void create(PlayState state, ShaderProgram shader) {}
+	public void create(ShaderProgram shader) {}
 	
 	@Override
-	public void controller(PlayState state, ShaderProgram shader, float delta) {}
-
+	public void playController(PlayState state, ShaderProgram shader, float delta) {}
+	
 	@Override
-	public void resize(PlayState state, ShaderProgram shader) {}
+	public void defaultController(ShaderProgram shader, float delta) {}
+	
+	@Override
+	public void resize(ShaderProgram shader) {}
 }

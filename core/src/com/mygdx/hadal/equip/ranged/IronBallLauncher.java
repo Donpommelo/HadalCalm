@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 public class IronBallLauncher extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 22;
+	private final static int ammoSize = 20;
 	private final static float shootCd = 0.25f;
 	private final static float shootDelay = 0.25f;
 	private final static float reloadTime = 0.9f;
