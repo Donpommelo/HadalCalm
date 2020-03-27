@@ -11,6 +11,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 import com.mygdx.hadal.utils.b2d.FixtureBuilder;
@@ -57,6 +58,8 @@ public class Scrap extends Event {
 					state.getGsm().getRecord().incrementScrap(1);
 					state.getUiExtra().syncData();
 					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
+					
+					((PlayerBodyData)fixB).statusProcTime(new ProcTime.ScrapPickup());
 				}
 			}
 		};

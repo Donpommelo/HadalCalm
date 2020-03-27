@@ -83,7 +83,7 @@
   </object>
   <object id="14" name="Timer" type="Timer" x="160" y="3744" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="20"/>
+    <property name="interval" type="float" value="30"/>
     <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
@@ -101,8 +101,8 @@
   </object>
   <object id="17" name="Prefab" type="PrefabSpawner" x="1768" y="760" width="96" height="96">
    <properties>
-    <property name="interval" type="float" value="25"/>
-    <property name="power" type="float" value="50"/>
+    <property name="interval" type="float" value="45"/>
+    <property name="power" type="float" value="40"/>
     <property name="prefabId" value="Spawner"/>
     <property name="triggeredId" value="hp1"/>
     <property name="type" type="int" value="1"/>

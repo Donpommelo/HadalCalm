@@ -39,13 +39,14 @@ public class Hitbox extends HadalEntity {
 	protected short filter;
 	
 	//passability describes what types of entities the hitbox can collide with.
-	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL);
+	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
 	
-	public final static float defaultGravity = 0.0f;
-	public final static int defaultDurability = 1;
-	public final static float defaultFriction = 0.0f;
-	public final static float defaultScale = 1.0f;
-	public final static float defaultResitution = 0.0f;
+	private final static float defaultGravity = 0.0f;
+	private final static int defaultDurability = 1;
+	private final static float defaultFriction = 0.0f;
+	private final static float defaultScale = 1.0f;
+	private final static float defaultResitution = 0.0f;
+	private final static float defaultDamageMultiplier = 1.0f;
 	
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
 	protected float gravity = defaultGravity;
@@ -62,6 +63,9 @@ public class Hitbox extends HadalEntity {
 	//scale is the hitbox size multiplier.
 	protected float scale = defaultScale;
 	
+	//scale is the hitbox size multiplier.
+	protected float damageMultiplier = defaultDamageMultiplier;
+		
 	//sensor is whether the hitbox passes through things it registers a hit on.
 	protected boolean sensor;
 	
@@ -233,9 +237,7 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 	
-	public float getMaxLifespan() { return maxLifespan; }
-	
-	public float getLifeSpan() { return lifeSpan; }
+	public void setStartVelo(Vector2 startVelo) { this.startVelo = startVelo; }
 
 	public void setLifeSpan(float lifeSpan) { this.lifeSpan = lifeSpan; }
 
@@ -249,6 +251,18 @@ public class Hitbox extends HadalEntity {
 	
 	public void setFriction(float friction) { this.friction = friction; }
 	
+	public void setFilter(short filter) { this.filter = filter; }
+
+	public void setPassability(short passability) { this.passability = passability; }
+
+	public void setDamageMultiplier(float damageMultiplier) { this.damageMultiplier = damageMultiplier; }
+
+	public Vector2 getStartVelo() { return startVelo; }
+
+	public float getMaxLifespan() { return maxLifespan; }
+	
+	public float getLifeSpan() { return lifeSpan; }
+	
 	public float getScale() { return scale; }
 	
 	public Sprite getSprite() { return sprite; }
@@ -257,21 +271,13 @@ public class Hitbox extends HadalEntity {
 
 	public short getPassability() { return passability; }
 
-	public void setFilter(short filter) { this.filter = filter; }
-
-	public void setPassability(short passability) { this.passability = passability; }
+	public float getDamageMultiplier() { return damageMultiplier; }
 	
-	public Vector2 getStartVelo() { return startVelo; }
-
-	public void setStartVelo(Vector2 startVelo) { this.startVelo = startVelo; }
-
 	public boolean isSensor() { return sensor; }
 
 	public void setSensor(boolean sensor) { this.sensor = sensor; }
 
 	public Schmuck getCreator() { return creator; }
-
-	public void setCreator(Schmuck creator) { this.creator = creator; }
 
 	public void makeUnreflectable() { reflectable = false; }
 	

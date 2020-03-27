@@ -84,6 +84,8 @@ public class Status {
 			onHitboxCreation(pt.hbox);
 		} else if (o instanceof PlayerCreate) {
 			playerCreate();
+		} else if (o instanceof ScrapPickup) {
+			scrapPickup();
 		} else if (o instanceof Airblast) {
 			Airblast pt = (Airblast)o;
 			onAirBlast(pt.tool);
@@ -148,6 +150,8 @@ public class Status {
 	public void onHitboxCreation(Hitbox hbox) {}
 	
 	public void playerCreate() {}
+	
+	public void scrapPickup() {}
 	
 	public void onAirBlast(Equipable tool) {}
 

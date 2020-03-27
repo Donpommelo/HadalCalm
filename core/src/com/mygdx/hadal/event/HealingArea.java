@@ -73,7 +73,7 @@ public class HealingArea extends Event {
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck) {
-						((Schmuck)entity).getBodyData().receiveDamage(-heal, new Vector2(), perp.getBodyData(), true, DamageTypes.REGEN);
+						((Schmuck)entity).getBodyData().regainHp(heal, perp.getBodyData(), true, DamageTypes.REGEN);
 					}
 				}
 			}

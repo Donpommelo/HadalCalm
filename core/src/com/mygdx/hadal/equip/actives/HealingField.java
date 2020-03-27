@@ -13,7 +13,7 @@ public class HealingField extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 150.0f;
 	
-	private final static Vector2 fieldSize = new Vector2(300, 300);
+	private final static Vector2 fieldSize = new Vector2(340, 340);
 	private final static float fieldHeal = 4 / 60f;
 	private final static float healDuration = 10.0f;
 	

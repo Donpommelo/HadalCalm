@@ -22,7 +22,7 @@ public class MouthbreatherTalisman extends Artifact {
 
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (perp.equals(inflicted)) {
+				if (perp.equals(inflicted) && damage > 0) {
 					return damage * reduction;				
 				}
 				return damage;

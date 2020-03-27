@@ -31,7 +31,7 @@ public class DamageStandardRepeatable extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			fixB.receiveDamage(baseDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, tags);
+			fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, tags);
 		}
 	}
 }

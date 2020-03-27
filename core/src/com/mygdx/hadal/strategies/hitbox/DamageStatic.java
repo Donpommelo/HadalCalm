@@ -43,7 +43,7 @@ public class DamageStatic extends HitboxStrategy {
 			if (!damaged.contains(fixB)) {
 				damaged.add(fixB);
 				kb.set(fixB.getEntity().getPixelPosition().x - this.hbox.getPixelPosition().x, fixB.getEntity().getPixelPosition().y - this.hbox.getPixelPosition().y);
-				fixB.receiveDamage(baseDamage, kb.nor().scl(knockback),	creator, true, tags);
+				fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), kb.nor().scl(knockback),	creator, true, tags);
 			}
 		}
 	}

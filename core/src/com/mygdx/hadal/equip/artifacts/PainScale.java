@@ -11,7 +11,7 @@ public class PainScale extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final float amount = 0.75f;
+	private final float amount = 0.01f;
 	
 	public PainScale() {
 		super(slotCost, statusNum);
@@ -23,7 +23,7 @@ public class PainScale extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (inflicted instanceof PlayerBodyData) {
+				if (inflicted instanceof PlayerBodyData && damage > 0) {
 					((PlayerBodyData)inflicted).getActiveItem().gainChargeByPercent(damage * amount);
 				}
 				return damage;

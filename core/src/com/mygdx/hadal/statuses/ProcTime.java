@@ -116,6 +116,11 @@ public class ProcTime {
 		public PlayerCreate() {}
 	}
 	
+	public static class ScrapPickup {
+		
+		public ScrapPickup() {}
+	}
+
 	public static class Airblast {
 		public Equipable tool;
 		

@@ -29,10 +29,16 @@
         {
             "message": "<vic> brought dishonor to their family.", "weight": 1, namedPerp: false
         }
+        {
+            "message": "Stop hitting yourself, <vic>.", "weight": 1, namedPerp: false
+        }
     ]
 "ENEMY":  [
         {
             "message": "<vic> was mauled by an <perp>.", "weight": 1, namedPerp: false
+        }
+        {
+            "message": "A <perp> has returned <vic> to the food web.", "weight": 1, namedPerp: false
         }
     ]
 "DISCONNECT":  [

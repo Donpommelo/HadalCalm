@@ -22,7 +22,7 @@ public class AnchorTalisman extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (inflicted.getSchmuck().isGrounded()) {
+				if (inflicted.getSchmuck().isGrounded() && damage > 0) {
 					return damage * res;
 				}
 				return damage;

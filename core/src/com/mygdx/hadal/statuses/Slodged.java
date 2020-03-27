@@ -39,6 +39,7 @@ public class Slodged extends Status {
 	public void statChanges(){
 		inflicted.setStat(Stats.AIR_SPD, -slow);
 		inflicted.setStat(Stats.GROUND_SPD, -slow);
+		inflicted.setStat(Stats.JUMP_POW, -slow);
 	}
 	
 	public statusStackType getStackType() {

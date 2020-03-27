@@ -26,7 +26,6 @@ public class BottomoftheBarrel extends Artifact {
 			
 			@Override
 			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
-				
 				if (inflicted.getCurrentTool() instanceof RangedWeapon) {
 					if (((RangedWeapon)inflicted.getCurrentTool()).getAmmoPercent() <= ammoThreshold) {
 						return damage * damageAmp;

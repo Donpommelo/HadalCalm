@@ -41,7 +41,7 @@ public class DamageConstant extends HitboxStrategy {
 		if (fixB != null) {
 			if (!damaged.contains(fixB)) {
 				damaged.add(fixB);
-				fixB.receiveDamage(baseDamage, knockback, creator, true, tags);
+				fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), knockback, creator, true, tags);
 			}
 		}
 	}

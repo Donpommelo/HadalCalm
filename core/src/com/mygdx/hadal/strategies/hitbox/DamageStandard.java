@@ -38,7 +38,7 @@ public class DamageStandard extends HitboxStrategy {
 		if (fixB != null) {
 			if (!damaged.contains(fixB)) {
 				damaged.add(fixB);
-				fixB.receiveDamage(baseDamage, hbox.getLinearVelocity().nor().scl(knockback), creator, true, tags);
+				fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, tags);
 			}
 		}
 	}

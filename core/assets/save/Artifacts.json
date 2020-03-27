@@ -19,8 +19,8 @@ EIGHT_BALL: {
 }
 ABYSSAL_INSIGNIA: {
 	name: Abyssal Insignia
-	description: "Release Vengeful Spirit on Kill and Death"
-    descriptionLong: "Spirit Damage: 50 on Player Kill, 15 on Monster Kill\n\nA twisted bone sigil used in the worship of Bright Ones.\n\nArtifacts carried into the deepest recesses of the abyss find their form warped by the pressures of the Midnight Pool."
+	description: "+Damage at Low Hp"
+    descriptionLong: "Hp Threshold: 20% Max Hp\nBonus Damage: +100%\n\nA twisted bone sigil used in the worship of Bright Ones.\n\nArtifacts carried into the deepest recesses of the abyss find their form warped by the pressures of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -259,6 +259,15 @@ DEPLORABLE_APPARATUS: {
 		RANDOM_POOL,
 	]
 }
+DIATOMACEOUS_EARTH: {
+	name: Diatomaceous Earth
+	description: "+Damage Resistance While Reloading"
+    descriptionLong: "Reloading Damage Resistance: +50%\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 EELSKIN_COVER: {
 	name: Eelskin Cover
 	description: "Reduces Drag"
@@ -272,6 +281,15 @@ EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
 	description: "Projectile Split-Shot, -Damage"
     descriptionLong: "Damage Reduction: -30%\n\nTransparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting light beyond light."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+EPHEMERA_PERPETUA: {
+	name: Ephemera Perpetua
+	description: "Charge Active Item on Eggplant Pickup"
+    descriptionLong: "Item Charge: 20%\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -317,6 +335,15 @@ FRACTURE_PLATE: {
 	name: Fracture Plate
 	description: "Periodically gain a Damage Blocking Shield"
     descriptionLong: "Shield Cooldown: 8s Without Receiving Damage\n\nDamage Blocked: 15\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+GEMMULE: {
+	name: Gemmule
+	description: "+Invulnerability Duration on Spawn"
+    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -384,6 +411,15 @@ HUMANITY_MODULE: {
 		RANDOM_POOL,
 	]
 }
+ICE9: {
+	name: Ice 9
+	description: "Slowing Projectiles"
+    descriptionLong: "Slow Duration: 2s\nSlow Amount: -80%\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 INFORMANTS_TIE: {
 	name: Informant's Tie
 	description: "Homing Projectiles"
@@ -424,6 +460,15 @@ KINESIS_LENS: {
 	name: Kinesis Lens
 	description: "Projectiles Track Mouse"
     descriptionLong: ""
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+LOAMSKIN_TALISMAN: {
+	name: Loamskin Talisman
+	description: "+Max Hp, Bonus Hp Starts Unfilled"
+    descriptionLong: "Bonus Max Hp: +40\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -563,7 +608,16 @@ ORIGIN_COIL: {
 PAIN_SCALE: {
 	name: Pain Scale
 	description: "Charge Active Item on Receiving Damage"
-    descriptionLong: "Item Charge: 3% Charge for every 4 Damage Received\n\nA surgically attached LED light widget.\n\nDuring the training process, Salvagers have their pain replaced with an analog display that lights up if the Salvager should stop doing whatever they are doing."
+    descriptionLong: "Item Charge: 1% Charge for every 1 Damage Received\n\nA surgically attached LED light widget.\n\nDuring the training process, Salvagers have their pain replaced with an analog display that lights up if the Salvager should stop doing whatever they are doing."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+PEACHWOOD_SWORD: {
+	name: Peachwood Sword
+	description: "Release Vengeful Spirit on Kill and Death"
+    descriptionLong: "Spirit Damage: 50 on Player Kill, 15 on Monster Kill\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

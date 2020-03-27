@@ -23,7 +23,7 @@ public class CursedCilice extends Artifact {
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (inflicted instanceof PlayerBodyData) {
+				if (inflicted instanceof PlayerBodyData && damage > 0) {
 					((PlayerBodyData)inflicted).fuelGain(damage * amount);
 				}
 				return damage;
