@@ -14,7 +14,7 @@ public class MatterUniversalizer extends Artifact {
 	private final static int slotCost = 1;
 	
 	private final float amountEnemy = 20.f;
-	private final float amountPlayer = 30.f;
+	private final float amountPlayer = 60.f;
 	private final float particleDura = 1.5f;
 	
 	public MatterUniversalizer() {

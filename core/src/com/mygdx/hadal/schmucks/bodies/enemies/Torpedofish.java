@@ -29,18 +29,23 @@ public class Torpedofish extends EnemySwimming {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float attackCd = 2.0f;
-	private static final float airSpeed = -0.5f;
+	private static final float attackCd = 1.5f;
+	private static final float airSpeed = -0.4f;
 	
 	private static final float minRange = 5.0f;
 	private static final float maxRange = 10.0f;
 	
+	private static final float noiseRadius = 15.0f;
+
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
 	private final static Sprite projSprite = Sprite.ORB_RED;
 	
 	public Torpedofish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.TORPEDOFISH, startAngle,  filter, baseHp, attackCd, scrapDrop, spawner);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		
+		setNoiseRadius(noiseRadius);
+
 	}
 	
 	@Override
@@ -56,8 +61,8 @@ public class Torpedofish extends EnemySwimming {
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 100;
-	private final static float explosionDamage = 10.0f;
-	private final static float explosionKnockback = 25.0f;
+	private final static float explosionDamage = 15.0f;
+	private final static float explosionKnockback = 35.0f;
 	
 	private final static float range = 900.0f;
 	@Override

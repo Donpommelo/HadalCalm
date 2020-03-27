@@ -32,12 +32,14 @@ public class Spittlefish extends EnemySwimming {
 	private static final int hboxHeight = 19;
 	
 	private static final float attackCd = 0.5f;
-	private static final float airSpeed = -0.5f;
+	private static final float airSpeed = -0.4f;
 	private static final float kbRes = 0.5f;
 	
 	private static final float minRange = 6.0f;
 	private static final float maxRange = 12.0f;
 	
+	private static final float noiseRadius = 15.0f;
+
 	private static final Sprite sprite = Sprite.FISH_SPITTLE;
 
 	private final static Sprite projSprite = Sprite.SPIT;
@@ -45,6 +47,8 @@ public class Spittlefish extends EnemySwimming {
 	public Spittlefish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.SPITTLEFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		
+		setNoiseRadius(noiseRadius);
 	}
 	
 	@Override
@@ -54,9 +58,9 @@ public class Spittlefish extends EnemySwimming {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, kbRes, getBodyData()));
 	}
 	
-	private final static float baseDamage = 5.0f;
-	private final static float knockback = 4.5f;
-	private final static float projectileSpeed = 12.0f;
+	private final static float baseDamage = 7.5f;
+	private final static float knockback = 6.0f;
+	private final static float projectileSpeed = 15.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 20);
 	private final static float lifespan = 3.0f;
 	private final static float range = 900.0f;

@@ -15,6 +15,7 @@ public enum UnlockActives {
 	ANCHOR_SMASH(AnchorSmash.class),
 	DEPTH_CHARGE(DepthCharge.class),
 	DODGE_ROLL(DodgeRoll.class),
+	HEALING_FIELD(HealingField.class),
 	HYDRAULIC_UPPERCUT(HydraulicUppercut.class),
 	MELON(Melon.class),
 	MERIDIAN_MAKER(MeridianMaker.class),

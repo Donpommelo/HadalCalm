@@ -11,7 +11,7 @@ public class AnarchistsCookbook extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float baseDamage = 15.0f;
+	private final static float baseDamage = 0.0f;
 	private final static float knockback = 0.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 3.0f;

@@ -136,6 +136,9 @@
   <property name="veloX" type="float" default="0"/>
   <property name="veloY" type="float" default="0"/>
  </objecttype>
+ <objecttype name="Heal" color="#a0a0a4">
+  <property name="heal" type="float" default="0"/>
+ </objecttype>
  <objecttype name="ItemUnlock" color="#a0a0a4">
   <property name="item" type="string"/>
   <property name="triggeredId" type="string"/>

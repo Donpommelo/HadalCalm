@@ -324,6 +324,11 @@ public class TiledObjectUtil {
 					object.getProperties().get("damage", 0.0f, float.class),
 					object.getProperties().get("draw", true, boolean.class), 
 					object.getProperties().get("filter", (short)0, short.class));
+		} else if (object.getName().equals("Heal")) {
+			
+			e = new HealingArea(state, position, size, 
+					object.getProperties().get("heal", 0.0f, float.class),
+					object.getProperties().get("filter", (short)0, short.class));
 		} else if (object.getName().equals("Buzzsaw")) {
 			
 			e = new Buzzsaw(state, position, size, 

@@ -30,14 +30,17 @@ public class UIHub {
 	private Text titleInfo, extraInfo;
 	private String info, title = "";
 	private final static int infoWidth = 400;
-	private final static int infoHeight = 300;
+	private final static int infoHeight = 350;
 	
 	private static final int tableX = HadalGame.CONFIG_WIDTH;
-	private static final int tableY = 120;
+	private static final int tableY = 50;
+	
+	public static final int titleHeight = 60;
+	public static final int titlePadding = 25;
 	
 	private static final int optionsWidthOuter = 720;
-	private static final int optionsHeightOuter = 510;
-	private static final int optionsHeightInner = 450;
+	private static final int optionsHeightOuter = 580;
+	private static final int optionsHeightInner = 520;
 	private static final int optionsWidth = 320;
 	public static final int optionsHeight = 40;
 	public static final int optionsPadding = 10;
@@ -66,7 +69,7 @@ public class UIHub {
 		
 		titleInfo = new Text(title, 0, 0, false);
 		
-		tableOuter.add(titleInfo).center().height(optionsHeight).colspan(2);
+		tableOuter.add(titleInfo).pad(titlePadding).height(titleHeight).colspan(2);
 		tableOuter.row();
 		
 		extraInfo = new Text("", 0, 0, false) {
@@ -90,6 +93,9 @@ public class UIHub {
 		options.setFadeScrollBars(false);
 		
 		tableOuter.add(options).bottom().width(optionsWidth).height(optionsHeightInner);
+		
+		extraInfo.toBack();
+		titleInfo.toFront();
 	}
 	
 	/**

@@ -13,7 +13,7 @@ public class WrathoftheFrogman extends Artifact {
 	private final static int slotCost = 2;
 	
 	private final static float procCd = 1.0f;
-	private final static float damage = 12.0f;
+	private final static float damage = 18.0f;
 	
 	public WrathoftheFrogman() {
 		super(slotCost, statusNum);

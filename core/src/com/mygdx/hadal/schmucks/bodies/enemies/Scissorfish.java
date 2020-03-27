@@ -22,16 +22,20 @@ public class Scissorfish extends EnemySwimming {
 	private static final int hboxHeight = 30;
 	
 	private static final float attackCd = 1.5f;
-	private static final float airSpeed = -0.5f;
+	private static final float airSpeed = -0.25f;
 	
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 3.0f;
 	
+	private static final float noiseRadius = 5.0f;
+
 	private static final Sprite sprite = Sprite.FISH_SCISSOR;
 	
 	public Scissorfish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.SCISSORFISH, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		
+		setNoiseRadius(noiseRadius);
 	}
 	
 	@Override
@@ -41,8 +45,8 @@ public class Scissorfish extends EnemySwimming {
 	}
 	
 	private static final int charge1Speed = 15;
-	private static final int charge1Damage = 10;
-	private static final int defaultMeleeKB = 20;
+	private static final int charge1Damage = 12;
+	private static final int defaultMeleeKB = 25;
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);

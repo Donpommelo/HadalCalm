@@ -17,7 +17,7 @@ public class SamuraiShark extends Artifact {
 	private final static int slotCost = 2;
 	
 	private final float critChance = 0.2f;
-	private final float critDamageBoost = 20.0f;
+	private final float critDamageBoost = 40.0f;
 	private final float critSpeedMultiplier = 3.0f;
 	private static float procCd = 5.0f;
 	

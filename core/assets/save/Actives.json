@@ -83,7 +83,7 @@ SPIRIT_RELEASE: {
 STORM_CLOUD: {
 	name: Storm Cloud
 	description: "Create a Storm Cloud"
-    descriptionLong: "."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -119,6 +119,15 @@ SPRING_LOADER: {
 NAUTICAL_MINE: {
 	name: Nautical Mine
 	description: "Throws an large explosive."
+    descriptionLong: "TEST"
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+HEALING_FIELD: {
+	name: Healing Field
+	description: "Creates a field that regenerates health."
     descriptionLong: "TEST"
 	tags: [
 		DISPENSARY,

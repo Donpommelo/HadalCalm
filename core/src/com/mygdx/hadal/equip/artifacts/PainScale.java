@@ -5,7 +5,6 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.utils.Stats;
 
 public class PainScale extends Artifact {
 
@@ -25,7 +24,7 @@ public class PainScale extends Artifact {
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 				if (inflicted instanceof PlayerBodyData) {
-					((PlayerBodyData)inflicted).getActiveItem().gainChargeByPercent(damage / inflicted.getStat(Stats.MAX_HP) * amount);
+					((PlayerBodyData)inflicted).getActiveItem().gainChargeByPercent(damage * amount);
 				}
 				return damage;
 			}

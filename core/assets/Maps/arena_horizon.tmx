@@ -122,7 +122,7 @@
   </object>
   <object id="21" name="Timer" type="Timer" x="416" y="3648" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="8"/>
+    <property name="interval" type="float" value="6"/>
     <property name="triggeredId" value="passiveTimer"/>
     <property name="triggeringId" value="passiveSpawn"/>
    </properties>
@@ -223,7 +223,7 @@
   </object>
   <object id="36" name="Prefab" type="PrefabLimit" x="672" y="3584" width="32" height="32">
    <properties>
-    <property name="limit" type="int" value="7"/>
+    <property name="limit" type="int" value="9"/>
     <property name="prefabId" value="Limit"/>
     <property name="triggeredId" value="waveSizeLimit"/>
     <property name="triggeringId" value="increaseWaveSize"/>

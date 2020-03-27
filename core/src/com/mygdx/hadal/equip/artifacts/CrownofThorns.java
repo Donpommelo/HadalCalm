@@ -9,8 +9,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactStick;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
@@ -19,15 +19,15 @@ public class CrownofThorns extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 
-	private static final float thornDamage = 25.0f;
-	private static float thornDuration = 5.0f;
-	private static final float thornSpeed = -25.0f;
+	private static final float thornDamage = 20.0f;
+	private static float thornDuration = 0.25f;
+	private static final float thornSpeed = 30.0f;
 	private final static float thornKnockback = 15.0f;
 	private final static Vector2 projectileSize = new Vector2(72, 9);
 	
 	private final static Sprite projSprite = Sprite.BULLET;
 	
-	private static final float procCd = 0.25f;
+	private static final float procCd = 1.0f;
 	
 	public CrownofThorns() {
 		super(slotCost, statusNum);
@@ -46,21 +46,28 @@ public class CrownofThorns extends Artifact {
 				}
 			}
 			
+			Vector2 angle = new Vector2(1, 0);
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
 				
-				Hitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, thornDuration, new Vector2(0, thornSpeed), inflicted.getSchmuck().getHitboxfilter(), 
-						true, true, inflicted.getSchmuck(), projSprite);
-				
-				hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
-				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, inflicted));
-				hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
-				hbox.addStrategy(new ContactStick(state, hbox, inflicted, true, false));
-				hbox.addStrategy(new DamageStandard(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.POKING, DamageTypes.RANGED));
+				if (procCdCount >= procCd && damage > 0) {
+					procCdCount = 0;
+					
+					for (int i = 0; i < 6; i++) {
+						angle.setAngle(angle.angle() + 60);
+						Hitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, thornDuration, new Vector2(angle).nor().scl(thornSpeed), inflicted.getSchmuck().getHitboxfilter(), 
+								true, false, inflicted.getSchmuck(), projSprite);
+						
+						hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
+						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, inflicted));
+						hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
+						hbox.addStrategy(new ContactWallDie(state, hbox, inflicted));
+						hbox.addStrategy(new DamageStandard(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.POKING, DamageTypes.RANGED));
+					}
+				}
 				
 				return damage;
 			}
-			
 		};
 		return enchantment;
 	}

@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
@@ -13,9 +14,10 @@ public class RingoftheLamprey extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static float lifesteal = 0.05f;
+	private final static float lifestealPlayer = 0.1f;
+	private final static float lifestealEnemy = 0.02f;
 	private final static float damage = 2.5f;
-	private final static float hpThreshold = 0.50f;
+	private final static float hpThreshold = 0.5f;
 	
 	public RingoftheLamprey() {
 		super(slotCost, statusNum);
@@ -43,7 +45,11 @@ public class RingoftheLamprey extends Artifact {
 			
 			@Override
 			public float onDealDamage(float damage, BodyData vic, DamageTypes... tags) {
-				inflicter.regainHp(lifesteal * damage, inflicter, true, DamageTypes.LIFESTEAL);
+				if (vic instanceof PlayerBodyData) {
+					inflicter.regainHp(lifestealPlayer * damage, inflicter, true, DamageTypes.LIFESTEAL);
+				} else {
+					inflicter.regainHp(lifestealEnemy * damage, inflicter, true, DamageTypes.LIFESTEAL);
+				}
 				return damage;
 			}
 			

@@ -1,7 +1,7 @@
 {
 IRON_BALL_LAUNCHER: {
 	name: Iron Ball Launcher
-	description: "Fires a singular, heavy projectile. Clunky but powerful." 
+	description: "Fires a singular, heavy projectile." 
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -31,7 +31,7 @@ ICEBERG: {
 }
 BOILER: {
 	name: Boiler
-	description: "Fires a short-ranged spray of damaging particles."
+	description: "Fires a short-ranged spray of particles that set foes on fire."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -41,7 +41,7 @@ BOILER: {
 }
 BOOMERANG: {
 	name: Boomerang
-	description: "Fires a projectile that slowly returns to player. Catch returning boomerangs to refill clip!"
+	description: "Fires a projectile that slowly returns to player"
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -88,7 +88,7 @@ FISTICUFFS: {
 }
 LASER_GUIDED_ROCKET: {
 	name: Laser-Guided Rocket
-	description: "Fires a missile that will home in towards your mouse position."
+	description: "Fires a missile that will home in towards your mouse."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -178,7 +178,7 @@ FLOUNDERBUSS: {
 }
 NEMATOCYDEARM: {
 	name: Nemato Sidearm
-	description: "Fires Darts that lodge into walls."
+	description: "Fires spikes that lodge into walls."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -198,7 +198,7 @@ PEARL_REVOLVER: {
 }
 POPPER: {
 	name: Popper
-	description: "Fires projectiles that explode at a distance."
+	description: "Fires projectiles that explode at a set distance."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -208,7 +208,7 @@ POPPER: {
 }
 SCRAPRIPPER: {
 	name: Scrapripper
-	description: "Perform a close-range, melee swing to damage enemies and deflect projectiles."
+	description: "Perform a close-range, melee swing to damage enemies."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -218,7 +218,7 @@ SCRAPRIPPER: {
 }
 MAELSTROM: {
 	name: Maelstrom
-	description: "Fire a projectile that bounces between enemies upon contact."
+	description: "Fire a projectile that releases chain lightning upon contact."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -248,7 +248,7 @@ MACHINEGUN: {
 }
 MINIGUN: {
 	name: Minigun
-	description: "Heavy fire after spinning up."
+	description: "Heavy firepower but requires charging."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -296,7 +296,7 @@ NOTHING: {
 }
 SLODGEGUN: {
 	name: Slodgegun
-	description: "Fire a projectile that slows targets and induces vulnerability."
+	description: "Fire a spray of projectiles that slow targets."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -326,7 +326,7 @@ TESLA_COIL: {
 }
 TRICK_GUN: {
 	name: Trick Gun
-	description: "Click Twice to fire a projectile that changes its trajectory."
+	description: "Click, drag and release to fire a projectile that changes its trajectory."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,

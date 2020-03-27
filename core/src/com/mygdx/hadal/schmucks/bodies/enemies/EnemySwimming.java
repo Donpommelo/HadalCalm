@@ -119,6 +119,8 @@ public class EnemySwimming extends EnemyFloating {
 
 	public void setMaxRange(float maxRange) { this.maxRange = maxRange; }
 	
+	public void setNoiseRadius(float noiseRadius) { this.noiseRadius = noiseRadius; }
+	
 	public enum SwimmingState {
 		STILL,
 		WANDER,

@@ -32,7 +32,8 @@ SANDBOX_HUB: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 ARENA_HORIZON: {

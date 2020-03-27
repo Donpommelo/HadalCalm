@@ -14,9 +14,13 @@ public class FracturePlate extends Artifact {
 	private final static int slotCost = 2;
 	
 	private float procCdCount = 0;
-	private float cd = 5.0f;
+	private final static float cd = 8.0f;
 	
-	private float particleDura = 1.0f;
+	private final static float particleDura = 1.0f;
+	
+	private final static float maxShield = 15.0f;
+
+	private float shield;
 	
 	public FracturePlate() {
 		super(slotCost, statusNum);
@@ -28,17 +32,33 @@ public class FracturePlate extends Artifact {
 			
 			@Override
 			public void timePassing(float delta) {
-				procCdCount -= delta;
+				
+				if (procCdCount >= 0) {
+					procCdCount -= delta;
+				}
+				
+				if (procCdCount < 0 && shield != maxShield) {
+					shield = maxShield;
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
+				}
 			}
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (damage > 0 && procCdCount <= 0) {
+				
+				float finalDamage = damage;
+				if (damage > 0 && shield > 0) {
 					procCdCount = cd;
-					damage = 0;
-					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
+					if (shield > damage) {
+						shield -= damage;
+						finalDamage = 0;
+					} else {
+						finalDamage = damage - shield;
+						shield = 0;
+					}
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.BOULDER_BREAK, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}
-				return damage;
+				return finalDamage;
 			}
 		};
 		return enchantment;
