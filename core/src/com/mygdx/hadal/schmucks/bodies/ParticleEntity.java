@@ -244,7 +244,7 @@ public class ParticleEntity extends HadalEntity {
 			turnOff();
 		}
 	}
-
+	
 	public void setScale(float scale) { 
 		this.scale = scale; 
 		this.effect.scaleEffect(scale);

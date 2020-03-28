@@ -344,8 +344,10 @@ public class PlayState extends GameState {
 		uiArtifact.setPlayer(player);
 	}
 	
-	private float accumulator = 0.0f;
+	private float physicsAccumulator = 0.0f;
 	private final static float physicsTime = 1 / 300f;
+	private float syncAccumulator = 0.0f;
+	private final static float syncTime = 1 / 60f;
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
 	 */
@@ -358,11 +360,11 @@ public class PlayState extends GameState {
 			HadalGame.server.sendToAllTCP(new Packets.ServerLoaded());
 		}
 		
-		accumulator += delta;
+		physicsAccumulator += delta;
 		
 		//this makes the physics separate from the game framerate
-		while (accumulator >= physicsTime) {
-			accumulator -= physicsTime;
+		while (physicsAccumulator >= physicsTime) {
+			physicsAccumulator -= physicsTime;
 			
 			//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
 			world.step(physicsTime, 6, 2);
@@ -398,11 +400,17 @@ public class PlayState extends GameState {
 		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		//We also send client a sync packet if the entity requires.
-		if (HadalGame.server.getServer() != null) {
-			controllerEntities(delta);
-		}
-		
+		controllerEntities(delta);
 		processCommonStateProperties(delta);
+		
+		if (HadalGame.server.getServer() != null) {
+			syncAccumulator += delta;
+			
+			while (syncAccumulator >= syncTime) {
+				syncAccumulator -= syncTime;
+				syncEntities();
+			}
+		}
 	}
 	
 	/**
@@ -503,18 +511,24 @@ public class PlayState extends GameState {
 	public void controllerEntities(float delta) {
 		for (HadalEntity entity : hitboxes) {
 			entity.controller(delta);
-			entity.onServerSync();
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
 		}
 		for (HadalEntity entity : entities) {
 			entity.controller(delta);
-			entity.onServerSync();
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
 		}
 	}
 	
+	public void syncEntities() {
+		for (HadalEntity entity : hitboxes) {
+			entity.onServerSync();
+		}
+		for (HadalEntity entity : entities) {
+			entity.onServerSync();
+		}
+	}
 	/**
 	 * This method renders a single entity.
 	 * @param entity

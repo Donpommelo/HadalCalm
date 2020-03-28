@@ -86,7 +86,7 @@ public class DropThroughPlatform extends Event {
 				p.getBody().getFixtureList().get(0).setFilterData(filter);
 			}
 		};
-		
+
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, false, true, Constants.BIT_DROPTHROUGHWALL, (short) (Constants.BIT_SENSOR | Constants.BIT_PLAYER | Constants.BIT_PROJECTILE),
 				(short) 0, false, eventData);
 		

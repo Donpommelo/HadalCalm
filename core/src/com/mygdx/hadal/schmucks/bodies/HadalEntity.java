@@ -262,7 +262,7 @@ public abstract class HadalEntity {
 	public Vector2 getLinearVelocity() { return body.getLinearVelocity(); }
 
 	public float getMass() { return body.getMass(); }
-	
+
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null) {
 			body.setTransform(position, angle);

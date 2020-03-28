@@ -60,8 +60,8 @@ public class TitleState extends GameState {
 	private final static float scale = 0.4f;
 	private final static float optionHeight = 35.0f;
 
-	//This boolean determines if connection was attempted. Used to avoid multiple connections.
-	private boolean connectAttempted = false;
+	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
+	private boolean inputDisabled = false;
 	
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
@@ -144,6 +144,11 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
+						if (inputDisabled) {
+							return;
+						}
+						inputDisabled = true;
+						
 						SoundEffect.UISWITCH1.play(gsm);
 						
 						//Save current name into records.
@@ -170,6 +175,11 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						
+						if (inputDisabled) {
+							return;
+						}
+						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm);
 						
@@ -198,13 +208,12 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
-						SoundEffect.UISWITCH1.play(gsm);
-						
-						//If the player is already trying to connect, don't do anything
-						if (connectAttempted) {
+						if (inputDisabled) {
 							return;
 						}
-						connectAttempted = true;
+						inputDisabled = true;
+						
+						SoundEffect.UISWITCH1.play(gsm);
 						
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
@@ -226,7 +235,7 @@ public class TitleState extends GameState {
 				                }
 				            	
 				            	//Let the player attempt to connect again after finishing
-				            	connectAttempted = false;
+				            	inputDisabled = false;
 					         }
 						});
 			        }
@@ -238,13 +247,12 @@ public class TitleState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 						setNotification("SEARCHING FOR SERVER...");
 						
-						SoundEffect.UISWITCH2.play(gsm);
-						
-						//If the player is already trying to connect, don't do anything
-						if (connectAttempted) {
+						if (inputDisabled) {
 							return;
 						}
-						connectAttempted = true;
+						inputDisabled = true;
+						
+						SoundEffect.UISWITCH2.play(gsm);
 						
 						Gdx.app.postRunnable(new Runnable() {
 					        
@@ -261,7 +269,7 @@ public class TitleState extends GameState {
 								}
 								
 								//Let the player attempt to connect again after finishing
-				            	connectAttempted = false;
+								inputDisabled = false;
 							}
 						});
 			        }
@@ -272,6 +280,11 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						
+						if (inputDisabled) {
+							return;
+						}
+						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm);
 						
@@ -346,6 +359,8 @@ public class TitleState extends GameState {
 		};
 		app.newMenu(stage);
 		gsm.getApp().fadeIn();
+		
+		inputDisabled = false;
 	}
 
 	@Override
