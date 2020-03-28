@@ -1,5 +1,5 @@
 {
-scrap: 93
+scrap: 4
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -23,7 +23,7 @@ flags: {
 }
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 136
+	ARENA_LAGAN: 14
 	ARENA_HORIZON: 0
 }
 unlockEquip: {
@@ -73,6 +73,7 @@ unlockArtifact: {
 	SIREN_CHIME: true
 	BLOODWOODS_GLOVE: true
 	UNBREATHING_MEMBRANE: true
+	ICE9: true
 	SHIP_IN_A_BOTTLE: true
 	MACHINE_GHOST: true
 	DEPLORABLE_APPARATUS: true
@@ -83,8 +84,8 @@ unlockArtifact: {
 	NUCLEAR_PUNCH_THRUSTERS: true
 	HAND_OF_GLORY: true
 	CLOCKWISE_CAGE: true
-	WHITE_WHALE_CHARM: true
 	PEACHWOOD_SWORD: true
+	WHITE_WHALE_CHARM: true
 	MATTER_UNIVERSALIZER: true
 	GOOD_HEALTH: true
 	ORIGIN_COIL: true
@@ -93,8 +94,8 @@ unlockArtifact: {
 	GEMMULE: true
 	EPHEMERA_PERPETUA: true
 	GOMEZS_AMYGDALA: true
-	MANGROVE_TALISMAN: true
 	LOAMSKIN_TALISMAN: true
+	MANGROVE_TALISMAN: true
 	EXTRA_ROW_OF_TEETH: true
 	MOON_FLUTHER: true
 	PELICAN_PLUSH_TOY: true
@@ -163,7 +164,6 @@ unlockArtifact: {
 	SWORD_OF_SYZYGY: true
 	NURDLER: true
 	ANARCHISTS_COOKBOOK: true
-    ICE9: true
 	EIGHT_BALL: true
 	TYPHON_FANG: true
 	PAIN_SCALE: true

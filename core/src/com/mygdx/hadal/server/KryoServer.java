@@ -182,7 +182,6 @@ public class KryoServer {
 				else if (o instanceof Packets.PlayerConnect) {
 					final Packets.PlayerConnect p = (Packets.PlayerConnect) o;
 					final PlayState ps = getPlayState();
-					
 					if (ps != null) {
 						if (p.firstTime) {
 							if (players.size() >= ps.getGsm().getSetting().getMaxPlayers()) {
@@ -208,12 +207,6 @@ public class KryoServer {
 				else if (o instanceof Packets.ClientLoaded) {
 					final Packets.ClientLoaded p = (Packets.ClientLoaded) o;
 					final PlayState ps = getPlayState();
-					
-					//If we are paused, inform the connected client we are paused.
-					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof PauseState) {
-						PauseState pss = ((PauseState)gsm.getStates().peek());
-						HadalGame.server.sendToTCP(c.getID(), new Packets.Paused(pss.getPauser()));
-					}
 					
 					//notify players of new joiners
 					if (p.firstTime) {

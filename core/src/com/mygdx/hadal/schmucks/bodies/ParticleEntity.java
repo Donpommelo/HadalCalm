@@ -87,11 +87,12 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void controller(float delta) {
 		
+		effect.update(delta);
+		
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-				effect.update(delta);
 			} else {
 				if (!attached) {
 					despawn = true;
@@ -110,7 +111,7 @@ public class ParticleEntity extends HadalEntity {
 			}
 		}
 
-		//particles with a timer are deleting whe nthe timer runs out. Clients remove these too if they are processing them independantly from the server.
+		//particles with a timer are deleting when the timer runs out. Clients remove these too if they are processing them independantly from the server.
 		if (temp) {
 			lifespan -= delta;
 			if (lifespan <= 0) {

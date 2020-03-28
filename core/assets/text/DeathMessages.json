@@ -37,9 +37,6 @@
         {
             "message": "<vic> was mauled by an <perp>.", "weight": 1, namedPerp: false
         }
-        {
-            "message": "A <perp> has returned <vic> to the food web.", "weight": 1, namedPerp: false
-        }
     ]
 "DISCONNECT":  [
         {

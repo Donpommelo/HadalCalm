@@ -23,7 +23,7 @@
   </object>
   <object id="4" name="Player" type="Player" x="288" y="1792" width="32" height="32">
    <properties>
-    <property name="hp" type="float" value="-100"/>
+    <property name="hp" type="float" value="-1000"/>
     <property name="triggeredId" value="outOfBounds"/>
    </properties>
   </object>

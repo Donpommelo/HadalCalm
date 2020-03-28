@@ -97,7 +97,7 @@ public class KryoClient {
 				
         		//If our client state is still here, the server closed
 				if (cs != null) {
-					addNotification(cs, "HOST", "DISCONNECTED!");
+					addNotification(cs, "", "DISCONNECTED!");
 				}
 				
 				//return to the title. (if our client state is still there, we can do a fade out transition first.
@@ -676,7 +676,7 @@ public class KryoClient {
 			init();
 		}
 		
-		InetAddress address = client.discoverHost(54777, 5000);
+		InetAddress address = client.discoverHost(gsm.getSetting().getPortNumber(), 5000);
 		
 		String start = "NO IP FOUND";
     	if (address != null) {

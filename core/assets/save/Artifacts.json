@@ -316,7 +316,7 @@ FARADAYS_CAGE: {
 FENS_CLIPPED_WINGS: {
 	name: Fen's Clipped Wings
 	description: "+1 Jump, +Jump Height"
-    descriptionLong: "Bonus Jump Power: +20%\n\nA pair of tattered insect wings singed by a bright light.\n\nInside a sprawling semaphore at the world’s apex, a woman communes with Those Above in hopes of salvation."
+    descriptionLong: "Bonus Jump Power: +20%\n\nA pair of tattered insect wings singed by a bright light.\n\nInside a sprawling semaphore at the world's apex, a woman communes with Those Above in hopes of salvation."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -841,7 +841,7 @@ TYPHON_FANG: {
 UNBREATHING_MEMBRANE: {
 	name: Unbreathing Membrane
 	description: "Slows User. Move by Shooting"
-    descriptionLong: "Thick and non-porous membrane that smothers all movement.\n\nA Sunk is born upon a former person’s cessation of breath."
+    descriptionLong: "Thick and non-porous membrane that smothers all movement.\n\nA Sunk is born upon a former person's cessation of breath."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -850,7 +850,7 @@ UNBREATHING_MEMBRANE: {
 VOID_HYPONOME: {
 	name: Void Hyponome
 	description: "-Airblast Cost"
-    descriptionLong: "Airblast Cost Reduction: -25%\n\nRubbery tube used for water propulsion.\n\nAll mobility within the Noiseless Sea is born from an individual’s affinity for or aversion to the all-consuming void."
+    descriptionLong: "Airblast Cost Reduction: -25%\n\nRubbery tube used for water propulsion.\n\nAll mobility within the Noiseless Sea is born from an individual's affinity for or aversion to the all-consuming void."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -877,7 +877,7 @@ WHITE_WHALE_CHARM: {
 WRATH_OF_THE_FROGMAN: {
 	name: Wrath of the Frogman
 	description: "Fire Missiles When Attacking"
-    descriptionLong: "Missile Interval: 1s\nMissile Damage: 18\n\nWebbed gloves worn by amphibious assassins.\n\nOnce feared by all submariners, the Frogman’s reign of terror ceased when their coastal hunting grounds became submerged."
+    descriptionLong: "Missile Interval: 1s\nMissile Damage: 18\n\nWebbed gloves worn by amphibious assassins.\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

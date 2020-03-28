@@ -37,7 +37,7 @@ public class SavedLoadout {
 	public static void createNewLoadout() {
 		SavedLoadout newLoadout = new SavedLoadout();
 
-		newLoadout.equips = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING"};
+		newLoadout.equips = new String[] {"SPEARGUN", "NOTHING", "NOTHING", "NOTHING"};
 		newLoadout.artifacts = new String[] {"NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING", "NOTHING"};
 		newLoadout.active = "NOTHING";
 		newLoadout.character = "MOREAU";
