@@ -345,14 +345,18 @@ public class PlayState extends GameState {
 	}
 	
 	private float physicsAccumulator = 0.0f;
-	private final static float physicsTime = 1 / 300f;
+	private final static float physicsTime = 1 / 200f;
 	private float syncAccumulator = 0.0f;
 	private final static float syncTime = 1 / 60f;
+	public final static float syncInterpolation = 1 / 10f;
+	private float timer;
+
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
 	 */
 	@Override
 	public void update(float delta) {
+		timer += delta;
 		
 		//On the very first tick, server tells all clients that it is loaded
 		if (server && !serverLoaded) {
@@ -366,8 +370,8 @@ public class PlayState extends GameState {
 		while (physicsAccumulator >= physicsTime) {
 			physicsAccumulator -= physicsTime;
 			
-			//The box2d world takes a step. This handles collisions + physics stuff. Maybe change delta to set framerate? 
-			world.step(physicsTime, 6, 2);
+			//The box2d world takes a step. This handles collisions + physics stuff.
+			world.step(physicsTime, 8, 3);
 		}
 		
 		//All entities that are set to be added are added.
@@ -416,11 +420,8 @@ public class PlayState extends GameState {
 	/**
 	 * This method renders stuff to the screen after updating.
 	 */
-	private float timer;
 	@Override
 	public void render(float delta) {
-		timer += delta;
-		
 		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		

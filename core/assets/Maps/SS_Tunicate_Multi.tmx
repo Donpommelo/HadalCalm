@@ -85,7 +85,7 @@
   </object>
   <object id="24" name="Player" type="Player" x="224" y="3712" width="32" height="32">
    <properties>
-    <property name="hp" type="float" value="-100"/>
+    <property name="hp" type="float" value="-1000"/>
     <property name="triggeredId" value="playerDie"/>
    </properties>
   </object>

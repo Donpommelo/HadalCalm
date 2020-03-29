@@ -186,7 +186,8 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-                				cs.addEntity(p.entityID, new ClientIllusion(cs, p.pos, p.size, p.sprite, p.align), p.layer);
+        						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.sprite, p.align);
+                				cs.addEntity(p.entityID, illusion, p.layer);
         					}
         				});
 					}

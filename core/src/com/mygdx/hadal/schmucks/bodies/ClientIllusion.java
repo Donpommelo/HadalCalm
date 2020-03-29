@@ -42,7 +42,7 @@ public class ClientIllusion extends HadalEntity {
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.EVENT, this);
-		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, hadalData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, true, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, hadalData);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class ClientIllusion extends HadalEntity {
 			}
 		}
 	}
-	
+
 	/**
 	 * HITBOX: centered and flipped
 	 * CENTER: drawn in middle of body

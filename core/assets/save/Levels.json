@@ -11,6 +11,7 @@ BOSS1: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
+        MULTIPLAYER
 	]
 }
 BOSS2: {
@@ -131,7 +132,8 @@ SSTUNICATE1: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP
+        PVP,
+        MULTIPLAYER
 	]
 }
 PLENUMCHAMBER4: {
