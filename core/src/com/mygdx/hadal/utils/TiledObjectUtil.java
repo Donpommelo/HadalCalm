@@ -45,7 +45,12 @@ public class TiledObjectUtil {
             	continue;
         	}
 
-            new Wall(state, shape);
+            if (object.getProperties().get("dropthrough", false, boolean.class)) {
+                new WallDropthrough(state, shape);
+
+            } else {
+                new Wall(state, shape);
+            }
         }
     }
     

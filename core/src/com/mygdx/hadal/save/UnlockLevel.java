@@ -21,8 +21,14 @@ public enum UnlockLevel {
 	ARENA_HORIZON("Maps/arena_horizon.tmx"),
 	ARENA_LAGAN("Maps/arena_lagan.tmx"),
 
-	DM_BIRD("Maps/dm_bird.tmx"),
-	DM_BIRD2("Maps/dm_bird2.tmx"),
+	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx"),
+	DM_FREE_RANGE("Maps/dm_free_range.tmx"),
+	DM_GREY_HERON("Maps/dm_grey_heron.tmx"),
+	DM_HUMMINGBIRD("Maps/dm_hummingbird.tmx"),
+	DM_JAPANESE_WHITEEYE("Maps/dm_japanese_whiteeye.tmx"),
+	DM_LITTLE_BITTERN("Maps/dm_little_bittern.tmx"),
+	DM_SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx"),
+	
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx"),

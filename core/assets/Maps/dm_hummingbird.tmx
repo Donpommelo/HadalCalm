@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="17">
+ <layer id="1" name="Tile Layer 1" width="180" height="120">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwbUY8AAQ==
+  </data>
+ </layer>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="../hummingbird.jpg" width="5184" height="3456"/>
+ </imagelayer>
+ <objectgroup id="3" name="collision-layer">
+  <object id="1" x="0" y="3456">
+   <polyline points="0,0 0,-3456 5184,-3456 5176,-600 5128,-680 4984,-760 4952,-744 4960,-696 4832,-712 4800,-696 4744,-632 4616,-640 4520,-600 4408,-496 4240,-320 4184,-192 4200,-160 4240,-232 4312,-296 4336,-224 4424,-168 4536,-24 4552,-8 3304,0 3112,-304 3112,-344 3088,-376 3136,-496 3272,-512 3400,-504 3472,-472 3560,-368 3576,-416 3560,-472 3464,-528 3384,-560 3296,-552 3128,-576 3112,-648 3064,-768 3048,-808 2976,-816 2848,-792 2816,-848 2840,-952 2808,-1032 2744,-1088 2760,-1192 2736,-1320 2624,-1480 2664,-1512 2712,-1568 2776,-1656 2792,-1704 2800,-1792 2792,-1816 2824,-1848 3032,-1848 2954.33,-1860 2828.67,-1867.67 2790,-1894.67 2748.33,-1943.67 2672,-1964.67 2601,-1967.67 2557,-1951 2524.67,-1910 2498,-1863 2463.67,-1834.33 2414.33,-1800.67 2364.33,-1749.67 2346.33,-1713.33 2322.33,-1618.33 2313.67,-1602 2291.33,-1579.33 2278.33,-1574.33 2262,-1553.67 2252,-1550.67 2241.33,-1534.67 2231.33,-1532 2220.67,-1513.67 2210.33,-1511.67 2183.33,-1467.33 2164.67,-1415.67 2154.33,-1330.33 2144,-1226.33 2149,-1165 2161,-1117 2174.33,-1081.33 2171.33,-1076 2126.33,-1104.67 2121,-1126 2096.33,-1129 2079.33,-1158.33 2053.33,-1175.33 2025,-1179.33 2006.33,-1174.67 1975.67,-1161 1950,-1157.67 1934.33,-1134.33 1926.67,-1134 1915.67,-1123 1924.33,-1116 1914.33,-1100.33 1919,-1079.67 1897.67,-1062.67 1886.67,-1034 1874.33,-1001.33 1816.67,-1005.33 1806.67,-1001.33 1734.67,-996.667 1734.33,-990.333 1679.33,-984.667 1669.67,-977.333 1619.33,-969 1614.33,-962 1572.33,-953.667 1568,-944 1528.67,-930.333 1527.67,-921.667 1482.67,-893 1479.67,-886.667 1457.33,-869.667 1457.33,-863 1441,-848.667 1439.67,-841 1423.67,-819 1409.33,-788.333 1376,-753.667 1376,-739 1360,-724.667 1346.33,-707 1330.67,-683.333 1303.33,-659 1298,-646 1279.67,-630.333 1252.67,-594.667 1230,-548.333 1217.67,-513.333 1223,-507.333 1235,-546 1293,-570.333 1334.67,-585.333 1363.67,-586.333 1408.67,-579.667 1458.67,-560.333 1516.33,-538 1546.67,-524.333 1599,-513 1640,-507 1695,-508.333 1745.33,-514 1792.33,-522.667 1844.67,-536.333 1863.67,-537 1877.67,-516.333 1895.67,-499.333 1914,-494.667 1919.67,-466 1920.33,-424 1931.33,-391.333 1946,-374 1969,-364 1971,-333 1988,-315.333 2015,-319 2036.67,-332 2090.67,-327 2145,-338.667 2188.33,-365.333 2213.67,-389.667 2228,-370.667 2243.33,-369 2258.33,-325.333 2283,-291 2295,-284.333 2314,-250 2338,-277 2378.33,-237.667 2396,-233.667 2408.33,-245.333 2408.67,-255.333 2415.33,-255.667 2427,-232.333 2444.67,-232.333 2457,-249.333 2463.67,-293 2458,-325 2439.67,-342.667 2413,-375.333 2374.67,-401.333 2358.33,-468 2354.33,-532 2357,-575 2362.67,-575.333 2377.33,-496 2406.33,-458 2403.67,-436.333 2423.67,-418.667 2441.33,-425 2457,-397.333 2467.33,-390.667 2480.33,-375.667 2506.33,-331.667 2520.67,-330.333 2533.67,-324.333 2541,-311 2549,-319.667 2549.67,-327.667 2559.67,-321.333 2566.33,-247 2599.67,-155 2637.33,-74.3333 2688,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="2" name="Bounds" type="Bounds" x="768" y="448" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="3" name="Bounds" type="Bounds" x="4384" y="2880" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="4" name="Sensor" type="Sensor" x="3232" y="3360" width="1344" height="96">
+   <properties>
+    <property name="triggeringId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="5" name="Sensor" type="Sensor" x="0" y="3360" width="2688" height="96">
+   <properties>
+    <property name="triggeringId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="6" name="Prefab" type="PrefabPVPSettingSetter" x="256" y="3520" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="7" name="Multitrigger" type="Multitrigger" x="288" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="8" name="Camera" type="Camera" x="352" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+  <object id="9" name="Timer" type="Timer" x="256" y="3712" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="10" name="Multitrigger" type="Multitrigger" x="320" y="3712" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="spawnWeapons,startTimer"/>
+   </properties>
+  </object>
+  <object id="11" name="Multitrigger" type="Multitrigger" x="384" y="3776" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1"/>
+   </properties>
+  </object>
+  <object id="12" name="Timer" type="Timer" x="320" y="3776" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="triggeringId" value="spawnWeapons"/>
+   </properties>
+  </object>
+  <object id="13" name="Player" type="Player" x="3104" y="3616" width="32" height="32">
+   <properties>
+    <property name="hp" type="float" value="-1000"/>
+    <property name="triggeredId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="14" name="Start" type="Start" x="1632" y="2400" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="15" name="Start" type="Start" x="3008" y="2560" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="16" name="Prefab" type="PrefabWeapon" x="2592" y="1400" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="26">
+ <properties>
+  <property name="pvp" type="bool" value="true"/>
+ </properties>
+ <layer id="1" name="Tile Layer 1" width="180" height="120">
+  <data encoding="base64" compression="zlib">
+   eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
+  </data>
+ </layer>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="../japanese_whiteeye.jpg" width="5184" height="3456"/>
+ </imagelayer>
+ <objectgroup id="3" name="collision-layer">
+  <object id="1" x="0.363636" y="2598.64">
+   <polyline points="-0.363636,-6.63636 32.2727,-7.18182 63.1818,-8.45455 93.2727,-5.90909 115.091,-4.09091 154.182,-4.81818 189.455,-6.09091 219.273,-4.27273 232.909,-2.45455 443.303,-2.9697 573.303,-5.30303 973.136,-9.13636 996.545,-10.4545 1242.64,-15.9697 1519.97,-15.9697 1613.97,-193.636 1598.64,-204.97 1610.97,-266.303 1562.64,-222.636 1514.3,-229.303 1515.3,-262.636 1560.64,-469.303 1561.64,-497.303 1575.3,-564.97 1623.14,-682.136 1668.14,-797.636 1706.39,-870.386 1708.97,-887.636 1720.97,-904.636 1722.3,-914.636 1707.64,-904.303 1696.3,-916.97 1782.3,-1041.3 1785.97,-1065.3 1810.64,-1095.3 1840.3,-1124.97 1849.64,-1137.3 1890.64,-1187.3 1912.64,-1212.64 1970.64,-1263.97 2035.3,-1310.97 2098.14,-1351.64 2173.64,-1382.64 2247.14,-1406.64 2326.64,-1420.14 2384.64,-1427.64 2435.64,-1431.64 2497.14,-1451.64 2505.64,-1463.64 2572.64,-1520.64 2587.64,-1540.64 2625.64,-1580.64 2742.3,-1651.97 2788.3,-1675.3 2896.3,-1702.64 2927.64,-1708.64 2970.97,-1706.64 3003.64,-1703.3 3072.97,-1691.3 3139.64,-1661.97 3210.97,-1628.64 3250.97,-1602.64 3315.64,-1555.3 3330.97,-1545.97 3338.97,-1523.3 3391.64,-1511.97 3416.3,-1539.3 3447.64,-1589.97 3484.97,-1639.97 3540.3,-1683.3 3573.64,-1705.97 3595.64,-1764.64 3625.64,-1798.64 3729.64,-1794.64 3752.97,-1805.3 3848.97,-1785.3 3926.3,-1742.64 3978.97,-1675.97 3991.64,-1645.3 4032.3,-1616.64 3981.64,-1568.64 3974.3,-1525.97 3961.64,-1459.97 3934.97,-1385.3 3928.97,-1345.97 3904.97,-1229.97 3892.97,-1199.3 3895.64,-1181.3 3886.3,-1149.3 3904.3,-1077.97 3908.97,-1036.64 3945.64,-926.636 3970.3,-814.636 3976.3,-721.303 3981.64,-634.636 3972.3,-542.636 3963.64,-509.303 3956.3,-499.303 3934.97,-351.97 3908.3,-227.303 3878.97,-139.303 3868.97,-103.303 3873.64,-67.9697 3882.3,-36.6364 3882.3,-25.303 4160.97,-25.9697 4375.64,-28.6364 4688.3,-31.9697 4876.3,-31.303 4995.64,-37.303 5016.3,-41.303 5050.3,-35.303 5184.3,-39.303 5183.64,-2598.64 342.303,-2597.3 212.303,-2305.3 139.636,-2127.3 -1.69697,-1800.64 -0.363636,-6.63636"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="event-layer">
+  <object id="2" name="Prefab" type="PrefabPVPSettingSetter" x="64" y="3488" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="3" name="Multitrigger" type="Multitrigger" x="96" y="3584" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="4" name="Camera" type="Camera" x="160" y="3584" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+  <object id="5" name="Timer" type="Timer" x="64" y="3680" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="6" name="Multitrigger" type="Multitrigger" x="128" y="3680" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="spawnWeapons,startTimer"/>
+   </properties>
+  </object>
+  <object id="7" name="Multitrigger" type="Multitrigger" x="192" y="3744" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1"/>
+   </properties>
+  </object>
+  <object id="8" name="Timer" type="Timer" x="128" y="3744" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="triggeringId" value="spawnWeapons"/>
+   </properties>
+  </object>
+  <object id="9" name="Start" type="Start" x="3712" y="736" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="10" name="Start" type="Start" x="2912" y="800" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="11" name="Prefab" type="PrefabWeapon" x="4157.33" y="2476" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="12" name="Prefab" type="PrefabSpawner" x="852" y="2490.67" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="14" name="Bounds" type="Bounds" x="768" y="448" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="15" name="Bounds" type="Bounds" x="4384" y="2272" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="16" name="Dummy" type="Dummy" x="4192" y="2272" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy0"/>
+    <property name="triggeringId" value="dummy1"/>
+   </properties>
+  </object>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="4032" y="1888" width="352" height="8">
+   <properties>
+    <property name="triggeredId" value="plat1"/>
+   </properties>
+  </object>
+  <object id="18" name="MovePoint" type="MovePoint" x="4192" y="1888" width="32" height="32">
+   <properties>
+    <property name="connections" value="plat1"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="dummy0"/>
+   </properties>
+  </object>
+  <object id="19" name="Displacer" type="Displacer" x="4040" y="1880" width="336" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="plat1"/>
+   </properties>
+  </object>
+  <object id="20" name="Dummy" type="Dummy" x="4192" y="1056" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy1"/>
+    <property name="triggeringId" value="dummy0"/>
+   </properties>
+  </object>
+  <object id="21" name="Dummy" type="Dummy" x="1344" y="2272" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy2"/>
+    <property name="triggeringId" value="dummy3"/>
+   </properties>
+  </object>
+  <object id="22" name="Dropthrough" type="Dropthrough" x="1184" y="2064" width="352" height="8">
+   <properties>
+    <property name="triggeredId" value="plat2"/>
+   </properties>
+  </object>
+  <object id="23" name="MovePoint" type="MovePoint" x="1344" y="2064" width="32" height="32">
+   <properties>
+    <property name="connections" value="plat2"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="dummy3"/>
+   </properties>
+  </object>
+  <object id="24" name="Displacer" type="Displacer" x="1192" y="2056" width="336" height="8">
+   <properties>
+    <property name="displaceX" type="float" value="0"/>
+    <property name="triggeringId" value="plat2"/>
+   </properties>
+  </object>
+  <object id="25" name="Dummy" type="Dummy" x="1344" y="1632" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="dummy3"/>
+    <property name="triggeringId" value="dummy2"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

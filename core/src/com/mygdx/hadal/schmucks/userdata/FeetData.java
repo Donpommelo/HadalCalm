@@ -1,5 +1,7 @@
 package com.mygdx.hadal.schmucks.userdata;
 
+import java.util.ArrayList;
+
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -13,13 +15,11 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 public class FeetData extends HadalData {
 
 	//This is the event we are standing on, if existant
-	private Event terrain;
+	private ArrayList<Event> terrain = new ArrayList<Event>();
 	
 	public FeetData(UserDataTypes type, Player player) {
 		super(type, player);
 	}
 
-	public Event getTerrain() { return terrain; }
-
-	public void setTerrain(Event terrain) { this.terrain = terrain;	}
+	public ArrayList<Event> getTerrain() { return terrain; }
 }

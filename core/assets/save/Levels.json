@@ -91,8 +91,8 @@ DM_CAROUSEL: {
         MULTIPLAYER
 	]
 }
-DM_BIRD: {
-	name: DM_BIRD
+DM_FORMOSAN_BLUE_MAGPIE: {
+	name: DM_FORMOSAN_BLUE_MAGPIE
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
@@ -100,8 +100,53 @@ DM_BIRD: {
         MULTIPLAYER
 	]
 }
-DM_BIRD2: {
-	name: DM_BIRD2
+DM_FREE_RANGE: {
+	name: DM_FREE_RANGE
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_GREY_HERON: {
+	name: DM_GREY_HERON
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_HUMMINGBIRD: {
+	name: DM_HUMMINGBIRD
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_JAPANESE_WHITEEYE: {
+	name: DM_JAPANESE_WHITEEYE
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_LITTLE_BITTERN: {
+	name: DM_LITTLE_BITTERN
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_SUPREME_CHAMPION: {
+	name: DM_SUPREME_CHAMPION
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

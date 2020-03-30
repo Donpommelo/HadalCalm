@@ -53,7 +53,7 @@ public class DropThroughPlatform extends Event {
 							filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL);
 							p.getBody().getFixtureList().get(0).setFilterData(filter);
 							
-							((FeetData) fixB).setTerrain(this.event);
+							((FeetData) fixB).getTerrain().add(this.event);
 						}
 					}
 				}
@@ -71,7 +71,7 @@ public class DropThroughPlatform extends Event {
 						filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY);
 						p.getBody().getFixtureList().get(0).setFilterData(filter);
 						
-						((FeetData) fixB).setTerrain(null);
+						((FeetData) fixB).getTerrain().remove(this.event);
 					}
 				}
 			}

@@ -37,7 +37,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Max Hp, Become Heavier"
-    descriptionLong: "Bonus Max Hp: 50\nWeight Increase: +150%\n\nA burdensome artifact in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
+    descriptionLong: "Bonus Max Hp: 50\nWeight Increase: +150%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -46,7 +46,7 @@ ALBATROSS_NECKLACE: {
 ANARCHISTS_COOKBOOK: {
 	name: Anarchist's Cookbook
 	description: "Periodically Spawns Bombs"
-    descriptionLong: "Bomb Spawn Interval: 1s\nBomb Damage: 40\n\nAn ancient text printed on singed (and waterproof) pages.\n\nAnarchists seeking chaos amidst the Noiseless Sea would be disappointed by the order that arose around Bright Ones."
+    descriptionLong: "Bomb Spawn Interval: 1s\nBomb Damage: 40\n\nA singed manuscript describing the author's favorite baking recipes.\n\nAnarchists seeking chaos amidst the Noiseless Sea would be disappointed by the order that arose around newly submerged Bright Ones."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -55,7 +55,7 @@ ANARCHISTS_COOKBOOK: {
 ANCHOR_TALISMAN: {
 	name: Anchor Talisman
 	description: "+Damage Resistance When Grounded"
-    descriptionLong: "Grounded Damage Resistance: +60%\n\nA pendant depicting the company insignia; a sturdy anchor.\n\nManagement long held the belief that to forgo one's connection to the Earth would be to irreversibly abandon humanity."
+    descriptionLong: "Grounded Damage Resistance: +60%\n\nA metal charm depicting the company insignia; a sturdy anchor.\n\nManagement long held the belief that to forgo one's connection to the Earth would be to irreversibly abandon humanity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -64,7 +64,7 @@ ANCHOR_TALISMAN: {
 ANCIENT_SYNAPSE: {
 	name: Ancient Synapse
 	description: "Delays Incoming Damage"
-    descriptionLong: "Delayed Damage: 12 per Second\n\nThe petrified nervous tissue of a drowned behemoth.\n\nTo those willing to abandon physical sensation, the Noiseless sea offers a quiet and peaceful place to observe eternity."
+    descriptionLong: "Delayed Damage: 12 per Second\n\nThe petrified nervous tissue of a drowned behemoth.\n\nTo those willing to abandon physical sensation, the Noiseless Sea offers a quiet and peaceful haven to observe eternity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -91,7 +91,7 @@ BACKPACK_BUDDY: {
 BLASTEMA: {
 	name: Blastema
 	description: "Receiving Damage Grants +Regeneration"
-    descriptionLong: "Regen Duration: 5s\nRegen: 2 per Second\n\nA cluster of self-replicating cells used to regrow damaged tissue.\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally grown spare limbs of all shapes and sizes."
+    descriptionLong: "Regen Duration: 5s\nRegen: 2 per Second\n\nA cluster of self-replicating cells used to regrow damaged tissue.\n\nFew products leave the shelves of the Sunk Emporium as quickly as locally-grown spare limbs of all shapes and sizes."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -109,7 +109,7 @@ BLOODWOODS_GLOVE: {
 BOTTOM_OF_THE_BARREL: {
 	name: Bottom of the Barrel
 	description: "+Damage with Low Ammo"
-    descriptionLong: "Ammo Threshold: 25%\nDamage Bonus: +100%\n\nWooden slat encrusted with resentful detritus.\n\nThe grinders of the Kamabokory are welcoming to even the lowliest of dregs seeking to be remade."
+    descriptionLong: "Ammo Threshold: 25%\nDamage Bonus: +100%\n\nA wooden slat encrusted with resentful detritus.\n\nThe grinders of the Kamabokory are welcoming to even the lowliest of dregs seeking to be remade."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -118,7 +118,7 @@ BOTTOM_OF_THE_BARREL: {
 BRIGGLES_BLADED_BOOT: {
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps"
-    descriptionLong: "Stomp Damage: 20\n\nSerrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
+    descriptionLong: "Stomp Damage: 20\n\nThe serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -127,7 +127,7 @@ BRIGGLES_BLADED_BOOT: {
 BRITTLING_POWDER: {
 	name: Brittling Powder
 	description: "Projectile Fragmentation"
-    descriptionLong: "Frag Cooldown: 0.5s\nFrag Number: 8\nFrag Damage: 2.5\n\nInsidious powder that renders brittle with the slightest contact.\n\nResidents of the Kamabokory have accepted that the destruction of their original bodies is a necessary step in the factory's ungodly process."
+    descriptionLong: "Frag Cooldown: 0.5s\nFrag Number: 8\nFrag Damage: 2.5\n\nPouch of insidious powder that renders objects brittle upon the slightest contact.\n\nResidents of the Kamabokory have accepted that the destruction of their physicals bodies is a necessary step in the factory's ungodly process."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -199,7 +199,7 @@ COMMUTERS_PARASOL: {
 COMPOUND_VITREOUS: {
 	name: Compound Vitreous
 	description: "Reveal Enemy Health"
-    descriptionLong: "Iridescent compound eye made of glass-like organic material.\n\nOnly through special means can individuals see beyond the firmaments that lie at the top and bottom of the world."
+    descriptionLong: "An iridescent compound eye made of glass-like organic material.\n\nOnly through special means can individuals see beyond the firmaments that lie at the top and bottom of the world."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -208,7 +208,7 @@ COMPOUND_VITREOUS: {
 CONFIDENCE: {
 	name: Confidence
 	description: "+Damage at Max Hp"
-    descriptionLong: "Bonus Damage: +50%\n\nThe sense of certainty that all will end well. Fragile and fleeting."
+    descriptionLong: "Bonus Damage: +50%\n\nThe fragile and fleeting feeling that everything will be alright.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -217,7 +217,7 @@ CONFIDENCE: {
 CROWN_OF_THORNS: {
 	name: Crown of Thorns
 	description: "Drop Thorns on Receiving Damage"
-    descriptionLong: "Thorns Cooldown: 1s\nThorns Number: 6\nThorns Damage: 20\n\nSpiky echinoderm that doubles as protective headgear.\n\nOf all traits retained by Sunk things, the most common is the simple desire to not be touched."
+    descriptionLong: "Thorns Cooldown: 1s\nThorns Number: 6\nThorns Damage: 20\n\nThe body of a spiky echinoderm that doubles as protective headgear.\n\nOf all traits retained by Sunk things, the most common is the simple desire to not be touched."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -241,6 +241,15 @@ CURSED_CILICE: {
 		RANDOM_POOL,
 	]
 }
+DAS_BOOT: {
+	name: Das Boot
+	description: "+Damage Resistance While Reloading"
+    descriptionLong: "Reloading Damage Resistance: +50%\n\nA metal shoe complete with dorsal periscope.\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 DEAD_MANS_HAND: {
 	name: Dead Man's Hand
 	description: "+1 Weapon Slot"
@@ -259,19 +268,10 @@ DEPLORABLE_APPARATUS: {
 		RANDOM_POOL,
 	]
 }
-DAS_BOOT: {
-	name: Das Boot
-	description: "+Damage Resistance While Reloading"
-    descriptionLong: "Reloading Damage Resistance: +50%\n\n"
-	tags: [
-		RELIQUARY,
-		RANDOM_POOL,
-	]
-}
 EELSKIN_COVER: {
 	name: Eelskin Cover
 	description: "Reduces Drag"
-    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nSlick coat that lets its wearer slide through the water slimily."
+    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -280,7 +280,7 @@ EELSKIN_COVER: {
 EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
 	description: "Projectile Split-Shot, -Damage"
-    descriptionLong: "Damage Reduction: -30%\n\nTransparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting light beyond light."
+    descriptionLong: "Damage Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -316,7 +316,7 @@ FARADAYS_CAGE: {
 FENS_CLIPPED_WINGS: {
 	name: Fen's Clipped Wings
 	description: "+1 Jump, +Jump Height"
-    descriptionLong: "Bonus Jump Power: +20%\n\nA pair of tattered insect wings singed by a bright light.\n\nInside a sprawling semaphore at the world's apex, a woman communes with Those Above in hopes of salvation."
+    descriptionLong: "Bonus Jump Power: +20%\n\nA pair of tattered insect wings singed by a bright light.\n\nInside a sprawling semaphore at the world's apex, a woman communes with a higher power in hopes of salvation."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -343,7 +343,7 @@ FRACTURE_PLATE: {
 GEMMULE: {
 	name: Gemmule
 	description: "+Invulnerability Duration on Spawn"
-    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\n"
+    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -352,7 +352,7 @@ GEMMULE: {
 GLUTTONOUS_GREY_GLOVE: {
 	name: Gluttonous Grey Grove
 	description: "Occasionally drop Health on Kill"
-    descriptionLong: "Hp Drop Chance: 100% on Player Kill, 20% on Monster Kill\nHp Pickup: 20\n\nCarnivorous handwear with an appetite for flesh.\n\nIt's a fish-eat-fish world out there."
+    descriptionLong: "Hp Drop Chance: 100% on Player Kill, 20% on Monster Kill\nHp Pickup: 20\n\nAn article of carnivorous handwear with an appetite for flesh.\n\nIt's a fish-eat-fish world out there."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -361,7 +361,7 @@ GLUTTONOUS_GREY_GLOVE: {
 GOMEZS_AMYGDALA: {
 	name: Gomez's Amygdala
 	description: "Receiving Damage Temporarily Boosts Speed and Damage"
-    descriptionLong: "Buff Duration: 2s\nBonus Speed: +50%\nBonus Damage: +30%\n\n"
+    descriptionLong: "Buff Duration: 2s\nBonus Speed: +50%\nBonus Damage: +30%\n\nA piece of grey matter floating in fluid and radiating with psychic energy.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -370,7 +370,7 @@ GOMEZS_AMYGDALA: {
 GOOD_HEALTH: {
 	name: Good Health
 	description: "+Max Hp"
-    descriptionLong: "Bonus Max Hp: +25\n\nGood physical health.\n\nThe strict exercise regimen followed by Salvagers ensures that they remain too preoccupied to start getting the wrong idea again."
+    descriptionLong: "Bonus Max Hp: +25\n\nThe manifestation of good physical health.\n\nThe strict exercise regimen followed by Salvagers ensures that they remain too preoccupied to start getting the wrong idea again."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -379,7 +379,7 @@ GOOD_HEALTH: {
 HAND_OF_GLORY: {
 	name: Hand of Glory
 	description: "+Scrap Drops"
-    descriptionLong: "Bonus Scrap Drop: 25%"
+    descriptionLong: "Bonus Scrap Drop: 25%\n\nThe preserved hand of an executed criminal.\n\n"
 	tags: [
 		RELIQUARY,
 	]
@@ -387,7 +387,7 @@ HAND_OF_GLORY: {
 HEART_OF_SPEROS: {
 	name: Heart of Speros
 	description: "Use Fuel as Ammo"
-    descriptionLong: "Fuel Spent: 50% Max Fuel / Weapon Clip Size\n\n"
+    descriptionLong: "Fuel Spent: 50% Max Fuel / Weapon Clip Size\n\nThe synthetic heart-replacement belonging to an overworked employee.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -396,7 +396,7 @@ HEART_OF_SPEROS: {
 HORNS_OF_AMMON: {
 	name: Horns of Ammon
 	description: "Receiving Damage Grants Brief Invulnerability"
-    descriptionLong: "Damage Threshold: 5\nInvincibility Duration: 1s\n\n"
+    descriptionLong: "Damage Threshold: 5\nInvincibility Duration: 1s\n\nThe curved horns of a submerged deity.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -414,7 +414,7 @@ HUMANITY_MODULE: {
 ICE9: {
 	name: Ice 9
 	description: "Slowing Projectiles"
-    descriptionLong: "Slow Duration: 2s\nSlow Amount: -80%\n\n"
+    descriptionLong: "Slow Duration: 2s\nSlow Amount: -80%\n\nA frosty vial of a world-ending substance.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -459,7 +459,7 @@ KERMUNGLER: {
 KINEATER: {
 	name: Kineater
 	description: "Lowers Boss Hp"
-    descriptionLong: "Boss Hp Reduction: -15%\n\nWriggling invertebrate that attaches to host membranes with a hooked tail.\n\nBurrowed in the flesh of unsuspecting hosts, parasites are often carried by the currents to destinations not befitting themselves."
+    descriptionLong: "Boss Hp Reduction: -15%\n\nA wriggling invertebrate that attaches to host membranes with a hooked tail.\n\nBurrowed in the flesh of unsuspecting hosts, parasites are often carried by the currents to destinations not befitting themselves."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -608,7 +608,7 @@ OL_FAITHFUL: {
 ORIGIN_COIL: {
 	name: Origin Coil
 	description: "Propulsive Projectiles, +Reload Speed"
-    descriptionLong: "Bonus Reload Speed: 60%\n\n"
+    descriptionLong: "Bonus Reload Speed: 60%\n\nAn intricate mechanism facilitating the spontaneous generation of life.\n\nThe Garden of the Neptune King serves as a sanctuary for seeds taken by the Noiseless Sea before having a chance to germinate."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -626,7 +626,7 @@ PAIN_SCALE: {
 PEACHWOOD_SWORD: {
 	name: Peachwood Sword
 	description: "Release Vengeful Spirit on Kill and Death"
-    descriptionLong: "Spirit Damage: 50 on Player Kill, 15 on Monster Kill\n\n"
+    descriptionLong: "Spirit Damage: 50 on Player Kill, 15 on Monster Kill\n\nA wooden blade gnarled and knotted by time.\n\nStriking at spirits within the Noiseless Sea is a futile undertaking well suited for those looking to pass an eternity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -635,7 +635,7 @@ PEACHWOOD_SWORD: {
 PELICAN_PLUSH_TOY: {
 	name: Pelican Plush Toy
 	description: "Improved Healing"
-    descriptionLong: "Heal Amplification: +50%\n\n"
+    descriptionLong: "Heal Amplification: +50%\n\nA soft and squeezable plush stuffed with unconditional love.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -662,7 +662,7 @@ PETRIFIED_PAYLOAD: {
 PIFFLER: {
 	name: Piffler
 	description: "Piffly Projectiles"
-    descriptionLong: "TEST"
+    descriptionLong: "A flaccid and flimsy trinket with no discernable use.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -679,7 +679,7 @@ RECYCLER_BOLUS: {
 RED_TIDE_TALISMAN: {
 	name: Red Tide Talisman
 	description: "Fiery Projectiles"
-    descriptionLong: "Fire Duration: 4s\nFire Damage: 3 Per Second.\n\n"
+    descriptionLong: "Fire Duration: 4s\nFire Damage: 3 Per Second.\n\nA crimson pendant emitting an unhealthful warmth.\n\nA sudden influx of life precipitates a sudden influx of death."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -714,7 +714,7 @@ ROYAL_JUJUBE_BANG: {
 SALIGRAM: {
 	name: Saligram
 	description: "+Damage Resistance"
-    descriptionLong: "Damage Resistance: +15%\n\nPetrified artifact imbued with the blessing of the spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
+    descriptionLong: "Damage Resistance: +15%\n\nA petrified shell imbued with the blessing of the spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -822,7 +822,7 @@ TEMPEST_TEAPOT: {
 TOME_OF_PHILOPATRY: {
 	name: Tome of Philopatry
 	description: "Returning Projectiles"
-    descriptionLong: ""
+    descriptionLong: "A textbook instructing newborns how to develop proper natal homing instincts.\n\nThe bookshelves of the Pit of Tongues make paper and binding of otherwise unwritten and primal knowledge."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -831,7 +831,7 @@ TOME_OF_PHILOPATRY: {
 TRIGGERFISH_FINGER: {
 	name: Triggerfish Finger
 	description: "+Attack Speed, +Reload Speed"
-    descriptionLong: "Bonus Attack Speed: +30%\nBonus Reload Speed: +30%\n\n"
+    descriptionLong: "Bonus Attack Speed: +30%\nBonus Reload Speed: +30%\n\nThe disembodied digit of a fish known for its propensity for violence.\n\nA Salvager can blindly fire any shot in the ocean and still know that they have struck the source of their misfortune."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -840,7 +840,7 @@ TRIGGERFISH_FINGER: {
 TUNICATE_TUNIC: {
 	name: Tunicate Tunic
 	description: "+Knockback Resistance"
-    descriptionLong: "Knockback Resistance: +75%\n\n"
+    descriptionLong: "Knockback Resistance: +75%\n\nAn adhesive piece of clothing ideal for staying in place.\n\nThe tunicate is known for its tendency to digest its own brain, a habit that marine biologists surmise is the result of an insatiable hunger for brains."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -849,7 +849,7 @@ TUNICATE_TUNIC: {
 TYPHON_FANG: {
 	name: Typhon Fang
 	description: "-Reload Speed. Refill Clip on Kill"
-    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\n"
+    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -858,7 +858,7 @@ TYPHON_FANG: {
 UNBREATHING_MEMBRANE: {
 	name: Unbreathing Membrane
 	description: "Slows User. Move by Shooting"
-    descriptionLong: "Thick and non-porous membrane that smothers all movement.\n\nA Sunk is born upon a former person's cessation of breath."
+    descriptionLong: "A thick and non-porous membrane that smothers all movement.\n\nA Sunk is born upon a former person's cessation of breath."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -867,7 +867,7 @@ UNBREATHING_MEMBRANE: {
 VOID_HYPONOME: {
 	name: Void Hyponome
 	description: "-Airblast Cost"
-    descriptionLong: "Airblast Cost Reduction: -25%\n\nRubbery tube used for water propulsion.\n\nAll mobility within the Noiseless Sea is born from an individual's affinity for or aversion to the all-consuming void."
+    descriptionLong: "Airblast Cost Reduction: -25%\n\nA rubbery tube used for water propulsion.\n\nAll mobility within the Noiseless Sea is born from an individual's affinity for or aversion to the all-consuming void."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -876,7 +876,7 @@ VOID_HYPONOME: {
 WHITE_SMOKER: {
 	name: White Smoker
 	description: "Fiery Hovering"
-    descriptionLong: "Fire Duration: 3s\nFire Damage: 2\n\nAn organic tube structure emanating an endless stream of pale smoke.\n\nAs the only sources of energy in an otherwise closed system, Bright Ones see new life arise within their vicinity, usually in their own likeness."
+    descriptionLong: "Fire Duration: 3s\nFire Damage: 2\n\nAn organic tube structure emanating an endless stream of pale smoke.\n\nAs the only sources of energy in an otherwise closed system, Bright Ones foment new life within the vicinity, usually in their own likeness."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -894,7 +894,7 @@ WHITE_WHALE_CHARM: {
 WRATH_OF_THE_FROGMAN: {
 	name: Wrath of the Frogman
 	description: "Fire Missiles When Attacking"
-    descriptionLong: "Missile Interval: 1s\nMissile Damage: 18\n\nWebbed gloves worn by amphibious assassins.\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged."
+    descriptionLong: "Missile Interval: 1s\nMissile Damage: 18\n\nA pair of webbed gloves worn by amphibious assassins.\n\nOnce feared by all submariners, the Frogman's reign of terror ceased when their coastal hunting grounds became submerged."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

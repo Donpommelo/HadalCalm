@@ -423,8 +423,8 @@ public class Player extends PhysicsSchmuck {
 				pushMomentumMitigation(0, -playerData.getFastFallPower());
 			}
 		}
-		if (feetData.getTerrain() != null) {
-			feetData.getTerrain().getEventData().onInteract(this);
+		if (!feetData.getTerrain().isEmpty()) {
+			feetData.getTerrain().get(0).getEventData().onInteract(this);
 		}
 	}
 	
