@@ -283,6 +283,9 @@
     ]
 "FIRE":  [
         {
+            "message": "<vic> was burnt to a crisp.", "weight": 10, namedPerp: false
+        }
+        {
             "message": "<perp> burnt <vic> to a crisp.", "weight": 10, namedPerp: true
         }
         {

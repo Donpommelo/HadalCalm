@@ -219,7 +219,8 @@ public class TiledObjectUtil {
 					object.getProperties().get("damage", 0.0f, float.class), 
 					object.getProperties().get("knockback", 0.0f, float.class), 
 					object.getProperties().get("dieWall", true, boolean.class), 
-					object.getProperties().get("dieSchmuck", true, boolean.class));	
+					object.getProperties().get("dieSchmuck", true, boolean.class),
+					object.getProperties().get("adjustangle", true, boolean.class));	
 		} else if (object.getName().equals("ScrapSpawn")) {
 			
 			e = new SpawnerScrap(state, position, size, 

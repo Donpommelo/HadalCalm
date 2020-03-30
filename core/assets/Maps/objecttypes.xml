@@ -118,6 +118,7 @@
   <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="HboxSpawn" color="#a0a0a4">
+  <property name="adjustangle" type="bool" default="true"/>
   <property name="damage" type="float" default="0"/>
   <property name="dieSchmuck" type="bool" default="true"/>
   <property name="dieWall" type="bool" default="true"/>

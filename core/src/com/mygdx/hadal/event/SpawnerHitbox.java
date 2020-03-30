@@ -8,6 +8,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
@@ -22,14 +23,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SpawnerHitbox extends Event {
 	
 	private Vector2 projSize, startVelo;
-	private float lifespan, gravity, restitution, friction, damage, knockback;
-	private boolean sensor, dieOnWall, dieOnSchmuck;
+	private float lifespan, gravity, restitution, friction, damage, knockback, speed;
+	private boolean sensor, dieOnWall, dieOnSchmuck, adjustAngle;
 	
 	private Sprite sprite;
 	private Particle particle;
 	
 	public SpawnerHitbox(PlayState state, Vector2 startPos, Vector2 size, Vector2 projSize, float lifespan, Vector2 startVelo, boolean sensor, String sprite,
-			String particle, float gravity, float restitution, float friction, float damage, float knockback, boolean dieOnWall, boolean dieOnSchmuck) {
+			String particle, float gravity, float restitution, float friction, float damage, float knockback, boolean dieOnWall, boolean dieOnSchmuck, boolean adjustAngle) {
 		super(state, startPos, size);
 		this.projSize = projSize;
 		this.lifespan = lifespan;
@@ -44,15 +45,28 @@ public class SpawnerHitbox extends Event {
 		this.knockback = knockback;
 		this.dieOnWall = dieOnWall;
 		this.dieOnSchmuck = dieOnSchmuck;
+		this.adjustAngle = adjustAngle;
+		
+		this.speed = startVelo.len();
 	}
 	
 	@Override
 	public void create() {
 		this.eventData = new EventData(this) {
 			
+			private Vector2 finalVelo = new Vector2();
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				Hitbox hbox = new Hitbox(state, event.getPixelPosition(), projSize, lifespan, startVelo, (short) 0, sensor, false, state.getWorldDummy(), sprite);
+				
+				finalVelo.set(startVelo);
+				
+				if (event.getConnectedEvent() != null) {
+					if (event.getConnectedEvent().getBody() != null) {
+						finalVelo.set(event.getConnectedEvent().getBody().getPosition()).sub(event.getBody().getPosition()).nor().scl(speed);
+					}
+				}
+				
+				Hitbox hbox = new Hitbox(state, event.getPixelPosition(), projSize, lifespan, finalVelo, (short) 0, sensor, false, state.getWorldDummy(), sprite);
 				hbox.setGravity(gravity);
 				hbox.setRestitution(restitution);
 				hbox.setFriction(friction);
@@ -68,6 +82,10 @@ public class SpawnerHitbox extends Event {
 				
 				if (dieOnSchmuck) {
 					hbox.addStrategy(new ContactUnitDie(state, hbox, state.getWorldDummy().getBodyData()));
+				}
+				
+				if (adjustAngle) {
+					hbox.addStrategy(new AdjustAngle(state, hbox, state.getWorldDummy().getBodyData()));
 				}
 			}
 		};
