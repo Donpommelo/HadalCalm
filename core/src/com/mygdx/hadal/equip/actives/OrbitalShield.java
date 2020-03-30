@@ -11,6 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
+import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 import com.mygdx.hadal.strategies.hitbox.OrbitUser;
 
 public class OrbitalShield extends ActiveItem {
@@ -21,13 +22,13 @@ public class OrbitalShield extends ActiveItem {
 	
 	private static final Vector2 projSize = new Vector2(50, 50);
 
-	private static final float projDamage= 10.0f;
+	private static final float projDamage= 20.0f;
 	private static final float projKnockback= 25.0f;
-	private static final float projLifespan= 12.0f;
-	
-	private final static float returnAmp = 100.0f;
+	private static final float projLifespan= 8.0f;
 
-	private Vector2 projPos = new Vector2();
+	private static final float projSpeed= 180.0f;
+	private static final float projRange= 3.0f;
+
 	
 	public OrbitalShield(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -35,21 +36,20 @@ public class OrbitalShield extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		projPos.set(user.getPlayer().getPixelPosition()).add(50, 50);
-		createOrbital(state, user, projPos);
-		projPos.set(user.getPlayer().getPixelPosition()).add(-50, 50);
-		createOrbital(state, user, projPos);
-		projPos.set(user.getPlayer().getPixelPosition()).add(50, 0);
-		createOrbital(state, user, projPos);
-		projPos.set(user.getPlayer().getPixelPosition()).add(-50, 0);
-		createOrbital(state, user, projPos);
+		createOrbital(state, user, 0);
+		createOrbital(state, user, 90);
+		createOrbital(state, user, 180);
+		createOrbital(state, user, 270);
+
 	}
 	
-	public void createOrbital(PlayState state, PlayerBodyData user, Vector2 startPos) {
-		Hitbox hbox = new RangedHitbox(state, startPos, projSize, projLifespan, new Vector2(), user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.STAR);
+	public void createOrbital(PlayState state, PlayerBodyData user, float startAngle) {
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projSize, projLifespan, new Vector2(), user.getPlayer().getHitboxfilter(), true, true, user.getPlayer(), Sprite.STAR);
+		hbox.makeUnreflectable();
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
-		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user, projDamage, projKnockback, DamageTypes.MAGIC));
-		hbox.addStrategy(new OrbitUser(state, hbox, user, returnAmp));
+		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user, projDamage, 0, DamageTypes.MAGIC));
+		hbox.addStrategy(new DamageStatic(state, hbox, user, 0, projKnockback, DamageTypes.MAGIC));
+		hbox.addStrategy(new OrbitUser(state, hbox, user, startAngle, projRange, projSpeed));
 	}
 }

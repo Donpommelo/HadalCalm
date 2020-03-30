@@ -17,9 +17,18 @@ public class TextFilterUtil {
 		String filteredText = text;
 		
 		filteredText = filterBodyPart(filteredText);
-		filteredText = filterColor(filteredText);
-		filteredText = filterParticle(filteredText);
-		filteredText = filterProcess(filteredText);
+		
+		filteredText = filterTag(filteredText, "<color>");
+		filteredText = filterTag(filteredText, "<particle>");
+		filteredText = filterTag(filteredText, "<process>");
+		filteredText = filterTag(filteredText, "<cook>");
+		filteredText = filterTag(filteredText, "<fruit>");
+		filteredText = filterTag(filteredText, "<vegetable>");
+		filteredText = filterTag(filteredText, "<sauce>");
+		filteredText = filterTag(filteredText, "<herb>");
+		filteredText = filterTag(filteredText, "<wine>");
+		filteredText = filterTag(filteredText, "<dish>");
+		
 		filteredText = filterRoll(filteredText);
 		filteredText = filterHotkeys(filteredText);
 		
@@ -34,7 +43,7 @@ public class TextFilterUtil {
 		String filteredText = text;
 		
 		while (filteredText.contains("<body part>")) {
-			JsonValue value = GameStateManager.miscText.get("Body Parts");
+			JsonValue value = GameStateManager.miscText.get("<body part>");
 			
 			int randomIndex = GameStateManager.generator.nextInt(value.asStringArray().length);
 			filteredText = filteredText.replaceFirst("<body part>", value.asStringArray()[randomIndex]);
@@ -44,38 +53,18 @@ public class TextFilterUtil {
 	}
 	
 	/**
-	 * filters every "<color>" into a random color
+	 * filters every tag into a random color
 	 * This is not used for anything in particular.
-	 */
-	private static String filterColor(String text) {
+	 */	
+	private static String filterTag(String text, String tag) {
 		String filteredText = text;
 		
-		while (filteredText.contains("<color>")) {
-			JsonValue value = GameStateManager.miscText.get("Colors");
+		while (filteredText.contains(tag)) {
+			JsonValue value = GameStateManager.miscText.get(tag);
 			
 			int randomIndex = GameStateManager.generator.nextInt(value.asStringArray().length);
-			filteredText = filteredText.replaceFirst("<color>", value.asStringArray()[randomIndex]);
+			filteredText = filteredText.replaceFirst(tag, value.asStringArray()[randomIndex]);
 		}
-		
-		return filteredText;
-	}
-	
-	private static String filterParticle(String text) {
-		String filteredText = text;
-		
-		JsonValue value = GameStateManager.miscText.get("Particles");
-		int randomIndex = GameStateManager.generator.nextInt(value.asStringArray().length);
-		filteredText = filteredText.replaceFirst("<particle>", value.asStringArray()[randomIndex]);
-		
-		return filteredText;
-	}
-	
-	private static String filterProcess(String text) {
-		String filteredText = text;
-		
-		JsonValue value = GameStateManager.miscText.get("Processes");
-		int randomIndex = GameStateManager.generator.nextInt(value.asStringArray().length);
-		filteredText = filteredText.replaceFirst("<process>", value.asStringArray()[randomIndex]);
 		
 		return filteredText;
 	}

@@ -108,7 +108,7 @@ public class LaserRifle extends RangedWeapon {
 						getPixelPosition().y - size.y / 2, 
 						size.x / 2, size.y / 2,
 						size.x, size.y, 1, 1, 
-						(float) Math.toDegrees(getAngle()) + 180);
+						(float) Math.toDegrees(getAngle()));
 				
 				batch.setColor(1f, 1f, 1f, 1);
 			}

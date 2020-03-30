@@ -13,39 +13,28 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class OrbitUser extends HitboxStrategy {
 	
-	private float controllerCount = 0;
-	private Vector2 diff = new Vector2();
+	private float angle, distance, speed;
 	
-	private final static float pushInterval = 1 / 60f;
-	private float returnAmp;
-	
-	public OrbitUser(PlayState state, Hitbox proj, BodyData user, float returnAmp) {
+	public OrbitUser(PlayState state, Hitbox proj, BodyData user, float startAngle, float distance, float speed) {
 		super(state, proj, user);
-		this.returnAmp = returnAmp;
+		this.angle = startAngle;
+		this.distance = distance;
+		this.speed = speed;
 	}
 	
 	private Vector2 playerPos = new Vector2();
-	
-	@Override
-	public void create() {
-		playerPos.set(creator.getSchmuck().getPosition());
-	}
-	
+	private Vector2 offset = new Vector2();
 	@Override
 	public void controller(float delta) {
 		
-		controllerCount += delta;
-
-		//hbox repeatedly is pushed towards player. Controllercount is checked to ensure framerate does not affect speed
-		while (controllerCount >= pushInterval) {
-			controllerCount -= pushInterval;
-			diff.set(creator.getSchmuck().getPosition()).sub(hbox.getPosition());
-			hbox.applyForceToCenter(diff.nor().scl(returnAmp * hbox.getMass()));
-		}
+		angle += speed * delta;
 		
-		if (creator.getSchmuck().getBody() != null) {
-			hbox.setTransform(new Vector2(hbox.getPosition()).add(creator.getSchmuck().getPosition()).sub(playerPos), hbox.getBody().getAngle());
+		if (creator.getSchmuck().getBody() != null && creator.getSchmuck().isAlive()) {
 			playerPos.set(creator.getSchmuck().getPosition());
+			offset.set(0, distance).setAngle(angle);
+			hbox.setTransform(playerPos.add(offset), hbox.getBody().getAngle());
+		} else {
+			hbox.die();
 		}
 	}
 }

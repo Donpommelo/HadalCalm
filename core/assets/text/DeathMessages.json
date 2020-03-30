@@ -86,12 +86,6 @@
         {
             "message": "<perp> shot <vic> like fish in a barrel.", "weight": 1, namedPerp: true
         }
-        {
-            "message": "<perp> gunned <vic> down.", "weight": 1, namedPerp: true
-        }
-        {
-            "message": "<perp> pulled the trigger on <vic>.", "weight": 1, namedPerp: true
-        }
     ]
 "UNIVERSAL":  [
         {
@@ -101,7 +95,7 @@
             "message": "<vic> kicked the bucket.", "weight": 1, namedPerp: false
         }
         {
-            "message": "<vic> shuffled off of this mortal coil.", "weight": 1, namedPerp: false
+            "message": "<vic> has shuffled off of this mortal coil.", "weight": 1, namedPerp: false
         }
         {
             "message": "<vic> is sleeping with the fishes.", "weight": 1, namedPerp: false
@@ -226,6 +220,9 @@
             "message": "<perp> taught <vic> not to play with power tools.", "weight": 15, namedPerp: true
         }
         {
+            "message": "<perp> made fruit salad with <fruit>, <fruit> and <vic>'s <body part>.", "weight": 15, namedPerp: true
+        }
+        {
             "message": "<perp> made a plate of <vic> sashimi.", "weight": 15, namedPerp: true
         }
         {
@@ -286,37 +283,37 @@
     ]
 "FIRE":  [
         {
-            "message": "<perp> burnt <vic> to a crisp.", "weight": 15, namedPerp: true
+            "message": "<perp> burnt <vic> to a crisp.", "weight": 10, namedPerp: true
         }
         {
-            "message": "<perp> incinerated <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> incinerated <vic>.", "weight": 10, namedPerp: true
         }
         {
-            "message": "<perp> killed <vic> with 3rd degree burns.", "weight": 15, namedPerp: true
+            "message": "<perp> killed <vic> with 3rd degree burns.", "weight": 10, namedPerp: true
         }
         {
-            "message": "<perp> prematurely cremated <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> prematurely cremated <vic>.", "weight": 10, namedPerp: true
         }
         {
             "message": "<perp> established <vic>'s smoke point.", "weight": 10, namedPerp: true
         }
         {
-            "message": "<perp> prepared a <vic> flambe.", "weight": 10, namedPerp: true
-        }
-        {
-            "message": "<perp> braised <vic> with wild mushrooms and thyme.", "weight": 10, namedPerp: true
-        }
-        {
-            "message": "<perp> boiled <vic> up with melted lemon butter.", "weight": 10, namedPerp: true
-        }
-        {
-            "message": "<perp> pan-seared <vic> with white wine and olive oil.", "weight": 10, namedPerp: true
-        }
-        {
-            "message": "<perp> fried <vic> with a panko-crust coating.", "weight": 10, namedPerp: true
-        }
-        {
             "message": "<perp> made <vic> warm for life.", "weight": 10, namedPerp: true
+        }
+        {
+            "message": "<perp> paired <vic>'s <cook> <body part> with a fine <wine>.", "weight": 30, namedPerp: true
+        }
+        {
+            "message": "<perp> <cook> <vic> with a <fruit> in their mouth.", "weight": 30, namedPerp: true
+        }
+        {
+            "message": "<perp> <cook> <vic> with a <fruit> and <herb> <sauce>.", "weight": 30, namedPerp: true
+        }
+        {
+            "message": "<perp> <cook> <vic> with a side of <cook> <vegetable>.", "weight": 30, namedPerp: true
+        }
+        {
+            "message": "<perp> <cook> a <vic> <dish> with <vegetable>.", "weight": 30, namedPerp: true
         }
     ]
 "LASER":  [
@@ -408,7 +405,7 @@
             "message": "<perp> sniped <vic>'s <body part>.", "weight": 15, namedPerp: true
         }
         {
-            "message": "<perp> shot <vic>'s <body part> from distance.", "weight": 5, namedPerp: true
+            "message": "<perp> shot <vic>'s <body part> from a distance.", "weight": 5, namedPerp: true
         }
         {
             "message": "<perp> no-scoped <vic>'s <body part>.", "weight": 5, namedPerp: true

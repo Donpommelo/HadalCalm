@@ -449,6 +449,7 @@ public class KryoClient {
         			if (!gsm.getStates().isEmpty()) {
         				if (gsm.getStates().peek() instanceof TitleState) {
         					((TitleState)gsm.getStates().peek()).setNotification(p.msg);
+        					((TitleState)gsm.getStates().peek()).setInputDisabled(false);
         				}
         			}
         			client.stop();

@@ -232,10 +232,10 @@ public class TitleState extends GameState {
 				                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
 				                } catch (IOException ex) {
 				                    setNotification("FAILED TO CONNECT TO SERVER!");
+				                    
+				                    //Let the player attempt to connect again after finishing
+					            	inputDisabled = false;
 				                }
-				            	
-				            	//Let the player attempt to connect again after finishing
-				            	inputDisabled = false;
 					         }
 						});
 			        }
@@ -379,4 +379,6 @@ public class TitleState extends GameState {
 	public void setNotification(String notification) {
 		notifications.setText(notification);
 	}
+
+	public void setInputDisabled(boolean inputDisabled) { this.inputDisabled = inputDisabled; }
 }

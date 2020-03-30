@@ -561,7 +561,7 @@ public class PlayerBodyData extends BodyData {
 			
 			player.createGibs();
 			
-			if (player.getState().isPvp()) {
+			if (player.getState().isPvp() && !player.getState().isHub()) {
 				WeaponUtils.spawnScrap(player.getState(), scrapDrop, player.getPixelPosition());
 			}
 			

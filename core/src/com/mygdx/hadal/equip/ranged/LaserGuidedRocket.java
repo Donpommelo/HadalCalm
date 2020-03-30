@@ -21,12 +21,12 @@ import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 public class LaserGuidedRocket extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 15;
+	private final static int ammoSize = 24;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
-	private final static float reloadTime = 1.5f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 1;
-	private final static float baseDamage = 30.0f;
+	private final static float baseDamage = 20.0f;
 	private final static float recoil = 0.0f;
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 7.5f;
@@ -34,7 +34,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	private final static float lifespan = 6.0f;
 		
 	private final static int explosionRadius = 200;
-	private final static float explosionDamage = 50.0f;
+	private final static float explosionDamage = 40.0f;
 	private final static float explosionKnockback = 35.0f;
 	
 	private final static float homePower = 250.0f;

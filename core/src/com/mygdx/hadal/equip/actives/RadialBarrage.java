@@ -11,7 +11,7 @@ public class RadialBarrage extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 10.0f;
+	private final static float maxCharge = 15.0f;
 	
 	public RadialBarrage(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -25,8 +25,8 @@ public class RadialBarrage extends ActiveItem {
 		if (user.getCurrentTool() instanceof RangedWeapon) {
 			angle.scl(((RangedWeapon)user.getCurrentTool()).getProjectileSpeed());
 			
-			for (int i = 0; i < 6; i++) {
-				angle.setAngle(angle.angle() + 60);
+			for (int i = 0; i < 8; i++) {
+				angle.setAngle(angle.angle() + 45);
 				user.getCurrentTool().fire(state, user.getSchmuck(), user.getSchmuck().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxfilter());
 			}
 			
