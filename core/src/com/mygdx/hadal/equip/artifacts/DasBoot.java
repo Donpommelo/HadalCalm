@@ -5,14 +5,14 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
-public class DiatomaceousEarth extends Artifact {
+public class DasBoot extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
 	private final static float res = 0.5f;
 	
-	public DiatomaceousEarth() {
+	public DasBoot() {
 		super(slotCost, statusNum);
 	}
 

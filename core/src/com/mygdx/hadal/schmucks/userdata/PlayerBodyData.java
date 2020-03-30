@@ -6,6 +6,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -553,11 +554,16 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
+	private final static int scrapDrop = 5;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
 			
 			player.createGibs();
+			
+			if (player.getState().isPvp()) {
+				WeaponUtils.spawnScrap(player.getState(), scrapDrop, player.getPixelPosition());
+			}
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
 			

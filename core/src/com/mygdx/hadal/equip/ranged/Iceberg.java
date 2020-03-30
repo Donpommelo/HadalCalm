@@ -22,9 +22,9 @@ public class Iceberg extends RangedWeapon {
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 33.0f;
+	private final static float projectileSpeed = 35.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 4.0f;
+	private final static float lifespan = 3.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;

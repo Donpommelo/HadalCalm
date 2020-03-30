@@ -118,6 +118,15 @@ DM_HORIZON: {
         MULTIPLAYER
 	]
 }
+DM_LAGAN: {
+	name: DM_LAGAN
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
 DM_PINWHEEL: {
 	name: DM_PINWHEEL
 	description: TEMP

@@ -43,7 +43,7 @@ public class ColaCannon extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float maxCharge = 6000.0f;
+	private final static float maxCharge = 9000.0f;
 
 	private Vector2 lastMouse = new Vector2();
 	

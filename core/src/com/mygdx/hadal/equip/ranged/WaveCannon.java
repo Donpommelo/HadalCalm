@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -26,8 +27,8 @@ public class WaveCannon extends RangedWeapon {
 	private final static float recoil = 12.5f;
 	private final static float knockback = 28.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(20, 20);
-	private final static float lifespan = 1.0f;
+	private final static Vector2 projectileSize = new Vector2(60, 20);
+	private final static float lifespan = 0.75f;
 	
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -48,6 +49,7 @@ public class WaveCannon extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
@@ -80,6 +82,7 @@ public class WaveCannon extends RangedWeapon {
 		Hitbox hbox2 = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		hbox2.addStrategy(new ControllerDefault(state, hbox2, user.getBodyData()));
+		hbox2.addStrategy(new AdjustAngle(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new ContactWallDie(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new DamageStandard(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		

@@ -9,7 +9,6 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
@@ -24,7 +23,7 @@ public class Stormcaller extends RangedWeapon {
 	private final static float baseDamage = 3.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 25.0f;
-	private final static float projectileSpeed = 15.0f;
+	private final static float projectileSpeed = 18.0f;
 	private final static Vector2 projectileSize = new Vector2(10, 10);
 	private final static float lifespan = 1.8f;
 	
@@ -41,10 +40,11 @@ public class Stormcaller extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
+		
+		hbox.setRestitution(0.5f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			private float controllerCount = 0;

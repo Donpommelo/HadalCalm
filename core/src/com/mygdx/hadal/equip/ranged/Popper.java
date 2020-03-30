@@ -26,7 +26,7 @@ public class Popper extends RangedWeapon {
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 12.0f;
 	private final static float knockback = 20.0f;
-	private final static float projectileSpeed = 100.0f;
+	private final static float projectileSpeed = 120.0f;
 	private final static Vector2 projectileSize = new Vector2(45, 45);
 	private final static float lifespan = 0.3f;
 	

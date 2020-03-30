@@ -14,7 +14,7 @@ public class FracturePlate extends Artifact {
 	private final static int slotCost = 2;
 	
 	private float procCdCount = 0;
-	private final static float cd = 8.0f;
+	private final static float cd = 5.0f;
 	
 	private final static float particleDura = 1.0f;
 	

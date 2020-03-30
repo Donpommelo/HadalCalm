@@ -49,12 +49,14 @@ public class DestructableBlock extends Event {
 			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 				hp -= basedamage;
 				
-				//flash and spawn particles when damaged.
-				if (standardParticle != null) {
-					standardParticle.onForBurst(0.5f);
+				if (basedamage > 0) {
+					//flash and spawn particles when damaged.
+					if (standardParticle != null) {
+						standardParticle.onForBurst(0.5f);
+					}
+					
+					event.setShader(Shader.WHITE, flashDuration);
 				}
-				
-				event.setShader(Shader.WHITE, flashDuration);
 				
 				if (hp <= 0) {
 					event.queueDeletion();

@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -18,6 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Flounderbuss extends RangedWeapon {
 
@@ -30,7 +30,7 @@ public class Flounderbuss extends RangedWeapon {
 	private final static float baseDamage = 13.0f;
 	private final static float recoil = 30.0f;
 	private final static float knockback = 12.0f;
-	private final static float projectileSpeed = 25.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(16, 16);
 	private final static float lifespan = 2.0f;
 	
@@ -38,11 +38,11 @@ public class Flounderbuss extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 0.6f;
+	private static final float maxCharge = 0.5f;
+	private static final float veloSpread = 0.75f;
 
 	private final static int maxNumProj = 45;
-	private final static int spread = 30;
-	private final static float veloSpread = 2.0f;
+	private final static int spread = 20;
 	
 	public Flounderbuss(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
@@ -79,14 +79,11 @@ public class Flounderbuss extends RangedWeapon {
 		//amount of projectiles scales to charge percent
 		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime(); i++) {
 			
-			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-			
-			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
+			int randomIndex = ThreadLocalRandom.current().nextInt(projSprites.length);
 			Sprite projSprite = projSprites[randomIndex];
+			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() * veloSpread + 1 - veloSpread / 2));
 			
-			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() - 0.5f) * veloSpread);
-			
-			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(newVelocity.setAngle(newDegrees)), filter, true, true, user, projSprite);
+			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(newVelocity), filter, true, true, user, projSprite);
 			hbox.setGravity(2.0f);
 			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -94,6 +91,7 @@ public class Flounderbuss extends RangedWeapon {
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SHRAPNEL, DamageTypes.RANGED));
+			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		}
 	}
 }

@@ -54,7 +54,7 @@ ANARCHISTS_COOKBOOK: {
 }
 ANCHOR_TALISMAN: {
 	name: Anchor Talisman
-	description: "+Damage Reduction When Grounded"
+	description: "+Damage Resistance When Grounded"
     descriptionLong: "Grounded Damage Resistance: +60%\n\nA pendant depicting the company insignia; a sturdy anchor.\n\nManagement long held the belief that to forgo one's connection to the Earth would be to irreversibly abandon humanity."
 	tags: [
 		RELIQUARY,
@@ -144,8 +144,8 @@ BUCKET_OF_BATTERIES: {
 }
 CALL_OF_THE_VOID: {
 	name: Call of the Void
-	description: "+Damage Inflicted and Received"
-    descriptionLong: "Damage Amplification: +30%\n\nA sinister mark in the shape of a spiral.\n\nThe ocean's genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
+	description: "+Damage Amplification, -Damage Resistance"
+    descriptionLong: "Damage Amplification: +30%\nDamage Resistance: -30%\n\nA sinister mark in the shape of a spiral.\n\nThe ocean's genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -253,14 +253,14 @@ DEAD_MANS_HAND: {
 DEPLORABLE_APPARATUS: {
 	name: Deplorable Apparatus
 	description: "-Max Hp, +Hp Regen"
-    descriptionLong: "Max Hp Reduction: -60\nHp Regeneration: 4 per Second\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
+    descriptionLong: "Max Hp Reduction: -50\nHp Regeneration: 10 per Second\nUpon Receiving Danmage, Cancel Regen for 2s\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
 	]
 }
-DIATOMACEOUS_EARTH: {
-	name: Diatomaceous Earth
+DAS_BOOT: {
+	name: Das Boot
 	description: "+Damage Resistance While Reloading"
     descriptionLong: "Reloading Damage Resistance: +50%\n\n"
 	tags: [
@@ -307,7 +307,7 @@ EXTRA_ROW_OF_TEETH: {
 FARADAYS_CAGE: {
 	name: Faraday Cage
 	description: "Absorbs Incoming Damage with Fuel"
-    descriptionLong: "Damage Reduction: 40% of Fuel Consumed\n\n"
+    descriptionLong: "Damage Resistance: 40% of Fuel Consumed\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -334,7 +334,7 @@ FORAGERS_HIVE: {
 FRACTURE_PLATE: {
 	name: Fracture Plate
 	description: "Periodically gain a Damage Blocking Shield"
-    descriptionLong: "Shield Cooldown: 8s Without Receiving Damage\n\nDamage Blocked: 15\n\n"
+    descriptionLong: "Shield Cooldown: 5s Without Receiving Damage\n\nShield Damage Block: 15\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -442,6 +442,15 @@ JELLOFELLOW_COSPLAY: {
 	name: Jellofellow Cosplay
 	description: "+Max Hp, Bouncy!"
     descriptionLong: "Bonus Max Hp: +25\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+KERMUNGLER: {
+	name: Kermungler
+	description: "+Damage Variance, +Damage Resistance, +Damage Amplification"
+    descriptionLong: "Damage Dealt and Received Variance: +50%\nDamage Amplification: +10%\nDamage Resistance: +10%\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -657,6 +666,14 @@ PIFFLER: {
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
+	]
+}
+RECYCLER_BOLUS: {
+	name: Recycler Bolus
+	description: "Gain Max Hp on Eggplant Pickup"
+    descriptionLong: "Max Hp Gained: 1\n\n"
+	tags: [
+		RELIQUARY,
 	]
 }
 RED_TIDE_TALISMAN: {
