@@ -7,8 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
-import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.save.UnlockEquip;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.UnlocktoItem;
 
@@ -39,14 +40,30 @@ public class Armory extends HubEvent {
 				
 				@Override
 		        public void clicked(InputEvent e, float x, float y) {
+					
+					int slotToReplace = state.getPlayer().getPlayerData().getCurrentSlot();
+					
 					if (state.isServer()) {
+						for (int i = 0; i < state.getPlayer().getPlayerData().getNumWeaponSlots(); i++) {
+							if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
+								slotToReplace = i;
+								break;
+							}
+						}
+						
 						state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
+						
 					} else {
 			        	state.getPlayer().getPlayerData().syncClientLoadoutChangeWeapon(selected);
+			        	
+			        	for (int i = 0; i < ((ClientState)state).getUiPlay().getOverrideWeaponSlots(); i++) {
+							if (state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
+								slotToReplace = i;
+								break;
+							}
+						}
 					}
-					for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
-						state.getGsm().getLoadout().setEquips(i, state.getPlayer().getPlayerData().getLoadout().multitools[i].name());
-					}
+					state.getGsm().getLoadout().setEquips(slotToReplace, selected.name());
 		        }
 				
 				@Override

@@ -27,7 +27,7 @@ public class SniperRifle extends RangedWeapon {
 	private final static float baseDamage = 60.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 45.0f;
-	private final static float projectileSpeed = 90.0f;
+	private final static float projectileSpeed = 75.0f;
 	private final static Vector2 projectileSize = new Vector2(120, 12);
 	private final static float lifespan = 1.0f;
 	

@@ -82,6 +82,8 @@ public class UIPlayClient extends UIPlay {
 	
 	public int getOverrideArtifactSlots() { return this.overrideArtifactSlots; }
 	
+	public int getOverrideWeaponSlots() { return this.overrideWeaponSlots; }
+
 	public float getHealthVisibility() { return this.overrideHealthVisibility; }
 
 }

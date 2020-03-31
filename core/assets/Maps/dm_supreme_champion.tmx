@@ -123,7 +123,7 @@
   </object>
   <object id="20" name="Timer" type="Timer" x="576" y="3488" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0.04"/>
+    <property name="interval" type="float" value="0.1"/>
     <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="firetimer"/>
     <property name="triggeringId" value="firebreath"/>
