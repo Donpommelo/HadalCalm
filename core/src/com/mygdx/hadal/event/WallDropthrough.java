@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -47,15 +48,20 @@ public class WallDropthrough extends Event {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
 						
-						Player p = ((Player)((FeetData) fixB).getEntity());
+						HadalEntity entity = ((FeetData) fixB).getEntity();
 						
-						if (!p.isFastFalling()) {
-							Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
-							filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL);
-							p.getBody().getFixtureList().get(0).setFilterData(filter);
+						if (entity instanceof Player) {
+							Player p = (Player) entity;
 							
-							((FeetData) fixB).getTerrain().add(this.event);
+							if (p.isFastFalling()) {
+								return;
+							}
 						}
+						Filter filter = entity.getMainFixture().getFilterData();
+						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);
+						entity.getMainFixture().setFilterData(filter);
+						
+						((FeetData) fixB).getTerrain().add(this.event);
 					}
 				}
 			}
@@ -67,12 +73,12 @@ public class WallDropthrough extends Event {
 			public void onRelease(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB instanceof FeetData) {
-						Player p = ((Player)((FeetData) fixB).getEntity());
+						HadalEntity entity = ((FeetData) fixB).getEntity();
 						
 						if (((FeetData) fixB).getTerrain().size() == 1) {
-							Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
-							filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY);
-							p.getBody().getFixtureList().get(0).setFilterData(filter);
+							Filter filter = entity.getMainFixture().getFilterData();
+							filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
+							entity.getMainFixture().setFilterData(filter);
 						}
 						
 						((FeetData) fixB).getTerrain().remove(this.event);
@@ -85,9 +91,9 @@ public class WallDropthrough extends Event {
 			 */
 			@Override
 			public void onInteract(Player p) {
-				Filter filter = p.getBody().getFixtureList().get(0).getFilterData();
-				filter.maskBits = (short) (Constants.BIT_PLAYER | Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_ENEMY);
-				p.getBody().getFixtureList().get(0).setFilterData(filter);
+				Filter filter = p.getMainFixture().getFilterData();
+				filter.maskBits = (short) (filter.maskBits &~ Constants.BIT_DROPTHROUGHWALL);
+				p.getMainFixture().setFilterData(filter);
 			}
 			
 		};

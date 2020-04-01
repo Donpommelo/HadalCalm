@@ -35,7 +35,8 @@ public class ContactChain extends HitboxStrategy {
 	private float shortestFraction = 1.0f;
 
 	//chain radius
-	private static final int radius = 750;
+	private static final int radius = 100;
+	private static final int chainSpeed = 60;
 
 	public ContactChain(PlayState state, Hitbox proj, BodyData user, int chain, short filter) {
 		super(state, proj, user);
@@ -57,12 +58,15 @@ public class ContactChain extends HitboxStrategy {
 		}
 	}
 	
+	private float closestDist;
 	private void chain(final HadalData fixB) {
 		//if we are out of chains, die.
 		if (chains <= 0) {
 			hbox.die();
 		}
 		chains--;
+		
+		closestDist = radius;
 		
 		//search world for available targets to chain to
 		hbox.getWorld().QueryAABB(new QueryCallback() {
@@ -101,8 +105,13 @@ public class ContactChain extends HitboxStrategy {
 						
 				  		//if we find a suitable chain target, set our velocity to make us move towards them.
 						if (closestFixture != null) {
-							if (closestFixture.getUserData() instanceof BodyData) {
-								hbox.setLinearVelocity(closestFixture.getBody().getPosition().sub(hbox.getPosition()).nor().scl(60));
+							if (closestFixture.getUserData() instanceof BodyData && !closestFixture.getUserData().equals(fixB)) {
+								Vector2 dist = closestFixture.getBody().getPosition().sub(hbox.getPosition());
+
+								if (closestDist > dist.len2()) {
+									closestDist = dist.len2();
+									hbox.setLinearVelocity(dist.nor().scl(chainSpeed));
+								}
 							}
 						}	
 					}									

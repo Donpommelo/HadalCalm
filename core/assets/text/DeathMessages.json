@@ -136,25 +136,25 @@
     ]
 "BEES":  [
         {
-            "message": "<perp> killed <vic> with a swarm of bees.", "weight": 15, namedPerp: true
+            "message": "<perp> killed <vic> with a swarm of bees.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp>'s bees stung <vic> to death.", "weight": 15, namedPerp: true
+            "message": "<perp>'s bees stung <vic> to death.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> gave <vic> death by a hundred stings.", "weight": 15, namedPerp: true
+            "message": "<perp> gave <vic> death by a hundred stings.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> killed <vic> with anaphylactic shock.", "weight": 15, namedPerp: true
+            "message": "<perp> killed <vic> with anaphylactic shock.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp>'s bees made propolis out of <vic>'s blood.", "weight": 15, namedPerp: true
+            "message": "<perp>'s bees made propolis out of <vic>'s blood.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp>'s bees will pollinate the flowers on <vic>'s grave.", "weight": 15, namedPerp: true
+            "message": "<perp>'s bees will pollinate the flowers on <vic>'s grave.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> salutes the bees that gave their lives to kill <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> salutes the bees that gave their lives to kill <vic>.", "weight": 25, namedPerp: true
         }
     ]
 "BULLET":  [
@@ -188,16 +188,16 @@
     ]
 "COLA":  [
         {
-            "message": "<perp> killed <vic> with the refreshing taste of Anchor Co. Cola(tm).", "weight": 30, namedPerp: true
+            "message": "<perp> killed <vic> with the refreshing taste of Anchor Co. Cola(tm).", "weight": 40, namedPerp: true
         }
         {
-            "message": "<perp> killed <vic> with the invigorating aroma of Anchor Co. Cola(tm).", "weight": 30, namedPerp: true
+            "message": "<perp> killed <vic> with the invigorating aroma of Anchor Co. Cola(tm).", "weight": 40, namedPerp: true
         }
         {
-            "message": "<perp> killed <vic> with the uplifting effervescence of Anchor Co. Cola(tm).", "weight": 30, namedPerp: true
+            "message": "<perp> killed <vic> with the uplifting effervescence of Anchor Co. Cola(tm).", "weight": 40, namedPerp: true
         }
         {
-            "message": "<perp> killed <vic> with an ice-cold, thirst-quenching can of Anchor Co. Cola(tm).", "weight": 30, namedPerp: true
+            "message": "<perp> killed <vic> with an ice-cold, thirst-quenching can of Anchor Co. Cola(tm).", "weight": 40, namedPerp: true
         }
         {
             "message": "<perp> killed <vic> with diabetes.", "weight": 10, namedPerp: true
@@ -208,31 +208,31 @@
             "message": "<vic> was decapitated.", "weight": 10, namedPerp: false
         }
         {
-            "message": "<perp> decapitated <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> decapitated <vic>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> bifurcated <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> bifurcated <vic>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> sliced, diced and julienned <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> sliced, diced and julienned <vic>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> taught <vic> not to play with power tools.", "weight": 15, namedPerp: true
+            "message": "<perp> taught <vic> not to play with power tools.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> made fruit salad with <fruit>, <fruit> and <vic>'s <body part>.", "weight": 15, namedPerp: true
+            "message": "<perp> made fruit salad with <fruit>, <fruit> and <vic>'s <body part>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> made a plate of <vic> sashimi.", "weight": 15, namedPerp: true
+            "message": "<perp> made a plate of <vic> sashimi.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> sliced through <vic>'s <body part>.", "weight": 15, namedPerp: true
+            "message": "<perp> sliced through <vic>'s <body part>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> cut <vic> from <body part> to <body part>.", "weight": 15, namedPerp: true
+            "message": "<perp> cut <vic> from <body part> to <body part>.", "weight": 25, namedPerp: true
         }
     ]
-"ELECTRICITY":  [
+"ENERGY":  [
         {
             "message": "<perp> electrocuted <vic>.", "weight": 15, namedPerp: true
         }
@@ -246,13 +246,16 @@
             "message": "<perp> killed <vic> with lightning.", "weight": 15, namedPerp: true
         }
         {
-            "message": "<perp> smited <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> smited <vic>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> zapped <vic>'s <body part>.", "weight": 15, namedPerp: true
+            "message": "<perp> zapped <vic>'s <body part>.", "weight": 25, namedPerp: true
         }
         {
             "message": "<perp> zapped <vic> to the extreme.", "weight": 1, namedPerp: true
+        }
+        {
+            "message": "<perp> <process> <vic>'s <particle>.", "weight": 75, namedPerp: true
         }
     ]
 "EXPLOSIVE":  [
@@ -319,14 +322,6 @@
             "message": "<perp> <cook> a <vic> <dish> with <vegetable>.", "weight": 30, namedPerp: true
         }
     ]
-"LASER":  [
-        {
-            "message": "<perp> <process> <vic>'s <particle>.", "weight": 35, namedPerp: true
-        }
-        {
-            "message": "<perp> blinded <vic> with science.", "weight": 1, namedPerp: true
-        }
-    ]
 "MAGIC":  [
         {
             "message": "<perp> killed <vic> with magic.", "weight": 5, namedPerp: true
@@ -334,48 +329,48 @@
     ]
 "POISON":  [
         {
-            "message": "<vic> insists its just a flu.", "weight": 15, namedPerp: false
+            "message": "<vic> insists its just a flu.", "weight": 25, namedPerp: false
         }
         {
-            "message": "<perp> killed <vic> with poison.", "weight": 15, namedPerp: true
+            "message": "<perp> killed <vic> with poison.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<vic> succumbed to <perp>'s poison.", "weight": 15, namedPerp: true
+            "message": "<vic> succumbed to <perp>'s poison.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<vic> couldn't handle <perp>'s toxicity.", "weight": 15, namedPerp: true
+            "message": "<vic> couldn't handle <perp>'s toxicity.", "weight": 25, namedPerp: true
         }
         {
             "message": "<perp> killed <vic> with nerve gas.", "weight": 5, namedPerp: true
         }
         {
-            "message": "<perp> polluted <vic> to death.", "weight": 15, namedPerp: true
+            "message": "<perp> polluted <vic> to death.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> killed <vic> with a miasmic fog.", "weight": 15, namedPerp: true
+            "message": "<perp> killed <vic> with a miasmic fog.", "weight": 25, namedPerp: true
         }
     ]
 "POKING":  [
         {
-            "message": "<perp> impaled <vic> through the <body part>.", "weight": 20, namedPerp: true
+            "message": "<perp> impaled <vic> through the <body part>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> stabbed <vic> to death.", "weight": 15, namedPerp: true
+            "message": "<perp> stabbed <vic> to death.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> ran <vic> through.", "weight": 15, namedPerp: true
+            "message": "<perp> ran <vic> through.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> disemboweled <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> disemboweled <vic>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> skewered <vic>'s <body part>.", "weight": 15, namedPerp: true
+            "message": "<perp> skewered <vic>'s <body part>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> practiced their accupuncture on <vic>.", "weight": 5, namedPerp: true
+            "message": "<perp> practiced their accupuncture on <vic>.", "weight": 15, namedPerp: true
         }
         {
-            "message": "<perp> welcomed <vic> to the rice fields.", "weight": 1, namedPerp: true
+            "message": "<perp> welcomed <vic> to the rice fields.", "weight": 15, namedPerp: true
         }
     ]
 "SHRAPNEL":  [

@@ -16,6 +16,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class ChargeBeam extends RangedWeapon {
 
@@ -114,13 +115,14 @@ public class ChargeBeam extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					fixB.receiveDamage(baseDamage * damageMultiplier2, this.hbox.getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), true, DamageTypes.ELECTRICITY, DamageTypes.RANGED);
+					fixB.receiveDamage(baseDamage * damageMultiplier2, this.hbox.getLinearVelocity().nor().scl(knockback * kbMultiplier2), user.getBodyData(), true, DamageTypes.ENERGY, DamageTypes.RANGED);
 				}
 			}
 		});
 		
 		if (chargeStage == 2) {
 			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, 3.0f));
+			hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.25f));
 		}
 	}
 }

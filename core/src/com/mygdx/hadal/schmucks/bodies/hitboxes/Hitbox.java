@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -133,7 +134,7 @@ public class Hitbox extends HadalEntity {
 
 		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies
 		if (!sensor) {
-			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size), false, 0, 0, restitution, friction, Constants.BIT_PROJECTILE, Constants.BIT_WALL, filter));
+			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size), false, 0, 0, restitution, friction, Constants.BIT_PROJECTILE, Constants.BIT_WALL, filter)).setUserData(data);
 		}
 		
 		setLinearVelocity(startVelo);
@@ -202,6 +203,15 @@ public class Hitbox extends HadalEntity {
 		
 		for (HitboxStrategy s : strategies) {
 			s.die();
+		}
+	}
+	
+	@Override
+	public Fixture getMainFixture() {
+		if (sensor) {
+			return super.getMainFixture();
+		} else {
+			return body.getFixtureList().get(1);
 		}
 	}
 	

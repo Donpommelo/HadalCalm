@@ -44,14 +44,7 @@ public class TractorBeam extends ActiveItem {
 	public void useItem(PlayState state, final PlayerBodyData user) {
 		
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
-				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite) {
-			
-			@Override
-			public void create() {
-				super.create();
-				this.body.getFixtureList().get(1).setUserData(data);	
-			}
-		};
+				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite);
 		hbox.setRestitution(1.0f);
 		
 		final ContactWallDie start = new ContactWallDie(state, hbox, user);

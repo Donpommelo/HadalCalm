@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
+import com.mygdx.hadal.event.DropThroughPlatform;
 import com.mygdx.hadal.event.Wall;
+import com.mygdx.hadal.event.WallDropthrough;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -18,6 +20,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.utils.Constants;
 
 public class Underminer extends RangedWeapon {
 
@@ -60,6 +63,8 @@ public class Underminer extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
 		
 		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setPassability((short) (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));
+
 		hbox.setGravity(2.0f);
 		hbox.setDurability(2);
 		
@@ -107,6 +112,9 @@ public class Underminer extends RangedWeapon {
 								hbox.die();
 							}
 						}
+					}
+					if (fixB.getEntity() instanceof WallDropthrough || fixB.getEntity() instanceof DropThroughPlatform) {
+						hbox.die();
 					}
 				}
 			}

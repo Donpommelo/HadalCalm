@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
@@ -219,6 +220,17 @@ public abstract class HadalEntity {
 		} else { return pixelPosition.scl(PPM); }
 	}
 	
+	public Fixture getMainFixture() {
+		if (body == null) {
+			return null;
+		}
+		if (body.getFixtureList().isEmpty()) {
+			return null;
+		} else {
+			return body.getFixtureList().get(0); 
+		}
+	}
+	
 	public Body getBody() { return body; }
 	
 	public HadalData getHadalData() { return hadalData; }
@@ -298,6 +310,12 @@ public abstract class HadalEntity {
 	public void setGravityScale(float scale) {
 		if (alive && body != null) {
 			body.setGravityScale(scale);
+		}
+	}
+	
+	public void setRestitution(float scale) {
+		if (alive && body != null) {
+			getMainFixture().setRestitution(scale);
 		}
 	}
 	

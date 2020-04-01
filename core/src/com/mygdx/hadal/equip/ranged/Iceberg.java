@@ -9,7 +9,9 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 
 public class Iceberg extends RangedWeapon {
 
@@ -22,7 +24,7 @@ public class Iceberg extends RangedWeapon {
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 35.0f;
+	private final static float projectileSpeed = 40.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 3.0f;
 
@@ -39,17 +41,15 @@ public class Iceberg extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setGravity(10);
 		
+		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED));	
+		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));	
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			float lastX = 0;
 			
 			@Override
 			public void controller(float delta) {
-				hbox.setLifeSpan(hbox.getLifeSpan() - delta);
-				if (hbox.getLifeSpan() <= 0) {
-					hbox.die();
-				}
 				
 				//when we hit a wall, we reverse momentum instead of staying still.
 				//This is necessary b/c we cannot turn restitution up without having the projectile bounce instead of slide,
@@ -58,19 +58,6 @@ public class Iceberg extends RangedWeapon {
 				}
 				
 				lastX = hbox.getLinearVelocity().x;
-				
-			}
-			
-			private Vector2 impulse = new Vector2();
-			
-			@Override
-			public void push(Vector2 push) {
-				hbox.applyLinearImpulse(impulse.set(push).scl(0.2f));
-			}
-			
-			@Override
-			public void die() {
-				hbox.queueDeletion();
 			}
 		});
 	}

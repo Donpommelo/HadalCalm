@@ -18,10 +18,9 @@ public enum DamageTypes {
 	
 	BEES,
 	BULLET,
-	ELECTRICITY,
+	ENERGY,
 	EXPLOSIVE,
 	FIRE,
-	LASER,
 	MAGIC,
 	POISON,
 	SHRAPNEL,

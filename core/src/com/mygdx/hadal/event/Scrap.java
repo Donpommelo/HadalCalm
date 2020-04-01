@@ -30,14 +30,13 @@ public class Scrap extends Event {
 	
 	//spread is for giving the initial scrap a random velocity
 	private final static int spread = 120;
-	private final static float veloAmp = 10.0f;
-	private final static float lifespan = 7.5f;
+	private final static float veloAmp = 7.5f;
+	private final static float lifespan = 9.0f;
 	
 	public Scrap(PlayState state, Vector2 startPos) {
 		super(state, startPos, baseSize, lifespan);
 		this.startVelo = new Vector2(0, 1);
 
-		
 		setEventSprite(Sprite.NASU);
 		setScaleAlign("CENTER_STRETCH");
 		setGravity(1.0f);

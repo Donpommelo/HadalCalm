@@ -19,8 +19,7 @@ public class RemoveStrategy extends HitboxStrategy {
 	//have we removed the strategy yet?
 	private boolean removed;
 	
-	public RemoveStrategy(PlayState state, Hitbox proj, BodyData user, 
-			Class<? extends HitboxStrategy> toRemove) {
+	public RemoveStrategy(PlayState state, Hitbox proj, BodyData user, Class<? extends HitboxStrategy> toRemove) {
 		super(state, proj, user);
 		this.toRemove = toRemove;
 		removed = false;

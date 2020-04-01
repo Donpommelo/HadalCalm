@@ -243,8 +243,6 @@ public class Player extends PhysicsSchmuck {
 		//Otherwise, take the input data and reset it to match the new world.
 		if (reset) {
 			playerData = new PlayerBodyData(this, startLoadout);
-		} else {
-			playerData.updateOldData(this);
 		}
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, playerDensity, 0.0f, 0.0f, false, true, Constants.BIT_PLAYER, 
@@ -279,6 +277,8 @@ public class Player extends PhysicsSchmuck {
 		if (reset) {
 			playerData.initLoadout();
 			playerData.addStatus(new Invulnerability(state, 3.0f, playerData, playerData));
+		} else {
+			playerData.updateOldData(this);
 		}
 				
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff

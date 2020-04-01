@@ -14,8 +14,8 @@ public class BucketofBatteries extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 3;
 	
-	private final static float baseDamage = 5.0f;
-	private final static int chainAmount = 4;
+	private final static float baseDamage = 8.0f;
+	private final static int chainAmount = 6;
 	
 	private final static float procCd = 0.5f;
 	

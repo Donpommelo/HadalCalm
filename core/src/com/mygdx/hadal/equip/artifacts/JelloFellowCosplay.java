@@ -23,13 +23,12 @@ public class JelloFellowCosplay extends Artifact {
 			
 			@Override
 			public void onInflict() {
-				inflicted.getSchmuck().getBody().getFixtureList().get(0).setRestitution(bounce);
-
+				inflicted.getSchmuck().setRestitution(bounce);
 			}
 			
 			@Override
 			public void onRemove() {
-				inflicted.getSchmuck().getBody().getFixtureList().get(0).setRestitution(0.0f);
+				inflicted.getSchmuck().setRestitution(0.0f);
 			}
 			
 			@Override
