@@ -6,14 +6,14 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.utils.Stats;
 
-public class LoamskinTalisman extends Artifact {
+public class LoamskinLocket extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
 	private final static int bonusHp = 40;
 	
-	public LoamskinTalisman() {
+	public LoamskinLocket() {
 		super(slotCost, statusNum);
 	}
 

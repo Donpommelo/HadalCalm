@@ -7,7 +7,7 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class SeafoamTalisman extends Artifact {
+public class SeafoamPeriapt extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
@@ -16,7 +16,7 @@ public class SeafoamTalisman extends Artifact {
 	private static float bonusReloadSpd = 0.2f;
 	private static float gravityReduction = -3.0f;
 	
-	public SeafoamTalisman() {
+	public SeafoamPeriapt() {
 		super(slotCost, statusNum);
 	}
 

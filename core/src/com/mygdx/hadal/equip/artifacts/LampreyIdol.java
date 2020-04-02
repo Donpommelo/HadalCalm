@@ -9,7 +9,7 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.utils.Stats;
 
-public class RingoftheLamprey extends Artifact {
+public class LampreyIdol extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
@@ -19,7 +19,7 @@ public class RingoftheLamprey extends Artifact {
 	private final static float damage = 2.5f;
 	private final static float hpThreshold = 0.5f;
 	
-	public RingoftheLamprey() {
+	public LampreyIdol() {
 		super(slotCost, statusNum);
 	}
 

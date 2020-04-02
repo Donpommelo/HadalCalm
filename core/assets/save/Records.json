@@ -1,5 +1,4 @@
 {
-scrap: 9
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -23,7 +22,7 @@ flags: {
 }
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 7
+	ARENA_LAGAN: 0
 	ARENA_HORIZON: 0
 }
 unlockEquip: {
@@ -69,7 +68,7 @@ unlockArtifact: {
 	class: java.util.HashMap
 	CURIOUS_SAUCE: true
 	LUMINOUS_ESCA: true
-	SEAFOAM_TALISMAN: true
+	MANGROVE_SEED: true
 	SIREN_CHIME: true
 	BLOODWOODS_GLOVE: true
 	UNBREATHING_MEMBRANE: true
@@ -78,9 +77,7 @@ unlockArtifact: {
 	MACHINE_GHOST: true
 	KERMUNGLER: true
 	DEPLORABLE_APPARATUS: true
-	MOUTHBREATHER_TALISMAN: true
 	SKIPPERS_BOX_OF_FUN: true
-	RING_OF_THE_LAMPREY: true
 	NOTHING: true
 	NUCLEAR_PUNCH_THRUSTERS: true
 	HAND_OF_GLORY: true
@@ -95,8 +92,6 @@ unlockArtifact: {
 	GEMMULE: true
 	EPHEMERA_PERPETUA: true
 	GOMEZS_AMYGDALA: true
-	LOAMSKIN_TALISMAN: true
-	MANGROVE_TALISMAN: true
 	EXTRA_ROW_OF_TEETH: true
 	MOON_FLUTHER: true
 	PELICAN_PLUSH_TOY: true
@@ -115,11 +110,13 @@ unlockArtifact: {
 	DAS_BOOT: true
 	VOID_HYPONOME: true
 	IRON_SIGHTS: true
+	LOAMSKIN_LOCKET: true
 	KINESIS_LENS: true
 	CLAWS_OF_FESTUS: true
 	COMMUTERS_PARASOL: true
 	SALIGRAM: true
 	SINKING_FEELING: true
+	MOUTHBREATHER_CERTIFICATE: true
 	OL_FAITHFUL: true
 	YIGHT_KITE: true
 	RING_OF_TESTING: true
@@ -132,6 +129,8 @@ unlockArtifact: {
 	CALL_OF_THE_VOID: true
 	LOCH_SHIELD: true
 	ALBATROSS_NECKLACE: true
+	ANCHOR_AMULET: true
+	LAMPREY_IDOL: true
 	PIFFLER: true
 	TEMPEST_TEAPOT: true
 	BRIGGLES_BLADED_BOOT: true
@@ -140,8 +139,8 @@ unlockArtifact: {
 	AU_COURANT: true
 	MUDDLING_CUP: true
 	COMPOUND_VITREOUS: true
-	ANCHOR_TALISMAN: true
 	FENS_CLIPPED_WINGS: true
+	SEAFOAM_PERIAPT: true
 	BLASTEMA: true
 	SENESCENT_SHIELD: true
 	CROWN_OF_THORNS: true

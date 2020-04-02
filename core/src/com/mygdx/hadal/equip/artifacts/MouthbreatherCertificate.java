@@ -5,14 +5,14 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
-public class MouthbreatherTalisman extends Artifact {
+public class MouthbreatherCertificate extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
 	private final static float reduction = 0.1f;
 	
-	public MouthbreatherTalisman() {
+	public MouthbreatherCertificate() {
 		super(slotCost, statusNum);
 	}
 

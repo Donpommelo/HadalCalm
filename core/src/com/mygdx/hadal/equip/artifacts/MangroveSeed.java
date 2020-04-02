@@ -7,14 +7,14 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 
-public class MangroveTalisman extends Artifact {
+public class MangroveSeed extends Artifact {
 
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
 	private final static float res = 0.2f;
 	
-	public MangroveTalisman() {
+	public MangroveSeed() {
 		super(slotCost, statusNum);
 	}
 

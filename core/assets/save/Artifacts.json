@@ -37,7 +37,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Max Hp, Become Heavier"
-    descriptionLong: "Bonus Max Hp: 50\nWeight Increase: +150%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
+    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +150%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -52,8 +52,8 @@ ANARCHISTS_COOKBOOK: {
 		RANDOM_POOL,
 	]
 }
-ANCHOR_TALISMAN: {
-	name: Anchor Talisman
+ANCHOR_AMULET: {
+	name: Anchor Amulet
 	description: "+Damage Resistance When Grounded"
     descriptionLong: "Grounded Damage Resistance: +60%\n\nA metal charm depicting the company insignia; a sturdy anchor.\n\nManagement long held the belief that to forgo one's connection to the Earth would be to irreversibly abandon humanity."
 	tags: [
@@ -412,7 +412,7 @@ HUMANITY_MODULE: {
 	]
 }
 ICE9: {
-	name: Ice 9
+	name: Ice-9
 	description: "Slowing Projectiles"
     descriptionLong: "Slow Duration: 2s\nSlow Amount: -80%\n\nA frosty vial of a world-ending substance.\n\n"
 	tags: [
@@ -441,7 +441,7 @@ IRON_SIGHTS: {
 JELLOFELLOW_COSPLAY: {
 	name: Jellofellow Cosplay
 	description: "+Max Hp, Bouncy!"
-    descriptionLong: "Bonus Max Hp: +25\n\n"
+    descriptionLong: "Bonus Max Hp: +40\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -474,8 +474,17 @@ KINESIS_LENS: {
 		RANDOM_POOL,
 	]
 }
-LOAMSKIN_TALISMAN: {
-	name: Loamskin Talisman
+LAMPREY_IDOL: {
+	name: Lamprey Idol
+	description: "+Lifesteal. Drains Hp at High Health"
+    descriptionLong: "Lifesteal: 10% Against Players, 2% Against Monsters\nHp Threshold: 50%\nDamage Received: 2.5 Per Second\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+LOAMSKIN_LOCKET: {
+	name: Loamskin Locket
 	description: "+Max Hp, Bonus Hp Starts Unfilled"
     descriptionLong: "Bonus Max Hp: +40\n\n"
 	tags: [
@@ -509,8 +518,8 @@ MACHINE_GHOST: {
 		RANDOM_POOL,
 	]
 }
-MANGROVE_TALISMAN: {
-	name: Mangrove Talisman
+MANGROVE_SEED: {
+	name: Mangrove Seed
 	description: "+Poison Resistance"
     descriptionLong: "Poison Damage Resistance: +80%\n\n"
 	tags: [
@@ -545,8 +554,8 @@ MOON_FLUTHER: {
 		RANDOM_POOL,
 	]
 }
-MOUTHBREATHER_TALISMAN: {
-	name: Mouthbreather Talisman
+MOUTHBREATHER_CERTIFICATE: {
+	name: Mouthbreather Certificate
 	description: "+Self-Damage Resistance"
     descriptionLong: "Self-Damage Resistance: +90%\n\nProtective padding to be worn by fledgling or suicidal salvagers.\n\nManagement's long list of attempts to reduce the high attrition rate of Salvaging does not include the ceasing of high-risk operations."
 	tags: [
@@ -608,7 +617,7 @@ OL_FAITHFUL: {
 ORIGIN_COIL: {
 	name: Origin Coil
 	description: "Propulsive Projectiles, +Reload Speed"
-    descriptionLong: "Bonus Reload Speed: 60%\n\nAn intricate mechanism facilitating the spontaneous generation of life.\n\nThe Garden of the Neptune King serves as a sanctuary for seeds taken by the Noiseless Sea before having a chance to germinate."
+    descriptionLong: "Bonus Reload Speed: 60%\n\nAn delicate mechanism facilitating the spontaneous generation of life.\n\nThe Garden of the Neptune King serves as a sanctuary for seeds taken by the Noiseless Sea before having a chance to germinate."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -662,7 +671,7 @@ PETRIFIED_PAYLOAD: {
 PIFFLER: {
 	name: Piffler
 	description: "Piffly Projectiles"
-    descriptionLong: "A flaccid and flimsy trinket with no discernable use.\n\n"
+    descriptionLong: "Projectile Pifflyness: +100%\n\nA flaccid and flimsy trinket with no discernable use.\n\nSome salvaged artifacts shed valuable light on the nature of former humanity while others leave historians more confused than before."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -693,15 +702,6 @@ RING_OF_TESTING: {
 		RELIQUARY,
 	]
 }
-RING_OF_THE_LAMPREY: {
-	name: Ring of the Lamprey
-	description: "+Lifesteal. Drains Hp at High Health"
-    descriptionLong: "Lifesteal: 10% Against Players, 2% Against Monsters\nHp Threshold: 50%\nDamage Received: 2.5 Per Second\n\n"
-	tags: [
-		RELIQUARY,
-		RANDOM_POOL,
-	]
-}
 ROYAL_JUJUBE_BANG: {
 	name: Royal Jujube Bang
 	description: "+Damage Against Distant Targets"
@@ -729,8 +729,8 @@ SAMURAI_SHARK: {
 		RANDOM_POOL,
 	]
 }
-SEAFOAM_TALISMAN: {
-	name: Seafoam Talisman
+SEAFOAM_PERIAPT: {
+	name: Seafoam Periapt
 	description: "+Attack Speed, Antigravity Projectiles"
     descriptionLong: "Bonus Reload Speed: +20%\nBonus Attack Speed: +20%\n\n"
 	tags: [
@@ -795,7 +795,7 @@ SIREN_CHIME: {
 SKIPPERS_BOX_OF_FUN: {
 	name: Skipper's Box of Fun
 	description: "Periodically Reroll Weapons"
-    descriptionLong: "Reroll Interval: 10s\n\n"
+    descriptionLong: "Reroll Interval: 10s\n\nA bottomless box continually coughing up smoke and weaponry.\n\nHumanity humbly accepts this offering, and with it, the firepower to defy the natural succession of higher beings. "
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -804,7 +804,7 @@ SKIPPERS_BOX_OF_FUN: {
 SWORD_OF_SYZYGY: {
 	name: Sword of Syzygy
 	description: "+Projectile Pierce, +Damage"
-    descriptionLong: "Bonus Damage: +15%\nProjectile Pierce: +3 Enemies\n\n"
+    descriptionLong: "Bonus Damage: +15%\nProjectile Pierce: +3 Enemies\n\nA light thrusting-sword with a hilt in the likeness of a lunar eclipse.\n\nInexplicable phenomena is said to occur when sunken Bright Ones align with their heavenly counterparts."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -813,7 +813,8 @@ SWORD_OF_SYZYGY: {
 TEMPEST_TEAPOT: {
 	name: Tempest Teapot
 	description: "+Airblast Knockback and Size"
-    descriptionLong: "Bonus Airblast Power: +50%\nBonus Airblast Size: +75%\n\n"
+    descriptionLong: "Bonus Airblast Power: +50%\nBonus Airblast Size: +75%\n\nA porcelain teapot whose turbulent contents never settle.\n\nStagnation is the foremost obstacle to Management’s visions, so sometimes a Salvager is needed to stir the pot.
+"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -849,7 +850,7 @@ TUNICATE_TUNIC: {
 TYPHON_FANG: {
 	name: Typhon Fang
 	description: "-Reload Speed. Refill Clip on Kill"
-    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan.\n\n"
+    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan.\n\nThe oceanic titans that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
