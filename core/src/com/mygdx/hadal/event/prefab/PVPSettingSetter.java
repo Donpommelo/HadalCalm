@@ -5,6 +5,7 @@ import com.mygdx.hadal.save.Setting;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
+
 /**
  * The PVP Setting Setter reads the player's pvp settings to set up the rules of the pvp match. 
  * This includes rules about timers, number of lives and sets according ui elements.
@@ -14,6 +15,9 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class PVPSettingSetter extends Prefabrication {
 
+	private final static String eggplantTimerId = "EGGPLANT_SPAWNER";
+	private final static float eggplantSpawnTimer = 3.0f;
+	
 	public PVPSettingSetter(PlayState state) {
 		super(state);
 	}
@@ -26,6 +30,7 @@ public class PVPSettingSetter extends Prefabrication {
 		String uiLivesId = TiledObjectUtil.getPrefabTriggerId();
 		String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
 		String gameLivesId = TiledObjectUtil.getPrefabTriggerId();
+		String gameObjectiveId = TiledObjectUtil.getPrefabTriggerId();
 		
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
@@ -36,10 +41,11 @@ public class PVPSettingSetter extends Prefabrication {
 		RectangleMapObject multi = new RectangleMapObject();
 		multi.setName("Multitrigger");
 		multi.getProperties().put("triggeredId", multiId);
-		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + uiLivesId + "," + gameTimerId + "," + gameLivesId);
+		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + uiLivesId + "," + gameTimerId + "," + gameLivesId + "," + gameObjectiveId);
 		
 		int startTimer = state.getGsm().getSetting().getTimer();
 		int startLives = state.getGsm().getSetting().getLives();
+		int gameMode = state.getGsm().getSetting().getPVPMode();
 		
 		RectangleMapObject game = new RectangleMapObject();
 		game.setName("Game");
@@ -50,7 +56,7 @@ public class PVPSettingSetter extends Prefabrication {
 		if (startTimer != 0) {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY,TIMER");
+			ui.getProperties().put("tags", "Fight!,EMPTY,SCORE,TIMER");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
@@ -60,7 +66,7 @@ public class PVPSettingSetter extends Prefabrication {
 		} else {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY");
+			ui.getProperties().put("tags", "Fight!,EMPTY,SCORE");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			TiledObjectUtil.parseTiledEvent(state, ui);
@@ -77,6 +83,22 @@ public class PVPSettingSetter extends Prefabrication {
 			TiledObjectUtil.parseTiledEvent(state, ui);
 		} else {
 			state.setUnlimitedLife(true);
+		}
+		
+		if (gameMode == 1) {
+			RectangleMapObject eggplantTimer = new RectangleMapObject();
+			eggplantTimer.setName("Timer");
+			eggplantTimer.getProperties().put("interval", eggplantSpawnTimer);
+			eggplantTimer.getProperties().put("triggeringId", eggplantTimerId);
+			
+			RectangleMapObject eggplantObjective = new RectangleMapObject();
+			eggplantObjective.setName("Objective");
+			eggplantObjective.getProperties().put("display", true);
+			eggplantObjective.getProperties().put("triggeredId", gameObjectiveId);
+			eggplantObjective.getProperties().put("triggeringId", eggplantTimerId);
+
+			TiledObjectUtil.parseTiledEvent(state, eggplantTimer);
+			TiledObjectUtil.parseTiledEvent(state, eggplantObjective);
 		}
 		
 		TiledObjectUtil.parseTiledEvent(state, game);

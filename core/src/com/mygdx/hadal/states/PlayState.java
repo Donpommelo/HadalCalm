@@ -802,7 +802,7 @@ public class PlayState extends GameState {
 		
 		//Register the kill for score keeping purposes
 		if (perp instanceof Player) {
-			HadalGame.server.registerKill((Player)perp, player);
+			HadalGame.server.registerKill((Player) perp, player);
 		} else {
 			HadalGame.server.registerKill(null, player);
 		}
@@ -851,7 +851,7 @@ public class PlayState extends GameState {
 				}
 			}
 			
-			//if athe match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
+			//if the match is over (all players dead in co-op or all but one team dead in pvp), all players go to results screen
 			if (allded) {
 				beginTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay);
 				HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, resultsText, defaultFadeOutSpeed, deathFadeDelay));

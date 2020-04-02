@@ -294,7 +294,7 @@ public class Enemy extends Schmuck {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition());
+			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition(), true);
 		}
 		return super.queueDeletion();
 	}

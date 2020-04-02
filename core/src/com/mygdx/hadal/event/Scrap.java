@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -29,7 +31,7 @@ public class Scrap extends Event {
 	private final static Vector2 baseSize = new Vector2(32, 32);
 	
 	//spread is for giving the initial scrap a random velocity
-	private final static int spread = 120;
+	private final static int spread = 90;
 	private final static float veloAmp = 7.5f;
 	private final static float lifespan = 9.0f;
 	
@@ -54,11 +56,19 @@ public class Scrap extends Event {
 			public void onTouch(HadalData fixB) {
 				if (isAlive() && fixB instanceof PlayerBodyData) {
 					event.queueDeletion();
-					state.getGsm().getRecord().incrementScrap(1);
+					
+					state.getGsm();
+					if (GameStateManager.currentMode == Mode.SINGLE) {
+						state.getGsm().getRecord().incrementScrap(1);
+					}
+					if (state.getGsm().getSetting().getPVPMode() == 1) {
+						state.getUiExtra().changeFields(((PlayerBodyData) fixB).getPlayer(), 1, 0, 0.0f, 0.0f, false);
+					}
+					
 					state.getUiExtra().syncData();
 					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
 					
-					((PlayerBodyData)fixB).statusProcTime(new ProcTime.ScrapPickup());
+					((PlayerBodyData) fixB).statusProcTime(new ProcTime.ScrapPickup());
 				}
 			}
 		};

@@ -26,6 +26,7 @@ public class ObjectiveChanger extends Event {
 	
 	public ObjectiveChanger(PlayState state, boolean display) {
 		super(state);
+		this.display = display;
 	}
 	
 	@Override

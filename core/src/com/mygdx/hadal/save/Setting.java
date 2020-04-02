@@ -16,7 +16,7 @@ import com.mygdx.hadal.managers.GameStateManager;
  */
 public class Setting {
 
-	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, artifactSlots, portNumber;
+	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber;
 	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause;
 	private float soundVolume, musicVolume, masterVolume;
 
@@ -120,6 +120,7 @@ public class Setting {
 		lives = 0;
 		loadoutType = 1;
 		artifactSlots = 4;
+		pvpMode = 0;
 	}
 	
 	public void resetMisc() {
@@ -138,6 +139,8 @@ public class Setting {
 	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
 	
 	public void setArtifactSlots(int artifactSlots) { this.artifactSlots = artifactSlots; }
+
+	public void setPVPMode(int pvpMode) { this.pvpMode = pvpMode; }
 
 	public void setMaxPlayers(int maxPlayers) { this.maxPlayers = maxPlayers; }
 	
@@ -309,5 +312,7 @@ public class Setting {
 	
 	public int getArtifactSlots() { return artifactSlots; }
 	
+	public int getPVPMode() { return pvpMode; }
+
 	public int getMaxPlayers() { return maxPlayers; }
 }

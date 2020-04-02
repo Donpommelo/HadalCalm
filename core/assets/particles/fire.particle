@@ -6,12 +6,12 @@ lowMin: 1000.0
 lowMax: 1000.0
 - Count - 
 min: 0
-max: 200
+max: 100
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 250.0
-highMax: 250.0
+highMin: 60.0
+highMax: 60.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -27,8 +27,10 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: true
 lowMin: -8.0
@@ -73,7 +75,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 8.0
 highMin: 32.0
@@ -85,6 +87,8 @@ scaling1: 0.078431375
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -156,7 +160,8 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 9fire1.png
 
 
@@ -189,8 +194,10 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: false
 - Y Offset - 
@@ -217,7 +224,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 8.0
 highMin: 16.0
@@ -229,6 +236,8 @@ scaling1: 0.078431375
 timelineCount: 2
 timeline0: 0.0
 timeline1: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -300,7 +309,8 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 8fire0.png
 
 
@@ -335,8 +345,10 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: false
 - Y Offset - 
@@ -365,7 +377,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 4.0
@@ -379,6 +391,8 @@ timelineCount: 3
 timeline0: 0.0
 timeline1: 0.4178082
 timeline2: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -461,7 +475,8 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 13embers1.png
 
 
@@ -496,8 +511,10 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: false
 - Y Offset - 
@@ -526,7 +543,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 4.0
@@ -540,6 +557,8 @@ timelineCount: 3
 timeline0: 0.0
 timeline1: 0.4178082
 timeline2: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -624,7 +643,8 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 12embers0.png
 
 
@@ -659,8 +679,10 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
+independent: false
 - Life Offset - 
 active: false
+independent: false
 - X Offset - 
 active: true
 lowMin: -16.0
@@ -707,7 +729,7 @@ scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
-- Scale - 
+- X Scale - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 4.0
@@ -721,6 +743,8 @@ timelineCount: 3
 timeline0: 0.0
 timeline1: 0.4178082
 timeline2: 1.0
+- Y Scale - 
+active: false
 - Velocity - 
 active: true
 lowMin: 0.0
@@ -805,5 +829,7 @@ aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
-- Image Path -
+spriteMode: single
+- Image Paths -
 10fireglow.png
+

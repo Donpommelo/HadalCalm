@@ -238,15 +238,20 @@ public class WeaponUtils {
 		}
 	}
 	
-	public static void spawnScrap(PlayState state, int amount, Vector2 startPos) {
+	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck) {
 		
 		int modifiedAmount = 0;
 		
-		if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f && state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
-			modifiedAmount = amount + 1;
+		if (statCheck) {
+			if (state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) * amount < 1.0f && state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP) > 0) {
+				modifiedAmount = amount + 1;
+			} else {
+				modifiedAmount = (int) (amount * (1 + state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)));
+			}
 		} else {
-			modifiedAmount = (int) (amount * (1 + state.getPlayer().getPlayerData().getStat(Stats.EXTRA_SCRAP)));
+			modifiedAmount = amount;
 		}
+		
 		for (int i = 0; i < modifiedAmount; i++) {
 			new Scrap(state, startPos);
 		}

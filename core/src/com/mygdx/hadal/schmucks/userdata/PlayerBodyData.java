@@ -6,6 +6,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -408,7 +409,7 @@ public class PlayerBodyData extends BodyData {
 		currentTool = multitools[currentSlot];
 		player.setToolSprite(currentTool.getWeaponSprite().getFrame());
 		
-		currentTool.setReloading(false);
+		currentTool.setReloading(currentTool.getClipLeft() == 0 && currentTool instanceof RangedWeapon);
 		currentTool.setCharging(false);
 		currentTool.setReloadCd(0);
 		currentTool.setChargeCd(0);
@@ -554,15 +555,23 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
-	private final static int scrapDrop = 5;
+	private final static float scrapMultiplier = 0.25f;
+	private final static int baseScrapDrop = 1;
 	@Override
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
 			
 			player.createGibs();
 			
-			if (player.getState().isPvp() && !player.getState().isHub()) {
-				WeaponUtils.spawnScrap(player.getState(), scrapDrop, player.getPixelPosition());
+			if (player.getState().isPvp() && !player.getState().isHub() && player.getState().getGsm().getSetting().getPVPMode() == 1) {
+				int score = (int) (HadalGame.server.getScores().get(player.getConnID()).getScore() * scrapMultiplier);
+				
+				if (score < 0) {
+					score = 0;
+				}
+				
+				player.getState().getUiExtra().changeFields(player, -score, 0, 0.0f, 0.0f, false);
+				WeaponUtils.spawnScrap(player.getState(), score + baseScrapDrop, player.getPixelPosition(), true);
 			}
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());

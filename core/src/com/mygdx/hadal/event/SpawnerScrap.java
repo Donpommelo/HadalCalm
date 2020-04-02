@@ -35,7 +35,7 @@ public class SpawnerScrap extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				WeaponUtils.spawnScrap(state, scrap, event.getPixelPosition());
+				WeaponUtils.spawnScrap(state, scrap, event.getPixelPosition(), false);
 			}
 		};
 		

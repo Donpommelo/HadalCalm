@@ -53,7 +53,7 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, artifactSlots, playerCapacity;
+	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master;
 	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause;
 		
@@ -482,8 +482,11 @@ public class SettingState extends GameState {
 		Text loadout = new Text("LOADOUT: ", 0, 0, false);
 		loadout.setScale(0.25f);
 		
-		Text slots = new Text("ARTIFACT SLOTS: ", 0, 0, false);
+		Text slots = new Text("MULTIPLAYER ARTIFACT SLOTS: ", 0, 0, false);
 		slots.setScale(0.25f);
+		
+		Text mode = new Text("PVP MODE: ", 0, 0, false);
+		mode.setScale(0.25f);
 		
 		timerOptions = new SelectBox<String>(GameStateManager.getSkin());
 		timerOptions.setItems("NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN");
@@ -506,6 +509,11 @@ public class SettingState extends GameState {
 		
 		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
 		
+		pvpMode = new SelectBox<String>(GameStateManager.getSkin());
+		pvpMode.setItems("KILLS -> SCORE", "EGGPLANTS -> SCORE");
+		
+		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
+		
 		details.add(timer);
 		details.add(timerOptions).pad(detailsPad).row();
 		details.add(lives);
@@ -514,6 +522,8 @@ public class SettingState extends GameState {
 		details.add(loadoutOptions).pad(detailsPad).row();
 		details.add(slots);
 		details.add(artifactSlots).pad(detailsPad).row();
+		details.add(mode);
+		details.add(pvpMode).pad(detailsPad).row();
 	}
 	
 	public void miscSelected() {
@@ -595,6 +605,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setLives(livesOptions.getSelectedIndex());
 			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
 			gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());
+			gsm.getSetting().setPVPMode(pvpMode.getSelectedIndex());
 			gsm.getSetting().saveSetting();
 			gameSelected();
 			break;
