@@ -25,6 +25,7 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -127,7 +128,7 @@ public class Player extends PhysicsSchmuck {
 	//This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
 	private float chargePercent;
 		
-	private ParticleEntity hoverBubbles;
+	private ParticleEntity hoverBubbles, dustCloud;
 	
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
@@ -226,7 +227,8 @@ public class Player extends PhysicsSchmuck {
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
 	public void loadParticles() {
-		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
+		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+		dustCloud = new ParticleEntity(state, this, Particle.DUST, 0.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
 	}
 	
 	/**
@@ -318,11 +320,18 @@ public class Player extends PhysicsSchmuck {
 					hovering = true;
 				}
 			} else {
+				hoverBubbles.turnOff();
 				hovering = false;
 			}
 			
 			if (fastFalling) {
 				fastFall();
+			}
+			
+			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && playerData.getStatus(Invisibility.class) == null) {
+				dustCloud.turnOn();
+			} else {
+				dustCloud.turnOff();
 			}
 		}
 		
@@ -331,16 +340,10 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//Determine if the player is in the air or on ground.
-		
-		boolean oldGrounded = grounded;
 		if (scaling) {
 			grounded = feetData.getNumContacts() > 0 || leftData.getNumContacts() > 0 || rightData.getNumContacts() > 0;
 		} else {
 			grounded = feetData.getNumContacts() > 0;
-		}
-		
-		if (!oldGrounded && grounded) {
-			new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.DUST, 1.0f, true, particleSyncType.CREATESYNC);
 		}
 		
 		//player's jumps are refreshed on the ground
@@ -385,7 +388,9 @@ public class Player extends PhysicsSchmuck {
 			jumpCdCount = hoverCd;
 			pushMomentumMitigation(0, playerData.getHoverPower());
 			
-			hoverBubbles.onForBurst(0.5f);
+			hoverBubbles.turnOn();
+		} else {
+			hoverBubbles.turnOff();
 		}
 	}
 	
@@ -420,7 +425,7 @@ public class Player extends PhysicsSchmuck {
 		if (fastFallCdCount < 0) {
 			fastFallCdCount = fastFallCd;
 			if (playerData.getFastFallPower() > 0) {
-				pushMomentumMitigation(0, -playerData.getFastFallPower());
+				push(0, -playerData.getFastFallPower());
 			}
 		}
 		if (!feetData.getTerrain().isEmpty()) {

@@ -7,7 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.actors.Text;
 import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.PlayState.TransitionState;
 
@@ -25,6 +28,7 @@ public class Navigations extends HubEvent {
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
+		final Navigations me = this;
 		
 		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, tags)) {
 			
@@ -38,6 +42,8 @@ public class Navigations extends HubEvent {
 				public void clicked(InputEvent e, float x, float y) {
 		        	state.loadLevel(selected, TransitionState.NEWLEVEL, "");
 		        	leave();
+		        	
+		        	new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, particleSyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
 		        }
 		        
 		        @Override

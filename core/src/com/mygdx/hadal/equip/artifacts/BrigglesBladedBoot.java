@@ -7,14 +7,12 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.FixedToUser;
 import com.mygdx.hadal.utils.Constants;
-import com.mygdx.hadal.utils.Stats;
 
 public class BrigglesBladedBoot extends Artifact {
 
@@ -26,7 +24,7 @@ public class BrigglesBladedBoot extends Artifact {
 	private final static float baseDamage = 20.0f;
 	private final static float knockback = 15.0f;
 
-	private final static float recoil = 25.0f;
+	private final static float recoil = 40.0f;
 
 	private final static Vector2 size = new Vector2(60, 5);
 	private final static Vector2 position = new Vector2(0, -1.5f);
@@ -58,7 +56,6 @@ public class BrigglesBladedBoot extends Artifact {
 						
 						@Override
 						public void onHit(HadalData fixB) {
-							inflicted.addStatus(new StatChangeStatus(state, procCd, Stats.FASTFALL_POW, -10.0f, inflicted, inflicted));
 							inflicted.getSchmuck().pushMomentumMitigation(0, recoil);
 							hbox.die();
 						}

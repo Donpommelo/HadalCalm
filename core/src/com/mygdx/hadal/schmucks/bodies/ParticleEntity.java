@@ -47,6 +47,8 @@ public class ParticleEntity extends HadalEntity {
 	//size multiplier of the particles
 	private float scale = 1.0f;
 	
+	private Vector2 offset = new Vector2();
+	
 	//This constructor creates a particle effect at an area.
 	public ParticleEntity(PlayState state, Vector2 startPos, Particle particle, float lifespan, boolean startOn, particleSyncType sync) {
 		super(state, startPos, new Vector2());
@@ -81,6 +83,12 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 
+	//this constructor is used for particles with an offset from their attached entity
+	public ParticleEntity(PlayState state, HadalEntity entity, Particle particle, float linger, float lifespan, boolean startOn, particleSyncType sync, Vector2 offset) {
+		this(state, entity, particle, linger, lifespan, startOn, sync);
+		this.offset.set(offset);
+	}
+	
 	@Override
 	public void create() {}
 
@@ -92,7 +100,7 @@ public class ParticleEntity extends HadalEntity {
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
+				effect.setPosition(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y);
 			} else {
 				if (!attached) {
 					despawn = true;
@@ -258,6 +266,8 @@ public class ParticleEntity extends HadalEntity {
 	
 	public void setAttachedId(String attachedId) { this.attachedId = attachedId; }
 
+	public void setOffset(Vector2 offset) { this.offset.set(offset); }
+	
 	public enum particleSyncType {
 		NOSYNC,
 		CREATESYNC,

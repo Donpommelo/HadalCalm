@@ -134,6 +134,13 @@ public abstract class HadalEntity {
 		applyLinearImpulse(impulse.set(getPixelPosition()).sub(push).scl(power / getPixelPosition().dst(push)));
 	}
 	
+	public void push(float impulseX, float impulseY) {
+		if (!alive) {
+			return;
+		}
+		applyLinearImpulse(impulse.set(impulseX, impulseY));
+	}
+	
 	public void push(Vector2 push) {
 		if (!alive) {
 			return;

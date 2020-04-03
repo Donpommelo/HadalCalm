@@ -768,7 +768,7 @@ SHIP_IN_A_BOTTLE: {
 SIMPLE_MIND: {
 	name: Simple Mind
 	description: "Linear Projectiles"
-    descriptionLong: "TEST"
+    descriptionLong: "A blissful and empty state of mind.\n\nThe key to upwards mobility within the Noiseless Sea is the relinquishment of all worries and desires."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -786,7 +786,7 @@ SINKING_FEELING: {
 SIREN_CHIME: {
 	name: Siren Chime
 	description: "Reverse Knockback on Enemies"
-    descriptionLong: "Bonus Knockback: -250%\n\n"
+    descriptionLong: "Bonus Knockback: -250%\n\nAn instrument whose tone changes according to the listener’s desires.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -795,7 +795,7 @@ SIREN_CHIME: {
 SKIPPERS_BOX_OF_FUN: {
 	name: Skipper's Box of Fun
 	description: "Periodically Reroll Weapons"
-    descriptionLong: "Reroll Interval: 10s\n\nA bottomless box continually coughing up smoke and weaponry.\n\nHumanity humbly accepts this offering, and with it, the firepower to defy the natural succession of higher beings. "
+    descriptionLong: "Reroll Interval: 10s\n\nA bottomless box continually coughing up smoke and weaponry.\n\nHumanity humbly accepts this offering, and with it, the firepower to defy the natural succession of higher beings."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -813,8 +813,7 @@ SWORD_OF_SYZYGY: {
 TEMPEST_TEAPOT: {
 	name: Tempest Teapot
 	description: "+Airblast Knockback and Size"
-    descriptionLong: "Bonus Airblast Power: +50%\nBonus Airblast Size: +75%\n\nA porcelain teapot whose turbulent contents never settle.\n\nStagnation is the foremost obstacle to Management’s visions, so sometimes a Salvager is needed to stir the pot.
-"
+    descriptionLong: "Bonus Airblast Power: +50%\nBonus Airblast Size: +75%\n\nA porcelain teapot whose turbulent contents never settle.\n\nStagnation is the foremost obstacle to Management’s visions, so sometimes a Salvager is needed to stir the pot."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
