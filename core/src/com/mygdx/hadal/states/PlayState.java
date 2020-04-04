@@ -347,7 +347,7 @@ public class PlayState extends GameState {
 	private float physicsAccumulator = 0.0f;
 	private final static float physicsTime = 1 / 200f;
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 1 / 60f;
+	private final static float syncTime = 1 / 20f;
 	public final static float syncInterpolation = 1 / 10f;
 	private float timer;
 
