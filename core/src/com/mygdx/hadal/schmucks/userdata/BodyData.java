@@ -56,7 +56,7 @@ public class BodyData extends HadalData {
 	
 	private final static float flashDuration = 0.1f;
 	
-	private final static float damageVariance = 0.0f;
+	private final static float damageVariance = 0.1f;
 	
 	protected float currentHp, currentFuel;
 

@@ -23,7 +23,7 @@ public class Invisibility extends Status {
 	}
 	
 	@Override
-	public void onShoot(Equipable tool) {
+	public void whileAttacking(float delta, Equipable tool) {
 		inflicted.removeStatus(this);
 	}
 	

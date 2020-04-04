@@ -253,7 +253,7 @@ public class Hitbox extends HadalEntity {
 
 	public void setDurability(int durability) { this.durability = (int) (durability + creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY)); }
 	
-	public void setRestitution(float restitution) {	this.restitution = restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION); }
+	public void setRestitution(float restitution) {	this.restitution = Math.min(1.0f, restitution + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION)); }
 	
 	public void setGravity(float gravity) { this.gravity = gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY); }
 	

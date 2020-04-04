@@ -22,8 +22,8 @@ public class CameraStyles {
     public static void lerpToTarget(Camera camera, Vector2 target) {
         // a + (b - a) * lerp factor
         Vector3 position = camera.position;
-        position.x = camera.position.x + (target.x - camera.position.x) * .1f;
-        position.y = camera.position.y + (target.y - camera.position.y) * .1f;
+        position.x = (int) (camera.position.x + (target.x - camera.position.x) * 0.1f);
+        position.y = (int) (camera.position.y + (target.y - camera.position.y) * 0.1f);
         camera.position.set(position);
         camera.update();
     }
@@ -41,8 +41,8 @@ public class CameraStyles {
         float avgY = (targetA.y + targetB.y) / 2;
 
         Vector3 position = camera.position;
-        position.x = camera.position.x + (avgX - camera.position.x) * .1f;
-        position.y = camera.position.y + (avgY - camera.position.y) * .1f;
+        position.x = camera.position.x + (avgX - camera.position.x) * 0.1f;
+        position.y = camera.position.y + (avgY - camera.position.y) * 0.1f;
         camera.position.set(position);
         camera.update();
     }
@@ -50,8 +50,8 @@ public class CameraStyles {
     public static boolean searchFocalPoints(OrthographicCamera camera, Array<Vector2> focalPoints, Vector2 target, float threshold) {
         for(Vector2 point : focalPoints) {
             if(target.dst(point) < threshold) {
-                float newZoom = (target.dst(point) / threshold) + .2f;
-                camera.zoom = camera.zoom + ((newZoom > 1? 1 : newZoom) - camera.zoom) * .1f;
+                float newZoom = (target.dst(point) / threshold) + 0.2f;
+                camera.zoom = camera.zoom + ((newZoom > 1? 1 : newZoom) - camera.zoom) * 0.1f;
                 CameraStyles.lerpToTarget(camera, point);
                 return true;
             }
