@@ -56,7 +56,7 @@ public class BodyData extends HadalData {
 	
 	private final static float flashDuration = 0.1f;
 	
-	private final static float damageVariance = 0.1f;
+	private final static float damageVariance = 0.0f;
 	
 	protected float currentHp, currentFuel;
 
@@ -107,40 +107,29 @@ public class BodyData extends HadalData {
 	 * This fields of this are the various info needed for each status. fields will be null when unused
 	 * @return a float for certain statuses that pass along a modified value (like on damage effects)
 	 */
-	public float statusProcTime(Object o) {
+	public ProcTime statusProcTime(ProcTime o) {
 				
-		float finalAmount = 0;
-		
-		if (o instanceof ReceiveDamage){
-			ReceiveDamage pt = (ReceiveDamage)o;
-			finalAmount = pt.damage;
-		} else if (o instanceof InflictDamage){
-			InflictDamage pt = (InflictDamage)o;
-			finalAmount = pt.damage;
-		} else if (o instanceof ReceiveHeal){
-			ReceiveHeal pt = (ReceiveHeal)o;
-			finalAmount = pt.heal;
-		}
+		ProcTime finalProcTime = o;
 		
 		ArrayList<Status> oldChecked = new ArrayList<Status>();
-		for(Status s : this.statusesChecked) {
+		for (Status s : this.statusesChecked) {
 			this.statuses.add(0, s);
 			oldChecked.add(s);
 		}
 		this.statusesChecked.clear();
 		
-		while(!this.statuses.isEmpty()) {
+		while (!this.statuses.isEmpty()) {
 			Status tempStatus = this.statuses.get(0);
 			
-			finalAmount = tempStatus.statusProcTime(o);
+			finalProcTime = tempStatus.statusProcTime(o);
 			
-			if(this.statuses.contains(tempStatus)){
+			if (this.statuses.contains(tempStatus)) {
 				this.statuses.remove(tempStatus);
 				this.statusesChecked.add(tempStatus);
 			}
 		}
 		
-		for(Status s : this.statusesChecked) {
+		for (Status s : this.statusesChecked) {
 			if(!oldChecked.contains(s)) {
 				this.statuses.add(s);
 			}
@@ -149,7 +138,8 @@ public class BodyData extends HadalData {
 		for(Status s : oldChecked) {
 			this.statusesChecked.add(s);
 		}
-		return finalAmount;		
+
+		return finalProcTime;		
 	}
 	
 	/**
@@ -300,8 +290,8 @@ public class BodyData extends HadalData {
 		damage += basedamage * (-damageVariance + Math.random() * 2 * damageVariance);
 		
 		if (procEffects) {
-			damage = perp.statusProcTime(new ProcTime.InflictDamage(damage, this, tags));
-			damage = statusProcTime(new ProcTime.ReceiveDamage(damage, perp, tags));
+			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, tags))).damage;
+			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, tags))).damage;
 		}
 				
 		currentHp -= damage;
@@ -354,7 +344,7 @@ public class BodyData extends HadalData {
 		float heal = baseheal;
 		
 		if (procEffects) {
-			heal = statusProcTime(new ProcTime.ReceiveHeal(heal, perp, tags));
+			heal = ((ReceiveHeal) statusProcTime(new ProcTime.ReceiveHeal(heal, perp, tags))).heal;
 		}
 		
 		currentHp += heal;

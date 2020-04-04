@@ -91,14 +91,7 @@ public class PVPSettingSetter extends Prefabrication {
 			eggplantTimer.getProperties().put("interval", eggplantSpawnTimer);
 			eggplantTimer.getProperties().put("triggeringId", eggplantTimerId);
 			
-			RectangleMapObject eggplantObjective = new RectangleMapObject();
-			eggplantObjective.setName("Objective");
-			eggplantObjective.getProperties().put("display", true);
-			eggplantObjective.getProperties().put("triggeredId", gameObjectiveId);
-			eggplantObjective.getProperties().put("triggeringId", eggplantTimerId);
-
 			TiledObjectUtil.parseTiledEvent(state, eggplantTimer);
-			TiledObjectUtil.parseTiledEvent(state, eggplantObjective);
 		}
 		
 		TiledObjectUtil.parseTiledEvent(state, game);

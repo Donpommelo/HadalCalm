@@ -266,6 +266,14 @@ public abstract class HadalEntity {
 		this.shaderCount = shaderCount;
 	}
 	
+	
+	public void endShader(Shader shader) {
+		shaderCount = 0;
+		if (state.isServer()) {
+			HadalGame.server.sendToAllTCP(new Packets.SyncShader(entityID.toString(), shader, 0.0f));
+		}
+	}
+	
 	public void decreaseShaderCount(float i) { shaderCount -= i; }
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }

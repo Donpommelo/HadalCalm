@@ -23,15 +23,15 @@ public class StatusComposite extends Status {
 	}
 	
 	@Override
-	public float statusProcTime(Object o) {
+	public ProcTime statusProcTime(ProcTime o) {
 		super.statusProcTime(o);
 		
-		float finalAmount = 0;
+		ProcTime finalProcTime = o;
 		
 		for (Status s: statuses) {
-			finalAmount = s.statusProcTime(o);
+			finalProcTime = s.statusProcTime(o);
 		}
 		
-		return finalAmount;
+		return finalProcTime;
 	}
 }

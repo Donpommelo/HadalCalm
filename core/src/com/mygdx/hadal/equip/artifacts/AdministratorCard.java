@@ -29,12 +29,13 @@ public class AdministratorCard extends Artifact {
 			
 			@Override
 			public void playerCreate() {
-				
+
 				if (inflicted.getSchmuck() instanceof Player) {
 					int artifactsAdded = 0;
-					
+
 					while (artifactsAdded < numArtifacts) {
 						UnlockArtifact artifact = UnlockArtifact.valueOf(UnlockArtifact.getRandArtfFromPool(state, ""));
+
 						unlocks.add(artifact);
 						if (((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true)) {
 							artifactsAdded++;

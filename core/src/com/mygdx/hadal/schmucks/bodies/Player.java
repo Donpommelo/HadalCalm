@@ -159,9 +159,13 @@ public class Player extends PhysicsSchmuck {
 	 * @param reset: do we reset the player's stats after creating them?
 	 * @param start: the start point that the player spawns at.
 	 * 
+	 * Note that the starting filter logic goes like this: if not pvp, we just have the default player hbox filter. If pvp, we generate a new hbox filter if 
+	 * we are a new player and use our old one if we are respawning
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
-		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, state.isPvp() ? PlayState.getPVPFilter() : Constants.PLAYER_HITBOX, baseHp);
+		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, 
+				state.isPvp() ? (oldData == null ? PlayState.getPVPFilter() : oldData.getPlayer().getHitboxfilter()) : Constants.PLAYER_HITBOX, 
+						baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		

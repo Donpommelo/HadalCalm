@@ -19,7 +19,7 @@ public class Invisibility extends Status {
 	@Override
 	public void onRemove() {
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
-		inflicted.getSchmuck().decreaseShaderCount(duration);
+		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
 	}
 	
 	@Override

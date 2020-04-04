@@ -42,4 +42,9 @@ public class ObjectiveChanger extends Event {
 			}
 		};
 	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSyncType(eventSyncTypes.USER);
+	}
 }

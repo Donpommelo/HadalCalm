@@ -154,6 +154,15 @@ DM_SUPREME_CHAMPION: {
         MULTIPLAYER
 	]
 }
+DM_GALLERY: {
+	name: DM_GALLERY
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
 DM_HORIZON: {
 	name: DM_HORIZON
 	description: TEMP

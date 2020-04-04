@@ -729,7 +729,7 @@ public class PlayState extends GameState {
 	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
-		
+
 		//for pvp matches, set loadout depending on pvp settings
 		if (pvp && !hub) {
 			switch(gsm.getSetting().getLoadoutType()) {

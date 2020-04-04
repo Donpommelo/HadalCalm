@@ -11,7 +11,7 @@ public class CursedCilice extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final float amount = 0.5f;
+	private final float amount = 0.75f;
 	
 	public CursedCilice() {
 		super(slotCost, statusNum);

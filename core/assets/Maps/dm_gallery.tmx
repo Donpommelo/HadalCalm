@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="21">
+ <properties>
+  <property name="pvp" type="bool" value="true"/>
+ </properties>
+ <layer id="1" name="Tile Layer 1" width="180" height="120">
+  <data encoding="base64" compression="zlib">
+   eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
+  </data>
+ </layer>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="../gallery.jpg" width="5184" height="3456"/>
+ </imagelayer>
+ <objectgroup id="3" name="collision-layer">
+  <object id="1" x="13" y="980">
+   <polyline points="0,0 0.5,-618.5 1803,-458.667 2221,-734 3117,-613 3176,-592 3334,-577 4475,-977 5019,-982 5018,-266 3688,-49 3668,1639 3564,1607 3564,1032 3571,1029 3572,1013 3481,998 3348,1008 3347,1025 3352,1031 3355,1365 3276,1380 3272,1507 3157,1471 3155,1442 3165,1441 3167,1413 3112,1354 2846,1361 2748,1334 2683,1341 2677,944 2682,941 2682,926 2553,925 2513,940 2514,955 2522,956 2527,1254 2445,1247 2413,1266 2413,1374 1956,1416 1950,1275 1924,1272 1922,1250 1909,1246 1898,820 1888,817 1885,807 1863,802 1862,520 1841,517 1835,211 1831,208 1828,-28 1804,-34 1774,-30 1771,106 1745,110 1750,251 1732,250 1737,359 1726,356 1729,473 1711,473 1715,682 1692,684 1701,973 1680,977 1683,1083 1680,1087 1687,1365 1656,1373 1661,1445 1373,1473 1346,48 1,0"/>
+  </object>
+  <object id="19" x="1440" y="1664">
+   <polyline points="0,0 0,28.6667 80,29.3333 81.3333,-6 -1.33333,-1.33333"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="event-layer">
+  <object id="2" name="Prefab" type="PrefabPVPSettingSetter" x="64" y="3520" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="3" name="Multitrigger" type="Multitrigger" x="96" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="camera1,eggplantmarker,bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="4" name="Camera" type="Camera" x="160" y="3616" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="camera1"/>
+    <property name="zoom" type="float" value="1.2"/>
+   </properties>
+  </object>
+  <object id="5" name="Timer" type="Timer" x="64" y="3712" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="6" name="Multitrigger" type="Multitrigger" x="128" y="3712" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="spawnWeapons,startTimer"/>
+   </properties>
+  </object>
+  <object id="7" name="Multitrigger" type="Multitrigger" x="192" y="3776" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2"/>
+   </properties>
+  </object>
+  <object id="8" name="Timer" type="Timer" x="128" y="3776" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="triggeringId" value="spawnWeapons"/>
+   </properties>
+  </object>
+  <object id="9" name="Start" type="Start" x="256" y="864" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="10" name="Start" type="Start" x="4640" y="544" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="11" name="Start" type="Start" x="1056" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="12" name="Start" type="Start" x="3936" y="768" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="13" name="Bounds" type="Bounds" x="768" y="448" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="14" name="Bounds" type="Bounds" x="4256" y="2176" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="15" name="Prefab" type="PrefabSpawner" x="2562.5" y="1809.5" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="16" name="Prefab" type="PrefabWeapon" x="3367" y="1889" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="17" name="Prefab" type="PrefabWeapon" x="1437.33" y="1565.33" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="18" name="ScrapSpawn" type="ScrapSpawn" x="2336" y="352" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="20" name="Objective" type="Objective" x="224" y="3616" width="32" height="32">
+   <properties>
+    <property name="display" type="bool" value="true"/>
+    <property name="triggeredId" value="eggplantmarker"/>
+    <property name="triggeringId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

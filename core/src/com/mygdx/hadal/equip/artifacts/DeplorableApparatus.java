@@ -14,10 +14,10 @@ public class DeplorableApparatus extends Artifact {
 	private final static int slotCost = 3;
 	
 	private final static float hpReduction = -50.0f;
-	private final static float hpRegen = 10.0f;
+	private final static float hpRegen = 12.0f;
 	
 	private float procCdCount = 0;
-	private final static float cd = 2.0f;
+	private final static float cd = 1.0f;
 	
 	public DeplorableApparatus() {
 		super(slotCost, statusNum);

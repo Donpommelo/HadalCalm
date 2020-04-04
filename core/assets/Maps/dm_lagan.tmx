@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="72">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="140" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="73">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
@@ -108,7 +108,7 @@
   <object id="19" name="Multitrigger" type="Multitrigger" x="96" y="224" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerstart"/>
-    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
+    <property name="triggeringId" value="camera1,eggplantmarker,bounds1,bounds2"/>
    </properties>
   </object>
   <object id="20" name="Camera" type="Camera" x="160" y="224" width="32" height="32">
@@ -273,10 +273,18 @@
     <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
-  <object id="71" name="ScrapSpawn" type="ScrapSpawn" x="2528" y="1024" width="32" height="32">
+  <object id="71" name="ScrapSpawn" type="ScrapSpawn" x="2528" y="672" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="72" name="Objective" type="Objective" x="224" y="224" width="32" height="32">
+   <properties>
+    <property name="display" type="bool" value="true"/>
+    <property name="triggeredId" value="eggplantmarker"/>
+    <property name="triggeringId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
  </objectgroup>

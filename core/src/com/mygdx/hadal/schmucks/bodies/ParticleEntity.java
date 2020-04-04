@@ -206,7 +206,7 @@ public class ParticleEntity extends HadalEntity {
 		
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), new Vector2(), true, particle.toString(), on, linger, lifespan, scale);
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale);
 			} else {
 				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startPos), false, particle.toString(), on, linger, lifespan, scale);
 			}
@@ -243,7 +243,7 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void onClientSync(Object o) {
 		Packets.SyncParticles p = (Packets.SyncParticles) o;
-		effect.setPosition(p.pos.x, p.pos.y);
+		effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
 
 		if (p.on && (!on || effect.isComplete())) {
 			turnOn();

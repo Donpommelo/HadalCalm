@@ -636,6 +636,7 @@ public class Packets {
 		public String entityID;
 		public String attachedID;
         public Vector2 pos;
+        public Vector2 offset;
         public boolean attached;
 		public String particle;
 		public boolean startOn;
@@ -651,7 +652,7 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the newly created ParticlesEntity
 		 * @param attachedID: ID of attached entity if it exists and null otherwise
-		 * @param pos: Position of particle entity if not attached to another entity
+		 * @param pos: Position of particle entity if not attached to another entity. If attached to an entity. this is the offset from the entity's position
 		 * @param attached: Is this particleEntity attached to another entity?
 		 * @param particle: Particle Effect to be created.
 		 * @param startOn: Does this effect start turned on?

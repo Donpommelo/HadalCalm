@@ -29,10 +29,12 @@ public enum UnlockLevel {
 	DM_LITTLE_BITTERN("Maps/dm_little_bittern.tmx"),
 	DM_SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx"),
 	
+	DM_GALLERY("Maps/dm_gallery.tmx"),
+	DM_HORIZON("Maps/dm_horizon.tmx"),
+
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx"),
-	DM_HORIZON("Maps/dm_horizon.tmx"),
 	DM_LAGAN("Maps/dm_lagan.tmx"),
 	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
 	DM_SAWMILL("Maps/dm_sawmill.tmx"),

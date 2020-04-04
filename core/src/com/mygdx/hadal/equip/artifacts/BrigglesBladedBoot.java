@@ -21,7 +21,7 @@ public class BrigglesBladedBoot extends Artifact {
 	
 	private final static float procCd = 0.5f;
 	
-	private final static float baseDamage = 20.0f;
+	private final static float baseDamage = 30.0f;
 	private final static float knockback = 15.0f;
 
 	private final static float recoil = 40.0f;

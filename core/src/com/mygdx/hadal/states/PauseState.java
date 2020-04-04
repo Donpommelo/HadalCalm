@@ -211,10 +211,10 @@ public class PauseState extends GameState {
 			SoundEffect.NEGATIVE.play(gsm);
 			
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
-			if (ps.isServer()) {
-				ps.getPlayer().getPlayerData().syncArtifacts();
+			if (ps.isServer() && ps.isHub()) {
+				ps.getPlayer().getPlayerData().syncArtifacts(false);
 				for (Player player : HadalGame.server.getPlayers().values()) {
-					player.getPlayerData().syncArtifacts();
+					player.getPlayerData().syncArtifacts(false);
 				}
 			}
 			

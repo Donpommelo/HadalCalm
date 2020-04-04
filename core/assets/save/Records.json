@@ -1,5 +1,5 @@
 {
-scrap: 73
+scrap: 4
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -212,6 +212,7 @@ unlockLevel: {
 	PLENUMCHAMBERTURBINE: true
 	PLENUMCHAMBER2: true
 	ARENA_LAGAN: true
+	DM_GALLERY: true
 	PLENUMCHAMBER1: true
 	PLENUMCHAMBER6: true
 	PLENUMCHAMBER5: true

@@ -304,7 +304,7 @@ public class PlayerBodyData extends BodyData {
 
 		Artifact newArtifact =  artifactUnlock.getArtifact();
 		int slotsUsed = 0;
-
+		
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
@@ -325,13 +325,14 @@ public class PlayerBodyData extends BodyData {
 				
 				
 			} else {
+
 				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
 					addStatus(s);
 					s.setArtifact(artifactUnlock);
 				}
 				loadout.artifacts[i] = artifactUnlock;
 
-				syncArtifacts();
+				syncArtifacts(override);
 				
 				return true;
 			}
@@ -370,7 +371,7 @@ public class PlayerBodyData extends BodyData {
 			loadout.artifacts[Loadout.maxArtifactSlots - 1] = UnlockArtifact.NOTHING;
 		}
 		
-		syncArtifacts();
+		syncArtifacts(false);
 	}
 	
 	/**
@@ -389,14 +390,17 @@ public class PlayerBodyData extends BodyData {
 	/**
 	 * This is called when a player's artifacts may change to sync ui and clients
 	 */
-	public void syncArtifacts() {
-		checkArtifactSlotCosts();
+	public void syncArtifacts(boolean override) {
+		
+		if (!override) {
+			checkArtifactSlotCosts();
+			saveArtifacts();
+		}
 		
 		if (player.equals((player.getState().getPlayer()))) {
 			player.getState().getUiArtifact().syncArtifact();
 		}
 		
-		saveArtifacts();
 		syncServerLoadoutChange();
 		calcStats();
 	}

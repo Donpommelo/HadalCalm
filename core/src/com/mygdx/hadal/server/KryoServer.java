@@ -284,8 +284,8 @@ public class KryoServer {
 					Player player = players.get(c.getID());
 					if (player != null) {
 						playerName = player.getName();
+						createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true);
 					}
-					createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), null, true);
 				}
 				
 				/*

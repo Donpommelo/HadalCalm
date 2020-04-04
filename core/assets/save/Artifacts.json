@@ -118,7 +118,7 @@ BOTTOM_OF_THE_BARREL: {
 BRIGGLES_BLADED_BOOT: {
 	name: Briggle's Bladed Boot
 	description: "Damaging Stomps"
-    descriptionLong: "Stomp Damage: 20\n\nThe serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
+    descriptionLong: "Stomp Damage: 30\n\nThe serrated footwear belonging to a general renown for being armed to the feet.\n\nGeneral Briggle's reign of ruthless military efficacy abruptly ended when he met his end stepping into an inflatable life raft."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -235,7 +235,7 @@ CURIOUS_SAUCE: {
 CURSED_CILICE: {
 	name: Cursed Cilice
 	description: "Receiving Damage Regenerates Fuel"
-    descriptionLong: "Fuel Regen: 50% of Damage Received\n\nA band lined with thorns along its innermost layer.\n\nThe deeper the ocean layer, the greater the cost of entrance that must be paid in life or thereafter."
+    descriptionLong: "Fuel Regen: 75% of Damage Received\n\nA band lined with thorns along its innermost layer.\n\nThe deeper the ocean layer, the greater the cost of entrance that must be paid in life or thereafter."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -262,7 +262,7 @@ DEAD_MANS_HAND: {
 DEPLORABLE_APPARATUS: {
 	name: Deplorable Apparatus
 	description: "-Max Hp, +Hp Regen"
-    descriptionLong: "Max Hp Reduction: -50\nHp Regeneration: 10 per Second\nUpon Receiving Danmage, Cancel Regen for 2s\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
+    descriptionLong: "Max Hp Reduction: -50\nHp Regeneration: 12 per Second\nUpon Receiving Danmage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

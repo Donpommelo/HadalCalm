@@ -7,7 +7,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.ProcTime.*;
 
 /**
  * A status is a thing that afflicts a schmuck and has some affect for its duration.
@@ -46,60 +45,8 @@ public class Status {
 	 * Each status runs this at any Status Proc Time. This triggers the effects of statuses
 	 * Each input is some information that a specific proc time needs to process.
 	 */
-	public float statusProcTime(Object o) {
-		
-		float finalAmount = 0;
-		
-		if (o instanceof TimePass) {
-			TimePass pt = (TimePass)o;
-			timePassing(pt.time);
-		} else if (o instanceof StatCalc) {
-			statChanges();
-		} else if (o instanceof ReceiveDamage) {
-			ReceiveDamage pt = (ReceiveDamage)o;
-			finalAmount = onReceiveDamage(pt.damage, pt.perp, pt.tags);
-		} else if (o instanceof InflictDamage) {
-			InflictDamage pt = (InflictDamage)o;
-			finalAmount = onDealDamage(pt.damage, pt.vic, pt.tags);
-		} else if (o instanceof ReceiveHeal) {
-			ReceiveHeal pt = (ReceiveHeal)o;
-			finalAmount = onHeal(pt.heal, pt.perp, pt.tags);
-		} else if (o instanceof Kill) {
-			Kill pt = (Kill)o;
-			onKill(pt.vic);
-		} else if (o instanceof Death) {
-			Death pt = (Death)o;
-			onDeath(pt.perp);
-		} else if (o instanceof WhileAttack) {
-			WhileAttack pt = (WhileAttack)o;
-			whileAttacking(pt.time, pt.tool);
-		} else if (o instanceof Shoot) {
-			Shoot pt = (Shoot)o;
-			onShoot(pt.tool);
-		} else if (o instanceof Reload) {
-			Reload pt = (Reload)o;
-			onReload(pt.tool);
-		} else if (o instanceof CreateHitbox) {
-			CreateHitbox pt = (CreateHitbox)o;
-			onHitboxCreation(pt.hbox);
-		} else if (o instanceof PlayerCreate) {
-			playerCreate();
-		} else if (o instanceof ScrapPickup) {
-			scrapPickup();
-		} else if (o instanceof Airblast) {
-			Airblast pt = (Airblast)o;
-			onAirBlast(pt.tool);
-		} else if (o instanceof BeforeActiveUse) {
-			BeforeActiveUse pt = (BeforeActiveUse)o;
-			beforeActiveItem(pt.tool);
-		} else if (o instanceof AfterActiveUse) {
-			AfterActiveUse pt = (AfterActiveUse)o;
-			afterActiveItem(pt.tool);
-		} else if (o instanceof AfterBossSpawn) {
-			AfterBossSpawn pt = (AfterBossSpawn)o;
-			afterBossSpawn(pt.boss);
-		}
-		return finalAmount;
+	public ProcTime statusProcTime(ProcTime o) {
+		return o.statusProcTime(this);
 	}
 	
 	/**

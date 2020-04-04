@@ -226,7 +226,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						if (p.attached) {
-        							ParticleEntity entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC);
+        							ParticleEntity entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC, p.pos);
         							entity.setAttachedId(p.attachedID);
         							cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
         							entity.setScale(p.scale);
