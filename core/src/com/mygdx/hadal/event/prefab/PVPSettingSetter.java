@@ -16,7 +16,11 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 public class PVPSettingSetter extends Prefabrication {
 
 	private final static String eggplantTimerId = "EGGPLANT_SPAWNER";
+	private final static String weaponTimerId = "spawnWeapons";
+	private final static String playerStartId = "playerstart";
 	private final static float eggplantSpawnTimer = 3.0f;
+	private final static float weaponSpawnTimer = 25.0f;
+	private final static float pvpMatchZoom = 1.2f;
 	
 	public PVPSettingSetter(PlayState state) {
 		super(state);
@@ -30,7 +34,18 @@ public class PVPSettingSetter extends Prefabrication {
 		String uiLivesId = TiledObjectUtil.getPrefabTriggerId();
 		String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
 		String gameLivesId = TiledObjectUtil.getPrefabTriggerId();
+		String gameCameraId = TiledObjectUtil.getPrefabTriggerId();
 		String gameObjectiveId = TiledObjectUtil.getPrefabTriggerId();
+		
+		RectangleMapObject playerstart = new RectangleMapObject();
+		playerstart.setName("Multitrigger");
+		playerstart.getProperties().put("triggeredId", playerStartId);
+		playerstart.getProperties().put("triggeringId", "bounds1,bounds2," + gameCameraId + "," + gameObjectiveId);
+		
+		RectangleMapObject camera1 = new RectangleMapObject();
+		camera1.setName("Camera");
+		camera1.getProperties().put("zoom", pvpMatchZoom);
+		camera1.getProperties().put("triggeredId", gameCameraId);
 		
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
@@ -41,7 +56,12 @@ public class PVPSettingSetter extends Prefabrication {
 		RectangleMapObject multi = new RectangleMapObject();
 		multi.setName("Multitrigger");
 		multi.getProperties().put("triggeredId", multiId);
-		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + uiLivesId + "," + gameTimerId + "," + gameLivesId + "," + gameObjectiveId);
+		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + uiLivesId + "," + gameTimerId + "," + gameLivesId + "," + weaponTimerId);
+		
+		RectangleMapObject weaponTimer = new RectangleMapObject();
+		weaponTimer.setName("Timer");
+		weaponTimer.getProperties().put("interval", weaponSpawnTimer);
+		weaponTimer.getProperties().put("triggeringId", weaponTimerId);
 		
 		int startTimer = state.getGsm().getSetting().getTimer();
 		int startLives = state.getGsm().getSetting().getLives();
@@ -91,7 +111,14 @@ public class PVPSettingSetter extends Prefabrication {
 			eggplantTimer.getProperties().put("interval", eggplantSpawnTimer);
 			eggplantTimer.getProperties().put("triggeringId", eggplantTimerId);
 			
+			RectangleMapObject eggplantMarker = new RectangleMapObject();
+			eggplantMarker.setName("Objective");
+			eggplantMarker.getProperties().put("display", true);
+			eggplantMarker.getProperties().put("triggeredId", gameObjectiveId);
+			eggplantMarker.getProperties().put("triggeringId", eggplantTimerId);
+			
 			TiledObjectUtil.parseTiledEvent(state, eggplantTimer);
+			TiledObjectUtil.parseTiledEvent(state, eggplantMarker);
 		}
 		
 		TiledObjectUtil.parseTiledEvent(state, game);
@@ -101,8 +128,11 @@ public class PVPSettingSetter extends Prefabrication {
 		end.getProperties().put("text", "Match Over");
 		end.getProperties().put("triggeredId", "runOnGlobalTimerConclude");
 		
+		TiledObjectUtil.parseTiledEvent(state, playerstart);
+		TiledObjectUtil.parseTiledEvent(state, camera1);
 		TiledObjectUtil.parseTiledEvent(state, timer);
 		TiledObjectUtil.parseTiledEvent(state, multi);
+		TiledObjectUtil.parseTiledEvent(state, weaponTimer);
 		TiledObjectUtil.parseTiledEvent(state, end);
 	}
 }

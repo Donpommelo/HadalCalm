@@ -23,41 +23,10 @@
     <property name="triggeredId" value=""/>
    </properties>
   </object>
-  <object id="3" name="Multitrigger" type="Multitrigger" x="96" y="3584" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="playerstart"/>
-    <property name="triggeringId" value="camera1,eggplantmarker,bounds1,bounds2"/>
-   </properties>
-  </object>
-  <object id="4" name="Camera" type="Camera" x="160" y="3584" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="camera1"/>
-    <property name="zoom" type="float" value="1.2"/>
-   </properties>
-  </object>
-  <object id="5" name="Timer" type="Timer" x="64" y="3680" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
-  <object id="6" name="Multitrigger" type="Multitrigger" x="128" y="3680" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,startTimer"/>
-   </properties>
-  </object>
-  <object id="7" name="Multitrigger" type="Multitrigger" x="192" y="3744" width="32" height="32">
+  <object id="7" name="Multitrigger" type="Multitrigger" x="64" y="3552" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1"/>
-   </properties>
-  </object>
-  <object id="8" name="Timer" type="Timer" x="128" y="3744" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="25"/>
-    <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
   <object id="9" name="Start" type="Start" x="3712" y="736" width="32" height="32">
@@ -168,13 +137,6 @@
     <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
-   </properties>
-  </object>
-  <object id="27" name="Objective" type="Objective" x="224" y="3584" width="32" height="32">
-   <properties>
-    <property name="display" type="bool" value="true"/>
-    <property name="triggeredId" value="eggplantmarker"/>
-    <property name="triggeringId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
  </objectgroup>

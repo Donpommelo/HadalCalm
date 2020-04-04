@@ -37,8 +37,8 @@ public class ObjectiveChanger extends Event {
 			public void onActivate(EventData activator, Player p) {
 				if (event.getConnectedEvent() != null) {
 					state.setObjectiveTarget(event.getConnectedEvent());
-					state.setDisplayObjective(display);
 				}
+				state.setDisplayObjective(display);
 			}
 		};
 	}

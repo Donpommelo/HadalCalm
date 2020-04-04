@@ -23,41 +23,10 @@
     <property name="triggeredId" value=""/>
    </properties>
   </object>
-  <object id="3" name="Multitrigger" type="Multitrigger" x="160" y="3584" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="playerstart"/>
-    <property name="triggeringId" value="camera1,eggplantmarker,bounds1,bounds2"/>
-   </properties>
-  </object>
-  <object id="4" name="Camera" type="Camera" x="224" y="3584" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="camera1"/>
-    <property name="zoom" type="float" value="1.2"/>
-   </properties>
-  </object>
-  <object id="5" name="Timer" type="Timer" x="128" y="3680" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
-  <object id="6" name="Multitrigger" type="Multitrigger" x="192" y="3680" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,startTimer"/>
-   </properties>
-  </object>
-  <object id="7" name="Multitrigger" type="Multitrigger" x="256" y="3744" width="32" height="32">
+  <object id="7" name="Multitrigger" type="Multitrigger" x="128" y="3552" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2"/>
-   </properties>
-  </object>
-  <object id="8" name="Timer" type="Timer" x="192" y="3744" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="25"/>
-    <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
   <object id="9" name="Start" type="Start" x="1312" y="800" width="32" height="32">
@@ -106,13 +75,13 @@
   </object>
   <object id="19" name="HboxSpawn" type="HboxSpawn" x="2464" y="920" width="32" height="32">
    <properties>
-    <property name="damage" type="float" value="20"/>
+    <property name="damage" type="float" value="25"/>
     <property name="dieSchmuck" type="bool" value="false"/>
     <property name="dieWall" type="bool" value="false"/>
     <property name="friction" type="float" value="0"/>
     <property name="gravity" type="float" value="0"/>
     <property name="knockback" type="float" value="2"/>
-    <property name="lifespan" type="float" value="0.5"/>
+    <property name="lifespan" type="float" value="0.25"/>
     <property name="particle" value="FIRE"/>
     <property name="sizeX" type="float" value="100"/>
     <property name="sizeY" type="float" value="50"/>
@@ -123,7 +92,7 @@
   </object>
   <object id="20" name="Timer" type="Timer" x="576" y="3488" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0.1"/>
+    <property name="interval" type="float" value="0.2"/>
     <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="firetimer"/>
     <property name="triggeringId" value="firebreath"/>
@@ -196,13 +165,6 @@
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w2"/>
-   </properties>
-  </object>
-  <object id="31" name="Objective" type="Objective" x="288" y="3584" width="32" height="32">
-   <properties>
-    <property name="display" type="bool" value="true"/>
-    <property name="triggeredId" value="eggplantmarker"/>
-    <property name="triggeringId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
  </objectgroup>

@@ -30,19 +30,6 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="8" name="Timer" type="Timer" x="96" y="32" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
-  <object id="9" name="Multitrigger" type="Multitrigger" x="160" y="32" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,startTimer"/>
-   </properties>
-  </object>
   <object id="13" name="Prefab" type="PrefabWeapon" x="288" y="1088" width="96" height="96">
    <properties>
     <property name="prefabId" value="Weapon"/>
@@ -55,16 +42,10 @@
     <property name="triggeredId" value="w2"/>
    </properties>
   </object>
-  <object id="19" name="Multitrigger" type="Multitrigger" x="288" y="96" width="32" height="32">
+  <object id="19" name="Multitrigger" type="Multitrigger" x="160" y="288" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2,w3"/>
-   </properties>
-  </object>
-  <object id="28" name="Timer" type="Timer" x="224" y="96" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="30"/>
-    <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
   <object id="55" name="Prefab" type="PrefabWeapon" x="864" y="544" width="96" height="96">
@@ -108,30 +89,11 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="64" name="Multitrigger" type="Multitrigger" x="224" y="160" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="playerstart"/>
-    <property name="triggeringId" value="camera1,eggplantmarker,bounds1,bounds2"/>
-   </properties>
-  </object>
-  <object id="65" name="Camera" type="Camera" x="288" y="160" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="camera1"/>
-    <property name="zoom" type="float" value="1.2"/>
-   </properties>
-  </object>
   <object id="66" name="ScrapSpawn" type="ScrapSpawn" x="864" y="1056" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="1"/>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
-   </properties>
-  </object>
-  <object id="67" name="Objective" type="Objective" x="352" y="160" width="32" height="32">
-   <properties>
-    <property name="display" type="bool" value="true"/>
-    <property name="triggeredId" value="eggplantmarker"/>
-    <property name="triggeringId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
  </objectgroup>
