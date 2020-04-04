@@ -187,6 +187,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.sprite, p.align);
+        						illusion.serverPos.set(p.pos).scl(1.0f / 32.0f);
                 				cs.addEntity(p.entityID, illusion, p.layer);
         					}
         				});
@@ -333,6 +334,7 @@ public class KryoClient {
         					public void execute() {
         						
         						Enemy enemy = p.type.generateEnemy(cs, new Vector2(), Constants.ENEMY_HITBOX, 0, null);
+        						enemy.serverPos.set(p.pos).scl(1.0f / 32.0f);
         						if (enemy != null) {
         							cs.addEntity(p.entityID, enemy, ObjectSyncLayers.STANDARD);
         							enemy.setBoss(p.boss);
@@ -391,7 +393,9 @@ public class KryoClient {
         					public void execute() {
         						MapObject blueprint = p.blueprint;
         						blueprint.getProperties().put("sync", "USER");
-        						cs.addEntity(p.entityID, TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint), ObjectSyncLayers.STANDARD);
+        						Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
+        						e.serverPos.set(e.getStartPos()).scl(1.0f / 32.0f);
+        						cs.addEntity(p.entityID, e, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}

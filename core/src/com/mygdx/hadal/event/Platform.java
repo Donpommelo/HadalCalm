@@ -45,9 +45,21 @@ public class Platform extends Event {
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 	
+//	@Override
+//	public void clientController(float delta) {
+//		if (body != null) {
+//			if (body.getPosition().dst(serverPos) > maxDist) {
+//				setTransform(serverPos, serverAngle);
+//			} else {
+//				setTransform(body.getPosition().lerp(serverPos, PlayState.syncInterpolation), serverAngle);
+//			}
+//		}
+//	}
+	
 	@Override
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign("CENTER_STRETCH");
+		setSyncType(eventSyncTypes.ALL);
 	}
 }

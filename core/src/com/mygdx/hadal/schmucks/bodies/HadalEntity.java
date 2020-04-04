@@ -176,10 +176,12 @@ public abstract class HadalEntity {
 	 */
 	public void onServerSync() {
 		if (body != null) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getAngle()));
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle()));
 		}
 	}
 	
+	public Vector2 serverPos = new Vector2();
+	public float serverAngle;
 	/**
 	 * This is called when the client receives the above packet.
 	 * Set the entity's body data
@@ -187,7 +189,9 @@ public abstract class HadalEntity {
 	public void onClientSync(Object o) {
 		Packets.SyncEntity p = (Packets.SyncEntity) o;
 		if (body != null) {
-			setTransform(p.pos, p.angle);
+			serverPos.set(p.pos);
+			serverAngle = p.angle;
+			body.setLinearVelocity(p.velocity);
 		}
 	}
 	
@@ -195,7 +199,16 @@ public abstract class HadalEntity {
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
 	 */
-	public void clientController(float delta) {}
+	public static float maxDist = 10;
+	public void clientController(float delta) {
+		if (body != null) {
+			if (body.getPosition().dst(serverPos) > maxDist) {
+				setTransform(serverPos, serverAngle);
+			} else {
+				setTransform(body.getPosition().lerp(serverPos, PlayState.syncInterpolation), serverAngle);
+			}
+		}
+	}
 	
 	/**
 	 * Is this entity on the screen? Used for frustrum culling to avoid rending off-screen entities

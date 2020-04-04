@@ -20,6 +20,8 @@ import com.mygdx.hadal.event.prefab.*;
 import com.mygdx.hadal.event.saves.*;
 import com.mygdx.hadal.event.ui.*;
 import com.mygdx.hadal.event.utility.*;
+import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -35,7 +37,7 @@ public class TiledObjectUtil {
 	 * @param objects: The list of Tiled objects to parse through
 	 */
     public static void parseTiledObjectLayer(PlayState state, MapObjects objects) {
-        for(MapObject object : objects) {
+        for (MapObject object : objects) {
             ChainShape shape;
 
             //Atm, we only parse PolyLines into solid walls
@@ -47,9 +49,27 @@ public class TiledObjectUtil {
 
             if (object.getProperties().get("dropthrough", false, boolean.class)) {
                 new WallDropthrough(state, shape);
-
             } else {
                 new Wall(state, shape);
+            }
+        }
+    }
+    
+    public static void parseTiledObjectLayerClient(ClientState state, MapObjects objects) {
+        for (MapObject object : objects) {
+            ChainShape shape;
+
+            //Atm, we only parse PolyLines into solid walls
+            if(object instanceof PolylineMapObject) {
+                shape = createPolyline((PolylineMapObject) object);
+            } else {
+            	continue;
+        	}
+
+            if (object.getProperties().get("dropthrough", false, boolean.class)) {
+                state.addEntity("", new WallDropthrough(state, shape), ObjectSyncLayers.STANDARD);
+            } else {
+                state.addEntity("", new Wall(state, shape), ObjectSyncLayers.STANDARD);
             }
         }
     }

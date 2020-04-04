@@ -15,6 +15,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
  * This is a version of the playstate that is provided for Clients.
@@ -42,6 +43,8 @@ public class ClientState extends PlayState {
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		sync = new ArrayList<Object[]>();
 		
+		TiledObjectUtil.parseTiledObjectLayerClient(this, map.getLayers().get("collision-layer").getObjects());
+
 		//Add a world dummy to the client's world.
 		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), ObjectSyncLayers.STANDARD);
 	}
@@ -50,7 +53,7 @@ public class ClientState extends PlayState {
 	public void resetController() {
 		
 		//Whenever the controller is reset, the client gets a new client controller.
-		controller = new ClientController(this);
+		controller = new ClientController(player, this);
 		
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		
@@ -60,9 +63,21 @@ public class ClientState extends PlayState {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
+	private float physicsAccumulator = 0.0f;
+	private final static float physicsTime = 1 / 200f;
 	private Vector3 lastMouseLocation = new Vector3();
 	@Override
 	public void update(float delta) {
+		
+		physicsAccumulator += delta;
+		
+		//this makes the physics separate from the game framerate
+		while (physicsAccumulator >= physicsTime) {
+			physicsAccumulator -= physicsTime;
+			
+			//The box2d world takes a step. This handles collisions + physics stuff.
+			world.step(physicsTime, 8, 3);
+		}
 		
 		//Send mouse position to the server.
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);

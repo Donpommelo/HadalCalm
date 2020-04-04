@@ -2,6 +2,8 @@ package com.mygdx.hadal.input;
 
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.schmucks.MoveState;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
@@ -13,9 +15,15 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ClientController implements InputProcessor {
 	
+	private Player player;
 	private PlayState state;
 	
-	public ClientController(PlayState state) {
+	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
+	private boolean leftDown = false;
+	private boolean rightDown = false;
+		
+	public ClientController(Player player, PlayState state) {
+		this.player = player;
 		this.state = state;
 	}
 	
@@ -26,18 +34,37 @@ public class ClientController implements InputProcessor {
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.WALK_LEFT));
+			
+			leftDown = true;
+			if (!rightDown) {
+				player.setMoveState(MoveState.MOVE_LEFT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
 		}
 		
 		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.WALK_RIGHT));
+			
+			rightDown = true;
+			if (!leftDown) {
+				player.setMoveState(MoveState.MOVE_RIGHT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
 		}
 		
 		if (keycode == PlayerAction.JUMP.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.JUMP));
+			
+			player.setHoveringAttempt(true);
+			player.jump();
 		}
 		
 		if (keycode == PlayerAction.CROUCH.getKey()) {
 			HadalGame.client.client.sendTCP(new Packets.KeyDown(PlayerAction.CROUCH));
+			
+			player.setFastFalling(true);
 		}
 		
 		if (keycode == PlayerAction.INTERACT.getKey()) {

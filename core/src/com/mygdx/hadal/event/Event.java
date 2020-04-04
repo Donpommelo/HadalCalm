@@ -250,13 +250,6 @@ public class Event extends HadalEntity {
 	}
 	
 	@Override
-	public void clientController(float delta) {
-		if (synced) {
-			super.clientController(delta);
-		}
-	}
-	
-	@Override
 	public HadalData getHadalData() { return eventData; }
 	
 	public EventData getEventData() { return eventData; }

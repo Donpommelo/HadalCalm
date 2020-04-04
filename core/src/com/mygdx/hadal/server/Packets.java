@@ -356,6 +356,7 @@ public class Packets {
 	
 	public static class CreateEnemy {
 		public String entityID;
+		public Vector2 pos;
 		public EnemyType type;
 		public boolean boss;
 		public String name;
@@ -368,8 +369,9 @@ public class Packets {
 		 * @param boss: is this a boss enemy?
 		 * @param name: if a boss, what name shows up in the ui?
 		 */
-		public CreateEnemy(String entityID, EnemyType type, boolean boss, String name) {
+		public CreateEnemy(String entityID, Vector2 pos, EnemyType type, boolean boss, String name) {
             this.entityID = entityID;
+            this.pos = pos;
             this.type = type;
             this.boss = boss;
             this.name = name;
@@ -456,6 +458,7 @@ public class Packets {
 	public static class SyncEntity {
 		public String entityID;
         public Vector2 pos;
+        public Vector2 velocity;
         public float angle;
 		public SyncEntity() {}
 		
@@ -468,9 +471,10 @@ public class Packets {
 		 * @param pos: position of the entity
 		 * @param a: body angle of the new entity.
 		 */
-		public SyncEntity(String entityID, Vector2 pos, float a) {
+		public SyncEntity(String entityID, Vector2 pos, Vector2 velocity, float a) {
             this.entityID = entityID;
             this.pos = pos;
+            this.velocity = velocity;
             this.angle = a;
         }
 	}
