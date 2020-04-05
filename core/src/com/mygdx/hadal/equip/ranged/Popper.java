@@ -23,7 +23,7 @@ public class Popper extends RangedWeapon {
 	private final static float shootDelay = 0.2f;
 	private final static float reloadTime = 0.75f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 40.0f;
+	private final static float baseDamage = 45.0f;
 	private final static float recoil = 12.0f;
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 120.0f;
@@ -35,7 +35,7 @@ public class Popper extends RangedWeapon {
 	private final static float fragSpeed = 30.0f;
 	private final static Vector2 fragSize = new Vector2(15, 15);
 	private final static float fragLifespan = 1.2f;
-	private final static float fragDamage = 4.5f;
+	private final static float fragDamage = 5.0f;
 	private final static float fragKnockback = 2.0f;
 
 	private final static float projDampen = 10.0f;

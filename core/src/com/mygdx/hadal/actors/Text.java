@@ -89,8 +89,6 @@ public class Text extends AHadalActor {
 		font.getData().setScale(1.0f);
 	}
 	
-	public String getText() { return text; }
-
 	public void setText(String text) {
 		this.text = text;
 		updateHitBox();
@@ -101,8 +99,6 @@ public class Text extends AHadalActor {
 
 	@Override
 	public void setColor(Color color) { this.color = color; }
-	
-	public float getScale() { return scale; }
 
 	@Override
 	public void setScale(float scale) {

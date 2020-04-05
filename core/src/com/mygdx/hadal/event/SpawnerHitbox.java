@@ -18,11 +18,22 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * A Hitbox Spawner spawns a hitbox when activated. Spawned hitboxes can have a variety of properties and effects.
+ * 
+ * Triggered Behavior: When triggered, this will spawn a hitbox.
+ * Triggering Behavior: if existant, the spwned hitboxes will be aimed at the body of the connected event (if it has a body).
+ * Alt-Triggered Behavior: When alt-triggered, this spawner changes the number of schmucks it will spawn at once.
+ * 
+ * 
+ * Fields:
+ * There are a lot of fields. They are all just self-explanatory properties of the hitboxes
+ * 
  * @author Zachary Tu
  *
  */
 public class SpawnerHitbox extends Event {
 	
+	//These are all properties of the spawned hitbox
 	private Vector2 projSize, startVelo;
 	private float lifespan, gravity, restitution, friction, damage, knockback, speed;
 	private boolean sensor, dieOnWall, dieOnSchmuck, adjustAngle;
@@ -61,6 +72,7 @@ public class SpawnerHitbox extends Event {
 				
 				finalVelo.set(startVelo);
 				
+				//if we have a conencted event with a body, the hitbox is aimed at the body
 				if (event.getConnectedEvent() != null) {
 					if (event.getConnectedEvent().getBody() != null) {
 						finalVelo.set(event.getConnectedEvent().getBody().getPosition()).sub(event.getBody().getPosition()).nor().scl(speed);

@@ -6,7 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 
 /**
- * A Status inflicter inflicts a stat change etatus on the player that activates it.
+ * A Status inflicter inflicts a stat change status on the player that activates it.
  * 
  * Triggered Behavior: When triggered, inflict a status to the activating player
  * Triggering Behavior: N/A

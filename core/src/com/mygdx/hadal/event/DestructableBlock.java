@@ -32,6 +32,7 @@ public class DestructableBlock extends Event {
 	//when damaged, the event flashes for this duration
 	private final static float flashDuration = 0.1f;
 	
+	//does this event stay in place or is it affected by physics
 	private boolean isStatic;
 	
 	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp, boolean isStatic) {

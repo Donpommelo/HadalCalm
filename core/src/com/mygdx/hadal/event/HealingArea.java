@@ -17,6 +17,16 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * This event heals all schmucks inside of it. It is usually created temporarily from the effects 
+ * of attacks
+ * 
+ * Triggered Behavior: N/A
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * heal: float heal per 1/60f done by this event
+ * filter: short of who this event affects. Default: 0 (all units).
+ * 
  * @author Zachary Tu
  *
  */
@@ -30,10 +40,10 @@ public class HealingArea extends Event {
 	//If created by an dude, this is that dude
 	private Schmuck perp;
 	
-	private float currPoisonSpawnTimer = 0f, spawnTimerLimit;
+	private float currCrossSpawnTimer = 0f, spawnTimerLimit;
 	private short filter;
 	
-	private final static float damageInterval = 1 / 60f;
+	private final static float healInterval = 1 / 60f;
 	
 	/**
 	 * This constructor is used for when this event is created temporarily.
@@ -43,7 +53,7 @@ public class HealingArea extends Event {
 		this.heal = heal;
 		this.filter = filter;
 		this.perp = state.getWorldDummy();
-		spawnTimerLimit = 4096f/(size.x * size.y);
+		spawnTimerLimit = 4096f / (size.x * size.y);
 	}
 	
 	/**
@@ -54,7 +64,7 @@ public class HealingArea extends Event {
 		this.heal = heal;
 		this.filter = filter;
 		this.perp = perp;
-		spawnTimerLimit = 4096f/(size.x * size.y);
+		spawnTimerLimit = 4096f / (size.x * size.y);
 	}
 	
 	@Override
@@ -68,19 +78,19 @@ public class HealingArea extends Event {
 	@Override
 	public void controller(float delta) {
 			controllerCount += delta;
-			while (controllerCount >= damageInterval) {
-				controllerCount -= damageInterval;
+			while (controllerCount >= healInterval) {
+				controllerCount -= healInterval;
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck) {
-						((Schmuck)entity).getBodyData().regainHp(heal, perp.getBodyData(), true, DamageTypes.REGEN);
+						((Schmuck) entity).getBodyData().regainHp(heal, perp.getBodyData(), true, DamageTypes.REGEN);
 					}
 				}
 			}
 			
-			currPoisonSpawnTimer += delta;
-			while (currPoisonSpawnTimer >= spawnTimerLimit) {
-				currPoisonSpawnTimer -= spawnTimerLimit;
+			currCrossSpawnTimer += delta;
+			while (currCrossSpawnTimer >= spawnTimerLimit) {
+				currCrossSpawnTimer -= spawnTimerLimit;
 				int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 				int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 				new ParticleEntity(state, new Vector2(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
@@ -93,13 +103,13 @@ public class HealingArea extends Event {
 	 */
 	@Override
 	public void clientController(float delta) {
-		currPoisonSpawnTimer += delta;
-		while (currPoisonSpawnTimer >= spawnTimerLimit) {
-			currPoisonSpawnTimer -= spawnTimerLimit;
+		currCrossSpawnTimer += delta;
+		while (currCrossSpawnTimer >= spawnTimerLimit) {
+			currCrossSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 			ParticleEntity poison = new ParticleEntity(state, new Vector2(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
-			((ClientState)state).addEntity(poison.getEntityID().toString(), poison, ObjectSyncLayers.STANDARD);
+			((ClientState) state).addEntity(poison.getEntityID().toString(), poison, ObjectSyncLayers.STANDARD);
 		}
 	}
 	

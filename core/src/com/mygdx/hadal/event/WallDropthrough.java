@@ -15,7 +15,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 
 /**
- * A Wall is a solid wall parsed from polylines from tiled. This is a version that the player can drop through
+ * A Wall is a solid wall parsed from polylines from tiled. This is a version that the player can drop through.
  * 
  * Triggered Behavior: N/A.
  * Triggering Behavior: N/A.
@@ -50,6 +50,7 @@ public class WallDropthrough extends Event {
 						
 						HadalEntity entity = ((FeetData) fixB).getEntity();
 						
+						//let a fastfalling player drop through without stopping
 						if (entity instanceof Player) {
 							Player p = (Player) entity;
 							

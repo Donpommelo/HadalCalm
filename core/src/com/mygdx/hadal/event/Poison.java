@@ -26,8 +26,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * Fields:
  * damage: float damage per 1/60f done by this event
- * startOn: boolean of whether this event starts on or off. Optional. Default: true.
- * 
+ * draw: do we draw particles for this event? Default: true
+ * filter: who does this event affect? Default: 0 (all units)
  * @author Zachary Tu
  *
  */

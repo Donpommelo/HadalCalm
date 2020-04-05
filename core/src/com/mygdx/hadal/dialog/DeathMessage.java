@@ -2,7 +2,7 @@ package com.mygdx.hadal.dialog;
 
 /**
  * A Death message contains the info for a single message notification displayed when a player dies.
- * This information is read from jason file text/DeathMessages.json
+ * This information is read from json file text/DeathMessages.json
  * @author Zachary Tu
  *
  */

@@ -45,8 +45,6 @@ public class UIObjective extends AHadalActor {
 		//This math calculates the location of the objective icon
 		if (state.getObjectiveTarget() != null && player.getBody() != null && state.isDisplayObjective()) {
 			
-					
-			
 			if (!state.getObjectiveTarget().isVisible()) {
 				float xDist = (player.getPixelPosition().x) - (state.getObjectiveTarget().getPixelPosition().x);
 				float yDist = (player.getPixelPosition().y) - (state.getObjectiveTarget().getPixelPosition().y);

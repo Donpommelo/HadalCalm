@@ -191,6 +191,9 @@ public class UIHub {
 		tableExtra.add(slotsInfo).colspan(12).row();
 	}
 	
+	/**
+	 * This sets the title text when the player enters the hub event
+	 */
 	public void setTitle(String title) { 
 		this.title = title;
 		titleInfo.setText(title);

@@ -43,6 +43,7 @@ public class Navigations extends HubEvent {
 		        	state.loadLevel(selected, TransitionState.NEWLEVEL, "");
 		        	leave();
 		        	
+		        	//play a particle when the player uses this event
 		        	new ParticleEntity(state, me, Particle.TELEPORT, 0.0f, 3.0f, true, particleSyncType.CREATESYNC, new Vector2(0, - me.getSize().y / 2));
 		        }
 		        

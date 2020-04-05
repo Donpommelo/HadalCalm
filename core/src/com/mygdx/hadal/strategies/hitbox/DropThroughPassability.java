@@ -13,6 +13,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
  * This is the  strategy for hboxes to allow them to selectively pass through drop-through platforms
+ * To do this, we add a "foot sensor" to the bottom of the hbox
  * @author Zachary Tu
  *
  */

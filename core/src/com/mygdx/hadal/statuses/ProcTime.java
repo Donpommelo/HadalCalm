@@ -13,6 +13,9 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
  */
 public abstract class ProcTime {
 
+	/**
+	 * This is run when the proc time activates and returns a modified version of itself if a value is passed along
+	 */
 	public abstract ProcTime statusProcTime(Status status);
 	
 	public static class StatCalc extends ProcTime {

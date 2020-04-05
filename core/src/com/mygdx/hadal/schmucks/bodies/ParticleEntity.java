@@ -47,6 +47,7 @@ public class ParticleEntity extends HadalEntity {
 	//size multiplier of the particles
 	private float scale = 1.0f;
 	
+	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private Vector2 offset = new Vector2();
 	
 	//This constructor creates a particle effect at an area.
@@ -253,6 +254,9 @@ public class ParticleEntity extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * This sets the scale of the particle
+	 */
 	public void setScale(float scale) { 
 		this.scale = scale; 
 		this.effect.scaleEffect(scale);

@@ -9,7 +9,17 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
-
+ * A Sound Emitter emits a specific sound when activated. Note that this event has a body so that the sound can be traced to a location for determining pan.
+ * 
+ * Triggered Behavior: When triggered, this will play a chosen sound
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * sound: THe string enum name of the sound played
+ * volume: 0.0f - 1.0f- of how loud the sound is
+ * global: boolean if the sound is played from a specified location or not (for determining pan)
+ * universal: boolean if the sound is played for all players or not
+ * 
  * @author Zachary Tu
  *
  */

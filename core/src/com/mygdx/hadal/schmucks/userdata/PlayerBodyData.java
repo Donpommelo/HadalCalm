@@ -567,6 +567,7 @@ public class PlayerBodyData extends BodyData {
 			
 			player.createGibs();
 			
+			//process score change if pvp modes (and drop eggplants if suitable mode)
 			if (player.getState().isPvp() && !player.getState().isHub() && player.getState().getGsm().getSetting().getPVPMode() == 1) {
 				int score = (int) (HadalGame.server.getScores().get(player.getConnID()).getScore() * scrapMultiplier);
 				

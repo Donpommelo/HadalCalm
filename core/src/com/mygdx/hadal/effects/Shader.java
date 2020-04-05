@@ -74,6 +74,9 @@ public enum Shader {
 		}
 	}
 	
+	/**
+	 * This is a version of loadShader used for backgrounds of non-playstate states.
+	 */
 	public void loadDefaultShader() {
 		if (this.equals(NOTHING)) {
 			return;
@@ -99,6 +102,9 @@ public enum Shader {
 		}
 	}
 	
+	/**
+	 * This is a version of shaderPlayUpdate used for backgrounds of non-playstate states
+	 */
 	public void shaderDefaultUpdate(float delta) {
 		for (ShaderStrategy strat: strategies) {
 			strat.defaultController(shader, delta);

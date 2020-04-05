@@ -473,6 +473,7 @@ public class PlayState extends GameState {
 	 * This does all of the stuff that is needed for both server and client (processing packets, fade and some other misc stuff)
 	 */
 	public void processCommonStateProperties(float delta) {
+		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
 		synchronized(addPacketEffects) {
@@ -524,6 +525,9 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	/**
+	 * This sends a syncronization packet for every synced entity. 
+	 */
 	public void syncEntities() {
 		for (HadalEntity entity : hitboxes) {
 			entity.onServerSync();
@@ -532,6 +536,7 @@ public class PlayState extends GameState {
 			entity.onServerSync();
 		}
 	}
+	
 	/**
 	 * This method renders a single entity.
 	 * @param entity
@@ -994,6 +999,9 @@ public class PlayState extends GameState {
 		return validStarts.get(randomIndex);
 	}
 	
+	/**
+	 * This returns a single starting point for a newly spawned player to spawn at.
+	 */
 	public StartPoint getSavePoint() {
 		return getSavePoint(startId);
 	}
@@ -1040,6 +1048,9 @@ public class PlayState extends GameState {
 		return nextFilter;
 	}
 	
+	/**
+	 * This sets a shader to be used as a "base-shader" for things like the background
+	 */
 	public void setShaderBase(Shader shader) {
 		shaderBase = shader;
 		shaderBase.loadShader(this, null, 0);

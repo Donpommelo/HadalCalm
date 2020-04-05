@@ -7,7 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy makes a hbox return to user
+ * This strategy makes a hbox orbit its user
  * @author Zachary Tu
  *
  */

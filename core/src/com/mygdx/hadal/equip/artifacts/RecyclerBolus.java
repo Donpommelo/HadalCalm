@@ -10,7 +10,8 @@ public class RecyclerBolus extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final float hpBuff = 1.0f;
+	private final float hpBuff = 4.0f;
+	private final int maxStacks = 25;
 	
 	public RecyclerBolus() {
 		super(slotCost, statusNum);
@@ -20,23 +21,26 @@ public class RecyclerBolus extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			private float bonusHp;
+			private int currentStacks;
 			
 			@Override
 			public void scrapPickup() {
-				bonusHp += hpBuff;
-				inflicted.calcStats();
+				
+				if (currentStacks < maxStacks) {
+					currentStacks++;
+					inflicted.calcStats();
+				}
 			}
 			
 			@Override
 			public void onDeath(BodyData perp) {
-				bonusHp = 0;
+				currentStacks = 0;
 				inflicted.calcStats();
 			}
 			
 			@Override
 			public void statChanges() {
-				inflicted.setStat(Stats.MAX_HP, inflicted.getStat(Stats.MAX_HP) + bonusHp);
+				inflicted.setStat(Stats.MAX_HP, inflicted.getStat(Stats.MAX_HP) + currentStacks * hpBuff);
 			}
 		};
 		return enchantment;

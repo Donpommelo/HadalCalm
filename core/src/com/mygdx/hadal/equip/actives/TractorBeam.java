@@ -43,7 +43,7 @@ public class TractorBeam extends ActiveItem {
 	@Override
 	public void useItem(PlayState state, final PlayerBodyData user) {
 		
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite);
 		hbox.setRestitution(1.0f);
 		

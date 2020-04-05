@@ -6,9 +6,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
- * The PVP Setting Setter reads the player's pvp settings to set up the rules of the pvp match. 
- * This includes rules about timers, number of lives and sets according ui elements.
- * One of these should be placed in every pvp map.
+ * The Arena Setting Setter reads the player's settings to set up the rules of the survival arena. 
+ * This includes rules about timer and sets according ui elements.
+ * One of these should be placed in every arena map.
  * @author Zachary Tu
  *
  */

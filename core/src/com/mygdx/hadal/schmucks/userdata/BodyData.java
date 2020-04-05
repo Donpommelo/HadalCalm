@@ -105,7 +105,7 @@ public class BodyData extends HadalData {
 	 * Status proc time is called at certain points of the game that could activate any effect.
 	 * @param procTime: the type of proc time that this is
 	 * This fields of this are the various info needed for each status. fields will be null when unused
-	 * @return a float for certain statuses that pass along a modified value (like on damage effects)
+	 * @return a ProcTime for certain statuses that pass along a modified value (like on damage effects)
 	 */
 	public ProcTime statusProcTime(ProcTime o) {
 				

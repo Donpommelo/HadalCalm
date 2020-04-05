@@ -644,7 +644,7 @@ PEACHWOOD_SWORD: {
 PELICAN_PLUSH_TOY: {
 	name: Pelican Plush Toy
 	description: "Improved Healing"
-    descriptionLong: "Heal Amplification: +50%\n\nA soft and squeezable plush stuffed with unconditional love.\n\n"
+    descriptionLong: "Heal Amplification: +50%\n\nA soft and squeezable plush stuffed with unconditional love.\n\nLocked within the confines of a pressure-stable, atmospheric diving suit, a soft touch is indistinguishable from a harsh one."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -653,7 +653,7 @@ PELICAN_PLUSH_TOY: {
 PEPPER: {
 	name: Pepper
 	description: "Damages Nearby Enemies"
-    descriptionLong: "Damage Interval: 1.5s\nDamage: 6\n\n"
+    descriptionLong: "Damage Interval: 1.5s\nDamage: 6\n\nA blurry cloud of white noise vaguely in the shape of a cat.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -680,7 +680,7 @@ PIFFLER: {
 RECYCLER_BOLUS: {
 	name: Recycler Bolus
 	description: "Gain Max Hp on Eggplant Pickup"
-    descriptionLong: "Max Hp Gained: 1\n\n"
+    descriptionLong: "Max Hp Gained: 4 per Eggplant\nMax Hp Limit: +100\n\n"
 	tags: [
 		RELIQUARY,
 	]
@@ -750,7 +750,7 @@ SENESCENT_SHIELD: {
 SHILLERS_DEATHCAP: {
 	name: Shiller's Deathcap
 	description: "Projectile Poison Trail"
-    descriptionLong: "Poison Cooldown: 1s\nPoison Damage: 10 Per Second\n\n"
+    descriptionLong: "Poison Cooldown: 1s\nPoison Damage: 10 Per Second\n\nA tangled fungal protrusion still producing clumps of unsavory spores.\n\nBoth Bright Ones and those that congregate in their shadows share the desire for self-propagation."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -759,7 +759,7 @@ SHILLERS_DEATHCAP: {
 SHIP_IN_A_BOTTLE: {
 	name: Ship in a Bottle
 	description: "+Ammo Capacity"
-    descriptionLong: "Bonus Ammo: +40%\n\n"
+    descriptionLong: "Bonus Ammo: +40%\n\nAn intricate model galleon inside of a glass bottle.\n\nWe require a million little hands to construct the ship and a single big one to break the bottle."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -768,7 +768,7 @@ SHIP_IN_A_BOTTLE: {
 SIMPLE_MIND: {
 	name: Simple Mind
 	description: "Linear Projectiles"
-    descriptionLong: "A blissful and empty state of mind.\n\nThe key to upwards mobility within the Noiseless Sea is the relinquishment of all worries and desires."
+    descriptionLong: "A blissful and empty state of mind.\n\nThe key to upwards mobility within the Noiseless Sea is a mind that forgets all troubles."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -786,7 +786,7 @@ SINKING_FEELING: {
 SIREN_CHIME: {
 	name: Siren Chime
 	description: "Reverse Knockback on Enemies"
-    descriptionLong: "Bonus Knockback: -250%\n\nAn instrument whose tone changes according to the listener’s desires.\n\n"
+    descriptionLong: "Bonus Knockback: -250%\n\nAn instrument whose tone changes according to the listener's desires.\n\nWithin the unused lungs of each Sunk, a pupating siren sings with a voice that its host used to remember well."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -813,7 +813,7 @@ SWORD_OF_SYZYGY: {
 TEMPEST_TEAPOT: {
 	name: Tempest Teapot
 	description: "+Airblast Knockback and Size"
-    descriptionLong: "Bonus Airblast Power: +50%\nBonus Airblast Size: +75%\n\nA porcelain teapot whose turbulent contents never settle.\n\nStagnation is the foremost obstacle to Management’s visions, so sometimes a Salvager is needed to stir the pot."
+    descriptionLong: "Bonus Airblast Power: +50%\nBonus Airblast Size: +75%\n\nA porcelain teapot whose turbulent contents never settle.\n\nStagnation is the foremost obstacle to Management's visions, so sometimes a Salvager is needed to stir the pot."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
