@@ -342,6 +342,7 @@ public class PlayState extends GameState {
 		
 		uiPlay.setPlayer(player);
 		uiArtifact.setPlayer(player);
+		uiObjective.setPlayer(player);
 	}
 	
 	private float physicsAccumulator = 0.0f;

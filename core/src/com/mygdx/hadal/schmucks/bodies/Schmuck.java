@@ -54,7 +54,7 @@ public class Schmuck extends HadalEntity {
 	//This is the filter of this unit and hitboxes it spawns
 	protected short hitboxfilter;
 
-	private final static float airAnimationSlow = 0.4f;
+	private final static float airAnimationSlow = 3.0f;
 	
 	/**
 	 * This constructor is called when a Schmuck is made.

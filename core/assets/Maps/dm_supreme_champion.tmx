@@ -75,13 +75,13 @@
   </object>
   <object id="19" name="HboxSpawn" type="HboxSpawn" x="2464" y="920" width="32" height="32">
    <properties>
-    <property name="damage" type="float" value="25"/>
+    <property name="damage" type="float" value="8"/>
     <property name="dieSchmuck" type="bool" value="false"/>
     <property name="dieWall" type="bool" value="false"/>
     <property name="friction" type="float" value="0"/>
     <property name="gravity" type="float" value="0"/>
     <property name="knockback" type="float" value="2"/>
-    <property name="lifespan" type="float" value="0.25"/>
+    <property name="lifespan" type="float" value="1"/>
     <property name="particle" value="FIRE"/>
     <property name="sizeX" type="float" value="100"/>
     <property name="sizeY" type="float" value="50"/>
@@ -92,7 +92,7 @@
   </object>
   <object id="20" name="Timer" type="Timer" x="576" y="3488" width="32" height="32">
    <properties>
-    <property name="interval" type="float" value="0.2"/>
+    <property name="interval" type="float" value="0.08"/>
     <property name="startOn" type="bool" value="false"/>
     <property name="triggeredId" value="firetimer"/>
     <property name="triggeringId" value="firebreath"/>

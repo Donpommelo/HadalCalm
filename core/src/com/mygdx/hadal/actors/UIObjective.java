@@ -45,10 +45,12 @@ public class UIObjective extends AHadalActor {
 		//This math calculates the location of the objective icon
 		if (state.getObjectiveTarget() != null && player.getBody() != null && state.isDisplayObjective()) {
 			
-			float xDist = (player.getPixelPosition().x) - (state.getObjectiveTarget().getPixelPosition().x);
-			float yDist = (player.getPixelPosition().y) - (state.getObjectiveTarget().getPixelPosition().y);		
+					
 			
-			if (Math.abs(xDist) > HadalGame.CONFIG_WIDTH / 2 || Math.abs(yDist) > HadalGame.CONFIG_HEIGHT / 2) {
+			if (!state.getObjectiveTarget().isVisible()) {
+				float xDist = (player.getPixelPosition().x) - (state.getObjectiveTarget().getPixelPosition().x);
+				float yDist = (player.getPixelPosition().y) - (state.getObjectiveTarget().getPixelPosition().y);
+				
 				toObjective.set(xDist, yDist);
 				
 				angle = SteeringUtil.vectorToAngle(toObjective);
@@ -69,6 +71,7 @@ public class UIObjective extends AHadalActor {
 					x = (float) (HadalGame.CONFIG_WIDTH / 2 + (angle > 0 ? -1 : 1) * Math.tan(Math.abs(angle) - Math.PI) * (HadalGame.CONFIG_HEIGHT / 2 - icon.getRegionHeight() * scale));
 					y = (float) (HadalGame.CONFIG_HEIGHT - icon.getRegionHeight() * scale);
 				}
+				
 				batch.draw(icon, x - icon.getRegionWidth() * scale / 2, y - icon.getRegionHeight() * scale / 2, icon.getRegionWidth() * scale, icon.getRegionHeight() * scale);
 			} else {
 				batch.setProjectionMatrix(state.camera.combined);

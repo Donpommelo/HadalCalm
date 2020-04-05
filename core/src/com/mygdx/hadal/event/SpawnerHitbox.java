@@ -11,6 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
@@ -70,6 +71,7 @@ public class SpawnerHitbox extends Event {
 				hbox.setGravity(gravity);
 				hbox.setRestitution(restitution);
 				hbox.setFriction(friction);
+				hbox.addStrategy(new ControllerDefault(state, hbox, state.getWorldDummy().getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, state.getWorldDummy().getBodyData(), damage, knockback));
 				
 				if (!particle.equals(Particle.NOTHING)) {
