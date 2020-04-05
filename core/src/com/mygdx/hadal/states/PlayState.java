@@ -357,8 +357,7 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void update(float delta) {
-		timer += delta;
-		
+
 		//On the very first tick, server tells all clients that it is loaded
 		if (server && !serverLoaded) {
 	        serverLoaded = true;
@@ -493,6 +492,8 @@ public class PlayState extends GameState {
 		
 		//Increment the game timer, if exists
 		uiExtra.incrementTimer(delta);
+		
+		timer += delta;
 	}
 	
 	/**
