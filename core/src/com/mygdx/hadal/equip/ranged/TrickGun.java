@@ -41,7 +41,7 @@ public class TrickGun extends RangedWeapon {
 	private Vector2 vel1 = new Vector2();
 	private Vector2 vel2 = new Vector2();
 	
-	private final static Sprite projSprite = Sprite.ORB_PINK;
+	private final static Sprite projSprite = Sprite.TRICKBULLET;
 	
 	public TrickGun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

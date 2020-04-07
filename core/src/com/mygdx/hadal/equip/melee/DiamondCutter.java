@@ -5,7 +5,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -52,7 +51,6 @@ public class DiamondCutter extends MeleeWeapon {
 		
 		if(!held) {
 			held = true;
-			final Equipable tool = this;
 			
 			hbox = new Hitbox(state, mouseLocation, projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
 			hbox.makeUnreflectable();
@@ -72,7 +70,7 @@ public class DiamondCutter extends MeleeWeapon {
 				@Override
 				public void controller(float delta) {
 					
-					if (!user.getBodyData().getCurrentTool().equals(tool)) {
+					if (!user.isAlive()) {
 						hbox.die();
 						held = false;
 					}
@@ -110,6 +108,14 @@ public class DiamondCutter extends MeleeWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
+		held = false;
+		if (hbox != null) {
+			hbox.die();
+		}
+	}
+	
+	@Override
+	public void unequip() {
 		held = false;
 		if (hbox != null) {
 			hbox.die();

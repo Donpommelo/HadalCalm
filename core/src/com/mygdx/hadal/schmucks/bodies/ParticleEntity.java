@@ -127,7 +127,7 @@ public class ParticleEntity extends HadalEntity {
 				if (state.isServer()) {
 					this.queueDeletion();
 				} else {
-					((ClientState)state).removeEntity(entityID.toString());
+					((ClientState) state).removeEntity(entityID.toString());
 				}
 			}
 		}
@@ -156,7 +156,7 @@ public class ParticleEntity extends HadalEntity {
 		
 		//client particles are sometimes told to attactch to a unit that the client hasn't created yet. This code makes the particle entity wait for its attached entity to be created
 		if (attachedEntity == null && attachedId != null) {
-			attachedEntity = ((ClientState)state).findEntity(attachedId);
+			attachedEntity = ((ClientState) state).findEntity(attachedId);
 		}
 	}
 	

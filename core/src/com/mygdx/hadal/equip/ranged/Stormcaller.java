@@ -30,7 +30,7 @@ public class Stormcaller extends RangedWeapon {
 	private final static float explosionInterval = 1 / 60f;
 	private final static int explosionMaxSize = 175;
 	
-	private final static Sprite projSprite = Sprite.ORB_YELLOW;
+	private final static Sprite projSprite = Sprite.HURRICANE;
 	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
 	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
 	
@@ -40,15 +40,22 @@ public class Stormcaller extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
+		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
 		
-		hbox.setRestitution(0.5f);
+		storm.setRestitution(0.5f);
 		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
+		storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
 			
 			private float controllerCount = 0;
 			private Vector2 explosionSize = new Vector2(projectileSize);
+			
+			@Override
+			public void create() {
+				
+				//Set hurricane to have constant angular velocity for visual effect.
+				hbox.setAngularVelocity(5);
+			}
 			
 			@Override
 			public void controller(float delta) {
@@ -62,6 +69,14 @@ public class Stormcaller extends RangedWeapon {
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionInterval * 2, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
+					pulse.addStrategy(new HitboxStrategy(state, pulse, user.getBodyData()) {
+						
+						@Override
+						public void create() {
+							hbox.setAngle(storm.getAngle());
+						}
+					});
+					
 					
 					//spawned hboxes get larger as hbox moves
 					if (explosionSize.x <= explosionMaxSize) {

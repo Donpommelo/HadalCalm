@@ -51,6 +51,10 @@ public enum Particle {
 	SMOKE(ParticleType.DEFAULT, "particles/smoke_puff.particle"),
 	EXPLOSION(ParticleType.DEFAULT, "particles/explosion.particle"),
 	FIRE(ParticleType.DEFAULT, "particles/fire.particle"),	
+	COLA_IMPACT(ParticleType.DEFAULT, "particles/cola_impact.particle"),	
+	ICE_CLOUD(ParticleType.DEFAULT, "particles/ice_cloud.particle"),	
+	CHARGING(ParticleType.DEFAULT, "particles/charging.particle"),	
+	OVERCHARGE(ParticleType.DEFAULT, "particles/overcharge.particle"),	
 	
 	CONFETTI(ParticleType.DEFAULT, "particles/confetti.particle"),	
 	STAR(ParticleType.DEFAULT, "particles/star_effect.particle"),	

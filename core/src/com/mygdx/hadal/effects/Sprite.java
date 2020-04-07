@@ -34,6 +34,14 @@ public enum Sprite {
 	CANNONBALL(SpriteType.PROJECTILE, "iron_ball"),
 	BEE(SpriteType.PROJECTILE, "bee"),
 	
+	HURRICANE(SpriteType.PROJECTILE, "orb_yellow"),
+	STICKYBOMB(SpriteType.PROJECTILE, "orb_yellow"),
+	PEARL(SpriteType.PROJECTILE, "orb_yellow"),
+	PYLON(SpriteType.PROJECTILE, "orb_yellow"),
+	ICEBERG(SpriteType.PROJECTILE, "orb_blue"),
+	DRILL(SpriteType.PROJECTILE, "orb_blue"),
+	TRICKBULLET(SpriteType.PROJECTILE, "orb_pink"),
+
 	FUEL(SpriteType.EVENT, "event_fuel"),
 	MEDPAK(SpriteType.EVENT, "event_health"),
 

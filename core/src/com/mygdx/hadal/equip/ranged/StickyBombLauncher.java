@@ -29,7 +29,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static float explosionDamage = 50.0f;
 	private final static float explosionKnockback = 25.0f;	
 	
-	private final static Sprite projSprite = Sprite.ORB_YELLOW;
+	private final static Sprite projSprite = Sprite.STICKYBOMB;
 	private final static Sprite weaponSprite = Sprite.MT_STICKYBOMB;
 	private final static Sprite eventSprite = Sprite.P_STICKYBOMB;
 	

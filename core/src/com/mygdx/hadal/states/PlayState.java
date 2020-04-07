@@ -428,6 +428,7 @@ public class PlayState extends GameState {
 		//Render Background
 		batch.setProjectionMatrix(hud.combined);
 		batch.begin();
+		batch.disableBlending();
 		if (shaderBase.getShader() != null) {
 			shaderBase.getShader().begin();
 			shaderBase.shaderPlayUpdate(this, timer);
@@ -443,6 +444,8 @@ public class PlayState extends GameState {
 				batch.setShader(null);
 			}
 		}
+		
+		batch.enableBlending();
 		batch.end();
 		
 		//Render Tiled Map + world
@@ -477,15 +480,16 @@ public class PlayState extends GameState {
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
 		synchronized(addPacketEffects) {
-			for (PacketEffect effect: addPacketEffects) {
-				packetEffects.add(effect);
+			for (int i = 0; i < addPacketEffects.size(); i++) {
+				packetEffects.add(addPacketEffects.get(i));
 			}
 			addPacketEffects.clear();
 		}
 		
-		for (PacketEffect effect: packetEffects) {
-			effect.execute();
+		for (int i = 0; i < packetEffects.size(); i++) {
+			packetEffects.get(i).execute();
 		}
+		
 		packetEffects.clear();
 		
 		//Update the game camera and batch.

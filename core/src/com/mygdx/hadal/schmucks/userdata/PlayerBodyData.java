@@ -410,6 +410,9 @@ public class PlayerBodyData extends BodyData {
 	 * current weapon is kept track of.
 	 */
 	public void setEquip() {
+		if (currentTool != null) {
+			currentTool.unequip();
+		}
 		currentTool = multitools[currentSlot];
 		player.setToolSprite(currentTool.getWeaponSprite().getFrame());
 		

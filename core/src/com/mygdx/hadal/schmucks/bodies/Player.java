@@ -25,7 +25,6 @@ import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.Invisibility;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -84,7 +83,7 @@ public class Player extends PhysicsSchmuck {
 	private FeetData feetData, rightData, leftData;
 	
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.
-	private boolean scaling;
+	private boolean scaling, invisible;
 	
 	//counters for various cooldowns.
 	private final static float hoverCd = 0.08f;
@@ -100,6 +99,8 @@ public class Player extends PhysicsSchmuck {
 	protected final static float interactCd = 0.15f;
 	protected float interactCdCount = 0;
 	
+	private final static float airAnimationSlow = 3.0f;
+
 	//This is the angle that the player's arm is pointing
 	private float attackAngle = 0;
 	private float attackAngleClient = 0;
@@ -332,7 +333,7 @@ public class Player extends PhysicsSchmuck {
 				fastFall();
 			}
 			
-			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && playerData.getStatus(Invisibility.class) == null) {
+			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && !invisible) {
 				dustCloud.turnOn();
 			} else {
 				dustCloud.turnOff();
@@ -442,14 +443,18 @@ public class Player extends PhysicsSchmuck {
 	 * @param delta: How long has it been since the lst engine tick if the player is holding fire. This is used for charge weapons
 	 */
 	public void shoot(float delta) {
-		useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition(), true);
+		if (alive) {
+			useToolStart(delta, playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition(), true);
+		}
 	}
 	
 	/**
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		useToolRelease(playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition());
+		if (alive) {
+			useToolRelease(playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition());
+		}
 	}
 	
 	/**
@@ -746,7 +751,8 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
-		
+		hoverBubbles.dispose();
+		dustCloud.dispose();
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
 		playerData.setOverrideHpPercent(0);
 	}
@@ -839,6 +845,15 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	@Override
+	public void increaseAnimationTime(float i) { 
+		if (grounded) {
+			animationTime += i; 
+		} else {
+			animationTime += i * airAnimationSlow; 
+		}
+	}
+	
+	@Override
 	public HadalData getHadalData() { return playerData; }
 	
 	@Override
@@ -884,9 +899,9 @@ public class Player extends PhysicsSchmuck {
 
 	public int getConnID() { return connID;	}
 	
-	public boolean isScaling() { return scaling; }
-
 	public void setScaling(boolean scaling) { this.scaling = scaling; }
 	
+	public void setInvisible(boolean invisible) { this.invisible = invisible; }
+
 	public StartPoint getStart() { return start; }
 }

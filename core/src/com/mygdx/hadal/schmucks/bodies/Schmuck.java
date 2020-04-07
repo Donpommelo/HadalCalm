@@ -54,8 +54,6 @@ public class Schmuck extends HadalEntity {
 	//This is the filter of this unit and hitboxes it spawns
 	protected short hitboxfilter;
 
-	private final static float airAnimationSlow = 3.0f;
-	
 	/**
 	 * This constructor is called when a Schmuck is made.
 	 * @param state: Current playState
@@ -198,13 +196,7 @@ public class Schmuck extends HadalEntity {
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {	return getPixelPosition(); }
 	
 	@Override
-	public void increaseAnimationTime(float i) { 
-		if (grounded) {
-			animationTime += i; 
-		} else {
-			animationTime += i * airAnimationSlow; 
-		}
-	}
+	public void increaseAnimationTime(float i) { animationTime += i; }
 	
 	@Override
 	public HadalData getHadalData() { return bodyData; }

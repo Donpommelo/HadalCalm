@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.PerformanceCounter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.State;
@@ -72,7 +73,8 @@ public class HadalGame extends ApplicationAdapter {
   	
     private Texture black;
     
-    private GLProfiler profiler;
+    public GLProfiler profiler;
+    public PerformanceCounter counter;
     
 	/**
 	 * This creates a game, setting up the sprite batch to render things and the main game camera.
@@ -105,8 +107,10 @@ public class HadalGame extends ApplicationAdapter {
 		
 		black = new Texture(Gdx.files.internal("black.png"));
 		
-		profiler = new GLProfiler(Gdx.graphics);
-		profiler.enable();
+//		profiler = new GLProfiler(Gdx.graphics);
+//		profiler.enable();
+//		
+//		counter = new PerformanceCounter("PERFORMANCE COUNTER");
 	}
 	
 	/**
@@ -115,7 +119,9 @@ public class HadalGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void render() {
-		
+
+//		counter.start();
+
 		float delta = Gdx.graphics.getDeltaTime();
 		
 		gsm.update(delta);
@@ -177,8 +183,11 @@ public class HadalGame extends ApplicationAdapter {
 //	            ", Calls: " + profiler.getCalls() +
 //	            ", TextureBindings: " + profiler.getTextureBindings() +
 //	            ", ShaderSwitches:  " + profiler.getShaderSwitches() +
-//	            ", vertexCount: " + profiler.getVertexCount().value);
-		profiler.reset();
+//	            ", vertexCount: " + profiler.getVertexCount().average);
+//		profiler.reset();
+//		counter.stop();
+//		counter.tick();
+//		System.out.println(counter.toString());
 	}
 	
 	/**

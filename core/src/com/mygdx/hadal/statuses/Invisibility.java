@@ -6,6 +6,7 @@ import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
+import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
 public class Invisibility extends Status {
@@ -14,12 +15,20 @@ public class Invisibility extends Status {
 		super(state, i, false, p, v);
 		p.getSchmuck().setShader(Shader.INVISIBLE, i);
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
+		
+		if (inflicted instanceof PlayerBodyData) {
+			((PlayerBodyData) inflicted).getPlayer().setInvisible(true);
+		}
 	}
 	
 	@Override
 	public void onRemove() {
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
 		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
+		
+		if (inflicted instanceof PlayerBodyData) {
+			((PlayerBodyData) inflicted).getPlayer().setInvisible(false);
+		}
 	}
 	
 	@Override

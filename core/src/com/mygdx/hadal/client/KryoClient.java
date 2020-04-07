@@ -76,8 +76,8 @@ public class KryoClient {
         client.start();
         
         registerPackets();
-        
-        client.addListener(new Listener() {
+
+        Listener packetListener = new Listener() {
         	
         	/**
         	 * Upon connecting to server, send a playerConnect packet with your name.
@@ -666,7 +666,10 @@ public class KryoClient {
 					}
         		}
         	}
-        });       
+        };
+        
+//       client.addListener(new Listener.LagListener(100, 100, packetListener));
+        client.addListener(packetListener);
 	}
 	
 	/**

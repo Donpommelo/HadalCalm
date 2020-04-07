@@ -123,6 +123,11 @@ public abstract class Equipable {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {}
 	
 	/**
+	 * This is run when this equipable is unequipped
+	 */
+	public void unequip() {}
+	
+	/**
 	 * Get the string representing the weapon in the ui.
 	 * @return
 	 */

@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -40,22 +42,47 @@ public class ChargeBeam extends RangedWeapon {
 	private static final float maxCharge = 0.5f;
 	private int chargeStage = 0;
 	
+	private ParticleEntity charge, overcharge;
+	
 	public ChargeBeam(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x * 3.0f, maxCharge);
 	}
 	
+	private Vector2 particleOrigin = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+		particleOrigin.set(weaponVelo).nor().scl(60);
 		charging = true;
 		
 		//while held, build charge until maximum (if not reloading)
-		if (chargeCd < getChargeTime() && !reloading) {
-			chargeCd += delta;
-			if (chargeCd >= getChargeTime()) {
-				chargeCd = getChargeTime();
+		if (chargeCd < getChargeTime()) {
+			
+			if (!reloading) {
+				
+				if (charge == null) {
+					charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
+					charge.setScale(0.5f);
+				}
+				charge.setOffset(particleOrigin);
+				charge.turnOn();
+
+				chargeCd += delta;
+				if (chargeCd >= getChargeTime()) {
+					chargeCd = getChargeTime();
+				}
 			}
+		} else {
+			if (overcharge == null) {
+				overcharge = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
+				overcharge.setScale(0.5f);
+			}
+			if (charge != null) {
+				charge.turnOff();
+			}
+			overcharge.setOffset(particleOrigin);
+			overcharge.turnOn();
 		}
-		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 	}
 	
 	@Override
@@ -66,6 +93,25 @@ public class ChargeBeam extends RangedWeapon {
 		super.execute(state, bodyData);
 		charging = false;
 		chargeCd = 0;
+		
+		if (charge != null) {
+			charge.turnOff();
+		}
+		if (overcharge != null) {
+			overcharge.turnOff();
+		}
+	}
+	
+	@Override
+	public void reload(float delta) {
+		super.reload(delta);
+		
+		if (charge != null) {
+			charge.turnOff();
+		}
+		if (overcharge != null) {
+			overcharge.turnOff();
+		}
 	}
 	
 	@Override
@@ -123,6 +169,18 @@ public class ChargeBeam extends RangedWeapon {
 		if (chargeStage == 2) {
 			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, 3.0f));
 			hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.25f));
+		}
+	}
+	
+	@Override
+	public void unequip() {
+		if (charge != null) {
+			charge.queueDeletion();
+			charge = null;
+		}
+		if (overcharge != null) {
+			overcharge.queueDeletion();
+			overcharge = null;
 		}
 	}
 }

@@ -50,8 +50,8 @@ public class UIExtra extends AHadalActor {
 		
 		text.setLength(0);
 		
-		for (UITag tag : uiTags) {
-			switch(tag.getType()) {
+		for (int i = 0; i < uiTags.size(); i++) {
+			switch(uiTags.get(i).getType()) {
 			case SCRAP:
 				text = text.append("SCRAP: " + scrap + "\n");
 				break;
@@ -68,10 +68,10 @@ public class UIExtra extends AHadalActor {
 				text = text.append("WINS: " + wins + "\n");
 				break;
 			case TIMER:
-				text = text.append("TIMER: " + (int)timer + " S\n");
+				text = text.append("TIMER: " + (int) timer + " S\n");
 				break;
 			case MISC:
-				text = text.append(tag.getMisc() + "\n");
+				text = text.append(uiTags.get(i).getMisc() + "\n");
 				break;
 			case EMPTY:
 				text = text.append("\n");

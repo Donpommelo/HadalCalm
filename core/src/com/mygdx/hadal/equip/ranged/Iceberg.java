@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -10,6 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 
@@ -28,7 +30,7 @@ public class Iceberg extends RangedWeapon {
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 	private final static float lifespan = 3.0f;
 
-	private final static Sprite projSprite = Sprite.ORB_BLUE;
+	private final static Sprite projSprite = Sprite.ICEBERG;
 	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;
 	private final static Sprite eventSprite = Sprite.P_ICEBERG;
 	
@@ -43,7 +45,8 @@ public class Iceberg extends RangedWeapon {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED));	
-		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));	
+		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 3.0f));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			float lastX = 0;

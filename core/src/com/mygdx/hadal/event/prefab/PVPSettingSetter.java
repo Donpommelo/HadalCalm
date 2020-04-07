@@ -18,7 +18,7 @@ public class PVPSettingSetter extends Prefabrication {
 	private final static String eggplantTimerId = "EGGPLANT_SPAWNER";
 	private final static String weaponTimerId = "spawnWeapons";
 	private final static String playerStartId = "playerstart";
-	private final static float eggplantSpawnTimer = 3.0f;
+	private final static float eggplantSpawnTimer = 2.0f;
 	private final static float weaponSpawnTimer = 25.0f;
 	private final static float pvpMatchZoom = 1.2f;
 	

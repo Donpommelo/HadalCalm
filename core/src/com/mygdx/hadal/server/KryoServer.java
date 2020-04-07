@@ -65,7 +65,7 @@ public class KryoServer {
 			return;
 		}
 		
-		server.addListener(new Listener() {
+		Listener packetListener = new Listener() {
 			
 			@Override
 			public void disconnected(final Connection c) {
@@ -341,7 +341,10 @@ public class KryoServer {
 					}
 				}
 			}
-		});
+		};
+		
+//        server.addListener(new Listener.LagListener(100, 100, packetListener));
+		server.addListener(packetListener);
 		
 		try {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
