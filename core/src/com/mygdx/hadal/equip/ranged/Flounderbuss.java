@@ -12,6 +12,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
@@ -30,18 +31,18 @@ public class Flounderbuss extends RangedWeapon {
 	private final static float baseDamage = 6.0f;
 	private final static float recoil = 30.0f;
 	private final static float knockback = 12.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(16, 16);
+	private final static float projectileSpeed = 25.0f;
+	private final static Vector2 projectileSize = new Vector2(60, 50);
 	private final static float lifespan = 2.0f;
 	
-	private final static Sprite[] projSprites = {Sprite.SCRAP_A, Sprite.SCRAP_B, Sprite.SCRAP_C, Sprite.SCRAP_D};
+	private final static Sprite[] projSprites = {Sprite.FLOUNDER_A, Sprite.FLOUNDER_B};
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private static final float maxCharge = 0.5f;
 	private static final float veloSpread = 0.75f;
 
-	private final static int maxNumProj = 45;
+	private final static int maxNumProj = 20;
 	private final static int spread = 20;
 	
 	public Flounderbuss(Schmuck user) {
@@ -84,9 +85,10 @@ public class Flounderbuss extends RangedWeapon {
 			newVelocity.set(startVelocity).scl((ThreadLocalRandom.current().nextFloat() * veloSpread + 1 - veloSpread / 2));
 			
 			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(newVelocity), filter, true, true, user, projSprite);
-			hbox.setGravity(2.0f);
+			hbox.setGravity(1.5f);
 			
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 			hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));

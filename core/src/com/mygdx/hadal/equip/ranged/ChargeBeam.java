@@ -31,11 +31,11 @@ public class ChargeBeam extends RangedWeapon {
 	private final static float baseDamage = 15.0f;
 	private final static float recoil = 7.5f;
 	private final static float knockback = 10.0f;
-	private final static float projectileSpeed = 30.0f;
+	private final static float projectileSpeed = 60.0f;
 	private final static Vector2 projectileSize = new Vector2(28, 28);
 	private final static float lifespan = 0.6f;
 	
-	private final static Sprite projSprite = Sprite.ORB_YELLOW;
+	private final static Sprite projSprite = Sprite.CHARGE_BEAM;
 	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
 	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;
 	
@@ -128,20 +128,17 @@ public class ChargeBeam extends RangedWeapon {
 		}
 		
 		float sizeMultiplier = 1.0f;
-		float speedMultiplier = 1.0f;
 		float damageMultiplier = 2.5f;
 		float kbMultiplier = 1;
 
 		switch(chargeStage) {
 		case 2:
 			sizeMultiplier = 1.8f;
-			speedMultiplier = 2.5f;
 			damageMultiplier = 5.0f;
 			kbMultiplier = 3.0f;
 			break;
 		case 1:
 			sizeMultiplier = 1.2f;
-			speedMultiplier = 1.5f;
 			damageMultiplier = 3.5f;
 			kbMultiplier = 2.0f;
 			break;
@@ -150,7 +147,7 @@ public class ChargeBeam extends RangedWeapon {
 		final float damageMultiplier2 = damageMultiplier;
 		final float kbMultiplier2 = kbMultiplier;
 		
-		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(sizeMultiplier), lifespan, startVelocity.scl(speedMultiplier), filter, true, true, user, projSprite);
+		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2(projectileSize).scl(sizeMultiplier), lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setDurability(3);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
@@ -167,8 +164,8 @@ public class ChargeBeam extends RangedWeapon {
 		});
 		
 		if (chargeStage == 2) {
-			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, 3.0f));
-			hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.25f));
+			hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.0f, 3.0f));
+			hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.OVERCHARGE, 0.4f));
 		}
 	}
 	

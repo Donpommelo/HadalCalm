@@ -17,17 +17,17 @@ import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 
 public class Iceberg extends RangedWeapon {
 
-	private final static int clipSize = 5;
+	private final static int clipSize = 4;
 	private final static int ammoSize = 25;
-	private final static float shootCd = 0.5f;
+	private final static float shootCd = 0.75f;
 	private final static float shootDelay = 0.15f;
-	private final static float reloadTime = 1.4f;
+	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 40.0f;
+	private final static float baseDamage = 50.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
-	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(50, 50);
+	private final static float projectileSpeed = 45.0f;
+	private final static Vector2 projectileSize = new Vector2(75, 75);
 	private final static float lifespan = 3.0f;
 
 	private final static Sprite projSprite = Sprite.ICEBERG;
@@ -41,7 +41,7 @@ public class Iceberg extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
-		hbox.setGravity(10);
+		hbox.setGravity(5);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED));	

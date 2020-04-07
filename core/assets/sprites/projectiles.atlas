@@ -1,159 +1,236 @@
 
 projectiles.png
-size: 1024,64
+size: 1024,256
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest,Nearest
 repeat: none
 bee
   rotate: false
-  xy: 482, 16
+  xy: 132, 9
   size: 52, 46
   orig: 52, 46
   offset: 0, 0
   index: 0
 bee
   rotate: false
-  xy: 536, 16
+  xy: 311, 94
   size: 52, 46
   orig: 52, 46
   offset: 0, 0
   index: 1
 boomerang
   rotate: false
-  xy: 975, 24
+  xy: 90, 4
   size: 40, 38
   orig: 40, 38
   offset: 0, 0
   index: -1
 bouncing_blade
   rotate: false
-  xy: 426, 8
+  xy: 255, 68
   size: 54, 54
   orig: 54, 54
   offset: 0, 0
   index: -1
 bullet
   rotate: false
-  xy: 311, 49
+  xy: 456, 211
   size: 112, 13
   orig: 112, 13
   offset: 0, 0
   index: -1
+charge_beam_a
+  rotate: false
+  xy: 125, 142
+  size: 111, 112
+  orig: 111, 112
+  offset: 0, 0
+  index: -1
+charge_beam_b
+  rotate: false
+  xy: 351, 151
+  size: 103, 103
+  orig: 103, 103
+  offset: 0, 0
+  index: -1
+charge_beam_c
+  rotate: false
+  xy: 238, 142
+  size: 111, 112
+  orig: 111, 112
+  offset: 0, 0
+  index: -1
+cola
+  rotate: false
+  xy: 765, 222
+  size: 55, 32
+  orig: 55, 32
+  offset: 0, 0
+  index: 0
+cola
+  rotate: false
+  xy: 822, 222
+  size: 55, 32
+  orig: 55, 32
+  offset: 0, 0
+  index: 1
+cola
+  rotate: false
+  xy: 879, 222
+  size: 55, 32
+  orig: 55, 32
+  offset: 0, 0
+  index: 2
+cola
+  rotate: false
+  xy: 936, 222
+  size: 55, 32
+  orig: 55, 32
+  offset: 0, 0
+  index: 3
 debris_a
   rotate: false
-  xy: 862, 22
+  xy: 48, 2
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
 debris_b
   rotate: false
-  xy: 816, 22
+  xy: 2, 2
   size: 44, 40
   orig: 44, 40
   offset: 0, 0
   index: -1
 debris_c
   rotate: false
-  xy: 943, 10
+  xy: 544, 157
   size: 30, 52
   orig: 30, 52
   offset: 0, 0
   index: -1
 debris_d
   rotate: false
-  xy: 590, 16
+  xy: 365, 103
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
+flounder_a
+  rotate: false
+  xy: 2, 150
+  size: 121, 104
+  orig: 121, 104
+  offset: 0, 0
+  index: -1
+flounder_b
+  rotate: false
+  xy: 2, 44
+  size: 121, 104
+  orig: 121, 104
+  offset: 0, 0
+  index: -1
+fugu
+  rotate: false
+  xy: 125, 57
+  size: 63, 65
+  orig: 63, 65
+  offset: 0, 0
+  index: -1
 grenade
   rotate: false
-  xy: 904, 19
+  xy: 550, 112
   size: 37, 43
   orig: 37, 43
   offset: 0, 0
   index: -1
 harpoon
   rotate: false
-  xy: 2, 16
+  xy: 125, 124
   size: 154, 16
   orig: 154, 16
   offset: 0, 0
   index: -1
+iceberg
+  rotate: false
+  xy: 190, 60
+  size: 63, 62
+  orig: 63, 62
+  offset: 0, 0
+  index: -1
 iron_ball
   rotate: false
-  xy: 334, 2
+  xy: 413, 104
   size: 44, 45
   orig: 44, 45
   offset: 0, 0
   index: -1
 orb_blue
   rotate: false
-  xy: 380, 3
+  xy: 459, 111
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 orb_orange
   rotate: false
-  xy: 638, 19
+  xy: 505, 112
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_pink
   rotate: false
-  xy: 683, 19
+  xy: 311, 49
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_red
   rotate: false
-  xy: 728, 20
+  xy: 365, 59
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 orb_yellow
   rotate: false
-  xy: 772, 20
+  xy: 255, 24
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 spit
   rotate: false
-  xy: 135, 37
+  xy: 589, 229
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 0
 spit
   rotate: false
-  xy: 158, 10
+  xy: 456, 184
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 1
 spit
   rotate: false
-  xy: 223, 37
+  xy: 677, 229
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 2
 spit
   rotate: false
-  xy: 246, 10
+  xy: 456, 157
   size: 86, 25
   orig: 86, 25
   offset: 0, 0
   index: 3
 torpedo
   rotate: false
-  xy: 2, 34
+  xy: 456, 226
   size: 131, 28
   orig: 131, 28
   offset: 0, 0

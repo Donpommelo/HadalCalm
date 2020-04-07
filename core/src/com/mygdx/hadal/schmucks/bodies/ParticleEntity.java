@@ -226,14 +226,14 @@ public class ParticleEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
+					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on));
 				} else {
 					newPos.set(startPos);
-					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
+					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on));
 				}
 			} else {
 				newPos.set(startPos);
-				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, on));
+				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on));
 			}
 		}
 	}
@@ -244,6 +244,7 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void onClientSync(Object o) {
 		Packets.SyncParticles p = (Packets.SyncParticles) o;
+		this.offset.set(p.offset);
 		effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
 
 		if (p.on && (!on || effect.isComplete())) {

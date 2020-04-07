@@ -676,6 +676,7 @@ public class Packets {
 	public static class SyncParticles {
 		public String entityID;
 		public Vector2 pos;
+		public Vector2 offset;
         public boolean on;
 		public SyncParticles() {}
 		
@@ -685,11 +686,13 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the Particle Effect to turn on/off
 		 * @param pos: position of the synced particle effect
+		 * @param offset: if connected to another entity, this is the offest from that entity's position
 		 * @param on: Is the Server's version of this effect on or off?
 		 */
-		public SyncParticles(String entityID, Vector2 pos, boolean on) {
+		public SyncParticles(String entityID, Vector2 pos, Vector2 offset, boolean on) {
 			this.entityID = entityID;
 			this.pos = pos;
+			this.offset = offset;
 			this.on = on;
 		}
 	}

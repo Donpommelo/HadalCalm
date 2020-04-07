@@ -26,14 +26,14 @@ public class Fugun extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 12.5f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(30, 30);
+	private final static Vector2 projectileSize = new Vector2(60, 60);
 	private final static float lifespan = 1.2f;
 		
 	private final static int poisonRadius = 250;
 	private final static float poisonDamage = 40/60f;
 	private final static float poisonDuration = 4.0f;
 
-	private final static Sprite projSprite = Sprite.SCRAP_C;
+	private final static Sprite projSprite = Sprite.FUGU;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
@@ -49,6 +49,6 @@ public class Fugun extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POISON, DamageTypes.RANGED));
-		hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), poisonRadius, poisonDamage, poisonDuration, (short)0));
+		hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), poisonRadius, poisonDamage, poisonDuration, (short) 0));
 	}
 }
