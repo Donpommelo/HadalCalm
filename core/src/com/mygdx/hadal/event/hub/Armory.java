@@ -63,7 +63,7 @@ public class Armory extends HubEvent {
 							}
 						}
 					}
-					state.getGsm().getLoadout().setEquips(slotToReplace, selected.name());
+					state.getGsm().getLoadout().setEquips(slotToReplace, selected.toString());
 		        }
 				
 				@Override

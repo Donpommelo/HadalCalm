@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -45,6 +46,8 @@ public class CR4PCannon extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 1.0f);
+
 		for (int i = 0; i < numProj; i++) {
 			
 			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);

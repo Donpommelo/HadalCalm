@@ -736,12 +736,12 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncSound {
+	public static class SyncSoundSingle {
 		public SoundEffect sound;
 		public Vector2 worldPos;
 		public float volume;
 		
-		public SyncSound() {}
+		public SyncSoundSingle() {}
 		
 		/**
 		 * A SyncSound is sent from the Server to the Client to tell the client to play a specific sound effect.
@@ -749,10 +749,49 @@ public class Packets {
 		 * @param worldPos: This is the world location of the source of the sound. used to manage sound pan (null if not sourced to an entity)
 		 * @param volume: volume of the sound. 1.0f = full volume.
 		 */
-		public SyncSound(SoundEffect sound, Vector2 worldPos, float volume) {
+		public SyncSoundSingle(SoundEffect sound, Vector2 worldPos, float volume) {
 			this.sound = sound;
 			this.worldPos = worldPos;
 			this.volume = volume;
+		}
+	}
+	
+	public static class CreateSound {
+		public String entityID;
+		public String attachedID;
+		public String sound;
+		public float volume;
+		public boolean looped;
+		public boolean on;
+		
+		public CreateSound() {}
+		
+		/**
+		 */
+		public CreateSound(String entityID, String attachedID, String sound, float volume, boolean looped, boolean on) {
+			this.entityID = entityID;
+			this.attachedID = attachedID;
+			this.sound = sound;
+			this.volume = volume;
+			this.looped = looped;
+			this.on = on;
+		}
+	}
+	
+	public static class SyncSound {
+		public String entityID;
+		public Vector2 pos;
+		public float volume;
+		public boolean on;
+		
+		
+		public SyncSound() {}
+		
+		public SyncSound(String entityID, Vector2 pos, float volume, boolean on) {
+			this.entityID = entityID;
+			this.pos = pos;
+			this.volume = volume;
+			this.on = on;
 		}
 	}
 	
@@ -796,6 +835,8 @@ public class Packets {
     	kryo.register(SyncParticles.class);
     	kryo.register(SyncUI.class);
     	kryo.register(SyncShader.class);
+    	kryo.register(SyncSoundSingle.class);
+    	kryo.register(CreateSound.class);
     	kryo.register(SyncSound.class);
     }
 }

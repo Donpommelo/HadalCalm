@@ -42,7 +42,7 @@ public class Dispensary extends HubEvent {
 					} else {
 						state.getPlayer().getPlayerData().syncClientLoadoutChangeActive(selected);
 					}
-					state.getGsm().getLoadout().setActive(selected.name());
+					state.getGsm().getLoadout().setActive(selected.toString());
 		        }
 				
 				@Override

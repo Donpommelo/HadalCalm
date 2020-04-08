@@ -156,7 +156,7 @@ public enum UnlockArtifact {
 		
 		if (pool.equals("")) {
 			Array<UnlockArtifact> unlocks = UnlockArtifact.getUnlocks(state, false, defaultTags);
-			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
+			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
 		}
 		
 		ArrayList<String> artifacts = new ArrayList<String>();

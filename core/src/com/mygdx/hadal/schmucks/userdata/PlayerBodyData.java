@@ -588,6 +588,10 @@ public class PlayerBodyData extends BodyData {
 				player.getMouse().queueDeletion();
 			}
 			
+			if (currentTool != null) {
+				currentTool.unequip();
+			}
+			
 			super.die(perp, tags);
 			
 			//Send death notification to all players

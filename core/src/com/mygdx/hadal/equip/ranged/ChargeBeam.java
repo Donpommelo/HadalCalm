@@ -52,25 +52,26 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+		
+		if (reloading || getClipLeft() == 0) {
+			return;
+		}
+		
 		particleOrigin.set(weaponVelo).nor().scl(60);
 		charging = true;
 		
 		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime()) {
-			
-			if (!reloading) {
-				
-				if (charge == null) {
-					charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
-					charge.setScale(0.5f);
-				}
-				charge.setOffset(particleOrigin);
-				charge.turnOn();
+			if (charge == null) {
+				charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
+				charge.setScale(0.5f);
+			}
+			charge.setOffset(particleOrigin);
+			charge.turnOn();
 
-				chargeCd += delta;
-				if (chargeCd >= getChargeTime()) {
-					chargeCd = getChargeTime();
-				}
+			chargeCd += delta;
+			if (chargeCd >= getChargeTime()) {
+				chargeCd = getChargeTime();
 			}
 		} else {
 			if (overcharge == null) {

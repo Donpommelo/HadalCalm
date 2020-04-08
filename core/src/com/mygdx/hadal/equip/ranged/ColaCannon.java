@@ -53,10 +53,16 @@ public class ColaCannon extends RangedWeapon {
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+
+		if (reloading || getClipLeft() == 0) {
+			return;
+		}
+		
 		charging = true;
 		
 		//While held, gain charge equal to mouse movement from location last update
-		if (chargeCd < getChargeTime() && !reloading) {
+		if (chargeCd < getChargeTime()) {
 			chargeCd += lastMouse.dst(mouseLocation);
 			if (chargeCd >= getChargeTime()) {
 				chargeCd = getChargeTime();
@@ -64,7 +70,6 @@ public class ColaCannon extends RangedWeapon {
 		}
 		
 		lastMouse.set(mouseLocation);
-		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 	}
 	
 	@Override

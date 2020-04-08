@@ -13,6 +13,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.*;
@@ -22,7 +23,9 @@ import com.mygdx.hadal.schmucks.bodies.ClientIllusion;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
@@ -173,6 +176,15 @@ public class KryoClient {
 					}
         		}
         		
+        		else if (o instanceof Packets.SyncSound) {
+        			Packets.SyncSound p = (Packets.SyncSound) o;
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.syncEntity(p.entityID, p);
+					}
+        		}
+        		
         		/*
         		 * The Server tells us to create a new entity.
         		 * Create a Client Illusion with the specified dimentions
@@ -240,6 +252,24 @@ public class KryoClient {
 					}
         		}
         		
+        		else if (o instanceof Packets.CreateSound) {
+        			final Packets.CreateSound p = (Packets.CreateSound) o;
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						
+        						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.looped, p.on, soundSyncType.NOSYNC);
+        						entity.setAttachedId(p.attachedID);
+    							cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+            				}
+    					});
+					}
+        		}
+        		
         		/**
         		 * The server tells up to update our player's stats when we get buffs
         		 * Change override values that are displayed in our ui
@@ -278,8 +308,8 @@ public class KryoClient {
         		/*
         		 * A sound is played on the server side that should be echoed to all clients
         		 */
-        		else if (o instanceof Packets.SyncSound) {
-        			final Packets.SyncSound p = (Packets.SyncSound) o;
+        		else if (o instanceof Packets.SyncSoundSingle) {
+        			final Packets.SyncSoundSingle p = (Packets.SyncSoundSingle) o;
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {

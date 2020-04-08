@@ -94,7 +94,7 @@ public enum PlayerAction {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		
 		for (PlayerAction a : PlayerAction.values()) {
-			map.put(a.name(), a.getKey());
+			map.put(a.toString(), a.getKey());
 		}
 		
 		Gdx.files.local("save/Keybind.json").writeString(GameStateManager.json.toJson(map), true);

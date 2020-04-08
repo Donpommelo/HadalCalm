@@ -378,7 +378,7 @@ public class SettingState extends GameState {
 		for (PlayerAction a : PlayerAction.values()) {
 			
 			final PlayerAction action = a;
-			Text actionChoose = new Text(a.name() + ":==   " + getKey(a.getKey()) , 0, 0, true);
+			Text actionChoose = new Text(a.toString() + ":==   " + getKey(a.getKey()) , 0, 0, true);
 			
 			actionChoose.addListener(new ClickListener() {
 				
@@ -386,7 +386,7 @@ public class SettingState extends GameState {
 				public void clicked(InputEvent e, float x, float y) {
 					
 					//Clicking any option will highlight it and designate it as the next to update.
-					((Text)e.getListenerActor()).setText(action.name() + ":==   " + getKey(action.getKey()) + " <--");					
+					((Text)e.getListenerActor()).setText(action.toString() + ":==   " + getKey(action.getKey()) + " <--");					
 					currentlyEditing = action;
 				}
 			});

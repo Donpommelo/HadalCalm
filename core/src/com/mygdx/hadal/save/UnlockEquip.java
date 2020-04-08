@@ -101,7 +101,7 @@ public enum UnlockEquip {
 		
 		if (pool.equals("")) {
 			Array<UnlockEquip> unlocks = UnlockEquip.getUnlocks(state, false, defaultTags);
-			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
+			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
 		}
 		
 		ArrayList<String> weapons = new ArrayList<String>();

@@ -100,7 +100,7 @@ public class UIExtra extends AHadalActor {
 			boolean found = false;
 			
 			for (UITag.uiType tag: UITag.uiType.values()) {
-				if (tag.name().equals(type)) {
+				if (tag.toString().equals(type)) {
 					found = true;
 					uiTags.add(new UITag(tag));
 				}

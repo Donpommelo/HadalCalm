@@ -120,7 +120,7 @@ public class ParticleEntity extends HadalEntity {
 			}
 		}
 
-		//particles with a timer are deleting when the timer runs out. Clients remove these too if they are processing them independantly from the server.
+		//particles with a timer are deleting when the timer runs out. Clients remove these too if they are processing them independently from the server.
 		if (temp) {
 			lifespan -= delta;
 			if (lifespan <= 0) {
@@ -149,12 +149,12 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void clientController(float delta) {
 		
-		//client particles process independantly from the server if they are set to CREATESYNC or NOSYNC
+		//client particles process independently from the server if they are set to CREATESYNC or NOSYNC
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.NOSYNC)) {
 			controller(delta);			
 		}
 		
-		//client particles are sometimes told to attactch to a unit that the client hasn't created yet. This code makes the particle entity wait for its attached entity to be created
+		//client particles are sometimes told to attach to a unit that the client hasn't created yet. This code makes the particle entity wait for its attached entity to be created
 		if (attachedEntity == null && attachedId != null) {
 			attachedEntity = ((ClientState) state).findEntity(attachedId);
 		}
@@ -262,8 +262,6 @@ public class ParticleEntity extends HadalEntity {
 		this.scale = scale; 
 		this.effect.scaleEffect(scale);
 	}
-
-	public HadalEntity getAttachedEntity() { return attachedEntity; }
 
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }
 	

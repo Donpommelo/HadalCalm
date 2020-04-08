@@ -50,16 +50,19 @@ public class Minigun extends RangedWeapon {
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);		
+
+		if (reloading || getClipLeft() == 0) {
+			return;
+		}
+		
 		charging = true;
 		
 		//while held, build charge until maximum (if not reloading) User is slowed while shooting.
-		if (chargeCd < getChargeTime() && !reloading) {
+		if (chargeCd < getChargeTime()) {
 			chargeCd += (delta + shootCd);
 		}
-		if (!reloading) {
-			shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter));
-		}
-		super.mouseClicked(delta, state, shooter, faction, mouseLocation);		
+		shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter));
 	}
 
 	@Override

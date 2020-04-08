@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
@@ -139,7 +140,8 @@ public class WeaponUtils {
 	private final static float beeHoming = 110;
 	
 	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
-		
+		SoundEffect.BEE_BUZZ.playUniversal(state, startPos, 1.0f);
+
 		for (int i = 0; i < numBees; i++) {
 			
 			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(beeWidth, beeHeight), beeLifespan, startVelocity, filter, false, procEffects, user, beeSprite);

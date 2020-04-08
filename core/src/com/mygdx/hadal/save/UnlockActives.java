@@ -89,7 +89,7 @@ public enum UnlockActives {
 		
 		if (pool.equals("")) {
 			Array<UnlockActives> unlocks = UnlockActives.getUnlocks(state, false, defaultTags);
-			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).name();
+			return unlocks.get(GameStateManager.generator.nextInt(unlocks.size)).toString();
 		}
 		
 		ArrayList<String> weapons = new ArrayList<String>();

@@ -201,7 +201,7 @@ public class ClientState extends PlayState {
 	/**
 	 * This looks at the entities in the world and returns the one with the given id. 
 	 * @param entityId: Unique id of he object to find
-	 * @return: THe found object (or null if nonexistent)
+	 * @return: The found object (or null if nonexistent)
 	 */
 	public HadalEntity findEntity(String entityId) {
 		HadalEntity entity = entities.get(entityId);

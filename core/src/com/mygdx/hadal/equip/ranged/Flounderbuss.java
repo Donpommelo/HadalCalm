@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -51,16 +52,21 @@ public class Flounderbuss extends RangedWeapon {
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
+		super.mouseClicked(delta, state, shooter, faction, mousePosition);
+
+		if (reloading || getClipLeft() == 0) {
+			return;
+		}
+		
 		charging = true;
 		
 		//while held, build charge until maximum (if not reloading)
-		if (chargeCd < getChargeTime() && !reloading) {
+		if (chargeCd < getChargeTime()) {
 			chargeCd += delta;
 			if (chargeCd >= getChargeTime()) {
 				chargeCd = getChargeTime();
 			}
 		}
-		super.mouseClicked(delta, state, shooter, faction, mousePosition);
 	}
 	
 	@Override
@@ -76,7 +82,8 @@ public class Flounderbuss extends RangedWeapon {
 	private Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		
+		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 1.0f);
+
 		//amount of projectiles scales to charge percent
 		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime(); i++) {
 			
