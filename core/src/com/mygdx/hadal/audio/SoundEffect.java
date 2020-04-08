@@ -58,6 +58,9 @@ public enum SoundEffect {
 	ZAP("sound/zap.mp3"),
 
 	WALL_HIT1("sound/Wall-Hit 1.mp3"),
+	DAMAGE1("sound/damage1.mp3"),
+	DAMAGE3("sound/damage3.mp3"),
+	DAMAGE5("sound/damage5.mp3"),
 	DAMAGE6("sound/damage6.mp3"),
 	DEFLATE("sound/deflate.mp3"),
 	KICK1("sound/kick1.mp3"),

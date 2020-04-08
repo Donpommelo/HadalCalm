@@ -17,17 +17,34 @@ public class ContactWallSound extends HitboxStrategy {
 	private SoundEffect sound;
 	private float volume;
 	
+	private static final float procCd = 0.25f;
+	private static final float minVelo = 3.0f;
+	
 	public ContactWallSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {
 		super(state, proj, user);
 		this.sound = sound;
 		this.volume = volume;
 	}
 	
+	private float procCdCount = procCd;
+	
+	@Override
+	public void controller(float delta) {
+		if (procCdCount < procCd) {
+			procCdCount += delta;
+		}
+	}
+	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB != null) {
-			if (fixB.getType().equals(UserDataTypes.WALL)) {
-				sound.playUniversal(state, hbox.getPixelPosition(), volume);
+		
+		if (procCdCount >= procCd && hbox.getLinearVelocity().len2() > minVelo) {
+			procCdCount = 0;
+			
+			if (fixB != null) {
+				if (fixB.getType().equals(UserDataTypes.WALL)) {
+					sound.playUniversal(state, hbox.getPixelPosition(), volume);
+				}
 			}
 		}
 	}
