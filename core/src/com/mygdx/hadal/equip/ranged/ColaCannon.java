@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -44,9 +45,11 @@ public class ColaCannon extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private final static float maxCharge = 8000.0f;
+	private final static float noiseThreshold = 2000.0f;
 
 	private Vector2 lastMouse = new Vector2();
-	
+	private float lastNoise;
+
 	public ColaCannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
@@ -67,6 +70,11 @@ public class ColaCannon extends RangedWeapon {
 			if (chargeCd >= getChargeTime()) {
 				chargeCd = getChargeTime();
 			}
+			
+			if (chargeCd > lastNoise + noiseThreshold) {
+				lastNoise += noiseThreshold;
+				SoundEffect.SHAKE.playUniversal(state, user.getPixelPosition(), 1.0f);
+			}
 		}
 		
 		lastMouse.set(mouseLocation);
@@ -80,6 +88,8 @@ public class ColaCannon extends RangedWeapon {
 		
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
 		if (processClip(state, bodyData)) {
+			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 1.0f);
+
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
 			final float velocity = projectileSpeed * chargeCd / getChargeTime() + minVelo;
 			
@@ -87,6 +97,7 @@ public class ColaCannon extends RangedWeapon {
 			
 			charging = false;
 			chargeCd = 0;
+			lastNoise = 0;
 		}
 	}
 	

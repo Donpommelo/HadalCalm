@@ -56,7 +56,7 @@ public class TeslaCoil extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 1.0f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
@@ -91,6 +91,8 @@ public class TeslaCoil extends RangedWeapon {
 					planted = true;
 					hbox.setLinearVelocity(0, 0);
 					hbox.getBody().setType(BodyType.StaticBody);
+					
+					SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 1.0f);
 				}
 				
 				//activated coils periodically check world for nearby coils

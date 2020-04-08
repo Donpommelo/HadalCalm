@@ -1,10 +1,13 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -40,9 +43,11 @@ public class Minigun extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 0.75f;
+	private static final float maxCharge = 0.5f;
 	private static final float selfSlowDura = 0.1f;
 	private static final float selfSlowMag = 0.75f;
+	
+	private SoundEntity fireSound;
 	
 	public Minigun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
@@ -53,15 +58,31 @@ public class Minigun extends RangedWeapon {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);		
 
 		if (reloading || getClipLeft() == 0) {
+			if (fireSound != null) {
+				fireSound.turnOff();
+			}
 			return;
 		}
 		
 		charging = true;
 		
+		if (chargeCd == 0) {
+			SoundEffect.MINIGUN_UP.playUniversal(state, user.getPixelPosition(), 1.0f);
+		}
+		
 		//while held, build charge until maximum (if not reloading) User is slowed while shooting.
 		if (chargeCd < getChargeTime()) {
 			chargeCd += (delta + shootCd);
 		}
+		
+		if (chargeCd >= getChargeTime()) {
+			if (fireSound == null) {
+				fireSound = new SoundEntity(state, user, SoundEffect.MINIGUN_LOOP, 0.8f, true, true, soundSyncType.TICKSYNC);
+			} else {
+				fireSound.turnOn();
+			}
+		}
+		
 		shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter));
 	}
 
@@ -75,8 +96,13 @@ public class Minigun extends RangedWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
+		SoundEffect.MINIGUN_DOWN.playUniversal(state, user.getPixelPosition(), 1.0f);
 		chargeCd = 0;
 		charging = false;
+		
+		if (fireSound != null) {
+			fireSound.turnOff();
+		}
 	}
 	
 	@Override
@@ -92,5 +118,13 @@ public class Minigun extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));	
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
+	}
+	
+	@Override
+	public void unequip() {
+		if (fireSound != null) {
+			fireSound.terminate();
+			fireSound = null;
+		}
 	}
 }

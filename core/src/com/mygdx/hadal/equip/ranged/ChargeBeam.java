@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -117,7 +118,8 @@ public class ChargeBeam extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		
+		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f);
+
 		//power of hitbox scales to the amount charged
 		if (chargeCd >= getChargeTime()) {
 			chargeStage = 2;

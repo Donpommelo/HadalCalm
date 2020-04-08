@@ -7,9 +7,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -44,10 +47,30 @@ public class Screecher extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
+	private SoundEntity screechSound;
+
 	private float shortestFraction;
 	
 	public Screecher(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
+	}
+	
+	@Override
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+		
+		if (reloading || getClipLeft() == 0) {
+			if (screechSound != null) {
+				screechSound.turnOff();
+			}
+			return;
+		}
+		
+		if (screechSound == null) {
+			screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.8f, true, true, soundSyncType.TICKSYNC);
+		} else {
+			screechSound.turnOn();
+		}
 	}
 
 	private Vector2 endPt = new Vector2();
@@ -99,5 +122,20 @@ public class Screecher extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.SOUND, DamageTypes.RANGED));
+	}
+	
+	@Override
+	public void release(PlayState state, BodyData bodyData) {
+		if (screechSound != null) {
+			screechSound.turnOff();
+		}
+	}
+	
+	@Override
+	public void unequip() {
+		if (screechSound != null) {
+			screechSound.terminate();
+			screechSound = null;
+		}
 	}
 }
