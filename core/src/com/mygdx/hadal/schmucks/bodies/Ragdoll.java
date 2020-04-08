@@ -45,7 +45,10 @@ public class Ragdoll extends HadalEntity {
 	//is the ragdoll a sensor? (i.e does it have collision)
 	private boolean sensor;
 	
-	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean sensor) {
+	//
+	private boolean setVelo;
+	
+	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor) {
 		super(state, startPos, size);
 		this.startVelo = startVelo;
 		this.startAngle = baseAngle;
@@ -53,6 +56,7 @@ public class Ragdoll extends HadalEntity {
 		this.gravity = gravity;
 		this.sprite = sprite;
 		this.sensor = sensor;
+		this.setVelo = setVelo;
 		if (!sprite.equals(Sprite.NOTHING)) {
 			ragdollSprite = sprite.getFrame();
 		}
@@ -69,7 +73,11 @@ public class Ragdoll extends HadalEntity {
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 		newVelocity.set(startVelo);
 		
-		setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
+		if (setVelo) {
+			setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
+		} else {
+			setLinearVelocity(newVelocity.setAngle(newDegrees));
+		}
 	}
 
 	@Override

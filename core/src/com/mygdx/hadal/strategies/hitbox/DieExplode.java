@@ -20,8 +20,7 @@ public class DieExplode extends HitboxStrategy {
 	//the hitbox filter of units that can be damaged b ythe explosion.
 	private short filter;
 	
-	public DieExplode(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage, 
-			float explosionKnockback, short filter) {
+	public DieExplode(PlayState state, Hitbox proj, BodyData user, int explosionRadius, float explosionDamage, float explosionKnockback, short filter) {
 		super(state, proj, user);
 		this.explosionRadius = explosionRadius;
 		this.explosionDamage = explosionDamage;

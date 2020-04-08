@@ -27,8 +27,8 @@ public class SoundEntity extends HadalEntity {
 	//Has the attached entity despawned yet?
 	private boolean despawn;
 	
-	private static final float defaultFadeInSpeed = 2.0f;
-	private static final float defaultFadeOutSpeed = -1.0f;
+	private static final float defaultFadeInSpeed = 3.0f;
+	private static final float defaultFadeOutSpeed = -3.0f;
 	
 	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float volume, boolean looped, boolean startOn, soundSyncType sync) {
 		super(state, new Vector2(), new Vector2());
@@ -53,26 +53,10 @@ public class SoundEntity extends HadalEntity {
 	public void create() {}
 
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 0.1f;
+	private final static float syncTime = 0.01f;
 	@Override
 	public void controller(float delta) {
 		
-		syncAccumulator += delta;
-		
-		if (syncAccumulator >= syncTime) {
-			syncAccumulator = 0;
-			
-			//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
-			if (attachedEntity != null && !despawn) {
-				if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-					sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
-				} else {
-					turnOff();
-					despawn = true;
-				}
-			}
-		}
-
 		if (fade != 0) {
 			volume += delta * fade;
 			if (volume <= 0.0f) {
@@ -90,6 +74,24 @@ public class SoundEntity extends HadalEntity {
 				fade = 0.0f;
 			}
 		}
+		
+		syncAccumulator += delta;
+		
+		if (syncAccumulator >= syncTime) {
+			syncAccumulator = 0;
+			
+			//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
+			if (attachedEntity != null) {
+				if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
+					sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
+				} else {
+					turnOff();
+					despawn = true;
+				}
+			}
+		}
+
+		
 	}
 
 	@Override

@@ -27,9 +27,11 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 import com.mygdx.hadal.strategies.hitbox.ExplosionDefault;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
@@ -79,6 +81,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.4f));
 		
 		return hbox;
 	}
@@ -95,6 +98,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION1, 0.8f));
 		
 		return hbox;
 	}
@@ -125,6 +129,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
 			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
+			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.5f));
 		}
 		
 		return null;
@@ -140,7 +145,6 @@ public class WeaponUtils {
 	private final static float beeHoming = 110;
 	
 	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
-		SoundEffect.BEE_BUZZ.playUniversal(state, startPos, 1.0f);
 
 		for (int i = 0; i < numBees; i++) {
 			
@@ -152,6 +156,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.BEES, DamageTypes.RANGED));	
 			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
+			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.25f));
 		}
 		
 		return null;
@@ -160,6 +165,8 @@ public class WeaponUtils {
 	private static final int spiritSize = 25;
 	private static final float spiritHoming = 80;
 	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, short filter) {		
+		
+		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, creator));

@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -16,6 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.HomingMouse;
 
 public class LaserGuidedRocket extends RangedWeapon {
@@ -49,6 +51,8 @@ public class LaserGuidedRocket extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		SoundEffect.ROCKET.playUniversal(state, startPosition, 1.0f);
+		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
@@ -60,5 +64,6 @@ public class LaserGuidedRocket extends RangedWeapon {
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION9, 0.8f));
 	}
 }

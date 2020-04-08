@@ -55,12 +55,12 @@ public class ClientIllusion extends HadalEntity {
 			
 			switch (align) {
 			case HITBOX:
-				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime, true), 
+				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime), 
 						getPixelPosition().x - size.x / 2, 
 						getPixelPosition().y - size.y / 2, 
 						size.x / 2, size.y / 2,
-						size.x, size.y, 1, 1, 
-						(float) Math.toDegrees(getAngle()) + 180);
+						size.x, size.y, -1, 1, 
+						(float) Math.toDegrees(getAngle()));
 				break;
 			case CENTER:
 				batch.draw((TextureRegion) illusionSprite.getKeyFrame(animationTime), 

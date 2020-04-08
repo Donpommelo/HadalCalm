@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem.chargeStyle;
@@ -23,6 +24,7 @@ import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Invulnerability;
@@ -130,6 +132,7 @@ public class Player extends PhysicsSchmuck {
 	private float chargePercent;
 		
 	private ParticleEntity hoverBubbles, dustCloud;
+	private SoundEntity runSound, hoverSound;
 	
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
@@ -327,6 +330,10 @@ public class Player extends PhysicsSchmuck {
 			} else {
 				hoverBubbles.turnOff();
 				hovering = false;
+				
+				if (hoverSound != null) {
+					hoverSound.turnOff();
+				}
 			}
 			
 			if (fastFalling) {
@@ -335,8 +342,16 @@ public class Player extends PhysicsSchmuck {
 			
 			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && !invisible) {
 				dustCloud.turnOn();
+				
+				if (runSound == null) {
+					runSound = new SoundEntity(state, this, SoundEffect.RUN, 1.0f, true, true, soundSyncType.TICKSYNC);
+				}
+				runSound.turnOn();
 			} else {
 				dustCloud.turnOff();
+				if (runSound != null) {
+					runSound.turnOff();
+				}
 			}
 		}
 		
@@ -394,8 +409,17 @@ public class Player extends PhysicsSchmuck {
 			pushMomentumMitigation(0, playerData.getHoverPower());
 			
 			hoverBubbles.turnOn();
+			
+			if (hoverSound == null) {
+				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 1.0f, true, true, soundSyncType.TICKSYNC);
+			}
+			hoverSound.turnOn();
+			
 		} else {
 			hoverBubbles.turnOff();
+			if (hoverSound != null) {
+				hoverSound.turnOff();
+			}
 		}
 	}
 	
@@ -409,6 +433,7 @@ public class Player extends PhysicsSchmuck {
 				pushMomentumMitigation(0, playerData.getJumpPower());
 				
 				new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
+				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 1.0f);
 			}
 		} else {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
@@ -418,6 +443,7 @@ public class Player extends PhysicsSchmuck {
 					pushMomentumMitigation(0, playerData.getJumpPower());
 					
 					new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
+					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 1.0f);
 				}
 			}
 		}
@@ -729,22 +755,22 @@ public class Player extends PhysicsSchmuck {
 	public void createGibs() {
 		if (alive) {
 			new Ragdoll(state, getPixelPosition(), new Vector2(headWidth, headHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, gibGravity, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, gibGravity, true, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(bodyWidth, bodyHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, gibGravity, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, gibGravity, true, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(armWidth, armHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, gibGravity, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, gibGravity, true, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(bodyBackWidth, bodyBackHeight).scl(scale), 
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, gibGravity, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, gibGravity, true, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(gemWidth, gemHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, gibGravity, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, gibGravity, true, false);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(toolWidth, toolHeight).scl(scale),
-					playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), gibDuration, gibGravity, false);
+					playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), gibDuration, gibGravity, true, false);
 		}
 	}
 	
@@ -753,6 +779,7 @@ public class Player extends PhysicsSchmuck {
 		super.dispose();
 		hoverBubbles.dispose();
 		dustCloud.dispose();
+
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
 		playerData.setOverrideHpPercent(0);
 	}

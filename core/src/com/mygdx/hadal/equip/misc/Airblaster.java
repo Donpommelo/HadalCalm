@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.misc;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -40,6 +41,7 @@ public class Airblaster extends MeleeWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
+		SoundEffect.AIRBLAST.playUniversal(state, startPosition, 1.0f);
 		
 		Hitbox hbox = new Hitbox(state, startPosition, new Vector2(hitboxSize).scl(1 + user.getBodyData().getStat(Stats.BOOST_SIZE)), swingCd, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();

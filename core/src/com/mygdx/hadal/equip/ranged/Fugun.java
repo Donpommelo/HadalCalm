@@ -13,6 +13,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DiePoison;
+import com.mygdx.hadal.strategies.hitbox.DieRagdoll;
 
 public class Fugun extends RangedWeapon {
 
@@ -50,5 +51,6 @@ public class Fugun extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POISON, DamageTypes.RANGED));
 		hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), poisonRadius, poisonDamage, poisonDuration, (short) 0));
+		hbox.addStrategy(new DieRagdoll(state, hbox, user.getBodyData()));
 	}
 }

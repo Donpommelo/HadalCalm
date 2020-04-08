@@ -21,7 +21,7 @@ public class DieFrag extends HitboxStrategy {
 	private int numFrag;
 
 	private final static Vector2 projectileSize = new Vector2(25, 25);
-	private final static float lifespan = 0.25f;
+	private final static float lifespan = 0.4f;
 	private final static float fragSpeed = 10.0f;
 	
 	private final static float baseDamage = 2.5f;

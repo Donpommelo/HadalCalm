@@ -13,6 +13,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 import com.mygdx.hadal.strategies.hitbox.ReturnToUser;
 
@@ -51,6 +52,7 @@ public class Boomerang extends RangedWeapon {
 		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED));	
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
 		hbox.addStrategy(new ReturnToUser(state, hbox, user.getBodyData(), hbox.getStartVelo().len() * returnAmp));
+		hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.WOOSH, 0.5f));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

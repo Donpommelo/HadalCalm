@@ -44,7 +44,7 @@ public class SniperRifle extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.GUN.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.GUN1.playUniversal(state, startPosition, 1.0f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		hbox.setRestitution(1.0f);

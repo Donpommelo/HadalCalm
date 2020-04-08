@@ -12,7 +12,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStandardRepeatable;
 import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
 
 public class Iceberg extends RangedWeapon {
@@ -23,11 +23,11 @@ public class Iceberg extends RangedWeapon {
 	private final static float shootDelay = 0.15f;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 45.0f;
 	private final static float recoil = 15.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 45.0f;
-	private final static Vector2 projectileSize = new Vector2(75, 75);
+	private final static Vector2 projectileSize = new Vector2(60, 60);
 	private final static float lifespan = 3.0f;
 
 	private final static Sprite projSprite = Sprite.ICEBERG;
@@ -44,7 +44,7 @@ public class Iceberg extends RangedWeapon {
 		hbox.setGravity(5);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED));	
+		hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.RANGED));	
 		hbox.addStrategy(new DropThroughPassability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.ICE_CLOUD, 0.0f, 3.0f));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {

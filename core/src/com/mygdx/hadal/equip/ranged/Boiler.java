@@ -85,7 +85,7 @@ public class Boiler extends RangedWeapon {
 	@Override
 	public void unequip() {
 		if (fireSound != null) {
-			fireSound.turnOff();
+			fireSound.terminate();
 			fireSound = null;
 		}
 	}

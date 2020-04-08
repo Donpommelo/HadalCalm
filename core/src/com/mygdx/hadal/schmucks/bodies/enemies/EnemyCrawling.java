@@ -226,7 +226,7 @@ public class EnemyCrawling extends Enemy {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, false);
+			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false);
 		}
 		return super.queueDeletion();
 	}
