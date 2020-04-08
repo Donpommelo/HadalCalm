@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -26,14 +27,14 @@ public class TrickGun extends RangedWeapon {
 	private final static float baseDamage = 45.0f;
 	private final static float recoil = 16.0f;
 	private final static float knockback = 20.0f;
-	private final static float projectileSpeed = 25.0f;
+	private final static float projectileSpeed = 35.0f;
 	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float lifespan = 1.5f;
 	
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float projectileSpeedAfter = 55.0f;
+	private final static float projectileSpeedAfter = 60.0f;
 
 	private boolean firstClicked = false;
 	private Vector2 pos1 = new Vector2();
@@ -90,6 +91,7 @@ public class TrickGun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
@@ -122,6 +124,8 @@ public class TrickGun extends RangedWeapon {
 							if (!pos2.equals(pos1)) {
 								target.set(pos2).sub(hbox.getPixelPosition());
 								hbox.setLinearVelocity(target.nor().scl(projectileSpeedAfter));
+								
+								SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f);
 							}
 							firstReached = true;
 						}

@@ -84,7 +84,7 @@ public class Currents extends Event {
 			currBubbleSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(32, 32), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, true, true),
+			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, true, true),
 					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.CREATESYNC);
 		}
 	}

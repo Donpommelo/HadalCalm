@@ -13,6 +13,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
+import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageHeadshot;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
@@ -44,7 +45,7 @@ public class SniperRifle extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.GUN1.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.GUN1.playUniversal(state, startPosition, 0.5f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity,	filter, true, true, user, projSprite);
 		hbox.setRestitution(1.0f);
@@ -55,5 +56,6 @@ public class SniperRifle extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SNIPE, DamageTypes.RANGED));
 		hbox.addStrategy(new DamageHeadshot(state, hbox, user.getBodyData(), bonusDamage, knockback));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.WALL_HIT1, 1.0f));
 	}
 }

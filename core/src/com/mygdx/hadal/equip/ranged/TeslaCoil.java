@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
@@ -55,6 +56,8 @@ public class TeslaCoil extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
+		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 1.0f);
+
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
 		final Vector2 endLocation = new Vector2(this.mouseLocation);
@@ -157,6 +160,8 @@ public class TeslaCoil extends RangedWeapon {
 			public void coilPairActivated(final PlayState state, final Hitbox hboxOther) {
 				
 				if (!activated) {
+					SoundEffect.ZAP.playUniversal(state, startPosition, 0.5f);
+
 					activated = true;
 					
 					//draw a path of hitboxes between the 2 activated coils that damage enemies that pass through

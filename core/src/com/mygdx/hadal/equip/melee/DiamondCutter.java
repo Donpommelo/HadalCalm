@@ -3,11 +3,14 @@ package com.mygdx.hadal.equip.melee;
 import static com.mygdx.hadal.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -42,12 +45,20 @@ public class DiamondCutter extends MeleeWeapon {
 	//is the player holding their mouse?
 	private boolean held = false;
 	
+	private SoundEntity sawSound;
+
 	public DiamondCutter(Schmuck user) {
 		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
 	@Override
 	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, Vector2 mouseLocation) {
+		
+		if (sawSound == null) {
+			sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.8f, true, true, soundSyncType.TICKSYNC);
+		} else {
+			sawSound.turnOn();
+		}
 		
 		if(!held) {
 			held = true;
@@ -112,6 +123,9 @@ public class DiamondCutter extends MeleeWeapon {
 		if (hbox != null) {
 			hbox.die();
 		}
+		if (sawSound != null) {
+			sawSound.turnOff();
+		}
 	}
 	
 	@Override
@@ -119,6 +133,10 @@ public class DiamondCutter extends MeleeWeapon {
 		held = false;
 		if (hbox != null) {
 			hbox.die();
+		}
+		if (sawSound != null) {
+			sawSound.terminate();
+			sawSound = null;
 		}
 	}
 }

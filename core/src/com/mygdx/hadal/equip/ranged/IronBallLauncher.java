@@ -38,7 +38,7 @@ public class IronBallLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.CANNON.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.CANNON.playUniversal(state, startPosition, 0.8f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setGravity(10);

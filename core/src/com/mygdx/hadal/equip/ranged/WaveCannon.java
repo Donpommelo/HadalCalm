@@ -46,7 +46,7 @@ public class WaveCannon extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
-		SoundEffect.SHOOT1.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.SHOOT1.playUniversal(state, startPosition, 0.6f);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		

@@ -149,6 +149,14 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {}
 	
+	@Override
+	public void dispose() {
+		if (alive) {
+			sound.getSound().stop(soundId);
+		}
+		super.dispose();
+	}
+	
 	public void turnOn() {
 		on = true;
 		fade = defaultFadeInSpeed;

@@ -80,6 +80,8 @@ public class ParticleEntity extends HadalEntity {
 		if (attachedEntity != null) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
 				this.effect.setPosition(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
+			} else {
+				this.effect.setPosition(attachedEntity.getStartPos().x, attachedEntity.getStartPos().y);
 			}
 		}
 	}
@@ -101,7 +103,9 @@ public class ParticleEntity extends HadalEntity {
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
+				
 				effect.setPosition(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y);
+				
 			} else {
 				if (!attached) {
 					despawn = true;
@@ -194,8 +198,10 @@ public class ParticleEntity extends HadalEntity {
 	
 	@Override
 	public void dispose() {
-		effect.reset();
-		effect.free();
+		if (alive) {
+			effect.reset();
+			effect.free();
+		}
 		super.dispose();
 	}
 

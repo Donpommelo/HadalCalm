@@ -344,9 +344,10 @@ public class Player extends PhysicsSchmuck {
 				dustCloud.turnOn();
 				
 				if (runSound == null) {
-					runSound = new SoundEntity(state, this, SoundEffect.RUN, 1.0f, true, true, soundSyncType.TICKSYNC);
+					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.4f, true, true, soundSyncType.TICKSYNC);
+				} else {
+					runSound.turnOn();
 				}
-				runSound.turnOn();
 			} else {
 				dustCloud.turnOff();
 				if (runSound != null) {
@@ -411,7 +412,7 @@ public class Player extends PhysicsSchmuck {
 			hoverBubbles.turnOn();
 			
 			if (hoverSound == null) {
-				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 1.0f, true, true, soundSyncType.TICKSYNC);
+				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.4f, true, true, soundSyncType.TICKSYNC);
 			}
 			hoverSound.turnOn();
 			
@@ -433,7 +434,7 @@ public class Player extends PhysicsSchmuck {
 				pushMomentumMitigation(0, playerData.getJumpPower());
 				
 				new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
-				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 1.0f);
+				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.25f);
 			}
 		} else {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
@@ -443,7 +444,7 @@ public class Player extends PhysicsSchmuck {
 					pushMomentumMitigation(0, playerData.getJumpPower());
 					
 					new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
-					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 1.0f);
+					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.25f);
 				}
 			}
 		}

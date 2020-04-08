@@ -25,7 +25,7 @@ public class ContactWallSound extends HitboxStrategy {
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB != null){
+		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.WALL)) {
 				sound.playUniversal(state, hbox.getPixelPosition(), volume);
 			}
