@@ -132,7 +132,7 @@ public class Player extends PhysicsSchmuck {
 	private float chargePercent;
 		
 	private ParticleEntity hoverBubbles, dustCloud;
-	private SoundEntity runSound, hoverSound;
+	private SoundEntity runSound, hoverSound, reloadSound;
 	
 	//This is the controller that causes this player to perform actions
 	private ActionController controller;
@@ -378,6 +378,16 @@ public class Player extends PhysicsSchmuck {
 		//If player is reloading, run the reload method of the current equipment.
 		if (playerData.getCurrentTool().isReloading()) {
 			playerData.getCurrentTool().reload(delta);
+			
+			if (reloadSound == null) {
+				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.5f, true, true, soundSyncType.TICKSYNC);
+			} else {
+				reloadSound.turnOn();
+			}
+		} else {
+			if (reloadSound != null) {
+				reloadSound.turnOff();
+			}
 		}
 		
 		//charge active item if it charges with time.

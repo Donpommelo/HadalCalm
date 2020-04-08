@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.userdata;
 import java.util.Arrays;
 
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
@@ -423,6 +424,10 @@ public class PlayerBodyData extends BodyData {
 		
 		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equipped".
 		calcStats();
+		
+		//play sounds for weapon switching
+		SoundEffect.LOCKANDLOAD.getSound().stop();
+		SoundEffect.LOCKANDLOAD.play(player.getState().getGsm(), 0.8f);
 	}
 	
 	/**

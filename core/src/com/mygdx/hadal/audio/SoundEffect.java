@@ -15,6 +15,8 @@ public enum SoundEffect {
 	DOUBLEJUMP("sound/doublejump.mp3"),
 	JUMP("sound/jump.mp3"),
 	HOVER("sound/hover.ogg"),
+	LOCKANDLOAD("sound/lockandload.mp3"),
+	RELOAD("sound/reload.mp3"),
 
 	AIRBLAST("sound/airblast.mp3"),
 	BEAM3("sound/beam3.ogg"),
