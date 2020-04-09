@@ -43,7 +43,7 @@ public class ContactWallSound extends HitboxStrategy {
 			
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.WALL)) {
-					sound.playUniversal(state, hbox.getPixelPosition(), volume);
+					sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
 				}
 			}
 		}

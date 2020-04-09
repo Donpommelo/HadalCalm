@@ -131,7 +131,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), torpedoExplosionRadius, damage, torpedoExplosionKnockback, filter));
 			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), torpedoHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), torpedoSpread));
-			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.4f));
+			hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 		}
 		
 		return null;
@@ -158,7 +158,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.BEES, DamageTypes.RANGED));	
 			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
-			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.25f));
+			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.3f));
 		}
 		
 		return null;

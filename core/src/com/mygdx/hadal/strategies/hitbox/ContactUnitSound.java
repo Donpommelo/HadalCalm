@@ -27,7 +27,7 @@ public class ContactUnitSound extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
-				sound.playUniversal(state, hbox.getPixelPosition(), volume);
+				sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
 			}
 		}
 	}

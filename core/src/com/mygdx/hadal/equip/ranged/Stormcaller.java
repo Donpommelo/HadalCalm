@@ -42,7 +42,7 @@ public class Stormcaller extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.WIND2.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.WIND2.playUniversal(state, startPosition, 1.0f, false);
 
 		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
 		

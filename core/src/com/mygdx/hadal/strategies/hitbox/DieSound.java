@@ -24,6 +24,6 @@ public class DieSound extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		sound.playUniversal(state, hbox.getPixelPosition(), volume);
+		sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
 	}
 }

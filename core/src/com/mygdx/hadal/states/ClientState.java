@@ -212,6 +212,20 @@ public class ClientState extends PlayState {
 		} 
 	}
 	
+	@Override
+	public void dispose() {
+		
+		//clean up all client entities. (some entities require running their dispose() to function properly (soundEntities turning off)
+		for (HadalEntity schmuck : entities.values()) {
+			schmuck.dispose();
+		}
+		for (HadalEntity hitbox : hitboxes.values()) {
+			hitbox.dispose();
+		}
+		
+		super.dispose();
+	}
+	
 	/**
 	 * The destroy and create methods do nothing for the client. 
 	 * Objects cannot be created and destroyed in this way for the client, only by calling add and remove Entity.

@@ -740,6 +740,7 @@ public class Packets {
 		public SoundEffect sound;
 		public Vector2 worldPos;
 		public float volume;
+		public boolean singleton;
 		
 		public SyncSoundSingle() {}
 		
@@ -748,11 +749,13 @@ public class Packets {
 		 * @param sound: The sound effect to play
 		 * @param worldPos: This is the world location of the source of the sound. used to manage sound pan (null if not sourced to an entity)
 		 * @param volume: volume of the sound. 1.0f = full volume.
+		 * @param singleton: is there only one instance of this sound? (stops other instances of the sound before playing)
 		 */
-		public SyncSoundSingle(SoundEffect sound, Vector2 worldPos, float volume) {
+		public SyncSoundSingle(SoundEffect sound, Vector2 worldPos, float volume, boolean singleton) {
 			this.sound = sound;
 			this.worldPos = worldPos;
 			this.volume = volume;
+			this.singleton = singleton;
 		}
 	}
 	

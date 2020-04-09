@@ -613,8 +613,8 @@ public class PlayState extends GameState {
 		for (HadalEntity hitbox : hitboxes) {
 			hitbox.dispose();
 		}
-		for (HadalEntity hitbox : removeList) {
-			hitbox.dispose();
+		for (HadalEntity entity : removeList) {
+			entity.dispose();
 		}
 		
 		world.dispose();

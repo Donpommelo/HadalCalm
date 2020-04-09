@@ -54,7 +54,7 @@ public class Popper extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.CRACKER1.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.CRACKER1.playUniversal(state, startPosition, 1.0f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setGravity(5.0f);

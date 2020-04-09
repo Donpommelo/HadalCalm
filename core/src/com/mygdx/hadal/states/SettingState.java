@@ -127,7 +127,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						displaySelected();
 			        }
 					
@@ -139,7 +139,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						controlsSelected();
 			        }
 					
@@ -151,7 +151,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						audioSelected();
 			        }
 					
@@ -163,7 +163,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						gameSelected();
 			        }
 					
@@ -175,7 +175,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						miscSelected();
 			        }
 					
@@ -187,7 +187,7 @@ public class SettingState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(gsm);
+						SoundEffect.NEGATIVE.play(gsm, false);
 						if (ps == null) {
 							gsm.getApp().fadeOut();
 							gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -211,8 +211,8 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH3.play(gsm);
 						saveSettings();
+						SoundEffect.UISWITCH3.play(gsm, false);
 			        }
 					
 			    });
@@ -223,7 +223,7 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH3.play(gsm);
+						SoundEffect.UISWITCH3.play(gsm, false);
 						resetSettings();
 			        }
 					

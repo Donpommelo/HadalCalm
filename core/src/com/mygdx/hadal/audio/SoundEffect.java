@@ -101,17 +101,22 @@ public enum SoundEffect {
 	/**
 	 * This plays a select sound for the player
 	 */
-	public long play(GameStateManager gsm) {
-		return play(gsm, 1.0f);
+	public long play(GameStateManager gsm, boolean singleton) {
+		return play(gsm, 1.0f, singleton);
 	}
 	
-	public long play(GameStateManager gsm, float volume) {
+	public long play(GameStateManager gsm, float volume, boolean singleton) {
+		
+		if (singleton) {
+			getSound().stop();
+		}
+		
 		return getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume());
 	}
 	
 	private final static float maxDist = 3000.0f;
 	private Vector2 soundPosition = new Vector2();
-	public long playSourced(PlayState state, Vector2 worldPos, float volume) {
+	public long playSourced(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
 
 		long soundId = getSound().play();
 
@@ -123,39 +128,40 @@ public enum SoundEffect {
 	/**
 	 * This plays a sound effect for all players.
 	 */
-	public long playUniversal(PlayState state, Vector2 worldPos, float volume) {
+	public long playUniversal(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
 		
 		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncSoundSingle(this, worldPos, volume));
+			HadalGame.server.sendToAllTCP(new Packets.SyncSoundSingle(this, worldPos, volume, singleton));
 		}
 		
 		if (worldPos == null) {
-			return play(state.getGsm(), volume);
+			return play(state.getGsm(), volume, singleton);
 		} else {
-			return playSourced(state, worldPos, volume);
+			return playSourced(state, worldPos, volume, singleton);
 		}
 	}
 	
 	/**
-	 * This plays a sound effect for a single player.
+	 * This plays a sound effect for a single player. atm, you cannot have multiple instances of an exclusive sound
 	 */
-	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume) {
+	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, boolean singleton) {
 		
 		if (state.isServer() && player != null) {
 			
 			if (player.getConnID() == 0) {
+				
 				if (worldPos == null) {
-					return play(state.getGsm(), volume);
+					return play(state.getGsm(), volume, singleton);
 				} else {
-					return playSourced(state, worldPos, volume);
+					return playSourced(state, worldPos, volume, singleton);
 				}
 			} else {
-				HadalGame.server.sendPacketToPlayer(player, new Packets.SyncSoundSingle(this, worldPos, volume));
+				HadalGame.server.sendPacketToPlayer(player, new Packets.SyncSoundSingle(this, worldPos, volume, singleton));
 			}
 		}
 		
 		//this line hopefully doesn't get run. (b/c this should not get run on the client or with no input player)
-		return play(state.getGsm(), volume);
+		return (long) 0;
 	}
 	
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {

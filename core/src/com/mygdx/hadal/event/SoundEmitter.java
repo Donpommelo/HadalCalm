@@ -47,15 +47,15 @@ public class SoundEmitter extends Event {
 				
 				if (global) {
 					if (universal) {
-						sound.playUniversal(state, null, volume);
+						sound.playUniversal(state, null, volume, false);
 					} else {
-						sound.playExclusive(state, null, p, volume);
+						sound.playExclusive(state, null, p, volume, false);
 					}
 				} else {
 					if (universal) {
-						sound.playUniversal(state, event.getPixelPosition(), volume);
+						sound.playUniversal(state, event.getPixelPosition(), volume, false);
 					} else {
-						sound.playExclusive(state, event.getPixelPosition(), p, volume);
+						sound.playExclusive(state, event.getPixelPosition(), p, volume, false);
 					}
 				}
 			}

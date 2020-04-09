@@ -118,7 +118,7 @@ public class ChargeBeam extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f, false);
 
 		//power of hitbox scales to the amount charged
 		if (chargeCd >= getChargeTime()) {

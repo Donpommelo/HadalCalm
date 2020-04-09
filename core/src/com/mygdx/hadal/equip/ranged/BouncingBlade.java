@@ -43,7 +43,7 @@ public class BouncingBlade extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.8f);
+		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.8f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setDurability(7);

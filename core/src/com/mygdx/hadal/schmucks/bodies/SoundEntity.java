@@ -14,7 +14,7 @@ public class SoundEntity extends HadalEntity {
 	private long soundId;
 	private float fade;
 
-	private float volume;
+	private float volume, maxVolume;
 	
 	private boolean looped, on;
 	
@@ -34,16 +34,17 @@ public class SoundEntity extends HadalEntity {
 		super(state, new Vector2(), new Vector2());
 		this.attachedEntity = entity;
 		this.sound = sound;
+		this.maxVolume = volume;
 		this.volume = volume;
 		this.looped = looped;
 		this.on = startOn;
 		this.sync = sync;
 		
 		if (startOn && attachedEntity != null) {
-			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume);
+			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, false);
 			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
 		} else {
-			this.soundId = sound.play(state.getGsm(), volume);
+			this.soundId = sound.play(state.getGsm(), volume, false);
 			sound.getSound().pause(soundId);
 		}
 		sound.getSound().setLooping(soundId, looped);
@@ -69,8 +70,8 @@ public class SoundEntity extends HadalEntity {
 					this.queueDeletion();
 				}
 			}
-			if (volume >= 1.0f) {
-				volume = 1.0f;
+			if (volume >= maxVolume) {
+				volume = maxVolume;
 				fade = 0.0f;
 			}
 		}

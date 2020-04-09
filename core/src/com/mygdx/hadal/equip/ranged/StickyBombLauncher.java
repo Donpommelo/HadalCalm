@@ -60,7 +60,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 1.0f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);

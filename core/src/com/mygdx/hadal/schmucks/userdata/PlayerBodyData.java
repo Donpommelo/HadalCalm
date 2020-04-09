@@ -426,8 +426,7 @@ public class PlayerBodyData extends BodyData {
 		calcStats();
 		
 		//play sounds for weapon switching
-		SoundEffect.LOCKANDLOAD.getSound().stop();
-		SoundEffect.LOCKANDLOAD.play(player.getState().getGsm(), 0.8f);
+		SoundEffect.LOCKANDLOAD.playExclusive(player.getState(), null, player, 0.5f, true);
 	}
 	
 	/**

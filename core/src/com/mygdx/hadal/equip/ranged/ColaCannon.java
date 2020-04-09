@@ -73,7 +73,7 @@ public class ColaCannon extends RangedWeapon {
 			
 			if (chargeCd > lastNoise + noiseThreshold) {
 				lastNoise += noiseThreshold;
-				SoundEffect.SHAKE.playUniversal(state, user.getPixelPosition(), 1.0f);
+				SoundEffect.SHAKE.playUniversal(state, user.getPixelPosition(), 1.0f, false);
 			}
 		}
 		
@@ -88,7 +88,7 @@ public class ColaCannon extends RangedWeapon {
 		
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
 		if (processClip(state, bodyData)) {
-			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 1.0f);
+			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 1.0f, false);
 
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
 			final float velocity = projectileSpeed * chargeCd / getChargeTime() + minVelo;

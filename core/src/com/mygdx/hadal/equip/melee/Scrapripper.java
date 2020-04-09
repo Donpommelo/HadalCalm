@@ -36,7 +36,7 @@ public class Scrapripper extends MeleeWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.WOOSH.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.WOOSH.playUniversal(state, startPosition, 1.0f, false);
 
 		Hitbox hbox = new Hitbox(state, startPosition, hitboxSize, lifespan, new Vector2(), filter, true, true, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();

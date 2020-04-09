@@ -45,7 +45,7 @@ public class Moraygun extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LASERSHOT.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.LASERSHOT.playUniversal(state, startPosition, 1.0f, false);
 
 		final int numX = (int) (startVelocity.x / projectileSize.x);
 		final int numY = (int) (startVelocity.y / projectileSize.y);

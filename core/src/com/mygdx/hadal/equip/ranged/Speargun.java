@@ -43,7 +43,7 @@ public class Speargun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.SPIKE.playUniversal(state, startPosition, 0.5f);
+		SoundEffect.SPIKE.playUniversal(state, startPosition, 0.5f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);

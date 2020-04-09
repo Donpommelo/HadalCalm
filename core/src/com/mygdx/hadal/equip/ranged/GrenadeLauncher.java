@@ -36,7 +36,7 @@ public class GrenadeLauncher extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 1.0f, false);
 
 		WeaponUtils.createGrenade(state, startPosition, projectileSize, user, baseDamage, knockback, lifespan, startVelocity, true, explosionRadius, explosionDamage, explosionKnockback, filter);	
 	}

@@ -101,12 +101,12 @@ public class MessageWindow {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out), Actions.run(disableMsg)));
 			
-			SoundEffect.UISWITCH2.play(state.getGsm());
+			SoundEffect.UISWITCH2.play(state.getGsm(), false);
 		} else {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYActive, .5f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.moveTo(windowX, windowYActive, .25f, Interpolation.pow5Out), Actions.run(enableMsg)));
 			
-			SoundEffect.UISWITCH2.play(state.getGsm());
+			SoundEffect.UISWITCH2.play(state.getGsm(), false);
 		}
 		
 		active = !active;

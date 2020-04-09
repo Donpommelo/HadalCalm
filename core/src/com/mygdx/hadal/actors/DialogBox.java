@@ -140,7 +140,7 @@ public class DialogBox extends AHadalActor {
 			currX = 0;
 			currY = 0;
 			
-			SoundEffect.BLOP.play(ps.getGsm());
+			SoundEffect.BLOP.play(ps.getGsm(), false);
 		}
 		dialogs.addLast(new Dialog(info, radio, trigger));
 		
@@ -178,7 +178,7 @@ public class DialogBox extends AHadalActor {
 				currY = 0;
 			}
 			
-			SoundEffect.BLOP.play(ps.getGsm());
+			SoundEffect.BLOP.play(ps.getGsm(), false);
 		}
 	}
 	

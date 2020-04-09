@@ -59,7 +59,7 @@ public class PauseState extends GameState {
 			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser));
 		}
 		
-		SoundEffect.POSITIVE.play(gsm);
+		SoundEffect.POSITIVE.play(gsm, false);
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class PauseState extends GameState {
 				        		ps.loadLevel(UnlockLevel.HUB_MULTI, TransitionState.NEWLEVEL, "");
 				        	}
 	    				}
-			        	SoundEffect.NEGATIVE.play(gsm);
+			        	SoundEffect.NEGATIVE.play(gsm, false);
 			        }
 			    });
 				
@@ -118,7 +118,7 @@ public class PauseState extends GameState {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
 			        	gsm.addSettingState(ps, PauseState.class);
-			        	SoundEffect.UISWITCH1.play(gsm);
+			        	SoundEffect.UISWITCH1.play(gsm, false);
 			        }
 			    });
 				
@@ -131,7 +131,7 @@ public class PauseState extends GameState {
 			        	gsm.removeState(PauseState.class);
 			        	ps.returnToTitle(0.0f);
 			        	
-			        	SoundEffect.NEGATIVE.play(gsm);
+			        	SoundEffect.NEGATIVE.play(gsm, false);
 			        }
 			    });
 				
@@ -208,7 +208,7 @@ public class PauseState extends GameState {
 		
 		//If the state has been unpaused, remove it
 		if (toRemove) {
-			SoundEffect.NEGATIVE.play(gsm);
+			SoundEffect.NEGATIVE.play(gsm, false);
 			
 			//the following code makes sure that, if the host changes artifact slot number, these changes sync immediately.
 			if (ps.isServer() && ps.isHub()) {

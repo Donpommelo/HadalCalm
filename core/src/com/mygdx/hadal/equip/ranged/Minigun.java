@@ -67,7 +67,7 @@ public class Minigun extends RangedWeapon {
 		charging = true;
 		
 		if (chargeCd == 0) {
-			SoundEffect.MINIGUN_UP.playUniversal(state, user.getPixelPosition(), 0.6f);
+			SoundEffect.MINIGUN_UP.playUniversal(state, user.getPixelPosition(), 0.6f, false);
 		}
 		
 		//while held, build charge until maximum (if not reloading) User is slowed while shooting.
@@ -96,7 +96,7 @@ public class Minigun extends RangedWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
-		SoundEffect.MINIGUN_DOWN.playUniversal(state, user.getPixelPosition(), 0.6f);
+		SoundEffect.MINIGUN_DOWN.playUniversal(state, user.getPixelPosition(), 0.6f, false);
 		chargeCd = 0;
 		charging = false;
 		

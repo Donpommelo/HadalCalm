@@ -149,7 +149,7 @@ public class TitleState extends GameState {
 						}
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
@@ -181,7 +181,7 @@ public class TitleState extends GameState {
 						}
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
@@ -213,7 +213,7 @@ public class TitleState extends GameState {
 						}
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
@@ -252,7 +252,7 @@ public class TitleState extends GameState {
 						}
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH2.play(gsm);
+						SoundEffect.UISWITCH2.play(gsm, false);
 						
 						Gdx.app.postRunnable(new Runnable() {
 					        
@@ -286,7 +286,7 @@ public class TitleState extends GameState {
 						}
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm);
+						SoundEffect.UISWITCH1.play(gsm, false);
 						
 						//Enter the Setting State.
 						gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -316,7 +316,7 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
-						SoundEffect.UISWITCH3.play(gsm);
+						SoundEffect.UISWITCH3.play(gsm, false);
 						
 						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
 			        	setNotification("RANDOM NAME GENERATED!");

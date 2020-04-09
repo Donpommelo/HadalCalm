@@ -82,7 +82,7 @@ public class Flounderbuss extends RangedWeapon {
 	private Vector2 newVelocity = new Vector2();
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 1.0f);
+		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 1.0f, false);
 
 		//amount of projectiles scales to charge percent
 		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime(); i++) {
