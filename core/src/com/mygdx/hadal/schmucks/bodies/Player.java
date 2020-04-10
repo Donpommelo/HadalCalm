@@ -422,7 +422,7 @@ public class Player extends PhysicsSchmuck {
 			hoverBubbles.turnOn();
 			
 			if (hoverSound == null) {
-				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.25f, true, true, soundSyncType.TICKSYNC);
+				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, true, true, soundSyncType.TICKSYNC);
 			}
 			hoverSound.turnOn();
 			
@@ -444,7 +444,7 @@ public class Player extends PhysicsSchmuck {
 				pushMomentumMitigation(0, playerData.getJumpPower());
 				
 				new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
-				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.25f, false);
+				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
 			}
 		} else {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
@@ -454,7 +454,7 @@ public class Player extends PhysicsSchmuck {
 					pushMomentumMitigation(0, playerData.getJumpPower());
 					
 					new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
-					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.25f, false);
+					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
 				}
 			}
 		}
@@ -788,8 +788,6 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void dispose() {
 		super.dispose();
-		hoverBubbles.dispose();
-		dustCloud.dispose();
 
 		//this is here to prevent the client from not updating the last, fatal instance of damage in the ui
 		playerData.setOverrideHpPercent(0);

@@ -154,7 +154,7 @@ CALL_OF_THE_VOID: {
 CATALOG_OF_WANT: {
 	name: Catalog of Want
 	description: "Spend Hp to use Uncharged Actives"
-    descriptionLong: "Hp Cost: 1% Max Hp per 2% Item Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
+    descriptionLong: "Hp Cost: 3% Max Hp per 4% Item Charge\n\nThe last edition of a demonic shopping catalog that has ceased publication.\n\nThe currents of the Noiseless Sea carry objects, not according to their buoyancies, but rather the nature of their desires, regrets and experiences."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -235,7 +235,7 @@ CURIOUS_SAUCE: {
 CURSED_CILICE: {
 	name: Cursed Cilice
 	description: "Receiving Damage Regenerates Fuel"
-    descriptionLong: "Fuel Regen: 75% of Damage Received\n\nA band lined with thorns along its innermost layer.\n\nThe deeper the ocean layer, the greater the cost of entrance that must be paid in life or thereafter."
+    descriptionLong: "Fuel Regen: 150% of Damage Received\n\nA band lined with thorns along its innermost layer.\n\nThe deeper the ocean layer, the greater the cost of entrance that must be paid in life or thereafter."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

@@ -125,7 +125,7 @@ public class Status {
 	public void setArtifact(UnlockArtifact artifact) { this.artifact = artifact; }
 
 	/**
-	 * This determines the behavior is this status is added to a schmuckwho already has it.
+	 * This determines the behavior is this status is added to a schmuck who already has it.
 	 * @return: stack behavior
 	 */
 	public statusStackType getStackType() {	return statusStackType.ADD;	}

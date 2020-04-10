@@ -124,7 +124,7 @@ public class TitleState extends GameState {
 				searchOption.setColor(Color.BLACK);
 				searchOption.setHeight(optionHeight);
 				
-				settingsOption = new Text("SETTINGS", 0, 0, true);
+				settingsOption = new Text("OPTIONS", 0, 0, true);
 				settingsOption.setScale(scale);
 				settingsOption.setColor(Color.BLACK);
 				settingsOption.setHeight(optionHeight);
@@ -229,6 +229,7 @@ public class TitleState extends GameState {
 				        		//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
 				            	try {
 				                	HadalGame.client.client.connect(5000, enterIP.getText(), gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+				                	gsm.getRecord().setlastIp(enterIP.getText());
 				                	setNotification("CONNECTED TO SERVER: " + enterIP.getText());
 				                } catch (IOException ex) {
 				                    setNotification("FAILED TO CONNECT TO SERVER!");
@@ -336,7 +337,13 @@ public class TitleState extends GameState {
 		         });
 				
 				enterIP = new TextField("", GameStateManager.getSkin());
-				enterIP.setMessageText("ENTER IP");
+				
+				if (gsm.getRecord().getLastIp() == "") {
+					enterIP.setMessageText("ENTER IP");
+				} else {
+					enterIP.setMessageText(gsm.getRecord().getLastIp());
+				}
+				
 				
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMessageText("ENTER NAME");

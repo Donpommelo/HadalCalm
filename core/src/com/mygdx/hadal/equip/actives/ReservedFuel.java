@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -22,6 +23,8 @@ public class ReservedFuel extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
+		SoundEffect.MAGIC2_FUEL.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
+
 		user.addStatus(new StatChangeStatus(state, duration, Stats.FUEL_REGEN, power, user, user));
 	}
 	

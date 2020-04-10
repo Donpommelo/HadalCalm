@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -37,6 +38,9 @@ public class AnarchistsCookbook extends Artifact {
 			public void timePassing(float delta) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
+					
+					SoundEffect.LAUNCHER.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
+
 					WeaponUtils.createGrenade(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, inflicted.getSchmuck(), 
 							baseDamage, knockback, lifespan, new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());
 				}

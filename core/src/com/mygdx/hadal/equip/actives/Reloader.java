@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -18,6 +19,8 @@ public class Reloader extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
+		SoundEffect.RELOAD.playUniversal(state, user.getPlayer().getPixelPosition(), 0.4f, false);
+		
 		for (Equipable e : user.getMultitools()) {
 			e.gainClip(100);
 			e.gainAmmo(0.5f);

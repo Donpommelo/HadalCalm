@@ -156,11 +156,11 @@ public class RangedWeapon extends Equipable {
 	 * This method is run every engine tick when reloading.
 	 */
 	@Override
-	public void reload(float delta) {
+	public boolean reload(float delta) {
 
 		if (getAmmoLeft() <= 0) {
 			reloading = false;
-			return;
+			return false;
 		}
 		
 		//Reloading cancels charge
@@ -170,6 +170,8 @@ public class RangedWeapon extends Equipable {
 		//Keep track of how long schmuck has been reloading. If done, get more ammo.
 		if (reloadCd < getReloadTime()) {
 			reloadCd += delta;
+			
+			return false;
 		} else {
 			
 			//A reloadAmount of 0 indicates that the whole clip should be reloaded.
@@ -198,6 +200,8 @@ public class RangedWeapon extends Equipable {
 			if (getAmmoLeft() <= 0) {
 				reloading = false;
 			}
+			
+			return true;
 		}
 	}
 

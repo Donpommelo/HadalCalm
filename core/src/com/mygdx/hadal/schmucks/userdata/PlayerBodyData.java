@@ -267,6 +267,7 @@ public class PlayerBodyData extends BodyData {
 		
 		multitools[slotToReplace] = equip;
 		multitools[slotToReplace].setUser(player);
+		currentSlot = slotToReplace;
 		setEquip();
 		
 		loadout.multitools[slotToReplace] = unlock;

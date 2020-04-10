@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.actives;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -21,6 +22,7 @@ public class DodgeRoll extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
+		SoundEffect.WOOSH.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 		
 		int direction = 0;
 		

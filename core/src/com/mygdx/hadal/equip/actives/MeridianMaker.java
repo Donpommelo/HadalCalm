@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Currents;
@@ -40,6 +41,7 @@ public class MeridianMaker extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
+		SoundEffect.MAGIC11.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 		
 		final Vector2 currentVec = new Vector2(weaponVelo).nor().scl(currentForce);
 		

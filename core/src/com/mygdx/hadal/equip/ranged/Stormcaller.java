@@ -49,7 +49,7 @@ public class Stormcaller extends RangedWeapon {
 		storm.setRestitution(0.5f);
 		
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
-		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.5f));
+		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.5f, true));
 		storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
 			
 			private float controllerCount = 0;

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -11,7 +12,7 @@ public class CatalogofWant extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static float hpConversion = 0.5f;
+	private final static float hpConversion = 0.75f;
 	
 	public CatalogofWant() {
 		super(slotCost, statusNum);
@@ -30,6 +31,8 @@ public class CatalogofWant extends Artifact {
 					if (inflicted.getCurrentHp() > hpCost) {
 						inflicted.setCurrentHp(inflicted.getCurrentHp() - hpCost);
 						tool.gainChargeByPercent(1.0f);
+						
+						SoundEffect.MAGIC1_ACTIVE.playUniversal(inflicted.getSchmuck().getState(), inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
 					}
 				}
 			}

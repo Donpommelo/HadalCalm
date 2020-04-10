@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -23,6 +24,8 @@ public class Kineater extends Artifact {
 			
 			@Override
 			public void afterBossSpawn(Enemy boss) { 
+				SoundEffect.MAGIC27_EVIL.playUniversal(state, boss.getPixelPosition(), 1.0f, false);
+
 				boss.getBodyData().setCurrentHp(boss.getBodyData().getCurrentHp() - (boss.getBodyData().getStat(Stats.MAX_HP) * hpDrainPercent));
 			}
 		};

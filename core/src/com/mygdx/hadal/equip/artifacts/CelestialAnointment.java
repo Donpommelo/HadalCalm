@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -38,6 +39,8 @@ public class CelestialAnointment extends Artifact {
 					
 					if (delay <= 0 && item != null) {
 						echoing = false;
+						
+						SoundEffect.MAGIC1_ACTIVE.playUniversal(inflicted.getSchmuck().getState(), inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
 						item.useItem(state, (PlayerBodyData) inflicted);
 					}
 				}

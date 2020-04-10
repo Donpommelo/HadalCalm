@@ -45,7 +45,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	}
 	
 	@Override
-	public void reload(float delta) {
+	public boolean reload(float delta) {
 		
 		//upon reload, detonate all laid bombs
 		for (Hitbox bomb : bombsLaid) {
@@ -55,7 +55,7 @@ public class StickyBombLauncher extends RangedWeapon {
 		}
 		bombsLaid.clear();
 		
-		super.reload(delta);
+		return super.reload(delta);
 	}
 	
 	@Override

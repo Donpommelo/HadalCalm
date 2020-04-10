@@ -39,7 +39,7 @@ public class ContactWallParticles extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
 			if (fixB.getType().equals(UserDataTypes.WALL)) {
-				new ParticleEntity(state, hbox.getPixelPosition(),	effect, duration, true, particleSyncType.CREATESYNC);
+				new ParticleEntity(state, hbox.getPixelPosition(), effect, duration, true, particleSyncType.CREATESYNC);
 			}
 		}
 	}

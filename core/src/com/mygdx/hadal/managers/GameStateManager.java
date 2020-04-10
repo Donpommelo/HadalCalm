@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.actors.MessageWindow;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
@@ -337,6 +338,12 @@ public class GameStateManager {
 	public void resize(int width, int height) {
 		for (GameState gs : states) {
 			gs.resize(width, height);
+		}
+	}
+	
+	public void exportChatLogs() {
+		for (String s: MessageWindow.getTextRecord()) {
+			Gdx.files.local("save/ChatLog.json").writeString(s + " \n", true);
 		}
 	}
 	

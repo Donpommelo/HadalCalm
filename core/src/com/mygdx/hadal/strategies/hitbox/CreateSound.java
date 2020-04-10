@@ -19,15 +19,18 @@ public class CreateSound extends HitboxStrategy {
 	
 	private float volume;
 	
-	public CreateSound(PlayState state, Hitbox proj, BodyData user, SoundEffect effect, float volume) {
+	private boolean looped;
+	
+	public CreateSound(PlayState state, Hitbox proj, BodyData user, SoundEffect effect, float volume, boolean looped) {
 		super(state, proj, user);
 		this.effect = effect;
 		this.volume = volume;
+		this.looped = looped;
 	}
 	
 	@Override
 	public void create() {
-		sound = new SoundEntity(state, creator.getSchmuck(), effect, volume, true, true, soundSyncType.TICKSYNC);
+		sound = new SoundEntity(state, creator.getSchmuck(), effect, volume, looped, true, soundSyncType.TICKSYNC);
 	}
 	
 	@Override

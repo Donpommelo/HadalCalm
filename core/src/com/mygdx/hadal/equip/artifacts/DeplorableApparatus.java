@@ -16,8 +16,7 @@ public class DeplorableApparatus extends Artifact {
 	private final static float hpReduction = -50.0f;
 	private final static float hpRegen = 12.0f;
 	
-	private float procCdCount = 0;
-	private final static float cd = 1.0f;
+	private final static float procCd = 1.0f;
 	
 	public DeplorableApparatus() {
 		super(slotCost, statusNum);
@@ -29,22 +28,24 @@ public class DeplorableApparatus extends Artifact {
 				new StatChangeStatus(state, Stats.MAX_HP, hpReduction, b), 
 				new Status(state, b) {
 			
+			private float procCdCount = procCd;
+
 			@Override
 			public void timePassing(float delta) {
 				
-				if (procCdCount >= 0) {
-					procCdCount -= delta;
+				if (procCdCount < procCd) {
+					procCdCount += delta;
 				}
 				
-				if (procCdCount < 0) {
+				if (procCdCount >= procCd) {
 					inflicted.regainHp(hpRegen * delta, inflicted, true, DamageTypes.REGEN);
 				}
 			}
 			
 			@Override
 			public float onReceiveDamage(float damage, BodyData perp, DamageTypes... tags) {
-				if (damage > 0) {
-					procCdCount = cd;
+				if (procCdCount >= procCd) {
+					procCdCount = 0;
 				}
 				return damage;
 			}

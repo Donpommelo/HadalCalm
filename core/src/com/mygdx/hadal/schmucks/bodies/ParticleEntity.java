@@ -67,7 +67,7 @@ public class ParticleEntity extends HadalEntity {
 		} else {
 			this.effect.allowCompletion();
 		}
-		this.effect.setPosition(startPos.x, startPos.y);		
+		this.effect.setPosition(startPos.x, startPos.y);
 	}
 	
 	//This constructor creates a particle effect that will follow another entity.
@@ -113,7 +113,6 @@ public class ParticleEntity extends HadalEntity {
 				turnOff();
 			}
 		}
-		
 		
 		//if despawned, we delete this entity after its lingering period
 		if (despawn) {
@@ -170,7 +169,7 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public boolean isVisible() {
-		return state.camera.frustum.boundsInFrustum(effect.getBoundingBox());
+		return true;
 	}
 
 	public void turnOn() {
@@ -197,7 +196,8 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	@Override
-	public void dispose() {
+	public void dispose() {		
+		
 		if (alive) {
 			effect.reset();
 			effect.free();
@@ -210,7 +210,6 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale);
@@ -228,6 +227,7 @@ public class ParticleEntity extends HadalEntity {
 	private Vector2 newPos = new Vector2();
 	@Override
 	public void onServerSync() {
+		
 		if (sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
@@ -265,7 +265,7 @@ public class ParticleEntity extends HadalEntity {
 	 * This sets the scale of the particle
 	 */
 	public void setScale(float scale) { 
-		this.scale = scale; 
+		this.scale = scale;
 		this.effect.scaleEffect(scale);
 	}
 

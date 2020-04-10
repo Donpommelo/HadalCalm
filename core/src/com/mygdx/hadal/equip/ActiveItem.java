@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -76,16 +77,36 @@ public class ActiveItem extends Equipable {
 	 * @param charge: The amount of charge that the item gains.
 	 */
 	public void gainCharge(float charge) {
+		
+		//this is used to keep track of when an item fully charges to play a sound
+		boolean uncharged = currentCharge < maxCharge;
+		
 		currentCharge += (charge * (1 + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
-		if (currentCharge > maxCharge) {
+		if (currentCharge >= maxCharge) {
 			currentCharge = maxCharge;
+			
+			if (uncharged) {
+				SoundEffect.MAGIC1_ACTIVE.playUniversal(user.getState(), user.getPixelPosition(), 0.4f, false);
+			}
 		}
 	}
 	
+	/**
+	 * This is gainCharge except by a percentage of the max charge
+	 */
 	public void gainChargeByPercent(float charge) {
+
+		//this is used to keep track of when an item fully charges to play a sound
+		boolean uncharged = currentCharge < maxCharge;
+
 		currentCharge += (charge * maxCharge * (1 + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
+		
 		if (currentCharge > maxCharge) {
 			currentCharge = maxCharge;
+			
+			if (uncharged) {
+				SoundEffect.MAGIC1_ACTIVE.playUniversal(user.getState(), user.getPixelPosition(), 0.4f, false);
+			}
 		}
 	}
 	
@@ -97,7 +118,10 @@ public class ActiveItem extends Equipable {
 	public void release(PlayState state, BodyData bodyData) {}
 
 	@Override
-	public void reload(float delta) { reloading = false; }
+	public boolean reload(float delta) { 
+		reloading = false; 
+		return false;
+	}
 
 	public boolean isReady() { return currentCharge >= maxCharge; }
 	

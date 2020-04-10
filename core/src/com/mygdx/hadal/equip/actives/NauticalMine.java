@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -14,6 +15,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactHboxLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 
 public class NauticalMine extends ActiveItem {
 
@@ -40,7 +42,8 @@ public class NauticalMine extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		
+		SoundEffect.LAUNCHER.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed), (short) 0, false, false, user.getPlayer(), projSprite);
 		
 		hbox.setDurability(5);
@@ -52,5 +55,7 @@ public class NauticalMine extends ActiveItem {
 		hbox.addStrategy(new DieExplode(state, hbox, user, explosionRadius, explosionDamage, explosionKnockback, (short)0));
 		hbox.addStrategy(new ContactDestroyProjectiles(state, hbox, user));
 		hbox.addStrategy(new ContactHboxLoseDurability(state, hbox, user));
+		
+		hbox.addStrategy(new DieSound(state, hbox, user, SoundEffect.EXPLOSION_FUN, 0.4f));
 	}
 }

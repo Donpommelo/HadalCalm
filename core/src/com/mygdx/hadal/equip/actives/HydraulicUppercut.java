@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
@@ -36,6 +38,8 @@ public class HydraulicUppercut extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
+		SoundEffect.WOOSH.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+
 		user.addStatus(new Invulnerability(state, 0.75f, user, user));
 		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 10.0f, user, user));
 
@@ -48,5 +52,6 @@ public class HydraulicUppercut extends ActiveItem {
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE));
 		hbox.addStrategy(new FixedToUser(state, hbox, user, new Vector2(), new Vector2(), false));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.KICK1, 1.0f));
 	}
 }

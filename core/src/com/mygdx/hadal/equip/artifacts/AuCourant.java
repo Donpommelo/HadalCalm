@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -27,9 +28,13 @@ public class AuCourant extends Artifact {
 			
 			@Override
 			public void timePassing(float delta) {
-				for (int i = 0; i < ((PlayerBodyData)inflicted).getMultitools().length; i++) {
-					if (i != ((PlayerBodyData)inflicted).getCurrentSlot()) {
-						((PlayerBodyData)inflicted).getMultitools()[i].reload(delta);
+				for (int i = 0; i < ((PlayerBodyData) inflicted).getMultitools().length; i++) {
+					if (i != ((PlayerBodyData) inflicted).getCurrentSlot()) {
+						if (((PlayerBodyData) inflicted).getMultitools()[i].getClipLeft() != ((PlayerBodyData) inflicted).getMultitools()[i].getClipSize()) {
+							if (((PlayerBodyData) inflicted).getMultitools()[i].reload(delta)) {
+								SoundEffect.RELOAD.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
+							};
+						}
 					}
 				}
 			}

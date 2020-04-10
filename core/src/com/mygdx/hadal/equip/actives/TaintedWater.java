@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.event.Poison;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -27,7 +28,8 @@ public class TaintedWater extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, final PlayerBodyData user) {	
-		
+		SoundEffect.MAGIC27_EVIL.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+
 		final boolean right = weaponVelo.x > 0;
 
 		user.addStatus(new Status(state, duration, false, user, user) {

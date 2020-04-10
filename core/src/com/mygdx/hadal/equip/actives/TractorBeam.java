@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -42,7 +43,8 @@ public class TractorBeam extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, final PlayerBodyData user) {
-		
+		SoundEffect.LASERHARPOON.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
+
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite);
 		hbox.setRestitution(1.0f);

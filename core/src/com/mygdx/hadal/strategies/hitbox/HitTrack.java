@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -36,6 +37,8 @@ public class HitTrack extends HitboxStrategy {
 				tracked = true;
 				target = fixB.getEntity();	
 				hbox.setLinearVelocity(0, 0);
+				
+				SoundEffect.SQUISH.playUniversal(state, target.getPixelPosition(), 0.5f, false);
 			}
 		}
 	}

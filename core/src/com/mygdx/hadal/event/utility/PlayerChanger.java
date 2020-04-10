@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -59,21 +60,29 @@ public class PlayerChanger extends Event {
 				if (data.getCurrentFuel() < data.getStat(Stats.MAX_FUEL) && fuel > 0) {
 					data.fuelGain(fuel);
 					activated = true;
+					
+					SoundEffect.MAGIC2_FUEL.playUniversal(state, p.getPixelPosition(), 0.3f, false);
 				}
 				
 				if (data.getCurrentHp() < data.getStat(Stats.MAX_HP) && hp > 0) {
 					data.regainHp(hp, p.getPlayerData(), true, DamageTypes.MEDPAK);
 					activated = true;
+					
+					SoundEffect.MAGIC21_HEAL.playUniversal(state, p.getPixelPosition(), 0.3f, false);
 				}
 				
 				if (data.getCurrentTool().getAmmoLeft() < data.getCurrentTool().getAmmoSize() && ammo > 0) {
 					data.getCurrentTool().gainAmmo(ammo);
 					activated = true;
+					
+					SoundEffect.LOCKANDLOAD.playUniversal(state, p.getPixelPosition(), 0.3f, false);
 				}				
 				
 				if (hp < 0) {
 					data.receiveDamage(-hp, new Vector2(), state.getWorldDummy().getBodyData(), false, DamageTypes.BLASTZONE);
 					activated = true;
+					
+					SoundEffect.DAMAGE5.playUniversal(state, p.getPixelPosition(), 0.3f, false);
 				}
 				
 				if (ammo < 0) {

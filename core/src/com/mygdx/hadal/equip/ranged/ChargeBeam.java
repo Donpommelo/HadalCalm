@@ -105,8 +105,8 @@ public class ChargeBeam extends RangedWeapon {
 	}
 	
 	@Override
-	public void reload(float delta) {
-		super.reload(delta);
+	public boolean reload(float delta) {
+		boolean finished = super.reload(delta);
 		
 		if (charge != null) {
 			charge.turnOff();
@@ -114,6 +114,8 @@ public class ChargeBeam extends RangedWeapon {
 		if (overcharge != null) {
 			overcharge.turnOff();
 		}
+		
+		return finished;
 	}
 	
 	@Override

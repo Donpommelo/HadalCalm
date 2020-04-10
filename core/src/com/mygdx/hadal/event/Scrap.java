@@ -3,6 +3,7 @@ package com.mygdx.hadal.event;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
@@ -74,6 +75,8 @@ public class Scrap extends Event {
 					
 					//activate effects that activate upon picking up scrap
 					((PlayerBodyData) fixB).statusProcTime(new ProcTime.ScrapPickup());
+					
+					SoundEffect.COIN3.playExclusive(state, getPixelPosition(), ((PlayerBodyData) fixB).getPlayer(), 1.0f, false);
 				}
 			}
 		};

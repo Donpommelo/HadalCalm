@@ -65,7 +65,7 @@ public enum Particle {
 	
 	//keep track of the particle pool.
 	private static ParticleEffect prototype;
-	private static ParticleEffectPool effectPool;
+	public static ParticleEffectPool effectPool;
 	private final static int poolSize = 50;
 	
 	//this represents the atlas that we read the particle off of.

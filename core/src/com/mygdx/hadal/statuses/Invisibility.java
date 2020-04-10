@@ -1,5 +1,6 @@
 package com.mygdx.hadal.statuses;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
@@ -19,6 +20,11 @@ public class Invisibility extends Status {
 		if (inflicted instanceof PlayerBodyData) {
 			((PlayerBodyData) inflicted).getPlayer().setInvisible(true);
 		}
+	}
+	
+	@Override
+	public void onInflict() {
+		SoundEffect.MAGIC27_EVIL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 1.0f, false);
 	}
 	
 	@Override

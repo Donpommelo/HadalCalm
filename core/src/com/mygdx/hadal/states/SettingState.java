@@ -41,7 +41,6 @@ public class SettingState extends GameState {
 	//This scrollpane holds the options for key bindings
 	private ScrollPane keybinds;
 	
-	
 	//This is the hotkey option that the player has selected to change
 	private PlayerAction currentlyEditing;
 	
@@ -562,6 +561,18 @@ public class SettingState extends GameState {
 		portNumber.setMaxLength(5);
 		portNumber.setTextFieldFilter(new TextFieldFilter.DigitsOnlyFilter());
 		
+		Text exportText = new Text("EXPORT CHAT LOGS", 0, 0, true);
+		exportText.addListener(new ClickListener() {
+			
+			@Override
+	        public void clicked(InputEvent e, float x, float y) {
+				gsm.exportChatLogs();
+				SoundEffect.UISWITCH3.play(gsm, false);
+	        }
+			
+	    });
+		exportText.setScale(0.5f);
+		
 		details.add(randomNameAlliteration).colspan(2).pad(detailsPad).row();
 		details.add(consoleEnabled).colspan(2).pad(detailsPad).row();
 		details.add(verboseDeathMessage).colspan(2).pad(detailsPad).row();
@@ -570,6 +581,7 @@ public class SettingState extends GameState {
 		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
 		details.add(port);
 		details.add(portNumber).colspan(2).width(100).pad(detailsPad).row();
+		details.add(exportText);
 	}
 	
 	/**

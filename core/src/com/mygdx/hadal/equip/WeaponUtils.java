@@ -158,7 +158,7 @@ public class WeaponUtils {
 			hbox.addStrategy(new DamageStandardRepeatable(state, hbox, user.getBodyData(), beeBaseDamage, beeKnockback, DamageTypes.BEES, DamageTypes.RANGED));	
 			hbox.addStrategy(new HomingUnit(state, hbox, user.getBodyData(), beeHoming, filter));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), beeSpread));
-			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.3f));
+			hbox.addStrategy(new CreateSound(state, hbox, user.getBodyData(), SoundEffect.BEE_BUZZ, 0.3f, true));
 		}
 		
 		return null;
@@ -168,7 +168,6 @@ public class WeaponUtils {
 	private static final float spiritHoming = 80;
 	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, short filter) {		
 		
-		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, creator));
@@ -176,6 +175,8 @@ public class WeaponUtils {
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
 		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, filter));
 		hbox.addStrategy(new CreateParticles(state, hbox, creator, Particle.SHADOW_PATH, 0.0f, 3.0f));
+		
+		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));
 	}
 	
 	public static final int pickupSize = 64;
@@ -198,12 +199,18 @@ public class WeaponUtils {
 							PlayerBodyData player = ((PlayerBodyData)fixB);
 							switch(type) {
 							case AMMO:
+								
+								SoundEffect.LOCKANDLOAD.playUniversal(state, player.getPlayer().getPixelPosition(), 0.3f, false);
+								
 								player.getCurrentTool().gainAmmo(power);
 								new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
 								event.queueDeletion();
 								break;
 							case FUEL:
 								if (player.getCurrentFuel() < player.getStat(Stats.MAX_FUEL)) {
+									
+									SoundEffect.MAGIC2_FUEL.playUniversal(state, player.getPlayer().getPixelPosition(), 0.3f, false);
+
 									player.fuelGain(power);
 									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
 									event.queueDeletion();
@@ -211,6 +218,9 @@ public class WeaponUtils {
 								break;
 							case HEALTH:
 								if (player.getCurrentHp() < player.getStat(Stats.MAX_HP)) {
+									
+									SoundEffect.MAGIC21_HEAL.playUniversal(state, player.getPlayer().getPixelPosition(), 0.3f, false);
+									
 									player.regainHp(power, player, true, DamageTypes.MEDPAK);
 									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
 									event.queueDeletion();

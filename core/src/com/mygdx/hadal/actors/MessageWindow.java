@@ -250,4 +250,6 @@ public class MessageWindow {
 		tableLog.add(newEntry).pad(logPadding, logPadding, logPadding, logPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 	}
+
+	public static ArrayList<String> getTextRecord() { return textRecord; }	
 }

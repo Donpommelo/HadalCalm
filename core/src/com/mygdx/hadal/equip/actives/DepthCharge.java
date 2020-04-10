@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -42,6 +43,9 @@ public class DepthCharge extends ActiveItem {
 				super.timePassing(delta);
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
+					
+					SoundEffect.EXPLOSION6.playUniversal(state, explosionPos, 0.8f, false);
+					
 					WeaponUtils.createExplosion(state, explosionPos, explosionSize.x, user.getPlayer(), explosionDamage, explosionKnockback, user.getPlayer().getHitboxfilter());
 					explosionPos.sub(0, explosionSize.x / 2);
 				}

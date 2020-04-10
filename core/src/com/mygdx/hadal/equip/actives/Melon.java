@@ -1,14 +1,11 @@
 package com.mygdx.hadal.equip.actives;
 
-import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.statuses.StatChangeStatus;
-import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.statuses.Regeneration;
 
 public class Melon extends ActiveItem {
 
@@ -25,8 +22,9 @@ public class Melon extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		user.addStatus(new StatChangeStatus(state, duration, Stats.HP_REGEN, power, user, user));
-		new ParticleEntity(state, user.getSchmuck(), Particle.REGEN, 0.0f, duration, true, particleSyncType.CREATESYNC);
+		SoundEffect.EATING.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+
+		user.addStatus(new Regeneration(state, duration, user, user, power));
 	}
 	
 	@Override

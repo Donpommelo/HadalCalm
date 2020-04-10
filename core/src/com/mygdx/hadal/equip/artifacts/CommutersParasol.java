@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -53,9 +54,11 @@ public class CommutersParasol extends Artifact {
 						public void onHit(HadalData fixB) {
 							if (fixB != null) {
 								if (fixB.getType().equals(UserDataTypes.HITBOX)){
-									if (((Hitbox)fixB.getEntity()).isAlive()) {
+									if (((Hitbox) fixB.getEntity()).isAlive()) {
 										Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(inflicted.getSchmuck().getPosition());
-										((Hitbox)fixB.getEntity()).setLinearVelocity(((Hitbox)fixB.getEntity()).getLinearVelocity().setAngle(newVelo.angle()));
+										((Hitbox) fixB.getEntity()).setLinearVelocity(((Hitbox)fixB.getEntity()).getLinearVelocity().setAngle(newVelo.angle()));
+										
+										SoundEffect.SPRING.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 									}
 								}
 							}

@@ -108,8 +108,9 @@ public abstract class Equipable {
 	 * This method will be called every engine tick if the player is reloading.
 	 * If the weapon is reloadable, this method will probably count down some timer and add ammo when done.
 	 * @param delta: elapsed time in seconds since last engine tick
+	 * @return: whether the weapon just finished reloading or not
 	 */
-	public abstract void reload(float delta);
+	public abstract boolean reload(float delta);
 
 	/**
 	 * This is the method called when a weapon actually fires off. This usually involves shooty stuff.

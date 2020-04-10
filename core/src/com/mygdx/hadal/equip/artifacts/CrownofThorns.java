@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.artifacts;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -10,6 +11,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
@@ -37,7 +39,7 @@ public class CrownofThorns extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			private float procCdCount;
+			private float procCdCount = procCd;
 			
 			@Override
 			public void timePassing(float delta) {
@@ -53,6 +55,8 @@ public class CrownofThorns extends Artifact {
 				if (procCdCount >= procCd && damage > 0) {
 					procCdCount = 0;
 					
+					SoundEffect.SPIKE.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
+					
 					for (int i = 0; i < 6; i++) {
 						angle.setAngle(angle.angle() + 60);
 						Hitbox hbox = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, thornDuration, new Vector2(angle).nor().scl(thornSpeed), inflicted.getSchmuck().getHitboxfilter(), 
@@ -63,6 +67,7 @@ public class CrownofThorns extends Artifact {
 						hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
 						hbox.addStrategy(new ContactWallDie(state, hbox, inflicted));
 						hbox.addStrategy(new DamageStandard(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.POKING, DamageTypes.RANGED));
+						hbox.addStrategy(new ContactUnitSound(state, hbox, inflicted, SoundEffect.STAB, 0.25f));
 					}
 				}
 				

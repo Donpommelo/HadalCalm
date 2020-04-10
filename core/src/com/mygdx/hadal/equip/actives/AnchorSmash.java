@@ -5,15 +5,20 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Constants;
 
@@ -25,11 +30,11 @@ public class AnchorSmash extends ActiveItem {
 
 	private final static Vector2 projectileSize = new Vector2(300, 200);
 	private final static float lifespan = 5.0f;
-	private final static float projectileSpeed = 90.0f;
+	private final static float projectileSpeed = 60.0f;
 
 	private final static float range = 1800.0f;
 	
-	private final static float baseDamage = 90.0f;
+	private final static float baseDamage = 80.0f;
 	private final static float knockback = 50.0f;
 	
 	public AnchorSmash(Schmuck user) {
@@ -42,6 +47,7 @@ public class AnchorSmash extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
+
 		originPt.set(mouseLocation).scl( 1 / PPM);
 		endPt.set(originPt).add(0, -range);
 		shortestFraction = 1.0f;
@@ -64,19 +70,29 @@ public class AnchorSmash extends ActiveItem {
 		endPt.set(originPt).add(0, -range * shortestFraction).scl(PPM);
 		originPt.set(endPt).add(0, range);
 		
-		Hitbox hbox = new Hitbox(state, originPt, projectileSize, lifespan, new Vector2(0, -projectileSpeed),
-				user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.ORB_BLUE);
+		Hitbox hbox = new Hitbox(state, originPt, projectileSize, lifespan, new Vector2(0, -projectileSpeed), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), Sprite.ORB_BLUE);
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MAGIC));
+		
+		hbox.addStrategy(new CreateSound(state, hbox, user, SoundEffect.FALLING, 0.5f, false));
+
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
+			
+			private boolean landed = false;
 			
 			@Override
 			public void controller(float delta) {
 				if (hbox.getPixelPosition().y - hbox.getSize().y / 2 <= endPt.y) {
 					hbox.setLinearVelocity(0, 0);
+					
+					if (!landed) {
+						landed = true;
+						
+						SoundEffect.METAL_IMPACT_2.playUniversal(state, hbox.getPixelPosition(), 1.0f, false);
+						new ParticleEntity(state, hbox.getPixelPosition(), Particle.BOULDER_BREAK, 0.5f, true, particleSyncType.CREATESYNC);
+					}
 				}
 			}
 		});
-		
 	}
 }

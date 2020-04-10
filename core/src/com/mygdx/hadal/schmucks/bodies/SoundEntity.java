@@ -27,8 +27,8 @@ public class SoundEntity extends HadalEntity {
 	//Has the attached entity despawned yet?
 	private boolean despawn;
 	
-	private static final float defaultFadeInSpeed = 3.0f;
-	private static final float defaultFadeOutSpeed = -3.0f;
+	private static final float defaultFadeInSpeed = 2.0f;
+	private static final float defaultFadeOutSpeed = -2.0f;
 	
 	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float volume, boolean looped, boolean startOn, soundSyncType sync) {
 		super(state, new Vector2(), new Vector2());

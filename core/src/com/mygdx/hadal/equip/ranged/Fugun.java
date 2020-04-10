@@ -46,7 +46,7 @@ public class Fugun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LAUNCHER4.playUniversal(state, startPosition, 0.5f, false);
+		SoundEffect.LAUNCHER4.playUniversal(state, startPosition, 0.25f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
@@ -56,7 +56,7 @@ public class Fugun extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POISON, DamageTypes.RANGED));
 		hbox.addStrategy(new DiePoison(state, hbox, user.getBodyData(), poisonRadius, poisonDamage, poisonDuration, (short) 0));
 		hbox.addStrategy(new DieRagdoll(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DEFLATE, 0.4f));
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.DEFLATE, 0.25f));
 
 	}
 }

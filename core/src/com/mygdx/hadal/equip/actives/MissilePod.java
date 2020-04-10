@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -25,6 +26,8 @@ public class MissilePod extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
+		SoundEffect.DEFLATE.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+		
 		user.addStatus(new Status(state, duration, false, user, user) {
 			
 			private float procCdCount;

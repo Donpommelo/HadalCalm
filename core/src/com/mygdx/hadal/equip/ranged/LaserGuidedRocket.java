@@ -51,7 +51,7 @@ public class LaserGuidedRocket extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.ROLLING_ROCKET.playUniversal(state, startPosition, 0.6f, false);
+		SoundEffect.ROLLING_ROCKET.playUniversal(state, startPosition, 0.4f, false);
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 

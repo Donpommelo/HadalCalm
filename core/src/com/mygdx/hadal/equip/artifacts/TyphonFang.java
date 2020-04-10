@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -30,8 +31,10 @@ public class TyphonFang extends Artifact {
 			@Override
 			public void onKill(BodyData vic) {
 				if (this.inflicted instanceof PlayerBodyData) {
-					if (((PlayerBodyData)this.inflicted).getCurrentTool() instanceof RangedWeapon) {
-						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData)this.inflicted).getCurrentTool();
+					if (((PlayerBodyData) this.inflicted).getCurrentTool() instanceof RangedWeapon) {
+						SoundEffect.RELOAD.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
+
+						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData) this.inflicted).getCurrentTool();
 						weapon.gainClip((int)(weapon.getClipSize() * cliprefill));
 					}
 				}

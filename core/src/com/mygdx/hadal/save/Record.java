@@ -19,6 +19,9 @@ public class Record {
 	//This is a map of the player's quest flags
 	private Map<String, Integer> flags;
 	
+	//this is the last ip connected to
+	private String lastIp;
+	
 	//This is a map of the player's unlocks
 	private Map<String, Integer> hiScores;
 	private Map<String, Boolean> unlockEquip;
@@ -51,6 +54,11 @@ public class Record {
 	
 	public void setScrap(int scrap) {
 		this.scrap = scrap;
+		saveRecord();
+	}
+	
+	public void setlastIp(String lastIp) {
+		this.lastIp = lastIp;
 		saveRecord();
 	}
 	
@@ -123,6 +131,8 @@ public class Record {
 	}
 	
 	public int getScrap() { return scrap; }
+	
+	public String getLastIp() { return lastIp; }
 	
 	public int getSlotsUnlocked() { 
 		
