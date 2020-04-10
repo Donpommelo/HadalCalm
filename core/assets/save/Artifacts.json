@@ -741,7 +741,7 @@ SEAFOAM_PERIAPT: {
 SENESCENT_SHIELD: {
 	name: Senescent Shield
 	description: "Deflective Projectiles"
-    descriptionLong: "TEST"
+    descriptionLong: "A tarnished shield that once held symbolic importance for some forgotten reason.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

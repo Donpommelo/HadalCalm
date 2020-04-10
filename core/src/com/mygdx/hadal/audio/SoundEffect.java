@@ -131,7 +131,9 @@ public enum SoundEffect {
 			getSound().stop();
 		}
 		
-		return getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume());
+		long thisSound = getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume());
+		
+		return thisSound;
 	}
 	
 	/**
@@ -192,8 +194,7 @@ public enum SoundEffect {
 	
 	//maxDist is the largest distance the player can hear sounds from.
 	//Further sounds will be quieter.
-	private final static float maxDist = 3000.0f;
-	private Vector2 soundPosition = new Vector2();
+	private final static float maxDist = 3500.0f;
 	/**
 	 * updateSoundLocation updates the volume and pan of single instance of a sound.
 	 * This is done based on the sound's location relative to the player.
@@ -203,10 +204,10 @@ public enum SoundEffect {
 		Player player = state.getPlayer();
 		if (player.getBody() != null) {
 			
-			soundPosition.set(worldPos).sub(player.getPixelPosition());
-			float dist = soundPosition.len2();
 			float xDist = worldPos.x - player.getPixelPosition().x;
-			
+			float yDist = worldPos.y - player.getPixelPosition().y;
+			float dist = Math.abs(xDist) + Math.abs(yDist);
+
 			float pan = 0.0f;
 			float newVolume = 1.0f;
 			
@@ -220,12 +221,12 @@ public enum SoundEffect {
 			}
 			
 			//sound volume scales inversely to distance from sound
-			if (dist > maxDist * maxDist) {
+			if (dist > maxDist) {
 				newVolume = 0.0f;
 			} else if (dist <= 0) {
 				newVolume = 1.0f;
 			} else {
-				newVolume = (maxDist * maxDist - dist) / (maxDist * maxDist);
+				newVolume = (maxDist - dist) / maxDist;
 			}
 			getSound().setPan(soundId, pan, newVolume * volume * state.getGsm().getSetting().getSoundVolume() * state.getGsm().getSetting().getMasterVolume());
 		} else {

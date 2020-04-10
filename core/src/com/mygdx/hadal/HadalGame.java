@@ -97,7 +97,6 @@ public class HadalGame extends ApplicationAdapter {
 	    hud.zoom = 1;
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
-	    musicPlayer = new MusicPlayer();
 	    
         gsm = new GameStateManager(this);
 		gsm.addState(State.SPLASH, null);
@@ -105,6 +104,8 @@ public class HadalGame extends ApplicationAdapter {
 		client = new KryoClient(gsm);
 		server = new KryoServer(gsm);
 		
+	    musicPlayer = new MusicPlayer(gsm);
+
 		black = new Texture(Gdx.files.internal("black.png"));
 		
 //		profiler = new GLProfiler(Gdx.graphics);
@@ -177,7 +178,9 @@ public class HadalGame extends ApplicationAdapter {
 				}
 			}
 		}
-				
+		
+		musicPlayer.controller(delta);
+		
 //		System.out.println(
 //	            "  Drawcalls: " + profiler.getDrawCalls() +
 //	            ", Calls: " + profiler.getCalls() +
@@ -221,6 +224,7 @@ public class HadalGame extends ApplicationAdapter {
 		gsm.dispose();
 		batch.dispose();
 		assetManager.dispose();
+		musicPlayer.dispose();
 	}
 	
 	public void fadeOut() {	fadeDelta = defaultFadeOutSpeed; }

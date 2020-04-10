@@ -13,6 +13,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.audio.MusicTrack;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Loadout;
@@ -699,6 +700,25 @@ public class KryoClient {
 		    							entity.setShader(p.shader, p.shaderCount);
 		    						}
 								}
+							}
+						});
+					}
+        		}
+        		
+        		/*
+        		 * we are told by the server to play a new music track
+        		 * atm, this only happens when we are in the playstate.
+        		 */
+        		else if (o instanceof Packets.SyncMusic) {
+        			final Packets.SyncMusic p = (Packets.SyncMusic) o;
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+
+							@Override
+							public void execute() {
+								HadalGame.musicPlayer.playSong(MusicTrack.valueOf(p.music), p.volume);
 							}
 						});
 					}

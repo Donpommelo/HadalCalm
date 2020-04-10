@@ -72,6 +72,7 @@ public class TitleState extends GameState {
 	
 	@Override
 	public void show() {
+		
 		stage = new Stage() {
 			{
 				addActor(new TitleBackdrop());
@@ -284,7 +285,7 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						
+
 						if (inputDisabled) {
 							return;
 						}

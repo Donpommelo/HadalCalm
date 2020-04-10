@@ -814,6 +814,23 @@ public class Packets {
 		}
 	}
 	
+	public static class SyncMusic {
+		public String music;
+		public float volume;
+		
+		public SyncMusic() {}
+		
+		/**
+		 * A SyncMusic is sent fro mthe server to the client to tell them to begin playing a certain music track.
+		 * @param music: the enum name of the music track to play
+		 * @param volume: volume to play the music at
+		 */
+		public SyncMusic(String music, float volume) {
+			this.music = music;
+			this.volume = volume;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
