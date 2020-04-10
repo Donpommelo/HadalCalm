@@ -341,6 +341,10 @@ public class GameStateManager {
 		}
 	}
 	
+	/**
+	 * This exports the current chat log into a text file.
+	 * This is mostly for my own documentation
+	 */
 	public void exportChatLogs() {
 		for (String s: MessageWindow.getTextRecord()) {
 			Gdx.files.local("save/ChatLog.json").writeString(s + " \n", true);

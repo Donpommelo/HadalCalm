@@ -84,7 +84,7 @@ public class Player extends PhysicsSchmuck {
 	private Fixture feet, rightSensor, leftSensor;
 	private FeetData feetData, rightData, leftData;
 	
-	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.
+	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.) and invisibility (to manage particles without checking statuses every tick)
 	private boolean scaling, invisible;
 	
 	//counters for various cooldowns.
@@ -130,7 +130,8 @@ public class Player extends PhysicsSchmuck {
 	
 	//This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
 	private float chargePercent;
-		
+	
+	//particles and sounds used by the player
 	private ParticleEntity hoverBubbles, dustCloud;
 	private SoundEntity runSound, hoverSound, reloadSound;
 	
@@ -328,6 +329,8 @@ public class Player extends PhysicsSchmuck {
 					hovering = true;
 				}
 			} else {
+				
+				//turn off hover particles and sound
 				hoverBubbles.turnOff();
 				hovering = false;
 				
@@ -341,6 +344,8 @@ public class Player extends PhysicsSchmuck {
 			}
 			
 			if ((moveState.equals(MoveState.MOVE_LEFT) || moveState.equals(MoveState.MOVE_RIGHT)) && grounded && !invisible) {
+				
+				//turn on running particles and sound
 				dustCloud.turnOn();
 				
 				if (runSound == null) {
@@ -349,6 +354,8 @@ public class Player extends PhysicsSchmuck {
 					runSound.turnOn();
 				}
 			} else {
+				
+				//turn off running particles and sound
 				dustCloud.turnOff();
 				if (runSound != null) {
 					runSound.turnOff();
@@ -379,6 +386,7 @@ public class Player extends PhysicsSchmuck {
 		if (playerData.getCurrentTool().isReloading()) {
 			playerData.getCurrentTool().reload(delta);
 			
+			//turn on reloading particles and sound
 			if (reloadSound == null) {
 				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.2f, true, true, soundSyncType.TICKSYNC);
 			} else {
@@ -419,6 +427,7 @@ public class Player extends PhysicsSchmuck {
 			jumpCdCount = hoverCd;
 			pushMomentumMitigation(0, playerData.getHoverPower());
 			
+			//turn on hovering particles and sound
 			hoverBubbles.turnOn();
 			
 			if (hoverSound == null) {
@@ -427,6 +436,8 @@ public class Player extends PhysicsSchmuck {
 			hoverSound.turnOn();
 			
 		} else {
+			
+			//turn off hovering particles and sound
 			hoverBubbles.turnOff();
 			if (hoverSound != null) {
 				hoverSound.turnOff();
@@ -443,6 +454,7 @@ public class Player extends PhysicsSchmuck {
 				jumpCdCount = jumpCd;
 				pushMomentumMitigation(0, playerData.getJumpPower());
 				
+				//activate jump particles and sound
 				new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
 				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
 			}
@@ -453,6 +465,7 @@ public class Player extends PhysicsSchmuck {
 					playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 					pushMomentumMitigation(0, playerData.getJumpPower());
 					
+					//activate double-jump particles and sound
 					new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
 					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
 				}
@@ -880,6 +893,9 @@ public class Player extends PhysicsSchmuck {
 		return originPt.add(offset.nor().scl((spawnDist + projSize / 4 / PPM) * shortestFraction - 1)).scl(PPM);
 	}
 	
+	/**
+	 * This makes the player's legs flail more when in the air
+	 */
 	@Override
 	public void increaseAnimationTime(float i) { 
 		if (grounded) {

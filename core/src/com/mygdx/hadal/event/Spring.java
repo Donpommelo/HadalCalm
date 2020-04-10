@@ -58,7 +58,7 @@ public class Spring extends Event {
 					if (procCdCount >= procCd) {
 						procCdCount = 0;
 						
-						SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.5f, false);
+						SoundEffect.SPRING.playUniversal(state, getPixelPosition(), 0.25f, false);
 						new ParticleEntity(state, getPixelPosition(), Particle.MOMENTUM, 1.0f, true, particleSyncType.CREATESYNC);
 					}
 				}

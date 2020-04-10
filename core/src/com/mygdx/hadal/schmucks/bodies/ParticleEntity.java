@@ -245,7 +245,7 @@ public class ParticleEntity extends HadalEntity {
 	}
 	
 	/**
-	 * For Client Particle entities, sync position and on if the server sends over the packes (if Tick synced)
+	 * For Client Particle entities, sync position and on if the server sends over the packets (if Tick synced)
 	 */
 	@Override
 	public void onClientSync(Object o) {

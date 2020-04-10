@@ -770,6 +770,15 @@ public class Packets {
 		public CreateSound() {}
 		
 		/**
+		 * A CreateSound is sent from the Server to the Client to tell the client to create a SoundEntity.
+		 * This is distinct from SyncSoundSingle because the sound is attached to an entity that can move/be destroyed etc.
+		 * The volume and pan of the sound is dependent on the relative position of the entity.
+		 * @param entityID: schmuck id of the SoundEntity
+		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attach to
+		 * @param sound: The sound effect to play
+		 * @param volume: volume of the sound. 1.0f = full volume.
+		 * @param looped: does the sound loop?
+		 * @param volume: does the sound start off on?
 		 */
 		public CreateSound(String entityID, String attachedID, String sound, float volume, boolean looped, boolean on) {
 			this.entityID = entityID;
@@ -790,6 +799,13 @@ public class Packets {
 		
 		public SyncSound() {}
 		
+		/**
+		 * A SyncSound synchronizes a single sound entity and is sent from the server to the client every world-sync.
+		 * @param entityID: schmuck id of the SoundEntity
+		 * @param pos: new position of the soundentity
+		 * @param volume: new volume of the soundentity
+		 * @param on: is the soundentity on?
+		 */
 		public SyncSound(String entityID, Vector2 pos, float volume, boolean on) {
 			this.entityID = entityID;
 			this.pos = pos;

@@ -259,6 +259,10 @@ public class WeaponUtils {
 		}
 	}
 	
+	/**
+	 * This spawns some amount of scrap events as currency for the player
+	 * @param statCheck: do we take into account the player's bonus scrap drop?
+	 */
 	public static void spawnScrap(PlayState state, int amount, Vector2 startPos, boolean statCheck) {
 		
 		int modifiedAmount = 0;

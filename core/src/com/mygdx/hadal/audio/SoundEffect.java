@@ -120,6 +120,11 @@ public enum SoundEffect {
 		return play(gsm, 1.0f, singleton);
 	}
 	
+	/**
+	 * This plays a single sound for the player and returns the sound id
+	 * singleton is for sounds that only have 1 instance playing at a time.
+	 * Do not use singleton sounds for multiple sound effects
+	 */
 	public long play(GameStateManager gsm, float volume, boolean singleton) {
 		
 		if (singleton) {
@@ -129,8 +134,10 @@ public enum SoundEffect {
 		return getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume());
 	}
 	
-	private final static float maxDist = 3000.0f;
-	private Vector2 soundPosition = new Vector2();
+	/**
+	 * This is used to play sounds that have a source in the world.
+	 * The volume and pan of the sound depends on the location relative to the player listening.
+	 */
 	public long playSourced(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
 
 		long soundId = getSound().play();
@@ -142,9 +149,11 @@ public enum SoundEffect {
 	
 	/**
 	 * This plays a sound effect for all players.
+	 * This is only run by the host. I think.
 	 */
 	public long playUniversal(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
 		
+		//Send a packet to the client and play the sound
 		if (state.isServer()) {
 			HadalGame.server.sendToAllTCP(new Packets.SyncSoundSingle(this, worldPos, volume, singleton));
 		}
@@ -157,12 +166,14 @@ public enum SoundEffect {
 	}
 	
 	/**
-	 * This plays a sound effect for a single player. atm, you cannot have multiple instances of an exclusive sound
+	 * This plays a sound effect for a single player.
+	 * This is only run by the host
 	 */
 	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, boolean singleton) {
 		
 		if (state.isServer() && player != null) {
 			
+			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
 			if (player.getConnID() == 0) {
 				
 				if (worldPos == null) {
@@ -179,6 +190,15 @@ public enum SoundEffect {
 		return (long) 0;
 	}
 	
+	//maxDist is the largest distance the player can hear sounds from.
+	//Further sounds will be quieter.
+	private final static float maxDist = 3000.0f;
+	private Vector2 soundPosition = new Vector2();
+	/**
+	 * updateSoundLocation updates the volume and pan of single instance of a sound.
+	 * This is done based on the sound's location relative to the player.
+	 * This is used for sounds attached to entities. 
+	 */
 	public void updateSoundLocation(PlayState state, Vector2 worldPos, float volume, long soundId) {
 		Player player = state.getPlayer();
 		if (player.getBody() != null) {
@@ -189,6 +209,8 @@ public enum SoundEffect {
 			
 			float pan = 0.0f;
 			float newVolume = 1.0f;
+			
+			//sound will be played from right/left headphone depending on relative x-coordinate
 			if (xDist > maxDist) {
 				pan = 1.0f;
 			} else if (xDist < -maxDist) {
@@ -197,6 +219,7 @@ public enum SoundEffect {
 				pan = xDist / maxDist;
 			}
 			
+			//sound volume scales inversely to distance from sound
 			if (dist > maxDist * maxDist) {
 				newVolume = 0.0f;
 			} else if (dist <= 0) {

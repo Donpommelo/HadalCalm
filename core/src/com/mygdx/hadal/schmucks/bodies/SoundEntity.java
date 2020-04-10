@@ -8,25 +8,40 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * A SoundEntity is like a ParticleEntity except for Sound. It attaches to another entity and plays sound fro mthat entity's location
+ * It also helps sync the sound between server and client.
+ * @author Zachary Tu
+ *
+ */
 public class SoundEntity extends HadalEntity {
 
+	//This is the sound effect that will be played
 	private SoundEffect sound;
+	
+	//this is the sound id of the instance of the sound
 	private long soundId;
+	
+	//this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
 	private float fade;
 
+	//the volume of the sound and the max volume the sound will fade in to.
 	private float volume, maxVolume;
 	
+	//should the sound loop after playing? Should the sound start off playing?
 	private boolean looped, on;
 	
-	//Is this entity following another entity?
+	//Is this entity following another entity? If so, what is the entity's id (used by client)
 	private HadalEntity attachedEntity;
 	private String attachedId;
 	
+	//how is this entity synced? (this works identically to particle entities
 	private soundSyncType sync;
 	
 	//Has the attached entity despawned yet?
 	private boolean despawn;
 	
+	//default values for sound fading
 	private static final float defaultFadeInSpeed = 2.0f;
 	private static final float defaultFadeOutSpeed = -2.0f;
 	
@@ -40,26 +55,36 @@ public class SoundEntity extends HadalEntity {
 		this.on = startOn;
 		this.sync = sync;
 		
+		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
 		if (startOn && attachedEntity != null) {
 			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, false);
 			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
 		} else {
+			
+			//otherwise, we just get the sound id and pause it.
 			this.soundId = sound.play(state.getGsm(), volume, false);
 			sound.getSound().pause(soundId);
 		}
+		
+		//set the looping of the sound
 		sound.getSound().setLooping(soundId, looped);
 	}
 
 	@Override
 	public void create() {}
 
+	//This is the rate that the sound will sync its volume/pan based on its moving position.
+	//No need to update every tick.
 	private float syncAccumulator = 0.0f;
 	private final static float syncTime = 0.01f;
 	@Override
 	public void controller(float delta) {
 		
+		//process sound fading. Gradually change sound volume until it reaches 0.0 or max volume.
 		if (fade != 0) {
 			volume += delta * fade;
+			
+			//when a sound finishes fading out, pause it and delete it, if it is set to despawn
 			if (volume <= 0.0f) {
 				volume = 0.0f;
 				sound.getSound().pause(soundId);
@@ -95,6 +120,10 @@ public class SoundEntity extends HadalEntity {
 		
 	}
 
+	/**
+	 * Client NoiseEntites will run normally if set to Create or No Sync
+	 * If attached to an entity that hasn't been sent over yet, wait until it exists and then attach and resume sound
+	 */
 	@Override
 	public void clientController(float delta) {
 		
@@ -111,6 +140,9 @@ public class SoundEntity extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * When created on the server, tell clients to create if create or tick sync.
+	 */
 	@Override
 	public Object onServerCreate() {
 		
@@ -122,6 +154,9 @@ public class SoundEntity extends HadalEntity {
 		return null;
 	}
 	
+	/**
+	 * For sounds that are tick synced, send over location and volume to clients as well as whether it is on or not
+	 */
 	private Vector2 newPos = new Vector2();
 	@Override
 	public void onServerSync() {
@@ -135,6 +170,9 @@ public class SoundEntity extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * For Client sound entities, sync position, volume and on if the server sends over the packets (if Tick synced)
+	 */
 	@Override
 	public void onClientSync(Object o) {
 		Packets.SyncSound p = (Packets.SyncSound) o;
@@ -169,6 +207,9 @@ public class SoundEntity extends HadalEntity {
 		on = false;
 	}
 	
+	/**
+	 * This turns a sound off and sets it to despawn after fading
+	 */
 	public void terminate() {
 		fade = defaultFadeOutSpeed;
 		on = false;

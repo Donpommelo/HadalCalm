@@ -45,7 +45,7 @@ public class Record {
 	}
 	
 	/**
-	 * This increments the player's scrap and saves
+	 * This increments the player's scrap, saves, last Ip, etc and saves the record file afterward
 	 */
 	public void incrementScrap(int amount) {
 		scrap = scrap + amount;
@@ -134,6 +134,9 @@ public class Record {
 	
 	public String getLastIp() { return lastIp; }
 	
+	/**
+	 * This acquires the number of single-player-mode artifact slots based on quest completion
+	 */
 	public int getSlotsUnlocked() { 
 		
 		int slots = 0;

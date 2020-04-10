@@ -252,6 +252,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * Server tells us to create a SoundEntity to play a sound
+        		 * Create entity and set is attachedId so that it will connect once it is created.
+        		 */
         		else if (o instanceof Packets.CreateSound) {
         			final Packets.CreateSound p = (Packets.CreateSound) o;
         			final ClientState cs = getClientState();
@@ -270,7 +274,7 @@ public class KryoClient {
 					}
         		}
         		
-        		/**
+        		/*
         		 * The server tells up to update our player's stats when we get buffs
         		 * Change override values that are displayed in our ui
         		 */
@@ -291,6 +295,10 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * The client is told to update its own stats.
+        		 * These are stats only relevant to one client.
+        		 */
         		else if (o instanceof Packets.SyncPlayerSelf) {
         			Packets.SyncPlayerSelf p = (Packets.SyncPlayerSelf) o;
         			final ClientState cs = getClientState();
@@ -471,7 +479,7 @@ public class KryoClient {
 					}
         		}
         		
-        		/**
+        		/*
         		 * Server rejects out connection. Display msg on title screen.
         		 */
         		else if (o instanceof Packets.ConnectReject) {
@@ -649,7 +657,7 @@ public class KryoClient {
 					}
         		}
         		
-        		/**
+        		/*
         		 * When a client player is spawned, we are told which ui elements to fill our uiExtra with.
         		 */
         		else if (o instanceof Packets.SyncUI) {
@@ -669,7 +677,7 @@ public class KryoClient {
 					}
         		}
         		
-        		/**
+        		/*
         		 * When a shader in the server changes, we are told to echo that change.
         		 */
         		else if (o instanceof Packets.SyncShader) {

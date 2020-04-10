@@ -7,7 +7,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy creates an explosion when the attached hbox dies
+ * This strategy creates a sound when the attached hbox dies
  * @author Zachary Tu
  *
  */

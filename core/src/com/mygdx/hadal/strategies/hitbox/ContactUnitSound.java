@@ -9,6 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ * This strategy creates a sound when the hbox hits a player
  * @author Zachary Tu
  *
  */

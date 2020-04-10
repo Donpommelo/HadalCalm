@@ -27,7 +27,7 @@ public class SpringLoader extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.SPRING.playUniversal(state, user.getPlayer().getMouse().getPixelPosition(), 0.5f, false);
+		SoundEffect.SPRING.playUniversal(state, user.getPlayer().getMouse().getPixelPosition(), 0.4f, false);
 		new Spring(state, user.getPlayer().getMouse().getPixelPosition(), springRadius, new Vector2(0, springPower), springDuration);
 		new ParticleEntity(state, user.getPlayer().getMouse().getPixelPosition(), Particle.MOMENTUM, 1.0f, true, particleSyncType.CREATESYNC);
 

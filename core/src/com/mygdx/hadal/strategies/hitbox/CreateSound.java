@@ -9,6 +9,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ * This strategy creates an attached sound when the attached hbox is created
  * @author Zachary Tu
  *
  */
