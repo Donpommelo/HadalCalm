@@ -31,7 +31,6 @@ public class ActiveItem extends Equipable {
 	public ActiveItem(Schmuck user, float usecd, float usedelay, float maxCharge, chargeStyle chargeStyle) {
 		super(user, usecd, usedelay, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 		this.maxCharge = maxCharge;
-		this.currentCharge = maxCharge;
 		this.style = chargeStyle;
 	}
 	

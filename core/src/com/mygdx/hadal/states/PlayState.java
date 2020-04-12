@@ -348,7 +348,7 @@ public class PlayState extends GameState {
 	private float physicsAccumulator = 0.0f;
 	private final static float physicsTime = 1 / 200f;
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 1 / 60f;
+	private final static float syncTime = 1 / 30f;
 	public final static float syncInterpolation = 1 / 10f;
 	private float timer;
 
@@ -661,7 +661,7 @@ public class PlayState extends GameState {
 			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 
-			((PlayerController)controller).setPlayer(player);
+			((PlayerController) controller).setPlayer(player);
 
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -683,7 +683,7 @@ public class PlayState extends GameState {
 			
 			//remove this state and add a new play state with a fresh loadout
 			gsm.removeState(PlayState.class);
-			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), null, TitleState.class, true, nextStartId);
+			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
 			
@@ -695,7 +695,7 @@ public class PlayState extends GameState {
 			gsm.removeState(PlayState.class);
 			if (!gsm.getStates().isEmpty()) {
 				if (gsm.getStates().peek() instanceof TitleState) {
-					((TitleState)gsm.getStates().peek()).setNotification(resultsText);
+					((TitleState) gsm.getStates().peek()).setNotification(resultsText);
 				}
 			}
 			break;

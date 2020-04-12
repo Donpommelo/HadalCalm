@@ -32,12 +32,12 @@ public class Popper extends RangedWeapon {
 	private final static Vector2 projectileSize = new Vector2(45, 45);
 	private final static float lifespan = 0.3f;
 	
-	private final static int numProj = 10;
+	private final static int numProj = 5;
 	private final static int spread = 20;
 	private final static float fragSpeed = 30.0f;
 	private final static Vector2 fragSize = new Vector2(15, 15);
 	private final static float fragLifespan = 1.2f;
-	private final static float fragDamage = 7.5f;
+	private final static float fragDamage = 15.0f;
 	private final static float fragKnockback = 2.0f;
 
 	private final static float projDampen = 10.0f;

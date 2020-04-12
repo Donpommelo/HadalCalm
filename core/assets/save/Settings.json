@@ -15,6 +15,6 @@ soundVolume: 1
 musicVolume: 1
 masterVolume: 1
 timer: 3
-lives: 1
+lives: 3
 loadoutType: 1
 }

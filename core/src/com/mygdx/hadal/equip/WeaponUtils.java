@@ -142,7 +142,7 @@ public class WeaponUtils {
 	private static final int beeWidth = 13;
 	private static final int beeHeight = 12;
 	private static final int beeDurability = 5;
-	private static final float beeLifespan = 5.0f;
+	private static final float beeLifespan = 4.0f;
 	private final static int beeSpread = 60;
 	private final static float beeHoming = 110;
 	

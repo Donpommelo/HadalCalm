@@ -22,7 +22,7 @@ public class Boiler extends RangedWeapon {
 
 	private final static int clipSize = 90;
 	private final static int ammoSize = 270;
-	private final static float shootCd = 0.03f;
+	private final static float shootCd = 0.04f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;

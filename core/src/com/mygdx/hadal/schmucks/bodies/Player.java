@@ -250,6 +250,12 @@ public class Player extends PhysicsSchmuck {
 		controller = new ActionController(this, state);
 		state.resetController();
 		
+		//this makes the player's selected slot persist after respawning
+		int currentSlot = 1;
+		if (playerData != null) {
+			currentSlot = playerData.getCurrentSlot() + 1;
+		}
+		
 		//If resetting, this indicates that this is a newlyspawned or respawned player. Create new data for it with the provided loadout.
 		//Otherwise, take the input data and reset it to match the new world.
 		if (reset) {
@@ -291,6 +297,8 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			playerData.updateOldData(this);
 		}
+		
+		playerData.switchWeapon(currentSlot);
 				
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
 		if (!state.isServer() && state.getPlayer().equals(this)) {
