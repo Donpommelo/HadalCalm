@@ -346,7 +346,7 @@ public class TitleState extends GameState {
 				if (gsm.getRecord().getLastIp() == "") {
 					enterIP.setMessageText("ENTER IP");
 				} else {
-					enterIP.setMessageText(gsm.getRecord().getLastIp());
+					enterIP.setText(gsm.getRecord().getLastIp());
 				}
 				
 				

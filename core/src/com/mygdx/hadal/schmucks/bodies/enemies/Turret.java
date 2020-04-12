@@ -90,16 +90,18 @@ public class Turret extends Enemy {
 				desiredAngle = startAngle;
 				break;
 			case TRACKING:
-				if (target.isAlive()) {
-					desiredAngle =  (float)(Math.atan2(
-							target.getPosition().y - getPosition().y ,
-							target.getPosition().x - getPosition().x) * 180 / Math.PI);
+				if (target != null) {
+					if (target.isAlive()) {
+						desiredAngle =  (float)(Math.atan2(
+								target.getPosition().y - getPosition().y ,
+								target.getPosition().x - getPosition().x) * 180 / Math.PI);
 
-					if (desiredAngle < 0) {
-						if (desiredAngle < -90) {
-							desiredAngle = 180;
-						} else {
-							desiredAngle = 0;
+						if (desiredAngle < 0) {
+							if (desiredAngle < -90) {
+								desiredAngle = 180;
+							} else {
+								desiredAngle = 0;
+							}
 						}
 					}
 				}

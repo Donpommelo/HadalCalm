@@ -215,7 +215,7 @@ public class Enemy extends Schmuck {
 				visible = true;
 			}
 		} else {
-			if (((ClientState)state).getUiPlay().getHealthVisibility() > 0) {
+			if (((ClientState) state).getUiPlay().getHealthVisibility() > 0) {
 				visible = true;
 			}
 		}
@@ -254,18 +254,17 @@ public class Enemy extends Schmuck {
 					shortestFraction = 1.0f;
 					
 					
-				  	if (getPosition().x != homeAttempt.getPosition().x || 
-				  			getPosition().y != homeAttempt.getPosition().y) {
+				  	if (getPosition().x != homeAttempt.getPosition().x || getPosition().y != homeAttempt.getPosition().y) {
 				  		world.rayCast(new RayCastCallback() {
 
 							@Override
 							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 								if (fixture.getUserData() instanceof BodyData) {
-									if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
+									if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != hitboxfilter) {
 										if (fraction < shortestFraction) {
 											
 											//enemies will not see invisible units
-											if (((BodyData)fixture.getUserData()).getStatus(Invisibility.class) == null) {
+											if (((BodyData) fixture.getUserData()).getStatus(Invisibility.class) == null) {
 												shortestFraction = fraction;
 												closestFixture = fixture;
 												return fraction;
@@ -279,7 +278,7 @@ public class Enemy extends Schmuck {
 						}, getPosition(), homeAttempt.getPosition());
 						if (closestFixture != null) {
 							if (closestFixture.getUserData() instanceof BodyData) {
-								target = ((BodyData)closestFixture.getUserData()).getSchmuck();
+								target = ((BodyData) closestFixture.getUserData()).getSchmuck();
 							}
 						} 
 					}
@@ -304,7 +303,7 @@ public class Enemy extends Schmuck {
 		if (o instanceof Packets.SyncSchmuck) {
 			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
 			if (isBoss) {
-				((ClientState)state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
+				((ClientState) state).getUiPlay().setOverrideBossHpPercent(p.hpPercent);
 				if (p.hpPercent <= 0.0f) {
 					state.clearBoss();
 				}

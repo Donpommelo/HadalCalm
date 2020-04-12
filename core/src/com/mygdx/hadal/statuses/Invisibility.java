@@ -4,6 +4,7 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.equip.Equipable;
+import com.mygdx.hadal.equip.MeleeWeapon;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -29,6 +30,7 @@ public class Invisibility extends Status {
 	
 	@Override
 	public void onRemove() {
+		
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
 		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
 		
@@ -38,13 +40,24 @@ public class Invisibility extends Status {
 	}
 	
 	@Override
-	public void whileAttacking(float delta, Equipable tool) {
+	public void onShoot(Equipable tool) {
 		inflicted.removeStatus(this);
 	}
 	
 	@Override
-	public void onAirBlast(Equipable tool) {
-		inflicted.removeStatus(this);
+	public void whileAttacking(float delta, Equipable tool) {
+		if (tool instanceof MeleeWeapon) {
+			inflicted.removeStatus(this);
+		}
+	}
+	
+	@Override
+	public void onDeath(BodyData perp) {
+		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
+		
+		if (inflicted instanceof PlayerBodyData) {
+			((PlayerBodyData) inflicted).getPlayer().setInvisible(false);
+		}
 	}
 	
 	@Override

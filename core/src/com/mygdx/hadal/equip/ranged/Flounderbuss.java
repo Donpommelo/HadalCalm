@@ -85,7 +85,7 @@ public class Flounderbuss extends RangedWeapon {
 		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 1.0f, false);
 
 		//amount of projectiles scales to charge percent
-		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime(); i++) {
+		for (int i = 0; i < maxNumProj * chargeCd / getChargeTime() + 1; i++) {
 			
 			int randomIndex = ThreadLocalRandom.current().nextInt(projSprites.length);
 			Sprite projSprite = projSprites[randomIndex];
