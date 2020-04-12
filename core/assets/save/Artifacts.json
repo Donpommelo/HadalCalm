@@ -127,7 +127,7 @@ BRIGGLES_BLADED_BOOT: {
 BRITTLING_POWDER: {
 	name: Brittling Powder
 	description: "Projectile Fragmentation"
-    descriptionLong: "Frag Cooldown: 0.5s\nFrag Number: 8\nFrag Damage: 2.5\n\nPouch of insidious powder that renders objects brittle upon the slightest contact.\n\nResidents of the Kamabokory have accepted that the destruction of their physicals bodies is a necessary step in the factory's ungodly process."
+    descriptionLong: "Frag Cooldown: 0.5s\nFrag Number: 8\nFrag Damage: 2.5\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact.\n\nResidents of the Kamabokory have accepted that the destruction of their physicals bodies is a necessary step in the factory's ungodly process."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -190,7 +190,7 @@ CLOCKWISE_CAGE: {
 COMMUTERS_PARASOL: {
 	name: Commuter's Parasol
 	description: "Periodically Blocks Projectiles from Above"
-    descriptionLong: "Shield Interval: 6s\nShield Duration 3s\n\nA worn but sturdy umbrella painted with a pattern of vines.\n\nA Salvager may never know a world where nothing more than an umbrella is needed to get to work dry."
+    descriptionLong: "Shield Interval: 6s\nShield Duration 3s\n\nA worn but sturdy umbrella painted with a pattern of vines.\n\nA Salvager will never know a world where a sturdy umbrella is all that is needed to get to work dry."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -208,7 +208,7 @@ COMPOUND_VITREOUS: {
 CONFIDENCE: {
 	name: Confidence
 	description: "+Damage at Max Hp"
-    descriptionLong: "Bonus Damage: +50%\n\nThe fragile and fleeting feeling that everything will be alright.\n\n"
+    descriptionLong: "Bonus Damage: +50%\n\nThe fragile and fleeting feeling that everything will be alright.\n\nHave faith that this whole ordeal will either hurt very little or very briefly."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -217,7 +217,7 @@ CONFIDENCE: {
 CROWN_OF_THORNS: {
 	name: Crown of Thorns
 	description: "Drop Thorns on Receiving Damage"
-    descriptionLong: "Thorns Cooldown: 1s\nThorns Number: 6\nThorns Damage: 20\n\nThe body of a spiky echinoderm that doubles as protective headgear.\n\nOf all traits retained by Sunk things, the most common is the simple desire to not be touched."
+    descriptionLong: "Thorns Cooldown: 1s\nThorns Number: 6\nThorns Damage: 20\n\nThe body of a spiky echinoderm that doubles as protective headgear.\n\nOf all impulses retained by Sunk things, the most common is the simple desire to not be touched."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -226,7 +226,7 @@ CROWN_OF_THORNS: {
 CURIOUS_SAUCE: {
 	name: Curious Sauce
 	description: "Bouncy Projectiles"
-    descriptionLong: "A jar of a most very curious sauce.\n\nCountless unsolved oddities from before the ocean's advent now outlive the ones that sought to study them."
+    descriptionLong: "A jar of a most very curious sauce.\n\nCountless unsolved oddities preceding the ocean’s advent now outlive the ones that sought to study them."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -244,7 +244,7 @@ CURSED_CILICE: {
 DAS_BOOT: {
 	name: Das Boot
 	description: "+Damage Resistance While Reloading"
-    descriptionLong: "Reloading Damage Resistance: +50%\n\nA metal shoe complete with dorsal periscope.\n\n"
+    descriptionLong: "Reloading Damage Resistance: +50%\n\nA metal shoe complete with dorsal periscope.\n\nHumanity’s countless attempts to breach the abyss have recently become less about curiosity and more about necessity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -298,7 +298,7 @@ EPHEMERA_PERPETUA: {
 EXTRA_ROW_OF_TEETH: {
 	name: "Extra Row of Teeth"
 	description: "+Clip Size"
-    descriptionLong: "Bonus Clip Size: +30%\n\n"
+    descriptionLong: "Bonus Clip Size: +30%\n\nA row of misshapen teeth; each designed to rend a different prey.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -307,7 +307,7 @@ EXTRA_ROW_OF_TEETH: {
 FARADAYS_CAGE: {
 	name: Faraday Cage
 	description: "Absorbs Incoming Damage with Fuel"
-    descriptionLong: "Damage Resistance: 40% of Fuel Consumed\n\n"
+    descriptionLong: "Damage Resistance: 40% of Fuel Consumed\n\nA conductive mesh used to protect from electromagnetic fields.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -334,7 +334,7 @@ FORAGERS_HIVE: {
 FRACTURE_PLATE: {
 	name: Fracture Plate
 	description: "Periodically gain a Damage Blocking Shield"
-    descriptionLong: "Shield Cooldown: 5s Without Receiving Damage\n\nShield Damage Block: 15\n\n"
+    descriptionLong: "Shield Cooldown: 5s Without Receiving Damage\n\nShield Damage Block: 15\n\nA calcified plate consisting of several nondescript bones fused together."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -441,7 +441,7 @@ IRON_SIGHTS: {
 JELLOFELLOW_COSPLAY: {
 	name: Jellofellow Cosplay
 	description: "+Max Hp, Bouncy!"
-    descriptionLong: "Bonus Max Hp: +40\n\n"
+    descriptionLong: "Bonus Max Hp: +40\n\nA costume of a long-forgotten cartoon character.\n\nThe more thoroughly erased a civilization, the more imperceptible the difference between its historical figures and cereal-box mascots."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -477,7 +477,7 @@ KINESIS_LENS: {
 LAMPREY_IDOL: {
 	name: Lamprey Idol
 	description: "+Lifesteal. Drains Hp at High Health"
-    descriptionLong: "Lifesteal: 10% Against Players, 2% Against Monsters\nHp Threshold: 50%\nDamage Received: 2.5 Per Second\n\n"
+    descriptionLong: "Lifesteal: 10% Against Players, 2% Against Monsters\nHp Threshold: 50%\nDamage Received: 2.5 Per Second\n\nA metal figure with the appearance of a parasitic, blood-sucking fish.\n\nFrom the dreaming carcass of the white whale, a wriggling mass emerged to disseminate into the pits below."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

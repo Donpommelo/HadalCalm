@@ -76,7 +76,7 @@ public class Poison extends Event {
 		this.perp = perp;
 		this.draw = draw;
 		this.on = true;
-		spawnTimerLimit = 4096f/(size.x * size.y);
+		spawnTimerLimit = 4096f / (size.x * size.y);
 		
 		randomParticles = size.x > 100;
 		
@@ -108,7 +108,7 @@ public class Poison extends Event {
 				
 				for (HadalEntity entity : eventData.getSchmucks()) {
 					if (entity instanceof Schmuck) {
-						((Schmuck)entity).getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true, DamageTypes.POISON);
+						((Schmuck) entity).getBodyData().receiveDamage(dps, new Vector2(), perp.getBodyData(), true, DamageTypes.POISON);
 					}
 				}
 			}
@@ -140,7 +140,7 @@ public class Poison extends Event {
 					int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 					int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 					ParticleEntity poison = new ParticleEntity(state, new Vector2(randX, randY), Particle.POISON, 1.5f, true, particleSyncType.NOSYNC);
-					((ClientState)state).addEntity(poison.getEntityID().toString(), poison, ObjectSyncLayers.STANDARD);
+					((ClientState) state).addEntity(poison.getEntityID().toString(), poison, ObjectSyncLayers.STANDARD);
 				}
 			}
 		}

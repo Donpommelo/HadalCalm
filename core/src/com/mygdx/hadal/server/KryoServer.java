@@ -59,7 +59,7 @@ public class KryoServer {
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
 		
-		scores.put(0, new SavedPlayerFields(gsm.getLoadout().getName()));
+		scores.put(0, new SavedPlayerFields(gsm.getLoadout().getName(), true));
 		
 		if (!start) {
 			return;
@@ -110,7 +110,6 @@ public class KryoServer {
 					});
 				}
 			}
-			
 			
 			/**
         	 * Note that the order of these if/elses is according to approximate frequency of packets.
@@ -386,7 +385,7 @@ public class KryoServer {
 		        if (scores.containsKey(connId)) {
 			        scores.put(connId, scores.get(connId));
 		        } else {
-			        scores.put(connId, new SavedPlayerFields(name));
+			        scores.put(connId, new SavedPlayerFields(name, false));
 		        }
 		        
 		        //sync score window to display new player

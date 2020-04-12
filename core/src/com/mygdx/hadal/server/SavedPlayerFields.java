@@ -15,12 +15,14 @@ public class SavedPlayerFields {
 	//Player's stored stats
 	private int wins, kills, deaths, score, lives;
 	
-	public SavedPlayerFields() {
-		this("");
-	}
+	private boolean host;
+
+	//this unused constructor is needed by kryo for serialization
+	public SavedPlayerFields() {}
 	
-	public SavedPlayerFields(String name) {
+	public SavedPlayerFields(String name, boolean host) {
 		this.name = name;
+		this.host = host;
 		this.wins = 0;
 		this.kills = 0;
 		this.deaths = 0;
@@ -59,11 +61,20 @@ public class SavedPlayerFields {
 		this.lives = 1;
 	}
 	
-	public String getName() { return name; }
-
-	public int getWins() { return wins; }
-
 	public void win() { wins++; }
+
+	//this gets the name displayed in score windows
+	public String getName() { 
+		if (host) {
+			return "(HOST) " + name; 
+		} else {
+			return name; 
+		}
+	}
+
+	public boolean isHost() { return host; }
+	
+	public int getWins() { return wins; }
 
 	public int getKills() { return kills; }
 

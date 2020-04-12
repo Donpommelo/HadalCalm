@@ -49,7 +49,8 @@ public class ResultsState extends GameState {
 	private final static int titleHeight = 60;
 	private final static int rowHeight = 50;
 	private static final float scale = 0.5f;
-	
+	private static final int maxNameLen = 30;
+
 	/**
 	 * Constructor will be called once upon initialization of the StateManager.
 	 * @param gsm
@@ -96,9 +97,7 @@ public class ResultsState extends GameState {
 				addActor(new ResultsBackdrop());
 				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT - tableHeight, width, tableHeight));
 				table = new Table();
-				table.setPosition(
-						HadalGame.CONFIG_WIDTH / 2 - width / 2, 
-						HadalGame.CONFIG_HEIGHT - tableHeight);
+				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT - tableHeight);
 				table.setSize(width, tableHeight);
 				addActor(table);
 				syncScoreTable();
@@ -144,8 +143,8 @@ public class ResultsState extends GameState {
 			
 			String displayedName = score.getName();
 			
-			if (displayedName.length() > 20) {
-				displayedName = displayedName.substring(0, 20).concat("...");
+			if (displayedName.length() > maxNameLen) {
+				displayedName = displayedName.substring(0, maxNameLen).concat("...");
 			}
 			
 			Text name = new Text(displayedName, 0, 0, false);

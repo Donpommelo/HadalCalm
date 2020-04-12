@@ -1,7 +1,6 @@
 package com.mygdx.hadal.actors;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
@@ -13,21 +12,28 @@ import com.mygdx.hadal.states.PlayState;
  *
  */
 public class ScoreWindow {
-
-	private static final int width = 800;
-	private static final int height = 600;
-	private static final float scale = 0.5f;
 	
 	private PlayState state;
 	
 	private Table table; 
+	private MenuWindow window;
 	
+	//Dimentions and position of the results menu
+	private final static int width = 1000;
+	private final static int baseHeight = 75;
+	private final static int titleHeight = 60;
+	private final static int rowHeight = 50;
+	private static final float scale = 0.5f;
+	private static final int maxNameLen = 30;
+
 	public ScoreWindow(PlayState state) {
 		this.state = state;
 		
 		this.table = new Table().center();
-		
+		this.window = new MenuWindow(0, 0, 0, 0);
+
 		table.setVisible(false);
+		window.setVisible(false);
 		
 		//Server must first reset each score at the start of a level (unless just a stage transition)
 		if (state.isServer() && state.isReset()) {
@@ -45,18 +51,47 @@ public class ScoreWindow {
 	 */
 	public void syncTable() {
 		table.clear();
+		table.remove();
+		window.remove();
 		
-		state.getStage().addActor(table);
-		table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2);
-		table.setWidth(width);
-		table.setHeight(height);
-		table.align(Align.top);
+		int tableHeight = baseHeight + titleHeight * 2;
 		
-		table.add(new Text("PLAYER", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("KILLS", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("DEATH", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("SCORE", 0, 0, false)).padBottom(50).padRight(20);
-		table.add(new Text("WINS", 0, 0, false)).padBottom(50).row();
+		if (state.isServer()) {
+			tableHeight += rowHeight * HadalGame.server.getScores().size();
+		} else {
+			tableHeight += rowHeight * HadalGame.client.getScores().size();
+		}
+		
+		window.setSize(width, tableHeight);
+		window.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT - tableHeight);
+		
+		table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT - tableHeight);
+		table.setSize(width, tableHeight);
+		
+		Text title = new Text(state.getLevel().toString(), 0, 0, false);
+		title.setScale(scale);
+		
+		Text playerLabel = new Text("PLAYER", 0, 0, false);
+		playerLabel.setScale(scale);
+		
+		Text killsLabel = new Text("KILLS", 0, 0, false);
+		killsLabel.setScale(scale);
+		
+		Text deathsLabel = new Text("DEATHS", 0, 0, false);
+		deathsLabel.setScale(scale);
+		
+		Text scoreLabel = new Text("SCORE", 0, 0, false);
+		scoreLabel.setScale(scale);
+		
+		Text winsLabel = new Text("WINS", 0, 0, false);
+		winsLabel.setScale(scale);
+		
+		table.add(title).height(titleHeight).colspan(5).row();
+		table.add(playerLabel).height(titleHeight).padRight(20);
+		table.add(killsLabel).height(titleHeight).padRight(20);
+		table.add(deathsLabel).height(titleHeight).padRight(20);
+		table.add(scoreLabel).height(titleHeight).padRight(20);
+		table.add(winsLabel).height(titleHeight).row();
 		
 		if (state.isServer()) {
 			
@@ -64,23 +99,27 @@ public class ScoreWindow {
 				
 				String displayedName = field.getName();
 				
-				if (displayedName.length() > 20) {
-					displayedName = displayedName.substring(0, 20).concat("...");
+				if (displayedName.length() > maxNameLen) {
+					displayedName = displayedName.substring(0, maxNameLen).concat("...");
 				}
 				
 				Text name = new Text(displayedName, 0, 0, false);
 				name.setScale(scale);
 				
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);
+				kills.setScale(scale);
 				Text death = new Text(field.getDeaths() + " ", 0, 0, false);
+				death.setScale(scale);
 				Text points = new Text(field.getScore() + " ", 0, 0, false);
+				points.setScale(scale);
 				Text wins = new Text(field.getWins() + " ", 0, 0, false);
-					
-				table.add(name).padBottom(25);
-				table.add(kills).padBottom(25);
-				table.add(death).padBottom(25);
-				table.add(points).padBottom(25);
-				table.add(wins).padBottom(25).row();
+				wins.setScale(scale);
+
+				table.add(name).height(rowHeight).padBottom(25);
+				table.add(kills).height(rowHeight).padBottom(25);
+				table.add(death).height(rowHeight).padBottom(25);
+				table.add(points).height(rowHeight).padBottom(25);
+				table.add(wins).height(rowHeight).padBottom(25).row();
 				
 				HadalGame.server.sendToAllTCP(new Packets.SyncScore(HadalGame.server.getScores()));
 				
@@ -91,28 +130,38 @@ public class ScoreWindow {
 				
 				String displayedName = field.getName();
 				
-				if (displayedName.length() > 20) {
-					displayedName = displayedName.substring(0, 20).concat("...");
+				if (displayedName.length() > maxNameLen) {
+					displayedName = displayedName.substring(0, maxNameLen).concat("...");
 				}
 				
 				Text name = new Text(displayedName, 0, 0, false);
 				name.setScale(scale);
 				
 				Text kills = new Text(field.getKills() + " ", 0, 0, false);
+				kills.setScale(scale);
 				Text death = new Text(field.getDeaths() + " ", 0, 0, false);
+				death.setScale(scale);
 				Text points = new Text(field.getScore() + " ", 0, 0, false);
+				points.setScale(scale);
 				Text wins = new Text(field.getWins() + " ", 0, 0, false);
-					
-				table.add(name).padBottom(25);
-				table.add(kills).padBottom(25);
-				table.add(death).padBottom(25);
-				table.add(points).padBottom(25);
-				table.add(wins).padBottom(25).row();
+				wins.setScale(scale);
+
+				table.add(name).height(rowHeight).padBottom(25);
+				table.add(kills).height(rowHeight).padBottom(25);
+				table.add(death).height(rowHeight).padBottom(25);
+				table.add(points).height(rowHeight).padBottom(25);
+				table.add(wins).height(rowHeight).padBottom(25).row();
 				
 				state.getUiExtra().syncData();
 			}
 		}
+		
+		state.getStage().addActor(window);
+		state.getStage().addActor(table);
 	}
 	
-	public void setVisibility(boolean visible) { table.setVisible(visible); }
+	public void setVisibility(boolean visible) { 
+		table.setVisible(visible);
+		window.setVisible(visible);
+	}
 }
