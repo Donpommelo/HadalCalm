@@ -148,7 +148,8 @@ public class ClientState extends PlayState {
 		case RESULTS:
 			
 			//immediately transition to the results screen
-			gsm.addResultsState(this, resultsText, ClientState.class);
+			gsm.removeState(ClientState.class);
+			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player

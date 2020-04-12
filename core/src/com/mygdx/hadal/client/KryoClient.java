@@ -76,7 +76,7 @@ public class KryoClient {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
         KryoSerialization serialization = new KryoSerialization(kryo);
-        this.client = new Client(16384, 2048, serialization);
+        this.client = new Client(30000, 30000, serialization);
         client.start();
         
         registerPackets();

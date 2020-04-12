@@ -247,7 +247,6 @@ public class ResultsState extends GameState {
 				@Override
 				public void run() {
 					gsm.removeState(ResultsState.class);
-					gsm.removeState(PlayState.class);
 					gsm.gotoHubState();
 				}
 				

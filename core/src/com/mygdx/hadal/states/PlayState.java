@@ -669,7 +669,8 @@ public class PlayState extends GameState {
 		case RESULTS:
 
 			//get a results screen
-			gsm.addResultsState(this, resultsText, PlayState.class);
+			gsm.removeState(PlayState.class);
+			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
