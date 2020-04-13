@@ -121,12 +121,16 @@ public class TrickGun extends RangedWeapon {
 				public void controller(float delta) {
 					if (!firstReached) {
 						if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
+							
 							if (!pos2.equals(pos1)) {
 								target.set(pos2).sub(hbox.getPixelPosition());
-								hbox.setLinearVelocity(target.nor().scl(projectileSpeedAfter));
-								
-								SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f, false);
+							} else {
+								target.set(hbox.getLinearVelocity());
 							}
+							
+							hbox.setLinearVelocity(target.nor().scl(projectileSpeedAfter));
+							SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f, false);
+								
 							firstReached = true;
 						}
 					}

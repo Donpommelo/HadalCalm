@@ -349,7 +349,7 @@ public class KryoServer {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 		} catch (IOException e) {
 			if (gsm.getStates().peek() instanceof TitleState) {
-				((TitleState)gsm.getStates().peek()).setNotification("COULD NOT OPEN SERVER AT PORT: " + gsm.getSetting().getPortNumber());
+				((TitleState) gsm.getStates().peek()).setNotification("COULD NOT OPEN SERVER AT PORT: " + gsm.getSetting().getPortNumber());
 			}
 		}	
 		registerPackets();

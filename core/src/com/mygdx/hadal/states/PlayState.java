@@ -475,6 +475,8 @@ public class PlayState extends GameState {
 	 * This is run in the update method and is just a helper to avoid repeating code in both the server/client states.
 	 * This does all of the stuff that is needed for both server and client (processing packets, fade and some other misc stuff)
 	 */
+	private float cameraAccumulator = 0.0f;
+	private final static float cameraTime = 1 / 120f;
 	public void processCommonStateProperties(float delta) {
 		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
@@ -493,7 +495,12 @@ public class PlayState extends GameState {
 		packetEffects.clear();
 		
 		//Update the game camera and batch.
-		cameraUpdate();
+		cameraAccumulator += delta;
+		
+		while (cameraAccumulator >= cameraTime) {
+			cameraAccumulator -= cameraTime;
+			cameraUpdate();
+		}
 		
 		//Increment the game timer, if exists
 		uiExtra.incrementTimer(delta);
@@ -566,7 +573,7 @@ public class PlayState extends GameState {
 	 */
 	Vector2 tmpVector2 = new Vector2();
 	protected void cameraUpdate() {
-		zoom = zoom + (zoomDesired - zoom) * 0.05f;
+		zoom = zoom + (zoomDesired - zoom) * 0.1f;
 		
 		camera.zoom = zoom;
 		

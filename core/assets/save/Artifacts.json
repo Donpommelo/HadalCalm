@@ -279,8 +279,8 @@ EELSKIN_COVER: {
 }
 EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
-	description: "Projectile Split-Shot, -Damage"
-    descriptionLong: "Damage Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
+	description: "Projectile Split-Shot, -Damage, -Reload Speed"
+    descriptionLong: "Damage Reduction: -30%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -672,6 +672,15 @@ PIFFLER: {
 	name: Piffler
 	description: "Piffly Projectiles"
     descriptionLong: "Projectile Pifflyness: +100%\n\nA flaccid and flimsy trinket with no discernable use.\n\nSome salvaged artifacts shed valuable light on the nature of former humanity while others leave historians more confused than before."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+PLUMPOWDER: {
+	name: Plumpowder
+	description: "Active Items Start Charged"
+    descriptionLong: "\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

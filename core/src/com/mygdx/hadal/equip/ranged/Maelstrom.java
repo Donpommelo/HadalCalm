@@ -29,7 +29,7 @@ public class Maelstrom extends RangedWeapon {
 
 	private final static float recoil = 0.0f;
 	private final static float baseDamage = 12.0f;
-	private final static float knockback = 8.0f;
+	private final static float knockback = 5.0f;
 	private final static float projectileSpeedStart = 50.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 30);
 	private final static float lifespan = 1.0f;

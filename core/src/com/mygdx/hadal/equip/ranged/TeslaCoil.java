@@ -34,17 +34,17 @@ public class TeslaCoil extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 80.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
-	private final static float lifespan = 6.0f;
+	private final static float lifespan = 4.5f;
 	
 	private final static Sprite projSprite = Sprite.PYLON;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
 	private final static float radius = 20.0f;
-	private final static float pulseInterval = 0.5f;
+	private final static float pulseInterval = 0.8f;
 	private final static float pulseDuration = 0.1f;
 	private final static Vector2 pulseSize = new Vector2(75, 75);
-	private final static float pulseDamage = 10.0f;
+	private final static float pulseDamage = 25.0f;
 	private final static float pulseKnockback = 20.0f;
 	
 	//kep track of all coils laid so far
@@ -71,7 +71,7 @@ public class TeslaCoil extends RangedWeapon {
 			private boolean firstPlanted = false;
 			private boolean planted = false;
 			private boolean activated = false;
-			private float controllerCount = pulseInterval;
+			private float controllerCount;
 			
 			@Override
 			public void create() {
@@ -127,6 +127,7 @@ public class TeslaCoil extends RangedWeapon {
 				//After reaching the location clicked, the coil is makred as planted
 				if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
 					firstPlanted = true;
+					controllerCount = pulseInterval;
 				}
 			}
 			
@@ -137,7 +138,6 @@ public class TeslaCoil extends RangedWeapon {
 				if (planted) {
 					return;
 				}
-				
 				
 				//unactivated coils should stop and plant when they hit a wall
 				if (fixB == null) {

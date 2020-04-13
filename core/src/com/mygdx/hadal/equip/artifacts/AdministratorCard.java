@@ -30,6 +30,10 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void playerCreate() {
 
+				if (state.isHub()) {
+					return;
+				}
+				
 				if (inflicted.getSchmuck() instanceof Player) {
 					int artifactsAdded = 0;
 
@@ -37,7 +41,7 @@ public class AdministratorCard extends Artifact {
 						UnlockArtifact artifact = UnlockArtifact.valueOf(UnlockArtifact.getRandArtfFromPool(state, ""));
 
 						unlocks.add(artifact);
-						if (((Player)inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true)) {
+						if (((Player) inflicted.getSchmuck()).getPlayerData().addArtifact(artifact, true)) {
 							artifactsAdded++;
 						}
 					}
@@ -47,7 +51,7 @@ public class AdministratorCard extends Artifact {
 			@Override
 			public void onDeath(BodyData perp) {
 				for (int i = 0; i < unlocks.size(); i++) {
-					((Player)inflicted.getSchmuck()).getPlayerData().removeArtifact(unlocks.get(i));
+					((Player) inflicted.getSchmuck()).getPlayerData().removeArtifact(unlocks.get(i));
 				}
 				unlocks.clear();
 			}

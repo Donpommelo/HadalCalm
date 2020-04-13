@@ -290,6 +290,9 @@ public class PlayerBodyData extends BodyData {
 		activeItem.setUser(player);
 		
 		loadout.activeItem = unlock;
+		
+		activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
+		
 		syncServerLoadoutChange();
 
 		return old;

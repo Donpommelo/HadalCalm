@@ -7,7 +7,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.MeleeWeapon;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
@@ -51,6 +50,7 @@ public class DiamondCutter extends MeleeWeapon {
 		super(user, swingCd, windup, weaponSprite, eventSprite);
 	}
 	
+	private Vector2 projOffset = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, Vector2 mouseLocation) {
 		
@@ -60,10 +60,11 @@ public class DiamondCutter extends MeleeWeapon {
 			sawSound.turnOn();
 		}
 		
-		if(!held) {
+		if (!held) {
 			held = true;
-			
-			hbox = new Hitbox(state, mouseLocation, projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
+			projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
+
+			hbox = new Hitbox(state, projOffset, projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);
 			hbox.makeUnreflectable();
 			
 			hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARK_TRAIL));
@@ -77,7 +78,6 @@ public class DiamondCutter extends MeleeWeapon {
 					hbox.setAngularVelocity(spinSpeed);
 				}
 				
-				private Vector2 projOffset = new Vector2();
 				@Override
 				public void controller(float delta) {
 					
@@ -86,10 +86,7 @@ public class DiamondCutter extends MeleeWeapon {
 						held = false;
 					}
 					
-					float xImpulse = -(shooter.getSchmuck().getPixelPosition().x - ((Player)shooter.getSchmuck()).getMouse().getPixelPosition().x);
-					float yImpulse = -(shooter.getSchmuck().getPixelPosition().y - ((Player)shooter.getSchmuck()).getMouse().getPixelPosition().y);
-							
-					projOffset.set(xImpulse, yImpulse).nor().scl(range);
+					projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
 					hbox.setTransform(
 							shooter.getSchmuck().getPosition().x + projOffset.x / PPM,  
 							shooter.getSchmuck().getPosition().y + projOffset.y / PPM,

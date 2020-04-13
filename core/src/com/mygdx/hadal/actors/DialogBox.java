@@ -70,33 +70,39 @@ public class DialogBox extends AHadalActor {
 		animCdCount = 0;
 	}
 	
+	private float syncAccumulator = 0.0f;
+	private final static float syncTime = 1 / 60f;
 	@Override
 	public void act(float delta) {
 		super.act(delta);
-		
 		animCdCount += delta;
+		syncAccumulator += delta;
 		
-		//Keep track of duration of dialogues
-		if (durationCount > 0) {
-			durationCount -= delta;
-			
-			if(durationCount <= 0) {
-				nextDialogue();
-			}
-		}
+		while (syncAccumulator >= syncTime) {
+			syncAccumulator -= syncTime;
 
-		//dialogue box lerps towards max size.
-		if (dialogs.size != 0) {
-			if (dialogs.first().getInfo().isSmall()) {
-				currX = currX + (maxXSmall - currX) * 0.1f;
-				currY = currY + (maxYSmall - currY) * 0.1f;
+			//Keep track of duration of dialogues
+			if (durationCount > 0) {
+				durationCount -= syncTime;
+				
+				if(durationCount <= 0) {
+					nextDialogue();
+				}
+			}
+			
+			//dialogue box lerps towards max size.
+			if (dialogs.size != 0) {
+				if (dialogs.first().getInfo().isSmall()) {
+					currX = currX + (maxXSmall - currX) * 0.1f;
+					currY = currY + (maxYSmall - currY) * 0.1f;
+				} else {
+					currX = currX + (maxX - currX) * 0.1f;
+					currY = currY + (maxY - currY) * 0.1f;
+				}
 			} else {
 				currX = currX + (maxX - currX) * 0.1f;
 				currY = currY + (maxY - currY) * 0.1f;
 			}
-		} else {
-			currX = currX + (maxX - currX) * 0.1f;
-			currY = currY + (maxY - currY) * 0.1f;
 		}
 	}
 	

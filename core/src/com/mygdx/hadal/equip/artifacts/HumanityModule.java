@@ -32,9 +32,10 @@ public class HumanityModule extends Artifact {
 			public void afterActiveItem(ActiveItem tool) {
 
 				ActiveItem item = UnlocktoItem.getUnlock(UnlockActives.valueOf(UnlockActives.getRandItemFromPool(state, "")), null);
-				item.setCurrentCharge(0.0f);
 				
-				((Player)inflicted.getSchmuck()).getPlayerData().pickup(item);
+				((Player) inflicted.getSchmuck()).getPlayerData().pickup(item);
+				
+				item.setCurrentCharge(0.0f);
 			}
 		});
 		return enchantment;

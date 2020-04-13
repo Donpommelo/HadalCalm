@@ -35,8 +35,8 @@ public class ContactChain extends HitboxStrategy {
 	private float shortestFraction = 1.0f;
 
 	//chain radius
-	private static final int radius = 100;
-	private static final int chainSpeed = 60;
+	private static final int radius = 200;
+	private static final int chainSpeed = 75;
 
 	public ContactChain(PlayState state, Hitbox proj, BodyData user, int chain, short filter) {
 		super(state, proj, user);
@@ -59,6 +59,7 @@ public class ContactChain extends HitboxStrategy {
 	}
 	
 	private float closestDist;
+	private Vector2 dist = new Vector2();
 	private void chain(final HadalData fixB) {
 		//if we are out of chains, die.
 		if (chains <= 0) {
@@ -74,47 +75,48 @@ public class ContactChain extends HitboxStrategy {
 			@Override
 			public boolean reportFixture(Fixture fixture) {
 				if (fixture.getUserData() instanceof BodyData) {
-					
-					chainAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
-					shortestFraction = 1.0f;
-					
-				  	if (hbox.getPosition().x != chainAttempt.getPosition().x || hbox.getPosition().y != chainAttempt.getPosition().y) {
-				  		hbox.getWorld().rayCast(new RayCastCallback() {
+					if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && fixB != fixture.getUserData()) {
+						chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
+						shortestFraction = 1.0f;
+						
+					  	if (hbox.getPosition().x != chainAttempt.getPosition().x || hbox.getPosition().y != chainAttempt.getPosition().y) {
+					  		hbox.getWorld().rayCast(new RayCastCallback() {
 
-							@Override
-							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-								if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
-									if (fraction < shortestFraction) {
-										shortestFraction = fraction;
-										closestFixture = fixture;
-										return fraction;
-									}
-								} else if (fixture.getUserData() instanceof BodyData) {
-									if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && fixB != fixture.getUserData()) {
+								@Override
+								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+									if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL) {
 										if (fraction < shortestFraction) {
 											shortestFraction = fraction;
 											closestFixture = fixture;
 											return fraction;
 										}
-									}
-								} 
-								return -1.0f;
-							}
-							
-						}, hbox.getPosition(), chainAttempt.getPosition());	
-						
-				  		//if we find a suitable chain target, set our velocity to make us move towards them.
-						if (closestFixture != null) {
-							if (closestFixture.getUserData() instanceof BodyData && !closestFixture.getUserData().equals(fixB)) {
-								Vector2 dist = closestFixture.getBody().getPosition().sub(hbox.getPosition());
-
-								if (closestDist > dist.len2()) {
-									closestDist = dist.len2();
-									hbox.setLinearVelocity(dist.nor().scl(chainSpeed));
+									} else if (fixture.getUserData() instanceof BodyData) {
+										if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && fixB != fixture.getUserData()) {
+											if (fraction < shortestFraction) {
+												shortestFraction = fraction;
+												closestFixture = fixture;
+												return fraction;
+											}
+										}
+									} 
+									return -1.0f;
 								}
-							}
+								
+							}, hbox.getPosition(), chainAttempt.getPosition());	
+							
+					  		//if we find a suitable chain target, set our velocity to make us move towards them.
+							if (closestFixture != null) {
+								if (closestFixture.getUserData() instanceof BodyData && !closestFixture.getUserData().equals(fixB)) {
+									dist.set(closestFixture.getBody().getPosition()).sub(hbox.getPosition());
+
+									if (closestDist > dist.len2()) {
+										closestDist = dist.len2();
+										hbox.setLinearVelocity(dist.nor().scl(chainSpeed));
+									}
+								}
+							}	
 						}	
-					}									
+					}
 				}
 				return true;
 			}

@@ -14,7 +14,7 @@ public class BrittlingPowder extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static int numFrag = 8;
+	private final static int numFrag = 6;
 	
 	private final static float procCd = 0.5f;
 	

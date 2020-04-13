@@ -43,7 +43,7 @@ public class ContactUnitChainLightning extends HitboxStrategy {
 				hboxNew.addStrategy(new ContactWallParticles(state, hboxNew, creator, Particle.SPARK_TRAIL));
 				hboxNew.addStrategy(new ContactWallDie(state, hboxNew, creator));
 				hboxNew.addStrategy(new ContactChain(state, hboxNew, creator, chainAmount, creator.getSchmuck().getHitboxfilter()));
-				hboxNew.addStrategy(new DamageStandard(state, hboxNew, creator, baseDamage, knockback, DamageTypes.ENERGY));
+				hboxNew.addStrategy(new DamageStandardRepeatable(state, hboxNew, creator, baseDamage, knockback, DamageTypes.ENERGY));
 				hboxNew.addStrategy(new CreateParticles(state, hboxNew, creator, Particle.LIGHTNING, 0, 30));
 			}
 		}

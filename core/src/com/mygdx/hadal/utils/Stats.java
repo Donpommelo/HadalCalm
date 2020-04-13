@@ -53,4 +53,5 @@ public class Stats {
 	public static final int WEAPON_SLOTS = 43;
 	public static final int ARTIFACT_SLOTS = 44;
 	public static final int AMMO_CAPACITY = 45;
+	public static final int STARTING_CHARGE = 46;
 }

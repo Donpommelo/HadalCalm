@@ -1,4 +1,5 @@
 {
+scrap: 13
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -67,6 +68,7 @@ unlockEquip: {
 }
 unlockArtifact: {
 	class: java.util.HashMap
+	PLUMPOWDER: true
 	CURIOUS_SAUCE: true
 	LUMINOUS_ESCA: true
 	MANGROVE_SEED: true

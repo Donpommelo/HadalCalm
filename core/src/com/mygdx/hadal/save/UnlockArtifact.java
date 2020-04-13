@@ -86,6 +86,7 @@ public enum UnlockArtifact {
 	PEPPER(new Pepper()),
 	PETRIFIED_PAYLOAD(new PetrifiedPayload()),
 	PIFFLER(new Piffler()),
+	PLUMPOWDER(new Plumpowder()),
 	RECYCLER_BOLUS(new RecyclerBolus()),
 	RED_TIDE_TALISMAN(new RedTideTalisman()),
 	RING_OF_TESTING(new RingofTesting()),
