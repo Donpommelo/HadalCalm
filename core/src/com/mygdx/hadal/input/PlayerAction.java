@@ -12,43 +12,50 @@ import com.mygdx.hadal.managers.GameStateManager;
  *
  */
 public enum PlayerAction {
-	PAUSE(Input.Keys.ESCAPE),
-	WALK_RIGHT(Input.Keys.D),
-	WALK_LEFT(Input.Keys.A),
-	JUMP(Input.Keys.W),
-	CROUCH(Input.Keys.S),
-	FIRE(Input.Buttons.LEFT),
-	BOOST(Input.Buttons.RIGHT),
-	INTERACT(Input.Keys.E),
-	FREEZE(Input.Keys.SPACE),
-	RELOAD(Input.Keys.R),
-	DIALOGUE(Input.Keys.Z),
-	SWITCH_TO_LAST(Input.Keys.Q),
-	SWITCH_TO_1(Input.Keys.NUM_1),
-	SWITCH_TO_2(Input.Keys.NUM_2),
-	SWITCH_TO_3(Input.Keys.NUM_3),
-	SWITCH_TO_4(Input.Keys.NUM_4),
-	WEAPON_CYCLE_UP(-1000),
-	WEAPON_CYCLE_DOWN(1000),
-	MESSAGE_WINDOW(Input.Keys.M),
-	SCORE_WINDOW(Input.Keys.TAB);
-	
+	WALK_RIGHT(Input.Keys.D, true),
+	WALK_LEFT(Input.Keys.A, true),
+	JUMP(Input.Keys.W, true),
+	CROUCH(Input.Keys.S, true),
+	FIRE(Input.Buttons.LEFT, true),
+	BOOST(Input.Buttons.RIGHT, false),
+	INTERACT(Input.Keys.E, false),
+	FREEZE(Input.Keys.SPACE, false),
+	RELOAD(Input.Keys.R, false),
+	DIALOGUE(Input.Keys.Z, false),
+	SWITCH_TO_LAST(Input.Keys.Q, false),
+	SWITCH_TO_1(Input.Keys.NUM_1, false),
+	SWITCH_TO_2(Input.Keys.NUM_2, false),
+	SWITCH_TO_3(Input.Keys.NUM_3, false),
+	SWITCH_TO_4(Input.Keys.NUM_4, false),
+	WEAPON_CYCLE_UP(-1000, false),
+	WEAPON_CYCLE_DOWN(1000, false),
+	MESSAGE_WINDOW(Input.Keys.M, false),
+	SCORE_WINDOW(Input.Keys.TAB, true),
+	PAUSE(Input.Keys.P, false),
+	EXIT_MENU(Input.Keys.ESCAPE, false);
+
 	private int key;
 	
-	PlayerAction(int key) {
+	//this boolean notes actions that are "toggleable"
+	//these are relevant for resetting when the input processor is temporarily disabled.
+	private boolean toggleable;
+	
+	PlayerAction(int key, boolean toggleable) {
 		this.key = key;
+		this.toggleable = toggleable;
 	}
 	
 	public int getKey() { return key; }
 	
 	public void setKey(int key) { this.key = key; }
 	
+	public boolean isToggleable() { return toggleable; }
+	
 	/**
 	 * Reset key to default bindings
 	 */
 	public static void resetKeys() {
 				
-		PAUSE.setKey(Input.Keys.ESCAPE);
 		WALK_RIGHT.setKey(Input.Keys.D);
 		WALK_LEFT.setKey(Input.Keys.A);
 		JUMP.setKey(Input.Keys.W);
@@ -68,6 +75,8 @@ public enum PlayerAction {
 		WEAPON_CYCLE_DOWN.setKey(1000);
 		MESSAGE_WINDOW.setKey(Input.Keys.M);
 		SCORE_WINDOW.setKey(Input.Keys.TAB);
+		PAUSE.setKey(Input.Keys.P);
+		EXIT_MENU.setKey(Input.Keys.ESCAPE);
 	}
 	
 	/**

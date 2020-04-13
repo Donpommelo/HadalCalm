@@ -17,16 +17,7 @@ public class PlayerController implements InputProcessor {
 	public PlayerController(Player player) {
 		this.player = player;
 		
-		if (player == null) return;
-
-		if (player.getController() == null) return;
-		
-		//Let game account for all buttons held down before the processor is created.
-		for (PlayerAction a: PlayerAction.values()) {
-			if (Gdx.input.isKeyPressed(a.getKey())) {
-				player.getController().keyDown(a);
-			}
-		}
+		syncController();
 	}
 	
 	@Override
@@ -112,6 +103,10 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.SCORE_WINDOW);
 		}
 		
+		if (keycode == PlayerAction.EXIT_MENU.getKey()) {
+			player.getController().keyDown(PlayerAction.EXIT_MENU);
+		}
+		
 		return false;
 	}
 
@@ -180,7 +175,42 @@ public class PlayerController implements InputProcessor {
 		keyUp(-amount * 1000);
 		return false;
 	}
+	
+	/**
+	 * This resets all toggled controls to prevent stuff like locking a button after unpausing and such
+	 */
+	public void syncController() {
+		if (player == null) return;
+		if (player.getPlayerData() == null) return;
+		if (player.getController() == null) return;
+		
+		//Let game account for all buttons held down before the processor is created.
+		for (PlayerAction a: PlayerAction.values()) {
+			
+			if (a.isToggleable()) {
+				if (Gdx.input.isKeyPressed(a.getKey())) {
+					keyDown(a.getKey());
+				} else {
+					keyUp(a.getKey());
+				}
+			}
+		}
+	}
 
+	public void resetController() {
+		if (player == null) return;
+		if (player.getPlayerData() == null) return;
+		if (player.getController() == null) return;
+		
+		//Let game account for all buttons held down before the processor is created.
+		for (PlayerAction a: PlayerAction.values()) {
+			
+			if (a.isToggleable()) {
+				keyUp(a.getKey());
+			}
+		}
+	}
+	
 	public Player getPlayer() {	return player; }
 
 	public void setPlayer(Player player) {this.player = player;	}

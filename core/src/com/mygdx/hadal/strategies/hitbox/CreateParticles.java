@@ -25,6 +25,9 @@ public class CreateParticles extends HitboxStrategy {
 	//atm, this is just used for attaching particles to hitboxes of varying sizes.
 	private float particleSize;
 	
+	//this is the max hitbox size a particle will try to scale to
+	private static float maxSize = 100.0f;
+	
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
 		super(state, proj, user);
 		this.effect = effect;
@@ -44,7 +47,7 @@ public class CreateParticles extends HitboxStrategy {
 		if (particleSize == 0) {
 			particle.setScale(hbox.getScale());
 		} else {
-			particle.setScale(hbox.getSize().y / particleSize);
+			particle.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
 		}
 	}
 }

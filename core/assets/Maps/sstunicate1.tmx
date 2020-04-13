@@ -274,7 +274,7 @@
     <property name="triggeredId" value="bounds1l"/>
    </properties>
   </object>
-  <object id="59" name="Prefab" type="PrefabAlternator" x="2592" y="1600" width="96" height="256">
+  <object id="59" name="Prefab" type="PrefabAlternator" x="2624" y="1600" width="96" height="256">
    <properties>
     <property name="align" type="int" value="0"/>
     <property name="event1" value="enterfromcenter"/>

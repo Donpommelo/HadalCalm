@@ -50,7 +50,7 @@ import com.mygdx.hadal.states.PauseState;
 public class KryoClient {
 	
 	//Me Client
-	public Client client;
+	private Client client;
 	
 	//This is the gsm of the client
 	public GameStateManager gsm;
@@ -784,5 +784,7 @@ public class KryoClient {
 		Packets.allPackets(kryo);
 	}
 	
+	public Client getClient() {	return client; }
+
 	public HashMap<Integer, SavedPlayerFields> getScores() { return scores; }
 }

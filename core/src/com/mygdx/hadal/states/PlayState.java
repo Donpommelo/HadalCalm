@@ -348,7 +348,7 @@ public class PlayState extends GameState {
 	private float physicsAccumulator = 0.0f;
 	private final static float physicsTime = 1 / 200f;
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 1 / 30f;
+	private final static float syncTime = 1 / 60f;
 	public final static float syncInterpolation = 1 / 10f;
 	private float timer;
 
@@ -939,7 +939,7 @@ public class PlayState extends GameState {
 				HadalGame.server.getServer().stop();
 			}
 		} else {
-			HadalGame.client.client.stop();
+			HadalGame.client.getClient().stop();
 		}
 		beginTransition(TransitionState.TITLE, true, "", defaultFadeOutSpeed, delay);
 	}

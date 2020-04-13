@@ -220,12 +220,19 @@ public class HadalGame extends ApplicationAdapter {
 	 * We also need to dispose of anything else here. (such as the batch)
 	 */
 	@Override
-	public void dispose () {
+	public void dispose() {
 		gsm.dispose();
 		batch.dispose();
 		assetManager.dispose();
 		musicPlayer.dispose();
-	}
+		
+		if (client.getClient() != null) {
+			client.getClient().close();
+		}
+		if (server.getServer() != null) {
+			server.getServer().close();
+		}
+	}	
 	
 	public void fadeOut() {	fadeDelta = defaultFadeOutSpeed; }
 	

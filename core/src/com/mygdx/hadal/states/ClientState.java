@@ -68,7 +68,7 @@ public class ClientState extends PlayState {
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
 		if (!lastMouseLocation.equals(mousePosition)) {
-			HadalGame.client.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
+			HadalGame.client.getClient().sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
 		}
 		lastMouseLocation.set(mousePosition);
 		
@@ -140,7 +140,7 @@ public class ClientState extends PlayState {
 		case RESPAWN:
 			gsm.getApp().fadeIn();
 			//Inform the server that we have finished transitioning to tell them to make us a new player.
-			HadalGame.client.client.sendTCP(new Packets.ClientFinishRespawn());
+			HadalGame.client.getClient().sendTCP(new Packets.ClientFinishRespawn());
 			
 			//Make nextState null so we can transition again
 			nextState = null;

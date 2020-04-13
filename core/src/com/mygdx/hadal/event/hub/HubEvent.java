@@ -29,6 +29,8 @@ public class HubEvent extends Event {
 	
 	protected ArrayList<UnlockTag> tags;
 	
+	private static float maxDistance = 5.0f;
+	
 	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, hubTypes type) {
 		super(state, startPos, size);
 		this.open = false;
@@ -52,12 +54,12 @@ public class HubEvent extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (open) {
+				
+				if (state.getUiHub().isActive()) {
 					leave();
 				} else {
 					enter();
 				}
-				open = !open;
 			}
 		};
 		
@@ -70,7 +72,7 @@ public class HubEvent extends Event {
 	@Override
 	public void controller(float delta) {
 		if (open) {
-			if(getPosition().dst(state.getPlayer().getPosition()) > 3) {
+			if (getPosition().dst(state.getPlayer().getPosition()) > maxDistance) {
 				leave();
 				open = false;
 			}
@@ -80,7 +82,7 @@ public class HubEvent extends Event {
 	@Override
 	public void clientController(float delta) {
 		if (open) {
-			if(getPosition().dst(state.getPlayer().getPosition()) > 3) {
+			if (getPosition().dst(state.getPlayer().getPosition()) > maxDistance) {
 				leave();
 				open = false;
 			}
@@ -94,6 +96,7 @@ public class HubEvent extends Event {
 		state.getUiHub().setType(type);
 		state.getUiHub().setTitle(title);
 		state.getUiHub().enter();
+		open = true;
 	}
 	
 	/**
@@ -101,6 +104,7 @@ public class HubEvent extends Event {
 	 */
 	public void leave() {
 		state.getUiHub().leave();
+		open = false;
 	}
 	
 	@Override

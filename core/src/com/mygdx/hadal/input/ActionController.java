@@ -22,6 +22,7 @@ public class ActionController {
 	public ActionController(Player player, PlayState state) {
 		this.player = player;
 		this.state = state;
+		
 	}
 	
 	public boolean keyDown(PlayerAction action) {
@@ -122,6 +123,12 @@ public class ActionController {
 
 		if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(true);
+		}
+		
+		if (action == PlayerAction.EXIT_MENU) {
+			if (state.getUiHub().isActive()) {
+				state.getUiHub().leave();
+			}
 		}
 		
 		return false;

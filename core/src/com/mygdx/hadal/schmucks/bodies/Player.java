@@ -270,21 +270,21 @@ public class Player extends PhysicsSchmuck {
 		if (state.isServer()) {
 			this.feetData = new FeetData(UserDataTypes.FEET, this); 
 			
-			this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
+			this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(0.5f,  - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
 					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
 			
 			feet.setUserData(feetData);
 			
 			this.leftData = new FeetData(UserDataTypes.FEET, this); 
 			
-			this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
+			this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
 					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter));
 			
 			leftSensor.setUserData(leftData);
 			
 			this.rightData = new FeetData(UserDataTypes.FEET, this); 
 			
-			this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0), new Vector2(size.x / 8, size.y), true, 0, 0, 0, 0,
+			this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
 					Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter));
 			
 			rightSensor.setUserData(rightData);
@@ -303,7 +303,7 @@ public class Player extends PhysicsSchmuck {
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
 		if (!state.isServer() && state.getPlayer().equals(this)) {
 			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();
-            HadalGame.client.client.sendTCP(connected);
+            HadalGame.client.getClient().sendTCP(connected);
 		}
 		
 		//Activate on-spawn effects

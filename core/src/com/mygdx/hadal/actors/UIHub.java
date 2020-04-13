@@ -49,8 +49,12 @@ public class UIHub {
 	
 	private hubTypes type = hubTypes.NONE;
 	
+	//is this window currently visible?
+	private boolean active;
+		
 	public UIHub(PlayState state) {
 		this.state = state;
+		this.active = false;
 		
 		this.tableOptions = new Table();
 		this.tableOuter = new Table();
@@ -102,7 +106,8 @@ public class UIHub {
 	 * This is run when the player interacts with the event. Pull up an extra menu with options specified by the child.
 	 */
 	public void enter() {
-
+		active = true;
+		
 		tableOptions.clear();
 		tableExtra.clear();
 		
@@ -125,6 +130,8 @@ public class UIHub {
 	 * Player exits the event. Makes the ui slide out
 	 */
 	public void leave() {
+		active = false;
+
 		tableOuter.addAction(Actions.moveTo(tableX, tableY, .5f, Interpolation.pow5Out));
 		
 		if (state.getStage() != null) {
@@ -198,6 +205,8 @@ public class UIHub {
 		this.title = title;
 		titleInfo.setText(title);
 	}
+	
+	public boolean isActive() { return active; }
 	
 	public void setInfo(String info) { this.info = info; }
 	

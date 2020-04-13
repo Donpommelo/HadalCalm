@@ -520,31 +520,31 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void syncClientLoadoutChangeWeapon(UnlockEquip equip) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(equip, null, null, null, null));
+			HadalGame.client.getClient().sendTCP(new Packets.SyncClientLoadout(equip, null, null, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutAddArtifact(UnlockArtifact artifact) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null, null));
+			HadalGame.client.getClient().sendTCP(new Packets.SyncClientLoadout(null, artifact, null, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutRemoveArtifact(UnlockArtifact artifact) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, artifact, null, null));
+			HadalGame.client.getClient().sendTCP(new Packets.SyncClientLoadout(null, null, artifact, null, null));
 		}
 	}
 	
 	public void syncClientLoadoutChangeActive(UnlockActives active) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, active, null));
+			HadalGame.client.getClient().sendTCP(new Packets.SyncClientLoadout(null, null, null, active, null));
 		}
 	}
 	
 	public void syncClientLoadoutChangeCharacter(UnlockCharacter character) {
 		if (!player.getState().isServer()) {
-			HadalGame.client.client.sendTCP(new Packets.SyncClientLoadout(null, null, null, null, character));
+			HadalGame.client.getClient().sendTCP(new Packets.SyncClientLoadout(null, null, null, null, character));
 		}
 	}
 	

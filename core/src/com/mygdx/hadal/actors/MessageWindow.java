@@ -13,6 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.input.PlayerController;
+import com.mygdx.hadal.input.ClientController;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
@@ -79,6 +82,14 @@ public class MessageWindow {
 					state.getStage().setScrollFocus(textLog);
 					textLog.scrollTo(0, 0, 0, 0);
 				}
+				
+				if (state.getController() != null) {
+					if (state.isServer()) {
+						((PlayerController) state.getController()).resetController();
+					} else {
+						((ClientController) state.getController()).resetController();
+					}
+				}
 			}
 		};
 		
@@ -92,6 +103,14 @@ public class MessageWindow {
 					state.getStage().setKeyboardFocus(null);
 					if (state.getStage().getScrollFocus() == textLog) {
 						state.getStage().setScrollFocus(null);
+					}
+				}
+				
+				if (state.getController() != null) {
+					if (state.isServer()) {
+						((PlayerController) state.getController()).syncController();
+					} else {
+						((ClientController) state.getController()).syncController();
 					}
 				}
 			}
@@ -129,7 +148,7 @@ public class MessageWindow {
 					}
 					
 				} else {
-					HadalGame.client.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText()));
+					HadalGame.client.getClient().sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText()));
 				}
 			}
 		}
@@ -171,6 +190,9 @@ public class MessageWindow {
 		            public boolean keyUp(InputEvent event, int keycode) {
 		                if (keycode == Keys.ENTER) {
 		                	sendMessage();
+		                }
+		                if (keycode == PlayerAction.EXIT_MENU.getKey()) {
+		                	toggleWindow();
 		                }
 		                return super.keyUp(event, keycode);
 		            };
@@ -250,6 +272,8 @@ public class MessageWindow {
 		tableLog.add(newEntry).pad(logPadding, logPadding, logPadding, logPadding).left().row();
 		textLog.scrollTo(0, 0, 0, 0);
 	}
-
+	
 	public static ArrayList<String> getTextRecord() { return textRecord; }	
+	
+	public boolean isActive() { return active; }
 }

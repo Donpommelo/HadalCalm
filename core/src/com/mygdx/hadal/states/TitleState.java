@@ -229,7 +229,7 @@ public class TitleState extends GameState {
 					         public void run() {
 				        		//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
 				            	try {
-				                	HadalGame.client.client.connect(5000, enterIP.getText(), gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
+				                	HadalGame.client.getClient().connect(5000, enterIP.getText(), gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
 				                	
 				    				//save last joined ip if successful
 				                	gsm.getRecord().setlastIp(enterIP.getText());
