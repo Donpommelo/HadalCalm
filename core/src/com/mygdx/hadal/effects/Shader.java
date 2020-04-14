@@ -70,7 +70,7 @@ public enum Shader {
 		
 		//The server tells the client to also display the shader
 		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncShader(entityId, this, duration));
+			HadalGame.server.sendToAllUDP(new Packets.SyncShader(entityId, this, duration));
 		}
 	}
 	

@@ -392,10 +392,10 @@ public class KryoServer {
 		        ps.getScoreWindow().syncTable();
 		        
 		        //Inform the client that their new player has been created and give them their new id
-		        server.sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
+		        sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
 		        
 		        //sync client ui elements
-		        server.sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
+		        sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
 			}
 		});
 	}
@@ -499,9 +499,7 @@ public class KryoServer {
 	 * @param text: notification text
 	 */
 	public void sendNotification(PlayState ps, int connId, String name, String text) {
-		if (server != null) {
-			server.sendToTCP(connId, new Packets.Notification(name, text));	
-		}
+		sendToTCP(connId, new Packets.Notification(name, text));	
 	}
 	
 	/**
@@ -563,6 +561,12 @@ public class KryoServer {
 	public void sendToTCP(int connId, Object p) {
 		if (server != null) {
 			server.sendToTCP(connId, p);
+		}
+	}
+	
+	public void sendToUDP(int connId, Object p) {
+		if (server != null) {
+			server.sendToUDP(connId, p);
 		}
 	}
 	

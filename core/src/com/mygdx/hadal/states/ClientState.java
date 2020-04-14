@@ -68,18 +68,18 @@ public class ClientState extends PlayState {
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
 		if (!lastMouseLocation.equals(mousePosition)) {
-			HadalGame.client.getClient().sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
+			HadalGame.client.sendUDP(new Packets.MouseMove(mousePosition.x, mousePosition.y));
 		}
 		lastMouseLocation.set(mousePosition);
 		
 		//All entities that are set to be created are created and assigned their entityId
 		for (Object[] pair: createListClient) {
 			if (pair[2].equals(ObjectSyncLayers.HBOX)) {
-				hitboxes.put((String)pair[0], (HadalEntity)pair[1]);
+				hitboxes.putIfAbsent((String) pair[0], (HadalEntity) pair[1]);
 			} else {
-				entities.put((String)pair[0], (HadalEntity)pair[1]);
+				entities.putIfAbsent((String) pair[0], (HadalEntity) pair[1]);
 			}
-			((HadalEntity)pair[1]).create();
+			((HadalEntity) pair[1]).create();
 		}
 		createListClient.clear();
 		
@@ -94,6 +94,9 @@ public class ClientState extends PlayState {
 		}
 		removeListClient.clear();
 		
+		//process camera, ui, any received packets
+		processCommonStateProperties(delta);
+				
 		//All sync instructions are carried out.
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
@@ -101,15 +104,13 @@ public class ClientState extends PlayState {
 		 		HadalEntity entity = hitboxes.get(p[0]);
 		 		if (entity != null) {
 		 			entity.onClientSync(p[1]);
-		 		}
-		 		entity = entities.get(p[0]);
+		 		} 
+	 			entity = entities.get(p[0]);
 		 		if (entity != null) {
 		 			entity.onClientSync(p[1]);
 		 		}
 		 	}
 		}
-		
-		processCommonStateProperties(delta);
 		
 		//While most objects don't do any processing on client side, the clientController is run for the exceptions.
 		for (HadalEntity entity : hitboxes.values()) {
@@ -140,7 +141,7 @@ public class ClientState extends PlayState {
 		case RESPAWN:
 			gsm.getApp().fadeIn();
 			//Inform the server that we have finished transitioning to tell them to make us a new player.
-			HadalGame.client.getClient().sendTCP(new Packets.ClientFinishRespawn());
+			HadalGame.client.sendTCP(new Packets.ClientFinishRespawn());
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -191,7 +192,7 @@ public class ClientState extends PlayState {
 
 	/**
 	 * This is called whenever the client is told to synchronize an object from the world.
-	 * @param entityId: The unqie id of the object to be synchronized
+	 * @param entityId: The unique id of the object to be synchronized
 	 * @param o: The SyncEntity Packet to use to sychronize the object
 	 */
 	public void syncEntity(String entityId, Object o) {
@@ -206,7 +207,7 @@ public class ClientState extends PlayState {
 	 */
 	public HadalEntity findEntity(String entityId) {
 		HadalEntity entity = entities.get(entityId);
-		if (entity != null ) {
+		if (entity != null) {
 			return entity;
 		} else {
 			return hitboxes.get(entityId);

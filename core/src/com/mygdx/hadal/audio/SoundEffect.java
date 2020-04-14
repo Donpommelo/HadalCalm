@@ -157,7 +157,7 @@ public enum SoundEffect {
 		
 		//Send a packet to the client and play the sound
 		if (state.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.SyncSoundSingle(this, worldPos, volume, singleton));
+			HadalGame.server.sendToAllUDP(new Packets.SyncSoundSingle(this, worldPos, volume, singleton));
 		}
 		
 		if (worldPos == null) {

@@ -88,7 +88,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                client.sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName()));
+                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName()));
                 connID = c.getID();
             }
         	
@@ -472,7 +472,7 @@ public class KryoClient {
 	    						HadalEntity entity = cs.findEntity(p.entityID);
 	    						if (entity != null) {
 	    							if (entity instanceof Event) {
-	    								((Event)entity).getEventData().onActivate(null, null);
+	    								((Event) entity).getEventData().onActivate(null, null);
 	    							}
 	    						}
 	    					}
@@ -513,7 +513,7 @@ public class KryoClient {
 									gsm.removeState(ResultsState.class);
 		                        	gsm.removeState(ClientState.class);
 		                			gsm.addClientPlayState(p.level, new Loadout(gsm.getLoadout()), TitleState.class);
-		                	        HadalGame.client.client.sendTCP(new Packets.ClientLoaded(p.firstTime, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
+		                	        HadalGame.client.sendTCP(new Packets.ClientLoaded(p.firstTime, gsm.getLoadout().getName(), new Loadout(gsm.getLoadout())));
 								}
                         	});
                         }
@@ -535,7 +535,7 @@ public class KryoClient {
         		 */
         		else if (o instanceof Packets.ServerLoaded) {
         			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName());
-                    client.sendTCP(connected);
+                    sendTCP(connected);
         		}
         		
         		/*
@@ -760,10 +760,10 @@ public class KryoClient {
 				return (ClientState) currentState;
 			}
 			if (currentState instanceof PauseState) {
-				return (ClientState)(((PauseState) currentState).getPs());
+				return (ClientState) (((PauseState) currentState).getPs());
 			}
 			if (currentState instanceof SettingState) {
-				return (ClientState)(((SettingState) currentState).getPs());
+				return (ClientState) (((SettingState) currentState).getPs());
 			}
 		}
 		return null;
@@ -782,6 +782,18 @@ public class KryoClient {
 	private void registerPackets() {
 		Kryo kryo = client.getKryo();
 		Packets.allPackets(kryo);
+	}
+	
+	public void sendTCP(Object p) {
+		if (client != null) {
+			client.sendTCP(p);
+		}
+	}
+	
+	public void sendUDP(Object p) {
+		if (client != null) {
+			client.sendUDP(p);
+		}
 	}
 	
 	public Client getClient() {	return client; }

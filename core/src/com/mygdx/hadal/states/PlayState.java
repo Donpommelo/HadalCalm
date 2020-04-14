@@ -45,6 +45,7 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.WorldDummy;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -55,7 +56,6 @@ import com.mygdx.hadal.schmucks.bodies.AnchorPoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.utils.CameraStyles;
-import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
@@ -105,7 +105,7 @@ public class PlayState extends GameState {
 	private List<PacketEffect> addPacketEffects;
 	
 	//sourced effects from the world are attributed to this dummy.
-	private Schmuck worldDummy;
+	private WorldDummy worldDummy;
 	private AnchorPoint anchor;
 	
 	//this is the current level
@@ -225,7 +225,7 @@ public class PlayState extends GameState {
 		addPacketEffects = Collections.synchronizedList(new ArrayList<PacketEffect>());
 		
 		//The "worldDummy" will be the source of map-effects that want a perpetrator
-		worldDummy = new Schmuck(this, new Vector2(-1000, -1000), new Vector2(1, 1), "WORLD DUMMY", Constants.ENEMY_HITBOX, 0);
+		worldDummy = new WorldDummy(this);
 		anchor = new AnchorPoint(this);
 		
 		//The mouse tracker is the player's mouse position
@@ -373,7 +373,7 @@ public class PlayState extends GameState {
 			//The box2d world takes a step. This handles collisions + physics stuff.
 			world.step(physicsTime, 8, 3);
 		}
-		
+
 		//All entities that are set to be added are added.
 		for (HadalEntity entity: createList) {
 			if (entity instanceof Hitbox) {
@@ -382,11 +382,11 @@ public class PlayState extends GameState {
 				entities.add(entity);
 			}
 			entity.create();
-			
+
 			//Upon creating an entity, tell the clients so they can follow suit (if the entity calls for it)
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.sendToAllTCP(packet);
+				HadalGame.server.sendToAllTCP(entity.onServerCreate());
 			}
 		}
 		createList.clear();
@@ -402,11 +402,13 @@ public class PlayState extends GameState {
 		}
 		removeList.clear();
 		
-		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
-		//We also send client a sync packet if the entity requires.
-		controllerEntities(delta);
+		//process camera, ui, any received packets
 		processCommonStateProperties(delta);
+				
+		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
+		controllerEntities(delta);
 		
+		//Send client a sync packet if the entity requires.
 		if (HadalGame.server.getServer() != null) {
 			syncAccumulator += delta;
 			
@@ -953,7 +955,7 @@ public class PlayState extends GameState {
 	
 	/**
 	 * This sets the game's boss, filling the boss ui.
-	 * @param enemy: THis is the boss whose hp will be used for the boss hp bar
+	 * @param enemy: This is the boss whose hp will be used for the boss hp bar
 	 */
 	public void setBoss(Enemy enemy) {
 		uiPlay.setBoss(enemy, enemy.getName());
@@ -1097,7 +1099,7 @@ public class PlayState extends GameState {
 
 	public World getWorld() { return world; }
 	
-	public Schmuck getWorldDummy() { return worldDummy; }
+	public WorldDummy getWorldDummy() { return worldDummy; }
 	
 	public AnchorPoint getAnchor() { return anchor; }
 

@@ -253,7 +253,7 @@ public class PauseState extends GameState {
 		} else {
 			
 			//If a client unpauses, tell the server so it can echo it to everyone else
-			HadalGame.client.getClient().sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			HadalGame.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
 		}
 	}
 	

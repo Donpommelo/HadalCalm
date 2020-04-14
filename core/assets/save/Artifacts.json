@@ -706,7 +706,7 @@ RED_TIDE_TALISMAN: {
 RING_OF_TESTING: {
 	name: Ring of Testing
 	description: "Test Things"
-    descriptionLong: "TEST"
+    descriptionLong: "THIS ITEM IS USED FOR STRESS TESTING THE GAME. DO NOT USE THIS ARTIFACT."
 	tags: [
 		RELIQUARY,
 	]

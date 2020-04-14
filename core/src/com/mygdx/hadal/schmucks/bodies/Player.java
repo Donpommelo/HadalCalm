@@ -303,7 +303,7 @@ public class Player extends PhysicsSchmuck {
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
 		if (!state.isServer() && state.getPlayer().equals(this)) {
 			Packets.ClientPlayerCreated connected = new Packets.ClientPlayerCreated();
-            HadalGame.client.getClient().sendTCP(connected);
+            HadalGame.client.sendTCP(connected);
 		}
 		
 		//Activate on-spawn effects
@@ -820,7 +820,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), startPos, name, playerData.getLoadout());
+		return new Packets.CreatePlayer(entityID.toString(), getPixelPosition(), name, playerData.getLoadout());
 	}
 	
 	/**
@@ -833,7 +833,7 @@ public class Player extends PhysicsSchmuck {
 	public void onServerSync() {
 		super.onServerSync();
 		
-		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float)(Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
+		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float) (Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
 				grounded, playerData.getCurrentSlot(), 
 				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo()));
 		

@@ -121,7 +121,7 @@ public class ScoreWindow {
 				table.add(points).height(rowHeight).padBottom(25);
 				table.add(wins).height(rowHeight).padBottom(25).row();
 				
-				HadalGame.server.sendToAllTCP(new Packets.SyncScore(HadalGame.server.getScores()));
+				HadalGame.server.sendToAllUDP(new Packets.SyncScore(HadalGame.server.getScores()));
 				
 				state.getUiExtra().syncData();
 			}

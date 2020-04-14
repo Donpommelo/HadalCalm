@@ -67,10 +67,10 @@ public class StickyBombLauncher extends RangedWeapon {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
-		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
+		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
 
 		bombsLaid.addLast(hbox);
 	}

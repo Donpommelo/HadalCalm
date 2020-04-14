@@ -148,7 +148,7 @@ public class MessageWindow {
 					}
 					
 				} else {
-					HadalGame.client.getClient().sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText()));
+					HadalGame.client.sendTCP(new Packets.Notification(state.getPlayer().getName(), enterMessage.getText()));
 				}
 			}
 		}

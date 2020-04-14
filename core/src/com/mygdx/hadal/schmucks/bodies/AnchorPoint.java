@@ -32,4 +32,7 @@ public class AnchorPoint extends HadalEntity {
 
 	@Override
 	public void render(SpriteBatch batch) {}
+	
+	@Override
+	public void onServerSync() {}
 }

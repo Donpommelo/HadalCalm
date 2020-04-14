@@ -177,7 +177,7 @@ public class ResultsState extends GameState {
 	        	if (ps.isServer()) {
 	        		readyPlayer(0);
 	        	} else {
-	        		HadalGame.client.getClient().sendTCP(new Packets.ClientReady());
+	        		HadalGame.client.sendTCP(new Packets.ClientReady());
 	        	}
 	        }
 	    });

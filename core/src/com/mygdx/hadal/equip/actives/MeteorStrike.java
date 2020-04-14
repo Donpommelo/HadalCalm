@@ -35,11 +35,11 @@ public class MeteorStrike extends ActiveItem {
 
 	private final static float range = 1800.0f;
 	
-	private final static float baseDamage = 18.0f;
+	private final static float baseDamage = 24.0f;
 	private final static float knockback = 6.0f;
 	
 	private final static float meteorDuration = 3.0f;
-	private final static float meteorInterval = 0.08f;
+	private final static float meteorInterval = 0.1f;
 	private final static float spread = 500.0f;
 	
 	public MeteorStrike(Schmuck user) {

@@ -214,7 +214,7 @@ public class ParticleEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale);
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, new Vector2(startPos), false, particle.toString(), on, linger, lifespan, scale);
+				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale);
 			}
 		} else {
 			return null;

@@ -6,6 +6,7 @@ import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Status;
 
 public class RadialBarrage extends ActiveItem {
 
@@ -13,6 +14,10 @@ public class RadialBarrage extends ActiveItem {
 	private final static float usedelay = 0.0f;
 	private final static float maxCharge = 20.0f;
 	
+	private final static float duration = 5.0f;
+	private static final float procCd = .1f;
+	private static final int totalShots = 6;
+
 	public RadialBarrage(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -23,14 +28,28 @@ public class RadialBarrage extends ActiveItem {
 		Vector2 angle = new Vector2(1, 0);
 		
 		if (user.getCurrentTool() instanceof RangedWeapon) {
-			angle.scl(((RangedWeapon)user.getCurrentTool()).getProjectileSpeed());
+			angle.scl(((RangedWeapon) user.getCurrentTool()).getProjectileSpeed());
+
+			user.addStatus(new Status(state, duration, false, user, user) {
+				
+				private float procCdCount;
+				private int shotsFired;
+				
+				@Override
+				public void timePassing(float delta) {
+					super.timePassing(delta);
+					if (procCdCount >= procCd && shotsFired < totalShots) {
+						procCdCount -= procCd;
+						shotsFired++;
+
+						angle.setAngle(angle.angle() + 360 / totalShots);
+						user.getCurrentTool().fire(state, user.getSchmuck(), user.getSchmuck().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxfilter());
+					}
+					procCdCount += delta;
+				}
+			});
 			
-			for (int i = 0; i < 6; i++) {
-				angle.setAngle(angle.angle() + 60);
-				user.getCurrentTool().fire(state, user.getSchmuck(), user.getSchmuck().getPixelPosition(), new Vector2(angle), user.getSchmuck().getHitboxfilter());
-			}
-			
-			int clipSize = ((RangedWeapon)user.getCurrentTool()).getClipSize();
+			int clipSize = ((RangedWeapon) user.getCurrentTool()).getClipSize();
 			
 			if (clipSize > 2) {
 				gainChargeByPercent(0.25f);

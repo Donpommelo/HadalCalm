@@ -19,11 +19,11 @@ public class RingofTesting extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 0;
 	
-	private final static int numFrag = 300;
+	private final static int numFrag = 100;
 	private final static Vector2 projectileSize = new Vector2(50, 50);
 
-	private final static float lifespan = 1.0f;
-	private final static float fragSpeed = 10.0f;
+	private final static float lifespan = 10.0f;
+	private final static float fragSpeed = 2.0f;
 	
 	private final static float baseDamage = 1.0f;
 	private final static float knockback = 5.0f;

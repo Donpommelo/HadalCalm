@@ -266,7 +266,6 @@ public abstract class HadalEntity {
 		this.shaderCount = shaderCount;
 	}
 	
-	
 	public void endShader(Shader shader) {
 		shaderCount = 0;
 		if (state.isServer()) {

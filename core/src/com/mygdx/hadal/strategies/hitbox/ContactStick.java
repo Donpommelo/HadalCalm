@@ -51,7 +51,7 @@ public class ContactStick extends HitboxStrategy {
 					angle = hbox.getAngle();
 					location.set(
 							hbox.getPosition().x - target.getPosition().x, 
-							hbox.getPosition().y - target.getPosition().y);		
+							hbox.getPosition().y - target.getPosition().y);	
 				}
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
 					stuckToWall = true;
@@ -65,7 +65,6 @@ public class ContactStick extends HitboxStrategy {
 								hbox.getPosition().x - target.getPosition().x, 
 								hbox.getPosition().y - target.getPosition().y);		
 					}
-					
 				}
 			}
 		}
@@ -77,9 +76,11 @@ public class ContactStick extends HitboxStrategy {
 		//keep a constant distance/angle from the attached entity (or stay still if attached to a wall)
 		if (stuckToWall && target == null && location != null) {
 			hbox.setTransform(location, angle);
+			hbox.setLinearVelocity(0, 0);
 		} else if ((stuckToDude || stuckToWall) && target != null && location != null) {
 			if (target.isAlive()) {
 				hbox.setTransform(target.getPosition().add(location), angle);
+				hbox.setLinearVelocity(0, 0);
 			} else {
 				stuckToDude = false;
 			}

@@ -39,8 +39,6 @@ public class MovingPoint extends Event {
 		super(state, startPos, size);
 		this.speed = speed;
 		this.pause = pause;
-		
-		setSynced(true);
 	}
 
 	@Override
