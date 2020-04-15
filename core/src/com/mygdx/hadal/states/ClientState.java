@@ -24,10 +24,11 @@ import com.mygdx.hadal.server.Packets;
  */
 public class ClientState extends PlayState {
 	
-	public final static float missedCreateThreshold = 0.25f;
-	public final static float missedDeleteThreshold = 0.25f;
+	public final static float missedCreateThreshold = 1.0f;
+	public final static float missedDeleteThreshold = 1.0f;
 	public final static float initialConnectThreshold = 3.0f;
-	public final static float missedDeleteCooldown = 3.0f;
+	public final static float missedDeleteCooldown = 2.0f;
+	public final static float missedCreateCooldown = 2.0f;
 	
 	//This is a set of all non-hitbox entities in the world mapped from their entityId
 	private LinkedHashMap<String, HadalEntity> entities;
@@ -40,6 +41,8 @@ public class ClientState extends PlayState {
 	
 	//This contains the position of the client's mouse, to be sent to the server
 	private Vector3 mousePosition = new Vector3();
+	
+	private float timeSinceLastMissedCreate;
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
 		super(gsm, loadout, level, false, null, true, "");
@@ -103,7 +106,9 @@ public class ClientState extends PlayState {
 		
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta);
-				
+		
+		timeSinceLastMissedCreate += delta;
+		
 		//All sync instructions are carried out.
 		while (!sync.isEmpty()) {
 			Object[] p = (Object[]) sync.remove(0);
@@ -118,7 +123,8 @@ public class ClientState extends PlayState {
 			 			entity.onClientSync(p[1]);
 			 			entity.resetTimeSinceLastSync();
 			 		} else {
-			 			if ((float) p[2] > missedCreateThreshold && getTimer() > initialConnectThreshold) {
+			 			if ((float) p[2] > missedCreateThreshold && getTimer() > initialConnectThreshold && timeSinceLastMissedCreate > missedCreateCooldown) {
+			 				timeSinceLastMissedCreate = 0.0f;
 			 				HadalGame.client.sendUDP(new Packets.MissedCreate((String) p[0]));
 			 			}
 			 		}

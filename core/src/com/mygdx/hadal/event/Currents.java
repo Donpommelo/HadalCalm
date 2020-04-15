@@ -89,6 +89,11 @@ public class Currents extends Event {
 		}
 	}
 	
+	@Override
+	public void clientController(float delta) {
+		super.controller(delta);
+	}
+		
 	/**
 	 * When server creates current, clients are told to create the current in their own worlds
 	 */
@@ -96,9 +101,10 @@ public class Currents extends Event {
 	public Object onServerCreate() {
 		if (blueprint == null) {
 			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
-			blueprint.setName("Current");
+			blueprint.setName("CurrentTemp");
 			blueprint.getProperties().put("currentX", vec.x);
 			blueprint.getProperties().put("currentY", vec.y);
+			blueprint.getProperties().put("duration", duration);
 			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		} else {
 			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);

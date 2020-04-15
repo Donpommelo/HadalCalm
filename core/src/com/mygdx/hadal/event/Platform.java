@@ -19,6 +19,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * restitution: float value of platform bounciness. Default: 0.0f
  * 
+ * wall: Boolean that describes whether walls can pass through this. Default: true
  * player: Boolean that describes whether players can pass through this. Default: true
  * hbox: Boolean that describes whether hitboxes can pass through this. Optional. Default: true
  * event: Boolean that describes whether this sensor touches events. Optional. Default: true
@@ -31,9 +32,9 @@ public class Platform extends Event {
 	private short filter;
 	private float restitution;
 	
-	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution, boolean player, boolean hbox, boolean event, boolean enemy) {
+	public Platform(PlayState state, Vector2 startPos, Vector2 size, float restitution, boolean wall, boolean player, boolean hbox, boolean event, boolean enemy) {
 		super(state, startPos ,size);
-		this.filter = (short) ((player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
+		this.filter = (short) ((wall ? Constants.BIT_WALL : 0) | (player ? Constants.BIT_PLAYER : 0) | (hbox ? Constants.BIT_PROJECTILE: 0) | (event ? Constants.BIT_SENSOR : 0) | (enemy ? Constants.BIT_ENEMY : 0));
 		this.restitution = restitution;
 	}
 	

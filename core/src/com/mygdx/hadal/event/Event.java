@@ -15,6 +15,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 
@@ -34,7 +35,7 @@ public class Event extends HadalEntity {
 
 	//Whether the event will despawn after time.
 	private boolean temporary;
-	private float duration;
+	protected float duration;
 	
 	//Is this event affected by gravity?
 	protected float gravity = 0.0f;
@@ -111,7 +112,11 @@ public class Event extends HadalEntity {
 		if (temporary) {
 			duration -= delta;
 			if (duration <= 0) {
-				this.queueDeletion();
+				if (state.isServer()) {
+					this.queueDeletion();
+				} else {
+					((ClientState) state).removeEntity(entityID.toString());
+				}
 			}
 		}
 	}

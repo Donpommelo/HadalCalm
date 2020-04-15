@@ -1,5 +1,6 @@
 package com.mygdx.hadal.event;
 
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -8,6 +9,7 @@ import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -41,7 +43,6 @@ public class Spring extends Event {
 	public Spring(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
 		super(state, startPos, size, duration);
 		this.vec = vec;
-		
 		setEventSprite(Sprite.SPRING);
 	}
 	
@@ -75,6 +76,25 @@ public class Spring extends Event {
 		
 		if (procCdCount < procCd) {
 			procCdCount += delta;
+		}
+	}
+	
+	@Override
+	public void clientController(float delta) {
+		super.controller(delta);
+	}
+	
+	@Override
+	public Object onServerCreate() {
+		if (blueprint == null) {
+			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
+			blueprint.setName("SpringTemp");
+			blueprint.getProperties().put("springX", vec.x);
+			blueprint.getProperties().put("springY", vec.y);
+			blueprint.getProperties().put("duration", duration);
+			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
+		} else {
+			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		}
 	}
 	

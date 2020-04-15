@@ -77,32 +77,35 @@ public class HealingArea extends Event {
 	
 	@Override
 	public void controller(float delta) {
-			controllerCount += delta;
-			while (controllerCount >= healInterval) {
-				controllerCount -= healInterval;
-				
-				for (HadalEntity entity : eventData.getSchmucks()) {
-					if (entity instanceof Schmuck) {
-						((Schmuck) entity).getBodyData().regainHp(heal, perp.getBodyData(), true, DamageTypes.REGEN);
-					}
+		super.controller(delta);
+
+		controllerCount += delta;
+		while (controllerCount >= healInterval) {
+			controllerCount -= healInterval;
+			
+			for (HadalEntity entity : eventData.getSchmucks()) {
+				if (entity instanceof Schmuck) {
+					((Schmuck) entity).getBodyData().regainHp(heal, perp.getBodyData(), true, DamageTypes.REGEN);
 				}
 			}
-			
-			currCrossSpawnTimer += delta;
-			while (currCrossSpawnTimer >= spawnTimerLimit) {
-				currCrossSpawnTimer -= spawnTimerLimit;
-				int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
-				int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-				new ParticleEntity(state, new Vector2(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
-			}
-		super.controller(delta);
+		}
+		
+		currCrossSpawnTimer += delta;
+		while (currCrossSpawnTimer >= spawnTimerLimit) {
+			currCrossSpawnTimer -= spawnTimerLimit;
+			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
+			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
+			new ParticleEntity(state, new Vector2(randX, randY), Particle.REGEN, 1.5f, true, particleSyncType.NOSYNC);
+		}
 	}
 	
 	/**
-	 * Client Poison should randomly spawn poison particles itself to avoid overhead.
+	 * Client healing area should randomly spawn regen particles itself to avoid overhead.
 	 */
 	@Override
 	public void clientController(float delta) {
+		super.controller(delta);
+
 		currCrossSpawnTimer += delta;
 		while (currCrossSpawnTimer >= spawnTimerLimit) {
 			currCrossSpawnTimer -= spawnTimerLimit;
@@ -114,16 +117,22 @@ public class HealingArea extends Event {
 	}
 	
 	/**
-	 * When server creates poison, clients are told to create the poison in their own worlds
+	 * When server creates healing area, clients are told to create the healing area in their own worlds
 	 */
 	@Override
 	public Object onServerCreate() {
 		if (blueprint == null) {
 			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
-			blueprint.setName("Heal");
+			blueprint.setName("HealTemp");
+			blueprint.getProperties().put("duration", duration);
 			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		} else {
 			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		}
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setSynced(true);
 	}
 }

@@ -281,7 +281,6 @@ public class KryoServer {
     						@Override
 							public void execute() {
     							HadalEntity entity = ps.findEntity(p.entityID);
-
     							if (entity != null) {
     								Object packet = entity.onServerCreate();
     								if (packet != null) {
@@ -297,7 +296,6 @@ public class KryoServer {
 					final Packets.MissedDelete p = (Packets.MissedDelete) o;
 					final PlayState ps = getPlayState();
 					if (ps != null) {
-						
 						ps.addPacketEffect(new PacketEffect() {
     						
     						@Override

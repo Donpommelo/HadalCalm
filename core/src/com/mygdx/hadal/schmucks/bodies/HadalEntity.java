@@ -303,7 +303,8 @@ public abstract class HadalEntity {
 			timeSinceLastSync += i;
 			
 			if (timeSinceLastSync > ClientState.missedDeleteThreshold && state.getTimer() > ClientState.initialConnectThreshold) {
-				timeSinceLastSync = ClientState.missedDeleteCooldown;
+				timeSinceLastSync = 0;
+
 				HadalGame.client.sendUDP(new Packets.MissedDelete(entityID.toString()));
 			}
 		}

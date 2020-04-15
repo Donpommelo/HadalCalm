@@ -73,7 +73,13 @@ public class Poison extends Event {
 		super(state,  startPos, size, duration);
 		this.dps = dps;
 		this.filter = filter;
-		this.perp = perp;
+		
+		if (perp == null) {
+			this.perp = state.getWorldDummy();
+		} else {
+			this.perp = perp;
+		}
+		
 		this.draw = draw;
 		this.on = true;
 		spawnTimerLimit = 4096f / (size.x * size.y);
@@ -102,6 +108,8 @@ public class Poison extends Event {
 	@Override
 	public void controller(float delta) {
 		if (on) {
+			super.controller(delta);
+
 			controllerCount += delta;
 			while (controllerCount >= damageInterval) {
 				controllerCount -= damageInterval;
@@ -124,7 +132,6 @@ public class Poison extends Event {
 				}
 			}
 		}
-		super.controller(delta);
 	}
 	
 	/**
@@ -133,6 +140,8 @@ public class Poison extends Event {
 	@Override
 	public void clientController(float delta) {
 		if (on) {
+			super.controller(delta);
+			
 			if (randomParticles && draw) {
 				currPoisonSpawnTimer += delta;
 				while (currPoisonSpawnTimer >= spawnTimerLimit) {
@@ -153,7 +162,8 @@ public class Poison extends Event {
 	public Object onServerCreate() {
 		if (blueprint == null) {
 			blueprint = new RectangleMapObject(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, size.x, size.y);
-			blueprint.setName("Poison");
+			blueprint.setName("PoisonTemp");
+			blueprint.getProperties().put("duration", duration);
 			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		} else {
 			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);

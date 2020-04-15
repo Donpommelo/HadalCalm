@@ -22,7 +22,6 @@ public class ActionController {
 	public ActionController(Player player, PlayState state) {
 		this.player = player;
 		this.state = state;
-		
 	}
 	
 	public boolean keyDown(PlayerAction action) {

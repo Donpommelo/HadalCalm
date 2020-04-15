@@ -33,24 +33,95 @@
     <property name="triggeredId" value=""/>
    </properties>
   </object>
-  <object id="6" name="Platform" type="Platform" x="416" y="1728" width="1600" height="32">
+  <object id="6" name="Platform" type="Platform" x="256" y="1728" width="1920" height="32">
    <properties>
     <property name="enemy" type="bool" value="false"/>
+    <property name="event" type="bool" value="false"/>
     <property name="hbox" type="bool" value="false"/>
     <property name="player" type="bool" value="false"/>
     <property name="sprite" value="NOTHING"/>
    </properties>
   </object>
-  <object id="7" name="Destr_Obj" type="Destr_Obj" x="416" y="1568" width="160" height="160"/>
-  <object id="8" name="Destr_Obj" type="Destr_Obj" x="576" y="1568" width="160" height="160"/>
-  <object id="9" name="Destr_Obj" type="Destr_Obj" x="736" y="1568" width="160" height="160"/>
-  <object id="10" name="Destr_Obj" type="Destr_Obj" x="896" y="1568" width="160" height="160"/>
-  <object id="11" name="Destr_Obj" type="Destr_Obj" x="1056" y="1568" width="160" height="160"/>
-  <object id="12" name="Destr_Obj" type="Destr_Obj" x="1216" y="1568" width="160" height="160"/>
-  <object id="13" name="Destr_Obj" type="Destr_Obj" x="1376" y="1568" width="160" height="160"/>
-  <object id="14" name="Destr_Obj" type="Destr_Obj" x="1536" y="1568" width="160" height="160"/>
-  <object id="15" name="Destr_Obj" type="Destr_Obj" x="1696" y="1568" width="160" height="160"/>
-  <object id="16" name="Destr_Obj" type="Destr_Obj" x="1856" y="1568" width="160" height="160"/>
+  <object id="7" name="Destr_Obj" type="Destr_Obj" x="416" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="8" name="Destr_Obj" type="Destr_Obj" x="576" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="9" name="Destr_Obj" type="Destr_Obj" x="736" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="10" name="Destr_Obj" type="Destr_Obj" x="896" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="11" name="Destr_Obj" type="Destr_Obj" x="1056" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="12" name="Destr_Obj" type="Destr_Obj" x="1216" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="13" name="Destr_Obj" type="Destr_Obj" x="1376" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="14" name="Destr_Obj" type="Destr_Obj" x="1536" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="15" name="Destr_Obj" type="Destr_Obj" x="1696" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="16" name="Destr_Obj" type="Destr_Obj" x="1856" y="1568" width="160" height="160">
+   <properties>
+    <property name="gravity" type="float" value="1"/>
+    <property name="hp" type="int" value="50"/>
+    <property name="static" type="bool" value="false"/>
+    <property name="synced" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="17" name="Destr_Obj" type="Destr_Obj" x="2880" y="864" width="160" height="160">
    <properties>
     <property name="gravity" type="float" value="1"/>

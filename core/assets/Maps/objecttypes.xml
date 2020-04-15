@@ -189,6 +189,7 @@
   <property name="restitution" type="float" default="0"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
+  <property name="wall" type="bool" default="true"/>
  </objecttype>
  <objecttype name="Player" color="#a0a0a4">
   <property name="ammo" type="float" default="0"/>

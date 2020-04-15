@@ -284,19 +284,23 @@ public class TiledObjectUtil {
 			e = new Text(state, position, size,
 					object.getProperties().get("text", String.class),
 					object.getProperties().get("scale", 0.5f, float.class));
-		} else if (object.getName().equals("Current")) {
+		} else if (object.getName().equals("CurrentTemp")) {
 			
 			Vector2 power = new Vector2(object.getProperties().get("currentX", 0.0f, float.class), object.getProperties().get("currentY", 0.0f, float.class));
-			if (object.getProperties().get("duration", 0.0f, float.class) == 0) {
-				e = new Currents(state, position, size, power);
-			} else {
-				e = new Currents(state, position, size, power, object.getProperties().get("duration", 0.0f, float.class));
-			}
+			e = new Currents(state, position, size, power, object.getProperties().get("duration", 0.0f, float.class));
+		}  else if (object.getName().equals("Current")) {
+			
+			Vector2 power = new Vector2(object.getProperties().get("currentX", 0.0f, float.class), object.getProperties().get("currentY", 0.0f, float.class));
+			e = new Currents(state, position, size, power);
 		} else if (object.getName().equals("Displacer")) {
 			
 			Vector2 power = new Vector2(object.getProperties().get("displaceX", 0.0f, float.class), object.getProperties().get("displaceY", 0.0f, float.class));
 			e = new Displacer(state, position, size, power);
-		} else if (object.getName().equals("Spring")) {
+		} else if (object.getName().equals("SpringTemp")) {
+			
+			Vector2 power = new Vector2(object.getProperties().get("springX", 0.0f, float.class), object.getProperties().get("springY", 0.0f, float.class));
+			e = new Spring(state, position, size, power, object.getProperties().get("duration", 0.0f, float.class));
+		}  else if (object.getName().equals("Spring")) {
 			
 			Vector2 power = new Vector2(object.getProperties().get("springX", 0.0f, float.class), object.getProperties().get("springY", 0.0f, float.class));
 			e = new Spring(state, position, size, power);
@@ -324,22 +328,37 @@ public class TiledObjectUtil {
 					object.getProperties().get("level", String.class), 
 					object.getProperties().get("reset", false, Boolean.class), 
 					object.getProperties().get("startId", "", String.class));
+		} else if (object.getName().equals("PoisonTemp")) {
+			
+			e = new Poison(state, position, size, 
+					object.getProperties().get("damage", 0.0f, float.class),
+					object.getProperties().get("duration", 0.0f, float.class),
+					state.getWorldDummy(),
+					object.getProperties().get("draw", true, boolean.class), 
+					object.getProperties().get("filter", (short) 0, short.class));
 		} else if (object.getName().equals("Poison")) {
 			
 			e = new Poison(state, position, size, 
 					object.getProperties().get("damage", 0.0f, float.class),
 					object.getProperties().get("draw", true, boolean.class), 
-					object.getProperties().get("filter", (short)0, short.class));
+					object.getProperties().get("filter", (short) 0, short.class));
+		} else if (object.getName().equals("HealTemp")) {
+			
+			e = new HealingArea(state, position, size, 
+					object.getProperties().get("heal", 0.0f, float.class),
+					object.getProperties().get("duration", 0.0f, float.class),
+					state.getWorldDummy(),
+					object.getProperties().get("filter", (short) 0, short.class));
 		} else if (object.getName().equals("Heal")) {
 			
 			e = new HealingArea(state, position, size, 
 					object.getProperties().get("heal", 0.0f, float.class),
-					object.getProperties().get("filter", (short)0, short.class));
-		} else if (object.getName().equals("Buzzsaw")) {
+					object.getProperties().get("filter", (short) 0, short.class));
+		}  else if (object.getName().equals("Buzzsaw")) {
 			
 			e = new Buzzsaw(state, position, size, 
 					object.getProperties().get("damage", 0.0f, float.class),
-					object.getProperties().get("filter", (short)0, short.class));
+					object.getProperties().get("filter", (short) 0, short.class));
 		} else if (object.getName().equals("MovePoint")) {
 			
 			e = new MovingPoint(state, position, size, 
@@ -359,7 +378,7 @@ public class TiledObjectUtil {
 		} else if (object.getName().equals("Platform")) {
 			
 			e = new Platform(state, position, size, 
-					object.getProperties().get("restitution", 0.0f, float.class), 
+					object.getProperties().get("restitution", 0.0f, float.class), object.getProperties().get("wall", true, boolean.class),
 					object.getProperties().get("player", true, boolean.class), object.getProperties().get("hbox", true, boolean.class), 
 					object.getProperties().get("event", true, boolean.class), object.getProperties().get("enemy", true, boolean.class));
 		} else if (object.getName().equals("Armory")) {
