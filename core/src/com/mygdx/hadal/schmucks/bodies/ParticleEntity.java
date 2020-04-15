@@ -212,10 +212,19 @@ public class ParticleEntity extends HadalEntity {
 	public Object onServerCreate() {
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale);
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale, sync.equals(particleSyncType.TICKSYNC));
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale);
+				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale, sync.equals(particleSyncType.TICKSYNC));
 			}
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public Object onServerDelete() {
+		if (sync.equals(particleSyncType.TICKSYNC)) {
+			return new Packets.DeleteEntity(entityID.toString());
 		} else {
 			return null;
 		}
@@ -232,14 +241,14 @@ public class ParticleEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on));
+					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
 				} else {
 					newPos.set(startPos);
-					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on));
+					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
 				}
 			} else {
 				newPos.set(startPos);
-				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on));
+				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
 			}
 		}
 	}

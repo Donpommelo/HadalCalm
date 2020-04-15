@@ -137,7 +137,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p);
+						cs.syncEntity(p.entityID, p, p.age);
 					}
         		}
         		
@@ -146,7 +146,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p);
+						cs.syncEntity(p.entityID, p, 0.0f);
 					}
         		}
         		
@@ -155,7 +155,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p);
+						cs.syncEntity(p.entityID, p, 0.0f);
 					}
         		}
         		
@@ -164,7 +164,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p);
+						cs.syncEntity(p.entityID, p, 0.0f);
 					}
         		}
         		
@@ -173,7 +173,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p);
+						cs.syncEntity(p.entityID, p, p.age);
 					}
         		}
         		
@@ -182,7 +182,7 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p);
+						cs.syncEntity(p.entityID, p, p.age);
 					}
         		}
         		
@@ -200,7 +200,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.sprite, p.align);
-                				cs.addEntity(p.entityID, illusion, p.layer);
+                				cs.addEntity(p.entityID, illusion, p.synced, p.layer);
         					}
         				});
 					}
@@ -241,11 +241,11 @@ public class KryoClient {
         						if (p.attached) {
         							ParticleEntity entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC, p.pos);
         							entity.setAttachedId(p.attachedID);
-        							cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+        							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
         							entity.setScale(p.scale);
         						} else {
         							ParticleEntity entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
-            						cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+            						cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
             						entity.setScale(p.scale);
         						}
             				}
@@ -269,7 +269,7 @@ public class KryoClient {
         						
         						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.looped, p.on, soundSyncType.NOSYNC);
         						entity.setAttachedId(p.attachedID);
-    							cs.addEntity(p.entityID, entity, ObjectSyncLayers.STANDARD);
+    							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}
@@ -373,7 +373,7 @@ public class KryoClient {
         						
         						Enemy enemy = p.type.generateEnemy(cs, new Vector2(), Constants.ENEMY_HITBOX, 0, null);
         						if (enemy != null) {
-        							cs.addEntity(p.entityID, enemy, ObjectSyncLayers.STANDARD);
+        							cs.addEntity(p.entityID, enemy, true, ObjectSyncLayers.STANDARD);
         							enemy.setBoss(p.boss);
         							if (p.boss) {
         								enemy.setName(p.name);
@@ -402,10 +402,10 @@ public class KryoClient {
         					public void execute() {
         						if (!p.entityID.equals(myID)) {
                     				Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true);
-                    				cs.addEntity(p.entityID, newPlayer, ObjectSyncLayers.STANDARD);
+                    				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);
-                					cs.addEntity(p.entityID, cs.getPlayer(), ObjectSyncLayers.STANDARD);
+                					cs.addEntity(p.entityID, cs.getPlayer(), true, ObjectSyncLayers.STANDARD);
                 					
                 					//set camera to look at new client player.
                     				cs.camera.position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
@@ -430,7 +430,7 @@ public class KryoClient {
         					public void execute() {
         						MapObject blueprint = p.blueprint;
         						blueprint.getProperties().put("sync", "USER");
-        						cs.addEntity(p.entityID, TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint), ObjectSyncLayers.STANDARD);
+        						cs.addEntity(p.entityID, TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint), p.synced, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}
@@ -450,7 +450,7 @@ public class KryoClient {
         					public void execute() {
         						PickupEquip pickup = new PickupEquip(cs, p.pos, "");
         						pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
-        						cs.addEntity(p.entityID, pickup, ObjectSyncLayers.STANDARD);
+        						cs.addEntity(p.entityID, pickup, false, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}

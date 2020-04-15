@@ -14,6 +14,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -44,6 +45,15 @@ public abstract class HadalEntity {
 	protected float animationTime = 0;
 	protected float getAnimationTime() { return animationTime; }
 	
+	//counter of entity's age. this is sent to the client for syncing purposes.
+	protected float entityAge = 0;
+
+	//Only used by client. this keeps track of time since last sync to detect if we missed a delete packet.
+	protected float timeSinceLastSync = 0;
+	
+	//On the client, do we expect a sync packet from the server regularly
+	protected boolean receivingSyncs;
+
 	//Keeps track of an entity's shader such as when flashing after receiving damage.
 	protected float shaderCount = 0;
 	protected ShaderProgram shader;
@@ -171,12 +181,18 @@ public abstract class HadalEntity {
 	public Object onServerCreate() { return null; }
 	
 	/**
+	 * This is called when the entity is deleted to return a packet to be sent to the client
+	 * Default: send a packet telling clients to delete this.
+	 */
+	public Object onServerDelete() { return new Packets.DeleteEntity(entityID.toString()); }
+
+	/**
 	 * This is called every engine tick to send a packet syncing this entity.
 	 * Default: Track entity's position and angle if it has a body
 	 */
 	public void onServerSync() {
 		if (body != null) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getAngle()));
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getAngle(), entityAge));
 		}
 	}
 	
@@ -249,6 +265,8 @@ public abstract class HadalEntity {
 	public boolean isAlive() { return alive; }
 	
 	public UUID getEntityID() { return entityID; }
+	
+	public void setEntityID(String entityID) { this.entityID = UUID.fromString(entityID); }
 
 	public Vector2 getStartPos() { return startPos;	}
 	
@@ -277,17 +295,35 @@ public abstract class HadalEntity {
 	
 	public void increaseAnimationTime(float i) { animationTime += i; }
 	
+	public void increaseEntityAge(float i) { entityAge += i; }
+	
+	public void increaseTimeSinceLastSync(float i) { 
+		
+		if (receivingSyncs) {
+			timeSinceLastSync += i;
+			
+			if (timeSinceLastSync > ClientState.missedDeleteThreshold && state.getTimer() > ClientState.initialConnectThreshold) {
+				timeSinceLastSync = ClientState.missedDeleteCooldown;
+				HadalGame.client.sendUDP(new Packets.MissedDelete(entityID.toString()));
+			}
+		}
+	}
+	
+	public void resetTimeSinceLastSync() { timeSinceLastSync = 0; }
+
 	public Vector2 getPosition() { return body.getPosition(); }
 
 	public float getAngle() { return body.getAngle(); }
+
+	public Vector2 getLinearVelocity() { return body.getLinearVelocity(); }
 
 	public float getAngularVelocity() { return body.getAngularVelocity(); }
 
 	public void setAngle(float angle) { setTransform(getPosition(), angle); }
 
-	public Vector2 getLinearVelocity() { return body.getLinearVelocity(); }
-
 	public float getMass() { return body.getMass(); }
+
+	public void setReceivingSyncs(boolean receivingSyncs) {	this.receivingSyncs = receivingSyncs; }
 
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null) {

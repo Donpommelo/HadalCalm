@@ -386,7 +386,7 @@ public class PlayState extends GameState {
 			//Upon creating an entity, tell the clients so they can follow suit (if the entity calls for it)
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.sendToAllTCP(entity.onServerCreate());
+				HadalGame.server.sendToAllUDP(packet);
 			}
 		}
 		createList.clear();
@@ -398,7 +398,10 @@ public class PlayState extends GameState {
 			entity.dispose();
 			
 			//Upon deleting an entity, tell the clients so they can follow suit.
-			HadalGame.server.sendToAllTCP(new Packets.DeleteEntity(entity.getEntityID().toString()));
+			Object packet = entity.onServerDelete();
+			if (packet != null) {
+				HadalGame.server.sendToAllUDP(packet);
+			}
 		}
 		removeList.clear();
 		
@@ -530,11 +533,13 @@ public class PlayState extends GameState {
 			entity.controller(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
+			entity.increaseEntityAge(delta);
 		}
 		for (HadalEntity entity : entities) {
 			entity.controller(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
+			entity.increaseEntityAge(delta);
 		}
 	}
 	
@@ -954,6 +959,24 @@ public class PlayState extends GameState {
 	}
 	
 	/**
+	 * This looks for an entity in the world with the given entityId
+	 */
+	public HadalEntity findEntity(String entityId) {
+
+		for (HadalEntity schmuck : entities) {
+			if (schmuck.getEntityID().toString().equals(entityId)) {
+				return schmuck;
+			}
+		}
+		for (HadalEntity hitbox : hitboxes) {
+			if (hitbox.getEntityID().toString().equals(entityId)) {
+				return hitbox;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * This sets the game's boss, filling the boss ui.
 	 * @param enemy: This is the boss whose hp will be used for the boss hp bar
 	 */
@@ -977,13 +1000,13 @@ public class PlayState extends GameState {
 		for (HadalEntity entity : entities) {
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.sendToTCP(connId, packet);
+				HadalGame.server.sendToUDP(connId, packet);
 			}
 		}
 		for (HadalEntity entity : hitboxes) {
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
-				HadalGame.server.sendToTCP(connId, packet);
+				HadalGame.server.sendToUDP(connId, packet);
 			}
 		}
 	}
@@ -1105,6 +1128,8 @@ public class PlayState extends GameState {
 
 	public UnlockLevel getLevel() { return level; }
 
+	public float getTimer() {return timer; }
+	
 	public void setStartId(String startId) { this.startId = startId; }
 
 	public UIExtra getUiExtra() { return uiExtra; }

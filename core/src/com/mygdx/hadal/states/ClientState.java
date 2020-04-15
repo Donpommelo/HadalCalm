@@ -24,6 +24,11 @@ import com.mygdx.hadal.server.Packets;
  */
 public class ClientState extends PlayState {
 	
+	public final static float missedCreateThreshold = 0.25f;
+	public final static float missedDeleteThreshold = 0.25f;
+	public final static float initialConnectThreshold = 3.0f;
+	public final static float missedDeleteCooldown = 3.0f;
+	
 	//This is a set of all non-hitbox entities in the world mapped from their entityId
 	private LinkedHashMap<String, HadalEntity> entities;
 	
@@ -42,8 +47,7 @@ public class ClientState extends PlayState {
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		sync = new ArrayList<Object[]>();
 		
-		//Add a world dummy to the client's world.
-		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), ObjectSyncLayers.STANDARD);
+		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), false, ObjectSyncLayers.STANDARD);
 	}
 	
 	@Override
@@ -74,12 +78,15 @@ public class ClientState extends PlayState {
 		
 		//All entities that are set to be created are created and assigned their entityId
 		for (Object[] pair: createListClient) {
-			if (pair[2].equals(ObjectSyncLayers.HBOX)) {
+			if (pair[3].equals(ObjectSyncLayers.HBOX)) {
 				hitboxes.putIfAbsent((String) pair[0], (HadalEntity) pair[1]);
 			} else {
 				entities.putIfAbsent((String) pair[0], (HadalEntity) pair[1]);
 			}
 			((HadalEntity) pair[1]).create();
+			((HadalEntity) pair[1]).setEntityID((String) pair[0]);
+			((HadalEntity) pair[1]).setReceivingSyncs((boolean) pair[2]);
+			
 		}
 		createListClient.clear();
 		
@@ -104,10 +111,17 @@ public class ClientState extends PlayState {
 		 		HadalEntity entity = hitboxes.get(p[0]);
 		 		if (entity != null) {
 		 			entity.onClientSync(p[1]);
-		 		} 
-	 			entity = entities.get(p[0]);
-		 		if (entity != null) {
-		 			entity.onClientSync(p[1]);
+		 			entity.resetTimeSinceLastSync();
+		 		} else {
+		 			entity = entities.get(p[0]);
+			 		if (entity != null) {
+			 			entity.onClientSync(p[1]);
+			 			entity.resetTimeSinceLastSync();
+			 		} else {
+			 			if ((float) p[2] > missedCreateThreshold && getTimer() > initialConnectThreshold) {
+			 				HadalGame.client.sendUDP(new Packets.MissedCreate((String) p[0]));
+			 			}
+			 		}
 		 		}
 		 	}
 		}
@@ -117,11 +131,13 @@ public class ClientState extends PlayState {
 			entity.clientController(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
+			entity.increaseTimeSinceLastSync(delta);
 		}
 		for (HadalEntity entity : entities.values()) {
 			entity.clientController(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
+			entity.increaseTimeSinceLastSync(delta);
 		}
 	}
 	
@@ -175,10 +191,11 @@ public class ClientState extends PlayState {
 	 * This is called whenever the client is told to add an object to its world.
 	 * @param entityId: The unique id of the new entity
 	 * @param entity: The entity to be added
+	 * @param: synced: should this object receive a regular sync packet from the server
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
-	public void addEntity(String entityId, HadalEntity entity, ObjectSyncLayers layer) {
-		Object[] packet = {entityId, entity, layer};
+	public void addEntity(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {
+		Object[] packet = {entityId, entity, synced, layer};
 		createListClient.add(packet);
 	}
 	
@@ -194,9 +211,10 @@ public class ClientState extends PlayState {
 	 * This is called whenever the client is told to synchronize an object from the world.
 	 * @param entityId: The unique id of the object to be synchronized
 	 * @param o: The SyncEntity Packet to use to sychronize the object
+	 * @param age: the age of the entity o nthe server. If we are told to sync an entity we don't have that's old enough, we missed a create packet.
 	 */
-	public void syncEntity(String entityId, Object o) {
-		Object[] packet = {entityId, o};
+	public void syncEntity(String entityId, Object o, float age) {
+		Object[] packet = {entityId, o, age};
 		sync.add(packet);
 	}
 	
@@ -205,6 +223,7 @@ public class ClientState extends PlayState {
 	 * @param entityId: Unique id of he object to find
 	 * @return: The found object (or null if nonexistent)
 	 */
+	@Override
 	public HadalEntity findEntity(String entityId) {
 		HadalEntity entity = entities.get(entityId);
 		if (entity != null) {

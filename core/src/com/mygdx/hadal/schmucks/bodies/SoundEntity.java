@@ -148,12 +148,21 @@ public class SoundEntity extends HadalEntity {
 		
 		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateSound(entityID.toString(), attachedEntity.getEntityID().toString(), sound.toString(), volume, looped, on);
+				return new Packets.CreateSound(entityID.toString(), attachedEntity.getEntityID().toString(), sound.toString(), volume, looped, on, sync.equals(soundSyncType.TICKSYNC));
 			}
 		}
 		return null;
 	}
 	
+	@Override
+	public Object onServerDelete() { 
+		if (sync.equals(soundSyncType.TICKSYNC)) {
+			return new Packets.DeleteEntity(entityID.toString()); 
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * For sounds that are tick synced, send over location and volume to clients as well as whether it is on or not
 	 */
@@ -164,7 +173,7 @@ public class SoundEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					HadalGame.server.sendToAllUDP(new Packets.SyncSound(entityID.toString(), newPos, volume, on));
+					HadalGame.server.sendToAllUDP(new Packets.SyncSound(entityID.toString(), newPos, volume, on, entityAge));
 				}
 			}
 		}

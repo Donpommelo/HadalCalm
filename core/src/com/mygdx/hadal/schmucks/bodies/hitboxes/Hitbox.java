@@ -237,7 +237,7 @@ public class Hitbox extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), sprite, ObjectSyncLayers.HBOX, alignType.HITBOX);
+		return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), sprite, true, ObjectSyncLayers.HBOX, alignType.HITBOX);
 	}
 	
 	public void lowerDurability() {

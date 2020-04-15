@@ -201,7 +201,7 @@ public class EnemyCrawling extends Enemy {
 	
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), moveDirection));
+		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), moveDirection, entityAge));
 		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
 	}
 	

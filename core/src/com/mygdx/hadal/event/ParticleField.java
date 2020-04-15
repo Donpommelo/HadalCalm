@@ -71,7 +71,7 @@ public class ParticleField extends Event {
 			float randX = (float) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			float randY = (float) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 			ParticleEntity field = new ParticleEntity(state, new Vector2(randX, randY), particle, duration, true, particleSyncType.NOSYNC);
-			((ClientState)state).addEntity(field.getEntityID().toString(), field, ObjectSyncLayers.STANDARD);
+			((ClientState) state).addEntity(field.getEntityID().toString(), field, false, ObjectSyncLayers.STANDARD);
 		}
 	}
 	

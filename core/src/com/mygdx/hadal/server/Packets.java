@@ -330,6 +330,7 @@ public class Packets {
 		public Vector2 pos;
         public Vector2 size;
         public Sprite sprite;
+        public boolean synced;
         public ObjectSyncLayers layer;
         public alignType align;
 		public CreateEntity() {}
@@ -341,14 +342,16 @@ public class Packets {
 		 * @param size: Size of the new entity
 		 * @param pos: position of the new entity
 		 * @param sprite: entity's sprite
+		 * @param synced: should this entity receive a sync packet regularly?
 		 * @param layer: Hitbox or Standard layer? (Hitboxes are rendered underneath other entities)
 		 * @param align: The new object's align type. Used to determine how the client illusioin should be rendered
 		 */
-		public CreateEntity(String entityID, Vector2 size, Vector2 pos, Sprite sprite, ObjectSyncLayers layer, alignType align) {
+		public CreateEntity(String entityID, Vector2 size, Vector2 pos, Sprite sprite, boolean synced, ObjectSyncLayers layer, alignType align) {
 			this.entityID = entityID;
 			this.pos = pos;
             this.size = size;
             this.sprite = sprite;
+            this.synced = synced;
             this.layer = layer;
             this.align = align;
         }
@@ -417,6 +420,7 @@ public class Packets {
 	public static class CreateEvent {
 		public String entityID;
         public MapObject blueprint;
+        public boolean synced;
 		public CreateEvent() {}
 		
 		/**
@@ -425,10 +429,12 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the new event
 		 * @param blueprint: MapObject of the event to be parsed in the TiledObjectUtils
+		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateEvent(String entityID, MapObject blueprint) {
+		public CreateEvent(String entityID, MapObject blueprint, boolean synced) {
             this.entityID = entityID;
             this.blueprint = blueprint;
+            this.synced = synced;
         }
 	}
 	
@@ -457,6 +463,7 @@ public class Packets {
 		public String entityID;
         public Vector2 pos;
         public float angle;
+        public float age;
 		public SyncEntity() {}
 		
 		/**
@@ -466,12 +473,14 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the entity to synchronize
 		 * @param pos: position of the entity
-		 * @param a: body angle of the new entity.
+		 * @param angle: body angle of the new entity.
+		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 */
-		public SyncEntity(String entityID, Vector2 pos, float a) {
+		public SyncEntity(String entityID, Vector2 pos, float angle, float age) {
             this.entityID = entityID;
             this.pos = pos;
-            this.angle = a;
+            this.angle = angle;
+            this.age = age;
         }
 	}
 	
@@ -643,6 +652,7 @@ public class Packets {
 		public float linger;
 		public float lifespan;
 		public float scale;
+		public boolean synced;
 		public CreateParticles() {}
 		
 		/**
@@ -658,9 +668,10 @@ public class Packets {
 		 * @param startOn: Does this effect start turned on?
 		 * @param linger: How long does an attached Particleentity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
-		 * @Param scale: The size multiplier of the particle effect
+		 * @param scale: The size multiplier of the particle effect
+		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale) {
+		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean synced) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.pos = pos;
@@ -670,6 +681,7 @@ public class Packets {
 			this.linger = linger;
 			this.lifespan = lifespan;
 			this.scale = scale;
+			this.synced = synced;
 		}
 	}
 	
@@ -678,6 +690,7 @@ public class Packets {
 		public Vector2 pos;
 		public Vector2 offset;
         public boolean on;
+        public float age;
 		public SyncParticles() {}
 		
 		/**
@@ -688,12 +701,14 @@ public class Packets {
 		 * @param pos: position of the synced particle effect
 		 * @param offset: if connected to another entity, this is the offest from that entity's position
 		 * @param on: Is the Server's version of this effect on or off?
+		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 */
-		public SyncParticles(String entityID, Vector2 pos, Vector2 offset, boolean on) {
+		public SyncParticles(String entityID, Vector2 pos, Vector2 offset, boolean on, float age) {
 			this.entityID = entityID;
 			this.pos = pos;
 			this.offset = offset;
 			this.on = on;
+			this.age = age;
 		}
 	}
 	
@@ -766,6 +781,7 @@ public class Packets {
 		public float volume;
 		public boolean looped;
 		public boolean on;
+		public boolean synced;
 		
 		public CreateSound() {}
 		
@@ -779,14 +795,16 @@ public class Packets {
 		 * @param volume: volume of the sound. 1.0f = full volume.
 		 * @param looped: does the sound loop?
 		 * @param volume: does the sound start off on?
+		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateSound(String entityID, String attachedID, String sound, float volume, boolean looped, boolean on) {
+		public CreateSound(String entityID, String attachedID, String sound, float volume, boolean looped, boolean on, boolean synced) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.sound = sound;
 			this.volume = volume;
 			this.looped = looped;
 			this.on = on;
+			this.synced = synced;
 		}
 	}
 	
@@ -795,7 +813,7 @@ public class Packets {
 		public Vector2 pos;
 		public float volume;
 		public boolean on;
-		
+		public float age;
 		
 		public SyncSound() {}
 		
@@ -805,12 +823,14 @@ public class Packets {
 		 * @param pos: new position of the soundentity
 		 * @param volume: new volume of the soundentity
 		 * @param on: is the soundentity on?
+		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 */
-		public SyncSound(String entityID, Vector2 pos, float volume, boolean on) {
+		public SyncSound(String entityID, Vector2 pos, float volume, boolean on, float age) {
 			this.entityID = entityID;
 			this.pos = pos;
 			this.volume = volume;
 			this.on = on;
+			this.age = age;
 		}
 	}
 	
@@ -828,6 +848,26 @@ public class Packets {
 		public SyncMusic(String music, float volume) {
 			this.music = music;
 			this.volume = volume;
+		}
+	}
+	
+	public static class MissedCreate {
+		public String entityID;
+		
+		public MissedCreate() {}
+		
+		public MissedCreate(String entityID) {
+			this.entityID = entityID;
+		}
+	}
+	
+	public static class MissedDelete {
+		public String entityID;
+		
+		public MissedDelete() {}
+		
+		public MissedDelete(String entityID) {
+			this.entityID = entityID;
 		}
 	}
 	
@@ -874,5 +914,7 @@ public class Packets {
     	kryo.register(SyncSoundSingle.class);
     	kryo.register(CreateSound.class);
     	kryo.register(SyncSound.class);
+    	kryo.register(MissedCreate.class);
+    	kryo.register(MissedDelete.class);
     }
 }

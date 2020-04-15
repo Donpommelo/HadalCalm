@@ -107,6 +107,6 @@ public class Ragdoll extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), new Vector2(size), getPixelPosition(), sprite, ObjectSyncLayers.STANDARD, alignType.ROTATE);
+		return new Packets.CreateEntity(entityID.toString(), new Vector2(size), getPixelPosition(), sprite, true, ObjectSyncLayers.STANDARD, alignType.ROTATE);
 	}
 }

@@ -99,9 +99,9 @@ public class Currents extends Event {
 			blueprint.setName("Current");
 			blueprint.getProperties().put("currentX", vec.x);
 			blueprint.getProperties().put("currentY", vec.y);
-			return new Packets.CreateEvent(entityID.toString(), blueprint);
+			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		} else {
-			return new Packets.CreateEvent(entityID.toString(), blueprint);
+			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		}
 	}
 }

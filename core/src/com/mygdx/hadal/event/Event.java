@@ -71,7 +71,7 @@ public class Event extends HadalEntity {
 
     //Does this event send a sync packet to client every engine tick?
     //Default is no with the exception of moving platforms and connected events. (+specifically chosen events in the map, like nasu)
-    private boolean synced = false;
+    protected boolean synced = false;
     
     //will the event not be drawn when off screen?
     private boolean cullable = true;
@@ -230,14 +230,23 @@ public class Event extends HadalEntity {
 		case ILLUSION:
 		case SERVER:
 			if (body != null && !sprite.equals(Sprite.NOTHING)) {
-				return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), sprite, ObjectSyncLayers.STANDARD, scaleAlign);
+				return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), sprite, synced, ObjectSyncLayers.STANDARD, scaleAlign);
 			} else {
 				return null;
 			}
 		case USER:
 		case ALL:
-			return new Packets.CreateEvent(entityID.toString(), blueprint);
+			return new Packets.CreateEvent(entityID.toString(), blueprint, synced);
 		default:
+			return null;
+		}
+	}
+	
+	@Override
+	public Object onServerDelete() {
+		if (synced) {
+			return new Packets.DeleteEntity(entityID.toString());
+		} else {
 			return null;
 		}
 	}

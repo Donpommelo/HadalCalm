@@ -14,6 +14,7 @@ import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -270,6 +271,45 @@ public class KryoServer {
         				});
     				}
         		}
+				
+				else if (o instanceof Packets.MissedCreate) {
+					final Packets.MissedCreate p = (Packets.MissedCreate) o;
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						ps.addPacketEffect(new PacketEffect() {
+    						
+    						@Override
+							public void execute() {
+    							HadalEntity entity = ps.findEntity(p.entityID);
+
+    							if (entity != null) {
+    								Object packet = entity.onServerCreate();
+    								if (packet != null) {
+    									sendToUDP(c.getID(), packet);
+    								}
+    							}
+    						}
+						});
+					}
+				}
+				
+				else if (o instanceof Packets.MissedDelete) {
+					final Packets.MissedDelete p = (Packets.MissedDelete) o;
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						
+						ps.addPacketEffect(new PacketEffect() {
+    						
+    						@Override
+							public void execute() {
+    							HadalEntity entity = ps.findEntity(p.entityID);
+    							if (entity == null) {
+    								sendToUDP(c.getID(), new Packets.DeleteEntity(p.entityID));	
+    							}
+    						}
+						});
+					}
+				}
 				
 				/*
 				 * The client has finished respawning (after transitioning to black.
