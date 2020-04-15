@@ -5,6 +5,7 @@ cursorType: 1
 cursorSize: 1
 cursorColor: 4
 maxPlayers: 4
+pvpMode: 1
 artifactSlots: 4
 portNumber: 11100
 randomNameAlliteration: true
@@ -14,6 +15,6 @@ clientPause: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
-timer: 3
+lives: 3
 loadoutType: 1
 }
