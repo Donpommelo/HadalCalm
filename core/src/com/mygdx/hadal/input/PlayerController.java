@@ -186,12 +186,12 @@ public class PlayerController implements InputProcessor {
 		
 		//Let game account for all buttons held down before the processor is created.
 		for (PlayerAction a: PlayerAction.values()) {
-			
 			if (a.isToggleable()) {
 				if (Gdx.input.isKeyPressed(a.getKey())) {
-					keyDown(a.getKey());
+					player.getController().keyDown(a, true);
+
 				} else {
-					keyUp(a.getKey());
+					player.getController().keyUp(a, true);
 				}
 			}
 		}
@@ -206,7 +206,7 @@ public class PlayerController implements InputProcessor {
 		for (PlayerAction a: PlayerAction.values()) {
 			
 			if (a.isToggleable()) {
-				keyUp(a.getKey());
+				player.getController().keyUp(a, true);
 			}
 		}
 	}

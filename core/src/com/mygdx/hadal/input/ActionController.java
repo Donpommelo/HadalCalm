@@ -24,8 +24,56 @@ public class ActionController {
 		this.state = state;
 	}
 	
-	public boolean keyDown(PlayerAction action) {
+	public boolean keyUp(PlayerAction action, boolean onReset) {
+		if (player == null) return true;
+
+		if (action == PlayerAction.WALK_LEFT) {
+			leftDown = false;
+			if (rightDown) {
+				player.setMoveState(MoveState.MOVE_RIGHT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
+		}
 		
+		if (action == PlayerAction.WALK_RIGHT) {
+			rightDown = false;
+			if (leftDown) {
+				player.setMoveState(MoveState.MOVE_LEFT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
+		}
+		
+		if (action == PlayerAction.JUMP) {
+			player.setHoveringAttempt(false);
+		}
+		
+		if (action == PlayerAction.CROUCH) {
+			player.setFastFalling(false);
+		}
+		
+		if (action == PlayerAction.FIRE) {
+			player.setShooting(false);
+			if (!onReset) {
+				player.release();
+			}
+		}
+		
+		if (action == PlayerAction.PAUSE) {
+			if (state.getPlayer().equals(player) || state.getGsm().getSetting().isClientPause()) {
+				state.getGsm().addPauseState(state, player.getName(), PlayState.class);
+			}
+		}
+		
+		if (action == PlayerAction.SCORE_WINDOW) {
+			state.getScoreWindow().setVisibility(false);
+		}
+				
+		return false;
+	}
+	
+	public boolean keyDown(PlayerAction action, boolean onReset) {
 		if (player == null) return true;
 
 		if (player.getPlayerData() == null) return true;
@@ -50,7 +98,9 @@ public class ActionController {
 		
 		if (action == PlayerAction.JUMP) {
 			player.setHoveringAttempt(true);
-			player.jump();
+			if (!onReset) {
+				player.jump();
+			}
 		}
 		
 		if (action == PlayerAction.CROUCH) {
@@ -132,53 +182,13 @@ public class ActionController {
 		
 		return false;
 	}
+	
+	public boolean keyDown(PlayerAction action) {
+		return keyDown(action, false);
+	}
 
 	public boolean keyUp(PlayerAction action) {
-		
-		if (player == null) return true;
-
-		if (action == PlayerAction.WALK_LEFT) {
-			leftDown = false;
-			if (rightDown) {
-				player.setMoveState(MoveState.MOVE_RIGHT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		
-		if (action == PlayerAction.WALK_RIGHT) {
-			rightDown = false;
-			if (leftDown) {
-				player.setMoveState(MoveState.MOVE_LEFT);
-			} else {
-				player.setMoveState(MoveState.STAND);
-			}
-		}
-		
-		if (action == PlayerAction.JUMP) {
-			player.setHoveringAttempt(false);
-		}
-		
-		if (action == PlayerAction.CROUCH) {
-			player.setFastFalling(false);
-		}
-		
-		if (action == PlayerAction.FIRE) {
-			player.setShooting(false);
-			player.release();
-		}
-		
-		if (action == PlayerAction.PAUSE) {
-			if (state.getPlayer().equals(player) || state.getGsm().getSetting().isClientPause()) {
-				state.getGsm().addPauseState(state, player.getName(), PlayState.class);
-			}
-		}
-		
-		if (action == PlayerAction.SCORE_WINDOW) {
-			state.getScoreWindow().setVisibility(false);
-		}
-				
-		return false;
+		return keyUp(action, false);
 	}
 
 	public Player getPlayer() {	return player; }

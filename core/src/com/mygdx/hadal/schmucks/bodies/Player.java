@@ -248,7 +248,10 @@ public class Player extends PhysicsSchmuck {
 		alive = true;
 		destroyed = false;
 		controller = new ActionController(this, state);
-		state.resetController();
+		
+		if (this == state.getPlayer()) {
+			state.resetController();
+		}
 		
 		//this makes the player's selected slot persist after respawning
 		int currentSlot = 1;
@@ -289,7 +292,7 @@ public class Player extends PhysicsSchmuck {
 			
 			rightSensor.setUserData(rightData);
 		}
-		
+
 		//If the player is spawning into a new level, initialize loadout and give brief invulnerability.
 		if (reset) {
 			playerData.initLoadout();
@@ -297,7 +300,7 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			playerData.updateOldData(this);
 		}
-		
+
 		playerData.switchWeapon(currentSlot);
 				
 		//if this is the client creating their own player, tell the server we are ready to sync player-related stuff
@@ -310,7 +313,7 @@ public class Player extends PhysicsSchmuck {
 		if (reset) {
 			playerData.statusProcTime(new ProcTime.PlayerCreate());
 		}
-		
+
 		//activate start point events (these usually just set up camera bounds/zoom and stuff like that
 		//This line is here so that it does not occur before events are done being created.
 		if (start != null && state.getPlayer().equals(this)) {
@@ -510,7 +513,7 @@ public class Player extends PhysicsSchmuck {
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
-		if (alive) {
+		if (alive && shooting) {
 			useToolRelease(playerData.getCurrentTool(), hitboxfilter, mouse.getPixelPosition());
 		}
 	}

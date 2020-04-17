@@ -382,7 +382,6 @@ public class PlayState extends GameState {
 				entities.add(entity);
 			}
 			entity.create();
-
 			//Upon creating an entity, tell the clients so they can follow suit (if the entity calls for it)
 			Object packet = entity.onServerCreate();
 			if (packet != null) {
@@ -390,7 +389,7 @@ public class PlayState extends GameState {
 			}
 		}
 		createList.clear();
-				
+
 		//All entities that are set to be removed are removed.
 		for (HadalEntity entity: removeList) {
 			entities.remove(entity);

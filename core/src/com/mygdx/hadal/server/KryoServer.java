@@ -207,7 +207,6 @@ public class KryoServer {
 				else if (o instanceof Packets.ClientLoaded) {
 					final Packets.ClientLoaded p = (Packets.ClientLoaded) o;
 					final PlayState ps = getPlayState();
-					
 					//notify players of new joiners
 					if (p.firstTime) {
 						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
@@ -219,7 +218,7 @@ public class KryoServer {
 
 							@Override
 							public void execute() {
-		                        ps.catchUpClient(c.getID());
+								ps.catchUpClient(c.getID());
 		                        
 		                        //If the client has already been created, we create a new player, otherwise we reuse their old data.
 		    					final Player player = players.get(c.getID());
