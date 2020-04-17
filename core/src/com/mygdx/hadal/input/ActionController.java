@@ -54,10 +54,10 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.FIRE) {
-			player.setShooting(false);
 			if (!onReset) {
 				player.release();
 			}
+			player.setShooting(false);
 		}
 		
 		if (action == PlayerAction.PAUSE) {
