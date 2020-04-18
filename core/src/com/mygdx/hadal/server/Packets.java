@@ -328,6 +328,7 @@ public class Packets {
 	public static class CreateEntity {
 		public String entityID;
 		public Vector2 pos;
+		public float angle;
         public Vector2 size;
         public Sprite sprite;
         public boolean synced;
@@ -341,14 +342,16 @@ public class Packets {
 		 * @param entityID: ID of the new entity
 		 * @param size: Size of the new entity
 		 * @param pos: position of the new entity
+		 * @param angle: starting angle of the new entity
 		 * @param sprite: entity's sprite
 		 * @param synced: should this entity receive a sync packet regularly?
 		 * @param layer: Hitbox or Standard layer? (Hitboxes are rendered underneath other entities)
 		 * @param align: The new object's align type. Used to determine how the client illusioin should be rendered
 		 */
-		public CreateEntity(String entityID, Vector2 size, Vector2 pos, Sprite sprite, boolean synced, ObjectSyncLayers layer, alignType align) {
+		public CreateEntity(String entityID, Vector2 size, Vector2 pos, float angle, Sprite sprite, boolean synced, ObjectSyncLayers layer, alignType align) {
 			this.entityID = entityID;
 			this.pos = pos;
+			this.angle = angle;
             this.size = size;
             this.sprite = sprite;
             this.synced = synced;
@@ -359,6 +362,7 @@ public class Packets {
 	
 	public static class CreateEnemy {
 		public String entityID;
+		public Vector2 pos;
 		public EnemyType type;
 		public boolean boss;
 		public String name;
@@ -371,8 +375,9 @@ public class Packets {
 		 * @param boss: is this a boss enemy?
 		 * @param name: if a boss, what name shows up in the ui?
 		 */
-		public CreateEnemy(String entityID, EnemyType type, boolean boss, String name) {
+		public CreateEnemy(String entityID, Vector2 pos, EnemyType type, boolean boss, String name) {
             this.entityID = entityID;
+            this.pos = pos;
             this.type = type;
             this.boss = boss;
             this.name = name;
@@ -459,11 +464,38 @@ public class Packets {
 		}
 	}
 	
+	public static class CreateRagdoll {
+		public String entityID;
+        public Vector2 pos;
+        public Vector2 size;
+        public Sprite sprite;
+        public Vector2 velocity;
+        public float duration;
+        public float gravity;
+        public boolean setVelo;
+        public boolean sensor;
+        public CreateRagdoll() {}
+        
+        public CreateRagdoll(String entityID, Vector2 pos, Vector2 size, Sprite sprite, Vector2 velocity, float duration, float gravity, boolean setVelo, boolean sensor) {
+        	this.entityID = entityID;
+        	this.pos = pos;
+        	this.size = size;
+        	this.sprite = sprite;
+        	this.velocity = velocity;
+        	this.duration = duration;
+        	this.gravity = gravity;
+        	this.setVelo = setVelo;
+        	this.sensor = sensor;
+        }
+	}
+	
 	public static class SyncEntity {
 		public String entityID;
         public Vector2 pos;
+        public Vector2 velocity;
         public float angle;
         public float age;
+        public boolean instant;
 		public SyncEntity() {}
 		
 		/**
@@ -473,14 +505,18 @@ public class Packets {
 		 * 
 		 * @param entityID: ID of the entity to synchronize
 		 * @param pos: position of the entity
+		 * @param velocity: linear velocity of the entity
 		 * @param angle: body angle of the new entity.
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
+		 * @param instant: should the client entity instantly copy the server or interpolate?
 		 */
-		public SyncEntity(String entityID, Vector2 pos, float angle, float age) {
+		public SyncEntity(String entityID, Vector2 pos, Vector2 velocity, float angle, float age, boolean instant) {
             this.entityID = entityID;
             this.pos = pos;
+            this.velocity = velocity;
             this.angle = angle;
             this.age = age;
+            this.instant = instant;
         }
 	}
 	
@@ -904,6 +940,7 @@ public class Packets {
     	kryo.register(SyncServerLoadout.class);
     	kryo.register(SyncClientLoadout.class);
     	kryo.register(CreateParticles.class);
+    	kryo.register(CreateRagdoll.class);
     	kryo.register(SyncEntity.class);
     	kryo.register(SyncSchmuck.class);
     	kryo.register(SyncPlayerSelf.class);

@@ -348,8 +348,10 @@ public class PlayState extends GameState {
 	private float physicsAccumulator = 0.0f;
 	private final static float physicsTime = 1 / 200f;
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 1 / 60f;
-	public final static float syncInterpolation = 1 / 10f;
+	private final static float syncTime = 1 / 10f;
+	private float syncFastAccumulator = 0.0f;
+	private final static float syncFastTime = 1 / 60f;
+	public final static float syncInterpolation = 1 / 5f;
 	private float timer;
 
 	/**
@@ -417,6 +419,13 @@ public class PlayState extends GameState {
 			while (syncAccumulator >= syncTime) {
 				syncAccumulator -= syncTime;
 				syncEntities();
+			}
+			
+			syncFastAccumulator += delta;
+			
+			while (syncFastAccumulator >= syncFastTime) {
+				syncFastAccumulator -= syncFastTime;
+				syncFastEntities();
 			}
 		}
 	}
@@ -554,6 +563,15 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	public void syncFastEntities() {
+		for (HadalEntity entity : hitboxes) {
+			entity.onServerSyncFast();
+		}
+		for (HadalEntity entity : entities) {
+			entity.onServerSyncFast();
+		}
+	}
+	
 	/**
 	 * This method renders a single entity.
 	 * @param entity
@@ -672,6 +690,7 @@ public class PlayState extends GameState {
 			
 			//Create a new player
 			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
+
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 
 			((PlayerController) controller).setPlayer(player);

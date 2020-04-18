@@ -15,10 +15,11 @@ public class AdjustAngle extends HitboxStrategy {
 	
 	public AdjustAngle(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
+		hbox.setAdjustAngle(true);
 	}
-
+	
 	@Override
 	public void controller(float delta) {
-		hbox.setTransform(hbox.getPosition(), (float)(Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
+		hbox.setTransform(hbox.getPosition(), (float) (Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
 	}
 }

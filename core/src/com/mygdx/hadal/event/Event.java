@@ -235,7 +235,7 @@ public class Event extends HadalEntity {
 		case ILLUSION:
 		case SERVER:
 			if (body != null && !sprite.equals(Sprite.NOTHING)) {
-				return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), sprite, synced, ObjectSyncLayers.STANDARD, scaleAlign);
+				return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), getAngle(), sprite, synced, ObjectSyncLayers.STANDARD, scaleAlign);
 			} else {
 				return null;
 			}
@@ -260,13 +260,6 @@ public class Event extends HadalEntity {
 	public void onServerSync() {
 		if (synced) {
 			super.onServerSync();
-		}
-	}
-	
-	@Override
-	public void clientController(float delta) {
-		if (synced) {
-			super.clientController(delta);
 		}
 	}
 	

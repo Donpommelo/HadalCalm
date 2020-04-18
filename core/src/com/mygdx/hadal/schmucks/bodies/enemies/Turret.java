@@ -162,7 +162,7 @@ public class Turret extends Enemy {
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), attackAngle, entityAge));
+		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), new Vector2(), attackAngle, entityAge, false));
 		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
 	}
 	
@@ -180,8 +180,8 @@ public class Turret extends Enemy {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, Sprite.TURRET_BASE, getLinearVelocity(), 0.75f, 1.0f, true, false);
-			new Ragdoll(state, getPixelPosition(), size, turretBarrelSprite, getLinearVelocity(), 0.75f, 1.0f, true, false);
+			new Ragdoll(state, getPixelPosition(), size, Sprite.TURRET_BASE, getLinearVelocity(), 0.75f, 1.0f, true, false, true);
+			new Ragdoll(state, getPixelPosition(), size, turretBarrelSprite, getLinearVelocity(), 0.75f, 1.0f, true, false, true);
 		}
 		return super.queueDeletion();
 	}

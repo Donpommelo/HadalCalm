@@ -20,7 +20,7 @@ public class ContactWallSound extends HitboxStrategy {
 	private float volume;
 	
 	//This is the max interval the sound can be repeated.
-	private static final float procCd = 0.25f;
+	private static final float procCd = 0.1f;
 	
 	//this is the slowest the hbox can be moving while still playing the sound
 	private static final float minVelo = 3.0f;

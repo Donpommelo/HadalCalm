@@ -201,7 +201,7 @@ public class EnemyCrawling extends Enemy {
 	
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), moveDirection, entityAge));
+		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), currentVel, moveDirection, entityAge, false));
 		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
 	}
 	
@@ -209,7 +209,10 @@ public class EnemyCrawling extends Enemy {
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncEntity) {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
-			setTransform(p.pos, 0);
+			if (body != null) {
+				serverPos.set(p.pos);
+				body.setLinearVelocity(p.velocity);
+			}
 			moveDirection = p.angle;
 		} else {
 			super.onClientSync(o);
@@ -226,7 +229,7 @@ public class EnemyCrawling extends Enemy {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false);
+			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false, true);
 		}
 		return super.queueDeletion();
 	}

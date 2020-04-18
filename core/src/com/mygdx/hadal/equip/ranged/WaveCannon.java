@@ -49,6 +49,8 @@ public class WaveCannon extends RangedWeapon {
 		SoundEffect.SHOOT1.playUniversal(state, startPosition, 0.6f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setSyncDefault(false);
+		hbox.setSyncInstant(true);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
@@ -82,6 +84,8 @@ public class WaveCannon extends RangedWeapon {
 		});
 		
 		Hitbox hbox2 = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox2.setSyncDefault(false);
+		hbox2.setSyncInstant(true);
 		
 		hbox2.addStrategy(new ControllerDefault(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new AdjustAngle(state, hbox2, user.getBodyData()));

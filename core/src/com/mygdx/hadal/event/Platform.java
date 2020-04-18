@@ -50,5 +50,6 @@ public class Platform extends Event {
 	public void loadDefaultProperties() {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign("CENTER_STRETCH");
+		setSyncType(eventSyncTypes.ALL);
 	}
 }

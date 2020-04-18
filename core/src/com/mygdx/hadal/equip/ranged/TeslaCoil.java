@@ -124,7 +124,7 @@ public class TeslaCoil extends RangedWeapon {
 					return;
 				}
 				
-				//After reaching the location clicked, the coil is makred as planted
+				//After reaching the location clicked, the coil is marked as planted
 				if (startLocation.dst(hbox.getPixelPosition()) >= distance) {
 					firstPlanted = true;
 					controllerCount = pulseInterval;

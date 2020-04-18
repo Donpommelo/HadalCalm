@@ -10,6 +10,8 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
+import com.mygdx.hadal.states.ClientState;
+import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.utils.Constants;
@@ -84,14 +86,37 @@ public class Currents extends Event {
 			currBubbleSpawnTimer -= spawnTimerLimit;
 			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
-			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, true, true),
-					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, true, true, false),
+					Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC);
 		}
 	}
 	
 	@Override
 	public void clientController(float delta) {
 		super.controller(delta);
+		
+		controllerCount += delta;
+		while (controllerCount >= pushInterval) {
+			controllerCount -= pushInterval;
+			
+			//push is done through damage so that +knockback resistance will reduce the push.
+			for (HadalEntity entity : eventData.getSchmucks()) {
+				entity.getHadalData().receiveDamage(0.0f, new Vector2(vec), state.getWorldDummy().getBodyData(), false, DamageTypes.DEFLECT);
+			}
+		}
+		
+		//spawn a dummy with a particle attached. Dummies are moved by current to give visual effect.
+		currBubbleSpawnTimer += delta;
+		while (currBubbleSpawnTimer >= spawnTimerLimit) {
+			currBubbleSpawnTimer -= spawnTimerLimit;
+			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
+			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
+			
+			Ragdoll ragdoll = new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, true, true, false);
+			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC);
+			((ClientState) state).addEntity(ragdoll.getEntityID().toString(), ragdoll, false, ObjectSyncLayers.STANDARD);
+			((ClientState) state).addEntity(bubbles.getEntityID().toString(), bubbles, false, ObjectSyncLayers.STANDARD);
+		}
 	}
 		
 	/**

@@ -53,6 +53,8 @@ public class Moraygun extends RangedWeapon {
 		//create a set number of hboxes that die when hitting enemies or walls.
 		for (int i = 0; i < numProj; i++) {
 			Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(), filter, true, true, user, projSprite);
+			hbox.setSyncDefault(false);
+			hbox.setSyncInstant(true);
 			
 			final int num = i;
 			

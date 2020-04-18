@@ -61,6 +61,9 @@ public abstract class HadalEntity {
 	//This is the id that clients use to track synchronized entities
 	protected UUID entityID;
 	
+	private boolean syncDefault = true;
+	private boolean syncInstant = false;
+	
 	/**
 	 * Constructor is called when an entity is created.
 	 * @param state: Current playstate
@@ -191,11 +194,19 @@ public abstract class HadalEntity {
 	 * Default: Track entity's position and angle if it has a body
 	 */
 	public void onServerSync() {
-		if (body != null) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), getAngle(), entityAge));
+		if (body != null && syncDefault) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, false));
 		}
 	}
 	
+	public void onServerSyncFast() {
+		if (body != null && syncInstant) {
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, true));
+		}
+	}
+	
+	public Vector2 serverPos = new Vector2();
+	public boolean copyServerInstantly;
 	/**
 	 * This is called when the client receives the above packet.
 	 * Set the entity's body data
@@ -203,15 +214,35 @@ public abstract class HadalEntity {
 	public void onClientSync(Object o) {
 		Packets.SyncEntity p = (Packets.SyncEntity) o;
 		if (body != null) {
-			setTransform(p.pos, p.angle);
+			copyServerInstantly = p.instant;
+			
+			if (copyServerInstantly) {
+				setTransform(p.pos, p.angle);
+			} else {
+				serverPos.set(p.pos);
+				serverAngle.setAngleRad(p.angle);			
+				body.setLinearVelocity(p.velocity);
+			}
 		}
 	}
 	
+	public Vector2 serverAngle = new Vector2(0, 1);
+	public Vector2 angleAsVector = new Vector2(0, 1);
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
 	 */
-	public void clientController(float delta) {}
+	private static float maxDist = 5;
+	private static float maxAngleDist = 0.1f;
+	public void clientController(float delta) {
+		if (body != null && receivingSyncs) {
+			if (!copyServerInstantly) {
+				setTransform(
+						body.getPosition().dst(serverPos) > maxDist ? serverPos : body.getPosition().lerp(serverPos, PlayState.syncInterpolation), 
+						Math.abs(body.getAngle() - serverAngle.angleRad()) > maxAngleDist ? serverAngle.angleRad() : angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+			}
+		}
+	}
 	
 	/**
 	 * Is this entity on the screen? Used for frustrum culling to avoid rending off-screen entities
@@ -266,7 +297,9 @@ public abstract class HadalEntity {
 	
 	public UUID getEntityID() { return entityID; }
 	
-	public void setEntityID(String entityID) { this.entityID = UUID.fromString(entityID); }
+	public void setEntityID(String entityID) { 
+		this.entityID = UUID.fromString(entityID); 
+	}
 
 	public Vector2 getStartPos() { return startPos;	}
 	
@@ -324,6 +357,10 @@ public abstract class HadalEntity {
 	public float getMass() { return body.getMass(); }
 
 	public void setReceivingSyncs(boolean receivingSyncs) {	this.receivingSyncs = receivingSyncs; }
+
+	public void setSyncDefault(boolean syncDefault) { this.syncDefault = syncDefault; }
+
+	public void setSyncInstant(boolean syncInstant) { this.syncInstant = syncInstant; }
 
 	public void setTransform(Vector2 position, float angle) {
 		if (alive && body != null) {

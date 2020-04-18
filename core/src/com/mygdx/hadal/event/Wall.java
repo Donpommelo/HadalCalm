@@ -52,6 +52,6 @@ public class Wall extends Event {
         
         shape.dispose();
 	}
-
+	
 	public Vector2[] getVertices() { return vertices; }
 }

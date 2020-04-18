@@ -104,8 +104,7 @@ public class Player extends PhysicsSchmuck {
 	private final static float airAnimationSlow = 3.0f;
 
 	//This is the angle that the player's arm is pointing
-	private float attackAngle = 0;
-	private float attackAngleClient = 0;
+	private float attackAngle;
 	
 	//user data
 	private PlayerBodyData playerData;
@@ -581,8 +580,6 @@ public class Player extends PhysicsSchmuck {
 			attackAngle = (float)(Math.atan2(
 					getPixelPosition().y - mouse.getPixelPosition().y,
 					getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI);
-		} else {
-			attackAngle = attackAngleClient;
 		}
 
 		//flip determins if the player is facing left or right
@@ -596,11 +593,13 @@ public class Player extends PhysicsSchmuck {
 		headConnectXReal = headConnectX;
 		armRotateXReal = armRotateX;
 		
+		
+		float realAttackAngle = attackAngle;
 		if (flip) {
 			armConnectXReal = bodyWidth - armWidth - armConnectX - 200;
 			headConnectXReal = bodyWidth - headWidth - headConnectX - 200;
 			armRotateXReal = armWidth - armRotateX;
-			attackAngle = attackAngle + 180;
+			realAttackAngle += 180;
 		}
 		
 		//This switch determines the total body y-offset to make the body bob up and down when running.
@@ -630,7 +629,7 @@ public class Player extends PhysicsSchmuck {
 				(flip ? toolWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2 + armConnectXReal * scale, 
 				getPixelPosition().y - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale , armRotateY * scale,
-				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, attackAngle);
+				(flip ? -1 : 1) * toolWidth * scale, toolHeight * scale, 1, 1, realAttackAngle);
 		
 		batch.draw(bodyBackSprite, 
 				(flip ? bodyBackWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2 + bodyConnectX * scale, 
@@ -642,7 +641,7 @@ public class Player extends PhysicsSchmuck {
 				(flip ? armWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2 + armConnectXReal * scale, 
 				getPixelPosition().y - hbHeight * scale / 2 + armConnectY * scale + yOffset, 
 				(flip ? -armWidth * scale : 0) + armRotateXReal * scale, armRotateY * scale,
-				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, attackAngle);
+				(flip ? -1 : 1) * armWidth * scale, armHeight * scale, 1, 1, realAttackAngle);
 		
 		batch.draw(playerData.getActiveItem().isReady() ? gemSprite : gemInactiveSprite, 
 				(flip ? gemWidth * scale : 0) + getPixelPosition().x - hbWidth * scale / 2  + bodyConnectX * scale, 
@@ -654,7 +653,7 @@ public class Player extends PhysicsSchmuck {
 
 		if (moveState.equals(MoveState.MOVE_LEFT)) {
 			
-			if (Math.abs(attackAngle) > 90) {
+			if (Math.abs(realAttackAngle) > 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
 				reverse = true;
 			} else {
@@ -667,7 +666,7 @@ public class Player extends PhysicsSchmuck {
 					0, 0,
 					(flip ? -1 : 1) * bodyWidth * scale, bodyHeight * scale, 1, 1, 0);
 		} else if (moveState.equals(MoveState.MOVE_RIGHT)) {
-			if (Math.abs(attackAngle) < 90) {
+			if (Math.abs(realAttackAngle) < 90) {
 				bodyRunSprite.setPlayMode(PlayMode.LOOP_REVERSED);
 				reverse = true;
 			} else {
@@ -790,22 +789,22 @@ public class Player extends PhysicsSchmuck {
 	public void createGibs() {
 		if (alive) {
 			new Ragdoll(state, getPixelPosition(), new Vector2(headWidth, headHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, gibGravity, true, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "head"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(bodyWidth, bodyHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, gibGravity, true, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_stand"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(armWidth, armHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, gibGravity, true, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "arm"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(bodyBackWidth, bodyBackHeight).scl(scale), 
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, gibGravity, true, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "body_background"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(gemWidth, gemHeight).scl(scale),
-					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, gibGravity, true, false);
+					Sprite.getCharacterSprites(playerData.getLoadout().character.getSprite(), "gem_active"), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
 			
 			new Ragdoll(state, getPixelPosition(), new Vector2(toolWidth, toolHeight).scl(scale),
-					playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), gibDuration, gibGravity, true, false);
+					playerData.getCurrentTool().getWeaponSprite(), getLinearVelocity(), gibDuration, gibGravity, true, false, true);
 		}
 	}
 	
@@ -836,8 +835,7 @@ public class Player extends PhysicsSchmuck {
 	public void onServerSync() {
 		super.onServerSync();
 		
-		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), (float) (Math.atan2(getPixelPosition().y - mouse.getPixelPosition().y, getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI),
-				grounded, playerData.getCurrentSlot(), 
+		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), attackAngle, grounded, playerData.getCurrentSlot(), 
 				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo()));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
@@ -852,7 +850,7 @@ public class Player extends PhysicsSchmuck {
 		if (o instanceof Packets.SyncPlayerAll) {
 			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
 
-			attackAngleClient = p.attackAngle;
+			attackAngle = p.attackAngle;
 			grounded = p.grounded;
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);

@@ -30,6 +30,18 @@ public class FixedToUser extends HitboxStrategy {
 	}
 	
 	@Override
+	public void create() {
+		if (creator.getSchmuck().isAlive()) {
+			Vector2 hbLocation = creator.getSchmuck().getPosition().add(center);
+			if (rotate) {
+				hbox.setTransform(hbLocation, creator.getSchmuck().getAngle() + angle.angleRad());
+			} else {
+				hbox.setTransform(hbLocation, angle.angleRad());
+			}
+		}
+	}
+	
+	@Override
 	public void controller(float delta) {
 	
 		if (!creator.getSchmuck().isAlive()) {

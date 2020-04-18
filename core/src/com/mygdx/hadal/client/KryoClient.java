@@ -1,5 +1,7 @@
 package com.mygdx.hadal.client;
 
+import static com.mygdx.hadal.utils.Constants.PPM;
+
 import java.net.InetAddress;
 import java.util.HashMap;
 
@@ -26,6 +28,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.enemies.*;
 import com.mygdx.hadal.server.PacketEffect;
@@ -199,7 +202,9 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.sprite, p.align);
+        						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
+        						illusion.serverPos.set(p.pos).scl(1 / PPM);
+        						illusion.serverAngle.setAngleRad(p.angle);
                 				cs.addEntity(p.entityID, illusion, p.synced, p.layer);
         					}
         				});
@@ -270,6 +275,22 @@ public class KryoClient {
         						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.looped, p.on, soundSyncType.NOSYNC);
         						entity.setAttachedId(p.attachedID);
     							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
+            				}
+    					});
+					}
+        		}
+        		
+        		else if (o instanceof Packets.CreateRagdoll) {
+        			final Packets.CreateRagdoll p = (Packets.CreateRagdoll) o;
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo, p.sensor, false);
+    							cs.addEntity(p.entityID, entity, false, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}
@@ -372,6 +393,7 @@ public class KryoClient {
         					public void execute() {
         						
         						Enemy enemy = p.type.generateEnemy(cs, new Vector2(), Constants.ENEMY_HITBOX, 0, null);
+        						enemy.serverPos.set(p.pos).scl(1 / PPM);
         						if (enemy != null) {
         							cs.addEntity(p.entityID, enemy, true, ObjectSyncLayers.STANDARD);
         							enemy.setBoss(p.boss);
@@ -402,9 +424,13 @@ public class KryoClient {
         					public void execute() {
         						if (!p.entityID.equals(myID)) {
                     				Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true);
+                    				newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
+                    				newPlayer.setStartPos(p.startPosition);
                     				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
                 				} else {
                 					cs.getPlayer().setStartLoadout(p.loadout);
+                					cs.getPlayer().serverPos.set(p.startPosition).scl(1 / PPM);
+                					cs.getPlayer().setStartPos(p.startPosition);
                 					cs.addEntity(p.entityID, cs.getPlayer(), true, ObjectSyncLayers.STANDARD);
                 					
                 					//set camera to look at new client player.
@@ -430,7 +456,10 @@ public class KryoClient {
         					public void execute() {
         						MapObject blueprint = p.blueprint;
         						blueprint.getProperties().put("sync", "USER");
-        						cs.addEntity(p.entityID, TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint), p.synced, ObjectSyncLayers.STANDARD);
+        						
+        						Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
+        						e.serverPos.set(e.getStartPos()).scl(1 / PPM);
+        						cs.addEntity(p.entityID, e, p.synced, ObjectSyncLayers.STANDARD);
             				}
     					});
 					}
@@ -726,7 +755,7 @@ public class KryoClient {
         	}
         };
         
-//       client.addListener(new Listener.LagListener(100, 100, packetListener));
+//        client.addListener(new Listener.LagListener(100, 100, packetListener));
         client.addListener(packetListener);
 	}
 	

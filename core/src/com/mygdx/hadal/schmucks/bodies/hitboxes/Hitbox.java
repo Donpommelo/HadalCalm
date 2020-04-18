@@ -76,6 +76,9 @@ public class Hitbox extends HadalEntity {
 	//can this hbox be reflected by reflection effects?
 	private boolean reflectable = true;
 	
+	//Should this hbox's angle be set at creation to match velocity?
+	private boolean adjustAngle = false;
+		
 	//hitbox user data. This contains on-hit method
 	protected HitboxData data;
 	
@@ -138,6 +141,10 @@ public class Hitbox extends HadalEntity {
 		}
 		
 		setLinearVelocity(startVelo);
+		
+		if (adjustAngle) {
+			setTransform(getPosition(), (float) (Math.atan2(getLinearVelocity().y , getLinearVelocity().x)));
+		}
 	}
 	
 	/**
@@ -237,7 +244,7 @@ public class Hitbox extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), sprite, true, ObjectSyncLayers.HBOX, alignType.HITBOX);
+		return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), getAngle(), sprite, true, ObjectSyncLayers.HBOX, alignType.HITBOX);
 	}
 	
 	public void lowerDurability() {
@@ -292,4 +299,6 @@ public class Hitbox extends HadalEntity {
 	public void makeUnreflectable() { reflectable = false; }
 	
 	public boolean isReflectable() { return reflectable; }
+	
+	public void setAdjustAngle(boolean adjustAngle) { this.adjustAngle = adjustAngle; }
 }

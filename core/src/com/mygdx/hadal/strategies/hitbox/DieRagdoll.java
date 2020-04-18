@@ -20,6 +20,6 @@ public class DieRagdoll extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		new Ragdoll(state, this.hbox.getPixelPosition(), hbox.getSize(), hbox.getSprite(), new Vector2(), 0.75f, 1.0f, false, false);
+		new Ragdoll(state, this.hbox.getPixelPosition(), hbox.getSize(), hbox.getSprite(), new Vector2(), 0.75f, 1.0f, false, false, true);
 	}
 }

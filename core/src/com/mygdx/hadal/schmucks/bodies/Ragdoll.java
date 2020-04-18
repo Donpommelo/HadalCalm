@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.ClientIllusion.alignType;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.server.Packets;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
-import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
@@ -48,7 +47,9 @@ public class Ragdoll extends HadalEntity {
 	//
 	private boolean setVelo;
 	
-	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor) {
+	private boolean synced;
+	
+	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor, boolean synced) {
 		super(state, startPos, size);
 		this.startVelo = startVelo;
 		this.startAngle = baseAngle;
@@ -57,6 +58,7 @@ public class Ragdoll extends HadalEntity {
 		this.sprite = sprite;
 		this.sensor = sensor;
 		this.setVelo = setVelo;
+		this.synced = synced;
 		if (!sprite.equals(Sprite.NOTHING)) {
 			ragdollSprite = sprite.getFrame();
 		}
@@ -66,12 +68,12 @@ public class Ragdoll extends HadalEntity {
 	@Override
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false, Constants.BIT_SENSOR,	(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) 0, sensor, hadalData);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false, Constants.BIT_SENSOR,	(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
 		
 		setAngularVelocity(startAngle * veloAmp);
 		
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-		newVelocity.set(startVelo);
+		newVelocity.set(startVelo).add(1, 1);
 		
 		if (setVelo) {
 			setLinearVelocity(newVelocity.nor().scl(veloAmp).setAngle(newDegrees));
@@ -90,6 +92,17 @@ public class Ragdoll extends HadalEntity {
 	}
 
 	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		
+		ragdollDuration -= delta;
+		
+		if (ragdollDuration <= 0) {
+			((ClientState) state).removeEntity(entityID.toString());
+		}
+	}
+	
+	@Override
 	public void render(SpriteBatch batch) {
 		
 		if (ragdollSprite != null) {
@@ -107,6 +120,10 @@ public class Ragdoll extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEntity(entityID.toString(), size, getPixelPosition(), sprite, true, ObjectSyncLayers.STANDARD, alignType.ROTATE);
+		if (synced) {
+			return new Packets.CreateRagdoll(entityID.toString(), getPixelPosition(), size, sprite, startVelo, ragdollDuration, gravity, setVelo, sensor);
+		} else {
+			return null;
+		}
 	}
 }
