@@ -351,7 +351,7 @@ public class PlayState extends GameState {
 	private final static float syncTime = 1 / 10f;
 	private float syncFastAccumulator = 0.0f;
 	private final static float syncFastTime = 1 / 60f;
-	public final static float syncInterpolation = 1 / 5f;
+	public final static float syncInterpolation = 1 / 8f;
 	private float timer;
 
 	/**

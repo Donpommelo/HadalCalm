@@ -54,7 +54,9 @@ public class LaserGuidedRocket extends RangedWeapon {
 		SoundEffect.ROLLING_ROCKET.playUniversal(state, startPosition, 0.4f, false);
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-
+		hbox.setSyncDefault(false);
+		hbox.setSyncInstant(true);
+		
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));

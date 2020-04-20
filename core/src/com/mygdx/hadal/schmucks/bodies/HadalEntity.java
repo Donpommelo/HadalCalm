@@ -234,12 +234,20 @@ public abstract class HadalEntity {
 	 */
 	private static float maxDist = 5;
 	private static float maxAngleDist = 0.1f;
+	private float clientSyncAccumulator = 0.0f;
+	private final static float clientSyncTime = 1 / 60f;
 	public void clientController(float delta) {
-		if (body != null && receivingSyncs) {
-			if (!copyServerInstantly) {
-				setTransform(
-						body.getPosition().dst(serverPos) > maxDist ? serverPos : body.getPosition().lerp(serverPos, PlayState.syncInterpolation), 
-						Math.abs(body.getAngle() - serverAngle.angleRad()) > maxAngleDist ? serverAngle.angleRad() : angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+		
+		clientSyncAccumulator += delta;
+		
+		while (clientSyncAccumulator >= clientSyncTime) {
+			clientSyncAccumulator -= clientSyncTime;
+			if (body != null && receivingSyncs) {
+				if (!copyServerInstantly) {
+					setTransform(
+							body.getPosition().dst(serverPos) > maxDist ? serverPos : body.getPosition().lerp(serverPos, PlayState.syncInterpolation), 
+							Math.abs(body.getAngle() - serverAngle.angleRad()) > maxAngleDist ? serverAngle.angleRad() : angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+				}
 			}
 		}
 	}
