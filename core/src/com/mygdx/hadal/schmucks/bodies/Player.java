@@ -572,17 +572,17 @@ public class Player extends PhysicsSchmuck {
 	private float armConnectXReal;
 	private float headConnectXReal;
 	private float armRotateXReal;
+	private Vector2 mouseAngle = new Vector2();
 	@Override
 	public void render(SpriteBatch batch) {
 		
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {
-			attackAngle = (float)(Math.atan2(
-					getPixelPosition().y - mouse.getPixelPosition().y,
-					getPixelPosition().x - mouse.getPixelPosition().x) * 180 / Math.PI);
+			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(mouse.getPixelPosition().y, mouse.getPixelPosition().x);
 		}
+		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 
-		//flip determins if the player is facing left or right
+		//flip determines if the player is facing left or right
 		boolean flip = false;
 		if (Math.abs(attackAngle) > 90) {
 			flip = true;
@@ -592,7 +592,6 @@ public class Player extends PhysicsSchmuck {
 		armConnectXReal = armConnectX;
 		headConnectXReal = headConnectX;
 		armRotateXReal = armRotateX;
-		
 		
 		float realAttackAngle = attackAngle;
 		if (flip) {
@@ -835,7 +834,7 @@ public class Player extends PhysicsSchmuck {
 	public void onServerSync() {
 		super.onServerSync();
 		
-		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), attackAngle, grounded, playerData.getCurrentSlot(), 
+		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
 				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo()));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
@@ -850,7 +849,7 @@ public class Player extends PhysicsSchmuck {
 		if (o instanceof Packets.SyncPlayerAll) {
 			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
 
-			attackAngle = p.attackAngle;
+			serverAttackAngle.setAngleRad(p.attackAngle.angleRad());
 			grounded = p.grounded;
 			getPlayerData().setCurrentSlot(p.currentSlot);
 			getPlayerData().setCurrentTool(getPlayerData().getMultitools()[p.currentSlot]);
@@ -863,6 +862,13 @@ public class Player extends PhysicsSchmuck {
 		} else {
 			super.onClientSync(o);
 		}
+	}
+	
+	private Vector2 serverAttackAngle = new Vector2(0, 1);
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 4f).angleRad();
 	}
 	
 	private float shortestFraction;
