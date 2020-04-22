@@ -22,13 +22,15 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Airblaster extends MeleeWeapon {
 
-	private final static float swingCd = 0.4f;
+	private final static float swingCd = 0.5f;
 	private final static float windup = 0.0f;
 	private final static float baseDamage = 0.0f;
-	private final static Vector2 hitboxSize = new Vector2(150, 150);
+	private final static Vector2 hitboxSize = new Vector2(175, 175);
 	private final static float knockback = 60.0f;
 	private final static float momentum = 40.0f;
 	
+	private final static float reflectVeloAmp = 1.5f;
+
 	public Airblaster(Schmuck user) {
 		super(user, swingCd, windup, Sprite.MT_DEFAULT, Sprite.P_DEFAULT);
 	}
@@ -46,8 +48,7 @@ public class Airblaster extends MeleeWeapon {
 		Hitbox hbox = new Hitbox(state, startPosition, new Vector2(hitboxSize).scl(1 + user.getBodyData().getStat(Stats.BOOST_SIZE)), swingCd, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW))),
-				DamageTypes.DEFLECT, DamageTypes.REFLECT));
+		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW))), DamageTypes.REFLECT));
 		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
@@ -56,8 +57,8 @@ public class Airblaster extends MeleeWeapon {
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.HITBOX)){
-						if (((Hitbox)fixB.getEntity()).isAlive()) {
-							((Hitbox)fixB.getEntity()).setLinearVelocity(((Hitbox)fixB.getEntity()).getLinearVelocity().setAngle(startVelocity.angle()));
+						if (((Hitbox) fixB.getEntity()).isAlive()) {
+							((Hitbox) fixB.getEntity()).setLinearVelocity(((Hitbox) fixB.getEntity()).getLinearVelocity().scl(reflectVeloAmp).setAngle(startVelocity.angle()));
 						}
 					}
 				}

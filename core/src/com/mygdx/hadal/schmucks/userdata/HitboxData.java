@@ -25,7 +25,7 @@ public class HitboxData extends HadalData {
 	//The hitbox containing this data
 	protected Hitbox hbox;
 
-	private final static float reflectMultiplier = 1.5f;
+	private final static float reflectMultiplier = 2.0f;
 	
 	/**
 	 * This data is usually initialized after making a hitbox. It is given to the newly created hitbox using the setUserData() method
@@ -48,7 +48,7 @@ public class HitboxData extends HadalData {
 		
 		if (Arrays.asList(tags).contains(DamageTypes.REFLECT) && hbox.isAlive()  && hbox.isReflectable()) {
 			Filter filter = hbox.getBody().getFixtureList().get(0).getFilterData();
-			filter.groupIndex = (short)0;
+			filter.groupIndex = (short) 0;
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 			hbox.setDamageMultiplier(reflectMultiplier);
 		}

@@ -77,6 +77,7 @@ public class MessageWindow {
 
 			@Override
 			public void run() {
+				
 				if (state.getStage() != null) {
 					state.getStage().setKeyboardFocus(enterMessage);
 					state.getStage().setScrollFocus(textLog);
@@ -90,14 +91,20 @@ public class MessageWindow {
 						((ClientController) state.getController()).resetController();
 					}
 				}
+				
+				active = true;
 			}
 		};
 		
-		//disables typing and scrolling for actoe. Ran after actor exits screen.
+		//disables typing and scrolling for actor. Ran after actor exits screen.
 		Runnable disableMsg = new Runnable() {
 
 			@Override
 			public void run() {
+				
+				if (!active) {
+					return;
+				}
 				
 				if (state.getStage() != null) {
 					state.getStage().setKeyboardFocus(null);
@@ -113,6 +120,8 @@ public class MessageWindow {
 						((ClientController) state.getController()).syncController();
 					}
 				}
+				
+				active = false;
 			}
 		};
 		
@@ -128,7 +137,6 @@ public class MessageWindow {
 			SoundEffect.UISWITCH2.play(state.getGsm(), false);
 		}
 		
-		active = !active;
 		enterMessage.setText("");
 	}
 	

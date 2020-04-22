@@ -48,7 +48,6 @@ public class DeathTextUtil {
 			possibleMessages.addAll(getValidMessages("ENEMY", namedPerp));
 		} 
 		
-
 		//iterate through all tags and add all valid messages
 		if (tags.length > 0) {
 			for (int i = 0; i < tags.length; i++) {

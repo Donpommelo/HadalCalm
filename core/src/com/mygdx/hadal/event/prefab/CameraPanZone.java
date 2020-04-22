@@ -88,24 +88,20 @@ public class CameraPanZone extends Prefabrication {
 		camera1.setName("Camera");
 		camera1.getProperties().put("zoom", zoom1);
 		camera1.getProperties().put("triggeredId", zoom1Id);
-		camera1.getProperties().put("default", false);
-		camera1.getProperties().put("sync", "USER");
 		
 		RectangleMapObject camera2 = new RectangleMapObject();
 		camera2.setName("Camera");
 		camera2.getProperties().put("zoom", zoom2);
 		camera2.getProperties().put("triggeredId", zoom2Id);
-		camera2.getProperties().put("default", false);
-		camera2.getProperties().put("sync", "USER");
 
 		switch(align) {
 		case 0:
-			sensor1.getRectangle().set(x, y, 16, height);
-			sensor2.getRectangle().set(x + width - 16, y, 16, height);
+			sensor1.getRectangle().set(x, y, 8, height);
+			sensor2.getRectangle().set(x + width - 8, y, 8, height);
 			break;
 		case 1:
-			sensor1.getRectangle().set(x, y, width, 16);
-			sensor2.getRectangle().set(x, y + height - 16, width, 16);
+			sensor1.getRectangle().set(x, y, width, 8);
+			sensor2.getRectangle().set(x, y + height - 8, width, 8);
 			break;
 		}
 		

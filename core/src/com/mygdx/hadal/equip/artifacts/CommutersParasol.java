@@ -42,8 +42,7 @@ public class CommutersParasol extends Artifact {
 				while (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, lifespan, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, 
-							inflicted.getSchmuck(), sprite);
+					Hitbox hbox = new Hitbox(state, inflicted.getSchmuck().getPixelPosition(), size, lifespan, new Vector2(0, 0), inflicted.getSchmuck().getHitboxfilter(), true, false, inflicted.getSchmuck(), sprite);
 					hbox.makeUnreflectable();
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
@@ -53,19 +52,17 @@ public class CommutersParasol extends Artifact {
 						@Override
 						public void onHit(HadalData fixB) {
 							if (fixB != null) {
-								if (fixB.getType().equals(UserDataTypes.HITBOX)){
+								if (fixB.getType().equals(UserDataTypes.HITBOX)) {
 									if (((Hitbox) fixB.getEntity()).isAlive()) {
 										Vector2 newVelo = new Vector2(fixB.getEntity().getPosition()).sub(inflicted.getSchmuck().getPosition());
-										((Hitbox) fixB.getEntity()).setLinearVelocity(((Hitbox)fixB.getEntity()).getLinearVelocity().setAngle(newVelo.angle()));
+										((Hitbox) fixB.getEntity()).setLinearVelocity(((Hitbox) fixB.getEntity()).getLinearVelocity().setAngle(newVelo.angle()));
 										
 										SoundEffect.SPRING.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 									}
 								}
 							}
 						}
-						
 					});
-					
 				}
 				procCdCount += delta;
 			}
