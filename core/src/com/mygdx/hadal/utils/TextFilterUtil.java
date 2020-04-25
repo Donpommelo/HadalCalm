@@ -16,6 +16,10 @@ public class TextFilterUtil {
 		
 		String filteredText = text;
 		
+		if (text == null) {
+			return text;
+		}
+		
 		filteredText = filterBodyPart(filteredText);
 		
 		filteredText = filterTag(filteredText, "<color>");
@@ -28,6 +32,9 @@ public class TextFilterUtil {
 		filteredText = filterTag(filteredText, "<herb>");
 		filteredText = filterTag(filteredText, "<wine>");
 		filteredText = filterTag(filteredText, "<dish>");
+		filteredText = filterTag(filteredText, "<adjective1>");
+		filteredText = filterTag(filteredText, "<noun1>");
+		filteredText = filterTag(filteredText, "<material>");
 		
 		filteredText = filterRoll(filteredText);
 		filteredText = filterHotkeys(filteredText);

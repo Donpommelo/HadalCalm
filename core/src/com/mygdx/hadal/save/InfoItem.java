@@ -3,6 +3,7 @@ package com.mygdx.hadal.save;
 import java.util.ArrayList;
 
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
+import com.mygdx.hadal.utils.TextFilterUtil;
 
 /**
  * An InfoItem represents the information for a single unlockable item to be loaded/saved to json
@@ -23,7 +24,7 @@ public class InfoItem {
 
 	public String getDescription() { return description; }
 	
-	public String getDescriptionLong() { return descriptionLong; }
+	public String getDescriptionLong() { return TextFilterUtil.filterText(descriptionLong); }
 	
 	public ArrayList<UnlockTag> getTags() { return tags; }
 

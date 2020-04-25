@@ -253,7 +253,7 @@ DAS_BOOT: {
 DEAD_MANS_HAND: {
 	name: Dead Man's Hand
 	description: "+1 Weapon Slot"
-    descriptionLong: "The petrified hand of nothing in particular.\n\n"
+    descriptionLong: "The petrified hand of nothing in particular.\n\nA salvager’s suit must withstand both the pressures of the deep as well as the crushing grasps of the departed."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -289,7 +289,7 @@ EMAUDELINES_PRISM: {
 EPHEMERA_PERPETUA: {
 	name: Ephemera Perpetua
 	description: "Charge Active Item on Eggplant Pickup"
-    descriptionLong: "Item Charge: 20%\n\n"
+    descriptionLong: "Item Charge: 20%\n\n<adjective1> <noun1> of <color> <material>."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -307,7 +307,7 @@ EXTRA_ROW_OF_TEETH: {
 FARADAYS_CAGE: {
 	name: Faraday Cage
 	description: "Absorbs Incoming Damage with Fuel"
-    descriptionLong: "Damage Resistance: 40% of Fuel Consumed\n\nA conductive mesh used to protect from electromagnetic fields.\n\n"
+    descriptionLong: "Damage Resistance: 40% of Fuel Consumed\n\nA conductive mesh used to protect from electromagnetic fields.\n\nThe presence of Bright Ones often impairs conventional technology, forcing Management to equip Salvagers with equally inexplicable tools."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -325,7 +325,7 @@ FENS_CLIPPED_WINGS: {
 FORAGERS_HIVE: {
 	name: Forager's Hive
 	description: "Release Bees While Attacking"
-    descriptionLong: "Bees Cooldown: 0.8s\n\n"
+    descriptionLong: "Bees Cooldown: 0.8s\n\nA decrepit heirloom infested with a colony of aggressive insects.\n\nUnwavering commitment to a single task can lead people to unforeseen destinations."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -334,7 +334,7 @@ FORAGERS_HIVE: {
 FRACTURE_PLATE: {
 	name: Fracture Plate
 	description: "Periodically gain a Damage Blocking Shield"
-    descriptionLong: "Shield Cooldown: 5s Without Receiving Damage\n\nShield Damage Block: 15\n\nA calcified plate consisting of several nondescript bones fused together."
+    descriptionLong: "Shield Cooldown: 5s Without Receiving Damage\n\nShield Damage Block: 15\n\nA calcified plate consisting of several nondescript bones fused together.\n\nThe deepest layers of the ocean are reserved for those who shouldered the heaviest burdens in life."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -343,7 +343,7 @@ FRACTURE_PLATE: {
 GEMMULE: {
 	name: Gemmule
 	description: "+Invulnerability Duration on Spawn"
-    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\n"
+    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\nThe budding subjects of the Garden of the Neptune King must be protected if they are to bear fruit."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -486,7 +486,7 @@ LAMPREY_IDOL: {
 LOAMSKIN_LOCKET: {
 	name: Loamskin Locket
 	description: "+Max Hp, Bonus Hp Starts Unfilled"
-    descriptionLong: "Bonus Max Hp: +40\n\n"
+    descriptionLong: "Bonus Max Hp: +40\n\nA locket containing a glass capsule filled with fertile soil.\n\nTo the unborn, the Garden of the Neptune King offers a vivid taste of long lost terrestrial warmth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
