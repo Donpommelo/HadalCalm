@@ -311,6 +311,9 @@ public class TitleState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
+						if (gsm.getSetting().isExportChatLog()) {
+							gsm.exportChatLogs();
+						}
 						Gdx.app.exit();
 			        }
 			    });

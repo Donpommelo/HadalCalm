@@ -54,7 +54,7 @@ public class SettingState extends GameState {
 	
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master;
-	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause;
+	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause, exportChatLog;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
@@ -561,17 +561,8 @@ public class SettingState extends GameState {
 		portNumber.setMaxLength(5);
 		portNumber.setTextFieldFilter(new TextFieldFilter.DigitsOnlyFilter());
 		
-		Text exportText = new Text("EXPORT CHAT LOGS", 0, 0, true);
-		exportText.addListener(new ClickListener() {
-			
-			@Override
-	        public void clicked(InputEvent e, float x, float y) {
-				gsm.exportChatLogs();
-				SoundEffect.UISWITCH3.play(gsm, false);
-	        }
-			
-	    });
-		exportText.setScale(0.5f);
+		exportChatLog = new CheckBox("Export Chat Logs on Exit?", GameStateManager.getSkin());
+		exportChatLog.setChecked(gsm.getSetting().isExportChatLog());
 		
 		details.add(randomNameAlliteration).colspan(2).pad(detailsPad).row();
 		details.add(consoleEnabled).colspan(2).pad(detailsPad).row();
@@ -581,7 +572,7 @@ public class SettingState extends GameState {
 		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
 		details.add(port);
 		details.add(portNumber).colspan(2).width(100).pad(detailsPad).row();
-		details.add(exportText);
+		details.add(exportChatLog).colspan(2).pad(detailsPad).row();
 	}
 	
 	/**
@@ -628,6 +619,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setClientPause(clientPause.isChecked());
 			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
 			gsm.getSetting().setPortNumber(Integer.valueOf(portNumber.getText()));
+			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
 			gsm.getSetting().saveSetting();
 			miscSelected();
 			break;
