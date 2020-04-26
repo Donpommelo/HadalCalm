@@ -423,6 +423,13 @@ public class Player extends PhysicsSchmuck {
 		airblastCdCount-=delta;
 		interactCdCount-=delta;
 		
+		
+		//Determine player mouse location and hence where the arm should be angled.
+		if (mouse.getBody() != null) {
+			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(mouse.getPixelPosition().y, mouse.getPixelPosition().x);
+		}
+		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+				
 		super.controller(delta);
 	}
 	
@@ -573,17 +580,12 @@ public class Player extends PhysicsSchmuck {
 	private float headConnectXReal;
 	private float armRotateXReal;
 	private Vector2 mouseAngle = new Vector2();
+	private boolean flip;
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		//Determine player mouse location and hence where the arm should be angled.
-		if (mouse.getBody() != null) {
-			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(mouse.getPixelPosition().y, mouse.getPixelPosition().x);
-		}
-		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
-
 		//flip determines if the player is facing left or right
-		boolean flip = false;
+		flip = false;
 		if (Math.abs(attackAngle) > 90) {
 			flip = true;
 		}
@@ -833,7 +835,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		
+
 		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
 				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo()));
 		
@@ -868,7 +870,9 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 4f).angleRad();
+
+		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
+		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 	}
 	
 	private float shortestFraction;

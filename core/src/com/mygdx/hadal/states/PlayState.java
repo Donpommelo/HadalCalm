@@ -935,7 +935,7 @@ public class PlayState extends GameState {
 	 */
 	public void levelEnd(String text) {
 		beginTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay);
-		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, false, text, defaultFadeOutSpeed, deathFadeDelay));
+		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay));
 	}
 	
 	/**
@@ -943,7 +943,7 @@ public class PlayState extends GameState {
 	 * @param state: The state we are transitioning towards
 	 * @param override: Does this transition override other transitions?
 	 * @param fadeSpeed: speed of transition
-	 * @param fadeDelay: amonut of delay before transition
+	 * @param fadeDelay: amount of delay before transition
 	 */
 	public void beginTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
 		
