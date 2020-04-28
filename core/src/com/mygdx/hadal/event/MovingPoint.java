@@ -21,6 +21,7 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * speed: float determining the platform's speed. Optional. Default: 1.0f
  * pause: boolean of whether the platform will stop moving if it activates an event. Default false.
+ * syncConnected: boolean of whether events connected to this should be synced with the client or not. Default true
  * 
  * connections: This is a comma-separated list of triggeredIds of events that are "connected" to this platform and will move along it.
  * 	NOTES: DO NOT CONNECT ANY EVENTS THAT DO NOT HAVE A BODY; TIMERS, COUNTERS, ETC.
@@ -31,14 +32,15 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class MovingPoint extends Event {
 
 	private float speed;
-	private boolean pause;
+	private boolean pause, syncConnected;
 	
 	private ArrayList<Event> connected = new ArrayList<Event>();
 	
-	public MovingPoint(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause) {
+	public MovingPoint(PlayState state, Vector2 startPos, Vector2 size, float speed, boolean pause, boolean syncConnected) {
 		super(state, startPos, size);
 		this.speed = speed;
 		this.pause = pause;
+		this.syncConnected = syncConnected;
 	}
 
 	@Override
@@ -113,7 +115,10 @@ public class MovingPoint extends Event {
 	public void addConnection(Event e) {
 		if (e != null) {
 			connected.add(e);
-			e.setSynced(true);
+			
+			if (syncConnected) {
+				e.setSynced(true);
+			}
 		}
 	}
 

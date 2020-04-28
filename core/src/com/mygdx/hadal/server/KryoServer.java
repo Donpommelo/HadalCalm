@@ -10,6 +10,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
@@ -55,7 +56,7 @@ public class KryoServer {
 		Kryo kryo = new Kryo();
 		kryo.setReferences(true);
 		KryoSerialization serialization = new KryoSerialization(kryo);
-		this.server = new Server(30000, 30000, serialization);
+		this.server = new Server(20000, 20000, serialization);
 		this.players = new HashMap<Integer, Player>();
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
@@ -272,9 +273,14 @@ public class KryoServer {
         		}
 				
 				else if (o instanceof Packets.MissedCreate) {
+					
 					final Packets.MissedCreate p = (Packets.MissedCreate) o;
 					final PlayState ps = getPlayState();
 					if (ps != null) {
+						
+						Log.info("missed create " + ps.findEntity(p.entityID));
+
+						
 						ps.addPacketEffect(new PacketEffect() {
     						
     						@Override
@@ -294,7 +300,11 @@ public class KryoServer {
 				else if (o instanceof Packets.MissedDelete) {
 					final Packets.MissedDelete p = (Packets.MissedDelete) o;
 					final PlayState ps = getPlayState();
+					
 					if (ps != null) {
+						
+						Log.info("missed delete " + ps.findEntity(p.entityID));
+						
 						ps.addPacketEffect(new PacketEffect() {
     						
     						@Override

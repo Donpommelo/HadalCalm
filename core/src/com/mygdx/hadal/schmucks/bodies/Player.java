@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
@@ -168,8 +169,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, 
-				state.isPvp() ? (oldData == null ? PlayState.getPVPFilter() : oldData.getPlayer().getHitboxfilter()) : Constants.PLAYER_HITBOX, 
-						baseHp);
+				state.isPvp() ? ((oldData == null || reset) ? PlayState.getPVPFilter() : oldData.getPlayer().getHitboxfilter()) : Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		
@@ -834,10 +834,11 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onServerSync() {
+		
 		super.onServerSync();
 
 		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
-				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo()));
+				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), getMainFixture().getFilterData().maskBits));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
 				playerData.getCurrentTool().getClipLeft(), playerData.getCurrentTool().getAmmoLeft(), playerData.getActiveItem().chargePercent()));
@@ -861,6 +862,13 @@ public class Player extends PhysicsSchmuck {
 			getPlayerData().getCurrentTool().setCharging(p.charging);
 			chargePercent = p.chargePercent;
 			getPlayerData().setOverrideOutOfAmmo(p.outOfAmmo);
+			
+			if (p.maskBits != getMainFixture().getFilterData().maskBits) {
+				Filter filter = getMainFixture().getFilterData();
+				filter.maskBits = p.maskBits;
+				getMainFixture().setFilterData(filter);
+			}
+			
 		} else {
 			super.onClientSync(o);
 		}

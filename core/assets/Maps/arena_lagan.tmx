@@ -299,6 +299,7 @@
    <properties>
     <property name="connections" value="waveSpawn"/>
     <property name="speed" type="float" value="6"/>
+    <property name="syncConnected" type="bool" value="false"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy4"/>
    </properties>
@@ -312,8 +313,9 @@
   </object>
   <object id="62" name="MovePoint" type="MovePoint" x="3328" y="512" width="32" height="32">
    <properties>
-    <property name="connections" value="passiveSpawn1"/>
+    <property name="connections" value="passiveSpawn"/>
     <property name="speed" type="float" value="6"/>
+    <property name="syncConnected" type="bool" value="false"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="dummy3"/>
    </properties>

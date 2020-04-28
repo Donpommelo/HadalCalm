@@ -35,7 +35,8 @@ public class Ragdoll extends HadalEntity {
 	private float gravity;
 	
 	//starting multiplier on starting velocity and direction
-	private final static float veloAmp = 3.0f;
+	private final static float veloAmp = 10.0f;
+	private final static float angleAmp = 2.0f;
 	private final static float baseAngle = 8.0f;
 	
 	private Vector2 startVelo;
@@ -70,7 +71,7 @@ public class Ragdoll extends HadalEntity {
 		this.hadalData = new HadalData(UserDataTypes.BODY, this);
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1, 0.5f, false, false, Constants.BIT_SENSOR,	(short) (Constants.BIT_WALL | Constants.BIT_SENSOR), (short) -1, sensor, hadalData);
 		
-		setAngularVelocity(startAngle * veloAmp);
+		setAngularVelocity(startAngle * angleAmp);
 		
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 		newVelocity.set(startVelo).add(1, 1);

@@ -24,8 +24,8 @@ flags: {
 lastIp: 127.0.0.1
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 0
-	ARENA_HORIZON: 0
+	ARENA_LAGAN: 3
+	ARENA_HORIZON: 2
 }
 unlockEquip: {
 	class: java.util.HashMap

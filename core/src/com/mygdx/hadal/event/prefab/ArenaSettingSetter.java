@@ -41,7 +41,6 @@ public class ArenaSettingSetter extends Prefabrication {
 		RectangleMapObject game = new RectangleMapObject();
 		game.setName("Game");
 		game.getProperties().put("sync", "ALL");
-		game.getProperties().put("synced", true);
 		game.getProperties().put("triggeredId", gameTimerId);
 
 		if (startTimer != 0) {

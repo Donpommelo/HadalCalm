@@ -383,7 +383,8 @@ public class TiledObjectUtil {
 			
 			e = new MovingPoint(state, position, size, 
 					object.getProperties().get("speed", 1.0f, float.class),
-					object.getProperties().get("pause", false, boolean.class));
+					object.getProperties().get("pause", false, boolean.class),
+					object.getProperties().get("syncConnected", true, boolean.class));
 			movePointConnections.put((MovingPoint)e, object.getProperties().get("connections", "", String.class));
 		} else if (object.getName().equals("Rotator")) {
 			

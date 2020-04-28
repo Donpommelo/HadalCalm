@@ -27,6 +27,9 @@ public class FixedToUser extends HitboxStrategy {
 		this.center = center;
 		this.angle = angle;
 		this.rotate = rotate;
+		
+		hbox.setSyncDefault(false);
+		hbox.setSyncInstant(true);
 	}
 	
 	@Override

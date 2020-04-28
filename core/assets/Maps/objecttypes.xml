@@ -150,6 +150,7 @@
   <property name="connections" type="string"/>
   <property name="pause" type="bool" default="false"/>
   <property name="speed" type="float" default="1"/>
+  <property name="syncConnected" type="bool" default="true"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>

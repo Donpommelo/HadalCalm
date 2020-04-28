@@ -187,49 +187,6 @@
     <property name="triggeredId" value="w3"/>
    </properties>
   </object>
-  <object id="57" name="Dummy" type="Dummy" x="3552" y="512" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="dummy4"/>
-    <property name="triggeringId" value="dummy3"/>
-   </properties>
-  </object>
-  <object id="58" name="Dummy" type="Dummy" x="1504" y="512" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="dummy3"/>
-    <property name="triggeringId" value="dummy4"/>
-   </properties>
-  </object>
-  <object id="59" name="SchmuckSpawn" type="SchmuckSpawn" x="1760" y="512" width="32" height="32">
-   <properties>
-    <property name="amount" type="int" value="3"/>
-    <property name="enemyId" value="MISCFISH"/>
-    <property name="triggeredId" value="waveSpawn"/>
-    <property name="triggeringId" value="nextWave"/>
-   </properties>
-  </object>
-  <object id="60" name="MovePoint" type="MovePoint" x="1760" y="512" width="32" height="32">
-   <properties>
-    <property name="connections" value="waveSpawn"/>
-    <property name="speed" type="float" value="6"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="dummy4"/>
-   </properties>
-  </object>
-  <object id="61" name="SchmuckSpawn" type="SchmuckSpawn" x="3328" y="512" width="32" height="32">
-   <properties>
-    <property name="amount" type="int" value="1"/>
-    <property name="enemyId" value="SWIMMER1"/>
-    <property name="triggeredId" value="passiveSpawn"/>
-   </properties>
-  </object>
-  <object id="62" name="MovePoint" type="MovePoint" x="3328" y="512" width="32" height="32">
-   <properties>
-    <property name="connections" value="passiveSpawn1"/>
-    <property name="speed" type="float" value="6"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="dummy3"/>
-   </properties>
-  </object>
   <object id="66" name="Prefab" type="PrefabPVPSettingSetter" x="32" y="288" width="32" height="32">
    <properties>
     <property name="prefabId" value="PVPSettingSetter"/>
