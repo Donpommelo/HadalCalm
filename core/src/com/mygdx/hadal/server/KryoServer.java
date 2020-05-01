@@ -10,7 +10,6 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.KryoSerialization;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.esotericsoftware.minlog.Log;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.event.StartPoint;
@@ -278,9 +277,6 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						
-						Log.info("missed create " + ps.findEntity(p.entityID));
-
-						
 						ps.addPacketEffect(new PacketEffect() {
     						
     						@Override
@@ -302,8 +298,6 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					
 					if (ps != null) {
-						
-						Log.info("missed delete " + ps.findEntity(p.entityID));
 						
 						ps.addPacketEffect(new PacketEffect() {
     						

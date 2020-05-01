@@ -38,7 +38,7 @@ public class Enemy extends Schmuck {
 	private EnemyType type;		
 
     //this is the size of the enemy's hitbox
-	private Vector2 hboxSize;
+	protected Vector2 hboxSize;
     
     //is this enemy a boss? (makes it show up in the boss ui)
     private boolean isBoss = false;

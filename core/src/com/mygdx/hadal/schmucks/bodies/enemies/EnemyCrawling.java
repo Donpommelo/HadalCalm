@@ -5,16 +5,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.Ragdoll;
+import com.mygdx.hadal.schmucks.userdata.FeetData;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
+import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 
 /**
  * Enemies are Schmucks that attack the player.
@@ -34,6 +38,9 @@ public class EnemyCrawling extends Enemy {
 	private float moveDirection, moveSpeed, minRange, maxRange;
 	private CrawlingState currentState;
 	
+	private Fixture feet;
+	private FeetData feetData;
+	
 	public EnemyCrawling(PlayState state, Vector2 startPos, Vector2 size, Vector2 hboxSize, String name, Sprite sprite, EnemyType type, float startAngle, short filter, int hp, float attackCd, int scrapDrop, SpawnerSchmuck spawner) {
 		super(state, startPos, size, hboxSize, name, sprite, type, filter, hp, attackCd, scrapDrop, spawner);
 		
@@ -51,6 +58,19 @@ public class EnemyCrawling extends Enemy {
 	public void create() {
 		super.create();
 		body.setGravityScale(1.0f);
+		
+		Filter filter = getMainFixture().getFilterData();
+		filter.maskBits = (short) (Constants.BIT_WALL | Constants.BIT_SENSOR | Constants.BIT_PROJECTILE | Constants.BIT_DROPTHROUGHWALL);
+		getMainFixture().setFilterData(filter);
+		
+		if (state.isServer()) {
+			this.feetData = new FeetData(UserDataTypes.FEET, this); 
+			
+			this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(0.5f,  - hboxSize.y / 2), new Vector2(hboxSize.x - 2, hboxSize.y / 8), true, 0, 0, 0, 0,
+					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
+			
+			feet.setUserData(feetData);
+		}
 	}
 
 	private Vector2 force = new Vector2();
@@ -59,9 +79,13 @@ public class EnemyCrawling extends Enemy {
 	public void controller(float delta) {		
 		super.controller(delta);
 		
-		switch(currentState) {
+		grounded = feetData.getNumContacts() > 0;
+		
+		switch (currentState) {
 		case AVOID_PITS:
-			processCollision(true);
+			if (grounded) {
+				processCollision(true);
+			}
 			break;
 		case BACK_FORTH:
 			processCollision(false);
@@ -121,6 +145,9 @@ public class EnemyCrawling extends Enemy {
 		}
 	}
 	
+	/**
+	 * This method is used by crawling enemies to process running into walls/edges of platforms
+	 */
 	private Vector2 endPt = new Vector2();
 	private final static float distCheck = 2.0f;
 	private float shortestFraction;
@@ -133,13 +160,14 @@ public class EnemyCrawling extends Enemy {
 		endPt.set(getPosition()).add(distCheck * moveDirection, 0);
 		shortestFraction = 1.0f;
 		
+		//raycast in the direction we are walking.
 		if (getPosition().x != endPt.x || getPosition().y != endPt.y) {
 			
 			state.getWorld().rayCast(new RayCastCallback() {
 
 				@Override
 				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
+					if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL) {
 						if (fraction < shortestFraction) {
 							shortestFraction = fraction;
 							return fraction;
@@ -150,10 +178,12 @@ public class EnemyCrawling extends Enemy {
 			}, getPosition(), endPt);
 		}
 		
+		//if we are running into a wall, we turn around
 		if (shortestFraction < 1.0f) {
 			moveDirection = -moveDirection;
 		} else if (avoidPits) {
 			
+			//if we avoid pits, raycast in the direction we are walking downwards
 			endPt.set(getPosition()).add(moveDirection * distCheck, -distCheck);
 			shortestFraction = 1.0f;
 			if (getPosition().x != endPt.x || getPosition().y != endPt.y) {
@@ -161,7 +191,7 @@ public class EnemyCrawling extends Enemy {
 
 					@Override
 					public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-						if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
+						if (fixture.getFilterData().categoryBits == (short) (Constants.BIT_WALL) ||  fixture.getFilterData().categoryBits == (short) Constants.BIT_DROPTHROUGHWALL) {
 							if (fraction < shortestFraction) {
 								shortestFraction = fraction;
 								return fraction;
@@ -172,6 +202,7 @@ public class EnemyCrawling extends Enemy {
 				}, getPosition(), endPt);
 			}
 			
+			//if we see nothing, we are standing next to a pit and we turn around
 			if (shortestFraction == 1.0f) {
 				moveDirection = -moveDirection;
 			}
