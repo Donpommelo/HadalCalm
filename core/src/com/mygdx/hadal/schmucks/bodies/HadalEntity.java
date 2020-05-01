@@ -61,6 +61,7 @@ public abstract class HadalEntity {
 	//This is the id that clients use to track synchronized entities
 	protected UUID entityID;
 	
+	//Used by the server. Does this entity send a sync packet periodically (every 1 / 10 sec)? Does this entity send a sync packet at a faster rate? (every 1 / 60 sec) 
 	private boolean syncDefault = true;
 	private boolean syncInstant = false;
 	
@@ -205,7 +206,13 @@ public abstract class HadalEntity {
 		}
 	}
 	
+	//the position of this entity on the server
 	public Vector2 serverPos = new Vector2();
+	
+	//the angle of this entity on the server
+	public Vector2 serverAngle = new Vector2(0, 1);
+	
+	//should the client entity lerp to the server's position or just adjust instantly?
 	public boolean copyServerInstantly;
 	/**
 	 * This is called when the client receives the above packet.
@@ -226,16 +233,21 @@ public abstract class HadalEntity {
 		}
 	}
 	
-	public Vector2 serverAngle = new Vector2(0, 1);
+	//this vector is used to calculate linear interpolation
 	public Vector2 angleAsVector = new Vector2(0, 1);
+	
+	//if difference between client and server exceeds these values, the client entity instantly adjusts.
+	private static float maxDist = 5;
+	private static float maxAngleDist = 0.25f;
+	
+	//the client processes interpolation at this speed regardless of framerate
+	private final static float clientSyncTime = 1 / 60f;
+	private float clientSyncAccumulator = 0.0f;
+	
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
 	 */
-	private static float maxDist = 5;
-	private static float maxAngleDist = 0.1f;
-	private float clientSyncAccumulator = 0.0f;
-	private final static float clientSyncTime = 1 / 60f;
 	public void clientController(float delta) {
 		
 		clientSyncAccumulator += delta;
@@ -338,6 +350,10 @@ public abstract class HadalEntity {
 	
 	public void increaseEntityAge(float i) { entityAge += i; }
 	
+	/**
+	 * This is run by the client and keeps of track of the time since the last sync received from the server.
+	 * If this time is too great, we may have missed a delete packet
+	 */
 	public void increaseTimeSinceLastSync(float i) { 
 		
 		if (receivingSyncs) {

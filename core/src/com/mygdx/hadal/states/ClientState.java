@@ -43,6 +43,7 @@ public class ClientState extends PlayState {
 	//This contains the position of the client's mouse, to be sent to the server
 	private Vector3 mousePosition = new Vector3();
 	
+	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
 	private float timeSinceLastMissedCreate;
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
@@ -137,10 +138,14 @@ public class ClientState extends PlayState {
 		 			entity.resetTimeSinceLastSync();
 		 		} else {
 		 			entity = entities.get(p[0]);
+		 			
+		 			//if we have the entity, synci t and reset the time since last sync
 			 		if (entity != null) {
 			 			entity.onClientSync(p[1]);
 			 			entity.resetTimeSinceLastSync();
 			 		} else {
+			 			
+			 			//if we don't recognize the entity and the entity is of a sufficient age and the client didn't just start up, we may have missed a create packet.
 			 			if ((float) p[2] > missedCreateThreshold && getTimer() > initialConnectThreshold && timeSinceLastMissedCreate > missedCreateCooldown) {
 			 				timeSinceLastMissedCreate = 0.0f;
 			 				HadalGame.client.sendUDP(new Packets.MissedCreate((String) p[0]));
@@ -215,7 +220,7 @@ public class ClientState extends PlayState {
 	 * This is called whenever the client is told to add an object to its world.
 	 * @param entityId: The unique id of the new entity
 	 * @param entity: The entity to be added
-	 * @param: synced: should this object receive a regular sync packet from the server
+	 * @param: synced: should this object receive a regular sync packet from the server?
 	 * @param layer: is this layer a hitbox (rendered underneath) or not?
 	 */
 	public void addEntity(String entityId, HadalEntity entity, boolean synced, ObjectSyncLayers layer) {

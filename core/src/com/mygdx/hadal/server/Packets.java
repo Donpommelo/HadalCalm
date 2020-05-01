@@ -879,7 +879,7 @@ public class Packets {
 		public SyncMusic() {}
 		
 		/**
-		 * A SyncMusic is sent fro mthe server to the client to tell them to begin playing a certain music track.
+		 * A SyncMusic is sent from the server to the client to tell them to begin playing a certain music track.
 		 * @param music: the enum name of the music track to play
 		 * @param volume: volume to play the music at
 		 */
@@ -894,6 +894,11 @@ public class Packets {
 		
 		public MissedCreate() {}
 		
+		/**
+		 * A MissedCreate is sent from the client to the server when the client is told to sync an object it didn't create.
+		 * The implication is that the client missed a create entity packet from the server.
+		 * @param entityID: the entity id of the entity the client was told to sync
+		 */
 		public MissedCreate(String entityID) {
 			this.entityID = entityID;
 		}
@@ -904,6 +909,11 @@ public class Packets {
 		
 		public MissedDelete() {}
 		
+		/**
+		 * A MissedDelete is sent from the client to the server when the client has not been told to sync an object that should be receiving syncs.
+		 * The implication is that the client missed a delete entity packet from the server.
+		 * @param entityID: the entity id of the entity the client expected to be synced
+		 */
 		public MissedDelete(String entityID) {
 			this.entityID = entityID;
 		}

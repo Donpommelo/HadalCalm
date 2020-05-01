@@ -15,6 +15,7 @@ public class SavedPlayerFields {
 	//Player's stored stats
 	private int wins, kills, deaths, score, lives;
 	
+	//is this player the host?
 	private boolean host;
 
 	//this unused constructor is needed by kryo for serialization
@@ -63,7 +64,7 @@ public class SavedPlayerFields {
 	
 	public void win() { wins++; }
 
-	//this gets the name displayed in score windows
+	//this gets the name displayed in score windows. Gives an indication of which player is the host
 	public String getName() { 
 		if (host) {
 			return "(HOST) " + name; 

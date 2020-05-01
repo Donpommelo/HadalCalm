@@ -148,7 +148,7 @@ public class Enemy extends Schmuck {
 			Vector2 dist = new Vector2(movementTarget).sub(getPixelPosition());
 			
 			//upon reaching target, conclude current action immediately and move on to the next action
-			if ((int)dist.len2() <= 100) {
+			if ((int) dist.len2() <= 100) {
 				setLinearVelocity(0, 0);
 				movementTarget = null;
 				

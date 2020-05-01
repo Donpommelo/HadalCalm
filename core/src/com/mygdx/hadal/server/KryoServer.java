@@ -271,6 +271,10 @@ public class KryoServer {
     				}
         		}
 				
+				/*
+				 * The Client tells us they might have missed a create packet.
+				 * Check if the entity exists and send a catchup create packet if so. 
+				 */
 				else if (o instanceof Packets.MissedCreate) {
 					
 					final Packets.MissedCreate p = (Packets.MissedCreate) o;
@@ -293,6 +297,10 @@ public class KryoServer {
 					}
 				}
 				
+				/*
+				 * The Client tells us they might have missed a delete packet.
+				 * Check if the entity exists and send a catchup delete packet if not. 
+				 */
 				else if (o instanceof Packets.MissedDelete) {
 					final Packets.MissedDelete p = (Packets.MissedDelete) o;
 					final PlayState ps = getPlayState();
