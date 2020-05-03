@@ -99,11 +99,15 @@ public class ClientState extends PlayState {
 		//All entities that are set to be created are created and assigned their entityId
 		for (Object[] pair: createListClient) {
 			if (pair[3].equals(ObjectSyncLayers.HBOX)) {
-				hitboxes.putIfAbsent((String) pair[0], (HadalEntity) pair[1]);
+				if (hitboxes.putIfAbsent((String) pair[0], (HadalEntity) pair[1]) == null) {
+					((HadalEntity) pair[1]).create();
+				}
 			} else {
-				entities.putIfAbsent((String) pair[0], (HadalEntity) pair[1]);
+				if (entities.putIfAbsent((String) pair[0], (HadalEntity) pair[1]) == null) {
+					((HadalEntity) pair[1]).create();
+				}
 			}
-			((HadalEntity) pair[1]).create();
+			
 			if (pair[0] != "") {
 				((HadalEntity) pair[1]).setEntityID((String) pair[0]);
 			}

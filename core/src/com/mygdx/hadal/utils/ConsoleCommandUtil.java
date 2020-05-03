@@ -1,5 +1,6 @@
 package com.mygdx.hadal.utils;
 
+import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockLevel;
@@ -55,8 +56,29 @@ public class ConsoleCommandUtil {
 				return warp(state, commands[1]);
 			}
 			break;
+		case "print":
+			if (commands.length > 1) {
+				return print(state, commands[1]);
+			}
+			break;
 		}
 		
+		return -1;
+	}
+	
+	public static int print(PlayState state, String command) {
+		
+		switch(command) {
+		case "camera":
+			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA TARGET: " + state.getCameraTarget());
+			break;
+		case "cameraBounds":
+			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " + state.getCameraBounds() + " " + state.getCameraBounded());
+			break;
+		case "playerLoc":
+			HadalGame.server.addNotificationToAll(state, "GAEM", "PLAYER LOCATION: " + state.getPlayer().getPosition());
+			break;
+		}
 		return -1;
 	}
 	

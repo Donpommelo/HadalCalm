@@ -428,6 +428,7 @@ public class KryoClient {
                     				newPlayer.setStartPos(p.startPosition);
                     				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
                 				} else {
+                					
                 					cs.getPlayer().setStartLoadout(p.loadout);
                 					cs.getPlayer().serverPos.set(p.startPosition).scl(1 / PPM);
                 					cs.getPlayer().setStartPos(p.startPosition);

@@ -1162,6 +1162,8 @@ public class PlayState extends GameState {
 	
 	public void setCameraTarget(Vector2 cameraTarget) {	this.cameraTarget = cameraTarget; }
 	
+	public Vector2 getCameraTarget() {	return cameraTarget; }
+
 	public float[] getCameraBounds() { return cameraBounds; }
 
 	public void setCameraBounds(float[] cameraBounds) { this.cameraBounds = cameraBounds; }
