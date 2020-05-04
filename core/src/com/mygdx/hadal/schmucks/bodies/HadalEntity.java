@@ -237,7 +237,7 @@ public abstract class HadalEntity {
 	public Vector2 angleAsVector = new Vector2(0, 1);
 	
 	//if difference between client and server exceeds these values, the client entity instantly adjusts.
-	private static float maxDist = 5;
+	private static float maxDist = 3;
 	private static float maxAngleDist = 0.25f;
 	
 	//the client processes interpolation at this speed regardless of framerate

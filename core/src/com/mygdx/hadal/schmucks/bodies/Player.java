@@ -168,8 +168,7 @@ public class Player extends PhysicsSchmuck {
 	 * we are a new player and use our old one if we are respawning
 	 */
 	public Player(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
-		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, 
-				state.isPvp() ? ((oldData == null || reset) ? PlayState.getPVPFilter() : oldData.getPlayer().getHitboxfilter()) : Constants.PLAYER_HITBOX, baseHp);
+		super(state, startPos, new Vector2(hbWidth * scale, hbHeight * scale), name, Constants.PLAYER_HITBOX, baseHp);
 		this.name = name;
 		airblast = new Airblaster(this);
 		
@@ -185,6 +184,20 @@ public class Player extends PhysicsSchmuck {
 		this.connID = connID;
 		this.reset = reset;
 		this.start = start;
+		
+		//process player pvp hitbox filter. If newly spawned or coming from non-pvp map, we give a new hbox filter.
+		//Otherwise they get a newly generated filter
+		if (state.isPvp()) {
+			if (oldData == null) {
+				hitboxfilter = PlayState.getPVPFilter();
+			} else {
+				if (oldData.getPlayer().getHitboxfilter() == Constants.PLAYER_HITBOX) {
+					hitboxfilter = PlayState.getPVPFilter();
+				} else {
+					hitboxfilter = oldData.getPlayer().getHitboxfilter();
+				}
+			}
+		}
 		
 		setBodySprite(startLoadout.character);
 		loadParticles();
