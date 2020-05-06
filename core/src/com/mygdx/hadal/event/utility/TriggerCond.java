@@ -45,11 +45,11 @@ public class TriggerCond extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				if (activator.getEvent() instanceof TriggerAlt) {
-					condition = ((TriggerAlt)activator.getEvent()).getMessage();
+					condition = ((TriggerAlt) activator.getEvent()).getMessage();
 				} else {
 					if (condition.equals("random")) {
 						Object[] values = triggered.values().toArray();
-						((Event)values[GameStateManager.generator.nextInt(values.length)]).getEventData().preActivate(this, p);
+						((Event) values[GameStateManager.generator.nextInt(values.length)]).getEventData().preActivate(this, p);
 					} else {
 						if (triggered.get(condition) != null) {
 							triggered.get(condition).getEventData().preActivate(this, p);

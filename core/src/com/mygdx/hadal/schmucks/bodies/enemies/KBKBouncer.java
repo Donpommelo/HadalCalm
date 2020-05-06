@@ -11,11 +11,11 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
-public class Swimmer1 extends EnemySwimming {
+public class KBKBouncer extends EnemyCrawling {
 
 	private final static int baseHp = 100;
-	private final static String name = "SWIMMING KAMABOKO";
-	
+	private final static String name = "CRAWLING KAMABOKO";
+
 	private final static int scrapDrop = 1;
 
 	private static final int width = 512;
@@ -23,33 +23,32 @@ public class Swimmer1 extends EnemySwimming {
 	
 	private static final int hboxWidth = 280;
 	private static final int hboxHeight = 120;
+
+	private static final int smileOffset = 200;
+
+	private static final float scale = 0.25f;
 	
 	private static final float attackCd = 2.0f;
-	private static final float airSpeed = -0.3f;
+	private static final float groundSpeed = -0.25f;
+	private static final float drag = -1.0f;
 	
-	private static final float scale = 0.25f;
-	private static final float noiseRadius = 3.0f;
-
-	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
+	private static final Sprite sprite = Sprite.KAMABOKO_CRAWL;
 	
 	private TextureRegion faceSprite;
 	
-	public Swimmer1(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.SWIMMER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
+	public KBKBouncer(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
-		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
-		
-		setNoiseRadius(noiseRadius);
+		setCurrentState(CrawlingState.BACK_FORTH);
 	}
 	
 	@Override
 	public void create() {
 		super.create();
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
+		getMainFixture().setRestitution(1.0f);
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_DRAG, drag, getBodyData()));
 	}
-	
-	private static final float minRange = 0.0f;
-	private static final float maxRange = 2.0f;
 	
 	private static final int charge1Damage = 10;
 	private static final float attackInterval = 1.0f;
@@ -63,18 +62,20 @@ public class Swimmer1 extends EnemySwimming {
 	public void render(SpriteBatch batch) {
 		super.render(batch);
 		
-		boolean flip = true;
-		double realAngle = getAngle() % (Math.PI * 2);
-		if ((realAngle > Math.PI / 2 && realAngle < 3 * Math.PI / 2) || (realAngle < -Math.PI / 2 && realAngle > -3 * Math.PI / 2)) {
+		boolean flip = false;
+		
+		if (getMoveDirection() < 0) {
+			flip = true;
+		} else if (getMoveDirection() > 0) {
 			flip = false;
 		}
 
 		batch.draw(faceSprite, 
-				(flip ? size.x : 0) + getPixelPosition().x - size.x / 2, 
-				getPixelPosition().y - size.y / 2, 
-				(flip ? -1 : 1) * size.x / 2, 
-				size.y / 2,
-				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
-				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
+				(flip ? 0 : size.x) + getPixelPosition().x - size.x / 2, 
+				getPixelPosition().y - getHboxSize().y / 2 - smileOffset * scale, 
+				size.x / 2,
+				(flip ? 1 : -1) * size.y / 2, 
+				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
+		
 	}
 }

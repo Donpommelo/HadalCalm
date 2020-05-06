@@ -93,5 +93,5 @@ public class Spittlefish extends EnemySwimming {
 				}
 			}
 		});
-	};
+	}
 }

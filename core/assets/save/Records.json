@@ -1,5 +1,5 @@
 {
-scrap: 2
+scrap: 9
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -175,6 +175,7 @@ unlockArtifact: {
 unlockActive: {
 	class: java.util.HashMap
 	HYDRAULIC_UPPERCUT: true
+	BENDING_BEAMS: true
 	RESERVED_FUEL: true
 	TRACTOR_BEAM: true
 	RADIAL_BARRAGE: true

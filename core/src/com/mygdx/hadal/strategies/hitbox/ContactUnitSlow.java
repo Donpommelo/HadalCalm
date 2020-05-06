@@ -26,7 +26,7 @@ public class ContactUnitSlow extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {
-			((BodyData)fixB).addStatus(new Slodged(state, duration, slow, creator, (BodyData)fixB));
+			((BodyData) fixB).addStatus(new Slodged(state, duration, slow, creator, (BodyData) fixB));
 		}
 	}
 }

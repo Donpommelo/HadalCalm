@@ -8,6 +8,15 @@ ANCHOR_SMASH: {
 		RANDOM_POOL,
 	]
 }
+BENDING_BEAMS: {
+	name: Bending Beams
+	description: "Fire a barrage of curving projectiles"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 DEPTH_CHARGE: {
 	name: Depth Charge
 	description: "Perform an Explosive-Powered Jump"

@@ -61,7 +61,7 @@ public class SpawnerSchmuck extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (activator.getEvent() instanceof TriggerAlt) {
-					limit += Integer.parseInt(((TriggerAlt)activator.getEvent()).getMessage());
+					limit += Integer.parseInt(((TriggerAlt) activator.getEvent()).getMessage());
 				} else {
 					
 					for (int i = 0; i < limit; i++) {

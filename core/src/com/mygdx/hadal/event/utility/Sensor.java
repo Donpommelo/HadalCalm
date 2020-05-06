@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -58,10 +59,10 @@ public class Sensor extends Event {
 				if (isAlive()) {
 					if (event.getConnectedEvent() != null) {
 						if (fixB instanceof PlayerBodyData) {
-							event.getConnectedEvent().getEventData().preActivate(this, ((PlayerBodyData)fixB).getPlayer());
+							event.getConnectedEvent().getEventData().preActivate(this, ((PlayerBodyData) fixB).getPlayer());
 						} else if (fixB instanceof HitboxData) {
-							if (((HitboxData)fixB).getHbox().getCreator().getBodyData() instanceof PlayerBodyData) {
-								event.getConnectedEvent().getEventData().preActivate(this, ((Player)((HitboxData)fixB).getHbox().getCreator()));
+							if (((HitboxData) fixB).getHbox().getCreator().getBodyData() instanceof PlayerBodyData) {
+								event.getConnectedEvent().getEventData().preActivate(this, ((Player) ((HitboxData) fixB).getHbox().getCreator()));
 							}
 						} else {
 							event.getConnectedEvent().getEventData().preActivate(this, null);
@@ -76,6 +77,7 @@ public class Sensor extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0, 0, false, false, Constants.BIT_SENSOR, filter,	(short) 0, true, eventData);
+		this.body.setType(BodyDef.BodyType.KinematicBody);
 		
 		if (collision) {
 			body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), new Vector2(size).scl(2), false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));

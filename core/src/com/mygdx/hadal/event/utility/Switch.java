@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.utility;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.InteractableEventData;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -44,5 +45,6 @@ public class Switch extends Event {
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER), (short) 0, true, eventData);
+		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}
 }

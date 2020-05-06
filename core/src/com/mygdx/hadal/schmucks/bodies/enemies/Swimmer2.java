@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Swimmer2 extends EnemySwimming {
 
-	private final static int baseHp = 100;
+	private final static int baseHp = 150;
 	private final static String name = "FIREBREATHER";
 	
 	private final static int scrapDrop = 1;
@@ -25,7 +25,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final int hboxHeight = 120;
 	
 	private static final float attackCd = 3.0f;
-	private static final float airSpeed = -0.25f;
+	private static final float airSpeed = -0.1f;
 	
 	private static final float scale = 0.25f;
 
@@ -45,24 +45,24 @@ public class Swimmer2 extends EnemySwimming {
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
 	}
 	
-	private static final float minRange = 5.0f;
-	private static final float maxRange = 10.0f;
+	private static final float minRange = 3.0f;
+	private static final float maxRange = 8.0f;
 	
 	private static final float defaultTrack = 0.04f;
 	private static final float attackTrack = 0.01f;
 
-	private static final float attackWindup = 0.5f;
-	private static final float attackSwingAngle = 45.0f;
+	private static final float attackWindup = 0.25f;
+	private static final float attackSwingAngle = 30.0f;
 	
 	private static final int fireballDamage = 8;
 	private static final int burnDamage = 1;
-	private static final int fireSpeed = 6;
+	private static final int fireSpeed = 9;
 	private static final int fireKB = 6;
 	private static final int fireSize = 50;
 	private static final float fireLifespan = 1.0f;
-	private static final float burnDuration = 4.0f;
+	private static final float burnDuration = 6.0f;
 
-	private static final int fireballNumber = 15;
+	private static final int fireballNumber = 12;
 	private static final float fireballInterval = 0.1f;
 	@Override
 	public void attackInitiate() {

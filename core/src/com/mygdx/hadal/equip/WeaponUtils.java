@@ -1,7 +1,5 @@
 package com.mygdx.hadal.equip;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -119,9 +117,7 @@ public class WeaponUtils {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
-			float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread)));
-			
-			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity.setAngle(newDegrees), filter, true, procEffects, user, torpedoSprite);
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
 
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

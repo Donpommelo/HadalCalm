@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="43">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="46">
  <properties>
   <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
@@ -64,8 +64,8 @@
   </object>
   <object id="13" name="ChoiceBranch" type="ChoiceBranch" x="1344" y="1504" width="96" height="96">
    <properties>
-    <property name="optionNames" value="CRAWLER1,CRAWLER2,CRAWLER3,SWIMMER1,SWIMMER2,LEAPER1,TORPEDOFISH,SCISSORFISH,SPITTLEFISH"/>
-    <property name="options" value="testSpawn1,testSpawn2,testSpawn3,testSpawn4,testSpawn5,testSpawn6,testSpawn7,testSpawn8,testSpawn9"/>
+    <property name="optionNames" value="CRAWLER1,CRAWLER2,CRAWLER3,SWIMMER1,SWIMMER2,LEAPER1,TORPEDOFISH,SCISSORFISH,SPITTLEFISH,SPLITTER,SPAWNER,BOUNCER"/>
+    <property name="options" value="testSpawn1,testSpawn2,testSpawn3,testSpawn4,testSpawn5,testSpawn6,testSpawn7,testSpawn8,testSpawn9,testSpawn10,testSpawn11,testSpawn12"/>
     <property name="title" value="ENEMIES"/>
    </properties>
   </object>
@@ -187,6 +187,27 @@
   <object id="42" name="Text" type="Text" x="960" y="1440" width="32" height="32">
    <properties>
     <property name="text" value="HUB"/>
+   </properties>
+  </object>
+  <object id="43" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SPLITTER_LARGE"/>
+    <property name="triggeredId" value="testSpawn10"/>
+   </properties>
+  </object>
+  <object id="44" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SPAWNER"/>
+    <property name="triggeredId" value="testSpawn11"/>
+   </properties>
+  </object>
+  <object id="45" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="1344" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="BOUNCER"/>
+    <property name="triggeredId" value="testSpawn12"/>
    </properties>
   </object>
  </objectgroup>

@@ -42,23 +42,21 @@ public class Timer extends Event {
 			@Override
 			public void onActivate(EventData activator, Player p) {
 				
-				
 				if (activator.getEvent() instanceof TriggerAlt) {
 					String msg = ((TriggerAlt)activator.getEvent()).getMessage();
 					if (msg.equals("on")) {
-						((Timer)event).on = true;
+						((Timer) event).on = true;
 					}
 					if (msg.equals("off")) {
-						((Timer)event).on = false;
+						((Timer) event).on = false;
 					}
 					if (msg.equals("reset")) {
 						timeCount = 0;
 					}
 				} else {
-					((Timer)event).on = !((Timer)event).on;
+					((Timer) event).on = !((Timer) event).on;
 					timeCount = 0;
 				}
-				
 			}
 		};
 	}

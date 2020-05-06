@@ -10,7 +10,7 @@ public enum EnemyType {
 
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
-			return new Crawler1(state, startPos, extraField, filter, spawner);
+			return new KBKCrawler(state, startPos, extraField, filter, spawner);
 		}
 	},
 	
@@ -75,6 +75,46 @@ public enum EnemyType {
 		@Override
 		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
 			return new Torpedofish(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
+	SPLITTER_SMALL() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKSmall(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
+	SPLITTER_MEDIUM() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKMedium(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
+	SPLITTER_LARGE() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKLarge(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
+	SPAWNER() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKSpawner(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
+	BOUNCER() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKBouncer(state, startPos, extraField, filter, spawner);
 		}
 	},
 	

@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
-public class Crawler1 extends EnemyCrawling {
+public class KBKCrawler extends EnemyCrawling {
 
 	private final static int baseHp = 100;
 	private final static String name = "CRAWLING KAMABOKO";
@@ -29,13 +29,13 @@ public class Crawler1 extends EnemyCrawling {
 	private static final float scale = 0.25f;
 	
 	private static final float attackCd = 2.0f;
-	private static final float groundSpeed = -0.75f;
+	private static final float groundSpeed = -0.5f;
 	
 	private static final Sprite sprite = Sprite.KAMABOKO_CRAWL;
 	
 	private TextureRegion faceSprite;
 	
-	public Crawler1(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+	public KBKCrawler(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
 		setCurrentState(CrawlingState.AVOID_PITS);
@@ -52,7 +52,6 @@ public class Crawler1 extends EnemyCrawling {
 	private static final int defaultMeleeKB = 20;
 	@Override
 	public void attackInitiate() {
-		
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
 	};
 	

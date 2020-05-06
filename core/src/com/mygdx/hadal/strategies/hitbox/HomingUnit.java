@@ -63,23 +63,22 @@ public class HomingUnit extends HitboxStrategy {
 				public boolean reportFixture(Fixture fixture) {
 					if (fixture.getUserData() instanceof BodyData) {
 						
-						homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+						homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
 						shortestFraction = 1.0f;
 						
-					  	if (hbox.getPosition().x != homeAttempt.getPosition().x || 
-					  			hbox.getPosition().y != homeAttempt.getPosition().y) {
+					  	if (hbox.getPosition().x != homeAttempt.getPosition().x || hbox.getPosition().y != homeAttempt.getPosition().y) {
 					  		hbox.getWorld().rayCast(new RayCastCallback() {
 
 								@Override
 								public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-									if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
+									if (fixture.getFilterData().categoryBits == Constants.BIT_WALL) {
 										if (fraction < shortestFraction) {
 											shortestFraction = fraction;
 											closestFixture = fixture;
 											return fraction;
 										}
 									} else if (fixture.getUserData() instanceof BodyData) {
-										if (((BodyData)fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
+										if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter) {
 											if (fraction < shortestFraction) {
 												shortestFraction = fraction;
 												closestFixture = fixture;
@@ -95,7 +94,7 @@ public class HomingUnit extends HitboxStrategy {
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
 									
-									homing = ((BodyData)closestFixture.getUserData()).getSchmuck();
+									homing = ((BodyData) closestFixture.getUserData()).getSchmuck();
 								}
 							}	
 						}									
@@ -126,7 +125,7 @@ public class HomingUnit extends HitboxStrategy {
 			
 			//if the hbox is close enough to its target, we push it towards its target, accounting for its target's movement
 			if (squarePredictionTime < maxPredictionTime * maxPredictionTime) {
-				homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), (float)Math.sqrt(squarePredictionTime))
+				homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), (float) Math.sqrt(squarePredictionTime))
 				.sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
 			} else {
 				
