@@ -180,7 +180,6 @@ public class PlayState extends GameState {
 	public static final float defaultFadeDelay = 0.0f;
 	public static final float deathFadeDelay = 1.5f;
 
-	
 	//Special designated events parsed from map
 	private Event globalTimer;
 	

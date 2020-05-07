@@ -224,6 +224,12 @@ public class TiledObjectUtil {
 					object.getProperties().get("extra", 0, int.class),
 					object.getProperties().get("boss", false, boolean.class),
 					object.getProperties().get("bossname", "", String.class));	
+		} else if (object.getName().equals("WaveSpawn")) {
+			
+			e = new SpawnerWave(state, position, size, 
+					object.getProperties().get("point", 1, int.class), 
+					object.getProperties().get("extra", 0, int.class),
+					object.getProperties().get("tag", "", String.class));	
 		} else if (object.getName().equals("HboxSpawn")) {
 			
 			e = new SpawnerHitbox(state, position, size, 

@@ -175,28 +175,28 @@ unlockArtifact: {
 unlockActive: {
 	class: java.util.HashMap
 	HYDRAULIC_UPPERCUT: true
-	BENDING_BEAMS: true
-	RESERVED_FUEL: true
 	TRACTOR_BEAM: true
 	RADIAL_BARRAGE: true
 	MELON: true
-	DODGE_ROLL: true
 	MISSILE_POD: true
 	FISH_GANG: true
 	RELOADER: true
 	MERIDIAN_MAKER: true
 	METEOR_STRIKE: true
-	STORM_CLOUD: true
 	SPRING_LOADER: true
-	PORTABLE_TURRET: true
 	HEALING_FIELD: true
+	TAINTED_WATER: true
+	NOTHING: true
+	BENDING_BEAMS: true
+	SPIRIT_RELEASE: true
+	RESERVED_FUEL: true
+	DODGE_ROLL: true
+	STORM_CLOUD: true
+	PORTABLE_TURRET: true
 	ORBITAL_SHIELD: true
 	DEPTH_CHARGE: true
-	TAINTED_WATER: true
 	HONEYCOMB: true
 	RING_OF_GYGES: true
-	NOTHING: true
-	SPIRIT_RELEASE: true
 	ANCHOR_SMASH: true
 	NAUTICAL_MINE: true
 }

@@ -137,7 +137,7 @@ public class DialogBox extends AHadalActor {
 	public void addDialogue(DialogInfo info, EventData radio, EventData trigger) {
 		
 		//this does text filtering/formatting for the new text
-		info.setDisplayedText();
+		info.setDisplayedText(ps.getGsm());
 		
 		//If adding a dialogue to an empty queue, we must manually set its duration and reset window location.
 		if (dialogs.size == 0) {

@@ -1,5 +1,6 @@
 package com.mygdx.hadal.dialog;
 
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.utils.TextFilterUtil;
 
 /**
@@ -39,11 +40,11 @@ public class DialogInfo {
 	
 	//This is run before adding a dialog to the dialog box or message window.
 	//This filters and formats the text
-	public void setDisplayedText() {
+	public void setDisplayedText(GameStateManager gsm) {
 		if (name.equals("")) {
-			displayedText = TextFilterUtil.filterText(text);
+			displayedText = TextFilterUtil.filterGameText(gsm, text);
 		} else {
-			displayedText = TextFilterUtil.filterText(name + ": " + text);
+			displayedText = TextFilterUtil.filterGameText(gsm, name + ": " + text);
 		}
 	}
 

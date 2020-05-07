@@ -42,6 +42,15 @@ public class TextFilterUtil {
 		return filteredText;
 	}
 	
+	public static String filterGameText(GameStateManager gsm, String text) {
+		String filteredText = text;
+		filteredText = filterText(filteredText);
+		
+		filteredText = filterName(gsm, text);
+		
+		return filteredText;
+	}
+	
 	/**
 	 * filters every "<body part>" into a random body part
 	 * This is used for custom kill messages.
@@ -82,6 +91,14 @@ public class TextFilterUtil {
 	private static String filterRoll(String text) {
 		String filteredText = text;
 		filteredText = filteredText.replaceAll("<roll>", "roll: " + String.valueOf(GameStateManager.generator.nextInt(100)));
+		
+		return filteredText;
+	}
+	
+	private static String filterName(GameStateManager gsm, String text) {
+		String filteredText = text;
+		
+		filteredText = filteredText.replaceAll("<name>", gsm.getLoadout().getName());
 		
 		return filteredText;
 	}

@@ -9,7 +9,8 @@ import com.mygdx.hadal.states.PlayState;
 
 public enum UnlockLevel {
 
-	HUB_MULTI("Maps/SS_Tunicate_Multi.tmx"),
+	SSTUNICATE1("Maps/sstunicate1.tmx"),
+	HUB_MULTI("Maps/sstunicate2.tmx"),
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
 	BOSS3("Maps/Boss3.tmx"),
@@ -46,7 +47,6 @@ public enum UnlockLevel {
 	WRECKEXPANSE1("Maps/wreckexpanse1.tmx"),
 	WRECKEXPANSE2("Maps/wreckexpanse2.tmx"),
 	WRECKEXPANSEBOSS("Maps/wreckexpanseboss.tmx"),
-	SSTUNICATE1("Maps/sstunicate1.tmx"),
 	PLENUMCHAMBER1("Maps/plenumchamber1.tmx"),
 	PLENUMCHAMBER2("Maps/plenumchamber2.tmx"),
 	PLENUMCHAMBER3("Maps/plenumchamber3.tmx"),

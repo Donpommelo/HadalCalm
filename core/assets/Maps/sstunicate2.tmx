@@ -1,43 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="108">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="112">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
   <property name="pvp" type="bool" value="true"/>
-  <property name="startUI" value="THE S.S. TUNICATE,EMPTY,SCRAP"/>
+  <property name="startUI" value="THE S.S TUNICATE,EMPTY,WINS"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="130" height="100">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="480" y="2016">
-   <polyline points="-320,0 -320,160 1152,160 1248,64 1536,64 1632,160 2112,160 2112,-64 2048,-64 2048,-160 2208,-160 2208,544 1824,544 1824,928 3520,928 3520,768 2688,768 2688,544 2496,544 2496,-1152 1920,-1152 1728,-960 1728,-736 2208,-736 2208,-416 2048,-416 2048,-512 2112,-512 2112,-640 1408,-640 1248,-480 1152,-480 672,0 -320,0"/>
+   <polyline points="672,0 672,160 1152,160 1248,64 1536,64 1632,160 2112,160 2112,-64 2048,-64 2048,-160 2208,-160 2208,544 1824,544 1824,928 2688,928 2688,544 2496,544 2496,-1152 1920,-1152 1728,-960 1728,-736 2208,-736 2208,-416 2048,-416 2048,-512 2112,-512 2112,-640 1408,-640 1248,-480 1152,-480 672,0"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="2" name="Start" type="Start" x="288" y="2112" width="32" height="32">
-   <properties>
-    <property name="startId" value="start0"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="enterfromleft"/>
-   </properties>
-  </object>
-  <object id="3" name="Sensor" type="Sensor" x="160" y="2016" width="96" height="160">
-   <properties>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="warp0"/>
-   </properties>
-  </object>
-  <object id="4" name="Warp" type="Warp" x="96" y="2080" width="32" height="32">
-   <properties>
-    <property name="level" value="WRECKEXPANSE2"/>
-    <property name="startId" value="start1"/>
-    <property name="triggeredId" value="warp0"/>
-   </properties>
-  </object>
   <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8"/>
   <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8"/>
   <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8"/>
@@ -210,19 +190,6 @@
     <property name="triggeringId" value="downpressed"/>
    </properties>
   </object>
-  <object id="48" name="Multitrigger" type="Multitrigger" x="512" y="576" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="enterfromleft"/>
-    <property name="triggeringId" value="bounds1l,bounds2l,cameral,setfloor2,setflag1"/>
-   </properties>
-  </object>
-  <object id="49" name="Camera" type="Camera" x="576" y="576" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="cameral"/>
-    <property name="triggeringId" value=""/>
-    <property name="zoom" type="float" value="0.5"/>
-   </properties>
-  </object>
   <object id="52" name="Multitrigger" type="Multitrigger" x="512" y="640" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterfromcenter"/>
@@ -248,30 +215,6 @@
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
-   </properties>
-  </object>
-  <object id="56" name="Prefab" type="PrefabAlternator" x="1088" y="1984" width="96" height="192">
-   <properties>
-    <property name="align" type="int" value="0"/>
-    <property name="event1" value="enterfromleft"/>
-    <property name="event2" value="enterfromcenter"/>
-    <property name="prefabId" value="Alternator"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value=""/>
-   </properties>
-  </object>
-  <object id="57" name="Bounds" type="Bounds" x="544" y="2048" width="32" height="32">
-   <properties>
-    <property name="left" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds2l"/>
-    <property name="up" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="58" name="Bounds" type="Bounds" x="864" y="2080" width="32" height="32">
-   <properties>
-    <property name="down" type="bool" value="true"/>
-    <property name="right" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds1l"/>
    </properties>
   </object>
   <object id="59" name="Prefab" type="PrefabAlternator" x="2656" y="1600" width="64" height="256">
@@ -397,72 +340,11 @@
     <property name="zoom" type="float" value="0.75"/>
    </properties>
   </object>
-  <object id="82" name="Prefab" type="PrefabAlternator" x="3168" y="2784" width="96" height="160">
+  <object id="93" name="Navigation" type="Navigation" x="1824" y="1984" width="96" height="96">
    <properties>
-    <property name="align" type="int" value="0"/>
-    <property name="event1" value="enterf1"/>
-    <property name="event2" value="enterfromright"/>
-    <property name="prefabId" value="Alternator"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value=""/>
+    <property name="tag" value="MULTIPLAYER"/>
    </properties>
   </object>
-  <object id="83" name="Bounds" type="Bounds" x="3456" y="2816" width="32" height="32">
-   <properties>
-    <property name="left" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds2r"/>
-    <property name="up" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="84" name="Bounds" type="Bounds" x="3616" y="2848" width="32" height="32">
-   <properties>
-    <property name="down" type="bool" value="true"/>
-    <property name="right" type="bool" value="true"/>
-    <property name="triggeredId" value="bounds1r"/>
-   </properties>
-  </object>
-  <object id="85" name="Multitrigger" type="Multitrigger" x="512" y="896" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="enterfromright"/>
-    <property name="triggeringId" value="bounds1r,bounds2r,camerar,setfloor1"/>
-   </properties>
-  </object>
-  <object id="86" name="Camera" type="Camera" x="576" y="896" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="camerar"/>
-    <property name="triggeringId" value=""/>
-    <property name="zoom" type="float" value="0.5"/>
-   </properties>
-  </object>
-  <object id="89" name="QuestChange" type="QuestChange" x="640" y="576" width="32" height="32">
-   <properties>
-    <property name="change" type="int" value="1"/>
-    <property name="quest" value="HUB_REACHED"/>
-    <property name="triggeredId" value="setflag1"/>
-    <property name="triggeringId" value=""/>
-   </properties>
-  </object>
-  <object id="90" name="Start" type="Start" x="3840" y="2880" width="32" height="32">
-   <properties>
-    <property name="startId" value="start1"/>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="enterfromright"/>
-   </properties>
-  </object>
-  <object id="91" name="Sensor" type="Sensor" x="3904" y="2784" width="96" height="160">
-   <properties>
-    <property name="triggeredId" value=""/>
-    <property name="triggeringId" value="warp1"/>
-   </properties>
-  </object>
-  <object id="92" name="Warp" type="Warp" x="4032" y="2848" width="32" height="32">
-   <properties>
-    <property name="level" value="PLENUMCHAMBER1"/>
-    <property name="startId" value="start0"/>
-    <property name="triggeredId" value="warp1"/>
-   </properties>
-  </object>
-  <object id="93" name="Navigation" type="Navigation" x="1824" y="1984" width="96" height="96"/>
   <object id="95" name="Quartermaster" type="Quartermaster" x="2240" y="1088" width="96" height="96">
    <properties>
     <property name="shopId" value="weapons1"/>
@@ -511,5 +393,31 @@
    </properties>
   </object>
   <object id="107" name="Dropthrough" type="Dropthrough" x="2208" y="1184" width="160" height="8"/>
+  <object id="108" name="Timer" type="Timer" x="480" y="128" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="109" name="Multitrigger" type="Multitrigger" x="544" y="128" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,multiDialog"/>
+   </properties>
+  </object>
+  <object id="110" name="Condtrigger" type="Condtrigger" x="608" y="128" width="32" height="32">
+   <properties>
+    <property name="start" value="random"/>
+    <property name="triggeredId" value="multiDialog"/>
+    <property name="triggeringId" value="introMultiA"/>
+   </properties>
+  </object>
+  <object id="111" name="Dialog" type="Dialog" x="672" y="128" width="32" height="32">
+   <properties>
+    <property name="textId" value="introMultiA"/>
+    <property name="triggeredId" value="introMultiA"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
