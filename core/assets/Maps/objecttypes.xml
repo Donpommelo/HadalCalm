@@ -427,6 +427,8 @@
   <property name="extra" type="float" default="0"/>
   <property name="point" type="int" default="1"/>
   <property name="tag" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="WrapPortal" color="#a0a0a4">
   <property name="axis" type="bool" default="true"/>

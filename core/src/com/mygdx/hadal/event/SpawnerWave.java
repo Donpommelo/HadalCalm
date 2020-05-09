@@ -15,15 +15,15 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class SpawnerWave extends Event {
 
 	private int pointId;
-	private int waveNum;
+	private int waveNum = 1;
 	private int extraField;
-	private ArrayList<WaveTag> tags;
+	private ArrayList<WaveTag> tags = new ArrayList<WaveTag>();
 	
 	public SpawnerWave(PlayState state, Vector2 startPos, Vector2 size, int pointId, int extraField, String tag) {
 		super(state, startPos, size);
 		this.pointId = pointId;
 		this.extraField = extraField;
-		
+
 		for (String s: tag.split(",")) {
 			tags.add(WaveTag.valueOf(s));
 		}
@@ -35,7 +35,7 @@ public class SpawnerWave extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				WaveType.getWave(tags).spawnWave((SpawnerWave) event, waveNum, extraField);
+				WaveType.getWave(tags, waveNum).spawnWave((SpawnerWave) event, waveNum, extraField);
 				waveNum++;
 			}
 		};

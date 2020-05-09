@@ -33,7 +33,7 @@ public class KBKLarge extends EnemySwimming {
 	private static final float airSpeed = -0.5f;
 	
 	private static final float scale = 0.25f;
-	private static final float noiseRadius = 2.0f;
+	private static final float noiseRadius = 3.0f;
 
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
 	

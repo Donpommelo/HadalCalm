@@ -24,7 +24,9 @@ public class ArenaSettingSetter extends Prefabrication {
 		String multiId = TiledObjectUtil.getPrefabTriggerId();
 		String uiTimerId = TiledObjectUtil.getPrefabTriggerId();
 		String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
-		
+		String waveTimerId = TiledObjectUtil.getPrefabTriggerId();
+		String multiWaveId = TiledObjectUtil.getPrefabTriggerId();
+
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
 		timer.getProperties().put("interval", 0.0f);
@@ -34,7 +36,7 @@ public class ArenaSettingSetter extends Prefabrication {
 		RectangleMapObject multi = new RectangleMapObject();
 		multi.setName("Multitrigger");
 		multi.getProperties().put("triggeredId", multiId);
-		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + gameTimerId);
+		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + gameTimerId + "," + multiWaveId);
 		
 		int startTimer = state.getGsm().getSetting().getTimer();
 		
@@ -69,8 +71,21 @@ public class ArenaSettingSetter extends Prefabrication {
 		end.getProperties().put("text", "Victory!");
 		end.getProperties().put("triggeredId", "runOnGlobalTimerConclude");
 		
+		RectangleMapObject wave = new RectangleMapObject();
+		wave.setName("Timer");
+		wave.getProperties().put("interval", 20.0f);
+		wave.getProperties().put("triggeredId", waveTimerId);
+		wave.getProperties().put("triggeringId", multiWaveId);
+		
+		RectangleMapObject multiWave = new RectangleMapObject();
+		multiWave.setName("Multitrigger");
+		multiWave.getProperties().put("triggeredId", multiWaveId);
+		multiWave.getProperties().put("triggeringId", "wave1,wave2,wave3,wave4,wave5,wave6");
+		
 		TiledObjectUtil.parseTiledEvent(state, timer);
 		TiledObjectUtil.parseTiledEvent(state, multi);
 		TiledObjectUtil.parseTiledEvent(state, end);
+		TiledObjectUtil.parseTiledEvent(state, wave);
+		TiledObjectUtil.parseTiledEvent(state, multiWave);
 	}
 }
