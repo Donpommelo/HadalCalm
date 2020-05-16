@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class KBKCrawler extends EnemyCrawling {
 
-	private final static int baseHp = 100;
+	private final static int baseHp = 50;
 	private final static String name = "CRAWLING KAMABOKO";
 
 	private final static int scrapDrop = 1;

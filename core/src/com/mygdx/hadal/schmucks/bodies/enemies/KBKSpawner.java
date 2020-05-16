@@ -22,7 +22,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class KBKSpawner extends EnemySwimming {
 
-	private final static int baseHp = 100;
+	private final static int baseHp = 200;
 	private final static String name = "SWIMMING KAMABOKO";
 	
 	private final static int scrapDrop = 0;
@@ -34,7 +34,7 @@ public class KBKSpawner extends EnemySwimming {
 	private static final int hboxHeight = 240;
 	
 	private static final float attackCd = 3.0f;
-	private static final float airSpeed = -0.5f;
+	private static final float airSpeed = -0.4f;
 	
 	private static final float scale = 0.25f;
 	private static final float noiseRadius = 2.0f;

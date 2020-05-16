@@ -9,39 +9,54 @@ import com.mygdx.hadal.utils.Constants;
 
 public enum WaveType {
 
-	WAVE1(WaveTag.STANDARD) {
-		{
-			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 1, 10, 1 , 2));
-			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 4, 10, 1, 2));
-		}
-	},
+//	WAVE1(WaveTag.STANDARD) {
+//		{
+//			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 4, 10, 1, 2, 3));
+//		}
+//	},
+//	
+//	WAVE2(WaveTag.STANDARD) {
+//		{
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 2, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 4, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 6, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 8, 10, 1, 2, 3));
+//
+//		}
+//	},
+//	
+//	WAVE3(WaveTag.STANDARD) {
+//		{
+//			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 4, 10, 1, 2, 3));
+//		}
+//	},
+//	
+//	WAVE4(WaveTag.STANDARD) {
+//		{
+//			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 1, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 4, 10, 1, 2, 3));
+//			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 4, 10, 1, 2, 3));
+//		}
+//	},
 	
-	WAVE2(WaveTag.STANDARD) {
+	WAVE5(WaveTag.STANDARD) {
 		{
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 2, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 3, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 4, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 5, 10, 1, 2));
-
-		}
-	},
-	
-	WAVE3(WaveTag.STANDARD) {
-		{
-			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 1, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 4, 10, 1, 2));
-		}
-	},
-	
-	WAVE4(WaveTag.STANDARD) {
-		{
-			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 1, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 1, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 4, 10, 1, 2));
-			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 4, 10, 1, 2));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, 10, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 1, 4, 4, 5));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 5, 10, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 5, 10, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 5, 10, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 5, 10, 4));
+			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 5, 10, 5));
 		}
 	}
 	
@@ -65,7 +80,7 @@ public enum WaveType {
 	}
 	
 	private static int lastWave;
-	private static WaveType currentWave = WaveType.WAVE1;
+	private static WaveType currentWave = WaveType.WAVE5;
 	public static WaveType getWave(ArrayList<WaveTag> tags, int waveNum) {
 		
 		if (lastWave != waveNum) {
@@ -121,7 +136,7 @@ public enum WaveType {
 				if (pointId.length == 0) {
 					thisId = 1;
 				} else {
-					thisId = GameStateManager.generator.nextInt(pointId.length) + 1;
+					thisId = pointId[GameStateManager.generator.nextInt(pointId.length)];
 				}
 			}
 

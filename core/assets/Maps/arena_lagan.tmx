@@ -246,14 +246,14 @@
     <property name="triggeredId" value="wave2"/>
    </properties>
   </object>
-  <object id="70" name="WaveSpawn" type="WaveSpawn" x="1216" y="2176" width="32" height="32">
+  <object id="70" name="WaveSpawn" type="WaveSpawn" x="1216" y="2208" width="32" height="32">
    <properties>
     <property name="point" type="int" value="4"/>
     <property name="tag" value="STANDARD"/>
     <property name="triggeredId" value="wave4"/>
    </properties>
   </object>
-  <object id="71" name="WaveSpawn" type="WaveSpawn" x="3808" y="2176" width="32" height="32">
+  <object id="71" name="WaveSpawn" type="WaveSpawn" x="3808" y="2208" width="32" height="32">
    <properties>
     <property name="point" type="int" value="5"/>
     <property name="tag" value="STANDARD"/>

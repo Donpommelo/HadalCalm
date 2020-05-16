@@ -13,7 +13,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Swimmer2 extends EnemySwimming {
 
-	private final static int baseHp = 150;
+	private final static int baseHp = 174;
 	private final static String name = "FIREBREATHER";
 	
 	private final static int scrapDrop = 1;
@@ -25,9 +25,10 @@ public class Swimmer2 extends EnemySwimming {
 	private static final int hboxHeight = 120;
 	
 	private static final float attackCd = 3.0f;
-	private static final float airSpeed = -0.1f;
+	private static final float airSpeed = 0.1f;
 	
 	private static final float scale = 0.25f;
+	private static final float noiseRadius = 6.0f;
 
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
 	
@@ -37,6 +38,8 @@ public class Swimmer2 extends EnemySwimming {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.SWIMMER2, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		
+		setNoiseRadius(noiseRadius);
 	}
 	
 	@Override
@@ -51,7 +54,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float defaultTrack = 0.04f;
 	private static final float attackTrack = 0.01f;
 
-	private static final float attackWindup = 0.25f;
+	private static final float attackWindup = 0.2f;
 	private static final float attackSwingAngle = 30.0f;
 	
 	private static final int fireballDamage = 8;
@@ -59,7 +62,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final int fireSpeed = 9;
 	private static final int fireKB = 6;
 	private static final int fireSize = 50;
-	private static final float fireLifespan = 1.0f;
+	private static final float fireLifespan = 1.25f;
 	private static final float burnDuration = 6.0f;
 
 	private static final int fireballNumber = 12;

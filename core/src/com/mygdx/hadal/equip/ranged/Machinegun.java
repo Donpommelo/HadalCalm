@@ -27,14 +27,14 @@ public class Machinegun extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 14.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float recoil = 1.25f;
 	private final static float knockback = 2.5f;
 	private final static float projectileSpeed = 70.0f;
 	private final static Vector2 projectileSize = new Vector2(48, 12);
 	private final static float lifespan = 0.75f;
 	
-	private final static int spread = 5;
+	private final static int spread = 7;
 
 	private final static Sprite projSprite = Sprite.BULLET;
 	private final static Sprite weaponSprite = Sprite.MT_MACHINEGUN;
