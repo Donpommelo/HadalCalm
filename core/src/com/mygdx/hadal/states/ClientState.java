@@ -25,11 +25,11 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class ClientState extends PlayState {
 	
-	public final static float missedCreateThreshold = 1.0f;
-	public final static float missedDeleteThreshold = 1.0f;
+	public final static float missedCreateThreshold = 2.0f;
+	public final static float missedDeleteThreshold = 2.0f;
 	public final static float initialConnectThreshold = 5.0f;
-	public final static float missedDeleteCooldown = 2.0f;
-	public final static float missedCreateCooldown = 2.0f;
+	public final static float missedDeleteCooldown = 4.0f;
+	public final static float missedCreateCooldown = 4.0f;
 	
 	//This is a set of all non-hitbox entities in the world mapped from their entityId
 	private LinkedHashMap<String, HadalEntity> entities;
@@ -112,7 +112,6 @@ public class ClientState extends PlayState {
 				((HadalEntity) pair[1]).setEntityID((String) pair[0]);
 			}
 			((HadalEntity) pair[1]).setReceivingSyncs((boolean) pair[2]);
-			
 		}
 		createListClient.clear();
 		

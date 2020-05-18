@@ -315,6 +315,8 @@ public abstract class HadalEntity {
 
 	public boolean isAlive() { return alive; }
 	
+	public void setAlive(boolean alive) { this.alive = alive; }
+	
 	public UUID getEntityID() { return entityID; }
 	
 	public void setEntityID(String entityID) { 

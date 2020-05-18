@@ -601,7 +601,7 @@ public class PlayState extends GameState {
 		camera.zoom = zoom;
 		
 		if (cameraTarget == null) {
-			if (player.getBody() != null && player.isAlive()) {
+			if (player.getBody() != null) {
 				tmpVector2.set(player.getPixelPosition());
 			} else {
 				return;
