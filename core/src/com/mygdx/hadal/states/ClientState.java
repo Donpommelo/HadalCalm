@@ -27,7 +27,7 @@ public class ClientState extends PlayState {
 	
 	public final static float missedCreateThreshold = 1.0f;
 	public final static float missedDeleteThreshold = 1.0f;
-	public final static float initialConnectThreshold = 3.0f;
+	public final static float initialConnectThreshold = 5.0f;
 	public final static float missedDeleteCooldown = 2.0f;
 	public final static float missedCreateCooldown = 2.0f;
 	

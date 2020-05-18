@@ -20,8 +20,7 @@ public class TextFilterUtil {
 			return text;
 		}
 		
-		filteredText = filterBodyPart(filteredText);
-		
+		filteredText = filterTag(filteredText, "<body part>");
 		filteredText = filterTag(filteredText, "<color>");
 		filteredText = filterTag(filteredText, "<particle>");
 		filteredText = filterTag(filteredText, "<process>");
@@ -46,25 +45,8 @@ public class TextFilterUtil {
 		String filteredText = text;
 		filteredText = filterText(filteredText);
 		
-		filteredText = filterName(gsm, text);
-		
-		return filteredText;
-	}
-	
-	/**
-	 * filters every "<body part>" into a random body part
-	 * This is used for custom kill messages.
-	 */
-	private static String filterBodyPart(String text) {
-		String filteredText = text;
-		
-		while (filteredText.contains("<body part>")) {
-			JsonValue value = GameStateManager.miscText.get("<body part>");
-			
-			int randomIndex = GameStateManager.generator.nextInt(value.asStringArray().length);
-			filteredText = filteredText.replaceFirst("<body part>", value.asStringArray()[randomIndex]);
-		}
-		
+		filteredText = filterName(gsm, filteredText);
+
 		return filteredText;
 	}
 	

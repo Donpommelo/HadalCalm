@@ -125,7 +125,7 @@ public class Turret extends Enemy {
 			rotationYReal = size.y / scale - rotationY;
 		}
 		
-		if(moveState == MoveState.DEFAULT) {
+		if (moveState == MoveState.DEFAULT) {
 			batch.draw((TextureRegion) turretBarrel.getKeyFrame(0, true), 
 					getPixelPosition().x - getHboxSize().x / 2, 
 					(flip ? size.y - 24 * scale : 0) + getPixelPosition().y - getHboxSize().y / 2, 
@@ -168,12 +168,10 @@ public class Turret extends Enemy {
 	
 	@Override
 	public void onClientSync(Object o) {
+		super.onClientSync(o);
 		if (o instanceof Packets.SyncEntity) {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
-			setTransform(p.pos, 0);
 			attackAngle = p.angle;
-		} else {
-			super.onClientSync(o);
 		}
 	}
 	
@@ -196,6 +194,8 @@ public class Turret extends Enemy {
 		originPt.set(getPixelPosition()).add(new Vector2(startVelo).nor().scl(scale * spawnDist));
 		return originPt;
 	}
+	
+	public boolean isVisible() { return true; }
 	
 	public TurretState getCurrentState() {	return currentState; }
 

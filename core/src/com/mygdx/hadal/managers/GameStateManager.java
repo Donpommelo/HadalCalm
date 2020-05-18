@@ -95,6 +95,7 @@ public class GameStateManager {
 		//Load data from saves: hotkeys and unlocks
 		PlayerAction.retrieveKeys();
 		UnlockManager.retrieveItemInfo();
+		
 		if (!Gdx.files.internal("save/Records.json").exists()) {
 			Record.createNewRecord();
 		}

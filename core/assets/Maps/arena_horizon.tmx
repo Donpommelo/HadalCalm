@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="51">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="52">
  <layer id="1" name="Tile Layer 1" width="180" height="120">
   <data encoding="base64" compression="zlib">
    eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
@@ -8,7 +8,11 @@
  <imagelayer id="2" name="Image Layer 1">
   <image source="../IMG_0257.jpg" width="5184" height="3456"/>
  </imagelayer>
- <objectgroup id="3" name="collision-layer"/>
+ <objectgroup id="3" name="collision-layer">
+  <object id="51" x="0" y="1888">
+   <polyline points="0,0 22.25,-0.5 21.25,-25 31.25,-27 54,-22.25 102.25,-21 147.5,-6.5 152,8.5 183.75,13.5 192.25,29.75 209.25,30.75 223.5,26.25 224,-52 192.75,-51.5 192.083,-145.833 693.417,-156.583 686.083,-204.25 693.417,-204.917 693.417,-239.25 703.083,-231.583 707.417,-215.583 807.75,-213.917 823.417,-201.25 822.083,-157.583 1043.08,-164.917 1042.42,-230.25 1022.42,-222.917 1022.42,-234.917 1050.42,-248.25 1151.75,-250.917 1227.08,-198.25 1231.08,-268.917 1212.42,-270.917 1219.08,-278.25 1479.08,-267.583 1472.42,-260.25 1456.42,-259.583 1452.42,-192.25 1475.75,-170.25 1707.08,-230.25 1729.08,-634.917 1725.08,-798.917 1731.75,-983.583 1753.75,-984.917 1767.08,-1030.92 1810.42,-1036.92 1843.08,-1034.92 1909.75,-1043.58 1967.75,-1056.25 1991.08,-1042.92 2103.75,-1022.92 2105.08,-828.25 2125.08,-824.917 2213.08,-828.25 2211.08,-294.25 3178.42,-444.25 3204.08,-426.25 3566.08,-320.917 3766.5,-342 3758,-418.25 3783.5,-427.5 3791.25,-577 3840.25,-562 3930.5,-558.75 3945.75,-450.25 4159.42,-433.25 4258.08,-448.917 4626.42,-442.25 4627.75,-382.25 4839.75,-372.25 4840.08,-339.917 4987.08,-335.917 5021.75,-320.25 4995.75,-316.25 4997.42,-230.583 5099.75,-234.25 5101.75,-276.25 5167.75,-279.583 5181.08,-269.917 5183.75,-1888.25 -0.25,-1888.25 -0.25,-0.25"/>
+  </object>
+ </objectgroup>
  <objectgroup id="4" name="event-layer">
   <object id="2" name="Start" type="Start" x="608" y="1536" width="32" height="32">
    <properties>
