@@ -690,6 +690,7 @@ public class Packets {
 		public float linger;
 		public float lifespan;
 		public float scale;
+		public boolean rotate;
 		public boolean synced;
 		public CreateParticles() {}
 		
@@ -707,9 +708,10 @@ public class Packets {
 		 * @param linger: How long does an attached Particleentity persist after its attached entity dies?
 		 * @param lifespan: Duration of a non-attached entity.
 		 * @param scale: The size multiplier of the particle effect
+		 * @param rotate: should this entity rotate to match an attached entity??
 		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean synced) {
+		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean rotate, boolean synced) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.pos = pos;
@@ -719,6 +721,7 @@ public class Packets {
 			this.linger = linger;
 			this.lifespan = lifespan;
 			this.scale = scale;
+			this.rotate = rotate;
 			this.synced = synced;
 		}
 	}

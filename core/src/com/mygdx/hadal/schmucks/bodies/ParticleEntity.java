@@ -48,6 +48,9 @@ public class ParticleEntity extends HadalEntity {
 	//size multiplier of the particles
 	private float scale = 1.0f;
 	
+	//does this effect rotate to match an attached entity?
+	private boolean rotate = false;
+	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private Vector2 offset = new Vector2();
 	
@@ -111,6 +114,10 @@ public class ParticleEntity extends HadalEntity {
 					despawn = true;
 				}
 				turnOff();
+			}
+			
+			if (rotate) {
+				setParticleAngle(attachedEntity.getAngle());
 			}
 		}
 		
@@ -212,9 +219,9 @@ public class ParticleEntity extends HadalEntity {
 	public Object onServerCreate() {
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale, sync.equals(particleSyncType.TICKSYNC));
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC));
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale, sync.equals(particleSyncType.TICKSYNC));
+				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC));
 			}
 		} else {
 			return null;
@@ -277,6 +284,8 @@ public class ParticleEntity extends HadalEntity {
 		this.scale = scale;
 		this.effect.scaleEffect(scale);
 	}
+	
+	public void setRotate(boolean rotate) {	this.rotate = rotate; }
 	
 	/**
 	 * Set the angle of the particle

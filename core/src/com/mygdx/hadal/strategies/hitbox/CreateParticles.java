@@ -64,5 +64,7 @@ public class CreateParticles extends HitboxStrategy {
 		} else {
 			particle.setScale(Math.min(hbox.getSize().x, maxSize) / particleSize);
 		}
+		
+		particle.setRotate(rotate);
 	}
 }
