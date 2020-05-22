@@ -53,6 +53,7 @@ public class WeaponUtils {
 	private final static Sprite boomSprite = Sprite.BOOM;
 	private final static Sprite grenadeSprite = Sprite.GRENADE;
 	private final static Sprite torpedoSprite = Sprite.TORPEDO;
+	private final static Sprite missileSprite = Sprite.MISSILE_B;
 	private final static Sprite beeSprite = Sprite.BEE;
 
 	public static Hitbox createExplosion(PlayState state, Vector2 startPos, float size, final Schmuck user, final float explosionDamage, final float explosionKnockback, short filter) {
@@ -107,8 +108,8 @@ public class WeaponUtils {
 	private static final float torpedoBaseKnockback = 3.0f;
 	private static final float torpedoExplosionKnockback = 16.0f;
 	private static final int torpedoExplosionRadius = 150;
-	private static final int torpedoWidth = 50;
-	private static final int torpedoHeight = 10;
+	private static final int torpedoWidth = 60;
+	private static final int torpedoHeight = 14;
 	private static final float torpedoLifespan = 8.0f;
 	private static final int torpedoSpread = 30;
 	private static final float torpedoHoming = 100;
@@ -117,7 +118,7 @@ public class WeaponUtils {
 		
 		for (int i = 0; i < numTorp; i++) {
 			
-			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity, filter, true, procEffects, user, torpedoSprite);
+			Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(torpedoWidth, torpedoHeight), torpedoLifespan, startVelocity, filter, true, procEffects, user, missileSprite);
 
 			hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 			hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

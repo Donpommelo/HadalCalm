@@ -28,11 +28,19 @@ public class CreateParticles extends HitboxStrategy {
 	//this is the max hitbox size a particle will try to scale to
 	private static float maxSize = 100.0f;
 	
+	private ParticleEntity particle;
+	private boolean rotate = false;
+	
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {
 		super(state, proj, user);
 		this.effect = effect;
 		this.duration = duration;
 		this.linger = linger;
+	}
+	
+	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger, boolean rotate) {
+		this(state, proj, user, effect, duration, linger);
+		this.rotate = rotate;
 	}
 	
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger, float particleSize) {
@@ -41,8 +49,15 @@ public class CreateParticles extends HitboxStrategy {
 	}
 	
 	@Override
+	public void controller(float delta) {
+		if (rotate && particle != null) {
+			particle.setParticleAngle(hbox.getAngle());
+		}
+	}
+	
+	@Override
 	public void create() {
-		ParticleEntity particle = new ParticleEntity(state, hbox, effect, linger, duration, true, particleSyncType.CREATESYNC);
+		particle = new ParticleEntity(state, hbox, effect, linger, duration, true, particleSyncType.CREATESYNC);
 		
 		if (particleSize == 0) {
 			particle.setScale(hbox.getScale());

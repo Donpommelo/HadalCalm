@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
@@ -26,7 +27,7 @@ public class ContactUnitSlow extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {
-			((BodyData) fixB).addStatus(new Slodged(state, duration, slow, creator, (BodyData) fixB));
+			((BodyData) fixB).addStatus(new Slodged(state, duration, slow, creator, (BodyData) fixB, Particle.SLODGE_STATUS));
 		}
 	}
 }

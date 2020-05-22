@@ -83,7 +83,7 @@ public class Minigun extends RangedWeapon {
 			}
 		}
 		
-		shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter));
+		shooter.addStatus(new Slodged(state, selfSlowDura, selfSlowMag, shooter, shooter, Particle.STUN));
 	}
 
 	@Override

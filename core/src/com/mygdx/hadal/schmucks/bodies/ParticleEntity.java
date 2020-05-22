@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
@@ -99,7 +100,6 @@ public class ParticleEntity extends HadalEntity {
 	public void controller(float delta) {
 		
 		effect.update(delta);
-		
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
@@ -276,6 +276,21 @@ public class ParticleEntity extends HadalEntity {
 	public void setScale(float scale) { 
 		this.scale = scale;
 		this.effect.scaleEffect(scale);
+	}
+	
+	/**
+	 * Set the angle of the particle
+	 */
+	public void setParticleAngle(float angle) {
+        
+		float newAngle = (float) (angle * 180 / Math.PI + 180);
+		
+		for (int i = 0; i < effect.getEmitters().size; i++) {                          
+           ScaledNumericValue val = effect.getEmitters().get(i).getRotation();
+           
+           val.setHigh(newAngle, newAngle);                                           
+           val.setLow(newAngle);
+        }
 	}
 
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }

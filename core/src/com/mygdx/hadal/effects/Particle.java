@@ -55,6 +55,12 @@ public enum Particle {
 	ICE_CLOUD(ParticleType.DEFAULT, "particles/ice_cloud.particle"),	
 	CHARGING(ParticleType.DEFAULT, "particles/charging.particle"),	
 	OVERCHARGE(ParticleType.DEFAULT, "particles/overcharge.particle"),	
+	TRICK(ParticleType.DEFAULT, "particles/trick.particle"),	
+	SLODGE(ParticleType.DEFAULT, "particles/slodge.particle"),	
+	SLODGE_STATUS(ParticleType.DEFAULT, "particles/slodge_status.particle"),	
+	BRIGHT(ParticleType.DEFAULT, "particles/bright.particle"),	
+	STORM(ParticleType.DEFAULT, "particles/storm.particle"),	
+	PARTY(ParticleType.DEFAULT, "particles/party_ball.particle"),	
 	
 	CONFETTI(ParticleType.DEFAULT, "particles/confetti.particle"),	
 	STAR(ParticleType.DEFAULT, "particles/star_effect.particle"),	

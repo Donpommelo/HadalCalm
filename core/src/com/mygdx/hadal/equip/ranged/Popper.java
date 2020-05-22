@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -15,6 +16,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
 
 public class Popper extends RangedWeapon {
@@ -43,7 +45,7 @@ public class Popper extends RangedWeapon {
 	private final static float projDampen = 10.0f;
 	private final static float fragDampen = 3.0f;
 	
-	private final static Sprite projSprite = Sprite.ORB_PINK;
+	private final static Sprite projSprite = Sprite.POPPER;
 	private final static Sprite fragSprite = Sprite.ORB_PINK;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
@@ -63,6 +65,7 @@ public class Popper extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.CRACKER2, 0.4f));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.NOISEMAKER, 0.4f));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.PARTY));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

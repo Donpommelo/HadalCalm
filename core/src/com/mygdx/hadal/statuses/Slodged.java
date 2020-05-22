@@ -9,13 +9,15 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Slodged extends Status {
 
+	private Particle particle;
 	private ParticleEntity slodge;
 	
 	private float slow;
 	
-	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v) {
+	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v, Particle particle) {
 		super(state, i, false, p, v);
 		this.slow = slow;
+		this.particle = particle;
 	}
 	
 	@Override
@@ -31,7 +33,7 @@ public class Slodged extends Status {
 		super.timePassing(delta);
 		
 		if (slodge == null) {
-			slodge = new ParticleEntity(state, inflicted.getSchmuck(), Particle.STUN, duration, 0.0f, true, particleSyncType.TICKSYNC);
+			slodge = new ParticleEntity(state, inflicted.getSchmuck(), particle, duration, 0.0f, true, particleSyncType.TICKSYNC);
 		}
 	}
 	

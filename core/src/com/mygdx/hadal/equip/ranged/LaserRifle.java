@@ -38,7 +38,7 @@ public class LaserRifle extends RangedWeapon {
 	private final static int projectileHeight = 24;
 	private final static float lifespan = 0.25f;
 	
-	private final static Sprite[] projSprites = {Sprite.ORB_BLUE, Sprite.ORB_ORANGE, Sprite.ORB_PINK, Sprite.ORB_YELLOW, Sprite.ORB_RED};
+	private final static Sprite[] projSprites = {Sprite.LASER, Sprite.LASER, Sprite.LASER, Sprite.LASER, Sprite.LASER};
 
 	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
 	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;

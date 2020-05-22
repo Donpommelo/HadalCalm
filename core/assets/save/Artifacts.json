@@ -55,7 +55,7 @@ ANARCHISTS_COOKBOOK: {
 ANCHOR_AMULET: {
 	name: Anchor Amulet
 	description: "+Damage Resistance When Grounded"
-    descriptionLong: "Grounded Damage Resistance: +60%\n\nA metal charm depicting the company insignia; a sturdy anchor.\n\nManagement long held the belief that to forgo one's connection to the Earth would be to irreversibly abandon humanity."
+    descriptionLong: "Grounded Damage Resistance: +60%\n\nA metal charm depicting the company insignia; a stalwart anchor.\n\nManagement long held the belief that to forgo one's connection to the Earth would be to irreversibly abandon humanity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -190,7 +190,7 @@ CLOCKWISE_CAGE: {
 COMMUTERS_PARASOL: {
 	name: Commuter's Parasol
 	description: "Periodically Blocks Projectiles from Above"
-    descriptionLong: "Shield Interval: 6s\nShield Duration 3s\n\nA worn but sturdy umbrella painted with a pattern of vines.\n\nA Salvager will never know a world where a sturdy umbrella is all that is needed to get to work dry."
+    descriptionLong: "Shield Interval: 6s\nShield Duration 3s\n\nA worn but durable umbrella painted with a pattern of vines.\n\nA Salvager will never know a world where a sturdy umbrella is all that is needed to get to work dry."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -414,7 +414,7 @@ HUMANITY_MODULE: {
 ICE9: {
 	name: Ice-9
 	description: "Slowing Projectiles"
-    descriptionLong: "Slow Duration: 2s\nSlow Amount: -80%\n\nA frosty vial of a world-ending substance.\n\n"
+    descriptionLong: "Slow Duration: 2s\nSlow Amount: -80%\n\nA frosty vial of a world-ending substance.\n\nThe sunken world was made to be fragile by those who anticipated the need to start over from scratch."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -495,7 +495,7 @@ LOAMSKIN_LOCKET: {
 LOCH_SHIELD: {
 	name: Loch Shield
 	description: "+Fire and Explosion Resistance"
-    descriptionLong: "Fire Damage Resistance: +40%\nExplosion Damage Resistance: +40%\n\n"
+    descriptionLong: "Fire Damage Resistance: +40%\nExplosion Damage Resistance: +40%\n\nA hefty targe made from salvaged metals.\n\nLarge bodies of water make for ideal holding chambers for Bright Ones, serving as both insulator as well as solvent. "
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -504,7 +504,7 @@ LOCH_SHIELD: {
 LUMINOUS_ESCA: {
 	name: Luminous Esca
 	description: "+Light Radius"
-    descriptionLong: ""
+    descriptionLong: "A glowing clump of particles used to attract prey.\n\nThrough natural processes, fragments of Bright Ones are shed to form smaller, yet distinct Bright Ones."
 	tags: [
 		RELIQUARY,
 	]
@@ -714,7 +714,7 @@ RING_OF_TESTING: {
 ROYAL_JUJUBE_BANG: {
 	name: Royal Jujube Bang
 	description: "+Damage Against Distant Targets"
-    descriptionLong: "Bonus Long-Ranged Damage: +50%\n\n"
+    descriptionLong: "Bonus Long-Ranged Damage: +50%\n\nAn ornate ritual scepter carved from the wood of an extinct fruit tree.\n\nThe three former Gods of the Noiseless Sea salvaged the body of the First Bright One, and as thanks, each received a celestial blessing."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -858,7 +858,7 @@ TUNICATE_TUNIC: {
 TYPHON_FANG: {
 	name: Typhon Fang
 	description: "-Reload Speed. Refill Clip on Kill"
-    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan.\n\nThe oceanic titans that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
+    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

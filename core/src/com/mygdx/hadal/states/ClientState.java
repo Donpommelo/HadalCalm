@@ -142,7 +142,7 @@ public class ClientState extends PlayState {
 		 		} else {
 		 			entity = entities.get(p[0]);
 		 			
-		 			//if we have the entity, synci t and reset the time since last sync
+		 			//if we have the entity, sync it and reset the time since last sync
 			 		if (entity != null) {
 			 			entity.onClientSync(p[1]);
 			 			entity.resetTimeSinceLastSync();

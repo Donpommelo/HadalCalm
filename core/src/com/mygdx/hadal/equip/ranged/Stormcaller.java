@@ -2,6 +2,7 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
@@ -51,6 +53,7 @@ public class Stormcaller extends RangedWeapon {
 		storm.setRestitution(0.5f);
 		
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
+		storm.addStrategy(new CreateParticles(state, storm, user.getBodyData(), Particle.STORM, 0.0f, 3.0f));
 		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.5f, true));
 		storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
 			

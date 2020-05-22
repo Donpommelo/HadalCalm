@@ -26,7 +26,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(25, 25);
+	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 175;
