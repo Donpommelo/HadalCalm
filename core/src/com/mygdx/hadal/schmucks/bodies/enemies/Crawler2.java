@@ -10,7 +10,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.FixedToUser;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.utils.Stats;
 
 public class Crawler2 extends EnemyCrawling {
@@ -73,7 +73,7 @@ public class Crawler2 extends EnemyCrawling {
 						hbox.makeUnreflectable();
 						hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 						hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), attack1Damage, defaultMeleeKB, DamageTypes.MELEE));
-						hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(meleeRange * getMoveDirection(), 0), true));
+						hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(meleeRange * getMoveDirection(), 0), true));
 					}
 				});
 			}

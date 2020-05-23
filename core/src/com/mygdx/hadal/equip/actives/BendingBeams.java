@@ -56,7 +56,7 @@ public class BendingBeams extends ActiveItem {
 					
 					startVelo.set(weaponVelo).nor().scl(projectileSpeed);
 					
-					Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, startVelo, user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
+					Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
 					hbox.addStrategy(new ControllerDefault(state, hbox, user));
 					hbox.addStrategy(new DamageStandard(state, hbox, user, damage, knockback, DamageTypes.ENERGY));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, user));

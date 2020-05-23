@@ -1,6 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -11,7 +12,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * @author Zachary Tu
  *
  */
-public class FixedToUser extends HitboxStrategy {
+public class FixedToEntity extends HitboxStrategy {
 	
 	//the point on the player that this hbox is attached to
 	private Vector2 center = new Vector2();
@@ -22,7 +23,9 @@ public class FixedToUser extends HitboxStrategy {
 	//does this hbox rotate when the user does?
 	private boolean rotate;
 	
-	public FixedToUser(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center, boolean rotate) {
+	private HadalEntity target;
+	
+	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center, boolean rotate) {
 		super(state, proj, user);
 		this.center = center;
 		this.angle = angle;
@@ -30,14 +33,21 @@ public class FixedToUser extends HitboxStrategy {
 		
 		hbox.setSyncDefault(false);
 		hbox.setSyncInstant(true);
+		
+		this.target = creator.getSchmuck();
+	}
+	
+	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, HadalEntity target, Vector2 angle, Vector2 center, boolean rotate) {
+		this(state, proj, user, angle, center, rotate);
+		this.target = target;
 	}
 	
 	@Override
 	public void create() {
-		if (creator.getSchmuck().isAlive()) {
-			Vector2 hbLocation = creator.getSchmuck().getPosition().add(center);
+		if (target.isAlive()) {
+			Vector2 hbLocation = target.getPosition().add(center);
 			if (rotate) {
-				hbox.setTransform(hbLocation, creator.getSchmuck().getAngle() + angle.angleRad());
+				hbox.setTransform(hbLocation, target.getAngle() + angle.angleRad());
 			} else {
 				hbox.setTransform(hbLocation, angle.angleRad());
 			}
@@ -47,12 +57,12 @@ public class FixedToUser extends HitboxStrategy {
 	@Override
 	public void controller(float delta) {
 	
-		if (!creator.getSchmuck().isAlive()) {
-			hbox.queueDeletion();
+		if (!target.isAlive()) {
+			hbox.die();
 		} else {
-			Vector2 hbLocation = creator.getSchmuck().getPosition().add(center);
+			Vector2 hbLocation = target.getPosition().add(center);
 			if (rotate) {
-				hbox.setTransform(hbLocation, creator.getSchmuck().getAngle() + angle.angleRad());
+				hbox.setTransform(hbLocation, target.getAngle() + angle.angleRad());
 			} else {
 				hbox.setTransform(hbLocation, angle.angleRad());
 			}

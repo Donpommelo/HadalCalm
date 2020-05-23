@@ -15,6 +15,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class StickyBombLauncher extends RangedWeapon {
 
@@ -26,7 +27,8 @@ public class StickyBombLauncher extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 40);
+	private final static Vector2 projectileSize = new Vector2(50, 50);
+	private final static Vector2 stickySize = new Vector2(20, 20);
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 175;
@@ -62,16 +64,20 @@ public class StickyBombLauncher extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 1.0f, false);
 
+		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		hboxSticky.addStrategy(new ControllerDefault(state, hboxSticky, user.getBodyData()));
+		hboxSticky.addStrategy(new ContactWallSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
+		hboxSticky.addStrategy(new ContactUnitSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
+		hboxSticky.addStrategy(new ContactStick(state, hboxSticky, user.getBodyData(), true, true));
+		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setGravity(1.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), hboxSticky, new Vector2(), new Vector2(), false));
+		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.BOMB, 0.25f));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
-		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, true));
-
-		bombsLaid.addLast(hbox);
+		
+		bombsLaid.addLast(hboxSticky);
 	}
 }

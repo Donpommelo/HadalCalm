@@ -15,7 +15,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.FixedToUser;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class Scrapripper extends MeleeWeapon {
 
@@ -42,7 +42,7 @@ public class Scrapripper extends MeleeWeapon {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
-		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), startVelocity, startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.DAMAGE6, 1.0f));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.EXPLOSION, 0.0f, 0.2f));
 	}

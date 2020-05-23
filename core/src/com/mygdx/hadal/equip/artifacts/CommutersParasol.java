@@ -11,7 +11,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.FixedToUser;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class CommutersParasol extends Artifact {
 
@@ -46,7 +46,7 @@ public class CommutersParasol extends Artifact {
 					hbox.makeUnreflectable();
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, inflicted));
-					hbox.addStrategy(new FixedToUser(state, hbox, inflicted, new Vector2(0, 0), position, false));
+					hbox.addStrategy(new FixedToEntity(state, hbox, inflicted, new Vector2(0, 0), position, false));
 					hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 						
 						@Override

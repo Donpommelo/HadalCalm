@@ -17,7 +17,7 @@ import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageConstant;
-import com.mygdx.hadal.strategies.hitbox.FixedToUser;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.utils.Stats;
 
 public class Airblaster extends MeleeWeapon {
@@ -49,7 +49,7 @@ public class Airblaster extends MeleeWeapon {
 		hbox.makeUnreflectable();
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback * (1 + user.getBodyData().getStat(Stats.BOOST_POW))), DamageTypes.REFLECT));
-		hbox.addStrategy(new FixedToUser(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), new Vector2(), startVelocity.nor().scl(hitboxSize.x / 2 / PPM), false));
 		
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			

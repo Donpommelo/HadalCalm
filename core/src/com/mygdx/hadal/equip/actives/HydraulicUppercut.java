@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.FixedToUser;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.utils.Stats;
 
 public class HydraulicUppercut extends ActiveItem {
@@ -51,7 +51,7 @@ public class HydraulicUppercut extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user , Particle.SPARK_TRAIL));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.MELEE));
-		hbox.addStrategy(new FixedToUser(state, hbox, user, new Vector2(), new Vector2(), false));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user, new Vector2(), new Vector2(), false));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user, SoundEffect.KICK1, 1.0f));
 	}
 }

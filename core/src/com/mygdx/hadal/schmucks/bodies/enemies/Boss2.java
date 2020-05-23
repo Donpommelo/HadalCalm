@@ -197,7 +197,7 @@ public class Boss2 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.5f);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
+			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.KAMABOKO_SHOWER);
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);

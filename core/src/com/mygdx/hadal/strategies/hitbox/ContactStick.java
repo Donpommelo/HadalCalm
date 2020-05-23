@@ -37,7 +37,6 @@ public class ContactStick extends HitboxStrategy {
 		this.stuckToDude = false;
 	}
 	
-	
 	@Override
 	public void onHit(HadalData fixB) {
 		

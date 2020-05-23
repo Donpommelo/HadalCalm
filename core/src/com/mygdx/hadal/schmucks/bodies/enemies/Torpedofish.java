@@ -89,7 +89,7 @@ public class Torpedofish extends EnemySwimming {
 					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
-					hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short)0));
+					hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 				}
 			}
 		});

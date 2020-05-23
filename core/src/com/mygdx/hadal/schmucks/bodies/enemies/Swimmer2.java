@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -57,7 +58,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float attackWindup = 0.2f;
 	private static final float attackSwingAngle = 30.0f;
 	
-	private static final int fireballDamage = 8;
+	private static final int fireballDamage = 15;
 	private static final int burnDamage = 1;
 	private static final int fireSpeed = 9;
 	private static final int fireKB = 6;
@@ -65,8 +66,8 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float fireLifespan = 1.25f;
 	private static final float burnDuration = 6.0f;
 
-	private static final int fireballNumber = 12;
-	private static final float fireballInterval = 0.1f;
+	private static final int fireballNumber = 8;
+	private static final float fireballInterval = 0.15f;
 	@Override
 	public void attackInitiate() {
 		
@@ -75,12 +76,12 @@ public class Swimmer2 extends EnemySwimming {
 		
 		EnemyUtils.changeFloatingFreeAngle(this, attackSwingAngle, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
+			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.KAMABOKO_SHOWER);
 		}
 		
 		EnemyUtils.changeFloatingFreeAngle(this, - 2 * attackSwingAngle, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
+			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.KAMABOKO_SHOWER);
 		}
 		
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);

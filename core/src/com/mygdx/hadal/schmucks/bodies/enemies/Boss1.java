@@ -244,13 +244,13 @@ public class Boss1 extends EnemyFloating {
 		case 0 :
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
+				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
 			}
 			break;
 		case 1: 
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 			for (int i = 0; i < fireballNumber; i++) {
-				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval);
+				EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
 			}
 			break;
 		}

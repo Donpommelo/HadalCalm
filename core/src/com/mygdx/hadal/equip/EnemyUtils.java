@@ -11,7 +11,7 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
-import com.mygdx.hadal.strategies.hitbox.FixedToUser;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -277,7 +277,7 @@ public class EnemyUtils {
 				hbox.makeUnreflectable();
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(), position, true));
+				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), position, true));
 			}
 		});
 	}
@@ -293,7 +293,7 @@ public class EnemyUtils {
 				hbox.makeUnreflectable();
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new FixedToUser(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(), true));
+				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(), true));
 				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
 				
 					private float controllerCount = 0;
@@ -310,7 +310,7 @@ public class EnemyUtils {
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
 							pulse.addStrategy(new DamageStatic(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
-							pulse.addStrategy(new FixedToUser(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2(), true));
+							pulse.addStrategy(new FixedToEntity(state, pulse, enemy.getBodyData(), new Vector2(), new Vector2(), true));
 						}
 					}
 				}));
@@ -321,7 +321,7 @@ public class EnemyUtils {
 	private static final float fireLinger = 3.0f;
 	private static final float laserLinger = 0.01f;
 	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,
-			final float lifespan, final float fireDuration, final float duration) {
+			final float lifespan, final float fireDuration, final float duration, Particle particle) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
@@ -333,7 +333,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new ContactUnitBurn(state, hbox, enemy.getBodyData(), fireDuration, fireDamage));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED, DamageTypes.FIRE));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 0.0f, fireLinger));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger));
 			}
 		});
 	}
