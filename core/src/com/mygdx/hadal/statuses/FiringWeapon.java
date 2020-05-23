@@ -61,7 +61,7 @@ public class FiringWeapon extends Status {
 			if (currentVelo > minVelo) {
 				currentVelo -= veloDeprec;
 			}
-			projVelo.set(((Player)inflicted.getSchmuck()).getMouse().getPixelPosition()).sub(inflicted.getSchmuck().getPixelPosition());
+			projVelo.set(((Player) inflicted.getSchmuck()).getMouse().getPixelPosition()).sub(inflicted.getSchmuck().getPixelPosition());
 			inflicted.getCurrentTool().setWeaponVelo(projVelo.nor().scl(currentVelo));
 			
 			projOrigin = inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize);

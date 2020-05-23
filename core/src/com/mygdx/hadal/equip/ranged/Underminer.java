@@ -11,6 +11,8 @@ import com.mygdx.hadal.event.DropThroughPlatform;
 import com.mygdx.hadal.event.Wall;
 import com.mygdx.hadal.event.WallDropthrough;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.HadalEntity;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
@@ -18,6 +20,7 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
@@ -35,16 +38,16 @@ public class Underminer extends RangedWeapon {
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(30, 30);
-	private final static float lifespan = 3.0f;
+	private final static float projectileSpeed = 20.0f;
+	private final static Vector2 projectileSize = new Vector2(45, 20);
+	private final static float lifespan = 8.0f;
 	
 	private final static Sprite projSprite = Sprite.DRILL;
 	private final static Sprite fragSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float activatedSpeed = 10.0f;
+	private final static float activatedSpeed = 8.0f;
 
 	private final static int explosionRadius = 300;
 	private final static float explosionDamage = 40.0f;
@@ -72,6 +75,7 @@ public class Underminer extends RangedWeapon {
 		hbox.setDurability(2);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.5f));
 
@@ -81,9 +85,35 @@ public class Underminer extends RangedWeapon {
 			private boolean platformHit = false;
 			private float invuln = 0.0f;
 			
+			private float controllerCount = 0;
+			private final static float pushInterval = 1 / 60f;
+			private final static float lerp = 0.03f;
+			private Vector2 lerpTowards = new Vector2();
+			
+			//this is the entity we home towards. (either the player's mouse or the player)
+			private HadalEntity target;
+			
+			@Override
+			public void create() {
+				if (user instanceof Player) {
+					target = ((Player) user).getMouse();
+				} else {
+					target = state.getPlayer();
+				}
+			}
+			
 			@Override
 			public void controller(float delta) {
 				super.controller(delta);
+				
+				if (activated && invuln <= 0) {
+					controllerCount += delta;
+
+					while (controllerCount >= pushInterval) {
+						controllerCount -= pushInterval;
+						hbox.getBody().setLinearVelocity(hbox.getLinearVelocity().lerp(lerpTowards.set(target.getPixelPosition()).sub(hbox.getPixelPosition()).nor().scl(activatedSpeed), lerp));
+					}
+				}
 				
 				//invuln is incremented to prevent hbox from detonating immediately upon hitting a corner
 				if (invuln > 0) {
@@ -106,7 +136,7 @@ public class Underminer extends RangedWeapon {
 							activated = true;
 							hbox.setLinearVelocity(hbox.getLinearVelocity().nor().scl(activatedSpeed));
 							hbox.setGravityScale(0);
-							invuln = 0.1f;
+							invuln = 0.25f;
 							
 							if (!(fixB.getEntity() instanceof Wall)) {
 								platformHit = true;
@@ -133,7 +163,7 @@ public class Underminer extends RangedWeapon {
 				WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), explosionDamage, explosionKnockback, filter);
 				
 				for (int i = 0; i < numProj; i++) {
-					float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+					float newDegrees = (float) (hbox.getLinearVelocity().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 					
 					newVelocity.set(startVelocity);
 					

@@ -11,8 +11,8 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitChainLightning;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitShock;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -29,13 +29,14 @@ public class Maelstrom extends RangedWeapon {
 	private final static int reloadAmount = 0;
 
 	private final static float recoil = 0.0f;
-	private final static float baseDamage = 40.0f;
+	private final static float baseDamage = 20.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeedStart = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(126, 44);
 	private final static float lifespan = 1.0f;
 	
-	private final static float chainDamage = 11.0f;
+	private final static float chainDamage = 25.0f;
+	private final static int chainRadius = 100;
 	private final static int chainAmount = 6;
 	
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
@@ -56,7 +57,7 @@ public class Maelstrom extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitChainLightning(state, hbox, user.getBodyData(), chainAmount, chainDamage));
+		hbox.addStrategy(new ContactUnitShock(state, hbox, user.getBodyData(), chainDamage, chainRadius, chainAmount, user.getHitboxfilter()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, 3.0f));
 	}
