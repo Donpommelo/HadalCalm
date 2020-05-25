@@ -47,7 +47,7 @@ public class CursedCilice extends Artifact {
 						procCdCount = 0;
 						
 						SoundEffect.MAGIC2_FUEL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
-						new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
+						new ParticleEntity(state, inflicted.getSchmuck(), Particle.PICKUP_ENERGY, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 					}
 				}
 				return damage;

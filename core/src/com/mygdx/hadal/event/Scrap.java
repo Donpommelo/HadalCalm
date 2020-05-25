@@ -71,7 +71,7 @@ public class Scrap extends Event {
 					}
 					
 					state.getUiExtra().syncData();
-					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, fixB.getEntity(), Particle.SPARKLE, 1.0f, 1.0f, true, particleSyncType.CREATESYNC);
 					
 					//activate effects that activate upon picking up scrap
 					((PlayerBodyData) fixB).statusProcTime(new ProcTime.ScrapPickup());

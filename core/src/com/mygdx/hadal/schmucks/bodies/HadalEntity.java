@@ -291,7 +291,7 @@ public abstract class HadalEntity {
 	public Vector2 getPixelPosition() {	
 		if (body != null) {
 			return pixelPosition.set(body.getPosition()).scl(PPM); 
-		} else { return pixelPosition.scl(PPM); }
+		} else { return pixelPosition; }
 	}
 	
 	public Fixture getMainFixture() {

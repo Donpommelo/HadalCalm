@@ -407,7 +407,7 @@ public class PlayState extends GameState {
 		
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta);
-				
+		
 		//This processes all entities in the world. (for example, player input/cooldowns/enemy ai)
 		controllerEntities(delta);
 		
@@ -536,13 +536,16 @@ public class PlayState extends GameState {
 	 * Run the controller method for all entities in the world
 	 */
 	public void controllerEntities(float delta) {
+		
 		for (HadalEntity entity : hitboxes) {
+			
 			entity.controller(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
 			entity.increaseEntityAge(delta);
 		}
 		for (HadalEntity entity : entities) {
+			
 			entity.controller(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
@@ -601,7 +604,7 @@ public class PlayState extends GameState {
 		camera.zoom = zoom;
 		
 		if (cameraTarget == null) {
-			if (player.getBody() != null) {
+			if (player.getBody() != null && player.isAlive()) {
 				tmpVector2.set(player.getPixelPosition());
 			} else {
 				return;

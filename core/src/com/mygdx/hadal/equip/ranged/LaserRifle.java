@@ -74,7 +74,7 @@ public class LaserRifle extends RangedWeapon {
 				@Override
 				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
 					
-					if (fixture.getFilterData().categoryBits == (short)Constants.BIT_WALL) {
+					if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL) {
 						if (fraction < shortestFraction) {
 							shortestFraction = fraction;
 							return fraction;
@@ -117,6 +117,6 @@ public class LaserRifle extends RangedWeapon {
 		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed), filter, true, false, user, projSprite);
 		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
 		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));
-		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 0.0f));
+		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 3.0f));
 	}
 }

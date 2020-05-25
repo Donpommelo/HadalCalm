@@ -16,7 +16,7 @@ public class Invisibility extends Status {
 	public Invisibility(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
 		p.getSchmuck().setShader(Shader.INVISIBLE, i);
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC);
 		
 		if (inflicted instanceof PlayerBodyData) {
 			((PlayerBodyData) inflicted).getPlayer().setInvisible(true);
@@ -31,7 +31,7 @@ public class Invisibility extends Status {
 	@Override
 	public void onRemove() {
 		
-		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 0.0f, 1.0f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC);
 		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
 		
 		if (inflicted instanceof PlayerBodyData) {

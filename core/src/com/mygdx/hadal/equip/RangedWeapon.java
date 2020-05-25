@@ -97,7 +97,7 @@ public class RangedWeapon extends Equipable {
 	 * This is run after the weapon's shootDelay to actually fire.
 	 * Here, the stored velo, recoil, filter are used to generate a projectile
 	 */
-	private Vector2 projOrigin = new Vector2();
+	protected Vector2 projOrigin = new Vector2();
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		

@@ -209,7 +209,7 @@ public class WeaponUtils {
 									SoundEffect.MAGIC2_FUEL.playUniversal(state, player.getPlayer().getPixelPosition(), 0.3f, false);
 
 									player.fuelGain(power);
-									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
+									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_ENERGY, 3.0f, 5.0f, true, particleSyncType.CREATESYNC);
 									event.queueDeletion();
 								}
 								break;
@@ -219,7 +219,7 @@ public class WeaponUtils {
 									SoundEffect.MAGIC21_HEAL.playUniversal(state, player.getPlayer().getPixelPosition(), 0.3f, false);
 									
 									player.regainHp(power, player, true, DamageTypes.MEDPAK);
-									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 0.0f, 5.0f, true, particleSyncType.CREATESYNC);
+									new ParticleEntity(state, player.getSchmuck(), Particle.PICKUP_HEALTH, 3.0f, 5.0f, true, particleSyncType.CREATESYNC);
 									event.queueDeletion();
 								}
 								break;
@@ -235,7 +235,7 @@ public class WeaponUtils {
 			}
 		};
 		
-		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 0.0f, 0.0f, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, pickup, Particle.EVENT_HOLO, 1.0f, 0.0f, true, particleSyncType.CREATESYNC);
 		pickup.setScaleAlign("CENTER_BOTTOM");
 		pickup.setSyncType(eventSyncTypes.ILLUSION);
 		pickup.setSynced(true);

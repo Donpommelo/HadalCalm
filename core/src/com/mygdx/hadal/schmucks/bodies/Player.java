@@ -248,8 +248,8 @@ public class Player extends PhysicsSchmuck {
 	 * This method prepares the various particle emitting entities attached to the player.
 	 */
 	public void loadParticles() {
-		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 0.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
-		dustCloud = new ParticleEntity(state, this, Particle.DUST, 0.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+		hoverBubbles = new ParticleEntity(state, this, Particle.BUBBLE_TRAIL, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
+		dustCloud = new ParticleEntity(state, this, Particle.DUST, 1.0f, 0.0f, false, particleSyncType.TICKSYNC, new Vector2(0, -size.y / 2));
 	}
 	
 	/**
@@ -338,7 +338,6 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void controller(float delta) {
-		
 		controllerCount += delta;
 		
 		//This line ensures that this runs every 1/60 second regardless of computer speed.

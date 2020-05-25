@@ -38,9 +38,6 @@ public class ParticleEntity extends HadalEntity {
 	//Will the particle despawn after a duration?
 	private boolean temp;
 	
-	//Does the particle despawn when its attached entity dies?
-	private boolean attached;
-	
 	//Is the particle currently on?
 	private boolean on;
 	
@@ -80,7 +77,6 @@ public class ParticleEntity extends HadalEntity {
 	public ParticleEntity(PlayState state, HadalEntity entity, Particle particle, float linger, float lifespan, boolean startOn, particleSyncType sync) {
 		this(state, new Vector2(), particle, lifespan, startOn, sync);
 		this.attachedEntity = entity;
-		attached = linger == 0;
 		this.linger = linger;
 		
 		if (attachedEntity != null) {
@@ -108,13 +104,9 @@ public class ParticleEntity extends HadalEntity {
 		//If attached to a living unit, this entity tracks its movement. If attached to a unit that has died, we despawn.
 		if (attachedEntity != null && !despawn) {
 			if (attachedEntity.isAlive() && attachedEntity.getBody() != null) {
-				
 				effect.setPosition(attachedEntity.getPixelPosition().x + offset.x, attachedEntity.getPixelPosition().y + offset.y);
-				
 			} else {
-				if (!attached) {
-					despawn = true;
-				}
+				despawn = true;
 				turnOff();
 			}
 			

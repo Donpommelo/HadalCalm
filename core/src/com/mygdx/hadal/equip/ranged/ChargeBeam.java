@@ -64,7 +64,7 @@ public class ChargeBeam extends RangedWeapon {
 		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime()) {
 			if (charge == null) {
-				charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
+				charge = new ParticleEntity(user.getState(), user, Particle.CHARGING, 1.0f, 0.0f, false, particleSyncType.TICKSYNC);
 				charge.setScale(0.5f);
 			}
 			charge.setOffset(particleOrigin);
@@ -76,7 +76,7 @@ public class ChargeBeam extends RangedWeapon {
 			}
 		} else {
 			if (overcharge == null) {
-				overcharge = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 0.0f, 0.0f, false, particleSyncType.TICKSYNC);
+				overcharge = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 1.0f, 0.0f, false, particleSyncType.TICKSYNC);
 				overcharge.setScale(0.5f);
 			}
 			if (charge != null) {
@@ -177,11 +177,9 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void unequip() {
 		if (charge != null) {
-			charge.queueDeletion();
 			charge = null;
 		}
 		if (overcharge != null) {
-			overcharge.queueDeletion();
 			overcharge = null;
 		}
 	}

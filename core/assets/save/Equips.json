@@ -156,6 +156,16 @@ GRENADE_LAUNCHER: {
 		RANGED,
 	]
 }
+HEXENHOWITZER: {
+	name: Hexenhowitzer
+	description: "An ammo-less weapon that fires magic projectiles."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 BEEGUN: {
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."

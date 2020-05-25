@@ -26,6 +26,7 @@ public enum UnlockEquip {
 	FLOUNDERBUSS(Flounderbuss.class),
 	FUGUN(Fugun.class),
 	GRENADE_LAUNCHER(GrenadeLauncher.class),
+	HEXENHOWITZER(Hexenhowitzer.class),
 	ICEBERG(Iceberg.class),
 	IRON_BALL_LAUNCHER(IronBallLauncher.class),
 	KAMABOKANNON(Kamabokannon.class),

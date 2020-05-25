@@ -39,7 +39,7 @@ public class FracturePlate extends Artifact {
 				
 				if (procCdCount < 0 && shield != maxShield) {
 					shield = maxShield;
-					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 0.0f, particleDura, true, particleSyncType.CREATESYNC);
+					new ParticleEntity(state, inflicted.getSchmuck(), Particle.SHIELD, 1.0f, particleDura, true, particleSyncType.CREATESYNC);
 				}
 			}
 			

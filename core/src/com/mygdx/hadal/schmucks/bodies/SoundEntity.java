@@ -116,8 +116,6 @@ public class SoundEntity extends HadalEntity {
 				}
 			}
 		}
-
-		
 	}
 
 	/**
