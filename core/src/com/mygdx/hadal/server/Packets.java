@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
@@ -692,6 +693,7 @@ public class Packets {
 		public float scale;
 		public boolean rotate;
 		public boolean synced;
+		public ParticleColor color;
 		public CreateParticles() {}
 		
 		/**
@@ -710,8 +712,10 @@ public class Packets {
 		 * @param scale: The size multiplier of the particle effect
 		 * @param rotate: should this entity rotate to match an attached entity??
 		 * @param synced: should this entity receive a sync packet regularly?
+		 * @param color: the color tint of the particle
 		 */
-		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean rotate, boolean synced) {
+		public CreateParticles(String entityID, String attachedID, Vector2 pos, boolean attached, String particle, boolean startOn, float linger, float lifespan, float scale, boolean rotate, boolean synced, 
+				ParticleColor color) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.pos = pos;
@@ -723,6 +727,7 @@ public class Packets {
 			this.scale = scale;
 			this.rotate = rotate;
 			this.synced = synced;
+			this.color = color;
 		}
 	}
 	

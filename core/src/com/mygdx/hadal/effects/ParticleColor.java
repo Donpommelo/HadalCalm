@@ -1,6 +1,6 @@
 package com.mygdx.hadal.effects;
 
-public enum ParticleColors {
+public enum ParticleColor {
 
 	NOTHING(0.0f, 0.0f, 0.0f),
 	RANDOM(0.0f, 0.0f, 0.0f),
@@ -24,7 +24,7 @@ public enum ParticleColors {
 	
 	private float r, g, b;
 	
-	ParticleColors(float r, float g, float b) {
+	ParticleColor(float r, float g, float b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;

@@ -1,7 +1,7 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColors;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -26,7 +26,7 @@ public class CreateParticles extends HitboxStrategy {
 	//atm, this is just used for attaching particles to hitboxes of varying sizes.
 	private float particleSize;
 	
-	private ParticleColors color = ParticleColors.NOTHING;
+	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//this is the max hitbox size a particle will try to scale to
 	private static float maxSize = 100.0f;
@@ -71,7 +71,7 @@ public class CreateParticles extends HitboxStrategy {
 		return this;
 	}
 	
-	public CreateParticles setParticleColor(ParticleColors color) {
+	public CreateParticles setParticleColor(ParticleColor color) {
 		this.color = color;
 		return this;
 	}

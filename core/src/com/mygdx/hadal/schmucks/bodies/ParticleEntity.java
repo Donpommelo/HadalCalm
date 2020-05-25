@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
-import com.mygdx.hadal.effects.ParticleColors;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
@@ -49,6 +49,8 @@ public class ParticleEntity extends HadalEntity {
 	
 	//does this effect rotate to match an attached entity?
 	private boolean rotate = false;
+	
+	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
 	private Vector2 offset = new Vector2();
@@ -213,9 +215,9 @@ public class ParticleEntity extends HadalEntity {
 	public Object onServerCreate() {
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC));
+				return new Packets.CreateParticles(entityID.toString(), attachedEntity.getEntityID().toString(), offset, true, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
 			} else {
-				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC));
+				return new Packets.CreateParticles(entityID.toString(), null, startPos, false, particle.toString(), on, linger, lifespan, scale, rotate, sync.equals(particleSyncType.TICKSYNC), color);
 			}
 		} else {
 			return null;
@@ -295,11 +297,12 @@ public class ParticleEntity extends HadalEntity {
         }
 	}
 
-	public void setColor(ParticleColors color) {
+	public void setColor(ParticleColor color) {
+		this.color = color;
 		
-		if (color.equals(ParticleColors.NOTHING)) {
+		if (color.equals(ParticleColor.NOTHING)) {
 			return;
-		} else if (color.equals(ParticleColors.RANDOM)) {
+		} else if (color.equals(ParticleColor.RANDOM)) {
 			
 			float[] colors = {GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat()};
 			for (int i = 0; i < effect.getEmitters().size; i++) {
