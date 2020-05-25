@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColors;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
@@ -301,11 +303,24 @@ public class ParticleEntity extends HadalEntity {
         }
 	}
 
-	public void setColor(float r, float g, float b) {
-		float[] colors = {r, g, b};
-		for (int i = 0; i < effect.getEmitters().size; i++) {
-			effect.getEmitters().get(i).getTint().setColors(colors);
+	public void setColor(ParticleColors color) {
+		
+		if (color.equals(ParticleColors.NOTHING)) {
+			return;
+		} else if (color.equals(ParticleColors.RANDOM)) {
+			
+			float[] colors = {GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat()};
+			for (int i = 0; i < effect.getEmitters().size; i++) {
+				effect.getEmitters().get(i).getTint().setColors(colors);
+			}
+
+		} else {
+			float[] colors = {color.getR(), color.getG(), color.getB()};
+			for (int i = 0; i < effect.getEmitters().size; i++) {
+				effect.getEmitters().get(i).getTint().setColors(colors);
+			}
 		}
+		
 	}
 	
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }

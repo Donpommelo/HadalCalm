@@ -3,7 +3,6 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -14,7 +13,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
-import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.utils.Stats;
@@ -88,7 +86,6 @@ public class Crawler3 extends EnemyCrawling {
 						hbox.setGravity(3.0f);
 						
 						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
-						hbox.addStrategy(new ContactWallParticles(state, hbox, getBodyData(), Particle.SPARK_TRAIL));
 						hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 						hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, getBodyData()));
 						hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), baseDamage, knockback, DamageTypes.RANGED));

@@ -2,12 +2,11 @@ package com.mygdx.hadal.equip.ranged;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -16,29 +15,36 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageConstant;
 import com.mygdx.hadal.strategies.hitbox.Static;
+import com.mygdx.hadal.strategies.hitbox.TravelDistanceDie;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 
 public class LaserRifle extends RangedWeapon {
 
-	private final static int clipSize = 12;
-	private final static int ammoSize = 72;
-	private final static float shootCd = 0.2f;
+	private final static int clipSize = 8;
+	private final static int ammoSize = 56;
+	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 15.0f;
+	private final static float baseDamage = 22.0f;
 	private final static float recoil = 2.5f;
 	private final static float knockback = 12.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static int projectileWidth = 40;
-	private final static int projectileHeight = 24;
+	private final static int projectileHeight = 30;
 	private final static float lifespan = 0.25f;
 	
-	private final static Sprite[] projSprites = {Sprite.LASER, Sprite.LASER, Sprite.LASER, Sprite.LASER, Sprite.LASER};
+	private final static Sprite[] projSprites = {Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM};
+
+	private final static Vector2 trailSize = new Vector2(10, 10);
+	private final static float trailSpeed = 60.0f;
+	private final static float trailLifespan = 3.0f;
 
 	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
 	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
@@ -98,24 +104,6 @@ public class LaserRifle extends RangedWeapon {
 			}
 			
 			@Override
-			public void render(SpriteBatch batch) {
-				
-				//transparency changes to make hbox fade over time
-				float transparency = Math.max(0, this.getLifeSpan() / this.getMaxLifespan());
-
-				batch.setColor(1f, 1f, 1f, transparency);
-				
-				batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
-						getPixelPosition().x - size.x / 2, 
-						getPixelPosition().y - size.y / 2, 
-						size.x / 2, size.y / 2,
-						size.x, size.y, 1, 1, 
-						(float) Math.toDegrees(getAngle()));
-				
-				batch.setColor(1f, 1f, 1f, 1);
-			}
-			
-			@Override
 			public boolean isVisible() {
 				return true;
 			}
@@ -123,6 +111,12 @@ public class LaserRifle extends RangedWeapon {
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
+		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
+		
+		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed), filter, true, false, user, projSprite);
+		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
+		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));
+		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 0.0f));
 	}
 }

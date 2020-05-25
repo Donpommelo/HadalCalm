@@ -23,6 +23,8 @@ public enum Particle {
 	DUST(ParticleType.DEFAULT, "particles/dust.particle"),	
 	LASER(ParticleType.DEFAULT, "particles/laser.particle"),	
 	LASER_PULSE(ParticleType.DEFAULT, "particles/laserpulse.particle"),	
+	LASER_TRAIL(ParticleType.DEFAULT, "particles/laser_trail.particle"),	
+	LASER_IMPACT(ParticleType.DEFAULT, "particles/laser_impact.particle"),	
 	LIGHTNING(ParticleType.DEFAULT, "particles/lightning.particle"),	
 	REGEN(ParticleType.DEFAULT, "particles/regen.particle"),	
 	RING(ParticleType.DEFAULT, "particles/ringeffect.particle"),
