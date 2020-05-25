@@ -176,6 +176,16 @@ FLOUNDERBUSS: {
 		RANGED,
 	]
 }
+KAMABOKANNON: {
+	name: Kamabokannon
+	description: "Charge and fire a powerful but difficult to control spray."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 NEMATOCYDEARM: {
 	name: Nemato Sidearm
 	description: "Fires spikes that lodge into walls."
@@ -307,6 +317,16 @@ SLODGEGUN: {
 STORMCALLER: {
 	name: Stormcaller
 	description: "Fire a projectile that expands as it travels."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+STUTTERGUN: {
+	name: Stuttergun
+	description: "Fires a burst of projectiles."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,

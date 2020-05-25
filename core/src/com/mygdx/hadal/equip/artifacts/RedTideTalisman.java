@@ -27,7 +27,7 @@ public class RedTideTalisman extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				hbox.addStrategy(new ContactUnitBurn(state, hbox, inflicted, fireDuration, fireDamage));
-				hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, hbox.getLifeSpan(), 3.0f, 50));
+				hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.FIRE, hbox.getLifeSpan(), 3.0f).setParticleSize(50));
 			}
 		};
 		return enchantment;

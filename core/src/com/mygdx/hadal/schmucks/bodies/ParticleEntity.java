@@ -293,15 +293,21 @@ public class ParticleEntity extends HadalEntity {
 	public void setParticleAngle(float angle) {
         
 		float newAngle = (float) (angle * 180 / Math.PI + 180);
-		
 		for (int i = 0; i < effect.getEmitters().size; i++) {                          
            ScaledNumericValue val = effect.getEmitters().get(i).getRotation();
-           
+
            val.setHigh(newAngle, newAngle);                                           
            val.setLow(newAngle);
         }
 	}
 
+	public void setColor(float r, float g, float b) {
+		float[] colors = {r, g, b};
+		for (int i = 0; i < effect.getEmitters().size; i++) {
+			effect.getEmitters().get(i).getTint().setColors(colors);
+		}
+	}
+	
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }
 	
 	public void setDespawn(boolean despawn) { this.despawn = despawn; }

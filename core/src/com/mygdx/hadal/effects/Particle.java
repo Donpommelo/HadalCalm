@@ -53,6 +53,7 @@ public enum Particle {
 	FIRE(ParticleType.DEFAULT, "particles/fire.particle"),	
 	COLA_IMPACT(ParticleType.DEFAULT, "particles/cola_impact.particle"),	
 	ICE_CLOUD(ParticleType.DEFAULT, "particles/ice_cloud.particle"),	
+	ICE_IMPACT(ParticleType.DEFAULT, "particles/ice_frag.particle"),	
 	CHARGING(ParticleType.DEFAULT, "particles/charging.particle"),	
 	OVERCHARGE(ParticleType.DEFAULT, "particles/overcharge.particle"),	
 	TRICK(ParticleType.DEFAULT, "particles/trick.particle"),	

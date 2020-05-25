@@ -6,7 +6,7 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitChainLightning;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitShock;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 
 public class BucketofBatteries extends Artifact {
@@ -15,7 +15,8 @@ public class BucketofBatteries extends Artifact {
 	private final static int slotCost = 3;
 	
 	private final static float baseDamage = 8.0f;
-	private final static int chainAmount = 6;
+	private final static int radius = 100;
+	private final static int chainAmount = 3;
 	
 	private final static float procCd = 0.5f;
 	
@@ -42,8 +43,8 @@ public class BucketofBatteries extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					hbox.addStrategy(new ContactUnitChainLightning(state, hbox, inflicted, chainAmount, baseDamage));
-					hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.LIGHTNING, hbox.getLifeSpan(), 3.0f, 90));
+					hbox.addStrategy(new ContactUnitShock(state, hbox, inflicted, baseDamage, radius, chainAmount, inflicted.getSchmuck().getHitboxfilter()));
+					hbox.addStrategy(new CreateParticles(state, hbox, inflicted, Particle.LIGHTNING, hbox.getLifeSpan(), 3.0f).setParticleSize(90));
 				}
 			}
 		});

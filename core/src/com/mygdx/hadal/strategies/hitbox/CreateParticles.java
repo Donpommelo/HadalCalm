@@ -38,16 +38,6 @@ public class CreateParticles extends HitboxStrategy {
 		this.linger = linger;
 	}
 	
-	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger, boolean rotate) {
-		this(state, proj, user, effect, duration, linger);
-		this.rotate = rotate;
-	}
-	
-	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger, float particleSize) {
-		this(state, proj, user, effect, duration, linger);
-		this.particleSize = particleSize;
-	}
-	
 	@Override
 	public void controller(float delta) {
 		if (rotate && particle != null) {
@@ -58,7 +48,6 @@ public class CreateParticles extends HitboxStrategy {
 	@Override
 	public void create() {
 		particle = new ParticleEntity(state, hbox, effect, linger, duration, true, particleSyncType.CREATESYNC);
-		
 		if (particleSize == 0) {
 			particle.setScale(hbox.getScale());
 		} else {
@@ -66,5 +55,15 @@ public class CreateParticles extends HitboxStrategy {
 		}
 		
 		particle.setRotate(rotate);
+	}
+	
+	public CreateParticles setRotate(boolean rotate) {
+		this.rotate = rotate;
+		return this;
+	}
+	
+	public CreateParticles setParticleSize(float particleSize) {
+		this.particleSize = particleSize;
+		return this;
 	}
 }

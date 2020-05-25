@@ -38,6 +38,7 @@ unlockEquip: {
 	TRICK_GUN: true
 	WAVE_CANNON: true
 	LASER_GUIDED_ROCKET: true
+	KAMABOKANNON: true
 	GRENADE_LAUNCHER: true
 	DIAMOND_CUTTER: true
 	FISTICUFFS: true
@@ -46,6 +47,7 @@ unlockEquip: {
 	MINIGUN: true
 	NOTHING: true
 	STORMCALLER: true
+	STUTTERGUN: true
 	BOUNCING_BLADE: true
 	BOOMERANG: true
 	CR4PCANNON: true
