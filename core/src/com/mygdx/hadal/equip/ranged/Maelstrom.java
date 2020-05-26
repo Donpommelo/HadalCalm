@@ -35,7 +35,7 @@ public class Maelstrom extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static float chainDamage = 25.0f;
-	private final static int chainRadius = 100;
+	private final static int chainRadius = 25;
 	private final static int chainAmount = 6;
 	
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
@@ -47,7 +47,7 @@ public class Maelstrom extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.ZAP.playUniversal(state, startPosition, 0.5f, false);
+		SoundEffect.THUNDER.playUniversal(state, startPosition, 0.5f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.LIGHTNING);
 		

@@ -18,6 +18,7 @@ public class ContactUnitShock extends HitboxStrategy {
 	private float damage;
 	private int radius, chain;
 	private short filter;
+	private boolean shocked = false;
 	
 	public ContactUnitShock(PlayState state, Hitbox proj, BodyData user, float damage, int radius, int chain, short filter) {
 		super(state, proj, user);
@@ -29,8 +30,11 @@ public class ContactUnitShock extends HitboxStrategy {
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB instanceof BodyData) {
-			((BodyData) fixB).addStatus(new Shocked(state, creator, (BodyData) fixB, damage, radius, chain, filter));
+		if (!shocked) {
+			if (fixB instanceof BodyData) {
+				shocked = true;
+				((BodyData) fixB).addStatus(new Shocked(state, creator, (BodyData) fixB, damage, radius, chain, filter));
+			}
 		}
 	}
 }

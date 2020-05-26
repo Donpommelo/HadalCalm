@@ -14,7 +14,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.CreateSound;
-import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 
 public class Stormcaller extends RangedWeapon {
 
@@ -26,7 +26,7 @@ public class Stormcaller extends RangedWeapon {
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 6.0f;
 	private final static float recoil = 6.0f;
-	private final static float knockback = 25.0f;
+	private final static float knockback = 8.0f;
 	private final static float projectileSpeed = 18.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 1.8f;
@@ -78,7 +78,7 @@ public class Stormcaller extends RangedWeapon {
 					
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionDuration, new Vector2(), filter, true, true, user, projSprite);
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new DamageStandard(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
+					pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 					pulse.addStrategy(new HitboxStrategy(state, pulse, user.getBodyData()) {
 						
 						@Override

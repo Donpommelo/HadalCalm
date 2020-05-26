@@ -23,9 +23,9 @@ public class Kamabokannon extends RangedWeapon {
 	private final static int ammoSize = 500;
 	private final static float shootCd = 0.08f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 2.0f;
+	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 9.0f;
+	private final static float baseDamage = 13.0f;
 	private final static float recoil = 2.0f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 16.0f;
@@ -33,9 +33,9 @@ public class Kamabokannon extends RangedWeapon {
 	private final static float lifespan = 1.6f;
 	
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.MT_DEFAULT;
+	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 0.25f;
+	private static final float maxCharge = 0.5f;
 	private final static float lerpSpeed = 0.1f;
 
 	public Kamabokannon(Schmuck user) {

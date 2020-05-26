@@ -37,7 +37,7 @@ public class Moraygun extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
 	private final static int numProj = 6;
-	private final static float moveInterval = 0.03f;
+	private final static float moveInterval = 0.025f;
 	
 	public Moraygun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeedStart, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

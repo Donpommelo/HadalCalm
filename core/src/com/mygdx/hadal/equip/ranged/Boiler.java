@@ -33,7 +33,7 @@ public class Boiler extends RangedWeapon {
 	private final static Vector2 projectileSize = new Vector2(100, 50);
 	private final static float lifespan = 0.5f;
 	
-	private final static float fireDuration = 4.0f;
+	private final static float fireDuration = 5.0f;
 	private final static float fireDamage = 3.0f;
 	
 	private final static Sprite weaponSprite = Sprite.MT_BOILER;

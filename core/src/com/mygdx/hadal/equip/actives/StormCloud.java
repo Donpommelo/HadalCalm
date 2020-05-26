@@ -1,6 +1,7 @@
 package com.mygdx.hadal.equip.actives;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.ActiveItem;
@@ -44,10 +45,11 @@ public class StormCloud extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		
+		SoundEffect.THUNDER.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+
 		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed), (short) 0, false, false, user.getPlayer(), projSprite);
 		
-		hbox.setGravity(-0.5f);
+		hbox.setGravity(-0.2f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {

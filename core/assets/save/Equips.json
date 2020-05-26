@@ -158,7 +158,7 @@ GRENADE_LAUNCHER: {
 }
 HEXENHOWITZER: {
 	name: Hexenhowitzer
-	description: "An ammo-less weapon that fires magic projectiles."
+	description: "An ammoless weapon that fires magic projectiles."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,

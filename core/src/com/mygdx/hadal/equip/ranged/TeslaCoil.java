@@ -43,7 +43,7 @@ public class TeslaCoil extends RangedWeapon {
 	private final static float radius = 20.0f;
 	private final static float pulseInterval = 0.8f;
 	private final static float pulseDuration = 0.1f;
-	private final static Vector2 pulseSize = new Vector2(75, 75);
+	private final static Vector2 pulseSize = new Vector2(60, 60);
 	private final static float pulseDamage = 25.0f;
 	private final static float pulseKnockback = 20.0f;
 	
@@ -176,7 +176,7 @@ public class TeslaCoil extends RangedWeapon {
 						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 						pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), pulseDamage, pulseKnockback, DamageTypes.ENERGY, DamageTypes.RANGED));
-						pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.1f).setParticleSize(40));
+						pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.1f).setParticleSize(60));
 					}
 				}
 			}

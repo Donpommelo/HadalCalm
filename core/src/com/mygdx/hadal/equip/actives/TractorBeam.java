@@ -29,7 +29,7 @@ public class TractorBeam extends ActiveItem {
 	private final static float knockback = 35.0f;
 	private final static float projectileSpeed = 40.0f;
 	
-	private final static float homePower = 250.0f;
+	private final static float homePower = 300.0f;
 
 	private final static Vector2 projectileSize = new Vector2(60, 60);
 	

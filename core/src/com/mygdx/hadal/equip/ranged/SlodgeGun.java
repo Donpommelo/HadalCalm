@@ -14,10 +14,10 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
-import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class SlodgeGun extends RangedWeapon {
 
@@ -32,7 +32,7 @@ public class SlodgeGun extends RangedWeapon {
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 25.0f;
 	private final static Vector2 projectileSize = new Vector2(40, 40);
-	private final static float lifespan = 4.0f;
+	private final static float lifespan = 1.5f;
 	
 	private final static float procCd = .05f;
 
@@ -50,14 +50,14 @@ public class SlodgeGun extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
 		hbox.setGravity(3.0f);
 		hbox.setDurability(3);
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SLODGE, DamageTypes.RANGED));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.SLODGE, 0.0f, 3.0f).setParticleSize(90));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SLODGE_STATUS));
 		hbox.addStrategy(new ContactUnitSlow(state, hbox, user.getBodyData(), slowDura, slow));
 	}
 	

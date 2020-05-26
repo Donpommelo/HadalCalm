@@ -12,7 +12,7 @@ public class RadialBarrage extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 20.0f;
+	private final static float maxCharge = 15.0f;
 	
 	private final static float duration = 5.0f;
 	private static final float procCd = .1f;

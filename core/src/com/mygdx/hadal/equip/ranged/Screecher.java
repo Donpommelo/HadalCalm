@@ -38,7 +38,7 @@ public class Screecher extends RangedWeapon {
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 10.0f;
 	private final static int range = 18;
-	private final static Vector2 projectileSize = new Vector2(100, 100);
+	private final static Vector2 projectileSize = new Vector2(120, 120);
 	private final static float lifespan = 0.5f;
 	private final static int spread = 1;
 	
@@ -48,11 +48,13 @@ public class Screecher extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private SoundEntity screechSound;
+	private final static float flashDuration = 0.1f;
+	private final static Vector2 flashSize = new Vector2(60, 60);
 
 	private float shortestFraction;
 	
 	public Screecher(Schmuck user) {
-		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, 0);
+		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	
 	@Override
@@ -122,6 +124,11 @@ public class Screecher extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageConstant(state, hbox, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.SOUND, DamageTypes.RANGED));
+		
+		Hitbox flash = new RangedHitbox(state, startPosition, flashSize, flashDuration, new Vector2(), filter, true, true, user, projSprite);
+		
+		flash.addStrategy(new ControllerDefault(state, flash, user.getBodyData()));
+		flash.addStrategy(new Static(state, flash, user.getBodyData()));
 	}
 	
 	@Override

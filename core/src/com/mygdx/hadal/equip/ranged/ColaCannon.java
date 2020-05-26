@@ -5,7 +5,9 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
@@ -30,14 +32,14 @@ public class ColaCannon extends RangedWeapon {
 	private final static float baseDamage = 10.0f;
 	private final static float recoil = 18.0f;
 	private final static float knockback = 7.5f;
-	private final static float projectileSpeed = 50.0f;
-	private final static Vector2 projectileSize = new Vector2(30, 30);
+	private final static float projectileSpeed = 55.0f;
+	private final static Vector2 projectileSize = new Vector2(55, 32);
 	private final static float lifespan = 2.0f;
 
 	private final static float procCd = .05f;
 	private final static float fireDuration = 2.0f;
-	private final static float veloDeprec = 1.0f;
-	private final static float minVelo = 9.0f;
+	private final static float veloDeprec = 1.2f;
+	private final static float minVelo = 10.0f;
 	private final static float minDuration = 0.5f;
 
 	private final static Sprite projSprite = Sprite.COLA;
@@ -45,7 +47,7 @@ public class ColaCannon extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private final static float maxCharge = 8000.0f;
-	private final static float noiseThreshold = 2000.0f;
+	private final static float noiseThreshold = 1000.0f;
 
 	private Vector2 lastMouse = new Vector2();
 	private float lastNoise;
@@ -74,6 +76,7 @@ public class ColaCannon extends RangedWeapon {
 			if (chargeCd > lastNoise + noiseThreshold) {
 				lastNoise += noiseThreshold;
 				SoundEffect.SHAKE.playUniversal(state, user.getPixelPosition(), 1.0f, false);
+				new ParticleEntity(state, new Vector2(user.getPixelPosition()), Particle.COLA_IMPACT, 1.0f, true, particleSyncType.CREATESYNC);
 			}
 		}
 		

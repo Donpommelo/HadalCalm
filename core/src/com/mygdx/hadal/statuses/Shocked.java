@@ -3,6 +3,7 @@ package com.mygdx.hadal.statuses;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -53,6 +54,8 @@ public class Shocked extends Status {
 	
 	private void chain() {
 		if (chainAmount > 0) {
+			SoundEffect.ZAP.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
+			
 			inflicted.getSchmuck().getWorld().QueryAABB(new QueryCallback() {
 
 				@Override
@@ -64,7 +67,7 @@ public class Shocked extends Status {
 							if (chainAttempt == null) {
 								chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck(); 
 								closestDist = chainAttempt.getPosition().dst2(inflicted.getSchmuck().getPosition());
-							} else if (closestDist < ((BodyData) fixture.getUserData()).getSchmuck().getPosition().dst2(inflicted.getSchmuck().getPosition())) {
+							} else if (closestDist > ((BodyData) fixture.getUserData()).getSchmuck().getPosition().dst2(inflicted.getSchmuck().getPosition())) {
 								chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck(); 
 								closestDist = chainAttempt.getPosition().dst2(inflicted.getSchmuck().getPosition());
 							}

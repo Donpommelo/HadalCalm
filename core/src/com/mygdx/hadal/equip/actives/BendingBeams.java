@@ -31,7 +31,7 @@ public class BendingBeams extends ActiveItem {
 	private final static float duration = 0.5f;
 	
 	private static final float procCd = 0.05f;
-	private static final float damage = 11.0f;
+	private static final float damage = 16.0f;
 	private final static float knockback = 20.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
@@ -62,7 +62,7 @@ public class BendingBeams extends ActiveItem {
 					hbox.addStrategy(new ContactUnitDie(state, hbox, user));
 					hbox.addStrategy(new ContactWallDie(state, hbox, user));
 					hbox.addStrategy(new AdjustAngle(state, hbox, user));
-					hbox.addStrategy(new Curve(state, hbox, user, 30, 45, user.getPlayer().getMouse().getPixelPosition(), projectileSpeed, 0.1f));
+					hbox.addStrategy(new Curve(state, hbox, user, 15, 60, user.getPlayer().getMouse().getPixelPosition(), projectileSpeed, 0.1f));
 				}
 				procCdCount += delta;
 			}

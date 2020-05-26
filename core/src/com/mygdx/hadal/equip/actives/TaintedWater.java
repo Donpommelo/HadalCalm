@@ -16,11 +16,11 @@ public class TaintedWater extends ActiveItem {
 	private final static float maxCharge = 15.0f;
 	
 	private final static float duration = 2.0f;
-	private static final float procCd = .25f;
+	private static final float procCd = .2f;
 	
 	private final static Vector2 poisonSize = new Vector2(101, 250);
-	private final static float poisonDamage = 1.0f;
-	private final static float poisonDuration = 1.5f;
+	private final static float poisonDamage = 1.5f;
+	private final static float poisonDuration = 2.0f;
 	
 	public TaintedWater(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
@@ -35,7 +35,7 @@ public class TaintedWater extends ActiveItem {
 		user.addStatus(new Status(state, duration, false, user, user) {
 			
 			private float procCdCount = procCd;
-			private Vector2 poisonPos = new Vector2(user.getSchmuck().getPixelPosition());
+			private Vector2 poisonPos = new Vector2(user.getSchmuck().getPixelPosition()).add(poisonSize.x / 2 * (right ? 1 : -1), 0);
 			@Override
 			public void timePassing(float delta) {
 				super.timePassing(delta);
