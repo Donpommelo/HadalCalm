@@ -22,7 +22,7 @@ public class BendingBeams extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
-	private final static float maxCharge = 6.0f;
+	private final static float maxCharge = 8.0f;
 	
 	private final static Vector2 projectileSize = new Vector2(60, 20);
 	private final static float lifespan = 5.0f;

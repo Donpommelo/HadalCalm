@@ -58,7 +58,7 @@ public class StutterGun extends RangedWeapon {
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SLODGE, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED));
 	}
 	
 	@Override

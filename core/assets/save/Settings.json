@@ -1,6 +1,6 @@
 {
 resolution: 1
-framerate: 3
+framerate: 2
 cursorType: 1
 cursorSize: 1
 cursorColor: 4
@@ -15,5 +15,6 @@ exportChatLog: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
+timer: 4
 loadoutType: 1
 }

@@ -238,7 +238,7 @@ public abstract class HadalEntity {
 	
 	//if difference between client and server exceeds these values, the client entity instantly adjusts.
 	private static float maxDist = 3;
-	private static float maxAngleDist = 0.25f;
+	private static float maxAngleDist = 0.1f;
 	
 	//the client processes interpolation at this speed regardless of framerate
 	private final static float clientSyncTime = 1 / 60f;

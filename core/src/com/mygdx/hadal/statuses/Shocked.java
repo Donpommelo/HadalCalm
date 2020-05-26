@@ -6,22 +6,25 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
-import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
-import com.mygdx.hadal.strategies.hitbox.Static;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.TravelDistanceDie;
 
 public class Shocked extends Status {
 
 	private float damage;
 	private float procCdCount;
 	private final static float procCd = .25f;
-	private final static int projectileHeight = 15;
+	
+	private final static Vector2 trailSize = new Vector2(10, 10);
+	private final static float trailSpeed = 60.0f;
+	private final static float trailLifespan = 3.0f;
 	
 	private int radius, chainAmount;
 	private short filter;
@@ -83,21 +86,13 @@ public class Shocked extends Status {
 				chainAttempt.getBodyData().addStatus(new Shocked(state, inflicter, chainAttempt.getBodyData(), damage, radius, chainAmount - 1, filter));
 				chainAttempt.getBodyData().receiveDamage(damage, new Vector2(), inflicter, false, DamageTypes.ENERGY);
 
-				new ParticleEntity(state, chainAttempt, Particle.LIGHTNING, 0.0f, 0.3f, true, particleSyncType.CREATESYNC);
-
-				Hitbox hbox = new RangedHitbox(state, new Vector2(inflicted.getSchmuck().getPixelPosition()).add(chainAttempt.getPixelPosition()).scl(0.5f), new Vector2(closestDist + 100, projectileHeight), procCd, new Vector2(0, 0), filter, true, true, inflicter.getSchmuck(), Sprite.LASER) {
-					
-					@Override
-					public void create() {
-						super.create();
-						//Rotate hitbox to match angle of fire.
-						float newAngle = (float)(Math.atan2(chainAttempt.getPosition().y - inflicted.getSchmuck().getPosition().y, chainAttempt.getPosition().x - inflicted.getSchmuck().getPosition().x));
-						
-						setTransform(getPosition().x, getPosition().y, newAngle);
-					}
-				};
-				hbox.addStrategy(new ControllerDefault(state, hbox, inflicter));
-				hbox.addStrategy(new Static(state, hbox, inflicter));
+				Vector2 trailPath = new Vector2(chainAttempt.getPosition()).sub(inflicted.getSchmuck().getPosition());
+				
+				Hitbox trail = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), trailSize, trailLifespan, new Vector2(trailPath).nor().scl(trailSpeed), filter, true, false, inflicted.getSchmuck(), Sprite.NOTHING);
+				trail.addStrategy(new ControllerDefault(state, trail, inflicter));
+				trail.addStrategy(new AdjustAngle(state, trail, inflicter));
+				trail.addStrategy(new TravelDistanceDie(state, trail, inflicter, trailPath.len()));
+				trail.addStrategy(new CreateParticles(state, trail, inflicter, Particle.LIGHTNING_BOLT, 0.0f, 3.0f).setRotate(true));
 			}
 		}
 		

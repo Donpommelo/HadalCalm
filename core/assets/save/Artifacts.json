@@ -100,7 +100,7 @@ BLASTEMA: {
 BLOODWOODS_GLOVE: {
 	name: Bloodwood's Glove
 	description: "+Actives and Weapons Charge Rate"
-    descriptionLong: "Bonus Charge Rate: 30% Max Ammo\n\nA pristine white glove once worn by an esteemed company researcher.\n\nWithin the endless halls of a sterile labyrinth, a man sits studiously making puppets in the shapes of your loved ones."
+    descriptionLong: "Bonus Charge Rate: 30%\n\nA pristine white glove once worn by an esteemed company researcher.\n\nWithin the endless halls of a sterile labyrinth, a man sits studiously making puppets in the shapes of your loved ones."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -136,7 +136,7 @@ BRITTLING_POWDER: {
 BUCKET_OF_BATTERIES: {
 	name: Bucket of Batteries
 	description: "Projectiles Create Chain Lightning"
-    descriptionLong: "Lightning Cooldown: 0.5s\nLightning Damage: 5\nLightning Chains: 4 Enemies\n\nA bucket filled with batteries floating in a dubious liquid.\n\nWhile the Plenum Chamber's mechanical palpitations serve as the power source of nearby facilities, its own power source remains indiscernible."
+    descriptionLong: "Lightning Cooldown: 0.5s\nLightning Damage: 8\nLightning Chains: 3 Enemies\n\nA bucket filled with batteries floating in a dubious liquid.\n\nWhile the Plenum Chamber's mechanical palpitations serve as the power source of nearby facilities, its own power source remains indiscernible."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -279,8 +279,8 @@ EELSKIN_COVER: {
 }
 EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
-	description: "Projectile Split-Shot, -Damage, -Reload Speed"
-    descriptionLong: "Damage Reduction: -30%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
+	description: "Projectile Split-Shot, -Attack Speed, -Reload Speed"
+    descriptionLong: "Attack Speed Reduction: -30%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

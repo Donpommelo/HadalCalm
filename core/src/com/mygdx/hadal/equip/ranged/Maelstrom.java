@@ -35,7 +35,7 @@ public class Maelstrom extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static float chainDamage = 25.0f;
-	private final static int chainRadius = 25;
+	private final static int chainRadius = 40;
 	private final static int chainAmount = 6;
 	
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;
@@ -57,6 +57,6 @@ public class Maelstrom extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitShock(state, hbox, user.getBodyData(), chainDamage, chainRadius, chainAmount, user.getHitboxfilter()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED));
-		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING, 0.0f, 3.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.LIGHTNING_CHARGE, 0.0f, 3.0f));
 	}
 }

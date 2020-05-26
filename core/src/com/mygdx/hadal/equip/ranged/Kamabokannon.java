@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
@@ -36,16 +37,28 @@ public class Kamabokannon extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private static final float maxCharge = 0.5f;
-	private final static float lerpSpeed = 0.1f;
+	private final static float lerpSpeed = 0.2f;
 
 	public Kamabokannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
 	
+	private float controllerCount = 0;
+	private final static float pushInterval = 1 / 60f;
 	private Vector2 aimPointer = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		aimPointer.lerp(mouseLocation, lerpSpeed);
+		
+		controllerCount += delta;
+
+		//while held, lerp towards mouse pointer
+		while (controllerCount >= pushInterval) {
+			controllerCount -= pushInterval;
+			
+			super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+			weaponVelo.setAngle(MathUtils.lerpAngleDeg(aimPointer.angle(), weaponVelo.angle(), lerpSpeed));
+			aimPointer.set(weaponVelo);
+		}
 		
 		charging = true;
 		
@@ -54,11 +67,9 @@ public class Kamabokannon extends RangedWeapon {
 			chargeCd += (delta + shootCd);
 			
 			if (chargeCd >= getChargeTime()) {
-				aimPointer.set(mouseLocation);
+				super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 			}
 		}
-		
-		super.mouseClicked(delta, state, shooter, faction, aimPointer);
 	}
 	
 	@Override
