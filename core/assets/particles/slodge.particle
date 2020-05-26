@@ -624,8 +624,8 @@ max: 8
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 1.0
-highMax: 1.0
+highMin: 3.0
+highMax: 5.0
 relative: false
 scalingCount: 2
 scaling0: 1.0
@@ -781,8 +781,8 @@ max: 8
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 1.0
-highMax: 1.0
+highMin: 3.0
+highMax: 5.0
 relative: false
 scalingCount: 2
 scaling0: 1.0

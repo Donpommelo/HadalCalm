@@ -35,7 +35,7 @@ public class Maelstrom extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static float chainDamage = 25.0f;
-	private final static int chainRadius = 40;
+	private final static int chainRadius = 25;
 	private final static int chainAmount = 6;
 	
 	private final static Sprite weaponSprite = Sprite.MT_CHAINLIGHTNING;

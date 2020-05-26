@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -38,7 +39,7 @@ public class Torpedofish extends EnemySwimming {
 	private static final float noiseRadius = 15.0f;
 
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
-	private final static Sprite projSprite = Sprite.ORB_RED;
+	private final static Sprite projSprite = Sprite.MISSILE_A;
 	
 	public Torpedofish(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height), new Vector2(hboxWidth, hboxHeight), name, sprite, EnemyType.TORPEDOFISH, startAngle,  filter, baseHp, attackCd, scrapDrop, spawner);
@@ -57,7 +58,7 @@ public class Torpedofish extends EnemySwimming {
 	private final static float baseDamage = 5.0f;
 	private final static float knockback = 0.5f;
 	private final static float projectileSpeed = 16.0f;
-	private final static Vector2 projectileSize = new Vector2(20, 20);
+	private final static Vector2 projectileSize = new Vector2(56, 22);
 	private final static float lifespan = 5.0f;
 	
 	private final static int explosionRadius = 100;
@@ -86,6 +87,7 @@ public class Torpedofish extends EnemySwimming {
 					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	

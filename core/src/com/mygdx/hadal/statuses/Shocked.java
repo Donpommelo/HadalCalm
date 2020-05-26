@@ -23,7 +23,7 @@ public class Shocked extends Status {
 	private final static float procCd = .25f;
 	
 	private final static Vector2 trailSize = new Vector2(10, 10);
-	private final static float trailSpeed = 60.0f;
+	private final static float trailSpeed = 75.0f;
 	private final static float trailLifespan = 3.0f;
 	
 	private int radius, chainAmount;
@@ -65,7 +65,7 @@ public class Shocked extends Status {
 				public boolean reportFixture(Fixture fixture) {
 					if (fixture.getUserData() instanceof BodyData) {
 						
-						if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && inflicted != fixture.getUserData()) {
+						if (((BodyData) fixture.getUserData()).getSchmuck().getHitboxfilter() != filter && ((BodyData) fixture.getUserData()).getSchmuck().isAlive() && inflicted != fixture.getUserData()) {
 							
 							if (chainAttempt == null) {
 								chainAttempt = ((BodyData) fixture.getUserData()).getSchmuck(); 

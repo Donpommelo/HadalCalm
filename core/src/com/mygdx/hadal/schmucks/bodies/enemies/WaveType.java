@@ -13,6 +13,8 @@ public enum WaveType {
 		{
 			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 1, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 4, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 8, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.SPLITTER_LARGE, 16, waveLimit, 1, 2, 3));
 		}
 	},
 	
@@ -26,6 +28,8 @@ public enum WaveType {
 			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 4, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 6, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 8, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 12, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 16, waveLimit, 1, 2, 3));
 
 		}
 	},
@@ -34,6 +38,8 @@ public enum WaveType {
 		{
 			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 1, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 4, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 8, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.SPAWNER, 16, waveLimit, 1, 2, 3));
 		}
 	},
 	
@@ -42,7 +48,8 @@ public enum WaveType {
 			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 1, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 1, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 4, waveLimit, 1, 2, 3));
-			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 4, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 8, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.SWIMMER2, 16, waveLimit, 1, 2, 3));
 		}
 	},
 	
@@ -52,14 +59,17 @@ public enum WaveType {
 			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 1, waveLimit, 1, 2, 3));
 			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 1, 4, 4, 5));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 5, waveLimit, 1, 2, 3));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 5, waveLimit, 1, 2, 3));
-			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 5, waveLimit, 1, 2, 3));
-			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 5, waveLimit, 4));
-			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 5, waveLimit, 5));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 6, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 6, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 6, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 8, waveLimit, 4));
+			this.enemies.add(new WaveEnemy(EnemyType.TURRET_VOLLEY, 8, waveLimit, 5));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 9, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 9, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 12, waveLimit, 1, 2, 3));
+			this.enemies.add(new WaveEnemy(EnemyType.MISCFISH, 16, waveLimit, 1, 2, 3));
 		}
-	}
-	
+	}	
 	;
 	
 	
