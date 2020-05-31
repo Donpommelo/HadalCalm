@@ -37,9 +37,9 @@ public class HitboxData extends HadalData {
 	}
 	
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		if (!hbox.isAlive())
-			return;
+			return 0.0f;
 		
 		//process hbox reflections/deflections
 		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && hbox.isAlive() && hbox.isReflectable()) {
@@ -52,6 +52,8 @@ public class HitboxData extends HadalData {
 			hbox.getBody().getFixtureList().get(0).setFilterData(filter);
 			hbox.setDamageMultiplier(reflectMultiplier);
 		}
+		
+		return basedamage;
 	}
 	
 	/**

@@ -276,10 +276,10 @@ public class BodyData extends HadalData {
 	 * @param tags: varargs of damage tags
 	 */
 	@Override
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		
 		if (!schmuck.isAlive()) {
-			return;
+			return 0.0f;
 		}
 		
 		float damage = basedamage;
@@ -330,6 +330,8 @@ public class BodyData extends HadalData {
 				}
 			}
 		}
+		
+		return damage;
 	}
 	
 	/**

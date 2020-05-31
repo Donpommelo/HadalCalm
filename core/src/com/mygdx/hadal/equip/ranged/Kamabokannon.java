@@ -36,7 +36,7 @@ public class Kamabokannon extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private static final float maxCharge = 0.5f;
+	private static final float maxCharge = 0.3f;
 	private final static float lerpSpeed = 0.2f;
 
 	public Kamabokannon(Schmuck user) {

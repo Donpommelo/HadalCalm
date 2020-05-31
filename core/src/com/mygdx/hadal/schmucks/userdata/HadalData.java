@@ -41,10 +41,12 @@ public class HadalData {
 	 * @param procEffects: Should this proc status effects?
 	 * @param tags: damage tags
 	 */
-	public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		if (getEntity().isAlive()) {
 			getEntity().push(knockback);
 		}
+		
+		return basedamage;
 	}
 	
 	public int getNumContacts() { return numContacts; }

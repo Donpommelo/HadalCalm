@@ -129,7 +129,7 @@ public class Player extends PhysicsSchmuck {
 	private float reloadPercent;
 	
 	//This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
-	private float chargePercent;
+	private float chargePercent, chargeDelayed;
 	
 	//particles and sounds used by the player
 	private ParticleEntity hoverBubbles, dustCloud;
@@ -724,9 +724,12 @@ public class Player extends PhysicsSchmuck {
 		if (playerData.getCurrentTool().isCharging()) {
 			
 			//Calculate charge progress
-			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * chargePercent, reloadBar.getRegionHeight() * uiScale);
+			chargeDelayed = chargeDelayed + (chargePercent - chargeDelayed) * 0.1f;
+			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * chargeDelayed, reloadBar.getRegionHeight() * uiScale);
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "CHARGING", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+		} else {
+			chargeDelayed = 0.0f;
 		}
 		
 		//This draws a heart by the player's sprite to indicate hp remaining

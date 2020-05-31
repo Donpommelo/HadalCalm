@@ -190,7 +190,14 @@ public abstract class Equipable {
 	
 	public float getChargeCd() { return chargeCd; }
 	
-	public void setChargeCd(float chargeCd) { this.chargeCd = chargeCd; }
+	public void setChargeCd(float chargeCd) { 
+		float chargeTime = getChargeTime();
+		if (chargeCd > chargeTime) {
+			this.chargeCd = chargeTime;
+		} else {
+			this.chargeCd = chargeCd;
+		}
+	}
 	
 	public float getChargeTime() { return chargeTime * (1 - user.getBodyData().getStat(Stats.EQUIP_CHARGE_RATE)); }
 

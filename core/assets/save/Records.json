@@ -1,5 +1,5 @@
 {
-scrap: 105
+scrap: 107
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -225,8 +225,6 @@ unlockLevel: {
 	SANDBOX_ENEMY: true
 	DM_GULLY: true
 	DM_SAWMILL: true
-	DM_FACING_CRABS: true
-	DM_REDROCK: true
 	NOISELESSSEA1: true
 	WRECKEXPANSE1: true
 	DM_LAGAN: true
@@ -246,10 +244,12 @@ unlockLevel: {
 	DERELICT1: true
 	BOSS1: true
 	WRECK1: true
+	DM_REDROCK: true
 	WRECKEXPANSEBOSS: true
 	PLENUMCHAMBERBALCONY: true
 	HUB_MULTI: true
 	DM_LITTLE_BITTERN: true
+	DM_FACING_CRABS: true
 	DM_HUMMINGBIRD: true
 	ARENA_HORIZON: true
 	PLENUMCHAMBEREXTRA1: true

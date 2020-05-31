@@ -47,7 +47,7 @@ public class DestructableBlock extends Event {
 		this.eventData = new EventData(this, UserDataTypes.WALL) {
 			
 			@Override
-			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 				hp -= basedamage;
 				
 				if (basedamage > 0) {
@@ -67,6 +67,8 @@ public class DestructableBlock extends Event {
 						event.getConnectedEvent().getEventData().preActivate(this, null);
 					}
 				}
+				
+				return basedamage;
 			}
 		};
 		

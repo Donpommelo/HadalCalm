@@ -177,9 +177,11 @@ public class ChargeBeam extends RangedWeapon {
 	@Override
 	public void unequip() {
 		if (charge != null) {
+			charge.queueDeletion();
 			charge = null;
 		}
 		if (overcharge != null) {
+			overcharge.queueDeletion();
 			overcharge = null;
 		}
 	}

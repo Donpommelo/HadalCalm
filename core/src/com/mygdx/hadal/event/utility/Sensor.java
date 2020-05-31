@@ -48,8 +48,9 @@ public class Sensor extends Event {
 		this.eventData = new EventData(this) {
 			
 			@Override
-			public void receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
+			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 				//this event should receive no kb from attacks.
+				return basedamage;
 			}
 			
 			@Override
