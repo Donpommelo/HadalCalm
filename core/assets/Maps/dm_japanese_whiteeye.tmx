@@ -9,7 +9,7 @@
   </data>
  </layer>
  <imagelayer id="2" name="Image Layer 1">
-  <image source="../japanese_whiteeye.jpg" width="5184" height="3456"/>
+  <image source="../Images/japanese_whiteeye.jpg" width="5184" height="3456"/>
  </imagelayer>
  <objectgroup id="3" name="collision-layer">
   <object id="1" x="0.363636" y="2598.64">

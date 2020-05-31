@@ -41,10 +41,26 @@
   <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8"/>
   <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8"/>
   <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8"/>
-  <object id="11" name="Dormitory" type="Dormitory" x="1536" y="2080" width="96" height="96"/>
-  <object id="12" name="Armory" type="Armory" x="1728" y="1760" width="96" height="96"/>
-  <object id="13" name="Reliquary" type="Reliquary" x="1920" y="1760" width="96" height="96"/>
-  <object id="15" name="Dispensary" type="Dispensary" x="2112" y="2080" width="96" height="96"/>
+  <object id="11" name="Dormitory" type="Dormitory" x="1536" y="2080" width="96" height="96">
+   <properties>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="12" name="Armory" type="Armory" x="1728" y="1760" width="96" height="96">
+   <properties>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="13" name="Reliquary" type="Reliquary" x="1920" y="1760" width="96" height="96">
+   <properties>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="15" name="Dispensary" type="Dispensary" x="2112" y="2080" width="96" height="96">
+   <properties>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
   <object id="16" name="Start" type="Start" x="1856" y="1760" width="32" height="32">
    <properties>
     <property name="triggeringId" value="enterfromcenter"/>
@@ -462,7 +478,11 @@
     <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
-  <object id="93" name="Navigation" type="Navigation" x="1824" y="1984" width="96" height="96"/>
+  <object id="93" name="Navigation" type="Navigation" x="1824" y="1984" width="96" height="96">
+   <properties>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
   <object id="95" name="Quartermaster" type="Quartermaster" x="2240" y="1088" width="96" height="96">
    <properties>
     <property name="shopId" value="weapons1"/>

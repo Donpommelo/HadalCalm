@@ -225,6 +225,8 @@ unlockLevel: {
 	SANDBOX_ENEMY: true
 	DM_GULLY: true
 	DM_SAWMILL: true
+	DM_FACING_CRABS: true
+	DM_REDROCK: true
 	NOISELESSSEA1: true
 	WRECKEXPANSE1: true
 	DM_LAGAN: true

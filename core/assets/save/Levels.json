@@ -154,6 +154,15 @@ DM_SUPREME_CHAMPION: {
         MULTIPLAYER
 	]
 }
+DM_FACING_CRABS: {
+	name: DM_FACING_CRABS
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
 DM_GALLERY: {
 	name: DM_GALLERY
 	description: TEMP
@@ -165,6 +174,15 @@ DM_GALLERY: {
 }
 DM_HORIZON: {
 	name: DM_HORIZON
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_REDROCK: {
+	name: DM_REDROCK
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

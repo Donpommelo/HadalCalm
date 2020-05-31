@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="25">
+ <properties>
+  <property name="pvp" type="bool" value="true"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <imagelayer id="2" name="Image Layer 1">
+  <image source="../Images/redrock.jpg" width="5184" height="3456"/>
+ </imagelayer>
+ <layer id="1" name="Tile Layer 1" width="180" height="120">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwbUY8AAQ==
+  </data>
+ </layer>
+ <objectgroup id="3" name="collision-layer">
+  <object id="1" x="-0.25" y="3018.25">
+   <polyline points="0,0 80.25,15.0833 152.25,27.0833 186.917,40.4167 242.917,45.75 333.583,64.4167 400.25,84.4167 492.25,108.417 581.583,117.75 638.917,116.417 678.917,101.75 708.25,97.75 736.25,93.75 746.917,67.0833 789.583,29.75 818.917,-0.916667 892.25,-32.9167 958.917,-38.25 984.25,-107.583 1032.25,-170.25 1074.92,-206.25 1138.92,-219.583 1240.25,-291.583 1316.25,-344.917 1408.25,-390.25 1468.25,-390.25 1538.92,-415.583 1597.58,-404.917 1630.92,-408.917 1693.58,-412.917 1748.25,-408.917 1832.25,-380.917 1918.92,-356.917 1974.92,-338.25 2037.58,-304.917 2101.75,-248.75 2158.25,-200.75 2207.75,-154.25 2254.75,-139.75 2285.75,-103.25 2348.75,-60.75 2405.75,-30.75 2437.25,-11.75 2477.75,3.25 2520.75,39.75 2560.25,66.75 2597.25,110.75 2631.75,130.75 2648.25,83.75 2703.58,42.4167 2795.58,-26.25 2900.25,-50.9167 2956.92,-64.25 3084.25,-58.25 3112.92,-46.25 3181.58,-53.5833 3288.25,-55.5833 3292.25,-104.917 3334.92,-135.583 3354.92,-144.917 3381.58,-168.917 3425.58,-191.583 3482.92,-198.25 3516.25,-226.25 3608.25,-271.583 3714.92,-379.583 3758.92,-480.917 3860.25,-582.25 3934.92,-712.917 4012.25,-794.25 4116.25,-980.917 4225.58,-1102.25 4277.58,-1198.25 4364.25,-1267.58 4542.92,-1462.25 4665.58,-1596.92 4797.58,-1710.25 4900.25,-1783.58 5060.25,-1863.58 5101.58,-1915.58 5184.25,-1939.58 5184.25,-3018.25 0.25,-3018.25 0.0681818,-0.431818"/>
+  </object>
+  <object id="2" x="4064.67" y="2132.67">
+   <properties>
+    <property name="dropthrough" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,0 -30.6667,-10 -53,-15 -83,-25 -90.3333,-34 -107,-42.6667 -120.667,-37.6667 -133,-25.3333 -139.333,-21.3333 -154,-25 -166.333,-27.3333 -180.667,-26.6667 -189,-20.6667 -211,-18.3333 -232,-17.6667 -247.667,-14.3333 -257.333,-10.3333 -279,-5.33333 -292.667,8.33333 -308.417,22.3333 -317.667,25.8333 -323.417,33.8333 -346.417,46.8333 -368.667,56 -379.667,67.3333 -395.333,78.3333 -443.333,97 -496,109 -581,106 -622.667,100.667 -702.667,100.833 -756.167,93.8333 -796.667,82.3333 -830.167,82.3333 -880.667,67.3333 -941.167,48.8333 -977.167,49.3333 -1004.17,47.3333 -1041.17,55.3333 -1049.17,62.8333 -1085.67,64.8333 -1130.17,52.3333 -1170.17,42.8333 -1219.67,14.3333 -1267.17,-2.16667 -1297.67,-10.6667 -1348.67,-17.6667 -1482.67,-54.6667 -1608.67,-121.667 -1727.67,-202.667 -1789.67,-253.667 -1803.67,-268.667 -1826.67,-279.667 -1833.67,-291.667 -1877.67,-314 -1889,-322.667 -1889.67,-330.333 -1897.33,-340 -1911.67,-351.333 -1913.67,-372 -1921,-378.333 -1934.33,-399.333 -1940,-403.333 -1947,-427.333 -1964.67,-434 -1970,-444 -1983.33,-450.333 -1993,-474.333 -1991,-482.333 -1997.33,-502.333 -2006,-514.667 -2021,-518.667 -2027.67,-524 -2054.67,-532.333 -2058.33,-537 -2062.67,-544.333 -2064.67,-568.333 -2077.33,-574.333 -2079.67,-598 -2085,-607.333 -2086.67,-620.667 -2105.67,-629 -2112.33,-655.667 -2117.33,-673.333 -2121,-703.333 -2128.33,-706.333 -2131,-712.333 -2149,-722.333 -2158.67,-753.333 -2161.67,-762.667 -2168.33,-763.667 -2183,-791.333 -2200.33,-807 -2210,-818.667 -2209,-837 -2236.67,-881.667 -2255.67,-925.667 -2288.17,-957.667 -2301.67,-977.667 -2308.67,-974.667 -2320.67,-989.167 -2330.17,-1013.67 -2334.67,-1037.67 -2359.17,-1065.67 -2412.17,-1094.17 -2414.17,-1112.17 -2418.17,-1124.17 -2437.17,-1151.17 -2458.67,-1170.67 -2487.17,-1176.67 -2514.17,-1189.17 -2541.17,-1192.17 -2552.17,-1187.17 -2582.17,-1210.17 -2600.67,-1217.17 -2617.67,-1231.17 -2643.67,-1229.67 -2672.67,-1211.17 -2685.67,-1194.67 -2698.67,-1179.17 -2714.17,-1155.67 -2722.67,-1139.17 -2739.17,-1121.17 -2793.67,-1079.17 -2847.17,-1050.17 -2917.67,-1008.17 -2942.67,-996.667 -2966.17,-994.667 -2984.17,-980.667 -2997.67,-969.167 -3017.67,-969.167 -3051.67,-966.667 -3063.67,-969.667 -3091.67,-954.667 -3144.17,-952.667 -3155.67,-943.667 -3254.67,-951.167 -3318.67,-956.167 -3484.12,-976.848 -3557.94,-992.121 -3837.33,-1056 -3938.67,-1092 -3974.67,-1102.67 -3974,-1114 -3991.33,-1138 -4005.33,-1172.67 -4018.67,-1192 -4020,-1226.67 -4063.33,-1233.33"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="event-layer">
+  <object id="4" name="Prefab" type="PrefabPVPSettingSetter" x="64" y="3488" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="5" name="Multitrigger" type="Multitrigger" x="64" y="3552" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1"/>
+   </properties>
+  </object>
+  <object id="6" name="Start" type="Start" x="1536" y="2528" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="7" name="Start" type="Start" x="1408" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="8" name="Start" type="Start" x="3072" y="2080" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="9" name="Start" type="Start" x="4704" y="1280" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="10" name="Prefab" type="PrefabWeapon" x="2949" y="2860" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="11" name="ScrapSpawn" type="ScrapSpawn" x="2592" y="2688" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="12" name="Prefab" type="PrefabSpawner" x="2182" y="2776" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="13" name="Bounds" type="Bounds" x="768" y="448" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="14" name="Bounds" type="Bounds" x="4384" y="2752" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="17" name="Dropthrough" type="Dropthrough" x="1408" y="2112" width="512" height="8"/>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="2336" y="2528" width="544" height="8"/>
+  <object id="22" name="Dropthrough" type="Dropthrough" x="3072" y="1600" width="512" height="8"/>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="256" y="1888" width="512" height="8"/>
+  <object id="24" name="Dropthrough" type="Dropthrough" x="960" y="1536" width="512" height="8"/>
+ </objectgroup>
+</map>

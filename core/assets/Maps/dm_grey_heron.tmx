@@ -9,7 +9,7 @@
   </data>
  </layer>
  <imagelayer id="2" name="Image Layer 1">
-  <image source="../grey_heron.jpg" width="5184" height="3456"/>
+  <image source="../Images/grey_heron.jpg" width="5184" height="3456"/>
  </imagelayer>
  <objectgroup id="3" name="collision-layer">
   <object id="2" x="0" y="3456">

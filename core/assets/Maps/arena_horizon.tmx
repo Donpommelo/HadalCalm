@@ -6,7 +6,7 @@
   </data>
  </layer>
  <imagelayer id="2" name="Image Layer 1">
-  <image source="../IMG_0257.jpg" width="5184" height="3456"/>
+  <image source="../Images/horizon.jpg" width="5184" height="3456"/>
  </imagelayer>
  <objectgroup id="3" name="collision-layer">
   <object id="51" x="0" y="1888">

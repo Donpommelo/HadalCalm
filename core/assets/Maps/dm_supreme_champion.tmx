@@ -4,7 +4,7 @@
   <property name="pvp" type="bool" value="true"/>
  </properties>
  <imagelayer id="4" name="Image Layer 1">
-  <image source="../duck.jpg" width="5184" height="3456"/>
+  <image source="../Images/supreme_champion.jpg" width="5184" height="3456"/>
  </imagelayer>
  <layer id="1" name="Tile Layer 1" width="180" height="120">
   <data encoding="base64" compression="zlib">

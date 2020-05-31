@@ -45,7 +45,9 @@ public class Rotator extends Event {
 						}
 					}
 				} else {
-					getConnectedEvent().setTransform(getConnectedEvent().getPosition(), (float) (angle * Math.PI / 180));
+					if (getConnectedEvent() != null) {
+						getConnectedEvent().setTransform(getConnectedEvent().getPosition(), (float) (angle * Math.PI / 180));
+					}
 				}
 			}
 		};
