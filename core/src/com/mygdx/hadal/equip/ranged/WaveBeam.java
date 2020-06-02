@@ -16,7 +16,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
-public class WaveCannon extends RangedWeapon {
+public class WaveBeam extends RangedWeapon {
 
 	private final static int clipSize = 5;
 	private final static int ammoSize = 25;
@@ -31,7 +31,7 @@ public class WaveCannon extends RangedWeapon {
 	private final static Vector2 projectileSize = new Vector2(60, 20);
 	private final static float lifespan = 0.75f;
 	
-	private final static Sprite projSprite = Sprite.ORB_ORANGE;
+	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
@@ -40,7 +40,7 @@ public class WaveCannon extends RangedWeapon {
 
 	private final static float pushInterval = 1 / 60f;
 	
-	public WaveCannon(Schmuck user) {
+	public WaveBeam(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
 	}
 	

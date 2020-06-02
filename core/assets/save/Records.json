@@ -1,5 +1,5 @@
 {
-scrap: 107
+scrap: 108
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -36,7 +36,7 @@ unlockEquip: {
 	PEARL_REVOLVER: true
 	MORAYGUN: true
 	TRICK_GUN: true
-	WAVE_CANNON: true
+	MORNING_STAR: true
 	LASER_GUIDED_ROCKET: true
 	KAMABOKANNON: true
 	GRENADE_LAUNCHER: true
@@ -49,8 +49,10 @@ unlockEquip: {
 	STORMCALLER: true
 	STUTTERGUN: true
 	BOUNCING_BLADE: true
+	AMITA_CANNON: true
 	BOOMERANG: true
 	CR4PCANNON: true
+	WAVE_BEAM: true
 	SPEARGUN: true
 	COLACANNON: true
 	TORPEDO_LAUNCHER: true
@@ -184,13 +186,13 @@ unlockActive: {
 	MISSILE_POD: true
 	FISH_GANG: true
 	RELOADER: true
+	BENDY_BEAMS: true
 	MERIDIAN_MAKER: true
 	METEOR_STRIKE: true
 	SPRING_LOADER: true
 	HEALING_FIELD: true
 	TAINTED_WATER: true
 	NOTHING: true
-	BENDING_BEAMS: true
 	SPIRIT_RELEASE: true
 	RESERVED_FUEL: true
 	DODGE_ROLL: true

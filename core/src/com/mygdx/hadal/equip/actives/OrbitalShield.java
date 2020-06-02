@@ -32,7 +32,6 @@ public class OrbitalShield extends ActiveItem {
 	private static final float projSpeed= 180.0f;
 	private static final float projRange= 3.0f;
 
-	
 	public OrbitalShield(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
@@ -44,7 +43,6 @@ public class OrbitalShield extends ActiveItem {
 		createOrbital(state, user, 90);
 		createOrbital(state, user, 180);
 		createOrbital(state, user, 270);
-
 	}
 	
 	public Hitbox createOrbital(PlayState state, PlayerBodyData user, float startAngle) {

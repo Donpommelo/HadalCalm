@@ -43,6 +43,7 @@ public class Hitbox extends HadalEntity {
 	protected short passability = (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR);
 	
 	private final static float defaultGravity = 0.0f;
+	private final static float defaultDensity = 0.0f;
 	private final static int defaultDurability = 1;
 	private final static float defaultFriction = 0.0f;
 	private final static float defaultScale = 1.0f;
@@ -51,6 +52,9 @@ public class Hitbox extends HadalEntity {
 	
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
 	protected float gravity = defaultGravity;
+	
+	//density is the used for certain phyic-related hboxes. stuff that needs to rotate based on physics should have a nonzero density
+	protected float density = defaultDensity;
 		
 	//durability is the number of things the hitbox can hit before disappearing.
 	protected int durability = defaultDurability;
@@ -133,7 +137,7 @@ public class Hitbox extends HadalEntity {
 		
 		this.size.scl(scale);
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 0.0f, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, passability, filter, true, data);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, density, 0.0f, 0.0f, false, false, Constants.BIT_PROJECTILE, passability, filter, true, data);
 
 		//Non-sensor hitboxes have a non-sensor fixture attached to it. This is used for hboxes that collide with walls but should pass through enemies
 		if (!sensor) {
@@ -264,6 +268,8 @@ public class Hitbox extends HadalEntity {
 	
 	public void setGravity(float gravity) { this.gravity = gravity + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY); }
 	
+	public void setDensity(float density) { this.density = density; }
+
 	public void setScale(float scale) { this.scale = scale + creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE); }
 	
 	public void setFriction(float friction) { this.friction = friction; }

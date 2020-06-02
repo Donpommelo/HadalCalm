@@ -139,7 +139,7 @@ public class Screecher extends RangedWeapon {
 	}
 	
 	@Override
-	public void unequip() {
+	public void unequip(PlayState state) {
 		if (screechSound != null) {
 			screechSound.terminate();
 			screechSound = null;

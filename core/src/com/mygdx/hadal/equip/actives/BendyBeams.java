@@ -18,7 +18,7 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.Curve;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
-public class BendingBeams extends ActiveItem {
+public class BendyBeams extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.0f;
@@ -26,7 +26,7 @@ public class BendingBeams extends ActiveItem {
 	
 	private final static Vector2 projectileSize = new Vector2(60, 20);
 	private final static float lifespan = 5.0f;
-	private final static float projectileSpeed = 50.0f;
+	private final static float projectileSpeed = 45.0f;
 	
 	private final static float duration = 0.5f;
 	
@@ -36,7 +36,7 @@ public class BendingBeams extends ActiveItem {
 
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
 
-	public BendingBeams(Schmuck user) {
+	public BendyBeams(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	
@@ -56,7 +56,7 @@ public class BendingBeams extends ActiveItem {
 					
 					startVelo.set(weaponVelo).nor().scl(projectileSpeed);
 					
-					Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
+					Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
 					hbox.addStrategy(new ControllerDefault(state, hbox, user));
 					hbox.addStrategy(new DamageStandard(state, hbox, user, damage, knockback, DamageTypes.ENERGY));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, user));

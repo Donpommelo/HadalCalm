@@ -1,64 +1,57 @@
 package com.mygdx.hadal.equip.ranged;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.equip.WeaponUtils;
-import com.mygdx.hadal.event.DropThroughPlatform;
-import com.mygdx.hadal.event.Wall;
-import com.mygdx.hadal.event.WallDropthrough;
 import com.mygdx.hadal.schmucks.UserDataTypes;
-import com.mygdx.hadal.schmucks.bodies.HadalEntity;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
-import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.utils.Constants;
 
 public class Underminer extends RangedWeapon {
 
-	private final static int clipSize = 4;
-	private final static int ammoSize = 24;
-	private final static float shootCd = 0.2f;
-	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.6f;
+	private final static int clipSize = 1;
+	private final static int ammoSize = 20;
+	private final static float shootCd = 0.0f;
+	private final static float shootDelay = 0.1f;
+	private final static float reloadTime = 0.6f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
-	private final static float projectileSpeed = 20.0f;
-	private final static Vector2 projectileSize = new Vector2(45, 20);
-	private final static float lifespan = 8.0f;
+	private final static float projectileSpeed = 30.0f;
+	private final static Vector2 projectileSize = new Vector2(60, 30);
+	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.DRILL;
 	private final static Sprite fragSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
-	private final static float activatedSpeed = 8.0f;
+	private final static float drillSpeed = 4.0f;
+	private final static float drillDuration = 1.0f;
+	private final static float activatedLifespan = 1.f;
+	private final static float activatedSpinSpeed = 8.0f;
 
-	private final static int explosionRadius = 300;
-	private final static float explosionDamage = 40.0f;
-	private final static float explosionKnockback = 18.0f;
-	
-	private final static int numProj = 10;
-	private final static int spread = 30;
-	private final static Vector2 fragSize = new Vector2(20, 20);
-	private final static float fragLifespan = 0.25f;
-	private final static float fragDamage = 16.0f;
-	private final static float fragSpeed = 30.0f;
+	private final static float raycastRange = 8.0f;
+
+	private final static Vector2 fragSize = new Vector2(60, 30);
+	private final static float fragLifespan = 2.0f;
+	private final static float fragFireLifespan = 0.5f;
+	private final static float fragDamage = 35.0f;
+	private final static float fragKnockback = 25.0f;
+	private final static float fragSpeed = 4.0f;
+	private final static float fragFireSpeed = 40.0f;
 	
 	public Underminer(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
@@ -71,57 +64,89 @@ public class Underminer extends RangedWeapon {
 		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setPassability((short) (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));
 
-		hbox.setGravity(2.0f);
-		hbox.setDurability(2);
+		hbox.setGravity(3.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(),  baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION6, 0.5f));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
+			
+			private boolean drilling = false;
 			private boolean activated = false;
-			private boolean platformHit = false;
 			private float invuln = 0.0f;
 			
-			private float controllerCount = 0;
-			private final static float pushInterval = 1 / 60f;
-			private final static float lerp = 0.03f;
-			private Vector2 lerpTowards = new Vector2();
+			private float procCdCount = 0;
+
+			private float drillCount = 0;
+			private final static float procCd = 0.1f;
 			
-			//this is the entity we home towards. (either the player's mouse or the player)
-			private HadalEntity target;
-			
-			@Override
-			public void create() {
-				if (user instanceof Player) {
-					target = ((Player) user).getMouse();
-				} else {
-					target = state.getPlayer();
-				}
-			}
-			
+			private Vector2 angle = new Vector2();
+			private Vector2 raycast = new Vector2(0, raycastRange);
+			boolean wallDetected;
+
 			@Override
 			public void controller(float delta) {
-				super.controller(delta);
 				
-				if (activated && invuln <= 0) {
-					controllerCount += delta;
-
-					while (controllerCount >= pushInterval) {
-						controllerCount -= pushInterval;
-						hbox.getBody().setLinearVelocity(hbox.getLinearVelocity().lerp(lerpTowards.set(target.getPixelPosition()).sub(hbox.getPixelPosition()).nor().scl(activatedSpeed), lerp));
+				if (!activated) {
+					hbox.setTransform(hbox.getPosition(), (float) (Math.atan2(hbox.getLinearVelocity().y , hbox.getLinearVelocity().x)));
+				}
+				
+				if (drilling && invuln <= 0) {
+					drillCount += delta;
+					
+					if (drillCount >= drillDuration && !activated) {
+						drilling = false;
+						activate();
 					}
 				}
 				
 				//invuln is incremented to prevent hbox from detonating immediately upon hitting a corner
 				if (invuln > 0) {
 					invuln -= delta;
-					
-					if (platformHit && invuln <= 0) {
-						hbox.die();
+				}
+				
+				if (activated) {
+					if (procCdCount >= procCd) {
+						procCdCount -= procCd;
+
+						angle.set(hbox.getPosition()).add(raycast.setAngleRad(hbox.getAngle()));
+						wallDetected = false;
+						state.getWorld().rayCast(new RayCastCallback() {
+
+							@Override
+							public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+								
+								if (fixture.getFilterData().categoryBits == (short) Constants.BIT_WALL) {
+									wallDetected = true;
+								}
+								return -1.0f;
+							}
+							
+						}, hbox.getPosition(), angle);
+						
+						if (wallDetected) {
+							Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, new Vector2(0, 1).setAngleRad(hbox.getAngle()).scl(fragSpeed), filter, true, true, user, fragSprite);
+							frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
+							frag.addStrategy(new AdjustAngle(state, frag, user.getBodyData()));
+							frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
+							frag.addStrategy(new HitboxStrategy(state, frag, user.getBodyData()) {
+								
+								@Override
+								public void onHit(HadalData fixB) {
+									if (fixB != null) {
+										
+										if (fixB.getType().equals(UserDataTypes.WALL)) {
+											frag.setLinearVelocity(frag.getLinearVelocity().nor().scl(fragFireSpeed));
+											frag.setLifeSpan(fragFireLifespan);
+											frag.setGravityScale(3.0f);
+										}
+									}
+								}
+							});
+						}
 					}
+					procCdCount += delta;
 				}
 			}
 			
@@ -132,45 +157,28 @@ public class Underminer extends RangedWeapon {
 					if (fixB.getType().equals(UserDataTypes.WALL)) {
 						
 						//upon hitting a wall, hbox activates and begins drilling in a straight line
-						if (!activated) {
-							activated = true;
-							hbox.setLinearVelocity(hbox.getLinearVelocity().nor().scl(activatedSpeed));
+						if (!drilling) {
+							drilling = true;
+							hbox.setLinearVelocity(hbox.getLinearVelocity().nor().scl(drillSpeed));
 							hbox.setGravityScale(0);
-							invuln = 0.25f;
-							
-							if (!(fixB.getEntity() instanceof Wall)) {
-								platformHit = true;
-							}
+							invuln = 0.1f;
 						} else {
 							//if already activated (i.e drilling to other side of wall), hbox explodes
 							if (invuln <= 0) {
-								hbox.die();
+								drilling = false;
+								activate();
 							}
 						}
-					}
-					if (fixB.getEntity() instanceof WallDropthrough || fixB.getEntity() instanceof DropThroughPlatform) {
-						hbox.die();
 					}
 				}
 			}
 			
-			private Vector2 newVelocity = new Vector2();
-			
-			@Override
-			public void die() {
-				
-				//hbox releases frags when it dies
-				WeaponUtils.createExplosion(state, this.hbox.getPixelPosition(), explosionRadius, creator.getSchmuck(), explosionDamage, explosionKnockback, filter);
-				
-				for (int i = 0; i < numProj; i++) {
-					float newDegrees = (float) (hbox.getLinearVelocity().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-					
-					newVelocity.set(startVelocity);
-					
-					Hitbox frag = new RangedHitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, newVelocity.nor().scl(fragSpeed).setAngle(newDegrees), filter, true, true, user, fragSprite);
-					frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
-					frag.addStrategy(new ContactUnitLoseDurability(state, frag, user.getBodyData()));
-					frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(), fragDamage, knockback, DamageTypes.RANGED));
+			private void activate() {
+				if (!activated) {
+					activated = true;
+					hbox.setLinearVelocity(0, 0);
+					hbox.setAngularVelocity(activatedSpinSpeed);
+					hbox.setLifeSpan(activatedLifespan);
 				}
 			}
 		});

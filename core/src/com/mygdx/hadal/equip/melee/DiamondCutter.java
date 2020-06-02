@@ -128,7 +128,7 @@ public class DiamondCutter extends MeleeWeapon {
 	}
 	
 	@Override
-	public void unequip() {
+	public void unequip(PlayState state) {
 		held = false;
 		if (hbox != null) {
 			hbox.die();

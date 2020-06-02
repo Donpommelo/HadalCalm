@@ -14,6 +14,7 @@ import com.mygdx.hadal.states.PlayState;
 
 public enum UnlockEquip {
 	
+	AMITA_CANNON(AmitaCannon.class),
 	BEEGUN(BeeGun.class),
 	BOILER(Boiler.class),
 	BOOMERANG(Boomerang.class),
@@ -36,6 +37,7 @@ public enum UnlockEquip {
 	MAELSTROM(Maelstrom.class),
 	MINIGUN(Minigun.class),
 	MORAYGUN(Moraygun.class),
+	MORNING_STAR(MorningStar.class),
 	NEMATOCYDEARM(Nematocydearm.class),
 	PEARL_REVOLVER(PearlRevolver.class),
 	POPPER(Popper.class),
@@ -51,7 +53,7 @@ public enum UnlockEquip {
 	TORPEDO_LAUNCHER(TorpedoLauncher.class),
 	TRICK_GUN(TrickGun.class),
 	UNDERMINER(Underminer.class),
-	WAVE_CANNON(WaveCannon.class),
+	WAVE_BEAM(WaveBeam.class),
 	
 	NOTHING(NothingWeapon.class),
 	

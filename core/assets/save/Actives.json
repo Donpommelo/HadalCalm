@@ -8,8 +8,8 @@ ANCHOR_SMASH: {
 		RANDOM_POOL,
 	]
 }
-BENDING_BEAMS: {
-	name: Bending Beams
+BENDY_BEAMS: {
+	name: Bendy Beams
 	description: "Fire a barrage of curving projectiles"
     descriptionLong: ""
 	tags: [

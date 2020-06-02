@@ -416,7 +416,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void setEquip() {
 		if (currentTool != null) {
-			currentTool.unequip();
+			currentTool.unequip(player.getState());
 		}
 		currentTool = multitools[currentSlot];
 		player.setToolSprite(currentTool.getWeaponSprite().getFrame());
@@ -597,7 +597,7 @@ public class PlayerBodyData extends BodyData {
 			}
 			
 			if (currentTool != null) {
-				currentTool.unequip();
+				currentTool.unequip(player.getState());
 			}
 			
 			super.die(perp, tags);

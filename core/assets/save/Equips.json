@@ -9,6 +9,16 @@ IRON_BALL_LAUNCHER: {
 		RANGED,
 	]
 }
+AMITA_CANNON: {
+	name: Amita Cannon
+	description: "Fires a spinning ring of projectiles."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 BOUNCING_BLADE: {
 	name: Bouncing Blades
 	description: "Fires a projectile in a straight line that bounces off surfaces."
@@ -196,6 +206,16 @@ KAMABOKANNON: {
 		RANGED,
 	]
 }
+MORNING_STAR: {
+	name: Morning Star
+	description: "Create a melee hitbox at the end of a chain."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 NEMATOCYDEARM: {
 	name: Nemato Sidearm
 	description: "Fires spikes that lodge into walls."
@@ -374,8 +394,8 @@ UNDERMINER: {
 		RANGED,
 	]
 }
-WAVE_CANNON: {
-	name: Wave Cannon
+WAVE_BEAM: {
+	name: Wave Beam
 	description: "Fires a burst of wavy projectiles."
     descriptionLong: "TEST"
 	tags: [

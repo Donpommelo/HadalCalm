@@ -13,7 +13,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public enum UnlockActives {
 	
 	ANCHOR_SMASH(AnchorSmash.class),
-	BENDING_BEAMS(BendingBeams.class),
+	BENDY_BEAMS(BendyBeams.class),
 	DEPTH_CHARGE(DepthCharge.class),
 	DODGE_ROLL(DodgeRoll.class),
 	HEALING_FIELD(HealingField.class),

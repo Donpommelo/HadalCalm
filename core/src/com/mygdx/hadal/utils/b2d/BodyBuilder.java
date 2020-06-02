@@ -27,7 +27,7 @@ public class BodyBuilder {
 	 * @param density: Density. Higher = less impact from other forces.
 	 * @param resti: Restitution = Bounciness.
 	 * @param isStatic: True for bodies that do not move.
-	 * @param canRotate: Can it rotate?
+	 * @param fixedRotate: Can it not rotate?
 	 * @param cBits: What type of body is this?
 	 * @param mBits: What types of bodies does this collide with?
 	 * @param gIndex: Extra filter. <0 = never collide with bodies with same value. >0 = always collide with bodies with same value.
@@ -36,15 +36,15 @@ public class BodyBuilder {
 	 * @return: The newly created body.
 	 */
     public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti,
-    		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
-    	return createBox(world, startPos, size, grav, density, resti, 1.0f, isStatic, canRotate, cBits, mBits, gIndex, sensor, userData);
+    		boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
+    	return createBox(world, startPos, size, grav, density, resti, 1.0f, isStatic, fixedRotate, cBits, mBits, gIndex, sensor, userData);
     }
     
     public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti, float friction,
-    		boolean isStatic, boolean canRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
+    		boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
     	
     	BodyDef bodyDef = new BodyDef();
-        bodyDef.fixedRotation = canRotate;
+        bodyDef.fixedRotation = fixedRotate;
         bodyDef.position.set(new Vector2(startPos).scl(1 / PPM));
 
         if(isStatic) {

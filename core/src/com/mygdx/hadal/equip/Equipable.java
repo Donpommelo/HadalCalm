@@ -126,7 +126,7 @@ public abstract class Equipable {
 	/**
 	 * This is run when this equipable is unequipped
 	 */
-	public void unequip() {}
+	public void unequip(PlayState state) {}
 	
 	/**
 	 * Get the string representing the weapon in the ui.

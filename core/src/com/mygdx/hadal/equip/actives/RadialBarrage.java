@@ -15,7 +15,7 @@ public class RadialBarrage extends ActiveItem {
 	private final static float maxCharge = 15.0f;
 	
 	private final static float duration = 5.0f;
-	private static final float procCd = .1f;
+	private static final float procCd = 0.1f;
 	private static final int totalShots = 6;
 
 	public RadialBarrage(Schmuck user) {
