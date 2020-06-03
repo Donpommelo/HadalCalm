@@ -70,10 +70,7 @@ public class ChargeBeam extends RangedWeapon {
 			charge.setOffset(particleOrigin);
 			charge.turnOn();
 
-			chargeCd += delta;
-			if (chargeCd >= getChargeTime()) {
-				chargeCd = getChargeTime();
-			}
+			setChargeCd(chargeCd + delta);
 		} else {
 			if (overcharge == null) {
 				overcharge = new ParticleEntity(user.getState(), user, Particle.OVERCHARGE, 1.0f, 0.0f, false, particleSyncType.TICKSYNC);

@@ -79,6 +79,15 @@ CR4PCANNON: {
 		RANGED,
 	]
 }
+DEEP_SEA_SMELTER: {
+	name: Deep Sea Smelter
+	description: "Ranged weapon with high rate of fire but can overheat."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+	]
+}
 DIAMOND_CUTTER: {
 	name: Diamond Cutter
 	description: "Extends a spinning blade."

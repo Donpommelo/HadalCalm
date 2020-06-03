@@ -426,8 +426,8 @@ public class Player extends PhysicsSchmuck {
 		}
 		
 		//keep track of reload/charge percent to properly sync those fields in the ui
-		reloadPercent = getPlayerData().getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
-		chargePercent = getPlayerData().getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
+		reloadPercent = playerData.getCurrentTool().getReloadCd() / (getPlayerData().getCurrentTool().getReloadTime());
+		chargePercent = playerData.getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
 		
 		//process cds
 		jumpCdCount-=delta;
@@ -441,7 +441,10 @@ public class Player extends PhysicsSchmuck {
 			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(mouse.getPixelPosition().y, mouse.getPixelPosition().x);
 		}
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
-				
+		
+		//process weapon update (this is for weapons that have an effect that activates over time which is pretty rare)
+		playerData.getCurrentTool().update(delta);
+		
 		super.controller(delta);
 	}
 	
@@ -726,7 +729,7 @@ public class Player extends PhysicsSchmuck {
 			//Calculate charge progress
 			chargeDelayed = chargeDelayed + (chargePercent - chargeDelayed) * 0.1f;
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * chargeDelayed, reloadBar.getRegionHeight() * uiScale);
-			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "CHARGING", textX + 12, textY + reload.getRegionHeight() * uiScale);
+			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, playerData.getCurrentTool().getChargeText(), textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
 		} else {
 			chargeDelayed = 0.0f;

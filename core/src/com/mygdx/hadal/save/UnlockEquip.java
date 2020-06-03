@@ -22,6 +22,7 @@ public enum UnlockEquip {
 	CHARGE_BEAM(ChargeBeam.class),
 	COLACANNON(ColaCannon.class),
 	CR4PCANNON(CR4PCannon.class),
+	DEEP_SEA_SMELTER(DeepSeaSmelter.class),
 	DIAMOND_CUTTER(DiamondCutter.class),
 	FISTICUFFS(Fisticuffs.class),
 	FLOUNDERBUSS(Flounderbuss.class),

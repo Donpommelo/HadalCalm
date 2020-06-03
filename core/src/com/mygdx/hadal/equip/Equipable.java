@@ -129,6 +129,22 @@ public abstract class Equipable {
 	public void unequip(PlayState state) {}
 	
 	/**
+	 * this is run when an equipable is equipped
+	 * @param state
+	 */
+	public void equip(PlayState state) {
+		setReloading(getClipLeft() == 0 && this instanceof RangedWeapon);
+		setCharging(false);
+		setReloadCd(0);
+		setChargeCd(0);
+	}
+	
+	/**
+	 * This is run every engine tick for weapons that have an effect that activates over time.
+	 */
+	public void update(float delta) {}
+	
+	/**
 	 * Get the string representing the weapon in the ui.
 	 * @return
 	 */
@@ -206,4 +222,6 @@ public abstract class Equipable {
 	public void setWeaponVelo(Vector2 weaponVelo) {	this.weaponVelo = weaponVelo; }
 	
 	public Vector2 getMouseLocation() { return mouseLocation; }
+
+	public String getChargeText() {	return "CHARGING"; }
 }

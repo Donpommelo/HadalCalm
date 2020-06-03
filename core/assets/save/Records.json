@@ -41,6 +41,7 @@ unlockEquip: {
 	KAMABOKANNON: true
 	GRENADE_LAUNCHER: true
 	DIAMOND_CUTTER: true
+	DEEP_SEA_SMELTER: true
 	FISTICUFFS: true
 	SCRAPRIPPER: true
 	SNIPER_RIFLE: true

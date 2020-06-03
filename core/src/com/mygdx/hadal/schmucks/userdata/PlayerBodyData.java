@@ -7,7 +7,6 @@ import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
-import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.equip.artifacts.Artifact;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
@@ -421,10 +420,7 @@ public class PlayerBodyData extends BodyData {
 		currentTool = multitools[currentSlot];
 		player.setToolSprite(currentTool.getWeaponSprite().getFrame());
 		
-		currentTool.setReloading(currentTool.getClipLeft() == 0 && currentTool instanceof RangedWeapon);
-		currentTool.setCharging(false);
-		currentTool.setReloadCd(0);
-		currentTool.setChargeCd(0);
+		currentTool.equip(player.getState());
 		
 		//This recalcs stats that are tied to weapons. ex: "player receives 50% more damage when x is equipped".
 		calcStats();

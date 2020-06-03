@@ -62,10 +62,7 @@ public class Flounderbuss extends RangedWeapon {
 		
 		//while held, build charge until maximum (if not reloading)
 		if (chargeCd < getChargeTime()) {
-			chargeCd += delta;
-			if (chargeCd >= getChargeTime()) {
-				chargeCd = getChargeTime();
-			}
+			setChargeCd(chargeCd + delta);
 		}
 	}
 	

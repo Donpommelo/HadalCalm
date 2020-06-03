@@ -64,6 +64,8 @@ public class Hexenhowitzer extends RangedWeapon {
 	
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
+		
+		//this is the same as the super method except we skip the clip size check
 		shooter.statusProcTime(new ProcTime.Shoot(this));
 		
 		projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
@@ -93,6 +95,7 @@ public class Hexenhowitzer extends RangedWeapon {
 			hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.MAGIC, DamageTypes.RANGED));
 			hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 
+			//when charged we deplete charge when shooting and remove visual effect when empty
 			me.setChargeCd(me.getChargeCd() - chargeLostPerShot);
 			if (me.getChargeCd() <= 0.0f) {
 				supercharged = false;
@@ -103,6 +106,7 @@ public class Hexenhowitzer extends RangedWeapon {
 				}
 			}
 			
+			//when charged, we have a faster fire rate
 			user.setShootCdCount(superchargedShootCd);
 		} else {
 			
@@ -116,6 +120,8 @@ public class Hexenhowitzer extends RangedWeapon {
 						if (fixB.getType().equals(UserDataTypes.BODY)) {
 							if (!damaged.contains(fixB)) {
 								damaged.add(fixB);
+								
+								//gain charge based on the amount of damage dealt by this weapon's projectiles
 								float damage = fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.MAGIC, DamageTypes.RANGED);
 								
 								me.setCharging(true);
@@ -126,7 +132,7 @@ public class Hexenhowitzer extends RangedWeapon {
 									me.setChargeCd(me.getChargeCd() + damage * enemyChargeMultiplier);
 								}
 								
-								
+								//if fully charged, get a visual effect
 								if (me.getChargeCd() >= getChargeTime() && !supercharged) {
 									supercharged = true;
 									glowing = new MagicGlow(state, user.getBodyData());
