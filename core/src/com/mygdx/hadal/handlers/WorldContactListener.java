@@ -20,7 +20,7 @@ public class WorldContactListener implements ContactListener {
 	public void beginContact(Contact contact) {
 		HadalData fixA = (HadalData) contact.getFixtureA().getUserData();
 		HadalData fixB = (HadalData) contact.getFixtureB().getUserData();
-		
+
 		//When 2 fixtures collide, increment their number of contacts.
 		//Projectiles and events should register hits.
 		if (fixA != null) {

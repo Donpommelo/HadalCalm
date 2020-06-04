@@ -17,7 +17,7 @@ public class HealingField extends ActiveItem {
 	private final static float maxCharge = 150.0f;
 	
 	private final static Vector2 fieldSize = new Vector2(360, 360);
-	private final static float fieldHeal = 6 / 60f;
+	private final static float fieldHeal = 0.2f;
 	private final static float healDuration = 10.0f;
 	
 	public HealingField(Schmuck user) {

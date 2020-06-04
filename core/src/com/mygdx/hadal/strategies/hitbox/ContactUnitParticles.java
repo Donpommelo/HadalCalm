@@ -37,7 +37,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {
-			new ParticleEntity(state, ((BodyData) fixB).getSchmuck().getPixelPosition(), effect, duration, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(state, hbox.getPixelPosition(), effect, duration, true, particleSyncType.CREATESYNC);
 		}
 	}
 }

@@ -31,6 +31,7 @@ public enum DamageTypes {
 	SLODGE,
 	SNIPE,
 	TRICK,
+	STUTTER,
 	
 	DISCONNECT,
 	LIVES_OUT,

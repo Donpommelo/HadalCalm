@@ -423,6 +423,14 @@
             "message": "<perp> showed <vic> the song of their people.", "weight": 1, namedPerp: true
         }
     ]
+"STUTTER":  [
+        {
+            "message": "<perp> s-s-shot <vic> in th-th-the <body part>.", "weight": 10, namedPerp: true
+        }
+        {
+            "message": "<perp> k-k-killed <vic> with a St-st-stuttergun.", "weight": 10, namedPerp: true
+        }
+    ]
 "TRICK":  [
         {
             "message": "<perp> flim-flammed <vic>.", "weight": 25, namedPerp: true

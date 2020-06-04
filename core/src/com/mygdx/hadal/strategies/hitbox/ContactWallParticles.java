@@ -25,6 +25,10 @@ public class ContactWallParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
+	//have the particles appeared yet?
+	//this is delayed, because at the momen of collision, box2d has not processed the point of contact yet.
+	public boolean activated;
+	
 	public ContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
 		super(state, proj, user);
 		this.effect = effect;

@@ -22,7 +22,7 @@ public class AmitaCannon extends RangedWeapon {
 	private final static float shootDelay = 0.1f;
 	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 6.0f;
+	private final static float baseDamage = 7.5f;
 	private final static float recoil = 2.5f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 30.0f;
@@ -47,6 +47,7 @@ public class AmitaCannon extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		SoundEffect.ELECTRIC_CHAIN.playUniversal(state, startPosition, 0.5f, false);
 
+		//we create an ivisible hitbox that moves in a straight line.
 		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		
 		center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
@@ -60,6 +61,8 @@ public class AmitaCannon extends RangedWeapon {
 				for (int i = 0; i < numOrbitals; i++) {
 					angle.setAngle(angle.angle() + 360 / numOrbitals);
 					
+					//we create several orbiting projectiles that circle the invisible center
+					//when the center hits a wall, the orbitals move outwards
 					Hitbox orbital = new RangedHitbox(state, startPosition, orbitalSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 					orbital.setSyncDefault(false);
 					orbital.setSyncInstant(true);

@@ -50,6 +50,8 @@ public class MorningStar extends MeleeWeapon {
 	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 		
+		
+		//when clicked, we create the flail weapon and move it in the direction of the mouse click
 		if (!active) {
 			active = true;
 			activate(state, shooter, mouseLocation);
@@ -68,9 +70,14 @@ public class MorningStar extends MeleeWeapon {
 		deactivate(state);
 	}
 	
+	/**
+	 * This is called to create the flail weapon
+	 */
 	private void activate(PlayState state, final BodyData shooter, Vector2 mouseLocation) {
 		
 		projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
+		
+		//the base is connected to the player and links to the rest of the flail weapon
 		base = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, false, user, chainSprite);
 		base.setDensity(0.1f);
 		base.makeUnreflectable();
@@ -84,6 +91,7 @@ public class MorningStar extends MeleeWeapon {
 			@Override
 			public void controller(float delta) {
 				
+				//detach the flail when the user dies
 				if (!user.isAlive()) {
 					hbox.die();
 					deactivate(state);
@@ -111,6 +119,7 @@ public class MorningStar extends MeleeWeapon {
 			}
 		});
 		
+		//create several linked hboxes
 		for (int i = 0; i < links.length; i++) {
 			final int currentI = i;
 			links[i] = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, false, user, chainSprite);
@@ -164,6 +173,7 @@ public class MorningStar extends MeleeWeapon {
 			});
 		}
 		
+		//the star hbox damages people and has weight
 		star = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), false, true, user, projSprite);
 		star.setGravity(0.5f);
 		star.setDensity(0.1f);
@@ -171,7 +181,7 @@ public class MorningStar extends MeleeWeapon {
 		star.setSyncDefault(false);
 		star.setSyncInstant(true);
 		
-		star.addStrategy(new DamageStandardRepeatable(state, star, user.getBodyData(), baseDamage, knockback, DamageTypes.MELEE));
+		star.addStrategy(new DamageStandardRepeatable(state, star, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE));
 		star.addStrategy(new HitboxStrategy(state, star, user.getBodyData()) {
 			private boolean linked = false;
 			
@@ -201,6 +211,10 @@ public class MorningStar extends MeleeWeapon {
 		});
 	}
 	
+	/**
+	 * upon deactivation, we delete the base hbox and make the others have a temporary lifespan
+	 * this is so that the user can fling the flail by switching to another weapon
+	 */
 	private void deactivate(PlayState state) {
 		active = false;
 		

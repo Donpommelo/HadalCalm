@@ -42,8 +42,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 	
 	private final static float projSpacing = 20.0f;
 
-	private static final float maxCharge = 3.0f;
-	private static final float chargePerShot = 0.3f;
+	private static final float maxCharge = 4.0f;
+	private static final float chargePerShot = 0.4f;
 	private static final float burnDamage = 5.0f;
 
 	private Vector2 projOrigin = new Vector2();
@@ -75,6 +75,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 		
 		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, false);
 
+		//w ecreate two hitboxes, offset parallel to one another
 		projOffset.set(startVelocity).rotate90(1).nor().scl(projSpacing);
 		projOrigin.set(startPosition).add(projOffset);
 		
@@ -84,7 +85,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.5f));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 		
@@ -97,7 +98,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 		hbox2.addStrategy(new AdjustAngle(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new ContactWallDie(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new ContactUnitLoseDurability(state, hbox2, user.getBodyData()));
-		hbox2.addStrategy(new DamageStandard(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
+		hbox2.addStrategy(new DamageStandard(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox2.addStrategy(new ContactWallSound(state, hbox2, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.5f));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 		
@@ -112,6 +113,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 		}
 	}
 	
+	//heat level of the weapon decreases over time
 	@Override
 	public void update(float delta) {
 		if (chargeCd > 0) {
@@ -134,6 +136,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 		return false;
 	}
 	
+	//custom charging text to convey overheat information
 	@Override
 	public String getChargeText() {
 		if (overheated) {

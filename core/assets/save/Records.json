@@ -1,5 +1,5 @@
 {
-scrap: 108
+scrap: 116
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -41,11 +41,11 @@ unlockEquip: {
 	KAMABOKANNON: true
 	GRENADE_LAUNCHER: true
 	DIAMOND_CUTTER: true
-	DEEP_SEA_SMELTER: true
 	FISTICUFFS: true
 	SCRAPRIPPER: true
 	SNIPER_RIFLE: true
 	MINIGUN: true
+	DEEP_SEA_SMELTER: true
 	NOTHING: true
 	STORMCALLER: true
 	STUTTERGUN: true

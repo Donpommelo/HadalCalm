@@ -16,9 +16,9 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class StormCloud extends ActiveItem {
 
@@ -70,7 +70,7 @@ public class StormCloud extends ActiveItem {
 					rain.addStrategy(new ControllerDefault(state, rain, user));
 					rain.addStrategy(new DamageStandard(state, rain, user, rainDamage, rainKnockback, DamageTypes.WATER));
 					rain.addStrategy(new AdjustAngle(state, rain, user));
-					rain.addStrategy(new DieParticles(state, rain, user, Particle.BUBBLE_IMPACT));
+					rain.addStrategy(new ContactWallParticles(state, rain, user, Particle.BUBBLE_IMPACT));
 					rain.addStrategy(new ContactUnitLoseDurability(state, rain, user));
 					rain.addStrategy(new ContactWallDie(state, rain, user));
 				}
