@@ -52,6 +52,7 @@ public class UITag {
 		LIVES,
 		TIMER,
 		MISC,
+		LEVEL,
 		EMPTY
 	}
 }

@@ -75,7 +75,7 @@ public class PVPSettingSetter extends Prefabrication {
 		if (startTimer != 0) {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY,SCORE,TIMER");
+			ui.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE,TIMER");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
@@ -85,7 +85,7 @@ public class PVPSettingSetter extends Prefabrication {
 		} else {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Fight!,EMPTY,SCORE");
+			ui.getProperties().put("tags", "Fight!,EMPTY,LEVEL,SCORE");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			TiledObjectUtil.parseTiledEvent(state, ui);

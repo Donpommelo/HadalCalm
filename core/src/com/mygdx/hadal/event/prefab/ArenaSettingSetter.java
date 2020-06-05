@@ -48,7 +48,7 @@ public class ArenaSettingSetter extends Prefabrication {
 		if (startTimer != 0) {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Survive!,EMPTY,HISCORE,SCORE,TIMER");
+			ui.getProperties().put("tags", "Survive!,EMPTY,LEVEL,HISCORE,SCORE,TIMER");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			game.getProperties().put("timer", Setting.indexToTimer(startTimer));
@@ -58,7 +58,7 @@ public class ArenaSettingSetter extends Prefabrication {
 		} else {
 			RectangleMapObject ui = new RectangleMapObject();
 			ui.setName("UI");
-			ui.getProperties().put("tags", "Survive!,EMPTY,HISCORE,SCORE,ENDLESS");
+			ui.getProperties().put("tags", "Survive!,EMPTY,LEVEL,HISCORE,SCORE,ENDLESS");
 			ui.getProperties().put("triggeredId", uiTimerId);
 			
 			TiledObjectUtil.parseTiledEvent(state, ui);

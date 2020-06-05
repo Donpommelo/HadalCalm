@@ -9,6 +9,7 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
@@ -40,7 +41,16 @@ public class Navigations extends HubEvent {
 		        
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
-		        	state.loadLevel(selected, TransitionState.NEWLEVEL, "");
+					
+					if (selected == UnlockLevel.DM_RANDOM) {
+						
+						
+						
+			        	state.loadLevel(UnlockLevel.getRandomMap(state, UnlockTag.PVP), TransitionState.NEWLEVEL, "");
+					} else {
+			        	state.loadLevel(selected, TransitionState.NEWLEVEL, "");
+					}
+					
 		        	leave();
 		        	
 		        	//play a particle when the player uses this event

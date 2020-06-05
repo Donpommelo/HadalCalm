@@ -33,7 +33,6 @@ SANDBOX_HUB: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP,
         MULTIPLAYER
 	]
 }
@@ -51,7 +50,15 @@ ARENA_LAGAN: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP,
+        ARENA,
+        MULTIPLAYER
+	]
+}
+DM_RANDOM: {
+	name: DM_RANDOM
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
         MULTIPLAYER
 	]
 }
@@ -222,7 +229,6 @@ SSTUNICATE1: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        PVP,
         MULTIPLAYER
 	]
 }

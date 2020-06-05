@@ -236,6 +236,7 @@ unlockLevel: {
 	DM_SUPREME_CHAMPION: true
 	DM_FREE_RANGE: true
     DM_PELICAN: true
+    DM_RANDOM: true
 	DM_CAROUSEL: true
 	DM_HORIZON: true
 	WRECK2: true

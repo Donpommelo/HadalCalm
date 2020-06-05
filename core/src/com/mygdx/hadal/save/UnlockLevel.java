@@ -3,6 +3,7 @@ package com.mygdx.hadal.save;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
@@ -21,6 +22,8 @@ public enum UnlockLevel {
 	
 	ARENA_HORIZON("Maps/arena_horizon.tmx"),
 	ARENA_LAGAN("Maps/arena_lagan.tmx"),
+
+	DM_RANDOM(""),
 
 	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx"),
 	DM_FREE_RANGE("Maps/dm_free_range.tmx"),
@@ -99,6 +102,20 @@ public enum UnlockLevel {
 		}
 		
 		return items;
+	}
+	
+	public static UnlockLevel getRandomMap(PlayState state, UnlockTag tag) {
+		ArrayList<UnlockTag> tags = new ArrayList<UnlockTag>();
+		tags.add(tag);
+		
+		Array<UnlockLevel> dm = getUnlocks(state, true, tags);
+		
+		if (dm.size > 0) {
+			return dm.get(GameStateManager.generator.nextInt(dm.size));
+		} else {
+			return SSTUNICATE1;
+		}
+		
 	}
 		
 	public InfoItem getInfo() { return info; }

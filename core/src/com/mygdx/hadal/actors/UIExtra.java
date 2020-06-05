@@ -73,6 +73,9 @@ public class UIExtra extends AHadalActor {
 			case MISC:
 				text = text.append(uiTags.get(i).getMisc() + "\n");
 				break;
+			case LEVEL:
+				text = text.append(state.getLevel().toString() + "\n");
+				break;
 			case EMPTY:
 				text = text.append("\n");
 				break;
