@@ -28,6 +28,7 @@ public enum UnlockLevel {
 	DM_HUMMINGBIRD("Maps/dm_hummingbird.tmx"),
 	DM_JAPANESE_WHITEEYE("Maps/dm_japanese_whiteeye.tmx"),
 	DM_LITTLE_BITTERN("Maps/dm_little_bittern.tmx"),
+	DM_PELICAN("Maps/dm_pelican.tmx"),
 	DM_SUPREME_CHAMPION("Maps/dm_supreme_champion.tmx"),
 	
 	DM_FACING_CRABS("Maps/dm_crab.tmx"),

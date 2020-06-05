@@ -145,6 +145,15 @@ DM_LITTLE_BITTERN: {
         MULTIPLAYER
 	]
 }
+DM_PELICAN: {
+	name: DM_PELICAN
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
 DM_SUPREME_CHAMPION: {
 	name: DM_SUPREME_CHAMPION
 	description: TEMP

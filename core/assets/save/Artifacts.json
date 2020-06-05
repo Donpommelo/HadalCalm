@@ -136,7 +136,7 @@ BRITTLING_POWDER: {
 BUCKET_OF_BATTERIES: {
 	name: Bucket of Batteries
 	description: "Projectiles Create Chain Lightning"
-    descriptionLong: "Lightning Cooldown: 0.5s\nLightning Damage: 8\nLightning Chains: 3 Enemies\n\nA bucket filled with batteries floating in a dubious liquid.\n\nWhile the Plenum Chamber's mechanical palpitations serve as the power source of nearby facilities, its own power source remains indiscernible."
+    descriptionLong: "Lightning Cooldown: 0.5s\nLightning Damage: 8\nLightning Chains: 3 Enemies\n\nA bucket filled with batteries floating in a dubious liquid.\n\nThe Plenum Chamber's mechanical palpitations serve as the power source of nearby facilities, but its own power source remains indiscernible."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -271,7 +271,7 @@ DEPLORABLE_APPARATUS: {
 EELSKIN_COVER: {
 	name: Eelskin Cover
 	description: "Reduces Drag"
-    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\n"
+    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the ravenous God began to covet the flavor of its subjects."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -298,7 +298,7 @@ EPHEMERA_PERPETUA: {
 EXTRA_ROW_OF_TEETH: {
 	name: "Extra Row of Teeth"
 	description: "+Clip Size"
-    descriptionLong: "Bonus Clip Size: +30%\n\nA row of misshapen teeth; each designed to rend a different prey.\n\n"
+    descriptionLong: "Bonus Clip Size: +30%\n\nA row of misshapen teeth; each designed to rend a different prey.\n\nUpon bearing witness to the First Bright One, the Ravenous Eel God had but a single wish; more teeth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -343,7 +343,7 @@ FRACTURE_PLATE: {
 GEMMULE: {
 	name: Gemmule
 	description: "+Invulnerability Duration on Spawn"
-    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\nThe budding subjects of the Garden of the Neptune King must be protected if they are to bear fruit."
+    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\nThe budding subjects of the Neptune King’s Garden must be tended to diligently in order for fruit to be bore."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -361,7 +361,7 @@ GLUTTONOUS_GREY_GLOVE: {
 GOMEZS_AMYGDALA: {
 	name: Gomez's Amygdala
 	description: "Receiving Damage Temporarily Boosts Speed and Damage"
-    descriptionLong: "Buff Duration: 2s\nBonus Speed: +50%\nBonus Damage: +30%\n\nA piece of grey matter floating in fluid and radiating with psychic energy.\n\n"
+    descriptionLong: "Buff Duration: 2s\nBonus Speed: +50%\nBonus Damage: +30%\n\nA piece of grey matter floating in fluid and radiating with psychic energy.\n\nBright Ones are receptive to the primal emotions of passersby, making it paramount to suppress fear in their presence."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -512,7 +512,7 @@ LUMINOUS_ESCA: {
 MACHINE_GHOST: {
 	name: Machine Ghost
 	description: "Spectral Projectiles"
-    descriptionLong: "TEST"
+    descriptionLong: "An immaterial wisp of crackling energy.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -530,7 +530,7 @@ MANGROVE_SEED: {
 MASK_OF_SYMPATHY: {
 	name: Mask of Sympathy
 	description: "Reflects Incoming Damage"
-    descriptionLong: "Damage Reflected: 40% of Damage Received\n\n"
+    descriptionLong: "Damage Reflected: 40% of Damage Received\n\nAn uncomfortable ritual mask possessing several gold-sealed cracks.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -539,7 +539,7 @@ MASK_OF_SYMPATHY: {
 MATTER_UNIVERSALIZER: {
 	name: Matter Universalizer
 	description: "Restores Fuel on Kill"
-    descriptionLong: "Fuel Regenerated: 60 on Player Kill, 20 on Monster Kill\n\n"
+    descriptionLong: "Fuel Regenerated: 60 on Player Kill, 20 on Monster Kill\n\nA handheld energy-conversion device.\n\nRegardless of what or who enters the grinders of the Kamabokoya, the end result looks and tastes the same."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -548,7 +548,7 @@ MATTER_UNIVERSALIZER: {
 MOON_FLUTHER: {
 	name: Moon Fluther
 	description: "+Hovering Power"
-    descriptionLong: "Bonus Hover Power: +25%\nHover Cost Reduction: -25%\n\n"
+    descriptionLong: "Bonus Hover Power: +25%\nHover Cost Reduction: -25%\n\nA gelatinous wad that is always extended towards the moon.\n\nBright Ones and the elusive Goldfish share a propensity for breaching the layers of the world, albeit, in opposite directions."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -566,7 +566,7 @@ MOUTHBREATHER_CERTIFICATE: {
 MUDDLING_CUP: {
 	name: Muddling Cup
 	description: "Airblasting Fires Weapon"
-    descriptionLong: ""
+    descriptionLong: "A novelty cup that channels its contents along internal vessels.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -662,7 +662,7 @@ PEPPER: {
 PETRIFIED_PAYLOAD: {
 	name: Petrified Payload
 	description: "Explosions on Kill and Death, Bigger Explosions"
-    descriptionLong: "Explosion Damage: 50 on Player Kill, 20 on Monster Kill\nBonus Explosion Size: +50%\n\n"
+    descriptionLong: "Explosion Damage: 50 on Player Kill, 20 on Monster Kill\nBonus Explosion Size: +50%\n\nA bulging and volatile stack of decrepit munitions.\n\nManagement has always had confidence that whatever lied at the bottom of the world could be dealt with using additional firepower."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -680,7 +680,7 @@ PIFFLER: {
 PLUMPOWDER: {
 	name: Plumpowder
 	description: "Active Items Start Charged"
-    descriptionLong: "\n\n"
+    descriptionLong: "A satchel of sweet and acidic crystals.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -689,7 +689,7 @@ PLUMPOWDER: {
 RECYCLER_BOLUS: {
 	name: Recycler Bolus
 	description: "Gain Max Hp on Eggplant Pickup"
-    descriptionLong: "Max Hp Gained: 4 per Eggplant\nMax Hp Limit: +100\n\n"
+    descriptionLong: "Max Hp Gained: 4 per Eggplant\nMax Hp Limit: +100\n\nA foul clump of mucus and undigested flesh.\n\nThe resentful ingredients of the Kamabokoya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
 	tags: [
 		RELIQUARY,
 	]
@@ -741,7 +741,7 @@ SAMURAI_SHARK: {
 SEAFOAM_PERIAPT: {
 	name: Seafoam Periapt
 	description: "+Attack Speed, Antigravity Projectiles"
-    descriptionLong: "Bonus Reload Speed: +20%\nBonus Attack Speed: +20%\n\nA porous charm infused with an uplifting froth.\n\n"
+    descriptionLong: "Bonus Reload Speed: +20%\nBonus Attack Speed: +20%\n\nA porous charm infused with an uplifting froth.\n\nNot even the body of a God could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away in the form of seafoam."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -858,7 +858,7 @@ TUNICATE_TUNIC: {
 TYPHON_FANG: {
 	name: Typhon Fang
 	description: "-Reload Speed. Refill Clip on Kill"
-    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
+    descriptionLong: "Reload Speed Reduction: -50%\nClip Refilled: 50% Max Clip Size\n\nThe razor-sharp tooth of an extinct titan.\n\nAccording to Goldfish scripture, any individual that ascends to the uppermost layer of the world is rewarded with divine form."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
