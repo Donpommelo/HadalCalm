@@ -265,8 +265,8 @@ SCRAPRIPPER: {
 		MELEE,
 	]
 }
-MAELSTROM: {
-	name: Maelstrom
+VAJRA: {
+	name: VAJRA
 	description: "Fire a projectile that releases chain lightning upon contact."
     descriptionLong: "TEST"
 	tags: [
@@ -353,8 +353,8 @@ SLODGEGUN: {
 		RANGED,
 	]
 }
-STORMCALLER: {
-	name: Stormcaller
+MAELSTROM: {
+	name: Maelstrom
 	description: "Fire a projectile that expands as it travels."
     descriptionLong: "TEST"
 	tags: [

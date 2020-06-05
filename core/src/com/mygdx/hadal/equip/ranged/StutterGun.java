@@ -14,6 +14,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.FiringWeapon;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -32,7 +33,7 @@ public class StutterGun extends RangedWeapon {
 	private final static float recoil = 30.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(100, 52);
+	private final static Vector2 projectileSize = new Vector2(80, 40);
 	private final static float lifespan = 4.0f;
 	
 	private final static float procCd = 0.1f;
@@ -53,7 +54,8 @@ public class StutterGun extends RangedWeapon {
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.LASER);
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT));
+		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true));
+		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));

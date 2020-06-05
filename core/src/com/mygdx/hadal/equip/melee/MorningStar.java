@@ -32,7 +32,7 @@ public class MorningStar extends MeleeWeapon {
 
 	private final static float swingForce = 2000.0f;
 	private final static float range = 60.0f;
-	private final static float chainLength = 0.5f;
+	private final static float chainLength = 0.75f;
 
 	//this is the hitbox that this weapon extends
 	private Hitbox base, star;
@@ -175,7 +175,7 @@ public class MorningStar extends MeleeWeapon {
 		
 		//the star hbox damages people and has weight
 		star = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), false, true, user, projSprite);
-		star.setGravity(0.5f);
+		star.setGravity(1.0f);
 		star.setDensity(0.1f);
 		star.makeUnreflectable();
 		star.setSyncDefault(false);

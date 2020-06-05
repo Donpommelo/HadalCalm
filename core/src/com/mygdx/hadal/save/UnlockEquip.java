@@ -48,12 +48,12 @@ public enum UnlockEquip {
 	SNIPER_RIFLE(SniperRifle.class),
 	SPEARGUN(Speargun.class),
 	STICKY_BOMB_LAUNCHER(StickyBombLauncher.class),
-	STORMCALLER(Stormcaller.class),
 	STUTTERGUN(StutterGun.class),
 	TESLA_COIL(TeslaCoil.class),
 	TORPEDO_LAUNCHER(TorpedoLauncher.class),
 	TRICK_GUN(TrickGun.class),
 	UNDERMINER(Underminer.class),
+	VAJRA(Vajra.class),
 	WAVE_BEAM(WaveBeam.class),
 	
 	NOTHING(NothingWeapon.class),

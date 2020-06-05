@@ -1,5 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -24,20 +25,37 @@ public class ContactUnitParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
-	public ContactUnitParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
+	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
+	private boolean isOffset = false;
+	private Vector2 offset = new Vector2();
+		
+	public ContactUnitParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
 		this.effect = effect;
-		this.duration = duration;
-	}
-	
-	public ContactUnitParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
-		this(state, proj, user, effect, defaultDuration);
+		this.duration = defaultDuration;
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {
-			new ParticleEntity(state, hbox.getPixelPosition(), effect, duration, true, particleSyncType.CREATESYNC);
+			
+			offset.set(hbox.getPixelPosition());
+			
+			if (isOffset) {
+				offset.add(new Vector2(hbox.getLinearVelocity()).nor().scl(hbox.getSize().x / 2));
+			}
+			
+			new ParticleEntity(state, offset, effect, duration, true, particleSyncType.CREATESYNC);
 		}
+	}
+	
+	public ContactUnitParticles setOffset(boolean isOffset) {
+		this.isOffset = isOffset;
+		return this;
+	}
+	
+	public ContactUnitParticles setDuration(float duration) {
+		this.duration = duration;
+		return this;
 	}
 }

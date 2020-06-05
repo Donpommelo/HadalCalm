@@ -15,7 +15,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 
 public class Fisticuffs extends MeleeWeapon {
 
-	private final static float swingCd = 0.15f;
+	private final static float swingCd = 0.08f;
 	private final static float windup = 0.0f;
 	private final static float baseDamage = 20.0f;
 

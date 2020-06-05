@@ -26,13 +26,13 @@ public class AmitaCannon extends RangedWeapon {
 	private final static float recoil = 2.5f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 60);
+	private final static Vector2 projectileSize = new Vector2(48, 48);
 	private final static float lifespan = 1.0f;
 	
 	private final static int numOrbitals = 8;
-	private final static float orbitalRange = 1.0f;
+	private final static float orbitalRange = 0.8f;
 	private final static float orbitalSpeed = 360.0f;
-	private final static Vector2 orbitalSize = new Vector2(30, 30);
+	private final static Vector2 orbitalSize = new Vector2(24, 24);
 	private final static float activatedSpeed = 40.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
