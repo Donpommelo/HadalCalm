@@ -35,7 +35,7 @@ public class Hexenhowitzer extends RangedWeapon {
 
 	private final static int clipSize = 1;
 	private final static int ammoSize = 1;
-	private final static float shootCd = 0.5f;
+	private final static float shootCd = 0.4f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
@@ -47,7 +47,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	private final static float lifespan = 2.0f;
 	
 	private static final float maxCharge = 80.0f;
-	private static final float chargeLostPerShot = 3.0f;
+	private static final float chargeLostPerShot = 2.5f;
 
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;

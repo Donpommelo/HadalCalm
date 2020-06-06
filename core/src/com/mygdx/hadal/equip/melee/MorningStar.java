@@ -30,7 +30,7 @@ public class MorningStar extends MeleeWeapon {
 	private final static float baseDamage = 50.0f;
 	private final static float knockback = 60.0f;
 
-	private final static float swingForce = 2000.0f;
+	private final static float swingForce = 2500.0f;
 	private final static float range = 60.0f;
 	private final static float chainLength = 0.75f;
 
