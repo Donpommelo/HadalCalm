@@ -130,6 +130,8 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat2"/>
    </properties>
   </object>
@@ -139,6 +141,8 @@
     <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="sprite" value="UI_MAIN_HEALTHBAR"/>
+    <property name="sync" value="ALL"/>
+    <property name="synced" type="bool" value="true"/>
     <property name="triggeredId" value="rplat1"/>
    </properties>
   </object>

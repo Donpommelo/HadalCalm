@@ -21,10 +21,10 @@ import com.mygdx.hadal.utils.Constants;
 public class Underminer extends RangedWeapon {
 
 	private final static int clipSize = 1;
-	private final static int ammoSize = 20;
+	private final static int ammoSize = 22;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.1f;
-	private final static float reloadTime = 0.6f;
+	private final static float reloadTime = 0.5f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 40.0f;
 	private final static float recoil = 8.5f;
@@ -47,11 +47,11 @@ public class Underminer extends RangedWeapon {
 
 	private final static Vector2 fragSize = new Vector2(60, 30);
 	private final static float fragLifespan = 2.0f;
-	private final static float fragFireLifespan = 0.5f;
-	private final static float fragDamage = 35.0f;
+	private final static float fragFireLifespan = 0.8f;
+	private final static float fragDamage = 45.0f;
 	private final static float fragKnockback = 25.0f;
 	private final static float fragSpeed = 4.0f;
-	private final static float fragFireSpeed = 40.0f;
+	private final static float fragFireSpeed = 50.0f;
 	
 	public Underminer(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

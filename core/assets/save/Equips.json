@@ -266,7 +266,7 @@ SCRAPRIPPER: {
 	]
 }
 VAJRA: {
-	name: VAJRA
+	name: Vajra
 	description: "Fire a projectile that releases chain lightning upon contact."
     descriptionLong: "TEST"
 	tags: [

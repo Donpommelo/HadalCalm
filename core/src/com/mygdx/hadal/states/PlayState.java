@@ -295,13 +295,13 @@ public class PlayState extends GameState {
 		//If ui elements have not been created, create them. (upon first showing the state)
 		if (uiPlay == null) {
 			if (server) {
-				uiPlay = new UIPlay(this, player);
+				uiPlay = new UIPlay(this);
 			} else {
-				uiPlay = new UIPlayClient(this, player);
+				uiPlay = new UIPlayClient(this);
 			}
 			
-			uiObjective = new UIObjective(this, player);
-			uiArtifact = new UIArtifacts(this, player);
+			uiObjective = new UIObjective(this);
+			uiArtifact = new UIArtifacts(this);
 			uiExtra = new UIExtra(this);
 			uiExtra.changeTypes(map.getProperties().get("startUI", "", String.class), true);
 			uiHub = new UIHub(this);
@@ -338,10 +338,6 @@ public class PlayState extends GameState {
 		
 		inputMultiplexer.addProcessor(controller);
 		Gdx.input.setInputProcessor(inputMultiplexer);
-		
-		uiPlay.setPlayer(player);
-		uiArtifact.setPlayer(player);
-		uiObjective.setPlayer(player);
 	}
 	
 	private float physicsAccumulator = 0.0f;
@@ -1139,6 +1135,8 @@ public class PlayState extends GameState {
 	public void setGlobalTimer(Event globalTimer) {	this.globalTimer = globalTimer;	}
 
 	public Player getPlayer() {	return player; }
+	
+	public void setPlayer(Player player) { this.player = player; }
 
 	public World getWorld() { return world; }
 	

@@ -9,7 +9,6 @@ import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.NothingWeapon;
 import com.mygdx.hadal.managers.GameStateManager;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
@@ -21,8 +20,7 @@ import com.mygdx.hadal.utils.Stats;
  */
 public class UIPlay extends AHadalActor {
 
-	protected Player player;
-	private PlayState state;
+	protected PlayState state;
 	private BitmapFont font;
 	
 	private TextureRegion main, reloading, hp, hpLow, hpMissing, fuel, fuelCutoff;
@@ -84,8 +82,7 @@ public class UIPlay extends AHadalActor {
 	private final static float bossHpFloor = 0.05f;
 	protected float bossHpRatio;
 	
-	public UIPlay(PlayState state, Player player) {
-		this.player = player;
+	public UIPlay(PlayState state) {
 		this.state = state;
 		this.font = HadalGame.SYSTEM_FONT_UI;
 		
@@ -115,14 +112,14 @@ public class UIPlay extends AHadalActor {
 	 */
 	public void calcVars() {
 		//Calc the ratios needed to draw the bars
-		hpRatio = player.getPlayerData().getCurrentHp() / player.getPlayerData().getStat(Stats.MAX_HP);
-		hpMax = player.getPlayerData().getStat(Stats.MAX_HP);
-		fuelRatio = player.getPlayerData().getCurrentFuel() / player.getPlayerData().getStat(Stats.MAX_FUEL);
-		fuelCutoffRatio = player.getPlayerData().getAirblastCost() / player.getPlayerData().getStat(Stats.MAX_FUEL);
-		weaponText = player.getPlayerData().getCurrentTool().getText();
-		ammoText = player.getPlayerData().getCurrentTool().getAmmoText();
-		numWeaponSlots = player.getPlayerData().getNumWeaponSlots();
-		activePercent = player.getPlayerData().getActiveItem().chargePercent();
+		hpRatio = state.getPlayer().getPlayerData().getCurrentHp() / state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
+		hpMax = state.getPlayer().getPlayerData().getStat(Stats.MAX_HP);
+		fuelRatio = state.getPlayer().getPlayerData().getCurrentFuel() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
+		fuelCutoffRatio = state.getPlayer().getPlayerData().getAirblastCost() / state.getPlayer().getPlayerData().getStat(Stats.MAX_FUEL);
+		weaponText = state.getPlayer().getPlayerData().getCurrentTool().getText();
+		ammoText = state.getPlayer().getPlayerData().getCurrentTool().getAmmoText();
+		numWeaponSlots = state.getPlayer().getPlayerData().getNumWeaponSlots();
+		activePercent = state.getPlayer().getPlayerData().getActiveItem().chargePercent();
 		
 		if (bossFight && boss.getBody() != null) {
 			bossHpRatio = bossHpFloor + (boss.getBodyData().getCurrentHp() / boss.getBodyData().getStat(Stats.MAX_HP) * (1 - bossHpFloor));
@@ -132,7 +129,7 @@ public class UIPlay extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 		batch.setProjectionMatrix(state.hud.combined);
-
+		
 		calcVars();
 		
 		//This code makes the hp bar delay work.
@@ -168,12 +165,12 @@ public class UIPlay extends AHadalActor {
 		batch.draw(fuelCutoff, mainX + barX + fuelCutoffRatio * fuel.getRegionWidth() * mainScale, mainY + fuelBarY,
 				fuelCutoff.getRegionWidth() * mainScale, fuelCutoff.getRegionHeight() * mainScale);
 
-		if (player.getPlayerData().getCurrentTool().isReloading()) {
+		if (state.getPlayer().getPlayerData().getCurrentTool().isReloading()) {
 			batch.draw(reloading, mainX, mainY, getWidth(), getHeight());
 		}
 
 		font.getData().setScale(0.25f);
-		font.draw(batch, player.getPlayerData().getCurrentTool().getName(), mainX + 48, mainY + 90, 100, -1, true);
+		font.draw(batch, state.getPlayer().getPlayerData().getCurrentTool().getName(), mainX + 48, mainY + 90, 100, -1, true);
 		font.getData().setScale(0.5f);
 		font.draw(batch, weaponText, mainX + 48, mainY + 40);
 		font.getData().setScale(0.25f);
@@ -182,10 +179,10 @@ public class UIPlay extends AHadalActor {
 		
 		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 			if (numWeaponSlots > i) {
-				if (player.getPlayerData().getMultitools()[i] == null || player.getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
+				if (state.getPlayer().getPlayerData().getMultitools()[i] == null || state.getPlayer().getPlayerData().getMultitools()[i] instanceof NothingWeapon) {
 					batch.draw(itemNull.get(i), mainX, mainY, getWidth(), getHeight());
 				} else {
-					if (i == player.getPlayerData().getCurrentSlot()) {
+					if (i == state.getPlayer().getPlayerData().getCurrentSlot()) {
 						batch.draw(itemSelect.get(i), mainX, mainY, getWidth(), getHeight());
 					} else {
 						batch.draw(itemUnselect.get(i), mainX, mainY, getWidth(), getHeight());
@@ -194,7 +191,7 @@ public class UIPlay extends AHadalActor {
 			}
 		}
 		
-		font.draw(batch, player.getPlayerData().getActiveItem().getName(), activeX, mainY + activeHeight * mainScale + activeTextY);
+		font.draw(batch, state.getPlayer().getPlayerData().getActiveItem().getName(), activeX, mainY + activeHeight * mainScale + activeTextY);
 		if (activePercent >= 1.0f) {
 			batch.draw(hp, activeX, activeY, activeWidth * mainScale, activeHeight * mainScale * activePercent);
 		} else {
@@ -234,10 +231,4 @@ public class UIPlay extends AHadalActor {
 	 * This simply clears the boss hp bar from the ui
 	 */
 	public void clearBoss() { bossFight = false; }
-	
-	/**
-	 * This sets the player that this ui follows. This is run when a new player is created.
-	 * @param player
-	 */
-	public void setPlayer(Player player) { this.player = player; }
 }

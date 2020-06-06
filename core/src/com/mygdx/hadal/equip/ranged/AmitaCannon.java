@@ -89,6 +89,7 @@ public class AmitaCannon extends RangedWeapon {
 							} else if (!activated) {
 								activated = true;
 								hbox.setLinearVelocity(new Vector2(0, activatedSpeed).setAngle(currentAngle));
+								hbox.setLifeSpan(lifespan);
 							}
 						}
 					});

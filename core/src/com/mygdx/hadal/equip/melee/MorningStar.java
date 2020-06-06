@@ -175,7 +175,7 @@ public class MorningStar extends MeleeWeapon {
 		
 		//the star hbox damages people and has weight
 		star = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), false, true, user, projSprite);
-		star.setGravity(1.0f);
+		star.setGravity(3.0f);
 		star.setDensity(0.1f);
 		star.makeUnreflectable();
 		star.setSyncDefault(false);

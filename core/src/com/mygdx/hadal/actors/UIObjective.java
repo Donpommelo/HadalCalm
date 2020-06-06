@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
-import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.SteeringUtil;
 
@@ -17,7 +16,6 @@ import com.mygdx.hadal.utils.SteeringUtil;
  */
 public class UIObjective extends AHadalActor {
 
-	private Player player;
 	private PlayState state;
 	
 	private TextureRegion icon;
@@ -26,8 +24,7 @@ public class UIObjective extends AHadalActor {
 	
 	private float corner;
 	
-	public UIObjective(PlayState state, Player player) {
-		this.player = player;
+	public UIObjective(PlayState state) {
 		this.state = state;
 		
 		this.icon = Sprite.UI_MO_READY.getFrame();
@@ -43,11 +40,11 @@ public class UIObjective extends AHadalActor {
 		y = 500;
 
 		//This math calculates the location of the objective icon
-		if (state.getObjectiveTarget() != null && player.getBody() != null && state.isDisplayObjective()) {
+		if (state.getObjectiveTarget() != null && state.getPlayer().getBody() != null && state.isDisplayObjective()) {
 			
 			if (!state.getObjectiveTarget().isVisible()) {
-				float xDist = (player.getPixelPosition().x) - (state.getObjectiveTarget().getPixelPosition().x);
-				float yDist = (player.getPixelPosition().y) - (state.getObjectiveTarget().getPixelPosition().y);
+				float xDist = (state.getPlayer().getPixelPosition().x) - (state.getObjectiveTarget().getPixelPosition().x);
+				float yDist = (state.getPlayer().getPixelPosition().y) - (state.getObjectiveTarget().getPixelPosition().y);
 				
 				toObjective.set(xDist, yDist);
 				
@@ -80,6 +77,4 @@ public class UIObjective extends AHadalActor {
 			}
 		}
 	}
-
-	public void setPlayer(Player player) { this.player = player; }
 }

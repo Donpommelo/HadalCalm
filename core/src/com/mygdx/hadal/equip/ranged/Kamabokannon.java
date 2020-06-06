@@ -68,6 +68,7 @@ public class Kamabokannon extends RangedWeapon {
 			
 			if (chargeCd >= getChargeTime()) {
 				super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+				aimPointer.set(weaponVelo);
 			}
 		}
 	}

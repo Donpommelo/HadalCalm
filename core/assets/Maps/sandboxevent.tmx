@@ -321,6 +321,7 @@
   <object id="111" name="Platform" type="Platform" x="2816" y="608" width="192" height="192">
    <properties>
     <property name="align" value="ROTATE"/>
+    <property name="cullable" type="bool" value="false"/>
     <property name="default" type="bool" value="false"/>
     <property name="event" type="bool" value="true"/>
     <property name="friction" type="float" value="0"/>
