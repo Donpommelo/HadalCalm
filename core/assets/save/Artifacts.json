@@ -697,7 +697,7 @@ RECYCLER_BOLUS: {
 RED_TIDE_TALISMAN: {
 	name: Red Tide Talisman
 	description: "Fiery Projectiles"
-    descriptionLong: "Fire Duration: 4s\nFire Damage: 3 Per Second.\n\nA crimson pendant emitting an unhealthful warmth.\n\nA sudden influx of life precipitates a sudden influx of death."
+    descriptionLong: "Fire Duration: 5s\nFire Damage: 3 Per Second.\n\nA crimson pendant emitting an unhealthful warmth.\n\nA sudden influx of life precipitates a sudden influx of death."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

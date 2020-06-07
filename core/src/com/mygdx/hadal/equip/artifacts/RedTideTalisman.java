@@ -13,7 +13,7 @@ public class RedTideTalisman extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float fireDuration = 4.0f;
+	private final static float fireDuration = 5.0f;
 	private final static float fireDamage = 3.0f;
 	
 	public RedTideTalisman() {
