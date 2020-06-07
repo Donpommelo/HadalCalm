@@ -370,17 +370,46 @@ public abstract class HadalEntity {
 	
 	public void resetTimeSinceLastSync() { timeSinceLastSync = 0; }
 
-	public Vector2 getPosition() { return body.getPosition(); }
+	public Vector2 getPosition() { 
+		if (body != null) {
+			return body.getPosition(); 
+		}
+		return new Vector2();
+	}
 
-	public float getAngle() { return body.getAngle(); }
+	public float getAngle() { 
+		if (body != null) {
+			return body.getAngle(); 
+		} else {
+			return 0.0f;
+		}
+	}
 
-	public Vector2 getLinearVelocity() { return body.getLinearVelocity(); }
+	public Vector2 getLinearVelocity() { 
+		if (body != null) {
+			return body.getLinearVelocity();
+		} else {
+			return new Vector2();
+		}
+	 }
 
-	public float getAngularVelocity() { return body.getAngularVelocity(); }
+	public float getAngularVelocity() { 
+		if (body != null) {
+			return body.getAngularVelocity(); 
+		} else {
+			return 0.0f;
+		}
+	}
 
 	public void setAngle(float angle) { setTransform(getPosition(), angle); }
 
-	public float getMass() { return body.getMass(); }
+	public float getMass() { 
+		if (body != null) {
+			return body.getMass(); 
+		} else {
+			return 0.0f;
+		}
+	}
 
 	public void setReceivingSyncs(boolean receivingSyncs) {	this.receivingSyncs = receivingSyncs; }
 
