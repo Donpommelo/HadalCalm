@@ -440,9 +440,6 @@ public class KryoServer {
 		        //sync score window to display new player
 		        ps.getScoreWindow().syncTable();
 		        
-		        //Inform the client that their new player has been created and give them their new id
-		        sendToTCP(connId, new Packets.NewClientPlayer(newPlayer.getEntityID().toString()));
-		        
 		        //sync client ui elements
 		        sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
 			}

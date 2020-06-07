@@ -114,23 +114,6 @@ public class Packets {
 		public ClientPlayerCreated() {}
 	}
 	
-	public static class NewClientPlayer {
-		public String yourId;
-		public NewClientPlayer() {}
-		
-		/**
-		 * A New ClientPlayer is sent from the Server to the Client whenever the Server initializes a new Player for that Client.
-		 * This packet is only sent to the corresponding client. Not all clients.
-		 * This packet tells the Client the new Player's ID. 
-		 * Clients store this ID so that when the Player is actually created in the PlayState, they know its themselves and can sync accordingly.
-		 * 
-		 * @param yourId: entityId of the newly created Player.
-		 */
-		public NewClientPlayer(String yourId) {
-			this.yourId = yourId;
-		}
-	}
-	
 	public static class SyncClientLoadout {
 
 		public UnlockEquip equip;
@@ -400,6 +383,7 @@ public class Packets {
 	
 	public static class CreatePlayer {
 		public String entityID;
+		public int connID;
 		public Vector2 startPosition;
 		public String name;
 		public Loadout loadout;
@@ -411,12 +395,14 @@ public class Packets {
 		 * This is because the Client reuses the same ClientState.getPlayer() which they already created.
 		 * 
 		 * @param entityID: ID of the new Player
+		 * @param connID: conn id of the client who controls this player
 		 * @param startPosition: location of new player. Used by client to focus camera
 		 * @param name: name of the new Player
 		 * @param loadout: loadout of the new Player
 		 */
-		public CreatePlayer(String entityID, Vector2 startPosition, String name, Loadout loadout) {
+		public CreatePlayer(String entityID, int connID, Vector2 startPosition, String name, Loadout loadout) {
             this.entityID = entityID;
+            this.connID = connID;
             this.startPosition = startPosition;
             this.name = name;
             this.loadout = loadout;
@@ -947,7 +933,6 @@ public class Packets {
     	kryo.register(ClientPlayerCreated.class);
     	kryo.register(ClientStartTransition.class);
     	kryo.register(ClientFinishRespawn.class);
-    	kryo.register(NewClientPlayer.class);
     	kryo.register(SyncScore.class);
     	kryo.register(CreateEntity.class);
     	kryo.register(CreateEnemy.class);

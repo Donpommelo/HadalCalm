@@ -21,7 +21,7 @@ flags: {
 	ARTIFACTSLOT4: 1
 	ARTIFACTSLOT5: 0
 }
-lastIp: 70.115.156.144
+lastIp: ""
 hiScores: {
 	class: java.util.HashMap
 	ARENA_LAGAN: 50

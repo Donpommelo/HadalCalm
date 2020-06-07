@@ -357,7 +357,6 @@ public class KryoClient {
 									p.sound.play(gsm, p.volume, p.singleton);
 								}
 							}
-							
 						});
 					}
         		}
@@ -432,7 +431,7 @@ public class KryoClient {
                 				newPlayer.setStartPos(p.startPosition);
                 				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
                 				
-        						if (p.entityID.equals(myID)) {
+        						if (p.connID == connID) {
         							cs.setPlayer(newPlayer);
                 					
                 					//set camera to look at new client player.
@@ -549,15 +548,6 @@ public class KryoClient {
                         	});
                         }
                     });
-        		}
-        		
-        		/*
-        		 * The Server has seen that we finished loading the level and created a new Player for us.
-        		 * We receive the id of our new player.
-        		 */
-        		else if (o instanceof Packets.NewClientPlayer) {
-        			Packets.NewClientPlayer p = (Packets.NewClientPlayer) o;
-        			myID = p.yourId;
         		}
         		
         		/*

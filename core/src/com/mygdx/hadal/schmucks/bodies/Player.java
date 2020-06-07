@@ -841,7 +841,7 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreatePlayer(entityID.toString(), getPixelPosition(), name, playerData.getLoadout());
+		return new Packets.CreatePlayer(entityID.toString(), connID, getPixelPosition(), name, playerData.getLoadout());
 	}
 	
 	/**
