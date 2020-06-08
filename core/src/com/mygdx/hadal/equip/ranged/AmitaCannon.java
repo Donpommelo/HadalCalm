@@ -23,7 +23,7 @@ public class AmitaCannon extends RangedWeapon {
 	private final static float reloadTime = 1.6f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 7.5f;
-	private final static float recoil = 2.5f;
+	private final static float recoil = 6.0f;
 	private final static float knockback = 15.0f;
 	private final static float projectileSpeed = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(48, 48);
@@ -49,6 +49,7 @@ public class AmitaCannon extends RangedWeapon {
 
 		//we create an ivisible hitbox that moves in a straight line.
 		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		center.setSyncDefault(false);
 		
 		center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
 		center.addStrategy(new ContactWallDie(state, center, user.getBodyData()));

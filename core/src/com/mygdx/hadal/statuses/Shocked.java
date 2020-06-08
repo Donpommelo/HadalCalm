@@ -89,6 +89,7 @@ public class Shocked extends Status {
 				Vector2 trailPath = new Vector2(chainAttempt.getPosition()).sub(inflicted.getSchmuck().getPosition());
 				
 				Hitbox trail = new RangedHitbox(state, inflicted.getSchmuck().getPixelPosition(), trailSize, trailLifespan, new Vector2(trailPath).nor().scl(trailSpeed), filter, true, false, inflicted.getSchmuck(), Sprite.NOTHING);
+				
 				trail.addStrategy(new ControllerDefault(state, trail, inflicter));
 				trail.addStrategy(new AdjustAngle(state, trail, inflicter));
 				trail.addStrategy(new TravelDistanceDie(state, trail, inflicter, trailPath.len()));

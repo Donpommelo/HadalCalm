@@ -20,6 +20,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.utils.Stats;
 
 public class DeepSeaSmelter extends RangedWeapon {
 
@@ -30,7 +31,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 15.0f;
-	private final static float recoil = 2.0f;
+	private final static float recoil = 6.0f;
 	private final static float knockback = 22.0f;
 	private final static float projectileSpeed = 40.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 20);
@@ -62,6 +63,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 		
 		projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
 		
+		user.recoil(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
+
 		//Shoot			
 		fire(state, user, projOrigin, weaponVelo, faction);
 	}

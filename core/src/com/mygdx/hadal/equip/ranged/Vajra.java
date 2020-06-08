@@ -27,7 +27,7 @@ public class Vajra extends RangedWeapon {
 	private final static float reloadTime = 1.1f;
 	private final static int reloadAmount = 0;
 
-	private final static float recoil = 0.0f;
+	private final static float recoil = 4.0f;
 	private final static float baseDamage = 20.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeedStart = 30.0f;

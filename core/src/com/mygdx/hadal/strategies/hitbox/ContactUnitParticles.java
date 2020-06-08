@@ -27,6 +27,7 @@ public class ContactUnitParticles extends HitboxStrategy {
 	
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
 	private boolean isOffset = false;
+	private boolean drawOnSelf = true;
 	private Vector2 offset = new Vector2();
 		
 	public ContactUnitParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
@@ -39,7 +40,11 @@ public class ContactUnitParticles extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {
 			
-			offset.set(hbox.getPixelPosition());
+			if (drawOnSelf) {
+				offset.set(hbox.getPixelPosition());
+			} else {
+				offset.set(fixB.getEntity().getPixelPosition());
+			}
 			
 			if (isOffset) {
 				offset.add(new Vector2(hbox.getLinearVelocity()).nor().scl(hbox.getSize().x / 2));
@@ -56,6 +61,11 @@ public class ContactUnitParticles extends HitboxStrategy {
 	
 	public ContactUnitParticles setDuration(float duration) {
 		this.duration = duration;
+		return this;
+	}
+	
+	public ContactUnitParticles setDrawOnSelf(boolean drawOnSelf) {
+		this.drawOnSelf = drawOnSelf;
 		return this;
 	}
 }

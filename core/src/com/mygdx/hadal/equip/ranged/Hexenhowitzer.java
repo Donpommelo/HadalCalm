@@ -30,6 +30,7 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.strategies.hitbox.Spread;
+import com.mygdx.hadal.utils.Stats;
 
 public class Hexenhowitzer extends RangedWeapon {
 
@@ -40,11 +41,11 @@ public class Hexenhowitzer extends RangedWeapon {
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 22.0f;
-	private final static float recoil = 0.0f;
+	private final static float recoil = 10.0f;
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 35.0f;
 	private final static Vector2 projectileSize = new Vector2(50, 25);
-	private final static float lifespan = 2.0f;
+	private final static float lifespan = 1.5f;
 	
 	private static final float maxCharge = 80.0f;
 	private static final float chargeLostPerShot = 2.5f;
@@ -69,6 +70,8 @@ public class Hexenhowitzer extends RangedWeapon {
 		shooter.statusProcTime(new ProcTime.Shoot(this));
 		
 		projOrigin.set(shooter.getSchmuck().getProjectileOrigin(weaponVelo, projectileSize.x));
+		
+		user.recoil(mouseLocation, recoil * (1 + shooter.getStat(Stats.RANGED_RECOIL)));
 		
 		//Shoot			
 		fire(state, user, projOrigin, weaponVelo, faction);

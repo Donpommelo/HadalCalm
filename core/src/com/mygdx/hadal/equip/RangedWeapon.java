@@ -124,7 +124,7 @@ public class RangedWeapon extends Equipable {
 		if (shotSuccessful) {
 			
 			clipLeft--;
-			clipPercent = (float)clipLeft / getClipSize();
+			clipPercent = (float) clipLeft / getClipSize();
 			
 			//If player fires in the middle of reloading, reset reload progress
 			reloading = false;

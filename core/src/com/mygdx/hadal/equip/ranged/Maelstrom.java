@@ -24,16 +24,16 @@ public class Maelstrom extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 8.0f;
+	private final static float baseDamage = 9.0f;
 	private final static float recoil = 6.0f;
-	private final static float knockback = 15.0f;
-	private final static float projectileSpeed = 18.0f;
+	private final static float knockback = 12.0f;
+	private final static float projectileSpeed = 16.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 1.8f;
 	
 	private final static float explosionInterval = 1 / 15f;
 	private final static float explosionDuration = 1 / 10f;
-	private final static int explosionMaxSize = 240;
+	private final static int explosionMaxSize = 250;
 	private final static float explosionGrowth = 8.0f;
 	
 	private final static Sprite projSprite = Sprite.HURRICANE;
@@ -49,7 +49,7 @@ public class Maelstrom extends RangedWeapon {
 		SoundEffect.WIND2.playUniversal(state, startPosition, 1.0f, false);
 
 		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
-		
+		storm.setSyncDefault(false);
 		storm.setRestitution(0.5f);
 		
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));

@@ -413,7 +413,11 @@ public abstract class HadalEntity {
 
 	public void setReceivingSyncs(boolean receivingSyncs) {	this.receivingSyncs = receivingSyncs; }
 
+	public boolean isSyncDefault() { return syncDefault; }
+	
 	public void setSyncDefault(boolean syncDefault) { this.syncDefault = syncDefault; }
+
+	public boolean isSyncInstant() { return syncInstant; }
 
 	public void setSyncInstant(boolean syncInstant) { this.syncInstant = syncInstant; }
 
