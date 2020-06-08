@@ -309,8 +309,8 @@
   <object id="65" name="Camera" type="Camera" x="576" y="704" width="32" height="32">
    <properties>
     <property name="triggeredId" value="camerashaft"/>
-    <property name="triggeringId" value="camerashaftpoint"/>
-    <property name="zoom" type="float" value="0.5"/>
+    <property name="triggeringId" value=""/>
+    <property name="zoom" type="float" value="0.75"/>
    </properties>
   </object>
   <object id="66" name="Bounds" type="Bounds" x="2816" y="2528" width="32" height="32">
@@ -522,12 +522,6 @@
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DORMITORY"/>
-   </properties>
-  </object>
-  <object id="106" name="Dummy" type="Dummy" x="2816" y="2208" width="32" height="32">
-   <properties>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="camerashaftpoint"/>
    </properties>
   </object>
   <object id="107" name="Dropthrough" type="Dropthrough" x="2208" y="1184" width="160" height="8"/>

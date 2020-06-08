@@ -680,7 +680,7 @@ PIFFLER: {
 PLUMPOWDER: {
 	name: Plumpowder
 	description: "Active Items Start Charged"
-    descriptionLong: "A satchel of sweet and acidic crystals.\n\n"
+    descriptionLong: "A satchel of sweet and acidic crystals.\n\nThe taste is better when you have less of it than you want."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -750,7 +750,7 @@ SEAFOAM_PERIAPT: {
 SENESCENT_SHIELD: {
 	name: Senescent Shield
 	description: "Deflective Projectiles"
-    descriptionLong: "A tarnished shield that once held symbolic importance for some forgotten reason.\n\n"
+    descriptionLong: "A tarnished shield that once held symbolic importance for some forgotten reason.\n\nForgotten objects of worship may find new purpose basking in the shadow of the False Sun."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

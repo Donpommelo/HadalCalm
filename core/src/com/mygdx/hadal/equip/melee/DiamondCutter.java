@@ -62,6 +62,13 @@ public class DiamondCutter extends MeleeWeapon {
 		
 		if (!held) {
 			held = true;
+			
+			if (hbox != null) {
+				if (hbox.isAlive()) {
+					return;
+				}
+			}
+			
 			projOffset.set(mouseLocation).sub(shooter.getSchmuck().getPixelPosition()).nor().scl(range);
 
 			hbox = new Hitbox(state, projOffset, projectileSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, true, user, projSprite);

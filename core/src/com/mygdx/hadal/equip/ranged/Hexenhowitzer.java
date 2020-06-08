@@ -148,9 +148,23 @@ public class Hexenhowitzer extends RangedWeapon {
 		}
 	}
 	
+	//this is to avoid resetting the charge status when reequipping this weapon
+	@Override
+	public void equip(PlayState state) {}
+		
 	@Override
 	public boolean reload(float delta) { 
 		reloading = false;
 		return false;
 	}
+	
+	//custom charging text to convey supercharge information
+		@Override
+		public String getChargeText() {
+			if (supercharged) {
+				return "SUPERCHARGE"; 
+			} else {
+				return "CHARGE"; 
+			}
+		}
 }

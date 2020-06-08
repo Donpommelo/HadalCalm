@@ -1,5 +1,5 @@
 {
-scrap: 122
+scrap: 127
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -21,7 +21,7 @@ flags: {
 	ARTIFACTSLOT4: 1
 	ARTIFACTSLOT5: 0
 }
-lastIp: 70.115.156.144
+lastIp: 127.0.0.1
 hiScores: {
 	class: java.util.HashMap
 	ARENA_LAGAN: 50
