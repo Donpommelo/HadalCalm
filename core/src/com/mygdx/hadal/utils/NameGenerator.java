@@ -275,6 +275,7 @@ public enum NameGenerator {
 	MAKER("maker", "end", "a", "e", "i", "o", "misc", "u", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	MEISTER("meister", "end", "a", "e", "i", "o", "misc", "u", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	MEYER("meyer", "end", "a", "e", "i", "o", "misc", "u", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
+	MUFFIN("muffin", "end", "a", "e", "i", "o", "misc", "u", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	
 	NARD("nard", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	NEAUX("neaux", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
@@ -288,6 +289,7 @@ public enum NameGenerator {
 	OOEY("ooey", "end", "universal"),
 	
 	PEPPER("pepper", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
+	POSTER("poster", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	POULOS("poulos", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 
 	REICH("reich", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "s_", "t_", "v_", "w_", "x_", "z_"),
@@ -413,6 +415,7 @@ public enum NameGenerator {
 	CUMBER("cumber", "end", "u"),
 	CYCLE("cycle", "end", "i"),
 	
+	DADDLE("daddle", "end", "e", "i"),
 	DAH("dah", "end", "a", "e", "i", "o", "u"),
 	DALUPE("dalupe", "end", "a"),
 	DARDAR("dardar", "end", "a"),
@@ -427,6 +430,7 @@ public enum NameGenerator {
 	DEON("deon", "end", "a", "e", "i", "o", "u"),
 	DERICK("derick", "end", "a", "e", "i", "o", "u"),
 	DGER("dger", "end", "a", "o"),
+	DGERIDOO("dgeridoo", "end", "e", "i"),
 	DICCHIO("diccio", "end", "a"),
 	DICULOUS("diculous", "end", "a", "e", "i", "o", "u"),
 	DIMIR("dimir", "end", "a", "e", "i", "o", "u"),
@@ -709,6 +713,7 @@ public enum NameGenerator {
 	OFUS("ofus", "end", "o"),
 	OGALOO("oogaloo", "end", "o"),
 	OK("ok", "end", "o"),
+	OKABURRA("okaburra", "end", "o"),
 	OLE("ole", "end", "o"),
 	ONEY("oney", "end", "o"),
 	OSBALL("osball", "end", "o"),
@@ -804,6 +809,7 @@ public enum NameGenerator {
 	RNFLAKES("rnflakes", "end", "o"),
 	RNIP("rnip", "end", "u"),
 	RNITAS("rnitas", "end", "a"),
+	RNSWOGGLE("rnswoggle", "end", "o"),
 	RONA("rona", "end", "a", "e", "i", "o", "u"),
 	RONICA("ronica", "end", "a", "e", "i", "o", "u"),
 	RORO("roro", "end", "a", "e", "i", "o", "u"),
@@ -891,6 +897,7 @@ public enum NameGenerator {
 	TANNIA("tannia", "end", "a", "e", "i", "o", "u"),
 	TATO("tato", "end", "a", "o"),
 	TATRON("tatron", "end", "a", "e", "i", "o", "u"),
+	TCHEROO("tcheroo", "end", "i"),
 	TCHOCOLATE("tchocolate", "end", "o"),
 	TCOIN("tcoin", "end", "i"),
 	TERMELON("termelon", "end", "a"),

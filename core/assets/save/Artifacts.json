@@ -289,7 +289,7 @@ EMAUDELINES_PRISM: {
 EPHEMERA_PERPETUA: {
 	name: Ephemera Perpetua
 	description: "Charge Active Item on Eggplant Pickup"
-    descriptionLong: "Item Charge: 20%\n\n<adjective1> <noun1> of <color> <material>."
+    descriptionLong: "Item Charge: 20%\n\n<adjective1> <noun1> of <color> <material>.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

@@ -114,8 +114,13 @@ public class PlayState extends GameState {
 	//This is the id of the start event that we will be spawning on
 	private String startId;
 	
-	//This is the entity that the camera tries to focus on
+	//This is the coordinate that the camera tries to focus on when set to aim at an entity. When null, the camera focuses on the player
 	private Vector2 cameraTarget;
+	
+	//coordinate the camera is looking at in spectator mode. Unlock cameraTarget, this shouldn't be null
+	private Vector2 spectatorTarget = new Vector2();
+	
+	private boolean spectatorMode;
 	
 	//These are the bounds of the camera movement
 	private float[] cameraBounds = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -594,6 +599,8 @@ public class PlayState extends GameState {
 	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
 	Vector2 tmpVector2 = new Vector2();
+	Vector3 mousePosition = new Vector3();
+	Vector2 mousePosition2 = new Vector2();
 	protected void cameraUpdate() {
 		zoom = zoom + (zoomDesired - zoom) * 0.1f;
 		
@@ -602,6 +609,14 @@ public class PlayState extends GameState {
 		if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
 				tmpVector2.set(player.getPixelPosition());
+			} else if (spectatorMode) {
+				
+				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+				HadalGame.viewportCamera.unproject(mousePosition);
+				mousePosition2.set(mousePosition.x, mousePosition.y);
+				spectatorTarget.lerp(mousePosition2, 0.05f);
+				
+				tmpVector2.set(spectatorTarget);
 			} else {
 				return;
 			}
@@ -625,6 +640,9 @@ public class PlayState extends GameState {
 		if (cameraBounded[3] && tmpVector2.y < cameraBounds[3]) {
 			tmpVector2.y = cameraBounds[3];
 		}
+		
+		//this makes the spectator target respect camera bounds
+		spectatorTarget.set(tmpVector2);
 		
 		CameraStyles.lerpToTarget(camera, tmpVector2);
 	}
@@ -705,6 +723,9 @@ public class PlayState extends GameState {
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
 			gsm.getApp().fadeIn();
+			
+			spectatorMode = true;
+			spectatorTarget.set(camera.position.x, camera.position.y);
 			
 			//Make nextState null so we can transition again
 			nextState = null;
