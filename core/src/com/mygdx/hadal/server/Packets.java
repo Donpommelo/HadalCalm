@@ -916,6 +916,22 @@ public class Packets {
 		}
 	}
 	
+	public static class StartSpectate {
+		
+		/**
+		 * A StartSpectate is sent from the client to the server when the client chooses to spectate a game 
+		 */
+		public StartSpectate() {}
+	}
+	
+	public static class EndSpectate {
+		
+		/**
+		 * An EndSpectate is sent from the client to the server when the client chooses to stop spectating a game 
+		 */
+		public EndSpectate() {}
+	}
+
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -961,5 +977,7 @@ public class Packets {
     	kryo.register(SyncSound.class);
     	kryo.register(MissedCreate.class);
     	kryo.register(MissedDelete.class);
+    	kryo.register(StartSpectate.class);
+    	kryo.register(EndSpectate.class);
     }
 }

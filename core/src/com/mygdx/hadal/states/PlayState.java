@@ -52,6 +52,7 @@ import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.PacketEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.schmucks.bodies.AnchorPoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
@@ -120,7 +121,7 @@ public class PlayState extends GameState {
 	//coordinate the camera is looking at in spectator mode. Unlock cameraTarget, this shouldn't be null
 	private Vector2 spectatorTarget = new Vector2();
 	
-	private boolean spectatorMode;
+	protected boolean spectatorMode;
 	
 	//These are the bounds of the camera movement
 	private float[] cameraBounds = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -598,6 +599,7 @@ public class PlayState extends GameState {
 	/**
 	 * This is called every update. This resets the camera zoom and makes it move towards the player (or other designated target).
 	 */
+	private final static float spectatorCameraRange = 9000.0f;
 	Vector2 tmpVector2 = new Vector2();
 	Vector3 mousePosition = new Vector3();
 	Vector2 mousePosition2 = new Vector2();
@@ -614,7 +616,10 @@ public class PlayState extends GameState {
 				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 				HadalGame.viewportCamera.unproject(mousePosition);
 				mousePosition2.set(mousePosition.x, mousePosition.y);
-				spectatorTarget.lerp(mousePosition2, 0.05f);
+				
+				if (spectatorTarget.dst2(mousePosition2) > spectatorCameraRange) {
+					spectatorTarget.lerp(mousePosition2, 0.03f);
+				}
 				
 				tmpVector2.set(spectatorTarget);
 			} else {
@@ -702,6 +707,9 @@ public class PlayState extends GameState {
 		switch (nextState) {
 		case RESPAWN:
 			gsm.getApp().fadeIn();
+			
+			spectatorMode = false;
+			
 			StartPoint getSave = getSavePoint();
 			
 			//Create a new player
@@ -855,7 +863,6 @@ public class PlayState extends GameState {
 		} else {
 			p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
 		}
-		
 		return p;
 	}
 	
@@ -960,6 +967,35 @@ public class PlayState extends GameState {
 		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay));
 	}
 	
+	public void becomeSpectator(Player player) {
+		
+		if (nextState == null) {
+			HadalGame.server.addNotificationToAll(this, "", player.getName() + "  became a spectator!");
+			
+			if (this.player.equals(player)) {
+				beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
+			} else {
+				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay));
+			}
+			
+			//we die last so that the on-death transition does not occur (As it will not override the spectator transition unless it is a results screen.)
+			player.getPlayerData().die(worldDummy.getBodyData(), DamageTypes.DISCONNECT);
+		}
+	}
+	
+	public void exitSpectator(Player player) {
+		
+		if (nextState == null) {
+			HadalGame.server.addNotificationToAll(this, "", player.getName() + "  stopped spectating and joined the game!");
+
+			if (this.player.equals(player)) {
+				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);
+			} else {
+				HadalGame.server.sendToTCP(player.getConnID(), new Packets.ClientStartTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay));
+			}
+		}
+	}
+
 	/**
 	 * This is called whenever we transition to a new state. Begin transition and set new state.
 	 * @param state: The state we are transitioning towards
@@ -1154,6 +1190,8 @@ public class PlayState extends GameState {
 	
 	public boolean isHub() { return hub; }
 	
+	public boolean isSpectatorMode() { return spectatorMode; }
+
 	public boolean isUnlimitedLife() {return unlimitedLife; }
 	
 	public void setUnlimitedLife(boolean lives) { this.unlimitedLife = lives; }

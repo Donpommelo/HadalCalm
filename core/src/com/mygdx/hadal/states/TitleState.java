@@ -221,6 +221,8 @@ public class TitleState extends GameState {
 						
 						//Start up the Client
 						HadalGame.client.init();
+						GameStateManager.currentMode = Mode.MULTI;
+						
 						setNotification("SEARCHING FOR SERVER!");
 						//Attempt to connect to the chosen ip
 						Gdx.app.postRunnable(new Runnable() {

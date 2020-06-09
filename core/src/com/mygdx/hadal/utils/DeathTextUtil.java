@@ -110,10 +110,10 @@ public class DeathTextUtil {
 		
 		if (tags.length > 0) {
 			switch (tags[0]) {
-			case DISCONNECT:
-				return vic.getName() + " disconnected.";
 			case LIVES_OUT:
 				return vic.getName() + " ran out of lives.";
+			case DISCONNECT:
+				return vic.getName() + " disconnected.";
 			default:
 				break;
 			}

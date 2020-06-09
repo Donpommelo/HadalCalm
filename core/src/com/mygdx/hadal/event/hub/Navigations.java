@@ -43,9 +43,6 @@ public class Navigations extends HubEvent {
 				public void clicked(InputEvent e, float x, float y) {
 					
 					if (selected == UnlockLevel.DM_RANDOM) {
-						
-						
-						
 			        	state.loadLevel(UnlockLevel.getRandomMap(state, UnlockTag.PVP), TransitionState.NEWLEVEL, "");
 					} else {
 			        	state.loadLevel(selected, TransitionState.NEWLEVEL, "");

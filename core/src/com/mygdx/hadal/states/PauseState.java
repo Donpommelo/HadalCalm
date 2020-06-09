@@ -30,7 +30,7 @@ public class PauseState extends GameState {
 	private Table table;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text pause, resumeOption, hubOption, settingOption, exitOption;
+	private Text pause, resumeOption, hubOption, settingOption, spectateOption, joinOption, exitOption;
 	
 	//This is the playstate that the pause state must be placed on top of.
 	private PlayState ps;
@@ -46,7 +46,8 @@ public class PauseState extends GameState {
 	
 	//Dimentions of the pause menu
 	private final static int width = 500;
-	private final static int height = 400;
+	private final static int height = 300;
+	private final static int extraRowHeight = 100;
 	
 	/**
 	 * Constructor will be called whenever a player pauses.
@@ -73,12 +74,23 @@ public class PauseState extends GameState {
 		
 		stage = new Stage() {
 			{
-				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2, width, height));
+				//make the menu size adjust based on how many options are available
+				int menuHeight = height;
+				
+				if (ps.isServer() && gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI) {
+					menuHeight += extraRowHeight;
+				}
+				
+				if (ps.isHub() && GameStateManager.currentMode == Mode.MULTI) {
+					menuHeight += extraRowHeight;
+				}
+				
+				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2, width, menuHeight));
 				
 				table = new Table();
 				table.setLayoutEnabled(true);
-				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2);
-				table.setSize(width, height);
+				table.setPosition(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - menuHeight / 2);
+				table.setSize(width, menuHeight);
 				addActor(table);
 				
 				if (paused) {
@@ -91,6 +103,8 @@ public class PauseState extends GameState {
 				resumeOption = new Text("RESUME", 0, 0, true);
 				hubOption = new Text("RETURN TO HUB", 0, 0, true);
 				settingOption = new Text("SETTINGS", 0, 0, true);
+				spectateOption = new Text("SPECTATE", 0, 0, true);
+				joinOption = new Text("JOIN", 0, 0, true);
 				exitOption = new Text("EXIT TO TITLE", 0, 0, true);
 				
 				resumeOption.addListener(new ClickListener() {
@@ -133,6 +147,32 @@ public class PauseState extends GameState {
 			        }
 			    });
 				
+				spectateOption.addListener(new ClickListener() {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						unpause();
+						if (ps.isServer()) {
+							ps.becomeSpectator(ps.getPlayer());
+						} else {
+							HadalGame.client.sendTCP(new Packets.StartSpectate());
+						}
+			        }
+			    });
+				
+				joinOption.addListener(new ClickListener() {
+			        
+					@Override
+					public void clicked(InputEvent e, float x, float y) {
+						unpause();
+						if (ps.isServer()) {
+							ps.exitSpectator(ps.getPlayer());
+						} else {
+							HadalGame.client.sendTCP(new Packets.EndSpectate());
+						}
+			        }
+			    });
+
 				exitOption.addListener(new ClickListener() {
 			        
 					@Override
@@ -153,6 +193,15 @@ public class PauseState extends GameState {
 					table.add(hubOption).expand().row();
 				}
 				table.add(settingOption).expand().row();
+				
+				if (ps.isHub() && GameStateManager.currentMode == Mode.MULTI) {
+					if (ps.isSpectatorMode()) {
+						table.add(joinOption).expand().row();
+					} else {
+						table.add(spectateOption).expand().row();
+					}
+				}
+				
 				table.add(exitOption).expand().row();
 			}
 		};

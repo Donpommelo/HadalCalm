@@ -33,9 +33,9 @@ public enum DamageTypes {
 	TRICK,
 	STUTTER,
 	
-	DISCONNECT,
 	LIVES_OUT,
 	BLASTZONE,
+	DISCONNECT,
 	
 	REGEN,
 	MEDPAK,

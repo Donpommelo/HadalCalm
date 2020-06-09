@@ -2,8 +2,10 @@ package com.mygdx.hadal.schmucks.userdata;
 
 import java.util.Arrays;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.Loadout;
@@ -18,7 +20,9 @@ import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.Packets.SyncPlayerStats;
 import com.mygdx.hadal.states.ClientState;
@@ -572,18 +576,34 @@ public class PlayerBodyData extends BodyData {
 	public void die(BodyData perp, DamageTypes... tags) {
 		if (player.isAlive()) {
 			
-			player.createGibs();
+			boolean special = false;
 			
-			//process score change if pvp modes (and drop eggplants if suitable mode)
-			if (player.getState().isPvp() && !player.getState().isHub() && player.getState().getGsm().getSetting().getPVPMode() == 1) {
-				int score = (int) (HadalGame.server.getScores().get(player.getConnID()).getScore() * scrapMultiplier);
+			for (int i = 0; i < tags.length; i++) {
+				if (tags[i] == DamageTypes.DISCONNECT) {
+					special = true;
+					break;
+				}
+			}
+			
+			if (special) {
+				warpAnimation();
+			} else {
+				player.createGibs();
 				
-				if (score < 0) {
-					score = 0;
+				//process score change if pvp modes (and drop eggplants if suitable mode)
+				if (player.getState().isPvp() && !player.getState().isHub() && player.getState().getGsm().getSetting().getPVPMode() == 1) {
+					int score = (int) (HadalGame.server.getScores().get(player.getConnID()).getScore() * scrapMultiplier);
+					
+					if (score < 0) {
+						score = 0;
+					}
+					
+					player.getState().getUiExtra().changeFields(player, -score, 0, 0.0f, 0.0f, false);
+					WeaponUtils.spawnScrap(player.getState(), score + baseScrapDrop, player.getPixelPosition(), true);
 				}
 				
-				player.getState().getUiExtra().changeFields(player, -score, 0, 0.0f, 0.0f, false);
-				WeaponUtils.spawnScrap(player.getState(), score + baseScrapDrop, player.getPixelPosition(), true);
+				//Send death notification to all players
+				HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(player.getState().getGsm(), perp.getSchmuck(), player, tags));
 			}
 			
 			schmuck.getState().onPlayerDeath(player, perp.getSchmuck());
@@ -597,10 +617,11 @@ public class PlayerBodyData extends BodyData {
 			}
 			
 			super.die(perp, tags);
-			
-			//Send death notification to all players
-			HadalGame.server.addNotificationToAll(player.getState(), "",  DeathTextUtil.getDeathText(player.getState().getGsm(), perp.getSchmuck(), player, tags));
 		}
+	}
+	
+	public void warpAnimation() {
+		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT, 0.5f, true, particleSyncType.CREATESYNC);
 	}
 	
 	public Player getPlayer() {	return player;}

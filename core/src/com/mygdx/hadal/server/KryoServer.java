@@ -18,6 +18,7 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
+import com.mygdx.hadal.server.Packets.EndSpectate;
 import com.mygdx.hadal.states.SettingState;
 import com.mygdx.hadal.states.TitleState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -84,6 +85,7 @@ public class KryoServer {
 								
 								//Inform all that the player disconnected and kill the player
 								p.getPlayerData().die(ps.getWorldDummy().getBodyData(), DamageTypes.DISCONNECT);
+								addNotificationToAll(ps, p.getName(), " DISCONNECTED!");
 								
 								//remove disconnecting player from all tracked lists
 								players.remove(c.getID());
@@ -369,6 +371,34 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						addNotificationToAll(ps, p.name, p.text);
+					}
+				}
+				
+				/*
+				 * A Client has said they want to enter spectator mode
+				 */
+				else if (o instanceof Packets.StartSpectate) {
+					
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						Player p = players.get(c.getID());
+						if (p != null) {
+							ps.becomeSpectator(p);
+						}
+					}
+				}
+				
+				/*
+				 * A Client has said they want to exit spectator mode
+				 */
+				else if (o instanceof EndSpectate) {
+					
+					final PlayState ps = getPlayState();
+					if (ps != null) {
+						Player p = players.get(c.getID());
+						if (p != null) {
+							ps.exitSpectator(p);
+						}
 					}
 				}
 				
