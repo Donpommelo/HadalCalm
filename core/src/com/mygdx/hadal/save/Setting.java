@@ -17,7 +17,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber;
-	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause, exportChatLog;
+	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume;
 
 	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
@@ -127,7 +127,7 @@ public class Setting {
 		randomNameAlliteration = true;
 		consoleEnabled = true;
 		verboseDeathMessage = true;
-		clientPause = true;
+		multiplayerPause = false;
 		exportChatLog = false;
 		maxPlayers = 4;
 		portNumber = 11100;
@@ -271,7 +271,7 @@ public class Setting {
 	
 	public void setVerboseDeathMessage(boolean verboseDeathMessage) { this.verboseDeathMessage = verboseDeathMessage; }
 
-	public void setClientPause(boolean clientPause) { this.clientPause = clientPause; }
+	public void setMultiplayerPause(boolean multiplayerPause) { this.multiplayerPause = multiplayerPause; }
 
 	public void setExportChatLog(boolean exportChatLog) { this.exportChatLog = exportChatLog; }
 
@@ -303,7 +303,7 @@ public class Setting {
 	
 	public boolean isVerboseDeathMessage() { return verboseDeathMessage; }
 
-	public boolean isClientPause() { return clientPause; }
+	public boolean isMultiplayerPause() { return multiplayerPause; }
 	
 	public boolean isExportChatLog() { return exportChatLog; }
 

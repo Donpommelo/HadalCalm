@@ -344,7 +344,7 @@ public class KryoServer {
         			if (!gsm.getStates().empty()) {
         				
         				Player p = players.get(c.getID());
-        				if (p != null && gsm.getSetting().isClientPause()) {
+        				if (p != null && gsm.getSetting().isMultiplayerPause()) {
         					if (gsm.getStates().peek() instanceof PauseState) {
         						final PauseState ps = (PauseState) gsm.getStates().peek();
                 				addNotificationToAll(ps.getPs(), p.getName(), "UNPAUSED THE GAME!");

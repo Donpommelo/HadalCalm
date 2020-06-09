@@ -191,15 +191,18 @@ public class Packets {
 	
 	public static class Paused {
 		public String pauser;
+		public boolean paused;
 		public Paused() {}
 		
 		/**
 		 * Paused is sent from the Server to the Client to indicate that the game has been paused.
 		 * Clients never send this to Server, because "their pauses" are carried out by the Player they control in the Server's world.
 		 * @param pauser: This is the name of the Player who paused.
+		 * @prarm paused: is the game actually paused, or is it still running underneath the pause menu
 		 */
-		public Paused(String pauser) {
+		public Paused(String pauser, boolean paused) {
 			this.pauser = pauser;
+			this.paused = paused;
 		}
 	}
 	

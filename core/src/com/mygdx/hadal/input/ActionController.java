@@ -1,7 +1,11 @@
 package com.mygdx.hadal.input;
 
+import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.managers.GameStateManager.Mode;
 import com.mygdx.hadal.schmucks.MoveState;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -61,8 +65,14 @@ public class ActionController {
 		}
 		
 		if (action == PlayerAction.PAUSE) {
-			if (state.getPlayer().equals(player) || state.getGsm().getSetting().isClientPause()) {
-				state.getGsm().addPauseState(state, player.getName(), PlayState.class);
+			if (state.getPlayer().equals(player) || state.getGsm().getSetting().isMultiplayerPause()) {
+				if (GameStateManager.currentMode == Mode.SINGLE) {
+					state.getGsm().addPauseState(state, player.getName(), PlayState.class, true);
+				} else {
+					state.getGsm().addPauseState(state, player.getName(), PlayState.class, state.getGsm().getSetting().isMultiplayerPause());
+				}
+			} else {
+				HadalGame.server.sendPacketToPlayer(player, new Packets.Paused(player.getName(), false));
 			}
 		}
 		

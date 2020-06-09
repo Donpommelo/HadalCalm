@@ -44,7 +44,7 @@ public class SettingState extends GameState {
 	//This is the hotkey option that the player has selected to change
 	private PlayerAction currentlyEditing;
 	
-	private PlayState ps;
+	private PauseState ps;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
 	private boolean toRemove = false;
@@ -54,7 +54,7 @@ public class SettingState extends GameState {
 	
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master;
-	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, clientPause, exportChatLog;
+	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
@@ -85,7 +85,7 @@ public class SettingState extends GameState {
 	private Shader shaderBackground;
 	private Texture bg;
 	
-	public SettingState(GameStateManager gsm, PlayState ps) {
+	public SettingState(GameStateManager gsm, PauseState ps) {
 		super(gsm);
 		this.ps = ps;
 		
@@ -547,8 +547,8 @@ public class SettingState extends GameState {
 		verboseDeathMessage = new CheckBox("Verbose Death Messages?", GameStateManager.getSkin());
 		verboseDeathMessage.setChecked(gsm.getSetting().isVerboseDeathMessage());
 		
-		clientPause = new CheckBox("Enable Client Pause?", GameStateManager.getSkin());
-		clientPause.setChecked(gsm.getSetting().isClientPause());
+		multiplayerPause = new CheckBox("Enable Multiplayer Pause?", GameStateManager.getSkin());
+		multiplayerPause.setChecked(gsm.getSetting().isMultiplayerPause());
 		
 		playerCapacity = new SelectBox<String>(GameStateManager.getSkin());
 		playerCapacity.setItems("1", "2", "3", "4", "5", "6");
@@ -567,7 +567,7 @@ public class SettingState extends GameState {
 		details.add(randomNameAlliteration).colspan(2).pad(detailsPad).row();
 		details.add(consoleEnabled).colspan(2).pad(detailsPad).row();
 		details.add(verboseDeathMessage).colspan(2).pad(detailsPad).row();
-		details.add(clientPause).colspan(2).pad(detailsPad).row();
+		details.add(multiplayerPause).colspan(2).pad(detailsPad).row();
 		details.add(maxPlayers);
 		details.add(playerCapacity).colspan(2).pad(detailsPad).row();
 		details.add(port);
@@ -616,7 +616,7 @@ public class SettingState extends GameState {
 			gsm.getSetting().setRandomNameAlliteration(randomNameAlliteration.isChecked());
 			gsm.getSetting().setConsoleEnabled(consoleEnabled.isChecked());
 			gsm.getSetting().setVerboseDeathMessage(verboseDeathMessage.isChecked());
-			gsm.getSetting().setClientPause(clientPause.isChecked());
+			gsm.getSetting().setMultiplayerPause(multiplayerPause.isChecked());
 			gsm.getSetting().setMaxPlayers(playerCapacity.getSelectedIndex());
 			gsm.getSetting().setPortNumber(Integer.valueOf(portNumber.getText()));
 			gsm.getSetting().setExportChatLog(exportChatLog.isChecked());
@@ -685,8 +685,7 @@ public class SettingState extends GameState {
 	public void update(float delta) {
 		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
 		if (ps != null) {
-			ps.cameraUpdate();
-			ps.stage.act();
+			ps.update(delta);
 		}
 		
 		//If the state has been unpaused, remove it
@@ -728,13 +727,17 @@ public class SettingState extends GameState {
 	@Override
 	public void dispose() { stage.dispose(); }
 	
-	public PlayState getPs() { return ps; }
+	public PlayState getPs() { return ps.getPs(); }
 	
 	@Override
 	public boolean processTransitions() { 
 		
 		//if this is a setting state over a play state, we don't process transitions
-		return ps == null; 
+		if (ps == null) {
+			return true;
+		} else {
+			return ps.processTransitions();
+		}
 	}
 	
 	public enum settingTab {

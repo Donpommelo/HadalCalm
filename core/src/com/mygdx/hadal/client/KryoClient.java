@@ -587,11 +587,12 @@ public class KryoClient {
         			
         			if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ClientState) {
         				final ClientState cs = (ClientState) gsm.getStates().peek();
+
         				cs.addPacketEffect(new PacketEffect() {
         					
         					@Override
         					public void execute() {
-        						cs.getGsm().addPauseState(cs, p.pauser, ClientState.class);
+        						cs.getGsm().addPauseState(cs, p.pauser, ClientState.class, p.paused);
         					}
         				});
         			}

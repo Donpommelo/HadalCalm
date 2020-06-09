@@ -717,6 +717,7 @@ public class PlayState extends GameState {
 		case RESULTS:
 
 			//get a results screen
+			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
@@ -724,8 +725,7 @@ public class PlayState extends GameState {
 			//When ded but other players alive, spectate a player
 			gsm.getApp().fadeIn();
 			
-			spectatorMode = true;
-			spectatorTarget.set(camera.position.x, camera.position.y);
+			setSpectatorMode();
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -733,16 +733,19 @@ public class PlayState extends GameState {
 		case NEWLEVEL:
 			
 			//remove this state and add a new play state with a fresh loadout
+			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
 			break;
 		case NEXTSTAGE:
 			
 			//remove this state and add a new play state with the player's current loadout and stats
+			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
+			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			if (!gsm.getStates().isEmpty()) {
 				if (gsm.getStates().peek() instanceof TitleState) {
@@ -965,7 +968,6 @@ public class PlayState extends GameState {
 	 * @param fadeDelay: amount of delay before transition
 	 */
 	public void beginTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
-		
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (nextState == null || override) {
 			this.resultsText = resultsText;
@@ -1128,6 +1130,11 @@ public class PlayState extends GameState {
 	public void setShaderBase(Shader shader) {
 		shaderBase = shader;
 		shaderBase.loadShader(this, null, 0);
+	}
+	
+	public void setSpectatorMode() {
+		spectatorMode = true;
+		spectatorTarget.set(camera.position.x, camera.position.y);
 	}
 	
 	public enum TransitionState {

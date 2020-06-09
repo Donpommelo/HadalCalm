@@ -246,24 +246,25 @@ public class GameStateManager {
 	 * @param ps: This is the playstate we are putting the pausestate on
 	 * @param pauser: This is the name of the player that paused the game
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
+	 * @param paused: is the game actually paused underneath the pause menu?
 	 */
-	public void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState) {
+	public void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState, boolean paused) {
 		
 		if (states.empty()) {
-			states.push(new PauseState(this, ps, pauser));
+			states.push(new PauseState(this, ps, pauser, paused));
 			states.peek().show();
 		} else if (states.peek().getClass().equals(lastState)) {
-			states.push(new PauseState(this, ps, pauser));
+			states.push(new PauseState(this, ps, pauser, paused));
 			states.peek().show();
 		}
 	}
 	
 	/**
 	 * Called when game setting menu is pulled up. This adds a ControlState to the stack
-	 * @param ps: This is the playstate we are putting the control state on
+	 * @param ps: This is the pausestate we are putting the control state on
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
-	public void addSettingState(PlayState ps, Class<? extends GameState> lastState) {
+	public void addSettingState(PauseState ps, Class<? extends GameState> lastState) {
 		if (states.empty()) {
 			states.push(new SettingState(this, ps));
 			states.peek().show();

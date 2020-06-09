@@ -41,6 +41,9 @@ public class PauseState extends GameState {
 	//This determines whether the pause state should be removed or not next engine tick.
 	private boolean toRemove = false;
 	
+	//is the game paused underneath this menu?
+	private boolean paused;
+	
 	//Dimentions of the pause menu
 	private final static int width = 500;
 	private final static int height = 400;
@@ -49,14 +52,15 @@ public class PauseState extends GameState {
 	 * Constructor will be called whenever a player pauses.
 	 * @param gsm
 	 */
-	public PauseState(final GameStateManager gsm, PlayState ps, String pauser) {
+	public PauseState(final GameStateManager gsm, PlayState ps, String pauser, boolean paused) {
 		super(gsm);
 		this.ps = ps;
 		this.pauser = pauser;
+		this.paused = paused;
 		
 		//When the server pauses, it sends a message to all clients to pause them as well.
-		if (ps.isServer()) {
-			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser));
+		if (ps.isServer() && paused) {
+			HadalGame.server.sendToAllTCP(new Packets.Paused(pauser, true));
 		}
 		
 		SoundEffect.POSITIVE.play(gsm, false);
@@ -64,6 +68,9 @@ public class PauseState extends GameState {
 
 	@Override
 	public void show() {
+		
+		final PauseState me = this;
+		
 		stage = new Stage() {
 			{
 				addActor(new MenuWindow(HadalGame.CONFIG_WIDTH / 2 - width / 2, HadalGame.CONFIG_HEIGHT / 2 - height / 2, width, height));
@@ -74,7 +81,11 @@ public class PauseState extends GameState {
 				table.setSize(width, height);
 				addActor(table);
 				
-				pause = new Text("PAUSED BY \n" + pauser, 0, 0, false);
+				if (paused) {
+					pause = new Text("PAUSED BY \n" + pauser, 0, 0, false);
+				} else {
+					pause = new Text("GAME NOT PAUSED", 0, 0, false);
+				}
 				pause.setScale(0.5f);
 				
 				resumeOption = new Text("RESUME", 0, 0, true);
@@ -117,7 +128,7 @@ public class PauseState extends GameState {
 					public void clicked(InputEvent e, float x, float y) {
 			        	
 			        	//Setting pops a setting state on top of the pause state.
-			        	gsm.addSettingState(ps, PauseState.class);
+			        	gsm.addSettingState(me, PauseState.class);
 			        	SoundEffect.UISWITCH1.play(gsm, false);
 			        }
 			    });
@@ -152,16 +163,20 @@ public class PauseState extends GameState {
 		
 		inputMultiplexer.addProcessor(stage);
 		inputMultiplexer.addProcessor(ps.stage);
+		
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
 			@Override
 			public boolean keyDown(int keycode) {				
-				if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
-					ps.getController().keyDown(keycode);
-				}
 				
-				if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
-					ps.getScoreWindow().setVisibility(true);
+				if (paused) {
+					if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+						ps.getController().keyDown(keycode);
+					}
+					
+					if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+						ps.getScoreWindow().setVisibility(true);
+					}
 				}
 				return false;
 			}
@@ -170,8 +185,10 @@ public class PauseState extends GameState {
 			public boolean keyUp(int keycode) {	
 				if (keycode == PlayerAction.PAUSE.getKey()) {
 					unpause();
+					
+					//we return true here so that the client does not process another pause after the unpause
+					return true;
 				}
-				
 				return false; 
 			}
 
@@ -194,6 +211,10 @@ public class PauseState extends GameState {
 			public boolean scrolled(int amount) { return false; }
 		});
 		
+		if (!paused) {
+			inputMultiplexer.addProcessor(ps.controller);
+		}
+		
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
@@ -202,7 +223,13 @@ public class PauseState extends GameState {
 		
 		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
 		if (ps != null) {
-			ps.cameraUpdate();
+			
+			if (paused) {
+				ps.cameraUpdate();
+			} else {
+				ps.update(delta);
+			}
+			
 			ps.stage.act();
 		}
 		
@@ -246,14 +273,18 @@ public class PauseState extends GameState {
     	if (ps.isServer()) {
     		toRemove = true;
 
-    		//If the server unpauses, send a message and notification to all players to unpause.
-    		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
-			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
-			
+    		if (paused) {
+    			//If the server unpauses, send a message and notification to all players to unpause.
+        		HadalGame.server.sendToAllTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+    			HadalGame.server.addNotificationToAll(ps, ps.getPlayer().getName(), "UNPAUSED THE GAME!");
+    		}
 		} else {
-			
-			//If a client unpauses, tell the server so it can echo it to everyone else
-			HadalGame.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			if (paused) {
+				//If a client unpauses, tell the server so it can echo it to everyone else
+				HadalGame.client.sendTCP(new Packets.Unpaused(ps.getPlayer().getName()));
+			} else {
+				toRemove = true;
+			}
 		}
 	}
 	
@@ -265,5 +296,5 @@ public class PauseState extends GameState {
 	public String getPauser() {	return pauser; }	
 	
 	@Override
-	public boolean processTransitions() { return false; }
+	public boolean processTransitions() { return !paused; }
 }

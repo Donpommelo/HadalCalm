@@ -261,10 +261,6 @@ public class Player extends PhysicsSchmuck {
 		destroyed = false;
 		controller = new ActionController(this, state);
 		
-		if (this == state.getPlayer()) {
-			state.resetController();
-		}
-		
 		//this makes the player's selected slot persist after respawning
 		int currentSlot = 1;
 		if (playerData != null) {

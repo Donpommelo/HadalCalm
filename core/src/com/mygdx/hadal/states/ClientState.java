@@ -197,12 +197,15 @@ public class ClientState extends PlayState {
 		case RESULTS:
 			
 			//immediately transition to the results screen
+			gsm.removeState(PauseState.class);
 			gsm.removeState(ClientState.class);
 			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
 		case SPECTATOR:
 			//When ded but other players alive, spectate a player
 			gsm.getApp().fadeIn();
+			
+			setSpectatorMode();
 			
 			//Make nextState null so we can transition again
 			nextState = null;
@@ -212,6 +215,7 @@ public class ClientState extends PlayState {
 			//In these cases, we wait for the server to create a new playstate in which we connect again
 			break;
 		case TITLE:
+			gsm.removeState(PauseState.class);
 			gsm.removeState(ClientState.class);
 			break;
 		default:

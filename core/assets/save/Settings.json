@@ -10,7 +10,6 @@ portNumber: 11100
 randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true
-clientPause: true
 exportChatLog: true
 soundVolume: 1
 musicVolume: 1
