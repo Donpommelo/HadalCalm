@@ -794,6 +794,9 @@ public class KryoClient {
 			if (currentState instanceof SettingState) {
 				return (ClientState) (((SettingState) currentState).getPs());
 			}
+			if (currentState instanceof ResultsState) {
+				return (ClientState) (((ResultsState) currentState).getPs());
+			}
 		}
 		return null;
 	}

@@ -315,7 +315,7 @@ public class PlayState extends GameState {
 			uiExtra.changeTypes(map.getProperties().get("startUI", "", String.class), true);
 			uiHub = new UIHub(this);
 			
-			messageWindow = new MessageWindow(this);
+			messageWindow = new MessageWindow(this, stage);
 			scoreWindow = new ScoreWindow(this);
 			dialogBox = new DialogBox(this, 0, HadalGame.CONFIG_HEIGHT);
 		}

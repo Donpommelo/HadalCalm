@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -30,7 +31,7 @@ import com.mygdx.hadal.utils.ConsoleCommandUtil;
 public class MessageWindow {
 
 	private static final int width = 500;
-	private static final int height = 300;
+	private static final int height = 250;
 	
 	private static final int windowX = 440;
 	private static final int windowYActive = 0;
@@ -41,22 +42,24 @@ public class MessageWindow {
 	public static final float logPadding = 10.0f;
 	
 	private PlayState state;
+	private Stage stage;
 	
-	private Table tableOuter, tableInner, tableLog; 
+	public Table tableOuter, tableInner, tableLog; 
 	
 	private TextField enterMessage;
 	private Text sendMessage, backButton;
 	private ScrollPane textLog;
 	
-	//is this window currently visible?
-	private boolean active;
+	//is this window currently visible? is this window locked and unable to be toggled?
+	private boolean active, locked;
 	
 	private final static int maxMessageLength = 100;
 	
 	private static ArrayList<String> textRecord = new ArrayList<String>();
 	
-	public MessageWindow(PlayState state) {
+	public MessageWindow(PlayState state, Stage stage) {
 		this.state = state;
+		this.stage = stage;
 		this.active = false;
 		
 		this.tableOuter = new Table().center();
@@ -72,15 +75,19 @@ public class MessageWindow {
 	 */
 	public void toggleWindow() {
 		
+		if (locked) {
+			return;
+		}
+		
 		//enables message to be run and window to be scrolled. Ran after actor enters screen.
 		Runnable enableMsg = new Runnable() {
 
 			@Override
 			public void run() {
 				
-				if (state.getStage() != null) {
-					state.getStage().setKeyboardFocus(enterMessage);
-					state.getStage().setScrollFocus(textLog);
+				if (stage != null) {
+					stage.setKeyboardFocus(enterMessage);
+					stage.setScrollFocus(textLog);
 					textLog.scrollTo(0, 0, 0, 0);
 				}
 				
@@ -106,10 +113,10 @@ public class MessageWindow {
 					return;
 				}
 				
-				if (state.getStage() != null) {
-					state.getStage().setKeyboardFocus(null);
-					if (state.getStage().getScrollFocus() == textLog) {
-						state.getStage().setScrollFocus(null);
+				if (stage != null) {
+					stage.setKeyboardFocus(null);
+					if (stage.getScrollFocus() == textLog) {
+						stage.setScrollFocus(null);
 					}
 				}
 				
@@ -171,8 +178,8 @@ public class MessageWindow {
 		tableOuter.clear();
 		tableInner.clear();
 		
-		state.getStage().addActor(tableOuter);
-		state.getStage().addActor(tableInner);
+		stage.addActor(tableOuter);
+		stage.addActor(tableInner);
 		tableOuter.setPosition(windowX, windowYInactive);
 		tableOuter.setWidth(width);
 		tableOuter.setHeight(height);
@@ -192,7 +199,7 @@ public class MessageWindow {
 			@Override
 			protected InputListener createInputListener () {
 				
-				return  new TextFieldClickListener() {
+				return new TextFieldClickListener() {
 		            
 					@Override
 		            public boolean keyUp(InputEvent event, int keycode) {
@@ -211,10 +218,10 @@ public class MessageWindow {
 		enterMessage.setMaxLength(maxMessageLength);
 		
 		sendMessage = new Text("SEND", 0, 0, true);
-		sendMessage.setScale(0.5f);
+		sendMessage.setScale(0.3f);
 		
 		backButton = new Text("EXIT", 0, 0, true);
-		backButton.setScale(0.5f);
+		backButton.setScale(0.3f);
 		
 		//sending a message should return focus to the playstate
 		sendMessage.addListener(new ClickListener() {
@@ -284,4 +291,6 @@ public class MessageWindow {
 	public static ArrayList<String> getTextRecord() { return textRecord; }	
 	
 	public boolean isActive() { return active; }
+	
+	public void setLocked(boolean locked) { this.locked = locked; }
 }

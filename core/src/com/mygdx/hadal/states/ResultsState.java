@@ -46,9 +46,9 @@ public class ResultsState extends GameState {
 	//Dimentions and position of the results menu
 	private final static int width = 1000;
 	private final static int baseHeight = 75;
-	private final static int titleHeight = 60;
+	private final static int titleHeight = 40;
 	private final static int rowHeight = 50;
-	private static final float scale = 0.5f;
+	private static final float scale = 0.4f;
 	private static final int maxNameLen = 30;
 
 	/**
@@ -103,6 +103,14 @@ public class ResultsState extends GameState {
 				syncScoreTable();
 			}
 		};
+		
+		if (!ps.getMessageWindow().isActive()) {
+			ps.getMessageWindow().toggleWindow();
+		}
+		ps.getMessageWindow().setLocked(true);
+		stage.addActor(ps.getMessageWindow().tableOuter);
+		stage.addActor(ps.getMessageWindow().tableInner);
+		
 		gsm.getApp().fadeIn();
 		app.newMenu(stage);
 	}
@@ -181,7 +189,7 @@ public class ResultsState extends GameState {
 	        	}
 	        }
 	    });
-		readyOption.setScale(0.5f);
+		readyOption.setScale(scale);
 		
 		forceReadyOption = new Text("FORCE RETURN?", 0, 0, true);
 		
@@ -194,7 +202,7 @@ public class ResultsState extends GameState {
 				returnToHub();
 	        }
 	    });
-		forceReadyOption.setScale(0.5f);
+		forceReadyOption.setScale(scale);
 		
 		table.add(readyOption).expandX();
 		if (ps.isServer()) {
@@ -256,7 +264,10 @@ public class ResultsState extends GameState {
 	}
 	
 	@Override
-	public void update(float delta) {}
+	public void update(float delta) {
+		ps.getMessageWindow().tableOuter.act(delta);
+		ps.getMessageWindow().tableInner.act(delta);
+	}
 
 	@Override
 	public void render(float delta) {}
@@ -265,4 +276,6 @@ public class ResultsState extends GameState {
 	public void dispose() {
 		stage.dispose();
 	}
+	
+	public PlayState getPs() { return ps; }
 }

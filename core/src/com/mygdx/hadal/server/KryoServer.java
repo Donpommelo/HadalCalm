@@ -574,6 +574,9 @@ public class KryoServer {
 			if (currentState instanceof SettingState) {
 				return ((SettingState) currentState).getPs();
 			}
+			if (currentState instanceof ResultsState) {
+				return ((ResultsState) currentState).getPs();
+			}
 		}
 		return null;
 	}
