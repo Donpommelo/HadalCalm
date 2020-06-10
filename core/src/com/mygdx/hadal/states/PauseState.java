@@ -77,7 +77,7 @@ public class PauseState extends GameState {
 				//make the menu size adjust based on how many options are available
 				int menuHeight = height;
 				
-				if (ps.isServer() && gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
 					menuHeight += extraRowHeight;
 				}
 				
@@ -189,7 +189,7 @@ public class PauseState extends GameState {
 				table.add(pause).pad(5).expand().top().row();
 				table.add(resumeOption).expand().row();
 				
-				if (ps.isServer() && gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
 					table.add(hubOption).expand().row();
 				}
 				table.add(settingOption).expand().row();

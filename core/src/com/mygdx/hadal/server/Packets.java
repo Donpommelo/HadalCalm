@@ -67,6 +67,7 @@ public class Packets {
 	public static class LoadLevel {
 		public UnlockLevel level;
 		public boolean firstTime;
+		public boolean spectator;
 		public LoadLevel() {}
 		
 		/**
@@ -76,15 +77,19 @@ public class Packets {
 		 * 
 		 * @param level: Level that the Client will load.
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
+		 * @param spectator: Is this client connecting as a spectator?
 		 */
-		public LoadLevel(UnlockLevel level, boolean firstTime) {
+		public LoadLevel(UnlockLevel level, boolean firstTime, boolean spectator) {
 			this.level = level;
 			this.firstTime = firstTime;
+			this.spectator = spectator;
 		}
 	}
 	
 	public static class ClientLoaded {
 		public boolean firstTime;
+		public boolean lastSpectator;
+		public boolean spectator;
 		public String name;
 		public Loadout loadout;
 		public ClientLoaded() {}
@@ -95,11 +100,15 @@ public class Packets {
 		 * Server receiving this should welcome the new Client and give them the down-low about the world they just entered.
 		 * 
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
+		 * @param lastSpectator: was this client previously a spectator? If so, they will still be a spectator (unless transitioning to a hub)
+		 * @param spectator: Is this client being forced to be a spectator? (by joining mid-session or full server)
 		 * @param name: The client's name
 		 * @param loadout: the client's starting loadout
 		 */
-		public ClientLoaded(boolean firstTime, String name, Loadout loadout) {
+		public ClientLoaded(boolean firstTime, boolean lastSpectator, boolean spectator, String name, Loadout loadout) {
 			this.firstTime = firstTime;
+			this.lastSpectator = lastSpectator;
+			this.spectator = spectator;
 			this.name = name;
 			this.loadout = loadout;
 		}

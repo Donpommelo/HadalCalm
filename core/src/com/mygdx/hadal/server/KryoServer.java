@@ -191,14 +191,14 @@ public class KryoServer {
 								return;
 							}
 							
+							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
+							
 							if (!ps.isHub()) {
-								sendToTCP(c.getID(), new Packets.ConnectReject("CONNECTION FAILED. GAME IN SESSION."));
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
 								return;
 							}
-							
-							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
 						}
-                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime));
+                        sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, false));
 					}
 				}
 				
@@ -222,16 +222,18 @@ public class KryoServer {
 							public void execute() {
 								ps.catchUpClient(c.getID());
 		                        
+								boolean spectator = p.spectator || (p.lastSpectator && !ps.isHub());
+								
 		                        //If the client has already been created, we create a new player, otherwise we reuse their old data.
 		    					final Player player = players.get(c.getID());
 		    					if (player != null) {
 		    						if (ps.isReset()) {
-		    							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset()); 
+		    							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), spectator); 
 		    						} else {
-		    							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset()); 
+		    							createNewClientPlayer(ps, c.getID(), p.name, player.getPlayerData().getLoadout(), player.getPlayerData(), ps.isReset(), spectator); 
 		    						}
 		    					} else {
-		    						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true);                        
+		    						createNewClientPlayer(ps, c.getID(), p.name, p.loadout, null, true, spectator);                        
 		    					}
 							}
 						});
@@ -323,7 +325,7 @@ public class KryoServer {
 				}
 				
 				/*
-				 * The client has finished respawning (after transitioning to black.
+				 * The client has finished respawning (after transitioning to black.)
 				 * We spawn a new player for them
 				 */
 				else if (o instanceof Packets.ClientFinishRespawn) {
@@ -334,7 +336,7 @@ public class KryoServer {
 					Player player = players.get(c.getID());
 					if (player != null) {
 						playerName = player.getName();
-						createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true);
+						createNewClientPlayer(ps, c.getID(), playerName, player.getPlayerData().getLoadout(), player.getPlayerData(), true, false);
 					}
 				}
 				
@@ -444,8 +446,9 @@ public class KryoServer {
 	 * @param data: The player data of the new player.
 	 * @param reset: Do we want to reset the new player's hp/fuel/ammo etc?
 	 * @param firstTime: Is this the first time we are spawning this player?
+	 * @param spectator: is this player created as a spectator?
 	 */
-	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset) {
+	public void createNewClientPlayer(final PlayState ps, final int connId, final String name, final Loadout loadout, final PlayerBodyData data, final boolean reset, final boolean spectator) {
 
 		ps.addPacketEffect(new PacketEffect() {
 
@@ -472,6 +475,8 @@ public class KryoServer {
 		        
 		        //sync client ui elements
 		        sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
+		        
+		        newPlayer.setStartSpectator(spectator);
 			}
 		});
 	}

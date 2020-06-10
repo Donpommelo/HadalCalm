@@ -29,6 +29,7 @@ import com.mygdx.hadal.actors.ScoreWindow;
 import com.mygdx.hadal.actors.UIObjective;
 import com.mygdx.hadal.actors.UIPlay;
 import com.mygdx.hadal.actors.UIPlayClient;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.actors.UIArtifacts;
 import com.mygdx.hadal.equip.Loadout;
@@ -46,6 +47,7 @@ import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.WorldDummy;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -56,6 +58,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.schmucks.bodies.AnchorPoint;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.utils.CameraStyles;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
@@ -495,7 +498,7 @@ public class PlayState extends GameState {
 		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
-		synchronized(addPacketEffects) {
+		synchronized (addPacketEffects) {
 			for (int i = 0; i < addPacketEffects.size(); i++) {
 				packetEffects.add(addPacketEffects.get(i));
 			}
@@ -863,6 +866,11 @@ public class PlayState extends GameState {
 		} else {
 			p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
 		}
+		
+		if (reset) {
+			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2), Particle.TELEPORT, 0.5f, true, particleSyncType.CREATESYNC);
+		}
+		
 		return p;
 	}
 	

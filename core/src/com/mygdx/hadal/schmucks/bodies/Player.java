@@ -153,6 +153,9 @@ public class Player extends PhysicsSchmuck {
 	//this is the point we are starting at.
 	private StartPoint start;
 	
+	//does this player start off as a spectator
+	private boolean startSpectator;
+	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
 	 * @param state: current gameState
@@ -335,6 +338,12 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;
+		
+		//set this player as spectator if so requested
+		if (startSpectator) {
+			startSpectator = false;
+			state.becomeSpectator(this);
+		}
 		
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		while (controllerCount >= controllerInterval) {
@@ -986,6 +995,8 @@ public class Player extends PhysicsSchmuck {
 
 	public void setStartLoadout(Loadout startLoadout) { this.startLoadout = startLoadout; }
 
+	public void setStartSpectator(boolean startSpectator) { this.startSpectator = startSpectator; }
+	
 	public MouseTracker getMouse() { return mouse; }
 
 	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }
