@@ -153,8 +153,8 @@ public class Player extends PhysicsSchmuck {
 	//this is the point we are starting at.
 	private StartPoint start;
 	
-	//does this player start off as a spectator
-	private boolean startSpectator;
+	//does this player start off as a spectator. Is this player currently a spectator?
+	private boolean startSpectator, spectator;
 	
 	/**
 	 * This constructor is called by the player spawn event that must be located in each map
@@ -262,6 +262,8 @@ public class Player extends PhysicsSchmuck {
 	public void create() {
 		alive = true;
 		destroyed = false;
+		spectator = false;
+		
 		controller = new ActionController(this, state);
 		
 		//this makes the player's selected slot persist after respawning
@@ -341,7 +343,6 @@ public class Player extends PhysicsSchmuck {
 		
 		//set this player as spectator if so requested
 		if (startSpectator) {
-			startSpectator = false;
 			state.becomeSpectator(this);
 		}
 		
@@ -994,9 +995,15 @@ public class Player extends PhysicsSchmuck {
 	public Loadout getStartLoadout() { return startLoadout; }
 
 	public void setStartLoadout(Loadout startLoadout) { this.startLoadout = startLoadout; }
+	
+	public boolean isStartSpectator() { return startSpectator; }
 
 	public void setStartSpectator(boolean startSpectator) { this.startSpectator = startSpectator; }
 	
+	public boolean isSpectator() { return spectator; }
+
+	public void setSpectator(boolean spectator) { this.spectator = spectator; }
+
 	public MouseTracker getMouse() { return mouse; }
 
 	public void setMouse(MouseTracker mouse) { this.mouse = mouse; }

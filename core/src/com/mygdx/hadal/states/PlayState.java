@@ -975,10 +975,16 @@ public class PlayState extends GameState {
 		HadalGame.server.sendToAllTCP(new Packets.ClientStartTransition(TransitionState.RESULTS, true, text, defaultFadeOutSpeed, deathFadeDelay));
 	}
 	
+	/**
+	 * This is used to make a specific player a spectator after a transition.
+	 * This is only run by the server
+	 */
 	public void becomeSpectator(Player player) {
 		
 		if (nextState == null) {
-			HadalGame.server.addNotificationToAll(this, "", player.getName() + "  became a spectator!");
+			player.setSpectator(true);
+			
+			HadalGame.server.addNotificationToAll(this, "", player.getName() + " became a spectator!");
 			
 			if (this.player.equals(player)) {
 				beginTransition(TransitionState.SPECTATOR, false, "", defaultFadeOutSpeed, deathFadeDelay);
@@ -991,10 +997,19 @@ public class PlayState extends GameState {
 		}
 	}
 	
+	/**
+	 * This is used to make a specific spectator a player after a transition.
+	 * This is only run by the server
+	 */
 	public void exitSpectator(Player player) {
 		
+		if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers()) {
+			HadalGame.server.sendNotification(this, player.getConnID(), "", "Could not join! Server is full!");
+			return;
+		}
+		
 		if (nextState == null) {
-			HadalGame.server.addNotificationToAll(this, "", player.getName() + "  stopped spectating and joined the game!");
+			HadalGame.server.addNotificationToAll(this, "", player.getName() + " stopped spectating and joined the game!");
 
 			if (this.player.equals(player)) {
 				beginTransition(TransitionState.RESPAWN, false, "", defaultFadeOutSpeed, deathFadeDelay);

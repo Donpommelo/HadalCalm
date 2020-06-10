@@ -4,7 +4,7 @@ framerate: 2
 cursorType: 1
 cursorSize: 1
 cursorColor: 4
-maxPlayers: 4
+maxPlayers: 1
 artifactSlots: 4
 portNumber: 11100
 randomNameAlliteration: true

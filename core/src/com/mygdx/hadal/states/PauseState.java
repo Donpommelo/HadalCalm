@@ -81,7 +81,7 @@ public class PauseState extends GameState {
 					menuHeight += extraRowHeight;
 				}
 				
-				if (ps.isHub() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					menuHeight += extraRowHeight;
 				}
 				
@@ -194,7 +194,7 @@ public class PauseState extends GameState {
 				}
 				table.add(settingOption).expand().row();
 				
-				if (ps.isHub() && GameStateManager.currentMode == Mode.MULTI) {
+				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
 						table.add(joinOption).expand().row();
 					} else {

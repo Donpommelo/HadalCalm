@@ -186,12 +186,12 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						if (p.firstTime) {
-							if (players.size() >= ps.getGsm().getSetting().getMaxPlayers()) {
-								sendToTCP(c.getID(), new Packets.ConnectReject("CONNECTION FAILED. SERVER FULL."));
+							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
+							
+							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers()) {
+								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
 								return;
 							}
-							
-							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
 							
 							if (!ps.isHub()) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
@@ -226,7 +226,13 @@ public class KryoServer {
 								
 		                        //If the client has already been created, we create a new player, otherwise we reuse their old data.
 		    					final Player player = players.get(c.getID());
+		    					
 		    					if (player != null) {
+		    						
+		    						if (player.isStartSpectator()) {
+		    							spectator = true;
+		    						}
+		    						
 		    						if (ps.isReset()) {
 		    							createNewClientPlayer(ps, c.getID(), p.name, p.loadout, player.getPlayerData(), ps.isReset(), spectator); 
 		    						} else {
@@ -620,6 +626,20 @@ public class KryoServer {
                 }
 			});
 		}
+	}
+	
+	/**
+	 * This returns the number of non-spectator players
+	 */
+	public int getNumPlayers() {
+		int playerNum = 0;
+		
+		for (Entry<Integer, Player> conn: players.entrySet()) {		
+			if (!conn.getValue().isSpectator()) {
+				playerNum++;
+			}
+		}
+		return playerNum;
 	}
 	
 	private void registerPackets() {
