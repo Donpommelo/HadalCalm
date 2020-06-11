@@ -4,7 +4,7 @@ framerate: 2
 cursorType: 1
 cursorSize: 1
 cursorColor: 4
-maxPlayers: 2
+maxPlayers: 3
 artifactSlots: 4
 portNumber: 11100
 randomNameAlliteration: true
@@ -14,6 +14,6 @@ exportChatLog: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
-timer: 4
+timer: 3
 loadoutType: 1
 }

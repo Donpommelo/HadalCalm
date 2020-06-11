@@ -128,6 +128,11 @@ public class UIPlay extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
+		
+		if (state.isSpectatorMode()) {
+			return;
+		}
+		
 		batch.setProjectionMatrix(state.hud.combined);
 		
 		calcVars();

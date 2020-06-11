@@ -79,6 +79,13 @@ public class SettingState extends GameState {
 	private final static float titlePad = 25.0f;
 	private final static float detailsPad = 15.0f;
 	
+	public final static String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN"};
+	public final static String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
+	public final static String[] loadoutChoices = {"COPY HOST", "SELECTED", "RANDOM"};
+	public final static String[] artifactChoices = {"0", "1", "2", "3", "4", "5", "6"};
+	public final static String[] modeChoices = {"KILLS -> SCORE", "EGGPLANTS -> SCORE"};
+	public final static String[] capacityChoices = {"1", "2", "3", "4", "5", "6"};
+	
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
 	
@@ -488,28 +495,28 @@ public class SettingState extends GameState {
 		mode.setScale(0.25f);
 		
 		timerOptions = new SelectBox<String>(GameStateManager.getSkin());
-		timerOptions.setItems("NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN");
+		timerOptions.setItems(timerChoices);
 		timerOptions.setWidth(100);
 		
 		timerOptions.setSelectedIndex(gsm.getSetting().getTimer());
 		
 		livesOptions = new SelectBox<String>(GameStateManager.getSkin());
-		livesOptions.setItems("UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES");
+		livesOptions.setItems(livesChoices);
 		
 		livesOptions.setSelectedIndex(gsm.getSetting().getLives());
 		
 		loadoutOptions = new SelectBox<String>(GameStateManager.getSkin());
-		loadoutOptions.setItems("COPY HOST", "SELECTED", "RANDOM");
+		loadoutOptions.setItems(loadoutChoices);
 		
 		loadoutOptions.setSelectedIndex(gsm.getSetting().getLoadoutType());
 		
 		artifactSlots = new SelectBox<String>(GameStateManager.getSkin());
-		artifactSlots.setItems("0", "1", "2", "3", "4", "5", "6");
+		artifactSlots.setItems(artifactChoices);
 		
 		artifactSlots.setSelectedIndex(gsm.getSetting().getArtifactSlots());
 		
 		pvpMode = new SelectBox<String>(GameStateManager.getSkin());
-		pvpMode.setItems("KILLS -> SCORE", "EGGPLANTS -> SCORE");
+		pvpMode.setItems(modeChoices);
 		
 		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
 		
@@ -551,7 +558,7 @@ public class SettingState extends GameState {
 		multiplayerPause.setChecked(gsm.getSetting().isMultiplayerPause());
 		
 		playerCapacity = new SelectBox<String>(GameStateManager.getSkin());
-		playerCapacity.setItems("1", "2", "3", "4", "5", "6");
+		playerCapacity.setItems(capacityChoices);
 		playerCapacity.setWidth(100);
 		
 		playerCapacity.setSelectedIndex(gsm.getSetting().getMaxPlayers());
@@ -626,6 +633,8 @@ public class SettingState extends GameState {
 		default:
 			break;
 		}
+		
+		updateSharedSettings();
 	}
 	
 	/**
@@ -658,6 +667,18 @@ public class SettingState extends GameState {
 			miscSelected();
 		default:
 			break;
+		}
+		
+		updateSharedSettings();
+	}
+	
+	public void updateSharedSettings() {
+		gsm.setSharedSetting(gsm.getSetting().generateSharedSetting());
+		
+		if (ps != null) {
+			if (ps.getPs().isServer()) {
+				ps.getPs().getScoreWindow().syncSettingTable();
+			}
 		}
 	}
 	

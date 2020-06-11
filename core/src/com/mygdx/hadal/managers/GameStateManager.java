@@ -22,6 +22,7 @@ import com.mygdx.hadal.input.PlayerAction;
 import com.mygdx.hadal.save.Record;
 import com.mygdx.hadal.save.SavedLoadout;
 import com.mygdx.hadal.save.Setting;
+import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockLevel;
 import com.mygdx.hadal.save.UnlockManager;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
@@ -52,10 +53,13 @@ public class GameStateManager {
 	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
 	public static JsonValue dialogs, deathMessages, shops, miscText;
 	
-	//This is the player's record. This stores player info.
+	//These are the player's saved field. These store player info.
 	private Record record;
 	private Setting setting;
 	private SavedLoadout loadout;
+	
+	//This contains the settings that are shared with clients (or shared from server if we are the client)
+	private SharedSetting sharedSetting, hostSetting;
 	
 	//Json reader here. Use this instead of creating new ones elsewhere.
 	public static Json json = new Json();
@@ -119,6 +123,8 @@ public class GameStateManager {
 		generator = new Random();
 		
 		setting.setDisplay(app);
+		sharedSetting = setting.generateSharedSetting();
+		hostSetting = setting.generateSharedSetting();
 	}
 	
 	/**
@@ -363,7 +369,15 @@ public class GameStateManager {
 	
 	public Setting getSetting() { return setting; }
 	
-	public static Skin getSkin() {	return skin; }
+	public SharedSetting getSharedSetting() { return sharedSetting; }
+	
+	public void setSharedSetting(SharedSetting sharedSetting) { this.sharedSetting = sharedSetting; }
+	
+	public SharedSetting getHostSetting() { return hostSetting; }
+	
+	public void setHostSetting(SharedSetting hostSetting) { this.hostSetting = hostSetting; }
+	
+	public static Skin getSkin() { return skin; }
 	
 	public static NinePatchDrawable getDialogPatch() {	return dialogPatch;	}
 	

@@ -375,7 +375,7 @@ public class KryoClient {
         					@Override
         					public void execute() {
         						scores = p.scores;
-        						cs.getScoreWindow().syncTable();
+        						cs.getScoreWindow().syncScoreTable();
         					}
         				});
 					}
@@ -638,6 +638,26 @@ public class KryoClient {
 	                        	addNotification(cs, p.name, p.text);
 	                        }
 						});
+					}
+        		}
+        		
+        		/*
+        		 * The Server tells us the new settinga after settings change.
+        		 * Update our settings to the ones specified
+        		 */
+        		else if (o instanceof Packets.SyncSharedSettings) {
+        			final Packets.SyncSharedSettings p = (Packets.SyncSharedSettings) o;
+        			final ClientState cs = getClientState();
+					
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						gsm.setHostSetting(p.settings);
+        						cs.getScoreWindow().syncSettingTable();
+        					}
+        				});
 					}
         		}
         		

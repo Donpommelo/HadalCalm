@@ -11,6 +11,7 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.input.PlayerAction;
+import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
@@ -941,6 +942,20 @@ public class Packets {
 		public EndSpectate() {}
 	}
 
+	public static class SyncSharedSettings {
+		public SharedSetting settings;
+		
+		public SyncSharedSettings() {}
+		
+		/**
+		 * A SyncSharedSettings is sent from the server ro the client when the client connects, or when settings are changed.
+		 * @param settings: the host settings to be displayed in the score window ui
+		 */
+		public SyncSharedSettings(SharedSetting settings) {
+			this.settings = settings;
+		}
+	}
+	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -988,5 +1003,6 @@ public class Packets {
     	kryo.register(MissedDelete.class);
     	kryo.register(StartSpectate.class);
     	kryo.register(EndSpectate.class);
+    	kryo.register(SyncSharedSettings.class);
     }
 }

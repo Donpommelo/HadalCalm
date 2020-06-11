@@ -203,7 +203,7 @@ public class UIExtra extends AHadalActor {
 			timerIncr = timerIncrement;
 		}
 		
-		state.getScoreWindow().syncTable();
+		state.getScoreWindow().syncScoreTable();
 	}
 	
 	/**

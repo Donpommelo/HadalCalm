@@ -91,7 +91,7 @@ public class KryoServer {
 								players.remove(c.getID());
 								mice.remove(c.getID());
 								scores.remove(c.getID());
-								ps.getScoreWindow().syncTable();
+								ps.getScoreWindow().syncScoreTable();
 							}
 						}
 					});
@@ -477,7 +477,8 @@ public class KryoServer {
 		        }
 		        
 		        //sync score window to display new player
-		        ps.getScoreWindow().syncTable();
+		        ps.getScoreWindow().syncScoreTable();
+		        ps.getScoreWindow().syncSettingTable();
 		        
 		        //sync client ui elements
 		        sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
@@ -535,7 +536,7 @@ public class KryoServer {
 			}
 			
 			//Sync score window to show updated kda and score
-			ps.getScoreWindow().syncTable();
+			ps.getScoreWindow().syncScoreTable();
 		}
 	}
 	

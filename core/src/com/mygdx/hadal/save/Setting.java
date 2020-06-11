@@ -133,6 +133,10 @@ public class Setting {
 		portNumber = 11100;
 	}
 	
+	public SharedSetting generateSharedSetting() {
+		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, timer, lives, loadoutType, multiplayerPause);
+	}
+	
 	public void setTimer(int timer) { this.timer = timer; }
 	
 	public void setLives(int lives) { this.lives = lives; }
