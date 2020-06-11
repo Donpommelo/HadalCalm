@@ -868,7 +868,7 @@ public class PlayState extends GameState {
 		}
 		
 		if (reset) {
-			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2), Particle.TELEPORT, 0.5f, true, particleSyncType.CREATESYNC);
+			new ParticleEntity(this, new Vector2(p.getStartPos()).sub(0, p.getSize().y / 2), Particle.TELEPORT, 1.0f, true, particleSyncType.CREATESYNC);
 		}
 		
 		return p;
