@@ -127,8 +127,11 @@ public class PlayState extends GameState {
 	protected boolean spectatorMode;
 	
 	//These are the bounds of the camera movement
-	private float[] cameraBounds = {0.0f, 0.0f, 0.0f, 0.0f};
-	private boolean[] cameraBounded = {false, false, false, false};
+	private float[] cameraBounds = {-100.0f, 100.0f, 100.0f, -100.0f};
+	private float[] spectatorBounds = {-100.0f, 100.0f, 100.0f, -100.0f};
+	
+	//are the spectator bounds distinct from the camera bounds?
+	private boolean spectatorBounded;
 	
 	//If there is an objective target that has a display if offscreen, this is that entity.
 	private HadalEntity objectiveTarget;
@@ -628,25 +631,26 @@ public class PlayState extends GameState {
 			} else {
 				return;
 			}
+			
+			//make camera target respect camera bounds if not focused on an object
+			if (tmpVector2.x > cameraBounds[0]) {
+				tmpVector2.x = cameraBounds[0];
+			}
+			
+			if (tmpVector2.x < cameraBounds[1]) {
+				tmpVector2.x = cameraBounds[1];
+			}		
+			
+			if (tmpVector2.y > cameraBounds[2]) {
+				tmpVector2.y = cameraBounds[2];
+			}
+			
+			if (tmpVector2.y < cameraBounds[3]) {
+				tmpVector2.y = cameraBounds[3];
+			}
+			
 		} else {
 			tmpVector2.set(cameraTarget);
-		}
-		
-		//make camera target respect camera bounds
-		if (cameraBounded[0] && tmpVector2.x > cameraBounds[0]) {
-			tmpVector2.x = cameraBounds[0];
-		}
-		
-		if (cameraBounded[1] && tmpVector2.x < cameraBounds[1]) {
-			tmpVector2.x = cameraBounds[1];
-		}		
-		
-		if (cameraBounded[2] && tmpVector2.y > cameraBounds[2]) {
-			tmpVector2.y = cameraBounds[2];
-		}
-		
-		if (cameraBounded[3] && tmpVector2.y < cameraBounds[3]) {
-			tmpVector2.y = cameraBounds[3];
 		}
 		
 		//this makes the spectator target respect camera bounds
@@ -1191,9 +1195,19 @@ public class PlayState extends GameState {
 		shaderBase.loadShader(this, null, 0);
 	}
 	
+	private final static float spectatorDefaultZoom = 1.2f;
 	public void setSpectatorMode() {
 		spectatorMode = true;
 		spectatorTarget.set(camera.position.x, camera.position.y);
+		
+		this.zoomDesired = map.getProperties().get("zoom", spectatorDefaultZoom, float.class);
+		this.cameraTarget = null;
+		
+		if (spectatorBounded) {
+			for (int i = 0; i < 4; i++) {
+				cameraBounds[i] = spectatorBounds[i];
+			}
+		}
 	}
 	
 	public enum TransitionState {
@@ -1255,12 +1269,10 @@ public class PlayState extends GameState {
 
 	public float[] getCameraBounds() { return cameraBounds; }
 
-	public void setCameraBounds(float[] cameraBounds) { this.cameraBounds = cameraBounds; }
+	public float[] getSpectatorBounds() { return spectatorBounds; }
 
-	public boolean[] getCameraBounded() { return cameraBounded; }
+	public void setSpectatorBounded(boolean spectatorBounded) { this.spectatorBounded = spectatorBounded; }
 
-	public void setCameraBounded(boolean[] cameraBounded) { this.cameraBounded = cameraBounded; }
-	
 	public HadalEntity getObjectiveTarget() { return objectiveTarget; }
 	
 	public MouseTracker getMouse() { return mouse; }

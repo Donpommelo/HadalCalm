@@ -73,7 +73,7 @@ public class ConsoleCommandUtil {
 			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA TARGET: " + state.getCameraTarget());
 			break;
 		case "cameraBounds":
-			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " + state.getCameraBounds() + " " + state.getCameraBounded());
+			HadalGame.server.addNotificationToAll(state, "GAEM", "CAMERA BOUNDS: " + state.getCameraBounds());
 			break;
 		case "playerLoc":
 			HadalGame.server.addNotificationToAll(state, "GAEM", "PLAYER LOCATION: " + state.getPlayer().getPosition());

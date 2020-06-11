@@ -14,6 +14,7 @@
   <property name="down" type="bool" default="false"/>
   <property name="left" type="bool" default="false"/>
   <property name="right" type="bool" default="false"/>
+  <property name="spectator" type="bool" default="false"/>
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
   <property name="up" type="bool" default="false"/>

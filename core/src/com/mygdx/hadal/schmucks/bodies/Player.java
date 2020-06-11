@@ -266,6 +266,11 @@ public class Player extends PhysicsSchmuck {
 		
 		controller = new ActionController(this, state);
 		
+		//this line syncs the player's inputs so that holding a button will keep that action held after map transitions
+		if (this == state.getPlayer()) {
+			state.resetController();
+		}
+		
 		//this makes the player's selected slot persist after respawning
 		int currentSlot = 1;
 		if (playerData != null) {

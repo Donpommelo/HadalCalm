@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="108">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="110">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -226,26 +226,26 @@
     <property name="triggeringId" value="downpressed"/>
    </properties>
   </object>
-  <object id="48" name="Multitrigger" type="Multitrigger" x="512" y="576" width="32" height="32">
+  <object id="48" name="Multitrigger" type="Multitrigger" x="256" y="192" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterfromleft"/>
     <property name="triggeringId" value="bounds1l,bounds2l,cameral,setfloor2,setflag1"/>
    </properties>
   </object>
-  <object id="49" name="Camera" type="Camera" x="576" y="576" width="32" height="32">
+  <object id="49" name="Camera" type="Camera" x="320" y="192" width="32" height="32">
    <properties>
     <property name="triggeredId" value="cameral"/>
     <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="0.5"/>
    </properties>
   </object>
-  <object id="52" name="Multitrigger" type="Multitrigger" x="512" y="640" width="32" height="32">
+  <object id="52" name="Multitrigger" type="Multitrigger" x="256" y="256" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterfromcenter"/>
     <property name="triggeringId" value="bounds1,bounds2,cameramain,setfloor2"/>
    </properties>
   </object>
-  <object id="53" name="Camera" type="Camera" x="576" y="640" width="32" height="32">
+  <object id="53" name="Camera" type="Camera" x="320" y="256" width="32" height="32">
    <properties>
     <property name="triggeredId" value="cameramain"/>
     <property name="triggeringId" value=""/>
@@ -300,13 +300,13 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="60" name="Multitrigger" type="Multitrigger" x="512" y="704" width="32" height="32">
+  <object id="60" name="Multitrigger" type="Multitrigger" x="256" y="320" width="32" height="32">
    <properties>
     <property name="triggeredId" value="entershaft"/>
     <property name="triggeringId" value="bounds1s,bounds2s,camerashaft"/>
    </properties>
   </object>
-  <object id="65" name="Camera" type="Camera" x="576" y="704" width="32" height="32">
+  <object id="65" name="Camera" type="Camera" x="320" y="320" width="32" height="32">
    <properties>
     <property name="triggeredId" value="camerashaft"/>
     <property name="triggeringId" value=""/>
@@ -327,7 +327,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="68" name="Multitrigger" type="Multitrigger" x="512" y="768" width="32" height="32">
+  <object id="68" name="Multitrigger" type="Multitrigger" x="256" y="384" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterf3"/>
     <property name="triggeringId" value="bounds13,bounds23,cameraf3"/>
@@ -367,7 +367,7 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="75" name="Multitrigger" type="Multitrigger" x="512" y="832" width="32" height="32">
+  <object id="75" name="Multitrigger" type="Multitrigger" x="256" y="448" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterf1"/>
     <property name="triggeringId" value="bounds11,bounds21,cameraf1"/>
@@ -399,14 +399,14 @@
     <property name="triggeredId" value="cameraf1point"/>
    </properties>
   </object>
-  <object id="80" name="Camera" type="Camera" x="576" y="768" width="32" height="32">
+  <object id="80" name="Camera" type="Camera" x="320" y="384" width="32" height="32">
    <properties>
     <property name="triggeredId" value="cameraf3"/>
     <property name="triggeringId" value="cameraf3point"/>
     <property name="zoom" type="float" value="0.75"/>
    </properties>
   </object>
-  <object id="81" name="Camera" type="Camera" x="576" y="832" width="32" height="32">
+  <object id="81" name="Camera" type="Camera" x="320" y="448" width="32" height="32">
    <properties>
     <property name="triggeredId" value="cameraf1"/>
     <property name="triggeringId" value="cameraf1point"/>
@@ -437,20 +437,20 @@
     <property name="triggeredId" value="bounds1r"/>
    </properties>
   </object>
-  <object id="85" name="Multitrigger" type="Multitrigger" x="512" y="896" width="32" height="32">
+  <object id="85" name="Multitrigger" type="Multitrigger" x="256" y="512" width="32" height="32">
    <properties>
     <property name="triggeredId" value="enterfromright"/>
     <property name="triggeringId" value="bounds1r,bounds2r,camerar,setfloor1"/>
    </properties>
   </object>
-  <object id="86" name="Camera" type="Camera" x="576" y="896" width="32" height="32">
+  <object id="86" name="Camera" type="Camera" x="320" y="512" width="32" height="32">
    <properties>
     <property name="triggeredId" value="camerar"/>
     <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="0.5"/>
    </properties>
   </object>
-  <object id="89" name="QuestChange" type="QuestChange" x="640" y="576" width="32" height="32">
+  <object id="89" name="QuestChange" type="QuestChange" x="384" y="192" width="32" height="32">
    <properties>
     <property name="change" type="int" value="1"/>
     <property name="quest" value="HUB_REACHED"/>
@@ -525,5 +525,13 @@
    </properties>
   </object>
   <object id="107" name="Dropthrough" type="Dropthrough" x="2208" y="1184" width="160" height="8"/>
+  <object id="108" name="Bounds" type="Bounds" x="544" y="832" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
+    <property name="triggeredId" value=""/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

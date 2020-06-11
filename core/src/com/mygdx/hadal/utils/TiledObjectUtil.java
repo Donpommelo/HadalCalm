@@ -181,7 +181,8 @@ public class TiledObjectUtil {
 					object.getProperties().get("right", false, boolean.class),
 					object.getProperties().get("left", false, boolean.class),
 					object.getProperties().get("up", false, boolean.class),
-					object.getProperties().get("down", false, boolean.class));
+					object.getProperties().get("down", false, boolean.class),
+					object.getProperties().get("spectator", false, boolean.class));
 		} else if (object.getName().equals("Sound")) {
 			
 			e = new SoundEmitter(state, position, size, 

@@ -180,6 +180,7 @@ public class PlayerController implements InputProcessor {
 	 * This resets all toggled controls to prevent stuff like locking a button after unpausing and such
 	 */
 	public void syncController() {
+		
 		if (player == null) return;
 		if (player.getPlayerData() == null) return;
 		if (player.getController() == null) return;
@@ -189,7 +190,6 @@ public class PlayerController implements InputProcessor {
 			if (a.isToggleable()) {
 				if (Gdx.input.isKeyPressed(a.getKey())) {
 					player.getController().keyDown(a, true);
-
 				} else {
 					player.getController().keyUp(a, true);
 				}

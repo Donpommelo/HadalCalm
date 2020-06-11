@@ -292,5 +292,15 @@ public class MessageWindow {
 	
 	public boolean isActive() { return active; }
 	
-	public void setLocked(boolean locked) { this.locked = locked; }
+	/**
+	 * this is used to create the result's version of the message window
+	 * this makes the window locked into being active
+	 */
+	public void setLocked(boolean locked) { 
+		this.locked = locked;
+		
+		if (locked) {
+			backButton.remove();
+		}
+	}
 }
