@@ -104,6 +104,7 @@ public class ResultsState extends GameState {
 			}
 		};
 		
+		//we pull up and lock the playstate's message window.
 		if (!ps.getMessageWindow().isActive()) {
 			ps.getMessageWindow().toggleWindow();
 		}
@@ -248,6 +249,9 @@ public class ResultsState extends GameState {
 		}
 	}
 
+	/**
+	 * This returns us to the hub when everyone readies up
+	 */
 	public void returnToHub() {
 		if (ps.isServer()) {
 			gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -263,6 +267,7 @@ public class ResultsState extends GameState {
 		gsm.getApp().fadeOut();
 	}
 	
+	//we update the message window to take input
 	@Override
 	public void update(float delta) {
 		ps.getMessageWindow().tableOuter.act(delta);

@@ -79,6 +79,7 @@ public class SettingState extends GameState {
 	private final static float titlePad = 25.0f;
 	private final static float detailsPad = 15.0f;
 	
+	//These options make it easier to convert the index setting to a displayed string
 	public final static String[] timerChoices = {"NO TIMER", "1 MIN", "2 MIN", "3 MIN", "4 MIN", "5 MIN"};
 	public final static String[] livesChoices = {"UNLIMITED", "1 LIFE", "2 LIVES", "3 LIVES", "4 LIVES", "5 LIVES"};
 	public final static String[] loadoutChoices = {"COPY HOST", "SELECTED", "RANDOM"};
@@ -672,9 +673,13 @@ public class SettingState extends GameState {
 		updateSharedSettings();
 	}
 	
+	/**
+	 * This updates the settings that are visible from the score window
+	 */
 	public void updateSharedSettings() {
 		gsm.setSharedSetting(gsm.getSetting().generateSharedSetting());
 		
+		//the server should update their scoretable when settings are changed
 		if (ps != null) {
 			if (ps.getPs().isServer()) {
 				ps.getPs().getScoreWindow().syncSettingTable();
@@ -719,6 +724,7 @@ public class SettingState extends GameState {
 	private float timer;
 	@Override
 	public void render(float delta) {
+		
 		//Render the playstate and playstate ui underneath
 		if (ps != null) {
 			ps.render(delta);

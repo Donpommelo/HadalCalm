@@ -642,7 +642,7 @@ public class KryoClient {
         		}
         		
         		/*
-        		 * The Server tells us the new settinga after settings change.
+        		 * The Server tells us the new settings after settings change.
         		 * Update our settings to the ones specified
         		 */
         		else if (o instanceof Packets.SyncSharedSettings) {

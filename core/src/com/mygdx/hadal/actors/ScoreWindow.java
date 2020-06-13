@@ -178,6 +178,10 @@ public class ScoreWindow {
 		state.getStage().addActor(tableScore);
 	}
 	
+	/**
+	 * This syncs the settings portion of the score window, visible on the right hand side.
+	 * This works very similarly to the score table. It updates when the settings change and echo that change to all clients
+	 */
 	public void syncSettingTable() {
 		tableSettings.clear();
 		tableSettings.remove();
@@ -269,6 +273,10 @@ public class ScoreWindow {
 		state.getStage().addActor(tableSettings);
 	}
 	
+	/**
+	 * This sets the visibility of this ui element. 
+	 * Usually, this is toggled on and off with the tab button
+	 */
 	public void setVisibility(boolean visible) { 
 		tableScore.setVisible(visible);
 		windowScore.setVisible(visible);
