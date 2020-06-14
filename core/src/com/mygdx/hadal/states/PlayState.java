@@ -342,14 +342,20 @@ public class PlayState extends GameState {
 	 * This is called when a player is created.
 	 */
 	public void resetController() {
-		controller = new PlayerController(player);
 		
-		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		
-		inputMultiplexer.addProcessor(stage);
-		
-		inputMultiplexer.addProcessor(controller);
-		Gdx.input.setInputProcessor(inputMultiplexer);
+		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
+		if (!gsm.getStates().empty()) {
+			if (gsm.getStates().peek() instanceof PlayState) {
+				controller = new PlayerController(player);
+				
+				InputMultiplexer inputMultiplexer = new InputMultiplexer();
+				
+				inputMultiplexer.addProcessor(stage);
+				
+				inputMultiplexer.addProcessor(controller);
+				Gdx.input.setInputProcessor(inputMultiplexer);
+			}
+		}
 	}
 	
 	private float physicsAccumulator = 0.0f;
@@ -732,6 +738,7 @@ public class PlayState extends GameState {
 		case RESULTS:
 
 			//get a results screen
+			gsm.removeState(SettingState.class);
 			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			gsm.addResultsState(this, resultsText, TitleState.class);
@@ -748,6 +755,7 @@ public class PlayState extends GameState {
 		case NEWLEVEL:
 			
 			//remove this state and add a new play state with a fresh loadout
+			gsm.removeState(SettingState.class);
 			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			gsm.addPlayState(nextLevel, new Loadout(gsm.getLoadout()), player.getPlayerData(), TitleState.class, true, nextStartId);
@@ -755,11 +763,13 @@ public class PlayState extends GameState {
 		case NEXTSTAGE:
 			
 			//remove this state and add a new play state with the player's current loadout and stats
+			gsm.removeState(SettingState.class);
 			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			gsm.addPlayState(nextLevel, player.getPlayerData().getLoadout(), player.getPlayerData(), TitleState.class, false, nextStartId);
 			break;
 		case TITLE:
+			gsm.removeState(SettingState.class);
 			gsm.removeState(PauseState.class);
 			gsm.removeState(PlayState.class);
 			if (!gsm.getStates().isEmpty()) {
