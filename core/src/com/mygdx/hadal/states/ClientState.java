@@ -221,6 +221,8 @@ public class ClientState extends PlayState {
 		case NEWLEVEL:
 		case NEXTSTAGE:
 			//In these cases, we wait for the server to create a new playstate in which we connect again
+			gsm.removeState(SettingState.class);
+			gsm.removeState(PauseState.class);
 			break;
 		case TITLE:
 			gsm.removeState(SettingState.class);
