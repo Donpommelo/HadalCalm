@@ -61,15 +61,20 @@ public class ClientState extends PlayState {
 	@Override
 	public void resetController() {
 		
-		//Whenever the controller is reset, the client gets a new client controller.
-		controller = new ClientController(this);
-		
-		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		
-		inputMultiplexer.addProcessor(stage);
-		
-		inputMultiplexer.addProcessor(controller);
-		Gdx.input.setInputProcessor(inputMultiplexer);
+		//we check if we are in a playstate (not paused or in setting menu) b/c we don't reset control in those states
+		if (!gsm.getStates().empty()) {
+			if (gsm.getStates().peek() instanceof PlayState) {
+				//Whenever the controller is reset, the client gets a new client controller.
+				controller = new ClientController(this);
+				
+				InputMultiplexer inputMultiplexer = new InputMultiplexer();
+				
+				inputMultiplexer.addProcessor(stage);
+				
+				inputMultiplexer.addProcessor(controller);
+				Gdx.input.setInputProcessor(inputMultiplexer);
+			}
+		}
 	}
 	
 	private float physicsAccumulator = 0.0f;

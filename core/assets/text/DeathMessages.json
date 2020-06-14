@@ -367,7 +367,7 @@
             "message": "<perp> skewered <vic>'s <body part>.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> practiced their accupuncture on <vic>.", "weight": 15, namedPerp: true
+            "message": "<perp> practiced their acupuncture on <vic>.", "weight": 15, namedPerp: true
         }
         {
             "message": "<perp> welcomed <vic> to the rice fields.", "weight": 15, namedPerp: true
