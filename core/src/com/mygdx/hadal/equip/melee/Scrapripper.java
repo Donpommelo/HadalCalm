@@ -21,7 +21,7 @@ public class Scrapripper extends MeleeWeapon {
 
 	private final static float shootCd = 0.5f;
 	private final static float shootDelay = 0.0f;
-	private final static float baseDamage = 50.0f;
+	private final static float baseDamage = 60.0f;
 	private final static Vector2 hitboxSize = new Vector2(200, 120);
 	private final static float knockback = 25.0f;
 	private final static float lifespan = 0.25f;

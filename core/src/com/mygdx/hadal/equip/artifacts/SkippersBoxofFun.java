@@ -38,7 +38,7 @@ public class SkippersBoxofFun extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 
-					SoundEffect.MAGIC27_EVIL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 1.0f, false);
+					SoundEffect.MAGIC27_EVIL.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
 
 					Equipable equip = UnlocktoItem.getUnlock(UnlockEquip.valueOf(UnlockEquip.getRandWeapFromPool(state, "")), null);
 					((Player) inflicted.getSchmuck()).getPlayerData().pickup(equip);

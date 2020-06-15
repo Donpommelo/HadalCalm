@@ -36,11 +36,11 @@ public class MorningStar extends MeleeWeapon {
 
 	private final static float swingForce = 2500.0f;
 	private final static float range = 60.0f;
-	private final static float chainLength = 0.75f;
+	private final static float chainLength = 1.1f;
 
 	//this is the hitbox that this weapon extends
 	private Hitbox base, star;
-	private Hitbox[] links = new Hitbox[6];
+	private Hitbox[] links = new Hitbox[4];
 	
 	//is the hitbox active?
 	private boolean active = false;
@@ -200,11 +200,11 @@ public class MorningStar extends MeleeWeapon {
 			public void controller(float delta) {
 				
 				if (!linked) {
-					if (links[5].getBody() != null) {
+					if (links[links.length - 1].getBody() != null) {
 						linked = true;
 						
 						RevoluteJointDef joint1 = new RevoluteJointDef();
-						joint1.bodyA = links[5].getBody();
+						joint1.bodyA = links[links.length - 1].getBody();
 						joint1.bodyB = hbox.getBody();
 						joint1.collideConnected = false;
 						joint1.localAnchorA.set(-chainLength, 0);

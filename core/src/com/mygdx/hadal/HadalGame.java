@@ -118,12 +118,13 @@ public class HadalGame extends ApplicationAdapter {
 	 * This is run every engine tick according to libgdx.
 	 * Here, we tell the gsm to tell the current state of the elapsed time.
 	 */
+	private float delta;
 	@Override
 	public void render() {
 
 //		counter.start();
 
-		float delta = Gdx.graphics.getDeltaTime();
+		delta = Gdx.graphics.getDeltaTime();
 		
 		gsm.update(delta);
 		currentMenu.act();

@@ -23,13 +23,13 @@ import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class StutterGun extends RangedWeapon {
 
-	private final static int clipSize = 4;
-	private final static int ammoSize = 32;
+	private final static int clipSize = 5;
+	private final static int ammoSize = 35;
 	private final static float shootCd = 0.9f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 14.0f;
+	private final static float baseDamage = 18.0f;
 	private final static float recoil = 30.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeed = 40.0f;
