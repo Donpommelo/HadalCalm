@@ -57,7 +57,7 @@ public class BrigglesBladedBoot extends Artifact {
 						
 						@Override
 						public void onHit(HadalData fixB) {
-							SoundEffect.KICK1.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.5f, false);
+							SoundEffect.KICK1.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
 
 							inflicted.getSchmuck().pushMomentumMitigation(0, recoil);
 							hbox.die();

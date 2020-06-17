@@ -1,7 +1,6 @@
 package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.event.Wall;
 import com.mygdx.hadal.schmucks.UserDataTypes;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -21,13 +20,16 @@ public class ContactStick extends HitboxStrategy {
 	private boolean stickToWalls, stickToDudes, stuckToWall, stuckToDude;
 	
 	//The angle that the projectile should be stuck at
-	private float angle;
+	private float angle, targetAngle;
 	
 	//the target that the hbox is stuck to
 	private HadalEntity target;
 	
 	//the offset location of this hbox and the stuck entity's position
 	private Vector2 location = new Vector2();
+	
+	//this stores the relative location of the stuck projectile after accounting for rotation
+	private Vector2 rotatedLocation = new Vector2();
 	
 	public ContactStick(PlayState state, Hitbox proj, BodyData user, boolean walls, boolean dudes) {
 		super(state, proj, user);
@@ -46,24 +48,23 @@ public class ContactStick extends HitboxStrategy {
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.BODY) && stickToDudes) {
 					stuckToDude = true;
+					
 					target = fixB.getEntity();
 					angle = hbox.getAngle();
+					targetAngle = target.getAngle();
 					location.set(
 							hbox.getPosition().x - target.getPosition().x, 
 							hbox.getPosition().y - target.getPosition().y);	
 				}
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
 					stuckToWall = true;
+					
 					target = fixB.getEntity();
 					angle = hbox.getAngle();
-					
-					if (fixB.getEntity() instanceof Wall) {
-						location.set(hbox.getPosition());
-					} else {
-						location.set(
-								hbox.getPosition().x - target.getPosition().x, 
-								hbox.getPosition().y - target.getPosition().y);		
-					}
+					targetAngle = target.getAngle();
+					location.set(
+							hbox.getPosition().x - target.getPosition().x, 
+							hbox.getPosition().y - target.getPosition().y);	
 				}
 			}
 		}
@@ -73,12 +74,10 @@ public class ContactStick extends HitboxStrategy {
 	public void controller(float delta) {
 		
 		//keep a constant distance/angle from the attached entity (or stay still if attached to a wall)
-		if (stuckToWall && target == null && location != null) {
-			hbox.setTransform(location, angle);
-			hbox.setLinearVelocity(0, 0);
-		} else if ((stuckToDude || stuckToWall) && target != null && location != null) {
+		if ((stuckToDude || stuckToWall) && target != null && location != null) {
 			if (target.isAlive()) {
-				hbox.setTransform(target.getPosition().add(location), angle);
+				rotatedLocation.set(location).rotateRad(target.getAngle() - targetAngle);
+				hbox.setTransform(target.getPosition().add(rotatedLocation), angle + target.getAngle() - targetAngle);
 				hbox.setLinearVelocity(0, 0);
 			} else {
 				stuckToDude = false;

@@ -43,7 +43,7 @@ public class Airblaster extends MeleeWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, final Vector2 startVelocity, short filter) {
-		SoundEffect.AIRBLAST.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.AIRBLAST.playUniversal(state, startPosition, 0.5f, false);
 		
 		Hitbox hbox = new Hitbox(state, startPosition, new Vector2(hitboxSize).scl(1 + user.getBodyData().getStat(Stats.BOOST_SIZE)), swingCd, new Vector2(), user.getHitboxfilter(), true, false, user, Sprite.IMPACT);
 		hbox.makeUnreflectable();

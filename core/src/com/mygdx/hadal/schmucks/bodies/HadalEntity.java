@@ -265,7 +265,7 @@ public abstract class HadalEntity {
 	}
 	
 	/**
-	 * Is this entity on the screen? Used for frustrum culling to avoid rending off-screen entities
+	 * Is this entity on the screen? Used for frustrum culling to avoid rendering off-screen entities
 	 */
 	public boolean isVisible() {
 		if (body == null) {

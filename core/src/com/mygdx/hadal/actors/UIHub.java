@@ -123,7 +123,7 @@ public class UIHub {
 		
 		info = "";
 		
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.5f, false);
+		SoundEffect.DOORBELL.play(state.getGsm(), 0.4f, false);
 	}
 	
 	/**
@@ -140,7 +140,7 @@ public class UIHub {
 			}
 		}
 		
-		SoundEffect.DOORBELL.play(state.getGsm(), 0.5f, false);
+		SoundEffect.DOORBELL.play(state.getGsm(), 0.4f, false);
 	}
 	
 	/**
