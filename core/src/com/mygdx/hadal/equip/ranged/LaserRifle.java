@@ -102,11 +102,6 @@ public class LaserRifle extends RangedWeapon {
 				newPosition.set(getPosition()).add(new Vector2(startVelocity).nor().scl(size.x / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
 			}
-			
-			@Override
-			public boolean isVisible() {
-				return true;
-			}
 		};
 		
 		hbox.makeUnreflectable();

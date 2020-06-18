@@ -267,19 +267,31 @@ public abstract class HadalEntity {
 	/**
 	 * Is this entity on the screen? Used for frustrum culling to avoid rendering off-screen entities
 	 */
+	private float cosAng, sinAng;
 	public boolean isVisible() {
 		if (body == null) {
 			return false;
 		} else {
-			if (
-					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2, getPixelPosition().y + size.y / 2, 0) || 
-					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2, getPixelPosition().y + size.y / 2, 0) ||
-					state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2, getPixelPosition().y - size.y / 2, 0) ||
-					state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2, getPixelPosition().y - size.y / 2, 0)) {
+			
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x, getPixelPosition().y, 0)) {
 				return true;
-			} else {
-				return false;
 			}
+			
+			cosAng = (float) Math.cos(body.getAngle());
+			sinAng = (float) Math.sin(body.getAngle());
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) {
+				return true;
+			}
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) {
+				return true;
+			}
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) {
+				return true;
+			}
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) {
+				return true;
+			}
+			return false;
 		}
 	}
 	

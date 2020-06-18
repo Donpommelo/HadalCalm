@@ -105,7 +105,7 @@ public class TiledObjectUtil {
      */
     public static Event parseTiledEvent(PlayState state, MapObject object) {
 		
-    	RectangleMapObject current = (RectangleMapObject)object;
+    	RectangleMapObject current = (RectangleMapObject) object;
 		Rectangle rect = current.getRectangle();
 		Vector2 position = new Vector2();
 		Vector2 size = new Vector2();

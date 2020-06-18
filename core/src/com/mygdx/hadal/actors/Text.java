@@ -46,16 +46,16 @@ public class Text extends AHadalActor {
 		
 		//if the actor is a button, we check if it is moused over to display some visual indication of its size
 		if (button) {
-			this.addListener(new InputListener(){
+			this.addListener(new InputListener() {
 				
 				@Override
-				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
-					((Text)event.getTarget()).hover = true;
+				public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+					((Text) event.getTarget()).hover = true;
 				}
 				
 				@Override
-				public void exit (InputEvent event, float x, float y, int pointer, Actor toActor) {
-					((Text)event.getTarget()).hover = false;
+				public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+					((Text) event.getTarget()).hover = false;
 				}
 			});
 		}

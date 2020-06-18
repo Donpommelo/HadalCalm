@@ -172,7 +172,7 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public boolean isVisible() {
-		return true;
+		return state.camera.frustum.boundsInFrustum(effect.getBoundingBox());
 	}
 
 	public void turnOn() {
