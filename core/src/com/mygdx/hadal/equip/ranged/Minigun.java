@@ -30,10 +30,10 @@ public class Minigun extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 14.0f;
+	private final static float baseDamage = 18.0f;
 	private final static float recoil = 0.25f;
 	private final static float knockback = 6.0f;
-	private final static float projectileSpeed = 35.0f;
+	private final static float projectileSpeed = 42.0f;
 	private final static Vector2 projectileSize = new Vector2(40, 10);
 	private final static float lifespan = 1.5f;
 	
@@ -67,7 +67,7 @@ public class Minigun extends RangedWeapon {
 		charging = true;
 		
 		if (chargeCd == 0) {
-			SoundEffect.MINIGUN_UP.playUniversal(state, user.getPixelPosition(), 0.4f, false);
+			SoundEffect.MINIGUN_UP.playUniversal(state, user.getPixelPosition(), 0.3f, false);
 		}
 		
 		//while held, build charge until maximum (if not reloading) User is slowed while shooting.
@@ -77,7 +77,7 @@ public class Minigun extends RangedWeapon {
 		
 		if (chargeCd >= getChargeTime()) {
 			if (fireSound == null) {
-				fireSound = new SoundEntity(state, user, SoundEffect.MINIGUN_LOOP, 0.4f, true, true, soundSyncType.TICKSYNC);
+				fireSound = new SoundEntity(state, user, SoundEffect.MINIGUN_LOOP, 0.3f, true, true, soundSyncType.TICKSYNC);
 			} else {
 				fireSound.turnOn();
 			}
@@ -96,7 +96,7 @@ public class Minigun extends RangedWeapon {
 	
 	@Override
 	public void release(PlayState state, BodyData bodyData) {
-		SoundEffect.MINIGUN_DOWN.playUniversal(state, user.getPixelPosition(), 0.6f, false);
+		SoundEffect.MINIGUN_DOWN.playUniversal(state, user.getPixelPosition(), 0.5f, false);
 		chargeCd = 0;
 		charging = false;
 		

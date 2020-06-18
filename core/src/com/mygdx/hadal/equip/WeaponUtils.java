@@ -134,14 +134,14 @@ public class WeaponUtils {
 		return null;
 	}
 	
-	private static final float beeBaseDamage = 6.0f;
+	private static final float beeBaseDamage = 7.5f;
 	private static final float beeKnockback = 8.0f;
 	private static final int beeWidth = 13;
 	private static final int beeHeight = 12;
 	private static final int beeDurability = 5;
 	private static final float beeLifespan = 4.0f;
 	private final static int beeSpread = 60;
-	private final static float beeHoming = 110;
+	private final static float beeHoming = 100;
 	
 	public static Hitbox createBees(PlayState state, Vector2 startPos, final Schmuck user, int numBees, Vector2 startVelocity, boolean procEffects, short filter) {
 

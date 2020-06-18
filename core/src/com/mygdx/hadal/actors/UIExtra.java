@@ -23,8 +23,8 @@ public class UIExtra extends AHadalActor {
 	private PlayState state;
 	private BitmapFont font;
 	
-	private final static int x = 175;
-	private final static int width = 150;
+	private final static int x = 225;
+	private final static int width = 200;
 	private final static int y = 10;
 	private final static float scale = 0.25f;
 	
