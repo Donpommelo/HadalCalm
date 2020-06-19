@@ -1,6 +1,5 @@
 package com.mygdx.hadal.strategies;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.schmucks.userdata.HadalData;
 
@@ -26,7 +25,4 @@ public interface IHitboxStrategy {
 	
 	//this is run when the hitbox dies
 	public void die();
-	
-	//this is run when the hbox is rendered and can be used to draw additional sprites/effects
-	public void render(SpriteBatch batch);
 }

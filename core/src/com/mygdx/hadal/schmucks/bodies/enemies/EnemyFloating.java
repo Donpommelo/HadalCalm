@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.PlayState;
 
 /**
@@ -102,14 +101,6 @@ public class EnemyFloating extends Enemy {
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		originPt.set(getPixelPosition()).add(new Vector2(startVelo).nor().scl(getHboxSize().x / 2));
 		return originPt;
-	}
-	
-	@Override
-	public boolean queueDeletion() {
-		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false, true);
-		}
-		return super.queueDeletion();
 	}
 	
 	public void setCurrentState(FloatingState currentState) { this.currentState = currentState; }

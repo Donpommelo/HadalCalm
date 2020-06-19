@@ -30,7 +30,7 @@ public class OrbitalShield extends ActiveItem {
 	private static final float projLifespan= 8.0f;
 
 	private static final float projSpeed= 180.0f;
-	private static final float projRange= 3.0f;
+	private static final float projRange= 4.0f;
 
 	public OrbitalShield(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

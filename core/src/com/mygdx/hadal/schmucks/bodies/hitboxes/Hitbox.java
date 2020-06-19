@@ -192,10 +192,6 @@ public class Hitbox extends HadalEntity {
 			return;
 		}
 		
-		for (HitboxStrategy s : strategies) {
-			s.render(batch);
-		}
-		
 		if (projectileSprite != null) {
 			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
 					getPixelPosition().x - size.x / 2, 

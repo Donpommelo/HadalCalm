@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
@@ -51,5 +52,13 @@ public class Scissorfish extends EnemySwimming {
 	public void attackInitiate() {
 		EnemyUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
 		EnemyUtils.meleeAttackContact(state, this, charge1Damage, defaultMeleeKB, 1.5f);
+	}
+	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false, true);
+		}
+		return super.queueDeletion();
 	}
 }

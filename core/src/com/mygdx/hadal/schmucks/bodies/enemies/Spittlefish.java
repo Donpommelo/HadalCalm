@@ -5,6 +5,7 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -93,5 +94,13 @@ public class Spittlefish extends EnemySwimming {
 				}
 			}
 		});
+	}
+	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false, true);
+		}
+		return super.queueDeletion();
 	}
 }

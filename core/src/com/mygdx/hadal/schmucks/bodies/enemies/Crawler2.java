@@ -1,9 +1,12 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -79,5 +82,13 @@ public class Crawler2 extends EnemyCrawling {
 			}
 			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		}
-	};
+	}
+	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new ParticleEntity(state, new Vector2(getPixelPosition()), Particle.KAMABOKO_IMPACT, 1.0f, true, particleSyncType.CREATESYNC);
+		}
+		return super.queueDeletion();
+	}
 }

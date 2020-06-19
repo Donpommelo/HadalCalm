@@ -93,4 +93,12 @@ public class KBKLarge extends EnemySwimming {
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
 	}
+	
+	@Override
+	public boolean queueDeletion() {
+		if (alive) {
+			new ParticleEntity(state, new Vector2(getPixelPosition()), Particle.KAMABOKO_IMPACT, 1.0f, true, particleSyncType.CREATESYNC);
+		}
+		return super.queueDeletion();
+	}
 }
