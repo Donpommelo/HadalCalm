@@ -515,7 +515,7 @@ public class KryoServer {
 			//Otherwise, update score of client matching the players involved
 			if (vic != null) {
 				for (Entry<Integer, Player> conn: players.entrySet()) {
-					if (conn.getValue().equals(vic)) {
+					if (conn.getKey().equals(vic.getConnID())) {
 						if (scores.containsKey(conn.getKey())) {
 							scores.get(conn.getKey()).registerDeath();
 						}
@@ -526,7 +526,7 @@ public class KryoServer {
 			
 			if (perp != null) {
 				for (Entry<Integer, Player> conn: players.entrySet()) {
-					if (conn.getValue().equals(perp)) {
+					if (conn.getKey().equals(perp.getConnID())) {
 						if (scores.containsKey(conn.getKey())) {
 							scores.get(conn.getKey()).registerKill();
 						}
