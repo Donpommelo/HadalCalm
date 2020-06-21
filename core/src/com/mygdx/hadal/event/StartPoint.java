@@ -24,6 +24,9 @@ public class StartPoint extends Event {
 
 	private String startId;
 	
+	private final static float SpawnTimer = 2.0f;
+	private float spawnCd;
+	
 	public StartPoint(PlayState state, Vector2 startPos, Vector2 size, String startId) {
 		super(state, startPos, size);
 		this.startId = startId;
@@ -37,6 +40,13 @@ public class StartPoint extends Event {
 		body.setType(BodyType.KinematicBody);
 	}
 	
+	@Override
+	public void controller(float delta) {
+		if (spawnCd > 0) {
+			spawnCd -= delta;
+		}
+	}
+	
 	/**
 	 * This is run when the player is created to run connected events.
 	 */
@@ -44,7 +54,10 @@ public class StartPoint extends Event {
 		if (getConnectedEvent() != null) {
 			getConnectedEvent().getEventData().preActivate(eventData, p);
 		}
+		spawnCd = SpawnTimer;
 	}
+	
+	public boolean isReady() { return spawnCd <= 0.0f; }
 	
 	public String getStartId() { return startId; }
 }

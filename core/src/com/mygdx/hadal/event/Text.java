@@ -36,7 +36,7 @@ public class Text extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this);
-		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) 0, (short) 0, true, eventData);
 		body.setType(BodyType.KinematicBody);
 	}
 	

@@ -1129,6 +1129,7 @@ public class PlayState extends GameState {
 	 */
 	public StartPoint getSavePoint(String startId) {
 		ArrayList<StartPoint> validStarts = new ArrayList<StartPoint>();
+		ArrayList<StartPoint> readyStarts = new ArrayList<StartPoint>();
 		
 		for(StartPoint s: savePoints) {
 			if (s.getStartId().equals(startId)) {
@@ -1144,8 +1145,19 @@ public class PlayState extends GameState {
 			}
 		}
 		
-		int randomIndex = GameStateManager.generator.nextInt(validStarts.size());
-		return validStarts.get(randomIndex);
+		for(StartPoint s: validStarts) {
+			if (s.isReady()) {
+				readyStarts.add(s);
+			}
+		}
+		
+		if (readyStarts.isEmpty()) {
+			int randomIndex = GameStateManager.generator.nextInt(validStarts.size());
+			return validStarts.get(randomIndex);
+		} else {
+			int randomIndex = GameStateManager.generator.nextInt(readyStarts.size());
+			return readyStarts.get(randomIndex);
+		}
 	}
 	
 	/**
