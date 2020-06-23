@@ -11,9 +11,9 @@ public class BeeGun extends RangedWeapon {
 
 	private final static int clipSize = 24;
 	private final static int ammoSize = 96;
-	private final static float shootCd = 0.25f;
+	private final static float shootCd = 0.3f;
 	private final static float shootDelay = 0;
-	private final static float reloadTime = 1.6f;
+	private final static float reloadTime = 1.8f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
 	private final static float projectileSpeedStart = 15.0f;

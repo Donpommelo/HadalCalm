@@ -35,7 +35,7 @@ public class CommutersParasol extends Artifact {
 		
 		enchantment[0] = new Status(state, b) {
 			
-			private float procCdCount;
+			private float procCdCount = procCd;
 			
 			@Override
 			public void timePassing(float delta) {

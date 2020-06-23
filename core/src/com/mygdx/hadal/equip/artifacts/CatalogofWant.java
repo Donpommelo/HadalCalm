@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.Stats;
 public class CatalogofWant extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
 	private final static float hpConversion = 0.75f;
 	

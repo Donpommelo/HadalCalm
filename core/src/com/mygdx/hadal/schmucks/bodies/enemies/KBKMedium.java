@@ -12,6 +12,7 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.Invulnerability;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
@@ -52,6 +53,7 @@ public class KBKMedium extends EnemySwimming {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new Invulnerability(state, 0.1f, getBodyData(), getBodyData()));
+		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()) {
 			
 			@Override
@@ -94,13 +96,5 @@ public class KBKMedium extends EnemySwimming {
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
-	}
-	
-	@Override
-	public boolean queueDeletion() {
-		if (alive) {
-			new ParticleEntity(state, new Vector2(getPixelPosition()), Particle.KAMABOKO_IMPACT, 1.0f, true, particleSyncType.CREATESYNC);
-		}
-		return super.queueDeletion();
 	}
 }

@@ -23,10 +23,10 @@ public class Nurdler extends Artifact {
 	private final static float procCd = 0.25f;
 	
 	private final static Vector2 projectileSize = new Vector2(14, 14);
-	private final static float lifespan = 0.4f;
+	private final static float lifespan = 0.5f;
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	
-	private final static float baseDamage = 7.5f;
+	private final static float baseDamage = 9.0f;
 	private final static float knockback = 2.5f;
 	private final static int spread = 30;
 	
@@ -40,7 +40,7 @@ public class Nurdler extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			private float procCdCount;
+			private float procCdCount = procCd;
 			private Vector2 startVelo = new Vector2();
 			
 			@Override

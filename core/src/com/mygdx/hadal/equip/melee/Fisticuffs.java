@@ -34,7 +34,7 @@ public class Fisticuffs extends MeleeWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.WOOSH.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.WOOSH.playUniversal(state, startPosition, 0.75f, false);
 
 		Vector2 projOffset = new Vector2(((Player)user).getMouse().getPixelPosition()).sub(user.getPixelPosition()).nor().scl(range).add(user.getPixelPosition());
 		

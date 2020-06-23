@@ -14,7 +14,7 @@ public class BrittlingPowder extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static int numFrag = 6;
+	private final static int numFrag = 8;
 	
 	private final static float procCd = 0.5f;
 	
@@ -27,7 +27,7 @@ public class BrittlingPowder extends Artifact {
 		enchantment[0] = new StatusComposite(state, b, 
 				new Status(state, b) {
 
-			private float procCdCount;
+			private float procCdCount = procCd;
 			
 			@Override
 			public void timePassing(float delta) {
@@ -40,7 +40,6 @@ public class BrittlingPowder extends Artifact {
 			public void onHitboxCreation(Hitbox hbox) {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					hbox.addStrategy(new DieFrag(state, hbox, inflicted, numFrag));
 					hbox.addStrategy(new DieFrag(state, hbox, inflicted, numFrag));
 					hbox.addStrategy(new DieSound(state, hbox, inflicted, SoundEffect.WALL_HIT1, 0.75f));
 				}

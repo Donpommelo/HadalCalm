@@ -26,11 +26,11 @@ public class FaradaysCage extends Artifact {
 				if (inflicted instanceof PlayerBodyData && damage > 0) {
 					float amountReduced = damage * amount;
 					if (inflicted.getCurrentFuel() >= amountReduced) {
-						((PlayerBodyData)inflicted).fuelSpend(amountReduced);
+						((PlayerBodyData) inflicted).fuelSpend(amountReduced);
 						return damage - amountReduced;
 					} else {
 						float newDamage = damage - inflicted.getCurrentFuel();
-						((PlayerBodyData)inflicted).fuelGain(inflicted.getCurrentFuel());
+						((PlayerBodyData) inflicted).fuelGain(inflicted.getCurrentFuel());
 						return newDamage;
 					}
 				}

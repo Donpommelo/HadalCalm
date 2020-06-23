@@ -147,7 +147,8 @@ public class UnlockManager {
 		MISC,
 		PVP,
 		ARENA,
-		MULTIPLAYER
+		MULTIPLAYER,
+		SPECIAL
 	}
 	
 	public enum UnlockType {

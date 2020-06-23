@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.Stats;
 public class CalloftheVoid extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 2;
+	private final static int slotCost = 1;
 	
 	private final static float damageAmp = 0.3f;
 	private final static float damageRes = -0.3f;

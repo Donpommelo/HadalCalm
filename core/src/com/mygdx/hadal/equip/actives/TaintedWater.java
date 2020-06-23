@@ -19,8 +19,8 @@ public class TaintedWater extends ActiveItem {
 	private static final float procCd = .2f;
 	
 	private final static Vector2 poisonSize = new Vector2(101, 250);
-	private final static float poisonDamage = 1.5f;
-	private final static float poisonDuration = 2.0f;
+	private final static float poisonDamage = 1.8f;
+	private final static float poisonDuration = 2.5f;
 	
 	public TaintedWater(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);

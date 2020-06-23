@@ -11,7 +11,7 @@ public class Saligram extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 2;
 	
-	private final static float damageRes = 0.15f;
+	private final static float damageRes = 0.2f;
 	
 	public Saligram() {
 		super(slotCost, statusNum);

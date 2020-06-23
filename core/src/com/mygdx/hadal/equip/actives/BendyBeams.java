@@ -31,7 +31,7 @@ public class BendyBeams extends ActiveItem {
 	private final static float duration = 0.5f;
 	
 	private static final float procCd = 0.05f;
-	private static final float damage = 16.0f;
+	private static final float damage = 14.0f;
 	private final static float knockback = 20.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;

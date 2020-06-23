@@ -12,7 +12,7 @@ public class BackpackBuddy extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 0;
 	
-	private final static int hpReduction = -25;
+	private final static int hpReduction = -20;
 	private final static int bonusArtifactSlots = 1;
 	
 	public BackpackBuddy() {

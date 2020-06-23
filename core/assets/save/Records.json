@@ -1,5 +1,5 @@
 {
-scrap: 173
+scrap: 193
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -223,7 +223,7 @@ unlockLevel: {
 	ARENA_LAGAN: true
 	DM_GALLERY: true
 	PLENUMCHAMBER1: true
-	DM_RANDOM: true
+	DM_PILE: true
 	PLENUMCHAMBER6: true
 	PLENUMCHAMBER5: true
 	SANDBOX_ENEMY: true
@@ -248,6 +248,7 @@ unlockLevel: {
 	BOSS2: true
 	DERELICT1: true
 	BOSS1: true
+	RANDOM: true
 	WRECK1: true
 	DM_REDROCK: true
 	WRECKEXPANSEBOSS: true

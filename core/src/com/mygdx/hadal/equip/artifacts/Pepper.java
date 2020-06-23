@@ -19,6 +19,8 @@ public class Pepper extends Artifact {
 	private final static float damage = 6.0f;
 	private final static float particleDuration = 1.0f;
 	
+	private final static float procCd = 1.5f;
+
 	public Pepper() {
 		super(slotCost, statusNum);
 	}
@@ -27,9 +29,8 @@ public class Pepper extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			private float procCdCount;
-			private float procCd = 1.5f;
-			
+			private float procCdCount = procCd;
+
 			@Override
 			public void timePassing(float delta) {
 				if (procCdCount < procCd) {

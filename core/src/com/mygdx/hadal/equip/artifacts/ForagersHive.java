@@ -22,7 +22,7 @@ public class ForagersHive extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			private float procCdCount;
+			private float procCdCount = procCd;
 			
 			@Override
 			public void timePassing(float delta) {

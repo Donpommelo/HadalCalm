@@ -11,7 +11,8 @@ BOSS1: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        MULTIPLAYER
+        MULTIPLAYER,
+        SPECIAL
 	]
 }
 BOSS2: {
@@ -33,7 +34,8 @@ SANDBOX_HUB: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        MULTIPLAYER
+        MULTIPLAYER,
+        SPECIAL
 	]
 }
 ARENA_HORIZON: {
@@ -54,12 +56,14 @@ ARENA_LAGAN: {
         MULTIPLAYER
 	]
 }
-DM_RANDOM: {
-	name: DM_RANDOM
+RANDOM: {
+	name: RANDOM
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        MULTIPLAYER
+        MULTIPLAYER,
+        PVP,
+        ARENA
 	]
 }
 DM_FALLDOWN: {
@@ -91,6 +95,15 @@ DM_SAWMILL: {
 }
 DM_CAROUSEL: {
 	name: DM_CAROUSEL
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_PILE: {
+	name: DM_PILE
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

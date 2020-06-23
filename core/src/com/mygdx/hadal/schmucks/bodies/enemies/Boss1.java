@@ -10,6 +10,7 @@ import com.mygdx.hadal.equip.WeaponUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
@@ -54,6 +55,7 @@ public class Boss1 extends EnemyFloating {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
+		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 
 	private int attackNum = 0;

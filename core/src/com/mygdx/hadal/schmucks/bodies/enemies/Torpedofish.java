@@ -4,11 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
@@ -47,13 +47,13 @@ public class Torpedofish extends EnemySwimming {
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		
 		setNoiseRadius(noiseRadius);
-
 	}
 	
 	@Override
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
+		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
 	private final static float baseDamage = 5.0f;
@@ -96,13 +96,5 @@ public class Torpedofish extends EnemySwimming {
 				}
 			}
 		});
-	}
-	
-	@Override
-	public boolean queueDeletion() {
-		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false, true);
-		}
-		return super.queueDeletion();
 	}
 }

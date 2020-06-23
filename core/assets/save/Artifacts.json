@@ -37,7 +37,7 @@ ADMINISTRATOR_CARD: {
 ALBATROSS_NECKLACE: {
 	name: Albatross Necklace
 	description: "+Max Hp, Become Heavier"
-    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +150%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
+    descriptionLong: "Bonus Max Hp: 60\nWeight Increase: +100%\n\nA burdensome necklet in the form of an albatross wingspan.\n\nA conscience, weighed down with guilt, inevitably drags its bearer into the depths of the Midnight Pool."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -82,7 +82,7 @@ AU_COURANT: {
 BACKPACK_BUDDY: {
 	name: Backpack Buddy
 	description: "+Artifact Slot, -Max Hp"
-    descriptionLong: "Max Hp Reduction: 25\n\nA sodden doll once occupying a child's backpack.\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed."
+    descriptionLong: "Max Hp Reduction: -20\n\nA sodden doll once occupying a child's backpack.\n\nWhile some Sunk cling to relics of their former lives, they inevitably reach their final destinations empty-handed."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -262,7 +262,7 @@ DEAD_MANS_HAND: {
 DEPLORABLE_APPARATUS: {
 	name: Deplorable Apparatus
 	description: "-Max Hp, +Hp Regen"
-    descriptionLong: "Max Hp Reduction: -50\nHp Regeneration: 12 per Second\nUpon Receiving Danmage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
+    descriptionLong: "Max Hp Reduction: -40\nHp Regeneration: 12 per Second\nUpon Receiving Danmage, Cancel Regen for 1s\n\nA rusty, surgically-attached life granting machine.\n\nFreed from the limitations of their physical bodies, the Sunk find their lifespans linked to that of the ocean itself."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -530,7 +530,7 @@ MANGROVE_SEED: {
 MASK_OF_SYMPATHY: {
 	name: Mask of Sympathy
 	description: "Reflects Incoming Damage"
-    descriptionLong: "Damage Reflected: 40% of Damage Received\n\nAn uncomfortable ritual mask possessing several gold-sealed cracks.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
+    descriptionLong: "Damage Reflected: 25% of Damage Received\n\nAn uncomfortable ritual mask possessing several gold-sealed cracks.\n\nThe three former Gods that once governed the Noiseless Sea had unusually little enmity with their celestial usurpers."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -723,7 +723,7 @@ ROYAL_JUJUBE_BANG: {
 SALIGRAM: {
 	name: Saligram
 	description: "+Damage Resistance"
-    descriptionLong: "Damage Resistance: +15%\n\nA petrified shell imbued with the blessing of the spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
+    descriptionLong: "Damage Resistance: +20%\n\nA petrified shell imbued with the blessing of the spiral.\n\nAs currents carry all sunken things to their remote resting places, many seek solace in the belief that, in time, they will all be reunited."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

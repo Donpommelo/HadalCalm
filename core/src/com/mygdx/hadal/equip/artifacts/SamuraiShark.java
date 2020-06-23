@@ -28,7 +28,7 @@ public class SamuraiShark extends Artifact {
 		enchantment[0] = new StatusComposite(state, b, 
 				new Status(state, b) {
 			
-			private float procCdCount;
+			private float procCdCount = procCd;
 			
 			@Override
 			public void timePassing(float delta) {

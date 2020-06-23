@@ -11,7 +11,7 @@ public class MaskofSympathy extends Artifact {
 	private final static int statusNum = 1;
 	private final static int slotCost = 1;
 	
-	private final static float amount = 0.4f;
+	private final static float amount = 0.25f;
 	
 	public MaskofSympathy() {
 		super(slotCost, statusNum);

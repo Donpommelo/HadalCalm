@@ -9,7 +9,7 @@ import com.mygdx.hadal.statuses.Status;
 public class ClockwiseCage extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private final static int slotCost = 2;
 	
 	private final static float procCd = 2.0f;
 	private final static float echoCd = 0.25f;
@@ -22,7 +22,7 @@ public class ClockwiseCage extends Artifact {
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
 		enchantment[0] = new Status(state, b) {
 			
-			private float procCdCount;
+			private float procCdCount = procCd;
 			
 			private boolean echoing;
 			private float echoCdCount;

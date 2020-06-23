@@ -6,11 +6,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -46,6 +46,7 @@ public class Crawler3 extends EnemyCrawling {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
+		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
 	private static final float minRange = 0.0f;
@@ -95,13 +96,5 @@ public class Crawler3 extends EnemyCrawling {
 			}
 			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		}
-	}
-	
-	@Override
-	public boolean queueDeletion() {
-		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false, true);
-		}
-		return super.queueDeletion();
 	}
 }

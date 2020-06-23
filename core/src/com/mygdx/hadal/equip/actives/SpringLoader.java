@@ -18,7 +18,7 @@ public class SpringLoader extends ActiveItem {
 	private final static float maxCharge = 3.0f;
 	
 	private final static Vector2 springRadius = new Vector2(96, 16);
-	private final static float springPower = 60.0f;
+	private final static float springPower = 75.0f;
 	private final static float springDuration = 6.0f;
 	
 	public SpringLoader(Schmuck user) {

@@ -11,9 +11,9 @@ import com.mygdx.hadal.utils.Stats;
 public class DeplorableApparatus extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 3;
+	private final static int slotCost = 2;
 	
-	private final static float hpReduction = -50.0f;
+	private final static float hpReduction = -40.0f;
 	private final static float hpRegen = 12.0f;
 	
 	private final static float procCd = 1.0f;

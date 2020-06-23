@@ -32,7 +32,7 @@ public class HeartofSperos extends Artifact {
 				if (fuelCost <= inflicted.getCurrentFuel() && inflicted instanceof PlayerBodyData) {
 					tool.gainClip(1);
 					
-					((PlayerBodyData)inflicted).fuelSpend(fuelCost);
+					((PlayerBodyData) inflicted).fuelSpend(fuelCost);
 				}
 			}
 		});

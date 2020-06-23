@@ -10,7 +10,7 @@ import com.mygdx.hadal.utils.Stats;
 public class Plumpowder extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private final static int slotCost = 2;
 	
 	
 	private final static float startCharge = 1.0f;

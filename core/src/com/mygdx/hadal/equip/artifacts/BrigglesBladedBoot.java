@@ -27,7 +27,7 @@ public class BrigglesBladedBoot extends Artifact {
 
 	private final static float recoil = 40.0f;
 
-	private final static Vector2 size = new Vector2(60, 5);
+	private final static Vector2 size = new Vector2(28, 5);
 	private final static Vector2 position = new Vector2(0, -1.5f);
 	
 	public BrigglesBladedBoot() {
@@ -57,7 +57,7 @@ public class BrigglesBladedBoot extends Artifact {
 						
 						@Override
 						public void onHit(HadalData fixB) {
-							SoundEffect.KICK1.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.4f, false);
+							SoundEffect.KICK1.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.3f, false);
 
 							inflicted.getSchmuck().pushMomentumMitigation(0, recoil);
 							hbox.die();

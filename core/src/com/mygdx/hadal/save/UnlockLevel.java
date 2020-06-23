@@ -23,7 +23,7 @@ public enum UnlockLevel {
 	ARENA_HORIZON("Maps/arena_horizon.tmx"),
 	ARENA_LAGAN("Maps/arena_lagan.tmx"),
 
-	DM_RANDOM(""),
+	RANDOM(""),
 
 	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx"),
 	DM_FREE_RANGE("Maps/dm_free_range.tmx"),
@@ -43,6 +43,7 @@ public enum UnlockLevel {
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx"),
 	DM_LAGAN("Maps/dm_lagan.tmx"),
+	DM_PILE("Maps/dm_pile.tmx"),
 	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
 	DM_SAWMILL("Maps/dm_sawmill.tmx"),
 	
@@ -104,9 +105,7 @@ public enum UnlockLevel {
 		return items;
 	}
 	
-	public static UnlockLevel getRandomMap(PlayState state, UnlockTag tag) {
-		ArrayList<UnlockTag> tags = new ArrayList<UnlockTag>();
-		tags.add(tag);
+	public static UnlockLevel getRandomMap(PlayState state, ArrayList<UnlockTag> tags) {
 		
 		Array<UnlockLevel> dm = getUnlocks(state, true, tags);
 		
@@ -115,7 +114,6 @@ public enum UnlockLevel {
 		} else {
 			return SSTUNICATE1;
 		}
-		
 	}
 		
 	public InfoItem getInfo() { return info; }

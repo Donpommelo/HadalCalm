@@ -22,6 +22,7 @@ public class Piffler extends Artifact {
 	private final static float projLifeReduction = -0.6f;
 	private final static float projRecoilReduction = -0.75f;
 	private final static float damageReduction = -0.25f;
+	private final static float projectileSizeReduction = -0.5f;
 	private final static float bonusAtkSpd = 0.6f;
 	private final static float bonusClip = 1.0f;
 
@@ -36,6 +37,7 @@ public class Piffler extends Artifact {
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, b),
 				new StatChangeStatus(state, Stats.RANGED_CLIP, bonusClip, b),
 				new StatChangeStatus(state, Stats.RANGED_PROJ_LIFESPAN, projLifeReduction, b),
+				new StatChangeStatus(state, Stats.RANGED_PROJ_SIZE, projectileSizeReduction, b),
 				new StatChangeStatus(state, Stats.RANGED_RECOIL, projRecoilReduction, b),
 				new StatChangeStatus(state, Stats.DAMAGE_AMP, damageReduction, b),
 				new Status(state, b) {
@@ -48,8 +50,8 @@ public class Piffler extends Artifact {
 			@Override
 			public void onReload(Equipable tool) {
 				if (this.inflicted instanceof PlayerBodyData) {
-					if (((PlayerBodyData)this.inflicted).getCurrentTool() instanceof RangedWeapon) {
-						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData)this.inflicted).getCurrentTool();
+					if (((PlayerBodyData) this.inflicted).getCurrentTool() instanceof RangedWeapon) {
+						RangedWeapon weapon = (RangedWeapon)((PlayerBodyData) this.inflicted).getCurrentTool();
 						weapon.gainAmmo(1.0f);
 					}
 				}

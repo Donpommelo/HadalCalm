@@ -21,7 +21,7 @@ public class MeridianMaker extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
-	private final static float maxCharge = 15.0f;
+	private final static float maxCharge = 12.0f;
 	
 	private final static float baseDamage = 40.0f;
 	private final static float knockback = 0.0f;

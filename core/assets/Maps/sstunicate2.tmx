@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="113">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="117">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -21,7 +21,7 @@
   <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8"/>
   <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8"/>
   <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8"/>
-  <object id="11" name="Dormitory" type="Dormitory" x="1536" y="2080" width="96" height="96">
+  <object id="11" name="Dormitory" type="Dormitory" x="1344" y="2080" width="96" height="96">
    <properties>
     <property name="unlock" type="bool" value="false"/>
    </properties>
@@ -357,9 +357,10 @@
     <property name="zoom" type="float" value="0.75"/>
    </properties>
   </object>
-  <object id="93" name="Navigation" type="Navigation" x="1824" y="1984" width="96" height="96">
+  <object id="93" name="Navigation" type="Navigation" x="1728" y="1984" width="96" height="96">
    <properties>
-    <property name="tag" value="MULTIPLAYER"/>
+    <property name="tag" value="PVP"/>
+    <property name="title" value="Deathmatch"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
@@ -386,10 +387,10 @@
     <property name="text" value="DISPENSARY"/>
    </properties>
   </object>
-  <object id="103" name="Text" type="Text" x="1824" y="1984" width="32" height="32">
+  <object id="103" name="Text" type="Text" x="1728" y="1984" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="NAVIGATIONS"/>
+    <property name="text" value="DEATHMATCH"/>
    </properties>
   </object>
   <object id="104" name="Text" type="Text" x="2240" y="1088" width="32" height="32">
@@ -398,7 +399,7 @@
     <property name="text" value="QUARTERMASTER"/>
    </properties>
   </object>
-  <object id="105" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
+  <object id="105" name="Text" type="Text" x="1344" y="2080" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DORMITORY"/>
@@ -437,6 +438,32 @@
     <property name="spectator" type="bool" value="true"/>
     <property name="triggeredId" value=""/>
     <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="113" name="Navigation" type="Navigation" x="1920" y="1984" width="96" height="96">
+   <properties>
+    <property name="tag" value="ARENA"/>
+    <property name="title" value="Arena"/>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="114" name="Text" type="Text" x="1920" y="1984" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="ARENA"/>
+   </properties>
+  </object>
+  <object id="115" name="Navigation" type="Navigation" x="1536" y="2080" width="96" height="96">
+   <properties>
+    <property name="tag" value="SPECIAL"/>
+    <property name="title" value="Bonus Levels"/>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="116" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="BONUS LEVELS"/>
    </properties>
   </object>
  </objectgroup>

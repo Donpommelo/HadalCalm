@@ -16,7 +16,7 @@ public class EmaudelinesPrism extends Artifact {
 	
 	private final static int spread = 20;
 	private final static float atkSpdReduction = -0.3f;
-	private final static float speedReduction = -0.3f;
+	private final static float reloadSpdReduction = -0.3f;
 	
 	public EmaudelinesPrism() {
 		super(slotCost, statusNum);
@@ -26,7 +26,7 @@ public class EmaudelinesPrism extends Artifact {
 	public Status[] loadEnchantments(PlayState state, BodyData b) {
 		enchantment[0] = new StatusComposite(state, b, 
 				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, atkSpdReduction, b),
-				new StatChangeStatus(state, Stats.RANGED_RELOAD, speedReduction, b),
+				new StatChangeStatus(state, Stats.RANGED_RELOAD, reloadSpdReduction, b),
 				new Status(state, b) {
 			
 			private Vector2 projVelo = new Vector2();

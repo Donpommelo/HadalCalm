@@ -23,7 +23,7 @@ public class EphemeraPerpetua extends Artifact {
 			@Override
 			public void scrapPickup() {
 				if (inflicted instanceof PlayerBodyData) {
-					((PlayerBodyData)inflicted).getActiveItem().gainChargeByPercent(amount);
+					((PlayerBodyData) inflicted).getActiveItem().gainChargeByPercent(amount);
 				}
 			}
 		};

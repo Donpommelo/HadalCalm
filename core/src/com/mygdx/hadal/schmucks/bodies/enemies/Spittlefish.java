@@ -5,11 +5,11 @@ import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
-import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
@@ -57,6 +57,7 @@ public class Spittlefish extends EnemySwimming {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, kbRes, getBodyData()));
+		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
 	private final static float baseDamage = 7.5f;
@@ -94,13 +95,5 @@ public class Spittlefish extends EnemySwimming {
 				}
 			}
 		});
-	}
-	
-	@Override
-	public boolean queueDeletion() {
-		if (alive) {
-			new Ragdoll(state, getPixelPosition(), size, sprite, getLinearVelocity(), 0.5f, 1.0f, true, false, true);
-		}
-		return super.queueDeletion();
 	}
 }
