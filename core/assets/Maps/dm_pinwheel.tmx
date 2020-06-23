@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="133">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="135">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="shader" value="SPLASH"/>
@@ -16,7 +16,7 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
-  <object id="37" name="Start" type="Start" x="928" y="512" width="32" height="32">
+  <object id="37" name="Start" type="Start" x="704" y="832" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
@@ -174,7 +174,7 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="126" name="Start" type="Start" x="2048" y="512" width="32" height="32">
+  <object id="126" name="Start" type="Start" x="2272" y="832" width="32" height="32">
    <properties>
     <property name="triggeringId" value="playerstart"/>
    </properties>
@@ -197,6 +197,16 @@
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
     <property name="triggeringId" value="startTimer,rotate1,rotate2,rotate3,rotate4"/>
+   </properties>
+  </object>
+  <object id="133" name="Start" type="Start" x="1152" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="134" name="Start" type="Start" x="1824" y="832" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
  </objectgroup>

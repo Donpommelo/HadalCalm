@@ -330,9 +330,7 @@ public class Enemy extends Schmuck {
 		}
 	}
 	
-	public void setTarget(HadalEntity target) {
-		this.target = target;
-	}
+	public void setTarget(HadalEntity target) {	this.target = target; }
 	
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
 

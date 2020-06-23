@@ -398,7 +398,10 @@ public class TiledObjectUtil {
 			e = new Rotator(state,
 					object.getProperties().get("continuous", true, boolean.class),
 					object.getProperties().get("angle", 0.0f, float.class));
-		} else if (object.getName().equals("Pusher")) {
+		} else if (object.getName().equals("SeeSaw")) {
+			
+			e = new SeeSawPlatform(state, position, size);
+		}  else if (object.getName().equals("Pusher")) {
 			
 			e = new Pusher(state,
 					object.getProperties().get("xPush", 0.0f, float.class),

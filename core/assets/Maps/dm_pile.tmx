@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="23">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="24">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt28luwkAQRVFLGaSEDIvk/781sCgJEARM16vBfY9U63T72gGh9rIAAAAAAAAAAAAAAAAAAAAAp76Z1aOUvbeOo5S9t46jlLWnz/08DcxX4tqVslp8DK57t+Q1UerYwmQ1UerawmQ0UercwkQ3UerewkQ2UdpCCxPVRMnzul/6XhrVwuyurMOzk1K3Z+BRns+O0gwtjFcTpVlaGI8mSjO1MKNNlGZrYUaaKM3YwjzaRGnWFuaRJkpr1vEmXkuW54UeldCjFnrUQo9auvb42c/70byK16byspzuY801qNTjUp9uTQ4tfpexfSuNrKtbE48W1Xt0aeLVokOP6k08W3TpYU0qfN6Pfl5vpUeFZ8b7WdhSj+gmES2694hqEtViCz3UTSJbbKXHYVS/t6z9vYMe9LgXPejhjR70UInaA+8b3Kd7C8P7BnVaGN43qNPCRDRRGr3e/72TnHV27to7IF7vgih1uve9cJ66Hs5T18N56nq6nqfeYguztonS7C3MmiZK59e90vfWaPe+K610/He2ej531PnvlUr0uI0etdCjFnrUQo9a6FELPWrJ6hF5Pv38DPraiVzb+dlHpf9+F1Cd8fQ435m5NqXofXuetc1am5J637eefY8mHv/H1twnSsp7MfrcedQ6lUbuxVsT3SJqnUoZ16v7KGXvreMoZe+t4yhl763jAACAefwBxx2hyg==
+   eAHtm+nOnDAMRUfqInX/0b7/sxarulKKQoyTXGeCLhIyA1nsc2A+OoXXS4sIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAIiIAI/E/g1/FRa4zB/wTnfpKLmAvjxVzkQz7sHPhxrB8G1p9H31Xn0jE1bVlRk7n4PljRt6P/KieDqTe7Z/uY4QIFrXKC+Rkx08dMF2CxwgnmZsQsHwwX4JHtBPMyYoYPpgswyXSCORmR7SPDBbhkOcF8jDjLh3Gv3b+O3kdFazYntTxm3otFc4q0n+Ej8xqI1Fa2nXntlOPO3h71sYMLMJvlBOMx4oiPnVyA3QwnGIsRe33s6AL8Rp1gHEbs8bGzCzAccYIxGDHq4wkuwLHXCfozYsTHk1yAZY8T9GXEiI8vjATeYMyPRw4RDsyUI3nIxz9v8sEk8Hrp+uDyjY4uH1Fi3Pa7+vh9YPlarJ+5mGijfypqsHoif0OtLXOJ5lK2Nz+7OTEXf461rCO6/a4+rI6dnMxwYTUzl+i5UWu/g5NZLnbwYTm+s5OZLnbxASfv8Pfe+Jd5WG4z13f/vrqqdcU1M/taqNW2qw+rJdNJhguribnU/M/el+Eky8UTfFgNTCeZLp7iw+pg/T4c/b3DchlZd/++Qu3y4ZsEq4woH/LBOM98qv0tGPlejanrw/d0xW72fuazED3PJIzU51PtbzGS192+TBeoPNMJ5mTEu0x722W4AJcsJ5iPEXs53+mX6QJsMpxgLka8w/WqjfGuvWuBfdnvfoCPOUEOtTj6LgjmYcQr1t7+Fef+rPpHr6FZedTG8bjXju/sAgxGnGAMRqzxbu17ggtw7HWC/ozYYn8+9iQXYNnjBH0Z8cz86vMTXYBn1An6MeIV/3L/k12AacQJ+jDimXvt/nDVfSuj3taY5qRW//n+uDXG6LHSB+v3vtEcV/c//38XMx/58OnKh88os4V8ZNL255IPn1FmC/nIpO3PJR8+o8wW8pFJ259rlQ97hrB8Lpz57pM9U1jOFd3OzO38PpVvsL9F+e+P8zbrGc8Zz3euzK2ftt/z7OD8eXbdM1wgx1W5+VT7W6C2Vhyp+/y9dL72W/PeOWa5ld91vd9jkfOkn7bf807N1qbHSaTGu3l47TLy9Kn2t/DqK4+fz8XyvKxtz74Wylxa2+w8+2n7PVt16Vj9vQSfan8LMa8zb3Hpp+33bM2rY3VXPtX+FmJeZ97i0k9bPUVABERABERABHYj8BfHHaHK
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -123,6 +123,13 @@
     <property name="right" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>
     <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="23" name="ScrapSpawn" type="ScrapSpawn" x="1632" y="2240" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
  </objectgroup>

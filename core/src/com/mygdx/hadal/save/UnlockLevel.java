@@ -45,7 +45,10 @@ public enum UnlockLevel {
 	DM_LAGAN("Maps/dm_lagan.tmx"),
 	DM_PILE("Maps/dm_pile.tmx"),
 	DM_PINWHEEL("Maps/dm_pinwheel.tmx"),
+	DM_PIVOT("Maps/dm_pivot.tmx"),
 	DM_SAWMILL("Maps/dm_sawmill.tmx"),
+	DM_SEESAW("Maps/dm_seesaw.tmx"),
+	DM_WARP("Maps/dm_warp.tmx"),
 	
 	WRECK1("Maps/wreck1.tmx"),
 	WRECK2("Maps/wreck2.tmx"),

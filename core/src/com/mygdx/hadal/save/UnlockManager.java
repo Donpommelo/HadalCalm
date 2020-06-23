@@ -145,6 +145,7 @@ public class UnlockManager {
 		QUARTERMASTER,
 		NASU,
 		MISC,
+		PVP_PHOTO,
 		PVP,
 		ARENA,
 		MULTIPLAYER,

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="162">
+ <properties>
+  <property name="pvp" type="bool" value="true"/>
+  <property name="shader" value="SPLASH"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="100" height="60">
+  <data encoding="base64" compression="zlib">
+   eAHtluFqwjAYRYXtz9jm3v9t1yKBapP4eeTKWE9BWpPcqz2nEU8nj79I4Gf5Ur5ew6DiXxevcbFyrhz60MdRnwH3x+ue/cozpo9j+fhehL8d6HVe7rWyD0ZrkvtjdfFV+YB/tOZzuZdnnFRQjFzOxo/oorF8xknrmJ1n3HtzR3bROFInLT8795jPxo72GzViR5yMurbjM/bbOffFltrl+lEn+4b9yJb56FoXe25t5BEnLTM7jxy0cV3M6F3mqk7uN83/T+uiQrDupNLW9sHtWRcVetdr7u2T69X9d7ce1ve66LOqjM6cVPI9Hx+VoGuGBN6XmR7XYWAz0cvpYwMIXOoDQAtG9BGEC6r1AaAFI/oIwgXV+gDQghF9BOGCan0AaMGIPoJwQbU+ALRgRB9BuKBaHwBaMKKPIFxQrQ8ALRjRRxAuqNYHgBaM6CMIF1TrA0ALRvQRhAuq9QGgBSP6CMIF1foA0IIRfQThgmp9AGjBiD6CcEG1PgC0YEQfQbigWh8AWjCijyBcUK0PAC0Y0UcQLqjWB4AWjOgjCBdU6wNAC0b0EYQLqvUBoAUj+gjCBdX6ANCCEX0E4YJqfQBowYg+gnBBNfHxC4l0SmM=
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="105" x="256" y="1920">
+   <polyline points="0,0 0,-1344 320,-1664 2208,-1664 2528,-1344 2528,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="96" name="Multitrigger" type="Multitrigger" x="160" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2"/>
+   </properties>
+  </object>
+  <object id="104" name="Bounds" type="Bounds" x="2176" y="1344" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="108" name="Sensor" type="Sensor" x="256" y="1856" width="2528" height="64">
+   <properties>
+    <property name="triggeringId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="109" name="Player" type="Player" x="288" y="1760" width="32" height="32">
+   <properties>
+    <property name="hp" type="float" value="-1000"/>
+    <property name="triggeredId" value="outOfBounds"/>
+   </properties>
+  </object>
+  <object id="110" name="Prefab" type="PrefabPVPSettingSetter" x="160" y="96" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="111" name="Start" type="Start" x="1920" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="116" name="ScrapSpawn" type="ScrapSpawn" x="1504" y="416" width="32" height="32">
+   <properties>
+    <property name="scrap" type="int" value="1"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
+   </properties>
+  </object>
+  <object id="119" name="Start" type="Start" x="1696" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="133" name="Start" type="Start" x="1312" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="134" name="Start" type="Start" x="1088" y="704" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="147" name="Bounds" type="Bounds" x="832" y="640" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="153" name="SeeSaw" type="SeeSaw" x="1088" y="896" width="864" height="64">
+   <properties>
+    <property name="cullable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="154" name="SeeSaw" type="SeeSaw" x="1952" y="1312" width="672" height="64">
+   <properties>
+    <property name="cullable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="155" name="SeeSaw" type="SeeSaw" x="416" y="1312" width="672" height="64">
+   <properties>
+    <property name="cullable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="156" name="Prefab" type="PrefabWeapon" x="416" y="768" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="157" name="Prefab" type="PrefabWeapon" x="2528" y="768" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="158" name="Dropthrough" type="Dropthrough" x="384" y="864" width="160" height="8"/>
+  <object id="159" name="Dropthrough" type="Dropthrough" x="2496" y="864" width="160" height="8"/>
+  <object id="160" name="Prefab" type="PrefabSpawner" x="1472" y="800" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="25"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="161" name="SeeSaw" type="SeeSaw" x="1376" y="1472" width="288" height="64">
+   <properties>
+    <property name="cullable" type="bool" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
