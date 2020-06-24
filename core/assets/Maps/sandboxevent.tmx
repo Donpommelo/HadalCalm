@@ -470,6 +470,6 @@
     <property name="heal" type="float" value="0.05"/>
    </properties>
   </object>
-  <object id="180" name="SeeSaw" type="SeeSaw" x="896" y="832" width="280" height="32"/>
+  <object id="180" name="SeeSaw" type="SeeSaw" x="896" y="832" width="320" height="32"/>
  </objectgroup>
 </map>

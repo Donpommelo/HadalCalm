@@ -82,17 +82,17 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="153" name="SeeSaw" type="SeeSaw" x="1088" y="896" width="864" height="64">
+  <object id="153" name="SeeSaw" type="SeeSaw" x="1072" y="896" width="896" height="64">
    <properties>
     <property name="cullable" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="154" name="SeeSaw" type="SeeSaw" x="1952" y="1312" width="672" height="64">
+  <object id="154" name="SeeSaw" type="SeeSaw" x="1936" y="1312" width="704" height="64">
    <properties>
     <property name="cullable" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="155" name="SeeSaw" type="SeeSaw" x="416" y="1312" width="672" height="64">
+  <object id="155" name="SeeSaw" type="SeeSaw" x="400" y="1312" width="704" height="64">
    <properties>
     <property name="cullable" type="bool" value="false"/>
    </properties>
@@ -120,7 +120,7 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
-  <object id="161" name="SeeSaw" type="SeeSaw" x="1376" y="1472" width="288" height="64">
+  <object id="161" name="SeeSaw" type="SeeSaw" x="1360" y="1472" width="320" height="64">
    <properties>
     <property name="cullable" type="bool" value="false"/>
    </properties>

@@ -74,7 +74,7 @@ public class Enemy extends Schmuck {
 	protected float attackAngle, desiredAngle;
 	
 	//This is a dummy event in the map that the enemy is moving towards
-	private Vector2 movementTarget;
+	private Vector2 eventTarget;
 	
 	//The action queues and current action hold the enemy' queued up actions. (secondary action is for 2 different actions occurring simultaneously)
 	private ArrayList<EnemyAction> actions;
@@ -144,13 +144,13 @@ public class Enemy extends Schmuck {
 		super.controller(delta);
 		
 		//move towards movement target, if existent.
-		if (movementTarget != null) {
-			Vector2 dist = new Vector2(movementTarget).sub(getPixelPosition());
+		if (eventTarget != null) {
+			Vector2 dist = new Vector2(eventTarget).sub(getPixelPosition());
 			
 			//upon reaching target, conclude current action immediately and move on to the next action
 			if ((int) dist.len2() <= 100) {
 				setLinearVelocity(0, 0);
-				movementTarget = null;
+				eventTarget = null;
 				
 				aiActionCdCount = 0;
 				currentAction = null;
@@ -340,9 +340,9 @@ public class Enemy extends Schmuck {
 
 	public void setMoveSpeed(int moveSpeed) { this.moveSpeed = moveSpeed; }
 	
-	public Vector2 getMovementTarget() { return movementTarget; }
+	public Vector2 getMovementTarget() { return eventTarget; }
 
-	public void setMovementTarget(Vector2 movementTarget) { this.movementTarget = movementTarget; }
+	public void setMovementTarget(Vector2 movementTarget) { this.eventTarget = movementTarget; }
 
 	public ArrayList<EnemyAction> getActions()  {return actions; }
 

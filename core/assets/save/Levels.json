@@ -76,6 +76,24 @@ DM_FALLDOWN: {
         MULTIPLAYER
 	]
 }
+DM_JUMP: {
+	name: DM_JUMP
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,        
+        MULTIPLAYER
+	]
+}
+DM_ORIGINAL: {
+	name: DM_ORIGINAL
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,        
+        MULTIPLAYER
+	]
+}
 DM_SEESAW: {
 	name: DM_SEESAW
 	description: TEMP
@@ -87,6 +105,15 @@ DM_SEESAW: {
 }
 DM_WARP: {
 	name: DM_WARP
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+        PVP,        
+        MULTIPLAYER
+	]
+}
+DM_WETWORKS: {
+	name: DM_WETWORKS
 	description: TEMP
 	tags: [
 		NAVIGATIONS,

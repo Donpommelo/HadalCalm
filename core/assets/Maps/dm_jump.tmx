@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="184">
+ <properties>
+  <property name="pvp" type="bool" value="true"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="150" height="100">
+  <data encoding="base64" compression="zlib">
+   eAHt1stqQkEQBNC8Ic9N8v/fmnEj3bitjdQRLvS4aPRYMvXw4EWAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAECBAgQIECAAAEC9yTweD7sR+nzdE8/1J191pfzeb/P81z2/Jzv+34er7zA61n5d55G38v/qfF751N0u/HzvNX6v5Wr2zwk32n1vXzv3/O8JTHtugo05+rSK7+uEoaUgH6VkrRnCuhXU8OcFGi+B/WrZJL2ruZc6Vc7C6mTfpWStGcK6FdTw5wUaL4H9atkkvau5lzpVzsLqZN+lZK0ZwroV1PDnBRovgf1q2SS9q7mXOlXOwupk36VkrRnCuhXU8OcFGi+B/WrZJL2ruZc6Vc7C6mTfpWStGcK6FdTw5wUaL4H9atkkvau5lzpVzsLqZN+lZK0ZwroV1PDnBRovgf1q2SS9q7mXOlXOwupk36VkrRnCuhXU8OcFGi+B/WrZJL2ruZc6Vc7C6mTfpWStGcK6FdTw5wUaL4H9atkkvau5lzpVzsLqZN+lZK0ZwroV1PDnBRovgf1q2SS9q7mXOlXOwupk36VkrRnCuhXU8OcFGi+B/WrZJL2ruZc6Vc7C6mTfpWStGcK6FdTw5wUaL4H9atkkvau5lzpVzsLqZN+lZK0ZwroV1PDnBRovgf1q2SS9q7mXOlXOwupk36VkrRnCuhXU8NMgAABAgQIECBAgAABAgQIECBAgAABAgQIECDQKPAPOFUMtA==
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="86" x="1984" y="1120">
+   <polyline points="0,0 1920,0 1920,1728 0,1728 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="5" name="Dummy" type="Dummy" x="1312" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point1end"/>
+    <property name="triggeringId" value="reset1"/>
+   </properties>
+  </object>
+  <object id="37" name="EventMove" type="EventMove" x="1312" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove1"/>
+    <property name="triggeringId" value="platform1crux"/>
+   </properties>
+  </object>
+  <object id="38" name="EventMove" type="EventMove" x="1280" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove2"/>
+    <property name="triggeringId" value="platform2crux"/>
+   </properties>
+  </object>
+  <object id="39" name="EventMove" type="EventMove" x="1248" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove3"/>
+    <property name="triggeringId" value="platform3crux"/>
+   </properties>
+  </object>
+  <object id="40" name="EventMove" type="EventMove" x="1216" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove4"/>
+    <property name="triggeringId" value="platform4crux"/>
+   </properties>
+  </object>
+  <object id="41" name="EventMove" type="EventMove" x="1184" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove5"/>
+    <property name="triggeringId" value="platform5crux"/>
+   </properties>
+  </object>
+  <object id="42" name="EventMove" type="EventMove" x="1152" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove6"/>
+    <property name="triggeringId" value="platform6crux"/>
+   </properties>
+  </object>
+  <object id="43" name="EventMove" type="EventMove" x="1120" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove7"/>
+    <property name="triggeringId" value="platform7crux"/>
+   </properties>
+  </object>
+  <object id="45" name="Condtrigger" type="Condtrigger" x="96" y="800" width="32" height="32">
+   <properties>
+    <property name="start" value="move2"/>
+    <property name="triggeredId" value="spawn2"/>
+    <property name="triggeringId" value="randSpawn,move2"/>
+   </properties>
+  </object>
+  <object id="46" name="Multitrigger" type="Multitrigger" x="160" y="800" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move2"/>
+    <property name="triggeringId" value="occupy2,platMove2,platSet2"/>
+   </properties>
+  </object>
+  <object id="48" name="Alttrigger" type="Alttrigger" x="224" y="800" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy2"/>
+    <property name="triggeringId" value="spawn2"/>
+   </properties>
+  </object>
+  <object id="49" name="Alttrigger" type="Alttrigger" x="288" y="800" width="32" height="32">
+   <properties>
+    <property name="message" value="move2"/>
+    <property name="triggeredId" value="reset2"/>
+    <property name="triggeringId" value="spawn2"/>
+   </properties>
+  </object>
+  <object id="50" name="Redirecttrigger" type="Redirecttrigger" x="352" y="800" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point2end"/>
+    <property name="triggeredId" value="platSet2"/>
+    <property name="triggeringId" value="platform2crux"/>
+   </properties>
+  </object>
+  <object id="51" name="Dummy" type="Dummy" x="1280" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point2end"/>
+    <property name="triggeringId" value="reset2"/>
+   </properties>
+  </object>
+  <object id="55" name="Dummy" type="Dummy" x="1248" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point3end"/>
+    <property name="triggeringId" value="reset3"/>
+   </properties>
+  </object>
+  <object id="56" name="Dummy" type="Dummy" x="1216" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point4end"/>
+    <property name="triggeringId" value="reset4"/>
+   </properties>
+  </object>
+  <object id="57" name="Dummy" type="Dummy" x="1184" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point5end"/>
+    <property name="triggeringId" value="reset5"/>
+   </properties>
+  </object>
+  <object id="58" name="Dummy" type="Dummy" x="1152" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point6end"/>
+    <property name="triggeringId" value="reset6"/>
+   </properties>
+  </object>
+  <object id="59" name="Dummy" type="Dummy" x="1120" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point7end"/>
+    <property name="triggeringId" value="reset7"/>
+   </properties>
+  </object>
+  <object id="60" name="Condtrigger" type="Condtrigger" x="96" y="864" width="32" height="32">
+   <properties>
+    <property name="start" value="move3"/>
+    <property name="triggeredId" value="spawn3"/>
+    <property name="triggeringId" value="randSpawn,move3"/>
+   </properties>
+  </object>
+  <object id="61" name="Multitrigger" type="Multitrigger" x="160" y="864" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move3"/>
+    <property name="triggeringId" value="occupy3,platMove3,platSet3"/>
+   </properties>
+  </object>
+  <object id="62" name="Alttrigger" type="Alttrigger" x="224" y="864" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy3"/>
+    <property name="triggeringId" value="spawn3"/>
+   </properties>
+  </object>
+  <object id="63" name="Alttrigger" type="Alttrigger" x="288" y="864" width="32" height="32">
+   <properties>
+    <property name="message" value="move3"/>
+    <property name="triggeredId" value="reset3"/>
+    <property name="triggeringId" value="spawn3"/>
+   </properties>
+  </object>
+  <object id="64" name="Redirecttrigger" type="Redirecttrigger" x="352" y="864" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point3end"/>
+    <property name="triggeredId" value="platSet3"/>
+    <property name="triggeringId" value="platform3crux"/>
+   </properties>
+  </object>
+  <object id="65" name="Condtrigger" type="Condtrigger" x="96" y="928" width="32" height="32">
+   <properties>
+    <property name="start" value="move4"/>
+    <property name="triggeredId" value="spawn4"/>
+    <property name="triggeringId" value="randSpawn,move4"/>
+   </properties>
+  </object>
+  <object id="66" name="Multitrigger" type="Multitrigger" x="160" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move4"/>
+    <property name="triggeringId" value="occupy4,platMove4,platSet4"/>
+   </properties>
+  </object>
+  <object id="67" name="Alttrigger" type="Alttrigger" x="224" y="928" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy4"/>
+    <property name="triggeringId" value="spawn4"/>
+   </properties>
+  </object>
+  <object id="68" name="Alttrigger" type="Alttrigger" x="288" y="928" width="32" height="32">
+   <properties>
+    <property name="message" value="move4"/>
+    <property name="triggeredId" value="reset4"/>
+    <property name="triggeringId" value="spawn4"/>
+   </properties>
+  </object>
+  <object id="69" name="Redirecttrigger" type="Redirecttrigger" x="352" y="928" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point4end"/>
+    <property name="triggeredId" value="platSet4"/>
+    <property name="triggeringId" value="platform4crux"/>
+   </properties>
+  </object>
+  <object id="70" name="Condtrigger" type="Condtrigger" x="96" y="992" width="32" height="32">
+   <properties>
+    <property name="start" value="move5"/>
+    <property name="triggeredId" value="spawn5"/>
+    <property name="triggeringId" value="randSpawn,move5"/>
+   </properties>
+  </object>
+  <object id="71" name="Multitrigger" type="Multitrigger" x="160" y="992" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move5"/>
+    <property name="triggeringId" value="occupy5,platMove5,platSet5"/>
+   </properties>
+  </object>
+  <object id="72" name="Alttrigger" type="Alttrigger" x="224" y="992" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy5"/>
+    <property name="triggeringId" value="spawn5"/>
+   </properties>
+  </object>
+  <object id="73" name="Alttrigger" type="Alttrigger" x="288" y="992" width="32" height="32">
+   <properties>
+    <property name="message" value="move5"/>
+    <property name="triggeredId" value="reset5"/>
+    <property name="triggeringId" value="spawn5"/>
+   </properties>
+  </object>
+  <object id="74" name="Redirecttrigger" type="Redirecttrigger" x="352" y="992" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point5end"/>
+    <property name="triggeredId" value="platSet5"/>
+    <property name="triggeringId" value="platform5crux"/>
+   </properties>
+  </object>
+  <object id="75" name="Condtrigger" type="Condtrigger" x="96" y="1056" width="32" height="32">
+   <properties>
+    <property name="start" value="move6"/>
+    <property name="triggeredId" value="spawn6"/>
+    <property name="triggeringId" value="randSpawn,move6"/>
+   </properties>
+  </object>
+  <object id="76" name="Multitrigger" type="Multitrigger" x="160" y="1056" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move6"/>
+    <property name="triggeringId" value="occupy6,platMove6,platSet6"/>
+   </properties>
+  </object>
+  <object id="77" name="Alttrigger" type="Alttrigger" x="224" y="1056" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy6"/>
+    <property name="triggeringId" value="spawn6"/>
+   </properties>
+  </object>
+  <object id="78" name="Alttrigger" type="Alttrigger" x="288" y="1056" width="32" height="32">
+   <properties>
+    <property name="message" value="move6"/>
+    <property name="triggeredId" value="reset6"/>
+    <property name="triggeringId" value="spawn6"/>
+   </properties>
+  </object>
+  <object id="79" name="Redirecttrigger" type="Redirecttrigger" x="352" y="1056" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point6end"/>
+    <property name="triggeredId" value="platSet6"/>
+    <property name="triggeringId" value="platform6crux"/>
+   </properties>
+  </object>
+  <object id="80" name="Condtrigger" type="Condtrigger" x="96" y="1120" width="32" height="32">
+   <properties>
+    <property name="start" value="move7"/>
+    <property name="triggeredId" value="spawn7"/>
+    <property name="triggeringId" value="randSpawn,move7"/>
+   </properties>
+  </object>
+  <object id="81" name="Multitrigger" type="Multitrigger" x="160" y="1120" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move7"/>
+    <property name="triggeringId" value="occupy7,platMove7,platSet7"/>
+   </properties>
+  </object>
+  <object id="82" name="Alttrigger" type="Alttrigger" x="224" y="1120" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy7"/>
+    <property name="triggeringId" value="spawn7"/>
+   </properties>
+  </object>
+  <object id="83" name="Alttrigger" type="Alttrigger" x="288" y="1120" width="32" height="32">
+   <properties>
+    <property name="message" value="move7"/>
+    <property name="triggeredId" value="reset7"/>
+    <property name="triggeringId" value="spawn7"/>
+   </properties>
+  </object>
+  <object id="84" name="Redirecttrigger" type="Redirecttrigger" x="352" y="1120" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point7end"/>
+    <property name="triggeredId" value="platSet7"/>
+    <property name="triggeringId" value="platform7crux"/>
+   </properties>
+  </object>
+  <object id="87" name="Poison" type="Poison" x="1984" y="2656" width="1920" height="192">
+   <properties>
+    <property name="damage" type="float" value="5"/>
+    <property name="triggeredId" value="poison1"/>
+   </properties>
+  </object>
+  <object id="94" name="EventMove" type="EventMove" x="1088" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove8"/>
+    <property name="triggeringId" value="platform8crux"/>
+   </properties>
+  </object>
+  <object id="95" name="EventMove" type="EventMove" x="1056" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove9"/>
+    <property name="triggeringId" value="platform9crux"/>
+   </properties>
+  </object>
+  <object id="96" name="EventMove" type="EventMove" x="1024" y="928" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="platMove10"/>
+    <property name="triggeringId" value="platform10crux"/>
+   </properties>
+  </object>
+  <object id="97" name="Dummy" type="Dummy" x="1088" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point8end"/>
+    <property name="triggeringId" value="reset8"/>
+   </properties>
+  </object>
+  <object id="98" name="Dummy" type="Dummy" x="1056" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point9end"/>
+    <property name="triggeringId" value="reset9"/>
+   </properties>
+  </object>
+  <object id="99" name="Dummy" type="Dummy" x="1024" y="2912" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="point10end"/>
+    <property name="triggeringId" value="reset10"/>
+   </properties>
+  </object>
+  <object id="100" name="Condtrigger" type="Condtrigger" x="96" y="1184" width="32" height="32">
+   <properties>
+    <property name="start" value="move8"/>
+    <property name="triggeredId" value="spawn8"/>
+    <property name="triggeringId" value="randSpawn,move8"/>
+   </properties>
+  </object>
+  <object id="101" name="Multitrigger" type="Multitrigger" x="160" y="1184" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move8"/>
+    <property name="triggeringId" value="occupy8,platMove8,platSet8"/>
+   </properties>
+  </object>
+  <object id="102" name="Alttrigger" type="Alttrigger" x="224" y="1184" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy8"/>
+    <property name="triggeringId" value="spawn8"/>
+   </properties>
+  </object>
+  <object id="103" name="Alttrigger" type="Alttrigger" x="288" y="1184" width="32" height="32">
+   <properties>
+    <property name="message" value="move8"/>
+    <property name="triggeredId" value="reset8"/>
+    <property name="triggeringId" value="spawn8"/>
+   </properties>
+  </object>
+  <object id="104" name="Redirecttrigger" type="Redirecttrigger" x="352" y="1184" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point8end"/>
+    <property name="triggeredId" value="platSet8"/>
+    <property name="triggeringId" value="platform8crux"/>
+   </properties>
+  </object>
+  <object id="105" name="Condtrigger" type="Condtrigger" x="96" y="1248" width="32" height="32">
+   <properties>
+    <property name="start" value="move9"/>
+    <property name="triggeredId" value="spawn9"/>
+    <property name="triggeringId" value="randSpawn,move9"/>
+   </properties>
+  </object>
+  <object id="106" name="Multitrigger" type="Multitrigger" x="160" y="1248" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move9"/>
+    <property name="triggeringId" value="occupy9,platMove9,platSet9"/>
+   </properties>
+  </object>
+  <object id="107" name="Alttrigger" type="Alttrigger" x="224" y="1248" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy9"/>
+    <property name="triggeringId" value="spawn9"/>
+   </properties>
+  </object>
+  <object id="108" name="Alttrigger" type="Alttrigger" x="288" y="1248" width="32" height="32">
+   <properties>
+    <property name="message" value="move9"/>
+    <property name="triggeredId" value="reset9"/>
+    <property name="triggeringId" value="spawn9"/>
+   </properties>
+  </object>
+  <object id="109" name="Redirecttrigger" type="Redirecttrigger" x="352" y="1248" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point9end"/>
+    <property name="triggeredId" value="platSet9"/>
+    <property name="triggeringId" value="platform9crux"/>
+   </properties>
+  </object>
+  <object id="110" name="Condtrigger" type="Condtrigger" x="96" y="1312" width="32" height="32">
+   <properties>
+    <property name="start" value="move10"/>
+    <property name="triggeredId" value="spawn10"/>
+    <property name="triggeringId" value="randSpawn,move10"/>
+   </properties>
+  </object>
+  <object id="111" name="Multitrigger" type="Multitrigger" x="160" y="1312" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move10"/>
+    <property name="triggeringId" value="occupy10,platMove10,platSet10"/>
+   </properties>
+  </object>
+  <object id="112" name="Alttrigger" type="Alttrigger" x="224" y="1312" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy10"/>
+    <property name="triggeringId" value="spawn10"/>
+   </properties>
+  </object>
+  <object id="113" name="Alttrigger" type="Alttrigger" x="288" y="1312" width="32" height="32">
+   <properties>
+    <property name="message" value="move10"/>
+    <property name="triggeredId" value="reset10"/>
+    <property name="triggeringId" value="spawn10"/>
+   </properties>
+  </object>
+  <object id="114" name="Redirecttrigger" type="Redirecttrigger" x="352" y="1312" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point10end"/>
+    <property name="triggeredId" value="platSet10"/>
+    <property name="triggeringId" value="platform10crux"/>
+   </properties>
+  </object>
+  <object id="120" name="Condtrigger" type="Condtrigger" x="192" y="2112" width="32" height="32">
+   <properties>
+    <property name="start" value="random"/>
+    <property name="triggeredId" value="randSpawn"/>
+    <property name="triggeringId" value="spawn1,spawn2,,spawn3,spawn4,spawn5,spawn6,spawn7,spawn8,spawn9,spawn10"/>
+   </properties>
+  </object>
+  <object id="121" name="Timer" type="Timer" x="128" y="2112" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="2.5"/>
+    <property name="triggeringId" value="randSpawn"/>
+   </properties>
+  </object>
+  <object id="122" name="Start" type="Start" x="2464" y="1216" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="134" name="MovePoint" type="MovePoint" x="320" y="288" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform2a,w1"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform2crux"/>
+   </properties>
+  </object>
+  <object id="135" name="MovePoint" type="MovePoint" x="288" y="320" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform3a,w2"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform3crux"/>
+   </properties>
+  </object>
+  <object id="136" name="MovePoint" type="MovePoint" x="256" y="352" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform4a,platform4b,w3"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform4crux"/>
+   </properties>
+  </object>
+  <object id="137" name="MovePoint" type="MovePoint" x="224" y="384" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform5a,platform5b,w4"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform5crux"/>
+   </properties>
+  </object>
+  <object id="138" name="MovePoint" type="MovePoint" x="192" y="416" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform6a,platform6b"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform6crux"/>
+   </properties>
+  </object>
+  <object id="139" name="MovePoint" type="MovePoint" x="160" y="448" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform7a,platform7b,platform7c"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform7crux"/>
+   </properties>
+  </object>
+  <object id="140" name="MovePoint" type="MovePoint" x="128" y="480" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform8a,platform8b,platform8c"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform8crux"/>
+   </properties>
+  </object>
+  <object id="141" name="MovePoint" type="MovePoint" x="96" y="512" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform9a,platform9b"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform9crux"/>
+   </properties>
+  </object>
+  <object id="142" name="MovePoint" type="MovePoint" x="64" y="544" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform10a,platform10b"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform10crux"/>
+   </properties>
+  </object>
+  <object id="143" name="Dropthrough" type="Dropthrough" x="1024" y="288" width="1280" height="8">
+   <properties>
+    <property name="triggeredId" value="platform2a"/>
+   </properties>
+  </object>
+  <object id="144" name="Dropthrough" type="Dropthrough" x="1664" y="320" width="1280" height="8">
+   <properties>
+    <property name="triggeredId" value="platform3a"/>
+   </properties>
+  </object>
+  <object id="145" name="Dropthrough" type="Dropthrough" x="1024" y="352" width="960" height="8">
+   <properties>
+    <property name="triggeredId" value="platform4a"/>
+   </properties>
+  </object>
+  <object id="146" name="Dropthrough" type="Dropthrough" x="2304" y="352" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform4b"/>
+   </properties>
+  </object>
+  <object id="147" name="Dropthrough" type="Dropthrough" x="1024" y="384" width="640" height="8">
+   <properties>
+    <property name="triggeredId" value="platform5a"/>
+   </properties>
+  </object>
+  <object id="148" name="Dropthrough" type="Dropthrough" x="2304" y="384" width="640" height="8">
+   <properties>
+    <property name="triggeredId" value="platform5b"/>
+   </properties>
+  </object>
+  <object id="149" name="Dropthrough" type="Dropthrough" x="1984" y="416" width="960" height="8">
+   <properties>
+    <property name="triggeredId" value="platform6b"/>
+   </properties>
+  </object>
+  <object id="150" name="Dropthrough" type="Dropthrough" x="1344" y="416" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform6a"/>
+   </properties>
+  </object>
+  <object id="151" name="Dropthrough" type="Dropthrough" x="1024" y="448" width="640" height="8">
+   <properties>
+    <property name="triggeredId" value="platform7a"/>
+   </properties>
+  </object>
+  <object id="152" name="Dropthrough" type="Dropthrough" x="1984" y="448" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform7b"/>
+   </properties>
+  </object>
+  <object id="153" name="Dropthrough" type="Dropthrough" x="2624" y="448" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform7c"/>
+   </properties>
+  </object>
+  <object id="154" name="Dropthrough" type="Dropthrough" x="2304" y="480" width="640" height="8">
+   <properties>
+    <property name="triggeredId" value="platform8c"/>
+   </properties>
+  </object>
+  <object id="155" name="Dropthrough" type="Dropthrough" x="1024" y="480" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform8a"/>
+   </properties>
+  </object>
+  <object id="156" name="Dropthrough" type="Dropthrough" x="1664" y="480" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform8b"/>
+   </properties>
+  </object>
+  <object id="157" name="Dropthrough" type="Dropthrough" x="2624" y="512" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform9b"/>
+   </properties>
+  </object>
+  <object id="158" name="Dropthrough" type="Dropthrough" x="1024" y="512" width="960" height="8">
+   <properties>
+    <property name="triggeredId" value="platform9a"/>
+   </properties>
+  </object>
+  <object id="159" name="Dropthrough" type="Dropthrough" x="1984" y="544" width="960" height="8">
+   <properties>
+    <property name="triggeredId" value="platform10b"/>
+   </properties>
+  </object>
+  <object id="160" name="Dropthrough" type="Dropthrough" x="1024" y="544" width="320" height="8">
+   <properties>
+    <property name="triggeredId" value="platform10a"/>
+   </properties>
+  </object>
+  <object id="161" name="MovePoint" type="MovePoint" x="1312" y="1344" width="32" height="32">
+   <properties>
+    <property name="connections" value="platform1a,hp1"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="platform1crux"/>
+    <property name="triggeringId" value="point1end"/>
+   </properties>
+  </object>
+  <object id="162" name="Dropthrough" type="Dropthrough" x="2304" y="1344" width="1280" height="8">
+   <properties>
+    <property name="triggeredId" value="platform1a"/>
+   </properties>
+  </object>
+  <object id="163" name="Start" type="Start" x="2656" y="1216" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="164" name="Start" type="Start" x="3200" y="1216" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="165" name="Start" type="Start" x="3392" y="1216" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="167" name="Bounds" type="Bounds" x="2496" y="1408" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="168" name="Bounds" type="Bounds" x="3360" y="2336" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="169" name="Prefab" type="PrefabPVPSettingSetter" x="128" y="2208" width="32" height="32">
+   <properties>
+    <property name="prefabId" value="PVPSettingSetter"/>
+    <property name="triggeredId" value=""/>
+   </properties>
+  </object>
+  <object id="170" name="Multitrigger" type="Multitrigger" x="128" y="2272" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="spawnWeapons"/>
+    <property name="triggeringId" value="w1,w2,w3,w4"/>
+   </properties>
+  </object>
+  <object id="171" name="Condtrigger" type="Condtrigger" x="96" y="736" width="32" height="32">
+   <properties>
+    <property name="start" value="move1"/>
+    <property name="triggeredId" value="spawn1"/>
+    <property name="triggeringId" value="randSpawn,move1"/>
+   </properties>
+  </object>
+  <object id="172" name="Multitrigger" type="Multitrigger" x="160" y="736" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="move1"/>
+    <property name="triggeringId" value="occupy1,platMove1,platSet1"/>
+   </properties>
+  </object>
+  <object id="173" name="Alttrigger" type="Alttrigger" x="224" y="736" width="32" height="32">
+   <properties>
+    <property name="message" value="randSpawn"/>
+    <property name="triggeredId" value="occupy1"/>
+    <property name="triggeringId" value="spawn1"/>
+   </properties>
+  </object>
+  <object id="174" name="Alttrigger" type="Alttrigger" x="288" y="736" width="32" height="32">
+   <properties>
+    <property name="message" value="move1"/>
+    <property name="triggeredId" value="reset1"/>
+    <property name="triggeringId" value="spawn1"/>
+   </properties>
+  </object>
+  <object id="175" name="Redirecttrigger" type="Redirecttrigger" x="352" y="736" width="32" height="32">
+   <properties>
+    <property name="blameId" value="point1end"/>
+    <property name="triggeredId" value="platSet1"/>
+    <property name="triggeringId" value="platform1crux"/>
+   </properties>
+  </object>
+  <object id="177" name="Timer" type="Timer" x="128" y="2048" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="178" name="Multitrigger" type="Multitrigger" x="192" y="2048" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,randSpawn"/>
+   </properties>
+  </object>
+  <object id="179" name="Prefab" type="PrefabWeapon" x="1184" y="192" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="180" name="Prefab" type="PrefabWeapon" x="2688" y="224" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
+   </properties>
+  </object>
+  <object id="181" name="Prefab" type="PrefabWeapon" x="1184" y="256" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="182" name="Prefab" type="PrefabWeapon" x="2688" y="288" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w4"/>
+   </properties>
+  </object>
+  <object id="183" name="Prefab" type="PrefabSpawner" x="2896" y="1248" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="45"/>
+    <property name="power" type="float" value="40"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

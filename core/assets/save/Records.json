@@ -218,9 +218,9 @@ unlockLevel: {
 	PLENUMCHAMBERTURBINE: true
 	DM_SAWMILL: true
 	NOISELESSSEA1: true
+	DM_WARP: true
 	DM_LAGAN: true
 	DM_FREE_RANGE: true
-	DM_WARP: true
 	DM_HORIZON: true
 	DM_PINWHEEL: true
 	PLENUMCHAMBERSHAFT: true
@@ -246,6 +246,9 @@ unlockLevel: {
 	DM_GALLERY: true
 	PLENUMCHAMBER1: true
 	DM_PILE: true
+	DM_WETWORKS: true
+	DM_ORIGINAL: true
+	DM_JUMP: true
 	PLENUMCHAMBER6: true
 	PLENUMCHAMBER5: true
 	SANDBOX_ENEMY: true
