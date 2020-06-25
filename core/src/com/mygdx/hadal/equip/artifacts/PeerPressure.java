@@ -5,7 +5,6 @@ import com.mygdx.hadal.schmucks.bodies.enemies.KBKBuddy;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.Status;
-import com.mygdx.hadal.statuses.StatusComposite;
 import com.mygdx.hadal.statuses.Summoned;
 
 public class PeerPressure extends Artifact {
@@ -21,8 +20,7 @@ public class PeerPressure extends Artifact {
 
 	@Override
 	public Status[] loadEnchantments(PlayState state, final BodyData b) {
-		enchantment[0] = new StatusComposite(state, b, 
-				new Status(state, b) {
+		enchantment[0] = new Status(state, b) {
 
 			private float procCdCount = procCd;
 			
@@ -58,7 +56,16 @@ public class PeerPressure extends Artifact {
 					summonActive = false;
 				}
 			}
-		});
+			
+			@Override
+			public void onRemove() {
+				if (buddy != null) {
+					if (buddy.isAlive()) {
+						buddy.getBodyData().die(buddy.getBodyData());
+					}
+				}
+			}
+		};
 		
 		return enchantment;
 	}

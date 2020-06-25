@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="162">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="164">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="shader" value="SPLASH"/>
@@ -123,6 +123,16 @@
   <object id="161" name="SeeSaw" type="SeeSaw" x="1360" y="1472" width="320" height="64">
    <properties>
     <property name="cullable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="162" name="Buzzsaw" type="Buzzsaw" x="384" y="256" width="192" height="192">
+   <properties>
+    <property name="damage" type="float" value="8"/>
+   </properties>
+  </object>
+  <object id="163" name="Buzzsaw" type="Buzzsaw" x="2464" y="256" width="192" height="192">
+   <properties>
+    <property name="damage" type="float" value="8"/>
    </properties>
   </object>
  </objectgroup>
