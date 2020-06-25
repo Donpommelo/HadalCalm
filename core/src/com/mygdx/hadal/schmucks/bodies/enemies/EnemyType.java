@@ -118,6 +118,14 @@ public enum EnemyType {
 		}
 	},
 	
+	KBK_BUDDY() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKBuddy(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
 	MISCFISH() {
 
 		@Override

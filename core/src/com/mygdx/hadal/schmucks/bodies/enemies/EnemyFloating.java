@@ -60,11 +60,19 @@ public class EnemyFloating extends Enemy {
 			attackAngle += spinSpeed;
 			break;
 		case TRACKING_PLAYER:
-			if (target != null) {				
-				if (target.isAlive()) {
+			if (attackTarget != null) {				
+				if (attackTarget.isAlive()) {
 					desiredAngle = (float)(Math.atan2(
-							target.getPosition().y - getPosition().y ,
-							target.getPosition().x - getPosition().x) * 180 / Math.PI);
+							attackTarget.getPosition().y - getPosition().y ,
+							attackTarget.getPosition().x - getPosition().x) * 180 / Math.PI);
+				}
+			} else {
+				if (getMoveTarget() != null) {				
+					if (getMoveTarget().isAlive()) {
+						desiredAngle = (float)(Math.atan2(
+								getMoveTarget().getPosition().y - getPosition().y ,
+								getMoveTarget().getPosition().x - getPosition().x) * 180 / Math.PI);
+					}
 				}
 			}
 			break;

@@ -51,7 +51,7 @@ public class Scissorfish extends EnemySwimming {
 	private static final int defaultMeleeKB = 25;
 	@Override
 	public void attackInitiate() {
-		EnemyUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
+		EnemyUtils.moveToPlayer(state, this, attackTarget, charge1Speed, 0.0f);
 		EnemyUtils.meleeAttackContact(state, this, charge1Damage, defaultMeleeKB, 1.5f);
 	}
 }

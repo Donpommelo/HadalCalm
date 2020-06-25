@@ -1,5 +1,5 @@
 {
-scrap: 193
+scrap: 199
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -158,6 +158,7 @@ unlockArtifact: {
 	HORNS_OF_AMMON: true
 	NUMBER_ONE_BOSS_MUG: true
 	CELESTIAL_ANOINTMENT: true
+	PEER_PRESSURE: true
 	SAMURAI_SHARK: true
 	CONFIDENCE: true
 	TUNICATE_TUNIC: true
@@ -245,18 +246,18 @@ unlockLevel: {
 	ARENA_LAGAN: true
 	DM_GALLERY: true
 	PLENUMCHAMBER1: true
-	DM_PILE: true
 	DM_WETWORKS: true
-	DM_ORIGINAL: true
-	DM_JUMP: true
+	DM_PILE: true
 	PLENUMCHAMBER6: true
 	PLENUMCHAMBER5: true
 	SANDBOX_ENEMY: true
 	DM_GULLY: true
 	DM_SEESAW: true
+	DM_JUMP: true
 	WRECKEXPANSE1: true
 	DM_FALLDOWN: true
 	SSTUNICATE1: true
+	DM_ORIGINAL: true
 	DM_SUPREME_CHAMPION: true
 	DM_CAROUSEL: true
 	DM_PIVOT: true

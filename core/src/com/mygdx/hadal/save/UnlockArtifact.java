@@ -82,6 +82,7 @@ public enum UnlockArtifact {
 	ORIGIN_COIL(new OriginCoil()),
 	PAIN_SCALE(new PainScale()),
 	PEACHWOOD_SWORD(new PeachwoodSword()),
+	PEER_PRESSURE(new PeerPressure()),
 	PELICAN_PLUSH_TOY(new PelicanPlushToy()),
 	PEPPER(new Pepper()),
 	PETRIFIED_PAYLOAD(new PetrifiedPayload()),

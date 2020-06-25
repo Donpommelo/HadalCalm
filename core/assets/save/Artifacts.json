@@ -641,6 +641,15 @@ PEACHWOOD_SWORD: {
 		RANDOM_POOL,
 	]
 }
+PEER_PRESSURE: {
+	name: Peer Pressure
+	description: "Summon an Allied Follower"
+    descriptionLong: "\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 PELICAN_PLUSH_TOY: {
 	name: Pelican Plush Toy
 	description: "Improved Healing"

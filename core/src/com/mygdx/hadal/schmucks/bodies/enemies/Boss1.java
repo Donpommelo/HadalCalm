@@ -190,7 +190,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.moveToRandomCorner(state, this, moveSpeed, moveDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 1.2f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
-		EnemyUtils.moveToPlayer(state, this, target, charge1Speed, 0.0f);
+		EnemyUtils.moveToPlayer(state, this, attackTarget, charge1Speed, 0.0f);
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, charge1Knockback, charge1AttackDuration);
 	}
 	
@@ -278,7 +278,7 @@ public class Boss1 extends EnemyFloating {
 			
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 			for (int i = 0; i < trackAmount; i++) {
-				EnemyUtils.trackPlayerXY(state, this, target, trackSpeed, trackInterval, false);
+				EnemyUtils.trackPlayerXY(state, this, attackTarget, trackSpeed, trackInterval, false);
 			}
 			EnemyUtils.stopStill(this, 0.2f);
 			for (int i = 0; i < laser1Amount; i++) {
@@ -288,7 +288,7 @@ public class Boss1 extends EnemyFloating {
 		case 1: 
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 			for (int i = 0; i < trackAmount; i++) {
-				EnemyUtils.trackPlayerXY(state, this, target, trackSpeed, trackInterval, false);
+				EnemyUtils.trackPlayerXY(state, this, attackTarget, trackSpeed, trackInterval, false);
 			}
 			EnemyUtils.stopStill(this, 0.2f);
 			for (int i = 0; i < laser1Amount; i++) {

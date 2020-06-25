@@ -30,7 +30,7 @@ public class TurretVolley extends Turret {
 	@Override
 	public void controller(float delta) {
 		
-		if (target != null) {
+		if (attackTarget != null) {
 			setCurrentState(TurretState.TRACKING);
 		} else {
 			setCurrentState(TurretState.STARTING);

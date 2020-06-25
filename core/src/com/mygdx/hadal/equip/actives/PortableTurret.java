@@ -9,6 +9,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Summoned;
 import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
@@ -58,6 +59,7 @@ public class PortableTurret extends ActiveItem {
 					public void create() {
 						super.create();
 						getBodyData().addStatus(new Temporary(state, turretLifespan, getBodyData(), getBodyData(), turretLifespan));
+						getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 					}
 				};
 			}

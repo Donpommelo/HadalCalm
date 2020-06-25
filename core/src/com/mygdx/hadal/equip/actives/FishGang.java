@@ -7,6 +7,7 @@ import com.mygdx.hadal.schmucks.bodies.enemies.Spittlefish;
 import com.mygdx.hadal.schmucks.bodies.enemies.Torpedofish;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
+import com.mygdx.hadal.statuses.Summoned;
 import com.mygdx.hadal.statuses.Temporary;
 
 public class FishGang extends ActiveItem {
@@ -33,6 +34,7 @@ public class FishGang extends ActiveItem {
 					public void create() {
 						super.create();
 						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
+						getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 					}
 				};
 				
@@ -43,6 +45,7 @@ public class FishGang extends ActiveItem {
 					public void create() {
 						super.create();
 						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
+						getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 					}
 				};
 			} else {
@@ -52,6 +55,7 @@ public class FishGang extends ActiveItem {
 					public void create() {
 						super.create();
 						getBodyData().addStatus(new Temporary(state, fishLifespan, getBodyData(), getBodyData(), fishLifespan));
+						getBodyData().addStatus(new Summoned(state, getBodyData(), user.getPlayer()));
 					}
 				};
 			}

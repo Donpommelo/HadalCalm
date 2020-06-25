@@ -90,10 +90,10 @@ public class EnemyCrawling extends Enemy {
 			processCollision(false);
 			break;
 		case CHASE:
-			if (target != null) {				
-				if (target.isAlive()) {
+			if (getMoveTarget() != null) {				
+				if (getMoveTarget().isAlive()) {
 					moveSpeed = 1.0f;
-					float dist = getPixelPosition().x - target.getPixelPosition().x;
+					float dist = getPixelPosition().x - getMoveTarget().getPixelPosition().x;
 					if (dist > maxRange) {
 						moveDirection = -1.0f;
 					} else if (dist < -maxRange) {

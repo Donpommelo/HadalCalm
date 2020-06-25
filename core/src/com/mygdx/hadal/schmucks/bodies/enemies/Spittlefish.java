@@ -75,11 +75,11 @@ public class Spittlefish extends EnemySwimming {
 			@Override
 			public void execute() {
 				
-				if (target == null) {
+				if (attackTarget == null) {
 					return;
 				}
 				
-				startVelo.set(target.getPixelPosition()).sub(enemy.getPixelPosition());
+				startVelo.set(attackTarget.getPixelPosition()).sub(enemy.getPixelPosition());
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);

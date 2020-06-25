@@ -41,11 +41,11 @@ public class EnemySwimming extends EnemyFloating {
 		
 		switch(currentState) {
 		case CHASE:
-			if (target != null) {				
-				if (target.isAlive()) {
+			if (getMoveTarget() != null) {				
+				if (getMoveTarget().isAlive()) {
 					moveSpeed = 1.0f;
 					
-					moveDirection.set(getPosition()).sub(target.getPosition());
+					moveDirection.set(getPosition()).sub(getMoveTarget().getPosition());
 					float dist = moveDirection.len2();
 
 					 if (dist > maxRange * maxRange) {

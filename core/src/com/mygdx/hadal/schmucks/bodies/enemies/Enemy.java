@@ -56,7 +56,10 @@ public class Enemy extends Schmuck {
     protected static final float aiRadius = 2000;
     
     //This is the entity this enemy is trying to attack
-  	protected HadalEntity target;
+  	protected HadalEntity attackTarget;
+  	
+  	//This is the entity this enemy is trying to move towards. (if null, the enemy moves towards the attack target)
+  	private HadalEntity moveTarget;
   	
 	//This is the duration until the enemy will attack gain
     private float aiAttackCdCount = 0.0f;
@@ -243,16 +246,15 @@ public class Enemy extends Schmuck {
 	 */
 	public void acquireTarget() {
 		
-		target = null;
+		attackTarget = null;
 		
 		world.QueryAABB((new QueryCallback() {
 
 			@Override
 			public boolean reportFixture(Fixture fixture) {
 				if (fixture.getUserData() instanceof BodyData) {
-					homeAttempt = ((BodyData)fixture.getUserData()).getSchmuck();
+					homeAttempt = ((BodyData) fixture.getUserData()).getSchmuck();
 					shortestFraction = 1.0f;
-					
 					
 				  	if (getPosition().x != homeAttempt.getPosition().x || getPosition().y != homeAttempt.getPosition().y) {
 				  		world.rayCast(new RayCastCallback() {
@@ -278,7 +280,7 @@ public class Enemy extends Schmuck {
 						}, getPosition(), homeAttempt.getPosition());
 						if (closestFixture != null) {
 							if (closestFixture.getUserData() instanceof BodyData) {
-								target = ((BodyData) closestFixture.getUserData()).getSchmuck();
+								attackTarget = ((BodyData) closestFixture.getUserData()).getSchmuck();
 							}
 						} 
 					}
@@ -330,7 +332,16 @@ public class Enemy extends Schmuck {
 		}
 	}
 	
-	public void setTarget(HadalEntity target) {	this.target = target; }
+	public void setMoveTarget(HadalEntity moveTarget) { this.moveTarget = moveTarget; }
+	
+	public HadalEntity getMoveTarget() {
+		if (moveTarget != null) {
+			if (moveTarget.isAlive()) {
+				return moveTarget;
+			}
+		}
+		return attackTarget;
+	}
 	
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
 

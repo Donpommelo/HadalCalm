@@ -58,13 +58,13 @@ public class Crawler2 extends EnemyCrawling {
 	@Override
 	public void attackInitiate() {
 		
-		if (target != null) {
+		if (attackTarget != null) {
 			EnemyUtils.setCrawlingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
 		} else {
 			EnemyUtils.changeCrawlingState(this, CrawlingState.AVOID_PITS, 0.5f, 0.0f);
 		}
 		
-		if (target != null) {
+		if (attackTarget != null) {
 			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.2f);
 			for (int i = 0; i < attack1Amount; i++) {
 				
