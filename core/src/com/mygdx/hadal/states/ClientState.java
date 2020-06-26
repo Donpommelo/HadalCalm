@@ -54,6 +54,7 @@ public class ClientState extends PlayState {
 		
 		TiledObjectUtil.parseTiledObjectLayerClient(this, map.getLayers().get("collision-layer").getObjects());
 		
+		addEntity(getAnchor().getEntityID().toString(), getAnchor(), false, ObjectSyncLayers.STANDARD);
 		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), false, ObjectSyncLayers.STANDARD);
 		addEntity(getMouse().getEntityID().toString(), getMouse(), false, ObjectSyncLayers.STANDARD);
 	}

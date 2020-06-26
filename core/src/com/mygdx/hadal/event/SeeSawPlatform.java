@@ -30,7 +30,9 @@ public class SeeSawPlatform extends Event {
 	private final static float kbCap = 20.0f;
 	
 	public SeeSawPlatform(PlayState state, Vector2 startPos, Vector2 size) {
-		super(state, startPos ,size);
+		super(state, startPos, size);
+		setSyncDefault(false);
+		setSyncInstant(true);
 	}
 	
 	@Override
@@ -79,7 +81,6 @@ public class SeeSawPlatform extends Event {
 			this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(i, 0), new Vector2(sectionWidth, size.y + sectionPadding), true, 0, 0, 0, 0,
 					Constants.BIT_WALL, Constants.BIT_PROJECTILE, (short) 0)).setUserData(tempData);
 		}
-		
 	}
 	
 	@Override
@@ -87,5 +88,6 @@ public class SeeSawPlatform extends Event {
 		setEventSprite(Sprite.UI_MAIN_HEALTHBAR);
 		setScaleAlign("ROTATE");
 		setSyncType(eventSyncTypes.ALL);
+		setSynced(true);
 	}
 }
