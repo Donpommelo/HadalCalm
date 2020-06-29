@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objecttypes>
- <objecttype name="SeeSaw" color="#a0a0a4"/>
  <objecttype name="Alttrigger" color="#a0a0a4">
   <property name="message" type="string"/>
   <property name="triggeredId" type="string"/>
@@ -261,6 +260,12 @@
  <objecttype name="PrefabPVPSettingSetter" color="#a0a0a4">
   <property name="prefabId" type="string" default="PVPSettingSetter"/>
  </objecttype>
+ <objecttype name="PrefabScrapCache" color="#a0a0a4">
+  <property name="amount" type="int" default="0"/>
+  <property name="cacheId" type="string"/>
+  <property name="triggeredId" type="string"/>
+  <property name="triggeringId" type="string"/>
+ </objecttype>
  <objecttype name="PrefabSpawner" color="#a0a0a4">
   <property name="interval" type="float" default="1"/>
   <property name="power" type="float" default="0"/>
@@ -340,6 +345,7 @@
   <property name="triggeredId" type="string"/>
   <property name="triggeringId" type="string"/>
  </objecttype>
+ <objecttype name="SeeSaw" color="#a0a0a4"/>
  <objecttype name="Sensor" color="#aa55ff">
   <property name="collision" type="bool" default="false"/>
   <property name="enemy" type="bool" default="false"/>

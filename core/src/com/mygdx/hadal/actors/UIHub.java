@@ -46,6 +46,7 @@ public class UIHub {
 	public static final int optionsPadding = 10;
 	
 	public static final float optionsScale = 0.40f;
+	public static final float optionsScaleSmall = 0.25f;
 	
 	private hubTypes type = hubTypes.NONE;
 	

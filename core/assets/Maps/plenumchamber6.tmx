@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="20">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="25">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
@@ -105,5 +105,42 @@
    </properties>
   </object>
   <object id="19" name="Dropthrough" type="Dropthrough" x="3840" y="1432" width="160" height="8"/>
+  <object id="20" name="QuestCheck" type="QuestCheck" x="224" y="416" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="1"/>
+    <property name="quest" value="PLENUM0SC"/>
+    <property name="triggeredId" value="sccheck1"/>
+    <property name="triggeringId" value="door1"/>
+   </properties>
+  </object>
+  <object id="21" name="Prefab" type="PrefabDoor" x="3840" y="1152" width="160" height="96">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="speed" type="float" value="3"/>
+    <property name="triggeredId" value="door1"/>
+    <property name="xDisplace" type="int" value="7"/>
+    <property name="yDisplace" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="22" name="Prefab" type="PrefabLeverActivateOnce" x="3872" y="1568" width="96" height="96">
+   <properties>
+    <property name="prefabId" value="LeverActivateOnce"/>
+    <property name="triggeringId" value="sc1"/>
+   </properties>
+  </object>
+  <object id="23" name="Multitrigger" type="Multitrigger" x="3872" y="2240" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="sc1"/>
+    <property name="triggeringId" value="door1,scset1"/>
+   </properties>
+  </object>
+  <object id="24" name="QuestChange" type="QuestChange" x="3872" y="2304" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="quest" value="PLENUM0SC"/>
+    <property name="triggeredId" value="scset1"/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

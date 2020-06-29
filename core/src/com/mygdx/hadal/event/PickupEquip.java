@@ -64,7 +64,7 @@ public class PickupEquip extends Event {
 					
 					//alt messages can be used to reroll weapon or set it to a specific weapon
 					if (activator.getEvent() instanceof TriggerAlt) {
-						String msg = ((TriggerAlt)activator.getEvent()).getMessage();
+						String msg = ((TriggerAlt) activator.getEvent()).getMessage();
 						if (msg.equals("roll")) {
 							rollWeapon();
 							standardParticle.turnOn();

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.states.SettingState;
 
 /**
  * This enum maps to each possible action the player can perform to an input.
@@ -48,6 +49,8 @@ public enum PlayerAction {
 	public int getKey() { return key; }
 	
 	public void setKey(int key) { this.key = key; }
+	
+	public String getKeyText() { return SettingState.getKey(key); }
 	
 	public boolean isToggleable() { return toggleable; }
 	

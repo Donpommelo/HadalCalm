@@ -1,6 +1,7 @@
 package com.mygdx.hadal.event.hub;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
@@ -42,6 +43,8 @@ public class Quartermaster extends HubEvent {
 				Text itemChoose = new Text(info.getName() + ": Cost: " + shopInfo.getPrices().get(item), 0, 0, true);
 				
 				itemChoose.addListener(new ClickListener() {
+					
+					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 			        	if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
 				        	state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
@@ -51,8 +54,14 @@ public class Quartermaster extends HubEvent {
 				        	state.getUiExtra().syncData();
 			        	}
 			        }
+					
+					@Override
+					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
+						super.enter(event, x, y, pointer, fromActor);
+						hub.setInfo(info.getName() +  "\n" + info.getDescription() + " \n \n" + info.getDescriptionLong());
+					}
 			    });
-				itemChoose.setScale(UIHub.optionsScale);
+				itemChoose.setScale(UIHub.optionsScaleSmall);
 				hub.getTableOptions().add(itemChoose).pad(UIHub.optionsPadding, 0, UIHub.optionsPadding, 0).row();
 			}
 		}

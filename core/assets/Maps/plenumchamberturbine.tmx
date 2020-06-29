@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="87">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="93">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="200" height="100">
   <data encoding="base64" compression="zlib">
-   eAHtXNmO3EYMXCfOZed4SP7/WyMmW0CjQbbIFvuaqQUGrdFQZLFYJY20a3988IcMkAEyQAbIABkgA2SADJABMkAGyAAZIANkgAyQATJABsgAGSADZIAMkAEyQAbIABkgA2SADJABMkAGyAAZIANkgAyQATJABsgAGSADZIAMkAEyQAbIABl4Rwa+Xk3/db1+czbviUeM5OXrfA4sbZw6Z6fU/wtDjxYHdS5PPGLojfO90Tp3njrnWtOt9+iR/ngNLY84J1nagHZG1ByZs+WH+jP0aHHQE4+cI3tk7nl+trRx6pxrTbfeo0eLg/pYTzxiqOF5Gh7JtaWNU+dca7r1Hj1aHNTHeuIRM3JmzD3ee39cw//xev1ai+Dz/S+fn0vMn9frlJl8wnct0DL9cc58Z+hQvPG7S0H/B32/llM8Emjrg/6gL2q/Rb0BvZ3iEeD1rPQH/VH6o9cb0NoJHgFWz0p/0B/wx1NvQG+7ewQ4PSv9QX+IP7K8Ac3t7BFg9Kz0B/2R7Q3oblePAJ9npT/e2x+jvAHt7egRYPOs9Mf7+mO0N6C/3TwCXJ6V/nhPf8zyBjS4k0eAybPSH+/nj9negA538QjweFb6Yz9/iH7lbzayX/j9tvdvJTz6icZAb3imvGKNYAZeL2eeeMSs6P30miPP7ZiLd9YRHXljgWHlnLxYJQ54vZx54hGzkoMTa4/0Rs+sIzryxu6gDS/WHs7QX8tPiDlRo6swj/ZGz6wjOvLG7qANL9YeztAf/ZF33zLDGz2zjujIGwv9rDoPSd3ID/C29F7mQ/zf185vxuufa//K/k+qPcsbMkPMzjtrOSb7BxhWzijSE/B6OUP8iP5EK55nNiNqr8g50xuiCczOO+uIjryxwLCCb9T0YpU44PVyVv6bMU3LeIYILN41ohV5ju7Nu2tcpN/IPFux0Vm3cvV+Bgwr5xLBDrxef9zl7vkdUI9WdvGIYNfOE3f7Iv82745z7+fZs/bWLeOAQfNHL5cl157zc4nnbht4s/wh9SIe6fEGeorU0ebxdN8T7Ohh5jpi1lH8wKBxn6HBVn7UjGBGvgxsZV2PdjP05akDXnrW1jltxTWg5Di6jVnLs5WfowcnxP905Wg9u8nQIHpszTrSCvJlYKvrtrSb4Q3UkzotPno/y8QIrCtXzFr4WOGRlh4EU4YGyx6tuUdmgHwZ2LS6yF9iHaG7bI+MwKjxM3NfPYvdPJKhwbrHUnfYjnCOfBnYtLrID2wjdXd3fgKGu3UkRo2jWfvqWQgPo+aOnuQ7Vf1dzppTBhatx3rewOZZkS8Dm1YP+QXjDN1Z3NccWe9nYNR4mrGvnAX6HzV36Qf3G9p1SptTBhatR/SKNcI18mVg0+qWvy+ZdT8r3JfP/CLbszBqXI3eh1lDJ7KOmju8gVqWR8rZWP9PY4SXUm9l7nI7kg+cjeIpgmXHWJmz9Xc0Wft/MBr/klxbe3ZUz73+LmRAa+6uvdHySDPRBh/SH/YQrDlj3llrrVEgwmyy6mh56tpS84lH7jjTriPod8cVM6h52hHrTEx3c9a01rvP4h6z6c3rOa6uLTV7NezlrDf/zPmjFmZQ84TP33H1ztmjP0+MxT1m48nRG1PXRs2ohqOcSf6s76fRPBFNg4+ap0iOV4qNzrlXl+VxFveYTRnbsy3P5Mr703K7vicua0LD1v2RzB33SNq9TQ/WGcdE9Ao+wEXUi5H4J99rIz2JxjVc1pwxYzlmxZxH+8PKr3EKPZQ6bR2vxZfH7rit9W3tm9lf9JptYW7tb53/rfryPHjlHC39Zc3Gyq/xqNVsHa/Fr+TSU1vr29o3uz9Loxa+yP6WN8CbVX+lRyz9Zc3Gyq9xq9VsHa/Fg+tdV61va9+K/iyNWhg9+z3ewLys+trvdHHMyNXSX9ZspF/t+6a2T/t+aeGTuWRhHMlvndujJ8Ss6s/SKHBF1og3wJVVf4VHLP2tmg04wmrhkxntghFYPWtEWyv7szQawd/jDXBo1RePlM94tG3kyFgFh/dcnlEvmoP+WHd/amnU45En3oBGeuuvvF8B9lkr/bHOHzLjHo1meAP66qkv/n0Xj9Afa/0R9UimNzI84vk/AVDnxJX+WO8PeET7Hl7v056xZOjuyXXklT1Cf+zhjwyNP83xxCPafXy57ym2VcfTH/RHqT3xSH3Nqt/3/K3Mqfcr9Af9UfrDs/3kOuPJv1MM/UF/9OjxiUdOul+hP+iPHn/IMe/gEfqD/uj1x1OPlPfv1vbqaw39QX888Qc8Ut/D1+977unl95Ar/wZIeqM/6I+n/vAc3/tdjP7I1aecc7w/q7n36OqVYno8snpGvH7k+vOV9Dyil6hH6I9cfXqvHRK3mvsR+jshZ8Qjq2fE60euP0/Q5w4YW7orz3H0R64+S27vtldzv4NOV2GgP3J1753jnSf4eZwBL/eROPqD/ogrcc8jIrr3xtIf9Meeao+j8mo+Ekd/0B9xJe55RET33lj6g/7YU+1xVF7NR+LoD/ojrsQ9j4jo3htLf9Afe6o9jsqr+Ugc/UF/xJXII8gAGSADZIAMkAEyQAbIABkgA2SADJABMkAGyAAZIANkgAyQATJABsgAGSADZIAMkAEyQAbIABkgA2SADJABMkAGyAAZIANk4NUY+BdkUPUz
+   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
   </data>
  </layer>
  <objectgroup id="2" name="event-layer">
@@ -94,7 +94,7 @@
   <object id="18" name="Multitrigger" type="Multitrigger" x="128" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,tofloor1a,turbine0,q1check,q2check,q3check"/>
+    <property name="triggeringId" value="startTimer,tofloor1a,turbine0,q1check,q2check,q3check,e1,e2,unlock1,unlock2,unlock3"/>
    </properties>
   </object>
   <object id="19" name="Prefab" type="PrefabLeverActivate" x="672" y="1664" width="96" height="96">
@@ -162,7 +162,7 @@
    <properties>
     <property name="triggeredId" value="cameracenter"/>
     <property name="triggeringId" value="cameracenterpoint"/>
-    <property name="zoom" type="float" value="1.5"/>
+    <property name="zoom" type="float" value="1.8"/>
    </properties>
   </object>
   <object id="28" name="Dummy" type="Dummy" x="4384" y="1280" width="32" height="32">
@@ -572,13 +572,59 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
+  <object id="87" name="Dropthrough" type="Dropthrough" x="3424" y="1600" width="160" height="8"/>
+  <object id="88" name="Prefab" type="PrefabSpawnerUnlock" x="3456" y="1664" width="96" height="96">
+   <properties>
+    <property name="name" value="BRITTLING_POWDER"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="89" name="Prefab" type="PrefabSpawnerUnlock" x="4256" y="1760" width="96" height="96">
+   <properties>
+    <property name="name" value="DEPLORABLE_APPARATUS"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock2"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="90" name="Prefab" type="PrefabSpawnerUnlock" x="5760" y="1600" width="96" height="96">
+   <properties>
+    <property name="name" value="NURDLER"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock3"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="91" name="SchmuckSpawn" type="SchmuckSpawn" x="1568" y="1472" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="SWIMMER2"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="e1"/>
+   </properties>
+  </object>
+  <object id="92" name="SchmuckSpawn" type="SchmuckSpawn" x="3904" y="1568" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="CRAWLER2"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="e2"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="collision-layer">
   <object id="3" x="4704" y="576">
    <polyline points="0,0 0,192 -64,192 -384,512 -384,832 -288,928 -288,1184 -512,1184 -512,1280 -192,1280 -192,1024 -64,1152 0,1152 0,2144 192,2144 192,1152 256,1152 480,928 672,1120 1632,1120 1632,1024 1344,1024 1344,800 832,800 832,1024 704,1024 544,864 576,832 576,512 256,192 160,192 160,0 0,0"/>
   </object>
   <object id="4" x="672" y="576">
-   <polyline points="0,0 0,768 256,768 384,896 384,1024 480,1024 768,736 1056,736 1344,1024 1792,1024 1952,864 2144,864 2208,800 2624,800 2880,544 3552,544 3552,1024 2912,1024 2912,1344 2752,1344 2752,1024 1952,1024 1792,1184 1696,1184 1696,1216 1856,1376 2112,1376 2272,1536 2528,1536 2688,1696 2976,1696 2976,2144 2688,2144 2688,1856 2528,1696 2272,1696 2112,1536 1856,1536 1536,1216 1536,1184 1344,1184 1056,1472 768,1472 480,1184 -288,1184 -288,0 0,0"/>
+   <polyline points="0,0 0,768 256,768 384,896 384,1024 480,1024 768,736 1056,736 1344,1024 1792,1024 1952,864 2144,864 2208,800 2624,800 2880,544 3552,544 3552,1024 2912,1024 2912,1184 2752,1184 2752,1024 1952,1024 1792,1184 1696,1184 1696,1216 1856,1376 2112,1376 2272,1536 2528,1536 2688,1696 2976,1696 2976,2144 2688,2144 2688,1856 2528,1696 2272,1696 2112,1536 1856,1536 1536,1216 1536,1184 1344,1184 1056,1472 768,1472 480,1184 -288,1184 -288,0 0,0"/>
   </object>
  </objectgroup>
 </map>

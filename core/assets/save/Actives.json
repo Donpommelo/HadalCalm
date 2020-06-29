@@ -35,100 +35,10 @@ DODGE_ROLL: {
 		RANDOM_POOL,
 	]
 }
-METEOR_STRIKE: {
-	name: Meteor Strike
-	description: "Summon Meteors at Mouse Location"
-    descriptionLong: ""
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-MERIDIAN_MAKER: {
-	name: Meridian Maker
-	description: "Fire a Current-Creating Projectile"
-    descriptionLong: ""
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-ORBITAL_SHIELD: {
-	name: Orbital Shield
-	description: "Create several projectiles that orbit the user."
-    descriptionLong: "."
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-RADIAL_BARRAGE: {
-	name: Radial Barrage
-	description: "Fire Weapon in All Directions"
-    descriptionLong: ""
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-RING_OF_GYGES: {
-	name: Ring of Gyges
-	description: "Become Invisible."
-    descriptionLong: ""
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-SPIRIT_RELEASE: {
-	name: Spirit Release
-	description: "Release several Vengeful Spirits."
-    descriptionLong: ""
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-STORM_CLOUD: {
-	name: Storm Cloud
-	description: "Create a Storm Cloud"
-    descriptionLong: ""
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-TAINTED_WATER: {
-	name: Tainted Water
-	description: "Release a poisonous cloud."
-    descriptionLong: "Attack nearby enemies with a cloud of water pollution."
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-TRACTOR_BEAM: {
-	name: Tractor Beam
-	description: "Grab an enemy and swing them around."
-    descriptionLong: "Use to fire a projectile that captures an enemy on contact. Then, use the mouse to throw the victim at walls or other enemies."
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-SPRING_LOADER: {
-	name: Spring Loader
-	description: "Create a temporary spring at mouse location."
-    descriptionLong: "Drop a spring at the mouse location that propels objects upwards."
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-NAUTICAL_MINE: {
-	name: Nautical Mine
-	description: "Throws an large explosive."
-    descriptionLong: "TEST"
+FISH_GANG: {
+	name: Fish Gang
+	description: "Summon a Fish Gang."
+    descriptionLong: "TEMP."
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -170,9 +80,37 @@ MELON: {
 		RANDOM_POOL,
 	]
 }
+
+METEOR_STRIKE: {
+	name: Meteor Strike
+	description: "Summon Meteors at Mouse Location"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+MERIDIAN_MAKER: {
+	name: Meridian Maker
+	description: "Fire a Current-Creating Projectile"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 MISSILE_POD: {
 	name: Missile Pod
 	description: "Fire a barrage of homing missiles!"
+    descriptionLong: "TEST"
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+NAUTICAL_MINE: {
+	name: Nautical Mine
+	description: "Throws an large explosive."
     descriptionLong: "TEST"
 	tags: [
 		DISPENSARY,
@@ -185,19 +123,10 @@ NOTHING: {
     descriptionLong: "TEST"
 	tags: []
 }
-RELOADER: {
-	name: Auroreloader
-	description: "Reloads all of your weapons."
-    descriptionLong: "TEST"
-	tags: [
-		DISPENSARY,
-		RANDOM_POOL,
-	]
-}
-RESERVED_FUEL: {
-	name: Reserved Fuel
-	description: "Restores Fuel."
-    descriptionLong: "TEST"
+ORBITAL_SHIELD: {
+	name: Orbital Shield
+	description: "Create several projectiles that orbit the user."
+    descriptionLong: "."
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -212,10 +141,84 @@ PORTABLE_TURRET: {
 		RANDOM_POOL,
 	]
 }
-FISH_GANG: {
-	name: Fish Gang
-	description: "Summon a Fish Gang."
-    descriptionLong: "TEMP."
+RADIAL_BARRAGE: {
+	name: Radial Barrage
+	description: "Fire Weapon in All Directions"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+RING_OF_GYGES: {
+	name: Ring of Gyges
+	description: "Become Invisible."
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+SPIRIT_RELEASE: {
+	name: Spirit Release
+	description: "Release several Vengeful Spirits."
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+SPRING_LOADER: {
+	name: Spring Loader
+	description: "Create a temporary spring at mouse location."
+    descriptionLong: "Drop a spring at the mouse location that propels objects upwards."
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+STORM_CLOUD: {
+	name: Storm Cloud
+	description: "Create a Storm Cloud"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+TAINTED_WATER: {
+	name: Tainted Water
+	description: "Release a poisonous cloud."
+    descriptionLong: "Attack nearby enemies with a cloud of water pollution."
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+TRACTOR_BEAM: {
+	name: Tractor Beam
+	description: "Grab an enemy and swing them around."
+    descriptionLong: "Use to fire a projectile that captures an enemy on contact. Then, use the mouse to throw the victim at walls or other enemies."
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+
+
+RELOADER: {
+	name: Auroreloader
+	description: "Reloads all of your weapons."
+    descriptionLong: "TEST"
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+RESERVED_FUEL: {
+	name: Reserved Fuel
+	description: "Restores Fuel."
+    descriptionLong: "TEST"
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

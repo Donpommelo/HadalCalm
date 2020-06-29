@@ -1,14 +1,4 @@
 {
-IRON_BALL_LAUNCHER: {
-	name: Iron Ball Launcher
-	description: "Fires a singular, heavy projectile." 
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
 AMITA_CANNON: {
 	name: Amita Cannon
 	description: "Fires a spinning ring of projectiles."
@@ -19,19 +9,9 @@ AMITA_CANNON: {
 		RANGED,
 	]
 }
-BOUNCING_BLADE: {
-	name: Bouncing Blades
-	description: "Fires a projectile in a straight line that bounces off surfaces."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-ICEBERG: {
-	name: Iceberg
-	description: "Fires a projectile that slides across flat surfaces."
+BEEGUN: {
+	name: Beehive
+	description: "Release a swarm of bees that home in and damage enemies."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -52,6 +32,26 @@ BOILER: {
 BOOMERANG: {
 	name: Boomerang
 	description: "Fires a projectile that slowly returns to player"
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+BOUNCING_BLADE: {
+	name: Bouncing Blades
+	description: "Fires a projectile in a straight line that bounces off surfaces."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+CHARGE_BEAM: {
+	name: Charge Beam
+	description: "Hold the fire button to charge a faster, more powerful projectile and release to fire."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -105,49 +105,9 @@ FISTICUFFS: {
 		ARMORY,
 	]
 }
-LASER_GUIDED_ROCKET: {
-	name: Laser-Guided Rocket
-	description: "Fires a missile that will home in towards your mouse."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-SCREECHER: {
-	name: Screecher
-	description: "Fires invisible, instantaneous sonic waves."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-SPEARGUN: {
-	name: Speargun
-	description: "A simple weapon that fires arcing projectiles."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-TORPEDO_LAUNCHER: {
-	name: Torpedo Launcher
-	description: "Fires projectiles in a straight line that explode upon contact with an enemy or wall."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-CHARGE_BEAM: {
-	name: Charge Beam
-	description: "Hold the fire button to charge a faster, more powerful projectile and release to fire."
+FLOUNDERBUSS: {
+	name: Flounderbuss
+	description: "Charge and release to fire a spray of projectiles."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -185,9 +145,9 @@ HEXENHOWITZER: {
 		RANGED,
 	]
 }
-BEEGUN: {
-	name: Beehive
-	description: "Release a swarm of bees that home in and damage enemies."
+ICEBERG: {
+	name: Iceberg
+	description: "Fires a projectile that slides across flat surfaces."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -195,9 +155,9 @@ BEEGUN: {
 		RANGED,
 	]
 }
-FLOUNDERBUSS: {
-	name: Flounderbuss
-	description: "Charge and release to fire a spray of projectiles."
+IRON_BALL_LAUNCHER: {
+	name: Iron Ball Launcher
+	description: "Fires a singular, heavy projectile." 
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -208,6 +168,66 @@ FLOUNDERBUSS: {
 KAMABOKANNON: {
 	name: Kamabokannon
 	description: "Charge and fire a powerful but difficult to control spray."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+LASER_GUIDED_ROCKET: {
+	name: Laser-Guided Rocket
+	description: "Fires a missile that will home in towards your mouse."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+LASER_RIFLE: {
+	name: Laser Rifle
+	description: "Fires a straight, piercing beam through enemies."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+MACHINEGUN: {
+	name: Machinegun
+	description: "Standard weapon with a high rate of fire."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+MAELSTROM: {
+	name: Maelstrom
+	description: "Fire a projectile that expands as it travels."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+MINIGUN: {
+	name: Minigun
+	description: "Heavy firepower but requires charging."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+MORAYGUN: {
+	name: Moraygun
+	description: "Shoots Moraybeams of concentrated light."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -233,6 +253,14 @@ NEMATOCYDEARM: {
 		ARMORY,
 		RANDOM_POOL,
 		RANGED,
+	]
+}
+NOTHING: {
+	name: Nothing
+	description: "Your bare hands."
+    descriptionLong: "TEST"
+	tags: [
+		MISC,
 	]
 }
 PEARL_REVOLVER: {
@@ -265,9 +293,9 @@ SCRAPRIPPER: {
 		MELEE,
 	]
 }
-VAJRA: {
-	name: Vajra
-	description: "Fire a projectile that releases chain lightning upon contact."
+SCREECHER: {
+	name: Screecher
+	description: "Fires invisible, instantaneous sonic waves."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -275,39 +303,9 @@ VAJRA: {
 		RANGED,
 	]
 }
-LASER_RIFLE: {
-	name: Laser Rifle
-	description: "Fires a straight, piercing beam through enemies."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-MACHINEGUN: {
-	name: Machinegun
-	description: "Standard weapon with a high rate of fire."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-MINIGUN: {
-	name: Minigun
-	description: "Heavy firepower but requires charging."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-MORAYGUN: {
-	name: Moraygun
-	description: "Shoots Moraybeams of concentrated light."
+SLODGEGUN: {
+	name: Slodgegun
+	description: "Fire a spray of projectiles that slow targets."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -325,37 +323,19 @@ SNIPER_RIFLE: {
 		RANGED,
 	]
 }
+SPEARGUN: {
+	name: Speargun
+	description: "A simple weapon that fires arcing projectiles."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 STICKY_BOMB_LAUNCHER: {
 	name: "Stickybomb-Launcher"
 	description: "Fires projectiles that stick to enemies and walls. Press the Reload button to detonate all active bombs."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-NOTHING: {
-	name: Nothing
-	description: "Your bare hands."
-    descriptionLong: "TEST"
-	tags: [
-		MISC,
-	]
-}
-SLODGEGUN: {
-	name: Slodgegun
-	description: "Fire a spray of projectiles that slow targets."
-    descriptionLong: "TEST"
-	tags: [
-		ARMORY,
-		RANDOM_POOL,
-		RANGED,
-	]
-}
-MAELSTROM: {
-	name: Maelstrom
-	description: "Fire a projectile that expands as it travels."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -376,6 +356,16 @@ STUTTERGUN: {
 TESLA_COIL: {
 	name: Tesla Coil
 	description: "Fire Pylons that connect to neighbors, forming an electrifying wall."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+TORPEDO_LAUNCHER: {
+	name: Torpedo Launcher
+	description: "Fires projectiles in a straight line that explode upon contact with an enemy or wall."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -406,6 +396,17 @@ UNDERMINER: {
 WAVE_BEAM: {
 	name: Wave Beam
 	description: "Fires a burst of wavy projectiles."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+
+VAJRA: {
+	name: Vajra
+	description: "Fire a projectile that releases chain lightning upon contact."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,

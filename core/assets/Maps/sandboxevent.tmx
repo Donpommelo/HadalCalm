@@ -366,13 +366,13 @@
     <property name="speed" type="float" value="2"/>
    </properties>
   </object>
-  <object id="122" name="Prefab" type="PrefabLeverActivate" x="1856" y="768" width="96" height="96">
+  <object id="122" name="Prefab" type="PrefabLeverActivate" x="2016" y="768" width="96" height="96">
    <properties>
     <property name="prefabId" value="LeverActivate"/>
     <property name="triggeringId" value="scrapSpawn"/>
    </properties>
   </object>
-  <object id="123" name="ScrapSpawn" type="ScrapSpawn" x="2048" y="832" width="32" height="32">
+  <object id="123" name="ScrapSpawn" type="ScrapSpawn" x="2048" y="736" width="32" height="32">
    <properties>
     <property name="scrap" type="int" value="10"/>
     <property name="triggeredId" value="scrapSpawn"/>

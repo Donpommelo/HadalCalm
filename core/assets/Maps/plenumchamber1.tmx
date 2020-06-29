@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="23">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="24">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
@@ -111,5 +111,14 @@
    </properties>
   </object>
   <object id="21" name="Dropthrough" type="Dropthrough" x="1056" y="1344" width="224" height="8"/>
+  <object id="23" name="Prefab" type="PrefabSpawnerUnlock" x="1120" y="736" width="96" height="96">
+   <properties>
+    <property name="name" value="NICE_SHOES"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -85,7 +85,7 @@ public class DialogBox extends AHadalActor {
 			if (durationCount > 0) {
 				durationCount -= syncTime;
 				
-				if(durationCount <= 0) {
+				if (durationCount <= 0) {
 					nextDialogue();
 				}
 			}

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="49">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="59">
+ <properties>
+  <property name="startUI" value="SCRAP"/>
+ </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <tileset firstgid="25" source="main.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="60">
@@ -43,7 +46,7 @@
   <object id="6" name="Multitrigger" type="Multitrigger" x="224" y="128" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,hp1,w1"/>
+    <property name="triggeringId" value="startTimer,hp1,w1,w2,unlock1"/>
    </properties>
   </object>
   <object id="7" name="Dropthrough" type="Dropthrough" x="1376" y="1024" width="256" height="8"/>
@@ -85,29 +88,28 @@
     <property name="triggeringId" value="triggerSpawn"/>
    </properties>
   </object>
-  <object id="14" name="Prefab" type="PrefabLimit" x="1920" y="1760" width="32" height="32">
+  <object id="14" name="Prefab" type="PrefabLimit" x="1536" y="1760" width="32" height="32">
    <properties>
     <property name="limit" type="int" value="1"/>
     <property name="prefabId" value="Limit"/>
     <property name="triggeredId" value="triggerSpawn"/>
-    <property name="triggeringId" value="boss"/>
+    <property name="triggeringId" value="wave1"/>
    </properties>
   </object>
-  <object id="15" name="Multitrigger" type="Multitrigger" x="2048" y="1760" width="32" height="32">
+  <object id="15" name="Multitrigger" type="Multitrigger" x="1600" y="1760" width="32" height="32">
    <properties>
-    <property name="triggeredId" value="startFite"/>
-    <property name="triggeringId" value="lockLeft,lockRight,spawn0,bounds3,bounds4,particle1,camera1,arenalock"/>
+    <property name="triggeredId" value="wave1"/>
+    <property name="triggeringId" value="lockLeft,lockRight,bounds3,bounds4,camera1,arenalock,e1,e2,e3,e4,e5"/>
    </properties>
   </object>
-  <object id="16" name="SchmuckSpawn" type="SchmuckSpawn" x="1536" y="1184" width="32" height="32">
+  <object id="16" name="SchmuckSpawn" type="SchmuckSpawn" x="1376" y="736" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
-    <property name="boss" type="bool" value="true"/>
-    <property name="bossname" value="slightly larger fish"/>
-    <property name="enemyId" value="BOSS1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="SCISSORFISH"/>
     <property name="spread" type="bool" value="false"/>
-    <property name="triggeredId" value="spawn0"/>
-    <property name="triggeringId" value="bosswin"/>
+    <property name="triggeredId" value="e1"/>
+    <property name="triggeringId" value="w1count"/>
    </properties>
   </object>
   <object id="17" name="Bounds" type="Bounds" x="1504" y="896" width="32" height="32">
@@ -164,82 +166,19 @@
     <property name="triggeringId" value="door1"/>
    </properties>
   </object>
-  <object id="25" name="Multitrigger" type="Multitrigger" x="2048" y="1824" width="32" height="32">
+  <object id="25" name="Multitrigger" type="Multitrigger" x="1984" y="1824" width="32" height="32">
    <properties>
-    <property name="triggeredId" value="bosswin"/>
-    <property name="triggeringId" value="unlockLeft,unlockRight,bounds1,bounds2,camera2,bossset1"/>
+    <property name="triggeredId" value="fitewin"/>
+    <property name="triggeringId" value="unlockLeft,unlockRight,bounds1,bounds2,camera2"/>
    </properties>
   </object>
-  <object id="26" name="Particle" type="Particle" x="1536" y="1184" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="2"/>
-    <property name="particle" value="RING"/>
-    <property name="triggeredId" value="particle1"/>
-    <property name="triggeringId" value="spawn0"/>
-   </properties>
-  </object>
-  <object id="28" name="Dummy" type="Dummy" x="1344" y="768" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="0"/>
-   </properties>
-  </object>
-  <object id="29" name="Dummy" type="Dummy" x="1728" y="768" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="1"/>
-   </properties>
-  </object>
-  <object id="30" name="Dummy" type="Dummy" x="2112" y="768" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="2"/>
-   </properties>
-  </object>
-  <object id="31" name="Dummy" type="Dummy" x="1344" y="960" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="3"/>
-   </properties>
-  </object>
-  <object id="32" name="Dummy" type="Dummy" x="1728" y="960" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="4"/>
-   </properties>
-  </object>
-  <object id="33" name="Dummy" type="Dummy" x="2112" y="960" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="5"/>
-   </properties>
-  </object>
-  <object id="34" name="Dummy" type="Dummy" x="1344" y="1184" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="6"/>
-   </properties>
-  </object>
-  <object id="35" name="Dummy" type="Dummy" x="1728" y="1184" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="7"/>
-   </properties>
-  </object>
-  <object id="36" name="Dummy" type="Dummy" x="2112" y="1184" width="32" height="32">
-   <properties>
-    <property name="dummyId" value="8"/>
-   </properties>
-  </object>
-  <object id="37" name="Dummy" type="Dummy" x="1248" y="640" width="992" height="32">
-   <properties>
-    <property name="dummyId" value="ceiling"/>
-   </properties>
-  </object>
-  <object id="38" name="Dummy" type="Dummy" x="1248" y="1312" width="992" height="32">
-   <properties>
-    <property name="dummyId" value="floor"/>
-   </properties>
-  </object>
-  <object id="39" name="Camera" type="Camera" x="2112" y="1760" width="32" height="32">
+  <object id="39" name="Camera" type="Camera" x="2048" y="1760" width="32" height="32">
    <properties>
     <property name="triggeredId" value="camera1"/>
     <property name="zoom" type="float" value="1.2"/>
    </properties>
   </object>
-  <object id="40" name="Camera" type="Camera" x="2112" y="1824" width="32" height="32">
+  <object id="40" name="Camera" type="Camera" x="2048" y="1824" width="32" height="32">
    <properties>
     <property name="triggeredId" value="camera2"/>
     <property name="zoom" type="float" value="1"/>
@@ -265,29 +204,13 @@
     <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
-  <object id="44" name="QuestCheck" type="QuestCheck" x="1984" y="1760" width="32" height="32">
-   <properties>
-    <property name="check" type="int" value="0"/>
-    <property name="quest" value="BOSS1"/>
-    <property name="triggeredId" value="boss"/>
-    <property name="triggeringId" value="startFite"/>
-   </properties>
-  </object>
-  <object id="45" name="QuestChange" type="QuestChange" x="2176" y="1824" width="32" height="32">
-   <properties>
-    <property name="change" type="int" value="1"/>
-    <property name="quest" value="BOSS1"/>
-    <property name="triggeredId" value="bossset1"/>
-    <property name="triggeringId" value=""/>
-   </properties>
-  </object>
   <object id="46" name="Multitrigger" type="Multitrigger" x="224" y="192" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerstart"/>
     <property name="triggeringId" value="bounds1,bounds2"/>
    </properties>
   </object>
-  <object id="47" name="PlayerMove" type="PlayerMove" x="2176" y="1760" width="32" height="32">
+  <object id="47" name="PlayerMove" type="PlayerMove" x="2112" y="1760" width="32" height="32">
    <properties>
     <property name="all" type="bool" value="true"/>
     <property name="exclude" type="bool" value="true"/>
@@ -298,6 +221,86 @@
   <object id="48" name="Dummy" type="Dummy" x="1792" y="1184" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerlock"/>
+   </properties>
+  </object>
+  <object id="49" name="Dropthrough" type="Dropthrough" x="2624" y="1144" width="96" height="8"/>
+  <object id="50" name="Prefab" type="PrefabSpawnerUnlock" x="2624" y="1048" width="96" height="96">
+   <properties>
+    <property name="name" value="TRIGGERFISH_FINGER"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="51" name="SchmuckSpawn" type="SchmuckSpawn" x="1312" y="1056" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="SPITTLEFISH"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="e2"/>
+    <property name="triggeringId" value="w1count"/>
+   </properties>
+  </object>
+  <object id="52" name="SchmuckSpawn" type="SchmuckSpawn" x="1280" y="1312" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="e3"/>
+    <property name="triggeringId" value="w1count"/>
+   </properties>
+  </object>
+  <object id="53" name="SchmuckSpawn" type="SchmuckSpawn" x="1568" y="992" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="e4"/>
+    <property name="triggeringId" value="w1count"/>
+   </properties>
+  </object>
+  <object id="54" name="SchmuckSpawn" type="SchmuckSpawn" x="1888" y="992" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="e5"/>
+    <property name="triggeringId" value="w1count"/>
+   </properties>
+  </object>
+  <object id="55" name="Counter" type="Counter" x="1664" y="1760" width="32" height="32">
+   <properties>
+    <property name="count" type="int" value="5"/>
+    <property name="triggeredId" value="w1count"/>
+    <property name="triggeringId" value="wave2"/>
+   </properties>
+  </object>
+  <object id="56" name="Multitrigger" type="Multitrigger" x="1728" y="1760" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="wave2"/>
+    <property name="triggeringId" value="e6"/>
+   </properties>
+  </object>
+  <object id="57" name="SchmuckSpawn" type="SchmuckSpawn" x="1280" y="864" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="boss" type="bool" value="false"/>
+    <property name="enemyId" value="SPAWNER"/>
+    <property name="spread" type="bool" value="false"/>
+    <property name="triggeredId" value="e6"/>
+    <property name="triggeringId" value="fitewin"/>
+   </properties>
+  </object>
+  <object id="58" name="Prefab" type="PrefabWeapon" x="2624" y="1248" width="96" height="96">
+   <properties>
+    <property name="pool" value="TORPEDO_LAUNCHER"/>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w2"/>
    </properties>
   </object>
  </objectgroup>

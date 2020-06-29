@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="90">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="94">
  <properties>
   <property name="startUI" value="PLENUM CHAMBER,EMPTY,SCRAP"/>
  </properties>
@@ -105,7 +105,7 @@
   <object id="17" name="Multitrigger" type="Multitrigger" x="480" y="96" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,tofloor2a,tofloor2e"/>
+    <property name="triggeringId" value="startTimer,tofloor2a,tofloor2e,unlock1,unlock2,unlock3,cache4"/>
    </properties>
   </object>
   <object id="18" name="Dummy" type="Dummy" x="1536" y="896" width="32" height="32">
@@ -521,6 +521,41 @@
    <properties>
     <property name="triggeredId" value="playerstart"/>
     <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="90" name="Prefab" type="PrefabSpawnerUnlock" x="2944" y="800" width="96" height="96">
+   <properties>
+    <property name="name" value="MACHINE_GHOST"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="91" name="Prefab" type="PrefabSpawnerUnlock" x="2208" y="2112" width="96" height="96">
+   <properties>
+    <property name="name" value="FARADAYS_CAGE"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock2"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="92" name="Prefab" type="PrefabSpawnerUnlock" x="992" y="2112" width="96" height="96">
+   <properties>
+    <property name="name" value="PAIN_SCALE"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock3"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="93" name="Prefab" type="PrefabScrapCache" x="1120" y="2112" width="96" height="96">
+   <properties>
+    <property name="amount" type="int" value="15"/>
+    <property name="cacheId" value="CACHE4"/>
+    <property name="prefabId" value="ScrapCache"/>
+    <property name="triggeredId" value="cache4"/>
    </properties>
   </object>
  </objectgroup>

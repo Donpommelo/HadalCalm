@@ -81,7 +81,7 @@ public class Scrap extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, false, Constants.BIT_SENSOR, (short)Constants.BIT_PLAYER, (short) 0, true, eventData);
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true, Constants.BIT_SENSOR, (short)Constants.BIT_PLAYER, (short) 0, true, eventData);
 		body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), size, false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
 		
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));

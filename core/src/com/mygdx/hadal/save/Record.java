@@ -83,19 +83,24 @@ public class Record {
 		newRecord.flags.put("ARTIFACTSLOT3", 1);
 		newRecord.flags.put("ARTIFACTSLOT4", 1);
 		newRecord.flags.put("ARTIFACTSLOT5", 0);
-		newRecord.flags.put("HUB_REACHED", 1);
-		newRecord.flags.put("BOSS1", 1);
-		newRecord.flags.put("WRECK0SC", 1);
-		newRecord.flags.put("WRECK1SC", 1);
-		newRecord.flags.put("DERELICTTA1", 1);
-		newRecord.flags.put("DERELICTTA2", 1);
-		newRecord.flags.put("DERELICTTB1", 1);
-		newRecord.flags.put("DERELICTTB2", 1);
-		newRecord.flags.put("DERELICTTB3", 1);
-		newRecord.flags.put("DERELICTTB4", 1);
-		newRecord.flags.put("DERELICTTB5", 1);
-		newRecord.flags.put("DERELICTTB6", 1);
+		newRecord.flags.put("HUB_REACHED", 0);
+		newRecord.flags.put("BOSS1", 0);
+		newRecord.flags.put("WRECK0SC", 0);
+		newRecord.flags.put("WRECK1SC", 0);
+		newRecord.flags.put("DERELICTTA1", 0);
+		newRecord.flags.put("DERELICTTA2", 0);
+		newRecord.flags.put("DERELICTTB1", 0);
+		newRecord.flags.put("DERELICTTB2", 0);
+		newRecord.flags.put("DERELICTTB3", 0);
+		newRecord.flags.put("DERELICTTB4", 0);
+		newRecord.flags.put("DERELICTTB5", 0);
+		newRecord.flags.put("DERELICTTB6", 0);
+		newRecord.flags.put("CACHE1", 0);
+		newRecord.flags.put("CACHE2", 0);
+		newRecord.flags.put("CACHE3", 0);
+		newRecord.flags.put("CACHE4", 0);
 		newRecord.flags.put("PLENUMTURBINE", 0);
+		newRecord.flags.put("PLENUM0SC", 0);
 		
 		newRecord.hiScores = new HashMap<String, Integer>();
 		newRecord.unlockEquip = new HashMap<String, Boolean>();
@@ -105,15 +110,15 @@ public class Record {
 		newRecord.unlockLevel = new HashMap<String, Boolean>();
 		
 		for (UnlockEquip equip: UnlockEquip.values()) {
-			newRecord.unlockEquip.put(equip.toString(), true);
+			newRecord.unlockEquip.put(equip.toString(), false);
 		}
 		
 		for (UnlockArtifact artifact: UnlockArtifact.values()) {
-			newRecord.unlockArtifact.put(artifact.toString(), true);
+			newRecord.unlockArtifact.put(artifact.toString(), false);
 		}
 		
 		for (UnlockActives active: UnlockActives.values()) {
-			newRecord.unlockActive.put(active.toString(), true);
+			newRecord.unlockActive.put(active.toString(), false);
 		}
 		
 		for (UnlockCharacter character: UnlockCharacter.values()) {
@@ -121,7 +126,7 @@ public class Record {
 		}
 		
 		for (UnlockLevel level: UnlockLevel.values()) {
-			newRecord.unlockLevel.put(level.toString(), true);
+			newRecord.unlockLevel.put(level.toString(), false);
 		}
 		
 		newRecord.hiScores.put("ARENA_HORIZON", 0);

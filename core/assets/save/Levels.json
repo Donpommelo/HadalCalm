@@ -10,7 +10,6 @@ BOSS1: {
 	name: BOSS1
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         MULTIPLAYER,
         SPECIAL
 	]
@@ -18,22 +17,17 @@ BOSS1: {
 BOSS2: {
 	name: BOSS2
 	description: TEMP
-	tags: [
-		NAVIGATIONS,
-	]
+	tags: []
 }
 BOSS3: {
 	name: BOSS3
 	description: TEMP
-	tags: [
-		NAVIGATIONS,
-	]
+	tags: []
 }
 SANDBOX_HUB: {
 	name: SANDBOX_HUB
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         MULTIPLAYER,
         SPECIAL
 	]
@@ -42,7 +36,6 @@ ARENA_HORIZON: {
 	name: ARENA_HORIZON
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         ARENA,
         MULTIPLAYER
 	]
@@ -51,7 +44,6 @@ ARENA_LAGAN: {
 	name: ARENA_LAGAN
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         ARENA,
         MULTIPLAYER
 	]
@@ -60,7 +52,6 @@ RANDOM: {
 	name: RANDOM
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         MULTIPLAYER,
         PVP,
         PVP_PHOTO,
@@ -71,7 +62,6 @@ DM_FALLDOWN: {
 	name: DM_FALLDOWN
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,        
         MULTIPLAYER
 	]
@@ -80,7 +70,6 @@ DM_JUMP: {
 	name: DM_JUMP
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,        
         MULTIPLAYER
 	]
@@ -89,7 +78,6 @@ DM_ORIGINAL: {
 	name: DM_ORIGINAL
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,        
         MULTIPLAYER
 	]
@@ -98,7 +86,6 @@ DM_SEESAW: {
 	name: DM_SEESAW
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,        
         MULTIPLAYER
 	]
@@ -107,7 +94,6 @@ DM_WARP: {
 	name: DM_WARP
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,        
         MULTIPLAYER
 	]
@@ -116,7 +102,6 @@ DM_WETWORKS: {
 	name: DM_WETWORKS
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,        
         MULTIPLAYER
 	]
@@ -125,7 +110,6 @@ DM_GULLY: {
 	name: DM_GULLY
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,
         MULTIPLAYER
 	]
@@ -134,7 +118,6 @@ DM_SAWMILL: {
 	name: DM_SAWMILL
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,
         MULTIPLAYER
 	]
@@ -143,7 +126,6 @@ DM_CAROUSEL: {
 	name: DM_CAROUSEL
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,
         MULTIPLAYER
 	]
@@ -152,7 +134,6 @@ DM_PILE: {
 	name: DM_PILE
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,
         MULTIPLAYER
 	]
@@ -161,7 +142,6 @@ DM_PIVOT: {
 	name: DM_PIVOT
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,
         MULTIPLAYER
 	]
@@ -170,7 +150,6 @@ DM_FORMOSAN_BLUE_MAGPIE: {
 	name: DM_FORMOSAN_BLUE_MAGPIE
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -179,7 +158,6 @@ DM_FREE_RANGE: {
 	name: DM_FREE_RANGE
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -188,7 +166,6 @@ DM_GREY_HERON: {
 	name: DM_GREY_HERON
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -197,7 +174,6 @@ DM_HUMMINGBIRD: {
 	name: DM_HUMMINGBIRD
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -206,7 +182,6 @@ DM_JAPANESE_WHITEEYE: {
 	name: DM_JAPANESE_WHITEEYE
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -215,7 +190,6 @@ DM_LITTLE_BITTERN: {
 	name: DM_LITTLE_BITTERN
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -224,7 +198,6 @@ DM_PELICAN: {
 	name: DM_PELICAN
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -233,7 +206,6 @@ DM_SUPREME_CHAMPION: {
 	name: DM_SUPREME_CHAMPION
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -242,7 +214,6 @@ DM_FACING_CRABS: {
 	name: DM_FACING_CRABS
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -251,7 +222,6 @@ DM_GALLERY: {
 	name: DM_GALLERY
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -260,7 +230,6 @@ DM_HORIZON: {
 	name: DM_HORIZON
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -269,7 +238,6 @@ DM_REDROCK: {
 	name: DM_REDROCK
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP_PHOTO,
         MULTIPLAYER
 	]
@@ -278,7 +246,6 @@ DM_LAGAN: {
 	name: DM_LAGAN
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,
         MULTIPLAYER
 	]
@@ -287,7 +254,6 @@ DM_PINWHEEL: {
 	name: DM_PINWHEEL
 	description: TEMP
 	tags: [
-		NAVIGATIONS,
         PVP,
         MULTIPLAYER
 	]

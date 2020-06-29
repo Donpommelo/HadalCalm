@@ -393,7 +393,7 @@ public class SettingState extends GameState {
 				public void clicked(InputEvent e, float x, float y) {
 					
 					//Clicking any option will highlight it and designate it as the next to update.
-					((Text)e.getListenerActor()).setText(action.toString() + ":==   " + getKey(action.getKey()) + " <--");					
+					((Text) e.getListenerActor()).setText(action.toString() + ":==   " + getKey(action.getKey()) + " <--");					
 					currentlyEditing = action;
 				}
 			});
@@ -692,7 +692,7 @@ public class SettingState extends GameState {
 	 * @param keycode: key to read
 	 * @return: string to return 
 	 */
-	public String getKey(int keycode) {
+	public static String getKey(int keycode) {
 		
 		if (keycode == 0) {	return "MOUSE_LEFT"; }
 		

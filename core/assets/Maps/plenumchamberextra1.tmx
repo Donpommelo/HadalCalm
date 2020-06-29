@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="8">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="11">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztmMEKwkAMBVcrFQu1h/7/v3YvHgRXG5uXLHQG3jWPoQshLQUAAAAA4FxcaiZRroEet5pFlEeCx1wzOOWZ6OHZqZiZ0YlHX5149NX5mrmWuF2j9IjcNQqPe4nfNRlvWdGPhw94aOZk9/fi0do11jnZHq1Y51h276eMf3r82jVWj6NZD7h44HnXZrp43+et96n2U/5niPxWUR5ql0iPb++ulV49rNmL5VbICAAAALyzAcrwFHc=
+   eAHtV10LgzAMdB9sbLDtYf//v66CgSJeE+elPniDgiZ6l7vUhg2DfnJADsgBOSAH5IAckANy4FgOnIrcZ9I6d7TyWrg+Seuxg45X4byQ1nvyZQ8dTE7rMRPTa20GZwamdHgO4Lz6gb3xMhneGea3kEdn09ZZY5zMs8Uw18ylrfzGuRWn7vu93ERnEWvWZOioNXnXLH4WjlcvyrP4WTioTi/O4mfhePWiPIufhYPq9OIsfhaOVy/KGz+aNei9edxwmOfunKN1b/xo1rTerXOGg/yIzuNbDbri2ps1USjTgfyIxkcf/tUSrbX1HEvHqHdPLUwdpmVpL2b3iq0D7cPsXvXSYb3K6ktPHaZlad+hWOvbrnO9daB9h+J1ra1r7/yO/o/Ieq5Vu3JyQA7IATkgB47owA/K8BR3
   </data>
  </layer>
  <objectgroup id="2" name="event-layer">
@@ -47,6 +47,28 @@
     <property name="right" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>
     <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="8" name="Prefab" type="PrefabSpawnerUnlock" x="352" y="928" width="96" height="96">
+   <properties>
+    <property name="name" value="BLOODWOODS_GLOVE"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="9" name="Timer" type="Timer" x="192" y="128" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="10" name="Multitrigger" type="Multitrigger" x="256" y="128" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,unlock1"/>
    </properties>
   </object>
  </objectgroup>

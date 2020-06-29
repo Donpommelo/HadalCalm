@@ -528,33 +528,40 @@ public class TiledObjectUtil {
     	
     	if (object.getProperties().get("prefabId", "", String.class).equals("Door")) {
     		
-    		p = new Door(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new Door(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
 					object.getProperties().get("triggeredId", "", String.class), 
 					object.getProperties().get("speed", 1.0f, float.class),
 					object.getProperties().get("xDisplace", 0, int.class),
 					object.getProperties().get("yDisplace", 0, int.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("Spawner")) {
     		
-    		p = new SpawnerPickupTimed(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new SpawnerPickupTimed(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
 					object.getProperties().get("interval", 1.0f, float.class),
 					object.getProperties().get("type", 0, int.class),
 					object.getProperties().get("power", 0.0f, float.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("SpawnerTriggered")) {
     		
-    		p = new SpawnerPickupTriggered(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new SpawnerPickupTriggered(state, (int) rect.width, (int) rect.height, (int) rect.x , (int) rect.y, 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("type", 0, int.class),
 					object.getProperties().get("power", 0.0f, float.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("SpawnerUnlock")) {
     		
-    		p = new SpawnerUnlockable(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new SpawnerUnlockable(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
 					object.getProperties().get("triggeredId", "", String.class), 
 					object.getProperties().get("triggeringId", "", String.class), 
 					object.getProperties().get("type", "", String.class),
 					object.getProperties().get("name", "", String.class));
-    	} else if (object.getProperties().get("prefabId", "", String.class).equals("Camera")) {
+    	} else if (object.getProperties().get("prefabId", "", String.class).equals("ScrapCache")) {
     		
-    		p = new CameraPanZone(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new ScrapCache(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
+					object.getProperties().get("triggeredId", "", String.class), 
+					object.getProperties().get("triggeringId", "", String.class), 
+					object.getProperties().get("cacheId", "", String.class),
+					object.getProperties().get("amount", 0, int.class));
+    	}  else if (object.getProperties().get("prefabId", "", String.class).equals("Camera")) {
+    		
+    		p = new CameraPanZone(state, (int)rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
 					object.getProperties().get("zoom1", 1.0f, float.class),
 					object.getProperties().get("zoom2", 1.0f, float.class),
 					object.getProperties().get("align", 0, int.class),
@@ -562,7 +569,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("point2", "", String.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("Alternator")) {
     		
-    		p = new EventAlternatorZone(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new EventAlternatorZone(state, (int) rect.width, (int) rect.height, (int) rect.x , (int) rect.y, 
 					object.getProperties().get("align", 0, int.class),
 					object.getProperties().get("event1", "", String.class),
 					object.getProperties().get("event2", "", String.class));
@@ -580,17 +587,17 @@ public class TiledObjectUtil {
 					object.getProperties().get("cooldown", 0.0f, float.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("Weapon")) {
     		
-    		p = new SpawnerWeapon(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new SpawnerWeapon(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
 					object.getProperties().get("triggeredId", "", String.class),
 					object.getProperties().get("triggeringId", "", String.class),
 					object.getProperties().get("pool", "", String.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivate")) {
     		
-    		p = new LeverActivate(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new LeverActivate(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
 					object.getProperties().get("triggeringId", "", String.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("LeverActivateOnce")) {
     		
-    		p = new LeverActivateOnce(state, (int)rect.width, (int)rect.height, (int)(rect.x), (int)(rect.y), 
+    		p = new LeverActivateOnce(state, (int) rect.width, (int) rect.height, (int) rect.x, (int) rect.y, 
 					object.getProperties().get("triggeringId", "", String.class));
     	} else if (object.getProperties().get("prefabId", "", String.class).equals("PVPSettingSetter")) {
     		

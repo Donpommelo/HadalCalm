@@ -2,21 +2,168 @@
 weapons1: {
     type: EQUIP
     prices: {
-        class: java.util.HashMap
-        BOOMERANG: 10
-        COLACANNON: 15
+        class: java.util.LinkedHashMap
+        FISTICUFFS: 2
+        SCRAPRIPPER: 2
+        SPEARGUN: 2
+        BEEGUN: 3
+        BOILER: 3
+        BOOMERANG: 3
+        BOUNCING_BLADE: 3
+        CR4PCANNON: 3
+        DIAMOND_CUTTER: 3
+        GRENADE_LAUNCHER: 3
+        PEARL_REVOLVER: 3
+        MACHINEGUN: 3
+        TORPEDO_LAUNCHER: 3
+        WAVE_BEAM: 3
+        CHARGE_BEAM: 4
+        FUGUN: 4
+        IRON_BALL_LAUNCHER: 4
+        LASER_RIFLE: 4
+        NEMATOCYDEARM: 4
+        MORAYGUN: 4
+        POPPER: 4
+        SNIPER_RIFLE: 4
+        STUTTERGUN: 4
+        TRICK_GUN: 4
+        UNDERMINER: 4
+        COLACANNON: 5
+        FLOUNDERBUSS: 5
+        ICEBERG: 5
+        LASER_GUIDED_ROCKET: 5
+        MINIGUN: 5
+        MORNING_STAR: 5
+        SCREECHER: 5
+        SLODGEGUN: 5
+        STICKY_BOMB_LAUNCHER: 5
+        AMITA_CANNON: 6
+        DEEP_SEA_SMELTER: 6
+        HEXENHOWITZER: 6
+        KAMABOKANNON: 6
+        MAELSTROM: 6
+        TESLA_COIL: 6
+        VAJRA: 6
     }
 }
 artifacts1: {
     type: ARTIFACT
     prices: {
-        class: java.util.HashMap
+        class: java.util.LinkedHashMap
+        NUMBER_ONE_BOSS_MUG: 6
+        EIGHT_BALL: 4
+        ABYSSAL_INSIGNIA: 6
+        ADMINISTRATOR_CARD: 10
+        ALBATROSS_NECKLACE: 4
+        ANARCHISTS_COOKBOOK: 4
+        ANCHOR_AMULET: 6
+        ANCIENT_SYNAPSE: 6
+        AU_COURANT: 10
+        BACKPACK_BUDDY: 6
+        BLASTEMA: 6
+        BOTTOM_OF_THE_BARREL: 6
+        BRIGGLES_BLADED_BOOT: 4
+        CALL_OF_THE_VOID: 6
+        CATALOG_OF_WANT: 6
+        CELESTIAL_ANOINTMENT: 10
+        CLAWS_OF_FESTUS: 8
+        CLOCKWISE_CAGE: 8
+        COMMUTERS_PARASOL: 6
+        COMPOUND_VITREOUS: 4
+        CONFIDENCE: 4
+        CROWN_OF_THORNS: 6
+        CURIOUS_SAUCE: 6
+        CURSED_CILICE: 6
+        DAS_BOOT: 6
+        DEAD_MANS_HAND: 4
+        EELSKIN_COVER: 4
+        EMAUDELINES_PRISM: 10
+        EPHEMERA_PERPETUA: 8
+        EXTRA_ROW_OF_TEETH: 6
+        FENS_CLIPPED_WINGS: 8
+        FORAGERS_HIVE: 6
+        FRACTURE_PLATE: 8
+        GEMMULE: 5
+        GLUTTONOUS_GREY_GLOVE: 6
+        GOMEZS_AMYGDALA: 6
+        HAND_OF_GLORY: 10
+        HEART_OF_SPEROS: 10
+        HORNS_OF_AMMON: 10
+        ICE9: 8
+        INFORMANTS_TIE: 10
+        IRON_SIGHTS: 6
+        JELLOFELLOW_COSPLAY: 4
+        KERMUNGLER: 4
+        KINEATER: 8
+        KINESIS_LENS: 8
+        LAMPREY_IDOL: 6
+        LOAMSKIN_LOCKET: 4
+        LOCH_SHIELD: 4
+        LUMINOUS_ESCA: 4
+        MANGROVE_SEED: 6
+        MASK_OF_SYMPATHY: 4
+        MOUTHBREATHER_CERTIFICATE: 4
+        MUDDLING_CUP: 6
+        OL_FAITHFUL: 4
+        ORIGIN_COIL: 4
+        PEACHWOOD_SWORD: 6
+        PEER_PRESSURE: 10
+        PELICAN_PLUSH_TOY: 6
+        PEPPER: 6
+        PETRIFIED_PAYLOAD: 6
+        PIFFLER: 2
+        PLUMPOWDER: 6
+        RECYCLER_BOLUS: 8
+        RED_TIDE_TALISMAN: 6
+        ROYAL_JUJUBE_BANG: 8
+        SALIGRAM: 6
+        SAMURAI_SHARK: 6
+        SEAFOAM_PERIAPT: 4
+        SENESCENT_SHIELD: 8
+        SHILLERS_DEATHCAP: 8
+        SHIP_IN_A_BOTTLE: 4
+        SIMPLE_MIND: 2
+        SIREN_CHIME: 4
+        SKIPPERS_BOX_OF_FUN: 4
+        SWORD_OF_SYZYGY: 6
+        TEMPEST_TEAPOT: 6
+        TOME_OF_PHILOPATRY: 4
+        TUNICATE_TUNIC: 4
+        TYPHON_FANG: 8
+        UNBREATHING_MEMBRANE: 2
+        VOID_HYPONOME: 6
+        WHITE_SMOKER: 4
+        WHITE_WHALE_CHARM: 6
+        WRATH_OF_THE_FROGMAN: 8
+        YIGHT_KITE: 6
     }
 }
 actives1: {
     type: ACTIVE
     prices: {
-        class: java.util.HashMap
+        class: java.util.LinkedHashMap
+        ANCHOR_SMASH: 5
+        BENDY_BEAMS: 5
+        DEPTH_CHARGE: 5
+        DODGE_ROLL: 5
+        FISH_GANG: 7
+        HEALING_FIELD: 5
+        HYDRAULIC_UPPERCUT: 5
+        HONEYCOMB: 5
+        MELON: 6
+        METEOR_STRIKE: 7
+        MERIDIAN_MAKER: 6
+        MISSILE_POD: 6
+        NAUTICAL_MINE: 5
+        ORBITAL_SHIELD: 6
+        PORTABLE_TURRET: 6
+        RADIAL_BARRAGE: 6
+        RING_OF_GYGES: 7
+        SPIRIT_RELEASE: 6
+        SPRING_LOADER: 5
+        STORM_CLOUD: 6
+        TAINTED_WATER: 5
+        TRACTOR_BEAM: 7        
     }
 }
 }

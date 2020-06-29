@@ -1,4 +1,13 @@
 {
+"wreckintro0": [
+		{
+			"name": "",
+			"text": "...\nPause: (fugpausefug)\nAdvance Dialog: (fugdialogfug)",
+			"sprite": ""
+			"duration": 0
+			"end": true
+		}
+	]
 "intro0": [
 		{
 			"name": "Pelican",

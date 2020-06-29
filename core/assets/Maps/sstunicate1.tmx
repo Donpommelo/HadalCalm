@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="110">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="115">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -41,24 +41,24 @@
   <object id="8" name="Dropthrough" type="Dropthrough" x="2368" y="1856" width="160" height="8"/>
   <object id="9" name="Dropthrough" type="Dropthrough" x="1728" y="1856" width="320" height="8"/>
   <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8"/>
-  <object id="11" name="Dormitory" type="Dormitory" x="1536" y="2080" width="96" height="96">
+  <object id="11" name="Dormitory" type="Dormitory" x="2112" y="2080" width="96" height="96">
    <properties>
-    <property name="unlock" type="bool" value="false"/>
+    <property name="unlock" type="bool" value="true"/>
    </properties>
   </object>
   <object id="12" name="Armory" type="Armory" x="1728" y="1760" width="96" height="96">
    <properties>
-    <property name="unlock" type="bool" value="false"/>
+    <property name="unlock" type="bool" value="true"/>
    </properties>
   </object>
   <object id="13" name="Reliquary" type="Reliquary" x="1920" y="1760" width="96" height="96">
    <properties>
-    <property name="unlock" type="bool" value="false"/>
+    <property name="unlock" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="15" name="Dispensary" type="Dispensary" x="2112" y="2080" width="96" height="96">
+  <object id="15" name="Dispensary" type="Dispensary" x="2304" y="2080" width="96" height="96">
    <properties>
-    <property name="unlock" type="bool" value="false"/>
+    <property name="unlock" type="bool" value="true"/>
    </properties>
   </object>
   <object id="16" name="Start" type="Start" x="1856" y="1760" width="32" height="32">
@@ -480,7 +480,7 @@
   </object>
   <object id="93" name="Navigation" type="Navigation" x="1824" y="1984" width="96" height="96">
    <properties>
-    <property name="unlock" type="bool" value="false"/>
+    <property name="unlock" type="bool" value="true"/>
    </properties>
   </object>
   <object id="95" name="Quartermaster" type="Quartermaster" x="2240" y="1088" width="96" height="96">
@@ -500,7 +500,7 @@
     <property name="text" value="RELIQUARY"/>
    </properties>
   </object>
-  <object id="102" name="Text" type="Text" x="2112" y="2080" width="32" height="32">
+  <object id="102" name="Text" type="Text" x="2304" y="2080" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DISPENSARY"/>
@@ -512,25 +512,55 @@
     <property name="text" value="NAVIGATIONS"/>
    </properties>
   </object>
-  <object id="104" name="Text" type="Text" x="2240" y="1088" width="32" height="32">
+  <object id="104" name="Text" type="Text" x="2496" y="896" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="QUARTERMASTER"/>
    </properties>
   </object>
-  <object id="105" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
+  <object id="105" name="Text" type="Text" x="2112" y="2080" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DORMITORY"/>
    </properties>
   </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="2208" y="1184" width="160" height="8"/>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="2208" y="1184" width="288" height="8"/>
   <object id="108" name="Bounds" type="Bounds" x="544" y="832" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="spectator" type="bool" value="true"/>
     <property name="triggeredId" value=""/>
     <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="110" name="Navigation" type="Navigation" x="1536" y="2080" width="96" height="96">
+   <properties>
+    <property name="tag" value="SPECIAL"/>
+    <property name="title" value="Bonus Levels"/>
+    <property name="unlock" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="111" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="BONUS LEVELS"/>
+   </properties>
+  </object>
+  <object id="112" name="Text" type="Text" x="2240" y="1088" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="GUNS"/>
+   </properties>
+  </object>
+  <object id="113" name="Quartermaster" type="Quartermaster" x="2400" y="1088" width="96" height="96">
+   <properties>
+    <property name="shopId" value="artifacts1"/>
+   </properties>
+  </object>
+  <object id="114" name="Text" type="Text" x="2400" y="1088" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="ARTIFACTS"/>
    </properties>
   </object>
  </objectgroup>
