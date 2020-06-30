@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="115">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="117">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -9,12 +9,12 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="130" height="100">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="480" y="2016">
-   <polyline points="-320,0 -320,160 1152,160 1248,64 1536,64 1632,160 2112,160 2112,-64 2048,-64 2048,-160 2208,-160 2208,544 1824,544 1824,928 3520,928 3520,768 2688,768 2688,544 2496,544 2496,-1152 1920,-1152 1728,-960 1728,-736 2208,-736 2208,-416 2048,-416 2048,-512 2112,-512 2112,-640 1408,-640 1248,-480 1152,-480 672,0 -320,0"/>
+   <polyline points="-320,0 -320,160 1152,160 1248,64 1536,64 1632,160 2112,160 2112,-64 2048,-64 2048,-160 2208,-160 2208,544 1824,544 1824,928 3520,928 3520,768 2688,768 2688,544 2496,544 2496,-1152 1728,-1152 1536,-960 1536,-736 2208,-736 2208,-416 2048,-416 2048,-512 2112,-512 2112,-640 1408,-640 1248,-480 1152,-480 672,0 -320,0"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
@@ -333,7 +333,7 @@
     <property name="triggeringId" value="bounds13,bounds23,cameraf3"/>
    </properties>
   </object>
-  <object id="70" name="Bounds" type="Bounds" x="2144" y="832" width="32" height="32">
+  <object id="70" name="Bounds" type="Bounds" x="1920" y="832" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds23"/>
@@ -387,7 +387,7 @@
     <property name="triggeredId" value="bounds11"/>
    </properties>
   </object>
-  <object id="78" name="Dummy" type="Dummy" x="2592" y="1024" width="32" height="32">
+  <object id="78" name="Dummy" type="Dummy" x="2464" y="1024" width="32" height="32">
    <properties>
     <property name="sync" value="USER"/>
     <property name="triggeredId" value="cameraf3point"/>
@@ -483,7 +483,7 @@
     <property name="unlock" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="95" name="Quartermaster" type="Quartermaster" x="2240" y="1088" width="96" height="96">
+  <object id="95" name="Quartermaster" type="Quartermaster" x="2368" y="1088" width="96" height="96">
    <properties>
     <property name="shopId" value="weapons1"/>
    </properties>
@@ -524,7 +524,7 @@
     <property name="text" value="DORMITORY"/>
    </properties>
   </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="2208" y="1184" width="288" height="8"/>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="2016" y="1184" width="448" height="8"/>
   <object id="108" name="Bounds" type="Bounds" x="544" y="832" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
@@ -546,21 +546,32 @@
     <property name="text" value="BONUS LEVELS"/>
    </properties>
   </object>
-  <object id="112" name="Text" type="Text" x="2240" y="1088" width="32" height="32">
+  <object id="112" name="Text" type="Text" x="2368" y="1088" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="GUNS"/>
    </properties>
   </object>
-  <object id="113" name="Quartermaster" type="Quartermaster" x="2400" y="1088" width="96" height="96">
+  <object id="113" name="Quartermaster" type="Quartermaster" x="2208" y="1088" width="96" height="96">
    <properties>
     <property name="shopId" value="artifacts1"/>
    </properties>
   </object>
-  <object id="114" name="Text" type="Text" x="2400" y="1088" width="32" height="32">
+  <object id="114" name="Text" type="Text" x="2208" y="1088" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="ARTIFACTS"/>
+   </properties>
+  </object>
+  <object id="115" name="Quartermaster" type="Quartermaster" x="2048" y="1088" width="96" height="96">
+   <properties>
+    <property name="shopId" value="actives1"/>
+   </properties>
+  </object>
+  <object id="116" name="Text" type="Text" x="2048" y="1088" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="ACTIVES"/>
    </properties>
   </object>
  </objectgroup>

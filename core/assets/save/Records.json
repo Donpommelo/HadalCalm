@@ -1,5 +1,5 @@
 {
-scrap: 322
+scrap: 325
 flags: {
 	class: java.util.HashMap
 	BOSS1: 1
@@ -14,7 +14,7 @@ flags: {
 	DERELICTTB5: 0
 	HUB_REACHED: 1
 	PLENUMTURBINE: 3
-    PLENUM0SC: 0
+	PLENUM0SC: 0
 	WRECK0SC: 1
 	CACHE2: 0
 	ARTIFACTSLOT1: 1
@@ -34,39 +34,27 @@ hiScores: {
 }
 unlockEquip: {
 	class: java.util.HashMap
+	HEXENHOWITZER: true
+	FISTICUFFS: true
+	VAJRA: true
+	SCRAPRIPPER: true
+	MORAYGUN: true
+	CR4PCANNON: true
+	STICKY_BOMB_LAUNCHER: true
+	SPEARGUN: true
+	POPPER: true
 }
 unlockArtifact: {
 	class: java.util.HashMap
+	RECYCLER_BOLUS: true
 	TRIGGERFISH_FINGER: true
+	BRITTLING_POWDER: true
+	BLASTEMA: true
 	MACHINE_GHOST: true
 }
 unlockActive: {
 	class: java.util.HashMap
-	HYDRAULIC_UPPERCUT: true
-	TRACTOR_BEAM: true
-	RADIAL_BARRAGE: true
 	MELON: true
-	MISSILE_POD: true
-	FISH_GANG: true
-	RELOADER: true
-	BENDY_BEAMS: true
-	MERIDIAN_MAKER: true
-	METEOR_STRIKE: true
-	SPRING_LOADER: true
-	HEALING_FIELD: true
-	TAINTED_WATER: true
-	NOTHING: true
-	SPIRIT_RELEASE: true
-	RESERVED_FUEL: true
-	DODGE_ROLL: true
-	STORM_CLOUD: true
-	PORTABLE_TURRET: true
-	ORBITAL_SHIELD: true
-	DEPTH_CHARGE: true
-	HONEYCOMB: true
-	RING_OF_GYGES: true
-	ANCHOR_SMASH: true
-	NAUTICAL_MINE: true
 }
 unlockCharacter: {
 	class: java.util.HashMap
