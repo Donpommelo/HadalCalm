@@ -17,7 +17,10 @@ BOSS1: {
 BOSS2: {
 	name: BOSS2
 	description: TEMP
-	tags: []
+	tags: [
+        MULTIPLAYER,
+        SPECIAL
+    ]
 }
 BOSS3: {
 	name: BOSS3

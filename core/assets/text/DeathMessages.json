@@ -35,7 +35,7 @@
     ]
 "ENEMY":  [
         {
-            "message": "<vic> was mauled by an <perp>.", "weight": 1, namedPerp: false
+            "message": "<vic> was mauled by a(n) <perp>.", "weight": 1, namedPerp: false
         }
     ]
 "DISCONNECT":  [

@@ -6,6 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
@@ -13,6 +14,7 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
@@ -340,6 +342,27 @@ public class EnemyUtils {
 		});
 	}
 	
+	public static void slodge(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size,
+			final float lifespan, final float slodgeSlow, final float slodgeDuration, final float duration) {
+		
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+				hbox.setRestitution(0.5f);
+				hbox.setGravity(3.0f);
+				hbox.setDurability(3);
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.SLODGE, DamageTypes.RANGED));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE, 0.0f, 3.0f).setParticleSize(90));
+				hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE_STATUS));
+				hbox.addStrategy(new ContactUnitSlow(state, hbox, enemy.getBodyData(), slodgeDuration, slodgeSlow));
+			}
+		});
+	}
+	
 	public static void fireLaser(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final Particle particle) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
@@ -371,6 +394,23 @@ public class EnemyUtils {
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.FIRE, 0.0f, fireLinger));
 				
+			}
+		});
+	}
+	
+	public static void shootKamaboko(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+				hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
 			}
 		});
 	}
