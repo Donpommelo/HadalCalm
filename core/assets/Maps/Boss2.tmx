@@ -43,22 +43,22 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="9" name="Dummy" type="Dummy" x="1984" y="864" width="32" height="32">
+  <object id="9" name="Dummy" type="Dummy" x="1984" y="960" width="32" height="32">
    <properties>
     <property name="dummyId" value="high"/>
    </properties>
   </object>
-  <object id="10" name="Dummy" type="Dummy" x="1792" y="992" width="32" height="32">
+  <object id="10" name="Dummy" type="Dummy" x="1824" y="1088" width="32" height="32">
    <properties>
     <property name="dummyId" value="front"/>
    </properties>
   </object>
-  <object id="11" name="Dummy" type="Dummy" x="2208" y="992" width="32" height="32">
+  <object id="11" name="Dummy" type="Dummy" x="2208" y="1088" width="32" height="32">
    <properties>
     <property name="dummyId" value="back"/>
    </properties>
   </object>
-  <object id="13" name="Dummy" type="Dummy" x="1984" y="992" width="32" height="32">
+  <object id="13" name="Dummy" type="Dummy" x="1984" y="1088" width="32" height="32">
    <properties>
     <property name="dummyId" value="neutral"/>
    </properties>
@@ -87,7 +87,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="19" name="Platform" type="Platform" x="1248" y="1344" width="576" height="96"/>
+  <object id="19" name="Platform" type="Platform" x="1088" y="1344" width="736" height="96"/>
   <object id="21" name="Multitrigger" type="Multitrigger" x="576" y="288" width="32" height="32">
    <properties>
     <property name="triggeredId" value="playerstart"/>

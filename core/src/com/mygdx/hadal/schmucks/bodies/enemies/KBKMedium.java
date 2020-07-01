@@ -21,7 +21,7 @@ import com.mygdx.hadal.utils.Stats;
 public class KBKMedium extends EnemySwimming {
 
 	private final static int baseHp = 60;
-	private final static String name = "SWIMMING KAMABOKO";
+	private final static String name = "KAMABOKO MASS";
 	
 	private final static int scrapDrop = 0;
 

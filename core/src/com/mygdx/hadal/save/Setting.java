@@ -101,7 +101,7 @@ public class Setting {
 	
 	public void resetDisplay() {
 		resolution = 1;
-		framerate = 3;
+		framerate = 1;
 		fullscreen = false;
 		vsync = false;
 		cursorType = 1;

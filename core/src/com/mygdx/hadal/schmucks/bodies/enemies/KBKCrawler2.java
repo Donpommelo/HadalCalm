@@ -13,49 +13,46 @@ import com.mygdx.hadal.statuses.DeathParticles;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Stats;
 
-public class KBKBouncer extends EnemyCrawling {
+public class KBKCrawler2 extends EnemyCrawling {
 
-	private final static int baseHp = 100;
-	private final static String name = "BOUNCING KAMABOKO";
+	private final static int baseHp = 200;
+	private final static String name = "GIGA CRAWLING KAMABOKO";
 
-	private final static int scrapDrop = 1;
+	private final static int scrapDrop = 8;
 
-	private static final int width = 512;
-	private static final int height = 512;
+	private static final int width = 1024;
+	private static final int height = 1024;
 	
-	private static final int hboxWidth = 280;
-	private static final int hboxHeight = 120;
+	private static final int hboxWidth = 560;
+	private static final int hboxHeight = 240;
 
-	private static final int smileOffset = 200;
+	private static final int smileOffset = 400;
 
 	private static final float scale = 0.25f;
 	
 	private static final float attackCd = 2.0f;
-	private static final float groundSpeed = -0.25f;
-	private static final float drag = -1.0f;
+	private static final float groundSpeed = -0.3f;
 	
 	private static final Sprite sprite = Sprite.KAMABOKO_CRAWL;
 	
 	private TextureRegion faceSprite;
 	
-	public KBKBouncer(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
+	public KBKCrawler2(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hboxWidth, hboxHeight).scl(scale), name, sprite, EnemyType.CRAWLER1, startAngle, filter, baseHp, attackCd, scrapDrop, spawner);
 		faceSprite = Sprite.KAMABOKO_FACE.getFrames().get(GameStateManager.generator.nextInt(5));
-		setCurrentState(CrawlingState.BACK_FORTH);
+		setCurrentState(CrawlingState.AVOID_PITS);
 	}
 	
 	@Override
 	public void create() {
 		super.create();
-		getMainFixture().setRestitution(1.0f);
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_DRAG, drag, getBodyData()));
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 	}
 	
-	private static final int charge1Damage = 10;
+	private static final int charge1Damage = 15;
 	private static final float attackInterval = 1.0f;
-	private static final int defaultMeleeKB = 20;
+	private static final int defaultMeleeKB = 30;
 	@Override
 	public void attackInitiate() {
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);

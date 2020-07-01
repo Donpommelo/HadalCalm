@@ -439,7 +439,11 @@
     <property name="triggeringId" value="enterfromtop"/>
    </properties>
   </object>
-  <object id="75" name="Navigation" type="Navigation" x="3360" y="1280" width="96" height="96"/>
+  <object id="75" name="Navigation" type="Navigation" x="3360" y="1280" width="96" height="96">
+   <properties>
+    <property name="level" value="PLENUMCHAMBER4"/>
+   </properties>
+  </object>
   <object id="76" name="Platform" type="Platform" x="320" y="1184" width="288" height="32">
    <properties>
     <property name="triggeredId" value="elevatorfloore"/>

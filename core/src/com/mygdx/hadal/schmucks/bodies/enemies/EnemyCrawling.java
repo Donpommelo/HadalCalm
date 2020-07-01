@@ -148,7 +148,7 @@ public class EnemyCrawling extends Enemy {
 	 * This method is used by crawling enemies to process running into walls/edges of platforms
 	 */
 	private Vector2 endPt = new Vector2();
-	private final static float distCheck = 2.0f;
+	private final static float distCheck = 3.0f;
 	private float shortestFraction;
 	private void processCollision(boolean avoidPits) {
 		

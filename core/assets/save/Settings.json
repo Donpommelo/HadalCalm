@@ -5,20 +5,15 @@ cursorType: 1
 cursorSize: 1
 cursorColor: 4
 maxPlayers: 3
-pvpMode: 0
 artifactSlots: 4
 portNumber: 11100
-fullscreen: false
-vsync: false
 randomNameAlliteration: true
 consoleEnabled: true
 verboseDeathMessage: true
-multiplayerPause: false
 exportChatLog: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
 timer: 3
-lives: 0
 loadoutType: 1
 }

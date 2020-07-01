@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="48">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="140" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="53">
  <properties>
+  <property name="shader" value="WHIRLPOOL"/>
   <property name="startUI" value="NOISELESS SEA,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
@@ -257,7 +258,41 @@
   <object id="47" name="Multitrigger" type="Multitrigger" x="1728" y="128" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,unlock1,unlock2"/>
+    <property name="triggeringId" value="startTimer,unlock1,unlock2,unlock3,objectiveTest"/>
+   </properties>
+  </object>
+  <object id="48" name="Sensor" type="Sensor" x="6144" y="2656" width="96" height="192">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="unfinished"/>
+   </properties>
+  </object>
+  <object id="49" name="Dialog" type="Dialog" x="6272" y="2752" width="32" height="32">
+   <properties>
+    <property name="textId" value="unfinished0"/>
+    <property name="triggeredId" value="unfinished"/>
+   </properties>
+  </object>
+  <object id="50" name="Prefab" type="PrefabSpawnerUnlock" x="5696" y="2752" width="96" height="96">
+   <properties>
+    <property name="name" value="LUMINOUS_ESCA"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock3"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="51" name="Dummy" type="Dummy" x="5600" y="2720" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="objectiveMarker"/>
+   </properties>
+  </object>
+  <object id="52" name="Objective" type="Objective" x="1792" y="128" width="32" height="32">
+   <properties>
+    <property name="sync" value="ALL"/>
+    <property name="triggeredId" value="objectiveTest"/>
+    <property name="triggeringId" value="objectiveMarker"/>
    </properties>
   </object>
  </objectgroup>

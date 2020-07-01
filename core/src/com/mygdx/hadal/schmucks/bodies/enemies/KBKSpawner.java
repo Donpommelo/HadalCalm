@@ -24,9 +24,9 @@ import com.mygdx.hadal.utils.Stats;
 public class KBKSpawner extends EnemySwimming {
 
 	private final static int baseHp = 200;
-	private final static String name = "SWIMMING KAMABOKO";
+	private final static String name = "KAMABOKO SPAWNER";
 	
-	private final static int scrapDrop = 0;
+	private final static int scrapDrop = 4;
 
 	private static final int width = 1024;
 	private static final int height = 1024;

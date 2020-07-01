@@ -17,7 +17,7 @@ import com.mygdx.hadal.utils.Stats;
 public class Swimmer2 extends EnemySwimming {
 
 	private final static int baseHp = 174;
-	private final static String name = "FIREBREATHER";
+	private final static String name = "FIREBREATHING KAMABOKO";
 	
 	private final static int scrapDrop = 1;
 
@@ -60,7 +60,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float attackWindup = 0.2f;
 	private static final float attackSwingAngle = 30.0f;
 	
-	private static final int fireballDamage = 15;
+	private static final int fireballDamage = 12;
 	private static final int burnDamage = 1;
 	private static final int fireSpeed = 9;
 	private static final int fireKB = 6;

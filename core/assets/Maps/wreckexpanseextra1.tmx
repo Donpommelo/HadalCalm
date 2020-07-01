@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="50" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="14">
+ <properties>
+  <property name="startUI" value="SCRAP"/>
+ </properties>
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="50" height="70">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEOwjAQRNEUNAECBdz/rLiJFBkZJd4ZayP+l6ZevW6niYiIRvY0bm7cvJjv4sBxhuHINRy5NtKxDcf3lrJ7w3Ere5zA8cvgsNSNMqgtascRg9KidPQYVBaVI2JQWBQOhSFqiTqUhogl4nAYei29Dqdh7Yilbq+j9W+o2/u/1OHwhAOHIxw4HOHA4QgHDkc4cDjCgcMRDhyOcOBwhAOHI7fjVXYdsLfZkW04cg1HruHINSL6jz7hVWP7
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="768" y="224">
+   <polyline points="0,0 0,320 -320,640 -320,1600 480,1600 480,640 160,320 160,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="13" name="Dropthrough" type="Dropthrough" x="768" y="536" width="160" height="8"/>
+  <object id="2" name="Start" type="Start" x="832" y="448" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="3" name="Sensor" type="Sensor" x="768" y="224" width="160" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="4" name="Warp" type="Warp" x="832" y="128" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECKEXPANSE2"/>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="5" name="Bounds" type="Bounds" x="800" y="800" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="6" name="Bounds" type="Bounds" x="864" y="1536" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+   </properties>
+  </object>
+  <object id="7" name="Multitrigger" type="Multitrigger" x="128" y="64" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="8" name="Prefab" type="PrefabSpawnerUnlock" x="800" y="1728" width="96" height="96">
+   <properties>
+    <property name="name" value="ABYSSAL_INSIGNIA"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="9" name="Timer" type="Timer" x="128" y="128" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="10" name="Multitrigger" type="Multitrigger" x="192" y="128" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,unlock1"/>
+   </properties>
+  </object>
+  <object id="11" name="Current" type="Current" x="448" y="1248" width="128" height="384">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="8"/>
+   </properties>
+  </object>
+  <object id="12" name="Current" type="Current" x="1120" y="864" width="128" height="384">
+   <properties>
+    <property name="currentX" type="float" value="0"/>
+    <property name="currentY" type="float" value="8"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

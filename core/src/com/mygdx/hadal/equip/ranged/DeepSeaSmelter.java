@@ -15,6 +15,7 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.ProcTime;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
@@ -89,7 +90,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.5f));
+		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.SLASH, 0.2f, true));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 		
 		projOffset.set(startVelocity).rotate90(-1).nor().scl(projSpacing);
@@ -102,7 +104,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 		hbox2.addStrategy(new ContactWallDie(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new ContactUnitLoseDurability(state, hbox2, user.getBodyData()));
 		hbox2.addStrategy(new DamageStandard(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-		hbox2.addStrategy(new ContactWallSound(state, hbox2, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.5f));
+		hbox2.addStrategy(new ContactWallSound(state, hbox2, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f));
+		hbox2.addStrategy(new ContactUnitSound(state, hbox2, user.getBodyData(), SoundEffect.SLASH, 0.2f, true));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
 		
 		if (chargeCd < getChargeTime()) {

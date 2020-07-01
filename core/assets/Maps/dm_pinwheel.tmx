@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="60" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="135">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="135">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="shader" value="SPLASH"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
- <layer id="1" name="Tile Layer 1" width="100" height="60">
+ <layer id="1" name="Tile Layer 1" width="100" height="70">
   <data encoding="base64" compression="zlib">
-   eAHtluFqwjAYRYXtz9jm3v9t1yKBapP4eeTKWE9BWpPcqz2nEU8nj79I4Gf5Ur5ew6DiXxevcbFyrhz60MdRnwH3x+ue/cozpo9j+fhehL8d6HVe7rWyD0ZrkvtjdfFV+YB/tOZzuZdnnFRQjFzOxo/oorF8xknrmJ1n3HtzR3bROFInLT8795jPxo72GzViR5yMurbjM/bbOffFltrl+lEn+4b9yJb56FoXe25t5BEnLTM7jxy0cV3M6F3mqk7uN83/T+uiQrDupNLW9sHtWRcVetdr7u2T69X9d7ce1ve66LOqjM6cVPI9Hx+VoGuGBN6XmR7XYWAz0cvpYwMIXOoDQAtG9BGEC6r1AaAFI/oIwgXV+gDQghF9BOGCan0AaMGIPoJwQbU+ALRgRB9BuKBaHwBaMKKPIFxQrQ8ALRjRRxAuqNYHgBaM6CMIF1TrA0ALRvQRhAuq9QGgBSP6CMIF1foA0IIRfQThgmp9AGjBiD6CcEG1PgC0YEQfQbigWh8AWjCijyBcUK0PAC0Y0UcQLqjWB4AWjOgjCBdU6wNAC0b0EYQLqvUBoAUj+gjCBdX6ANCCEX0E4YJqfQBowYg+gnBBNfHxC4l0SmM=
+   eAHtlm1rwjAYRYXty9jb//+3a5FAtUl8PO7KWI9QWpPcWz2nEU8nX3+RwPfyoTyew6DiXxfPcbFyrrz0oY+jPgPuj+c9+5VnTB/H8vG5CH850PG1fNfKPhitSe6P1cVH5Qb/aM378l0ecVJBMXI5Gz+ii8byESetY3aece/NHdlF40idtPzs3GM+Gzvab9SIHXEy6tqOz9hv59wXW2rn63ud7Bv2I1vmo2td7Lm1kXuctMzsPHLQxnUxo3eeqzq53TT/P62LCsG6k0pb2wfXZ11U6F2uubVPLlf33117WN/ros+qMjpzUsn3fLxVgq4ZEnhdZnpch4HNRC+njw0gcKkPAC0Y0UcQLqjWB4AWjOgjCBdU6wNAC0b0EYQLqvUBoAUj+gjCBdX6ANCCEX0E4YJqfQBowYg+gnBBtT4AtGBEH0G4oFofAFowoo8gXFCtDwAtGNFHEC6o1geAFozoIwgXVOsDQAtG9BGEC6r1AaAFI/oIwgXV+gDQghF9BOGCan0AaMGIPoJwQbU+ALRgRB9BuKBaHwBaMKKPIFxQrQ8ALRjRRxAuqNYHgBaM6CMIF1TrA0ALRvQRhAuq9QGgBSP6CMIF1Y/4ALczIgEJSEACEpCABCQgAQlIQAISkMAvEfgBGHlKYw==
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="105" x="256" y="1920">
-   <polyline points="0,0 0,-1344 320,-1664 2208,-1664 2528,-1344 2528,0 0,0"/>
+   <polyline points="0,160 0,-1344 320,-1664 2208,-1664 2528,-1344 2528,160 0,160"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
@@ -43,7 +43,7 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="108" name="Sensor" type="Sensor" x="256" y="1856" width="2528" height="64">
+  <object id="108" name="Sensor" type="Sensor" x="256" y="1984" width="2528" height="96">
    <properties>
     <property name="triggeringId" value="outOfBounds"/>
    </properties>

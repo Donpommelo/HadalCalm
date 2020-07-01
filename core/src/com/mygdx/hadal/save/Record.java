@@ -84,7 +84,6 @@ public class Record {
 		newRecord.flags.put("ARTIFACTSLOT4", 1);
 		newRecord.flags.put("ARTIFACTSLOT5", 0);
 		newRecord.flags.put("HUB_REACHED", 0);
-		newRecord.flags.put("BOSS1", 0);
 		newRecord.flags.put("WRECK0SC", 0);
 		newRecord.flags.put("WRECK1SC", 0);
 		newRecord.flags.put("DERELICTTA1", 0);
@@ -99,8 +98,17 @@ public class Record {
 		newRecord.flags.put("CACHE2", 0);
 		newRecord.flags.put("CACHE3", 0);
 		newRecord.flags.put("CACHE4", 0);
+		newRecord.flags.put("CACHE5", 0);
+		newRecord.flags.put("CACHE6", 0);
 		newRecord.flags.put("PLENUMTURBINE", 0);
 		newRecord.flags.put("PLENUM0SC", 0);
+		newRecord.flags.put("PLENUM1SC", 0);
+		newRecord.flags.put("SLUICE0SC", 0);
+		newRecord.flags.put("SLUICE1SC", 0);
+		newRecord.flags.put("SLUICE2SC", 0);
+		newRecord.flags.put("SLUICEFINALSC", 0);
+		newRecord.flags.put("BOSS1", 0);
+		newRecord.flags.put("PARTY", 0);
 		
 		newRecord.hiScores = new HashMap<String, Integer>();
 		newRecord.unlockEquip = new HashMap<String, Boolean>();

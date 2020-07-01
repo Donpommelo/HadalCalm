@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="29">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="32">
  <properties>
   <property name="startUI" value="SCRAP"/>
  </properties>
@@ -168,6 +168,26 @@
    <properties>
     <property name="enemyId" value="SWIMMER2"/>
     <property name="triggeredId" value="e2"/>
+   </properties>
+  </object>
+  <object id="29" name="Start" type="Start" x="1824" y="1952" width="32" height="32">
+   <properties>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="boundszoom"/>
+   </properties>
+  </object>
+  <object id="30" name="Sensor" type="Sensor" x="1760" y="2048" width="160" height="64">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="31" name="Warp" type="Warp" x="1824" y="2144" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECKEXPANSEEXTRA1"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp2"/>
    </properties>
   </object>
  </objectgroup>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="177">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="200" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="179">
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="200" height="120">
   <data encoding="base64" compression="zlib">
@@ -698,7 +698,6 @@
    </properties>
   </object>
   <object id="107" name="Dropthrough" type="Dropthrough" x="1504" y="2912" width="224" height="8"/>
-  <object id="108" name="Armory" type="Armory" x="1568" y="2816" width="96" height="96"/>
   <object id="112" name="Multitrigger" type="Multitrigger" x="4384" y="3392" width="32" height="32">
    <properties>
     <property name="triggeredId" value="target2activate"/>
@@ -1181,6 +1180,16 @@
    <properties>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="177" name="Start" type="Start" x="1600" y="2848" width="32" height="32">
+   <properties>
+    <property name="triggeringId" value="enterroom1"/>
+   </properties>
+  </object>
+  <object id="178" name="Navigation" type="Navigation" x="1568" y="2816" width="96" height="96">
+   <properties>
+    <property name="level" value="DERELICT2"/>
    </properties>
   </object>
  </objectgroup>

@@ -20,7 +20,7 @@ import com.mygdx.hadal.utils.Stats;
 public class KBKLarge extends EnemySwimming {
 
 	private final static int baseHp = 120;
-	private final static String name = "SWIMMING KAMABOKO";
+	private final static String name = "GREATER KAMABOKO MASS";
 	
 	private final static int scrapDrop = 0;
 

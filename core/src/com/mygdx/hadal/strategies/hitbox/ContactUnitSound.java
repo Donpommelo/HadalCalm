@@ -17,6 +17,7 @@ public class ContactUnitSound extends HitboxStrategy {
 	
 	private SoundEffect sound;
 	private float volume;
+	private boolean still;
 	
 	//This is the max interval the sound can be repeated.
 	private static final float procCd = 0.1f;
@@ -24,10 +25,11 @@ public class ContactUnitSound extends HitboxStrategy {
 	//this is the slowest the hbox can be moving while still playing the sound
 	private static final float minVelo = 3.0f;
 		
-	public ContactUnitSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {
+	public ContactUnitSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume, boolean still) {
 		super(state, proj, user);
 		this.sound = sound;
 		this.volume = volume;
+		this.still = still;
 	}
 	
 	private float procCdCount = procCd;
@@ -41,7 +43,7 @@ public class ContactUnitSound extends HitboxStrategy {
 	
 	@Override
 	public void onHit(HadalData fixB) {
-		if (procCdCount >= procCd && hbox.getLinearVelocity().len2() > minVelo) {
+		if (procCdCount >= procCd && (hbox.getLinearVelocity().len2() > minVelo || still)) {
 			procCdCount = 0;
 
 			if (fixB != null) {

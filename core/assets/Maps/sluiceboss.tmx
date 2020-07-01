@@ -6,12 +6,12 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eAHt2stKBFEMhGFBwQuoC33/Z7UXClKUQyVT0oK/MEhiTvr0V7rz5oYvBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQT+nsDrcaVrPo/hK91d+Zxr7picDV/j18eSu16aIY9uRJesk5+RB3kkvyfTma7qftv03jrP38fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U32lNHk5135v66zx57O3dSfWd1uThVPe9qb/Ok8fe3p1U36R+Phbdfn4e3FLTu/925uvsb3x/OZ6TvIPOmCuf0tJ7JXX6N3HGC23/D/KMu7pnJv46Qx5OstNT66Qmj46925L46wx5OMlOT62Tmjw69m5L4q8z5OEkOz21Tmry6Ni7LYm/zpCHk+z01DqpyaNj77Yk/jpDHk6y01PrpCaPjr3bkvjrDHk4yU5PrZOaPDr2bkvirzPk4SQ7PbVOavLo2Lstib/OkIeT7PTUOqnJo2PvtiT+OkMeTrLTU+ukJo+OvduS+OsMeTjJTk+tk5o8OvZuS+KvM+ThJDs9tU5q8ujYuy2Jv86Qh5Ps9NQ6qcmjY++2JP46Qx5OstNT66Qmj46925L468zbsejpj37ej3vpfZPa2ZzRS+76H2bOsHfP/A/WyTs6G3oIIIAAAggggAACCCCAAAIIIIAAAggggAACCPwk8AFtN4k+
+   eAHt2t1KK1EMBtCCgj+gXvj+72oFDUIhJA2pU1gHytlo9s7M+iZ64ZxO/hEgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAAQIECBAgQIAAgeMJfJwvafJ5Kd7S47DP5Br/c2+RJ8qm1yqP/HkO6OJCHrnn1KcYQ5RN+5mPPM+ALi7kkXtOfYoxRNm0n/nI8wzo4kIeuefUpxhDlE37mY88z4AuLuSRe059ijFE2bSf+cjzDOjiQh6559SnGEOUTfuZjzzPgC4u5JF7Tn2KMUTZtJ/5yPMM6OJCHrnn1KcYQ5RN+5mPPM+ALi7kkXtOfYoxRNm0n/nI8wzo4kIeuefUpxhDlE37mY88z4AuLuSRe059ijFE2bSf+cjzDOjiQh6559SnGEOUTfuZjzzPgC4u5JF7Tn2KMUTZNf3ezrsffj7PcVK+ePqz53fvxv/v5z7X3NPWnlzl8rvXXEf1Z9Rlt/2vHO09yO4dy2N3nuSx69t9fuUhj+4zsFnv98embv9sefTNNnfIY1O3f7Y8+mabO+Sxqds/Wx59s80d8tjU7Z8tj77Z5g55bOr2z5ZH32xzhzw2dftny6NvtrlDHpu6/bPl0Tfb3CGPTd3+2fLom23ukMembv/sW73HUn03pnsH3b8Hf9cf+f2S7v0frV4ex0pEHvI4lsCxrsZ83H8en+dbePUpGXTTvmY+7Km/cyePutUtnqtuHuoJECBAgAABAgQIECBAgAABAgQIECBA4D4EvgBX2cS/
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="672" y="960">
-   <polyline points="0,0 0,832 -96,832 -96,1696 1120,1696 1120,832 288,832 288,0 0,0"/>
+   <polyline points="0,0 0,832 -96,832 -96,1696 2272,1696 2272,1536 1120,1536 1120,832 288,832 288,0 0,0"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
@@ -20,6 +20,19 @@
     <property name="startId" value="start0"/>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="enterleft"/>
+   </properties>
+  </object>
+  <object id="3" name="Sensor" type="Sensor" x="672" y="960" width="288" height="96">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="4" name="Warp" type="Warp" x="800" y="896" width="32" height="32">
+   <properties>
+    <property name="level" value="SLUICE1"/>
+    <property name="startId" value="start3"/>
+    <property name="triggeredId" value="warp1"/>
    </properties>
   </object>
   <object id="5" name="Dropthrough" type="Dropthrough" x="672" y="1568" width="288" height="8"/>
@@ -86,18 +99,26 @@
     <property name="triggeringId" value="triggerSpawn1"/>
    </properties>
   </object>
-  <object id="20" name="Prefab" type="PrefabLimit" x="1504" y="2784" width="32" height="32">
+  <object id="20" name="Prefab" type="PrefabLimit" x="1440" y="2784" width="32" height="32">
    <properties>
     <property name="limit" type="int" value="1"/>
     <property name="prefabId" value="Limit"/>
     <property name="triggeredId" value="triggerSpawn1"/>
+    <property name="triggeringId" value="bosscheck"/>
+   </properties>
+  </object>
+  <object id="21" name="QuestCheck" type="QuestCheck" x="1504" y="2784" width="32" height="32">
+   <properties>
+    <property name="check" type="int" value="0"/>
+    <property name="quest" value="BOSS1"/>
+    <property name="triggeredId" value="bosscheck"/>
     <property name="triggeringId" value="startSpawn"/>
    </properties>
   </object>
   <object id="22" name="Multitrigger" type="Multitrigger" x="1568" y="2784" width="32" height="32">
    <properties>
     <property name="triggeredId" value="startSpawn"/>
-    <property name="triggeringId" value="lockLeft,bounds3,bounds4,arenalock,bossParticles,bossDelay"/>
+    <property name="triggeringId" value="lockLeft,lockRight,bounds3,bounds4,arenalock,bossParticles,bossDelay"/>
    </properties>
   </object>
   <object id="23" name="Multitrigger" type="Multitrigger" x="320" y="576" width="32" height="32">
@@ -158,6 +179,20 @@
     <property name="triggeredId" value="bounds4"/>
    </properties>
   </object>
+  <object id="32" name="Bounds" type="Bounds" x="2112" y="2432" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds5"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="33" name="Bounds" type="Bounds" x="2176" y="2432" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds6"/>
+   </properties>
+  </object>
   <object id="34" name="Prefab" type="PrefabAlternator" x="672" y="1696" width="288" height="96">
    <properties>
     <property name="align" type="int" value="1"/>
@@ -168,10 +203,33 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
+  <object id="35" name="Prefab" type="PrefabAlternator" x="1856" y="2496" width="96" height="160">
+   <properties>
+    <property name="align" type="int" value="0"/>
+    <property name="event1" value="entercenter"/>
+    <property name="event2" value="enterright"/>
+    <property name="prefabId" value="Alternator"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="36" name="Platform" type="Platform" x="1024" y="576" width="96" height="160">
+   <properties>
+    <property name="prefabId" value="Door"/>
+    <property name="triggeredId" value="door2"/>
+   </properties>
+  </object>
   <object id="37" name="Platform" type="Platform" x="608" y="640" width="288" height="96">
    <properties>
     <property name="prefabId" value="Door"/>
     <property name="triggeredId" value="door1"/>
+   </properties>
+  </object>
+  <object id="38" name="EventMove" type="EventMove" x="1056" y="640" width="32" height="32">
+   <properties>
+    <property name="gravity" type="float" value="0"/>
+    <property name="triggeredId" value="unlockRight"/>
+    <property name="triggeringId" value="door2"/>
    </properties>
   </object>
   <object id="39" name="EventMove" type="EventMove" x="736" y="672" width="32" height="32">
@@ -186,6 +244,13 @@
     <property name="gravity" type="float" value="0"/>
     <property name="triggeredId" value="lockLeft"/>
     <property name="triggeringId" value="door1"/>
+   </properties>
+  </object>
+  <object id="41" name="EventMove" type="EventMove" x="1824" y="2560" width="32" height="32">
+   <properties>
+    <property name="gravity" type="float" value="0"/>
+    <property name="triggeredId" value="lockRight"/>
+    <property name="triggeringId" value="door2"/>
    </properties>
   </object>
   <object id="42" name="Dummy" type="Dummy" x="928" y="2464" width="32" height="32">
@@ -228,10 +293,18 @@
     <property name="triggeringId" value="bossSpawn"/>
    </properties>
   </object>
-  <object id="48" name="End" type="End" x="1856" y="2784" width="32" height="32">
+  <object id="48" name="Multitrigger" type="Multitrigger" x="1856" y="2784" width="32" height="32">
    <properties>
-    <property name="text" value="VICTORY"/>
     <property name="triggeredId" value="fitewin"/>
+    <property name="triggeringId" value="unlockLeft,unlockRight,bossSet"/>
+   </properties>
+  </object>
+  <object id="49" name="QuestChange" type="QuestChange" x="1920" y="2784" width="32" height="32">
+   <properties>
+    <property name="change" type="int" value="1"/>
+    <property name="quest" value="BOSS1"/>
+    <property name="triggeredId" value="bossSet"/>
+    <property name="triggeringId" value=""/>
    </properties>
   </object>
   <object id="50" name="Multitrigger" type="Multitrigger" x="1760" y="2848" width="32" height="32">
@@ -271,6 +344,35 @@
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
     <property name="triggeringId" value="startTimer,w1,unlock1"/>
+   </properties>
+  </object>
+  <object id="56" name="Prefab" type="PrefabSpawnerUnlock" x="2176" y="2560" width="96" height="96">
+   <properties>
+    <property name="name" value="CONFIDENCE"/>
+    <property name="prefabId" value="SpawnerUnlock"/>
+    <property name="triggeredId" value="unlock1"/>
+    <property name="triggeringId" value=""/>
+    <property name="type" value="ARTIFACT"/>
+   </properties>
+  </object>
+  <object id="57" name="Start" type="Start" x="2816" y="2592" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="enterright"/>
+   </properties>
+  </object>
+  <object id="58" name="Sensor" type="Sensor" x="2880" y="2496" width="64" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp2"/>
+   </properties>
+  </object>
+  <object id="59" name="Warp" type="Warp" x="2976" y="2560" width="32" height="32">
+   <properties>
+    <property name="level" value="PARTY"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp2"/>
    </properties>
   </object>
  </objectgroup>

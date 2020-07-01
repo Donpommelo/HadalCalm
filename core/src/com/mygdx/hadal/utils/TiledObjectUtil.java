@@ -441,6 +441,7 @@ public class TiledObjectUtil {
 			e = new Navigations(state, position, size, 
 					object.getProperties().get("title", "Navigations", String.class),
 					object.getProperties().get("tag", "NAVIGATIONS", String.class),
+					object.getProperties().get("level", "", String.class),
 					object.getProperties().get("unlock", true, Boolean.class));
 		} else if (object.getName().equals("Quartermaster")) {
 			

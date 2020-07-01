@@ -160,6 +160,7 @@
   <property name="triggeringId" type="string"/>
  </objecttype>
  <objecttype name="Navigation" color="#a0a0a4">
+  <property name="level" type="string"/>
   <property name="tag" type="string" default="NAVIGATION"/>
   <property name="title" type="string" default="Navigations"/>
   <property name="unlock" type="bool" default="true"/>

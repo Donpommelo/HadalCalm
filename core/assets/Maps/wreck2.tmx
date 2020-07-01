@@ -68,7 +68,7 @@
   </object>
   <object id="11" name="Prefab" type="PrefabWeapon" x="576" y="2336" width="96" height="96">
    <properties>
-    <property name="pool" value="SPEARGUN"/>
+    <property name="pool" value="CR4PCANNON"/>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w1"/>
    </properties>

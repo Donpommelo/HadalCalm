@@ -7,6 +7,8 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
@@ -92,7 +94,7 @@ public class EnemyUtils {
 					break;
 				case SPINNING:
 				case ROTATING:
-					bossFloating.setSpinSpeed((int)angle);
+					bossFloating.setSpinSpeed((int) angle);
 					break;
 				case TRACKING_PLAYER:
 					break;
@@ -394,7 +396,7 @@ public class EnemyUtils {
 			
 			@Override
 			public void execute() {
-				WeaponUtils.releaseVengefulSpirits(state, pos, lifespan, baseDamage, knockback, enemy.getBodyData(), enemy.getHitboxfilter());
+				WeaponUtils.releaseVengefulSpirits(state, pos, lifespan, baseDamage, knockback, enemy.getBodyData(), Particle.BRIGHT, enemy.getHitboxfilter());
 			}
 		});
 	}
@@ -434,13 +436,14 @@ public class EnemyUtils {
 					int randomIndex = GameStateManager.generator.nextInt(debrisSprites.length);
 					Sprite projSprite = debrisSprites[randomIndex];
 					Hitbox hbox = new Hitbox(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getSize().x, 0)),
-							new Vector2(size, size), lifespan, new Vector2(),	enemy.getHitboxfilter(), true, true, enemy, projSprite);
-					
+							new Vector2(size, size), lifespan, new Vector2(), enemy.getHitboxfilter(), true, true, enemy, projSprite);
+					hbox.setDurability(2);
 					hbox.setGravity(1.0f);
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactWallLoseDurability(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactWallParticles(state, hbox, enemy.getBodyData(), Particle.SPARKS));
 				}
 			}
 		});

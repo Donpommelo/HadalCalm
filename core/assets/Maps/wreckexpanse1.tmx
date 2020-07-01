@@ -115,7 +115,7 @@
   <object id="25" name="Multitrigger" type="Multitrigger" x="1152" y="224" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,cache1,w1,e1,e2,e3,e4,e5,e6,e7"/>
+    <property name="triggeringId" value="startTimer,cache1,w1,e1,e2,e3,e4,e5,e6,e7,unlock1"/>
    </properties>
   </object>
   <object id="27" name="SchmuckSpawn" type="SchmuckSpawn" x="1824" y="288" width="32" height="32">

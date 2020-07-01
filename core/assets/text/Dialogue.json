@@ -5,6 +5,36 @@
 			"text": "...\nPause: (fugpausefug)\nAdvance Dialog: (fugdialogfug)",
 			"sprite": ""
 			"duration": 0
+		},
+        {
+			"name": "",
+			"text": "Warning: Single-Player content is largely unfinished.",
+			"sprite": ""
+			"duration": 0
+			"end": true
+		}
+	]
+"unfinished0": [
+		{
+			"name": "",
+			"text": "(This area is unfinished)",
+			"sprite": ""
+			"duration": 0
+            "end": true
+		}
+	]
+"ENDING0": [
+		{
+			"name": "Pelican",
+			"text": "Thank you for playing.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "Now, go and play some pvp.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
 			"end": true
 		}
 	]

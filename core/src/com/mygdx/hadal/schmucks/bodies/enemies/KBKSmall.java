@@ -17,9 +17,9 @@ import com.mygdx.hadal.utils.Stats;
 public class KBKSmall extends EnemySwimming {
 
 	private final static int baseHp = 10;
-	private final static String name = "SWIMMING KAMABOKO";
+	private final static String name = "KAMABOKLING";
 	
-	private final static int scrapDrop = 0;
+	private final static int scrapDrop = 1;
 
 	private static final int width = 256;
 	private static final int height = 256;

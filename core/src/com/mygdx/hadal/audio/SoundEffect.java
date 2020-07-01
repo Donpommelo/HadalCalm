@@ -56,6 +56,8 @@ public enum SoundEffect {
 	SHOOT1("sound/shoot1.mp3"),
 	SHAKE("sound/shake.mp3"),
 	SHOTGUN("sound/shotgun.mp3"),
+	SLAP("sound/slap.mp3"),
+	SLASH("sound/slash.mp3"),
 	SPIKE("sound/spike.mp3"),
 	THUNDER("sound/thunder.mp3"),
 	WIND2("sound/wind2.mp3"),

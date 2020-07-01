@@ -52,7 +52,6 @@ artifacts1: {
         class: java.util.LinkedHashMap
         NUMBER_ONE_BOSS_MUG: 6
         EIGHT_BALL: 4
-        ABYSSAL_INSIGNIA: 6
         ADMINISTRATOR_CARD: 10
         ALBATROSS_NECKLACE: 4
         ANARCHISTS_COOKBOOK: 4
@@ -69,7 +68,6 @@ artifacts1: {
         CLOCKWISE_CAGE: 8
         COMMUTERS_PARASOL: 6
         COMPOUND_VITREOUS: 4
-        CONFIDENCE: 4
         CROWN_OF_THORNS: 6
         CURIOUS_SAUCE: 6
         CURSED_CILICE: 6
@@ -79,7 +77,6 @@ artifacts1: {
         EMAUDELINES_PRISM: 10
         EPHEMERA_PERPETUA: 8
         EXTRA_ROW_OF_TEETH: 6
-        FENS_CLIPPED_WINGS: 8
         FORAGERS_HIVE: 6
         FRACTURE_PLATE: 8
         GEMMULE: 5
@@ -87,17 +84,13 @@ artifacts1: {
         GOMEZS_AMYGDALA: 6
         HAND_OF_GLORY: 10
         HEART_OF_SPEROS: 10
-        HORNS_OF_AMMON: 10
         ICE9: 8
         INFORMANTS_TIE: 10
         IRON_SIGHTS: 6
         JELLOFELLOW_COSPLAY: 4
         KERMUNGLER: 4
-        KINEATER: 8
         KINESIS_LENS: 8
-        LAMPREY_IDOL: 6
         LOAMSKIN_LOCKET: 4
-        LUMINOUS_ESCA: 4
         MANGROVE_SEED: 6
         MASK_OF_SYMPATHY: 4
         MOUTHBREATHER_CERTIFICATE: 4
@@ -112,7 +105,6 @@ artifacts1: {
         PLUMPOWDER: 6
         RECYCLER_BOLUS: 8
         RED_TIDE_TALISMAN: 6
-        ROYAL_JUJUBE_BANG: 8
         SALIGRAM: 6
         SAMURAI_SHARK: 6
         SEAFOAM_PERIAPT: 4

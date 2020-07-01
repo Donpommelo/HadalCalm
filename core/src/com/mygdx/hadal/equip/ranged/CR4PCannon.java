@@ -46,7 +46,7 @@ public class CR4PCannon extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.SHOTGUN.playUniversal(state, startPosition, 0.8f, false);
 
 		for (int i = 0; i < numProj; i++) {
 			

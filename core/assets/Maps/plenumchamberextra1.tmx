@@ -51,7 +51,7 @@
   </object>
   <object id="8" name="Prefab" type="PrefabSpawnerUnlock" x="352" y="928" width="96" height="96">
    <properties>
-    <property name="name" value="BLOODWOODS_GLOVE"/>
+    <property name="name" value="BUCKET_OF_BATTERIES"/>
     <property name="prefabId" value="SpawnerUnlock"/>
     <property name="triggeredId" value="unlock1"/>
     <property name="triggeringId" value=""/>

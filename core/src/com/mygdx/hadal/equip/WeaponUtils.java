@@ -163,7 +163,7 @@ public class WeaponUtils {
 	
 	private static final int spiritSize = 25;
 	private static final float spiritHoming = 80;
-	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, short filter) {		
+	public static void releaseVengefulSpirits(PlayState state, Vector2 startPos, float spiritLifespan, float spiritDamage, float spiritKnockback, BodyData creator, Particle particle, short filter) {		
 		
 		Hitbox hbox = new RangedHitbox(state, startPos, new Vector2(spiritSize, spiritSize), spiritLifespan, new Vector2(), filter, true, true, creator.getSchmuck(), Sprite.NOTHING);
 		
@@ -171,7 +171,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
 		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, filter));
-		hbox.addStrategy(new CreateParticles(state, hbox, creator, Particle.SHADOW_PATH, 0.0f, 3.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 3.0f));
 		
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));
 	}

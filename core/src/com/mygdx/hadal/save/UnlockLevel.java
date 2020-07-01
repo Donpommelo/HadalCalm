@@ -59,6 +59,7 @@ public enum UnlockLevel {
 	DERELICT2("Maps/derelict2.tmx"),
 	WRECKEXPANSE1("Maps/wreckexpanse1.tmx"),
 	WRECKEXPANSE2("Maps/wreckexpanse2.tmx"),
+	WRECKEXPANSEEXTRA1("Maps/wreckexpanseextra1.tmx"),
 	WRECKEXPANSEBOSS("Maps/wreckexpanseboss.tmx"),
 	PLENUMCHAMBER1("Maps/plenumchamber1.tmx"),
 	PLENUMCHAMBER2("Maps/plenumchamber2.tmx"),
@@ -66,11 +67,15 @@ public enum UnlockLevel {
 	PLENUMCHAMBER4("Maps/plenumchamber4.tmx"),
 	PLENUMCHAMBER5("Maps/plenumchamber5.tmx"),
 	PLENUMCHAMBER6("Maps/plenumchamber6.tmx"),
+	PLENUMCHAMBERMAZE("Maps/plenumchambermaze.tmx"),
 	PLENUMCHAMBERSHAFT("Maps/plenumchambershaft.tmx"),
 	PLENUMCHAMBEREXTRA1("Maps/plenumchamberextra1.tmx"),
 	PLENUMCHAMBERTURBINE("Maps/plenumchamberturbine.tmx"),
 	PLENUMCHAMBERBALCONY("Maps/plenumchamberbalcony.tmx"),
 	NOISELESSSEA1("Maps/noiselesssea1.tmx"),
+	SLUICE1("Maps/sluice1.tmx"),
+	SLUICEBOSS("Maps/sluiceboss.tmx"),
+	PARTY("Maps/party.tmx"),
 
 	
 	;

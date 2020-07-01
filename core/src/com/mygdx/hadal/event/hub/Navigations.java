@@ -9,6 +9,8 @@ import com.mygdx.hadal.actors.UIHub;
 import com.mygdx.hadal.actors.UIHub.hubTypes;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.save.UnlockLevel;
+import com.mygdx.hadal.save.UnlockManager;
+import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.states.PlayState;
@@ -21,14 +23,24 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  */
 public class Navigations extends HubEvent {
 
-	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
+	private String level;
+	
+	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, String level, boolean checkUnlock) {
 		super(state, startPos, size, title, tag, checkUnlock, hubTypes.NAVIGATIONS);
+		this.level = level;
 	}
 	
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		final Navigations me = this;
+		
+		if (level != "" && state.isServer()) {
+			if (!UnlockManager.checkUnlock(state, UnlockType.LEVEL, level)) {
+				UnlockManager.setUnlock(state, UnlockType.LEVEL, level, true);
+				state.getDialogBox().addDialogue("", "TELEPYRAMID ACTIVATED", "", true, true, true, 3.0f, null, null);
+			}
+		}
 		
 		for (UnlockLevel c: UnlockLevel.getUnlocks(state, checkUnlock, tags)) {
 			

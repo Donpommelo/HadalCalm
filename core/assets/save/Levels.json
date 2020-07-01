@@ -273,4 +273,25 @@ PLENUMCHAMBER4: {
 		NAVIGATIONS,
 	]
 }
+DERELICT2: {
+	name: DERELICT2
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
+SLUICE1: {
+	name: SLUICE1
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
+PARTY: {
+	name: PARTY
+	description: TEMP
+	tags: [
+		NAVIGATIONS,
+	]
+}
 }

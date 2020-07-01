@@ -67,7 +67,7 @@ public class CrownofThorns extends Artifact {
 						hbox.addStrategy(new AdjustAngle(state, hbox, inflicted));
 						hbox.addStrategy(new ContactWallDie(state, hbox, inflicted));
 						hbox.addStrategy(new DamageStandard(state, hbox, inflicted, thornDamage, thornKnockback, DamageTypes.POKING, DamageTypes.RANGED));
-						hbox.addStrategy(new ContactUnitSound(state, hbox, inflicted, SoundEffect.STAB, 0.25f));
+						hbox.addStrategy(new ContactUnitSound(state, hbox, inflicted, SoundEffect.STAB, 0.25f, true));
 					}
 				}
 				
