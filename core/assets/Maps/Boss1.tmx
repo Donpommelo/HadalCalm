@@ -97,7 +97,7 @@
   <object id="22" name="Multitrigger" type="Multitrigger" x="1568" y="2784" width="32" height="32">
    <properties>
     <property name="triggeredId" value="startSpawn"/>
-    <property name="triggeringId" value="lockLeft,bounds3,bounds4,arenalock,bossParticles,bossDelay"/>
+    <property name="triggeringId" value="lockLeft,arenalock,bossParticles,bossDelay"/>
    </properties>
   </object>
   <object id="23" name="Multitrigger" type="Multitrigger" x="320" y="576" width="32" height="32">
@@ -188,9 +188,11 @@
     <property name="triggeringId" value="door1"/>
    </properties>
   </object>
-  <object id="42" name="Dummy" type="Dummy" x="928" y="2464" width="32" height="32">
+  <object id="42" name="Dummy" type="Dummy" x="1280" y="2528" width="32" height="32">
    <properties>
+    <property name="particle_std" value="TELEPORT"/>
     <property name="triggeredId" value="playerlock"/>
+    <property name="triggeringId" value="entercenter"/>
    </properties>
   </object>
   <object id="43" name="PlayerMove" type="PlayerMove" x="1632" y="2784" width="32" height="32">
@@ -254,7 +256,7 @@
   </object>
   <object id="53" name="Prefab" type="PrefabSpawner" x="768" y="2560" width="96" height="96">
    <properties>
-    <property name="interval" type="float" value="40"/>
+    <property name="interval" type="float" value="30"/>
     <property name="power" type="float" value="40"/>
     <property name="prefabId" value="Spawner"/>
     <property name="type" type="int" value="1"/>
@@ -270,7 +272,7 @@
   <object id="55" name="Multitrigger" type="Multitrigger" x="384" y="512" width="32" height="32">
    <properties>
     <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="startTimer,w1,unlock1"/>
+    <property name="triggeringId" value="startTimer,w1"/>
    </properties>
   </object>
  </objectgroup>

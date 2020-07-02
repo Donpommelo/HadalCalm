@@ -36,9 +36,10 @@ public class DieFrag extends HitboxStrategy {
 	
 	@Override
 	public void die() {
+		Vector2 fragVelo = new Vector2();
 		for (int i = 0; i < numFrag; i++) {
 			float newDegrees = (ThreadLocalRandom.current().nextInt(0, 360));
-			Vector2 fragVelo = new Vector2(0, fragSpeed).setAngle(newDegrees);
+			fragVelo.set(0, fragSpeed).setAngle(newDegrees);
 
 			int randomIndex = GameStateManager.generator.nextInt(projSprites.length);
 			Sprite projSprite = projSprites[randomIndex];

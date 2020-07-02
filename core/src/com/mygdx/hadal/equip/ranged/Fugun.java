@@ -33,7 +33,7 @@ public class Fugun extends RangedWeapon {
 	private final static float lifespan = 1.2f;
 		
 	private final static int poisonRadius = 250;
-	private final static float poisonDamage = 40/60f;
+	private final static float poisonDamage = 0.7f;
 	private final static float poisonDuration = 4.0f;
 
 	private final static Sprite projSprite = Sprite.FUGU;

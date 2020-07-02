@@ -16,7 +16,8 @@ import com.mygdx.hadal.states.PlayState;
  * Triggering Behavior: This event's connected event serves as the point that schmucks will be teleported to
  * 
  * Fields:
- * N/A
+ * all: boolean. do we move all players or not?
+ * exclude: boolean. de we exclude the player that activated this? 
  * 
  
  * @author Zachary Tu
@@ -50,15 +51,18 @@ public class PlayerMover extends Event {
 					
 					if (state.isServer()) {
 						if (all) {
+							
+							//go through all players
 							for (int f: HadalGame.server.getScores().keySet()) {
-								
+
 								Player playerLeft;
 								if (f == 0) {
-									playerLeft = HadalGame.server.getPlayers().get(f);
-								} else {
 									playerLeft = state.getPlayer();
+								} else {
+									playerLeft = HadalGame.server.getPlayers().get(f);
 								}
 								
+								//warp player if they are a different player (or we have exclude turned off)
 								if (!exclude || !p.equals(playerLeft)) {
 									if (playerLeft != null) {
 										players.add(playerLeft);
@@ -86,6 +90,11 @@ public class PlayerMover extends Event {
 				
 				for (Player p: players) {
 					p.setTransform(getConnectedEvent().getPosition(), 0);
+					
+					//if possible, activate connected event's connected event.
+					if (getConnectedEvent().getConnectedEvent() != null) {
+						getConnectedEvent().getConnectedEvent().getEventData().preActivate(getEventData(), p);
+					}
 				}
 			}
 		}

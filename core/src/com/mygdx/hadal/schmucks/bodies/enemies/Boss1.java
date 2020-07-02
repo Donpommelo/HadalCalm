@@ -62,6 +62,7 @@ public class Boss1 extends EnemyFloating {
 	@Override
 	public void attackInitiate() {
 		attackNum++;
+		
 		if (phase == 1) {
 			if (getBodyData().getCurrentHp() <= phaseThreshold2 * getBodyData().getStat(Stats.MAX_HP)) {
 				phase = 2;

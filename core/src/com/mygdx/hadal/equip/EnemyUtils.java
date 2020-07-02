@@ -6,6 +6,7 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -16,7 +17,11 @@ import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.DiePoison;
+import com.mygdx.hadal.strategies.hitbox.DieRagdoll;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
+import com.mygdx.hadal.strategies.hitbox.HomingUnit;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
@@ -366,6 +371,27 @@ public class EnemyUtils {
 		});
 	}
 	
+	public static void fugu(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size,
+			final float lifespan, final int poisonRadius, final float poisonDamage, final float poisonDuration, final float duration) {
+		
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.FUGU);
+				hbox.setGravity(3.0f);
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.POISON, DamageTypes.RANGED));
+				hbox.addStrategy(new DiePoison(state, hbox, enemy.getBodyData(), poisonRadius, poisonDamage, poisonDuration, enemy.getHitboxfilter()));
+				hbox.addStrategy(new DieRagdoll(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.DEFLATE, 0.25f));
+			}
+		});
+	}
+	
 	public static void fireLaser(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final Particle particle) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
@@ -401,19 +427,48 @@ public class EnemyUtils {
 		});
 	}
 	
-	public static void shootKamaboko(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration) {
+	private final static float homePower = 60.0f;
+	private final static float fragSpeed = 10.0f;
+	private final static int numProj = 6;
+	public static void shootKamaboko(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final int type) {
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
 			@Override
 			public void execute() {
-				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				Vector2 startVelo = new Vector2(0, projSpeed).setAngle(enemy.getAttackAngle());
 				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
 				hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
+				
+				if (type >= 2) {
+					hbox.addStrategy(new HomingUnit(state, hbox, enemy.getBodyData(), homePower, enemy.getHitboxfilter()));
+				}
+				if (type == 3) {
+					hbox.addStrategy(new HitboxStrategy(state, hbox, enemy.getBodyData()) {
+						
+						@Override
+						public void die() {
+							Vector2 fragVelo = new Vector2(0, fragSpeed);
+							Vector2 fragPosition = new Vector2(hbox.getPixelPosition());
+							for (int i = 0; i < numProj; i++) {
+								fragVelo.setAngle(60 * i);
+								fragPosition.set(hbox.getPixelPosition()).add(new Vector2(fragVelo).nor().scl(5));
+								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+								frag.addStrategy(new ControllerDefault(state, frag, enemy.getBodyData()));
+								frag.addStrategy(new DamageStandard(state, frag, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+								frag.addStrategy(new ContactWallDie(state, frag, enemy.getBodyData()));
+								frag.addStrategy(new ContactUnitDie(state, frag, enemy.getBodyData()));
+								frag.addStrategy(new CreateParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+								frag.addStrategy(new DieParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
+							}
+						}
+					});
+				}
 			}
 		});
 	}
@@ -487,6 +542,23 @@ public class EnemyUtils {
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 					hbox.addStrategy(new ContactWallLoseDurability(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactWallParticles(state, hbox, enemy.getBodyData(), Particle.SPARKS));
+				}
+			}
+		});
+	}
+	
+	public static void callMinion(final PlayState state, Enemy boss, final float duration, final EnemyType type, final float extraField) {
+		boss.getSecondaryActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				
+				Event ceiling = state.getDummyPoint("ceiling");
+				
+				if (ceiling != null) {
+					
+					type.generateEnemy(state, new Vector2(ceiling.getPixelPosition()).add(new Vector2((GameStateManager.generator.nextFloat() -  0.5f) * ceiling.getSize().x, 0)),
+							enemy.getHitboxfilter(), extraField, null);
 				}
 			}
 		});

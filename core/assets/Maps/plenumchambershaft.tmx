@@ -423,7 +423,9 @@
   </object>
   <object id="69" name="Dummy" type="Dummy" x="1856" y="704" width="32" height="32">
    <properties>
+    <property name="particle_std" value="TELEPORT"/>
     <property name="triggeredId" value="playerlock"/>
+    <property name="triggeringId" value="setcamerashaft"/>
    </properties>
   </object>
   <object id="70" name="PlayerMove" type="PlayerMove" x="2176" y="9024" width="32" height="32">

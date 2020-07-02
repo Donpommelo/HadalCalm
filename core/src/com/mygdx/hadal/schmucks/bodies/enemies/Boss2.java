@@ -32,6 +32,8 @@ public class Boss2 extends EnemyFloating {
 	private final static String name = "KING KAMABOKO";
 
     private static final float aiAttackCd = 2.0f;
+    private static final float aiAttackCd2 = 1.5f;
+    private static final float aiAttackCd3 = 1.0f;
     
     private final static int scrapDrop = 15;
     
@@ -43,13 +45,17 @@ public class Boss2 extends EnemyFloating {
 	
 	private static final float scale = 1.0f;
 	
-	private static final int hp = 4500;
+	private static final int hp = 6000;
 	private static final float linkResist = 0.2f;
 	
 	private static final Sprite sprite = Sprite.NOTHING;
 	
-	private Body[] links = new Body[7];
+	private Body[] links = new Body[5];
 	private TextureRegion headSprite, bodySprite, faceSprite;
+	
+	private int phase = 1;
+	private static final float phaseThreshold2 = 0.8f;
+	private static final float phaseThreshold3 = 0.4f;
 	
 	public Boss2(PlayState state, Vector2 startPos, short filter, SpawnerSchmuck spawner) {
 		super(state, startPos, new Vector2(width, height).scl(scale), new Vector2(hbWidth, hbHeight).scl(scale), name, sprite, EnemyType.BOSS2, filter, hp, aiAttackCd, scrapDrop, spawner);
@@ -79,7 +85,7 @@ public class Boss2 extends EnemyFloating {
 		};
 		
 		for (int i = 0; i < links.length; i ++) {
-			links[i] = BodyBuilder.createBox(world, new Vector2(startPos).sub(0, width * i / 2 * scale), getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, 
+			links[i] = BodyBuilder.createBox(world, startPos, getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, 
 					(short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 					hitboxfilter, false, link);
 			
@@ -100,7 +106,12 @@ public class Boss2 extends EnemyFloating {
 		}
 		
 		body.setType(BodyType.KinematicBody);
-		links[6].setType(BodyType.KinematicBody);
+		links[links.length - 1].setType(BodyType.KinematicBody);
+		
+		//shitty hard coded way of making the anchor link sync with client
+		if (!state.isServer()) {
+			links[links.length - 1].setTransform(new Vector2(serverPos).scl(32), 0);
+		}
 	}
 	
 	@Override
@@ -147,37 +158,136 @@ public class Boss2 extends EnemyFloating {
 		attackNum++;
 		setFaceSprite();
 		
-		if (attackNum % 2 == 0) {
-			int randomIndex = GameStateManager.generator.nextInt(4);
-			switch(randomIndex) {
-			case 0: 
-				meleeAttack();
-				break;
-			case 1: 
-				slodgeBreath();
-				break;
-			case 2: 
-				fireBreath();
-				break;
-			case 3: 
-				slodgeBreath();
-				break;
+		if (phase == 1) {
+			if (getBodyData().getCurrentHp() <= phaseThreshold2 * getBodyData().getStat(Stats.MAX_HP)) {
+				phase = 2;
+				setAttackCd(aiAttackCd2);
+				summonCrawler();
+			} else {
+				if (attackNum % 2 == 1) {
+					
+					int randomIndex = GameStateManager.generator.nextInt(5);
+					switch(randomIndex) {
+					case 0: 
+						meleeAttack1();
+						break;
+					case 1: 
+						meleeAttack2();
+						break;
+					case 2: 
+						fireBreath();
+						break;
+					case 3: 
+						slodgeBreath();
+						break;
+					case 4: 
+						fuguShots();
+						break;
+					}
+				} else {
+					kamabokoShot1();
+				}
+				
+				if (attackNum % 4 == 0) {
+					summonSwimmer();
+				}
 			}
-		} else {
-			kamabokoShot();
+		}
+		
+		if (phase == 2) {
+			if (getBodyData().getCurrentHp() <= phaseThreshold3 * getBodyData().getStat(Stats.MAX_HP)) {
+				phase = 3;
+				setAttackCd(aiAttackCd3);
+				summonCrawler();
+			} else {
+				if (attackNum % 2 == 1) {
+					
+					int randomIndex = GameStateManager.generator.nextInt(5);
+					switch(randomIndex) {
+					case 0: 
+						meleeAttack1();
+						break;
+					case 1: 
+						meleeAttack2();
+						break;
+					case 2: 
+						fireBreath();
+						break;
+					case 3: 
+						slodgeBreath();
+						break;
+					case 4: 
+						fuguShots();
+						break;
+					}
+				} else {
+					kamabokoShot2();
+				}
+				
+				if (attackNum % 3 == 0) {
+					summonSwimmer();
+				}
+			}
+		}
+		
+		if (phase == 3) {
+			if (attackNum % 2 == 1) {
+				int randomIndex = GameStateManager.generator.nextInt(5);
+				switch(randomIndex) {
+				case 0: 
+					meleeAttack1();
+					break;
+				case 1: 
+					meleeAttack2();
+					break;
+				case 2: 
+					fireBreath();
+					break;
+				case 3: 
+					slodgeBreath();
+					break;
+				case 4: 
+					fuguShots();
+					break;
+				}
+			} else {
+				kamabokoShot3();
+			}
+			
+			if (attackNum % 2 == 0) {
+				summonSwimmer();
+			}
 		}
 	}
 	
 	private static final int bulletDamage = 10;
-	private static final int bulletSpeed = 20;
-	private static final int bulletKB = 35;
+	private static final int bulletSpeed1 = 18;
+	private static final int bulletSpeed2 = 5;
+	private static final int bulletKB = 25;
 	private static final int bulletSize = 60;
-	private static final float bulletLifespan = 2.0f;
-	private static final float bulletInterval = 0.5f;
+	private static final float bulletLifespan = 3.0f;
+	private static final float bulletInterval1 = 0.4f;
+	private static final float bulletInterval2 = 0.6f;
+	private static final float bulletInterval3 = 0.8f;
 	private static final int bulletNumber = 3;
-	public void kamabokoShot() {
+	private void kamabokoShot1() {
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.25f);
 		for (int i = 0; i < bulletNumber; i++) {
-			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed, bulletKB, bulletSize, bulletLifespan, bulletInterval);
+			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed1, bulletKB, bulletSize, bulletLifespan, bulletInterval1, 1);
+		}
+	}
+	
+	private void kamabokoShot2() {
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.25f);
+		for (int i = 0; i < bulletNumber; i++) {
+			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval2, 2);
+		}
+	}
+	
+	private void kamabokoShot3() {
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.25f);
+		for (int i = 0; i < bulletNumber; i++) {
+			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval3, 3);
 		}
 	}
 	
@@ -188,11 +298,53 @@ public class Boss2 extends EnemyFloating {
 
 	private static final int defaultMeleeKB = 50;
 	private final static int returnSpeed = 15;
-	public void meleeAttack() {
+	private void meleeAttack1() {
 		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 1.0f);
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, defaultMeleeKB, 0.8f);
-		EnemyUtils.moveToDummy(state, this, "platformCenter", charge1Speed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "platformLeft", charge1Speed, driftDurationMax);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.0f);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+	}
+	
+	private static final int thrashSpeed = 30;
+	private static final int thrashDownSpeed = 70;
+	private static final float thrash1Damage = 6.0f;
+	
+	private void meleeAttack2() {
+		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 1.0f);
+		
+		int rand = GameStateManager.generator.nextInt(2);
+		switch(rand) {
+			case 0:
+				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
+				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
+				
+				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
+				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
+				
+				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
+				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
+				break;
+			case 1:
+				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
+				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
+				
+				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
+				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
+				
+				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
+				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
+				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
+				break;
+		}
+		
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.0f);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
 	}
@@ -241,6 +393,46 @@ public class Boss2 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+	}
+	
+	private static final int fuguDamage = 5;
+	private static final int fuguSpeed = 18;
+	private static final int fuguKB = 5;
+	private static final int fuguSize = 70;
+	private static final float fuguLifespan = 2.5f;
+	private static final int fuguNumber = 3;
+	private static final float fuguInterval = 0.25f;
+	
+	private final static int poisonRadius = 150;
+	private final static float poisonDamage = 0.4f;
+	private final static float poisonDuration = 4.0f;
+	
+	private void fuguShots() {
+		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -210.0f, 1.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -260.0f, 0.0f);
+		for (int i = 0; i < fuguNumber; i++) {
+			EnemyUtils.fugu(state, this, fuguDamage, fuguSpeed, fuguKB, fuguSize, fuguLifespan, poisonRadius, poisonDamage, poisonDuration, fuguInterval);
+		}
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+	}
+	
+	private static final int numCrawler = 3;
+	private static final float crawlerInterval = 1.0f;
+	private void summonCrawler() {
+		EnemyUtils.moveToDummy(state, this, "hide", returnSpeed, driftDurationMax);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 2.0f);
+		for (int i = 0; i < numCrawler; i++) {
+			EnemyUtils.callMinion(state, this, crawlerInterval, EnemyType.CRAWLER1, 0.0f);
+		}
+		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
+		EnemyUtils.moveToDummy(state, this, "neutral", returnSpeed, driftDurationMax);
+	}
+	
+	private void summonSwimmer() {
+		EnemyUtils.callMinion(state, this, 0.0f, EnemyType.SWIMMER1, 0.0f);
 	}
 	
 	/**

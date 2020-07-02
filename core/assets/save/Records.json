@@ -1,5 +1,5 @@
 {
-scrap: 198
+scrap: 201
 flags: {
 	class: java.util.HashMap
 	PARTY: 0
@@ -72,7 +72,7 @@ unlockEquip: {
 	COLACANNON: false
 	TORPEDO_LAUNCHER: false
 	MAELSTROM: false
-	POPPER: false
+	POPPER: true
 	CHARGE_BEAM: true
 	HEXENHOWITZER: false
 	BEEGUN: true
