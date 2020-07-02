@@ -224,6 +224,16 @@ LASER_RIFLE: {
 		RANGED,
 	]
 }
+LOVE_BOW: {
+	name: Love Bow
+	description: "Charge and fire arrows that heal allies in co-op."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 MACHINEGUN: {
 	name: Machinegun
 	description: "Standard weapon with a high rate of fire."

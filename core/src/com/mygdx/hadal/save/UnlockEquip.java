@@ -37,6 +37,7 @@ public enum UnlockEquip {
 	KAMABOKANNON(Kamabokannon.class),
 	LASER_GUIDED_ROCKET(LaserGuidedRocket.class),
 	LASER_RIFLE(LaserRifle.class),
+	LOVE_BOW(LoveBow.class),
 	MACHINEGUN(Machinegun.class),
 	MAELSTROM(Maelstrom.class),
 	MINIGUN(Minigun.class),

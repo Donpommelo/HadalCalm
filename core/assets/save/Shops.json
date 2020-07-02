@@ -23,6 +23,7 @@ weapons1: {
         FUGUN: 4
         IRON_BALL_LAUNCHER: 4
         LASER_RIFLE: 4
+        LOVE_BOW: 4
         NEMATOCYDEARM: 4
         MORAYGUN: 4
         POPPER: 4
@@ -42,7 +43,7 @@ weapons1: {
         STICKY_BOMB_LAUNCHER: 5
         XBOMBER: 5
         AMITA_CANNON: 6
-        ASSAULT_BITS: 3
+        ASSAULT_BITS: 6
         DEEP_SEA_SMELTER: 6
         HEXENHOWITZER: 6
         KAMABOKANNON: 6

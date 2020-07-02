@@ -43,6 +43,7 @@ hiScores: {
 unlockEquip: {
 	class: java.util.HashMap
 	UNDERMINER: false
+	LOVE_BOW: true
 	IRON_BALL_LAUNCHER: false
 	ICEBERG: false
 	BOILER: false

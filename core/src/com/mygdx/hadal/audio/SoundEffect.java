@@ -23,6 +23,8 @@ public enum SoundEffect {
 	BEE_BUZZ("sound/bees.ogg"),
 	BOOMERANG_WHIZ("sound/boomerang.mp3"),
 	BOMB("sound/bomb.mp3"),
+	BOW_SHOOT("sound/bowshoot.mp3"),
+	BOW_STRETCH("sound/bowstretch.ogg"),
 	CANNON("sound/cannon.mp3"),
 	CORK("sound/cork.mp3"),
 	CRACKER1("sound/cracker1.mp3"),

@@ -1,153 +1,165 @@
 
 drone.png
-size: 1024,1024
+size: 2048,2048
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 drone_arm_back
   rotate: false
-  xy: 450, 770
-  size: 268, 168
-  orig: 268, 168
+  xy: 2, 1030
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1
 drone_arm_front
   rotate: false
-  xy: 720, 770
-  size: 268, 168
-  orig: 268, 168
+  xy: 2, 516
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1
 drone_body
   rotate: false
-  xy: 2, 551
-  size: 446, 387
-  orig: 446, 387
+  xy: 516, 1030
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1
 drone_dot
   rotate: false
-  xy: 450, 587
-  size: 179, 181
-  orig: 179, 181
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 0
 drone_eye
   rotate: false
-  xy: 450, 587
-  size: 179, 181
-  orig: 179, 181
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 0
 drone_dot
   rotate: false
-  xy: 631, 587
-  size: 179, 181
-  orig: 179, 181
+  xy: 516, 516
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 1
 drone_dot
   rotate: false
-  xy: 812, 587
-  size: 179, 181
-  orig: 179, 181
+  xy: 1030, 1030
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 2
 drone_dot
   rotate: false
-  xy: 450, 404
-  size: 179, 181
-  orig: 179, 181
+  xy: 516, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 3
 drone_dot
   rotate: false
-  xy: 631, 404
-  size: 179, 181
-  orig: 179, 181
+  xy: 1030, 516
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 4
 drone_dot
   rotate: false
-  xy: 812, 404
-  size: 179, 181
-  orig: 179, 181
+  xy: 1030, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 5
+
+drone2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
 drone_dot
   rotate: false
-  xy: 2, 368
-  size: 179, 181
-  orig: 179, 181
+  xy: 2, 1030
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 6
 drone_dot
   rotate: false
-  xy: 183, 368
-  size: 179, 181
-  orig: 179, 181
+  xy: 2, 516
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 7
 drone_dot
   rotate: false
-  xy: 364, 221
-  size: 179, 181
-  orig: 179, 181
+  xy: 516, 1030
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 8
 drone_eye
   rotate: false
-  xy: 2, 185
-  size: 179, 181
-  orig: 179, 181
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 1
 drone_eye
   rotate: false
-  xy: 183, 185
-  size: 179, 181
-  orig: 179, 181
+  xy: 516, 516
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 2
 drone_eye
   rotate: false
-  xy: 364, 38
-  size: 179, 181
-  orig: 179, 181
+  xy: 1030, 1030
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 3
 drone_eye
   rotate: false
-  xy: 2, 2
-  size: 179, 181
-  orig: 179, 181
+  xy: 516, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 4
 drone_eye
   rotate: false
-  xy: 183, 2
-  size: 179, 181
-  orig: 179, 181
+  xy: 1030, 516
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 5
 drone_eye
   rotate: false
-  xy: 545, 221
-  size: 179, 181
-  orig: 179, 181
+  xy: 1030, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 6
+
+drone3.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
 drone_eye
   rotate: false
-  xy: 726, 221
-  size: 179, 181
-  orig: 179, 181
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 7
 drone_eye
   rotate: false
-  xy: 545, 38
-  size: 179, 181
-  orig: 179, 181
+  xy: 516, 2
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: 8
