@@ -313,6 +313,15 @@ FARADAYS_CAGE: {
 		RANDOM_POOL,
 	]
 }
+FEELING_OF_BEING_WATCHED: {
+	name: Feeling of Being Watched
+	description: "+Damage with Low Fuel"
+    descriptionLong: "Fuel Threshold: 20% Max Fuel\nBonus Damage: +50%\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
 FENS_CLIPPED_WINGS: {
 	name: Fen's Clipped Wings
 	description: "+1 Jump, +Jump Height"
@@ -388,6 +397,15 @@ HEART_OF_SPEROS: {
 	name: Heart of Speros
 	description: "Use Fuel as Ammo"
     descriptionLong: "Fuel Spent: 50% Max Fuel / Weapon Clip Size\n\nThe synthetic heart-replacement belonging to an overworked employee.\n\n"
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+HOOD_OF_HABIT: {
+	name: Hood of Habit
+	description: "Become Invisible when Receiving Critical Damage"
+    descriptionLong: "Hp Threshold: 25\nInvisibility Duration: 8s\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -886,6 +904,15 @@ VOID_HYPONOME: {
 	name: Void Hyponome
 	description: "-Airblast Cost"
     descriptionLong: "Airblast Cost Reduction: -25%\n\nA rubbery tube used for water propulsion.\n\nAll mobility within the Noiseless Sea is born from an individual's affinity for or aversion to the all-consuming void."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+VOLATILE_DERMIS: {
+	name: Volatile Dermis
+	description: "Shock Foes on Receiving Damage"
+    descriptionLong: "Lightning Cooldown: 3s\nLightning Damage: 15\nLightning Chain: 3"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

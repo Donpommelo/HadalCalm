@@ -334,6 +334,8 @@ public class Enemy extends Schmuck {
 	
 	public void setMoveTarget(HadalEntity moveTarget) { this.moveTarget = moveTarget; }
 	
+	public void setAttackTarget(HadalEntity attackTarget) { this.attackTarget = attackTarget; }
+
 	public HadalEntity getMoveTarget() {
 		if (moveTarget != null) {
 			if (moveTarget.isAlive()) {

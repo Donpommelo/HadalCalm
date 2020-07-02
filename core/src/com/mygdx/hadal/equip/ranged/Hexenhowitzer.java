@@ -162,12 +162,12 @@ public class Hexenhowitzer extends RangedWeapon {
 	}
 	
 	//custom charging text to convey supercharge information
-		@Override
-		public String getChargeText() {
-			if (supercharged) {
-				return "SUPERCHARGE"; 
-			} else {
-				return "CHARGE"; 
-			}
+	@Override
+	public String getChargeText() {
+		if (supercharged) {
+			return "SUPERCHARGE"; 
+		} else {
+			return "CHARGE"; 
 		}
+	}
 }

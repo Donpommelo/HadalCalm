@@ -17,6 +17,15 @@ BENDY_BEAMS: {
 		RANDOM_POOL,
 	]
 }
+CALL_OF_WALRUS: {
+	name: Call of Walrus
+	description: "Buffs Damage and Speed and the cost of Hp"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 DEPTH_CHARGE: {
 	name: Depth Charge
 	description: "Perform an Explosive-Powered Jump"
@@ -35,10 +44,28 @@ DODGE_ROLL: {
 		RANDOM_POOL,
 	]
 }
+FAFROTSKIES: {
+	name: Fafrotskies
+	description: "Create a Storm Cloud"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 FISH_GANG: {
 	name: Fish Gang
 	description: "Summon a Fish Gang."
     descriptionLong: "TEMP."
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+FORCE_OF_WILL: {
+	name: Force of Will
+	description: "Become Invulnerable Temporarily"
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -66,6 +93,15 @@ HONEYCOMB: {
 	name: Honeycomb
 	description: "Releases a swarm of Bees!"
     descriptionLong: "TEST"
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+JUMP_KICK: {
+	name: Jump Kick
+	description: "Perform an Flying Kick"
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -132,10 +168,28 @@ ORBITAL_SHIELD: {
 		RANDOM_POOL,
 	]
 }
+PLUS_MINUS: {
+	name: Plus Minus
+	description: "Shock nearby enemies"
+    descriptionLong: ""
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
 PORTABLE_TURRET: {
 	name: Portable Turret
 	description: "Fire a projectile that creates a Turret where it lands."
     descriptionLong: "TEMP."
+	tags: [
+		DISPENSARY,
+		RANDOM_POOL,
+	]
+}
+PROXIMITY_MINE: {
+	name: Proximity Mine
+	description: "Deploy an invisible mine."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -177,19 +231,19 @@ SPRING_LOADER: {
 		RANDOM_POOL,
 	]
 }
-STORM_CLOUD: {
-	name: Storm Cloud
-	description: "Create a Storm Cloud"
-    descriptionLong: ""
+TAINTED_WATER: {
+	name: Tainted Water
+	description: "Release a poisonous cloud."
+    descriptionLong: "Attack nearby enemies with a cloud of water pollution."
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
 	]
 }
-TAINTED_WATER: {
-	name: Tainted Water
-	description: "Release a poisonous cloud."
-    descriptionLong: "Attack nearby enemies with a cloud of water pollution."
+TERRAFORMER: {
+	name: Terraformer
+	description: "Create a Destructable Rock."
+    descriptionLong: "Use to create a large obstructive block that can be destroyed with attacks."
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -204,8 +258,6 @@ TRACTOR_BEAM: {
 		RANDOM_POOL,
 	]
 }
-
-
 RELOADER: {
 	name: Auroreloader
 	description: "Reloads all of your weapons."

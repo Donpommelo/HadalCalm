@@ -1,5 +1,5 @@
 {
-scrap: 121
+scrap: 198
 flags: {
 	class: java.util.HashMap
 	PARTY: 0
@@ -34,10 +34,11 @@ flags: {
 	ARTIFACTSLOT4: 1
 	ARTIFACTSLOT5: 0
 }
+lastIp: ""
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 0
-	ARENA_HORIZON: 0
+	ARENA_LAGAN: 52
+	ARENA_HORIZON: 10
 }
 unlockEquip: {
 	class: java.util.HashMap
@@ -45,7 +46,7 @@ unlockEquip: {
 	IRON_BALL_LAUNCHER: false
 	ICEBERG: false
 	BOILER: false
-	PEARL_REVOLVER: false
+	PEARL_REVOLVER: true
 	MORAYGUN: false
 	TRICK_GUN: false
 	MORNING_STAR: false
@@ -57,11 +58,13 @@ unlockEquip: {
 	SCRAPRIPPER: false
 	SNIPER_RIFLE: false
 	MINIGUN: false
+	ASSAULT_BITS: true
 	DEEP_SEA_SMELTER: false
 	NOTHING: false
 	STUTTERGUN: false
 	BOUNCING_BLADE: false
 	AMITA_CANNON: false
+	XBOMBER: true
 	BOOMERANG: false
 	CR4PCANNON: false
 	SPEARGUN: false
@@ -76,12 +79,15 @@ unlockEquip: {
 	NEMATOCYDEARM: false
 	FUGUN: false
 	SCREECHER: false
+	DUELING_CORKGUN: true
 	VAJRA: false
 	LASER_RIFLE: false
 	MACHINEGUN: false
-	STICKY_BOMB_LAUNCHER: false
+	STICKY_BOMB_LAUNCHER: true
+	RIFTSPLITTER: true
 	SLODGEGUN: false
 	TESLA_COIL: false
+	BANANA: true
 	FLOUNDERBUSS: true
 }
 unlockArtifact: {
@@ -131,6 +137,7 @@ unlockArtifact: {
 	DAS_BOOT: false
 	VOID_HYPONOME: false
 	IRON_SIGHTS: false
+	HOOD_OF_HABIT: true
 	LOAMSKIN_LOCKET: false
 	KINESIS_LENS: false
 	CLAWS_OF_FESTUS: false
@@ -172,6 +179,7 @@ unlockArtifact: {
 	NUMBER_ONE_BOSS_MUG: false
 	CELESTIAL_ANOINTMENT: false
 	SAMURAI_SHARK: false
+	FEELING_OF_BEING_WATCHED: false
 	CONFIDENCE: false
 	TUNICATE_TUNIC: false
 	CATALOG_OF_WANT: false
@@ -194,9 +202,11 @@ unlockArtifact: {
 unlockActive: {
 	class: java.util.HashMap
 	HYDRAULIC_UPPERCUT: false
+	PLUS_MINUS: false
 	TRACTOR_BEAM: false
 	RADIAL_BARRAGE: false
 	MELON: false
+	PROXIMITY_MINE: false
 	MISSILE_POD: true
 	FISH_GANG: false
 	RELOADER: false
@@ -209,8 +219,9 @@ unlockActive: {
 	NOTHING: false
 	SPIRIT_RELEASE: false
 	RESERVED_FUEL: false
+	TERRAFORMER: false
+	FAFROTSKIES: false
 	DODGE_ROLL: false
-	STORM_CLOUD: false
 	PORTABLE_TURRET: false
 	ORBITAL_SHIELD: false
 	DEPTH_CHARGE: false

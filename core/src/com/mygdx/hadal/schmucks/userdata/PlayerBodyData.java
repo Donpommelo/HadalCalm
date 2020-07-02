@@ -18,8 +18,6 @@ import com.mygdx.hadal.save.UnlockActives;
 import com.mygdx.hadal.save.UnlockArtifact;
 import com.mygdx.hadal.save.UnlockCharacter;
 import com.mygdx.hadal.save.UnlockEquip;
-import com.mygdx.hadal.save.UnlockManager;
-import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
@@ -322,15 +320,10 @@ public class PlayerBodyData extends BodyData {
 			
 			if (!(loadout.artifacts[i].equals(UnlockArtifact.NOTHING))) {
 				
-				//new artifact fails to add if a repeat, locked or slot cost is too high
+				//new artifact fails to add if a repeat, slot cost is too high
 				if (loadout.artifacts[i].equals(artifactUnlock)) {
 					return false;
 				} 
-				
-				if (!UnlockManager.checkUnlock(player.getState(), UnlockType.ARTIFACT, artifactUnlock.toString())) {
-					return false;
-				} 
-				
 				
 			} else {
 

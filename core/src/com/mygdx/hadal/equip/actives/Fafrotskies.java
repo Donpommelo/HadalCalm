@@ -20,7 +20,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 
-public class StormCloud extends ActiveItem {
+public class Fafrotskies extends ActiveItem {
 
 	private final static float usecd = 0.0f;
 	private final static float usedelay = 0.1f;
@@ -39,7 +39,7 @@ public class StormCloud extends ActiveItem {
 	
 	private final static Sprite projSprite = Sprite.ORB_BLUE;
 
-	public StormCloud(Schmuck user) {
+	public Fafrotskies(Schmuck user) {
 		super(user, usecd, usedelay, maxCharge, chargeStyle.byTime);
 	}
 	

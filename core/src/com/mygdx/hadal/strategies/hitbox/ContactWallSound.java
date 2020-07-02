@@ -44,10 +44,9 @@ public class ContactWallSound extends HitboxStrategy {
 	public void onHit(HadalData fixB) {
 		
 		if (procCdCount >= procCd && hbox.getLinearVelocity().len2() > minVelo) {
-			procCdCount = 0;
-
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.WALL)) {
+					procCdCount = 0;
 					sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
 				}
 			}

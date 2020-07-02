@@ -2,10 +2,13 @@ package com.mygdx.hadal.equip.ranged;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -39,6 +42,8 @@ public class Kamabokannon extends RangedWeapon {
 	private static final float maxCharge = 0.3f;
 	private final static float lerpSpeed = 0.2f;
 
+	private SoundEntity oozeSound;
+	
 	public Kamabokannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
 	}
@@ -48,9 +53,15 @@ public class Kamabokannon extends RangedWeapon {
 	private Vector2 aimPointer = new Vector2();
 	@Override
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
-		
 		controllerCount += delta;
 
+		if (reloading || getClipLeft() == 0) {
+			if (oozeSound != null) {
+				oozeSound.turnOff();
+			}
+			return;
+		}
+		
 		//while held, lerp towards mouse pointer
 		while (controllerCount >= pushInterval) {
 			controllerCount -= pushInterval;
@@ -68,7 +79,14 @@ public class Kamabokannon extends RangedWeapon {
 			
 			if (chargeCd >= getChargeTime()) {
 				super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+				
 				aimPointer.set(weaponVelo);
+				
+				if (oozeSound == null) {
+					oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.8f, true, true, soundSyncType.TICKSYNC);
+				} else {
+					oozeSound.turnOn();
+				}
 			}
 		}
 	}
@@ -79,12 +97,6 @@ public class Kamabokannon extends RangedWeapon {
 			chargeCd = getChargeTime();
 			super.execute(state, shooter);
 		}
-	}
-	
-	@Override
-	public void release(PlayState state, BodyData bodyData) {
-		chargeCd = 0;
-		charging = false;
 	}
 	
 	@Override
@@ -99,5 +111,23 @@ public class Kamabokannon extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new CreateParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.KAMABOKO_IMPACT));
+	}
+	
+	@Override
+	public void release(PlayState state, BodyData bodyData) {
+		chargeCd = 0;
+		charging = false;
+		
+		if (oozeSound != null) {
+			oozeSound.turnOff();
+		}
+	}
+	
+	@Override
+	public void unequip(PlayState state) {
+		if (oozeSound != null) {
+			oozeSound.terminate();
+			oozeSound = null;
+		}
 	}
 }

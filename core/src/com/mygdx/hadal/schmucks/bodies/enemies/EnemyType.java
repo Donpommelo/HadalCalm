@@ -134,6 +134,14 @@ public enum EnemyType {
 		}
 	},
 	
+	KBK_BIT() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKBit(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
 	MISCFISH() {
 
 		@Override

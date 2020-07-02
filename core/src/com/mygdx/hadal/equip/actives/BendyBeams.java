@@ -28,9 +28,9 @@ public class BendyBeams extends ActiveItem {
 	private final static float lifespan = 5.0f;
 	private final static float projectileSpeed = 45.0f;
 	
-	private final static float duration = 0.5f;
+	private final static float duration = 1.0f;
 	
-	private static final float procCd = 0.05f;
+	private static final float procCd = 0.1f;
 	private static final float damage = 14.0f;
 	private final static float knockback = 20.0f;
 
@@ -56,13 +56,13 @@ public class BendyBeams extends ActiveItem {
 					
 					startVelo.set(weaponVelo).nor().scl(projectileSpeed);
 					
-					Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
+					Hitbox hbox = new RangedHitbox(state, user.getPlayer().getPixelPosition(), projectileSize, lifespan, new Vector2(startVelo), user.getPlayer().getHitboxfilter(), true, false, user.getPlayer(), projSprite);
 					hbox.addStrategy(new ControllerDefault(state, hbox, user));
 					hbox.addStrategy(new DamageStandard(state, hbox, user, damage, knockback, DamageTypes.ENERGY));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, user));
 					hbox.addStrategy(new ContactWallDie(state, hbox, user));
 					hbox.addStrategy(new AdjustAngle(state, hbox, user));
-					hbox.addStrategy(new Curve(state, hbox, user, 15, 60, user.getPlayer().getMouse().getPixelPosition(), projectileSpeed, 0.1f));
+					hbox.addStrategy(new Curve(state, hbox, user, 90, 180, user.getPlayer().getMouse().getPixelPosition(), projectileSpeed, 0.1f));
 				}
 				procCdCount += delta;
 			}

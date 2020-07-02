@@ -12,11 +12,13 @@ weapons1: {
         BOUNCING_BLADE: 3
         CR4PCANNON: 3
         DIAMOND_CUTTER: 3
+        DUELING_CORKGUN: 3
         GRENADE_LAUNCHER: 3
         PEARL_REVOLVER: 3
         MACHINEGUN: 3
         TORPEDO_LAUNCHER: 3
         WAVE_BEAM: 3
+        BANANA: 3
         CHARGE_BEAM: 4
         FUGUN: 4
         IRON_BALL_LAUNCHER: 4
@@ -24,6 +26,7 @@ weapons1: {
         NEMATOCYDEARM: 4
         MORAYGUN: 4
         POPPER: 4
+        RIFTSPLITTER: 5
         SNIPER_RIFLE: 4
         STUTTERGUN: 4
         TRICK_GUN: 4
@@ -37,7 +40,9 @@ weapons1: {
         SCREECHER: 5
         SLODGEGUN: 5
         STICKY_BOMB_LAUNCHER: 5
+        XBOMBER: 5
         AMITA_CANNON: 6
+        ASSAULT_BITS: 3
         DEEP_SEA_SMELTER: 6
         HEXENHOWITZER: 6
         KAMABOKANNON: 6
@@ -77,6 +82,7 @@ artifacts1: {
         EMAUDELINES_PRISM: 10
         EPHEMERA_PERPETUA: 8
         EXTRA_ROW_OF_TEETH: 6
+        FEELING_OF_BEING_WATCHED: 6
         FORAGERS_HIVE: 6
         FRACTURE_PLATE: 8
         GEMMULE: 5
@@ -84,6 +90,7 @@ artifacts1: {
         GOMEZS_AMYGDALA: 6
         HAND_OF_GLORY: 10
         HEART_OF_SPEROS: 10
+        HOOD_OF_HABIT: 6
         ICE9: 8
         INFORMANTS_TIE: 10
         IRON_SIGHTS: 6
@@ -120,6 +127,7 @@ artifacts1: {
         TUNICATE_TUNIC: 4
         TYPHON_FANG: 8
         UNBREATHING_MEMBRANE: 2
+        VOLATILE_DERMIS: 6
         VOID_HYPONOME: 6
         WHITE_SMOKER: 4
         WHITE_WHALE_CHARM: 6
@@ -133,25 +141,30 @@ actives1: {
         class: java.util.LinkedHashMap
         ANCHOR_SMASH: 5
         BENDY_BEAMS: 5
+        CALL_OF_WALRUS: 5
         DEPTH_CHARGE: 5
         DODGE_ROLL: 5
+        FAFROTSKIES: 6
         FISH_GANG: 7
+        FORCE_OF_WILL: 6
         HEALING_FIELD: 5
         HYDRAULIC_UPPERCUT: 5
         HONEYCOMB: 5
+        JUMP_KICK: 6
         MELON: 6
         METEOR_STRIKE: 7
         MERIDIAN_MAKER: 6
         MISSILE_POD: 6
         NAUTICAL_MINE: 5
         ORBITAL_SHIELD: 6
+        PLUS_MINUS: 6
         PORTABLE_TURRET: 6
         RADIAL_BARRAGE: 6
         RING_OF_GYGES: 7
         SPIRIT_RELEASE: 6
         SPRING_LOADER: 5
-        STORM_CLOUD: 6
         TAINTED_WATER: 5
+        TERRAFORMER: 5
         TRACTOR_BEAM: 7        
     }
 }

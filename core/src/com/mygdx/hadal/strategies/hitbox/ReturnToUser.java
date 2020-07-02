@@ -13,7 +13,7 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ReturnToUser extends HitboxStrategy {
 	
-	private float controllerCount = 0;
+	private float controllerCount;
 	private Vector2 diff = new Vector2();
 	
 	private final static float pushInterval = 1 / 60f;

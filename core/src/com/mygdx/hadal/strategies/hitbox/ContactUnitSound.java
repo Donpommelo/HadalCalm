@@ -44,10 +44,9 @@ public class ContactUnitSound extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (procCdCount >= procCd && (hbox.getLinearVelocity().len2() > minVelo || still)) {
-			procCdCount = 0;
-
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.BODY)) {
+					procCdCount = 0;
 					sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
 				}
 			}

@@ -14,16 +14,30 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class ContactWallDie extends HitboxStrategy {
 	
+	private float delay;
+	
 	public ContactWallDie(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
 	}
 	
 	@Override
+	public void controller(float delta) {
+		if (delay >= 0) {
+			delay -= delta;
+		}
+	}
+	
+	@Override
 	public void onHit(HadalData fixB) {
-		if (fixB != null) {
+		if (fixB != null && delay <= 0) {
 			if (fixB.getType().equals(UserDataTypes.WALL)) {
 				hbox.die();
 			}
 		}
+	}
+	
+	public ContactWallDie setDelay(float delay) {
+		this.delay = delay;
+		return this;
 	}
 }

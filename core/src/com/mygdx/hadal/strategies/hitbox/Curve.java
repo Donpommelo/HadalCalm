@@ -44,7 +44,6 @@ public class Curve extends HitboxStrategy {
 		} else {
 			newDegrees -= (ThreadLocalRandom.current().nextInt(spreadMin, spreadMax));
 		}
-		
 		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
 	}
 	

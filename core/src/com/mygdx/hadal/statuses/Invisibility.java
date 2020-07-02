@@ -13,6 +13,9 @@ import com.mygdx.hadal.states.PlayState;
 
 public class Invisibility extends Status {
 	
+	private final static float fadeTime = 0.5f;
+	private float fadeCount;
+	
 	public Invisibility(PlayState state, float i, BodyData p, BodyData v) {
 		super(state, i, false, p, v);
 		p.getSchmuck().setShader(Shader.INVISIBLE, i);
@@ -20,6 +23,15 @@ public class Invisibility extends Status {
 		
 		if (inflicted instanceof PlayerBodyData) {
 			((PlayerBodyData) inflicted).getPlayer().setInvisible(true);
+		}
+		
+		fadeCount = fadeTime;
+	}
+	
+	@Override
+	public void timePassing(float delta) {
+		if (fadeCount >= 0) {
+			fadeCount -= delta;
 		}
 	}
 	
@@ -41,13 +53,17 @@ public class Invisibility extends Status {
 	
 	@Override
 	public void onShoot(Equipable tool) {
-		inflicted.removeStatus(this);
+		if (fadeCount <= 0) {
+			inflicted.removeStatus(this);
+		}
 	}
 	
 	@Override
 	public void whileAttacking(float delta, Equipable tool) {
-		if (tool instanceof MeleeWeapon) {
-			inflicted.removeStatus(this);
+		if (fadeCount <= 0) {
+			if (tool instanceof MeleeWeapon) {
+				inflicted.removeStatus(this);
+			}
 		}
 	}
 	

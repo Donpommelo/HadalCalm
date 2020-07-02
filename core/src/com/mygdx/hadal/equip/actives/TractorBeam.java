@@ -45,7 +45,7 @@ public class TractorBeam extends ActiveItem {
 	public void useItem(PlayState state, final PlayerBodyData user) {
 		SoundEffect.LASERHARPOON.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 
-		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, this.weaponVelo.scl(projectileSpeed),
+		Hitbox hbox = new RangedHitbox(state, user.getPlayer().getProjectileOrigin(weaponVelo, projectileSize.x), projectileSize, lifespan, new Vector2(weaponVelo).nor().scl(projectileSpeed),
 				user.getPlayer().getHitboxfilter(), false, true, user.getPlayer(), projSprite);
 		hbox.setSyncDefault(false);
 		hbox.setSyncInstant(true);

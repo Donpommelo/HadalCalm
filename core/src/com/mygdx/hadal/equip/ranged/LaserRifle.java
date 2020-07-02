@@ -90,7 +90,7 @@ public class LaserRifle extends RangedWeapon {
 		Sprite projSprite = projSprites[randomIndex];
 		
 		//Create Hitbox from position to wall using raycast distance. Set angle and position of hitbox and make it static.
-		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2((distance * shortestFraction * PPM), projectileHeight), lifespan, new Vector2(0, 0), filter, true, true, user, projSprite) {
+		Hitbox hbox = new RangedHitbox(state, startPosition, new Vector2((distance * shortestFraction * PPM), projectileHeight), lifespan, new Vector2(), filter, true, true, user, projSprite) {
 			
 			Vector2 newPosition = new Vector2();
 			

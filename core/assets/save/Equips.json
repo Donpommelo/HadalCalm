@@ -9,6 +9,26 @@ AMITA_CANNON: {
 		RANGED,
 	]
 }
+ASSAULT_BITS: {
+	name: Assault Bits
+	description: "Summon and control 3 bits to attack enemies."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
+BANANA: {
+	name: Banana
+	description: "Hold the fire button to charge a bouncy, explosive."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 BEEGUN: {
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."
@@ -91,6 +111,15 @@ DEEP_SEA_SMELTER: {
 DIAMOND_CUTTER: {
 	name: Diamond Cutter
 	description: "Extends a spinning blade."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+	]
+}
+DUELING_CORKGUN: {
+	name: Dueling Corkgun
+	description: "Fires a projectile that knocks enemies into walls."
     descriptionLong: "TEST"
 	tags: [
 		ARMORY,
@@ -283,6 +312,16 @@ POPPER: {
 		RANGED,
 	]
 }
+RIFTSPLITTER: {
+	name: Riftsplitter
+	description: "Fire a short-ranged shockwave."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 SCRAPRIPPER: {
 	name: Scrapripper
 	description: "Perform a close-range, melee swing to damage enemies."
@@ -403,7 +442,16 @@ WAVE_BEAM: {
 		RANGED,
 	]
 }
-
+XBOMBER: {
+	name: X-Bomber
+	description: "Fires projectile that explodes in an x-shape."
+    descriptionLong: "TEST"
+	tags: [
+		ARMORY,
+		RANDOM_POOL,
+		RANGED,
+	]
+}
 VAJRA: {
 	name: Vajra
 	description: "Fire a projectile that releases chain lightning upon contact."

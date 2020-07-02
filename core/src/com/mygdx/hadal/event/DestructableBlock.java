@@ -6,6 +6,8 @@ import com.mygdx.hadal.effects.Shader;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.schmucks.UserDataTypes;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
+import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
@@ -61,6 +63,8 @@ public class DestructableBlock extends Event {
 				
 				if (hp <= 0) {
 					event.queueDeletion();
+					
+					new ParticleEntity(state, new Vector2(event.getPixelPosition()), Particle.BOULDER_BREAK, 3.0f, true, particleSyncType.CREATESYNC);
 					
 					//activated connected event when destroyed.
 					if (event.getConnectedEvent() != null) {

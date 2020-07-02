@@ -65,6 +65,15 @@ public class PeerPressure extends Artifact {
 					}
 				}
 			}
+			
+			@Override
+			public void onDeath(BodyData perp) {
+				if (buddy != null) {
+					if (buddy.isAlive()) {
+						buddy.getBodyData().die(buddy.getBodyData());
+					}
+				}
+			}
 		};
 		
 		return enchantment;
