@@ -448,7 +448,7 @@ public class PlayState extends GameState {
 	 */
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1.0f);
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Render Background

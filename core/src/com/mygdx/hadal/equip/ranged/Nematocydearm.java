@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.ranged;
 
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
@@ -13,8 +14,10 @@ import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactStick;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
+import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.strategies.hitbox.Spread;
 
 public class Nematocydearm extends RangedWeapon {
@@ -30,6 +33,7 @@ public class Nematocydearm extends RangedWeapon {
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 45.0f;
 	private final static Vector2 projectileSize = new Vector2(91, 35);
+	private final static Vector2 stickySize = new Vector2(70, 25);
 	private final static float lifespan = 12.0f;
 	
 	private final static int spread = 5;
@@ -46,12 +50,18 @@ public class Nematocydearm extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.SPIKE.playUniversal(state, startPosition, 0.5f, false);
 
+		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
+		hboxSticky.addStrategy(new AdjustAngle(state, hboxSticky, user.getBodyData()));
+		hboxSticky.addStrategy(new ControllerDefault(state, hboxSticky, user.getBodyData()));
+		hboxSticky.addStrategy(new ContactWallSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
+		hboxSticky.addStrategy(new ContactStick(state, hboxSticky, user.getBodyData(), true, false));
+
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-		
+		hbox.setSpritePlayMode(PlayMode.LOOP_PINGPONG);
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), hboxSticky, new Vector2(), new Vector2(), true));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactStick(state, hbox, user.getBodyData(), true, false));
 		hbox.addStrategy(new DamageStatic(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
 		hbox.addStrategy(new Spread(state, hbox, user.getBodyData(), spread));
 		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.STAB, 0.6f, true));

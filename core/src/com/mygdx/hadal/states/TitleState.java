@@ -3,7 +3,7 @@ package com.mygdx.hadal.states;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,34 +30,42 @@ public class TitleState extends GameState {
 	//This table contains the option windows for the title.
 	private Table tableName, tableMain, tableIP;
 	
+	private TitleBackdrop backdrop;
+	
 	//These are all of the display and buttons visible to the player.
-	private Text nameDisplay, nameRand, hostOption, singleOption, joinOption, exitOption, settingsOption, searchOption, notifications;
+	private Text nameDisplay, nameRand, ipDisplay, hostOption, singleOption, joinOption, exitOption, settingsOption, searchOption, notifications;
 	
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
 	
 	//Dimentions and position of the title menu
+	private final static int titleX = 140;
+	private final static int titleY = 580;
+	private final static int titleWidth = 1000;
+	private final static int titleHeight = 128;
+	
 	private final static int menuX = 540;
 	private final static int menuY = 40;
 	private final static int width = 200;
-	private final static int height = 200;
+	private final static int height = 240;
 	
-	private final static int nameX = 780;
-	private final static int nameY = 620;
-	private final static int nameWidth = 500;
+	private final static int nameX = 40;
+	private final static int nameY = 180;
+	private final static int nameWidth = 460;
 	private final static int nameHeight = 100;
 	
-	private final static int ipX = 780;
-	private final static int ipY = 0;
-	private final static int ipWidth = 500;
+	private final static int ipX = 40;
+	private final static int ipY = 40;
+	private final static int ipWidth = 460;
 	private final static int ipHeight = 100;
 	
-	private final static int notificationX = 780;
-	private final static int notificationY = 120;
+	private final static int notificationX = 40;
+	private final static int notificationY = 300;
 	
-	private final static int textWidth = 300;
+	private final static int textWidth = 260;
 
 	private final static float scale = 0.4f;
+	private final static float scaleSide = 0.25f;
 	private final static float optionHeight = 35.0f;
 
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
@@ -75,7 +83,13 @@ public class TitleState extends GameState {
 		
 		stage = new Stage() {
 			{
-				addActor(new TitleBackdrop());
+				backdrop = new TitleBackdrop();
+				backdrop.setX(titleX);
+				backdrop.setY(titleY);
+				backdrop.setWidth(titleWidth);
+				backdrop.setHeight(titleHeight);
+				
+				addActor(backdrop);
 				addActor(new MenuWindow(menuX, menuY, width, height));
 				addActor(new MenuWindow(nameX, nameY, nameWidth, nameHeight));
 				addActor(new MenuWindow(ipX, ipY, ipWidth, ipHeight));
@@ -96,48 +110,43 @@ public class TitleState extends GameState {
 				addActor(tableIP);
 				
 				nameDisplay = new Text("YOUR NAME: ", 0, 0, false);
-				nameDisplay.setScale(scale);
-				nameDisplay.setColor(Color.BLACK);
+				nameDisplay.setScale(scaleSide);
 				nameDisplay.setHeight(optionHeight);
 				
 				nameRand = new Text("GENERATE RANDOM NAME", 0, 0, true);
-				nameRand.setScale(scale);
-				nameRand.setColor(Color.BLACK);
+				nameRand.setScale(scaleSide);
 				nameRand.setHeight(optionHeight);
+				
+				ipDisplay = new Text("ENTER IP: ", 0, 0, true);
+				ipDisplay.setScale(scaleSide);
+				ipDisplay.setHeight(optionHeight);
+				
+				joinOption = new Text("JOIN SERVER", 0, 0, true);
+				joinOption.setScale(scaleSide);
+				joinOption.setHeight(optionHeight);
+				
+				searchOption = new Text("SEARCH FOR NEARBY SERVERS", 0, 0, true);
+				searchOption.setScale(scaleSide);
+				searchOption.setHeight(optionHeight);
 				
 				hostOption = new Text("HOST SERVER", 0, 0, true);
 				hostOption.setScale(scale);
-				hostOption.setColor(Color.BLACK);
 				hostOption.setHeight(optionHeight);
 				
 				singleOption = new Text("SINGLE PLAYER", 0, 0, true);
 				singleOption.setScale(scale);
-				singleOption.setColor(Color.BLACK);
 				singleOption.setHeight(optionHeight);
-				
-				joinOption = new Text("JOIN SERVER", 0, 0, true);
-				joinOption.setScale(scale);
-				joinOption.setColor(Color.BLACK);
-				joinOption.setHeight(optionHeight);
-				
-				searchOption = new Text("SEARCH FOR NEARBY SERVERS", 0, 0, true);
-				searchOption.setScale(scale);
-				searchOption.setColor(Color.BLACK);
-				searchOption.setHeight(optionHeight);
 				
 				settingsOption = new Text("OPTIONS", 0, 0, true);
 				settingsOption.setScale(scale);
-				settingsOption.setColor(Color.BLACK);
 				settingsOption.setHeight(optionHeight);
 				
 				exitOption = new Text("EXIT", 0, 0, true);
 				exitOption.setScale(scale);
-				exitOption.setColor(Color.BLACK);
 				exitOption.setHeight(optionHeight);
 				
 				notifications = new Text("", notificationX, notificationY, false);
 				notifications.setScale(scale);
-				notifications.setColor(Color.BLACK);
 				notifications.setHeight(optionHeight);
 				
 				hostOption.addListener(new ClickListener() {
@@ -367,9 +376,10 @@ public class TitleState extends GameState {
 				tableMain.add(settingsOption).row();
 				tableMain.add(exitOption).row();
 				
-				tableIP.add(joinOption).pad(5);
-				tableIP.add(enterIP).height(optionHeight).row();
-				tableIP.add(searchOption).colspan(2);
+				tableIP.add(ipDisplay).pad(5);
+				tableIP.add(enterIP).width(textWidth).height(optionHeight).row();
+				tableIP.add(joinOption);
+				tableIP.add(searchOption);
 				
 				addActor(notifications);
 			}
@@ -384,7 +394,10 @@ public class TitleState extends GameState {
 	public void update(float delta) {}
 
 	@Override
-	public void render(float delta) {}
+	public void render(float delta) {
+		Gdx.gl.glClearColor(40/255f, 51/255f, 77/255f, 1.0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	}
 	
 	@Override
 	public void dispose() {	stage.dispose(); }

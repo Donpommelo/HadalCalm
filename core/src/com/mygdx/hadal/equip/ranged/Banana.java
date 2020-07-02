@@ -20,8 +20,8 @@ import com.mygdx.hadal.strategies.hitbox.DieExplode;
 
 public class Banana extends RangedWeapon {
 
-	private final static int clipSize = 1;
-	private final static int ammoSize = 16;
+	private final static int clipSize = 3;
+	private final static int ammoSize = 27;
 	private final static float shootCd = 0.0f;
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.4f;

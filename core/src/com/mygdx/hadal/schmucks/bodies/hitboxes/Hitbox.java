@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.hitboxes;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -307,4 +308,6 @@ public class Hitbox extends HadalEntity {
 	public boolean isReflectable() { return reflectable; }
 	
 	public void setAdjustAngle(boolean adjustAngle) { this.adjustAngle = adjustAngle; }
+	
+	public void setSpritePlayMode(PlayMode playMode) { this.projectileSprite.setPlayMode(playMode); }
 }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public enum AssetList {
 
-	TITLE_CARD("HADAL_PANIC_3.jpg", Texture.class),
+	TITLE_CARD("Title.png", Texture.class),
 	RESULTS_CARD("same.png", Texture.class),
 	FIXEDSYS_FONT("fonts/fixedsys.fnt", null),
 	
@@ -17,6 +17,7 @@ public enum AssetList {
 	KAMABOKO_ATL("sprites/king_kamaboko.atlas", TextureAtlas.class),
 	KAMABOKO_CRAWL_ATL("sprites/kamaboko_crawl.atlas", TextureAtlas.class),
 	KAMABOKO_SWIM_ATL("sprites/kamaboko_swim.atlas", TextureAtlas.class),
+	DRONE_ATL("sprites/drone.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_ATL("sprites/player/moreau.atlas", TextureAtlas.class),
 	PLAYER_MOREAU_FESTIVE_ATL("sprites/player/moreau_festive.atlas", TextureAtlas.class),
 	PLAYER_TAKA_ATL("sprites/player/takanori.atlas", TextureAtlas.class),

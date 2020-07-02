@@ -18,6 +18,6 @@ public class TitleBackdrop extends AHadalActor {
 	
 	@Override
     public void draw(Batch batch, float alpha) {
-        batch.draw(backgroundTexture, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
+        batch.draw(backgroundTexture, getX(), getY(), getWidth(), getHeight());
     }
 }
