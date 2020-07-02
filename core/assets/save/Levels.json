@@ -266,7 +266,8 @@ SSTUNICATE1: {
 	description: TEMP
 	tags: [
 		NAVIGATIONS,
-        MULTIPLAYER
+        MULTIPLAYER,
+        SPECIAL
 	]
 }
 PLENUMCHAMBER4: {

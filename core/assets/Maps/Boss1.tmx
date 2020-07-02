@@ -109,6 +109,7 @@
   <object id="24" name="Bounds" type="Bounds" x="800" y="1312" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>
     <property name="up" type="bool" value="true"/>
    </properties>
@@ -155,6 +156,7 @@
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
     <property name="triggeredId" value="bounds4"/>
    </properties>
   </object>

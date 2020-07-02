@@ -434,6 +434,7 @@
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
+    <property name="spectator" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1r"/>
    </properties>
   </object>
