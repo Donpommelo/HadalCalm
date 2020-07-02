@@ -2,6 +2,7 @@ package com.mygdx.hadal.strategies.hitbox;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
@@ -24,6 +25,8 @@ public class DieParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
+	private ParticleColor color = ParticleColor.NOTHING;
+
 	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {
 		super(state, proj, user);
 		this.effect = effect;
@@ -36,6 +39,11 @@ public class DieParticles extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration, true, particleSyncType.CREATESYNC);
+		new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), effect, duration, true, particleSyncType.CREATESYNC).setColor(color);
+	}
+	
+	public DieParticles setParticleColor(ParticleColor color) {
+		this.color = color;
+		return this;
 	}
 }

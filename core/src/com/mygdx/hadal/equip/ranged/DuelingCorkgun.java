@@ -33,7 +33,7 @@ public class DuelingCorkgun extends RangedWeapon {
 	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float lifespan = 1.0f;
 	
-	private final static Sprite projSprite = Sprite.PEARL;
+	private final static Sprite projSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	

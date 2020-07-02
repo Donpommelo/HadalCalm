@@ -51,6 +51,30 @@ ARENA_LAGAN: {
         MULTIPLAYER
 	]
 }
+ARENA_PILE: {
+	name: ARENA_PILE
+	description: TEMP
+	tags: [
+        ARENA,
+        MULTIPLAYER
+	]
+}
+ARENA_WARP: {
+	name: ARENA_WARP
+	description: TEMP
+	tags: [
+        ARENA,
+        MULTIPLAYER
+	]
+}
+ARENA_WETWORKS: {
+	name: ARENA_WETWORKS
+	description: TEMP
+	tags: [
+        ARENA,
+        MULTIPLAYER
+	]
+}
 RANDOM: {
 	name: RANDOM
 	description: TEMP

@@ -26,22 +26,22 @@ public class Banana extends RangedWeapon {
 	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 1.4f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 25.0f;
+	private final static float baseDamage = 8.0f;
 	private final static float recoil = 5.0f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 15.0f;
-	private final static Vector2 projectileSize = new Vector2(36, 30);
+	private final static float projectileSpeed = 12.0f;
+	private final static Vector2 projectileSize = new Vector2(43, 30);
 	private final static float lifespan = 6.0f;
 	
-	private final static Sprite projSprite = Sprite.ORB_YELLOW;
+	private final static Sprite projSprite = Sprite.BANANA;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private static final float maxCharge = 0.3f;
-	private final static float projectileMaxSpeed = 75.0f;
+	private final static float projectileMaxSpeed = 60.0f;
 
 	private final static int explosionRadius = 200;
-	private final static float explosionDamage = 60.0f;
+	private final static float explosionDamage = 55.0f;
 	private final static float explosionKnockback = 40.0f;
 	
 	public Banana(Schmuck user) {

@@ -1,5 +1,5 @@
 {
-scrap: 203
+scrap: 268
 flags: {
 	class: java.util.HashMap
 	PARTY: 0
@@ -241,6 +241,7 @@ unlockCharacter: {
 unlockLevel: {
 	class: java.util.HashMap
 	PLENUMCHAMBERTURBINE: false
+	ARENA_WETWORKS: true
 	DM_SAWMILL: false
 	NOISELESSSEA1: false
 	DM_WARP: false
@@ -261,6 +262,7 @@ unlockLevel: {
 	PLENUMCHAMBERBALCONY: false
 	DM_FACING_CRABS: false
 	DM_HUMMINGBIRD: false
+	ARENA_PILE: false
 	SANDBOX_EVENTS: false
 	DM_FORMOSAN_BLUE_MAGPIE: false
 	PLENUMCHAMBER4: true
@@ -286,6 +288,7 @@ unlockLevel: {
 	SSTUNICATE1: true
 	DM_ORIGINAL: false
 	DM_SUPREME_CHAMPION: false
+	ARENA_WARP: true
 	DM_CAROUSEL: false
 	DM_PIVOT: false
 	WRECK2: false

@@ -14,6 +14,11 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  */
 public class ArenaSettingSetter extends Prefabrication {
 
+	private final static String weaponTimerId = "spawnWeapons";
+	private final static String playerStartId = "playerstart";
+	private final static float weaponSpawnTimer = 25.0f;
+	private final static float arenaMatchZoom = 1.2f;
+	
 	public ArenaSettingSetter(PlayState state) {
 		super(state);
 	}
@@ -26,7 +31,18 @@ public class ArenaSettingSetter extends Prefabrication {
 		String gameTimerId = TiledObjectUtil.getPrefabTriggerId();
 		String waveTimerId = TiledObjectUtil.getPrefabTriggerId();
 		String multiWaveId = TiledObjectUtil.getPrefabTriggerId();
+		String gameCameraId = TiledObjectUtil.getPrefabTriggerId();
 
+		RectangleMapObject playerstart = new RectangleMapObject();
+		playerstart.setName("Multitrigger");
+		playerstart.getProperties().put("triggeredId", playerStartId);
+		playerstart.getProperties().put("triggeringId", "bounds1,bounds2," + gameCameraId);
+		
+		RectangleMapObject camera1 = new RectangleMapObject();
+		camera1.setName("Camera");
+		camera1.getProperties().put("zoom", arenaMatchZoom);
+		camera1.getProperties().put("triggeredId", gameCameraId);
+		
 		RectangleMapObject timer = new RectangleMapObject();
 		timer.setName("Timer");
 		timer.getProperties().put("interval", 0.0f);
@@ -36,7 +52,12 @@ public class ArenaSettingSetter extends Prefabrication {
 		RectangleMapObject multi = new RectangleMapObject();
 		multi.setName("Multitrigger");
 		multi.getProperties().put("triggeredId", multiId);
-		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + gameTimerId + "," + multiWaveId);
+		multi.getProperties().put("triggeringId", timerId + "," + uiTimerId + "," + gameTimerId + "," + multiWaveId + "," + weaponTimerId);
+		
+		RectangleMapObject weaponTimer = new RectangleMapObject();
+		weaponTimer.setName("Timer");
+		weaponTimer.getProperties().put("interval", weaponSpawnTimer);
+		weaponTimer.getProperties().put("triggeringId", weaponTimerId);
 		
 		int startTimer = state.getGsm().getSetting().getTimer();
 		
@@ -82,8 +103,11 @@ public class ArenaSettingSetter extends Prefabrication {
 		multiWave.getProperties().put("triggeredId", multiWaveId);
 		multiWave.getProperties().put("triggeringId", "wave1,wave2,wave3,wave4,wave5,wave6");
 		
+		TiledObjectUtil.parseTiledEvent(state, playerstart);
+		TiledObjectUtil.parseTiledEvent(state, camera1);
 		TiledObjectUtil.parseTiledEvent(state, timer);
 		TiledObjectUtil.parseTiledEvent(state, multi);
+		TiledObjectUtil.parseTiledEvent(state, weaponTimer);
 		TiledObjectUtil.parseTiledEvent(state, end);
 		TiledObjectUtil.parseTiledEvent(state, wave);
 		TiledObjectUtil.parseTiledEvent(state, multiWave);

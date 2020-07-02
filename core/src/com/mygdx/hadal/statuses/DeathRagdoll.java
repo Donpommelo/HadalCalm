@@ -8,7 +8,7 @@ import com.mygdx.hadal.states.PlayState;
 
 public class DeathRagdoll extends Status {
 	
-	private static final float duration = 0.5f;
+	private static final float duration = 1.0f;
 	private static final float gravity = 1.0f;
 	
 	private Sprite sprite;

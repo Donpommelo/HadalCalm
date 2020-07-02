@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
@@ -11,6 +12,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
@@ -33,11 +35,10 @@ public class XBomber extends RangedWeapon {
 	private final static float recoil = 12.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 40.0f;
-	private final static Vector2 projectileSize = new Vector2(40, 40);
+	private final static Vector2 projectileSize = new Vector2(80, 40);
 	private final static float lifespan = 0.5f;
 	
-	private final static Sprite projSprite = Sprite.ORB_PINK;
-	private final static Sprite crossSprite = Sprite.LASER_BEAM;
+	private final static Sprite projSprite = Sprite.LASER_TURQUOISE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
@@ -57,18 +58,19 @@ public class XBomber extends RangedWeapon {
 		hbox.setGravity(2.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION_FUN, 0.6f));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT));
+		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override
 			public void die() {
 				
-				Hitbox cross1 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, crossSprite) {
+				Hitbox cross1 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, projSprite) {
 					
 					@Override
 					public void create() {
@@ -84,7 +86,7 @@ public class XBomber extends RangedWeapon {
 				cross1.addStrategy(new ContactUnitParticles(state, cross1, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false));
 				cross1.addStrategy(new Static(state, cross1, user.getBodyData()));
 				
-				Hitbox cross2 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, crossSprite) {
+				Hitbox cross2 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, projSprite) {
 					
 					@Override
 					public void create() {

@@ -50,41 +50,10 @@
     <property name="up" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="9" name="Multitrigger" type="Multitrigger" x="128" y="3584" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="playerstart"/>
-    <property name="triggeringId" value="camera1,bounds1,bounds2"/>
-   </properties>
-  </object>
-  <object id="10" name="Camera" type="Camera" x="192" y="3584" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="camera1"/>
-    <property name="zoom" type="float" value="1.2"/>
-   </properties>
-  </object>
-  <object id="11" name="Timer" type="Timer" x="96" y="3680" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="0"/>
-    <property name="triggeredId" value="startTimer"/>
-    <property name="triggeringId" value="onceAtStart"/>
-   </properties>
-  </object>
-  <object id="12" name="Multitrigger" type="Multitrigger" x="160" y="3680" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="onceAtStart"/>
-    <property name="triggeringId" value="spawnWeapons,nextWave,startTimer"/>
-   </properties>
-  </object>
-  <object id="13" name="Multitrigger" type="Multitrigger" x="224" y="3744" width="32" height="32">
+  <object id="13" name="Multitrigger" type="Multitrigger" x="64" y="3648" width="32" height="32">
    <properties>
     <property name="triggeredId" value="spawnWeapons"/>
     <property name="triggeringId" value="w1,w2,w3"/>
-   </properties>
-  </object>
-  <object id="14" name="Timer" type="Timer" x="160" y="3744" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="30"/>
-    <property name="triggeringId" value="spawnWeapons"/>
    </properties>
   </object>
   <object id="15" name="Prefab" type="PrefabWeapon" x="4465.73" y="1346.21" width="96" height="96">

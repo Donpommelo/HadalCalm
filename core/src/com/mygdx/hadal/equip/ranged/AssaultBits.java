@@ -4,21 +4,24 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.RangedWeapon;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 import com.mygdx.hadal.schmucks.bodies.enemies.Enemy;
-import com.mygdx.hadal.schmucks.bodies.enemies.KBKBit;
+import com.mygdx.hadal.schmucks.bodies.enemies.DroneBit;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
-import com.mygdx.hadal.strategies.hitbox.DieParticles;
 
 public class AssaultBits extends RangedWeapon {
 
@@ -29,15 +32,15 @@ public class AssaultBits extends RangedWeapon {
 	private final static float reloadTime = 1.25f;
 	private final static int reloadAmount = 0;
 	private final static float recoil = 0.0f;
-	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(20, 20);
+	private final static float projectileSpeed = 45.0f;
+	private final static Vector2 projectileSize = new Vector2(40, 20);
 	private final static float lifespan = 1.0f;
 	
 	private final static float summonShootCd = 1.0f;
 	private final static float baseDamage = 18.0f;
 	private final static float knockback = 14.0f;
 
-	private final static Sprite projSprite = Sprite.ORB_PINK;
+	private final static Sprite projSprite = Sprite.LASER_PURPLE;
 	private final static Sprite weaponSprite = Sprite.MT_STICKYBOMB;
 	private final static Sprite eventSprite = Sprite.P_STICKYBOMB;
 	
@@ -54,7 +57,7 @@ public class AssaultBits extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
 		if (bits.size() < 3) {
-			KBKBit bit = new KBKBit(state, startPosition, 0.0f, filter, null) {
+			DroneBit bit = new DroneBit(state, startPosition, 0.0f, filter, null) {
 				
 				@Override
 				public boolean queueDeletion() {
@@ -75,7 +78,9 @@ public class AssaultBits extends RangedWeapon {
 				Hitbox hbox = new RangedHitbox(state, bit.getProjectileOrigin(bitVelo, projectileSize.x), projectileSize, lifespan, new Vector2(bitVelo), filter, true, true, user, projSprite);
 				
 				hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-				hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
+				hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
+				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.PURPLE));
+				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.PURPLE));
 				hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.BULLET, DamageTypes.RANGED));

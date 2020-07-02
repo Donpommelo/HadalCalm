@@ -22,6 +22,9 @@ public enum UnlockLevel {
 	
 	ARENA_HORIZON("Maps/arena_horizon.tmx"),
 	ARENA_LAGAN("Maps/arena_lagan.tmx"),
+	ARENA_PILE("Maps/arena_pile.tmx"),
+	ARENA_WARP("Maps/arena_warp.tmx"),
+	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
 
 	RANDOM(""),
 
