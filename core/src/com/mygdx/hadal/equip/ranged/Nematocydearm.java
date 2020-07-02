@@ -29,12 +29,12 @@ public class Nematocydearm extends RangedWeapon {
 	private final static float recoil = 0.0f;
 	private final static float knockback = 20.0f;
 	private final static float projectileSpeed = 45.0f;
-	private final static Vector2 projectileSize = new Vector2(72, 9);
+	private final static Vector2 projectileSize = new Vector2(91, 35);
 	private final static float lifespan = 12.0f;
 	
 	private final static int spread = 5;
 
-	private final static Sprite projSprite = Sprite.BULLET;
+	private final static Sprite projSprite = Sprite.NEMATOCYTE;
 	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
 	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	

@@ -30,11 +30,10 @@ public class Underminer extends RangedWeapon {
 	private final static float recoil = 8.5f;
 	private final static float knockback = 10.0f;
 	private final static float projectileSpeed = 30.0f;
-	private final static Vector2 projectileSize = new Vector2(60, 30);
+	private final static Vector2 projectileSize = new Vector2(54, 45);
 	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.DRILL;
-	private final static Sprite fragSprite = Sprite.ORB_BLUE;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
@@ -45,7 +44,7 @@ public class Underminer extends RangedWeapon {
 
 	private final static float raycastRange = 8.0f;
 
-	private final static Vector2 fragSize = new Vector2(60, 30);
+	private final static Vector2 fragSize = new Vector2(36, 30);
 	private final static float fragLifespan = 2.0f;
 	private final static float fragFireLifespan = 0.8f;
 	private final static float fragDamage = 45.0f;
@@ -126,7 +125,7 @@ public class Underminer extends RangedWeapon {
 						}, hbox.getPosition(), angle);
 						
 						if (wallDetected) {
-							Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, new Vector2(0, 1).setAngleRad(hbox.getAngle()).scl(fragSpeed), filter, true, true, user, fragSprite);
+							Hitbox frag = new Hitbox(state, hbox.getPixelPosition(), fragSize, fragLifespan, new Vector2(0, 1).setAngleRad(hbox.getAngle()).scl(fragSpeed), filter, true, true, user, projSprite);
 							frag.addStrategy(new ControllerDefault(state, frag, user.getBodyData()));
 							frag.addStrategy(new AdjustAngle(state, frag, user.getBodyData()));
 							frag.addStrategy(new DamageStandard(state, frag, user.getBodyData(),  fragDamage, fragKnockback, DamageTypes.RANGED));
