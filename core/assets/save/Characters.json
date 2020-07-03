@@ -1,32 +1,32 @@
 {
 TAKANORI: {
 	name: TAKANORI
-	description: TEMP
-    descriptionLong: "TEST"
+	description: ""
+    descriptionLong: "Takanori smokes a pack of cigarettes every day."
 	tags: [
        DORMITORY
     ]
 }
 TELEMACHUS: {
 	name: TELEMACHUS
-	description: TEMP
-    descriptionLong: "TEST"
+	description: ""
+    descriptionLong: "Telemachus is a submarine with a man-shaped ventral extension."
 	tags: [
        DORMITORY
     ]
 }
 MOREAU: {
 	name: MOREAU
-	description: TEMP
-    descriptionLong: "TEST"
+	description: ""
+    descriptionLong: "Moreau used to work in a warehouse as the lead box-counter."
 	tags: [
        DORMITORY
     ]
 }
 MOREAU_FESTIVE: {
 	name: MOREAU_FESTIVE
-	description: TEMP
-    descriptionLong: "TEST"
+	description: ""
+    descriptionLong: "Moreau takes Christmas very seriously."
 	tags: [
        DORMITORY
     ]

@@ -1,7 +1,7 @@
 {
 ANCHOR_SMASH: {
 	name: Anchor Smash
-	description: "Drop an anchor at Mouse Location"
+	description: "Drop an anchor at mouse location"
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -10,7 +10,7 @@ ANCHOR_SMASH: {
 }
 BENDY_BEAMS: {
 	name: Bendy Beams
-	description: "Fire a barrage of curving projectiles"
+	description: "Fire a barrage of curving projectiles."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -19,7 +19,7 @@ BENDY_BEAMS: {
 }
 CALL_OF_WALRUS: {
 	name: Call of Walrus
-	description: "Buffs Damage and Speed and the cost of Hp"
+	description: "Buffs damage and speed and the cost of Hp."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -28,7 +28,7 @@ CALL_OF_WALRUS: {
 }
 DEPTH_CHARGE: {
 	name: Depth Charge
-	description: "Perform an Explosive-Powered Jump"
+	description: "Perform an explosive-powered jump."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -37,7 +37,7 @@ DEPTH_CHARGE: {
 }
 DODGE_ROLL: {
 	name: Dodge Roll
-	description: "Perform an Invulnerable Dodge"
+	description: "Perform an invulnerable dodge in the direction you are facing."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -46,7 +46,7 @@ DODGE_ROLL: {
 }
 FAFROTSKIES: {
 	name: Fafrotskies
-	description: "Create a Storm Cloud"
+	description: "Create a storm cloud that drops damaging rain."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -55,8 +55,8 @@ FAFROTSKIES: {
 }
 FISH_GANG: {
 	name: Fish Gang
-	description: "Summon a Fish Gang."
-    descriptionLong: "TEMP."
+	description: "Summon a Fish Gang"
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -64,7 +64,7 @@ FISH_GANG: {
 }
 FORCE_OF_WILL: {
 	name: Force of Will
-	description: "Become Invulnerable Temporarily"
+	description: "Become invulnerable temporarily."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -74,7 +74,7 @@ FORCE_OF_WILL: {
 HEALING_FIELD: {
 	name: Healing Field
 	description: "Creates a field that regenerates health."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -82,8 +82,8 @@ HEALING_FIELD: {
 }
 HYDRAULIC_UPPERCUT: {
 	name: Hydraulic Uppercut
-	description: "Perform an upwards attack."
-    descriptionLong: "TEST"
+	description: "Perform an upwards attack. User is briefly invulnerable during the attack."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -91,8 +91,8 @@ HYDRAULIC_UPPERCUT: {
 }
 HONEYCOMB: {
 	name: Honeycomb
-	description: "Releases a swarm of Bees!"
-    descriptionLong: "TEST"
+	description: "Releases a swarm of bees!"
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -100,7 +100,7 @@ HONEYCOMB: {
 }
 JUMP_KICK: {
 	name: Jump Kick
-	description: "Perform an Flying Kick"
+	description: "Perform an flying kick. Knock enemies into walls for additional damage."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -109,8 +109,8 @@ JUMP_KICK: {
 }
 MELON: {
 	name: Melon
-	description: "Restores Hp. Charges by dealing damage."
-    descriptionLong: "TEST"
+	description: "Restores Hp."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -119,7 +119,7 @@ MELON: {
 
 METEOR_STRIKE: {
 	name: Meteor Strike
-	description: "Summon Meteors at Mouse Location"
+	description: "Summon meteors at mouse location."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -128,7 +128,7 @@ METEOR_STRIKE: {
 }
 MERIDIAN_MAKER: {
 	name: Meridian Maker
-	description: "Fire a Current-Creating Projectile"
+	description: "Fire a projectile that creates a temporary current in ints path."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -137,8 +137,8 @@ MERIDIAN_MAKER: {
 }
 MISSILE_POD: {
 	name: Missile Pod
-	description: "Fire a barrage of homing missiles!"
-    descriptionLong: "TEST"
+	description: "Fire a barrage of homing missiles."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -146,8 +146,8 @@ MISSILE_POD: {
 }
 NAUTICAL_MINE: {
 	name: Nautical Mine
-	description: "Throws an large explosive."
-    descriptionLong: "TEST"
+	description: "Throws an large naval mine. Mine explodes after being shot a few times."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -156,13 +156,13 @@ NAUTICAL_MINE: {
 NOTHING: {
 	name: Nothing
 	description: "Does nothing."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: []
 }
 ORBITAL_SHIELD: {
 	name: Orbital Shield
 	description: "Create several projectiles that orbit the user."
-    descriptionLong: "."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -170,7 +170,7 @@ ORBITAL_SHIELD: {
 }
 PLUS_MINUS: {
 	name: Plus Minus
-	description: "Shock nearby enemies"
+	description: "Shock nearby enemies with chain lightning."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -179,8 +179,8 @@ PLUS_MINUS: {
 }
 PORTABLE_TURRET: {
 	name: Portable Turret
-	description: "Fire a projectile that creates a Turret where it lands."
-    descriptionLong: "TEMP."
+	description: "Drop a projectile that creates an allied turret."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -197,7 +197,7 @@ PROXIMITY_MINE: {
 }
 RADIAL_BARRAGE: {
 	name: Radial Barrage
-	description: "Fire Weapon in All Directions"
+	description: "Fire currently equipped weapon in all directions."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -206,7 +206,7 @@ RADIAL_BARRAGE: {
 }
 RING_OF_GYGES: {
 	name: Ring of Gyges
-	description: "Become Invisible."
+	description: "Become invisible temporarily."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -215,7 +215,7 @@ RING_OF_GYGES: {
 }
 SPIRIT_RELEASE: {
 	name: Spirit Release
-	description: "Release several Vengeful Spirits."
+	description: "Release several homing vengeful spirits."
     descriptionLong: ""
 	tags: [
 		DISPENSARY,
@@ -225,7 +225,7 @@ SPIRIT_RELEASE: {
 SPRING_LOADER: {
 	name: Spring Loader
 	description: "Create a temporary spring at mouse location."
-    descriptionLong: "Drop a spring at the mouse location that propels objects upwards."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -233,8 +233,8 @@ SPRING_LOADER: {
 }
 TAINTED_WATER: {
 	name: Tainted Water
-	description: "Release a poisonous cloud."
-    descriptionLong: "Attack nearby enemies with a cloud of water pollution."
+	description: "Release a poisonous cloud in the direction you are facing."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -242,7 +242,7 @@ TAINTED_WATER: {
 }
 TERRAFORMER: {
 	name: Terraformer
-	description: "Create a Destructable Rock."
+	description: "Create a destructable block."
     descriptionLong: "Use to create a large obstructive block that can be destroyed with attacks."
 	tags: [
 		DISPENSARY,
@@ -251,8 +251,8 @@ TERRAFORMER: {
 }
 TRACTOR_BEAM: {
 	name: Tractor Beam
-	description: "Grab an enemy and swing them around."
-    descriptionLong: "Use to fire a projectile that captures an enemy on contact. Then, use the mouse to throw the victim at walls or other enemies."
+	description: "Fire a projectile that grabs an enemy. Throw victim into walls or other enemies for additional damage."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -261,7 +261,7 @@ TRACTOR_BEAM: {
 RELOADER: {
 	name: Auroreloader
 	description: "Reloads all of your weapons."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,
@@ -269,8 +269,8 @@ RELOADER: {
 }
 RESERVED_FUEL: {
 	name: Reserved Fuel
-	description: "Restores Fuel."
-    descriptionLong: "TEST"
+	description: "User regenerates fuel over time."
+    descriptionLong: ""
 	tags: [
 		DISPENSARY,
 		RANDOM_POOL,

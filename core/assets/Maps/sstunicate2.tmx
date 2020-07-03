@@ -364,11 +364,6 @@
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="95" name="Quartermaster" type="Quartermaster" x="2240" y="1088" width="96" height="96">
-   <properties>
-    <property name="shopId" value="weapons1"/>
-   </properties>
-  </object>
   <object id="100" name="Text" type="Text" x="1728" y="1760" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
@@ -391,12 +386,6 @@
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="DEATHMATCH"/>
-   </properties>
-  </object>
-  <object id="104" name="Text" type="Text" x="2240" y="1088" width="32" height="32">
-   <properties>
-    <property name="scale" type="float" value="0.3"/>
-    <property name="text" value="QUARTERMASTER"/>
    </properties>
   </object>
   <object id="105" name="Text" type="Text" x="2304" y="2080" width="32" height="32">

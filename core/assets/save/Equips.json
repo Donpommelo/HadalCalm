@@ -1,8 +1,8 @@
 {
 AMITA_CANNON: {
 	name: Amita Cannon
-	description: "Fires a spinning ring of projectiles."
-    descriptionLong: "TEST"
+	description: "Fires a spinning ring of projectiles. When the ring collides with a wall, the projectiles expand outwards."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -11,8 +11,8 @@ AMITA_CANNON: {
 }
 ASSAULT_BITS: {
 	name: Assault Bits
-	description: "Summon and control 3 bits to attack enemies."
-    descriptionLong: "TEST"
+	description: "Summon and control 3 bits. When all 3 bits are summoned, they fire a barrage of projectiles."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -21,8 +21,8 @@ ASSAULT_BITS: {
 }
 BANANA: {
 	name: Banana
-	description: "Hold the fire button to charge a bouncy, explosive."
-    descriptionLong: "TEST"
+	description: "Hold the fire button to charge a bouncy explosive."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -32,7 +32,7 @@ BANANA: {
 BEEGUN: {
 	name: Beehive
 	description: "Release a swarm of bees that home in and damage enemies."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -41,8 +41,8 @@ BEEGUN: {
 }
 BOILER: {
 	name: Boiler
-	description: "Fires a short-ranged spray of particles that set foes on fire."
-    descriptionLong: "TEST"
+	description: "Fires a short-ranged spray of particles that ignite foes."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -51,8 +51,8 @@ BOILER: {
 }
 BOOMERANG: {
 	name: Boomerang
-	description: "Fires a projectile that slowly returns to player"
-    descriptionLong: "TEST"
+	description: "Fires a projectile that returns to player."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -61,8 +61,8 @@ BOOMERANG: {
 }
 BOUNCING_BLADE: {
 	name: Bouncing Blades
-	description: "Fires a projectile in a straight line that bounces off surfaces."
-    descriptionLong: "TEST"
+	description: "Fires a projectile in a straight line that bounces off of surfaces."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -71,8 +71,8 @@ BOUNCING_BLADE: {
 }
 CHARGE_BEAM: {
 	name: Charge Beam
-	description: "Hold the fire button to charge a faster, more powerful projectile and release to fire."
-    descriptionLong: "TEST"
+	description: "Hold the fire button to charge a more powerful projectile and release to fire."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -81,8 +81,8 @@ CHARGE_BEAM: {
 }
 COLACANNON: {
 	name: Cola Cannon
-	description: "Click and drag mouse to charge. Release to fire."
-    descriptionLong: "TEST"
+	description: "Click and drag mouse to charge. Release to fire a continuous stream of projectiles."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -92,7 +92,7 @@ COLACANNON: {
 CR4PCANNON: {
 	name: Cr4p Cannon
 	description: "Fires a shotgun-burst of short-ranged projectiles."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -101,8 +101,8 @@ CR4PCANNON: {
 }
 DEEP_SEA_SMELTER: {
 	name: Deep Sea Smelter
-	description: "Ranged weapon with high rate of fire but can overheat."
-    descriptionLong: "TEST"
+	description: "Ammoless weapon that can overheat if used excessively. Overheating ignites the user and temporarily disables the weapon."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -111,7 +111,7 @@ DEEP_SEA_SMELTER: {
 DIAMOND_CUTTER: {
 	name: Diamond Cutter
 	description: "Extends a spinning blade."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -120,7 +120,7 @@ DIAMOND_CUTTER: {
 DUELING_CORKGUN: {
 	name: Dueling Corkgun
 	description: "Fires a projectile that knocks enemies into walls."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -129,7 +129,7 @@ DUELING_CORKGUN: {
 FISTICUFFS: {
 	name: Fisticuffs
 	description: "punch"
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 	]
@@ -137,7 +137,7 @@ FISTICUFFS: {
 FLOUNDERBUSS: {
 	name: Flounderbuss
 	description: "Charge and release to fire a spray of projectiles."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -146,8 +146,8 @@ FLOUNDERBUSS: {
 }
 FUGUN: {
 	name: Fugun
-	description: "Fires projectiles that create a damaging poison field upon contact with an enemy or wall."
-    descriptionLong: "TEST"
+	description: "Fires projectiles that create a damaging poison field."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -156,8 +156,8 @@ FUGUN: {
 }
 GRENADE_LAUNCHER: {
 	name: Grenade Launcher
-	description: "Fires projectiles that are affected by gravity and explode upon contact with an enemy or wall."
-    descriptionLong: "TEST"
+	description: "Fires explosive projectiles that are affected by gravity."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -166,8 +166,8 @@ GRENADE_LAUNCHER: {
 }
 HEXENHOWITZER: {
 	name: Hexenhowitzer
-	description: "An ammoless weapon that fires magic projectiles."
-    descriptionLong: "TEST"
+	description: "Damage with this ammoless weapon builds charge. When fully charged, the rate of fire and spread dramatically increase temporarily."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -177,7 +177,7 @@ HEXENHOWITZER: {
 ICEBERG: {
 	name: Iceberg
 	description: "Fires a projectile that slides across flat surfaces."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -187,7 +187,7 @@ ICEBERG: {
 IRON_BALL_LAUNCHER: {
 	name: Iron Ball Launcher
 	description: "Fires a singular, heavy projectile." 
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -196,8 +196,8 @@ IRON_BALL_LAUNCHER: {
 }
 KAMABOKANNON: {
 	name: Kamabokannon
-	description: "Charge and fire a powerful but difficult to control spray."
-    descriptionLong: "TEST"
+	description: "Charge and fire a powerful but difficult to control spray of projectiles."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -206,8 +206,8 @@ KAMABOKANNON: {
 }
 LASER_GUIDED_ROCKET: {
 	name: Laser-Guided Rocket
-	description: "Fires a missile that will home in towards your mouse."
-    descriptionLong: "TEST"
+	description: "Fires a missile that homes in towards your mouse."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -217,7 +217,7 @@ LASER_GUIDED_ROCKET: {
 LASER_RIFLE: {
 	name: Laser Rifle
 	description: "Fires a straight, piercing beam through enemies."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -226,8 +226,8 @@ LASER_RIFLE: {
 }
 LOVE_BOW: {
 	name: Love Bow
-	description: "Charge and fire arrows that heal allies in co-op."
-    descriptionLong: "TEST"
+	description: "Charge and fire arrows. In co-op mode, these projectiles heal allies."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -236,8 +236,8 @@ LOVE_BOW: {
 }
 MACHINEGUN: {
 	name: Machinegun
-	description: "Standard weapon with a high rate of fire."
-    descriptionLong: "TEST"
+	description: "A standard weapon with a high rate of fire."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -247,7 +247,7 @@ MACHINEGUN: {
 MAELSTROM: {
 	name: Maelstrom
 	description: "Fire a projectile that expands as it travels."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -256,8 +256,8 @@ MAELSTROM: {
 }
 MINIGUN: {
 	name: Minigun
-	description: "Heavy firepower but requires charging."
-    descriptionLong: "TEST"
+	description: "Heavy firepower but requires charging. User is slowed when firing this weapon."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -266,8 +266,8 @@ MINIGUN: {
 }
 MORAYGUN: {
 	name: Moraygun
-	description: "Shoots Moraybeams of concentrated light."
-    descriptionLong: "TEST"
+	description: "Shoots a stream of projectiles that move in an unusual pattern."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -276,8 +276,8 @@ MORAYGUN: {
 }
 MORNING_STAR: {
 	name: Morning Star
-	description: "Create a melee hitbox at the end of a chain."
-    descriptionLong: "TEST"
+	description: "Create a melee hitbox at the end of a chain. Chain detaches when unequipped."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -286,8 +286,8 @@ MORNING_STAR: {
 }
 NEMATOCYDEARM: {
 	name: Nemato Sidearm
-	description: "Fires spikes that lodge into walls."
-    descriptionLong: "TEST"
+	description: "Fires projectiles that lodge into walls."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -297,7 +297,7 @@ NEMATOCYDEARM: {
 NOTHING: {
 	name: Nothing
 	description: "Your bare hands."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		MISC,
 	]
@@ -305,7 +305,7 @@ NOTHING: {
 PEARL_REVOLVER: {
 	name: Pearl Revolver
 	description: "Fires quick projectiles. Rapidly tap to fire faster."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -314,8 +314,8 @@ PEARL_REVOLVER: {
 }
 POPPER: {
 	name: Popper
-	description: "Fires projectiles that explode at a set distance."
-    descriptionLong: "TEST"
+	description: "Fires a projectile that explodes in a shower of confetti."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -325,7 +325,7 @@ POPPER: {
 RIFTSPLITTER: {
 	name: Riftsplitter
 	description: "Fire a short-ranged shockwave."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -334,8 +334,8 @@ RIFTSPLITTER: {
 }
 SCRAPRIPPER: {
 	name: Scrapripper
-	description: "Perform a close-range, melee swing to damage enemies."
-    descriptionLong: "TEST"
+	description: "Perform a close-range, melee swing."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
         RANDOM_POOL,
@@ -345,7 +345,7 @@ SCRAPRIPPER: {
 SCREECHER: {
 	name: Screecher
 	description: "Fires invisible, instantaneous sonic waves."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -355,7 +355,7 @@ SCREECHER: {
 SLODGEGUN: {
 	name: Slodgegun
 	description: "Fire a spray of projectiles that slow targets."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -365,7 +365,7 @@ SLODGEGUN: {
 SNIPER_RIFLE: {
 	name: Sniper Rifle
 	description: "Long-Ranged weapon that can headshot."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -375,7 +375,7 @@ SNIPER_RIFLE: {
 SPEARGUN: {
 	name: Speargun
 	description: "A simple weapon that fires arcing projectiles."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -385,7 +385,7 @@ SPEARGUN: {
 STICKY_BOMB_LAUNCHER: {
 	name: "Stickybomb-Launcher"
 	description: "Fires projectiles that stick to enemies and walls. Press the Reload button to detonate all active bombs."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -395,7 +395,7 @@ STICKY_BOMB_LAUNCHER: {
 STUTTERGUN: {
 	name: Stuttergun
 	description: "Fires a burst of projectiles."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -404,8 +404,8 @@ STUTTERGUN: {
 }
 TESLA_COIL: {
 	name: Tesla Coil
-	description: "Fire Pylons that connect to neighbors, forming an electrifying wall."
-    descriptionLong: "TEST"
+	description: "Fire pylons that connect to neighbors, forming an electrifying wall."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -414,8 +414,8 @@ TESLA_COIL: {
 }
 TORPEDO_LAUNCHER: {
 	name: Torpedo Launcher
-	description: "Fires projectiles in a straight line that explode upon contact with an enemy or wall."
-    descriptionLong: "TEST"
+	description: "Fires explosive projectiles in a straight line."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -425,7 +425,7 @@ TORPEDO_LAUNCHER: {
 TRICK_GUN: {
 	name: Trick Gun
 	description: "Click, drag and release to fire a projectile that changes its trajectory."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -434,8 +434,8 @@ TRICK_GUN: {
 }
 UNDERMINER: {
 	name: Underminer
-	description: "Drills through walls and explodes."
-    descriptionLong: "TEST"
+	description: "Drills through walls and creates a radial barrage of projectiles."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -444,8 +444,8 @@ UNDERMINER: {
 }
 WAVE_BEAM: {
 	name: Wave Beam
-	description: "Fires a burst of wavy projectiles."
-    descriptionLong: "TEST"
+	description: "Fires a pair of wavy projectiles."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -454,8 +454,8 @@ WAVE_BEAM: {
 }
 XBOMBER: {
 	name: X-Bomber
-	description: "Fires projectile that explodes in an x-shape."
-    descriptionLong: "TEST"
+	description: "Fires projectiles that explodes in an x-shape."
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,
@@ -465,7 +465,7 @@ XBOMBER: {
 VAJRA: {
 	name: Vajra
 	description: "Fire a projectile that releases chain lightning upon contact."
-    descriptionLong: "TEST"
+    descriptionLong: ""
 	tags: [
 		ARMORY,
 		RANDOM_POOL,

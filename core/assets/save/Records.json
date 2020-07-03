@@ -1,5 +1,5 @@
 {
-scrap: 268
+scrap: 260
 flags: {
 	class: java.util.HashMap
 	PARTY: 0
@@ -71,7 +71,7 @@ unlockEquip: {
 	SPEARGUN: false
 	WAVE_BEAM: false
 	COLACANNON: false
-	TORPEDO_LAUNCHER: false
+	TORPEDO_LAUNCHER: true
 	MAELSTROM: false
 	POPPER: true
 	CHARGE_BEAM: true
@@ -79,7 +79,7 @@ unlockEquip: {
 	BEEGUN: true
 	NEMATOCYDEARM: false
 	FUGUN: false
-	SCREECHER: false
+	SCREECHER: true
 	DUELING_CORKGUN: true
 	VAJRA: false
 	LASER_RIFLE: false

@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip.ranged;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
@@ -57,6 +58,8 @@ public class AssaultBits extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
 		if (bits.size() < 3) {
+			SoundEffect.CYBER2.playUniversal(state, startPosition, 0.4f, false);
+			
 			DroneBit bit = new DroneBit(state, startPosition, 0.0f, filter, null) {
 				
 				@Override
@@ -71,7 +74,8 @@ public class AssaultBits extends RangedWeapon {
 			
 			user.setShootCdCount(summonShootCd);
 		} else {
-			
+			SoundEffect.SHOOT2.playUniversal(state, startPosition, 1.0f, false);
+
 			for (Enemy bit: bits) {
 				
 				bitVelo.setAngleRad(bit.getAngle());

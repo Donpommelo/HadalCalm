@@ -48,7 +48,7 @@ public class Nematocydearm extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.SPIKE.playUniversal(state, startPosition, 0.5f, false);
+		SoundEffect.ATTACK1.playUniversal(state, startPosition, 0.4f, false);
 
 		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hboxSticky.addStrategy(new AdjustAngle(state, hboxSticky, user.getBodyData()));

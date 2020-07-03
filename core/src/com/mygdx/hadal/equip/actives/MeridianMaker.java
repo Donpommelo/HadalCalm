@@ -41,7 +41,7 @@ public class MeridianMaker extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.MAGIC11.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
+		SoundEffect.MAGIC11_WEIRD.playUniversal(state, user.getPlayer().getPixelPosition(), 0.5f, false);
 		
 		final Vector2 currentVec = new Vector2(weaponVelo).nor().scl(currentForce);
 		

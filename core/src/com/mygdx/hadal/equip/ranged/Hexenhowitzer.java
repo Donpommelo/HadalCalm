@@ -79,7 +79,7 @@ public class Hexenhowitzer extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.CRACKER1.playUniversal(state, startPosition, 0.5f, false);
+		SoundEffect.BOTTLE_ROCKET.playUniversal(state, startPosition, 0.2f, false);
 
 		final Equipable me = this;
 		
@@ -141,7 +141,7 @@ public class Hexenhowitzer extends RangedWeapon {
 									glowing = new MagicGlow(state, user.getBodyData());
 									user.getBodyData().addStatus(glowing);
 									
-									SoundEffect.MAGIC25.playUniversal(state, startPosition, 0.5f, false);
+									SoundEffect.MAGIC25_SPELL.playUniversal(state, startPosition, 0.5f, false);
 								}
 							}
 						}

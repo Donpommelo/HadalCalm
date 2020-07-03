@@ -1,14 +1,16 @@
 {
 HUB_MULTI: {
 	name: HUB
-	description: TEMP
+	description: ""
+    descriptionLong: "Multiplayer Hub Area"
 	tags: [
 		MISC,
 	]
 }
 BOSS1: {
 	name: BOSS1
-	description: TEMP
+	description: ""
+    descriptionLong: "Boss fight with a Slightly LArger Fish."
 	tags: [
         MULTIPLAYER,
         SPECIAL
@@ -16,7 +18,8 @@ BOSS1: {
 }
 BOSS2: {
 	name: BOSS2
-	description: TEMP
+	description: ""
+    descriptionLong: "Boss fight with King Kamaboko."
 	tags: [
         MULTIPLAYER,
         SPECIAL
@@ -24,12 +27,14 @@ BOSS2: {
 }
 BOSS3: {
 	name: BOSS3
-	description: TEMP
+	description: ""
+    descriptionLong: ""
 	tags: []
 }
 SANDBOX_HUB: {
 	name: SANDBOX_HUB
-	description: TEMP
+	description: ""
+    descriptionLong: "A free space to test events and enemies."
 	tags: [
         MULTIPLAYER,
         SPECIAL
@@ -37,7 +42,8 @@ SANDBOX_HUB: {
 }
 ARENA_FLOTSAM: {
 	name: DM_FLOTSAM
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         ARENA,        
         MULTIPLAYER
@@ -45,7 +51,8 @@ ARENA_FLOTSAM: {
 }
 ARENA_HORIZON: {
 	name: ARENA_HORIZON
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: LARGE"
 	tags: [
         ARENA,
         MULTIPLAYER
@@ -53,7 +60,8 @@ ARENA_HORIZON: {
 }
 ARENA_LAGAN: {
 	name: ARENA_LAGAN
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         ARENA,
         MULTIPLAYER
@@ -61,7 +69,8 @@ ARENA_LAGAN: {
 }
 ARENA_PILE: {
 	name: ARENA_PILE
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         ARENA,
         MULTIPLAYER
@@ -69,7 +78,8 @@ ARENA_PILE: {
 }
 ARENA_WARP: {
 	name: ARENA_WARP
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         ARENA,
         MULTIPLAYER
@@ -77,7 +87,8 @@ ARENA_WARP: {
 }
 ARENA_WETWORKS: {
 	name: ARENA_WETWORKS
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         ARENA,
         MULTIPLAYER
@@ -85,7 +96,8 @@ ARENA_WETWORKS: {
 }
 ARENA_ZIGGURAT: {
 	name: ARENA_ZIGGURAT
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         ARENA,
         MULTIPLAYER
@@ -93,7 +105,8 @@ ARENA_ZIGGURAT: {
 }
 RANDOM: {
 	name: RANDOM
-	description: TEMP
+	description: ""
+    descriptionLong: "Select a map at random."
 	tags: [
         MULTIPLAYER,
         PVP,
@@ -103,7 +116,8 @@ RANDOM: {
 }
 DM_FALLDOWN: {
 	name: DM_FALLDOWN
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a pile of destructable blocks."
 	tags: [
         PVP,        
         MULTIPLAYER
@@ -111,7 +125,8 @@ DM_FALLDOWN: {
 }
 DM_FLOTSAM: {
 	name: DM_FLOTSAM
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         PVP,        
         MULTIPLAYER
@@ -119,7 +134,8 @@ DM_FLOTSAM: {
 }
 DM_JUMP: {
 	name: DM_JUMP
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of falling drop-through platforms over a poisonous pit."
 	tags: [
         PVP,        
         MULTIPLAYER
@@ -127,7 +143,8 @@ DM_JUMP: {
 }
 DM_ORIGINAL: {
 	name: DM_ORIGINAL
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: LARGE"
 	tags: [
         PVP,        
         MULTIPLAYER
@@ -135,7 +152,8 @@ DM_ORIGINAL: {
 }
 DM_SEESAW: {
 	name: DM_SEESAW
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of a series of see-saw platforms."
 	tags: [
         PVP,        
         MULTIPLAYER
@@ -143,7 +161,8 @@ DM_SEESAW: {
 }
 DM_WARP: {
 	name: DM_WARP
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         PVP,        
         MULTIPLAYER
@@ -151,7 +170,8 @@ DM_WARP: {
 }
 DM_WETWORKS: {
 	name: DM_WETWORKS
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         PVP,        
         MULTIPLAYER
@@ -159,7 +179,8 @@ DM_WETWORKS: {
 }
 DM_GULLY: {
 	name: DM_GULLY
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL"
 	tags: [
         PVP,
         MULTIPLAYER
@@ -167,7 +188,8 @@ DM_GULLY: {
 }
 DM_SAWMILL: {
 	name: DM_SAWMILL
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL"
 	tags: [
         PVP,
         MULTIPLAYER
@@ -175,7 +197,17 @@ DM_SAWMILL: {
 }
 DM_CAROUSEL: {
 	name: DM_CAROUSEL
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL"
+	tags: [
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_LAGAN: {
+	name: DM_LAGAN
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
 	tags: [
         PVP,
         MULTIPLAYER
@@ -183,127 +215,8 @@ DM_CAROUSEL: {
 }
 DM_PILE: {
 	name: DM_PILE
-	description: TEMP
-	tags: [
-        PVP,
-        MULTIPLAYER
-	]
-}
-DM_PIVOT: {
-	name: DM_PIVOT
-	description: TEMP
-	tags: [
-        PVP,
-        MULTIPLAYER
-	]
-}
-DM_ZIGGURAT: {
-	name: DM_ZIGGURAT
-	description: TEMP
-	tags: [
-        PVP,
-        MULTIPLAYER
-	]
-}
-DM_FORMOSAN_BLUE_MAGPIE: {
-	name: DM_FORMOSAN_BLUE_MAGPIE
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_FREE_RANGE: {
-	name: DM_FREE_RANGE
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_GREY_HERON: {
-	name: DM_GREY_HERON
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_HUMMINGBIRD: {
-	name: DM_HUMMINGBIRD
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_JAPANESE_WHITEEYE: {
-	name: DM_JAPANESE_WHITEEYE
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_LITTLE_BITTERN: {
-	name: DM_LITTLE_BITTERN
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_PELICAN: {
-	name: DM_PELICAN
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_SUPREME_CHAMPION: {
-	name: DM_SUPREME_CHAMPION
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_FACING_CRABS: {
-	name: DM_FACING_CRABS
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_GALLERY: {
-	name: DM_GALLERY
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_HORIZON: {
-	name: DM_HORIZON
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_REDROCK: {
-	name: DM_REDROCK
-	description: TEMP
-	tags: [
-        PVP_PHOTO,
-        MULTIPLAYER
-	]
-}
-DM_LAGAN: {
-	name: DM_LAGAN
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL"
 	tags: [
         PVP,
         MULTIPLAYER
@@ -311,15 +224,143 @@ DM_LAGAN: {
 }
 DM_PINWHEEL: {
 	name: DM_PINWHEEL
-	description: TEMP
+	description: ""
+    descriptionLong: "SIZE: SMALL\n\nAn arena consisting of rotating platforms."
 	tags: [
         PVP,
         MULTIPLAYER
 	]
 }
+DM_PIVOT: {
+	name: DM_PIVOT
+	description: ""
+    descriptionLong: "SIZE: SMALL"
+	tags: [
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_ZIGGURAT: {
+	name: DM_ZIGGURAT
+	description: ""
+    descriptionLong: "SIZE: MEDIUM"
+	tags: [
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_FORMOSAN_BLUE_MAGPIE: {
+	name: DM_FORMOSAN_BLUE_MAGPIE
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_FREE_RANGE: {
+	name: DM_FREE_RANGE
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_GREY_HERON: {
+	name: DM_GREY_HERON
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_HUMMINGBIRD: {
+	name: DM_HUMMINGBIRD
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_JAPANESE_WHITEEYE: {
+	name: DM_JAPANESE_WHITEEYE
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_LITTLE_BITTERN: {
+	name: DM_LITTLE_BITTERN
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_PELICAN: {
+	name: DM_PELICAN
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_SUPREME_CHAMPION: {
+	name: DM_SUPREME_CHAMPION
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_FACING_CRABS: {
+	name: DM_FACING_CRABS
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_GALLERY: {
+	name: DM_GALLERY
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_HORIZON: {
+	name: DM_HORIZON
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
+DM_REDROCK: {
+	name: DM_REDROCK
+	description: ""
+    descriptionLong: ""
+	tags: [
+        PVP_PHOTO,
+        MULTIPLAYER
+	]
+}
 SSTUNICATE1: {
 	name: SSTUNICATE1
-	description: TEMP
+	description: ""
+    descriptionLong: "Singleplayer Hub Area"
 	tags: [
 		NAVIGATIONS,
         MULTIPLAYER,
@@ -328,28 +369,32 @@ SSTUNICATE1: {
 }
 PLENUMCHAMBER4: {
 	name: PLENUMCHAMBER4
-	description: TEMP
+	description: ""
+    descriptionLong: ""
 	tags: [
 		NAVIGATIONS,
 	]
 }
 DERELICT2: {
 	name: DERELICT2
-	description: TEMP
+	description: ""
+    descriptionLong: ""
 	tags: [
 		NAVIGATIONS,
 	]
 }
 SLUICE1: {
 	name: SLUICE1
-	description: TEMP
+	description: ""
+    descriptionLong: ""
 	tags: [
 		NAVIGATIONS,
 	]
 }
 PARTY: {
 	name: PARTY
-	description: TEMP
+	description: ""
+    descriptionLong: ""
 	tags: [
 		NAVIGATIONS,
 	]
