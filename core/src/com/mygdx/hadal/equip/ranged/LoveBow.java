@@ -45,6 +45,7 @@ public class LoveBow extends RangedWeapon {
 	private final static float baseHeal = 15.0f;
 	private static final float maxCharge = 0.3f;
 	private final static float projectileMaxSpeed = 65.0f;
+	private final static float selfHitDelay = 0.15f;
 	
 	private SoundEntity chargeSound;
 
@@ -109,19 +110,27 @@ public class LoveBow extends RangedWeapon {
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
+			private float delay = selfHitDelay;
+			
+			@Override
+			public void controller(float delta) {
+				if (delay >= 0) {
+					delay -= delta;
+				}
+			}
+			
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
-						if (fixB != user.getBodyData()) {
-							if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()) {
-								fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.RANGED, DamageTypes.POKING);
-								SoundEffect.SLASH.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
-							} else {
-								((BodyData) fixB).regainHp(baseHeal, creator, true);
-								SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
-								new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.REGEN, 1.0f, true, particleSyncType.CREATESYNC);
-							}
+						if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()) {
+							fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.RANGED, DamageTypes.POKING);
+							SoundEffect.SLASH.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
+							hbox.die();
+						} else if (delay <= 0) {
+							((BodyData) fixB).regainHp(baseHeal, creator, true);
+							SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
+							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.REGEN, 1.0f, true, particleSyncType.CREATESYNC);
 							hbox.die();
 						}
 					}
