@@ -20,6 +20,8 @@ public enum UnlockLevel {
 	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),
 	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
 	
+	RANDOM("Maps/sstunicate1.tmx"),
+	
 	ARENA_FLOTSAM("Maps/arena_flotsam.tmx"),
 	ARENA_HORIZON("Maps/arena_horizon.tmx"),
 	ARENA_LAGAN("Maps/arena_lagan.tmx"),
@@ -27,8 +29,6 @@ public enum UnlockLevel {
 	ARENA_WARP("Maps/arena_warp.tmx"),
 	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
 	ARENA_ZIGGURAT("Maps/arena_ziggurat.tmx"),
-
-	RANDOM(""),
 
 	DM_FORMOSAN_BLUE_MAGPIE("Maps/dm_formosan_blue_magpie.tmx"),
 	DM_FREE_RANGE("Maps/dm_free_range.tmx"),
@@ -125,10 +125,14 @@ public enum UnlockLevel {
 	
 	public static UnlockLevel getRandomMap(PlayState state, ArrayList<UnlockTag> tags) {
 		
-		Array<UnlockLevel> dm = getUnlocks(state, true, tags);
-		
+		Array<UnlockLevel> dm = getUnlocks(state, false, tags);
 		if (dm.size > 0) {
-			return dm.get(GameStateManager.generator.nextInt(dm.size));
+			UnlockLevel level = dm.get(GameStateManager.generator.nextInt(dm.size));
+			if (level != UnlockLevel.RANDOM) {
+				return level;
+			} else {
+				return getRandomMap(state, tags);
+			}
 		} else {
 			return SSTUNICATE1;
 		}
