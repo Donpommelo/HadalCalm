@@ -57,7 +57,7 @@ public class TextFilterUtil {
 		String filteredText = text;
 		
 		while (filteredText.contains(tag)) {
-			JsonValue value = GameStateManager.miscText.get(tag);
+			JsonValue value = GameStateManager.randomText.get(tag);
 			
 			int randomIndex = GameStateManager.generator.nextInt(value.asStringArray().length);
 			filteredText = filteredText.replaceFirst(tag, value.asStringArray()[randomIndex]);

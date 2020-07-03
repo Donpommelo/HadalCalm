@@ -51,7 +51,7 @@ public class GameStateManager {
 	public static TextureAtlas particleAtlas, exclamationAtlas, impactAtlas, starShotAtlas;
 	
 	//This is a stored list of all the dialogs/death/misc messages in the game, read from json file.
-	public static JsonValue dialogs, deathMessages, shops, miscText;
+	public static JsonValue dialogs, deathMessages, shops, miscText, randomText;
 	
 	//These are the player's saved field. These store player info.
 	private Record record;
@@ -79,7 +79,8 @@ public class GameStateManager {
 		PLAY, 
 		VICTORY,
 		PAUSE,
-		CLIENTPLAY
+		CLIENTPLAY,
+		ABOUT
 	}
 	
 	//These are the modes of the game
@@ -117,6 +118,7 @@ public class GameStateManager {
 		dialogs = reader.parse(Gdx.files.internal("text/Dialogue.json"));
 		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
 		miscText = reader.parse(Gdx.files.internal("text/MiscText.json"));
+		randomText = reader.parse(Gdx.files.internal("text/RandomText.json"));
 
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
 		
@@ -331,12 +333,13 @@ public class GameStateManager {
 	 * @param state: enum for the new type of state to be added
 	 * @return: A new instance of the gameState corresponding to the input enum
 	 * NOTE: we no longer use this for any more complicated state that requires extra fields 
-	 * Only used for: (TITLE, SPLASH)
+	 * Only used for: (TITLE, SPLASH, ABOUT)
 	 */
 	public GameState getState(State state) {
 		switch(state) {
 			case TITLE: return new TitleState(this);
 			case SPLASH: return new InitState(this);
+			case ABOUT: return new AboutState(this);
 			default:
 				break;
 		}

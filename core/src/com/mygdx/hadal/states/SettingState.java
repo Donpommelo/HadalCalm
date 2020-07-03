@@ -111,14 +111,12 @@ public class SettingState extends GameState {
 				addActor(new MenuWindow(extraX, extraY, extraWidth, extraHeight));
 				
 				options = new Table();
-				options.setLayoutEnabled(true);
 				options.setPosition(optionsX, optionsY);
 				options.setSize(optionsWidth, optionsHeight);
 				options.top();
 				addActor(options);
 				
 				details = new Table();
-				details.setLayoutEnabled(true);
 				details.setPosition(detailsX, detailsY);
 				details.setSize(detailsWidth, detailsHeight);
 				details.top();
@@ -302,7 +300,7 @@ public class SettingState extends GameState {
 	/**
 	 * This is called whenever the player selects the DISPLAY tab
 	 */
-	public void displaySelected() {
+	private void displaySelected() {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.DISPLAY;
@@ -373,7 +371,7 @@ public class SettingState extends GameState {
 	/**
 	 * This is called whenever the player selects the CONTROLS tab
 	 */
-	public void controlsSelected() {
+	private void controlsSelected() {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.CONTROLS;
@@ -416,7 +414,7 @@ public class SettingState extends GameState {
 	/**
 	 * This is called whenever the player selects the AUDIO tab
 	 */
-	public void audioSelected() {
+	private void audioSelected() {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.AUDIO;
@@ -473,7 +471,7 @@ public class SettingState extends GameState {
 		details.add(master).pad(detailsPad).row();
 	}
 	
-	public void gameSelected() {
+	private void gameSelected() {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.GAMEPLAY;
@@ -533,7 +531,7 @@ public class SettingState extends GameState {
 		details.add(pvpMode).pad(detailsPad).row();
 	}
 	
-	public void miscSelected() {
+	private void miscSelected() {
 		details.clear();
 		currentlyEditing = null;
 		currentTab = settingTab.MISC;
@@ -586,7 +584,7 @@ public class SettingState extends GameState {
 	/**
 	 * Save the player chosen settings of whichever tab they are editing
 	 */
-	public void saveSettings() {
+	private void saveSettings() {
 		switch(currentTab) {
 		case CONTROLS:
 			PlayerAction.saveKeys();
@@ -641,7 +639,7 @@ public class SettingState extends GameState {
 	/**
 	 * Reset this tab's settings to the default values
 	 */
-	public void resetSettings() {
+	private void resetSettings() {
 		switch(currentTab) {
 		case CONTROLS:
 			PlayerAction.resetKeys();
@@ -676,7 +674,7 @@ public class SettingState extends GameState {
 	/**
 	 * This updates the settings that are visible from the score window
 	 */
-	public void updateSharedSettings() {
+	private void updateSharedSettings() {
 		gsm.setSharedSetting(gsm.getSetting().generateSharedSetting());
 		
 		//the server should update their scoretable when settings are changed

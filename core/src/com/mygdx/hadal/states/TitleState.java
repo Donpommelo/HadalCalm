@@ -17,6 +17,7 @@ import com.mygdx.hadal.actors.TitleBackdrop;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.managers.GameStateManager.Mode;
+import com.mygdx.hadal.managers.GameStateManager.State;
 import com.mygdx.hadal.utils.NameGenerator;
 
 /**
@@ -33,7 +34,7 @@ public class TitleState extends GameState {
 	private TitleBackdrop backdrop;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text nameDisplay, nameRand, ipDisplay, hostOption, singleOption, joinOption, exitOption, settingsOption, searchOption, notifications;
+	private Text nameDisplay, nameRand, ipDisplay, hostOption, singleOption, joinOption, exitOption, settingsOption, aboutOption, searchOption, notifications;
 	
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
@@ -140,6 +141,10 @@ public class TitleState extends GameState {
 				settingsOption = new Text("OPTIONS", 0, 0, true);
 				settingsOption.setScale(scale);
 				settingsOption.setHeight(optionHeight);
+				
+				aboutOption = new Text("ABOUT", 0, 0, true);
+				aboutOption.setScale(scale);
+				aboutOption.setHeight(optionHeight);
 				
 				exitOption = new Text("EXIT", 0, 0, true);
 				exitOption.setScale(scale);
@@ -291,7 +296,7 @@ public class TitleState extends GameState {
 			        }
 			    });
 
-				//Control Option leads player to control state to change controls (and eventually other settings)
+				//Control Option leads player to control state to change settings
 				settingsOption.addListener(new ClickListener() {
 					
 					@Override
@@ -310,6 +315,32 @@ public class TitleState extends GameState {
 							@Override
 							public void run() {
 								getGsm().addSettingState(null, TitleState.class);
+							}
+							
+						});
+						gsm.getApp().fadeOut();
+			        }
+			    });
+				
+				//About Option leads player to about state to view info
+				aboutOption.addListener(new ClickListener() {
+					
+					@Override
+			        public void clicked(InputEvent e, float x, float y) {
+
+						if (inputDisabled) {
+							return;
+						}
+						inputDisabled = true;
+						
+						SoundEffect.UISWITCH1.play(gsm, false);
+						
+						//Enter the About State.
+						gsm.getApp().setRunAfterTransition(new Runnable() {
+
+							@Override
+							public void run() {
+								getGsm().addState(State.ABOUT, TitleState.class);
 							}
 							
 						});
@@ -374,6 +405,7 @@ public class TitleState extends GameState {
 				tableMain.add(singleOption).row();
 				tableMain.add(hostOption).row();
 				tableMain.add(settingsOption).row();
+				tableMain.add(aboutOption).row();
 				tableMain.add(exitOption).row();
 				
 				tableIP.add(ipDisplay).pad(5);

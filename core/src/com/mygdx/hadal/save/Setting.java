@@ -102,8 +102,8 @@ public class Setting {
 	public void resetDisplay() {
 		resolution = 1;
 		framerate = 1;
-		fullscreen = false;
-		vsync = false;
+		fullscreen = true;
+		vsync = true;
 		cursorType = 1;
 		cursorSize = 1;
 		cursorColor = 4;
