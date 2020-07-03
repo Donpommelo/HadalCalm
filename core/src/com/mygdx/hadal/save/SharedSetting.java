@@ -7,16 +7,17 @@ package com.mygdx.hadal.save;
  */
 public class SharedSetting {
 
-	private int maxPlayers, pvpMode, artifactSlots, timer, lives, loadoutType;
+	private int maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType;
 	private boolean multiplayerPause;
 	
 	public SharedSetting() {}
 			
-	public SharedSetting(int maxPlayers, int pvpMode, int artifactSlots, int timer, int lives, int loadoutType, boolean multiplayerPause) {
+	public SharedSetting(int maxPlayers, int pvpMode, int artifactSlots, int pvpTimer, int coopTimer, int lives, int loadoutType, boolean multiplayerPause) {
 		this.maxPlayers = maxPlayers;
 		this.pvpMode = pvpMode;
 		this.artifactSlots = artifactSlots;
-		this.timer = timer;
+		this.pvpTimer = pvpTimer;
+		this.coopTimer = coopTimer;
 		this.lives = lives;
 		this.loadoutType = loadoutType;
 		this.multiplayerPause = multiplayerPause;
@@ -34,9 +35,13 @@ public class SharedSetting {
 
 	public void setArtifactSlots(int artifactSlots) { this.artifactSlots = artifactSlots; }
 
-	public int getTimer() {	return timer; }
+	public int getPVPTimer() {	return pvpTimer; }
 
-	public void setTimer(int timer) { this.timer = timer; }
+	public void setPVPTimer(int pvpTimer) { this.pvpTimer = pvpTimer; }
+	
+	public int getCoopTimer() {	return coopTimer; }
+
+	public void setCoopTimer(int coopTimer) { this.coopTimer = coopTimer; }
 
 	public int getLives() {	return lives; }
 

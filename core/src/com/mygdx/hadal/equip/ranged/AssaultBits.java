@@ -42,8 +42,8 @@ public class AssaultBits extends RangedWeapon {
 	private final static float knockback = 14.0f;
 
 	private final static Sprite projSprite = Sprite.LASER_PURPLE;
-	private final static Sprite weaponSprite = Sprite.MT_STICKYBOMB;
-	private final static Sprite eventSprite = Sprite.P_STICKYBOMB;
+	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
+	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	//list of bits created
 	private ArrayList<Enemy> bits = new ArrayList<Enemy>();

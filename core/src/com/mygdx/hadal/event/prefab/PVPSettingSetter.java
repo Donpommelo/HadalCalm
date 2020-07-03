@@ -63,7 +63,7 @@ public class PVPSettingSetter extends Prefabrication {
 		weaponTimer.getProperties().put("interval", weaponSpawnTimer);
 		weaponTimer.getProperties().put("triggeringId", weaponTimerId);
 		
-		int startTimer = state.getGsm().getSetting().getTimer();
+		int startTimer = state.getGsm().getSetting().getPVPTimer();
 		int startLives = state.getGsm().getSetting().getLives();
 		int gameMode = state.getGsm().getSetting().getPVPMode();
 		

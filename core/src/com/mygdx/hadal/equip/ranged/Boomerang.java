@@ -21,7 +21,7 @@ import com.mygdx.hadal.strategies.hitbox.ReturnToUser;
 public class Boomerang extends RangedWeapon {
 
 	private final static int clipSize = 3;
-	private final static int ammoSize = 18;
+	private final static int ammoSize = 24;
 	private final static float shootCd = 0.75f;
 	private final static float shootDelay = 0;
 	private final static float reloadTime = .75f;

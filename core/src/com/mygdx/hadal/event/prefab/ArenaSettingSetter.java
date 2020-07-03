@@ -59,7 +59,7 @@ public class ArenaSettingSetter extends Prefabrication {
 		weaponTimer.getProperties().put("interval", weaponSpawnTimer);
 		weaponTimer.getProperties().put("triggeringId", weaponTimerId);
 		
-		int startTimer = state.getGsm().getSetting().getTimer();
+		int startTimer = state.getGsm().getSetting().getCoopTimer();
 		
 		RectangleMapObject game = new RectangleMapObject();
 		game.setName("Game");

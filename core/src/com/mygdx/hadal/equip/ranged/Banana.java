@@ -17,6 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallSound;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 
 public class Banana extends RangedWeapon {
 
@@ -31,7 +32,7 @@ public class Banana extends RangedWeapon {
 	private final static float knockback = 0.0f;
 	private final static float projectileSpeed = 12.0f;
 	private final static Vector2 projectileSize = new Vector2(43, 30);
-	private final static float lifespan = 6.0f;
+	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.BANANA;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -89,7 +90,7 @@ public class Banana extends RangedWeapon {
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SHRAPNEL, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 		hbox.addStrategy(new ContactWallSound(state, hbox, user.getBodyData(), SoundEffect.SPRING, 0.1f));
-
+		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.EXPLOSION1, 0.6f));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override

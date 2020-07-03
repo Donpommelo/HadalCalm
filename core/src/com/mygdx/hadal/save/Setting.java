@@ -20,8 +20,8 @@ public class Setting {
 	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume;
 
-	//How long should pvp matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
-	private int timer;
+	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
+	private int pvpTimer, coopTimer;
 	
 	//How many lives should players have in pvp? (this variable is an index in an array. 0 = infinite, 1 = 1 life, 2 = 2 lives ... etc)
 	private int lives;
@@ -116,7 +116,8 @@ public class Setting {
 	}
 	
 	public void resetGameplay() {
-		timer = 3;
+		pvpTimer = 3;
+		coopTimer = 0;
 		lives = 0;
 		loadoutType = 1;
 		artifactSlots = 4;
@@ -134,11 +135,13 @@ public class Setting {
 	}
 	
 	public SharedSetting generateSharedSetting() {
-		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, timer, lives, loadoutType, multiplayerPause);
+		return new SharedSetting(maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType, multiplayerPause);
 	}
 	
-	public void setTimer(int timer) { this.timer = timer; }
+	public void setPVPTimer(int pvpTimer) { this.pvpTimer = pvpTimer; }
 	
+	public void setCoopTimer(int coopTimer) { this.coopTimer = coopTimer; }
+
 	public void setLives(int lives) { this.lives = lives; }
 	
 	public void setLoadoutType(int loadoutType) { this.loadoutType = loadoutType; }
@@ -313,8 +316,10 @@ public class Setting {
 
 	public int getPortNumber() { return portNumber; }
 	
-	public int getTimer() { return timer; }
+	public int getPVPTimer() { return pvpTimer; }
 	
+	public int getCoopTimer() { return coopTimer; }
+
 	public int getLives() { return lives; }
 	
 	public int getLoadoutType() { return loadoutType; }

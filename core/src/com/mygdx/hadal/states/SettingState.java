@@ -52,7 +52,7 @@ public class SettingState extends GameState {
 	//This table contains the ui elements of the pause screen
 	private Table options, details, extra;
 	
-	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, timerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
+	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master;
 	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 		
@@ -478,8 +478,11 @@ public class SettingState extends GameState {
 		
 		details.add(new Text("GAMEPLAY", 0, 0, false)).colspan(2).pad(titlePad).row();
 		
-		Text timer = new Text("MATCH TIME: ", 0, 0, false);
-		timer.setScale(0.25f);
+		Text pvpTimer = new Text("PVP MATCH TIME: ", 0, 0, false);
+		pvpTimer.setScale(0.25f);
+		
+		Text coopTimer = new Text("COOP MATCH TIME: ", 0, 0, false);
+		coopTimer.setScale(0.25f);
 		
 		Text lives = new Text("LIVES: ", 0, 0, false);
 		lives.setScale(0.25f);
@@ -493,11 +496,17 @@ public class SettingState extends GameState {
 		Text mode = new Text("PVP MODE: ", 0, 0, false);
 		mode.setScale(0.25f);
 		
-		timerOptions = new SelectBox<String>(GameStateManager.getSkin());
-		timerOptions.setItems(timerChoices);
-		timerOptions.setWidth(100);
+		pvpTimerOptions = new SelectBox<String>(GameStateManager.getSkin());
+		pvpTimerOptions.setItems(timerChoices);
+		pvpTimerOptions.setWidth(100);
 		
-		timerOptions.setSelectedIndex(gsm.getSetting().getTimer());
+		pvpTimerOptions.setSelectedIndex(gsm.getSetting().getPVPTimer());
+		
+		coopTimerOptions = new SelectBox<String>(GameStateManager.getSkin());
+		coopTimerOptions.setItems(timerChoices);
+		coopTimerOptions.setWidth(100);
+		
+		coopTimerOptions.setSelectedIndex(gsm.getSetting().getCoopTimer());
 		
 		livesOptions = new SelectBox<String>(GameStateManager.getSkin());
 		livesOptions.setItems(livesChoices);
@@ -519,8 +528,10 @@ public class SettingState extends GameState {
 		
 		pvpMode.setSelectedIndex(gsm.getSetting().getPVPMode());
 		
-		details.add(timer);
-		details.add(timerOptions).pad(detailsPad).row();
+		details.add(pvpTimer);
+		details.add(pvpTimerOptions).pad(detailsPad).row();
+		details.add(coopTimer);
+		details.add(coopTimerOptions).pad(detailsPad).row();
 		details.add(lives);
 		details.add(livesOptions).pad(detailsPad).row();
 		details.add(loadout);
@@ -610,7 +621,8 @@ public class SettingState extends GameState {
 			audioSelected();
 			break;
 		case GAMEPLAY:
-			gsm.getSetting().setTimer(timerOptions.getSelectedIndex());
+			gsm.getSetting().setPVPTimer(pvpTimerOptions.getSelectedIndex());
+			gsm.getSetting().setCoopTimer(coopTimerOptions.getSelectedIndex());
 			gsm.getSetting().setLives(livesOptions.getSelectedIndex());
 			gsm.getSetting().setLoadoutType(loadoutOptions.getSelectedIndex());
 			gsm.getSetting().setArtifactSlots(artifactSlots.getSelectedIndex());

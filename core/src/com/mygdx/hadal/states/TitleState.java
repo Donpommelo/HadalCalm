@@ -68,6 +68,7 @@ public class TitleState extends GameState {
 	private final static float scale = 0.4f;
 	private final static float scaleSide = 0.25f;
 	private final static float optionHeight = 35.0f;
+	private final static float mainOptionHeight = 40.0f;
 
 	//This boolean determines if input is disabled. input is disabled if the player joins/hosts.
 	private boolean inputDisabled = false;
@@ -402,11 +403,11 @@ public class TitleState extends GameState {
 				tableName.add(enterName).width(textWidth).height(optionHeight).row();
 				tableName.add(nameRand).colspan(2);
 				
-				tableMain.add(singleOption).row();
-				tableMain.add(hostOption).row();
-				tableMain.add(settingsOption).row();
-				tableMain.add(aboutOption).row();
-				tableMain.add(exitOption).row();
+				tableMain.add(singleOption).height(mainOptionHeight).row();
+				tableMain.add(hostOption).height(mainOptionHeight).row();
+				tableMain.add(settingsOption).height(mainOptionHeight).row();
+				tableMain.add(aboutOption).height(mainOptionHeight).row();
+				tableMain.add(exitOption).height(mainOptionHeight).row();
 				
 				tableIP.add(ipDisplay).pad(5);
 				tableIP.add(enterIP).width(textWidth).height(optionHeight).row();

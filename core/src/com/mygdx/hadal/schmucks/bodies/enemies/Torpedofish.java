@@ -1,6 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -16,6 +17,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.utils.Stats;
 
 public class Torpedofish extends EnemySwimming {
@@ -93,6 +95,7 @@ public class Torpedofish extends EnemySwimming {
 					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
 					hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
 				}
 			}
 		});

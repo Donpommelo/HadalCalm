@@ -18,7 +18,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class DroneBit extends EnemySwimming {
 
-	private final static int baseHp = 150;
+	private final static int baseHp = 100;
 	private final static String name = "DRONE BIT";
 	
 	private final static int scrapDrop = 0;
@@ -31,7 +31,7 @@ public class DroneBit extends EnemySwimming {
 	
 	private static final float attackCd = 10.0f;
 	private static final float airSpeed = 0.2f;
-	private static final float kbResist = 0.5f;
+	private static final float kbResist = 0.4f;
 
 	private static final float scale = 0.2f;
 	private static final float noiseRadius = 2.0f;

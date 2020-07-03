@@ -19,7 +19,7 @@ public class ScoreWindow {
 	
 	private Table tableScore, tableSettings; 
 	private MenuWindow windowScore, windowSettings;
-	private Text lives, timer, mode, loadout, slots, pause, serverSize;
+	private Text lives, pvpTimer, coopTimer, mode, loadout, slots, pause, serverSize;
 	
 	//Dimentions and position of the results menu
 	private final static int scoreWidth = 1000;
@@ -196,8 +196,11 @@ public class ScoreWindow {
 		Text title = new Text("SERVER SETTINGS", 0, 0, false);
 		title.setScale(settingsScale);
 		
-		Text timerField = new Text("TIMER:", 0, 0, false);
-		timerField.setScale(settingsScale);
+		Text pvpTimerField = new Text("PVP TIMER:", 0, 0, false);
+		pvpTimerField.setScale(settingsScale);
+		
+		Text coopTimerField = new Text("COOP TIMER:", 0, 0, false);
+		coopTimerField.setScale(settingsScale);
 		
 		Text livesField = new Text("LIVES: ", 0, 0, false);
 		livesField.setScale(settingsScale);
@@ -225,8 +228,11 @@ public class ScoreWindow {
 			used = state.getGsm().getHostSetting();
 		}
 		
-		timer = new Text(SettingState.timerChoices[used.getTimer()], 0, 0, false);
-		timer.setScale(settingsScale);
+		pvpTimer = new Text(SettingState.timerChoices[used.getPVPTimer()], 0, 0, false);
+		pvpTimer.setScale(settingsScale);
+		
+		coopTimer = new Text(SettingState.timerChoices[used.getCoopTimer()], 0, 0, false);
+		coopTimer.setScale(settingsScale);
 		
 		lives = new Text(SettingState.livesChoices[used.getLives()], 0, 0, false);
 		lives.setScale(settingsScale);
@@ -248,8 +254,11 @@ public class ScoreWindow {
 		
 		tableSettings.add(title).height(settingsRowHeight).colspan(2).row();
 		
-		tableSettings.add(timerField).height(settingsRowHeight).padBottom(settingsPadY);
-		tableSettings.add(timer).height(settingsRowHeight).padBottom(settingsPadY).row();
+		tableSettings.add(pvpTimerField).height(settingsRowHeight).padBottom(settingsPadY);
+		tableSettings.add(pvpTimer).height(settingsRowHeight).padBottom(settingsPadY).row();
+		
+		tableSettings.add(coopTimerField).height(settingsRowHeight).padBottom(settingsPadY);
+		tableSettings.add(coopTimer).height(settingsRowHeight).padBottom(settingsPadY).row();
 		
 		tableSettings.add(livesField).height(settingsRowHeight).padBottom(settingsPadY);
 		tableSettings.add(lives).height(settingsRowHeight).padBottom(settingsPadY).row();
