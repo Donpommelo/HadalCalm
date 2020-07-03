@@ -45,7 +45,7 @@ public class LoveBow extends RangedWeapon {
 	private final static float baseHeal = 15.0f;
 	private static final float maxCharge = 0.3f;
 	private final static float projectileMaxSpeed = 65.0f;
-	private final static float selfHitDelay = 0.15f;
+	private final static float selfHitDelay = 0.1f;
 	
 	private SoundEntity chargeSound;
 
@@ -123,14 +123,14 @@ public class LoveBow extends RangedWeapon {
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
-						if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()) {
-							fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.RANGED, DamageTypes.POKING);
-							SoundEffect.SLASH.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
-							hbox.die();
-						} else if (delay <= 0) {
+						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
 							((BodyData) fixB).regainHp(baseHeal, creator, true);
 							SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
 							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.REGEN, 1.0f, true, particleSyncType.CREATESYNC);
+							hbox.die();
+						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()) {
+							fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.RANGED, DamageTypes.POKING);
+							SoundEffect.SLASH.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
 							hbox.die();
 						}
 					}

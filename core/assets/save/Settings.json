@@ -14,7 +14,6 @@ verboseDeathMessage: true
 soundVolume: 1
 musicVolume: 1
 masterVolume: 1
-pvpTimer: 3
-coopTimer: 3
+pvpTimer: 2
 loadoutType: 1
 }
