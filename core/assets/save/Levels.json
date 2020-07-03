@@ -10,7 +10,7 @@ HUB_MULTI: {
 BOSS1: {
 	name: BOSS1
 	description: ""
-    descriptionLong: "Boss fight with a Slightly LArger Fish."
+    descriptionLong: "Boss fight with a Slightly Larger Fish."
 	tags: [
         MULTIPLAYER,
         SPECIAL

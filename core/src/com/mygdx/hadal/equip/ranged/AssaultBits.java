@@ -16,6 +16,7 @@ import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.Temporary;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
@@ -57,6 +58,8 @@ public class AssaultBits extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
+		
+		
 		if (bits.size() < 3) {
 			SoundEffect.CYBER2.playUniversal(state, startPosition, 0.4f, false);
 			
@@ -96,13 +99,8 @@ public class AssaultBits extends RangedWeapon {
 	public void unequip(PlayState state) {
 		
 		for (Enemy bit: bits) {
-			bitsToRemove.add(bit);
+			bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));
 		}
-		
-		for (Enemy bit: bitsToRemove) {
-			bit.getBodyData().die(bit.getBodyData());
-		}
-		
 		bitsToRemove.clear();
 	}
 }

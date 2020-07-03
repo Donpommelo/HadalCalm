@@ -22,7 +22,7 @@ public class Temporary extends Status {
 		super.timePassing(delta);
 		duration -= delta;
 		if (duration <= 0) {
-			inflicted.getSchmuck().queueDeletion();
+			inflicted.die(inflicted);
 		}
 	}
 	

@@ -44,7 +44,7 @@ public class XBomber extends RangedWeapon {
 	
 	private final static Vector2 crossSize = new Vector2(700, 40);
 	private final static float crossLifespan = 0.25f;
-	private final static float crossDamage = 35.0f;
+	private final static float crossDamage = 28.0f;
 
 	public XBomber(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);
