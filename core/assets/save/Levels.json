@@ -41,7 +41,7 @@ SANDBOX_HUB: {
 	]
 }
 ARENA_FLOTSAM: {
-	name: DM_FLOTSAM
+	name: ARENA_FLOTSAM
 	description: ""
     descriptionLong: "SIZE: MEDIUM"
 	tags: [
