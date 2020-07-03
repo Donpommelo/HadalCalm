@@ -1,5 +1,5 @@
 {
-scrap: 260
+scrap: 248
 flags: {
 	class: java.util.HashMap
 	PARTY: 0
@@ -46,7 +46,7 @@ unlockEquip: {
 	LOVE_BOW: true
 	IRON_BALL_LAUNCHER: false
 	ICEBERG: false
-	BOILER: false
+	BOILER: true
 	PEARL_REVOLVER: true
 	MORAYGUN: false
 	TRICK_GUN: false
@@ -55,8 +55,8 @@ unlockEquip: {
 	KAMABOKANNON: false
 	GRENADE_LAUNCHER: false
 	DIAMOND_CUTTER: false
-	FISTICUFFS: false
-	SCRAPRIPPER: false
+	FISTICUFFS: true
+	SCRAPRIPPER: true
 	SNIPER_RIFLE: false
 	MINIGUN: false
 	ASSAULT_BITS: true
@@ -66,9 +66,9 @@ unlockEquip: {
 	BOUNCING_BLADE: false
 	AMITA_CANNON: false
 	XBOMBER: true
-	BOOMERANG: false
+	BOOMERANG: true
 	CR4PCANNON: false
-	SPEARGUN: false
+	SPEARGUN: true
 	WAVE_BEAM: false
 	COLACANNON: false
 	TORPEDO_LAUNCHER: true

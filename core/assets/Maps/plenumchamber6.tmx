@@ -387,7 +387,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
-    <property name="enemyId" value="SPAWNER"/>
+    <property name="enemyId" value="DRONE"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="e6"/>
     <property name="triggeringId" value="w3count"/>
@@ -397,7 +397,7 @@
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
-    <property name="enemyId" value="SPAWNER"/>
+    <property name="enemyId" value="DRONE"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="e7"/>
     <property name="triggeringId" value="w3count"/>

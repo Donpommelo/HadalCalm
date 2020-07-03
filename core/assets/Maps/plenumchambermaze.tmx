@@ -308,7 +308,7 @@
   </object>
   <object id="65" name="SchmuckSpawn" type="SchmuckSpawn" x="2624" y="2368" width="32" height="32">
    <properties>
-    <property name="enemyId" value="SPLITTER_LARGE"/>
+    <property name="enemyId" value="DRONE"/>
     <property name="triggeredId" value="e7"/>
    </properties>
   </object>

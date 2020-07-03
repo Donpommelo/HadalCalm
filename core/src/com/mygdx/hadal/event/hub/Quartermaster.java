@@ -33,6 +33,7 @@ public class Quartermaster extends HubEvent {
 	public void enter() {
 		super.enter();
 		final UIHub hub = state.getUiHub();
+		final Quartermaster me = this;
 		
 		for (final String item: shopInfo.getPrices().keySet()) {
 			
@@ -49,8 +50,8 @@ public class Quartermaster extends HubEvent {
 			        	if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
 				        	state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
 				        	UnlockManager.setUnlock(state, UnlockType.valueOf(shopInfo.getType()), item, true);
-				        	leave();
-				        	
+				        	me.leave();
+				        	me.enter();
 				        	state.getUiExtra().syncData();
 			        	}
 			        }
