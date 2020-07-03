@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="25">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="27">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
@@ -9,7 +9,7 @@
  </imagelayer>
  <layer id="1" name="Tile Layer 1" width="180" height="120">
   <data encoding="base64" compression="zlib">
-   eJztwQENAAAAwqD3T20PBxQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwbUY8AAQ==
+   eAHt0AENAAAAwqD3T20PBxEoDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMCAAQMGDBgwYMDA/8AAUY8AAQ==
   </data>
  </layer>
  <objectgroup id="3" name="collision-layer">
@@ -99,5 +99,23 @@
   <object id="22" name="Dropthrough" type="Dropthrough" x="3072" y="1600" width="512" height="8"/>
   <object id="23" name="Dropthrough" type="Dropthrough" x="256" y="1888" width="512" height="8"/>
   <object id="24" name="Dropthrough" type="Dropthrough" x="960" y="1536" width="512" height="8"/>
+  <object id="25" name="Prefab" type="PrefabSpawner" x="1616" y="2016" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="26" name="Prefab" type="PrefabSpawner" x="3280" y="1504" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f2"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

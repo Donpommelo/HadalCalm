@@ -20,11 +20,13 @@ public enum UnlockLevel {
 	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),
 	SANDBOX_EVENTS("Maps/sandboxevent.tmx"),
 	
+	ARENA_FLOTSAM("Maps/arena_flotsam.tmx"),
 	ARENA_HORIZON("Maps/arena_horizon.tmx"),
 	ARENA_LAGAN("Maps/arena_lagan.tmx"),
 	ARENA_PILE("Maps/arena_pile.tmx"),
 	ARENA_WARP("Maps/arena_warp.tmx"),
 	ARENA_WETWORKS("Maps/arena_wetworks.tmx"),
+	ARENA_ZIGGURAT("Maps/arena_ziggurat.tmx"),
 
 	RANDOM(""),
 
@@ -44,6 +46,7 @@ public enum UnlockLevel {
 
 	DM_CAROUSEL("Maps/dm_carousel.tmx"),
 	DM_FALLDOWN("Maps/dm_falldown.tmx"),
+	DM_FLOTSAM("Maps/dm_flotsam.tmx"),
 	DM_GULLY("Maps/dm_gully.tmx"),
 	DM_JUMP("Maps/dm_jump.tmx"),
 	DM_LAGAN("Maps/dm_lagan.tmx"),
@@ -55,6 +58,7 @@ public enum UnlockLevel {
 	DM_SEESAW("Maps/dm_seesaw.tmx"),
 	DM_WARP("Maps/dm_warp.tmx"),
 	DM_WETWORKS("Maps/dm_wetworks.tmx"),
+	DM_ZIGGURAT("Maps/dm_ziggurat.tmx"),
 	
 	WRECK1("Maps/wreck1.tmx"),
 	WRECK2("Maps/wreck2.tmx"),

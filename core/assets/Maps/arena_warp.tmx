@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="50">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="52">
  <properties>
   <property name="shader" value="SPLASH"/>
  </properties>
@@ -243,6 +243,24 @@
     <property name="point" type="int" value="3"/>
     <property name="tag" value="STANDARD"/>
     <property name="triggeredId" value="wave3"/>
+   </properties>
+  </object>
+  <object id="50" name="Prefab" type="PrefabSpawner" x="416" y="1312" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="51" name="Prefab" type="PrefabSpawner" x="2656" y="1312" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f2"/>
+    <property name="type" type="int" value="0"/>
    </properties>
   </object>
  </objectgroup>

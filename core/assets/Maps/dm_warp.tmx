@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="43">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="45">
  <properties>
   <property name="pvp" type="bool" value="true"/>
   <property name="shader" value="SPLASH"/>
@@ -7,7 +7,7 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt3MlqwzAUQFFDB+i8aP//WxstAiE49pOs4dq+F96yseSThFJUT5OZmZmZmZmZmZmZHaEfp9vowRo9WKMHa1p6fF3m6YTzDfRIFp/B1z9aH1O5SSQt8is1iaRFWSUmkbQoL9ckkhbbyjGJpMX2oiaRtKhTxCSSFvVaM4mkRd2WTCJpUb9HJpHuf+atxQJP2POkByk9WOnBSg9WerDSg5UerPRgpQcrPVjpwUoPVnqw0oOVHqz0YKUHKz1Y6cFKD1Z6sNKDlR6s9GClBys9WOnBqpZHmtcWCzxRL5f5m+p5/E6alPbIYouHJmUtWWz10CSvNYsaHjVM0jrfdzBb97hmUctj6+9cc79nEKfHHiNR1jp69GDNXjy2/n/nlufh9Jwee4zU0iJ3vSOm5x4jtV5nznr3ahHdY6Qe67xGMhmxx0i91nktrbfls/Gir916j0d8HkDu54n0XImj/r09YkJ8xsdRPVJLJkSL1JE9UnMmVIvU0T1StyZki9QZPFLXfe5lnXow0oOVHqz0YKUHKz1Y1fKgnynZg8eZzsPRPc52Ho7s0eM8XK0zSrUiedyfLetxHo72maF4RM/AtfQgmBA8SixaeYz8Hru9Dz3fF7nfS709Rnxm5t6To65bOpFqXKf1vVm6J6OuS/eY+x6rNWv3ZNR16R6OHnsaPVhjZmZmx+wf8a9+xg==
+   eAHtnOuO4yAMRkfai7T3H7vv/6yLNbKGUuAzN0OTL1JEkhqMz0nazCjt2xsXEiABEiABEiABEiABEiABEiABEiABEiABEiABEiCBKxD4E4rg6sPAcr7QhY8L4WxZ6IM+7noOrLw+foXBP91w/R1q7j2fVvkQFz8tg18w5keoqdeJBUer6zu7UJ69TrR/rW3xQRcfJHucfPQub1l90MUzw1YnzyM8H7H4oItnbnqkxYn2qbXIB13U6L2/ZnWCR6rfu9GFhaDdiWW00vVBFxZ6jzHoOnmMzu/lfNBFnpXlaM2JpX/qgy4s1OoxJSf1Xu+vpj6+WToxBhL4HCJStrBTpg99WKjhGPrAjDwj6MOTNs5FH5iRZwR9eNLGuegDM/KMoA9P2jgXfWBGnhH04Ukb56IPzMgzgj48aeNc9IEZeUbQhydtnIs+MCPPCPrwpI1z0Qdm5BlBH560cS76wIw8I+jDkzbORR+YkWcEfXjSxrnoAzPyjKAPT9o4F31gRp4R9OFJG+eiD8zIM4I+PGnjXLN8yDOnX3E6RlQIfAmv/QvrjOd3ZYy/YaWTAKFjKbkQrpYldaj7dGKh9xhTczHqQ/rTySPv2h5yMcPHDCcyz+8vsI68P1tczPIh44x8JyR3nyFjnrZ61BjKhouFi8dcLfNYGeNRI5QRAiw1eszVMo+VMR41zvAx+v3O0ncbV7LtGXvk94qsNY76GHWh+a3z7eE42sezRuVRa0v1zJqn5j7RiXeNyqLW5nzMnqfmP8nJjhqVQ61Nfayap85BnFh/56/nd9isY498XmgtpbZ03pXi4+Opj5H7jHjcGdulutI56/5Kxq315P7usoyhtWh7kg+Zv8XJ6mvawjGNuaoP5OREFzLnK/soOTnVxR18pE5OdnEXH3Gdp33Oydzi5ervV1qr1kkfSmRvSx97+afZ6SMlsnefPvbyT7PTR0pk7/7dfJz+TMkr+Cg932A5k/X/VnF7spPTfZRcCF/LEnuIt091crKPmotRH9JfnMTPTo08o2Q5NywxJ/kQ/jGf3DO78TluqS+OR9snXDOn+EDXQo7lbB+SY7eTE3z0uBB2liXnER3b9T4Wc/A8L1rfl0r8VvlI83mwiV1o/l15NX9r6+VD5rWSTc6FstiVV/O3tJ4+1El8vzFrG923iJNZueJxUN4WFxJrWVrHZLztmeccJ/roZ5fjOXqMPl7Ph8UZY0iABEiABEiABM4i8B/xr37G
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -180,7 +180,7 @@
   </object>
   <object id="39" name="Prefab" type="PrefabSpawner" x="1536" y="960" width="96" height="96">
    <properties>
-    <property name="interval" type="float" value="25"/>
+    <property name="interval" type="float" value="30"/>
     <property name="power" type="float" value="50"/>
     <property name="prefabId" value="Spawner"/>
     <property name="triggeredId" value="hp1"/>
@@ -203,6 +203,24 @@
    <properties>
     <property name="prefabId" value="Weapon"/>
     <property name="triggeredId" value="w3"/>
+   </properties>
+  </object>
+  <object id="43" name="Prefab" type="PrefabSpawner" x="416" y="1312" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="44" name="Prefab" type="PrefabSpawner" x="2656" y="1312" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f2"/>
+    <property name="type" type="int" value="0"/>
    </properties>
   </object>
  </objectgroup>

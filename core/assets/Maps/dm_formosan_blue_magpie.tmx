@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="31">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="180" height="120" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="35">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
@@ -93,5 +93,25 @@
     <property name="type" type="int" value="1"/>
    </properties>
   </object>
+  <object id="31" name="Prefab" type="PrefabSpawner" x="1152" y="480" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="32" name="Prefab" type="PrefabSpawner" x="2496" y="480" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="8"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="33" name="Dropthrough" type="Dropthrough" x="1024" y="576" width="352" height="8"/>
+  <object id="34" name="Dropthrough" type="Dropthrough" x="2368" y="576" width="352" height="8"/>
  </objectgroup>
 </map>

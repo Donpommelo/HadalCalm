@@ -35,6 +35,14 @@ SANDBOX_HUB: {
         SPECIAL
 	]
 }
+ARENA_FLOTSAM: {
+	name: DM_FLOTSAM
+	description: TEMP
+	tags: [
+        ARENA,        
+        MULTIPLAYER
+	]
+}
 ARENA_HORIZON: {
 	name: ARENA_HORIZON
 	description: TEMP
@@ -75,6 +83,14 @@ ARENA_WETWORKS: {
         MULTIPLAYER
 	]
 }
+ARENA_ZIGGURAT: {
+	name: ARENA_ZIGGURAT
+	description: TEMP
+	tags: [
+        ARENA,
+        MULTIPLAYER
+	]
+}
 RANDOM: {
 	name: RANDOM
 	description: TEMP
@@ -87,6 +103,14 @@ RANDOM: {
 }
 DM_FALLDOWN: {
 	name: DM_FALLDOWN
+	description: TEMP
+	tags: [
+        PVP,        
+        MULTIPLAYER
+	]
+}
+DM_FLOTSAM: {
+	name: DM_FLOTSAM
 	description: TEMP
 	tags: [
         PVP,        
@@ -167,6 +191,14 @@ DM_PILE: {
 }
 DM_PIVOT: {
 	name: DM_PIVOT
+	description: TEMP
+	tags: [
+        PVP,
+        MULTIPLAYER
+	]
+}
+DM_ZIGGURAT: {
+	name: DM_ZIGGURAT
 	description: TEMP
 	tags: [
         PVP,
