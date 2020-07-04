@@ -210,7 +210,7 @@ public abstract class HadalEntity {
 	public Vector2 serverPos = new Vector2();
 	
 	//the angle of this entity on the server
-	public Vector2 serverAngle = new Vector2(0, 1);
+	public Vector2 serverAngle = new Vector2(1, 0);
 	
 	//should the client entity lerp to the server's position or just adjust instantly?
 	public boolean copyServerInstantly;

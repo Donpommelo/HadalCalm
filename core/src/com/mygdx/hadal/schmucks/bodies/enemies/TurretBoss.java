@@ -23,7 +23,7 @@ public class TurretBoss extends Turret {
 	private static final float scale = 1.5f;
 	
 	public TurretBoss(PlayState state, Vector2 startPos, float startAngle, short filter, SpawnerSchmuck spawner) {
-		super(state, startPos, name, EnemyType.TURRET_FLAK, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);		
+		super(state, startPos, name, EnemyType.TURRET_BOSS, startAngle, filter, baseHp, aiAttackCd, scrapDrop, scale, spawner);		
 		moveState = MoveState.DEFAULT;
 		setCurrentState(TurretState.TRACKING);
 	}

@@ -76,6 +76,5 @@ public class KBKCrawler extends EnemyCrawling {
 				size.x / 2,
 				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
-		
 	}
 }
