@@ -123,14 +123,14 @@
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
-  <object id="31" name="Bounds" type="Bounds" x="1984" y="768" width="32" height="32">
+  <object id="31" name="Bounds" type="Bounds" x="2176" y="864" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="32" name="Bounds" type="Bounds" x="3648" y="2144" width="32" height="32">
+  <object id="32" name="Bounds" type="Bounds" x="3456" y="2048" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

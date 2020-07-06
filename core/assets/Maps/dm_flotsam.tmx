@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="44">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="150" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="44">
  <properties>
   <property name="pvp" type="bool" value="true"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="150" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2stugzAQBdD0IbXppv//t6U7RKRESXzxTDhH8hYMc83D9ukEAAAAAAAAAAAAAAAAUNvb0n5W7X1ud3hSlXp+Lu131c6T+sEYVepZpR+MUaWeVfrBGFXq+bW0j1X7ntQPxlBPAABgtirzvty2rVWiZqPOUWUehdu2tUrUbNQ55KoPuSKhU67M++aM/h7qlCtyRtdIrvg3ukbbd0viHbPHOXiOsU+CXJEgV5f2mNt9db5VLhlrJMhVD93Wd+Wqh27rJXLVg1yRkMpV6v3qX6aH1Pput+cgPcgVCXJFgv1TAEA13dZX6MH/FAmzcpXa35Q4rmf6/WblKrX+ljiuZ/r9np3/eXQsyxXXPHrP5YprjpArc/r7O0Ku2N+jYzm1v8m+KQAAAKjLmisJr7yGYczMUyFXqfpXuLajqnDvU32ocG1HVWHNVa5ISNW/wphhHvUHAAAAAAAAAAAAAAAA1v4AKcwWMA==
+   eAHt29lqw0AMBdBu0OWl//+3DRRDkAPZJI/GPoVQyDKjObqOEw95efFHgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgACB3gKvp/J+zm5vvctV3RWBLv38ONX5e3b7vlK3h3sLdOlnlzp6d2ue6rr0s0sd83Sud6Vd+vl5Yno/u331ZlPdFQH9vALkYQIECBAgQIAAAQIEygW6XPctX+gOJoi9WvZfMvdesuboch1lB20vX0Ls1bL/krn3kjVHHCezxnLog00QeyVXBwtA0XJnypXrvkUhOA2b9VllqXCmXC01+58vkJ2D7PEurXiLOS7N677bBbJ7FM8ty35x5l7xFnPcLuiZlwSyc3VpDvcdT0CujtfzLVYsV2vl7O8y6xn2f4/PKuseO9bWJu55XkCunjfcYoR4XsncK6yoX64qVPPHjH3qvg8X663Yi8pXPt6IsU9ydbwMVKy4KldV51ffZSpSkD9m7FPWtfeqvOYLGHEmAbmaqVvz1CpX8/Rqpkqrzq8zGaiVAAECBAgQ6CVQdf2n1ypVs7WA71Nbix9jvlG5iu+TWb9drRg3jtl9z7xDckflKs6bta9bMW4cs/veZodcPXv959FjOfZKrjqkoU8NMR+3HsvxdXLVp6cdKon52GOunn1P79Cn2Wo4Qq5m68ke6n30WI6vy/rtatW4e+iVNRAgQIAAAQIECBAgQIAAgdECj+7TjK7b/L0FHr3u2XtV/9U5ZsZ1qUOuqvrfYW3jOjt25g72VTVUjTu2Y3PMHvdFsn6nfM/qq/pfNe49a/PccQJV/e9wzIxTNbP+ywABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAgQIECBAgAABAucCfynMFjA=
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -132,14 +132,14 @@
     <property name="triggeredId" value="EGGPLANT_SPAWNER"/>
    </properties>
   </object>
-  <object id="31" name="Bounds" type="Bounds" x="1984" y="768" width="32" height="32">
+  <object id="31" name="Bounds" type="Bounds" x="2176" y="864" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="32" name="Bounds" type="Bounds" x="3648" y="2144" width="32" height="32">
+  <object id="32" name="Bounds" type="Bounds" x="3456" y="2048" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

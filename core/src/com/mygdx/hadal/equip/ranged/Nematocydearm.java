@@ -53,7 +53,7 @@ public class Nematocydearm extends RangedWeapon {
 		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hboxSticky.addStrategy(new AdjustAngle(state, hboxSticky, user.getBodyData()));
 		hboxSticky.addStrategy(new ControllerDefault(state, hboxSticky, user.getBodyData()));
-		hboxSticky.addStrategy(new ContactWallSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 1.0f));
+		hboxSticky.addStrategy(new ContactWallSound(state, hboxSticky, user.getBodyData(), SoundEffect.SQUISH, 0.75f));
 		hboxSticky.addStrategy(new ContactStick(state, hboxSticky, user.getBodyData(), true, false));
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);

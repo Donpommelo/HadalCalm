@@ -42,7 +42,7 @@ public class BendyBeams extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.LASERHARPOON.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+		SoundEffect.LASERHARPOON.playUniversal(state, user.getPlayer().getPixelPosition(), 0.8f, false);
 		
 		user.addStatus(new Status(state, duration, false, user, user) {
 			

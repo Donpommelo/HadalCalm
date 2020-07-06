@@ -139,14 +139,14 @@
     <property name="triggeringId" value="mplat1"/>
    </properties>
   </object>
-  <object id="34" name="Bounds" type="Bounds" x="1728" y="896" width="32" height="32">
+  <object id="34" name="Bounds" type="Bounds" x="1920" y="992" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="35" name="Bounds" type="Bounds" x="3328" y="2272" width="32" height="32">
+  <object id="35" name="Bounds" type="Bounds" x="3136" y="2176" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

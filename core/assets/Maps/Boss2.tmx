@@ -20,6 +20,7 @@
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="true"/>
     <property name="bossname" value="King Kamaboko"/>
+    <property name="delay" type="float" value="2"/>
     <property name="enemyId" value="BOSS2"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="spawn0"/>
@@ -213,7 +214,7 @@
   <object id="45" name="Multitrigger" type="Multitrigger" x="704" y="928" width="32" height="32">
    <properties>
     <property name="triggeredId" value="startSpawn"/>
-    <property name="triggeringId" value="lockLeft,arenalock,bossParticles,bossDelay"/>
+    <property name="triggeringId" value="lockLeft,arenalock,spawn0"/>
    </properties>
   </object>
   <object id="46" name="PlayerMove" type="PlayerMove" x="768" y="928" width="32" height="32">
@@ -224,32 +225,10 @@
     <property name="triggeringId" value="playerlock"/>
    </properties>
   </object>
-  <object id="47" name="Particle" type="Particle" x="832" y="928" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="3"/>
-    <property name="particle" value="RING"/>
-    <property name="triggeredId" value="bossParticles"/>
-    <property name="triggeringId" value="spawn0"/>
-   </properties>
-  </object>
-  <object id="48" name="Timer" type="Timer" x="832" y="992" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="2"/>
-    <property name="startOn" type="bool" value="false"/>
-    <property name="triggeredId" value="bossDelay"/>
-    <property name="triggeringId" value="bossSpawn"/>
-   </properties>
-  </object>
   <object id="49" name="End" type="End" x="992" y="928" width="32" height="32">
    <properties>
     <property name="text" value="VICTORY"/>
     <property name="triggeredId" value="fitewin"/>
-   </properties>
-  </object>
-  <object id="50" name="Multitrigger" type="Multitrigger" x="896" y="992" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="bossSpawn"/>
-    <property name="triggeringId" value="bossDelay,spawn0"/>
    </properties>
   </object>
   <object id="51" name="EventMove" type="EventMove" x="1152" y="592" width="32" height="32">

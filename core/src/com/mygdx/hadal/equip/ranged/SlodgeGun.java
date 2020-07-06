@@ -64,7 +64,7 @@ public class SlodgeGun extends RangedWeapon {
 	@Override
 	public void execute(PlayState state, BodyData shooter) {
 		if (processClip(state, shooter)) {
-			SoundEffect.DARKNESS1.playUniversal(state, user.getPixelPosition(), 1.0f, false);
+			SoundEffect.DARKNESS1.playUniversal(state, user.getPixelPosition(), 0.9f, false);
 
 			shooter.addStatus(new FiringWeapon(state, fireDuration, shooter, shooter, projectileSpeed, 0, 0, projectileSize.x, procCd, this));
 		}

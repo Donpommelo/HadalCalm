@@ -39,7 +39,7 @@ public class AnarchistsCookbook extends Artifact {
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					
-					SoundEffect.LAUNCHER.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.25f, false);
+					SoundEffect.LAUNCHER.playUniversal(state, inflicted.getSchmuck().getPixelPosition(), 0.2f, false);
 
 					WeaponUtils.createGrenade(state, inflicted.getSchmuck().getPixelPosition(), projectileSize, inflicted.getSchmuck(), 
 							baseDamage, knockback, lifespan, new Vector2(0, 0), false, explosionRadius, explosionDamage, explosionKnockback, inflicted.getSchmuck().getHitboxfilter());

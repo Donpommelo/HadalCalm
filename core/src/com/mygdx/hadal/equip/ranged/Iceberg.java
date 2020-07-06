@@ -43,7 +43,7 @@ public class Iceberg extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.ICE_IMPACT.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.ICE_IMPACT.playUniversal(state, startPosition, 0.9f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		hbox.setGravity(5);

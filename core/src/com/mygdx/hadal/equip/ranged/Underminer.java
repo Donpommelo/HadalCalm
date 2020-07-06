@@ -58,7 +58,7 @@ public class Underminer extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, final Vector2 startVelocity, final short filter) {
-		SoundEffect.FIRE10.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.FIRE10.playUniversal(state, startPosition, 0.8f, false);
 
 		Hitbox hbox = new Hitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		hbox.setPassability((short) (short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_SENSOR | Constants.BIT_DROPTHROUGHWALL));

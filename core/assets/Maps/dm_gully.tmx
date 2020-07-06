@@ -54,14 +54,14 @@
     <property name="triggeredId" value="w3"/>
    </properties>
   </object>
-  <object id="57" name="Bounds" type="Bounds" x="608" y="768" width="32" height="32">
+  <object id="57" name="Bounds" type="Bounds" x="800" y="864" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="58" name="Bounds" type="Bounds" x="1344" y="1120" width="32" height="32">
+  <object id="58" name="Bounds" type="Bounds" x="1152" y="1024" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>

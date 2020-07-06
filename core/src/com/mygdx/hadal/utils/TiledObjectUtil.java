@@ -223,6 +223,7 @@ public class TiledObjectUtil {
 					object.getProperties().get("enemyId", String.class), 
 					object.getProperties().get("amount", 1, int.class), 
 					object.getProperties().get("extra", 0, int.class),
+					object.getProperties().get("delay", 1.0f, float.class),
 					object.getProperties().get("boss", false, boolean.class),
 					object.getProperties().get("bossname", "", String.class));	
 		} else if (object.getName().equals("WaveSpawn")) {

@@ -40,10 +40,10 @@ public class TeslaCoil extends RangedWeapon {
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 
-	private final static float radius = 20.0f;
+	private final static float radius = 25.0f;
 	private final static float pulseInterval = 0.8f;
 	private final static float pulseDuration = 0.1f;
-	private final static Vector2 pulseSize = new Vector2(60, 60);
+	private final static Vector2 pulseSize = new Vector2(75, 75);
 	private final static float pulseDamage = 25.0f;
 	private final static float pulseKnockback = 20.0f;
 	
@@ -56,7 +56,7 @@ public class TeslaCoil extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 0.25f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
@@ -92,7 +92,7 @@ public class TeslaCoil extends RangedWeapon {
 					hbox.setLinearVelocity(0, 0);
 					hbox.getBody().setType(BodyType.StaticBody);
 					
-					SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 1.0f, false);
+					SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, false);
 				}
 				
 				//activated coils periodically check world for nearby coils
@@ -176,7 +176,7 @@ public class TeslaCoil extends RangedWeapon {
 						Hitbox pulse = new RangedHitbox(state, pulsePosition, pulseSize, pulseDuration, new Vector2(), hbox.getFilter(), true, true, user, Sprite.NOTHING);
 						pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 						pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), pulseDamage, pulseKnockback, DamageTypes.ENERGY, DamageTypes.RANGED));
-						pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.1f).setParticleSize(60));
+						pulse.addStrategy(new CreateParticles(state, pulse, user.getBodyData(), Particle.LASER_PULSE, 0.0f, 0.1f).setParticleSize(50));
 					}
 				}
 			}

@@ -43,7 +43,7 @@ public class LoveBow extends RangedWeapon {
 	private final static Sprite eventSprite = Sprite.P_DEFAULT;
 	
 	private final static float baseHeal = 15.0f;
-	private static final float maxCharge = 0.3f;
+	private static final float maxCharge = 0.25f;
 	private final static float projectileMaxSpeed = 65.0f;
 	private final static float selfHitDelay = 0.1f;
 	
@@ -96,7 +96,7 @@ public class LoveBow extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.BOW_SHOOT.playUniversal(state, startPosition, 0.4f, false);
+		SoundEffect.BOW_SHOOT.playUniversal(state, startPosition, 0.6f, false);
 
 		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
 		

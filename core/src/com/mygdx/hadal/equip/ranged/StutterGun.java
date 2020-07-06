@@ -50,7 +50,7 @@ public class StutterGun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.LASER2.playUniversal(state, user.getPixelPosition(), 1.0f, false);
+		SoundEffect.LASER2.playUniversal(state, user.getPixelPosition(), 0.6f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.LASER_ORANGE);
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

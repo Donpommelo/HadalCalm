@@ -118,7 +118,7 @@ public class Drone extends EnemySwimming {
 						hbox.addStrategy(new ContactUnitParticles(state, hbox, enemy.getBodyData(), Particle.LASER_IMPACT).setOffset(true));
 						hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 						hbox.addStrategy(new Spread(state, hbox, enemy.getBodyData(), spread));
-						hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.8f, true));
+						hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					}
 				}
 			});

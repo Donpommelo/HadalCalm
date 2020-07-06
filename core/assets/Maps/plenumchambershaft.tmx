@@ -448,7 +448,7 @@
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
-  <object id="73" name="SchmuckSpawn" type="SchmuckSpawn" x="1376" y="320" width="32" height="32">
+  <object id="73" name="SchmuckSpawn" type="SchmuckSpawn" x="1376" y="576" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
@@ -457,7 +457,7 @@
     <property name="triggeredId" value="ea1"/>
    </properties>
   </object>
-  <object id="74" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="320" width="32" height="32">
+  <object id="74" name="SchmuckSpawn" type="SchmuckSpawn" x="2080" y="576" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
@@ -466,7 +466,7 @@
     <property name="triggeredId" value="ea2"/>
    </properties>
   </object>
-  <object id="75" name="SchmuckSpawn" type="SchmuckSpawn" x="1408" y="736" width="32" height="32">
+  <object id="75" name="SchmuckSpawn" type="SchmuckSpawn" x="1408" y="896" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
@@ -536,7 +536,7 @@
     <property name="triggeringId" value="startTimer,w1,unlock1"/>
    </properties>
   </object>
-  <object id="89" name="SchmuckSpawn" type="SchmuckSpawn" x="1728" y="416" width="32" height="32">
+  <object id="89" name="SchmuckSpawn" type="SchmuckSpawn" x="1728" y="640" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
@@ -545,7 +545,7 @@
     <property name="triggeredId" value="ea5"/>
    </properties>
   </object>
-  <object id="90" name="SchmuckSpawn" type="SchmuckSpawn" x="1920" y="416" width="32" height="32">
+  <object id="90" name="SchmuckSpawn" type="SchmuckSpawn" x="1920" y="640" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
@@ -554,7 +554,7 @@
     <property name="triggeredId" value="ea4"/>
    </properties>
   </object>
-  <object id="91" name="SchmuckSpawn" type="SchmuckSpawn" x="2112" y="416" width="32" height="32">
+  <object id="91" name="SchmuckSpawn" type="SchmuckSpawn" x="2112" y="640" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>
@@ -597,7 +597,7 @@
     <property name="triggeringId" value="ea7"/>
    </properties>
   </object>
-  <object id="97" name="SchmuckSpawn" type="SchmuckSpawn" x="1568" y="608" width="32" height="32">
+  <object id="97" name="SchmuckSpawn" type="SchmuckSpawn" x="1568" y="832" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="false"/>

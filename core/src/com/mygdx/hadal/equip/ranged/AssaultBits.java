@@ -77,7 +77,7 @@ public class AssaultBits extends RangedWeapon {
 			
 			user.setShootCdCount(summonShootCd);
 		} else {
-			SoundEffect.SHOOT2.playUniversal(state, startPosition, 1.0f, false);
+			SoundEffect.SHOOT2.playUniversal(state, startPosition, 0.8f, false);
 
 			for (Enemy bit: bits) {
 				

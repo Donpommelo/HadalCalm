@@ -94,7 +94,7 @@ public class TrickGun extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 0.6f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 		
@@ -134,7 +134,7 @@ public class TrickGun extends RangedWeapon {
 							}
 							
 							hbox.setLinearVelocity(target.nor().scl(projectileSpeedAfter));
-							SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f, false);
+							SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 0.8f, false);
 								
 							firstReached = true;
 						}

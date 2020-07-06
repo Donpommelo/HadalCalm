@@ -118,7 +118,7 @@
   <object id="22" name="Multitrigger" type="Multitrigger" x="1568" y="2784" width="32" height="32">
    <properties>
     <property name="triggeredId" value="startSpawn"/>
-    <property name="triggeringId" value="lockLeft,lockRight,bounds3,bounds4,arenalock,bossParticles,bossDelay"/>
+    <property name="triggeringId" value="lockLeft,lockRight,bounds3,bounds4,arenalock,spawn0"/>
    </properties>
   </object>
   <object id="23" name="Multitrigger" type="Multitrigger" x="320" y="576" width="32" height="32">
@@ -263,51 +263,30 @@
     <property name="triggeringId" value="playerlock"/>
    </properties>
   </object>
-  <object id="44" name="Particle" type="Particle" x="1696" y="2784" width="32" height="32">
-   <properties>
-    <property name="duration" type="float" value="3"/>
-    <property name="particle" value="RING"/>
-    <property name="triggeredId" value="bossParticles"/>
-    <property name="triggeringId" value="spawn0"/>
-   </properties>
-  </object>
   <object id="46" name="SchmuckSpawn" type="SchmuckSpawn" x="896" y="2528" width="32" height="32">
    <properties>
     <property name="amount" type="int" value="1"/>
     <property name="boss" type="bool" value="true"/>
     <property name="bossname" value="slightly larger fish"/>
+    <property name="delay" type="float" value="2"/>
     <property name="enemyId" value="BOSS1"/>
     <property name="spread" type="bool" value="false"/>
     <property name="triggeredId" value="spawn0"/>
     <property name="triggeringId" value="fitewin"/>
    </properties>
   </object>
-  <object id="47" name="Timer" type="Timer" x="1696" y="2848" width="32" height="32">
-   <properties>
-    <property name="interval" type="float" value="2"/>
-    <property name="startOn" type="bool" value="false"/>
-    <property name="triggeredId" value="bossDelay"/>
-    <property name="triggeringId" value="bossSpawn"/>
-   </properties>
-  </object>
-  <object id="48" name="Multitrigger" type="Multitrigger" x="1856" y="2784" width="32" height="32">
+  <object id="48" name="Multitrigger" type="Multitrigger" x="1440" y="2848" width="32" height="32">
    <properties>
     <property name="triggeredId" value="fitewin"/>
     <property name="triggeringId" value="unlockLeft,unlockRight,bossSet"/>
    </properties>
   </object>
-  <object id="49" name="QuestChange" type="QuestChange" x="1920" y="2784" width="32" height="32">
+  <object id="49" name="QuestChange" type="QuestChange" x="1504" y="2848" width="32" height="32">
    <properties>
     <property name="change" type="int" value="1"/>
     <property name="quest" value="BOSS1"/>
     <property name="triggeredId" value="bossSet"/>
     <property name="triggeringId" value=""/>
-   </properties>
-  </object>
-  <object id="50" name="Multitrigger" type="Multitrigger" x="1760" y="2848" width="32" height="32">
-   <properties>
-    <property name="triggeredId" value="bossSpawn"/>
-    <property name="triggeringId" value="bossDelay,spawn0"/>
    </properties>
   </object>
   <object id="51" name="Prefab" type="PrefabWeapon" x="1504" y="2560" width="96" height="96">

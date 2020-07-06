@@ -24,15 +24,15 @@ public class Maelstrom extends RangedWeapon {
 	private final static float shootDelay = 0;
 	private final static float reloadTime = 1.5f;
 	private final static int reloadAmount = 0;
-	private final static float baseDamage = 9.0f;
+	private final static float baseDamage = 12.0f;
 	private final static float recoil = 6.0f;
 	private final static float knockback = 12.0f;
-	private final static float projectileSpeed = 16.0f;
+	private final static float projectileSpeed = 18.0f;
 	private final static Vector2 projectileSize = new Vector2(20, 20);
 	private final static float lifespan = 1.8f;
 	
-	private final static float explosionInterval = 1 / 15f;
-	private final static float explosionDuration = 1 / 10f;
+	private final static float explosionInterval = 0.06f;
+	private final static float explosionDuration = 0.1f;
 	private final static int explosionMaxSize = 250;
 	private final static float explosionGrowth = 8.0f;
 	
@@ -46,7 +46,7 @@ public class Maelstrom extends RangedWeapon {
 
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		SoundEffect.WIND2.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.WIND2.playUniversal(state, startPosition, 0.8f, false);
 
 		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
 		storm.setSyncDefault(false);
@@ -54,7 +54,7 @@ public class Maelstrom extends RangedWeapon {
 		
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
 		storm.addStrategy(new CreateParticles(state, storm, user.getBodyData(), Particle.STORM, 0.0f, 3.0f));
-		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.5f, true));
+		storm.addStrategy(new CreateSound(state, storm, user.getBodyData(), SoundEffect.WIND3, 0.6f, true));
 		storm.addStrategy(new HitboxStrategy(state, storm, user.getBodyData()) {
 			
 			private float controllerCount = 0;
@@ -81,7 +81,7 @@ public class Maelstrom extends RangedWeapon {
 					pulse.setSyncInstant(true);
 					
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
-					pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(),  baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
+					pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 					pulse.addStrategy(new HitboxStrategy(state, pulse, user.getBodyData()) {
 						
 						@Override

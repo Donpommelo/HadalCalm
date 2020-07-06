@@ -1,11 +1,20 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.event.DelayedSpawn;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 
 public enum EnemyType {
 
+	DELAYEDSPAWN() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new KBKCrawler(state, startPos, extraField, filter, spawner);
+		}
+	},
+	
 	CRAWLER1() {
 
 		@Override
@@ -207,4 +216,8 @@ public enum EnemyType {
 	;
 	
 	public abstract Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner);
+	
+	public void generateEnemyDelayed(PlayState state, Vector2 startPos, float lifespan, short filter, float extraField, SpawnerSchmuck spawner, boolean isBoss, String bossName) {
+		new DelayedSpawn(state, startPos, lifespan, this, filter, extraField, spawner, isBoss, bossName);
+	}
 }

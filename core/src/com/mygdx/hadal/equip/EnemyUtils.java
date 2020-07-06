@@ -289,7 +289,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
 				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), position, true));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.8f, true));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 			}
 		});
 	}
@@ -306,7 +306,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
 				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(), true));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.8f, true));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				hbox.addStrategy((new HitboxStrategy(state, hbox, enemy.getBodyData()) {
 				
 					private float controllerCount = 0;
@@ -465,7 +465,7 @@ public class EnemyUtils {
 								frag.addStrategy(new ContactUnitDie(state, frag, enemy.getBodyData()));
 								frag.addStrategy(new CreateParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
 								frag.addStrategy(new DieParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
-								hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.8f, true));
+								hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 							}
 						}
 					});
@@ -485,7 +485,7 @@ public class EnemyUtils {
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.8f, true));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 			}
 		});
 	}
@@ -544,7 +544,7 @@ public class EnemyUtils {
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 					hbox.addStrategy(new ContactWallLoseDurability(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactWallParticles(state, hbox, enemy.getBodyData(), Particle.SPARKS));
-					hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.8f, true));
+					hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 				}
 			}
 		});

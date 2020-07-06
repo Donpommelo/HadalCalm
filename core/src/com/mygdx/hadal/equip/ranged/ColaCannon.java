@@ -91,7 +91,7 @@ public class ColaCannon extends RangedWeapon {
 		
 		//when released, spray weapon at mouse. Spray duration and velocity scale to charge
 		if (processClip(state, bodyData)) {
-			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 1.0f, false);
+			SoundEffect.POPTAB.playUniversal(state, user.getPixelPosition(), 0.8f, false);
 
 			final float duration = fireDuration * chargeCd / getChargeTime() + minDuration;
 			final float velocity = projectileSpeed * chargeCd / getChargeTime() + minVelo;

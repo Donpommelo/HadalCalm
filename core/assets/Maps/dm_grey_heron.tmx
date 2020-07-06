@@ -46,14 +46,14 @@
     <property name="triggeredId" value="w1"/>
    </properties>
   </object>
-  <object id="14" name="Bounds" type="Bounds" x="768" y="448" width="32" height="32">
+  <object id="14" name="Bounds" type="Bounds" x="960" y="544" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="15" name="Bounds" type="Bounds" x="4384" y="2880" width="32" height="32">
+  <object id="15" name="Bounds" type="Bounds" x="4192" y="2784" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

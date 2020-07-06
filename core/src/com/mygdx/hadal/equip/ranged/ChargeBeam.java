@@ -118,7 +118,7 @@ public class ChargeBeam extends RangedWeapon {
 	
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
-		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 1.0f, false);
+		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 0.8f, false);
 
 		//power of hitbox scales to the amount charged
 		if (chargeCd >= getChargeTime()) {
@@ -156,7 +156,7 @@ public class ChargeBeam extends RangedWeapon {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactUnitLoseDurability(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.75f, true));
+		hbox.addStrategy(new ContactUnitSound(state, hbox, user.getBodyData(), SoundEffect.MAGIC0_DAMAGE, 0.6f, true));
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
 			@Override

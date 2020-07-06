@@ -37,7 +37,7 @@ public class Screecher extends RangedWeapon {
 	private final static float recoil = 1.5f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 10.0f;
-	private final static int range = 18;
+	private final static int range = 24;
 	private final static Vector2 projectileSize = new Vector2(120, 120);
 	private final static float lifespan = 0.5f;
 	private final static int spread = 1;
@@ -49,7 +49,7 @@ public class Screecher extends RangedWeapon {
 	
 	private SoundEntity screechSound;
 	private final static float flashDuration = 0.1f;
-	private final static Vector2 flashSize = new Vector2(60, 60);
+	private final static Vector2 flashSize = new Vector2(75, 75);
 
 	private float shortestFraction;
 	

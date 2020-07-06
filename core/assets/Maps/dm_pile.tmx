@@ -109,14 +109,14 @@
     <property name="triggeringId" value="dummy0"/>
    </properties>
   </object>
-  <object id="21" name="Bounds" type="Bounds" x="1216" y="1344" width="32" height="32">
+  <object id="21" name="Bounds" type="Bounds" x="1408" y="1440" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="22" name="Bounds" type="Bounds" x="2048" y="2496" width="32" height="32">
+  <object id="22" name="Bounds" type="Bounds" x="1856" y="2400" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

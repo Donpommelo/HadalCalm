@@ -17,7 +17,7 @@ public class ArenaSettingSetter extends Prefabrication {
 	private final static String weaponTimerId = "spawnWeapons";
 	private final static String playerStartId = "playerstart";
 	private final static float weaponSpawnTimer = 25.0f;
-	private final static float arenaMatchZoom = 1.2f;
+	private final static float arenaMatchZoom = 1.5f;
 	
 	public ArenaSettingSetter(PlayState state) {
 		super(state);

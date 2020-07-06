@@ -222,14 +222,14 @@
     <property name="sprite" value="NOTHING"/>
    </properties>
   </object>
-  <object id="37" name="Bounds" type="Bounds" x="960" y="704" width="32" height="32">
+  <object id="37" name="Bounds" type="Bounds" x="1152" y="800" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="38" name="Bounds" type="Bounds" x="1440" y="1216" width="32" height="32">
+  <object id="38" name="Bounds" type="Bounds" x="1248" y="1120" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

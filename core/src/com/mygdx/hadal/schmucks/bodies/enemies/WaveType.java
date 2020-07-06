@@ -172,6 +172,7 @@ public enum WaveType {
 	 * @author Zachary Tu
 	 *
 	 */
+	private final static float waveDelay = 1.0f;
 	public class WaveEnemy {
 		
 		private int lastWave;
@@ -210,7 +211,7 @@ public enum WaveType {
 			}
 
 			if (thisId == spawner.getPointId()) {
-				type.generateEnemy(spawner.getState(), spawner.getPixelPosition(), Constants.ENEMY_HITBOX, extraField, null);
+				type.generateEnemyDelayed(spawner.getState(), spawner.getPixelPosition(), waveDelay, Constants.ENEMY_HITBOX, extraField, null, false, "");
 			}
 		}
 	}

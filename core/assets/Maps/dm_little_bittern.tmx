@@ -17,14 +17,14 @@
   </object>
  </objectgroup>
  <objectgroup id="5" name="event-layer">
-  <object id="2" name="Bounds" type="Bounds" x="768" y="448" width="32" height="32">
+  <object id="2" name="Bounds" type="Bounds" x="960" y="544" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds1"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="3" name="Bounds" type="Bounds" x="3840" y="2816" width="32" height="32">
+  <object id="3" name="Bounds" type="Bounds" x="3648" y="2720" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

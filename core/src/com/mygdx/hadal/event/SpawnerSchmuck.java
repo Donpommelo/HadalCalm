@@ -2,6 +2,7 @@ package com.mygdx.hadal.event;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.event.userdata.EventData;
 import com.mygdx.hadal.event.utility.TriggerAlt;
 import com.mygdx.hadal.schmucks.bodies.Player;
@@ -38,17 +39,21 @@ public class SpawnerSchmuck extends Event {
 	//Extra field for enemies that require more information (like turret subtypes)
 	private int extraField;
 	
+	//delay before enemy spawns
+	private float delay;
+	
 	//is this enemy a boss enemy and if so, what is its name?
 	private boolean boss;
 	private String bossName;
 	
 	private EnemyType type;
 	
-	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, String schmuckId, int limit, int extraField, boolean boss, String bossName) {
+	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, String schmuckId, int limit, int extraField, float delay, boolean boss, String bossName) {
 		super(state, startPos, size);
 		this.type = EnemyType.valueOf(schmuckId);
 		this.limit = limit;
 		this.extraField = extraField;
+		this.delay = delay;
 		this.boss = boss;
 		this.bossName = bossName;
 	}
@@ -65,16 +70,8 @@ public class SpawnerSchmuck extends Event {
 				} else {
 					
 					for (int i = 0; i < limit; i++) {
-						
-						Enemy enemy = type.generateEnemy(state, event.getPixelPosition(), Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event);
-						
 						amountLeft++;
-						
-						enemy.setBoss(boss);
-						if (boss) {
-							enemy.setName(bossName);
-							state.setBoss(enemy);
-						}
+						type.generateEnemyDelayed(state, event.getPixelPosition(), delay, Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event, boss, bossName);
 					}
 				}
 			}
@@ -102,5 +99,10 @@ public class SpawnerSchmuck extends Event {
 				state.clearBoss();
 			}
 		}
+	}
+	
+	@Override
+	public void loadDefaultProperties() {
+		setStandardParticle(Particle.RING);
 	}
 }

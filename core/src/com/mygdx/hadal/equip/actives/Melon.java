@@ -22,7 +22,7 @@ public class Melon extends ActiveItem {
 	
 	@Override
 	public void useItem(PlayState state, PlayerBodyData user) {
-		SoundEffect.EATING.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
+		SoundEffect.EATING.playUniversal(state, user.getPlayer().getPixelPosition(), 0.8f, false);
 
 		user.addStatus(new Regeneration(state, duration, user, user, power));
 	}

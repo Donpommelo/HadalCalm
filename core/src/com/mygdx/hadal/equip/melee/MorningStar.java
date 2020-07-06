@@ -19,10 +19,10 @@ import com.mygdx.hadal.utils.Constants;
 
 public class MorningStar extends MeleeWeapon {
 
-	private final static float swingCd = 0.5f;
-	private final static float windup = 0.2f;
+	private final static float swingCd = 0.4f;
+	private final static float windup = 0.1f;
 	
-	private final static Vector2 projectileSize = new Vector2(60, 60);
+	private final static Vector2 projectileSize = new Vector2(75, 75);
 	private final static Vector2 chainSize = new Vector2(20, 20);
 	
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -36,7 +36,7 @@ public class MorningStar extends MeleeWeapon {
 
 	private final static float swingForce = 2500.0f;
 	private final static float range = 60.0f;
-	private final static float chainLength = 1.1f;
+	private final static float chainLength = 1.2f;
 
 	//this is the hitbox that this weapon extends
 	private Hitbox base, star;
