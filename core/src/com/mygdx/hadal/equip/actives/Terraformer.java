@@ -18,7 +18,7 @@ public class Terraformer extends ActiveItem {
 	private final static float maxCharge = 10.0f;
 	
 	private final static Vector2 blockSize = new Vector2(96, 96);
-	private final static int blockHp = 100;
+	private final static int blockHp = 200;
 	private final static float blockSpeed = 10.0f;
 
 	public Terraformer(Schmuck user) {
@@ -41,5 +41,6 @@ public class Terraformer extends ActiveItem {
 		block.setScaleAlign("CENTER_STRETCH");
 		block.setStandardParticle(Particle.IMPACT);
 		block.setGravity(1.0f);
+		block.setSynced(true);
 	}
 }
