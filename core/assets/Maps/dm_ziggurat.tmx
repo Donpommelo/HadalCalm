@@ -110,7 +110,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="24" name="Bounds" type="Bounds" x="2304" y="1280" width="32" height="32">
+  <object id="24" name="Bounds" type="Bounds" x="2304" y="1344" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="left" type="bool" value="false"/>

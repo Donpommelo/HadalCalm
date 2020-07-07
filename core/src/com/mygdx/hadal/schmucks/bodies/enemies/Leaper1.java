@@ -1,5 +1,7 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -54,10 +56,11 @@ public class Leaper1 extends EnemyCrawling {
 	private static final int charge1Damage = 10;
 	private static final float attackInterval = 1.0f;
 	private static final int defaultMeleeKB = 20;
+	private static final int spread = 30;
 	@Override
 	public void attackInitiate() {
 		
-		push(new Vector2(0, 50));
+		push(new Vector2(0, 50).rotate(ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
 	};
 	

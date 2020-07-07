@@ -769,12 +769,14 @@ public class Player extends PhysicsSchmuck {
 		
 		boolean visible = false;
 		
-		if (state.isServer()) {
+		if (state.isSpectatorMode()) {
+			visible = true;
+		} else if (state.isServer()) {
 			if (state.getPlayer().getPlayerData().getStat(Stats.HEALTH_VISIBILITY) > 0) {
 				visible = true;
 			}
 		} else {
-			if (((ClientState)state).getUiPlay().getHealthVisibility() > 0) {
+			if (((ClientState) state).getUiPlay().getHealthVisibility() > 0) {
 				visible = true;
 			}
 		}

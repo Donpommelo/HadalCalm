@@ -20,7 +20,7 @@ public class SavedLoadout {
 
 	//max size of name createable in title screen
 	private static final int maxNameLength = 50;
-	
+	private static final String defaultName = "Anonymous";
 	public SavedLoadout() {}
 	
 	/**
@@ -67,7 +67,14 @@ public class SavedLoadout {
 	}
 	
 	public void setName(String name) {
-		this.name = name.substring(0, Math.min(name.length(), maxNameLength));
+		
+		//prevent players from entering with no name
+		if (name.isEmpty()) {
+			this.name = defaultName;
+		} else {
+			this.name = name.substring(0, Math.min(name.length(), maxNameLength));
+		}
+		
 		saveLoadout();
 	}
 	

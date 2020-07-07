@@ -292,7 +292,12 @@ public class PlayerBodyData extends BodyData {
 		
 		loadout.activeItem = unlock;
 		
-		activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
+		//active items start off charged in the hub
+		if (player.getState().isHub()) {
+			activeItem.setCurrentChargePercent(1.0f);
+		} else {
+			activeItem.setCurrentChargePercent(getStat(Stats.STARTING_CHARGE));
+		}
 		
 		syncServerLoadoutChange();
 
