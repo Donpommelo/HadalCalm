@@ -163,10 +163,16 @@ public class Setting {
 			Gdx.graphics.setWindowedMode(1280, 720);
 			break;
 		case 2:
-			Gdx.graphics.setWindowedMode(1600, 900);
+			Gdx.graphics.setWindowedMode(1366, 768);
 			break;
 		case 3:
+			Gdx.graphics.setWindowedMode(1600, 900);
+			break;
+		case 4:
 			Gdx.graphics.setWindowedMode(1920, 1080);
+			break;
+		case 5:
+			Gdx.graphics.setWindowedMode(2560, 1080);
 			break;
 		}
 	}

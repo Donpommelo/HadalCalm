@@ -307,7 +307,7 @@ public class SettingState extends GameState {
 		screen.setScale(detailsScale);
 		
 		resolutionOptions = new SelectBox<String>(GameStateManager.getSkin());
-		resolutionOptions.setItems("1024 X 576", "1280 X 720", "1600 X 900", "1920 X 1080");
+		resolutionOptions.setItems("1024 X 576", "1280 X 720", "1366 x 768", "1600 X 900", "1920 x 1080", "2560 x 1080");
 		resolutionOptions.setWidth(100);
 		
 		resolutionOptions.setSelectedIndex(gsm.getSetting().getResolution());

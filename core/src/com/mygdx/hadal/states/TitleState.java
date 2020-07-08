@@ -41,9 +41,9 @@ public class TitleState extends GameState {
 	
 	//Dimentions and position of the title menu
 	private final static int titleX = 140;
-	private final static int titleY = 580;
+	private final static int titleY = 500;
 	private final static int titleWidth = 1000;
-	private final static int titleHeight = 128;
+	private final static int titleHeight = 208;
 	
 	private final static int menuX = 540;
 	private final static int menuY = 40;

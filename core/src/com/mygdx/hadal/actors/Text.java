@@ -31,7 +31,7 @@ public class Text extends AHadalActor {
 	private float targetWidth;
 
 	//padding used if this text is a button
-	private static float padding = 20.0f;
+	private final static float padding = 20.0f;
 	
 	public Text(String text, int x, int y, boolean button) {
 		this(text, x, y, button, false, 0);

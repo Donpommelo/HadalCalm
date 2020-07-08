@@ -30,7 +30,8 @@ public class UIHub {
 	private String info, title = "";
 	private final static int infoWidth = 400;
 	private final static int infoHeight = 350;
-	
+	public static final int infoPadding = 20;
+
 	private static final int tableX = HadalGame.CONFIG_WIDTH;
 	private static final int tableY = 50;
 	
@@ -46,6 +47,8 @@ public class UIHub {
 	
 	public static final float optionsScale = 0.40f;
 	public static final float optionsScaleSmall = 0.25f;
+	
+	public static final float artifactTagSize = 50.0f;
 	
 	private hubTypes type = hubTypes.NONE;
 	
@@ -162,10 +165,18 @@ public class UIHub {
 	 */
 	public void refreshReliquary() {
 		tableExtra.clear();
+		
+		Text slotsTitle = new Text("CURRENT ARTIFACTS:", 0, 0, false);
+		slotsTitle.setScale(0.5f);
+		tableExtra.add(slotsTitle).colspan(12).pad(infoPadding).row();
+		
+		boolean artifactsEmpty = true;
+		
 		for (UnlockArtifact c: state.getPlayer().getPlayerData().getLoadout().artifacts) {
 			
 			if (!c.equals(UnlockArtifact.NOTHING)) {
-				final ArtifactTag newTag = new ArtifactTag(c);
+				artifactsEmpty = false;
+				final ArtifactIcon newTag = new ArtifactIcon(c);
 				
 				newTag.addListener(new ClickListener() {
 					
@@ -176,7 +187,6 @@ public class UIHub {
 						} else {
 							state.getPlayer().getPlayerData().syncClientLoadoutRemoveArtifact(newTag.getArtifact());
 						}
-						
 						refreshHub();
 			        }
 					
@@ -187,15 +197,20 @@ public class UIHub {
 						newTag.getArtifact().getInfo().getDescriptionLong();
 					}
 			    });
-				tableExtra.add(newTag).width(40).height(40);
+				tableExtra.add(newTag).width(artifactTagSize).height(artifactTagSize);
 			}
 		}
-		tableExtra.row();
-		Text slotsInfo = null;
-		slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0, false);
+		if (artifactsEmpty) {
+			Text slotsEmpty = new Text("N / A", 0, 0, false);
+			slotsEmpty.setScale(0.5f);
+			tableExtra.add(slotsEmpty).height(artifactTagSize).colspan(12);
+		}
 		
+		tableExtra.row();
+		
+		Text slotsInfo = new Text("SLOTS REMAINING: " + state.getPlayer().getPlayerData().getArtifactSlotsRemaining(), 0, 0, false);
 		slotsInfo.setScale(0.5f);
-		tableExtra.add(slotsInfo).colspan(12).row();
+		tableExtra.add(slotsInfo).pad(infoPadding).colspan(12).row();
 	}
 	
 	/**

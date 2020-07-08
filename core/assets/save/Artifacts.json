@@ -280,7 +280,7 @@ EELSKIN_COVER: {
 EMAUDELINES_PRISM: {
 	name: Emaudeline's Prism
 	description: "Projectile Split-Shot, -Attack Speed, -Reload Speed"
-    descriptionLong: "Attack Speed Reduction: -30%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
+    descriptionLong: "Ranged Attack Speed Reduction: -30%\nReload Speed Reduction: -30%\n\nA transparent prism that splits light into an incomplete rainbow.\n\nAtop a platform overlooking the carapaces of her brethren, a woman stares into an everlasting source of light."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -768,7 +768,7 @@ SAMURAI_SHARK: {
 SEAFOAM_PERIAPT: {
 	name: Seafoam Periapt
 	description: "+Attack Speed, Antigravity Projectiles"
-    descriptionLong: "Bonus Reload Speed: +20%\nBonus Attack Speed: +20%\n\nA porous charm infused with an uplifting froth.\n\nNot even the body of a God could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away in the form of seafoam."
+    descriptionLong: "Bonus Reload Speed: +20%\nBonus Ranged Attack Speed: +20%\n\nA porous charm infused with an uplifting froth.\n\nNot even the body of a God could contain the knowledge imparted by the First Bright One and, gradually, the excess drifted away in the form of seafoam."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -930,7 +930,7 @@ WHITE_SMOKER: {
 WHITE_WHALE_CHARM: {
 	name: White Whale Charm
 	description: "+Damage and Projectile Size, -Attack Speed"
-    descriptionLong: "Bonus Projectile Size: +40%\nBonus Damage: +40%\nAttack Speed Reduction: -50%\n\nAn ornamental artifact carved from the tusk of the white whale.\n\nThe White Whale dreamt of an eye at the bottom of the sea and the world that lay beneath its unblinking gaze."
+    descriptionLong: "Bonus Projectile Size: +40%\nBonus Damage: +40%\nRanged Attack Speed Reduction: -50%\n\nAn ornamental artifact carved from the tusk of the white whale.\n\nThe White Whale dreamt of an eye at the bottom of the sea and the world that lay beneath its unblinking gaze."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,

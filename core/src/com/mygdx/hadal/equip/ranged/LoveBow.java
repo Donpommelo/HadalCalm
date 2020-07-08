@@ -19,9 +19,13 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class LoveBow extends RangedWeapon {
 
@@ -35,8 +39,8 @@ public class LoveBow extends RangedWeapon {
 	private final static float recoil = 5.0f;
 	private final static float knockback = 30.0f;
 	private final static float projectileSpeed = 15.0f;
-	private final static Vector2 projectileSize = new Vector2(80, 20);
-	private final static float lifespan = 2.0f;
+	private final static Vector2 projectileSize = new Vector2(60, 15);
+	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.ARROW;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -101,15 +105,22 @@ public class LoveBow extends RangedWeapon {
 		//velocity scales to the charge percent
 		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
 		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, true, user, projSprite);
-		hbox.setGravity(1.0f);
+		Hitbox hurtbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), filter, false, true, user, projSprite);
+		hurtbox.setGravity(1.0f);
 		
-		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new ContactWallDie(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.ARROW_BREAK));
-
-		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
+		hurtbox.addStrategy(new ControllerDefault(state, hurtbox, user.getBodyData()));
+		hurtbox.addStrategy(new AdjustAngle(state, hurtbox, user.getBodyData()));
+		hurtbox.addStrategy(new ContactWallDie(state, hurtbox, user.getBodyData()));
+		hurtbox.addStrategy(new ContactUnitLoseDurability(state, hurtbox, user.getBodyData()));
+		hurtbox.addStrategy(new DieParticles(state, hurtbox, user.getBodyData(), Particle.ARROW_BREAK));
+		hurtbox.addStrategy(new DamageStandard(state, hurtbox, user.getBodyData(), baseDamage, knockback, DamageTypes.POKING, DamageTypes.RANGED));
+		hurtbox.addStrategy(new ContactUnitSound(state, hurtbox, user.getBodyData(), SoundEffect.SLASH, 0.4f, true));
+		
+		Hitbox healbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, false, user, Sprite.NOTHING);
+		healbox.addStrategy(new ControllerDefault(state, healbox, user.getBodyData()));
+		healbox.addStrategy(new FixedToEntity(state, healbox, user.getBodyData(), hurtbox, new Vector2(), new Vector2(), true));
+		
+		healbox.addStrategy(new HitboxStrategy(state, healbox, user.getBodyData()) {
 			
 			//delay exists so the projectile doesn't immediately contact the shooter
 			private float delay = selfHitDelay;
@@ -124,18 +135,13 @@ public class LoveBow extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
-					
 					//if shooting self after delay or any ally, the arrow will heal. Otherwise, damage is inflicted
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
 							((BodyData) fixB).regainHp(baseHeal, creator, true);
 							SoundEffect.COIN3.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
 							new ParticleEntity(state, new Vector2(hbox.getPixelPosition()), Particle.REGEN, 1.0f, true, particleSyncType.CREATESYNC);
-							hbox.die();
-						} else if (((BodyData) fixB).getSchmuck().getHitboxfilter() != user.getHitboxfilter()) {
-							fixB.receiveDamage(baseDamage * hbox.getDamageMultiplier(), hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.RANGED, DamageTypes.POKING);
-							SoundEffect.SLASH.playUniversal(state, hbox.getPixelPosition(), 0.5f, false);
-							hbox.die();
+							hurtbox.die();
 						}
 					}
 				}
