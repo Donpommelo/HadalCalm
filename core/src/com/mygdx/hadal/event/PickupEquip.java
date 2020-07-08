@@ -29,7 +29,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 	if this is equal to "", return any weapon in the random pool.
  * 
  * @author Zachary Tu
- *
  */
 public class PickupEquip extends Event {
 
@@ -45,7 +44,6 @@ public class PickupEquip extends Event {
 		
 		unlock = UnlockEquip.NOTHING;
 		setEquip(UnlocktoItem.getUnlock(unlock, null));
-		
 	}
 	
 	@Override
@@ -76,13 +74,10 @@ public class PickupEquip extends Event {
 					return;
 				}
 				
-				if (equip instanceof NothingWeapon) {
-					return;
-				}
+				if (equip instanceof NothingWeapon) { return; }
 				
 				//If player inventory is full, replace their current weapon.
 				Equipable temp = p.getPlayerData().pickup(equip);
-				
 				setEquip(temp);
 			}
 			

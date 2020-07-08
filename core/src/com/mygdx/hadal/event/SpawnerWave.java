@@ -12,9 +12,22 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
+/**
+ * There are ~6 Wave Spawners in arena maps. When a new wave is spawned, each spawner is activated and a new wave of enemies is spawned
+ * Triggered Behavior: When triggered, spawn a wave
+ * Triggering Behavior: N/A
+ * 
+ * Fields:
+ * pointId: The id of the wave spaen point.This determins which enemies can be spawned here
+ * extraField: extra field sometimes used for enemy spawns
+ * tag: string tag to further specify which enemies can spawn
+ * @author Zachary Tu
+ */
 public class SpawnerWave extends Event {
 
 	private int pointId;
+	
+	//this isthe number of the current wave.
 	private int waveNum = 1;
 	private int extraField;
 	private ArrayList<WaveTag> tags = new ArrayList<WaveTag>();

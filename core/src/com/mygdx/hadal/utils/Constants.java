@@ -3,7 +3,6 @@ package com.mygdx.hadal.utils;
 /**
  * Constants used throughout the game.
  * @author Zachary Tu
- *
  */
 public class Constants {
 	

@@ -12,10 +12,10 @@ import com.mygdx.hadal.states.PlayState;
  * The Action Controller receives actions from a player controller or packets from clients and uses them to make a player 
  * perform actions.
  * @author Zachary Tu
- *
  */
 public class ActionController {
 
+	//this is the player that this controller control
 	private Player player;
 	private PlayState state;
 	
@@ -29,7 +29,7 @@ public class ActionController {
 	}
 	
 	public boolean keyUp(PlayerAction action, boolean onReset) {
-		if (player == null) return true;
+		if (player == null) { return true; }
 
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = false;
@@ -40,7 +40,7 @@ public class ActionController {
 			}
 		}
 		
-		if (action == PlayerAction.WALK_RIGHT) {
+		else if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = false;
 			if (leftDown) {
 				player.setMoveState(MoveState.MOVE_LEFT);
@@ -49,22 +49,22 @@ public class ActionController {
 			}
 		}
 		
-		if (action == PlayerAction.JUMP) {
+		else if (action == PlayerAction.JUMP) {
 			player.setHoveringAttempt(false);
 		}
 		
-		if (action == PlayerAction.CROUCH) {
+		else if (action == PlayerAction.CROUCH) {
 			player.setFastFalling(false);
 		}
 		
-		if (action == PlayerAction.FIRE) {
+		else if (action == PlayerAction.FIRE) {
 			if (!onReset) {
 				player.release();
 			}
 			player.setShooting(false);
 		}
 		
-		if (action == PlayerAction.PAUSE) {
+		else if (action == PlayerAction.PAUSE) {
 			if (state.getPlayer().equals(player) || state.getGsm().getSetting().isMultiplayerPause()) {
 				if (GameStateManager.currentMode == Mode.SINGLE) {
 					state.getGsm().addPauseState(state, player.getName(), PlayState.class, true);
@@ -76,7 +76,7 @@ public class ActionController {
 			}
 		}
 		
-		if (action == PlayerAction.SCORE_WINDOW) {
+		else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(false);
 		}
 				
@@ -97,7 +97,7 @@ public class ActionController {
 			}
 		}
 		
-		if (action == PlayerAction.WALK_RIGHT) {
+		else if (action == PlayerAction.WALK_RIGHT) {
 			rightDown = true;
 			if (!leftDown) {
 				player.setMoveState(MoveState.MOVE_RIGHT);
@@ -106,18 +106,18 @@ public class ActionController {
 			}
 		}
 		
-		if (action == PlayerAction.JUMP) {
+		else if (action == PlayerAction.JUMP) {
 			player.setHoveringAttempt(true);
 			if (!onReset) {
 				player.jump();
 			}
 		}
 		
-		if (action == PlayerAction.CROUCH) {
+		else if (action == PlayerAction.CROUCH) {
 			player.setFastFalling(true);
 		}
 		
-		if (action == PlayerAction.INTERACT) {
+		else if (action == PlayerAction.INTERACT) {
 			//ATM, event interaction also advances dialog
 			if (state.getDialogBox() != null) {
 				state.getDialogBox().nextDialogue();
@@ -126,65 +126,65 @@ public class ActionController {
 			player.interact();
 		}
 		
-		if (action == PlayerAction.FREEZE) {
+		else if (action == PlayerAction.FREEZE) {
 			player.activeItem();
 		}
 		
-		if (action == PlayerAction.RELOAD) {
+		else if (action == PlayerAction.RELOAD) {
 			player.reload();
 		}
 		
-		if (action == PlayerAction.FIRE) {
+		else if (action == PlayerAction.FIRE) {
 			player.setShooting(true);
 		}
 		
-		if (action == PlayerAction.BOOST) {
+		else if (action == PlayerAction.BOOST) {
 			player.airblast();
 		}
 		
-		if (action == PlayerAction.SWITCH_TO_LAST) {
+		else if (action == PlayerAction.SWITCH_TO_LAST) {
 			player.switchToLast();
 		}
 		
-		if (action == PlayerAction.SWITCH_TO_1) {
+		else if (action == PlayerAction.SWITCH_TO_1) {
 			player.switchToSlot(1);
 		}
 		
-		if (action == PlayerAction.SWITCH_TO_2) {
+		else if (action == PlayerAction.SWITCH_TO_2) {
 			player.switchToSlot(2);
 		}
 		
-		if (action == PlayerAction.SWITCH_TO_3) {
+		else if (action == PlayerAction.SWITCH_TO_3) {
 			player.switchToSlot(3);
 		}
 		
-		if (action == PlayerAction.SWITCH_TO_4) {
+		else if (action == PlayerAction.SWITCH_TO_4) {
 			player.switchToSlot(4);
 		}
 		
-		if (action == PlayerAction.DIALOGUE) {
+		else if (action == PlayerAction.DIALOGUE) {
 			if (state.getDialogBox() != null) {
 				state.getDialogBox().nextDialogue();
 			}
 		}
 		
-		if (action == PlayerAction.WEAPON_CYCLE_UP) {
+		else if (action == PlayerAction.WEAPON_CYCLE_UP) {
 			player.getPlayerData().switchUp();
 		}
 		
-		if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
+		else if (action == PlayerAction.WEAPON_CYCLE_DOWN) {
 			player.getPlayerData().switchDown();
 		}
 		
-		if (action == PlayerAction.MESSAGE_WINDOW) {
+		else if (action == PlayerAction.MESSAGE_WINDOW) {
 			state.getMessageWindow().toggleWindow();
 		}
 
-		if (action == PlayerAction.SCORE_WINDOW) {
+		else if (action == PlayerAction.SCORE_WINDOW) {
 			state.getScoreWindow().setVisibility(true);
 		}
 		
-		if (action == PlayerAction.EXIT_MENU) {
+		else if (action == PlayerAction.EXIT_MENU) {
 			if (state.getUiHub().isActive()) {
 				state.getUiHub().leave();
 			}
@@ -193,13 +193,9 @@ public class ActionController {
 		return false;
 	}
 	
-	public boolean keyDown(PlayerAction action) {
-		return keyDown(action, false);
-	}
+	public boolean keyDown(PlayerAction action) { return keyDown(action, false); }
 
-	public boolean keyUp(PlayerAction action) {
-		return keyUp(action, false);
-	}
+	public boolean keyUp(PlayerAction action) { return keyUp(action, false); }
 
 	public Player getPlayer() {	return player; }
 

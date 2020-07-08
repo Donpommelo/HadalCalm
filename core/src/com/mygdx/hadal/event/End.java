@@ -15,7 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  * text: text that will appear in the results screen
  * 
  * @author Zachary Tu
- *
  */
 public class End extends Event {
 

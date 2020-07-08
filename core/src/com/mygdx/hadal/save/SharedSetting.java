@@ -3,10 +3,10 @@ package com.mygdx.hadal.save;
 /**
  * Shared Settings containg all of the host's settings that should be visible/synced with the clients
  * @author Zachary Tu
- *
  */
 public class SharedSetting {
 
+	//these are all the server settings that are visible to clients
 	private int maxPlayers, pvpMode, artifactSlots, pvpTimer, coopTimer, lives, loadoutType;
 	private boolean multiplayerPause;
 	

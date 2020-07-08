@@ -11,11 +11,10 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy is used by explosives.
+ * This strategy is used by explosives or other non-moving hboxes.
+ * Knockback is applied outwards from the center of the hbox.
  * Explosions deal damage to all units but less damage to the user.
- * Because explosions are static, their knock back is based on positioning rather than their own momentum
  * @author Zachary Tu
- *
  */
 public class DamageStatic extends HitboxStrategy {
 	
@@ -25,6 +24,7 @@ public class DamageStatic extends HitboxStrategy {
 	//damage tags determine the type of damage inflicted and is used for certain effects
 	private DamageTypes[] tags;
 	
+	//this contains all the units this hbox has damaged. Used to avoid damaging the same unit multiple times.
 	private ArrayList<HadalData> damaged;
 
 	public DamageStatic(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {

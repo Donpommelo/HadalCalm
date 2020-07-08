@@ -10,12 +10,18 @@ import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
+ * A delayed spawn waits for a brief period of time, then dies and spawns a chosen enemy
+ * This event is only ever created dynamivally and so it does not have any connection behavior and will never be parsed from a tiled map.
+ * @author Zachary Tu
  */
 public class DelayedSpawn extends Event {
 
 	private final static Vector2 baseSize = new Vector2(32, 32);
+	
+	//the type of enemy that this will spawn
 	private EnemyType type;
 	
+	//field supplied to the newly spawned enemy
 	private short filter;
 	private float extraField;
 	private SpawnerSchmuck spawner;
@@ -49,6 +55,8 @@ public class DelayedSpawn extends Event {
 	public boolean queueDeletion() {
 		boolean deleted = super.queueDeletion();
 		if (deleted) {
+			
+			//when deleted, spawn enemies and set boss data
 			Enemy enemy = type.generateEnemy(state, startPos, filter, extraField, spawner);
 			enemy.setBoss(isBoss);
 			enemy.setName(bossName);

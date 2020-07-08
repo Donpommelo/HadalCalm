@@ -10,7 +10,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * This includes rules about timer and sets according ui elements.
  * One of these should be placed in every arena map.
  * @author Zachary Tu
- *
  */
 public class ArenaSettingSetter extends Prefabrication {
 

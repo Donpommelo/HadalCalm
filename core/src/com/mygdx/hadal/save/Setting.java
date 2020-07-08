@@ -12,7 +12,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * A Setting contains all saved game settings.
  * @author Zachary Tu
- *
  */
 public class Setting {
 

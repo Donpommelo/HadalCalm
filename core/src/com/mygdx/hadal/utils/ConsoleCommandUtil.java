@@ -11,7 +11,6 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  * This utility manages the players console commands
  * enter console commands in the message window (default binding: m)
  * @author Zachary Tu
- *
  */
 public class ConsoleCommandUtil {
 
@@ -66,6 +65,9 @@ public class ConsoleCommandUtil {
 		return -1;
 	}
 	
+	/**
+	 * This lets the player display certain information in the text log using "print <>"
+	 */
 	public static int print(PlayState state, String command) {
 		
 		switch(command) {

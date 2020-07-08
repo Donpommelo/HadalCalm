@@ -16,7 +16,6 @@ import com.mygdx.hadal.states.PlayState;
  * shader: the shader to use, Default: NOTHING
  * 
  * @author Zachary Tu
- *
  */
 public class ShaderChanger extends Event {
 

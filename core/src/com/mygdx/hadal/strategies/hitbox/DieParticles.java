@@ -13,7 +13,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy creates a particle effect when the attached hbox dies
  * @author Zachary Tu
- *
  */
 public class DieParticles extends HitboxStrategy {
 	
@@ -25,6 +24,7 @@ public class DieParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
+	//this is the color of the particle. change using factory method
 	private ParticleColor color = ParticleColor.NOTHING;
 
 	public DieParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration) {

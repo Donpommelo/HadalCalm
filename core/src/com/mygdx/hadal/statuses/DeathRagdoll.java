@@ -6,11 +6,16 @@ import com.mygdx.hadal.schmucks.bodies.Ragdoll;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * This status makes units spawn a ragdoll upon death. This is used by certain enemies
+ * @author Zachary Tu
+ */
 public class DeathRagdoll extends Status {
 	
 	private static final float duration = 1.0f;
 	private static final float gravity = 1.0f;
 	
+	//this is the sprite of the ragdoll to be spawned and the size of the ragdoll
 	private Sprite sprite;
 	private Vector2 size = new Vector2();
 	

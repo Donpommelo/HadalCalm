@@ -10,11 +10,18 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * Schmucks with Regeneration gradually heal over time
+ * This is pretty much just a stat boost to hp regen with sound and particles built in.
+ * @author Zachary Tu
+ */
 public class Regeneration extends Status {
 	
+	//the sound and particles attached to the status
 	private ParticleEntity regenParticles;
 	private SoundEntity regenSound;
 	
+	//this is the power of the heal
 	private float heal;
 	
 	public Regeneration(PlayState state, float i, BodyData p, BodyData v, float heal) {

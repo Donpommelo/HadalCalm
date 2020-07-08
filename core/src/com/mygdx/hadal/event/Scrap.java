@@ -24,6 +24,7 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * This does not have a blueprint and is not parsed from tiled.
  * 
  * If a client picks up scrap, it will be counted towards the host's money.
+ * @author Zachary Tu
  */
 public class Scrap extends Event {
 
@@ -81,8 +82,8 @@ public class Scrap extends Event {
 			}
 		};
 		
-		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true, Constants.BIT_SENSOR, (short)Constants.BIT_PLAYER, (short) 0, true, eventData);
-		body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), size, false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, Constants.BIT_WALL, (short) 0));
+		this.body = BodyBuilder.createBox(world, startPos, size, gravity, 1.0f, 0, false, true, Constants.BIT_SENSOR, (short) Constants.BIT_PLAYER, (short) 0, true, eventData);
+		body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(), size, false, 0, 0, 0.0f, 1.0f, Constants.BIT_SENSOR, (short) (Constants.BIT_WALL | Constants.BIT_DROPTHROUGHWALL), (short) 0));
 		
 		float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
 		newVelocity.set(startVelo);

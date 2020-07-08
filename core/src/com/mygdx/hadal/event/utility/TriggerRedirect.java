@@ -20,7 +20,6 @@ import com.mygdx.hadal.states.PlayState;
  * blameId: This is the triggeringId of the event that will receive the blame for triggering this trigger's connected event.
  * 
  * @author Zachary Tu
- *
  */
 public class TriggerRedirect extends Event {
 

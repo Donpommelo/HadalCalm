@@ -43,7 +43,6 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
 /**
  * The player is the entity that the player controls.
  * @author Zachary Tu
- *
  */
 public class Player extends PhysicsSchmuck {
 	
@@ -332,7 +331,7 @@ public class Player extends PhysicsSchmuck {
 			playerData.statusProcTime(new ProcTime.PlayerCreate());
 		}
 
-		//activate start point events (these usually just set up camera bounds/zoom and stuff like that
+		//activate start point events (these usually just set up camera bounds/zoom and stuff like that)
 		//This line is here so that it does not occur before events are done being created.
 		if (start != null && state.getPlayer().equals(this)) {
 			start.playerStart(this);
@@ -362,7 +361,6 @@ public class Player extends PhysicsSchmuck {
 					hovering = true;
 				}
 			} else {
-				
 				//turn off hover particles and sound
 				hoverBubbles.turnOff();
 				hovering = false;
@@ -371,7 +369,6 @@ public class Player extends PhysicsSchmuck {
 					hoverSound.turnOff();
 				}
 			}
-			
 			if (fastFalling) {
 				fastFall();
 			}
@@ -380,14 +377,12 @@ public class Player extends PhysicsSchmuck {
 				
 				//turn on running particles and sound
 				dustCloud.turnOn();
-				
 				if (runSound == null) {
 					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.1f, true, true, soundSyncType.TICKSYNC);
 				} else {
 					runSound.turnOn();
 				}
 			} else {
-				
 				//turn off running particles and sound
 				dustCloud.turnOff();
 				if (runSound != null) {
@@ -446,7 +441,6 @@ public class Player extends PhysicsSchmuck {
 		airblastCdCount-=delta;
 		interactCdCount-=delta;
 		
-		
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {
 			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(mouse.getPixelPosition().y, mouse.getPixelPosition().x);
@@ -472,14 +466,11 @@ public class Player extends PhysicsSchmuck {
 			
 			//turn on hovering particles and sound
 			hoverBubbles.turnOn();
-			
 			if (hoverSound == null) {
 				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, true, true, soundSyncType.TICKSYNC);
 			}
 			hoverSound.turnOn();
-			
 		} else {
-			
 			//turn off hovering particles and sound
 			hoverBubbles.turnOff();
 			if (hoverSound != null) {
@@ -676,8 +667,8 @@ public class Player extends PhysicsSchmuck {
 				0, 0,
 				(flip ? -1 : 1) * gemWidth * scale, gemHeight * scale, 1, 1, 0);
 		
+		//reverse determines whether the player is running forwards or backwards.
 		boolean reverse = false;
-
 		if (moveState.equals(MoveState.MOVE_LEFT)) {
 			
 			if (Math.abs(realAttackAngle) > 90) {
@@ -769,6 +760,7 @@ public class Player extends PhysicsSchmuck {
 		
 		boolean visible = false;
 		
+		//draw hp heart if using certain effects, looking at self, or in spectator mode
 		if (state.isSpectatorMode()) {
 			visible = true;
 		} else if (state.isServer()) {
@@ -794,6 +786,7 @@ public class Player extends PhysicsSchmuck {
 	                full.getWidth(), full.getHeight(), false, false);
 		}
 		
+		//draw player name
 		HadalGame.SYSTEM_FONT_SPRITE.getData().setScale(1.0f);
 		HadalGame.SYSTEM_FONT_SPRITE.draw(batch, name, 
 				getPixelPosition().x - Player.hbWidth * Player.scale / 2, 
@@ -865,7 +858,6 @@ public class Player extends PhysicsSchmuck {
 	 */
 	@Override
 	public void onServerSync() {
-		
 		super.onServerSync();
 
 		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
@@ -899,7 +891,6 @@ public class Player extends PhysicsSchmuck {
 				filter.maskBits = p.maskBits;
 				getMainFixture().setFilterData(filter);
 			}
-			
 		} else {
 			super.onClientSync(o);
 		}
@@ -910,6 +901,7 @@ public class Player extends PhysicsSchmuck {
 	public void clientController(float delta) {
 		super.clientController(delta);
 
+		//client mouse lerps towards the angle sent by server
 		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 	}
@@ -930,6 +922,7 @@ public class Player extends PhysicsSchmuck {
 		endPt.set(getPosition()).add(offset.nor().scl(spawnDist + projSize / 4 / PPM));
 		shortestFraction = 1.0f;
 		
+		//raycast towards the direction firing. spawn projectile closer to player if a wall is nearby
 		if (originPt.x != endPt.x || originPt.y != endPt.y) {
 
 			state.getWorld().rayCast(new RayCastCallback() {

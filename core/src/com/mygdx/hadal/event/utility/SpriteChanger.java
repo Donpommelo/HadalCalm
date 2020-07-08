@@ -16,13 +16,14 @@ import com.mygdx.hadal.states.PlayState;
  * Fields:
  * 
  * sprite: name of the new sprite
+ * mode: string the type of play mode (NORMAL, LOOP, LOOP_PINGPONG etc)
  * still: boolean. will the new sprite be animated or not?
  * frame: If the sprite is still, which frame?
- * Align: how is the event aligned? default 0; centered on the point and resized to fit the area
- * Scale: float. how big is the new sprite?
+ * speed: animation speed of the sprite
+ * align: how is the event aligned? default 0; centered on the point and resized to fit the area
+ * scale: float. how big is the new sprite? if -1, don't change the scale
  * 
  * @author Zachary Tu
- *
  */
 public class SpriteChanger extends Event {
 
@@ -58,7 +59,6 @@ public class SpriteChanger extends Event {
 					if (align != "NONE") {
 						event.getConnectedEvent().setScaleAlign(align);
 					}
-					
 					if (scale != -1) {
 						event.getConnectedEvent().setScale(scale);
 					}

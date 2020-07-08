@@ -15,7 +15,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * This class is usually extended as an anonymous inner class in each weapon's hitboxFactory where most of the projectile's
  * states + effects are managed. This mostly contains the stats regarding the body and box2d physics
  * @author Zachary Tu
- *
  */
 public class HitboxData extends HadalData {
 
@@ -25,6 +24,7 @@ public class HitboxData extends HadalData {
 	//The hitbox containing this data
 	protected Hitbox hbox;
 
+	//this is a damage multiplier for reflected hitboxes
 	private final static float reflectMultiplier = 2.0f;
 	
 	/**
@@ -38,8 +38,7 @@ public class HitboxData extends HadalData {
 	
 	@Override
 	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-		if (!hbox.isAlive())
-			return 0.0f;
+		if (!hbox.isAlive()) { return 0.0f; }
 		
 		//process hbox reflections/deflections
 		if (Arrays.asList(tags).contains(DamageTypes.DEFLECT) && hbox.isAlive() && hbox.isReflectable()) {
@@ -62,8 +61,7 @@ public class HitboxData extends HadalData {
 	 * @param fixB: The fixture the hitbox collides with.
 	 */
 	public void onHit(HadalData fixB) {
-		if (!hbox.isAlive())
-			return;
+		if (!hbox.isAlive()) { return; }
 		
 		for (HitboxStrategy s : hbox.getStrategies()) {
 			s.onHit(fixB);

@@ -10,7 +10,6 @@ import com.mygdx.hadal.managers.GameStateManager;
  * A GameState is any state of the game like a menu or the game screen. The game will keep track of each GameState is currently active
  * to receive input and display information to the player.
  * @author Zachary Tu
- *
  */
 public abstract class GameState {
 	
@@ -35,6 +34,9 @@ public abstract class GameState {
 		this.hud = app.getHud();		
 	}
 	
+	/**
+	 * This is run when this state is first added to the top of the stack. This is usually where we set up the scene2d ui elements of the state.
+	 */
 	public abstract void show();
 	
 	/**
@@ -45,6 +47,7 @@ public abstract class GameState {
 	
 	/**
 	 * This will be run every engine tick after updating and will display information to the player.
+	 * @param delta: elapsed time in seconds since last engine tick.
 	 */
 	public abstract void render(float delta);
 	
@@ -53,11 +56,18 @@ public abstract class GameState {
 	 */
 	public abstract void dispose();
 
+	/**
+	 * This will be run whenever the game window is resized. 
+	 */
 	public void resize(int width, int height) {}
 	
 	public GameStateManager getGsm() {return gsm; }
 
 	public Stage getStage() { return stage; }
 	
+	/**
+	 * Do we process state transitions when this state is active?
+	 * (for example, if a pause/setting state is placed over a play state, we don't want a transition when returning to the playstate.)
+	 */
 	public boolean processTransitions() { return true; }
 }

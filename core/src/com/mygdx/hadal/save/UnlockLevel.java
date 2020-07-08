@@ -8,6 +8,10 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * An UnlockLevel represents a single level in the game
+ * @author Zachary Tu
+ */
 public enum UnlockLevel {
 
 	SSTUNICATE1("Maps/sstunicate1.tmx"),
@@ -86,9 +90,14 @@ public enum UnlockLevel {
 
 	
 	;
+	
+	//the level's filename
 	private String map;
+	
+	//information about the map
 	private InfoItem info;
 	
+	//does the map have any preset loadout information?
 	private UnlockEquip[] multitools;
 	private UnlockArtifact[] artifacts;
 	private UnlockActives activeItem;
@@ -104,6 +113,9 @@ public enum UnlockLevel {
 		this.map = map;
 	}
 	
+	/**
+	 * This acquires a list of all unlocked maps (if unlock is true. otherwise just return all maps that satisfy the tags)
+	 */
 	public static Array<UnlockLevel> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockLevel> items = new Array<UnlockLevel>();
 		
@@ -114,7 +126,6 @@ public enum UnlockLevel {
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.LEVEL, u.toString())) {
 				get = false;
 			}
-			
 			if (get) {
 				items.add(u);
 			}
@@ -123,11 +134,16 @@ public enum UnlockLevel {
 		return items;
 	}
 	
+	/**
+	 * Acquire a random map that satisfies the input tags
+	 */
 	public static UnlockLevel getRandomMap(PlayState state, ArrayList<UnlockTag> tags) {
 		
 		Array<UnlockLevel> dm = getUnlocks(state, false, tags);
 		if (dm.size > 0) {
 			UnlockLevel level = dm.get(GameStateManager.generator.nextInt(dm.size));
+			
+			//ensures we do not random the random map
 			if (level != UnlockLevel.RANDOM) {
 				return level;
 			} else {

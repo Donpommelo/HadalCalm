@@ -18,7 +18,6 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  * Selecting a weapon replaces currently held weapon.
  * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
  * @author Zachary Tu
- *
  */
 public class Armory extends HubEvent {
 
@@ -50,7 +49,6 @@ public class Armory extends HubEvent {
 								break;
 							}
 						}
-						
 						state.getPlayer().getPlayerData().pickup(UnlocktoItem.getUnlock(selected, state.getPlayer()));
 						
 					} else {

@@ -33,7 +33,6 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 /**
  * This is the data for a player and contains player-specific fields like airblast, jump stats, etc.
  * @author Zachary Tu
- *
  */
 public class PlayerBodyData extends BodyData {
 		
@@ -89,6 +88,7 @@ public class PlayerBodyData extends BodyData {
 		}
 		setEquip();
 		
+		//acquire artifacts from loadout
 		UnlockArtifact[] artifactsTemp = new UnlockArtifact[Loadout.maxArtifactSlots];
 		for (int i = 0; i < Loadout.maxWeaponSlots; i++) {
 			artifactsTemp[i] = loadout.artifacts[i];
@@ -98,7 +98,7 @@ public class PlayerBodyData extends BodyData {
 			addArtifact(artifactsTemp[i], false);
 		}
 		
-		//Acquire active item and acquire charge status
+		//Acquire active item
 		this.activeItem = UnlocktoItem.getUnlock(loadout.activeItem, player);
 		this.player.setBodySprite(loadout.character);
 		
@@ -305,19 +305,20 @@ public class PlayerBodyData extends BodyData {
 	}
 	
 	/**
-	 * Add a new artifact.
+	 * Add a new artifact. override is used for effects like Administrator's card that overrides normal restrictions
+	 * returns whether the artifact adding was successful
 	 */
 	public boolean addArtifact(UnlockArtifact artifactUnlock, boolean override) {
 
-		if (artifactUnlock.equals(UnlockArtifact.NOTHING)) {
-			return false;
-		}
+		if (artifactUnlock.equals(UnlockArtifact.NOTHING)) { return false; }
 
 		Artifact newArtifact =  artifactUnlock.getArtifact();
 		int slotsUsed = 0;
 		
+		//iterate through all artifacts and count the number of slots used
 		for (int i = 0; i < Loadout.maxArtifactSlots; i++) {
 			
+			//new artifact fails to add if slot cost is too high
 			slotsUsed += loadout.artifacts[i].getArtifact().getSlotCost();
 			if (slotsUsed + newArtifact.getSlotCost() > getNumArtifactSlots() && !override) {
 				return false;
@@ -325,13 +326,14 @@ public class PlayerBodyData extends BodyData {
 			
 			if (!(loadout.artifacts[i].equals(UnlockArtifact.NOTHING))) {
 				
-				//new artifact fails to add if a repeat, slot cost is too high
+				//new artifact fails to add if a repeat
 				if (loadout.artifacts[i].equals(artifactUnlock)) {
 					return false;
 				} 
 				
 			} else {
 
+				//when we reach a NOTHING (empty slot), we add the artifact
 				for (Status s : newArtifact.loadEnchantments(player.getState(), this)) {
 					addStatus(s);
 					s.setArtifact(artifactUnlock);
@@ -351,9 +353,7 @@ public class PlayerBodyData extends BodyData {
 	 */
 	public void removeArtifact(UnlockArtifact artifact) {
 		
-		if (artifact.equals(UnlockArtifact.NOTHING)) {
-			return;
-		}
+		if (artifact.equals(UnlockArtifact.NOTHING)) { return; }
 		
 		int indexRemoved = -1;
 		
@@ -451,9 +451,7 @@ public class PlayerBodyData extends BodyData {
 	public void calcStats() {
 		super.calcStats();
 		
-		if (player == null) {
-			return;
-		}
+		if (player == null) { return; }
 		
 		if (currentSlot >= getNumWeaponSlots()) {
 			currentSlot = getNumWeaponSlots() - 1;
@@ -488,7 +486,6 @@ public class PlayerBodyData extends BodyData {
 			} else {
 				return Math.min((int) (player.getState().getGsm().getSetting().getArtifactSlots() + getStat(Stats.ARTIFACT_SLOTS)), Loadout.maxArtifactSlots);
 			}
-			
 		} else {
 			return Math.min((int) (((ClientState)player.getState()).getUiPlay().getOverrideArtifactSlots()), Loadout.maxArtifactSlots);
 		}
@@ -576,6 +573,7 @@ public class PlayerBodyData extends BodyData {
 			
 			boolean special = false;
 			
+			//in the case of a disconnect, this is a special death with teleport particles instead of frags
 			for (int i = 0; i < tags.length; i++) {
 				if (tags[i] == DamageTypes.DISCONNECT) {
 					special = true;
@@ -618,6 +616,9 @@ public class PlayerBodyData extends BodyData {
 		}
 	}
 	
+	/**
+	 * This animation is played when entering levels and respawning
+	 */
 	public void warpAnimation() {
 		new ParticleEntity(player.getState(), new Vector2(player.getPixelPosition()).sub(0, player.getSize().y / 2), Particle.TELEPORT, 0.5f, true, particleSyncType.CREATESYNC);
 	}

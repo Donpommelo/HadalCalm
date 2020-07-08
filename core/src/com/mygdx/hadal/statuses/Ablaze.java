@@ -7,10 +7,16 @@ import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * Ablaze units receive damage over time.
+ * @author Zachary Tu
+ */
 public class Ablaze extends Status {
 
+	//this particle entity follows the player
 	private ParticleEntity fire;
 	
+	//this is the damage per proc of the unit
 	private float damage;
 	private float procCdCount;
 	private float procCd = .5f;

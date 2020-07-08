@@ -7,11 +7,19 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * Slodged units move slower in the ground and air
+ * @author Zachary Tu
+ */
 public class Slodged extends Status {
 
+	//this is the particle that is played over the victim
 	private Particle particle;
+	
+	//this is the particle entity that follows the victim and displays particle
 	private ParticleEntity slodge;
 	
+	//this is the magnitude of the slow.
 	private float slow;
 	
 	public Slodged(PlayState state, float i, float slow, BodyData p, BodyData v, Particle particle) {

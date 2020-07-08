@@ -24,7 +24,6 @@ import com.mygdx.hadal.states.PlayState;
  * Children: Schmucks, Hitboxes, Events. Walls are not entities.
  * All entities must have a HadalData. Class hierarchy for userData corresponds to that of entities (so far).
  * @author Zachary Tu
- *
  */
 public abstract class HadalEntity {
 
@@ -142,37 +141,32 @@ public abstract class HadalEntity {
 	 */
 	private Vector2 impulse = new Vector2();
 	public void recoil(Vector2 push, float power) {
-		if (!alive) {
-			return;
-		}
+		if (!alive) { return; }
+		
 		applyLinearImpulse(impulse.set(getPixelPosition()).sub(push).scl(power / getPixelPosition().dst(push)));
 	}
 	
 	public void push(float impulseX, float impulseY) {
-		if (!alive) {
-			return;
-		}
+		if (!alive) { return; }
+		
 		applyLinearImpulse(impulse.set(impulseX, impulseY));
 	}
 	
 	public void push(Vector2 push) {
-		if (!alive) {
-			return;
-		}
+		if (!alive) { return; }
+
 		applyLinearImpulse(push);
 	}
 
 	/**
-	 * this method does a regular push, except it mitigates existing momentum
+	 * this method does a regular push, except it mitigates existing momentum in the y-direction
 	 */
 	public void pushMomentumMitigation(float impulseX, float impulseY) {
-		if (!alive) {
-			return;
-		}
+		if (!alive) { return; }
+		
 		if (getLinearVelocity().y < 0 && impulseY > 0) {
 			setLinearVelocity(getLinearVelocity().x, 0);
-		}
-		if (getLinearVelocity().y > 0 && impulseY < 0) {
+		} else if (getLinearVelocity().y > 0 && impulseY < 0) {
 			setLinearVelocity(getLinearVelocity().x, 0);
 		}
 		applyLinearImpulse(impulse.set(impulseX, impulseY));
@@ -223,6 +217,7 @@ public abstract class HadalEntity {
 		if (body != null) {
 			copyServerInstantly = p.instant;
 			
+			//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity
 			if (copyServerInstantly) {
 				setTransform(p.pos, p.angle);
 			} else {
@@ -251,9 +246,10 @@ public abstract class HadalEntity {
 	public void clientController(float delta) {
 		
 		clientSyncAccumulator += delta;
-		
 		while (clientSyncAccumulator >= clientSyncTime) {
 			clientSyncAccumulator -= clientSyncTime;
+			
+			//if we are receiving syncs, lerp towrads the saved position and angle
 			if (body != null && receivingSyncs) {
 				if (!copyServerInstantly) {
 					setTransform(
@@ -272,25 +268,15 @@ public abstract class HadalEntity {
 		if (body == null) {
 			return false;
 		} else {
-			
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x, getPixelPosition().y, 0)) {
-				return true;
-			}
+			//check the center + 4 corners of the entity to see if we should render this entity
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x, getPixelPosition().y, 0)) { return true; }
 			
 			cosAng = (float) Math.cos(body.getAngle());
 			sinAng = (float) Math.sin(body.getAngle());
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) {
-				return true;
-			}
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) {
-				return true;
-			}
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) {
-				return true;
-			}
-			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) {
-				return true;
-			}
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng - size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng + size.y / 2 * cosAng, 0)) { return true; }
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x - size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y - size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
+			if (state.camera.frustum.pointInFrustum(getPixelPosition().x + size.x / 2 * cosAng + size.y / 2 * sinAng, getPixelPosition().y + size.x / 2 * sinAng - size.y / 2 * cosAng, 0)) { return true; }
 			return false;
 		}
 	}
@@ -306,15 +292,13 @@ public abstract class HadalEntity {
 		} else { return pixelPosition; }
 	}
 	
+	/**
+	 * The "main" fixture of an entity is whichever one should be modified by things that affect the entity's body (for effects like bouncy bullets)
+	 */
 	public Fixture getMainFixture() {
-		if (body == null) {
-			return null;
-		}
-		if (body.getFixtureList().isEmpty()) {
-			return null;
-		} else {
-			return body.getFixtureList().get(0); 
-		}
+		if (body == null) { return null; }
+		if (body.getFixtureList().isEmpty()) { return null; }
+		else { return body.getFixtureList().get(0); }
 	}
 	
 	public Body getBody() { return body; }
@@ -331,9 +315,7 @@ public abstract class HadalEntity {
 	
 	public UUID getEntityID() { return entityID; }
 	
-	public void setEntityID(String entityID) { 
-		this.entityID = UUID.fromString(entityID); 
-	}
+	public void setEntityID(String entityID) { this.entityID = UUID.fromString(entityID); }
 
 	public Vector2 getStartPos() { return startPos;	}
 	
@@ -383,44 +365,30 @@ public abstract class HadalEntity {
 	public void resetTimeSinceLastSync() { timeSinceLastSync = 0; }
 
 	public Vector2 getPosition() { 
-		if (body != null) {
-			return body.getPosition(); 
-		}
+		if (body != null) {	return body.getPosition(); }
 		return new Vector2();
 	}
 
 	public float getAngle() { 
-		if (body != null) {
-			return body.getAngle(); 
-		} else {
-			return 0.0f;
-		}
+		if (body != null) {	return body.getAngle(); }
+		return 0.0f;
 	}
 
 	public Vector2 getLinearVelocity() { 
-		if (body != null) {
-			return body.getLinearVelocity();
-		} else {
-			return new Vector2();
-		}
+		if (body != null) { return body.getLinearVelocity(); }
+		return new Vector2();
 	 }
 
 	public float getAngularVelocity() { 
-		if (body != null) {
-			return body.getAngularVelocity(); 
-		} else {
-			return 0.0f;
-		}
+		if (body != null) { return body.getAngularVelocity(); }
+		return 0.0f;
 	}
 
 	public void setAngle(float angle) { setTransform(getPosition(), angle); }
 
 	public float getMass() { 
-		if (body != null) {
-			return body.getMass(); 
-		} else {
-			return 0.0f;
-		}
+		if (body != null) {	return body.getMass(); }
+		return 0.0f;
 	}
 
 	public void setReceivingSyncs(boolean receivingSyncs) {	this.receivingSyncs = receivingSyncs; }

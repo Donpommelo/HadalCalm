@@ -48,7 +48,6 @@ import com.mygdx.hadal.states.PauseState;
 /**
  * This is the client of the game
  * @author Zachary Tu
- *
  */
 public class KryoClient {
 	
@@ -91,7 +90,7 @@ public class KryoClient {
         	 */
         	@Override
         	public void connected(Connection c) {
-                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName()));
+                sendTCP(new Packets.PlayerConnect(true, gsm.getLoadout().getName(), HadalGame.Version));
                 connID = c.getID();
             }
         	
@@ -113,6 +112,7 @@ public class KryoClient {
                     @Override
                     public void run() {
                     	gsm.removeState(ResultsState.class);
+                    	gsm.removeState(SettingState.class);
                     	gsm.removeState(PauseState.class);
                     	
                     	if (cs != null) {
@@ -232,7 +232,7 @@ public class KryoClient {
         		
         		/*
         		 * The Server tells us to create a particle entity.
-        		 * Create the designated particles and attatch it accordingly
+        		 * Create the designated particles and attach it accordingly
         		 */
         		else if (o instanceof Packets.CreateParticles) {
         			final Packets.CreateParticles p = (Packets.CreateParticles) o;
@@ -275,7 +275,6 @@ public class KryoClient {
         					
         					@Override
         					public void execute() {
-        						
         						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.looped, p.on, soundSyncType.NOSYNC);
         						entity.setAttachedId(p.attachedID);
     							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
@@ -284,6 +283,9 @@ public class KryoClient {
 					}
         		}
         		
+        		/*
+        		 * Server tells us to create a ragdoll. Ragdolls are not synced.
+        		 */
         		else if (o instanceof Packets.CreateRagdoll) {
         			final Packets.CreateRagdoll p = (Packets.CreateRagdoll) o;
         			final ClientState cs = getClientState();
@@ -511,14 +513,14 @@ public class KryoClient {
         		}
         		
         		/*
-        		 * Server rejects out connection. Display msg on title screen.
+        		 * Server rejects our connection. Display msg on title screen.
         		 */
         		else if (o instanceof Packets.ConnectReject) {
         			final Packets.ConnectReject p = (Packets.ConnectReject) o;
         			if (!gsm.getStates().isEmpty()) {
         				if (gsm.getStates().peek() instanceof TitleState) {
-        					((TitleState)gsm.getStates().peek()).setNotification(p.msg);
-        					((TitleState)gsm.getStates().peek()).setInputDisabled(false);
+        					((TitleState) gsm.getStates().peek()).setNotification(p.msg);
+        					((TitleState) gsm.getStates().peek()).setInputDisabled(false);
         				}
         			}
         			client.stop();
@@ -562,7 +564,7 @@ public class KryoClient {
         		 * Ask the server to let us connect
         		 */
         		else if (o instanceof Packets.ServerLoaded) {
-        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName());
+        			Packets.PlayerConnect connected = new Packets.PlayerConnect(false, gsm.getLoadout().getName(), HadalGame.Version);
                     sendTCP(connected);
         		}
         		
@@ -679,7 +681,6 @@ public class KryoClient {
 						});
 					}
         		}
-        		
         		
         		/*
         		 * The Server tells us that a player changed their loadout.
@@ -807,14 +808,11 @@ public class KryoClient {
 			GameState currentState = gsm.getStates().peek();
 			if (currentState instanceof ClientState) {
 				return (ClientState) currentState;
-			}
-			if (currentState instanceof PauseState) {
+			} else if (currentState instanceof PauseState) {
 				return (ClientState) (((PauseState) currentState).getPs());
-			}
-			if (currentState instanceof SettingState) {
+			} else if (currentState instanceof SettingState) {
 				return (ClientState) (((SettingState) currentState).getPs());
-			}
-			if (currentState instanceof ResultsState) {
+			} else if (currentState instanceof ResultsState) {
 				return (ClientState) (((ResultsState) currentState).getPs());
 			}
 		}

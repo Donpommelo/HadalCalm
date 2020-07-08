@@ -14,7 +14,6 @@ import com.mygdx.hadal.states.PlayState;
  * type: type of item to unlock (EQUIP, ARTIFACT, ACTIVE, CHARACTER, LEVEL)
  * item: String name of the item to unlock
  * @author Zachary Tu
- *
  */
 public class ItemUnlocker extends Event {
 

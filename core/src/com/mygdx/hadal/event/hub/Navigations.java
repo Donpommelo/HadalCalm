@@ -19,7 +19,6 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 /**
  * The Navigations is a HubEvent that allows the player to begin a level.
  * @author Zachary Tu
- *
  */
 public class Navigations extends HubEvent {
 
@@ -53,6 +52,7 @@ public class Navigations extends HubEvent {
 				@Override
 				public void clicked(InputEvent e, float x, float y) {
 					
+					//select a random valid map if selecting the random option
 					if (selected == UnlockLevel.RANDOM) {
 			        	state.loadLevel(UnlockLevel.getRandomMap(state, tags), TransitionState.NEWLEVEL, "");
 					} else {

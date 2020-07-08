@@ -26,7 +26,6 @@ import com.mygdx.hadal.states.PlayState;
  * triggeringId: Like a multi-trigger, this string should be a comma-separated list of triggeredIds of events that can be triggered.
  * 
  * @author Zachary Tu
- *
  */
 public class TriggerCond extends Event {
 

@@ -10,7 +10,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox fied to the user. It replaces melee hboxes
  * @author Zachary Tu
- *
  */
 public class FixedToEntity extends HitboxStrategy {
 	
@@ -23,6 +22,7 @@ public class FixedToEntity extends HitboxStrategy {
 	//does this hbox rotate when the user does?
 	private boolean rotate;
 	
+	//this is the entity that this hbox is fixed to. Usually the user for melee hboxes. Some hboxes have another hboxes fixed to them like stickybombs
 	private HadalEntity target;
 	
 	public FixedToEntity(PlayState state, Hitbox proj, BodyData user, Vector2 angle, Vector2 center, boolean rotate) {
@@ -56,7 +56,6 @@ public class FixedToEntity extends HitboxStrategy {
 	
 	@Override
 	public void controller(float delta) {
-	
 		if (!target.isAlive()) {
 			hbox.die();
 		} else {

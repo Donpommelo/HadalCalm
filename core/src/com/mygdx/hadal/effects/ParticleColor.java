@@ -1,5 +1,9 @@
 package com.mygdx.hadal.effects;
 
+/**
+ * A particle color represents the rgb of a color that a particle can be tinted
+ * @author Zachary Tu
+ */
 public enum ParticleColor {
 
 	NOTHING(0.0f, 0.0f, 0.0f),
@@ -19,7 +23,6 @@ public enum ParticleColor {
 	PURPLE(0.5f, 0.0f, 0.5f),
 	ORANGE(1.0f, 0.6f, 0.0f),
 
-	
 	;
 	
 	private float r, g, b;

@@ -9,7 +9,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * This strategy removes another specified strategy from the hitbox.
  * We do this on the earliest update tick.
  * @author Zachary Tu
- *
  */
 public class RemoveStrategy extends HitboxStrategy {
 	

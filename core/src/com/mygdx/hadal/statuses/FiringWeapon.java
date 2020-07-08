@@ -10,7 +10,6 @@ import com.mygdx.hadal.states.PlayState;
  * This status makes the player fire their weapon at the mouse for a brief period of time.
  * This is used by "spray" type weapons that, when fired, spray a stream of hboxes for a brief period of time
  * @author Zachary Tu
- *
  */
 public class FiringWeapon extends Status {
 
@@ -67,10 +66,8 @@ public class FiringWeapon extends Status {
 			projOrigin = inflicted.getSchmuck().getProjectileOrigin(inflicted.getCurrentTool().getWeaponVelo(), projSize);
 			
 			inflicted.statusProcTime(new ProcTime.Shoot(inflicted.getCurrentTool()));
-			
 			inflicted.getCurrentTool().fire(state, inflicted.getSchmuck(), projOrigin, inflicted.getCurrentTool().getWeaponVelo(), inflicted.getSchmuck().getHitboxfilter());
 		}
-		
 		procCdCount += delta;
 	}
 }

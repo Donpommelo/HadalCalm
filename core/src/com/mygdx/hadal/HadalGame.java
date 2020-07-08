@@ -23,12 +23,14 @@ import com.mygdx.hadal.client.KryoClient;
 /**
  * HadalGame is the game. This is created upon launching the game. It delegates the rendering + updating logic to the GamestateManager.
  * @author Zachary Tu
- *
  */
 public class HadalGame extends ApplicationAdapter {
 	
 	public static int CONFIG_WIDTH;
 	public static int CONFIG_HEIGHT;
+	
+	//this is the game's version. This must match between client and host to connect.
+	public static final String Version = "1.0.2";
 	
 	//Camera and Spritebatch. This is pretty standard stuff. camera follows player. hud is for menu/scene2d stuff
 	private OrthographicCamera camera, hud;
@@ -37,10 +39,13 @@ public class HadalGame extends ApplicationAdapter {
 	//This is the batch used to render stuff
 	private SpriteBatch batch;
 
-	//This is the Gamestate Manager. It manages the current game state.
+	//This is the Gamestate Manager. It manages the current stack of game states.
 	private GameStateManager gsm;
 	
+	//Assetmanager loads the assets of the game.
     public static AssetManager assetManager;
+    
+    //this game manages the background music of the game.
     public static MusicPlayer musicPlayer;
 
     //Client and server for networking are static fields in the main game
@@ -69,10 +74,13 @@ public class HadalGame extends ApplicationAdapter {
   	//This is how much the fade changes every engine tick (starts out fading in)
   	protected float fadeDelta = defaultFadeInSpeed;
   	
+  	//this is a runnable that will run when the game finishes a transition, usually to another state.
   	private Runnable runAfterTransition;
   	
+  	//this is a black texture used for fading in/out transitions.
     private Texture black;
     
+    //used for testing performance
     public GLProfiler profiler;
     public PerformanceCounter counter;
     
@@ -93,8 +101,6 @@ public class HadalGame extends ApplicationAdapter {
 	    viewportCamera.apply();	    
 	    viewportUI = new FitViewport(CONFIG_WIDTH, CONFIG_HEIGHT, hud);
 	    viewportUI.apply();
-	    
-	    hud.zoom = 1;
 	    
 	    assetManager = new AssetManager(new InternalFileHandleResolver());
 	    
@@ -126,6 +132,7 @@ public class HadalGame extends ApplicationAdapter {
 
 		delta = Gdx.graphics.getDeltaTime();
 		
+		//update the state, update the ui, render the state, then draw the ui.
 		gsm.update(delta);
 		currentMenu.act();
 
@@ -139,7 +146,7 @@ public class HadalGame extends ApplicationAdapter {
 		currentMenu.getBatch().setColor(1, 1, 1, 1);
 		currentMenu.draw();
 		
-		//Render fade transitions
+		//Render the black image used for fade transitions
 		if (fadeLevel > 0) {
 			batch.setProjectionMatrix(hud.combined);
 			batch.begin();
@@ -152,10 +159,12 @@ public class HadalGame extends ApplicationAdapter {
 		}
 		
 		if (gsm.getStates().peek().processTransitions()) {
+			
 			//If we are in the delay period of a transition, decrement the delay
 			if (fadeDelay > 0.0f) {
 				fadeDelay -= delta;
 			} else if (fadeDelta < 0f) {
+				
 				//If we are fading in and not done yet, decrease fade.
 				fadeLevel += fadeDelta * delta;
 				
@@ -201,7 +210,6 @@ public class HadalGame extends ApplicationAdapter {
 	public void resize(int width, int height) {
 		viewportCamera.update(width, height, true);
 		viewportUI.update(width, height, true);
-		
 		gsm.resize(width, height);
 	}
 	
@@ -235,10 +243,6 @@ public class HadalGame extends ApplicationAdapter {
 		}
 	}	
 	
-	public void fadeOut() {	fadeDelta = defaultFadeOutSpeed; }
-	
-	public void fadeIn() { fadeDelta = defaultFadeInSpeed; }
-	
 	/**
 	 * This makes the game fade at a specific speed. Can be positive or negative to fade out or in
 	 */
@@ -247,6 +251,10 @@ public class HadalGame extends ApplicationAdapter {
 		this.fadeDelay = fadeDelay;
 	}
 
+	public void fadeOut() {	fadeDelta = defaultFadeOutSpeed; }
+	
+	public void fadeIn() { fadeDelta = defaultFadeInSpeed; }
+		
 	public void setFadeLevel(float fadeLevel) { this.fadeLevel = fadeLevel; }
 	
 	public void setRunAfterTransition(Runnable runAfterTransition) { this.runAfterTransition = runAfterTransition; }

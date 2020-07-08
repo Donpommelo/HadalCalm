@@ -25,7 +25,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * event: Boolean that describes whether this sensor touches events. Optional. Default: true
  * enemy: Boolean that describes whether this sensor touches enemies. Optional. Default: true
  * @author Zachary Tu
- *
  */
 public class Platform extends Event {
 
@@ -41,7 +40,6 @@ public class Platform extends Event {
 	@Override
 	public void create() {
 		this.eventData = new EventData(this, UserDataTypes.WALL);
-		
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, restitution, false, true, Constants.BIT_WALL, filter, (short) 0, false, eventData);
 		this.body.setType(BodyDef.BodyType.KinematicBody);
 	}

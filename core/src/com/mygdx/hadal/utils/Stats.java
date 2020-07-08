@@ -1,6 +1,9 @@
 package com.mygdx.hadal.utils;
 
-
+/**
+ * This is a list of the stats inf the game. These are all attributes of players and have default values of 0.
+ * @author Zachary Tu
+ */
 public class Stats {
 
 	public static final int MAX_HP = 0;

@@ -9,7 +9,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * A Particle represents a single particle effect.
  * @author Zachary Tu
- *
  */
 public enum Particle {
 

@@ -4,6 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Constants;
 
+/**
+ * The World Dummy is a schmuck that effects are attributed to when there is no other schmuck to attribute them to.
+ * For example, damage dealt by a hazard in the map is inficted by the world dummy.
+ * @author Zachary Tu
+ */
 public class WorldDummy extends Schmuck {
 
 	public WorldDummy(PlayState state) {

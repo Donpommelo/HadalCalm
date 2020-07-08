@@ -15,7 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  * angle: The amount of rotation to apply (either set its angular velicity or its angle) 
  * 
  * @author Zachary Tu
- *
  */
 public class Rotator extends Event {
 

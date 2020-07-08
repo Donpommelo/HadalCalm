@@ -65,7 +65,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 /**
  * The PlayState is the main state of the game and holds the Box2d world, all characters + gameplay.
  * @author Zachary Tu
- *
  */
 public class PlayState extends GameState {
 	
@@ -124,6 +123,7 @@ public class PlayState extends GameState {
 	//coordinate the camera is looking at in spectator mode. Unlock cameraTarget, this shouldn't be null
 	private Vector2 spectatorTarget = new Vector2();
 	
+	//are we currently a spectator or not?
 	protected boolean spectatorMode;
 	
 	//These are the bounds of the camera movement
@@ -169,6 +169,7 @@ public class PlayState extends GameState {
 	private Texture bg;
 	private Shader shaderBase;
 	
+	//if we are transitioning to another state, this is that state
 	protected TransitionState nextState;
 	
 	//If we are transitioning to another level, this is that level.
@@ -253,6 +254,7 @@ public class PlayState extends GameState {
 		this.zoom = map.getProperties().get("zoom", 1.0f, float.class);
 		this.zoomDesired = zoom;	
 
+		//load map shader
 		this.shaderBase = Shader.NOTHING;
 		if (map.getProperties().get("shader", String.class) != null) {
 			shaderBase = Shader.valueOf(map.getProperties().get("shader", String.class));
@@ -366,7 +368,6 @@ public class PlayState extends GameState {
 	private final static float syncFastTime = 1 / 60f;
 	public final static float syncInterpolation = 1 / 8f;
 	private float timer;
-
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
 	 */
@@ -462,15 +463,14 @@ public class PlayState extends GameState {
 			shaderBase.getShader().end();
 			batch.setShader(shaderBase.getShader());
 		}
-
 		batch.draw(bg, 0, 0, HadalGame.CONFIG_WIDTH, HadalGame.CONFIG_HEIGHT);
 		
+		//render shader
 		if (shaderBase.getShader() != null) {
 			if (shaderBase.isBackground()) {
 				batch.setShader(null);
 			}
 		}
-		
 		batch.enableBlending();
 		batch.end();
 		
@@ -493,7 +493,6 @@ public class PlayState extends GameState {
 				batch.setShader(null);
 			}
 		}
-		
 		batch.end();
 	}	
 	
@@ -520,7 +519,7 @@ public class PlayState extends GameState {
 		
 		packetEffects.clear();
 		
-		//Update the game camera and batch.
+		//Update the game camera.
 		cameraAccumulator += delta;
 		
 		while (cameraAccumulator >= cameraTime) {
@@ -550,16 +549,13 @@ public class PlayState extends GameState {
 	 * Run the controller method for all entities in the world
 	 */
 	public void controllerEntities(float delta) {
-		
 		for (HadalEntity entity : hitboxes) {
-			
 			entity.controller(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
 			entity.increaseEntityAge(delta);
 		}
 		for (HadalEntity entity : entities) {
-			
 			entity.controller(delta);
 			entity.decreaseShaderCount(delta);
 			entity.increaseAnimationTime(delta);
@@ -568,7 +564,7 @@ public class PlayState extends GameState {
 	}
 	
 	/**
-	 * This sends a syncronization packet for every synced entity. 
+	 * This sends a syncronization packet for every synced entity. syncFastEntities() is used for entities that are synced more frequently
 	 */
 	public void syncEntities() {
 		for (HadalEntity entity : hitboxes) {
@@ -625,6 +621,7 @@ public class PlayState extends GameState {
 				tmpVector2.set(player.getPixelPosition());
 			} else if (spectatorMode) {
 				
+				//in spectator mode, the camera tracks the mouse
 				mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 				HadalGame.viewportCamera.unproject(mousePosition);
 				mousePosition2.set(mousePosition.x, mousePosition.y);
@@ -642,19 +639,15 @@ public class PlayState extends GameState {
 			if (tmpVector2.x > cameraBounds[0]) {
 				tmpVector2.x = cameraBounds[0];
 			}
-			
 			if (tmpVector2.x < cameraBounds[1]) {
 				tmpVector2.x = cameraBounds[1];
 			}		
-			
 			if (tmpVector2.y > cameraBounds[2]) {
 				tmpVector2.y = cameraBounds[2];
 			}
-			
 			if (tmpVector2.y < cameraBounds[3]) {
 				tmpVector2.y = cameraBounds[3];
 			}
-			
 		} else {
 			tmpVector2.set(cameraTarget);
 		}
@@ -744,9 +737,9 @@ public class PlayState extends GameState {
 			gsm.addResultsState(this, resultsText, TitleState.class);
 			break;
 		case SPECTATOR:
+			
 			//When ded but other players alive, spectate a player
 			gsm.getApp().fadeIn();
-			
 			setSpectatorMode();
 			
 			//Make nextState null so we can transition again
@@ -1017,6 +1010,7 @@ public class PlayState extends GameState {
 	 */
 	public void exitSpectator(Player player) {
 		
+		//cannot exit spectator if server is full
 		if (HadalGame.server.getNumPlayers() >= gsm.getSetting().getMaxPlayers()) {
 			HadalGame.server.sendNotification(this, player.getConnID(), "", "Could not join! Server is full!");
 			return;
@@ -1041,6 +1035,7 @@ public class PlayState extends GameState {
 	 * @param fadeDelay: amount of delay before transition
 	 */
 	public void beginTransition(TransitionState state, boolean override, String resultsText, float fadeSpeed, float fadeDelay) {
+		
 		//If we are already transitioning to a new results state, do not do this unless we tell it to override
 		if (nextState == null || override) {
 			this.resultsText = resultsText;
@@ -1049,9 +1044,7 @@ public class PlayState extends GameState {
 			gsm.getApp().setRunAfterTransition(new Runnable() {
 
 				@Override
-				public void run() {
-					transitionState();
-				}
+				public void run() {	transitionState(); }
 			});
 		}
 	}
@@ -1131,12 +1124,14 @@ public class PlayState extends GameState {
 		ArrayList<StartPoint> validStarts = new ArrayList<StartPoint>();
 		ArrayList<StartPoint> readyStarts = new ArrayList<StartPoint>();
 		
-		for(StartPoint s: savePoints) {
+		//get a list of all start points that match the startId
+		for (StartPoint s: savePoints) {
 			if (s.getStartId().equals(startId)) {
 				validStarts.add(s);
 			}
 		}
 		
+		//if no start poitns are found, we return the first save point (if existent)
 		if (validStarts.isEmpty()) {
 			if (savePoints.isEmpty()) {
 				return null;
@@ -1145,12 +1140,14 @@ public class PlayState extends GameState {
 			}
 		}
 		
-		for(StartPoint s: validStarts) {
+		//add all valid starts that haven't had a respawn recently.
+		for (StartPoint s: validStarts) {
 			if (s.isReady()) {
 				readyStarts.add(s);
 			}
 		}
 		
+		//if any start points haven't been used recently, pick one of them randomly. Otherwise pick a random valid start point
 		if (readyStarts.isEmpty()) {
 			int randomIndex = GameStateManager.generator.nextInt(validStarts.size());
 			return validStarts.get(randomIndex);
@@ -1218,6 +1215,9 @@ public class PlayState extends GameState {
 	}
 	
 	private final static float spectatorDefaultZoom = 1.2f;
+	/**
+	 * Player enters spectator mode. Set up spectator camera and camera bounds
+	 */
 	public void setSpectatorMode() {
 		spectatorMode = true;
 		spectatorTarget.set(camera.position.x, camera.position.y);

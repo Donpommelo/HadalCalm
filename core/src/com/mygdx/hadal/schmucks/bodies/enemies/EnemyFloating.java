@@ -10,17 +10,16 @@ import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 
 /**
- * Enemies are Schmucks that attack the player.
  * Floating enemies are the basic fish-enemies of the game.
  * These enemies can rotate to face the player.
  * @author Zachary Tu
- *
  */
 public class EnemyFloating extends Enemy {
 				
     //the speed that the boss spins when spinning
 	private int spinSpeed;
 	
+	//this is the speed that a tracking enemy will rotate to face its target
 	private float trackSpeed = 0.04f;
 	
 	//The boss's current state in terms of passive behavior (is it tracking the player, still, spinning etc)
@@ -60,6 +59,7 @@ public class EnemyFloating extends Enemy {
 			attackAngle += spinSpeed;
 			break;
 		case TRACKING_PLAYER:
+			//rotate towards attack target
 			if (attackTarget != null) {				
 				if (attackTarget.isAlive()) {
 					desiredAngle = (float)(Math.atan2(
@@ -67,6 +67,7 @@ public class EnemyFloating extends Enemy {
 							attackTarget.getPosition().x - getPosition().x) * 180 / Math.PI);
 				}
 			} else {
+				//if there is no attack target, attempt to rotate towards movement target
 				if (getMoveTarget() != null) {				
 					if (getMoveTarget().isAlive()) {
 						desiredAngle = (float)(Math.atan2(
@@ -100,7 +101,6 @@ public class EnemyFloating extends Enemy {
 				size.y / 2,
 				(flip ? -1 : 1) * size.x, size.y, 1, 1, 
 				(flip ? 0 : 180) + (float) Math.toDegrees(getAngle()));
-		
 		super.render(batch);
 	}
 	

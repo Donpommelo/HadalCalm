@@ -18,7 +18,6 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
  * startId: which start event should we start at? 
  * 
  * @author Zachary Tu
- *
  */
 public class LevelWarp extends Event {
 
@@ -33,8 +32,6 @@ public class LevelWarp extends Event {
 		this.level = level;
 		this.reset = reset;
 		this.startId = startId;
-		
-		warpStart = false;
 	}
 	
 	@Override

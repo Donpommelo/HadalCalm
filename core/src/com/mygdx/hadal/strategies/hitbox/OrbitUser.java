@@ -9,10 +9,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox orbit its user
  * @author Zachary Tu
- *
  */
 public class OrbitUser extends HitboxStrategy {
 	
+	//this is the angle of the hbox compared to the player, the distance and the speed that it rotates
 	private float angle, distance, speed;
 	
 	public OrbitUser(PlayState state, Hitbox proj, BodyData user, float startAngle, float distance, float speed) {

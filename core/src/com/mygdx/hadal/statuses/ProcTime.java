@@ -8,8 +8,8 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 
 /**
  * A ProcTime is a package of info needed by a specific effect activation type.
+ * Each static class matches a proc time that a Status can activate
  * @author Zachary Tu
- *
  */
 public abstract class ProcTime {
 

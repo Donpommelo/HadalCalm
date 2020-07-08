@@ -12,6 +12,10 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * An UnlockLevel represents a single weapon in the game
+ * @author Zachary Tu
+ */
 public enum UnlockEquip {
 	
 	AMITA_CANNON(AmitaCannon.class),
@@ -66,13 +70,19 @@ public enum UnlockEquip {
 	
 	;
 	
-	private Class<? extends Equipable> weapon;	
+	//the weapon that this unlock represents
+	private Class<? extends Equipable> weapon;
+	
+	//the weapon's information
 	private InfoItem info;
 	
 	UnlockEquip(Class<? extends Equipable> weapon) {
 		this.weapon = weapon;
 	}
 	
+	/**
+	 * This acquires a list of all unlocked weapons (if unlock is true. otherwise just return all weapons that satisfy the tags)
+	 */
 	public static Array<UnlockEquip> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockEquip> items = new Array<UnlockEquip>();
 		
@@ -83,7 +93,6 @@ public enum UnlockEquip {
 			if (unlock && !UnlockManager.checkUnlock(state, UnlockType.EQUIP, u.toString())) {
 				get = false;
 			}
-			
 			if (get) {
 				items.add(u);
 			}
@@ -92,6 +101,9 @@ public enum UnlockEquip {
 		return items;
 	}
 
+	/**
+	 * This method returns the unlock corresponding to a specfic weapon
+	 */
 	public static UnlockEquip getUnlockFromEquip(Class<? extends Equipable> weapon) {
 		for (UnlockEquip unlock: UnlockEquip.values()) {
 			if (unlock.weapon.equals(weapon)) {
@@ -104,7 +116,6 @@ public enum UnlockEquip {
 	/**
 	 * This method returns the name of a weapon randomly selected from the pool.
 	 * @param pool: comma separated list of names of weapons to choose from. if set to "", return any weapon in the random pool.
-	 * @return
 	 */
 	public static String getRandWeapFromPool(PlayState state, String pool) {
 		

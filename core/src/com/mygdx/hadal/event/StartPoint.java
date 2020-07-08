@@ -18,12 +18,12 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * startId: String id of the start point. Many maps have multiple start points, so these are used to determine which one the player is entering from
  * 
  * @author Zachary Tu
- *
  */
 public class StartPoint extends Event {
 
 	private String startId;
 	
+	//the timer manages the time until this spawn point will be used again
 	private final static float SpawnTimer = 2.0f;
 	private float spawnCd;
 	

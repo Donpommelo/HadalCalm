@@ -19,10 +19,10 @@ import com.mygdx.hadal.states.PlayState;
  * triggeringId: This string should be a comma-separated list of triggeredIds of events that can be triggered.
  * NO SPACES IN THIS LIST
  * @author Zachary Tu
- *
  */
 public class TriggerMulti extends Event {
 
+	//this is a list of all of the events that this event triggers
 	private ArrayList<Event> triggered = new ArrayList<Event>();
 	
 	public TriggerMulti(PlayState state) {

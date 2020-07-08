@@ -10,7 +10,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * The WeaponPickup is a prefab that (atm) simply contains a weapon pickup with a spawner sprite and does the alignments.
  * Might add more to this later.
  * @author Zachary Tu
- *
  */
 public class SpawnerWeapon extends Prefabrication {
 

@@ -13,7 +13,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  */
 public class DieSound extends HitboxStrategy {
 	
+	//this is the sound effect that gets played
 	private SoundEffect sound;
+	
+	//this is the volume that the sound will get played at.
 	private float volume;
 	
 	public DieSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {

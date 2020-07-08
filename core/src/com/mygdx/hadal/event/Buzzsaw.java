@@ -23,7 +23,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * filter: hitbox filter of who this event will damage. default: 0 (hits everyone)
  * 
  * @author Zachary Tu
- *
  */
 public class Buzzsaw extends Event {
 	
@@ -50,9 +49,7 @@ public class Buzzsaw extends Event {
 	
 	@Override
 	public void create() {
-
 		this.eventData = new EventData(this);
-		
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
@@ -69,7 +66,6 @@ public class Buzzsaw extends Event {
 				}
 			}
 		}
-		
 		angle += spinSpeed;
 	}
 	
@@ -81,6 +77,9 @@ public class Buzzsaw extends Event {
 		angle += spinSpeed;
 	}
 	
+	/**
+	 * We draw the sprite a bit larger than normal to make its hitbox feel more generous to players
+	 */
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),
@@ -90,6 +89,9 @@ public class Buzzsaw extends Event {
                 size.x * spriteScale, size.y * spriteScale, 1, 1, angle);
 	}
 	
+	/**
+	 * visibility check compensating for the increased sprite size
+	 */
 	@Override
 	public boolean isVisible() {
 		if (body == null) {

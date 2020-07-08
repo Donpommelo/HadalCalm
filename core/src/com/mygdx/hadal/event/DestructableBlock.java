@@ -24,7 +24,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Hp: The integer number of Hp this event has before being destroyed.
  * 
  * @author Zachary Tu
- *
  */
 public class DestructableBlock extends Event {
 
@@ -34,7 +33,7 @@ public class DestructableBlock extends Event {
 	//when damaged, the event flashes for this duration
 	private final static float flashDuration = 0.1f;
 	
-	//does this event stay in place or is it affected by physics
+	//does this event stay in place or is it affected by physics?
 	private boolean isStatic;
 	
 	public DestructableBlock(PlayState state, Vector2 startPos, Vector2 size, int hp, boolean isStatic) {
@@ -57,7 +56,6 @@ public class DestructableBlock extends Event {
 					if (standardParticle != null) {
 						standardParticle.onForBurst(0.5f);
 					}
-					
 					event.setShader(Shader.WHITE, flashDuration);
 				}
 				
@@ -71,7 +69,6 @@ public class DestructableBlock extends Event {
 						event.getConnectedEvent().getEventData().preActivate(this, null);
 					}
 				}
-				
 				return basedamage;
 			}
 		};

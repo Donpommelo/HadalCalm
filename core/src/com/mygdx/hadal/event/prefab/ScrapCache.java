@@ -7,10 +7,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
- * The Spawner Unlock Prefab creates s designated unlock when triggered (if the item has not already been unlocked)
- * Interacting with this item unlocks it.
+ * The Scrap Cache creates some scrap (if the cache flag has not already been raised)
+ * Interacting with this item sets the cache to already taken.
  * @author Zachary Tu
- *
  */
 public class ScrapCache extends Prefabrication {
 

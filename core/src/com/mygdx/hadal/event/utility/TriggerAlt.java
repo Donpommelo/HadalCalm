@@ -24,9 +24,11 @@ import com.mygdx.hadal.states.PlayState;
  * 
  * Another Alt-Trigger: used to set the alt-trigger's message
  * Conditional Trigger: used to change which event the conditional trigger activates.
+ * Equipment Pickup: used to set the equip to a specific weapon or reroll it
+ * Schmuck Spawner: used to change the number of enemies the spawner will spawn
+ * Timer: used to start, stop or reset the timer
  * 
  * @author Zachary Tu
- *
  */
 public class TriggerAlt extends Event {
 

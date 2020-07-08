@@ -9,9 +9,8 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
  * This strategy makes a hbox damage enemies it comes in contact with
- * This allows a unit to be damaged from the same hbox multiple times. used for stuff like bees and boomeranges.
+ * This allows a unit to be damaged from the same hbox multiple times. used for stuff like bees and boomerangs.
  * @author Zachary Tu
- *
  */
 public class DamageStandardRepeatable extends HitboxStrategy {
 	

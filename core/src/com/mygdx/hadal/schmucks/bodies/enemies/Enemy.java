@@ -28,9 +28,8 @@ import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
- * enemies are schumcks that attack the player.
+ * enemies are schmucks that attack the player.
  * @author Zachary Tu
- *
  */
 public class Enemy extends Schmuck {
 	
@@ -89,7 +88,7 @@ public class Enemy extends Schmuck {
 	//this is the enemy sprite
 	protected Sprite sprite;
 	private TextureRegion hpSprite;
-	private final static float uiScale = 0.2f;
+	private final static float uiScale = 0.15f;
 	private final static float hpX = 10.0f;
 	private final static float hpY = 30.0f;
 
@@ -248,6 +247,7 @@ public class Enemy extends Schmuck {
 		
 		attackTarget = null;
 		
+		//query nearby units
 		world.QueryAABB((new QueryCallback() {
 
 			@Override
@@ -276,7 +276,6 @@ public class Enemy extends Schmuck {
 								} 
 								return -1.0f;
 							}
-							
 						}, getPosition(), homeAttempt.getPosition());
 						if (closestFixture != null) {
 							if (closestFixture.getUserData() instanceof BodyData) {
@@ -295,6 +294,7 @@ public class Enemy extends Schmuck {
 	@Override
 	public boolean queueDeletion() {
 		if (alive) {
+			//defeated enemy drops eggplants
 			WeaponUtils.spawnScrap(state, scrapDrop, getPixelPosition(), true);
 		}
 		return super.queueDeletion();
@@ -336,6 +336,9 @@ public class Enemy extends Schmuck {
 	
 	public void setAttackTarget(HadalEntity attackTarget) { this.attackTarget = attackTarget; }
 
+	/**
+	 * Get the target we are moving towards. If not set, we are moving towards the same unit we are attacking
+	 */
 	public HadalEntity getMoveTarget() {
 		if (moveTarget != null) {
 			if (moveTarget.isAlive()) {

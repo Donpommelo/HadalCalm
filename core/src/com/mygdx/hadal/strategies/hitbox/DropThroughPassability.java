@@ -15,7 +15,6 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * This is the  strategy for hboxes to allow them to selectively pass through drop-through platforms
  * To do this, we add a "foot sensor" to the bottom of the hbox
  * @author Zachary Tu
- *
  */
 public class DropThroughPassability extends HitboxStrategy {
 	
@@ -32,7 +31,6 @@ public class DropThroughPassability extends HitboxStrategy {
 		super.create();
 		
 		this.feetData = new FeetData(UserDataTypes.FEET, hbox); 
-		
 		this.feet = hbox.getBody().createFixture(FixtureBuilder.createFixtureDef(new Vector2(1 / 2,  - hbox.getSize().y / 2), new Vector2(hbox.getSize().x, hbox.getSize().y / 8), true, 0, 0, 0, 0,
 				Constants.BIT_SENSOR, Constants.BIT_DROPTHROUGHWALL, hbox.getFilter()));
 		

@@ -14,7 +14,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy generates projectiles whenever the attached hbox makes contact with a unit
  * @author Zachary Tu
- *
  */
 public class ContactUnitParticles extends HitboxStrategy {
 	
@@ -26,19 +25,22 @@ public class ContactUnitParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
+	//this is the color of the particle. change using the factory method
 	private ParticleColor color = ParticleColor.NOTHING;
 
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
 	private boolean isOffset = false;
+	
+	//do we draw the particle on the hbox? If not, we draw it on the entity it hits instead. used for even longer hboxes like the laser rifle.
 	private boolean drawOnSelf = true;
-	private Vector2 offset = new Vector2();
-		
+	
 	public ContactUnitParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
 		this.effect = effect;
 		this.duration = defaultDuration;
 	}
 	
+	private Vector2 offset = new Vector2();
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {

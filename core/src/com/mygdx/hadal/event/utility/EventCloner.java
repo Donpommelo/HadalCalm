@@ -19,7 +19,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields: N/A
  * 
  * @author Zachary Tu
- *
  */
 public class EventCloner extends Event {
 	

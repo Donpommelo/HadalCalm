@@ -9,7 +9,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * This prefab sets up 2 parallel sensors that connect to events with the input eventIds.
  * Each sensor, when touched, set the other sensor to activate the respective event.
  * @author Zachary Tu
- *
  */
 public class EventAlternatorZone extends Prefabrication {
 

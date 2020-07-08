@@ -16,7 +16,6 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  * Selecting an item replaces currently held active item.
  * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
  * @author Zachary Tu
- *
  */
 public class Dispensary extends HubEvent {
 

@@ -28,11 +28,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * filter: short of who this event affects. Default: 0 (all units).
  * 
  * @author Zachary Tu
- *
  */
 public class HealingArea extends Event {
 	
-	private float controllerCount = 0;
+	private float controllerCount;
 	
 	//Damage done by the poison
 	private float heal;
@@ -40,9 +39,13 @@ public class HealingArea extends Event {
 	//If created by an dude, this is that dude
 	private Schmuck perp;
 	
-	private float currCrossSpawnTimer = 0f, spawnTimerLimit;
+	//timers manage the rate of particle spawn
+	private float currCrossSpawnTimer, spawnTimerLimit;
+	
+	//filter determines which schmucks are affected by this event
 	private short filter;
 	
+	//the frewuency that the heal is applied
 	private final static float healInterval = 1 / 60f;
 	
 	/**
@@ -69,9 +72,7 @@ public class HealingArea extends Event {
 	
 	@Override
 	public void create() {
-
 		this.eventData = new EventData(this);
-		
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), filter, true, eventData);
 	}
 	
@@ -90,6 +91,7 @@ public class HealingArea extends Event {
 			}
 		}
 		
+		//spawn particles periodically
 		currCrossSpawnTimer += delta;
 		while (currCrossSpawnTimer >= spawnTimerLimit) {
 			currCrossSpawnTimer -= spawnTimerLimit;
@@ -100,7 +102,7 @@ public class HealingArea extends Event {
 	}
 	
 	/**
-	 * Client healing area should randomly spawn regen particles itself to avoid overhead.
+	 * Client healing area should randomly spawn regen particles itself to reduce overhead.
 	 */
 	@Override
 	public void clientController(float delta) {

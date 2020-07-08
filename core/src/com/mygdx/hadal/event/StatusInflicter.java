@@ -17,7 +17,6 @@ import com.mygdx.hadal.statuses.StatChangeStatus;
  * duration: duration of the status. If 0, the status is permanent (until leaving the stage) default: 0.0f
  * 
  * @author Zachary Tu
- *
  */
 public class StatusInflicter extends Event {
 

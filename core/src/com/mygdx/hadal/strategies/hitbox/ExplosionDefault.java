@@ -13,7 +13,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * Explosions deal damage to all units but less damage to the user.
  * Because explosions are static, their knock back is based on positioning rather than their own momentum
  * @author Zachary Tu
- *
  */
 public class ExplosionDefault extends HitboxStrategy {
 	

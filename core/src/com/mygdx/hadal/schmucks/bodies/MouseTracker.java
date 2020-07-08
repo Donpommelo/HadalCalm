@@ -16,7 +16,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 /**
  * A mouse tracker is tied to a player and tracks that player's mouse pointer
  * @author Zachary Tu
- *
  */
 public class MouseTracker extends HadalEntity {
 	

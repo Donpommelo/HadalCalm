@@ -5,6 +5,10 @@ import com.mygdx.hadal.event.DelayedSpawn;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * enemy types represent the different types of enemies and how to spawn them
+ * @author Zachary Tu
+ */
 public enum EnemyType {
 
 	DELAYEDSPAWN() {
@@ -215,8 +219,20 @@ public enum EnemyType {
 	},
 	;
 	
+	/**
+	 * This generates an enemy of the chosen type
+	 * @param state: state to spawn the enemy in
+	 * @param startPos: the starting position of the enemy
+	 * @param filter: the faction of the enemy
+	 * @param extraField: some enemies use an extra field to determine starting orientation
+	 * @param spawner: the event that spawned this enemy (null if spawned through other means)
+	 * @return the spawned enemies
+	 */
 	public abstract Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner);
 	
+	/**
+	 * This is like generateEnemy, except it creates a delayed spawn event that creates the enemy after some time
+	 */
 	public void generateEnemyDelayed(PlayState state, Vector2 startPos, float lifespan, short filter, float extraField, SpawnerSchmuck spawner, boolean isBoss, String bossName) {
 		new DelayedSpawn(state, startPos, lifespan, this, filter, extraField, spawner, isBoss, bossName);
 	}

@@ -27,7 +27,6 @@ import java.util.ArrayList;
 /**
  * A hitbox is a box that hits things.
  * @author Zachary Tu
- *
  */
 public class Hitbox extends HadalEntity {
 
@@ -147,8 +146,9 @@ public class Hitbox extends HadalEntity {
 		
 		setLinearVelocity(startVelo);
 		
+		//hboxes that adjust their angle start off transformed.
 		if (adjustAngle) {
-			setTransform(getPosition(), (float) (Math.atan2(getLinearVelocity().y , getLinearVelocity().x)));
+			setTransform(getPosition(), (float) (Math.atan2(getLinearVelocity().y, getLinearVelocity().x)));
 		}
 	}
 	
@@ -177,9 +177,7 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public void push(Vector2 push) {
 		
-		if (!alive) {
-			return;
-		}
+		if (!alive) { return; }
 		
 		for (HitboxStrategy s : strategies) {
 			s.push(push);
@@ -189,9 +187,7 @@ public class Hitbox extends HadalEntity {
 	@Override
 	public void render(SpriteBatch batch) {
 		
-		if (!alive) {
-			return;
-		}
+		if (!alive) { return; }
 		
 		if (projectileSprite != null) {
 			batch.draw((TextureRegion) projectileSprite.getKeyFrame(animationTime, true), 
@@ -205,9 +201,7 @@ public class Hitbox extends HadalEntity {
 	
 	public void die() {
 		
-		if (!alive) {
-			return;
-		}
+		if (!alive) { return; }
 		
 		for (HitboxStrategy s : strategies) {
 			s.die();
@@ -252,6 +246,9 @@ public class Hitbox extends HadalEntity {
 		}
 	}
 	
+	/**
+	 * Certain strategies lower the hbox durability. hbox dies when durability reaches 0.
+	 */
 	public void lowerDurability() {
 		this.durability--;
 		if (durability <= 0) {

@@ -7,7 +7,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 /**
  * The Cooldowner is a prefab that is placed between triggerer and triggered to prevent the triggered from activating multiple times within a time limit
  * @author Zachary Tu
- *
  */
 public class Cooldowner extends Prefabrication {
 

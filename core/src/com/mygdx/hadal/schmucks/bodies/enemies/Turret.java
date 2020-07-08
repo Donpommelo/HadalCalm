@@ -18,7 +18,6 @@ import com.mygdx.hadal.utils.Stats;
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
  * @author Zachary Tu
- *
  */
 public class Turret extends Enemy {
 
@@ -39,7 +38,6 @@ public class Turret extends Enemy {
 	
 	private static final int rotationX = 131;
 	private static final int rotationY = 114;
-	
 	
 	private static final Sprite base = Sprite.TURRET_BASE;
 	private static final Sprite flak = Sprite.TURRET_FLAK;
@@ -95,7 +93,6 @@ public class Turret extends Enemy {
 						desiredAngle =  (float)(Math.atan2(
 								attackTarget.getPosition().y - getPosition().y ,
 								attackTarget.getPosition().x - getPosition().x) * 180 / Math.PI);
-
 						if (desiredAngle < 0) {
 							if (desiredAngle < -90) {
 								desiredAngle = 180;
@@ -114,13 +111,11 @@ public class Turret extends Enemy {
 	@Override
 	public void render(SpriteBatch batch) {
 		boolean flip = false;
-		
 		if (Math.abs(attackAngle) > 90) {
 			flip = true;
 		}
 		
 		float rotationYReal = rotationY;
-		
 		if (flip) {
 			rotationYReal = size.y / scale - rotationY;
 		}

@@ -10,6 +10,10 @@ import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.equip.artifacts.*;
 
+/**
+ * An UnlockArtifact represents a single artifact in the game
+ * @author Zachary Tu
+ */
 public enum UnlockArtifact {
 	
 	NUMBER_ONE_BOSS_MUG(new Number1BossMug()),
@@ -122,7 +126,10 @@ public enum UnlockArtifact {
 	NOTHING(new NothingArtifact()),
 	;
 	
+	//singleton artifact represented by this unlock
 	private Artifact artifactSingleton; 
+	
+	//the artifact's information
 	private InfoItem info;
 	
 	UnlockArtifact(Artifact artifact) {
@@ -130,6 +137,9 @@ public enum UnlockArtifact {
 		artifactSingleton.setUnlock(this);
 	}
 	
+	/**
+	 * This acquires a list of all unlocked artifacts (if unlock is true. otherwise just return all artifacts that satisfy the tags)
+	 */
 	public static Array<UnlockArtifact> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockArtifact> items = new Array<UnlockArtifact>();
 		

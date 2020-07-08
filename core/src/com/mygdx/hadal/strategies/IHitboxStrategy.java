@@ -7,7 +7,6 @@ import com.mygdx.hadal.schmucks.userdata.HadalData;
  * This interface is used by hbox strategies.
  * hbox strategies are attached to hboxes and perform certain actions at specific times of the hbox's lifecycle
  * @author Zachary Tu
- *
  */
 public interface IHitboxStrategy {
 

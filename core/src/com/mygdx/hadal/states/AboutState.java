@@ -17,7 +17,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * The AboutState is selected from the title screen and gives information about the game
  * @author Zachary Tu
- *
  */
 public class AboutState extends GameState {
 
@@ -45,6 +44,7 @@ public class AboutState extends GameState {
 	private final static float detailsPad = 15.0f;
 	private final static int detailsTextWidth = 750;
 
+	//this state's background shader
 	private Shader shaderBackground;
 	private Texture bg;
 	
@@ -87,7 +87,6 @@ public class AboutState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						aboutSelected();
 			        }
-					
 			    });
 				aboutOption.setScale(optionsScale);
 				
@@ -99,7 +98,6 @@ public class AboutState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						tipsSelected();
 			        }
-					
 			    });
 				tipsOption.setScale(optionsScale);
 				
@@ -111,7 +109,6 @@ public class AboutState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						miscSelected();
 			        }
-					
 			    });
 				miscOption.setScale(optionsScale);
 				
@@ -123,7 +120,6 @@ public class AboutState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						creditsSelected();
 			        }
-					
 			    });
 				creditsOption.setScale(optionsScale);
 				
@@ -140,7 +136,6 @@ public class AboutState extends GameState {
 							public void run() {
 								gsm.removeState(AboutState.class);
 							}
-							
 						});
 			        }
 			    });
@@ -156,9 +151,13 @@ public class AboutState extends GameState {
 		app.newMenu(stage);
 		gsm.getApp().fadeIn();
 		
+		//start off with about selected
 		aboutSelected();
 	}
 
+	/**
+	 * This is called whenever the player selects the ABOUT tab
+	 */
 	private void aboutSelected() {
 		details.clear();
 		
@@ -170,6 +169,9 @@ public class AboutState extends GameState {
 		details.add(about);
 	}
 	
+	/**
+	 * This is called whenever the player selects the TIPS tab
+	 */
 	private void tipsSelected() {
 		details.clear();
 		
@@ -181,6 +183,9 @@ public class AboutState extends GameState {
 		details.add(tips);
 	}
 	
+	/**
+	 * This is called whenever the player selects the MISC tab
+	 */
 	private void miscSelected() {
 		details.clear();
 		
@@ -192,6 +197,9 @@ public class AboutState extends GameState {
 		details.add(misc);
 	}
 
+	/**
+	 * This is called whenever the player selects the CREDITS tab
+	 */
 	private void creditsSelected() {
 		details.clear();
 		

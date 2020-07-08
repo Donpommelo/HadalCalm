@@ -10,10 +10,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox die when it touches a wall
  * @author Zachary Tu
- *
  */
 public class ContactWallDie extends HitboxStrategy {
 	
+	//delay after hbox creation before this strategy will activate. can be set using factory method
 	private float delay;
 	
 	public ContactWallDie(PlayState state, Hitbox proj, BodyData user) {

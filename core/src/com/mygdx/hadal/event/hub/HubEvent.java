@@ -18,7 +18,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * The HubEvent is one of the events in the hub of the game that produces an extra ui for the player to manage
  * stuff between rounds.
  * @author Zachary Tu
- *
  */
 public class HubEvent extends Event {
 

@@ -7,7 +7,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 /**
  * The Door is a wall that, when triggered, will move to a specified point.
  * @author Zachary Tu
- *
  */
 public class Door extends Prefabrication {
 

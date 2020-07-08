@@ -7,10 +7,10 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * why did I make this
  * @author Zachary Tu
- *
  */
 public enum NameGenerator {
 	
+	//starting consonants. funnier sounding ones have higher frequencies.
 	B_START("b", "b_first", 5, "start"),
 	C_START("c", "c_first", 2, "start"),
 	D_START("d", "d_first", 3, "start"),
@@ -33,6 +33,7 @@ public enum NameGenerator {
 	Y_START("y", "y_first", "start"),
 	Z_START("z", "z_first", "start"),
 	
+	//second consonant possibilities for things like 'ch', and 'sp'
 	C_NEXT("c", "c_next", "s_first"),
 	H_NEXT("h", "h_next", "c_first", "g_first", "p_first", "s_first", "t_first", "w_first"),
 	K_NEXT("k", "k_next", "s_first"),
@@ -46,29 +47,35 @@ public enum NameGenerator {
 	V_NEXT("v", "v_next", "s_first"),
 	W_NEXT("w", "w_next", "s_first", "t_first"),
 	
+	//this is a transition unit that follows the first consonant(s).
 	CONSONANT_FIRST("", "consonant_first", "b_first", "c_first", "d_first" , "f_first" , "g_first", "h_first", "j_first", "k_first", "l_first", "m_first", "n_first", "p_first", "qu_first", "r_first", "s_first", "t_first", "v_first", "w_first", "x_first", "y_first", "z_first"),
 	CONSONANT_NEXT("", "consonant_next", "c_next", "h_next", "k_next", "l_next", "m_next", "n_next", "p_next", "qu_next", "r_next", "t_next", "v_next", "w_next"),
 	
+	//this is a vowel that can follow either starting consonant type
 	A_VOWEL("a", "a_first", "consonant_first", "consonant_next"),
 	E_VOWEL("e", "e_first", "consonant_first", "consonant_next"),
 	I_VOWEL("i", "i_first", "consonant_first", "consonant_next"),
 	O_VOWEL("o", "o_first", "consonant_first", "consonant_next"),
 	U_VOWEL("u", "u_first", "consonant_first", "consonant_next"),
 	
+	//this is a transition that follows the first vowel in the name
 	VOWEL_FIRST("", "vowel_first", "a_first", "e_first", "i_first", "o_first", "u_first"),
 	
-	A_NEXT("a", "a_next", 50, "universal"),
-	E_NEXT("e", "e_next", 50, "universal"),
-	I_NEXT("i", "i_next", 50, "universal"),
-	O_NEXT("o", "o_next", 50, "universal"),
-	U_NEXT("u", "u_next", 50, "universal"),
-	
+	//the weights of these transitions are used to balance probability between names that have long suffixes vs names where each digram is procedurally generated
 	A_ANY("", "a", 5, "a_first", "a_next"),
 	E_ANY("", "e", 5, "e_first", "e_next"),
 	I_ANY("", "i", 5, "i_first", "i_next"),
 	O_ANY("", "o", 5, "o_first", "o_next"),
 	U_ANY("", "u", 5, "u_first", "u_next"),
 	
+	//after any 'universal' digram, we have the option to stick another vowel afterwards for a second name segment.
+	A_NEXT("a", "a_next", 50, "universal"),
+	E_NEXT("e", "e_next", 50, "universal"),
+	I_NEXT("i", "i_next", 50, "universal"),
+	O_NEXT("o", "o_next", 50, "universal"),
+	U_NEXT("u", "u_next", 50, "universal"),
+	
+	//These are digrams that end segments. They can end the name or be followed up with a suffix or another syllable.
 	B2("b", "b2", "vowel_first"),
 	BB("bb", "bb", "vowel_first"),
 	B_("", "b_", "b2", "bb"),
@@ -192,6 +199,7 @@ public enum NameGenerator {
 	
 	MISC_END("", "misc", "dge", "el", "ing", "le", "_r"),
 
+	//specific suffixes that can follow a digram ending in certain consonants
 	ANNE("anne", "end", "misc", "universal"),
 	ALOV("alov", "end", "universal"),
 	ANOV("anov", "end", "universal"),
@@ -330,6 +338,7 @@ public enum NameGenerator {
 	
 	_NOTHING_("", "end", "a_next", "o_next", "misc", "universal"),
 
+	//misc end suffixes
 	ACAMOLE("acamole", "end", "u"),
 	ADRUNNER("adrunner", "end", "o"),
 	ADULUPE("adulupe", "end", "u"),

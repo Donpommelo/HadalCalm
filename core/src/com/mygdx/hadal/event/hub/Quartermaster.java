@@ -18,7 +18,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * The Armory is a HubEvent that allows the player to spend Scrap on unlocks.
  * @author Zachary Tu
- *
  */
 public class Quartermaster extends HubEvent {
 
@@ -50,6 +49,8 @@ public class Quartermaster extends HubEvent {
 			        	if (state.getGsm().getRecord().getScrap() >= shopInfo.getPrices().get(item)) {
 				        	state.getGsm().getRecord().incrementScrap(-shopInfo.getPrices().get(item));
 				        	UnlockManager.setUnlock(state, UnlockType.valueOf(shopInfo.getType()), item, true);
+				        	
+				        	//leave and enter to reset available inventoty
 				        	me.leave();
 				        	me.enter();
 				        	state.getUiExtra().syncData();

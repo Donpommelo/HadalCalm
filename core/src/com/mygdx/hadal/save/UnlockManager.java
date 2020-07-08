@@ -11,7 +11,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * The UnlockManager manages the player's unlocked weapons, artifacts, etc
  * @author Zachary Tu
- *
  */
 public class UnlockManager {
 	
@@ -37,6 +36,9 @@ public class UnlockManager {
 		}
 	}	
 	
+	/**
+	 * This acquires the information about an unlock based on its type and name
+	 */
 	public static InfoItem getInfo(UnlockType type, String name) {
 		switch(type) {
 		case ACTIVE:
@@ -54,28 +56,32 @@ public class UnlockManager {
 		}
 	}
 	
+	/**
+	 * This is ued to determine which unlockitems will be available from a given hub event
+	 * @param item: the item to check
+	 * @param tags: a list of tags
+	 * @return: whether the item contains any of the tags
+	 */
 	public static boolean checkTags(InfoItem item, ArrayList<UnlockTag> tags) {
 		
 		for (int i = 0; i < tags.size(); i++) {
-			
 			boolean tagPresent = false;
 			
-			if (item == null) {
-				return false;
-			}
+			if (item == null) { return false; }
 			
 			for (int j = 0; j < item.getTags().size(); j++) {
 				if (tags.get(i).equals(item.getTags().get(j))) {
 					tagPresent = true;
 				}
 			}
-			if (!tagPresent) {
-				return false;
-			}
+			if (!tagPresent) { return false; }
 		}
 		return true;
 	}
 	
+	/**
+	 * This returns if a certain unlock item is unlocked or not
+	 */
 	public static boolean checkUnlock(PlayState state, UnlockType type, String name) {
 		switch(type) {
 		case ACTIVE:
@@ -93,6 +99,10 @@ public class UnlockManager {
 		}
 	}
 	
+	/**
+	 * This sets a certain unlock item to be unlocked or locked. If unlocked, a notification appears
+	 * After setting, the data is saved into the player's saves
+	 */
 	public static void setUnlock(PlayState state, UnlockType type, String name, boolean unlock) {
 		switch(type) {
 		case ACTIVE:
@@ -127,7 +137,6 @@ public class UnlockManager {
 			break;
 		default:
 		}
-		
 		state.getGsm().getRecord().saveRecord();
 	}
 	

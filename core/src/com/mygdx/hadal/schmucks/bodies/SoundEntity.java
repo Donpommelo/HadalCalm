@@ -12,7 +12,6 @@ import com.mygdx.hadal.states.PlayState;
  * A SoundEntity is like a ParticleEntity except for Sound. It attaches to another entity and plays sound fro mthat entity's location
  * It also helps sync the sound between server and client.
  * @author Zachary Tu
- *
  */
 public class SoundEntity extends HadalEntity {
 
@@ -60,7 +59,6 @@ public class SoundEntity extends HadalEntity {
 			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, false);
 			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
 		} else {
-			
 			//otherwise, we just get the sound id and pause it.
 			this.soundId = sound.play(state.getGsm(), volume, false);
 			sound.getSound().pause(soundId);
@@ -124,14 +122,11 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public void clientController(float delta) {
-		
 		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.NOSYNC)) {
 			controller(delta);			
 		}
-		
 		if (attachedEntity == null && attachedId != null) {
 			attachedEntity = ((ClientState) state).findEntity(attachedId);
-			
 			if (on) {
 				sound.getSound().resume(soundId);
 			}
@@ -143,7 +138,6 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public Object onServerCreate() {
-		
 		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				return new Packets.CreateSound(entityID.toString(), attachedEntity.getEntityID().toString(), sound.toString(), volume, looped, on, sync.equals(soundSyncType.TICKSYNC));

@@ -23,7 +23,6 @@ import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
  * An Event is an entity that acts as a catch-all for all misc entities that do not share qualities with schmucks or hitboxes.
  * Events include hp/fuel/weapon pickups, currents, schmuck spawners, springs, literally anything else.
  * @author Zachary Tu
- *
  */
 public class Event extends HadalEntity {
 	
@@ -125,7 +124,6 @@ public class Event extends HadalEntity {
 	public void render(SpriteBatch batch) {
 		
 		if (eventSprite != null) {
-
 			switch (scaleAlign) {
 			case CENTER:
 				batch.draw((TextureRegion) eventSprite.getKeyFrame(animationTime),

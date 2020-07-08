@@ -10,7 +10,6 @@ import com.mygdx.hadal.states.PlayState;
  * The ClientController controls the player using events to process various player actions.
  * The Client Controller is used by the client in a clientstate to map their keystrokes to packets sent to the server
  * @author Zachary Tu
- *
  */
 public class ClientController implements InputProcessor {
 	
@@ -24,131 +23,129 @@ public class ClientController implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 
-		if (!HadalGame.client.getClient().isConnected()) return false;
+		if (!HadalGame.client.getClient().isConnected()) { return false; }
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_LEFT));
-		}
+		} 
 		
-		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
+		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_RIGHT));
-		}
+		} 
 		
-		if (keycode == PlayerAction.JUMP.getKey()) {
+		else if (keycode == PlayerAction.JUMP.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.JUMP));
-		}
+		} 
 		
-		if (keycode == PlayerAction.CROUCH.getKey()) {
+		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.CROUCH));
-		}
+		} 
 		
-		if (keycode == PlayerAction.INTERACT.getKey()) {
+		else if (keycode == PlayerAction.INTERACT.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.INTERACT));
 			if (state.getDialogBox() != null) {
 				state.getDialogBox().nextDialogue();
 			}
-		}
+		} 
 		
-		if (keycode == PlayerAction.FREEZE.getKey()) {
+		else if (keycode == PlayerAction.FREEZE.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.FREEZE));
-		}
+		} 
 		
-		if (keycode == PlayerAction.RELOAD.getKey()) {
+		else if (keycode == PlayerAction.RELOAD.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.RELOAD));
-		}
+		} 
 		
-		if (keycode == PlayerAction.FIRE.getKey()) {
+		else if (keycode == PlayerAction.FIRE.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.FIRE));
-		}
+		} 
 		
-		if (keycode == PlayerAction.BOOST.getKey()) {
+		else if (keycode == PlayerAction.BOOST.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.BOOST));
-		}
+		} 
 		
-		if (keycode == PlayerAction.SWITCH_TO_LAST.getKey()) {
+		else if (keycode == PlayerAction.SWITCH_TO_LAST.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_LAST));
-		}
+		} 
 		
-		if (keycode == PlayerAction.SWITCH_TO_1.getKey()) {
+		else if (keycode == PlayerAction.SWITCH_TO_1.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_1));
-		}
+		} 
 		
-		if (keycode == PlayerAction.SWITCH_TO_2.getKey()) {
+		else if (keycode == PlayerAction.SWITCH_TO_2.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_2));
-		}
+		} 
 		
-		if (keycode == PlayerAction.SWITCH_TO_3.getKey()) {
+		else if (keycode == PlayerAction.SWITCH_TO_3.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_3));
-		}
+		} 
 		
-		if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
+		else if (keycode == PlayerAction.SWITCH_TO_4.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.SWITCH_TO_4));
-		}
-
-		if (keycode == PlayerAction.DIALOGUE.getKey()) {
+		} 
+		
+		else if (keycode == PlayerAction.DIALOGUE.getKey()) {
 			if (state.getDialogBox() != null) {
 				state.getDialogBox().nextDialogue();
 			}
-		}
+		} 
 		
-		if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
+		else if (keycode == PlayerAction.WEAPON_CYCLE_UP.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_UP));
-		}
+		} 
 		
-		if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
+		else if (keycode == PlayerAction.WEAPON_CYCLE_DOWN.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WEAPON_CYCLE_DOWN));
-		}
+		} 
 		
-		if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
+		else if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
 			state.getMessageWindow().toggleWindow();
-		}
+		} 
 		
-		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			state.getScoreWindow().setVisibility(true);
-		}
+		} 
 		
-		if (keycode == PlayerAction.EXIT_MENU.getKey()) {
+		else if (keycode == PlayerAction.EXIT_MENU.getKey()) {
 			if (state.getUiHub().isActive()) {
 				state.getUiHub().leave();
 			}
 		}
-		
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
 		
-		if (!HadalGame.client.getClient().isConnected()) return false;
+		if (!HadalGame.client.getClient().isConnected()) { return false; }
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_LEFT));
-		}
+		} 
 		
-		if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
+		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_RIGHT));
-		}
+		} 
 		
-		if (keycode == PlayerAction.JUMP.getKey()) {
+		else if (keycode == PlayerAction.JUMP.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.JUMP));
-		}
+		} 
 		
-		if (keycode == PlayerAction.CROUCH.getKey()) {
+		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.CROUCH));
-		}
+		} 
 		
-		if (keycode == PlayerAction.FIRE.getKey()) {
+		else if (keycode == PlayerAction.FIRE.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.FIRE));
-		}
+		} 
 		
-		if (keycode == PlayerAction.PAUSE.getKey()) {
+		else if (keycode == PlayerAction.PAUSE.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.PAUSE));
-		}
+		} 
 		
-		if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+		else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 			state.getScoreWindow().setVisibility(false);
-		}
-				
+		}	
 		return false;
 	}
 
@@ -180,11 +177,13 @@ public class ClientController implements InputProcessor {
 		return false;
 	}
 	
+	/**
+	 * This resets all toggled controls to prevent stuff like locking a button after unpausing and such
+	 */
 	public void syncController() {
-		
+
 		//Let game account for all buttons held down before the processor is created.
 		for (PlayerAction a: PlayerAction.values()) {
-			
 			if (a.isToggleable()) {
 				if (Gdx.input.isKeyPressed(a.getKey())) {
 					keyDown(a.getKey());
@@ -195,11 +194,13 @@ public class ClientController implements InputProcessor {
 		}
 	}
 	
+	/**
+	 * registers all keys up. This is called when the msg window is enabled.
+	 */
 	public void resetController() {
 		
 		//Let game account for all buttons held down before the processor is created.
 		for (PlayerAction a: PlayerAction.values()) {
-			
 			if (a.isToggleable()) {
 				keyUp(a.getKey());
 			}

@@ -10,7 +10,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox inflicts a burn on users that it makes contact with
  * @author Zachary Tu
- *
  */
 public class ContactUnitBurn extends HitboxStrategy {
 	

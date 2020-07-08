@@ -19,12 +19,12 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
  * This is a version of the playstate that is provided for Clients.
- * No processing of physics and stuff like that is done here. Instead, everything is done based on instructions by the server.
+ * A lot of effects are not processed in this state like statuses and damage. Instead, everything is done based on instructions by the server.
  * @author Zachary Tu
- *
  */
 public class ClientState extends PlayState {
 	
+	//these variables are used to deal with packet loss. Windows to determine when a create/delete packet was dropped and when another packet can be requested
 	public final static float missedCreateThreshold = 2.0f;
 	public final static float missedDeleteThreshold = 2.0f;
 	public final static float initialConnectThreshold = 5.0f;
@@ -52,8 +52,10 @@ public class ClientState extends PlayState {
 		hitboxes = new LinkedHashMap<String, HadalEntity>();
 		sync = new ArrayList<Object[]>();
 		
+		//client now processes collisions
 		TiledObjectUtil.parseTiledObjectLayerClient(this, map.getLayers().get("collision-layer").getObjects());
 		
+		//client still needs anchor points, world dummies and mouse tracker
 		addEntity(getAnchor().getEntityID().toString(), getAnchor(), false, ObjectSyncLayers.STANDARD);
 		addEntity(getWorldDummy().getEntityID().toString(), getWorldDummy(), false, ObjectSyncLayers.STANDARD);
 		addEntity(getMouse().getEntityID().toString(), getMouse(), false, ObjectSyncLayers.STANDARD);
@@ -113,7 +115,6 @@ public class ClientState extends PlayState {
 					((HadalEntity) pair[1]).create();
 				}
 			}
-			
 			if (pair[0] != "") {
 				((HadalEntity) pair[1]).setEntityID((String) pair[0]);
 			}

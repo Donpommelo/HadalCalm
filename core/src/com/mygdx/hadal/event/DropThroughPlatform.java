@@ -24,7 +24,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * N/A
  * 
  * @author Zachary Tu
- *
  */
 public class DropThroughPlatform extends Event {
 	
@@ -53,9 +52,7 @@ public class DropThroughPlatform extends Event {
 						if (entity instanceof Player) {
 							Player p = (Player) entity;
 							
-							if (p.isFastFalling()) {
-								return;
-							}
+							if (p.isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();
 						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);

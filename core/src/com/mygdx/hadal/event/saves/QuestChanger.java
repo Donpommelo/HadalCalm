@@ -17,7 +17,6 @@ import com.mygdx.hadal.states.PlayState;
  * newVal: new value for the quest. Optional. Default: 0
  * 
  * @author Zachary Tu
- *
  */
 public class QuestChanger extends Event {
 

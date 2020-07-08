@@ -1,9 +1,8 @@
 package com.mygdx.hadal.schmucks.bodies.enemies;
 
 /**
- * A BossAction is any action that the enemy performs. Most attacks are a sequence of EnemyActions performed in succession.
+ * An EnemyAction is any action that the enemy performs. Most attacks are a sequence of EnemyActions performed in succession.
  * @author Zachary Tu
- *
  */
 public class EnemyAction {
 

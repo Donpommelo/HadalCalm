@@ -15,7 +15,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy generates projectiles whenever the attached hbox makes contact with a wall
  * @author Zachary Tu
- *
  */
 public class ContactWallParticles extends HitboxStrategy {
 	
@@ -27,11 +26,11 @@ public class ContactWallParticles extends HitboxStrategy {
 	//how long should the particles last?
 	private float duration;
 	
+	//this is the color of the partcile. Can be set using the factory method
 	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//do we draw the particles at an offset from the hbox? (used for larger hboxes)
 	private boolean isOffset = false;
-	private Vector2 offset = new Vector2();
 	
 	public ContactWallParticles(PlayState state, Hitbox proj, BodyData user, Particle effect) {
 		super(state, proj, user);
@@ -39,6 +38,7 @@ public class ContactWallParticles extends HitboxStrategy {
 		this.duration = defaultDuration;
 	}
 	
+	private Vector2 offset = new Vector2();
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {

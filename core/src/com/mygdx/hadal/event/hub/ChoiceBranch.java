@@ -14,8 +14,8 @@ import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.states.PlayState;
 
 /**
+ * The choice branch gives a list of choices, each of which connects to another event
  * @author Zachary Tu
- *
  */
 public class ChoiceBranch extends HubEvent {
 

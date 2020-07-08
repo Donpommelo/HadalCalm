@@ -29,7 +29,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * draw: do we draw particles for this event? Default: true
  * filter: who does this event affect? Default: 0 (all units)
  * @author Zachary Tu
- *
  */
 public class Poison extends Event {
 	
@@ -135,7 +134,7 @@ public class Poison extends Event {
 	}
 	
 	/**
-	 * Client Poison should randomly spawn poison particles itself to avoid overhead.
+	 * Client Poison should randomly spawn poison particles itself to reduce overhead.
 	 */
 	@Override
 	public void clientController(float delta) {

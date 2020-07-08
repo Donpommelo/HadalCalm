@@ -10,12 +10,10 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
  * The LeverActivate is a lever that can be activated once. The base is always green and the lever animates when pulled.
  * After pulling, the pase is red and the lever is still.
  * @author Zachary Tu
- *
  */
 public class LeverActivateOnce extends Prefabrication {
 
 	private String triggeringId;
-	
 	private String baseId, leverId;
 	
 	public LeverActivateOnce(PlayState state, int width, int height, int x, int y, String triggeringId) {

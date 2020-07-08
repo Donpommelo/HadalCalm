@@ -22,7 +22,6 @@ import com.mygdx.hadal.utils.Constants;
  * 
  * Fields:
  * @author Zachary Tu
- *
  */
 public class WallDropthrough extends Event {
 
@@ -54,9 +53,7 @@ public class WallDropthrough extends Event {
 						if (entity instanceof Player) {
 							Player p = (Player) entity;
 							
-							if (p.isFastFalling()) {
-								return;
-							}
+							if (p.isFastFalling()) { return; }
 						}
 						Filter filter = entity.getMainFixture().getFilterData();
 						filter.maskBits = (short) (filter.maskBits | Constants.BIT_DROPTHROUGHWALL);

@@ -20,7 +20,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * right/left/up/down: Will this set a right/left/up/down bound on the camera (at its own location)
  * spectator: Will this set the camera bounds for normal players or spectators?
  * @author Zachary Tu
- *
  */
 public class CameraBounder extends Event {
 
@@ -48,15 +47,12 @@ public class CameraBounder extends Event {
 				if (right) {
 					state.getCameraBounds()[0] = getPixelPosition().x;
 				}
-				
 				if (left) {
 					state.getCameraBounds()[1] = getPixelPosition().x;
 				}
-				
 				if (up) {
 					state.getCameraBounds()[2] = getPixelPosition().y;
 				}
-				
 				if (down) {
 					state.getCameraBounds()[3] = getPixelPosition().y;
 				}
@@ -71,15 +67,12 @@ public class CameraBounder extends Event {
 			if (right) {
 				state.getSpectatorBounds()[0] = getPixelPosition().x;
 			}
-			
 			if (left) {
 				state.getSpectatorBounds()[1] = getPixelPosition().x;
 			}
-			
 			if (up) {
 				state.getSpectatorBounds()[2] = getPixelPosition().y;
 			}
-			
 			if (down) {
 				state.getSpectatorBounds()[3] = getPixelPosition().y;
 			}

@@ -6,12 +6,18 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * The music player manages music tracks including fade transitions
+ * @author Zachary Tu
+ */
 public class MusicPlayer {
 
 	private GameStateManager gsm;
 	
+	//this is the song currently playing
     private Music currentSong = null;
 	
+    //this is the song to be played next
     private MusicTrack nextSong;
     
     //this is the rate at which the sound volume changes (default: 0, -x for fading out and +x for fading in)
@@ -52,7 +58,6 @@ public class MusicPlayer {
 					fade = defaultFadeInSpeed;
 					
 					nextSong = null;
-					
 				} else {
 					pause();
 				}

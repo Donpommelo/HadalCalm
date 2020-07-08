@@ -15,7 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  * Selecting an artifact replaces currently held artifact.
  * It also changes the current loadout, so the player will have the same loadout upon returning the hub or restarting.
  * @author Zachary Tu
- *
  */
 public class Reliquary extends HubEvent {
 

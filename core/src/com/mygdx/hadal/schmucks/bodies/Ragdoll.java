@@ -19,7 +19,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Its main job is to be visible and obey physics. This is useful for on-death ragdoll/frags
  * It also has a couple of other applications like current bubble particle generators
  * @author Zachary Tu
- *
  */
 public class Ragdoll extends HadalEntity {
 	
@@ -45,9 +44,10 @@ public class Ragdoll extends HadalEntity {
 	//is the ragdoll a sensor? (i.e does it have collision)
 	private boolean sensor;
 	
-	//
+	//do we set the velocity of the ragdoll upon spawning or just change its angle? 
 	private boolean setVelo;
 	
+	//when this ragdoll is created on the server, does the client create a ragdoll of its own (this is false for stuff like currents)
 	private boolean synced;
 	
 	public Ragdoll(PlayState state, Vector2 startPos, Vector2 size, Sprite sprite, Vector2 startVelo, float duration, float gravity, boolean setVelo, boolean sensor, boolean synced) {

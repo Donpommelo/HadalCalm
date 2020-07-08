@@ -10,6 +10,10 @@ import com.mygdx.hadal.equip.ActiveItem;
 import com.mygdx.hadal.equip.actives.*;
 import com.mygdx.hadal.managers.GameStateManager;
 
+/**
+ * An UnlockArtifact represents a single artifact in the game
+ * @author Zachary Tu
+ */
 public enum UnlockActives {
 	
 	ANCHOR_SMASH(AnchorSmash.class),
@@ -48,13 +52,19 @@ public enum UnlockActives {
 	NOTHING(NothingActive.class),
 	;
 	
+	//the active item represented by this unlock
 	private Class<? extends ActiveItem> active;
+	
+	//the active item's information
 	private InfoItem info;
 	
 	UnlockActives(Class<? extends ActiveItem> active) {
 		this.active = active;
 	}
 	
+	/**
+	 * This acquires a list of all unlocked actives (if unlock is true. otherwise just return all actives that satisfy the tags)
+	 */
 	public static Array<UnlockActives> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockActives> items = new Array<UnlockActives>();
 		
@@ -74,6 +84,9 @@ public enum UnlockActives {
 		return items;
 	}
 	
+	/**
+	 * This method returns the unlock corresponding to a specfic active item
+	 */
 	public static UnlockActives getUnlockFromActive(Class<? extends ActiveItem> active) {
 		for (UnlockActives unlock: UnlockActives.values()) {
 			if (unlock.active.equals(active)) {
@@ -82,7 +95,6 @@ public enum UnlockActives {
 		}
 		return null;
 	}
-	
 	
 	/**
 	 * This method returns the name of a weapon randomly selected from the pool.
@@ -100,7 +112,6 @@ public enum UnlockActives {
 		}
 		
 		ArrayList<String> weapons = new ArrayList<String>();
-		
 		for (String id : pool.split(",")) {
 			weapons.add(id);
 		}

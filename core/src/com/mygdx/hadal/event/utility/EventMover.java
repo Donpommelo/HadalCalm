@@ -29,12 +29,13 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * (This pretty much only exists to make the NASU minigame work)
  * 
  * @author Zachary Tu
- *
  */
 public class EventMover extends Event {
 	
 	private float gravity;
-	private boolean moving = false;
+	
+	//are we in the middle of moving the event?
+	private boolean moving;
 	
 	public EventMover(PlayState state, Vector2 startPos, Vector2 size, float gravity) {
 		super(state, startPos, size);

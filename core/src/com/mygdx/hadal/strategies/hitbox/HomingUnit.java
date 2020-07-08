@@ -14,7 +14,6 @@ import com.mygdx.hadal.utils.Constants;
 /**
  * This strategy makes a hbox home in on enemies
  * @author Zachary Tu
- *
  */
 public class HomingUnit extends HitboxStrategy {
 	
@@ -48,7 +47,9 @@ public class HomingUnit extends HitboxStrategy {
 	}
 	
 	@Override
-	public void controller(float delta) {		
+	public void controller(float delta) {
+		
+		//if we have a target, home towards it. Otherwise search for nearby targets
 		if (homing != null && homing.isAlive()) {
 			controllerCount += delta;
 
@@ -57,6 +58,8 @@ public class HomingUnit extends HitboxStrategy {
 				homing();
 			}
 		} else {
+			
+			//search all nearby enemies and raycast to them to see if there is an unobstructed path.
 			hbox.getWorld().QueryAABB(new QueryCallback() {
 
 				@Override
@@ -93,7 +96,6 @@ public class HomingUnit extends HitboxStrategy {
 							
 							if (closestFixture != null) {
 								if (closestFixture.getUserData() instanceof BodyData) {
-									
 									homing = ((BodyData) closestFixture.getUserData()).getSchmuck();
 								}
 							}	
@@ -101,7 +103,6 @@ public class HomingUnit extends HitboxStrategy {
 					}
 					return true;
 				}
-				
 			}, 
 			hbox.getPosition().x - homeRadius, hbox.getPosition().y - homeRadius, 
 			hbox.getPosition().x + homeRadius, hbox.getPosition().y + homeRadius);
@@ -115,7 +116,6 @@ public class HomingUnit extends HitboxStrategy {
 	private void homing() {
 		
 		float squareDistance = homingPush.set(homing.getPosition()).sub(hbox.getPosition()).len2();
-		
 		float squareSpeed = hbox.getLinearVelocity().len2();
 
 		//if this hbox is moving , we check its distance to its target
@@ -137,7 +137,6 @@ public class HomingUnit extends HitboxStrategy {
 			homingPush.set(homing.getPosition()).mulAdd(homing.getLinearVelocity(), maxPredictionTime)
 			.sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
 		}
-		
 		hbox.applyForceToCenter(homingPush);
 	}
 }

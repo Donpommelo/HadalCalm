@@ -13,7 +13,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * This strategy makes a hbox inflict bonus damage when it does a "headshot"
  * "headshots" in this game just check if the hbox made contact with the top portion of a unit (if they are a player)
  * @author Zachary Tu
- *
  */
 public class DamageHeadshot extends HitboxStrategy {
 	

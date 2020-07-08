@@ -21,7 +21,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * universal: boolean if the sound is played for all players or not
  * 
  * @author Zachary Tu
- *
  */
 public class SoundEmitter extends Event {
 	

@@ -16,7 +16,6 @@ import com.mygdx.hadal.states.PlayState;
  * yPush: float y component of push applied. Default: 0.0f
  * 
  * @author Zachary Tu
- *
  */
 public class Pusher extends Event {
 

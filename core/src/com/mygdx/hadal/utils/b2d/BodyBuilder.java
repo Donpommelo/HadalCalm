@@ -13,7 +13,6 @@ import static com.mygdx.hadal.utils.Constants.PPM;
 /**
  * This util is for creating box2d bodies.
  * @author Zachary Tu
- *
  */
 public class BodyBuilder {
 
@@ -35,19 +34,19 @@ public class BodyBuilder {
 	 * @param userData: HadalData of the body.
 	 * @return: The newly created body.
 	 */
-    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti,
-    		boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
+    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti, boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, 
+    		boolean sensor, HadalData userData) {
     	return createBox(world, startPos, size, grav, density, resti, 1.0f, isStatic, fixedRotate, cBits, mBits, gIndex, sensor, userData);
     }
     
-    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti, float friction,
-    		boolean isStatic, boolean fixedRotate, short cBits, short mBits, short gIndex, boolean sensor, HadalData userData) {
+    public static Body createBox(final World world, Vector2 startPos, Vector2 size, float grav, float density, float resti, float friction,	boolean isStatic, boolean fixedRotate, short cBits, short mBits,
+    		short gIndex, boolean sensor, HadalData userData) {
     	
     	BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = fixedRotate;
         bodyDef.position.set(new Vector2(startPos).scl(1 / PPM));
 
-        if(isStatic) {
+        if (isStatic) {
             bodyDef.type = BodyDef.BodyType.StaticBody;
         } else {
             bodyDef.type = BodyDef.BodyType.DynamicBody;

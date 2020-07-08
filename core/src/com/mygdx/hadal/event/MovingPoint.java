@@ -78,7 +78,8 @@ public class MovingPoint extends Event {
 							e.setLinearVelocity(0, 0);
 						}
 					} else {
-												
+						
+						//activate connected event and connect this event to it (to follow the next dummy point in a path)
 						getConnectedEvent().getConnectedEvent().getEventData().preActivate(eventData, null);
 						setTransform(getConnectedEvent().getPosition(), 0);
 						

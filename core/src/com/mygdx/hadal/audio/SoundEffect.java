@@ -9,6 +9,10 @@ import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * Sound Effects each represent a single sound effect in the game. some of these effects can loop.
+ * @author Zachary Tu
+ */
 public enum SoundEffect {
 
 	RUN("sound/run.ogg"),
@@ -110,7 +114,10 @@ public enum SoundEffect {
 	UISWITCH3("sound/switch10.wav"),
 	;
 	
+	//this is the filename of the sound
 	private String soundFileName;
+	
+	//this is the sound associated with the effect
 	private Sound sound;
 	
 	SoundEffect(String soundFileName) {
@@ -121,7 +128,6 @@ public enum SoundEffect {
 	 * This loads a selected sound from its filename
 	 */
 	public Sound getSound() {
-		
 		if (sound == null) {
 			sound = Gdx.audio.newSound(Gdx.files.internal(soundFileName));
 		}
@@ -137,7 +143,7 @@ public enum SoundEffect {
 	
 	/**
 	 * This plays a single sound for the player and returns the sound id
-	 * singleton is for sounds that only have 1 instance playing at a time.
+	 * singleton is for sounds that only have 1 instance playing at a time. (mostly menus)
 	 * Do not use singleton sounds for multiple sound effects
 	 */
 	public long play(GameStateManager gsm, float volume, boolean singleton) {

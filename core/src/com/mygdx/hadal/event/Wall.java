@@ -18,7 +18,6 @@ import com.mygdx.hadal.utils.Constants;
  * 
  * Fields:
  * @author Zachary Tu
- *
  */
 public class Wall extends Event {
 

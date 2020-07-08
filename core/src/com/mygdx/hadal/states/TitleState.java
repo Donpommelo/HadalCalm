@@ -24,17 +24,17 @@ import com.mygdx.hadal.utils.NameGenerator;
  * The TitleState is created upon initializing the game and will display an image.
  * This state also gives options to host, join a server as well as set player's name, change settngs and exit.
  * @author Zachary Tu
- *
  */
 public class TitleState extends GameState {
 
 	//This table contains the option windows for the title.
 	private Table tableName, tableMain, tableIP;
 	
+	//this is the image backdrop of the title state
 	private TitleBackdrop backdrop;
 	
 	//These are all of the display and buttons visible to the player.
-	private Text nameDisplay, nameRand, ipDisplay, hostOption, singleOption, joinOption, exitOption, settingsOption, aboutOption, searchOption, notifications;
+	private Text nameDisplay, nameRand, ipDisplay, hostOption, singleOption, joinOption, exitOption, settingsOption, aboutOption, searchOption, notifications, versionNum;
 	
 	//Textfields for the player to enter an ip to connect to or change their name
 	private TextField enterName, enterIP;
@@ -62,6 +62,9 @@ public class TitleState extends GameState {
 	
 	private final static int notificationX = 40;
 	private final static int notificationY = 300;
+	
+	private final static int versionNumX = 1060;
+	private final static int versionNumY = 40;
 	
 	private final static int textWidth = 260;
 
@@ -155,14 +158,16 @@ public class TitleState extends GameState {
 				notifications.setScale(scale);
 				notifications.setHeight(optionHeight);
 				
+				versionNum = new Text("VERSION: " + HadalGame.Version, versionNumX, versionNumY, false);
+				versionNum.setScale(scale);
+				versionNum.setHeight(optionHeight);
+				
 				hostOption.addListener(new ClickListener() {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
-						if (inputDisabled) {
-							return;
-						}
+						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm, false);
@@ -178,10 +183,7 @@ public class TitleState extends GameState {
 						gsm.getApp().setRunAfterTransition(new Runnable() {
 
 							@Override
-							public void run() {
-								gsm.gotoHubState();
-							}
-							
+							public void run() { gsm.gotoHubState(); }
 						});
 						gsm.getApp().fadeOut();
 			        }
@@ -192,9 +194,7 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
-						if (inputDisabled) {
-							return;
-						}
+						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm, false);
@@ -210,10 +210,7 @@ public class TitleState extends GameState {
 						gsm.getApp().setRunAfterTransition(new Runnable() {
 
 							@Override
-							public void run() {
-								gsm.gotoHubState();
-							}
-							
+							public void run() { gsm.gotoHubState();	}
 						});
 						gsm.getApp().fadeOut();
 			        }
@@ -224,9 +221,7 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
-						if (inputDisabled) {
-							return;
-						}
+						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm, false);
@@ -244,7 +239,8 @@ public class TitleState extends GameState {
 					        
 							@Override
 					         public void run() {
-				        		//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
+				        		
+								//Attempt for 500 milliseconds to connect to the ip. Then set notifications accordingly.
 				            	try {
 				                	//trim whitespace from ip
 				            		String trimmedIp = enterIP.getText().trim();
@@ -272,9 +268,7 @@ public class TitleState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 						setNotification("SEARCHING FOR SERVER...");
 						
-						if (inputDisabled) {
-							return;
-						}
+						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH2.play(gsm, false);
@@ -306,9 +300,7 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 
-						if (inputDisabled) {
-							return;
-						}
+						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm, false);
@@ -317,10 +309,7 @@ public class TitleState extends GameState {
 						gsm.getApp().setRunAfterTransition(new Runnable() {
 
 							@Override
-							public void run() {
-								getGsm().addSettingState(null, TitleState.class);
-							}
-							
+							public void run() {	getGsm().addSettingState(null, TitleState.class); }
 						});
 						gsm.getApp().fadeOut();
 			        }
@@ -332,9 +321,7 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 
-						if (inputDisabled) {
-							return;
-						}
+						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
 						SoundEffect.UISWITCH1.play(gsm, false);
@@ -343,10 +330,7 @@ public class TitleState extends GameState {
 						gsm.getApp().setRunAfterTransition(new Runnable() {
 
 							@Override
-							public void run() {
-								getGsm().addState(State.ABOUT, TitleState.class);
-							}
-							
+							public void run() {	getGsm().addState(State.ABOUT, TitleState.class); }
 						});
 						gsm.getApp().fadeOut();
 			        }
@@ -371,7 +355,6 @@ public class TitleState extends GameState {
 			        public void clicked(InputEvent e, float x, float y) {
 						
 						SoundEffect.UISWITCH3.play(gsm, false);
-						
 						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
 			        	setNotification("RANDOM NAME GENERATED!");
 			        }
@@ -398,7 +381,6 @@ public class TitleState extends GameState {
 					enterIP.setText(gsm.getRecord().getLastIp());
 				}
 				
-				
 				enterName = new TextField(gsm.getLoadout().getName(), GameStateManager.getSkin());
 				enterName.setMessageText("ENTER NAME");
 				
@@ -418,11 +400,11 @@ public class TitleState extends GameState {
 				tableIP.add(searchOption);
 				
 				addActor(notifications);
+				addActor(versionNum);
 			}
 		};
 		app.newMenu(stage);
 		gsm.getApp().fadeIn();
-		
 		inputDisabled = false;
 	}
 
@@ -442,9 +424,10 @@ public class TitleState extends GameState {
 	 * This method changes the text notification displayed in the title state
 	 * @param notification: new text
 	 */
-	public void setNotification(String notification) {
-		notifications.setText(notification);
-	}
+	public void setNotification(String notification) { notifications.setText(notification); }
 
+	/**
+	 * Lets the state take input again. Used by clients after receiving reject message from server
+	 */
 	public void setInputDisabled(boolean inputDisabled) { this.inputDisabled = inputDisabled; }
 }

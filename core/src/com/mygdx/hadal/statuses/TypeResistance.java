@@ -8,11 +8,13 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * Type resistance gives a unit resistance (or amplification) to a specificied damate type(s)
  * @author Zachary Tu
- *
  */
 public class TypeResistance extends Status {
 
+	//this is the amount the damage is resisted by
 	private float power;
+	
+	//this is the type of damage that is resisted.
 	private DamageTypes resisted;
 	
 	public TypeResistance(PlayState state, float i, float power, DamageTypes resisted, BodyData p, BodyData v) {

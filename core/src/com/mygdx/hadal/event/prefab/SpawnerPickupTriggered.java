@@ -9,7 +9,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 /**
  * This is like a TimedSpawner, except you can specify the trigger to be an event outside of the prefab.
  * @author Zachary Tu
- *
  */
 public class SpawnerPickupTriggered extends Prefabrication {
 

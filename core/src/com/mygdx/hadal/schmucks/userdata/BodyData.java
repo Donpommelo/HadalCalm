@@ -22,7 +22,6 @@ import com.mygdx.hadal.utils.Stats;
 /**
  * Body data contains the stats and methods of any unit; player or enemy.
  * @author Zachary Tu
- *
  */
 public class BodyData extends HadalData {
 
@@ -54,13 +53,15 @@ public class BodyData extends HadalData {
 	private static final int maxFuel = 100;
 	private static final float fuelRegen = 8.0f;
 	
+	//duration of flash on receiving damage
 	private final static float flashDuration = 0.1f;
 	
+	//varianve multiplier applied to every instance of damage
 	private final static float damageVariance = 0.1f;
 	
 	protected float currentHp, currentFuel;
 
-	//statuses inflicted o nthe unit. statuses checked is used to recursive activate each status effect
+	//statuses inflicted on the unit. statuses checked is used to recursive activate each status effect
 	protected ArrayList<Status> statuses;
 	protected ArrayList<Status> statusesChecked;	
 	
@@ -70,6 +71,7 @@ public class BodyData extends HadalData {
 	//This is the last schumck who damaged this entity. Used for kill credit
 	private BodyData lastDamagedBy;
 	
+	//this is the hp value used by the client ui
 	private float overrideHpPercent;
 
 	/**
@@ -148,9 +150,7 @@ public class BodyData extends HadalData {
 	 */
 	public void addStatus(Status s) {
 		
-		if (!schmuck.getState().isServer()) {
-			return;
-		}
+		if (!schmuck.getState().isServer()) { return; }
 		
 		boolean added = false;
 		Status old = getStatus(s.getClass());
@@ -181,9 +181,8 @@ public class BodyData extends HadalData {
 	 */
 	public void removeStatus(Status s) {
 		
-		if (!schmuck.getState().isServer()) {
-			return;
-		}
+		if (!schmuck.getState().isServer()) { return; }
+		
 		s.onRemove();
 		statuses.remove(s);
 		statusesChecked.remove(s);
@@ -195,9 +194,7 @@ public class BodyData extends HadalData {
 	 */
 	public void removeArtifactStatus(UnlockArtifact artifact) {
 		
-		if (!schmuck.getState().isServer()) {
-			return;
-		}
+		if (!schmuck.getState().isServer()) { return; }
 		
 		ArrayList<Status> toRemove = new ArrayList<Status>();
 		
@@ -226,7 +223,7 @@ public class BodyData extends HadalData {
 	
 	/**
 	 * This checks if this schmuck is afflicted by a status.
-	 * If so, the status is returned
+	 * If so, the status is returned. Otherwise return null
 	 */
 	public Status getStatus(Class<? extends Status> s) {
 		for (Status st : statuses) {
@@ -278,22 +275,18 @@ public class BodyData extends HadalData {
 	@Override
 	public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
 		
-		if (!schmuck.isAlive()) {
-			return 0.0f;
-		}
-		
+		if (!schmuck.isAlive()) { return 0.0f; }
+		//calculate damage
 		float damage = basedamage;
-		
 		damage -= basedamage * (getStat(Stats.DAMAGE_RES));
 		damage += basedamage * (perp.getStat(Stats.DAMAGE_AMP));
-		
 		damage += basedamage * (-damageVariance + Math.random() * 2 * damageVariance);
 		
+		//proc effects and inflict damage
 		if (procEffects) {
 			damage = ((InflictDamage) perp.statusProcTime(new ProcTime.InflictDamage(damage, this, tags))).damage;
 			damage = ((ReceiveDamage) statusProcTime(new ProcTime.ReceiveDamage(damage, perp, tags))).damage;
 		}
-				
 		currentHp -= damage;
 		
 		//Make shmuck flash upon receiving damage
@@ -302,8 +295,8 @@ public class BodyData extends HadalData {
 			schmuck.impact.onForBurst(0.25f);
 		}
 		
+		//apply knockback
 		float kbScale = 1;
-		
 		kbScale -= getStat(Stats.KNOCKBACK_RES);
 		kbScale += perp.getStat(Stats.KNOCKBACK_AMP);
 		schmuck.applyLinearImpulse(new Vector2(knockback).scl(kbScale));
@@ -349,6 +342,7 @@ public class BodyData extends HadalData {
 			heal = ((ReceiveHeal) statusProcTime(new ProcTime.ReceiveHeal(heal, perp, tags))).heal;
 		}
 		
+		//prevent overheal
 		currentHp += heal;
 		if (currentHp >= getStat(Stats.MAX_HP)) {
 			currentHp = getStat(Stats.MAX_HP);
@@ -386,10 +380,10 @@ public class BodyData extends HadalData {
 	public void setStat(int index, float amount) {
 		buffedStats[index] = amount;
 		
+		//prevent overheal and overfuel
 		if (index == Stats.MAX_HP) {
 			currentHp = currentHp / buffedStats[index] * amount;
 		}
-		
 		if (index == Stats.MAX_FUEL) {
 			currentFuel = currentFuel / buffedStats[index] * amount;
 		}

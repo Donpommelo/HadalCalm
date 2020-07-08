@@ -8,6 +8,10 @@ import com.mygdx.hadal.save.UnlockManager.UnlockTag;
 import com.mygdx.hadal.save.UnlockManager.UnlockType;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * An UnlockCharacter represents a single playable character in the game
+ * @author Zachary Tu
+ */
 public enum UnlockCharacter {
 
 	MOREAU(Sprite.SpriteType.MOREAU),
@@ -23,6 +27,9 @@ public enum UnlockCharacter {
 		this.sprite = sprite;
 	}
 
+	/**
+	 * This acquires a list of all unlocked characters (if unlock is true. otherwise just return all characters that satisfy the tags)
+	 */
 	public static Array<UnlockCharacter> getUnlocks(PlayState state, boolean unlock, ArrayList<UnlockTag> tags) {
 		Array<UnlockCharacter> items = new Array<UnlockCharacter>();
 		

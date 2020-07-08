@@ -71,24 +71,6 @@ public class GameStateManager {
 	//are we in single or multiplayer mode?
 	public static Mode currentMode = Mode.SINGLE;
 	
-	//This enum lists all the different types of gamestates.
-	public enum State {
-		SPLASH,
-		CONTROL,
-		TITLE,
-		PLAY, 
-		VICTORY,
-		PAUSE,
-		CLIENTPLAY,
-		ABOUT
-	}
-	
-	//These are the modes of the game
-	public enum Mode {
-		SINGLE,
-		MULTI
-	}
-	
 	/**
 	 * Constructor called by the game upon initialization
 	 * @param hadalGame: instance of the current game.
@@ -119,18 +101,18 @@ public class GameStateManager {
 		deathMessages = reader.parse(Gdx.files.internal("text/DeathMessages.json"));
 		miscText = reader.parse(Gdx.files.internal("text/MiscText.json"));
 		randomText = reader.parse(Gdx.files.internal("text/RandomText.json"));
-
 		shops = reader.parse(Gdx.files.internal("save/Shops.json"));
 		
 		generator = new Random();
 		
+		//set the game's display to match the player's saved settings
 		setting.setDisplay(app);
 		sharedSetting = setting.generateSharedSetting();
 		hostSetting = setting.generateSharedSetting();
 	}
 	
 	/**
-	 * This loads several assets like atlases, skins and patches.
+	 * This loads several assets like atlases, skins and 9patches, particle pool.
 	 * This is called by initmanager after the atlases have been loaded.
 	 */
 	public void loadAssets() {
@@ -163,6 +145,8 @@ public class GameStateManager {
 		atlases.add(GameStateManager.starShotAtlas = HadalGame.assetManager.get(AssetList.STAR_SHOT_ATLAS.toString()));
 		
 		Particle.initParticlePool();
+		
+		//this lets us not declare every attribute of the shader.
 		ShaderProgram.pedantic = false;
 	}
 	
@@ -176,6 +160,7 @@ public class GameStateManager {
 	
 	/**
 	 * Run every engine tick after updating. This will draw stuff and works pretty much like update.
+	 * @param delta: elapsed time in seconds since last engine tick.
 	 */
 	public void render(float delta) {
 		states.peek().render(delta);
@@ -223,7 +208,6 @@ public class GameStateManager {
 	 * @param startId: the id of the playstate's start point (i.e, if the map has multiple starts, which one do we use?)
 	 */
 	public void addPlayState(UnlockLevel map, Loadout loadout, PlayerBodyData old, Class<? extends GameState> lastState, boolean reset, String startId) {
-		
 		if (states.empty()) {
 			states.push(new PlayState(this, loadout, map, true, old, reset, startId));
 			states.peek().show();
@@ -257,7 +241,6 @@ public class GameStateManager {
 	 * @param paused: is the game actually paused underneath the pause menu?
 	 */
 	public void addPauseState(PlayState ps, String pauser, Class<? extends GameState> lastState, boolean paused) {
-		
 		if (states.empty()) {
 			states.push(new PauseState(this, ps, pauser, paused));
 			states.peek().show();
@@ -268,8 +251,8 @@ public class GameStateManager {
 	}
 	
 	/**
-	 * Called when game setting menu is pulled up. This adds a ControlState to the stack
-	 * @param ps: This is the pausestate we are putting the control state on
+	 * Called when game setting menu is pulled up. This adds a SettingState to the stack
+	 * @param ps: This is the pausestate we are putting the setting state on. (null if calling from title state)
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public void addSettingState(PauseState ps, Class<? extends GameState> lastState) {
@@ -285,6 +268,7 @@ public class GameStateManager {
 	/**
 	 * This is called at the end of levels to display the results of the game
 	 * @param ps: This is the playstate we are putting the resultsstate on
+	 * @param text: this text is displayed at the top of the results state. Declares win or loss (or anything else)
 	 * @param lastState: the state we are adding on top of. ensures no accidental double-adding
 	 */
 	public void addResultsState(PlayState ps, String text, Class<? extends GameState> lastState) {
@@ -316,8 +300,7 @@ public class GameStateManager {
 	public void gotoHubState() {
 		if (currentMode == Mode.SINGLE) {
 			
-			//if the player has not done the tutorial yet, they are spawned into the tutorial section.
-			//otherwise, they are spawned into the hub
+			//if the player has not done the tutorial yet, they are spawned into the tutorial section. Otherwise, they are spawned into the hub
 			if (getRecord().getFlags().get("HUB_REACHED").equals(0)) {
 				addPlayState(UnlockLevel.WRECK1, new Loadout(loadout), null, TitleState.class, true, "");
 			} else {
@@ -362,6 +345,24 @@ public class GameStateManager {
 		}
 	}
 	
+	//This enum lists all the different types of gamestates.
+	public enum State {
+		SPLASH,
+		CONTROL,
+		TITLE,
+		PLAY, 
+		VICTORY,
+		PAUSE,
+		CLIENTPLAY,
+		ABOUT
+	}
+	
+	//These are the modes of the game
+	public enum Mode {
+		SINGLE,
+		MULTI
+	}
+		
 	public Stack<GameState> getStates() { return states; }
 
 	public HadalGame getApp() { return app;	}

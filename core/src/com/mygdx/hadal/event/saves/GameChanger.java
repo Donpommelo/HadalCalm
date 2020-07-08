@@ -12,11 +12,11 @@ import com.mygdx.hadal.states.PlayState;
  * Fields:
  * lives: Integer specifying how much to change the "lives" field in the ui. Optional. Default: 0
  * score: Integer specifying how much to change the "score" field in the ui. Optional. Default: 0
- * timer: Float specifying how much to change the "timer" field in the ui. Optional. Default: 0.0f
+ * timerSet: Float specifying what to set the "timer" field to. Optional. Default: 0.0f
  * timerIncr: Float specifying how much the timer should change (usually -1, 0, 1). Optional. Default: 0.0f
+ * changeTimer: boolean of whether to change the timer or not
  * 
  * @author Zachary Tu
- *
  */
 public class GameChanger extends Event {
 

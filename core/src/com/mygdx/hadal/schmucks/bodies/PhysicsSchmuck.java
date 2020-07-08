@@ -7,7 +7,6 @@ import com.mygdx.hadal.states.PlayState;
  * A Physics schmuck runs custom acceleration physics for their movement.
  * atm, this includes only the player
  * @author Zachary Tu
- *
  */
 public class PhysicsSchmuck extends Schmuck {
 
@@ -54,7 +53,6 @@ public class PhysicsSchmuck extends Schmuck {
 			} else {
 				accelX = grounded ? getBodyData().getXGroundDeaccel() : getBodyData().getXAirDeaccel();
 			}
-			
 			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
 			
 			if (Math.abs(desiredYVel) > Math.abs(currentVel.y)) {
@@ -62,9 +60,9 @@ public class PhysicsSchmuck extends Schmuck {
 			} else {
 				accelY = grounded ? getBodyData().getYGroundDeaccel() : getBodyData().getYAirDeaccel();
 			}
-			
 			float newY = accelY * desiredYVel + (1 - accelY) * currentVel.y;
 			
+			//apply resulting force
 			force.set(newX - currentVel.x, newY - currentVel.y).scl(getMass());
 			applyLinearImpulse(force);
 		}

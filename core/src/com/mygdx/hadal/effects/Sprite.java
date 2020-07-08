@@ -9,7 +9,6 @@ import com.mygdx.hadal.managers.AssetList;
 /**
  * This is a single sprite that can be drawn
  * @author Zachary Tu
- *
  */
 public enum Sprite {
 	NOTHING(SpriteType.MISC, ""),

@@ -9,9 +9,8 @@ import com.mygdx.hadal.save.UnlockEquip;
 import com.mygdx.hadal.schmucks.bodies.Schmuck;
 
 /**
- * This util is used to get an unlock enum and return an instance of that weapon, artifact, or active item
+ * This util is used to get an unlock enum and return an instance of that weapon or active item
  * @author Zachary Tu
- *
  */
 public class UnlocktoItem {
 

@@ -25,7 +25,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * N/A
  * 
  * @author Zachary Tu
- *
  */
 public class PortalTouch extends Event {
 

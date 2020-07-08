@@ -24,28 +24,23 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * id: The id of the type of enemy to spawn
  * limit: The number of enemies to spawn simultaneously
+ * extraField: Extra field for enemies that require more information (like turret subtypes)
+ * delay: float delay of how much time until the enemy is spawned. default: 1.0f
  * boss: boolean of whether this spawns a boss enemy
  * bossName: name of the boss spawned (if a boss is spawned)
  * @author Zachary Tu
- *
  */
 public class SpawnerSchmuck extends Event {
 	
 	private int limit;
-	
-	//this is the amount of enemies left
-	private int amountLeft = 0;
-	
-	//Extra field for enemies that require more information (like turret subtypes)
 	private int extraField;
-	
-	//delay before enemy spawns
 	private float delay;
-	
-	//is this enemy a boss enemy and if so, what is its name?
 	private boolean boss;
 	private String bossName;
 	
+	//this is the amount of enemies left
+	private int amountLeft = 0;
+		
 	private EnemyType type;
 	
 	public SpawnerSchmuck(PlayState state, Vector2 startPos, Vector2 size, String schmuckId, int limit, int extraField, float delay, boolean boss, String bossName) {
@@ -68,7 +63,6 @@ public class SpawnerSchmuck extends Event {
 				if (activator.getEvent() instanceof TriggerAlt) {
 					limit += Integer.parseInt(((TriggerAlt) activator.getEvent()).getMessage());
 				} else {
-					
 					for (int i = 0; i < limit; i++) {
 						amountLeft++;
 						type.generateEnemyDelayed(state, event.getPixelPosition(), delay, Constants.ENEMY_HITBOX, extraField, (SpawnerSchmuck) event, boss, bossName);

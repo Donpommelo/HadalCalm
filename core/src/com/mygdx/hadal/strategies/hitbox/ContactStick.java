@@ -10,9 +10,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy makes an hbox stick to units or walls upon making contact wit hthem
+ * This strategy makes an hbox stick to units or walls upon making contact with them
  * @author Zachary Tu
- *
  */
 public class ContactStick extends HitboxStrategy {
 	
@@ -35,8 +34,6 @@ public class ContactStick extends HitboxStrategy {
 		super(state, proj, user);
 		this.stickToWalls = walls;
 		this.stickToDudes = dudes;
-		this.stuckToWall = false;
-		this.stuckToDude = false;
 	}
 	
 	@Override
@@ -52,9 +49,7 @@ public class ContactStick extends HitboxStrategy {
 					target = fixB.getEntity();
 					angle = hbox.getAngle();
 					targetAngle = target.getAngle();
-					location.set(
-							hbox.getPosition().x - target.getPosition().x, 
-							hbox.getPosition().y - target.getPosition().y);	
+					location.set(hbox.getPosition().x - target.getPosition().x, hbox.getPosition().y - target.getPosition().y);	
 				}
 				if (fixB.getType().equals(UserDataTypes.WALL) && stickToWalls) {
 					stuckToWall = true;
@@ -62,9 +57,7 @@ public class ContactStick extends HitboxStrategy {
 					target = fixB.getEntity();
 					angle = hbox.getAngle();
 					targetAngle = target.getAngle();
-					location.set(
-							hbox.getPosition().x - target.getPosition().x, 
-							hbox.getPosition().y - target.getPosition().y);	
+					location.set(hbox.getPosition().x - target.getPosition().x, hbox.getPosition().y - target.getPosition().y);	
 				}
 			}
 		}

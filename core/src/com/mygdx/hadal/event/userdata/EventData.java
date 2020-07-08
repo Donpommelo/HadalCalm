@@ -14,10 +14,10 @@ import com.mygdx.hadal.server.Packets;
 /**
  * This is the data for an event. It contains the information needed for the event to activate and be activated
  * @author Zachary Tu
- *
  */
 public class EventData extends HadalData {
 
+	//this is the event that owns this data
 	protected Event event;
 	
 	//This is a list of the schmucks tounching the event

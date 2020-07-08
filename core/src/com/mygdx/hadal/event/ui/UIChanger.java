@@ -17,7 +17,6 @@ import com.mygdx.hadal.states.PlayState;
  * changeType: this is an boolean that specifies whether we clear existing tags before adding these. Default: true
  * 
  * @author Zachary Tu
- *
  */
 public class UIChanger extends Event {
 

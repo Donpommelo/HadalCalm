@@ -14,14 +14,22 @@ import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ * This strategy gives a hbox "damaging knockback". If an enemy is knocked back by the hbox, it will damage itself upon contact with a wall or unit (the other unit to be contacted wil lalso be damaged)
+ * The damage scales to the velocity of the victim.
  * @author Zachary Tu
- *
  */
 public class ContactUnitKnockbackDamage extends HitboxStrategy {
 	
+	//this is the lifespan of the hbox that gets created when the hbox contacts a unit
 	private final static float lifespan = 1.0f;
+	
+	//this is the minimum speed the target must be moving to inflict damage
 	private final static float speedThreshold = 30.0f;
+	
+	//this is the window of time before the effect activates. prevents it from instakilling a unit already touching a wall.
 	private static final float procCd = 0.03f;
+	
+	//this is the maximum amount of damage that this effect can inflict
 	private static final float maxDamage = 150.0f;
 	
 	public ContactUnitKnockbackDamage(PlayState state, Hitbox proj, BodyData user) {
@@ -34,6 +42,7 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 			if (fixB.getType().equals(UserDataTypes.BODY)) {
 				final BodyData vic = (BodyData) fixB;
 				
+				//hbox size is slightly larger than target so it can contact walls/other units
 				Vector2 hitboxSize = new Vector2();
 				hitboxSize.set(vic.getSchmuck().getSize()).add(5, 5);
 				
@@ -59,6 +68,8 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 					public void onHit(HadalData fixB) {
 						if (procCdCount > procCd) {
 							if (fixB != null) {
+								
+								//contact a wall, damage the victim
 								if (fixB.getType().equals(UserDataTypes.WALL)) {
 									if (lastVelo > speedThreshold) {
 										vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);
@@ -66,6 +77,8 @@ public class ContactUnitKnockbackDamage extends HitboxStrategy {
 										hbox.die();
 									}
 								}
+								
+								//contact another unit, damage both
 								if (fixB.getType().equals(UserDataTypes.BODY)) {
 									if (lastVelo > speedThreshold) {
 										vic.receiveDamage(lastVelo, new Vector2(), creator, true, DamageTypes.WHACKING);

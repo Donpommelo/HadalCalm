@@ -10,7 +10,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy creates a field of poison when the attached hbox dies
  * @author Zachary Tu
- *
  */
 public class DiePoison extends HitboxStrategy {
 	

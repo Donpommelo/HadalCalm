@@ -9,21 +9,24 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
+ * This strategy makes an hbox's trajectory curve towards a particular coordinates.
+ * hboxes start off with optional spread and continuously adjust their movement to aim to a static vector
  * @author Zachary Tu
- *
  */
 public class Curve extends HitboxStrategy {
 	
 	//this is the range of spread in degrees that the hbox can be set to
 	private int spreadMin, spreadMax;
-	private Vector2 startTarget = new Vector2();
-	private Vector2 lerpTowards = new Vector2();
+	
+	//the starting velocity of the hbox and the speed that it curves towards its target.
 	private float startSpeed, lerp;
 	
-	private float controllerCount = 0;
 	private final static float pushInterval = 1 / 60f;
 	
+	//has the hbox reached its target yet? if so, stop adjusting its movement.
 	private boolean found = false;
+	
+	//this is the distance from the target where the hbox will stop curving. This value is squared to avoid having to calculate a square root.
 	private static final float boundDist = 60.0f;
 	
 	public Curve(PlayState state, Hitbox proj, BodyData user, int spreadMin, int spreadMax, Vector2 startTarget, float startSpeed, float lerp) {
@@ -47,6 +50,9 @@ public class Curve extends HitboxStrategy {
 		hbox.setLinearVelocity(hbox.getLinearVelocity().setAngle(newDegrees));
 	}
 	
+	private float controllerCount;
+	private Vector2 startTarget = new Vector2();
+	private Vector2 lerpTowards = new Vector2();
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;

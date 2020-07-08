@@ -23,7 +23,6 @@ import com.mygdx.hadal.states.PlayState;
  * startOn: Does the particle effect start on? Optional. Default: False
  * 
  * @author Zachary Tu
- *
  */
 public class ParticleCreator extends Event {
 

@@ -10,7 +10,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy randomly changes a hbox's velocity after it is created.
  * @author Zachary Tu
- *
  */
 public class Spread extends HitboxStrategy {
 	

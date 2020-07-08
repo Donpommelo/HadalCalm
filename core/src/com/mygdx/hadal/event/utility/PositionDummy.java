@@ -22,7 +22,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Fields:
  * dummyId: This id is used for special dummy interactable (for example, a boss might look for a "ceiling" dummy to spawn falling rocks)
  * @author Zachary Tu
- *
  */
 public class PositionDummy extends Event {
 

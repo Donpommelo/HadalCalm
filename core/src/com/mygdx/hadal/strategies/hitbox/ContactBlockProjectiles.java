@@ -12,7 +12,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * This strategy makes the attached hbox deflect other hboxes it hits.
  * Deflecting just changes the momentum of the other hbox.
  * @author Zachary Tu
- *
  */
 public class ContactBlockProjectiles extends HitboxStrategy {
 	
@@ -27,8 +26,8 @@ public class ContactBlockProjectiles extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataTypes.HITBOX)){
-				fixB.receiveDamage(0, hbox.getLinearVelocity().nor().scl(knockback), creator, true, DamageTypes.DEFLECT, DamageTypes.REFLECT);
+			if (fixB.getType().equals(UserDataTypes.HITBOX)) {
+				fixB.receiveDamage(0, hbox.getLinearVelocity().nor().scl(knockback), creator, false, DamageTypes.DEFLECT, DamageTypes.REFLECT);
 			}
 		}
 	}

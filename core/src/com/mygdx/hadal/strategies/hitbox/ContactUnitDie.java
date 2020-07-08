@@ -10,10 +10,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox die when it touches a unit
  * @author Zachary Tu
- *
  */
 public class ContactUnitDie extends HitboxStrategy {
 	
+	//delay after hbox creation before this strategy will activate. can be set using factory method
 	private float delay;
 	
 	public ContactUnitDie(PlayState state, Hitbox proj, BodyData user) {

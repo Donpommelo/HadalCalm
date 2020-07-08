@@ -28,9 +28,8 @@ import com.mygdx.hadal.managers.AssetList;
 import com.mygdx.hadal.managers.GameStateManager;
 
 /**
- * The Control State allows the player to change their key bindings.
+ * The Setting State allows the player to change their display setttings, key bindings and other stuff like that.
  * @author Zachary Tu
- *
  */
 public class SettingState extends GameState {
 	
@@ -44,6 +43,7 @@ public class SettingState extends GameState {
 	//This is the hotkey option that the player has selected to change
 	private PlayerAction currentlyEditing;
 	
+	//this is a pause state underneath this state. (null if calling this state from the title screen)
 	private PauseState ps;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
@@ -90,6 +90,7 @@ public class SettingState extends GameState {
 	//this is the current setting tab the player is using
 	private settingTab currentTab;
 	
+	//this state's background shader
 	private Shader shaderBackground;
 	private Texture bg;
 	
@@ -135,7 +136,6 @@ public class SettingState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						displaySelected();
 			        }
-					
 			    });
 				displayOption.setScale(optionsScale);
 				
@@ -147,7 +147,6 @@ public class SettingState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						controlsSelected();
 			        }
-					
 			    });
 				controlOption.setScale(optionsScale);
 				
@@ -159,7 +158,6 @@ public class SettingState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						audioSelected();
 			        }
-					
 			    });
 				audioOption.setScale(optionsScale);
 				
@@ -171,7 +169,6 @@ public class SettingState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						gameSelected();
 			        }
-					
 			    });
 				gameOption.setScale(optionsScale);
 				
@@ -183,7 +180,6 @@ public class SettingState extends GameState {
 						SoundEffect.UISWITCH1.play(gsm, false);
 						miscSelected();
 			        }
-					
 			    });
 				miscOption.setScale(optionsScale);
 				
@@ -201,7 +197,6 @@ public class SettingState extends GameState {
 								public void run() {
 									gsm.removeState(SettingState.class);
 								}
-								
 							});
 						} else {
 							gsm.removeState(SettingState.class);
@@ -219,7 +214,6 @@ public class SettingState extends GameState {
 						saveSettings();
 						SoundEffect.UISWITCH3.play(gsm, false);
 			        }
-					
 			    });
 				saveOption.setScale(optionsScale);
 				
@@ -231,7 +225,6 @@ public class SettingState extends GameState {
 						SoundEffect.UISWITCH3.play(gsm, false);
 						resetSettings();
 			        }
-					
 			    });
 				resetOption.setScale(optionsScale);
 				
@@ -248,10 +241,12 @@ public class SettingState extends GameState {
 		};
 		app.newMenu(stage);
 		
+		//fade in the state upon opening it if the game is faded out at all. (from a title screen transition)
 		if (gsm.getApp().getFadeLevel() >= 1.0f) {
 			gsm.getApp().fadeIn();
 		}
 		
+		//the setting state input processor accounts for the player changing their hotkeys
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		inputMultiplexer.addProcessor(new InputProcessor() {
 
@@ -294,6 +289,7 @@ public class SettingState extends GameState {
 		inputMultiplexer.addProcessor(Gdx.input.getInputProcessor());
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		
+		//start off with display selected
 		displaySelected();
 	}
 	
@@ -471,6 +467,9 @@ public class SettingState extends GameState {
 		details.add(master).pad(detailsPad).row();
 	}
 	
+	/**
+	 * This is called whenever the player selects the GAME tab
+	 */
 	private void gameSelected() {
 		details.clear();
 		currentlyEditing = null;
@@ -542,6 +541,9 @@ public class SettingState extends GameState {
 		details.add(pvpMode).pad(detailsPad).row();
 	}
 	
+	/**
+	 * This is called whenever the player selects the MISC tab
+	 */
 	private void miscSelected() {
 		details.clear();
 		currentlyEditing = null;
@@ -784,6 +786,5 @@ public class SettingState extends GameState {
 		GAMEPLAY,
 		MISC,
 		MULTIPLAYER,
-		
 	}
 }

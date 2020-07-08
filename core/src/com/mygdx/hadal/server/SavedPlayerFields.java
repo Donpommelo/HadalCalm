@@ -5,7 +5,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * This represents saved fields for a player.
  * @author Zachary Tu
- *
  */
 public class SavedPlayerFields {
 	

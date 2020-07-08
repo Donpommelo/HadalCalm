@@ -8,7 +8,6 @@ import com.mygdx.hadal.utils.TextFilterUtil;
 /**
  * An InfoItem represents the information for a single unlockable item to be loaded/saved to json
  * @author Zachary Tu
- *
  */
 public class InfoItem {
 

@@ -30,7 +30,6 @@ import com.mygdx.hadal.states.ResultsState;
 /**
  * This is the server of the game.
  * @author Zachary Tu
- *
  */
 public class KryoServer {
 	
@@ -63,9 +62,7 @@ public class KryoServer {
 		
 		scores.put(0, new SavedPlayerFields(gsm.getLoadout().getName(), true));
 		
-		if (!start) {
-			return;
-		}
+		if (!start) { return; }
 		
 		Listener packetListener = new Listener() {
 			
@@ -186,13 +183,20 @@ public class KryoServer {
 					final PlayState ps = getPlayState();
 					if (ps != null) {
 						if (p.firstTime) {
+							
+							//reject clients with wrong version
+							if (p.version != HadalGame.Version) {
+								sendToTCP(c.getID(), new Packets.ConnectReject("INCOMPATIBLE VERSION. HOST ON VER: " + HadalGame.Version));
+								return;
+							}
+							
 							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
 							
+							//clients joining full servers or in the middle of matches join as spectators
 							if (getNumPlayers() >= ps.getGsm().getSetting().getMaxPlayers()) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
 								return;
 							}
-							
 							if (!ps.isHub()) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
 								return;
@@ -229,6 +233,7 @@ public class KryoServer {
 		    					
 		    					if (player != null) {
 		    						
+		    						//if the player is told to start as a spectator or was a spectator prior to the match, they join as a spectator
 		    						if (player.isStartSpectator()) {
 		    							spectator = true;
 		    						}
@@ -483,6 +488,7 @@ public class KryoServer {
 		        //sync client ui elements
 		        sendToTCP(connId, new Packets.SyncUI(ps.getUiExtra().getCurrentTags(), ps.getUiExtra().getTimer(), ps.getUiExtra().getTimerIncr()));
 		        
+		        //set the client as a spectator if requested
 		        newPlayer.setStartSpectator(spectator);
 			}
 		});
@@ -547,9 +553,7 @@ public class KryoServer {
 	 */
 	public void sendPacketToPlayer(Player p, Object o) {
 		
-		if (server == null) {
-			return;
-		}
+		if (server == null) { return; }
 		
 		for (Entry<Integer, Player> conn: players.entrySet()) {
 			if (conn.getValue().equals(p)) {
@@ -568,14 +572,11 @@ public class KryoServer {
 			GameState currentState = gsm.getStates().peek();
 			if (currentState instanceof PlayState) {
 				return (PlayState) currentState;
-			}
-			if (currentState instanceof PauseState) {
+			} else if (currentState instanceof PauseState) {
 				return ((PauseState) currentState).getPs();
-			}
-			if (currentState instanceof SettingState) {
+			} else if (currentState instanceof SettingState) {
 				return ((SettingState) currentState).getPs();
-			}
-			if (currentState instanceof ResultsState) {
+			} else if (currentState instanceof ResultsState) {
 				return ((ResultsState) currentState).getPs();
 			}
 		}
@@ -633,7 +634,7 @@ public class KryoServer {
 	}
 	
 	/**
-	 * This returns the number of non-spectator players
+	 * This returns the number of non-spectator players. used to determine whether the server is full or not.
 	 */
 	public int getNumPlayers() {
 		int playerNum = 0;

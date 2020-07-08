@@ -5,7 +5,6 @@ import java.util.Comparator;
 /**
  * This comparator is used to sort saved player fields by score
  * @author Zachary Tu
- *
  */
 public class SortByScores implements Comparator<SavedPlayerFields> {
 

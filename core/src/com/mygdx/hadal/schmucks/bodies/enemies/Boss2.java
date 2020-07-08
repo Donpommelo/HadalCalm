@@ -17,7 +17,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -25,7 +24,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 /**
  * This is a boss in the game
  * @author Zachary Tu
- *
  */
 public class Boss2 extends EnemyFloating {
 				
@@ -70,8 +68,6 @@ public class Boss2 extends EnemyFloating {
 		Filter filter = getMainFixture().getFilterData();
 		filter.maskBits = (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE);
 		getMainFixture().setFilterData(filter);
-		
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.KNOCKBACK_RES, 1.0f, getBodyData()));
 		
 		final BodyData me = getBodyData();
 		

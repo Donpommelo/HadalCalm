@@ -14,10 +14,10 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy creates a number of projectiles when its hbox dies
  * @author Zachary Tu
- *
  */
 public class DieFrag extends HitboxStrategy {
 	
+	//this is the number of frags to spawn
 	private int numFrag;
 
 	private final static Vector2 projectileSize = new Vector2(25, 25);

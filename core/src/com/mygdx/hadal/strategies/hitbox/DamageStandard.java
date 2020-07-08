@@ -12,7 +12,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox damage enemies it comes in contact with
  * @author Zachary Tu
- *
  */
 public class DamageStandard extends HitboxStrategy {
 	
@@ -22,6 +21,7 @@ public class DamageStandard extends HitboxStrategy {
 	//damage tags determine the type of damage inflicted and is used for certain effects
 	private DamageTypes[] tags;
 	
+	//this contains all the units this hbox has damaged. Used to avoid damaging the same unit multiple times.
 	private ArrayList<HadalData> damaged;
 	
 	public DamageStandard(PlayState state, Hitbox proj, BodyData user, float damage, float knockback, DamageTypes... tags) {

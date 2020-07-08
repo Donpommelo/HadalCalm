@@ -11,8 +11,14 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 
+/**
+ * Invisible units cannot be seen by other players, ai enemies and themselves.
+ * Invisibility is removed upon attacking
+ * @author Zachary Tu
+ */
 public class Invisibility extends Status {
 	
+	//fade time determines the window of time where the player can attack before the invis status is removed
 	private final static float fadeTime = 0.5f;
 	private float fadeCount;
 	
@@ -21,6 +27,7 @@ public class Invisibility extends Status {
 		p.getSchmuck().setShader(Shader.INVISIBLE, i);
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC);
 		
+		//set unit's invis to true. this is used to turn off movement particles
 		if (inflicted instanceof PlayerBodyData) {
 			((PlayerBodyData) inflicted).getPlayer().setInvisible(true);
 		}
@@ -42,7 +49,6 @@ public class Invisibility extends Status {
 	
 	@Override
 	public void onRemove() {
-		
 		new ParticleEntity(state, inflicted.getSchmuck(), Particle.SMOKE, 1.0f, 3.0f, true, particleSyncType.CREATESYNC);
 		inflicted.getSchmuck().endShader(Shader.INVISIBLE);
 		

@@ -6,10 +6,10 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * Temporary designates a schmuck as a temporary summon that will disappear at the end of a duration
  * @author Zachary Tu
- *
  */
 public class Temporary extends Status {
 
+	//this is the lifespan of the temporary unit
 	private float duration;
 	
 	public Temporary(PlayState state, float i, BodyData p, BodyData v, float duration) {

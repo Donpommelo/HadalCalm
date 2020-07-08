@@ -9,7 +9,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A Turret is an immobile enemy that fires towards players in sight.
  * @author Zachary Tu
- *
  */
 public class TurretFlak extends Turret {
 
@@ -35,7 +34,6 @@ public class TurretFlak extends Turret {
 		} else {
 			setCurrentState(TurretState.STARTING);
 		}
-		
 		super.controller(delta);
 	}
 	

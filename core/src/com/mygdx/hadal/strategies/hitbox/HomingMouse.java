@@ -11,7 +11,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox home in on the player's mouse
  * @author Zachary Tu
- *
  */
 public class HomingMouse extends HitboxStrategy {
 	
@@ -44,7 +43,6 @@ public class HomingMouse extends HitboxStrategy {
 			controllerCount -= pushInterval;
 			
 			homingPush.set(target.getPosition()).sub(hbox.getPosition()).nor().scl(homePower * hbox.getMass());
-			
 			hbox.applyForceToCenter(homingPush);
 		}
 	}	

@@ -31,10 +31,9 @@ import com.mygdx.hadal.utils.Stats;
  * 
  * hp: Change the player Hp by this amount. Optional. Default: 0.0f
  * fuel: Change the player Fuel by this amount. Optional. Default: 0.0f
- * scrap: Change the player Scrap by this amount. Optional. Default: 0.0f
+ * ammo: Change the player amo by this amount. Optional. Default: 0.0f
  * 
  * @author Zachary Tu
- *
  */
 public class PlayerChanger extends Event {
 

@@ -15,8 +15,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * 
  * Fields:
  * axis: boolean do we keep the player's x constant or y?. Default: true (x)
+ * direction: boolean. what direction do we warp the player? Default: false (upwards/rightwards)
  * @author Zachary Tu
- *
  */
 public class PortalWrap extends Event {
 

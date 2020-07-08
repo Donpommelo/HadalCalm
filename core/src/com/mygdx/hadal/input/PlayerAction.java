@@ -10,7 +10,6 @@ import com.mygdx.hadal.states.SettingState;
 /**
  * This enum maps to each possible action the player can perform to an input.
  * @author Zachary Tu
- *
  */
 public enum PlayerAction {
 	WALK_RIGHT(Input.Keys.D, true),

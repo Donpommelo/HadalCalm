@@ -9,7 +9,6 @@ import com.mygdx.hadal.utils.TiledObjectUtil;
 /**
  * The TimedSpawner is a prefab consists of a spawner that, on a timer, spawns an fuel or health pickup.
  * @author Zachary Tu
- *
  */
 public class SpawnerPickupTimed extends Prefabrication {
 

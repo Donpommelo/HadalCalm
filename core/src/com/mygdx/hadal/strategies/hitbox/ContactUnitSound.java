@@ -11,18 +11,22 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy creates a sound when the hbox hits a player
  * @author Zachary Tu
- *
  */
 public class ContactUnitSound extends HitboxStrategy {
 	
+	//this is the sound effect that will be played.
 	private SoundEffect sound;
+	
+	//this is the volume that the sound wull be played at
 	private float volume;
+	
+	//if the hbox is still, we ignore the velocity requirement before playing a sound
 	private boolean still;
 	
 	//This is the max interval the sound can be repeated.
 	private static final float procCd = 0.1f;
 	
-	//this is the slowest the hbox can be moving while still playing the sound
+	//this is the slowest the hbox can be moving while still playing the sound. This is to avoid non-moving hboxes from repeatedly playing their sound
 	private static final float minVelo = 3.0f;
 		
 	public ContactUnitSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume, boolean still) {
@@ -33,7 +37,6 @@ public class ContactUnitSound extends HitboxStrategy {
 	}
 	
 	private float procCdCount = procCd;
-	
 	@Override
 	public void controller(float delta) {
 		if (procCdCount < procCd) {

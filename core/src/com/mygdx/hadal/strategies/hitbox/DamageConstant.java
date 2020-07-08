@@ -14,7 +14,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * This strategy is used by hitboxes that do set knockback on hit regardless of its own position or direction.
  * This is used by airblast
  * @author Zachary Tu
- *
  */
 public class DamageConstant extends HitboxStrategy {
 	
@@ -25,6 +24,7 @@ public class DamageConstant extends HitboxStrategy {
 	//damage tags determine the type of damage inflicted and is used for certain effects
 	private DamageTypes[] tags;
 	
+	//this contains all the units this hbox has damaged. Used to avoid damaging the same unit multiple times.
 	private ArrayList<HadalData> damaged;
 	
 	public DamageConstant(PlayState state, Hitbox proj, BodyData user, float damage, Vector2 knockback, DamageTypes... tags) {

@@ -9,12 +9,13 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
  * This strategy makes hboxes adjust their angle according to their velocity.
  * Usually used by long hitboxes
  * @author Zachary Tu
- *
  */
 public class AdjustAngle extends HitboxStrategy {
 	
 	public AdjustAngle(PlayState state, Hitbox proj, BodyData user) {
 		super(state, proj, user);
+		
+		//setting the adjust angle to tru upon creating lets the hbox start off at the right angle immediately
 		hbox.setAdjustAngle(true);
 	}
 	

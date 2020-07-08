@@ -22,7 +22,6 @@ import com.mygdx.hadal.server.SortByScores;
  * The Results screen appears at the end of levels and displays the player's results
  * In this screen, the player can return to the hub when all players are ready.
  * @author Zachary Tu
- *
  */
 public class ResultsState extends GameState {
 
@@ -32,7 +31,7 @@ public class ResultsState extends GameState {
 	//These are all of the display and buttons visible to the player.
 	private Text readyOption, forceReadyOption;
 	
-	//This is the playstate that the results state is placed on top of
+	//This is the playstate that the results state is placed on top of. Used to access the state's message window
 	private PlayState ps;
 	
 	//This is a list of all the saved player fields (scores) from the completed playstate
@@ -41,6 +40,7 @@ public class ResultsState extends GameState {
 	//This i sa mapping of players in the completed playstate mapped to whether they're ready to return to the hub.
 	private HashMap<SavedPlayerFields, Boolean> ready;
 	
+	//this text is displayed at the top of the state and usually indicates victory or loss
 	private String text;
 	
 	//Dimentions and position of the results menu
@@ -245,7 +245,6 @@ public class ResultsState extends GameState {
 		//When the server is ready, we return to hub and tell all clients to do the same.
 		if (reddy) {
 			returnToHub();
-			
 		}
 	}
 
@@ -261,7 +260,6 @@ public class ResultsState extends GameState {
 					gsm.removeState(ResultsState.class);
 					gsm.gotoHubState();
 				}
-				
 			});
 		}
 		gsm.getApp().fadeOut();

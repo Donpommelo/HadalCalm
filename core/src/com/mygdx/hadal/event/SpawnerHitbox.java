@@ -24,12 +24,10 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * Triggering Behavior: if existant, the spwned hitboxes will be aimed at the body of the connected event (if it has a body).
  * Alt-Triggered Behavior: When alt-triggered, this spawner changes the number of schmucks it will spawn at once.
  * 
- * 
  * Fields:
  * There are a lot of fields. They are all just self-explanatory properties of the hitboxes
  * 
  * @author Zachary Tu
- *
  */
 public class SpawnerHitbox extends Event {
 	

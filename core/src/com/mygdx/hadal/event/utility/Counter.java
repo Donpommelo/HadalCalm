@@ -16,7 +16,6 @@ import com.mygdx.hadal.states.PlayState;
  * countStart: the number that currentCount will start at. Optional. Default: 0
  * 
  * @author Zachary Tu
- *
  */
 public class Counter extends Event {
 

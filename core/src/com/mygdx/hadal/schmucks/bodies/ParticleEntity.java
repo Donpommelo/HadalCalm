@@ -17,7 +17,6 @@ import com.mygdx.hadal.states.PlayState;
  * The particle entity is an invisible, ephemeral entity that emits particle effects.
  * Atm, this is needed so that other entities can have particle effects that persist beyond their own disposal.
  * @author Zachary Tu
- *
  */
 public class ParticleEntity extends HadalEntity {
 
@@ -50,6 +49,7 @@ public class ParticleEntity extends HadalEntity {
 	//does this effect rotate to match an attached entity?
 	private boolean rotate = false;
 	
+	//this is the color of the particle. Nothing = base color of the effect.
 	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//if attached to an entity, this vector is the offset of the particle from the attached entity's location
@@ -112,6 +112,7 @@ public class ParticleEntity extends HadalEntity {
 				turnOff();
 			}
 			
+			//if rotating, set the angle equal to the angle of the attached entity
 			if (rotate) {
 				setParticleAngle(attachedEntity.getAngle());
 			}
@@ -200,7 +201,6 @@ public class ParticleEntity extends HadalEntity {
 	
 	@Override
 	public void dispose() {		
-		
 		if (alive) {
 			effect.reset();
 			effect.free();
@@ -239,7 +239,6 @@ public class ParticleEntity extends HadalEntity {
 	private Vector2 newPos = new Vector2();
 	@Override
 	public void onServerSync() {
-		
 		if (sync.equals(particleSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
@@ -297,25 +296,25 @@ public class ParticleEntity extends HadalEntity {
         }
 	}
 
+	/**
+	 * Set the color of the particle effect
+	 */
 	public void setColor(ParticleColor color) {
 		this.color = color;
 		
 		if (color.equals(ParticleColor.NOTHING)) {
 			return;
 		} else if (color.equals(ParticleColor.RANDOM)) {
-			
 			float[] colors = {GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat()};
 			for (int i = 0; i < effect.getEmitters().size; i++) {
 				effect.getEmitters().get(i).getTint().setColors(colors);
 			}
-
 		} else {
 			float[] colors = {color.getR(), color.getG(), color.getB()};
 			for (int i = 0; i < effect.getEmitters().size; i++) {
 				effect.getEmitters().get(i).getTint().setColors(colors);
 			}
 		}
-		
 	}
 	
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }

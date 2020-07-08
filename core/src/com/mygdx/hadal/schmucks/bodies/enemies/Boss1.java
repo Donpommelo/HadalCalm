@@ -17,7 +17,6 @@ import com.mygdx.hadal.utils.Stats;
 /**
  * This is a boss in the game
  * @author Zachary Tu
- *
  */
 public class Boss1 extends EnemyFloating {
 	

@@ -9,7 +9,6 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * A record represents the player's persistent saved data.
  * @author Zachary Tu
- *
  */
 public class Record {
 
@@ -161,23 +160,18 @@ public class Record {
 		if (flags.get("ARTIFACTSLOT1") == 1) {
 			slots++;
 		}
-		
 		if (flags.get("ARTIFACTSLOT2") == 1) {
 			slots++;
 		}
-		
 		if (flags.get("ARTIFACTSLOT3") == 1) {
 			slots++;
 		}
-		
 		if (flags.get("ARTIFACTSLOT4") == 1) {
 			slots++;
 		}
-		
 		if (flags.get("ARTIFACTSLOT5") == 1) {
 			slots++;
 		}
-		
 		return slots; 
 	}
 	

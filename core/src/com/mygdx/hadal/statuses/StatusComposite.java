@@ -6,10 +6,10 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A Composite Status is a status that contains multiple other statuses.
  * @author Zachary Tu
- *
  */
 public class StatusComposite extends Status {
 
+	//these are the statuses that are contained in this status.
 	private Status[] statuses;
 	
 	public StatusComposite(PlayState state, float i, boolean perm, BodyData p, BodyData v, Status...statuses){
@@ -31,7 +31,6 @@ public class StatusComposite extends Status {
 		for (Status s: statuses) {
 			finalProcTime = s.statusProcTime(o);
 		}
-		
 		return finalProcTime;
 	}
 }

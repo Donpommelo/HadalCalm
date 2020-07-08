@@ -11,7 +11,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A status is a thing that afflicts a schmuck and has some affect for its duration.
  * @author Zachary Tu
- *
  */
 public class Status {
 
@@ -27,6 +26,7 @@ public class Status {
 	//The Data of the Schmuck that received/inflicted this status.
 	protected BodyData inflicter, inflicted;
 	
+	//this is the artifact that this status is attached to. (null for non-artifact statuses). This is used to remove an artifact statuses when unequipping
 	private UnlockArtifact artifact;
 	
 	public Status(PlayState state, float i, Boolean perm, BodyData p, BodyData v){

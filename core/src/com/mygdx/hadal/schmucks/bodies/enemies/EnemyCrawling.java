@@ -24,7 +24,6 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * Crawling enemies move right and left along the floor.
  * These enemies can rotate to face the player.
  * @author Zachary Tu
- *
  */
 public class EnemyCrawling extends Enemy {
 	
@@ -34,9 +33,11 @@ public class EnemyCrawling extends Enemy {
 	//this is the boss's sprite
 	private Animation<TextureRegion> floatingSprite;
 
+	//is this enemy moveing left or right? what speed? what are the distances that a chasing enemy will attempt to maintain from its target
 	private float moveDirection, moveSpeed, minRange, maxRange;
 	private CrawlingState currentState;
 	
+	//feet data used to process enemy groundedness
 	private Fixture feet;
 	private FeetData feetData;
 	
@@ -94,6 +95,8 @@ public class EnemyCrawling extends Enemy {
 				if (getMoveTarget().isAlive()) {
 					moveSpeed = 1.0f;
 					float dist = getPixelPosition().x - getMoveTarget().getPixelPosition().x;
+					
+					//attempt to move towards target if too far away and away if target is too close
 					if (dist > maxRange) {
 						moveDirection = -1.0f;
 					} else if (dist < -maxRange) {
@@ -125,21 +128,21 @@ public class EnemyCrawling extends Enemy {
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
 						
+			//set desired velocity depending on move states.
 			currentVel.set(getLinearVelocity());
-
 			float desiredXVel = getBodyData().getXGroundSpeed() * moveDirection * moveSpeed;
 			
+			//Process acceleration based on bodyData stats.
 			float accelX = 0.0f;
-			
 			if (Math.abs(desiredXVel) > Math.abs(currentVel.x)) {
 				accelX = getBodyData().getXGroundAccel();
 			} else {
 				accelX = getBodyData().getXGroundDeaccel();
 			}
-			
 			float newX = accelX * desiredXVel + (1 - accelX) * currentVel.x;
+			
+			//apply resulting force
 			force.set(newX - currentVel.x, 0).scl(getMass());
-
 			applyLinearImpulse(force);
 		}
 	}
@@ -152,9 +155,8 @@ public class EnemyCrawling extends Enemy {
 	private float shortestFraction;
 	private void processCollision(boolean avoidPits) {
 		
-		if (moveDirection == 0) {
-			moveDirection = 1.0f;
-		}
+		//if not moving, treat enemy as if it were facing forwards
+		if (moveDirection == 0) { moveDirection = 1.0f; }
 		
 		endPt.set(getPosition()).add(distCheck * moveDirection, 0);
 		shortestFraction = 1.0f;
@@ -225,7 +227,6 @@ public class EnemyCrawling extends Enemy {
 				size.x / 2,
 				(flip ? 1 : -1) * size.y / 2, 
 				(flip ? 1 : -1) * size.x, size.y, 1, 1, 0);
-		
 		super.render(batch);
 	}
 	

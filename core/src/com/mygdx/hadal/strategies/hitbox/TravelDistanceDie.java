@@ -10,7 +10,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * HitboxTravelDistanceDieStrategy is used for hitboxes that travel a set distance and then die
  * @author Zachary Tu
- *
  */
 public class TravelDistanceDie extends HitboxStrategy {
 	
@@ -32,7 +31,6 @@ public class TravelDistanceDie extends HitboxStrategy {
 	
 	@Override
 	public void controller(float delta) {
-		
 		if (startLocation.dst(hbox.getPosition()) >= distance) {
 			hbox.die();
 		}

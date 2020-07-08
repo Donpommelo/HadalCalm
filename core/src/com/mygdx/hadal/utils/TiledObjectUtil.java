@@ -27,7 +27,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * This util parses a Tiled file into an in-game map.
  * @author Zachary Tu
- *
  */
 public class TiledObjectUtil {
 	

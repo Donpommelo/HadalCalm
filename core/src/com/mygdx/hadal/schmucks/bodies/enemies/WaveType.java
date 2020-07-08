@@ -11,7 +11,6 @@ import com.mygdx.hadal.utils.Constants;
  * A wave contains the info needed to spawn a single wave of arena enemies
  * Notable spawn numbers: 4,5 are grounded. 6 is in the center of the map.
  * @author Zachary Tu
- *
  */
 public enum WaveType {
 
@@ -121,7 +120,6 @@ public enum WaveType {
 	 * This spawns a single wave
 	 */
 	public void spawnWave(SpawnerWave spawner, int waveNum, int extraField) {
-
 		for (WaveEnemy enemy : enemies) {
 			enemy.createEnemy(spawner, waveNum, extraField);
 		}
@@ -129,7 +127,11 @@ public enum WaveType {
 	
 	//the last wave number.
 	private static int lastWave;
+	
+	//the current wave spawned
 	private static WaveType currentWave = WaveType.WAVE1;
+	
+	//the max wave (no one will probably reach this wave number)
 	private static final int waveLimit = 100;
 	
 	/**
@@ -138,7 +140,7 @@ public enum WaveType {
 	 */
 	public static WaveType getWave(ArrayList<WaveTag> tags, int waveNum) {
 		
-		//b/c mane wave spawnvers activate at once, this checks to make sure we only roll a wave type once.
+		//b/c many wave spawners activate at once, this checks to make sure we only roll a wave type once.
 		//the first spawner chooses a wave at random, and the others spawn from the same wave.
 		if (lastWave != waveNum) {
 			lastWave = waveNum;
@@ -163,22 +165,31 @@ public enum WaveType {
 				currentWave = waves.get(GameStateManager.generator.nextInt(waves.size));
 			}
 		}
-		
 		return currentWave;
 	}
 	
+	//this is the delay before the enemies in a wave spawn
+	private final static float waveDelay = 1.0f;
 	/**
 	 * A WaveEnemy represents a single enemy in a wave.
 	 * @author Zachary Tu
 	 *
 	 */
-	private final static float waveDelay = 1.0f;
 	public class WaveEnemy {
 		
+		//this is the id of the last wave
 		private int lastWave;
+		
+		//this is a list of wave spawn points that this enemy can be spawned at
 		private int[] pointId;
+		
+		//this is the id of the wave spawn point that this enemy will be spawned at
 		private int thisId;
+		
+		//this min/max wave that this can be spawned at
 		private int minWave, maxWave;
+		
+		//this is the type of enemy represented by this wave enemy
 		private EnemyType type;
 		
 		public WaveEnemy(EnemyType type, int minWave, int maxWave, int... pointId) {
@@ -196,10 +207,12 @@ public enum WaveType {
 		 */
 		public void createEnemy(SpawnerWave spawner, int waveNum, float extraField) {
 			
+			//obey the eave limits of this wave enemy
 			if (waveNum < minWave || (waveNum > maxWave && maxWave != waveLimit)) {
 				return;
 			}
 			
+			//this if makes sure that this only run once per enemy. Sets the spawn point
 			if (lastWave != waveNum) {
 				lastWave = waveNum;
 				
@@ -210,6 +223,7 @@ public enum WaveType {
 				}
 			}
 
+			//create the enemy
 			if (thisId == spawner.getPointId()) {
 				type.generateEnemyDelayed(spawner.getState(), spawner.getPixelPosition(), waveDelay, Constants.ENEMY_HITBOX, extraField, null, false, "");
 			}

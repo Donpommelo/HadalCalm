@@ -7,10 +7,12 @@ import com.mygdx.hadal.managers.GameStateManager;
 /**
  * These utilities take strings and filter certain tags into other stuff
  * @author Zachary Tu
- *
  */
 public class TextFilterUtil {
 
+	/**
+	 * This filters a single input string
+	 */
 	public static String filterText(String text) {
 		
 		String filteredText = text;
@@ -40,10 +42,12 @@ public class TextFilterUtil {
 		return filteredText;
 	}
 	
+	/**
+	 * This filters ingame text like and dialog. This is used exclusively to use the player's name in dialog.
+	 */
 	public static String filterGameText(GameStateManager gsm, String text) {
 		String filteredText = text;
 		filteredText = filterText(filteredText);
-		
 		filteredText = filterName(gsm, filteredText);
 
 		return filteredText;
@@ -76,6 +80,9 @@ public class TextFilterUtil {
 		return filteredText;
 	}
 	
+	/**
+	 * filters every "<name>" into a the player's chosen name
+	 */
 	private static String filterName(GameStateManager gsm, String text) {
 		String filteredText = text;
 		
@@ -85,6 +92,7 @@ public class TextFilterUtil {
 	}
 	
 	/**
+	 * This filters tags into chosen hotkeys. used i nthe tutorial
 	 * The reason we have the fugs here is b/c tiled doesn't like '<', '>' characters
 	 */
 	private static String filterHotkeys(String text) {
@@ -105,7 +113,6 @@ public class TextFilterUtil {
 		
 		filteredText = filteredText.replaceAll("fugactivefug", PlayerAction.FREEZE.getKeyText());
 		filteredText = filteredText.replaceAll("fugmessagefug", PlayerAction.MESSAGE_WINDOW.getKeyText());
-		
 		
 		return filteredText;
 	}

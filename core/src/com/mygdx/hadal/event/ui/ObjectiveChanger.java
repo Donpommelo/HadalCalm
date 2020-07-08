@@ -13,11 +13,9 @@ import com.mygdx.hadal.states.PlayState;
  * Triggering Behavior: N/A. However, it uses its connected event as a point to make the ui element track
  * 
  * Fields:
- * 
  * display: boolean of whether to display the ui marker in the corner of the screen. Default: false
  * 
  * @author Zachary Tu
- *
  */
 public class ObjectiveChanger extends Event {
 

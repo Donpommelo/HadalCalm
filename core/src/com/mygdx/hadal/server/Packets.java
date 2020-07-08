@@ -25,9 +25,7 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 
 /**
  * These are packets sent between the Server and Client.
- * 
  * @author Zachary Tu
- *
  */
 public class Packets {
 
@@ -49,6 +47,7 @@ public class Packets {
 	public static class PlayerConnect {
 		public boolean firstTime;
 		public String name;
+		public String version;
 		public PlayerConnect() {}
 		
 		/**
@@ -58,10 +57,12 @@ public class Packets {
 		 * 
 		 * @param firstTime: Is this the client's first time? Or is this sent as level transition. Checked when displaying notifications.
 		 * @param name: Client's selected name and name of their new Player.
+		 * @param version: the version of the game to make sure we are compatible with the host.
 		 */
-		public PlayerConnect(boolean firstTime, String name) {
+		public PlayerConnect(boolean firstTime, String name, String version) {
 			this.firstTime = firstTime;
 			this.name = name;
+			this.version = version;
 		}
 	}
 	

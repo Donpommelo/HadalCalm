@@ -17,15 +17,15 @@ import com.mygdx.hadal.states.PlayState;
  * 
  * Fields:
  * all: boolean. do we move all players or not?
- * exclude: boolean. de we exclude the player that activated this? 
- * 
+ * exclude: boolean. do we exclude the player that activated this? 
  
  * @author Zachary Tu
- *
  */
 public class PlayerMover extends Event {
 
 	private boolean all, exclude;
+	
+	//are we in the middle of moving the player?
 	private boolean moving = false;
 
 	private ArrayList<Player> players;
@@ -34,7 +34,6 @@ public class PlayerMover extends Event {
 		super(state);
 		this.all = all;
 		this.exclude = exclude;
-		
 		this.players = new ArrayList<Player>();
 	}
 	

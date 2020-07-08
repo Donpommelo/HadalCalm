@@ -21,12 +21,14 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * 
  * Fields:
  * @author Zachary Tu
- *
  */
 public class SeeSawPlatform extends Event {
 
+	//properties of each segment fixture that process damage knockback
 	private final static float sectionWidth = 64.0f;
 	private final static float sectionPadding = 10.0f;
+	
+	//max knockback that an instance of damage can apply to this event
 	private final static float kbCap = 20.0f;
 	
 	public SeeSawPlatform(PlayState state, Vector2 startPos, Vector2 size) {
@@ -40,15 +42,14 @@ public class SeeSawPlatform extends Event {
 		this.eventData = new EventData(this, UserDataTypes.WALL) {
 			
 			@Override
-			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) {
-				return 0;
-			}
+			public float receiveDamage(float basedamage, Vector2 knockback, BodyData perp, Boolean procEffects, DamageTypes... tags) { return 0; }
 		};
 		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1.0f, 1, 0, false, false, 
 				Constants.BIT_WALL, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_SENSOR),
 				(short) 0, false, eventData);
 		
+		//attach the body to the world anchor
 		RevoluteJointDef joint = new RevoluteJointDef();
 		joint.bodyA = state.getAnchor().getBody();
 		joint.bodyB = body;
@@ -57,8 +58,9 @@ public class SeeSawPlatform extends Event {
 		joint.enableLimit = true;
 		joint.lowerAngle = (float) (-Math.PI / 3);
 		joint.upperAngle = (float) (Math.PI / 3);
-		
 		state.getWorld().createJoint(joint);
+		
+		//create the segment fixtures. Each responds to knockback and applies it to the respective parts of the platform
 		for (float i = -size.x / 2 + sectionWidth / 2; i < size.x / 2; i += sectionWidth) {
 			
 			final float sectioncenter = i;
@@ -73,11 +75,9 @@ public class SeeSawPlatform extends Event {
 							getEntity().getBody().applyLinearImpulse(new Vector2(knockback).limit(kbCap), new Vector2(sectioncenter, 0), true);
 						}
 					}
-					
 					return 0;
 				}
 			};
-			
 			this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(i, 0), new Vector2(sectionWidth, size.y + sectionPadding), true, 0, 0, 0, 0,
 					Constants.BIT_WALL, Constants.BIT_PROJECTILE, (short) 0)).setUserData(tempData);
 		}

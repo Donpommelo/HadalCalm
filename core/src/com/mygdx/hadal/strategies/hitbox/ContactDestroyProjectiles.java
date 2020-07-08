@@ -8,10 +8,8 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 
 /**
- * This strategy makes the attached hbox deflect other hboxes it hits.
- * Deflecting just changes the momentum of the other hbox.
+ * This strategy makes the attached hbox destroy other hboxes it hits.
  * @author Zachary Tu
- *
  */
 public class ContactDestroyProjectiles extends HitboxStrategy {
 	
@@ -22,7 +20,7 @@ public class ContactDestroyProjectiles extends HitboxStrategy {
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB != null) {
-			if (fixB.getType().equals(UserDataTypes.HITBOX)){
+			if (fixB.getType().equals(UserDataTypes.HITBOX)) {
 				fixB.getEntity().queueDeletion();
 			}
 		}

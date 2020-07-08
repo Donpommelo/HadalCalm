@@ -15,7 +15,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * A Client Illusion is an eneity created by the client as a default for a synced entity.
  * This entity does nothing itself but display a sprite and sync position/angle data from the server.
  * @author Zachary Tu
- *
  */
 public class ClientIllusion extends HadalEntity {
 	
@@ -25,6 +24,7 @@ public class ClientIllusion extends HadalEntity {
 	//This is the way the sprite should be drawn
 	private alignType align;
 	
+	//dimensions and angle of the illusion
 	private int spriteWidth;
 	private int spriteHeight;
 	private float scale = 0.25f;
@@ -45,7 +45,6 @@ public class ClientIllusion extends HadalEntity {
 	public void create() {
 		this.hadalData = new HadalData(UserDataTypes.EVENT, this);
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 1, 0, false, true, Constants.BIT_SENSOR, (short) (0), (short) 0, true, hadalData);
-		
 		body.setTransform(body.getPosition(), startAngle);
 	}
 

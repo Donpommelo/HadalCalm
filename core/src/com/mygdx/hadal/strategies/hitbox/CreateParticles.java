@@ -12,7 +12,6 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy creates an attached particle effect when the attached hbox is created
  * @author Zachary Tu
- *
  */
 public class CreateParticles extends HitboxStrategy {
 	
@@ -23,15 +22,18 @@ public class CreateParticles extends HitboxStrategy {
 	private float duration, linger;
 	
 	//the base size of the particle effect.
-	//atm, this is just used for attaching particles to hitboxes of varying sizes.
 	private float particleSize;
 	
+	//this is the color of the particle effect
 	private ParticleColor color = ParticleColor.NOTHING;
 	
 	//this is the max hitbox size a particle will try to scale to
 	private static float maxSize = 100.0f;
 	
+	//this is the particle effect that will be displayed
 	private ParticleEntity particle;
+	
+	//does the particle rotate to match the velocity of the hbox (used for stuff like chain lightning)
 	private boolean rotate = false;
 	
 	public CreateParticles(PlayState state, Hitbox proj, BodyData user, Particle effect, float duration, float linger) {

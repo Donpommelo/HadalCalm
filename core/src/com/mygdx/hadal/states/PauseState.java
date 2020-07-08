@@ -22,7 +22,6 @@ import com.mygdx.hadal.states.PlayState.TransitionState;
 /**
  * The PauseState is pulled up by pausing in game.
  * @author Zachary Tu
- *
  */
 public class PauseState extends GameState {
 
@@ -110,9 +109,7 @@ public class PauseState extends GameState {
 				resumeOption.addListener(new ClickListener() {
 			        
 					@Override
-					public void clicked(InputEvent e, float x, float y) {
-			        	unpause();
-			        }
+					public void clicked(InputEvent e, float x, float y) { unpause(); }
 			    });
 				
 				hubOption.addListener(new ClickListener() {
@@ -189,11 +186,13 @@ public class PauseState extends GameState {
 				table.add(pause).pad(5).expand().top().row();
 				table.add(resumeOption).expand().row();
 				
+				//don't add return to hub option in singleplayer if hub hasn't bee nreached yet
 				if (ps.isServer() && (gsm.getRecord().getFlags().get("HUB_REACHED").equals(1) || GameStateManager.currentMode == Mode.MULTI)) {
 					table.add(hubOption).expand().row();
 				}
 				table.add(settingOption).expand().row();
 				
+				//atm, only cliens can manually join spectator mode
 				if (ps.isHub() && !ps.isServer() && GameStateManager.currentMode == Mode.MULTI) {
 					if (ps.isSpectatorMode()) {
 						table.add(joinOption).expand().row();
@@ -201,7 +200,6 @@ public class PauseState extends GameState {
 						table.add(spectateOption).expand().row();
 					}
 				}
-				
 				table.add(exitOption).expand().row();
 			}
 		};
@@ -221,9 +219,7 @@ public class PauseState extends GameState {
 				if (paused) {
 					if (keycode == PlayerAction.MESSAGE_WINDOW.getKey()) {
 						ps.getController().keyDown(keycode);
-					}
-					
-					if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
+					} else if (keycode == PlayerAction.SCORE_WINDOW.getKey()) {
 						ps.getScoreWindow().setVisibility(true);
 					}
 				}
@@ -260,6 +256,7 @@ public class PauseState extends GameState {
 			public boolean scrolled(int amount) { return false; }
 		});
 		
+		//if the game isn't actually paused, the player can still control the game underneath
 		if (!paused) {
 			inputMultiplexer.addProcessor(ps.controller);
 		}
@@ -272,13 +269,11 @@ public class PauseState extends GameState {
 		
 		//The playstate underneath should have their camera focus and ui act (letting dialog appear + disappear)
 		if (ps != null) {
-			
 			if (paused) {
 				ps.cameraUpdate();
 			} else {
 				ps.update(delta);
 			}
-			
 			ps.stage.act();
 		}
 		
@@ -293,9 +288,7 @@ public class PauseState extends GameState {
 					player.getPlayerData().syncArtifacts(false);
 				}
 			}
-			
 			ps.getUiHub().refreshHub();
-			
 			gsm.removeState(PauseState.class);
 		}
 	}

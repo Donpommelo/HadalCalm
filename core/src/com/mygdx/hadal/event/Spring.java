@@ -24,7 +24,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * vec: vector2 of force that is applied to entities that touch this.
  * 
  * @author Zachary Tu
- *
  */
 public class Spring extends Event {
 	

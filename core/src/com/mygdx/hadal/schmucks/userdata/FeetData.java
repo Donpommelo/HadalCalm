@@ -8,9 +8,8 @@ import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 
 /**
  * FeetData are attached to sensors used by the player to determine whether they are grounded or not.
- * Additionally, feet are used to process when the player is standing on top of certain events loike dropthrough platforms.
+ * Additionally, feet are used to process when the player is standing on top of certain events like dropthrough platforms.
  * @author Zachary Tu
- *
  */
 public class FeetData extends HadalData {
 

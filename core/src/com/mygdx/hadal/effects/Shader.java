@@ -11,7 +11,6 @@ import com.mygdx.hadal.strategies.shader.*;
 /**
  * A Shader represents a vertex and fragment shader shader.
  * @author Zachary Tu
- *
  */
 public enum Shader {
 

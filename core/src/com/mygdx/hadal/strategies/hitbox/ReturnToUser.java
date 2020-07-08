@@ -9,14 +9,12 @@ import com.mygdx.hadal.strategies.HitboxStrategy;
 /**
  * This strategy makes a hbox return to user
  * @author Zachary Tu
- *
  */
 public class ReturnToUser extends HitboxStrategy {
 	
-	private float controllerCount;
-	private Vector2 diff = new Vector2();
-	
 	private final static float pushInterval = 1 / 60f;
+	
+	//this is the power that the hbox returns to the user at
 	private float returnAmp;
 	
 	public ReturnToUser(PlayState state, Hitbox proj, BodyData user, float returnAmp) {
@@ -24,6 +22,8 @@ public class ReturnToUser extends HitboxStrategy {
 		this.returnAmp = returnAmp;
 	}
 	
+	private float controllerCount;
+	private Vector2 diff = new Vector2();
 	@Override
 	public void controller(float delta) {
 		controllerCount += delta;

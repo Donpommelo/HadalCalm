@@ -15,7 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  * id: string id of the conversation to be displayed.
  * 
  * @author Zachary Tu
- *
  */
 public class Dialog extends Event {
 

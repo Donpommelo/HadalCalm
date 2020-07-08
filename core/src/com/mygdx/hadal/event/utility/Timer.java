@@ -15,7 +15,6 @@ import com.mygdx.hadal.states.PlayState;
  * interval: The time in seconds before this activates its connected event.
  * startOn: Does this timer start on or off? Optional. Default: true
  * @author Zachary Tu
- *
  */
 public class Timer extends Event {
 	
@@ -43,14 +42,14 @@ public class Timer extends Event {
 			public void onActivate(EventData activator, Player p) {
 				
 				if (activator.getEvent() instanceof TriggerAlt) {
-					String msg = ((TriggerAlt)activator.getEvent()).getMessage();
+					String msg = ((TriggerAlt) activator.getEvent()).getMessage();
 					if (msg.equals("on")) {
 						((Timer) event).on = true;
 					}
-					if (msg.equals("off")) {
+					else if (msg.equals("off")) {
 						((Timer) event).on = false;
 					}
-					if (msg.equals("reset")) {
+					else if (msg.equals("reset")) {
 						timeCount = 0;
 					}
 				} else {

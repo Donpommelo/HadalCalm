@@ -23,13 +23,14 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * displaceX, displaceY: floats that indicate the amount of movement that should be performed.
  * 
  * @author Zachary Tu
- *
  */
 public class Displacer extends Event {
 	
 	//displacement applied every 1/60 seconds
 	private Vector2 vec;
-	private float momentumScale = 50.0f;
+	
+	//amount to scale the displacement momentum by.
+	private final static float momentumScale = 50.0f;
 
 	private Vector2 offset;
 	private Vector2 newOffset = new Vector2();
@@ -61,7 +62,6 @@ public class Displacer extends Event {
 				}
 			}
 		};
-		
 		this.body = BodyBuilder.createBox(world, startPos, size, 1, 1, 0, true, true, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_PROJECTILE | Constants.BIT_SENSOR),
 				(short) 0, true, eventData);
 	}

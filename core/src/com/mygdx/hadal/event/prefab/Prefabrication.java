@@ -7,7 +7,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * A Prefabrication is a shortcut for a collection of pre-connected events.
  * @author Zachary Tu
- *
  */
 public abstract class Prefabrication {
 

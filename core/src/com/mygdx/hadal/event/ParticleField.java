@@ -23,7 +23,6 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
  * duration: float duration of each particle effect. Default: 1.0f
  * 
  * @author Zachary Tu
- *
  */
 public class ParticleField extends Event {
 	
@@ -40,9 +39,7 @@ public class ParticleField extends Event {
 	
 	@Override
 	public void create() {
-
 		this.eventData = new EventData(this);
-		
 		this.body = BodyBuilder.createBox(world, startPos, size, 0, 0, 0, false, false, Constants.BIT_SENSOR, (short) (Constants.BIT_PLAYER | Constants.BIT_ENEMY), (short)0, true, eventData);
 	}
 	
@@ -60,7 +57,7 @@ public class ParticleField extends Event {
 	}
 	
 	/**
-	 * Client particle field should randomly spawn particles itself to avoid overhead.
+	 * Client particle field should randomly spawn particles itself to reduce overhead.
 	 */
 	@Override
 	public void clientController(float delta) {

@@ -9,7 +9,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 /**
  * This creates and returns fixtures. Used when we need to add an extra fixture to a body created by the BodyBuilder.
  * @author Zachary Tu
- *
  */
 public class FixtureBuilder {
 

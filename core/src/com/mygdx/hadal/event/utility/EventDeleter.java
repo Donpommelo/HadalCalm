@@ -14,7 +14,6 @@ import com.mygdx.hadal.states.PlayState;
  * Fields: N/A
  * 
  * @author Zachary Tu
- *
  */
 public class EventDeleter extends Event {
 	

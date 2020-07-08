@@ -7,10 +7,9 @@ import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.TiledObjectUtil;
 
 /**
- * The Spawner Unlock Prefab creates s designated unlock when triggered (if the item has not already been unlocked)
+ * The Spawner Unlock Prefab creates a designated unlock when triggered (if the item has not already been unlocked)
  * Interacting with this item unlocks it.
  * @author Zachary Tu
- *
  */
 public class SpawnerUnlockable extends Prefabrication {
 

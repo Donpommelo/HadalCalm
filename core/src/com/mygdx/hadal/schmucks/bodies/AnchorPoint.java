@@ -10,12 +10,9 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 
 /**
  * Anchor points are used to connect to "static" entities that can't actually be static or else they would not register collisions.
- * 
  * @author Zachary Tu
- *
  */
 public class AnchorPoint extends HadalEntity {
-	
 	
 	public AnchorPoint(PlayState state) {
 		super(state, new Vector2(), new Vector2(1, 1));
