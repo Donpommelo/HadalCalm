@@ -17,7 +17,6 @@ import com.mygdx.hadal.states.PlayState;
 /**
  * The UiHub is an actor that pops up whenever the player interacts with hub elements that pop up a ui window
  * @author Zachary Tu
- *
  */
 public class UIHub {
 

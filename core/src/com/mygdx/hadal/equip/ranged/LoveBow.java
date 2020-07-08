@@ -98,6 +98,7 @@ public class LoveBow extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.BOW_SHOOT.playUniversal(state, startPosition, 0.6f, false);
 
+		//velocity scales to the charge percent
 		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), (short) 0, false, true, user, projSprite);
@@ -110,6 +111,7 @@ public class LoveBow extends RangedWeapon {
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 			
+			//delay exists so the projectile doesn't immediately contact the shooter
 			private float delay = selfHitDelay;
 			
 			@Override
@@ -122,6 +124,8 @@ public class LoveBow extends RangedWeapon {
 			@Override
 			public void onHit(HadalData fixB) {
 				if (fixB != null) {
+					
+					//if shooting self after delay or any ally, the arrow will heal. Otherwise, damage is inflicted
 					if (fixB.getType().equals(UserDataTypes.BODY)) {
 						if ((fixB == user.getBodyData() && delay <= 0) || (fixB != user.getBodyData() && ((BodyData) fixB).getSchmuck().getHitboxfilter() == user.getHitboxfilter())) {
 							((BodyData) fixB).regainHp(baseHeal, creator, true);

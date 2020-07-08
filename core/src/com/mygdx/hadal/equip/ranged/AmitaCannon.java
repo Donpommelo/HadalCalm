@@ -48,7 +48,7 @@ public class AmitaCannon extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		SoundEffect.ELECTRIC_CHAIN.playUniversal(state, startPosition, 0.4f, false);
 
-		//we create an ivisible hitbox that moves in a straight line.
+		//we create an invisible hitbox that moves in a straight line.
 		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		center.setSyncDefault(false);
 		

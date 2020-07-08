@@ -47,7 +47,6 @@ import com.mygdx.hadal.utils.Constants;
 /**
  * This contains several statichelper methods for creating enemy attack patterns
  * @author Zachary Tu
- *
  */
 public class EnemyUtils {
 
@@ -258,9 +257,7 @@ public class EnemyUtils {
 			@Override
 			public void execute() {
 				
-				if (target == null) {
-					return;
-				}
+				if (target == null) { return; }
 				
 				enemy.setMovementTarget(null);
 				Vector2 dist = target.getPixelPosition().sub(enemy.getPixelPosition());

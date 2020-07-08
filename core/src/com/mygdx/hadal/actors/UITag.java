@@ -7,7 +7,6 @@ package com.mygdx.hadal.actors;
  * score, lives, other info and can be dynamically changed within a level using the UIChanger event.
  * 
  * @author Zachary Tu
- *
  */
 public class UITag {
 

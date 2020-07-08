@@ -64,6 +64,7 @@ public class StickyBombLauncher extends RangedWeapon {
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		SoundEffect.LAUNCHER.playUniversal(state, startPosition, 0.25f, false);
 
+		//seperate sticky hbox allows the projectile to stick closer to walls or units to prevent having empty space between
 		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hboxSticky.setGravity(1.0f);
 

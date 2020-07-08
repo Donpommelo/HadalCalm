@@ -55,9 +55,7 @@ public class ChargeBeam extends RangedWeapon {
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
 		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
 		
-		if (reloading || getClipLeft() == 0) {
-			return;
-		}
+		if (reloading || getClipLeft() == 0) { return; }
 		
 		particleOrigin.set(weaponVelo).nor().scl(60);
 		charging = true;

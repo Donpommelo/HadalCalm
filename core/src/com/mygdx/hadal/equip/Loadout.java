@@ -11,7 +11,6 @@ import com.mygdx.hadal.save.UnlockEquip;
 /**
  * A Loadout represent's a player's tools, artifact, active item and character skin.
  * @author Zachary Tu
- *
  */
 public class Loadout {
 

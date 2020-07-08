@@ -9,10 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Sprite;
 
 /**
- * Ranged Weapons are weapons used by clicking somewhere on the screen to probably fire a projcetile or whatever in that direction.
+ * Ranged Weapons are weapons used by clicking somewhere on the screen to probably fire a projectile or whatever in that direction.
  * Ranged weapons have a clip size, ammo count and can be reloaded.
  * @author Zachary Tu
- *
  */
 public class RangedWeapon extends Equipable {
 
@@ -200,7 +199,6 @@ public class RangedWeapon extends Equipable {
 			if (getAmmoLeft() <= 0) {
 				reloading = false;
 			}
-			
 			return true;
 		}
 	}
@@ -228,7 +226,7 @@ public class RangedWeapon extends Equipable {
 	}
 	
 	@Override
-	public float getUseCd() {return useCd * (1 - user.getBodyData().getStat(Stats.RANGED_ATK_SPD)); }
+	public float getUseCd() { return useCd * (1 - user.getBodyData().getStat(Stats.RANGED_ATK_SPD)); }
 	
 	@Override
 	public int getClipSize() {		

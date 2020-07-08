@@ -45,7 +45,6 @@ import com.mygdx.hadal.utils.b2d.FixtureBuilder;
  * This util contains several shortcuts for hitbox-spawning effects for weapons or other items.
  * Includes create explosion, missiles, homing missiles, grenades and bees.
  * @author Zachary Tu
- *
  */
 public class WeaponUtils {
 

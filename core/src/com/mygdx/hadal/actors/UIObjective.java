@@ -12,7 +12,6 @@ import com.mygdx.hadal.utils.SteeringUtil;
  * UIObjective displays an icon along the periphery of the screen to indicate the location of an objective.
  * These objectives can be set by the objective event.
  * @author Zachary Tu
- *
  */
 public class UIObjective extends AHadalActor {
 

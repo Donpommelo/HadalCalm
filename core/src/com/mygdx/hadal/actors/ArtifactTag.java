@@ -14,7 +14,6 @@ import com.mygdx.hadal.save.UnlockArtifact;
 /**
  * An Artifact tag is a ui element that corresponds to a single artifact in the player's inventory.
  * @author Zachary Tu
- *
  */
 public class ArtifactTag extends AHadalActor {
 

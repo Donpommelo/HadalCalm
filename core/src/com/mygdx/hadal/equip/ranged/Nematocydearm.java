@@ -50,6 +50,7 @@ public class Nematocydearm extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.ATTACK1.playUniversal(state, startPosition, 0.4f, false);
 
+		//seperate sticky hbox allows the projectile to stick closer to walls to prevent having empty space between
 		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		hboxSticky.addStrategy(new AdjustAngle(state, hboxSticky, user.getBodyData()));
 		hboxSticky.addStrategy(new ControllerDefault(state, hboxSticky, user.getBodyData()));

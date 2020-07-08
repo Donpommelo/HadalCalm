@@ -39,7 +39,7 @@ public class AssaultBits extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static float summonShootCd = 1.0f;
-	private final static float baseDamage = 18.0f;
+	private final static float baseDamage = 15.0f;
 	private final static float knockback = 14.0f;
 
 	private final static Sprite projSprite = Sprite.LASER_PURPLE;
@@ -57,12 +57,12 @@ public class AssaultBits extends RangedWeapon {
 	private Vector2 bitVelo = new Vector2(0, projectileSpeed);
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
-		
-		
-		
+
+		//if there are fewer than 3 bits, summon a bit and go on cooldown for longer
 		if (bits.size() < 3) {
 			SoundEffect.CYBER2.playUniversal(state, startPosition, 0.4f, false);
 			
+			//bits are removed fro mthe list upon death
 			DroneBit bit = new DroneBit(state, startPosition, 0.0f, filter, null) {
 				
 				@Override
@@ -77,6 +77,8 @@ public class AssaultBits extends RangedWeapon {
 			
 			user.setShootCdCount(summonShootCd);
 		} else {
+			
+			//when 3 bits are active, all 3 fire shots at the mouse
 			SoundEffect.SHOOT2.playUniversal(state, startPosition, 0.8f, false);
 
 			for (Enemy bit: bits) {
@@ -98,6 +100,7 @@ public class AssaultBits extends RangedWeapon {
 	@Override
 	public void unequip(PlayState state) {
 		
+		//all bits are destroyed when weapon is unequipped
 		for (Enemy bit: bits) {
 			bit.getBodyData().addStatus(new Temporary(state, 10.0f, bit.getBodyData(), bit.getBodyData(), 0.25f));
 		}

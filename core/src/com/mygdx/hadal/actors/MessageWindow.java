@@ -26,7 +26,6 @@ import com.mygdx.hadal.utils.ConsoleCommandUtil;
  * The MessageWindow is a ui actor that pops up when the player presses the chat button (default binding shift).
  * This window lets the player type and send messages.
  * @author Zachary Tu
- *
  */
 public class MessageWindow {
 
@@ -75,9 +74,8 @@ public class MessageWindow {
 	 */
 	public void toggleWindow() {
 		
-		if (locked) {
-			return;
-		}
+		//window is locked in the results state
+		if (locked) { return; }
 		
 		//enables message to be run and window to be scrolled. Ran after actor enters screen.
 		Runnable enableMsg = new Runnable() {
@@ -90,7 +88,6 @@ public class MessageWindow {
 					stage.setScrollFocus(textLog);
 					textLog.scrollTo(0, 0, 0, 0);
 				}
-				
 				if (state.getController() != null) {
 					if (state.isServer()) {
 						((PlayerController) state.getController()).resetController();
@@ -98,7 +95,6 @@ public class MessageWindow {
 						((ClientController) state.getController()).resetController();
 					}
 				}
-				
 				active = true;
 			}
 		};
@@ -109,9 +105,7 @@ public class MessageWindow {
 			@Override
 			public void run() {
 				
-				if (!active) {
-					return;
-				}
+				if (!active) { return; }
 				
 				if (stage != null) {
 					stage.setKeyboardFocus(null);
@@ -119,7 +113,6 @@ public class MessageWindow {
 						stage.setScrollFocus(null);
 					}
 				}
-				
 				if (state.getController() != null) {
 					if (state.isServer()) {
 						((PlayerController) state.getController()).syncController();
@@ -127,7 +120,6 @@ public class MessageWindow {
 						((ClientController) state.getController()).syncController();
 					}
 				}
-				
 				active = false;
 			}
 		};

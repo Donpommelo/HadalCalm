@@ -67,6 +67,7 @@ public class Riftsplitter extends MeleeWeapon {
 			public void controller(float delta) {
 				controllerCount += delta;
 
+				//projectile repeatedly creates perpdicular projectiles as it moves in a straight line
 				while (controllerCount >= shockwaveInterval) {
 					controllerCount -= shockwaveInterval;
 					Hitbox shockwave1 = new RangedHitbox(state, hbox.getPixelPosition(), shockwaveSize, shockwaveLifespan, 

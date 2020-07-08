@@ -111,6 +111,7 @@ public class LaserRifle extends RangedWeapon {
 		hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false));
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		
+		//the trail creates particles along the projectile's length
 		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed), filter, true, false, user, projSprite);
 		
 		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));

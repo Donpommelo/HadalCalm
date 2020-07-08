@@ -73,13 +73,12 @@ public class DeepSeaSmelter extends RangedWeapon {
 	@Override
 	public void fire(PlayState state, final Schmuck user, Vector2 startPosition, Vector2 startVelocity, final short filter) {
 		
-		if (overheated) {
-			return;
-		}
+		//weapon is disabled when overheated
+		if (overheated) { return; }
 		
 		SoundEffect.METAL_IMPACT_1.playUniversal(state, startPosition, 0.5f, false);
 
-		//w ecreate two hitboxes, offset parallel to one another
+		//we create two hitboxes, offset parallel to one another
 		projOffset.set(startVelocity).rotate90(1).nor().scl(projSpacing);
 		projOrigin.set(startPosition).add(projOffset);
 		
@@ -126,6 +125,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 			chargeCd -= delta;
 		}
 		
+		//overheat decreases over time and the weapon can be reused when it depletes
 		if (chargeCd <= 0) {
 			setCharging(false);
 			overheated = false;

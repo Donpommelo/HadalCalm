@@ -54,9 +54,7 @@ public class Flounderbuss extends RangedWeapon {
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 		super.mouseClicked(delta, state, shooter, faction, mousePosition);
 
-		if (reloading || getClipLeft() == 0) {
-			return;
-		}
+		if (reloading || getClipLeft() == 0) { return; }
 		
 		charging = true;
 		

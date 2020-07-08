@@ -30,7 +30,7 @@ public class Banana extends RangedWeapon {
 	private final static float baseDamage = 85.0f;
 	private final static float recoil = 5.0f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 10.0f;
+	private final static float projectileSpeed = 9.0f;
 	private final static Vector2 projectileSize = new Vector2(43, 30);
 	private final static float lifespan = 4.0f;
 	
@@ -53,9 +53,7 @@ public class Banana extends RangedWeapon {
 	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mousePosition) {
 		super.mouseClicked(delta, state, shooter, faction, mousePosition);
 
-		if (reloading || getClipLeft() == 0) {
-			return;
-		}
+		if (reloading || getClipLeft() == 0) { return; }
 		
 		charging = true;
 		
@@ -79,6 +77,7 @@ public class Banana extends RangedWeapon {
 	public void fire(PlayState state, Schmuck user, Vector2 startPosition, Vector2 startVelocity, short filter) {
 		SoundEffect.SPRING.playUniversal(state, startPosition, 0.5f, false);
 
+		//velocity scales with charge percentage
 		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
 		
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), filter, false, true, user, projSprite);

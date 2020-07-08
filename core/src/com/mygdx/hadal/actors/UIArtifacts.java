@@ -12,7 +12,6 @@ import com.mygdx.hadal.states.PlayState;
  * These statuses are in the form of an Artifact Tag, an object that allows the player to get more info by mousing over
  * 
  * @author Zachary Tu
- *
  */
 public class UIArtifacts {
 

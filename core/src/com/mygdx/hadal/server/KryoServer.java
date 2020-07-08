@@ -184,12 +184,13 @@ public class KryoServer {
 					if (ps != null) {
 						if (p.firstTime) {
 							
+							System.out.println("TEST " + p.version + " " + HadalGame.Version + " " + (p.version.equals(HadalGame.Version)));
 							//reject clients with wrong version
-							if (p.version != HadalGame.Version) {
+							if (!p.version.equals(HadalGame.Version)) {
 								sendToTCP(c.getID(), new Packets.ConnectReject("INCOMPATIBLE VERSION. HOST ON VER: " + HadalGame.Version));
 								return;
 							}
-							
+
 							addNotificationToAllExcept(ps, c.getID(), p.name, "PLAYER CONNECTED!");
 							
 							//clients joining full servers or in the middle of matches join as spectators
@@ -197,6 +198,7 @@ public class KryoServer {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
 								return;
 							}
+
 							if (!ps.isHub()) {
 								sendToTCP(c.getID(), new Packets.LoadLevel(ps.getLevel(), p.firstTime, true));
 								return;
@@ -217,7 +219,7 @@ public class KryoServer {
 					if (p.firstTime) {
 						sendNotification(ps, c.getID(), ps.getPlayer().getName(), "JOINED SERVER!");
 					}
-					
+
 					//catch up client
 					if (ps != null) {
 						ps.addPacketEffect(new PacketEffect() {

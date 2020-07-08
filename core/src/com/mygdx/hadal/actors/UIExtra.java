@@ -16,7 +16,6 @@ import com.mygdx.hadal.statuses.DamageTypes;
  * The UIExtra is an extra ui actor displayed in the upper right hand side.
  * It displays list of strings decided by the uiTags list which can be modified in level with events.
  * @author Zachary Tu
- *
  */
 public class UIExtra extends AHadalActor {
 

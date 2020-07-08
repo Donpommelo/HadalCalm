@@ -16,7 +16,6 @@ import com.mygdx.hadal.utils.Stats;
 /**
  * This is the main ui element. It displays player loadout, hp, fuel.
  * @author Zachary Tu
- *
  */
 public class UIPlay extends AHadalActor {
 
@@ -129,9 +128,8 @@ public class UIPlay extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 		
-		if (state.isSpectatorMode()) {
-			return;
-		}
+		//do not render in spectator mode
+		if (state.isSpectatorMode()) { return; }
 		
 		batch.setProjectionMatrix(state.hud.combined);
 		

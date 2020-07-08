@@ -7,13 +7,17 @@ import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.utils.Stats;
 
+/**
+ * An equipable is anything that takes up and equip slot. This inclide melee and ranged weapons
+ * @author Zachary Tu
+ */
 public abstract class Equipable {	
 	
 	//The Schmuck that is using this tool
 	protected Schmuck user;
 	
 	//The name of this tool
-	protected String name = "";
+	protected String name;
 	
 	//The delay in seconds after using this tool before you can use a tool again.
 	protected float useCd;
@@ -25,19 +29,19 @@ public abstract class Equipable {
 	protected boolean reloading;
 	
 	//Counter for how much longer this tool needs to be reloaded before it gets more ammo
-	protected float reloadCd = 0;
+	protected float reloadCd;
 	
 	//The amount of time it takes to reload this weapon. (default = 0 for non-ranged)
-	protected float reloadTime = 0;
+	protected float reloadTime;
 	
 	//Whether this tool is currently in the process of charging or not.
 	protected boolean charging;
 	
 	//Counter for how much longer this tool needs to be charged before it will be at max charge
-	protected float chargeCd = 0;
+	protected float chargeCd;
 	
 	//The amount of time it takes to charge this weapon. (default = 0 for non-charge equips)
-	protected float chargeTime = 0;
+	protected float chargeTime;
 	
 	//These sprites are how the equip looks when equiped and as a pickup
 	private Sprite equipSprite, eventSprite;
@@ -129,7 +133,7 @@ public abstract class Equipable {
 	public void unequip(PlayState state) {}
 	
 	/**
-	 * this is run when an equipable is equipped
+	 * this is run when an equipable is equipped. reset charge + reload
 	 * @param state
 	 */
 	public void equip(PlayState state) {

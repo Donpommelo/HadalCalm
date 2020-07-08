@@ -19,7 +19,6 @@ import com.mygdx.hadal.states.PlayState;
  * The Dialogue box is an actor that appears in the staage when a dialogue is initiated. This happens through activating a
  * Radio event. These events add Dialogues to the queue which are cycled through either by a timer or by player input.
  * @author Zachary Tu
- *
  */
 public class DialogBox extends AHadalActor {
 

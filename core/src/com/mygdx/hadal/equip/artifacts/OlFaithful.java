@@ -26,7 +26,7 @@ public class OlFaithful extends Artifact {
 		enchantment[0] = new StatusComposite(state, b, 
 				new StatChangeStatus(state, Stats.WEAPON_SLOTS, bonusSlots, b), 
 				new StatChangeStatus(state, Stats.AMMO_CAPACITY, bonusAmmo, b),
-				new StatChangeStatus(state, Stats.RANGED_ATK_SPD, bonusAtkSpd, b),
+				new StatChangeStatus(state, Stats.TOOL_SPD, bonusAtkSpd, b),
 				new StatChangeStatus(state, Stats.RANGED_RELOAD, bonusReloadSpd, b));
 		
 		return enchantment;

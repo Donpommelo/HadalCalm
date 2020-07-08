@@ -149,7 +149,6 @@ public class TeslaCoil extends RangedWeapon {
 			
 			@Override
 			public void die() {
-				
 				//remove dead coils from list
 				coilsLaid.remove(hbox);
 			}

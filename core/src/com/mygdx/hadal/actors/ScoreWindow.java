@@ -11,7 +11,6 @@ import com.mygdx.hadal.states.SettingState;
 /**
  * The ScoreWindow is displayed when a player holds a button (default value tab) during a level
  * @author Zachary Tu
- *
  */
 public class ScoreWindow {
 	
