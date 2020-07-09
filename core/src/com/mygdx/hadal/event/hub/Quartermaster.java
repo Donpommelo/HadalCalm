@@ -60,7 +60,7 @@ public class Quartermaster extends HubEvent {
 					@Override
 					public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 						super.enter(event, x, y, pointer, fromActor);
-						hub.setInfo(info.getName() +  "\n" + info.getDescription() + " \n \n" + info.getDescriptionLong());
+						hub.setInfo(info.getName() +  "\n\n" + info.getDescription() + " \n\n" + info.getDescriptionLong());
 					}
 			    });
 				itemChoose.setScale(UIHub.optionsScaleSmall);

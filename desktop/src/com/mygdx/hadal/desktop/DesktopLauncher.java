@@ -1,5 +1,6 @@
 package com.mygdx.hadal.desktop;
 
+import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.mygdx.hadal.HadalGame;
@@ -10,6 +11,9 @@ public class DesktopLauncher {
 	
 	public static void main (String[] arg) {
 		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.addIcon("128.png", FileType.Internal);
+		config.addIcon("32.png", FileType.Internal);
+		config.addIcon("16.png", FileType.Internal);
 		config.title = TITLE;
 		config.resizable = false;
 		config.pauseWhenMinimized = false;

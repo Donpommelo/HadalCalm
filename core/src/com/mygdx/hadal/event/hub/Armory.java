@@ -67,7 +67,7 @@ public class Armory extends HubEvent {
 				@Override
 				public void enter (InputEvent event, float x, float y, int pointer, Actor fromActor) {
 					super.enter(event, x, y, pointer, fromActor);
-					hub.setInfo(selected.getInfo().getName() + ": " + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
+					hub.setInfo(selected.getInfo().getName() + "\n\n" + selected.getInfo().getDescription() + " \n \n" + selected.getInfo().getDescriptionLong());
 				}
 		    });
 			itemChoose.setScale(UIHub.optionsScale);

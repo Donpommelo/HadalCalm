@@ -1214,7 +1214,7 @@ public class PlayState extends GameState {
 		shaderBase.loadShader(this, null, 0);
 	}
 	
-	private final static float spectatorDefaultZoom = 1.2f;
+	private final static float spectatorDefaultZoom = 1.5f;
 	/**
 	 * Player enters spectator mode. Set up spectator camera and camera bounds
 	 */

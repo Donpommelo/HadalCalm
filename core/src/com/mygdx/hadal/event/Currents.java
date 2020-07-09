@@ -45,14 +45,14 @@ public class Currents extends Event {
 		super(state, startPos, size);
 		this.vec = vec;
 		
-		spawnTimerLimit = 6148f / (size.x * size.y);
+		spawnTimerLimit = 7685f / (size.x * size.y);
 	}
 	
 	public Currents(PlayState state, Vector2 startPos, Vector2 size, Vector2 vec, float duration) {
 		super(state, startPos, size, duration);
 		this.vec = vec;
 		
-		spawnTimerLimit = 4096f / (size.x * size.y);
+		spawnTimerLimit = 5120f / (size.x * size.y);
 	}
 	
 	@Override

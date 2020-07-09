@@ -30,7 +30,7 @@ public class Banana extends RangedWeapon {
 	private final static float baseDamage = 85.0f;
 	private final static float recoil = 5.0f;
 	private final static float knockback = 0.0f;
-	private final static float projectileSpeed = 9.0f;
+	private final static float projectileSpeed = 8.0f;
 	private final static Vector2 projectileSize = new Vector2(43, 30);
 	private final static float lifespan = 4.0f;
 	

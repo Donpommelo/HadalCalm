@@ -10,7 +10,7 @@ import com.mygdx.hadal.statuses.Status;
 public class VolatileDermis extends Artifact {
 
 	private final static int statusNum = 1;
-	private final static int slotCost = 1;
+	private final static int slotCost = 2;
 	
 	private static final float procCd = 3.0f;
 	
