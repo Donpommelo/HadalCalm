@@ -45,7 +45,7 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private final static float projSpacing = 20.0f;
 
 	private static final float maxCharge = 4.0f;
-	private static final float chargePerShot = 0.5f;
+	private static final float chargePerShot = 3.0f;
 	private static final float burnDamage = 5.0f;
 
 	private Vector2 projOrigin = new Vector2();
@@ -54,6 +54,23 @@ public class DeepSeaSmelter extends RangedWeapon {
 	
 	public DeepSeaSmelter(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x, maxCharge);
+	}
+	
+	@Override
+	public void mouseClicked(float delta, PlayState state, BodyData shooter, short faction, Vector2 mouseLocation) {
+		super.mouseClicked(delta, state, shooter, faction, mouseLocation);
+		
+		if (reloading || getClipLeft() == 0 || overheated) { return; }
+		
+		if (chargeCd < chargeTime) {
+			setCharging(true);
+			setChargeCd(chargeCd + (delta + shootCd) * chargePerShot);
+			
+			if (chargeCd >= chargeTime) {
+				user.getBodyData().addStatus(new Ablaze(state, maxCharge, user.getBodyData(), user.getBodyData(), burnDamage));
+				overheated = true;
+			}
+		}
 	}
 	
 	@Override
@@ -106,16 +123,6 @@ public class DeepSeaSmelter extends RangedWeapon {
 		hbox2.addStrategy(new ContactWallSound(state, hbox2, user.getBodyData(), SoundEffect.METAL_IMPACT_2, 0.3f));
 		hbox2.addStrategy(new ContactUnitSound(state, hbox2, user.getBodyData(), SoundEffect.SLASH, 0.2f, true));
 		hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.SPARKS));
-		
-		if (chargeCd < getChargeTime()) {
-			setCharging(true);
-			setChargeCd(chargeCd + chargePerShot);
-			
-			if (chargeCd >= getChargeTime()) {
-				user.getBodyData().addStatus(new Ablaze(state, maxCharge, user.getBodyData(), user.getBodyData(), burnDamage));
-				overheated = true;
-			}
-		}
 	}
 	
 	//heat level of the weapon decreases over time

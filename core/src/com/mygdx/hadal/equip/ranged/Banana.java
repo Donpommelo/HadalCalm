@@ -1,6 +1,5 @@
 package com.mygdx.hadal.equip.ranged;
 
-
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Sprite;
@@ -18,6 +17,8 @@ import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
+import com.mygdx.hadal.strategies.hitbox.DropThroughPassability;
+import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 
 public class Banana extends RangedWeapon {
 
@@ -80,11 +81,19 @@ public class Banana extends RangedWeapon {
 		//velocity scales with charge percentage
 		float velocity = chargeCd / getChargeTime() * (projectileMaxSpeed - projectileSpeed) + projectileSpeed;
 		
-		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), filter, false, true, user, projSprite);
-		hbox.setRestitution(1.0f);
-		hbox.setGravity(3.5f);
+		//bouncy hbox is separate so it can pass through drop-through platforms
+		Hitbox hboxBouncy = new RangedHitbox(state, startPosition, projectileSize, lifespan, new Vector2(startVelocity).nor().scl(velocity), filter, false, false, user, Sprite.NOTHING);
+		hboxBouncy.setRestitution(0.8f);
+		hboxBouncy.setGravity(3.5f);
+		hboxBouncy.setSyncDefault(false);
+		
+		hboxBouncy.addStrategy(new ControllerDefault(state, hboxBouncy, user.getBodyData()));
+		hboxBouncy.addStrategy(new DropThroughPassability(state, hboxBouncy, user.getBodyData()));	
+				
+		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, projSprite);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
+		hbox.addStrategy(new FixedToEntity(state, hbox, user.getBodyData(), hboxBouncy, new Vector2(), new Vector2(), false));
 		hbox.addStrategy(new ContactUnitDie(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.SHRAPNEL, DamageTypes.RANGED));
 		hbox.addStrategy(new DieExplode(state, hbox, user.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
@@ -98,6 +107,6 @@ public class Banana extends RangedWeapon {
 				//Set banana to have constant angular velocity for visual effect.
 				hbox.setAngularVelocity(10);
 			}
-		});	
+		});
 	}
 }

@@ -128,12 +128,29 @@ public class UIPlay extends AHadalActor {
 	@Override
     public void draw(Batch batch, float alpha) {
 		
+		batch.setProjectionMatrix(state.hud.combined);
+		calcVars();
+		
+		//Draw boss hp bar, if existent
+		if (bossFight && boss.getBody() != null) {
+			font.getData().setScale(0.25f);
+			font.draw(batch, bossName, bossNameX, bossNameY);
+			
+			//This code makes the hp bar delay work.
+			if (bossHpDelayed > bossHpRatio) {
+				bossHpDelayed -= bossHpCatchup;
+			} else {
+				bossHpDelayed = bossHpRatio;
+			}
+			
+			GameStateManager.getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugeCatchupPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpDelayed, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
+			GameStateManager.getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
+		}
+				
 		//do not render in spectator mode
 		if (state.isSpectatorMode()) { return; }
-		
-		batch.setProjectionMatrix(state.hud.combined);
-		
-		calcVars();
 		
 		//This code makes the hp bar delay work.
 		if (hpDelayed > hpRatio) {
@@ -199,23 +216,6 @@ public class UIPlay extends AHadalActor {
 			batch.draw(hp, activeX, activeY, activeWidth * mainScale, activeHeight * mainScale * activePercent);
 		} else {
 			batch.draw(hpMissing, activeX, activeY, activeWidth * mainScale, activeHeight * mainScale * activePercent);
-		}
-		
-		//Draw boss hp bar, if existent
-		if (bossFight && boss.getBody() != null) {
-			font.draw(batch, bossName, bossNameX, bossNameY);
-			
-			//This code makes the hp bar delay work.
-			if (bossHpDelayed > bossHpRatio) {
-				bossHpDelayed -= bossHpCatchup;
-			} else {
-				bossHpDelayed = bossHpRatio;
-			}
-			
-			GameStateManager.getBossGaugeGreyPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
-			GameStateManager.getBossGaugeCatchupPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpDelayed, bossBarHeight, bossScale, bossScale, 0);
-			GameStateManager.getBossGaugeRedPatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth * bossHpRatio, bossBarHeight, bossScale, bossScale, 0);
-			GameStateManager.getBossGaugePatch().draw(batch, bossX, bossBarY, 0, 0, bossBarWidth, bossBarHeight, bossScale, bossScale, 0);
 		}
 	}
 	

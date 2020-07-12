@@ -45,7 +45,7 @@ public class ResultsState extends GameState {
 	
 	//Dimentions and position of the results menu
 	private final static int width = 1000;
-	private final static int baseHeight = 75;
+	private final static int baseHeight = 90;
 	private final static int titleHeight = 40;
 	private final static int rowHeight = 50;
 	private static final float scale = 0.4f;

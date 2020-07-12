@@ -66,6 +66,7 @@ public class StickyBombLauncher extends RangedWeapon {
 
 		//seperate sticky hbox allows the projectile to stick closer to walls or units to prevent having empty space between
 		Hitbox hboxSticky = new RangedHitbox(state, startPosition, stickySize, lifespan, startVelocity, filter, true, false, user, Sprite.NOTHING);
+		hboxSticky.setSyncDefault(false);
 		hboxSticky.setGravity(1.0f);
 
 		hboxSticky.addStrategy(new ControllerDefault(state, hboxSticky, user.getBodyData()));

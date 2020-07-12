@@ -90,16 +90,16 @@ public class Player extends PhysicsSchmuck {
 	//counters for various cooldowns.
 	private final static float hoverCd = 0.08f;
 	private float jumpCd = 0.25f;
-	private float jumpCdCount = 0;
+	private float jumpCdCount;
 	
 	private final static float fastFallCd = 0.05f;
-	private float fastFallCdCount = 0;
+	private float fastFallCdCount;
 	
 	private final static float airblastCd = 0.25f;
-	private float airblastCdCount = 0;
+	private float airblastCdCount;
 	
 	protected final static float interactCd = 0.15f;
-	protected float interactCdCount = 0;
+	protected float interactCdCount;
 	
 	private final static float airAnimationSlow = 3.0f;
 
@@ -116,7 +116,7 @@ public class Player extends PhysicsSchmuck {
 	private Airblaster airblast;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	private float controllerCount = 0;
+	private float controllerCount;
 	
 	//Is the player currently shooting/hovering/fastfalling?
 	private boolean shooting = false;
@@ -125,7 +125,7 @@ public class Player extends PhysicsSchmuck {
 	private boolean fastFalling = false;
 	
 	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
-	private float reloadPercent;
+	private float reloadPercent, reloadDelayed;
 	
 	//This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
 	private float chargePercent, chargeDelayed;
@@ -719,11 +719,12 @@ public class Player extends PhysicsSchmuck {
 		if (playerData.getCurrentTool().isReloading()) {
 			
 			//Calculate reload progress
-			float percent = getReloadPercent();
-			
-			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * percent, reloadBar.getRegionHeight() * uiScale);
+			reloadDelayed = reloadDelayed + (reloadPercent - reloadDelayed) * 0.1f;
+			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * reloadDelayed, reloadBar.getRegionHeight() * uiScale);
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "RELOADING", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+		} else {
+			reloadDelayed = 0.0f;
 		}
 		
 		if (playerData.getCurrentTool().isCharging()) {

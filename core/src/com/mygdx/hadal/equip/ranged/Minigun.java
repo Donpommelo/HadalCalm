@@ -27,7 +27,7 @@ public class Minigun extends RangedWeapon {
 	private final static int clipSize = 200;
 	private final static int ammoSize = 600;
 	private final static float shootCd = 0.08f;
-	private final static float shootDelay = 0;
+	private final static float shootDelay = 0.0f;
 	private final static float reloadTime = 2.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 18.0f;

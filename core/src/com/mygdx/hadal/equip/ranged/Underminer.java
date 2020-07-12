@@ -134,7 +134,6 @@ public class Underminer extends RangedWeapon {
 								@Override
 								public void onHit(HadalData fixB) {
 									if (fixB != null) {
-										
 										if (fixB.getType().equals(UserDataTypes.WALL)) {
 											frag.setLinearVelocity(frag.getLinearVelocity().nor().scl(fragFireSpeed));
 											frag.setLifeSpan(fragFireLifespan);

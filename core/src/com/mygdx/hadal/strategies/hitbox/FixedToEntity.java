@@ -63,7 +63,7 @@ public class FixedToEntity extends HitboxStrategy {
 			if (rotate) {
 				hbox.setTransform(hbLocation, target.getAngle() + angle.angleRad());
 			} else {
-				hbox.setTransform(hbLocation, angle.angleRad());
+				hbox.setTransform(hbLocation, hbox.getAngle());
 			}
 		}
 	}
