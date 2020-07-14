@@ -384,14 +384,16 @@ public class Packets {
 	
 	public static class DeleteEntity {
 		public String entityID;
+		public float timestamp;
 		public DeleteEntity() {}
 		
 		/**
 		 * A Delete Entity is sent from the Server to the Client to tell the Client to delete an Entity.
 		 * @param entityID: ID of the entity to be deleted.
 		 */
-		public DeleteEntity(String entityID) {
+		public DeleteEntity(String entityID, float timestamp) {
 			this.entityID = entityID;
+			this.timestamp = timestamp;
         }
 	}
 	

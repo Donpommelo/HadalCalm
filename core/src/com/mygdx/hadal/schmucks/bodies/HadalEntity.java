@@ -183,7 +183,7 @@ public abstract class HadalEntity {
 	 * This is called when the entity is deleted to return a packet to be sent to the client
 	 * Default: send a packet telling clients to delete this.
 	 */
-	public Object onServerDelete() { return new Packets.DeleteEntity(entityID.toString()); }
+	public Object onServerDelete() { return new Packets.DeleteEntity(entityID.toString(), state.getTimer()); }
 
 	/**
 	 * This is called every engine tick to send a packet syncing this entity.
@@ -226,22 +226,26 @@ public abstract class HadalEntity {
 	 * Set the entity's body data
 	 */
 	public void onClientSync(Object o) {
-		Packets.SyncEntity p = (Packets.SyncEntity) o;
-		if (body != null) {
-			copyServerInstantly = p.instant;
-			
-			//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity
-			if (copyServerInstantly) {
-				setTransform(p.pos, p.angle);
-			} else {
-				prevPos.set(serverPos);
-				serverPos.set(p.pos);
+		if (o instanceof Packets.SyncEntity) {
+			Packets.SyncEntity p = (Packets.SyncEntity) o;
+			if (body != null) {
+				copyServerInstantly = p.instant;
 				
-				prevVelo.set(serverVelo);
-				serverVelo.set(p.velocity);
-				
-				serverAngle.setAngleRad(p.angle);			
+				//if copying instantly, set transform. Otherwise, save the position, angle, and set the velocity
+				if (copyServerInstantly) {
+					setTransform(p.pos, p.angle);
+				} else {
+					prevPos.set(serverPos);
+					serverPos.set(p.pos);
+					
+					prevVelo.set(serverVelo);
+					serverVelo.set(p.velocity);
+					
+					serverAngle.setAngleRad(p.angle);			
+				}
 			}
+		} else if (o instanceof Packets.DeleteEntity) {
+			((ClientState) state).removeEntity(entityID.toString());
 		}
 	}
 	
@@ -264,13 +268,6 @@ public abstract class HadalEntity {
 	 */
 	public void clientController(float delta) {
 		
-//		if (this == state.getPlayer() && !state.isServer()) {
-//			for (Object[] o: bufferedTimestamps) {
-//				System.out.print(" " + o[1] + " ");
-//			}
-//			System.out.println(" TIMESTAMPE: " + prevTimeStamp + " " + state.getTimer() + " " + nextTimeStamp);
-//		}
-		
 		while (!bufferedTimestamps.isEmpty()) {
 			if (state.getTimer() >= nextTimeStamp) {
 				Object[] o = bufferedTimestamps.remove(0);
@@ -279,7 +276,6 @@ public abstract class HadalEntity {
 					prevTimeStamp = nextTimeStamp;
 					nextTimeStamp = (float) o[1];
 				}
-				
 				onClientSync(o[0]);
 				
 			} else {

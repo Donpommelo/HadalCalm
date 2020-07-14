@@ -567,7 +567,8 @@ public class KryoClient {
 					
 					@Override
 					public void execute() {
-        				cs.removeEntity(p.entityID);
+						cs.syncEntity(p.entityID, p, 0.0f, p.timestamp);
+ //       				cs.removeEntity(p.entityID);
 					}
 				});
 			}

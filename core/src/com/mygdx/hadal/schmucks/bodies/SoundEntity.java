@@ -150,7 +150,7 @@ public class SoundEntity extends HadalEntity {
 	@Override
 	public Object onServerDelete() { 
 		if (sync.equals(soundSyncType.TICKSYNC)) {
-			return new Packets.DeleteEntity(entityID.toString()); 
+			return new Packets.DeleteEntity(entityID.toString(), state.getTimer()); 
 		} else {
 			return null;
 		}
@@ -177,13 +177,17 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		Packets.SyncSound p = (Packets.SyncSound) o;
-		volume = p.volume;
-		if (p.on) {
-			turnOn();
-		}
-		if (!p.on) {
-			turnOff();
+		if (o instanceof Packets.SyncSound) {
+			Packets.SyncSound p = (Packets.SyncSound) o;
+			volume = p.volume;
+			if (p.on) {
+				turnOn();
+			}
+			if (!p.on) {
+				turnOff();
+			}
+		} else {
+			super.onClientSync(o);
 		}
 	}
 	

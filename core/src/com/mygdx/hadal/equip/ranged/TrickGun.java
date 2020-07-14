@@ -97,6 +97,8 @@ public class TrickGun extends RangedWeapon {
 		SoundEffect.LASERHARPOON.playUniversal(state, startPosition, 0.6f, false);
 
 		Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
+		hbox.setSyncDefault(false);
+		hbox.setSyncInstant(true);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
 		hbox.addStrategy(new AdjustAngle(state, hbox, user.getBodyData()));

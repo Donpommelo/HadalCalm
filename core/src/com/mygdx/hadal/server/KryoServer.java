@@ -329,7 +329,7 @@ public class KryoServer {
 							public void execute() {
     							HadalEntity entity = ps.findEntity(p.entityID);
     							if (entity == null) {
-    								sendToUDP(c.getID(), new Packets.DeleteEntity(p.entityID));	
+    								sendToUDP(c.getID(), new Packets.DeleteEntity(p.entityID, ps.getTimer()));	
     							}
     						}
 						});

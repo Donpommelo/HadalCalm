@@ -248,7 +248,7 @@ public class Event extends HadalEntity {
 	@Override
 	public Object onServerDelete() {
 		if (synced) {
-			return new Packets.DeleteEntity(entityID.toString());
+			return new Packets.DeleteEntity(entityID.toString(), state.getTimer());
 		} else {
 			return null;
 		}

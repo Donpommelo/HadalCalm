@@ -226,7 +226,7 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public Object onServerDelete() {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
-			return new Packets.DeleteEntity(entityID.toString());
+			return new Packets.DeleteEntity(entityID.toString(), state.getTimer());
 		} else {
 			return null;
 		}
@@ -259,15 +259,19 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public void onClientSync(Object o) {
-		Packets.SyncParticles p = (Packets.SyncParticles) o;
-		this.offset.set(p.offset);
-		effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
+		if (o instanceof Packets.SyncParticles) {
+			Packets.SyncParticles p = (Packets.SyncParticles) o;
+			this.offset.set(p.offset);
+			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
 
-		if (p.on && (!on || effect.isComplete())) {
-			turnOn();
-		}
-		if (!p.on && (on || !effect.isComplete())) {
-			turnOff();
+			if (p.on && (!on || effect.isComplete())) {
+				turnOn();
+			}
+			if (!p.on && (on || !effect.isComplete())) {
+				turnOff();
+			}
+		} else {
+			super.onClientSync(o);
 		}
 	}
 	
