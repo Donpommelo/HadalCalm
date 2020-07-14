@@ -154,7 +154,7 @@ public class ParticleEntity extends HadalEntity {
 	 */
 	@Override
 	public void clientController(float delta) {
-		
+		super.clientController(delta);
 		//client particles process independently from the server if they are set to CREATESYNC or NOSYNC
 		if (sync.equals(particleSyncType.CREATESYNC) || sync.equals(particleSyncType.NOSYNC)) {
 			controller(delta);			
@@ -242,14 +242,14 @@ public class ParticleEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
+					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge, state.getTimer()));
 				} else {
 					newPos.set(startPos);
-					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
+					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge, state.getTimer()));
 				}
 			} else {
 				newPos.set(startPos);
-				state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
+				state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge, state.getTimer()));
 			}
 		}
 	}

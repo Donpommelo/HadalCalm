@@ -121,6 +121,8 @@ public class SoundEntity extends HadalEntity {
 	 */
 	@Override
 	public void clientController(float delta) {
+		super.clientController(delta);
+		
 		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.NOSYNC)) {
 			controller(delta);			
 		}
@@ -164,7 +166,7 @@ public class SoundEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(), newPos, volume, on, entityAge));
+					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(), newPos, volume, on, entityAge, state.getTimer()));
 				}
 			}
 		}

@@ -156,8 +156,8 @@ public class Turret extends Enemy {
 	//Just in case you were confused about this weird packet.
 	@Override
 	public void onServerSync() {
-		state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), new Vector2(), attackAngle, entityAge, false));
-		state.getSyncPackets().add(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
+		state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), new Vector2(), attackAngle, entityAge, state.getTimer(), false));
+		state.getSyncPackets().add(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP), state.getTimer()));
 	}
 	
 	@Override

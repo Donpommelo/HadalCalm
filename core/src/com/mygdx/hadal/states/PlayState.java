@@ -563,7 +563,7 @@ public class PlayState extends GameState {
 	}
 	
 	/**
-	 * This sends a syncronization packet for every synced entity. syncFastEntities() is used for entities that are synced more frequently
+	 * This sends a synchronization packet for every synced entity. syncFastEntities() is used for entities that are synced more frequently
 	 */
 	private ArrayList<Object> syncPackets = new ArrayList<Object>();
 	public void syncEntities() {
@@ -573,7 +573,9 @@ public class PlayState extends GameState {
 		for (HadalEntity entity : entities) {
 			entity.onServerSync();
 		}
-		HadalGame.server.sendToAllUDP(new Packets.SyncWorld(timer, syncPackets));
+		for (Object o: syncPackets) {
+			HadalGame.server.sendToAllUDP(o);
+		}
 		syncPackets.clear();
 	}
 	

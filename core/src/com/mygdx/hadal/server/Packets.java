@@ -1,6 +1,5 @@
 package com.mygdx.hadal.server;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.maps.MapObject;
@@ -497,6 +496,7 @@ public class Packets {
         public Vector2 velocity;
         public float angle;
         public float age;
+        public float timestamp;
         public boolean instant;
 		public SyncEntity() {}
 		
@@ -512,12 +512,13 @@ public class Packets {
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 * @param instant: should the client entity instantly copy the server or interpolate?
 		 */
-		public SyncEntity(String entityID, Vector2 pos, Vector2 velocity, float angle, float age, boolean instant) {
+		public SyncEntity(String entityID, Vector2 pos, Vector2 velocity, float angle, float age, float timestamp, boolean instant) {
             this.entityID = entityID;
             this.pos = pos;
             this.velocity = velocity;
             this.angle = angle;
             this.age = age;
+            this.timestamp = timestamp;
             this.instant = instant;
         }
 	}
@@ -559,6 +560,7 @@ public class Packets {
 		public String entityID;
 		public MoveState moveState;
 		public float hpPercent;
+		public float timestamp;
 		
 		public SyncSchmuck() {}
 		
@@ -571,10 +573,11 @@ public class Packets {
 		 * @param moveState: The State of the Schmuck. Used for animations on the Client's end
 		 * @param hpPercent: The percent of remaining hp this schmuck has.
 		 */
-		public SyncSchmuck(String entityID, MoveState moveState, float hpPercent) {
+		public SyncSchmuck(String entityID, MoveState moveState, float hpPercent, float timestamp) {
 			this.entityID = entityID;
 			this.moveState = moveState;
 			this.hpPercent = hpPercent;
+			this.timestamp = timestamp;
 		}
 	}
 	
@@ -615,6 +618,7 @@ public class Packets {
         public float chargePercent;
         public boolean outOfAmmo;
         public short maskBits;
+        public float timestamp;
         
 		public SyncPlayerAll() {}
 		
@@ -623,7 +627,7 @@ public class Packets {
 		 * This packet (and similar packets) just tell the client how to change their version of each Player.
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
-		public SyncPlayerAll(String entityID, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, short maskBits) {
+		public SyncPlayerAll(String entityID, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, short maskBits, float timestamp) {
             this.entityID = entityID;
             this.attackAngle = attackAngle;
             this.grounded = grounded;
@@ -634,6 +638,7 @@ public class Packets {
             this.chargePercent = chargePercent;
             this.outOfAmmo = outOfAmmo;
             this.maskBits = maskBits;
+            this.timestamp = timestamp;
         }
 	}
 	
@@ -738,6 +743,7 @@ public class Packets {
 		public Vector2 offset;
         public boolean on;
         public float age;
+        public float timestamp;
 		public SyncParticles() {}
 		
 		/**
@@ -750,12 +756,13 @@ public class Packets {
 		 * @param on: Is the Server's version of this effect on or off?
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 */
-		public SyncParticles(String entityID, Vector2 pos, Vector2 offset, boolean on, float age) {
+		public SyncParticles(String entityID, Vector2 pos, Vector2 offset, boolean on, float age, float timestamp) {
 			this.entityID = entityID;
 			this.pos = pos;
 			this.offset = offset;
 			this.on = on;
 			this.age = age;
+			this.timestamp = timestamp;
 		}
 	}
 	
@@ -861,6 +868,7 @@ public class Packets {
 		public float volume;
 		public boolean on;
 		public float age;
+		public float timestamp;
 		
 		public SyncSound() {}
 		
@@ -872,12 +880,13 @@ public class Packets {
 		 * @param on: is the soundentity on?
 		 * @param age: age of the entity. (used by client to determine if they missed a packet)
 		 */
-		public SyncSound(String entityID, Vector2 pos, float volume, boolean on, float age) {
+		public SyncSound(String entityID, Vector2 pos, float volume, boolean on, float age, float timestamp) {
 			this.entityID = entityID;
 			this.pos = pos;
 			this.volume = volume;
 			this.on = on;
 			this.age = age;
+			this.timestamp = timestamp;
 		}
 	}
 	
@@ -958,26 +967,11 @@ public class Packets {
 		}
 	}
 	
-	public static class SyncWorld {
-		public float timer;
-		public ArrayList<Object> syncPackets;
-		
-		public SyncWorld() {}
-		
-		/**
-		 */
-		public SyncWorld(float timer, ArrayList<Object> syncPackets) {
-			this.timer = timer;
-			this.syncPackets = syncPackets;
-		}
-	}
-	
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
      */
     public static void allPackets(Kryo kryo) {
-    	kryo.register(ArrayList.class);
     	kryo.register(ConnectReject.class);
     	kryo.register(PlayerConnect.class);
     	kryo.register(ServerLoaded.class);
@@ -1021,6 +1015,5 @@ public class Packets {
     	kryo.register(StartSpectate.class);
     	kryo.register(EndSpectate.class);
     	kryo.register(SyncSharedSettings.class);
-    	kryo.register(SyncWorld.class);
     }
 }

@@ -97,13 +97,10 @@ public class PickupEquip extends Event {
 		return new Packets.CreatePickup(entityID.toString(), getPixelPosition(), UnlockEquip.getUnlockFromEquip(equip.getClass()).toString());
 	}
 	
-	@Override
-	public void onClientSync(Object o) {
+	public void syncEquip(Object o) {
 		if (o instanceof Packets.SyncPickup) {
 			Packets.SyncPickup p = (Packets.SyncPickup) o;
 			setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
-		} else {
-			super.onClientSync(o);
 		}
 	}
 	

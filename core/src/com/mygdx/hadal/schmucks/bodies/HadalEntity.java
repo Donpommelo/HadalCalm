@@ -1,5 +1,6 @@
 package com.mygdx.hadal.schmucks.bodies;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static com.mygdx.hadal.utils.Constants.PPM;
@@ -190,13 +191,13 @@ public abstract class HadalEntity {
 	 */
 	public void onServerSync() {
 		if (body != null && syncDefault) {
-			state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, false));
+			state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, state.getTimer(), false));
 		}
 	}
 	
 	public void onServerSyncFast() {
 		if (body != null && syncInstant) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, true));
+			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, state.getTimer(), true));
 		}
 	}
 	
@@ -212,6 +213,13 @@ public abstract class HadalEntity {
 	
 	//should the client entity lerp to the server's position or just adjust instantly?
 	public boolean copyServerInstantly;
+	
+	private ArrayList<Object[]> bufferedTimestamps = new ArrayList<Object[]>();
+	
+	public void onReceiveSync(Object o, float timestamp) {
+		Object[] packet = {o, timestamp};
+		bufferedTimestamps.add(packet);
+	}
 	
 	/**
 	 * This is called when the client receives the above packet.
@@ -248,12 +256,37 @@ public abstract class HadalEntity {
 	public Vector2 lerpPos = new Vector2();
 	public Vector2 lerpVelo = new Vector2();
 
+	private float prevTimeStamp, nextTimeStamp;
+	
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
 	 */
 	public void clientController(float delta) {
 		
+//		if (this == state.getPlayer() && !state.isServer()) {
+//			for (Object[] o: bufferedTimestamps) {
+//				System.out.print(" " + o[1] + " ");
+//			}
+//			System.out.println(" TIMESTAMPE: " + prevTimeStamp + " " + state.getTimer() + " " + nextTimeStamp);
+//		}
+		
+		while (!bufferedTimestamps.isEmpty()) {
+			if (state.getTimer() >= nextTimeStamp) {
+				Object[] o = bufferedTimestamps.remove(0);
+				
+				if ((float) o[1] > nextTimeStamp) {
+					prevTimeStamp = nextTimeStamp;
+					nextTimeStamp = (float) o[1];
+				}
+				
+				onClientSync(o[0]);
+				
+			} else {
+				break;
+			}
+		}
+	
 		clientSyncAccumulator += delta;
 		while (clientSyncAccumulator >= clientSyncTime) {
 			clientSyncAccumulator -= clientSyncTime;
@@ -261,15 +294,16 @@ public abstract class HadalEntity {
 			//if we are receiving syncs, lerp towrads the saved position and angle
 			if (body != null && receivingSyncs) {
 				if (!copyServerInstantly) {
-					if (((ClientState) state).getElapsedTime() <= 1.0f) {
-						if (((ClientState) state).getElapsedTime() >= 0.0f) {
+					
+					float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
+					
+					if (elapsedTime <= 1.0f) {
+						if (elapsedTime >= 0.0f) {
 							lerpPos.set(prevPos);
 							lerpVelo.set(prevVelo);
-							setTransform(lerpPos.lerp(serverPos, ((ClientState) state).getElapsedTime()), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
-//							body.setLinearVelocity(lerpVelo.lerp(serverVelo, ((ClientState) state).getElapsedTime()));
+							setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+							body.setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
 						}
-					} else {
-						setTransform(serverPos, serverAngle.angleRad());
 					}
 				}
 			}

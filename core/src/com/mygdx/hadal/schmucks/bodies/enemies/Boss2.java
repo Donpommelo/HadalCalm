@@ -106,7 +106,7 @@ public class Boss2 extends EnemyFloating {
 		
 		//shitty hard coded way of making the anchor link sync with client
 		if (!state.isServer()) {
-			links[links.length - 1].setTransform(new Vector2(serverPos).scl(32), 0);
+			links[links.length - 1].setTransform(new Vector2(serverPos), 0);
 		}
 	}
 	

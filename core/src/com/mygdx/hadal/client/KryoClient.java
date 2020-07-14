@@ -43,7 +43,6 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
-import com.mygdx.hadal.states.PlayState;
 
 /**
  * This is the client of the game
@@ -80,7 +79,7 @@ public class KryoClient {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
         KryoSerialization serialization = new KryoSerialization(kryo);
-        this.client = new Client(50000, 50000, serialization);
+        this.client = new Client(5000, 5000, serialization);
         client.start();
         
         registerPackets();
@@ -141,30 +140,6 @@ public class KryoClient {
         		}
         		
         		/*
-        		 * SyncEntity packets are received for each synced entity every engine tick.
-        		 * Sync the specified entity.
-        		 */
-        		else if (o instanceof Packets.SyncWorld) {
-        			final Packets.SyncWorld p = (Packets.SyncWorld) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						cs.getBufferedWorldSnapshots().add(p);
-        						if (cs.getTimer() < p.timer - 2 * PlayState.syncTime) {
-        							cs.setTimer(p.timer - 2 * PlayState.syncTime);
-        						} else if (cs.getTimer() > p.timer) {
-        							cs.setTimer(p.timer - 2 * PlayState.syncTime);
-        						}
-        					}
-        				});
-					}
-        		}
-        		
-        		/*
         		 * The client is told to update its own stats.
         		 * These are stats only relevant to one client.
         		 */
@@ -190,7 +165,12 @@ public class KryoClient {
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p, 0.0f);
+						HadalEntity entity = cs.findEntity(p.entityID);
+						if (entity != null) {
+							if (entity instanceof PickupEquip) {
+								((PickupEquip) entity).syncEquip(p);
+							}
+						}
 					}
         		}
         		
@@ -565,7 +545,7 @@ public class KryoClient {
 					@Override
 					public void execute() {
 						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
-						illusion.serverPos.set(p.pos);
+						illusion.serverPos.set(p.pos).scl(1 / PPM);
 						illusion.serverAngle.setAngleRad(p.angle);
         				cs.addEntity(p.entityID, illusion, p.synced, p.layer);
 					}
@@ -664,7 +644,7 @@ public class KryoClient {
 					public void execute() {
 						
 						Enemy enemy = p.type.generateEnemy(cs, p.pos, Constants.ENEMY_HITBOX, 0, null);
-						enemy.serverPos.set(p.pos);
+						enemy.serverPos.set(p.pos).scl(1 / PPM);
 						if (enemy != null) {
 							cs.addEntity(p.entityID, enemy, true, ObjectSyncLayers.STANDARD);
 							enemy.setBoss(p.boss);
@@ -787,7 +767,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.syncEntity(p.entityID, p, p.age);
+				cs.syncEntity(p.entityID, p, p.age, p.timestamp);
 			}
 			return true;
 		}
@@ -797,7 +777,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.syncEntity(p.entityID, p, 0.0f);
+				cs.syncEntity(p.entityID, p, 0.0f, p.timestamp);
 			}
 			return true;
 		}
@@ -807,7 +787,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.syncEntity(p.entityID, p, p.age);
+				cs.syncEntity(p.entityID, p, p.age, p.timestamp);
 			}
 			return true;
 		}
@@ -817,7 +797,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.syncEntity(p.entityID, p, p.age);
+				cs.syncEntity(p.entityID, p, p.age, p.timestamp);
 			}
 			return true;
 		}
@@ -827,7 +807,7 @@ public class KryoClient {
 			final ClientState cs = getClientState();
 			
 			if (cs != null) {
-				cs.syncEntity(p.entityID, p, 0.0f);
+				cs.syncEntity(p.entityID, p, 0.0f, p.timestamp);
 			}
 			return true;
 		}
