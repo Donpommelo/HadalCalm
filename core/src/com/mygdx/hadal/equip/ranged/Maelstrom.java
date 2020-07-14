@@ -49,7 +49,6 @@ public class Maelstrom extends RangedWeapon {
 		SoundEffect.WIND2.playUniversal(state, startPosition, 0.8f, false);
 
 		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
-		storm.setSyncDefault(false);
 		storm.setRestitution(0.5f);
 		
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));

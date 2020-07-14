@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.schmucks.MoveState;
@@ -170,7 +169,7 @@ public class Schmuck extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
+		state.getSyncPackets().add(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
 	}
 	
 	/**
@@ -180,7 +179,9 @@ public class Schmuck extends HadalEntity {
 	public void onClientSync(Object o) {
 		if (o instanceof Packets.SyncSchmuck) {
 			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
-			moveState = p.moveState;
+			if (!this.equals(state.getPlayer())) {
+				moveState = p.moveState;
+			}
 			getBodyData().setOverrideHpPercent(p.hpPercent);
 		} else {
 			super.onClientSync(o);

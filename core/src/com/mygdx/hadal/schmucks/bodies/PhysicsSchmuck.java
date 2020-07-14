@@ -22,7 +22,16 @@ public class PhysicsSchmuck extends Schmuck {
 	@Override
 	public void controller(float delta) {
 		super.controller(delta);
-		
+		applyForce(delta);
+	}
+	
+	@Override
+	public void clientController(float delta) {
+		super.clientController(delta);
+		applyForce(delta);
+	}
+	
+	private void applyForce(float delta) {
 		//This line ensures that this runs every 1/60 second regardless of computer speed.
 		controllerCount += delta;
 		while (controllerCount >= controllerInterval) {

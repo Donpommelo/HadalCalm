@@ -361,12 +361,12 @@ public class PlayState extends GameState {
 	}
 	
 	private float physicsAccumulator = 0.0f;
-	private final static float physicsTime = 1 / 200f;
+	private final static float physicsTime = 0.005f;
 	private float syncAccumulator = 0.0f;
-	private final static float syncTime = 1 / 10f;
 	private float syncFastAccumulator = 0.0f;
-	private final static float syncFastTime = 1 / 60f;
-	public final static float syncInterpolation = 1 / 8f;
+	public final static float syncTime = 0.05f;
+	public final static float syncFastTime = 1 / 60f;
+	public final static float syncInterpolation = 0.125f;
 	private float timer;
 	/**
 	 * Every engine tick, the GameState must process all entities in it according to the time elapsed.
@@ -430,15 +430,15 @@ public class PlayState extends GameState {
 		if (HadalGame.server.getServer() != null) {
 			syncAccumulator += delta;
 			
-			while (syncAccumulator >= syncTime) {
-				syncAccumulator -= syncTime;
+			if (syncAccumulator >= syncTime) {
+				syncAccumulator = 0;
 				syncEntities();
 			}
 			
 			syncFastAccumulator += delta;
 			
-			while (syncFastAccumulator >= syncFastTime) {
-				syncFastAccumulator -= syncFastTime;
+			if (syncFastAccumulator >= syncFastTime) {
+				syncFastAccumulator = 0;
 				syncFastEntities();
 			}
 		}
@@ -504,6 +504,10 @@ public class PlayState extends GameState {
 	private final static float cameraTime = 1 / 120f;
 	public void processCommonStateProperties(float delta) {
 		
+		//Increment the game timer, if exists
+		uiExtra.incrementTimer(delta);
+		timer += delta;
+		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
 		synchronized (addPacketEffects) {
@@ -526,11 +530,6 @@ public class PlayState extends GameState {
 			cameraAccumulator -= cameraTime;
 			cameraUpdate();
 		}
-		
-		//Increment the game timer, if exists
-		uiExtra.incrementTimer(delta);
-		
-		timer += delta;
 	}
 	
 	/**
@@ -566,6 +565,7 @@ public class PlayState extends GameState {
 	/**
 	 * This sends a syncronization packet for every synced entity. syncFastEntities() is used for entities that are synced more frequently
 	 */
+	private ArrayList<Object> syncPackets = new ArrayList<Object>();
 	public void syncEntities() {
 		for (HadalEntity entity : hitboxes) {
 			entity.onServerSync();
@@ -573,6 +573,8 @@ public class PlayState extends GameState {
 		for (HadalEntity entity : entities) {
 			entity.onServerSync();
 		}
+		HadalGame.server.sendToAllUDP(new Packets.SyncWorld(timer, syncPackets));
+		syncPackets.clear();
 	}
 	
 	public void syncFastEntities() {
@@ -1273,6 +1275,8 @@ public class PlayState extends GameState {
 
 	public float getTimer() {return timer; }
 	
+	public void setTimer(float timer) { this.timer = timer; }
+
 	public void setStartId(String startId) { this.startId = startId; }
 
 	public UIExtra getUiExtra() { return uiExtra; }
@@ -1316,4 +1320,6 @@ public class PlayState extends GameState {
 	public float getZoom() { return zoom; }
 	
 	public void setZoom(float zoom) { this.zoomDesired = zoom; }
+
+	public ArrayList<Object> getSyncPackets() {	return syncPackets; }
 }

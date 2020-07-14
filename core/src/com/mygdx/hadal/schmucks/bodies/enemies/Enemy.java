@@ -319,7 +319,7 @@ public class Enemy extends Schmuck {
 	 */
 	@Override
 	public Object onServerCreate() {
-		return new Packets.CreateEnemy(entityID.toString(), getPosition(), type, isBoss, name);
+		return new Packets.CreateEnemy(entityID.toString(), getPixelPosition(), type, isBoss, name);
 	}
 
 	@Override

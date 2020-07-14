@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.UserDataTypes;
@@ -232,8 +231,8 @@ public class EnemyCrawling extends Enemy {
 	
 	@Override
 	public void onServerSync() {
-		HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), currentVel, moveDirection, entityAge, false));
-		HadalGame.server.sendToAllUDP(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
+		state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), currentVel, moveDirection, entityAge, false));
+		state.getSyncPackets().add(new Packets.SyncSchmuck(entityID.toString(), moveState, getBodyData().getCurrentHp() / getBodyData().getStat(Stats.MAX_HP)));
 	}
 	
 	@Override
@@ -241,6 +240,7 @@ public class EnemyCrawling extends Enemy {
 		if (o instanceof Packets.SyncEntity) {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
 			if (body != null) {
+				prevPos.set(serverPos);
 				serverPos.set(p.pos);
 				body.setLinearVelocity(p.velocity);
 			}

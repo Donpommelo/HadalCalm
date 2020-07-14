@@ -55,7 +55,7 @@ public class KryoServer {
 		Kryo kryo = new Kryo();
 		kryo.setReferences(true);
 		KryoSerialization serialization = new KryoSerialization(kryo);
-		this.server = new Server(20000, 20000, serialization);
+		this.server = new Server(50000, 50000, serialization);
 		this.players = new HashMap<Integer, Player>();
 		this.mice = new HashMap<Integer, MouseTracker>();
 		this.scores = new HashMap<Integer, SavedPlayerFields>();
@@ -184,7 +184,6 @@ public class KryoServer {
 					if (ps != null) {
 						if (p.firstTime) {
 							
-							System.out.println("TEST " + p.version + " " + HadalGame.Version + " " + (p.version.equals(HadalGame.Version)));
 							//reject clients with wrong version
 							if (!p.version.equals(HadalGame.Version)) {
 								sendToTCP(c.getID(), new Packets.ConnectReject("INCOMPATIBLE VERSION. HOST ON VER: " + HadalGame.Version));
@@ -423,7 +422,7 @@ public class KryoServer {
 				 */
 				else if (o instanceof Packets.ClientReady) {
 					if (!gsm.getStates().empty() && gsm.getStates().peek() instanceof ResultsState) {
-						final ResultsState vs =  (ResultsState) gsm.getStates().peek();
+						final ResultsState vs = (ResultsState) gsm.getStates().peek();
 						Gdx.app.postRunnable(new Runnable() {
 	        				
 	                        @Override

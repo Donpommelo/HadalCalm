@@ -85,8 +85,6 @@ public class MorningStar extends MeleeWeapon {
 		base = new Hitbox(state, shooter.getSchmuck().getPixelPosition(), chainSize, 0, new Vector2(0, 0), shooter.getSchmuck().getHitboxfilter(), true, false, user, chainSprite);
 		base.setDensity(0.1f);
 		base.makeUnreflectable();
-		base.setSyncDefault(false);
-		base.setSyncInstant(true);
 		
 		base.addStrategy(new HitboxStrategy(state, base, user.getBodyData()) {
 			
@@ -132,8 +130,6 @@ public class MorningStar extends MeleeWeapon {
 
 			links[i].setDensity(0.1f);
 			links[i].makeUnreflectable();
-			links[i].setSyncDefault(false);
-			links[i].setSyncInstant(true);
 			
 			links[i].addStrategy(new HitboxStrategy(state, links[i], user.getBodyData()) {
 				
@@ -187,8 +183,6 @@ public class MorningStar extends MeleeWeapon {
 		star.setGravity(3.0f);
 		star.setDensity(0.1f);
 		star.makeUnreflectable();
-		star.setSyncDefault(false);
-		star.setSyncInstant(true);
 		
 		star.addStrategy(new DamageStandardRepeatable(state, star, user.getBodyData(), baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MELEE));
 		star.addStrategy(new ContactWallSound(state, star, user.getBodyData(), SoundEffect.WALL_HIT1, 0.25f));

@@ -63,6 +63,8 @@ public class Ragdoll extends HadalEntity {
 		if (!sprite.equals(Sprite.NOTHING)) {
 			ragdollSprite = sprite.getFrame();
 		}
+		
+		setSyncDefault(false);
 	}
 
 	private Vector2 newVelocity = new Vector2();

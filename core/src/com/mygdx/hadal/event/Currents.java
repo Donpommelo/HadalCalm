@@ -111,7 +111,7 @@ public class Currents extends Event {
 			int randX = (int) ((Math.random() * size.x) - (size.x / 2) + getPixelPosition().x);
 			int randY = (int) ((Math.random() * size.y) - (size.y / 2) + getPixelPosition().y);
 			
-			Ragdoll ragdoll = new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, true, true, false);
+			Ragdoll ragdoll = new Ragdoll(state, new Vector2(randX, randY), new Vector2(48, 48), Sprite.NOTHING, new Vector2(0, 0), 0.25f, 0.0f, false, true, false);
 			ParticleEntity bubbles = new ParticleEntity(state, ragdoll, Particle.BUBBLE_TRAIL, 0.5f, 0.0f, true, particleSyncType.NOSYNC);
 			((ClientState) state).addEntity(ragdoll.getEntityID().toString(), ragdoll, false, ObjectSyncLayers.STANDARD);
 			((ClientState) state).addEntity(bubbles.getEntityID().toString(), bubbles, false, ObjectSyncLayers.STANDARD);

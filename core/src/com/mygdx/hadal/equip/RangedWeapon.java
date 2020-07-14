@@ -181,8 +181,8 @@ public class RangedWeapon extends Equipable {
 			ammoLeft -= clipToReload;
 			clipLeft += clipToReload;
 			
-			clipPercent = (float)clipLeft / getClipSize();
-			ammoPercent = (float)ammoLeft / getAmmoSize();
+			clipPercent = (float) clipLeft / getClipSize();
+			ammoPercent = (float) ammoLeft / getAmmoSize();
 			
 			reloadCd = 0;
 

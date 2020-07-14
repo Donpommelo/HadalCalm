@@ -287,28 +287,26 @@ public class Player extends PhysicsSchmuck {
 				hitboxfilter, false, playerData);
 		
 		//On the server, we create several extra fixtures to keep track of feet/sides to determine when the player gets their jump back and what terrain event they are standing on.
-		if (state.isServer()) {
-			this.feetData = new FeetData(UserDataTypes.FEET, this); 
-			
-			this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
-					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
-			
-			feet.setUserData(feetData);
-			
-			this.leftData = new FeetData(UserDataTypes.FEET, this); 
-			
-			this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-					Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter));
-			
-			leftSensor.setUserData(leftData);
-			
-			this.rightData = new FeetData(UserDataTypes.FEET, this); 
-			
-			this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
-					Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter));
-			
-			rightSensor.setUserData(rightData);
-		}
+		this.feetData = new FeetData(UserDataTypes.FEET, this); 
+		
+		this.feet = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(0.5f, - size.y / 2), new Vector2(size.x - 2, size.y / 8), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY | Constants.BIT_DROPTHROUGHWALL), hitboxfilter));
+		
+		feet.setUserData(feetData);
+		
+		this.leftData = new FeetData(UserDataTypes.FEET, this); 
+		
+		this.leftSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(-size.x / 2, 0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, (short)(Constants.BIT_WALL), hitboxfilter));
+		
+		leftSensor.setUserData(leftData);
+		
+		this.rightData = new FeetData(UserDataTypes.FEET, this); 
+		
+		this.rightSensor = this.body.createFixture(FixtureBuilder.createFixtureDef(new Vector2(size.x / 2,  0.5f), new Vector2(size.x / 8, size.y - 2), true, 0, 0, 0, 0,
+				Constants.BIT_SENSOR, Constants.BIT_WALL, hitboxfilter));
+		
+		rightSensor.setUserData(rightData);
 
 		//If the player is spawning into a new level, initialize loadout and give brief invulnerability.
 		if (reset) {
@@ -719,10 +717,14 @@ public class Player extends PhysicsSchmuck {
 		if (playerData.getCurrentTool().isReloading()) {
 			
 			//Calculate reload progress
-			reloadDelayed = reloadDelayed + (reloadPercent - reloadDelayed) * 0.1f;
+			reloadDelayed = reloadDelayed + (reloadPercent - reloadDelayed) * 0.25f;
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * reloadDelayed, reloadBar.getRegionHeight() * uiScale);
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, "RELOADING", textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
+			
+			if (reloadDelayed > reloadPercent) {
+				reloadDelayed = 0.0f;
+			}
 		} else {
 			reloadDelayed = 0.0f;
 		}
@@ -730,7 +732,7 @@ public class Player extends PhysicsSchmuck {
 		if (playerData.getCurrentTool().isCharging()) {
 			
 			//Calculate charge progress
-			chargeDelayed = chargeDelayed + (chargePercent - chargeDelayed) * 0.1f;
+			chargeDelayed = chargeDelayed + (chargePercent - chargeDelayed) * 0.25f;
 			batch.draw(reloadBar, textX + 10, textY + 4, reloadBar.getRegionWidth() * uiScale * chargeDelayed, reloadBar.getRegionHeight() * uiScale);
 			HadalGame.SYSTEM_FONT_SPRITE.draw(batch, playerData.getCurrentTool().getChargeText(), textX + 12, textY + reload.getRegionHeight() * uiScale);
 			batch.draw(reloadMeter, textX, textY, reload.getRegionWidth() * uiScale, reload.getRegionHeight() * uiScale);
@@ -860,8 +862,7 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void onServerSync() {
 		super.onServerSync();
-
-		HadalGame.server.sendToAllUDP(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
+		state.getSyncPackets().add(new Packets.SyncPlayerAll(entityID.toString(), mouseAngle, grounded, playerData.getCurrentSlot(), 
 				playerData.getCurrentTool().isReloading(), reloadPercent, playerData.getCurrentTool().isCharging(), chargePercent, playerData.getCurrentTool().isOutofAmmo(), getMainFixture().getFilterData().maskBits));
 		
 		HadalGame.server.sendPacketToPlayer(this, new Packets.SyncPlayerSelf(playerData.getCurrentFuel() / playerData.getStat(Stats.MAX_FUEL), 
@@ -901,10 +902,15 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-
-		//client mouse lerps towards the angle sent by server
-		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
-		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+		
+		if (this == state.getPlayer()) {
+			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
+			attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+		} else {
+			//client mouse lerps towards the angle sent by server
+			mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
+			attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
+		}
 	}
 	
 	private float shortestFraction;

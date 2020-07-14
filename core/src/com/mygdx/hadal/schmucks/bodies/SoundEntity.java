@@ -2,7 +2,6 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.ClientState;
@@ -165,7 +164,7 @@ public class SoundEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					HadalGame.server.sendToAllUDP(new Packets.SyncSound(entityID.toString(), newPos, volume, on, entityAge));
+					state.getSyncPackets().add(new Packets.SyncSound(entityID.toString(), newPos, volume, on, entityAge));
 				}
 			}
 		}

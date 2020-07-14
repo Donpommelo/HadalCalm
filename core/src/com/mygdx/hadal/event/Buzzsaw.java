@@ -74,6 +74,7 @@ public class Buzzsaw extends Event {
 	 */
 	@Override
 	public void clientController(float delta) {
+		super.clientController(delta);
 		angle += spinSpeed;
 	}
 	

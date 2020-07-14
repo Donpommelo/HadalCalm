@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -44,6 +43,7 @@ import com.mygdx.hadal.utils.UnlocktoItem;
 import com.mygdx.hadal.states.ClientState.ObjectSyncLayers;
 import com.mygdx.hadal.states.GameState;
 import com.mygdx.hadal.states.PauseState;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * This is the client of the game
@@ -66,6 +66,8 @@ public class KryoClient {
     //this is the client's connection id
     public int connID;
     
+    public Listener packetListener;
+    
     public KryoClient(GameStateManager gameStateManager) {
     	this.gsm = gameStateManager;
     	scores = new HashMap<Integer, SavedPlayerFields>();
@@ -78,12 +80,12 @@ public class KryoClient {
 		Kryo kryo = new Kryo();
         kryo.setReferences(true);
         KryoSerialization serialization = new KryoSerialization(kryo);
-        this.client = new Client(20000, 20000, serialization);
+        this.client = new Client(50000, 50000, serialization);
         client.start();
         
         registerPackets();
 
-        Listener packetListener = new Listener() {
+        packetListener = new Listener() {
         	
         	/**
         	 * Upon connecting to server, send a playerConnect packet with your name.
@@ -130,175 +132,65 @@ public class KryoClient {
         	 */
         	@Override
         	public void received(Connection c, final Object o) {
-
+        		
+        		
+        		if (HadalGame.client.receiveSyncPacket(o)) {
+        			return;
+        		} else if (HadalGame.client.receiveAddRemovePacket(o)) {
+        			return;
+        		}
+        		
         		/*
         		 * SyncEntity packets are received for each synced entity every engine tick.
         		 * Sync the specified entity.
         		 */
-        		if (o instanceof Packets.SyncEntity) {
-        			Packets.SyncEntity p = (Packets.SyncEntity) o;
+        		else if (o instanceof Packets.SyncWorld) {
+        			final Packets.SyncWorld p = (Packets.SyncWorld) o;
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
-						cs.syncEntity(p.entityID, p, p.age);
+						cs.addPacketEffect(new PacketEffect() {
+        					
+        					@Override
+        					public void execute() {
+        						cs.getBufferedWorldSnapshots().add(p);
+        						if (cs.getTimer() < p.timer - 2 * PlayState.syncTime) {
+        							cs.setTimer(p.timer - 2 * PlayState.syncTime);
+        						} else if (cs.getTimer() > p.timer) {
+        							cs.setTimer(p.timer - 2 * PlayState.syncTime);
+        						}
+        					}
+        				});
 					}
         		}
         		
-        		else if (o instanceof Packets.SyncSchmuck) {
-        			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+        		/*
+        		 * The client is told to update its own stats.
+        		 * These are stats only relevant to one client.
+        		 */
+        		else if (o instanceof Packets.SyncPlayerSelf) {
+        			Packets.SyncPlayerSelf p = (Packets.SyncPlayerSelf) o;
         			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.syncEntity(p.entityID, p, 0.0f);
-					}
+        			
+        			if (cs != null) {
+        				if (cs.getUiPlay() != null) {
+        					cs.getUiPlay().setOverrideFuelPercent(p.fuelPercent);
+        					cs.getUiPlay().setOverrideClipLeft(p.currentClip);
+        					cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
+        					cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
+        				}
+        			}
+        		} else {
+        			HadalGame.client.receiveAddRemovePacket(o);
+            		HadalGame.client.receiveSyncPacket(o);
         		}
         		
-        		else if (o instanceof Packets.SyncPlayerAll) {
-        			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.syncEntity(p.entityID, p, 0.0f);
-					}
-        		}
-        		
-        		else if (o instanceof Packets.SyncPickup) {
+        		if (o instanceof Packets.SyncPickup) {
         			Packets.SyncPickup p = (Packets.SyncPickup) o;
         			final ClientState cs = getClientState();
 					
 					if (cs != null) {
 						cs.syncEntity(p.entityID, p, 0.0f);
-					}
-        		}
-        		
-        		else if (o instanceof Packets.SyncParticles) {
-        			Packets.SyncParticles p = (Packets.SyncParticles) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.syncEntity(p.entityID, p, p.age);
-					}
-        		}
-        		
-        		else if (o instanceof Packets.SyncSound) {
-        			Packets.SyncSound p = (Packets.SyncSound) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.syncEntity(p.entityID, p, p.age);
-					}
-        		}
-        		
-        		/*
-        		 * The Server tells us to create a new entity.
-        		 * Create a Client Illusion with the specified dimentions
-        		 */
-        		else if (o instanceof Packets.CreateEntity) {
-        			final Packets.CreateEntity p = (Packets.CreateEntity) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
-        						illusion.serverPos.set(p.pos).scl(1 / PPM);
-        						illusion.serverAngle.setAngleRad(p.angle);
-                				cs.addEntity(p.entityID, illusion, p.synced, p.layer);
-        					}
-        				});
-					}
-        		}
-        		
-        		/*
-        		 * The Server tells us to delete an entity
-        		 * Delete the entity
-        		 */
-        		else if (o instanceof Packets.DeleteEntity) {
-        			final Packets.DeleteEntity p = (Packets.DeleteEntity) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-                				cs.removeEntity(p.entityID);
-        					}
-        				});
-					}
-        		}
-        		
-        		/*
-        		 * The Server tells us to create a particle entity.
-        		 * Create the designated particles and attach it accordingly
-        		 */
-        		else if (o instanceof Packets.CreateParticles) {
-        			final Packets.CreateParticles p = (Packets.CreateParticles) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						if (p.attached) {
-        							ParticleEntity entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC, p.pos);
-        							entity.setAttachedId(p.attachedID);
-        							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
-        							entity.setScale(p.scale);
-        							entity.setRotate(p.rotate);
-        							entity.setColor(p.color);
-        						} else {
-        							ParticleEntity entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
-            						cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
-            						entity.setScale(p.scale);
-        							entity.setRotate(p.rotate);
-        							entity.setColor(p.color);
-        						}
-            				}
-    					});
-					}
-        		}
-        		
-        		/*
-        		 * Server tells us to create a SoundEntity to play a sound
-        		 * Create entity and set is attachedId so that it will connect once it is created.
-        		 */
-        		else if (o instanceof Packets.CreateSound) {
-        			final Packets.CreateSound p = (Packets.CreateSound) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.looped, p.on, soundSyncType.NOSYNC);
-        						entity.setAttachedId(p.attachedID);
-    							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
-            				}
-    					});
-					}
-        		}
-        		
-        		/*
-        		 * Server tells us to create a ragdoll. Ragdolls are not synced.
-        		 */
-        		else if (o instanceof Packets.CreateRagdoll) {
-        			final Packets.CreateRagdoll p = (Packets.CreateRagdoll) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo, p.sensor, false);
-    							cs.addEntity(p.entityID, entity, false, ObjectSyncLayers.STANDARD);
-            				}
-    					});
 					}
         		}
         		
@@ -320,24 +212,6 @@ public class KryoClient {
 							cs.getUiPlay().setOverrideArtifactSlots(p.artifactSlots);
 							cs.getUiPlay().setOverrideHealthVisibility(p.healthVisible);
 						}
-					}
-        		}
-        		
-        		/*
-        		 * The client is told to update its own stats.
-        		 * These are stats only relevant to one client.
-        		 */
-        		else if (o instanceof Packets.SyncPlayerSelf) {
-        			Packets.SyncPlayerSelf p = (Packets.SyncPlayerSelf) o;
-        			final ClientState cs = getClientState();
-					
-        			if (cs != null) {
-        				if (cs.getUiPlay() != null) {
-        					cs.getUiPlay().setOverrideFuelPercent(p.fuelPercent);
-    						cs.getUiPlay().setOverrideClipLeft(p.currentClip);
-    						cs.getUiPlay().setOverrideAmmoSize(p.currentAmmo);
-    						cs.getUiPlay().setOverrideActivePercent(p.activeCharge);
-        				}
 					}
         		}
         		
@@ -380,111 +254,6 @@ public class KryoClient {
         						cs.getScoreWindow().syncScoreTable();
         					}
         				});
-					}
-        		}
-        		
-        		/*
-        		 * The Server tells us to create a new enemy entity
-        		 * Create the enemy based on server spefications
-        		 */
-        		else if (o instanceof Packets.CreateEnemy) {
-        			final Packets.CreateEnemy p = (Packets.CreateEnemy) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						
-        						Enemy enemy = p.type.generateEnemy(cs, new Vector2(), Constants.ENEMY_HITBOX, 0, null);
-        						enemy.serverPos.set(p.pos).scl(1 / PPM);
-        						if (enemy != null) {
-        							cs.addEntity(p.entityID, enemy, true, ObjectSyncLayers.STANDARD);
-        							enemy.setBoss(p.boss);
-        							if (p.boss) {
-        								enemy.setName(p.name);
-            							cs.setBoss(enemy);
-            						}
-        						}
-        					}
-        				});
-					}
-        		}
-        		
-        		/*
-        		 * The server tells us to create a new player
-        		 * Create the player, unless it is ourselves(based on our given id)
-        		 * If the player is ourselves, we attach our state's player (ourselves) to the entity.
-        		 * Essentially, we create new "other players" but always reuse our state's player for ourselves
-        		 */
-        		else if (o instanceof Packets.CreatePlayer) {
-        			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						
-        						Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true);
-                				newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
-                				newPlayer.setStartPos(p.startPosition);
-                				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
-                				
-        						if (p.connID == connID) {
-        							cs.setPlayer(newPlayer);
-                					
-                					//set camera to look at new client player.
-                    				cs.camera.position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
-                				}
-        					}
-        				});
-					}
-        		}
-        		
-        		/*
-        		 * The Server tells us to create a new event
-        		 * We create the event using its provided map object blueprint
-        		 */
-        		else if (o instanceof Packets.CreateEvent) {
-        			final Packets.CreateEvent p = (Packets.CreateEvent) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						MapObject blueprint = p.blueprint;
-        						blueprint.getProperties().put("sync", "USER");
-        						
-        						Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
-        						e.serverPos.set(e.getStartPos()).scl(1 / PPM);
-        						cs.addEntity(p.entityID, e, p.synced, ObjectSyncLayers.STANDARD);
-            				}
-    					});
-					}
-        		}
-        		
-        		/*
-        		 * Event Creation for specific Pickup event.
-        		 */
-        		else if (o instanceof Packets.CreatePickup) {
-        			final Packets.CreatePickup p = (Packets.CreatePickup) o;
-        			final ClientState cs = getClientState();
-					
-					if (cs != null) {
-						cs.addPacketEffect(new PacketEffect() {
-        					
-        					@Override
-        					public void execute() {
-        						PickupEquip pickup = new PickupEquip(cs, p.pos, "");
-        						pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
-        						cs.addEntity(p.entityID, pickup, false, ObjectSyncLayers.STANDARD);
-            				}
-    					});
 					}
         		}
         		
@@ -778,6 +547,291 @@ public class KryoClient {
         
 //        client.addListener(new Listener.LagListener(100, 100, packetListener));
         client.addListener(packetListener);
+	}
+	
+	public boolean receiveAddRemovePacket(Object o) {
+		
+		/*
+		 * The Server tells us to create a new entity.
+		 * Create a Client Illusion with the specified dimentions
+		 */
+		if (o instanceof Packets.CreateEntity) {
+			final Packets.CreateEntity p = (Packets.CreateEntity) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						ClientIllusion illusion = new ClientIllusion(cs, p.pos, p.size, p.angle, p.sprite, p.align);
+						illusion.serverPos.set(p.pos);
+						illusion.serverAngle.setAngleRad(p.angle);
+        				cs.addEntity(p.entityID, illusion, p.synced, p.layer);
+					}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * The Server tells us to delete an entity
+		 * Delete the entity
+		 */
+		else if (o instanceof Packets.DeleteEntity) {
+			final Packets.DeleteEntity p = (Packets.DeleteEntity) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+        				cs.removeEntity(p.entityID);
+					}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * The Server tells us to create a particle entity.
+		 * Create the designated particles and attach it accordingly
+		 */
+		else if (o instanceof Packets.CreateParticles) {
+			final Packets.CreateParticles p = (Packets.CreateParticles) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						if (p.attached) {
+							ParticleEntity entity = new ParticleEntity(cs, null, Particle.valueOf(p.particle), p.linger, p.lifespan, p.startOn, particleSyncType.NOSYNC, p.pos);
+							entity.setAttachedId(p.attachedID);
+							cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
+							entity.setScale(p.scale);
+							entity.setRotate(p.rotate);
+							entity.setColor(p.color);
+						} else {
+							ParticleEntity entity = new ParticleEntity(cs, p.pos, Particle.valueOf(p.particle), p.lifespan, p.startOn, particleSyncType.NOSYNC);
+    						cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
+    						entity.setScale(p.scale);
+							entity.setRotate(p.rotate);
+							entity.setColor(p.color);
+						}
+    				}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * Server tells us to create a SoundEntity to play a sound
+		 * Create entity and set is attachedId so that it will connect once it is created.
+		 */
+		else if (o instanceof Packets.CreateSound) {
+			final Packets.CreateSound p = (Packets.CreateSound) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.looped, p.on, soundSyncType.NOSYNC);
+						entity.setAttachedId(p.attachedID);
+						cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
+    				}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * The Server tells us to create a new enemy entity
+		 * Create the enemy based on server spefications
+		 */
+		else if (o instanceof Packets.CreateEnemy) {
+			final Packets.CreateEnemy p = (Packets.CreateEnemy) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						
+						Enemy enemy = p.type.generateEnemy(cs, p.pos, Constants.ENEMY_HITBOX, 0, null);
+						enemy.serverPos.set(p.pos);
+						if (enemy != null) {
+							cs.addEntity(p.entityID, enemy, true, ObjectSyncLayers.STANDARD);
+							enemy.setBoss(p.boss);
+							if (p.boss) {
+								enemy.setName(p.name);
+    							cs.setBoss(enemy);
+    						}
+						}
+					}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * The server tells us to create a new player
+		 * Create the player, unless it is ourselves(based on our given id)
+		 * If the player is ourselves, we attach our state's player (ourselves) to the entity.
+		 * Essentially, we create new "other players" but always reuse our state's player for ourselves
+		 */
+		else if (o instanceof Packets.CreatePlayer) {
+			final Packets.CreatePlayer p = (Packets.CreatePlayer) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						
+						Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true);
+        				newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
+        				newPlayer.setStartPos(p.startPosition);
+        				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);
+        				
+						if (p.connID == connID) {
+							cs.setPlayer(newPlayer);
+        					
+        					//set camera to look at new client player.
+            				cs.camera.position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
+        				}
+					}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * The Server tells us to create a new event
+		 * We create the event using its provided map object blueprint
+		 */
+		else if (o instanceof Packets.CreateEvent) {
+			final Packets.CreateEvent p = (Packets.CreateEvent) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						MapObject blueprint = p.blueprint;
+						blueprint.getProperties().put("sync", "USER");
+						
+						Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
+						e.serverPos.set(e.getStartPos()).scl(1 / PPM);
+						cs.addEntity(p.entityID, e, p.synced, ObjectSyncLayers.STANDARD);
+    				}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * Server tells us to create a ragdoll. Ragdolls are not synced.
+		 */
+		else if (o instanceof Packets.CreateRagdoll) {
+			final Packets.CreateRagdoll p = (Packets.CreateRagdoll) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						Ragdoll entity = new Ragdoll(cs, p.pos, p.size, p.sprite, p.velocity, p.duration, p.gravity, p.setVelo, p.sensor, false);
+						cs.addEntity(p.entityID, entity, false, ObjectSyncLayers.STANDARD);
+    				}
+				});
+			}
+			return true;
+		}
+		
+		/*
+		 * Event Creation for specific Pickup event.
+		 */
+		else if (o instanceof Packets.CreatePickup) {
+			final Packets.CreatePickup p = (Packets.CreatePickup) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.addPacketEffect(new PacketEffect() {
+					
+					@Override
+					public void execute() {
+						PickupEquip pickup = new PickupEquip(cs, p.pos, "");
+						pickup.setEquip(UnlocktoItem.getUnlock(UnlockEquip.valueOf(p.newPickup), null));
+						cs.addEntity(p.entityID, pickup, false, ObjectSyncLayers.STANDARD);
+    				}
+				});
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean receiveSyncPacket(Object o) {
+		
+		if (o instanceof Packets.SyncEntity) {
+			Packets.SyncEntity p = (Packets.SyncEntity) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.syncEntity(p.entityID, p, p.age);
+			}
+			return true;
+		}
+		
+		else if (o instanceof Packets.SyncSchmuck) {
+			Packets.SyncSchmuck p = (Packets.SyncSchmuck) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.syncEntity(p.entityID, p, 0.0f);
+			}
+			return true;
+		}
+		
+		else if (o instanceof Packets.SyncParticles) {
+			Packets.SyncParticles p = (Packets.SyncParticles) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.syncEntity(p.entityID, p, p.age);
+			}
+			return true;
+		}
+		
+		else if (o instanceof Packets.SyncSound) {
+			Packets.SyncSound p = (Packets.SyncSound) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.syncEntity(p.entityID, p, p.age);
+			}
+			return true;
+		}
+		
+		else if (o instanceof Packets.SyncPlayerAll) {
+			Packets.SyncPlayerAll p = (Packets.SyncPlayerAll) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.syncEntity(p.entityID, p, 0.0f);
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	/**

@@ -153,12 +153,24 @@ public class Hexenhowitzer extends RangedWeapon {
 	
 	//this is to avoid resetting the charge status when reequipping this weapon
 	@Override
-	public void equip(PlayState state) {}
+	public void equip(PlayState state) {
+		if (supercharged) {
+			glowing = new MagicGlow(state, user.getBodyData());
+			user.getBodyData().addStatus(glowing);
+		}
+	}
 		
 	@Override
 	public boolean reload(float delta) { 
 		reloading = false;
 		return false;
+	}
+	
+	@Override
+	public void unequip(PlayState state) {
+		if (glowing != null) {
+			user.getBodyData().removeStatus(glowing);
+		}
 	}
 	
 	//custom charging text to convey supercharge information

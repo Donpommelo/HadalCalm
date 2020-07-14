@@ -190,7 +190,7 @@ public abstract class HadalEntity {
 	 */
 	public void onServerSync() {
 		if (body != null && syncDefault) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, false));
+			state.getSyncPackets().add(new Packets.SyncEntity(entityID.toString(), getPosition(), body.getLinearVelocity(), getAngle(), entityAge, false));
 		}
 	}
 	
@@ -201,13 +201,18 @@ public abstract class HadalEntity {
 	}
 	
 	//the position of this entity on the server
+	public Vector2 prevPos = new Vector2();
 	public Vector2 serverPos = new Vector2();
+	
+	public Vector2 prevVelo = new Vector2();
+	public Vector2 serverVelo = new Vector2();
 	
 	//the angle of this entity on the server
 	public Vector2 serverAngle = new Vector2(1, 0);
 	
 	//should the client entity lerp to the server's position or just adjust instantly?
 	public boolean copyServerInstantly;
+	
 	/**
 	 * This is called when the client receives the above packet.
 	 * Set the entity's body data
@@ -221,9 +226,13 @@ public abstract class HadalEntity {
 			if (copyServerInstantly) {
 				setTransform(p.pos, p.angle);
 			} else {
+				prevPos.set(serverPos);
 				serverPos.set(p.pos);
+				
+				prevVelo.set(serverVelo);
+				serverVelo.set(p.velocity);
+				
 				serverAngle.setAngleRad(p.angle);			
-				body.setLinearVelocity(p.velocity);
 			}
 		}
 	}
@@ -231,14 +240,14 @@ public abstract class HadalEntity {
 	//this vector is used to calculate linear interpolation
 	public Vector2 angleAsVector = new Vector2(0, 1);
 	
-	//if difference between client and server exceeds these values, the client entity instantly adjusts.
-	private static float maxDist = 3;
-	private static float maxAngleDist = 0.1f;
-	
 	//the client processes interpolation at this speed regardless of framerate
 	private final static float clientSyncTime = 1 / 60f;
 	private float clientSyncAccumulator = 0.0f;
 	
+	//this extra vector is used b/c interpolation updates the start vector
+	public Vector2 lerpPos = new Vector2();
+	public Vector2 lerpVelo = new Vector2();
+
 	/**
 	 * This is a replacement to controller() that is run for clients.
 	 * This is used for things that have to process stuff for the client, and not just server-side
@@ -252,9 +261,16 @@ public abstract class HadalEntity {
 			//if we are receiving syncs, lerp towrads the saved position and angle
 			if (body != null && receivingSyncs) {
 				if (!copyServerInstantly) {
-					setTransform(
-							body.getPosition().dst(serverPos) > maxDist ? serverPos : body.getPosition().lerp(serverPos, PlayState.syncInterpolation), 
-							Math.abs(body.getAngle() - serverAngle.angleRad()) > maxAngleDist ? serverAngle.angleRad() : angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+					if (((ClientState) state).getElapsedTime() <= 1.0f) {
+						if (((ClientState) state).getElapsedTime() >= 0.0f) {
+							lerpPos.set(prevPos);
+							lerpVelo.set(prevVelo);
+							setTransform(lerpPos.lerp(serverPos, ((ClientState) state).getElapsedTime()), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+//							body.setLinearVelocity(lerpVelo.lerp(serverVelo, ((ClientState) state).getElapsedTime()));
+						}
+					} else {
+						setTransform(serverPos, serverAngle.angleRad());
+					}
 				}
 			}
 		}

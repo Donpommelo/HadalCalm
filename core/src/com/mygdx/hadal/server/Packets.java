@@ -1,5 +1,6 @@
 package com.mygdx.hadal.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.maps.MapObject;
@@ -949,11 +950,25 @@ public class Packets {
 		public SyncSharedSettings() {}
 		
 		/**
-		 * A SyncSharedSettings is sent from the server ro the client when the client connects, or when settings are changed.
+		 * A SyncSharedSettings is sent from the server to the client when the client connects, or when settings are changed.
 		 * @param settings: the host settings to be displayed in the score window ui
 		 */
 		public SyncSharedSettings(SharedSetting settings) {
 			this.settings = settings;
+		}
+	}
+	
+	public static class SyncWorld {
+		public float timer;
+		public ArrayList<Object> syncPackets;
+		
+		public SyncWorld() {}
+		
+		/**
+		 */
+		public SyncWorld(float timer, ArrayList<Object> syncPackets) {
+			this.timer = timer;
+			this.syncPackets = syncPackets;
 		}
 	}
 	
@@ -962,6 +977,7 @@ public class Packets {
      * @param kryo The kryo object
      */
     public static void allPackets(Kryo kryo) {
+    	kryo.register(ArrayList.class);
     	kryo.register(ConnectReject.class);
     	kryo.register(PlayerConnect.class);
     	kryo.register(ServerLoaded.class);
@@ -1005,5 +1021,6 @@ public class Packets {
     	kryo.register(StartSpectate.class);
     	kryo.register(EndSpectate.class);
     	kryo.register(SyncSharedSettings.class);
+    	kryo.register(SyncWorld.class);
     }
 }

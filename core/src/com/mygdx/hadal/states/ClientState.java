@@ -1,6 +1,5 @@
 package com.mygdx.hadal.states;
 
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -31,6 +30,9 @@ public class ClientState extends PlayState {
 	public final static float missedDeleteCooldown = 4.0f;
 	public final static float missedCreateCooldown = 4.0f;
 	
+	//this is the max time in seconds that the client's timer can be behind the server's
+	public final static float maxClientLag = 1.0f;
+
 	//This is a set of all non-hitbox entities in the world mapped from their entityId
 	private LinkedHashMap<String, HadalEntity> entities;
 	
@@ -45,6 +47,15 @@ public class ClientState extends PlayState {
 	
 	//This is the time since the last missed create packet we send the server. Kept track of to avoid sending too many at once.
 	private float timeSinceLastMissedCreate;
+	
+	//this is the second most recent/most recent time stamp we received from the server.
+	private float prevTimeStamp, nextTimeStamp;
+	
+	//this is the percent of time elapsed between the most recent 2 time stamps
+	private float elapsedTime;
+	
+	//
+	private ArrayList<Packets.SyncWorld> bufferedWorldSnapshots = new ArrayList<Packets.SyncWorld>();
 	
 	public ClientState(GameStateManager gsm, Loadout loadout, UnlockLevel level) {
 		super(gsm, loadout, level, false, null, true, "");
@@ -68,7 +79,7 @@ public class ClientState extends PlayState {
 		if (!gsm.getStates().empty()) {
 			if (gsm.getStates().peek() instanceof PlayState) {
 				//Whenever the controller is reset, the client gets a new client controller.
-				controller = new ClientController(this);
+				controller = new ClientController(player, this);
 				
 				InputMultiplexer inputMultiplexer = new InputMultiplexer();
 				
@@ -136,6 +147,19 @@ public class ClientState extends PlayState {
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta);
 		
+		if (!bufferedWorldSnapshots.isEmpty()) {
+			if (getTimer() >= nextTimeStamp) {
+				Packets.SyncWorld p = bufferedWorldSnapshots.remove(0);
+				prevTimeStamp = nextTimeStamp;
+				nextTimeStamp = p.timer;
+				
+				for (Object sync: p.syncPackets) {
+					HadalGame.client.receiveSyncPacket(sync);
+				}
+			}
+		}
+		
+		elapsedTime = (getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
 		timeSinceLastMissedCreate += delta;
 		
 		//All sync instructions are carried out.
@@ -260,7 +284,7 @@ public class ClientState extends PlayState {
 	 * This is called whenever the client is told to synchronize an object from the world.
 	 * @param entityId: The unique id of the object to be synchronized
 	 * @param o: The SyncEntity Packet to use to sychronize the object
-	 * @param age: the age of the entity o nthe server. If we are told to sync an entity we don't have that's old enough, we missed a create packet.
+	 * @param age: the age of the entity on the server. If we are told to sync an entity we don't have that's old enough, we missed a create packet.
 	 */
 	public void syncEntity(String entityId, Object o, float age) {
 		Object[] packet = {entityId, o, age};
@@ -308,6 +332,22 @@ public class ClientState extends PlayState {
 	
 	public UIPlayClient getUiPlay() { return (UIPlayClient) uiPlay; }
 	
+	public float getPrevTimeStamp() { return prevTimeStamp; }
+
+	public void setPrevTimeStamp(float prevTimeStamp) { this.prevTimeStamp = prevTimeStamp; }
+
+	public float getNextTimeStamp() { return nextTimeStamp; }
+
+	public void setNextTimeStamp(float nextTimeStamp) { this.nextTimeStamp = nextTimeStamp; }
+
+	public float getElapsedTime() {	return elapsedTime; }
+
+	public void setElapsedTime(float elapsedTime) { this.elapsedTime = elapsedTime; }
+
+	public ArrayList<Packets.SyncWorld> getBufferedWorldSnapshots() { return bufferedWorldSnapshots; }
+
+	public Vector3 getMousePosition() { return mousePosition; }
+
 	/**
 	 * Z-Axis Layers that entities can be added to. ATM, there is just 1 for hitboxes beneath everything else.
 	 * @author Zachary Tu

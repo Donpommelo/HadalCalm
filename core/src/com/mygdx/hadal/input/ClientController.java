@@ -3,6 +3,8 @@ package com.mygdx.hadal.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.hadal.HadalGame;
+import com.mygdx.hadal.schmucks.MoveState;
+import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.states.PlayState;
 
@@ -13,23 +15,43 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class ClientController implements InputProcessor {
 	
+	private Player player;
 	private PlayState state;
 	
-	public ClientController(PlayState state) {
+	//Is the player currently holding move left/right? This is used for processing holding both buttons -> releasing one. 
+	private boolean leftDown = false;
+	private boolean rightDown = false;
+		
+	public ClientController(Player player, PlayState state) {
+		this.player = player;
 		this.state = state;
 		syncController();
 	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
-
+		if (player == null) { return true; }
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
+			leftDown = true;
+			if (!rightDown) {
+				player.setMoveState(MoveState.MOVE_LEFT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
+			
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_LEFT));
 		} 
 		
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
+			rightDown = true;
+			if (!leftDown) {
+				player.setMoveState(MoveState.MOVE_RIGHT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
+			
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.WALK_RIGHT));
 		} 
 		
@@ -120,10 +142,26 @@ public class ClientController implements InputProcessor {
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
+			
+			leftDown = false;
+			if (rightDown) {
+				player.setMoveState(MoveState.MOVE_RIGHT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
+			
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_LEFT));
 		} 
 		
 		else if (keycode == PlayerAction.WALK_RIGHT.getKey()) {
+			
+			rightDown = false;
+			if (leftDown) {
+				player.setMoveState(MoveState.MOVE_LEFT);
+			} else {
+				player.setMoveState(MoveState.STAND);
+			}
+			
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.WALK_RIGHT));
 		} 
 		

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter.ScaledNumericValue;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.managers.GameStateManager;
@@ -243,14 +242,14 @@ public class ParticleEntity extends HadalEntity {
 			if (attachedEntity != null) {
 				if (attachedEntity.getBody() != null) {
 					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
+					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
 				} else {
 					newPos.set(startPos);
-					HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
+					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
 				}
 			} else {
 				newPos.set(startPos);
-				HadalGame.server.sendToAllUDP(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
+				state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge));
 			}
 		}
 	}
