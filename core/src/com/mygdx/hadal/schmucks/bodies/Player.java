@@ -914,6 +914,17 @@ public class Player extends PhysicsSchmuck {
 		}
 	}
 	
+	@Override
+	public void clientInterpolation() {
+		if (this == state.getPlayer()) {
+			if (body != null) {
+				super.clientInterpolation();
+			}
+		} else {
+			super.clientInterpolation();
+		}
+	}
+	
 	private float shortestFraction;
 	private Vector2 originPt = new Vector2();
 	private Vector2 endPt = new Vector2();

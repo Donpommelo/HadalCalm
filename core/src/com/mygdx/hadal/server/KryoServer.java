@@ -435,8 +435,8 @@ public class KryoServer {
 			}
 		};
 		
-//        server.addListener(new Listener.LagListener(100, 100, packetListener));
-		server.addListener(packetListener);
+        server.addListener(new Listener.LagListener(100, 100, packetListener));
+//		server.addListener(packetListener);
 		
 		try {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());

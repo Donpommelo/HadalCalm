@@ -525,8 +525,8 @@ public class KryoClient {
         	}
         };
         
-//        client.addListener(new Listener.LagListener(100, 100, packetListener));
-        client.addListener(packetListener);
+        client.addListener(new Listener.LagListener(100, 100, packetListener));
+//        client.addListener(packetListener);
 	}
 	
 	public boolean receiveAddRemovePacket(Object o) {
@@ -568,7 +568,6 @@ public class KryoClient {
 					@Override
 					public void execute() {
 						cs.syncEntity(p.entityID, p, 0.0f, p.timestamp);
- //       				cs.removeEntity(p.entityID);
 					}
 				});
 			}

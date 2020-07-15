@@ -282,24 +282,27 @@ public abstract class HadalEntity {
 				break;
 			}
 		}
-	
+		
 		clientSyncAccumulator += delta;
 		while (clientSyncAccumulator >= clientSyncTime) {
 			clientSyncAccumulator -= clientSyncTime;
-			
-			//if we are receiving syncs, lerp towrads the saved position and angle
-			if (body != null && receivingSyncs) {
-				if (!copyServerInstantly) {
-					
-					float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
-					
-					if (elapsedTime <= 1.0f) {
-						if (elapsedTime >= 0.0f) {
-							lerpPos.set(prevPos);
-							lerpVelo.set(prevVelo);
-							setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
-							body.setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
-						}
+			clientInterpolation();
+		}
+	}
+	
+	public void clientInterpolation() {
+		//if we are receiving syncs, lerp towrads the saved position and angle
+		if (body != null && receivingSyncs) {
+			if (!copyServerInstantly) {
+				
+				float elapsedTime = (state.getTimer() - prevTimeStamp) / (nextTimeStamp - prevTimeStamp);
+				
+				if (elapsedTime <= 1.0f) {
+					if (elapsedTime >= 0.0f) {
+						lerpPos.set(prevPos);
+						lerpVelo.set(prevVelo);
+						setTransform(lerpPos.lerp(serverPos, elapsedTime), angleAsVector.setAngleRad(getAngle()).lerp(serverAngle, PlayState.syncInterpolation).angleRad());
+						body.setLinearVelocity(lerpVelo.lerp(serverVelo, elapsedTime));
 					}
 				}
 			}

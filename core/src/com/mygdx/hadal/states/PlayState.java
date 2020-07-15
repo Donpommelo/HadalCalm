@@ -127,8 +127,8 @@ public class PlayState extends GameState {
 	protected boolean spectatorMode;
 	
 	//These are the bounds of the camera movement
-	private float[] cameraBounds = {-100.0f, 100.0f, 100.0f, -100.0f};
-	private float[] spectatorBounds = {-100.0f, 100.0f, 100.0f, -100.0f};
+	private float[] cameraBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
+	private float[] spectatorBounds = {100000.0f, -100000.0f, 100000.0f, -100000.0f};
 	
 	//are the spectator bounds distinct from the camera bounds?
 	private boolean spectatorBounded;
@@ -619,7 +619,6 @@ public class PlayState extends GameState {
 		zoom = zoom + (zoomDesired - zoom) * 0.1f;
 		
 		camera.zoom = zoom;
-		
 		if (cameraTarget == null) {
 			if (player.getBody() != null && player.isAlive()) {
 				tmpVector2.set(player.getPixelPosition());
