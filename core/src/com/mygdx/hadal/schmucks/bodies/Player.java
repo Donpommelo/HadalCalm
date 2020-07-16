@@ -50,7 +50,7 @@ public class Player extends PhysicsSchmuck {
 	
 	private final static float playerDensity = 1.0f;
 	
-	private final static float controllerInterval = 1 / 60f;
+	public final static float controllerInterval = 1 / 60f;
 	
 	//Dimension of player sprite parts.
 	public static final int hbWidth = 216;
@@ -82,18 +82,22 @@ public class Player extends PhysicsSchmuck {
 	
 	//Fixtures and user data
 	private Fixture feet, rightSensor, leftSensor;
-	private FeetData feetData, rightData, leftData;
+	protected FeetData feetData;
+
+	private FeetData rightData;
+
+	private FeetData leftData;
 	
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.) and invisibility (to manage particles without checking statuses every tick)
 	private boolean scaling, invisible;
 	
 	//counters for various cooldowns.
-	private final static float hoverCd = 0.08f;
-	private float jumpCd = 0.25f;
-	private float jumpCdCount;
+	protected final static float hoverCd = 0.08f;
+	protected final static float jumpCd = 0.25f;
+	protected float jumpCdCount;
 	
-	private final static float fastFallCd = 0.05f;
-	private float fastFallCdCount;
+	protected final static float fastFallCd = 0.05f;
+	protected float fastFallCdCount;
 	
 	private final static float airblastCd = 0.25f;
 	private float airblastCdCount;
@@ -107,7 +111,7 @@ public class Player extends PhysicsSchmuck {
 	protected float attackAngle;
 	
 	//user data
-	private PlayerBodyData playerData;
+	protected PlayerBodyData playerData;
 	
 	//The event that the player last collided with. Used for active events that the player interacts with by pressing 'E'
 	private Event currentEvent;
@@ -116,19 +120,19 @@ public class Player extends PhysicsSchmuck {
 	private Airblaster airblast;
 	
 	//This counter keeps track of elapsed time so the entity behaves the same regardless of engine tick time.
-	private float controllerCount;
+	protected float controllerCount;
 	
 	//Is the player currently shooting/hovering/fastfalling?
 	private boolean shooting = false;
-	private boolean hoveringAttempt = false;
-	private boolean hovering = false;
-	private boolean fastFalling = false;
+	protected boolean hoveringAttempt = false;
+	protected boolean hovering = false;
+	protected boolean fastFalling = false;
 	
 	//This is the percent of reload completed, if reloading. This is used to display the reload ui for all players.
-	private float reloadPercent, reloadDelayed;
+	protected float reloadPercent, reloadDelayed;
 	
 	//This is the percent of charge completed, if charging. This is used to display the charge ui for all players.
-	private float chargePercent, chargeDelayed;
+	protected float chargePercent, chargeDelayed;
 	
 	//particles and sounds used by the player
 	private ParticleEntity hoverBubbles, dustCloud;
@@ -434,10 +438,10 @@ public class Player extends PhysicsSchmuck {
 		chargePercent = playerData.getCurrentTool().getChargeCd() / (getPlayerData().getCurrentTool().getChargeTime());
 		
 		//process cds
-		jumpCdCount-=delta;
-		fastFallCdCount-=delta;
-		airblastCdCount-=delta;
-		interactCdCount-=delta;
+		jumpCdCount -= delta;
+		fastFallCdCount -= delta;
+		airblastCdCount -= delta;
+		interactCdCount -= delta;
 		
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {

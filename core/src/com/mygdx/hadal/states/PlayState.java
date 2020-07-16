@@ -505,10 +505,6 @@ public class PlayState extends GameState {
 	private final static float cameraTime = 1 / 120f;
 	public void processCommonStateProperties(float delta) {
 		
-		//Increment the game timer, if exists
-		uiExtra.incrementTimer(delta);
-		timer += delta;
-		
 		//When we receive packets and don't want to process their effects right away, we store them in packetEffects
 		//to run here. This way, they will be carried out at a predictable time.
 		synchronized (addPacketEffects) {
@@ -531,6 +527,10 @@ public class PlayState extends GameState {
 			cameraAccumulator -= cameraTime;
 			cameraUpdate();
 		}
+		
+		//Increment the game timer, if exists
+		uiExtra.incrementTimer(delta);
+		timer += delta;
 	}
 	
 	/**

@@ -303,6 +303,7 @@ public class ClientState extends PlayState {
 	
 	public void syncLatency() {
 		latency = getTimer() - lastLatencyCheck;
+		System.out.println(latency);
 	}
 	
 	@Override

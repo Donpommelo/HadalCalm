@@ -542,8 +542,8 @@ public class KryoClient {
         	}
         };
         
-//       client.addListener(new Listener.LagListener(50, 50, packetListener));
-        client.addListener(packetListener);
+//       client.addListener(new Listener.LagListener(0, 200, packetListener));
+       client.addListener(packetListener);
 	}
 	
 	public boolean receiveAddRemovePacket(Object o) {
@@ -693,6 +693,7 @@ public class KryoClient {
 					public void execute() {
 						
 						Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true, p.connID == connID);
+						
         				newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
         				newPlayer.setStartPos(p.startPosition);
         				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);

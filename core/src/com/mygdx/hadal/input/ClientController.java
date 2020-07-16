@@ -57,10 +57,15 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.JUMP));
+			
+			player.setHoveringAttempt(true);
+			player.jump();
 		} 
 		
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.CROUCH));
+			
+			player.setFastFalling(true);
 		} 
 		
 		else if (keycode == PlayerAction.INTERACT.getKey()) {
@@ -167,10 +172,14 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.JUMP.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.JUMP));
+			
+			player.setHoveringAttempt(false);
 		} 
 		
 		else if (keycode == PlayerAction.CROUCH.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyUp(PlayerAction.CROUCH));
+			
+			player.setFastFalling(false);
 		} 
 		
 		else if (keycode == PlayerAction.FIRE.getKey()) {
