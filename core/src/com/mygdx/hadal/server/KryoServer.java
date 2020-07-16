@@ -388,6 +388,13 @@ public class KryoServer {
 					}
 				}
 				
+				/**
+				 * Respond to this packet sent from the client periodically so the client knows their latency.
+				 */
+				else if (o instanceof Packets.LatencySyn) {
+					server.sendToTCP(c.getID(), new Packets.LatencyAck());
+				}
+				
 				/*
 				 * A Client has said they want to enter spectator mode
 				 */
@@ -435,8 +442,8 @@ public class KryoServer {
 			}
 		};
 		
-        server.addListener(new Listener.LagListener(100, 100, packetListener));
-//		server.addListener(packetListener);
+//        server.addListener(new Listener.LagListener(50, 50, packetListener));
+		server.addListener(packetListener);
 		
 		try {
 			server.bind(gsm.getSetting().getPortNumber(), gsm.getSetting().getPortNumber());
@@ -469,7 +476,7 @@ public class KryoServer {
 				StartPoint newSave = ps.getSavePoint();
 				
 				//Create a new player with the designated fields and give them a mouse pointer.
-				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset);
+				Player newPlayer = ps.createPlayer(newSave, name, loadout, data, connId, reset, false);
 		        MouseTracker newMouse = new MouseTracker(ps, false);
 		        newPlayer.setMouse(newMouse);
 		        players.put(connId, newPlayer);

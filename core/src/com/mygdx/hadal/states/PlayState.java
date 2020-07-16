@@ -56,6 +56,7 @@ import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.schmucks.bodies.AnchorPoint;
+import com.mygdx.hadal.schmucks.bodies.ClientPlayer;
 import com.mygdx.hadal.schmucks.bodies.HadalEntity;
 import com.mygdx.hadal.schmucks.bodies.MouseTracker;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
@@ -180,7 +181,7 @@ public class PlayState extends GameState {
 	protected String resultsText;
 	
 	//Has the server finished loading yet?
-	private boolean serverLoaded = false;
+	private boolean serverLoaded;
 	
 	//Do players connecting to this have their hp/ammo/etc reset?
 	private boolean reset;
@@ -277,7 +278,7 @@ public class PlayState extends GameState {
 
 		//Create the player and make the camera focus on it
 		StartPoint getSave = getSavePoint(startId);
-		this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset);
+		this.player = createPlayer(getSave, gsm.getLoadout().getName(), loadout, old, 0, reset, !server);
 		if (getSave != null) {
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 		}
@@ -360,10 +361,10 @@ public class PlayState extends GameState {
 		}
 	}
 	
-	private float physicsAccumulator = 0.0f;
+	private float physicsAccumulator;
 	private final static float physicsTime = 0.005f;
-	private float syncAccumulator = 0.0f;
-	private float syncFastAccumulator = 0.0f;
+	private float syncAccumulator;
+	private float syncFastAccumulator;
 	public final static float syncTime = 0.05f;
 	public final static float syncFastTime = 1 / 60f;
 	public final static float syncInterpolation = 0.125f;
@@ -500,7 +501,7 @@ public class PlayState extends GameState {
 	 * This is run in the update method and is just a helper to avoid repeating code in both the server/client states.
 	 * This does all of the stuff that is needed for both server and client (processing packets, fade and some other misc stuff)
 	 */
-	private float cameraAccumulator = 0.0f;
+	private float cameraAccumulator;
 	private final static float cameraTime = 1 / 120f;
 	public void processCommonStateProperties(float delta) {
 		
@@ -722,7 +723,7 @@ public class PlayState extends GameState {
 			StartPoint getSave = getSavePoint();
 			
 			//Create a new player
-			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true);
+			player = createPlayer(getSave, gsm.getLoadout().getName(), player.getPlayerData().getLoadout(), player.getPlayerData(), 0, true, false);
 
 			this.camera.position.set(new Vector3(getSave.getStartPos().x, getSave.getStartPos().y, 0));
 
@@ -811,9 +812,10 @@ public class PlayState extends GameState {
 	 * @param old: player's old playerdata if retaining old values.
 	 * @param connID: the player's connection id (0 if server)
 	 * @param reset: should we reset the new player's hp/fuel/ammo?
+	 * @param client: is this the client's own player?
 	 * @return the newly created player
 	 */
-	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset) {
+	public Player createPlayer(StartPoint start, String name, Loadout altLoadout, PlayerBodyData old, int connID, boolean reset, boolean client) {
 
 		Loadout newLoadout = new Loadout(altLoadout);
 
@@ -867,14 +869,19 @@ public class PlayState extends GameState {
 		}
 		
 		Player p = null;
-		if (start != null) {
-			if (start.getBody() != null) {
-				p = new Player(this, start.getPixelPosition(), name, newLoadout, old, connID, reset, start);
+		
+		if (!client) {
+			if (start != null) {
+				if (start.getBody() != null) {
+					p = new Player(this, start.getPixelPosition(), name, newLoadout, old, connID, reset, start);
+				} else {
+					p = new Player(this, start.getStartPos(), name, newLoadout, old, connID, reset, start);
+				}
 			} else {
-				p = new Player(this, start.getStartPos(), name, newLoadout, old, connID, reset, start);
+				p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
 			}
 		} else {
-			p = new Player(this, new Vector2(), name, newLoadout, old, connID, reset, null);
+			p = new ClientPlayer(this, new Vector2(), name, newLoadout, null, connID, reset, null);
 		}
 		
 		if (reset) {

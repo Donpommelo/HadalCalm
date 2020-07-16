@@ -79,8 +79,11 @@ public class ClientState extends PlayState {
 		}
 	}
 	
-	private float physicsAccumulator = 0.0f;
+	private float physicsAccumulator;
 	private final static float physicsTime = 1 / 200f;
+	private float latencyAccumulator;
+	private float lastLatencyCheck, latency;
+	private final static float LatencyCheck = 1.0f;
 	private Vector3 lastMouseLocation = new Vector3();
 	@Override
 	public void update(float delta) {
@@ -95,6 +98,8 @@ public class ClientState extends PlayState {
 			world.step(physicsTime, 8, 3);
 		}
 		
+		latencyAccumulator += delta;
+
 		//Send mouse position to the server.
 		mousePosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		HadalGame.viewportCamera.unproject(mousePosition);
@@ -135,6 +140,13 @@ public class ClientState extends PlayState {
 		//process camera, ui, any received packets
 		processCommonStateProperties(delta);
 		
+		//this makes the physics separate from the game framerate
+		if (latencyAccumulator >= LatencyCheck) {
+			latencyAccumulator = 0;
+			lastLatencyCheck = getTimer();
+			HadalGame.client.sendTCP(new Packets.LatencySyn());
+		}
+				
 		timeSinceLastMissedCreate += delta;
 		
 		//All sync instructions are carried out.
@@ -289,6 +301,10 @@ public class ClientState extends PlayState {
 		} 
 	}
 	
+	public void syncLatency() {
+		latency = getTimer() - lastLatencyCheck;
+	}
+	
 	@Override
 	public void dispose() {
 		
@@ -315,6 +331,8 @@ public class ClientState extends PlayState {
 	
 	public UIPlayClient getUiPlay() { return (UIPlayClient) uiPlay; }
 
+	public float getLatency() { return latency; }
+	
 	public Vector3 getMousePosition() { return mousePosition; }
 
 	/**

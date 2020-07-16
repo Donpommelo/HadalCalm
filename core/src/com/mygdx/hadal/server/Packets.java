@@ -969,6 +969,19 @@ public class Packets {
 		}
 	}
 	
+	public static class LatencySyn {
+			
+		/**
+		 */
+		public LatencySyn() {}
+	}
+
+	public static class LatencyAck {
+		
+		/**
+		 */
+		public LatencyAck() {}
+	}
 	/**
      * REGISTER ALL THE CLASSES FOR KRYO TO SERIALIZE AND SEND
      * @param kryo The kryo object
@@ -1017,5 +1030,7 @@ public class Packets {
     	kryo.register(StartSpectate.class);
     	kryo.register(EndSpectate.class);
     	kryo.register(SyncSharedSettings.class);
+    	kryo.register(LatencySyn.class);
+    	kryo.register(LatencyAck.class);
     }
 }

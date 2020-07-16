@@ -262,6 +262,23 @@ public class KryoClient {
         		}
         		
         		/*
+        		 * Server responds to our latency checking packet. record the time and update our latency.
+        		 */
+        		else if (o instanceof Packets.LatencyAck) {
+        			final ClientState cs = getClientState();
+        			
+					if (cs != null) {
+						cs.addPacketEffect(new PacketEffect() {
+	    					
+	    					@Override
+	    					public void execute() {
+	    						cs.syncLatency();
+	    					}
+						});
+					}
+				}
+        		
+        		/*
         		 * Server rejects our connection. Display msg on title screen.
         		 */
         		else if (o instanceof Packets.ConnectReject) {
@@ -525,8 +542,8 @@ public class KryoClient {
         	}
         };
         
-        client.addListener(new Listener.LagListener(100, 100, packetListener));
-//        client.addListener(packetListener);
+//       client.addListener(new Listener.LagListener(50, 50, packetListener));
+        client.addListener(packetListener);
 	}
 	
 	public boolean receiveAddRemovePacket(Object o) {
@@ -675,7 +692,7 @@ public class KryoClient {
 					@Override
 					public void execute() {
 						
-						Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true);
+						Player newPlayer = cs.createPlayer(null, p.name, p.loadout, null, 0, true, p.connID == connID);
         				newPlayer.serverPos.set(p.startPosition).scl(1 / PPM);
         				newPlayer.setStartPos(p.startPosition);
         				cs.addEntity(p.entityID, newPlayer, true, ObjectSyncLayers.STANDARD);

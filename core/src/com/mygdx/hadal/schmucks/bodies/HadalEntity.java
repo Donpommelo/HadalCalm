@@ -253,14 +253,14 @@ public abstract class HadalEntity {
 	public Vector2 angleAsVector = new Vector2(0, 1);
 	
 	//the client processes interpolation at this speed regardless of framerate
-	private final static float clientSyncTime = 1 / 60f;
+	public final static float clientSyncTime = 1 / 60f;
 	private float clientSyncAccumulator = 0.0f;
 	
 	//this extra vector is used b/c interpolation updates the start vector
 	public Vector2 lerpPos = new Vector2();
 	public Vector2 lerpVelo = new Vector2();
 
-	private float prevTimeStamp, nextTimeStamp;
+	protected float prevTimeStamp, nextTimeStamp;
 	
 	/**
 	 * This is a replacement to controller() that is run for clients.

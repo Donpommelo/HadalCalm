@@ -104,7 +104,7 @@ public class Player extends PhysicsSchmuck {
 	private final static float airAnimationSlow = 3.0f;
 
 	//This is the angle that the player's arm is pointing
-	private float attackAngle;
+	protected float attackAngle;
 	
 	//user data
 	private PlayerBodyData playerData;
@@ -594,7 +594,7 @@ public class Player extends PhysicsSchmuck {
 	private float armConnectXReal;
 	private float headConnectXReal;
 	private float armRotateXReal;
-	private Vector2 mouseAngle = new Vector2();
+	protected Vector2 mouseAngle = new Vector2();
 	private boolean flip;
 	@Override
 	public void render(SpriteBatch batch) {
@@ -903,26 +903,9 @@ public class Player extends PhysicsSchmuck {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		
-		if (this == state.getPlayer()) {
-			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
-			attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
-		} else {
-			//client mouse lerps towards the angle sent by server
-			mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
-			attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
-		}
-	}
-	
-	@Override
-	public void clientInterpolation() {
-		if (this == state.getPlayer()) {
-			if (body != null) {
-				super.clientInterpolation();
-			}
-		} else {
-			super.clientInterpolation();
-		}
+		//client mouse lerps towards the angle sent by server
+		mouseAngle.setAngleRad(mouseAngle.angleRad()).lerp(serverAttackAngle, 1 / 2f).angleRad();
+		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 	}
 	
 	private float shortestFraction;
