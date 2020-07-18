@@ -17,17 +17,19 @@ import com.mygdx.hadal.states.PlayState;
 
 public class ClientPlayer extends Player {
 
-	private TextureRegion predictionIndicator;
+	private TextureRegion extrapolationIndicator, predictionIndicator;
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
 		
 		predictedPosition.set(startPos);
-		predictionIndicator = Sprite.ORB_RED.getFrame();
+		extrapolationIndicator = Sprite.ORB_RED.getFrame();
+		predictionIndicator = Sprite.ORB_BLUE.getFrame();
 	}
 
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
-	private final static float LATENCY_THRESHOLD = 0.05f;
-	private final static float VELO_TOLERANCE = 100.0f;
+	private final static float LATENCY_THRESHOLD_MIN = 0.01f;
+	private final static float LATENCY_THRESHOLD_MAX = 0.04f;
+	private final static float VELO_TOLERANCE = 200.0f;
 	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
 	private Vector2 lastPosition = new Vector2();
 	private Vector2 predictedPosition = new Vector2();
@@ -35,12 +37,12 @@ public class ClientPlayer extends Player {
 	private Vector2 extrapolationVelocity = new Vector2();
 
 	private float historyDuration;
+	private boolean predicting;
 	
 	public void onReceiveSync(Object o, float timestamp) {
 		super.onReceiveSync(o, timestamp);
 		
-		float latency = ((ClientState) state).getLatency() / 2;
-		
+		float latency = ((ClientState) state).getLatency();
 		float dt = Math.max(0.0f, historyDuration - latency);
 		
 		historyDuration -= dt;
@@ -53,7 +55,7 @@ public class ClientPlayer extends Player {
 			} else {
 				float t = 1 - dt / frame.delta;
 				frame.delta -= dt;
-				frame.position.scl(t);
+				frame.positionChange.scl(t);
 				break;
 			}
 		}
@@ -62,15 +64,18 @@ public class ClientPlayer extends Player {
 			Packets.SyncEntity p = (Packets.SyncEntity) o;
 			
 			if (!frames.isEmpty()) {
+				
 				if (p.velocity.dst2(frames.get(0).velocity) > VELO_TOLERANCE) {
-					
+					for (ClientPredictionFrame frame: frames) {
+						frame.velocity = p.velocity;
+						frame.positionChange = p.velocity.scl(frame.delta);
+					}
 				}
-			}
-			
-			predictedPosition.set(p.pos);
-			
-			for (ClientPredictionFrame frame: frames) {
-				predictedPosition.add(frame.position);
+				predictedPosition.set(p.pos);
+				
+				for (ClientPredictionFrame frame: frames) {
+					predictedPosition.add(frame.positionChange);
+				}
 			}
 		}
 	}
@@ -114,34 +119,38 @@ public class ClientPlayer extends Player {
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 		
 		ClientPredictionFrame frame = new ClientPredictionFrame(delta);
-		frame.position.set(body.getPosition()).sub(lastPosition);
+		frame.positionChange.set(body.getPosition()).sub(lastPosition);
 		frame.velocity.set(body.getLinearVelocity());
-
 		frames.add(frame);
 		historyDuration += delta;
 		
-		float latency = ((ClientState) state).getLatency() / 2;
+		float latency = ((ClientState) state).getLatency();
+
+		if (predicting && latency < LATENCY_THRESHOLD_MIN) {
+			predicting = false;
+		}
 		
-		if (latency >= LATENCY_THRESHOLD) {
+		if (!predicting && latency > LATENCY_THRESHOLD_MAX) {
+			predicting = true;
+		}
+		
+		if (predicting) {
+			
 			extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((1 + CONVERGE_MULTIPLIER) * latency));
 			fug.set(extrapolatedPosition);
 			
 			float t = 0.0f;
-			if (latency > LATENCY_THRESHOLD) {
-				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
-			}
+			t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
 
 			newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(body.getPosition()).scl(t));
 			setTransform(newPosition, 0.0f);
 		}
-		
 		lastPosition.set(body.getPosition());
 	}
 	
 	@Override
 	public void clientInterpolation() {
-		float latency = ((ClientState) state).getLatency() / 2;
-		if (latency < LATENCY_THRESHOLD) {
+		if (!predicting) {
 			super.clientInterpolation();
 		}
 	}
@@ -207,6 +216,13 @@ public class ClientPlayer extends Player {
 //		super.render(batch);
 //		
 //		batch.draw(predictionIndicator, 
+//				predictedPosition.x * 32 - size.x / 2, 
+//				predictedPosition.y * 32 - size.y / 2, 
+//				size.x / 2, size.y / 2,
+//				size.x, size.y, 1, 1, 
+//				(float) Math.toDegrees(getAngle()));
+//		
+//		batch.draw(extrapolationIndicator, 
 //				fug.x * 32 - size.x / 2, 
 //				fug.y * 32 - size.y / 2, 
 //				size.x / 2, size.y / 2,
