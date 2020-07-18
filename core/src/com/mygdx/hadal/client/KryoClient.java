@@ -542,7 +542,7 @@ public class KryoClient {
         	}
         };
         
-//       client.addListener(new Listener.LagListener(0, 200, packetListener));
+//       client.addListener(new Listener.LagListener(200, 200, packetListener));
        client.addListener(packetListener);
 	}
 	

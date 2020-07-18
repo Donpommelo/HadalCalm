@@ -54,6 +54,10 @@ public class UIPlayClient extends UIPlay {
 	
 	public float getOverrideMaxHp() { return overrideMaxHp;	}
 	
+	public float getOverrideFuelAmount() { return overrideFuelPercent * overrideMaxFuel; }
+	
+	public float getOverrideAirblastCost() { return overrideAirblastCost; }
+	
 	public void setOverrideFuelPercent(float overrideFuelPercent) {	this.overrideFuelPercent = overrideFuelPercent; }
 	
 	public void setOverrideClipLeft(int overrideClipLeft) { this.overrideClipLeft = overrideClipLeft; }

@@ -629,7 +629,8 @@ public class Packets {
 		 * This packet (and similar packets) just tell the client how to change their version of each Player.
 		 * This long list of fields is just the Player-specific information needed for Clients to properly render other players.
 		 */
-		public SyncPlayerAll(String entityID, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, boolean outOfAmmo, short maskBits, float timestamp) {
+		public SyncPlayerAll(String entityID, Vector2 attackAngle, Boolean grounded, int currentSlot, boolean reloading, float reloadPercent, boolean charging, float chargePercent, 
+				boolean outOfAmmo, short maskBits, float timestamp) {
             this.entityID = entityID;
             this.attackAngle = attackAngle;
             this.grounded = grounded;

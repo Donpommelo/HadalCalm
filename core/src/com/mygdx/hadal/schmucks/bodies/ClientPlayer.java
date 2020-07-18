@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.mygdx.hadal.client.ClientPredictionFrame;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
+import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.StartPoint;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.server.Packets;
@@ -26,7 +26,7 @@ public class ClientPlayer extends Player {
 	}
 
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
-	private final static float LATENCY_THRESHOLD = 0.1f;
+	private final static float LATENCY_THRESHOLD = 0.05f;
 	private final static float VELO_TOLERANCE = 100.0f;
 	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
 	private Vector2 lastPosition = new Vector2();
@@ -86,6 +86,14 @@ public class ClientPlayer extends Player {
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
 			
+			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&	((ClientState) state).getUiPlay().getOverrideFuelAmount() >= playerData.getHoverCost()) {
+				if (jumpCdCount < 0) {
+					hover();
+					hovering = true;
+				}
+			} else {
+				hovering = false;
+			}
 			
 			if (fastFalling) {
 				fastFall();
@@ -100,7 +108,7 @@ public class ClientPlayer extends Player {
 		
 		jumpCdCount -= delta;
 		fastFallCdCount -= delta;
-		
+		airblastCdCount -= delta;
 		
 		mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
@@ -139,10 +147,20 @@ public class ClientPlayer extends Player {
 	}
 	
 	@Override
+	public void hover() {
+		if (jumpCdCount < 0) {
+			
+			//Player will continuously do small upwards bursts that cost fuel.
+			jumpCdCount = hoverCd;
+			pushMomentumMitigation(0, playerData.getHoverPower());
+		}
+	}
+	
+	@Override
 	public void jump() {
-		
 		if (grounded) {
 			if (jumpCdCount < 0) {
+				
 				jumpCdCount = jumpCd;
 				pushMomentumMitigation(0, playerData.getJumpPower());
 			}
@@ -151,6 +169,17 @@ public class ClientPlayer extends Player {
 				jumpCdCount = jumpCd;
 				playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 				pushMomentumMitigation(0, playerData.getJumpPower());
+			}
+		}
+	}
+	
+	private Vector2 mousePos = new Vector2();
+	@Override
+	public void airblast() {
+		if (airblastCdCount < 0) {
+			if (((ClientState) state).getUiPlay().getOverrideFuelAmount() > ((ClientState) state).getUiPlay().getOverrideAirblastCost()) {
+				mousePos.set(((ClientState) state).getMousePosition().x,((ClientState) state).getMousePosition().y);
+				recoil(mousePos, Airblaster.momentum);
 			}
 		}
 	}

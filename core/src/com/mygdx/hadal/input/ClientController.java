@@ -89,6 +89,8 @@ public class ClientController implements InputProcessor {
 		
 		else if (keycode == PlayerAction.BOOST.getKey()) {
 			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.BOOST));
+			
+			player.airblast();
 		} 
 		
 		else if (keycode == PlayerAction.SWITCH_TO_LAST.getKey()) {

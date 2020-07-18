@@ -99,8 +99,8 @@ public class Player extends PhysicsSchmuck {
 	protected final static float fastFallCd = 0.05f;
 	protected float fastFallCdCount;
 	
-	private final static float airblastCd = 0.25f;
-	private float airblastCdCount;
+	protected final static float airblastCd = 0.25f;
+	protected float airblastCdCount;
 	
 	protected final static float interactCd = 0.15f;
 	protected float interactCdCount;
