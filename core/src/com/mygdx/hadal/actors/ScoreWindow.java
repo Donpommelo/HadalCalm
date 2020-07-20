@@ -1,10 +1,12 @@
 package com.mygdx.hadal.actors;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.save.SharedSetting;
 import com.mygdx.hadal.server.Packets;
 import com.mygdx.hadal.server.SavedPlayerFields;
+import com.mygdx.hadal.states.ClientState;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.states.SettingState;
 
@@ -18,7 +20,7 @@ public class ScoreWindow {
 	
 	private Table tableScore, tableSettings; 
 	private MenuWindow windowScore, windowSettings;
-	private Text lives, pvpTimer, coopTimer, mode, loadout, slots, pause, serverSize;
+	private Text ping, lives, pvpTimer, coopTimer, mode, loadout, slots, pause, serverSize;
 	
 	//Dimentions and position of the results menu
 	private final static int scoreWidth = 1000;
@@ -223,8 +225,23 @@ public class ScoreWindow {
 		SharedSetting used = state.getGsm().getSharedSetting();
 		if (state.isServer()) {
 			HadalGame.server.sendToAllUDP(new Packets.SyncSharedSettings(state.getGsm().getSharedSetting()));
+			
+			ping = new Text("PING: 0 ms", 0, 0, false);
+			ping.setScale(settingsScale);
 		} else {
 			used = state.getGsm().getHostSetting();
+			
+			ping = new Text("", 0, 0, false) {
+				
+				@Override
+			    public void draw(Batch batch, float alpha) {
+					
+					text = "PING: " + (int) (((ClientState) state).getLatency() * 1000) + " ms";
+					
+					super.draw(batch, alpha);
+				}
+			};
+			ping.setScale(settingsScale);
 		}
 		
 		pvpTimer = new Text(SettingState.timerChoices[used.getPVPTimer()], 0, 0, false);
@@ -250,6 +267,8 @@ public class ScoreWindow {
 		
 		serverSize = new Text(SettingState.capacityChoices[used.getMaxPlayers()], 0, 0, false);
 		serverSize.setScale(settingsScale);
+		
+		tableSettings.add(ping).height(settingsRowHeight).left().padBottom(30).row();
 		
 		tableSettings.add(title).height(settingsRowHeight).colspan(2).row();
 		

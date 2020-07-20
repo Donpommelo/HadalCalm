@@ -136,7 +136,7 @@ public class ClientPlayer extends Player {
 		
 		if (predicting) {
 			
-			extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((1 + CONVERGE_MULTIPLIER) * latency));
+			extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
 			fug.set(extrapolatedPosition);
 			
 			float t = 0.0f;
