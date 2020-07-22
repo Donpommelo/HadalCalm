@@ -19,7 +19,7 @@ public enum PlayerAction {
 	FIRE(Input.Buttons.LEFT, true),
 	BOOST(Input.Buttons.RIGHT, false),
 	INTERACT(Input.Keys.E, false),
-	FREEZE(Input.Keys.SPACE, false),
+	ACTIVE_ITEM(Input.Keys.SPACE, false),
 	RELOAD(Input.Keys.R, false),
 	DIALOGUE(Input.Keys.Z, false),
 	SWITCH_TO_LAST(Input.Keys.Q, false),
@@ -65,7 +65,7 @@ public enum PlayerAction {
 		FIRE.setKey(Input.Buttons.LEFT);
 		BOOST.setKey(Input.Buttons.RIGHT);
 		INTERACT.setKey(Input.Keys.E);
-		FREEZE.setKey(Input.Keys.SPACE);
+		ACTIVE_ITEM.setKey(Input.Keys.SPACE);
 		RELOAD.setKey(Input.Keys.R);
 		DIALOGUE.setKey(Input.Keys.Z);
 		SWITCH_TO_LAST.setKey(Input.Keys.Q);

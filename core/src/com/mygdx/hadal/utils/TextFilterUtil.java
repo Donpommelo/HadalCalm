@@ -111,7 +111,7 @@ public class TextFilterUtil {
 		filteredText = filteredText.replaceAll("fugswitch3fug", PlayerAction.SWITCH_TO_3.getKeyText());
 		filteredText = filteredText.replaceAll("fugreloadfug", PlayerAction.RELOAD.getKeyText());
 		
-		filteredText = filteredText.replaceAll("fugactivefug", PlayerAction.FREEZE.getKeyText());
+		filteredText = filteredText.replaceAll("fugactivefug", PlayerAction.ACTIVE_ITEM.getKeyText());
 		filteredText = filteredText.replaceAll("fugmessagefug", PlayerAction.MESSAGE_WINDOW.getKeyText());
 		
 		return filteredText;

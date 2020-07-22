@@ -442,7 +442,7 @@ public class KryoServer {
 			}
 		};
 		
-//        server.addListener(new Listener.LagListener(100, 100, packetListener));
+//        server.addListener(new Listener.LagListener(200, 200, packetListener));
 		server.addListener(packetListener);
 		
 		try {

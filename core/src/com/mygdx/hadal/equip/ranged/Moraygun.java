@@ -26,7 +26,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float reloadTime = 1.0f;
 	private final static int reloadAmount = 0;
 	private final static float baseDamage = 15.0f;
-	private final static float recoil = 15.0f;
+	private final static float recoil = 12.0f;
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeedStart = 150.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 30);

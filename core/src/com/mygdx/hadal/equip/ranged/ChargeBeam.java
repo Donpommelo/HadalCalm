@@ -134,7 +134,7 @@ public class ChargeBeam extends RangedWeapon {
 
 		switch(chargeStage) {
 		case 2:
-			sizeMultiplier = 1.8f;
+			sizeMultiplier = 2.0f;
 			damageMultiplier = 5.0f;
 			kbMultiplier = 3.0f;
 			break;

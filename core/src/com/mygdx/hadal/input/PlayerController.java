@@ -46,8 +46,8 @@ public class PlayerController implements InputProcessor {
 			player.getController().keyDown(PlayerAction.INTERACT);
 		} 
 		
-		else if (keycode == PlayerAction.FREEZE.getKey()) {
-			player.getController().keyDown(PlayerAction.FREEZE);
+		else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
+			player.getController().keyDown(PlayerAction.ACTIVE_ITEM);
 		} 
 		
 		else if (keycode == PlayerAction.RELOAD.getKey()) {

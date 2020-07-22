@@ -2,11 +2,8 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.client.ClientPredictionFrame;
-import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.StartPoint;
@@ -17,18 +14,15 @@ import com.mygdx.hadal.states.PlayState;
 
 public class ClientPlayer extends Player {
 
-	private TextureRegion extrapolationIndicator, predictionIndicator;
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
 		
 		predictedPosition.set(startPos);
-		extrapolationIndicator = Sprite.ORB_RED.getFrame();
-		predictionIndicator = Sprite.ORB_BLUE.getFrame();
 	}
 
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
 	private final static float LATENCY_THRESHOLD_MIN = 0.01f;
-	private final static float LATENCY_THRESHOLD_MAX = 0.04f;
+	private final static float LATENCY_THRESHOLD_MAX = 0.05f;
 	private final static float VELO_TOLERANCE = 200.0f;
 	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
 	private Vector2 lastPosition = new Vector2();
@@ -115,6 +109,16 @@ public class ClientPlayer extends Player {
 		fastFallCdCount -= delta;
 		airblastCdCount -= delta;
 		
+		if (jumpBuffered && jumpCdCount < 0) {
+			jumpBuffered = false;
+			jump();
+		}
+		
+		if (airblastBuffered && airblastCdCount < 0) {
+			airblastBuffered = false;
+			airblast();
+		}
+		
 		mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 		
@@ -172,12 +176,16 @@ public class ClientPlayer extends Player {
 				
 				jumpCdCount = jumpCd;
 				pushMomentumMitigation(0, playerData.getJumpPower());
+			} else {
+				jumpBuffered = true;
 			}
 		} else if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
 			if (jumpCdCount < 0) {
 				jumpCdCount = jumpCd;
 				playerData.setExtraJumpsUsed(playerData.getExtraJumpsUsed() + 1);
 				pushMomentumMitigation(0, playerData.getJumpPower());
+			} else {
+				jumpBuffered = true;
 			}
 		}
 	}
@@ -190,6 +198,8 @@ public class ClientPlayer extends Player {
 				mousePos.set(((ClientState) state).getMousePosition().x,((ClientState) state).getMousePosition().y);
 				recoil(mousePos, Airblaster.momentum);
 			}
+		} else {
+			airblastBuffered = true;
 		}
 	}
 	
@@ -210,23 +220,4 @@ public class ClientPlayer extends Player {
 			super.onClientSync(o);
 		}
 	}
-	
-//	@Override
-//	public void render(SpriteBatch batch) {
-//		super.render(batch);
-//		
-//		batch.draw(predictionIndicator, 
-//				predictedPosition.x * 32 - size.x / 2, 
-//				predictedPosition.y * 32 - size.y / 2, 
-//				size.x / 2, size.y / 2,
-//				size.x, size.y, 1, 1, 
-//				(float) Math.toDegrees(getAngle()));
-//		
-//		batch.draw(extrapolationIndicator, 
-//				fug.x * 32 - size.x / 2, 
-//				fug.y * 32 - size.y / 2, 
-//				size.x / 2, size.y / 2,
-//				size.x, size.y, 1, 1, 
-//				(float) Math.toDegrees(getAngle()));
-//	}
 }

@@ -60,7 +60,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float attackWindup = 0.2f;
 	private static final float attackSwingAngle = 30.0f;
 	
-	private static final int fireballDamage = 12;
+	private static final int fireballDamage = 10;
 	private static final int burnDamage = 1;
 	private static final int fireSpeed = 9;
 	private static final int fireKB = 6;

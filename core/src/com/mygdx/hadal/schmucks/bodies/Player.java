@@ -91,17 +91,21 @@ public class Player extends PhysicsSchmuck {
 	//These track whether the schmuck has a specific artifacts equipped (to enable wall scaling.) and invisibility (to manage particles without checking statuses every tick)
 	private boolean scaling, invisible;
 	
+	protected boolean shootBuffered;
+
 	//counters for various cooldowns.
 	protected final static float hoverCd = 0.08f;
 	protected final static float jumpCd = 0.25f;
 	protected float jumpCdCount;
+	protected boolean jumpBuffered;
 	
 	protected final static float fastFallCd = 0.05f;
 	protected float fastFallCdCount;
 	
 	protected final static float airblastCd = 0.25f;
 	protected float airblastCdCount;
-	
+	protected boolean airblastBuffered;
+
 	protected final static float interactCd = 0.15f;
 	protected float interactCdCount;
 	
@@ -443,6 +447,21 @@ public class Player extends PhysicsSchmuck {
 		airblastCdCount -= delta;
 		interactCdCount -= delta;
 		
+		if (jumpBuffered && jumpCdCount < 0) {
+			jumpBuffered = false;
+			jump();
+		}
+		
+		if (airblastBuffered && airblastCdCount < 0) {
+			airblastBuffered = false;
+			airblast();
+		}
+		
+		if (shootBuffered && shootCdCount < 0) {
+			shootBuffered = false;
+			shoot(delta);
+		}
+		
 		//Determine player mouse location and hence where the arm should be angled.
 		if (mouse.getBody() != null) {
 			mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(mouse.getPixelPosition().y, mouse.getPixelPosition().x);
@@ -493,6 +512,8 @@ public class Player extends PhysicsSchmuck {
 				//activate jump particles and sound
 				new ParticleEntity(state, new Vector2(getPixelPosition().x, getPixelPosition().y - hbHeight * scale / 2), Particle.WATER_BURST, 1.0f, true, particleSyncType.CREATESYNC);
 				SoundEffect.JUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
+			} else {
+				jumpBuffered = true;
 			}
 		} else {
 			if (playerData.getExtraJumpsUsed() < playerData.getExtraJumps()) {
@@ -504,6 +525,8 @@ public class Player extends PhysicsSchmuck {
 					//activate double-jump particles and sound
 					new ParticleEntity(state, this, Particle.SPLASH, 0.0f, 0.75f, true, particleSyncType.CREATESYNC);
 					SoundEffect.DOUBLEJUMP.playUniversal(state, getPixelPosition(), 0.2f, false);
+				} else {
+					jumpBuffered = true;
 				}
 			}
 		}
@@ -535,6 +558,16 @@ public class Player extends PhysicsSchmuck {
 	}
 	
 	/**
+	 * This is called when the player clicks the fire button. It is used to buffer fire inputs during weapon cooldowns
+	 */
+	public void startShooting() {
+		shooting = true;
+		if (shootCdCount >= 0) {
+			shootBuffered = true;
+		}
+	}
+	
+	/**
 	 * Player releases mouse. This is used to fire charge weapons.
 	 */
 	public void release() {
@@ -553,6 +586,8 @@ public class Player extends PhysicsSchmuck {
 				airblastCdCount = airblastCd;
 				useToolStart(0, airblast, hitboxfilter, mouse.getPixelPosition(), false);
 			}
+		} else {
+			airblastBuffered = true;
 		}
 	}
 	

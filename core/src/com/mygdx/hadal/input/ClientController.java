@@ -75,8 +75,8 @@ public class ClientController implements InputProcessor {
 			}
 		} 
 		
-		else if (keycode == PlayerAction.FREEZE.getKey()) {
-			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.FREEZE));
+		else if (keycode == PlayerAction.ACTIVE_ITEM.getKey()) {
+			HadalGame.client.sendUDP(new Packets.KeyDown(PlayerAction.ACTIVE_ITEM));
 		} 
 		
 		else if (keycode == PlayerAction.RELOAD.getKey()) {

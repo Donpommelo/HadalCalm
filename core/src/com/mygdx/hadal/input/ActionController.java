@@ -126,7 +126,7 @@ public class ActionController {
 			player.interact();
 		}
 		
-		else if (action == PlayerAction.FREEZE) {
+		else if (action == PlayerAction.ACTIVE_ITEM) {
 			player.activeItem();
 		}
 		
@@ -135,7 +135,7 @@ public class ActionController {
 		}
 		
 		else if (action == PlayerAction.FIRE) {
-			player.setShooting(true);
+			player.startShooting();
 		}
 		
 		else if (action == PlayerAction.BOOST) {
