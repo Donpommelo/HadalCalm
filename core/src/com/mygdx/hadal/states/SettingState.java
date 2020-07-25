@@ -739,9 +739,9 @@ public class SettingState extends GameState {
 		
 		//Render the playstate and playstate ui underneath
 		if (ps != null) {
-			ps.render(delta);
-			ps.stage.getViewport().apply();
-			ps.stage.draw();
+			ps.getPs().render(delta);
+			ps.getPs().stage.getViewport().apply();
+			ps.getPs().stage.draw();
 		} else {
 			timer += delta;
 			
