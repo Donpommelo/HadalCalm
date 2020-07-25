@@ -2,8 +2,11 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.client.ClientPredictionFrame;
+import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.StartPoint;
@@ -14,10 +17,13 @@ import com.mygdx.hadal.states.PlayState;
 
 public class ClientPlayer extends Player {
 
+	private TextureRegion extrapolationIndicator, predictionIndicator;
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
 		
 		predictedPosition.set(startPos);
+		extrapolationIndicator = Sprite.ORB_RED.getFrame();
+		predictionIndicator = Sprite.ORB_BLUE.getFrame();
 	}
 
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
@@ -220,4 +226,23 @@ public class ClientPlayer extends Player {
 			super.onClientSync(o);
 		}
 	}
+	
+//	@Override
+//	public void render(SpriteBatch batch) {
+//		super.render(batch);
+//		
+//		batch.draw(predictionIndicator, 
+//				predictedPosition.x * 32 - size.x / 2, 
+//				predictedPosition.y * 32 - size.y / 2, 
+//				size.x / 2, size.y / 2,
+//				size.x, size.y, 1, 1, 
+//				(float) Math.toDegrees(getAngle()));
+//		
+//		batch.draw(extrapolationIndicator, 
+//				fug.x * 32 - size.x / 2, 
+//				fug.y * 32 - size.y / 2, 
+//				size.x / 2, size.y / 2,
+//				size.x, size.y, 1, 1, 
+//				(float) Math.toDegrees(getAngle()));
+//	}
 }
