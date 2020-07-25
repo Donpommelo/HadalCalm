@@ -21,13 +21,12 @@ public class ClientPlayer extends Player {
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
 		
-		predictedPosition.set(startPos);
 		extrapolationIndicator = Sprite.ORB_RED.getFrame();
 		predictionIndicator = Sprite.ORB_BLUE.getFrame();
 	}
 
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
-	private final static float LATENCY_THRESHOLD_MIN = 0.05f;
+	private final static float LATENCY_THRESHOLD_MIN = 0.08f;
 	private final static float LATENCY_THRESHOLD_MAX = 0.1f;
 	private final static float VELO_TOLERANCE = 200.0f;
 	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
