@@ -27,8 +27,8 @@ public class ClientPlayer extends Player {
 	}
 
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
-	private final static float LATENCY_THRESHOLD_MIN = 0.01f;
-	private final static float LATENCY_THRESHOLD_MAX = 0.05f;
+	private final static float LATENCY_THRESHOLD_MIN = 0.05f;
+	private final static float LATENCY_THRESHOLD_MAX = 0.1f;
 	private final static float VELO_TOLERANCE = 200.0f;
 	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
 	private Vector2 lastPosition = new Vector2();
