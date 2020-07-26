@@ -62,7 +62,7 @@ public class Popper extends RangedWeapon {
 		hbox.setGravity(5.0f);
 		
 		hbox.addStrategy(new ControllerDefault(state, hbox, user.getBodyData()));
-		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+		hbox.addStrategy(new DamageStandard(state, hbox, user.getBodyData(), baseDamage, knockback, DamageTypes.PARTY, DamageTypes.RANGED));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.CRACKER2, 0.4f));
 		hbox.addStrategy(new DieSound(state, hbox, user.getBodyData(), SoundEffect.NOISEMAKER, 0.4f));
 		hbox.addStrategy(new DieParticles(state, hbox, user.getBodyData(), Particle.PARTY));

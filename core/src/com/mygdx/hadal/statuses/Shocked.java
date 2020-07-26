@@ -101,7 +101,7 @@ public class Shocked extends Status {
 				
 				//spread status to new victim with -1 jump and damage them.
 				chainAttempt.getBodyData().addStatus(new Shocked(state, inflicter, chainAttempt.getBodyData(), damage, radius, chainAmount - 1, filter));
-				chainAttempt.getBodyData().receiveDamage(damage, new Vector2(), inflicter, false, DamageTypes.ENERGY);
+				chainAttempt.getBodyData().receiveDamage(damage, new Vector2(), inflicter, false, DamageTypes.LIGHTNING);
 
 				//draw the trail that makes the lightning particles visible
 				Vector2 trailPath = new Vector2(chainAttempt.getPosition()).sub(inflicted.getSchmuck().getPosition());

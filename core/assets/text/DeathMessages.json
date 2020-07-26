@@ -32,6 +32,9 @@
         {
             "message": "Stop hitting yourself, <vic>.", "weight": 1, namedPerp: false
         }
+        {
+            "message": "<vic> committed sudoku.", "weight": 1, namedPerp: false
+        }
     ]
 "ENEMY":  [
         {
@@ -58,13 +61,13 @@
         {
             "message": "<vic> fell into a bottomless pit.", "weight": 1, namedPerp: false
         }
+        {
+            "message": "<vic> didn't fly so good.", "weight": 1, namedPerp: false
+        }
     ]
 "MELEE":  [
         {
             "message": "<perp> beat <vic> to death.", "weight": 1, namedPerp: true
-        }
-        {
-            "message": "<perp> bashed <vic> dim.", "weight": 1, namedPerp: true
         }
         {
             "message": "<perp> gave <vic> the ol' one-two.", "weight": 1, namedPerp: true
@@ -78,13 +81,7 @@
     ]
 "RANGED":  [
         {
-            "message": "<perp> shot <vic> in the <body part>.", "weight": 1, namedPerp: true
-        }
-        {
-            "message": "<perp> shot <vic> to hell.", "weight": 1, namedPerp: true
-        }
-        {
-            "message": "<perp> shot <vic> like fish in a barrel.", "weight": 1, namedPerp: true
+            "message": "<perp> shot <vic> in the <body part>.", "weight": 5, namedPerp: true
         }
     ]
 "UNIVERSAL":  [
@@ -98,7 +95,10 @@
             "message": "<vic> has shuffled off of this mortal coil.", "weight": 1, namedPerp: false
         }
         {
-            "message": "<vic> is sleeping with the fishes.", "weight": 1, namedPerp: false
+            "message": "<perp> cleaned <vic>'s clock.", "weight": 1, namedPerp: true
+        }
+        {
+            "message": "<perp> deleted <vic>.", "weight": 1, namedPerp: true
         }
         {
             "message": "<perp> fragged <vic>.", "weight": 1, namedPerp: true
@@ -107,7 +107,7 @@
             "message": "<perp> mollywomped <vic>.", "weight": 1, namedPerp: true
         }
         {
-            "message": "<perp> cleaned <vic>'s clock.", "weight": 1, namedPerp: true
+            "message": "<perp> kicked <vic>'s bucket.", "weight": 1, namedPerp: true
         }
         {
             "message": "<perp> victimized <vic>.", "weight": 1, namedPerp: true
@@ -116,7 +116,7 @@
             "message": "<perp> voided the warranty on <vic>'s body.", "weight": 1, namedPerp: true
         }
         {
-            "message": "<perp> created a new job opening <vic>'s department.", "weight": 1, namedPerp: true
+            "message": "<perp> created a new job opening in <vic>'s department.", "weight": 1, namedPerp: true
         }
         {
             "message": "<vic> died by <perp>'s hands.", "weight": 1, namedPerp: true
@@ -234,27 +234,6 @@
     ]
 "ENERGY":  [
         {
-            "message": "<perp> electrocuted <vic>.", "weight": 15, namedPerp: true
-        }
-        {
-            "message": "<perp> sent an electric current through <vic>'s <body part>.", "weight": 15, namedPerp: true
-        }
-        {
-            "message": "<perp> defibrillated <vic>.", "weight": 15, namedPerp: true
-        }
-        {
-            "message": "<perp> killed <vic> with lightning.", "weight": 15, namedPerp: true
-        }
-        {
-            "message": "<perp> smited <vic>.", "weight": 25, namedPerp: true
-        }
-        {
-            "message": "<perp> zapped <vic>'s <body part>.", "weight": 25, namedPerp: true
-        }
-        {
-            "message": "<perp> zapped <vic> to the extreme.", "weight": 1, namedPerp: true
-        }
-        {
             "message": "<perp> <process> <vic>'s <particle>.", "weight": 75, namedPerp: true
         }
     ]
@@ -322,9 +301,60 @@
             "message": "<perp> <cook> a <vic> <dish> with <vegetable>.", "weight": 30, namedPerp: true
         }
     ]
+"FISH":  [
+        {
+            "message": "<perp> left <vic> floundering.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> shot <vic> like fish in a barrel.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> gave <vic> a fishy death.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> helped <vic> sleep with the fishes.", "weight": 15, namedPerp: true
+        }
+    ]
+"LIGHTNING":  [
+        {
+            "message": "<perp> electrocuted <vic>.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> sent an electric current through <vic>'s <body part>.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> defibrillated <vic>.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> killed <vic> with lightning.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> smited <vic>.", "weight": 25, namedPerp: true
+        }
+        {
+            "message": "<perp> zapped <vic>'s <body part>.", "weight": 25, namedPerp: true
+        }
+        {
+            "message": "<perp> gave <vic> a toaster bath.", "weight": 5, namedPerp: true
+        }
+        {
+            "message": "<perp> zapped <vic> to the extreme.", "weight": 1, namedPerp: true
+        }
+    ]
 "MAGIC":  [
         {
             "message": "<perp> killed <vic> with magic.", "weight": 5, namedPerp: true
+        }
+    ]
+"PARTY":  [
+        {
+            "message": "<perp> partied <vic> to death.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> partied too hard for <vic>.", "weight": 15, namedPerp: true
+        }
+        {
+            "message": "<perp> confettied <vic> to death.", "weight": 15, namedPerp: true
         }
     ]
 "POISON":  [

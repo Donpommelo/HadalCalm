@@ -42,8 +42,8 @@ hiScores: {
 	ARENA_WARP: 0
 	ARENA_FLOTSAM: 0
 	ARENA_PILE: 0
-	ARENA_WETWORKS: 0
-	ARENA_ZIGGURAT: 0
+	ARENA_WETWORKS: 1
+	ARENA_ZIGGURAT: 1
 }
 unlockEquip: {
 	class: java.util.HashMap

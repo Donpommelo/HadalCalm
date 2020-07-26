@@ -59,8 +59,8 @@ public class DelayedSpawn extends Event {
 			//when deleted, spawn enemies and set boss data
 			Enemy enemy = type.generateEnemy(state, startPos, filter, extraField, spawner);
 			enemy.setBoss(isBoss);
-			enemy.setName(bossName);
 			if (isBoss) {
+				enemy.setName(bossName);
 				state.setBoss(enemy);
 			}
 		}
