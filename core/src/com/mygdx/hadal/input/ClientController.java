@@ -30,7 +30,11 @@ public class ClientController implements InputProcessor {
 	
 	@Override
 	public boolean keyDown(int keycode) {
+		
 		if (player == null) { return true; }
+
+		if (player.getPlayerData() == null) return true;
+		
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 		
 		if (keycode == PlayerAction.WALK_LEFT.getKey()) {
@@ -145,6 +149,10 @@ public class ClientController implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
+		
+		if (player == null) { return true; }
+
+		if (player.getPlayerData() == null) return true;
 		
 		if (!HadalGame.client.getClient().isConnected()) { return false; }
 

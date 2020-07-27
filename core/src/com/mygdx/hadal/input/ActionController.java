@@ -31,6 +31,8 @@ public class ActionController {
 	public boolean keyUp(PlayerAction action, boolean onReset) {
 		if (player == null) { return true; }
 
+		if (player.getPlayerData() == null) return true;
+		
 		if (action == PlayerAction.WALK_LEFT) {
 			leftDown = false;
 			if (rightDown) {

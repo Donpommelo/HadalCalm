@@ -2,11 +2,8 @@ package com.mygdx.hadal.schmucks.bodies;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.client.ClientPredictionFrame;
-import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.Loadout;
 import com.mygdx.hadal.equip.misc.Airblaster;
 import com.mygdx.hadal.event.StartPoint;
@@ -17,12 +14,12 @@ import com.mygdx.hadal.states.PlayState;
 
 public class ClientPlayer extends Player {
 
-	private TextureRegion extrapolationIndicator, predictionIndicator;
+//	private TextureRegion extrapolationIndicator, predictionIndicator;
 	public ClientPlayer(PlayState state, Vector2 startPos, String name, Loadout startLoadout, PlayerBodyData oldData, int connID, boolean reset, StartPoint start) {
 		super(state, startPos, name, startLoadout, oldData, connID, reset, start);
 		
-		extrapolationIndicator = Sprite.ORB_RED.getFrame();
-		predictionIndicator = Sprite.ORB_BLUE.getFrame();
+//		extrapolationIndicator = Sprite.ORB_RED.getFrame();
+//		predictionIndicator = Sprite.ORB_BLUE.getFrame();
 	}
 
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
@@ -90,7 +87,7 @@ public class ClientPlayer extends Player {
 		while (controllerCount >= controllerInterval) {
 			controllerCount -= controllerInterval;
 			
-			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() &&	((ClientState) state).getUiPlay().getOverrideFuelAmount() >= playerData.getHoverCost()) {
+			if (hoveringAttempt && playerData.getExtraJumpsUsed() >= playerData.getExtraJumps() && ((ClientState) state).getUiPlay().getOverrideFuelAmount() >= playerData.getHoverCost()) {
 				if (jumpCdCount < 0) {
 					hover();
 					hovering = true;
@@ -127,34 +124,34 @@ public class ClientPlayer extends Player {
 		mouseAngle.set(getPixelPosition().y, getPixelPosition().x).sub(((ClientState) state).getMousePosition().y, ((ClientState) state).getMousePosition().x);
 		attackAngle = (float)(Math.atan2(mouseAngle.x, mouseAngle.y) * 180 / Math.PI);
 		
-		ClientPredictionFrame frame = new ClientPredictionFrame(delta);
-		frame.positionChange.set(body.getPosition()).sub(lastPosition);
-		frame.velocity.set(body.getLinearVelocity());
-		frames.add(frame);
-		historyDuration += delta;
-		
-		float latency = ((ClientState) state).getLatency();
-
-		if (predicting && latency < LATENCY_THRESHOLD_MIN) {
-			predicting = false;
-		}
-		
-		if (!predicting && latency > LATENCY_THRESHOLD_MAX) {
-			predicting = true;
-		}
-		
-		if (predicting) {
+		if (body != null && alive) {
+			ClientPredictionFrame frame = new ClientPredictionFrame(delta);
+			frame.positionChange.set(body.getPosition()).sub(lastPosition);
+			frame.velocity.set(body.getLinearVelocity());
+			frames.add(frame);
+			historyDuration += delta;
 			
-			extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
-			fug.set(extrapolatedPosition);
-			
-			float t = 0.0f;
-			t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
+			float latency = ((ClientState) state).getLatency();
 
-			newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(body.getPosition()).scl(t));
-			setTransform(newPosition, 0.0f);
+			if (predicting && latency < LATENCY_THRESHOLD_MIN) {
+				predicting = false;
+			} else if (!predicting && latency > LATENCY_THRESHOLD_MAX) {
+				predicting = true;
+			}
+			
+			if (predicting) {
+				
+				extrapolatedPosition.set(predictedPosition).add(extrapolationVelocity.set(body.getLinearVelocity()).scl((CONVERGE_MULTIPLIER) * latency));
+				fug.set(extrapolatedPosition);
+				
+				float t = 0.0f;
+				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
+
+				newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(body.getPosition()).scl(t));
+				setTransform(newPosition, 0.0f);
+			}
+			lastPosition.set(body.getPosition());
 		}
-		lastPosition.set(body.getPosition());
 	}
 	
 	@Override
