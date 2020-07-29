@@ -33,7 +33,7 @@
   </object>
   <object id="4" name="Warp" type="Warp" x="96" y="2080" width="32" height="32">
    <properties>
-    <property name="level" value="WRECKEXPANSE2"/>
+    <property name="level" value="WRECK4"/>
     <property name="startId" value="start1"/>
     <property name="triggeredId" value="warp0"/>
    </properties>
@@ -276,7 +276,7 @@
     <property name="triggeringId" value=""/>
    </properties>
   </object>
-  <object id="57" name="Bounds" type="Bounds" x="544" y="2048" width="32" height="32">
+  <object id="57" name="Bounds" type="Bounds" x="576" y="2048" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2l"/>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="110" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="38">
+ <tileset firstgid="1" source="main_0.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="110" height="100">
+  <data encoding="base64" compression="zlib">
+   eAHtndmS3CAMRSf7nnlI/v9bYz0w5XbaIF0wYPu4qsvuQSy6R+o2mE5eXjhQAAVQAAVQAAVQAAVQAAVQAAVQAAVQAAVKCrwuBrz6aVDi4S2HWT9mpnWrA25wIwbKMUC+lTWaMY5Gc/u1DODDTV+/F7/VmBjN7VurAZywnR/LmFV2rdxV4+bO3Ex7lR3cWimgt6Ow03t7rEm+PeoRfRdlF21/zx5ue8r4/27svPdo/lbzlnDL6zNrKdxmJZMfF9zy+sxaCrdZyeTHBbe8PrOWwm1WMvlxwS2vz6ylcJuVTH5ccMvrM2tpD27vFue/O17vAyJ52/T0G7X5HBjnUaY9uH1ZBu9ZB/oacPLjYquOvbben6Xv0exUH0Y/xxnJzTQbzQ5uet6OZAc3ndvIvINbHbfEzntvE/gKz5rCrZ5bRMMsjEBhpM+17d3vS9ZaRK4DaLKmkT7XtnDT8jQLI1C4ZhG5hhvcAmH2Zjp6/haJ8bXtmwOVF+s2I9fk2znzzeac23vfyPpiJNyerUX+XRqIxNksthG/c7at/LHfC/zMdVRRFt2j2MqnI9qpkOGhaouxHcksDfYq7JI/tedabj2YJR+vwC75Unuu4daTWfLz7OySH7VnldsIZsnXM7NLPtSeVW7MA7T72VpeqT7cNP1V3ZLutWe1f/JN413LK9WHm6a/qlvSvfas9r+Xb9u1jegairc+65NavO1x2+7diuzRshj01odbW261+e+tDze4qd8VSj1vXJbslL6tzt7nZKm/VuXkG/mmxq5Sr1XcKn2Tb1qsm26tDrjpDBTt4NZXb4XRszpwg9uzuCj9LXI/uV0D2e5LSe8jayvcT2pxG+HmeV4WfZ4Ht+O52Wd6jl2UmbUHtz7c9tgpzOCmMbPvvsjnpOmcjnXeqcysLfJNY6dyM82Nnf3eu2a/Jdz6czN2tQfc4Faa87Qsr43XVF8d08jfpH9aBs/vA7R8M94j2J2ZmWnW6lDzLdXrye7szGbiZmPpwe4KzGbjdjS7qzCbgZvNmbf/5lZ075b3s367x8v6NQ3O+PL6XLJTfa+Zd5fG5Cln/qbFLdw03Twx6bEh3zT9Vd08TDw2av/km8bbw8RjAzdNf1U3DxOPjdo/+abx9jDx2MBN01/VzcPEY6P2T75pvD1MPDbbubP3/VFzbM+Yzebu8zevTrPZwW02Ir7xwM2n02xWcOtLxNb20/5kO6v/fwLc+nF79jxGfXZ3d27r2D/6em9PiLGL9q3OX0bXa5Ulo/24W/+tuHnna9j9/5xY0aQVN9pBARRAARRAARRAARRAARS4tgL/ACBWCRU=
+  </data>
+ </layer>
+ <objectgroup id="2" name="collision-layer">
+  <object id="1" x="160" y="2880">
+   <polyline points="0,0 864,0 928,-64 1024,-64 1088,0 1472,0 1472,-448 1312,-448 1312,-480 1472,-640 1472,-1344 1312,-1504 1312,-1536 1472,-1536 1472,-1920 2464,-1920 2624,-1760 2944,-1760 2944,-2208 2624,-2208 2464,-2368 480,-2368 480,-1536 640,-1536 640,-1504 480,-1344 480,-640 640,-480 640,-448 480,-448 480,-160 0,-160 0,0"/>
+  </object>
+  <object id="2" x="960" y="1984">
+   <polyline points="0,0 352,0 352,32 192,192 160,192 0,32 0,0"/>
+  </object>
+  <object id="3" x="800" y="1664">
+   <polyline points="0,0 160,0 160,64 0,64 0,0"/>
+  </object>
+  <object id="4" x="1312" y="1664">
+   <polyline points="0,0 160,0 160,64 0,64 0,0"/>
+  </object>
+  <object id="5" x="960" y="960">
+   <polyline points="0,0 352,0 352,64 0,64 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="event-layer">
+  <object id="6" name="Bounds" type="Bounds" x="896" y="768" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds1"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="7" name="Bounds" type="Bounds" x="2336" y="2560" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="left" type="bool" value="false"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds2"/>
+    <property name="up" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="8" name="Timer" type="Timer" x="192" y="160" width="32" height="32">
+   <properties>
+    <property name="interval" type="float" value="0"/>
+    <property name="triggeredId" value="startTimer"/>
+    <property name="triggeringId" value="onceAtStart"/>
+   </properties>
+  </object>
+  <object id="9" name="Multitrigger" type="Multitrigger" x="256" y="160" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="onceAtStart"/>
+    <property name="triggeringId" value="startTimer,w1,e1,e2,e7,hp1"/>
+   </properties>
+  </object>
+  <object id="10" name="SchmuckSpawn" type="SchmuckSpawn" x="1024" y="928" width="32" height="32">
+   <properties>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="triggeredId" value="e2"/>
+   </properties>
+  </object>
+  <object id="11" name="SchmuckSpawn" type="SchmuckSpawn" x="1216" y="1952" width="32" height="32">
+   <properties>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="triggeredId" value="e1"/>
+   </properties>
+  </object>
+  <object id="12" name="Sensor" type="Sensor" x="160" y="2720" width="96" height="160">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="13" name="Warp" type="Warp" x="64" y="2784" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECK1"/>
+    <property name="startId" value="start2"/>
+    <property name="triggeredId" value="warp0"/>
+   </properties>
+  </object>
+  <object id="14" name="Start" type="Start" x="288" y="2816" width="32" height="32">
+   <properties>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="15" name="Sensor" type="Sensor" x="3008" y="672" width="96" height="448">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="16" name="Warp" type="Warp" x="3136" y="1024" width="32" height="32">
+   <properties>
+    <property name="level" value="WRECK4"/>
+    <property name="startId" value="start0"/>
+    <property name="triggeredId" value="warp1"/>
+   </properties>
+  </object>
+  <object id="17" name="Start" type="Start" x="2944" y="1056" width="32" height="32">
+   <properties>
+    <property name="startId" value="start1"/>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="playerstart"/>
+   </properties>
+  </object>
+  <object id="18" name="Multitrigger" type="Multitrigger" x="256" y="224" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="playerstart"/>
+    <property name="triggeringId" value="bounds1,bounds2"/>
+   </properties>
+  </object>
+  <object id="19" name="Spring" type="Spring" x="1088" y="2800" width="96" height="16">
+   <properties>
+    <property name="springX" type="float" value="0"/>
+    <property name="springY" type="float" value="60"/>
+   </properties>
+  </object>
+  <object id="20" name="Dropthrough" type="Dropthrough" x="800" y="2400" width="672" height="8"/>
+  <object id="21" name="Dropthrough" type="Dropthrough" x="960" y="1664" width="352" height="8"/>
+  <object id="22" name="Prefab" type="PrefabSpawner" x="1088" y="1568" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="23" name="Dropthrough" type="Dropthrough" x="960" y="704" width="352" height="8"/>
+  <object id="24" name="Prefab" type="PrefabSpawner" x="1088" y="608" width="96" height="96">
+   <properties>
+    <property name="interval" type="float" value="3"/>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="Spawner"/>
+    <property name="triggeredId" value="f1"/>
+    <property name="type" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="25" name="Sensor" type="Sensor" x="768" y="2368" width="736" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="triggerSpawn1"/>
+   </properties>
+  </object>
+  <object id="26" name="Prefab" type="PrefabLimit" x="1728" y="2304" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="triggerSpawn1"/>
+    <property name="triggeringId" value="wave1"/>
+   </properties>
+  </object>
+  <object id="27" name="Multitrigger" type="Multitrigger" x="1792" y="2304" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="wave1"/>
+    <property name="triggeringId" value="e3,e4"/>
+   </properties>
+  </object>
+  <object id="28" name="SchmuckSpawn" type="SchmuckSpawn" x="768" y="1440" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SWIMMER1"/>
+    <property name="triggeredId" value="e3"/>
+    <property name="triggeringId" value="openDoorsCount"/>
+   </properties>
+  </object>
+  <object id="29" name="SchmuckSpawn" type="SchmuckSpawn" x="1472" y="1440" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SWIMMER1"/>
+    <property name="triggeredId" value="e4"/>
+    <property name="triggeringId" value="openDoorsCount"/>
+   </properties>
+  </object>
+  <object id="30" name="Sensor" type="Sensor" x="640" y="1632" width="992" height="32">
+   <properties>
+    <property name="triggeredId" value=""/>
+    <property name="triggeringId" value="triggerSpawn2"/>
+   </properties>
+  </object>
+  <object id="31" name="Prefab" type="PrefabLimit" x="1728" y="1632" width="32" height="32">
+   <properties>
+    <property name="limit" type="int" value="1"/>
+    <property name="prefabId" value="Limit"/>
+    <property name="triggeredId" value="triggerSpawn2"/>
+    <property name="triggeringId" value="wave2"/>
+   </properties>
+  </object>
+  <object id="32" name="Multitrigger" type="Multitrigger" x="1792" y="1632" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="wave2"/>
+    <property name="triggeringId" value="e5,e6"/>
+   </properties>
+  </object>
+  <object id="33" name="SchmuckSpawn" type="SchmuckSpawn" x="768" y="608" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SWIMMER1"/>
+    <property name="triggeredId" value="e5"/>
+    <property name="triggeringId" value="openDoorsCount"/>
+   </properties>
+  </object>
+  <object id="34" name="SchmuckSpawn" type="SchmuckSpawn" x="1472" y="608" width="32" height="32">
+   <properties>
+    <property name="amount" type="int" value="1"/>
+    <property name="enemyId" value="SWIMMER1"/>
+    <property name="triggeredId" value="e6"/>
+    <property name="triggeringId" value="openDoorsCount"/>
+   </properties>
+  </object>
+  <object id="35" name="SchmuckSpawn" type="SchmuckSpawn" x="2144" y="928" width="32" height="32">
+   <properties>
+    <property name="enemyId" value="CRAWLER1"/>
+    <property name="triggeredId" value="e7"/>
+   </properties>
+  </object>
+  <object id="36" name="Prefab" type="PrefabWeapon" x="832" y="2784" width="96" height="96">
+   <properties>
+    <property name="pool" value="CHARGE_BEAM"/>
+    <property name="prefabId" value="Weapon"/>
+    <property name="triggeredId" value="w1"/>
+   </properties>
+  </object>
+  <object id="37" name="Prefab" type="PrefabSpawnerTriggered" x="1888" y="864" width="96" height="96">
+   <properties>
+    <property name="power" type="float" value="50"/>
+    <property name="prefabId" value="SpawnerTriggered"/>
+    <property name="triggeredId" value="hp1"/>
+    <property name="type" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -5,13 +5,25 @@
 			"text": "...\nPause: (fugpausefug)\nAdvance Dialog: (fugdialogfug)",
 			"sprite": ""
 			"duration": 0
+            "small": true
 		},
         {
 			"name": "",
-			"text": "Warning: Single-Player content is largely unfinished.",
+			"text": "Keys can be rebinded in settings from pause menu.",
 			"sprite": ""
 			"duration": 0
 			"end": true
+            "small": true
+		}
+	]
+"elevator0": [
+		{
+			"name": "",
+			"text": "The elevator does not appear to be functional.",
+			"sprite": ""
+			"duration": 0
+            "end": true
+            "small": true
 		}
 	]
 "unfinished0": [
@@ -21,6 +33,7 @@
 			"sprite": ""
 			"duration": 0
             "end": true
+            "small": true
 		}
 	]
 "ENDING0": [

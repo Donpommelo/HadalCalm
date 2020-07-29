@@ -1,5 +1,5 @@
 {
-scrap: 29
+scrap: 56
 flags: {
 	class: java.util.HashMap
 	PARTY: 0
@@ -34,7 +34,7 @@ flags: {
 	ARTIFACTSLOT4: 1
 	ARTIFACTSLOT5: 0
 }
-lastIp: 127.0.0.1
+lastIp: ""
 hiScores: {
 	class: java.util.HashMap
 	ARENA_LAGAN: 0
@@ -42,8 +42,8 @@ hiScores: {
 	ARENA_WARP: 0
 	ARENA_FLOTSAM: 0
 	ARENA_PILE: 0
-	ARENA_WETWORKS: 1
-	ARENA_ZIGGURAT: 1
+	ARENA_WETWORKS: 0
+	ARENA_ZIGGURAT: 0
 }
 unlockEquip: {
 	class: java.util.HashMap

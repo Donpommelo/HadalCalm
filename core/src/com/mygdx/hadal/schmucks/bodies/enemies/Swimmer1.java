@@ -15,7 +15,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Swimmer1 extends EnemySwimming {
 
-	private final static int baseHp = 100;
+	private final static int baseHp = 80;
 	private final static String name = "SWIMMING KAMABOKO";
 	
 	private final static int scrapDrop = 1;
@@ -27,10 +27,10 @@ public class Swimmer1 extends EnemySwimming {
 	private static final int hboxHeight = 120;
 	
 	private static final float attackCd = 2.0f;
-	private static final float airSpeed = -0.3f;
+	private static final float airSpeed = 0.0f;
 	
 	private static final float scale = 0.25f;
-	private static final float noiseRadius = 3.0f;
+	private static final float noiseRadius = 5.0f;
 
 	private static final Sprite sprite = Sprite.KAMABOKO_SWIM;
 	

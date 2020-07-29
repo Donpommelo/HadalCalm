@@ -26,8 +26,8 @@ public class DialogBox extends AHadalActor {
 	private BitmapFont font;
 
 	//This is the scale that the text is drawn at.
-	private float scale = 0.5f;
-	private float scaleSmall = 0.3f;
+	private float scale = 0.4f;
+	private float scaleSmall = 0.25f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
 	private Queue<Dialog> dialogs;
