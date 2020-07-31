@@ -21,6 +21,7 @@ import com.mygdx.hadal.strategies.hitbox.DiePoison;
 import com.mygdx.hadal.strategies.hitbox.DieRagdoll;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
+import com.mygdx.hadal.strategies.hitbox.FixedToOrigin;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
@@ -328,6 +329,38 @@ public class EnemyUtils {
 		});
 	}
 
+	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle) {
+		
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				Vector2 startVelo = new Vector2(0, 1).setAngle(enemy.getAttackAngle());
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger));
+			}
+		});
+	}
+	
+	public static void projectile(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, Particle particle) {
+		
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				Vector2 startVelo = new Vector2(projSpeed, projSpeed).setAngle(enemy.getAttackAngle());
+				RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+				
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger));
+			}
+		});
+	}
+	
 	private static final float fireLinger = 3.0f;
 	private static final float laserLinger = 0.01f;
 	public static void fireball(final PlayState state, Enemy boss, final float baseDamage, final float fireDamage, final float projSpeed, final float knockback, final int size,

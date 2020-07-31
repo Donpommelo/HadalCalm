@@ -6,12 +6,12 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="80" height="60">
   <data encoding="base64" compression="zlib">
-   eAHt2N1ugzAMhuFu3SZt3c/Bev/XuuTgO0mFbIgdAnuRIosWTPxgq1IvFw4EEEAAAQQQQAABBBBAAAEE/qfATymb9Wjg7QbsHu2qiffAD7+MHti7/77KBq7J67vkz7Dbe36r3WdZ2cetPCDL0Lv36Pc3yk71ZRkqvxUj/UbbqbYMQ+W2YpTfXnaqL9pQea0Y4be3nWqMNFROK/b6zWKnOqMMlc+KPX6z2anWCEPlsuJWv1ntVG+vofJYcYvf7HaqucdQOay41u8odqp7q6Hut+Iav6PZqfYthrrXil6/o9qp/rWGus+KHr+j28lgjaHusaLnP5IR/wVY+4z6vhp6ao56HnkQQODcAq+lvA/HejYYnhw56nPejDxH+rra3cvy/I6/G4W9OPP8luvOYLjGrvpG+dVcsxh65m7pGm/fqTcj/WS4tLfez8srch2qbUSM9svcswuvXJS5hzY3fn3e+OHXznU7Y5nn9B/9R//5eqB1WjrPnNc2N/Pre3etm87xw6+dY/XGiEj/0X/0n68HWqel8xFzq2cwv753J682ntFvqS/5HAEEEEAAAQQQmEHgD1QAads=
+   eAHt2FtvgzAMhuGdpZ0vtv//W5dcfFKVFtkQOwT2IkUulJj4wVGl3t1xIIAAAggggAACCCCAAAIIIPA/Bb5L2YxrA283YHdtV028B374ZfTA3v33WRbwmDy+Sv4Mu733b7X7KCP7eC8PyDL0rj36/Y2yU31ZhspvxUi/0XaqLcNQua0Y5beXneqLNlReK0b47W2nGiMNldOKvX6z2KnOKEPls2KP32x2qjXCULmsuNVvVjvV22uoPFbc4je7nWruMVQOK671O4qd6t5qqPlWXON3NDvVvsVQc63o9Tuqnepfa6h5VvT4Hd1OBmsMNceKnv9IRvwXYK0z6nuvYdTzzpinGlp9c8a6qQmBWwLP5eKbYzzcmnxx7d6Roz7n5WLO0T9Wu98yPL/jr0axT848P+W+Mxiusau+UX411yyGnn23dI+379SbkX4yXFpb7/XyilyHahsRo/0y1+zCKzdlrqHNjV+fN374tfu63WOZ5/Qf/Uf/+XqgdVo6z9yvbW72r+/dtW46xw+/dh+rN0ZE+o/+o/98PdA6LZ2P2Ld6BvvX9+7k1cYz+i31JdcRQAABBBBAAIEZBP4AW4xqaQ==
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="160" y="992">
-   <polyline points="0,0 0,192 480,192 576,96 896,96 896,704 1120,704 1120,96 1440,96 1536,192 2240,192 2240,0 1952,0 1504,-448 736,-448 288,0 0,0"/>
+   <polyline points="0,0 0,192 480,192 576,96 896,96 896,704 1120,704 1120,96 1440,96 1536,192 2240,192 2240,32 1984,32 1504,-448 736,-448 288,0 0,0"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
@@ -42,7 +42,7 @@
     <property name="triggeringId" value="playerstart"/>
    </properties>
   </object>
-  <object id="7" name="Sensor" type="Sensor" x="2304" y="992" width="96" height="192">
+  <object id="7" name="Sensor" type="Sensor" x="2304" y="1024" width="96" height="160">
    <properties>
     <property name="triggeredId" value=""/>
     <property name="triggeringId" value="warp1"/>
@@ -68,7 +68,7 @@
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="12" name="Bounds" type="Bounds" x="1664" y="1056" width="32" height="32">
+  <object id="12" name="Bounds" type="Bounds" x="1632" y="1056" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>

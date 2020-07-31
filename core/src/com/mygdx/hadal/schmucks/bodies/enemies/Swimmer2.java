@@ -27,7 +27,7 @@ public class Swimmer2 extends EnemySwimming {
 	private static final int hboxWidth = 280;
 	private static final int hboxHeight = 120;
 	
-	private static final float attackCd = 3.0f;
+	private static final float attackCd = 2.0f;
 	private static final float airSpeed = 0.1f;
 	
 	private static final float scale = 0.25f;
@@ -57,33 +57,34 @@ public class Swimmer2 extends EnemySwimming {
 	private static final float defaultTrack = 0.04f;
 	private static final float attackTrack = 0.01f;
 
-	private static final float attackWindup = 0.2f;
+	private static final float attackWindup = 1.0f;
 	private static final float attackSwingAngle = 30.0f;
 	
 	private static final int fireballDamage = 10;
-	private static final int burnDamage = 1;
-	private static final int fireSpeed = 9;
+	private static final int fireSpeed = 10;
 	private static final int fireKB = 6;
 	private static final int fireSize = 50;
 	private static final float fireLifespan = 1.25f;
-	private static final float burnDuration = 6.0f;
 
 	private static final int fireballNumber = 8;
 	private static final float fireballInterval = 0.15f;
 	@Override
 	public void attackInitiate() {
 		
-		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, attackWindup);
+		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
+		
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.KAMABOKO_SHOWER);
+		
 		EnemyUtils.changeFloatingTrackSpeed(this, attackTrack, 0.0f);
 		
 		EnemyUtils.changeFloatingFreeAngle(this, attackSwingAngle, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.KAMABOKO_SHOWER);
+			EnemyUtils.projectile(state, this, fireballDamage, fireSpeed, fireKB, fireSize, fireLifespan, fireballInterval, Particle.KAMABOKO_SHOWER);
 		}
 		
 		EnemyUtils.changeFloatingFreeAngle(this, - 2 * attackSwingAngle, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
-			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.KAMABOKO_SHOWER);
+			EnemyUtils.projectile(state, this, fireballDamage, fireSpeed, fireKB, fireSize, fireLifespan, fireballInterval, Particle.KAMABOKO_SHOWER);
 		}
 		
 		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);

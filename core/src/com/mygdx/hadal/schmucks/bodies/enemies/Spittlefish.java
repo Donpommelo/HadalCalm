@@ -62,18 +62,24 @@ public class Spittlefish extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
+	private static final float attackWindup = 0.5f;
+	
 	private final static float baseDamage = 7.5f;
 	private final static float knockback = 6.0f;
 	private final static float projectileSpeed = 15.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 20);
 	private final static float lifespan = 3.0f;
 	private final static float range = 900.0f;
+	
+	private Vector2 startVelo = new Vector2();
 	@Override
 	public void attackInitiate() {
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
+		
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.WATER_BURST);
+		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
-			private Vector2 startVelo = new Vector2();
 			@Override
 			public void execute() {
 				

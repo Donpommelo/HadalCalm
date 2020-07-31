@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -15,6 +16,7 @@ import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieSound;
@@ -58,9 +60,11 @@ public class Torpedofish extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
+	private static final float attackWindup = 0.5f;
+
 	private final static float baseDamage = 5.0f;
 	private final static float knockback = 0.5f;
-	private final static float projectileSpeed = 16.0f;
+	private final static float projectileSpeed = 24.0f;
 	private final static Vector2 projectileSize = new Vector2(56, 22);
 	private final static float lifespan = 5.0f;
 	
@@ -71,7 +75,10 @@ public class Torpedofish extends EnemySwimming {
 	private final static float range = 900.0f;
 	@Override
 	public void attackInitiate() {
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
+		
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.BRIGHT);
+		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
 			private Vector2 startVelo = new Vector2();
@@ -93,7 +100,8 @@ public class Torpedofish extends EnemySwimming {
 					hbox.addStrategy(new AdjustAngle(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
 					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
-					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));	
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
 					hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
 					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
 				}

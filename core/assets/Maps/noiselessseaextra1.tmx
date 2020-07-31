@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="-1" width="50" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="14">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="50" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="14">
  <properties>
-  <property name="startUI" value="SCRAP"/>
+  <property name="startUI" value="NOISELESS SEA,EMPTY,SCRAP"/>
  </properties>
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="50" height="70">
   <data encoding="base64" compression="zlib">
-   eJzt1jEOwjAQRNEUNAECBdz/rLiJFBkZJd4ZayP+l6ZevW6niYiIRvY0bm7cvJjv4sBxhuHINRy5NtKxDcf3lrJ7w3Ere5zA8cvgsNSNMqgtascRg9KidPQYVBaVI2JQWBQOhSFqiTqUhogl4nAYei29Dqdh7Yilbq+j9W+o2/u/1OHwhAOHIxw4HOHA4QgHDkc4cDjCgcMRDhyOcOBwhAOHI7fjVXYdsLfZkW04cg1HruHINSL6jz7hVWP7
+   eAHtmMsOAiEMRV248b3Q//9W2dyENEMHmHZixmNCCgO0ve1JHD2d+FABKkAFqMCeFXiVYFnj0hByToyZoQUdeYzM9It+0I8ZbtbuwNX/clV/Va1xMrq/J1dZOh7F8b12Xs1vZf4sY7Qu3vnKfZhfT4PiRWqRT1lPb+9ejwbFi9Iif7K9ubbOjWhQzAgt8iXbyq/n+YwGxd2qRX5ke/JdOrNFg2Jv0SIfsks5rj2L0KD4s1p0X3YtZ7sfqUE5zGjRXVmbp7fO0KA8RrXonqyXd72XqUG5jGjRHdk6V2/eet+Qnyjb+zvexvNyr/fQYSvnr+lH3zsoXPkc2V24givLRMQaruAqgiPrA67gyjIRsYYruIrgyPqAK7iyTESs4QquIjiyPuAKriwTEWu4gqsIjqyPbK7eJeB1h/EpMer/x1tzq7917tefo6Ov33v1kX7QjwzWjsqV1cWaClCBY1TgC+FVY/s=
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
@@ -31,7 +31,7 @@
   </object>
   <object id="4" name="Warp" type="Warp" x="832" y="128" width="32" height="32">
    <properties>
-    <property name="level" value="WRECKEXPANSE2"/>
+    <property name="level" value="NOISELESSSEA3"/>
     <property name="startId" value="start2"/>
     <property name="triggeredId" value="warp0"/>
    </properties>
