@@ -51,31 +51,34 @@ public class Hitbox extends HadalEntity {
 	private final static float defaultDamageMultiplier = 1.0f;
 	
 	//grav is the effect of gravity on the hitbox. 1 = normal gravity. 0 = no gravity.
-	protected float gravity = defaultGravity;
+	private float gravity = defaultGravity;
 	
 	//density is the used for certain phyic-related hboxes. stuff that needs to rotate based on physics should have a nonzero density
-	protected float density = defaultDensity;
+	private float density = defaultDensity;
 		
 	//durability is the number of things the hitbox can hit before disappearing.
-	protected int durability = defaultDurability;
+	private int durability = defaultDurability;
 	
 	//restitution is the hitbox bounciness.
-	protected float restitution = defaultResitution;
+	private float restitution = defaultResitution;
 	
 	//friction is the hitbox slipperyness.
-	protected float friction = defaultFriction;
+	private float friction = defaultFriction;
 	
 	//scale is the hitbox size multiplier.
-	protected float scale = defaultScale;
+	private float scale = defaultScale;
 	
 	//scale is the hitbox size multiplier.
-	protected float damageMultiplier = defaultDamageMultiplier;
+	private float damageMultiplier = defaultDamageMultiplier;
 		
 	//sensor is whether the hitbox passes through things it registers a hit on.
-	protected boolean sensor;
+	private boolean sensor;
 	
-	//procEffects is whether the hitbox activates statuses.
-	protected boolean procEffects;
+	//procEffects is whether the hitbox activates statuses. The others decide which types of effects should apply to this hbox
+	private boolean procEffects;
+	private boolean effectsVisual = true;
+	private boolean effectsHit = true;
+	private boolean effectsMovement = true;
 		
 	//can this hbox be reflected by reflection effects?
 	private boolean reflectable = true;
@@ -268,7 +271,7 @@ public class Hitbox extends HadalEntity {
 	
 	public void setDensity(float density) { this.density = density; }
 
-	public void setScale(float scale) { this.scale = scale + creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE); }
+	public void setScale(float scale) { this.scale = scale; }
 	
 	public void setFriction(float friction) { this.friction = friction; }
 	
@@ -284,6 +287,12 @@ public class Hitbox extends HadalEntity {
 	
 	public float getLifeSpan() { return lifeSpan; }
 	
+	public int getDurability() { return durability; }
+	
+	public float getRestitution() { return restitution; }
+	
+	public float getGravity() { return gravity; }
+
 	public float getScale() { return scale; }
 	
 	public Sprite getSprite() { return sprite; }
@@ -297,6 +306,18 @@ public class Hitbox extends HadalEntity {
 	public boolean isSensor() { return sensor; }
 
 	public void setSensor(boolean sensor) { this.sensor = sensor; }
+
+	public boolean isEffectsVisual() { return effectsVisual; }
+
+	public void setEffectsVisual(boolean effectsVisual) { this.effectsVisual = effectsVisual; }
+
+	public boolean isEffectsHit() { return effectsHit; }
+
+	public void setEffectsHit(boolean effectsHit) {	this.effectsHit = effectsHit; }
+
+	public boolean isEffectsMovement() { return effectsMovement; }
+
+	public void setEffectsMovement(boolean effectsMovement) { this.effectsMovement = effectsMovement; }
 
 	public Schmuck getCreator() { return creator; }
 

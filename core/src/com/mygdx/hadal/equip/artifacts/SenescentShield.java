@@ -25,6 +25,9 @@ public class SenescentShield extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsHit()) { return; } 
+				
 				hbox.addStrategy(new ContactBlockProjectiles(state, hbox, b, knockbackProj));
 			}
 		});

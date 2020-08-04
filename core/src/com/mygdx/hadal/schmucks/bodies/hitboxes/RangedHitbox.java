@@ -18,9 +18,9 @@ public class RangedHitbox extends Hitbox {
 				lifespan * (1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_LIFESPAN)),
 				startVelo.scl(1 + creator.getBodyData().getStat(Stats.RANGED_PROJ_SPD)), filter, sensor, procEffects, creator, sprite);
 		
-		this.scale += creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE);
-		this.gravity += creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY);
-		this.durability += creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY);
-		this.restitution += creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION);
+		setScale(getScale() + creator.getBodyData().getStat(Stats.RANGED_PROJ_SIZE));
+		setGravity(getGravity() + creator.getBodyData().getStat(Stats.RANGED_PROJ_GRAVITY));
+		setDurability((int) (getDurability() + creator.getBodyData().getStat(Stats.RANGED_PROJ_DURABILITY)));
+		setRestitution(getRestitution() + creator.getBodyData().getStat(Stats.RANGED_PROJ_RESTITUTION));
 	}
 }

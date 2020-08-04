@@ -51,6 +51,8 @@ public class AmitaCannon extends RangedWeapon {
 		//we create an invisible hitbox that moves in a straight line.
 		Hitbox center = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, Sprite.NOTHING);
 		center.setSyncDefault(false);
+		center.setEffectsHit(false);
+		center.setEffectsVisual(false);
 		
 		center.addStrategy(new ControllerDefault(state, center, user.getBodyData()));
 		center.addStrategy(new ContactWallDie(state, center, user.getBodyData()));
@@ -69,6 +71,7 @@ public class AmitaCannon extends RangedWeapon {
 					Hitbox orbital = new RangedHitbox(state, startPosition, orbitalSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 					orbital.setSyncDefault(false);
 					orbital.setSyncInstant(true);
+					orbital.setEffectsMovement(false);
 					
 					orbital.addStrategy(new ControllerDefault(state, orbital, user.getBodyData()));
 					orbital.addStrategy(new DamageStandardRepeatable(state, orbital, user.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));

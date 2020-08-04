@@ -42,8 +42,8 @@ public class LaserRifle extends RangedWeapon {
 	
 	private final static Sprite[] projSprites = {Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM};
 
-	private final static Vector2 trailSize = new Vector2(10, 10);
-	private final static float trailSpeed = 60.0f;
+	private final static Vector2 trailSize = new Vector2(30, 30);
+	private final static float trailSpeed = 75.0f;
 	private final static float trailLifespan = 3.0f;
 
 	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
@@ -97,12 +97,18 @@ public class LaserRifle extends RangedWeapon {
 			@Override
 			public void create() {
 				super.create();
+				
+				//this makes the laser hbox's lifespan unmodifiable
+				setLifeSpan(lifespan);
+				
 				//Rotate hitbox to match angle of fire.
 				float newAngle = (float)(Math.atan2(startVelocity.y , startVelocity.x));
 				newPosition.set(getPosition()).add(new Vector2(startVelocity).nor().scl(size.x / 2 / PPM));
 				setTransform(newPosition.x, newPosition.y, newAngle);
 			}
 		};
+		hbox.setEffectsVisual(false);
+		hbox.setEffectsMovement(false);
 		
 		hbox.makeUnreflectable();
 		
@@ -112,8 +118,10 @@ public class LaserRifle extends RangedWeapon {
 		hbox.addStrategy(new Static(state, hbox, user.getBodyData()));
 		
 		//the trail creates particles along the projectile's length
-		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed), filter, true, false, user, projSprite);
-		
+		Hitbox trail = new RangedHitbox(state, user.getPixelPosition(), trailSize, trailLifespan, startVelocity.nor().scl(trailSpeed), filter, true, true, user, projSprite);
+		trail.setEffectsHit(false);
+		trail.setEffectsMovement(false);
+
 		trail.addStrategy(new ControllerDefault(state, trail, user.getBodyData()));
 		trail.addStrategy(new TravelDistanceDie(state, trail, user.getBodyData(), distance * shortestFraction));
 		trail.addStrategy(new CreateParticles(state, trail, user.getBodyData(), Particle.LASER_TRAIL, 0.0f, 3.0f));

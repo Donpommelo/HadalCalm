@@ -30,7 +30,7 @@ public class Moraygun extends RangedWeapon {
 	private final static float knockback = 5.0f;
 	private final static float projectileSpeedStart = 150.0f;
 	private final static Vector2 projectileSize = new Vector2(30, 30);
-	private final static float lifespan = 5.0f;
+	private final static float lifespan = 2.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
 	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
@@ -65,8 +65,8 @@ public class Moraygun extends RangedWeapon {
 			
 			hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
 				
-				private float controllerCount = 0;
-				private float numMoves = 0;
+				private float controllerCount;
+				private float numMoves;
 				
 				@Override
 				public void controller(float delta) {

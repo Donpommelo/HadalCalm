@@ -31,6 +31,9 @@ public class InformantsTie extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsMovement()) { return; } 
+				
 				hbox.addStrategy(new HomingUnit(state, hbox, b, homePower, inflicted.getSchmuck().getHitboxfilter()));
 				hbox.setGravity(0.0f);
 			}

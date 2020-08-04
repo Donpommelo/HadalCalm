@@ -39,6 +39,9 @@ public class SamuraiShark extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsHit()) { return; } 
+				
 				if (procCdCount >= procCd) {
 					if (GameStateManager.generator.nextDouble() < critChance) {
 						procCdCount -= procCd;

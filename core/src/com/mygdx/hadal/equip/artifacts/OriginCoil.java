@@ -37,6 +37,8 @@ public class OriginCoil extends Artifact {
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
 				
+				if (!hbox.isEffectsMovement()) { return; } 
+				
 				hbox.getStartVelo().scl(slow);
 				hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 					

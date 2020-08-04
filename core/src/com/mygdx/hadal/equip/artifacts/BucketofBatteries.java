@@ -40,6 +40,9 @@ public class BucketofBatteries extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsHit()) { return; } 
+				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					

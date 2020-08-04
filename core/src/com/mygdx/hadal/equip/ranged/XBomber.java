@@ -70,7 +70,6 @@ public class XBomber extends RangedWeapon {
 			@Override
 			public void die() {
 				
-				
 				//create 2 perpindicular projectiles
 				Hitbox cross1 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, projSprite) {
 					

@@ -49,6 +49,8 @@ public class Maelstrom extends RangedWeapon {
 		SoundEffect.WIND2.playUniversal(state, startPosition, 0.8f, false);
 
 		Hitbox storm = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, false, true, user, Sprite.NOTHING);
+		storm.setEffectsHit(false);
+		storm.setEffectsVisual(false);
 		storm.setRestitution(0.5f);
 		
 		storm.addStrategy(new ControllerDefault(state, storm, user.getBodyData()));
@@ -78,7 +80,8 @@ public class Maelstrom extends RangedWeapon {
 					Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), explosionSize, explosionDuration, new Vector2(), filter, true, true, user, projSprite);
 					pulse.setSyncDefault(false);
 					pulse.setSyncInstant(true);
-					
+					pulse.setEffectsMovement(false);
+
 					pulse.addStrategy(new ControllerDefault(state, pulse, user.getBodyData()));
 					pulse.addStrategy(new DamageStatic(state, pulse, user.getBodyData(), baseDamage, knockback, DamageTypes.EXPLOSIVE, DamageTypes.RANGED));
 					pulse.addStrategy(new HitboxStrategy(state, pulse, user.getBodyData()) {

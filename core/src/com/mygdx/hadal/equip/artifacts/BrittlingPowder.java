@@ -38,6 +38,9 @@ public class BrittlingPowder extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsHit()) { return; } 
+				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					hbox.addStrategy(new DieFrag(state, hbox, inflicted, numFrag));

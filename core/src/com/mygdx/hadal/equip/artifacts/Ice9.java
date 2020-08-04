@@ -35,6 +35,9 @@ public class Ice9 extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsHit()) { return; } 
+				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					hbox.addStrategy(new ContactUnitSlow(state, hbox, inflicted, slowDura, slow));

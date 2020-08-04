@@ -16,8 +16,9 @@ public enum Shader {
 
 	NOTHING("", "", true),
 	INVISIBLE("shaders/pass.vert", "shaders/pass.frag", true),
+	SEPIA("shaders/pass.vert", "shaders/sepia.frag", true),
 	WHITE("shaders/pass.vert", "shaders/white.frag", true),
-	INVERT("shaders/pass.vert", "shaders/invert.frag", true, new Resolution(), new Timer()),
+	INVERT("shaders/pass.vert", "shaders/invert.frag", true),
 	SPLASH("shaders/pass.vert", "shaders/splash.frag", true, new Resolution(), new Timer()),
 	DRIP("shaders/pass.vert", "shaders/drip.frag", true, new Resolution(), new Timer()),
 	WAVE("shaders/pass.vert", "shaders/wave.frag", true, new Resolution(), new Timer()),
@@ -60,7 +61,7 @@ public enum Shader {
 		//load the shader and create its strategies
 		shader = new ShaderProgram(Gdx.files.internal(vertId).readString(), Gdx.files.internal(fragId).readString());
 		shader.begin();
-		
+
 		for (ShaderStrategy strat: strategies) {
 			strat.create(shader);
 		}

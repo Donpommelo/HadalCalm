@@ -31,6 +31,9 @@ public class YightKite extends Artifact {
 			
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsMovement()) { return; } 
+
 				hbox.addStrategy(new HitboxStrategy(state, hbox, inflicted) {
 					
 					private Vector2 playerPos = new Vector2();

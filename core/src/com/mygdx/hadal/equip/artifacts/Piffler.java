@@ -1,15 +1,15 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.mygdx.hadal.equip.Equipable;
 import com.mygdx.hadal.equip.RangedWeapon;
-import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.schmucks.userdata.PlayerBodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.statuses.StatusComposite;
-import com.mygdx.hadal.strategies.hitbox.Spread;
 import com.mygdx.hadal.utils.Stats;
 
 public class Piffler extends Artifact {
@@ -22,7 +22,7 @@ public class Piffler extends Artifact {
 	private final static float projLifeReduction = -0.6f;
 	private final static float projRecoilReduction = -0.75f;
 	private final static float damageReduction = -0.25f;
-	private final static float projectileSizeReduction = -0.5f;
+	private final static float projectileSizeReduction = -0.4f;
 	private final static float bonusAtkSpd = 0.6f;
 	private final static float bonusClip = 1.0f;
 
@@ -43,8 +43,9 @@ public class Piffler extends Artifact {
 				new Status(state, b) {
 			
 			@Override
-			public void onHitboxCreation(Hitbox hbox) {
-				hbox.addStrategy(new Spread(state, hbox, inflicted, spread));
+			public void onShoot(Equipable tool) {
+				float newDegrees = (float) (tool.getWeaponVelo().angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+				tool.setWeaponVelo(tool.getWeaponVelo().setAngle(newDegrees));
 			}
 			
 			@Override

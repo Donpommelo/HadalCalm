@@ -35,6 +35,9 @@ public class ShillersDeathcap extends Artifact {
 
 			@Override
 			public void onHitboxCreation(Hitbox hbox) {
+				
+				if (!hbox.isEffectsHit()) { return; } 
+				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
 					hbox.addStrategy(new PoisonTrail(state, hbox, b, poisonRadius, poisonDamage, poisonDuration, b.getSchmuck().getHitboxfilter()));

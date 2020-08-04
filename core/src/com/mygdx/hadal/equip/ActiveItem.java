@@ -73,12 +73,19 @@ public class ActiveItem extends Equipable {
 	 * This is used when the active item charges
 	 * @param charge: The amount of charge that the item gains.
 	 */
+	private final float meleeChargeBonus = 0.5f;
 	public void gainCharge(float charge) {
 		
 		//this is used to keep track of when an item fully charges to play a sound
 		boolean uncharged = currentCharge < maxCharge;
 		
-		currentCharge += (charge * (1 + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
+		
+		if (user.getBodyData().getCurrentTool() instanceof MeleeWeapon) {
+			currentCharge += (charge * (1 + meleeChargeBonus + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
+		} else {
+			currentCharge += (charge * (1 + user.getBodyData().getStat(Stats.ACTIVE_CHARGE_RATE)));
+		}
+		
 		if (currentCharge >= maxCharge) {
 			currentCharge = maxCharge;
 			

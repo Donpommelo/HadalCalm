@@ -17,6 +17,8 @@ import com.mygdx.hadal.utils.b2d.BodyBuilder;
 public class DelayedSpawn extends Event {
 
 	private final static Vector2 baseSize = new Vector2(32, 32);
+	private final static float particleScale = 0.5f;
+	private final static float particleScaleBoss = 1.5f;
 	
 	//the type of enemy that this will spawn
 	private EnemyType type;
@@ -38,6 +40,13 @@ public class DelayedSpawn extends Event {
 		this.bossName = bossName;
 		
 		setStandardParticle(Particle.RING);
+		
+		if (isBoss) {
+			standardParticle.setScale(particleScaleBoss);
+		} else {
+			standardParticle.setScale(particleScale);
+		}
+		
 		setSynced(true);
 	}
 
