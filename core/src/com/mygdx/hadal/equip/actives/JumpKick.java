@@ -40,7 +40,7 @@ public class JumpKick extends ActiveItem {
 	public void useItem(PlayState state, PlayerBodyData user) {
 		SoundEffect.WOOSH.playUniversal(state, user.getPlayer().getPixelPosition(), 1.0f, false);
 
-		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 10.0f, user, user));
+		user.addStatus(new StatChangeStatus(state, 0.5f, Stats.AIR_DRAG, 7.5f, user, user));
 		Vector2 push = new Vector2(weaponVelo).nor().scl(recoil);
 		user.getPlayer().pushMomentumMitigation(push.x, push.y);
 		

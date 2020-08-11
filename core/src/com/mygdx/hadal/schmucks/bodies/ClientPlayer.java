@@ -22,6 +22,14 @@ public class ClientPlayer extends Player {
 //		predictionIndicator = Sprite.ORB_BLUE.getFrame();
 	}
 
+	@Override
+	public void create() {
+		super.create();
+		
+		predictedPosition.set(body.getPosition());
+		lastPosition.set(body.getPosition());
+	}
+	
 	private final static float CONVERGE_MULTIPLIER = 0.05f;
 	private final static float LATENCY_THRESHOLD_MIN = 0.08f;
 	private final static float LATENCY_THRESHOLD_MAX = 0.1f;
@@ -81,7 +89,6 @@ public class ClientPlayer extends Player {
 	@Override
 	public void clientController(float delta) {
 		super.clientController(delta);
-		
 		controllerCount += delta;
 		
 		while (controllerCount >= controllerInterval) {
@@ -126,7 +133,7 @@ public class ClientPlayer extends Player {
 		
 		if (body != null && alive) {
 			ClientPredictionFrame frame = new ClientPredictionFrame(delta);
-			frame.positionChange.set(body.getPosition()).sub(lastPosition);
+			frame.positionChange.set(getPosition()).sub(lastPosition);
 			frame.velocity.set(body.getLinearVelocity());
 			frames.add(frame);
 			historyDuration += delta;
@@ -147,7 +154,7 @@ public class ClientPlayer extends Player {
 				float t = 0.0f;
 				t = delta / (latency * (1 + CONVERGE_MULTIPLIER));
 
-				newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(body.getPosition()).scl(t));
+				newPosition.set(body.getPosition()).add(extrapolatedPosition.sub(getPosition()).scl(t));
 				setTransform(newPosition, 0.0f);
 			}
 			lastPosition.set(body.getPosition());

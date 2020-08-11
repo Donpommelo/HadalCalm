@@ -542,7 +542,7 @@ public class KryoClient {
         	}
         };
         
-//       client.addListener(new Listener.LagListener(50, 50, packetListener));
+//       client.addListener(new Listener.LagListener(100, 100, packetListener));
        client.addListener(packetListener);
 	}
 	
@@ -700,8 +700,8 @@ public class KryoClient {
         				
 						if (p.connID == connID) {
 							cs.setPlayer(newPlayer);
-        					
-        					//set camera to look at new client player.
+							
+							//set camera to look at new client player.
             				cs.camera.position.set(new Vector3(p.startPosition.x, p.startPosition.y, 0));
         				}
 					}
