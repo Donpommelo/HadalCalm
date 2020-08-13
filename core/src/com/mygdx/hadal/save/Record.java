@@ -117,15 +117,15 @@ public class Record {
 		newRecord.unlockLevel = new HashMap<String, Boolean>();
 		
 		for (UnlockEquip equip: UnlockEquip.values()) {
-			newRecord.unlockEquip.put(equip.toString(), false);
+			newRecord.unlockEquip.put(equip.toString(), true);
 		}
 		
 		for (UnlockArtifact artifact: UnlockArtifact.values()) {
-			newRecord.unlockArtifact.put(artifact.toString(), false);
+			newRecord.unlockArtifact.put(artifact.toString(), true);
 		}
 		
 		for (UnlockActives active: UnlockActives.values()) {
-			newRecord.unlockActive.put(active.toString(), false);
+			newRecord.unlockActive.put(active.toString(), true);
 		}
 		
 		for (UnlockCharacter character: UnlockCharacter.values()) {

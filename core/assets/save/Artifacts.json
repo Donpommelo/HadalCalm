@@ -11,7 +11,7 @@ NUMBER_ONE_BOSS_MUG: {
 EIGHT_BALL: {
 	name: "8-Ball"
 	description: "+Damage and -Accuracy"
-    descriptionLong: "Bonus Damage: +25%\nProjectile Spread: +20\n\nAn inky black sphere made of smooth ivory.\n\nWithin the Midnight Pool, each ball lands in its preordained pocket regardless of the angle of the stroke."
+    descriptionLong: "Bonus Damage: +25%\nProjectile Spread: +20\n\nAn inky black sphere made of smooth ivory.\n\nWithin the Midnight Pool, each ball lands in its predetermined pocket regardless of the angle of the stroke."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -109,7 +109,7 @@ BLOODWOODS_GLOVE: {
 BOTTOM_OF_THE_BARREL: {
 	name: Bottom of the Barrel
 	description: "+Damage with Low Ammo"
-    descriptionLong: "Ammo Threshold: 25%\nDamage Bonus: +100%\n\nA wooden slat encrusted with resentful detritus.\n\nThe grinders of the Kamabokoya are welcoming to even the lowliest of dregs seeking to be remade."
+    descriptionLong: "Ammo Threshold: 25%\nDamage Bonus: +100%\n\nA wooden slat encrusted with resentful detritus.\n\nThe grinders of the Kamaboko-Ya are welcoming to even the lowliest of dregs seeking to be remade."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -127,7 +127,7 @@ BRIGGLES_BLADED_BOOT: {
 BRITTLING_POWDER: {
 	name: Brittling Powder
 	description: "Projectile Fragmentation"
-    descriptionLong: "Frag Cooldown: 0.5s\nFrag Number: 8\nFrag Damage: 2.5\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact.\n\nResidents of the Kamabokoya have accepted that the destruction of their physicals bodies is a necessary step in the factory's ungodly process."
+    descriptionLong: "Frag Cooldown: 0.5s\nFrag Number: 8\nFrag Damage: 2.5\n\nA pouch of insidious powder that renders objects brittle upon the slightest contact.\n\nResidents of the Kamaboko-Ya have accepted that the destruction of their physicals bodies is a necessary step in the factory's ungodly process."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -146,6 +146,15 @@ CALL_OF_THE_VOID: {
 	name: Call of the Void
 	description: "+Damage Amplification, -Damage Resistance"
     descriptionLong: "Damage Amplification: +30%\nDamage Resistance: -30%\n\nA sinister mark in the shape of a spiral.\n\nThe ocean's genesis was wrought by the blessing of the Spiral and its terminus will be defined in the same manner."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+CASTAWAYS_TRAVELOGUE: {
+	name: Castaway's Travelogue
+	description: "Not Using Fuel Increases Fuel Regeneration"
+    descriptionLong: "Fuel Regen: +20 per second after 2 seconds without use.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -208,7 +217,7 @@ COMPOUND_VITREOUS: {
 CONFIDENCE: {
 	name: Confidence
 	description: "+Damage at Max Hp"
-    descriptionLong: "Bonus Damage: +50%\n\nThe fragile and fleeting feeling that everything will be alright.\n\nHave faith that this whole ordeal will either hurt very little or very briefly."
+    descriptionLong: "Bonus Damage: +50%\n\nThe fragile and fleeting feeling that everything will be alright.\n\n\"Have faith that this whole ordeal will either hurt very little or very briefly.\""
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -226,7 +235,7 @@ CROWN_OF_THORNS: {
 CURIOUS_SAUCE: {
 	name: Curious Sauce
 	description: "Bouncy Projectiles"
-    descriptionLong: "A jar of a most very curious sauce.\n\nCountless unsolved oddities preceding the ocean’s advent now outlive the ones that sought to study them."
+    descriptionLong: "A jar of a most very curious sauce.\n\nCountless unsolved oddities preceding the ocean's advent now outlive the ones that sought to study them."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -244,7 +253,7 @@ CURSED_CILICE: {
 DAS_BOOT: {
 	name: Das Boot
 	description: "+Damage Resistance While Reloading"
-    descriptionLong: "Reloading Damage Resistance: +50%\n\nA metal shoe complete with dorsal periscope.\n\nHumanity’s countless attempts to breach the abyss have recently become less about curiosity and more about necessity."
+    descriptionLong: "Reloading Damage Resistance: +50%\n\nA metal shoe complete with dorsal periscope.\n\nHumanity's countless attempts to breach the abyss have recently become less about curiosity and more about necessity."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -253,7 +262,7 @@ DAS_BOOT: {
 DEAD_MANS_HAND: {
 	name: Dead Man's Hand
 	description: "+1 Weapon Slot"
-    descriptionLong: "The petrified hand of nothing in particular.\n\nA salvager’s suit must withstand both the pressures of the deep as well as the crushing grasps of the departed."
+    descriptionLong: "The petrified hand of nothing in particular.\n\nA salvager's suit must withstand both the pressures of the deep as well as the crushing grasps of the departed."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -271,7 +280,7 @@ DEPLORABLE_APPARATUS: {
 EELSKIN_COVER: {
 	name: Eelskin Cover
 	description: "Reduces Drag"
-    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the ravenous God began to covet the flavor of its subjects."
+    descriptionLong: "Ground Drag Reduction: -75%\nAir Drag Reduction: -40%\n\nA slick coat that lets its wearer slide through the water slimily.\n\nAfter an eternity of swallowing bland repast, the ravenous God-Eel began to covet the flavor of its subjects."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -298,7 +307,7 @@ EPHEMERA_PERPETUA: {
 EXTRA_ROW_OF_TEETH: {
 	name: "Extra Row of Teeth"
 	description: "+Clip Size"
-    descriptionLong: "Bonus Clip Size: +30%\n\nA row of misshapen teeth; each designed to rend a different prey.\n\nUpon bearing witness to the First Bright One, the Ravenous Eel God had but a single wish; more teeth."
+    descriptionLong: "Bonus Clip Size: +30%\n\nA row of misshapen teeth; each designed to rend a different prey.\n\nUpon bearing witness to the First Bright One, the ravenous God-Eel, had but a single wish; more teeth."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -316,7 +325,7 @@ FARADAYS_CAGE: {
 FEELING_OF_BEING_WATCHED: {
 	name: Feeling of Being Watched
 	description: "+Damage with Low Fuel"
-    descriptionLong: "Fuel Threshold: 20% Max Fuel\nBonus Damage: +50%\n\n"
+    descriptionLong: "Fuel Threshold: 20% Max Fuel\nBonus Damage: +50%\n\nThe unyielding gaze of nothing in particular.\n\nA salvager cannot avert the gaze of that which he is submerged within."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -352,7 +361,7 @@ FRACTURE_PLATE: {
 GEMMULE: {
 	name: Gemmule
 	description: "+Invulnerability Duration on Spawn"
-    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\nThe budding subjects of the Neptune King’s Garden must be tended to diligently in order for fruit to be bore."
+    descriptionLong: "Bonus Spawn Invulnerability Duration: 8s\n\nA spongy layer of material that functions as a protective coating.\n\nThe budding subjects of the Neptune King's Garden must be tended to diligently in order for fruit to be bore."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -441,7 +450,7 @@ ICE9: {
 INFORMANTS_TIE: {
 	name: Informant's Tie
 	description: "Homing Projectiles"
-    descriptionLong: "TEST"
+    descriptionLong: "An orange tie ragged from years of nervous hand-rubbing.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -539,7 +548,7 @@ MACHINE_GHOST: {
 MANGROVE_SEED: {
 	name: Mangrove Seed
 	description: "+Poison Resistance"
-    descriptionLong: "Poison Damage Resistance: +80%\n\n"
+    descriptionLong: "Poison Damage Resistance: +80%\n\nThe seed of an extinct tree known for water filtration.\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -557,7 +566,7 @@ MASK_OF_SYMPATHY: {
 MATTER_UNIVERSALIZER: {
 	name: Matter Universalizer
 	description: "Restores Fuel on Kill"
-    descriptionLong: "Fuel Regenerated: 60 on Player Kill, 20 on Monster Kill\n\nA handheld energy-conversion device.\n\nRegardless of what or who enters the grinders of the Kamabokoya, the end result looks and tastes the same."
+    descriptionLong: "Fuel Regenerated: 60 on Player Kill, 20 on Monster Kill\n\nA handheld energy-conversion device.\n\nRegardless of what or who enters the grinders of the Kamaboko-Ya, the end result looks and tastes the same."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -584,7 +593,7 @@ MOUTHBREATHER_CERTIFICATE: {
 MUDDLING_CUP: {
 	name: Muddling Cup
 	description: "Airblasting Fires Weapon"
-    descriptionLong: "A novelty cup that channels its contents along internal vessels.\n\n"
+    descriptionLong: "A novelty cup that channels its contents along internal vessels.\n\nA conclusion that is preordained does not preclude a turbulent trip."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -593,7 +602,7 @@ MUDDLING_CUP: {
 NICE_SHOES: {
 	name: Nice Shoes
 	description: "+Run Speed"
-    descriptionLong: "Bonus Movement Speed: +30%\n\n"
+    descriptionLong: "Bonus Movement Speed: +30%\n\nA pair of very nice shoes.\n\nOnly a fool puts on his nicest shoes before stepping into the world's largest puddle."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -608,7 +617,7 @@ NOTHING: {
 NUCLEAR_PUNCH_THRUSTERS: {
 	name: Nuclear Punch Thrusters
 	description: "+Attack Knockback"
-    descriptionLong: "Bonus Knockback: +60%\n\n"
+    descriptionLong: "Bonus Knockback: +60%\n\nA mechanized gauntlet powered with the wrath of a dying sun.\n\nThe physics-defying nature of the False Sun would pique the interest of researchers were there still civilizations left to power."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -617,7 +626,7 @@ NUCLEAR_PUNCH_THRUSTERS: {
 NURDLER: {
 	name: Nurdler
 	description: "Fire Pellets When Attacking"
-    descriptionLong: "Nurdler Interval: 0.25s\nNurdler Damage: 7.5\n\nA handful of hardened, plastic pellets, byproduct of some long-lost industry.\n\nThrough inconspicuousness, items of extreme worthlessness can sometimes evade the grinding blades of the Kamabokoya."
+    descriptionLong: "Nurdler Interval: 0.25s\nNurdler Damage: 7.5\n\nA handful of hardened, plastic pellets, byproduct of some long-lost industry.\n\nThrough inconspicuousness, items of extreme worthlessness can sometimes evade the grinding blades of the Kamaboko-Ya."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -626,7 +635,7 @@ NURDLER: {
 OL_FAITHFUL: {
 	name: Ol' Faithful
 	description: "-2 Weapon Slots. +Ammo, Reload and Attack Speed"
-    descriptionLong: "Bonus Ammo: +50%\nBonus Reload Speed: +30%\nBonus Attack Speed: +30%\n\n"
+    descriptionLong: "Bonus Ammo: +50%\nBonus Reload Speed: +30%\nBonus Attack Speed: +30%\n\nA rugged holster with the initials 'B.M' engraved.\n\nThe callous currents of the Noiseless Sea have no qualms with separating a man from his most beloved possession."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -636,6 +645,15 @@ ORIGIN_COIL: {
 	name: Origin Coil
 	description: "Propulsive Projectiles, +Reload Speed"
     descriptionLong: "Bonus Reload Speed: 60%\n\nAn delicate mechanism facilitating the spontaneous generation of life.\n\nThe Garden of the Neptune King serves as a sanctuary for seeds taken by the Noiseless Sea before having a chance to germinate."
+	tags: [
+		RELIQUARY,
+		RANDOM_POOL,
+	]
+}
+OUR_GET_ALONG_SHIRT: {
+	name: Our Get Along Shirt
+	description: "Connect with a nearby character"
+    descriptionLong: "\n\n"
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -661,8 +679,8 @@ PEACHWOOD_SWORD: {
 }
 PEER_PRESSURE: {
 	name: Peer Pressure
-	description: "Summon an Allied Follower"
-    descriptionLong: "\n\n"
+	description: "Summon an Floating Follower"
+    descriptionLong: "An unusual kinship with an unexpected ally.\n\nSalvagers have been resorting to increasingly regulation-violating measures to cope with the loneliness of the abyss. "
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -680,7 +698,7 @@ PELICAN_PLUSH_TOY: {
 PEPPER: {
 	name: Pepper
 	description: "Damages Nearby Enemies"
-    descriptionLong: "Damage Interval: 1.5s\nDamage: 6\n\nA blurry cloud of white noise vaguely in the shape of a cat.\n\n"
+    descriptionLong: "Damage Interval: 1.5s\nDamage: 6\n\nA blurry cloud of white noise vaguely in the shape of a cat.\n\nBright Ones take a variety of forms, from colossal stars to the slight blurriness in the corner of your eye."
 	tags: [
 		RELIQUARY,
 		RANDOM_POOL,
@@ -716,7 +734,7 @@ PLUMPOWDER: {
 RECYCLER_BOLUS: {
 	name: Recycler Bolus
 	description: "Gain Max Hp on Eggplant Pickup"
-    descriptionLong: "Max Hp Gained: 4 per Eggplant\nMax Hp Limit: +100\n\nA foul clump of mucus and undigested flesh.\n\nThe resentful ingredients of the Kamabokoya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
+    descriptionLong: "Max Hp Gained: 4 per Eggplant\nMax Hp Limit: +100\n\nA foul clump of mucus and undigested flesh.\n\nThe resentful ingredients of the Kamaboko-Ya yearn to have their bodies remade in the shapes of the ones that terrorized them in life."
 	tags: [
 		RELIQUARY,
 	]

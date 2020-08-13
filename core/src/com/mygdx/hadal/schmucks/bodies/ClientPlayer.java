@@ -34,6 +34,7 @@ public class ClientPlayer extends Player {
 	private final static float LATENCY_THRESHOLD_MIN = 0.08f;
 	private final static float LATENCY_THRESHOLD_MAX = 0.1f;
 	private final static float VELO_TOLERANCE = 200.0f;
+	private final static float DIST_TOLERANCE = 12.0f;
 	private ArrayList<ClientPredictionFrame> frames = new ArrayList<ClientPredictionFrame>();
 	private Vector2 lastPosition = new Vector2();
 	private Vector2 predictedPosition = new Vector2();
@@ -75,10 +76,18 @@ public class ClientPlayer extends Player {
 						frame.positionChange = p.velocity.scl(frame.delta);
 					}
 				}
+				
 				predictedPosition.set(p.pos);
 				
 				for (ClientPredictionFrame frame: frames) {
 					predictedPosition.add(frame.positionChange);
+				}
+				
+				if (body != null) {
+					if (predictedPosition.dst2(body.getPosition()) > DIST_TOLERANCE) {
+						setTransform(predictedPosition, 0.0f);
+						lastPosition.set(predictedPosition);
+					}
 				}
 			}
 		}
