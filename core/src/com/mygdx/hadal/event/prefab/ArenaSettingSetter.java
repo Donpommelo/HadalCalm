@@ -16,6 +16,7 @@ public class ArenaSettingSetter extends Prefabrication {
 	private final static String weaponTimerId = "spawnWeapons";
 	private final static String playerStartId = "playerstart";
 	private final static float weaponSpawnTimer = 25.0f;
+	private final static float waveSpawnTimer = 15.0f;
 	private final static float arenaMatchZoom = 1.5f;
 	
 	public ArenaSettingSetter(PlayState state) {
@@ -93,7 +94,7 @@ public class ArenaSettingSetter extends Prefabrication {
 		
 		RectangleMapObject wave = new RectangleMapObject();
 		wave.setName("Timer");
-		wave.getProperties().put("interval", 20.0f);
+		wave.getProperties().put("interval", waveSpawnTimer);
 		wave.getProperties().put("triggeredId", waveTimerId);
 		wave.getProperties().put("triggeringId", multiWaveId);
 		

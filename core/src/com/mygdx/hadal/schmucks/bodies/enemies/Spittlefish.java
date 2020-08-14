@@ -62,7 +62,7 @@ public class Spittlefish extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
-	private static final float attackWindup = 0.5f;
+	private static final float attackWindup = 0.4f;
 	
 	private final static float baseDamage = 7.5f;
 	private final static float knockback = 6.0f;
@@ -75,8 +75,9 @@ public class Spittlefish extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup, Particle.WATER_BURST);
+		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
+		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.BUBBLE_TRAIL);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
@@ -87,7 +88,7 @@ public class Spittlefish extends EnemySwimming {
 					return;
 				}
 				
-				startVelo.set(attackTarget.getPixelPosition()).sub(enemy.getPixelPosition());
+				startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
@@ -104,5 +105,8 @@ public class Spittlefish extends EnemySwimming {
 				}
 			}
 		});
+		
+		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 }

@@ -34,7 +34,7 @@ public class KBKSpawner extends EnemySwimming {
 	private static final int hboxWidth = 560;
 	private static final int hboxHeight = 240;
 	
-	private static final float attackCd = 3.0f;
+	private static final float attackCd = 2.5f;
 	private static final float airSpeed = -0.4f;
 	
 	private static final float scale = 0.25f;
@@ -60,6 +60,8 @@ public class KBKSpawner extends EnemySwimming {
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 	}
 	
+	private static final float attackWindup = 0.5f;
+	
 	private static final float minRange = 5.0f;
 	private static final float maxRange = 10.0f;
 	
@@ -69,7 +71,11 @@ public class KBKSpawner extends EnemySwimming {
 	private final static float range = 900.0f;
 	@Override
 	public void attackInitiate() {
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
+		
+		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
+		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.KAMABOKO_SHOWER);
+		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
 			private Vector2 startVelo = new Vector2();
@@ -80,7 +86,7 @@ public class KBKSpawner extends EnemySwimming {
 					return;
 				}
 				
-				startVelo.set(attackTarget.getPixelPosition()).sub(enemy.getPixelPosition());
+				startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
@@ -103,6 +109,9 @@ public class KBKSpawner extends EnemySwimming {
 				}
 			}
 		});
+		
+		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
 	@Override

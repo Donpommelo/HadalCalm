@@ -39,7 +39,7 @@ public class Drone extends EnemySwimming {
 	private static final int hboxWidth = 450;
 	private static final int hboxHeight = 450;
 	
-	private static final float attackCd = 2.5f;
+	private static final float attackCd = 2.0f;
 	private static final float airSpeed = -0.1f;
 	
 	private static final float scale = 0.4f;
@@ -76,34 +76,40 @@ public class Drone extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), Sprite.DRONE_ARM_FRONT, size));
 	}
 	
+	private static final float attackWindup = 0.5f;
+	
 	private static final float minRange = 4.0f;
 	private static final float maxRange = 10.0f;
 
 	private static final int laserNumber = 6;
 	private static final float laserInterval = 0.05f;
-	private final static float baseDamage = 6.0f;
+	private final static float baseDamage = 8.0f;
 	private final static float knockback = 6.0f;
-	private final static float projectileSpeed = 18.0f;
+	private final static float projectileSpeed = 28.0f;
 	private final static Vector2 projectileSize = new Vector2(60, 30);
 	private final static float lifespan = 3.0f;
 	private final static float range = 900.0f;
 	private final static int spread = 12;
 	@Override
 	public void attackInitiate() {
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.4f);
+		
+		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
+		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.LASER_IMPACT);
+		
 		for (int i = 0; i < laserNumber; i++) {
 			getActions().add(new EnemyAction(this, laserInterval) {
 				
 				private Vector2 startVelo = new Vector2();
 				@Override
 				public void execute() {
-					SoundEffect.LASER2.playUniversal(state, enemy.getPixelPosition(), 0.5f, false);
+					SoundEffect.LASER2.playUniversal(state, enemy.getPixelPosition(), 0.25f, false);
 					
 					if (attackTarget == null) {
 						return;
 					}
 					
-					startVelo.set(attackTarget.getPixelPosition()).sub(enemy.getPixelPosition());
+					startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
 					
 					if (startVelo.len2() < range * range) {
 						startVelo.nor().scl(projectileSpeed);
@@ -123,6 +129,9 @@ public class Drone extends EnemySwimming {
 				}
 			});
 		}
+		
+		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	};
 	
 	@Override

@@ -209,7 +209,7 @@ public class EnemyUtils {
 				turret.setAttackAngle(normalizeAngle((int) turret.getAttackAngle()));
 				switch (state) {
 				case FREE:
-					turret.setDesiredAngle(angle);
+					turret.setDesiredAngle(turret.getAttackAngle() + angle);
 					break;
 				case TRACKING:
 					break;

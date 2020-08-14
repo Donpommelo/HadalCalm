@@ -35,7 +35,7 @@ public class Torpedofish extends EnemySwimming {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float attackCd = 1.5f;
+	private static final float attackCd = 1.2f;
 	private static final float airSpeed = -0.4f;
 	
 	private static final float minRange = 5.0f;
@@ -60,11 +60,11 @@ public class Torpedofish extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
-	private static final float attackWindup = 0.5f;
+	private static final float attackWindup = 0.2f;
 
 	private final static float baseDamage = 5.0f;
 	private final static float knockback = 0.5f;
-	private final static float projectileSpeed = 24.0f;
+	private final static float projectileSpeed = 30.0f;
 	private final static Vector2 projectileSize = new Vector2(56, 22);
 	private final static float lifespan = 5.0f;
 	
@@ -76,9 +76,10 @@ public class Torpedofish extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
+		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
+		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
 		EnemyUtils.windupParticles(state, this, attackWindup, Particle.BRIGHT);
-		
+
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
 			private Vector2 startVelo = new Vector2();
@@ -89,7 +90,7 @@ public class Torpedofish extends EnemySwimming {
 					return;
 				}
 				
-				startVelo.set(attackTarget.getPixelPosition()).sub(enemy.getPixelPosition());
+				startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
@@ -107,5 +108,8 @@ public class Torpedofish extends EnemySwimming {
 				}
 			}
 		});
+		
+		EnemyUtils.setSwimmingChaseState(this, 1.0f, minRange, maxRange, 0.0f);
+		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 }

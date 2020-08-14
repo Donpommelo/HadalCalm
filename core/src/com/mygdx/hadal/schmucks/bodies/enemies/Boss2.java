@@ -81,8 +81,7 @@ public class Boss2 extends EnemyFloating {
 		};
 		
 		for (int i = 0; i < links.length; i ++) {
-			links[i] = BodyBuilder.createBox(world, startPos, getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, 
-					(short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
+			links[i] = BodyBuilder.createBox(world, startPos, getHboxSize(), 0, 1, 0, false, false, Constants.BIT_ENEMY, (short) (Constants.BIT_SENSOR | Constants.BIT_PROJECTILE),
 					hitboxfilter, false, link);
 			
 			RevoluteJointDef joint1 = new RevoluteJointDef();

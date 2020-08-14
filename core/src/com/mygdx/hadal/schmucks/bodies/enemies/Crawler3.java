@@ -61,7 +61,8 @@ public class Crawler3 extends EnemyCrawling {
 	private final static Vector2 projectileSize = new Vector2(16, 16);
 	private final static float lifespan = 1.2f;
 	
-	private Vector2 startVelocity = new Vector2();
+	private Vector2 startVelo = new Vector2();
+	private Vector2 spreadVelo = new Vector2();
 	@Override
 	public void attackInitiate() {
 		
@@ -76,15 +77,15 @@ public class Crawler3 extends EnemyCrawling {
 			
 			for (int i = 0; i < numProj; i++) {
 				
-				getActions().add(new EnemyAction(this, 0) {
+				getActions().add(new EnemyAction(this, 0.0f) {
 					
 					@Override
 					public void execute() {
-						startVelocity.set(getMoveDirection() * projectileSpeed, projectileSpeed / 2);
+						startVelo.set(getMoveDirection() * projectileSpeed, projectileSpeed / 2);
 
-						float newDegrees = (float) (startVelocity.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-						Vector2 startVelo = new Vector2(startVelocity.setAngle(newDegrees));
-						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
+						float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
+						spreadVelo.set(startVelo.setAngle(newDegrees));
+						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(spreadVelo, size.x), projectileSize, lifespan, spreadVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);
 						hbox.setGravity(3.0f);
 						
 						hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
