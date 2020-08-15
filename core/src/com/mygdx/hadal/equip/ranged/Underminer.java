@@ -34,8 +34,8 @@ public class Underminer extends RangedWeapon {
 	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.DRILL;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_BLADEGUN;
+	private final static Sprite eventSprite = Sprite.P_BLADEGUN;
 	
 	private final static float drillSpeed = 4.0f;
 	private final static float drillDuration = 1.0f;

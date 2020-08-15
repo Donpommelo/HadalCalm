@@ -43,8 +43,8 @@ public class LoveBow extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.ARROW;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
+	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
 	
 	private final static float baseHeal = 15.0f;
 	private static final float maxCharge = 0.25f;

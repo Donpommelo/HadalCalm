@@ -34,8 +34,8 @@ public class TrickGun extends RangedWeapon {
 	private final static Vector2 projectileSize = new Vector2(71, 61);
 	private final static float lifespan = 1.5f;
 	
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_LASERROCKET;
+	private final static Sprite eventSprite = Sprite.P_LASERROCKET;
 	
 	private final static float projectileSpeedAfter = 60.0f;
 

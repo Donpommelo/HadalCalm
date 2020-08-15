@@ -37,8 +37,8 @@ public class Flounderbuss extends RangedWeapon {
 	private final static float lifespan = 2.0f;
 	
 	private final static Sprite[] projSprites = {Sprite.FLOUNDER_A, Sprite.FLOUNDER_B};
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_SHOTGUN;
+	private final static Sprite eventSprite = Sprite.P_SHOTGUN;
 	
 	private static final float maxCharge = 0.5f;
 	private static final float veloSpread = 0.6f;

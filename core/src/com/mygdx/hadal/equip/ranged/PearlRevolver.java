@@ -34,8 +34,8 @@ public class PearlRevolver extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.PEARL;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_GRENADE;
+	private final static Sprite eventSprite = Sprite.P_GRENADE;
 	
 	public PearlRevolver(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

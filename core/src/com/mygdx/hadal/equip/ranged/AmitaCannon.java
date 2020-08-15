@@ -37,8 +37,8 @@ public class AmitaCannon extends RangedWeapon {
 	private final static float activatedSpeed = 40.0f;
 
 	private final static Sprite projSprite = Sprite.ORB_ORANGE;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
+	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
 	
 	public AmitaCannon(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

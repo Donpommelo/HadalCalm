@@ -50,8 +50,8 @@ public class Hexenhowitzer extends RangedWeapon {
 	private static final float maxCharge = 80.0f;
 	private static final float chargeLostPerShot = 2.5f;
 
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_TORPEDO;
+	private final static Sprite eventSprite = Sprite.P_TORPEDO;
 	
 	private final static float superchargedShootCd = 0.07f;
 	private final static float enemyChargeMultiplier = 0.25f;

@@ -37,8 +37,8 @@ public class Fugun extends RangedWeapon {
 	private final static float poisonDuration = 4.0f;
 
 	private final static Sprite projSprite = Sprite.FUGU;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_IRONBALL;
+	private final static Sprite eventSprite = Sprite.P_IRONBALL;
 	
 	public Fugun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

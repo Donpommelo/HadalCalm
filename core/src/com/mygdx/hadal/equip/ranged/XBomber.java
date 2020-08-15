@@ -39,8 +39,8 @@ public class XBomber extends RangedWeapon {
 	private final static float lifespan = 0.5f;
 	
 	private final static Sprite projSprite = Sprite.LASER_TURQUOISE;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_IRONBALL;
+	private final static Sprite eventSprite = Sprite.P_IRONBALL;
 	
 	private final static Vector2 crossSize = new Vector2(700, 40);
 	private final static float crossLifespan = 0.25f;

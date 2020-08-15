@@ -39,8 +39,8 @@ public class DeepSeaSmelter extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.TRICKBULLET;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_NEMATOCYTEARM;
+	private final static Sprite eventSprite = Sprite.P_NEMATOCYTEARM;
 	
 	private final static float projSpacing = 20.0f;
 

@@ -33,8 +33,8 @@ public class Moraygun extends RangedWeapon {
 	private final static float lifespan = 2.0f;
 	
 	private final static Sprite projSprite = Sprite.ORB_PINK;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_CHARGEBEAM;
+	private final static Sprite eventSprite = Sprite.P_CHARGEBEAM;
 
 	private final static int numProj = 6;
 	private final static float moveInterval = 0.025f;

@@ -40,8 +40,8 @@ public class Minigun extends RangedWeapon {
 	private final static int spread = 8;
 
 	private final static Sprite projSprite = Sprite.BULLET;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_MACHINEGUN;
+	private final static Sprite eventSprite = Sprite.P_MACHINEGUN;
 	
 	private static final float maxCharge = 0.5f;
 	private static final float selfSlowDura = 0.1f;

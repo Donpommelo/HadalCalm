@@ -47,6 +47,10 @@ public class UIPlay extends AHadalActor {
 	private static final int activeHeight = 120;
 	private static final int activeTextY = 30;
 	
+	private static final float fontScaleLarge = 0.5f;
+	private static final float fontScaleSmall = 0.25f;
+
+	
 	//This variable manages the delay of hp decreasing after receiving damage
 	private static final float hpCatchup = 0.01f;
 	private static final float bossHpCatchup = 0.002f;
@@ -80,6 +84,7 @@ public class UIPlay extends AHadalActor {
 	//This is the percentage of the boss hp bar that is effectively 0 (to prevent the 9patch from displaying weirdly)
 	private final static float bossHpFloor = 0.05f;
 	protected float bossHpRatio;
+	private float hpWidthScaled, hpHeightScaled, fuelWidthScaled, fuelHeightScaled, fuelCutoffWidthScaled, fuelCutoffHeightScaled, activeWidthScaled, activeHeightScaled;
 	
 	public UIPlay(PlayState state) {
 		this.state = state;
@@ -103,6 +108,15 @@ public class UIPlay extends AHadalActor {
 		
 		setWidth(main.getRegionWidth() * mainScale);
 		setHeight(main.getRegionHeight() * mainScale);
+		
+		hpWidthScaled = hp.getRegionWidth() * mainScale;
+		hpHeightScaled = hp.getRegionHeight() * mainScale;
+		fuelWidthScaled = fuel.getRegionWidth() * mainScale;
+		fuelHeightScaled = fuel.getRegionHeight() * mainScale;
+		fuelCutoffWidthScaled = fuelCutoff.getRegionWidth() * mainScale;
+		fuelCutoffHeightScaled = fuelCutoff.getRegionHeight() * mainScale;
+		activeWidthScaled = activeWidth * mainScale;
+		activeHeightScaled = activeHeight * mainScale;
 	}
 	
 	/**
@@ -133,7 +147,7 @@ public class UIPlay extends AHadalActor {
 		
 		//Draw boss hp bar, if existent
 		if (bossFight && boss.getBody() != null) {
-			font.getData().setScale(0.25f);
+			font.getData().setScale(fontScaleSmall);
 			font.draw(batch, bossName, bossNameX, bossNameY);
 			
 			//This code makes the hp bar delay work.
@@ -159,9 +173,9 @@ public class UIPlay extends AHadalActor {
 			hpDelayed = hpRatio;
 		}
 		
-		batch.draw(hpMissing, mainX + barX, mainY + hpBarY, hp.getRegionWidth() * mainScale * hpDelayed, hp.getRegionHeight() * mainScale);
-		batch.draw(hp, mainX + barX, mainY + hpBarY, hp.getRegionWidth() * mainScale * hpRatio, hp.getRegionHeight() * mainScale);
-		batch.draw(fuel, mainX + barX, mainY + fuelBarY, fuel.getRegionWidth() * mainScale * fuelRatio, fuel.getRegionHeight() * mainScale);
+		batch.draw(hpMissing, mainX + barX, mainY + hpBarY, hpWidthScaled * hpDelayed, hpHeightScaled);
+		batch.draw(hp, mainX + barX, mainY + hpBarY, hpWidthScaled * hpRatio, hpHeightScaled);
+		batch.draw(fuel, mainX + barX, mainY + fuelBarY, fuelWidthScaled * fuelRatio, fuelHeightScaled);
 		
 		//This makes low Hp indicator blink at low health
 		if (hpRatio <= hpLowThreshold) {
@@ -182,18 +196,16 @@ public class UIPlay extends AHadalActor {
 		
 		batch.draw(main, mainX, mainY, getWidth(), getHeight());
 		
-		batch.draw(fuelCutoff, mainX + barX + fuelCutoffRatio * fuel.getRegionWidth() * mainScale, mainY + fuelBarY,
-				fuelCutoff.getRegionWidth() * mainScale, fuelCutoff.getRegionHeight() * mainScale);
-
+		batch.draw(fuelCutoff, mainX + barX + fuelCutoffRatio * fuelWidthScaled, mainY + fuelBarY, fuelCutoffWidthScaled, fuelCutoffHeightScaled);
 		if (state.getPlayer().getPlayerData().getCurrentTool().isReloading()) {
 			batch.draw(reloading, mainX, mainY, getWidth(), getHeight());
 		}
 
-		font.getData().setScale(0.25f);
+		font.getData().setScale(fontScaleSmall);
 		font.draw(batch, state.getPlayer().getPlayerData().getCurrentTool().getName(), mainX + 48, mainY + 90, 100, -1, true);
-		font.getData().setScale(0.5f);
+		font.getData().setScale(fontScaleLarge);
 		font.draw(batch, weaponText, mainX + 48, mainY + 40);
-		font.getData().setScale(0.25f);
+		font.getData().setScale(fontScaleSmall);
 		font.draw(batch, ammoText, mainX + 48, mainY + 60);
 		font.draw(batch, (int) (hpRatio * hpMax) + "/" + (int) hpMax, mainX + 155, mainY + 66);
 		
@@ -211,11 +223,11 @@ public class UIPlay extends AHadalActor {
 			}
 		}
 		
-		font.draw(batch, state.getPlayer().getPlayerData().getActiveItem().getName(), activeX, mainY + activeHeight * mainScale + activeTextY);
+		font.draw(batch, state.getPlayer().getPlayerData().getActiveItem().getName(), activeX, mainY + activeHeightScaled + activeTextY);
 		if (activePercent >= 1.0f) {
-			batch.draw(hp, activeX, activeY, activeWidth * mainScale, activeHeight * mainScale * activePercent);
+			batch.draw(hp, activeX, activeY, activeWidthScaled, activeHeightScaled * activePercent);
 		} else {
-			batch.draw(hpMissing, activeX, activeY, activeWidth * mainScale, activeHeight * mainScale * activePercent);
+			batch.draw(hpMissing, activeX, activeY, activeWidthScaled, activeHeightScaled * activePercent);
 		}
 	}
 	

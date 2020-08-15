@@ -35,8 +35,8 @@ public class WaveBeam extends RangedWeapon {
 	private final static float lifespan = 1.5f;
 	
 	private final static Sprite projSprite = Sprite.LASER_BLUE;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
+	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
 	private final static float amplitude = 1.0f;
 	private final static float frequency = 25.0f;

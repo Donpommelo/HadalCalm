@@ -43,8 +43,8 @@ public class ColaCannon extends RangedWeapon {
 	private final static float minDuration = 0.5f;
 
 	private final static Sprite projSprite = Sprite.COLA;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_SLODGEGUN;
+	private final static Sprite eventSprite = Sprite.P_SLODGEGUN;
 	
 	private final static float maxCharge = 8000.0f;
 	private final static float noiseThreshold = 1000.0f;

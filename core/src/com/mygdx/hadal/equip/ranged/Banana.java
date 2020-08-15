@@ -36,8 +36,8 @@ public class Banana extends RangedWeapon {
 	private final static float lifespan = 4.0f;
 	
 	private final static Sprite projSprite = Sprite.BANANA;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_ICEBERG;
+	private final static Sprite eventSprite = Sprite.P_ICEBERG;
 	
 	private static final float maxCharge = 0.3f;
 	private final static float projectileMaxSpeed = 60.0f;

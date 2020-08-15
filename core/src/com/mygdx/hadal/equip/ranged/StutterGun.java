@@ -41,8 +41,8 @@ public class StutterGun extends RangedWeapon {
 	private final static float fireDuration = 0.5f;
 	private final static int spread = 8;
 
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;
+	private final static Sprite eventSprite = Sprite.P_LASERRIFLE;
 	
 	public StutterGun(Schmuck user) {
 		super(user, clipSize, ammoSize, reloadTime, recoil, projectileSpeed, shootCd, shootDelay, reloadAmount, true, weaponSprite, eventSprite, projectileSize.x);

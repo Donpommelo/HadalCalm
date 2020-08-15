@@ -36,8 +36,8 @@ public class SniperRifle extends RangedWeapon {
 	private final static float lifespan = 1.0f;
 	
 	private final static Sprite projSprite = Sprite.BULLET;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_SPEARGUN;
+	private final static Sprite eventSprite = Sprite.P_SPEARGUN;
 	
 	private final static float bonusDamage = 70.0f;
 

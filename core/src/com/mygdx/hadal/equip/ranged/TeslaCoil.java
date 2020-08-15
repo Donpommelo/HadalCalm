@@ -37,8 +37,8 @@ public class TeslaCoil extends RangedWeapon {
 	private final static float lifespan = 4.5f;
 	
 	private final static Sprite projSprite = Sprite.PYLON;
-	private final static Sprite weaponSprite = Sprite.MT_DEFAULT;
-	private final static Sprite eventSprite = Sprite.P_DEFAULT;
+	private final static Sprite weaponSprite = Sprite.MT_STORMCALLER;
+	private final static Sprite eventSprite = Sprite.P_STORMCALLER;
 
 	private final static float radius = 25.0f;
 	private final static float pulseInterval = 0.8f;
