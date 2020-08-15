@@ -45,6 +45,7 @@ public class SettingState extends GameState {
 	
 	//this is a pause state underneath this state. (null if calling this state from the title screen)
 	private PauseState ps;
+	private PlayState playstate;
 	
 	//This determines whether the pause state should be removed or not next engine tick.
 	private boolean toRemove = false;
@@ -54,7 +55,7 @@ public class SettingState extends GameState {
 	
 	private SelectBox<String> resolutionOptions, framerateOptions, cursorOptions, cursorSize, cursorColor, pvpTimerOptions, coopTimerOptions, livesOptions, loadoutOptions, artifactSlots, pvpMode, playerCapacity;
 	private Slider sound, music, master;
-	private CheckBox fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
+	private CheckBox fullscreen, vsync, debugHitbox, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 		
 	//Dimentions of the setting menu
 	private final static int optionsX = 25;
@@ -69,7 +70,7 @@ public class SettingState extends GameState {
 	
 	private final static int extraX = 820;
 	private final static int extraY = 600;
-	private final static int extraWidth = 180;
+	private final static int extraWidth = 240;
 	private final static int extraHeight = 100;
 	
 	private final static float optionsScale = 0.5f;
@@ -97,6 +98,10 @@ public class SettingState extends GameState {
 	public SettingState(GameStateManager gsm, PauseState ps) {
 		super(gsm);
 		this.ps = ps;
+		
+		if (ps != null) {
+			playstate = ps.getPs();
+		}
 		
 		shaderBackground = Shader.WAVE;
 		shaderBackground.loadDefaultShader();
@@ -206,7 +211,7 @@ public class SettingState extends GameState {
 			    });
 				exitOption.setScale(optionsScale);
 				
-				saveOption = new Text("SAVE?", 0, 0, true);
+				saveOption = new Text("SAVE CHANGES?", 0, 0, true);
 				saveOption.addListener(new ClickListener() {
 					
 					@Override
@@ -217,7 +222,7 @@ public class SettingState extends GameState {
 			    });
 				saveOption.setScale(optionsScale);
 				
-				resetOption = new Text("RESET?", 0, 0, true);
+				resetOption = new Text("RESET CHANGES?", 0, 0, true);
 				resetOption.addListener(new ClickListener() {
 					
 					@Override
@@ -344,11 +349,13 @@ public class SettingState extends GameState {
 		
 		cursorColor.setSelectedIndex(gsm.getSetting().getCursorColor());
 		
-		fullscreen = new CheckBox("FULLSCREEN", GameStateManager.getSkin());
-		vsync = new CheckBox("VSYNC", GameStateManager.getSkin());
+		fullscreen = new CheckBox("FULLSCREEN?", GameStateManager.getSkin());
+		vsync = new CheckBox("VSYNC?", GameStateManager.getSkin());
+		debugHitbox = new CheckBox("DRAW DEBUG HITBOX OUTLINES?", GameStateManager.getSkin());
 		
 		fullscreen.setChecked(gsm.getSetting().isFullscreen());
 		vsync.setChecked(gsm.getSetting().isVSync());
+		debugHitbox.setChecked(gsm.getSetting().isDebugHitbox());
 
 		details.add(screen);
 		details.add(resolutionOptions).pad(detailsPad).row();
@@ -356,6 +363,7 @@ public class SettingState extends GameState {
 		details.add(framerateOptions).pad(detailsPad).row();
 		details.add(fullscreen);
 		details.add(vsync).pad(detailsPad).row();
+		details.add(debugHitbox).colspan(2).pad(detailsPad).row();
 		details.add(cursortype);
 		details.add(cursorOptions).pad(detailsPad).row();
 		details.add(cursorsize);
@@ -608,10 +616,11 @@ public class SettingState extends GameState {
 			gsm.getSetting().setFramerate(framerateOptions.getSelectedIndex());
 			gsm.getSetting().setFullscreen(fullscreen.isChecked());
 			gsm.getSetting().setVsync(vsync.isChecked());
+			gsm.getSetting().setDebugHitbox(debugHitbox.isChecked());
 			gsm.getSetting().setCursorType(cursorOptions.getSelectedIndex());
 			gsm.getSetting().setCursorSize(cursorSize.getSelectedIndex());
 			gsm.getSetting().setCursorColor(cursorColor.getSelectedIndex());
-			gsm.getSetting().setDisplay(gsm.getApp());
+			gsm.getSetting().setDisplay(gsm.getApp(), playstate);
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;
@@ -661,7 +670,7 @@ public class SettingState extends GameState {
 			break;
 		case DISPLAY:
 			gsm.getSetting().resetDisplay();
-			gsm.getSetting().setDisplay(gsm.getApp());
+			gsm.getSetting().setDisplay(gsm.getApp(), playstate);
 			gsm.getSetting().saveSetting();
 			displaySelected();
 			break;

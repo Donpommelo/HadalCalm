@@ -106,7 +106,7 @@ public class GameStateManager {
 		generator = new Random();
 		
 		//set the game's display to match the player's saved settings
-		setting.setDisplay(app);
+		setting.setDisplay(app, null);
 		sharedSetting = setting.generateSharedSetting();
 		hostSetting = setting.generateSharedSetting();
 	}

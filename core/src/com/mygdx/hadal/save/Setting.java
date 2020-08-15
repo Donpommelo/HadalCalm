@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.mygdx.hadal.HadalGame;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.states.PlayState;
 
 /**
  * A Setting contains all saved game settings.
@@ -16,7 +17,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 public class Setting {
 
 	private int resolution, framerate, cursorType, cursorSize, cursorColor, maxPlayers, pvpMode, artifactSlots, portNumber;
-	private boolean fullscreen, vsync, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
+	private boolean fullscreen, vsync, debugHitbox, randomNameAlliteration, consoleEnabled, verboseDeathMessage, multiplayerPause, exportChatLog;
 	private float soundVolume, musicVolume, masterVolume;
 
 	//How long should pvp/coop matches take? (this variable is an index in an array. 0 = infinite, 1 = 60 seconds, 2 = 120 seconds ... etc)
@@ -40,7 +41,7 @@ public class Setting {
 	/**
 	 * This sets display settings, changing screen size/vsync/framerate
 	 */
-	public void setDisplay(HadalGame game) {
+	public void setDisplay(HadalGame game, PlayState state) {
 		Monitor currMonitor = Gdx.graphics.getMonitor();
     	DisplayMode displayMode = Gdx.graphics.getDisplayMode(currMonitor);
     	
@@ -55,6 +56,10 @@ public class Setting {
     	game.setFrameRate(indexToFramerate());
     	
     	setCursor();
+    	
+    	if (state != null) {
+    		state.toggleVisibleHitboxes(debugHitbox);
+    	}
 	}
 	
 	/**
@@ -287,6 +292,8 @@ public class Setting {
 
 	public void setExportChatLog(boolean exportChatLog) { this.exportChatLog = exportChatLog; }
 
+	public void setDebugHitbox(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
+	
 	public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
 
 	public int getResolution() { return resolution; }
@@ -319,6 +326,8 @@ public class Setting {
 	
 	public boolean isExportChatLog() { return exportChatLog; }
 
+	public boolean isDebugHitbox() { return debugHitbox; }
+	
 	public int getPortNumber() { return portNumber; }
 	
 	public int getPVPTimer() { return pvpTimer; }

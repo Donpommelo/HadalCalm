@@ -186,6 +186,9 @@ public class PlayState extends GameState {
 	//Do players connecting to this have their hp/ammo/etc reset?
 	private boolean reset;
 	
+	//do we draw the hitbox lines?
+	private boolean debugHitbox;
+	
 	//global variables
 	public static final float spriteAnimationSpeed = 0.08f;
 	public static final float spriteAnimationSpeedFast = 0.04f;
@@ -225,7 +228,6 @@ public class PlayState extends GameState {
 		World.setVelocityThreshold(0);
 
 		b2dr = new Box2DDebugRenderer();
-		b2dr.setDrawBodies(false);
 		
 		//Initialize sets to keep track of active entities and packet effects
 		entities = new LinkedHashSet<HadalEntity>();
@@ -289,6 +291,8 @@ public class PlayState extends GameState {
 				
 		//Init background image
 		this.bg = HadalGame.assetManager.get(AssetList.BACKGROUND2.toString());
+		
+		debugHitbox = gsm.getSetting().isDebugHitbox();
 	}
 			
 	@Override
@@ -480,8 +484,10 @@ public class PlayState extends GameState {
 		tmr.render();				
 
 		//Render debug lines for box2d objects.
-//		b2dr.render(world, camera.combined.scl(32));
-//		camera.combined.scl(1 / 32.0f);
+		if (debugHitbox) {
+			b2dr.render(world, camera.combined.scl(32));
+			camera.combined.scl(1 / 32.0f);
+		}
 		
 		//Iterate through entities in the world to render visible entities
 		batch.setProjectionMatrix(camera.combined);
@@ -1287,6 +1293,8 @@ public class PlayState extends GameState {
 
 	public void setStartId(String startId) { this.startId = startId; }
 
+	public void toggleVisibleHitboxes(boolean debugHitbox) { this.debugHitbox = debugHitbox; }
+	
 	public UIExtra getUiExtra() { return uiExtra; }
 
 	public UIArtifacts getUiArtifact() { return uiArtifact; }
