@@ -26,18 +26,44 @@ public class TextFilterUtil {
 		filteredText = filterTag(filteredText, "<particle>");
 		filteredText = filterTag(filteredText, "<process>");
 		filteredText = filterTag(filteredText, "<cook>");
-		filteredText = filterTag(filteredText, "<fruit>");
-		filteredText = filterTag(filteredText, "<vegetable>");
+		filteredText = filterTag(filteredText, "<noun_fruit>");
+		filteredText = filterTag(filteredText, "<noun_vegetable>");
 		filteredText = filterTag(filteredText, "<sauce>");
 		filteredText = filterTag(filteredText, "<herb>");
 		filteredText = filterTag(filteredText, "<wine>");
 		filteredText = filterTag(filteredText, "<dish>");
-		filteredText = filterTag(filteredText, "<adjective1>");
+		filteredText = filterTag(filteredText, "<adjective>");
 		filteredText = filterTag(filteredText, "<noun1>");
-		filteredText = filterTag(filteredText, "<material>");
+		filteredText = filterTag(filteredText, "<noun_abstract>");
+		filteredText = filterTag(filteredText, "<noun_material>");
 		
 		filteredText = filterRoll(filteredText);
 		filteredText = filterHotkeys(filteredText);
+		filteredText = filterPoem(filteredText);
+		
+		return filteredText;
+	}
+	
+	public static String filterPoemTags(String text) {
+		String filteredText = text;
+		
+		if (text == null) {
+			return text;
+		}
+		
+		filteredText = filterTag(filteredText, "<preposition>");
+		filteredText = filterTag(filteredText, "<noun_abstract>");
+		filteredText = filterTag(filteredText, "<noun_animal>");
+		filteredText = filterTag(filteredText, "<noun_clothing>");
+		filteredText = filterTag(filteredText, "<noun_fruit>");
+		filteredText = filterTag(filteredText, "<noun_furniture>");
+		filteredText = filterTag(filteredText, "<noun_instrument>");
+		filteredText = filterTag(filteredText, "<noun_material>");
+		filteredText = filterTag(filteredText, "<noun_object>");
+		filteredText = filterTag(filteredText, "<noun_vegetable>");
+		filteredText = filterTag(filteredText, "<adjective>");
+		filteredText = filterTag(filteredText, "<verb>");
+		filteredText = filterTag(filteredText, "<adverb>");
 		
 		return filteredText;
 	}
@@ -81,12 +107,25 @@ public class TextFilterUtil {
 	}
 	
 	/**
-	 * filters every "<name>" into a the player's chosen name
+	 * filters every "<name>" into the player's chosen name
 	 */
 	private static String filterName(GameStateManager gsm, String text) {
 		String filteredText = text;
 		
 		filteredText = filteredText.replaceAll("<name>", gsm.getLoadout().getName());
+		
+		return filteredText;
+	}
+	
+	/**
+	 * filters every "<poem>" into a randomly generated poem
+	 */
+	private static String filterPoem(String text) {
+		String filteredText = text;
+		
+		if (text.contains("<poem>")) {
+			filteredText = filteredText.replaceAll("<poem>", PoetryGenerator.generatePoetry());
+		}
 		
 		return filteredText;
 	}

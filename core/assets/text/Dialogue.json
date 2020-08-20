@@ -51,6 +51,78 @@
 			"end": true
 		}
 	]
+"dialog1": [
+		{
+			"name": "Pelican",
+			"text": "yo",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+            "end": true
+		}
+	]
+"tourDialog0": [
+		{
+			"name": "Pelican",
+			"text": "<temp intro 0>",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+            "end": true
+		}
+	]
+"tourDialog1": [
+		{
+			"name": "Pelican",
+			"text": "<temp intro 1>",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+            "end": true
+		}
+	]
+"tourDialog2": [
+    {
+        "name": "Pelican",
+        "text": "<temp intro 2>",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+        "end": true
+    }
+]
+"tourDialog3": [
+    {
+        "name": "Pelican",
+        "text": "<temp intro 3>",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+        "end": true
+    }
+]
+"tourDialog4": [
+    {
+        "name": "Pelican",
+        "text": "<temp intro 4>",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+        "end": true
+    }
+]
+"tourDialog5": [
+    {
+        "name": "Pelican",
+        "text": "<temp intro 5>",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+        "end": true
+    }
+]
+"tourDialog6": [
+		{
+			"name": "Pelican",
+			"text": "<temp intro 6>",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+            "end": true
+		}
+	]
 "intro0": [
 		{
 			"name": "Pelican",

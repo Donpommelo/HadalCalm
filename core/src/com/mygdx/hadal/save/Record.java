@@ -83,6 +83,7 @@ public class Record {
 		newRecord.flags.put("ARTIFACTSLOT4", 1);
 		newRecord.flags.put("ARTIFACTSLOT5", 0);
 		newRecord.flags.put("HUB_REACHED", 0);
+		newRecord.flags.put("DIALOG1", 0);
 		newRecord.flags.put("WRECK0SC", 0);
 		newRecord.flags.put("WRECK1SC", 0);
 		newRecord.flags.put("DERELICTTA1", 0);

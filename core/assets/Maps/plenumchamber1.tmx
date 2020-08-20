@@ -61,7 +61,7 @@
     <property name="triggeringId" value="bounds1,bounds2"/>
    </properties>
   </object>
-  <object id="11" name="Bounds" type="Bounds" x="832" y="800" width="32" height="32">
+  <object id="11" name="Bounds" type="Bounds" x="896" y="800" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds2"/>

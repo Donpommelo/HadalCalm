@@ -87,7 +87,7 @@
     <property name="triggeredId" value="bounds1"/>
    </properties>
   </object>
-  <object id="15" name="Prefab" type="PrefabSpawner" x="672" y="1088" width="96" height="96">
+  <object id="15" name="Prefab" type="PrefabSpawner" x="672" y="1024" width="96" height="96">
    <properties>
     <property name="interval" type="float" value="3"/>
     <property name="power" type="float" value="50"/>

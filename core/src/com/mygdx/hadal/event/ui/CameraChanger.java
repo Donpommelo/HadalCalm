@@ -13,7 +13,7 @@ import com.mygdx.hadal.states.PlayState;
  * 	If there is no connected event, it will zoom in on the player.
  * 
  * Fields:
- * zoom: Sets the zoom of the camera. Optional. Default: 1.0f
+ * zoom: Sets the zoom of the camera. Optional. Default: 1.0f If zoom is 0, we only set camera focus
  * 
  * @author Zachary Tu
  */
@@ -37,7 +37,10 @@ public class CameraChanger extends Event {
 				} else {
 					state.setCameraTarget(null);
 				}
-				state.setZoom(zoom);
+				
+				if (zoom != 0.0f) {
+					state.setZoom(zoom);
+				}
 			}
 		};
 	}

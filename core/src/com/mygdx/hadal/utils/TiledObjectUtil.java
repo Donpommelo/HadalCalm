@@ -454,7 +454,8 @@ public class TiledObjectUtil {
 			
 			e = new ChoiceBranch(state, position, size, 
 					object.getProperties().get("title", "Choice", String.class),
-					object.getProperties().get("optionNames", "", String.class));
+					object.getProperties().get("optionNames", "", String.class),
+					object.getProperties().get("closeAfterSelect", false, boolean.class));
 			choiceBranchOptions.put((ChoiceBranch)e, object.getProperties().get("options", "", String.class));
 		} else if (object.getName().equals("Prefab")) {
 			

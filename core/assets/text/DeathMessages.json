@@ -220,7 +220,7 @@
             "message": "<perp> taught <vic> not to play with power tools.", "weight": 25, namedPerp: true
         }
         {
-            "message": "<perp> made fruit salad with <fruit>, <fruit> and <vic>'s <body part>.", "weight": 25, namedPerp: true
+            "message": "<perp> made fruit salad with <noun_fruit>, <noun_fruit> and <vic>'s <body part>.", "weight": 25, namedPerp: true
         }
         {
             "message": "<perp> made a plate of <vic> sashimi.", "weight": 25, namedPerp: true
@@ -289,16 +289,16 @@
             "message": "<perp> paired <vic>'s <cook> <body part> with a fine <wine>.", "weight": 30, namedPerp: true
         }
         {
-            "message": "<perp> <cook> <vic> with a <fruit> in their mouth.", "weight": 30, namedPerp: true
+            "message": "<perp> <cook> <vic> with a <noun_fruit> in their mouth.", "weight": 30, namedPerp: true
         }
         {
-            "message": "<perp> <cook> <vic> with a <fruit> and <herb> <sauce>.", "weight": 30, namedPerp: true
+            "message": "<perp> <cook> <vic> with a <noun_fruit> and <herb> <sauce>.", "weight": 30, namedPerp: true
         }
         {
-            "message": "<perp> <cook> <vic> with a side of <cook> <vegetable>.", "weight": 30, namedPerp: true
+            "message": "<perp> <cook> <vic> with a side of <cook> <noun_vegetable>.", "weight": 30, namedPerp: true
         }
         {
-            "message": "<perp> <cook> a <vic> <dish> with <vegetable>.", "weight": 30, namedPerp: true
+            "message": "<perp> <cook> a <vic> <dish> with <noun_vegetable>.", "weight": 30, namedPerp: true
         }
     ]
 "FISH":  [

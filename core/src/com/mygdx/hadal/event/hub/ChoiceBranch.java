@@ -21,11 +21,13 @@ public class ChoiceBranch extends HubEvent {
 
 	private String[] optionNames;
 	private Map<String, Event> options;
+	private boolean closeAfterSelect;
 	
-	public ChoiceBranch(PlayState state, Vector2 startPos, Vector2 size, String title, String optionNames) {
+	public ChoiceBranch(PlayState state, Vector2 startPos, Vector2 size, String title, String optionNames, boolean closeAfterSelect) {
 		super(state, startPos, size, title, "MISC", true, hubTypes.MISC);
 		this.optionNames = optionNames.split(",");
 		options = new LinkedHashMap<String, Event>();
+		this.closeAfterSelect = closeAfterSelect;
 	}
 	
 	@Override
@@ -33,7 +35,7 @@ public class ChoiceBranch extends HubEvent {
 		super.enter();
 		final UIHub hub = state.getUiHub();
 		
-		final Event me = this;
+		final ChoiceBranch me = this;
 		
 		for(Entry<String, Event> entry: options.entrySet()) {
 
@@ -44,6 +46,10 @@ public class ChoiceBranch extends HubEvent {
 		        public void clicked(InputEvent e, float x, float y) {
 					if (state.isServer() && entry.getValue() != null) {
 						entry.getValue().getEventData().preActivate(me.getEventData(), state.getPlayer());
+						
+						if (closeAfterSelect) {
+							me.leave();
+						}
 					}
 		        }
 		    });
