@@ -336,7 +336,7 @@ public class Boss1 extends EnemyFloating {
 	private void fireBreath() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, fireWindup, Particle.FIRE);
+		EnemyUtils.windupParticles(state, this, fireWindup, Particle.FIRE, 40.0f);
 		switch (wall) {
 		case 0 :
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
@@ -357,7 +357,7 @@ public class Boss1 extends EnemyFloating {
 	private void fireBreath2() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, fireWindup, Particle.FIRE);
+		EnemyUtils.windupParticles(state, this, fireWindup, Particle.FIRE, 40.0f);
 		switch (wall) {
 		case 0 :
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
@@ -443,7 +443,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.moveToDummy(state, this, "4", moveSpeed, moveDurationMax);
 		
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, laser2Windup, Particle.LASER_PULSE);
+		EnemyUtils.windupParticles(state, this, laser2Windup, Particle.LASER_PULSE, 40.0f);
 
 		boolean random = GameStateManager.generator.nextBoolean();
 		
@@ -474,7 +474,7 @@ public class Boss1 extends EnemyFloating {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, laser3Windup, Particle.LASER_PULSE);
+		EnemyUtils.windupParticles(state, this, laser3Windup, Particle.LASER_PULSE, 40.0f);
 		
 		switch (wall) {
 		case 0 :
@@ -535,7 +535,7 @@ public class Boss1 extends EnemyFloating {
 	private Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.0f);
-		EnemyUtils.windupParticles(state, this, spiritWindup, Particle.BRIGHT);
+		EnemyUtils.windupParticles(state, this, spiritWindup, Particle.BRIGHT, 40.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {

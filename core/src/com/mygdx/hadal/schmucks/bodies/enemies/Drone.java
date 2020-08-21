@@ -95,10 +95,10 @@ public class Drone extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
-		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED);
+		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED, 100.0f);
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED);
+		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 100.0f);
 		
 		for (int i = 0; i < laserNumber; i++) {
 			getActions().add(new EnemyAction(this, laserInterval) {

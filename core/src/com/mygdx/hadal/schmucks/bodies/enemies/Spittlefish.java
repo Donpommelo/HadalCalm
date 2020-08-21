@@ -77,7 +77,7 @@ public class Spittlefish extends EnemySwimming {
 		
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup, Particle.BUBBLE_TRAIL);
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.BUBBLE_TRAIL, 60.0f);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			

@@ -75,10 +75,10 @@ public class KBKSpawner extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
-		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.MAGENTA);
+		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.MAGENTA, 100.0f);
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.MAGENTA);
+		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.MAGENTA, 100.0f);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			

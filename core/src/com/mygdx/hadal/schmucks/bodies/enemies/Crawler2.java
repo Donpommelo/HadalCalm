@@ -2,6 +2,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -49,12 +50,12 @@ public class Crawler2 extends EnemyCrawling {
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 100.0f;
 
-	private static final float attackWindup = 0.2f;
-
+	private static final float attackWindup1 = 0.5f;
+	private static final float attackWindup2 = 0.1f;
 	private static final int attack1Amount = 4;
-	private static final int attack1Damage = 8;
+	private static final int attack1Damage = 12;
 	private static final int defaultMeleeKB = 20;
-	private static final int meleeSize = 100;
+	private static final Vector2 meleeSize = new Vector2(100.0f, 100.0f);
 	private static final int meleeRange = 1;
 	private static final float meleeInterval = 0.25f;
 	@Override
@@ -67,15 +68,18 @@ public class Crawler2 extends EnemyCrawling {
 		}
 		
 		if (attackTarget != null) {
+			
+			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED, 120.0f);
 			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup, Particle.CHARGING);
+			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 120.0f);
+			
 			for (int i = 0; i < attack1Amount; i++) {
 				
 				getActions().add(new EnemyAction(this, meleeInterval) {
 					
 					@Override
 					public void execute() {
-						Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), new Vector2(meleeSize, meleeSize), meleeInterval, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.IMPACT);
+						Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), meleeSize, meleeInterval, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.IMPACT);
 						hbox.makeUnreflectable();
 						hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 						hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), attack1Damage, defaultMeleeKB, DamageTypes.MELEE));

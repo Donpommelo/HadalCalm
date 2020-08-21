@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -33,7 +34,7 @@ public class Crawler3 extends EnemyCrawling {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float attackCd = 1.5f;
+	private static final float attackCd = 1.0f;
 	private static final float groundSpeed = -0.75f;
 			
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
@@ -57,7 +58,8 @@ public class Crawler3 extends EnemyCrawling {
 	private final static int numProj = 5;
 	private final static int spread = 10;
 	
-	private final static float attackWindup = 0.4f;
+	private final static float attackWindup1 = 0.6f;
+	private final static float attackWindup2 = 0.2f;
 	private final static float baseDamage = 7.0f;
 	private final static float knockback = 12.0f;
 	private final static float projectileSpeed = 20.0f;
@@ -76,8 +78,9 @@ public class Crawler3 extends EnemyCrawling {
 		}
 		
 		if (attackTarget != null) {
+			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED, 120.0f);
 			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup, Particle.CHARGING);
+			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 120.0f);
 			
 			for (int i = 0; i < numProj; i++) {
 				

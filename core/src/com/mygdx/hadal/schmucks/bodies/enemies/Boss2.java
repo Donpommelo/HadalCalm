@@ -260,7 +260,7 @@ public class Boss2 extends EnemyFloating {
 	private static final int bulletSpeed2 = 5;
 	private static final int bulletKB = 25;
 	private static final int bulletSize = 60;
-	private static final float bulletWindup = 0.25f;
+	private static final float bulletWindup = 0.6f;
 	private static final float bulletLifespan = 3.0f;
 	private static final float bulletInterval1 = 0.4f;
 	private static final float bulletInterval2 = 0.6f;
@@ -268,7 +268,7 @@ public class Boss2 extends EnemyFloating {
 	private static final int bulletNumber = 3;
 	private void kamabokoShot1() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER);
+		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER, 60.0f);
 		for (int i = 0; i < bulletNumber; i++) {
 			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed1, bulletKB, bulletSize, bulletLifespan, bulletInterval1, 1);
 		}
@@ -276,7 +276,7 @@ public class Boss2 extends EnemyFloating {
 	
 	private void kamabokoShot2() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER);
+		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER, 60.0f);
 		for (int i = 0; i < bulletNumber; i++) {
 			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval2, 2);
 		}
@@ -284,7 +284,7 @@ public class Boss2 extends EnemyFloating {
 	
 	private void kamabokoShot3() {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER);
+		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER, 60.0f);
 		for (int i = 0; i < bulletNumber; i++) {
 			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval3, 3);
 		}
@@ -363,7 +363,7 @@ public class Boss2 extends EnemyFloating {
 	private void fireBreath() {
 		EnemyUtils.moveToDummy(state, this, "high", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, breathWindup, Particle.FIRE);
+		EnemyUtils.windupParticles(state, this, breathWindup, Particle.FIRE, 40.0f);
 
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {
@@ -388,7 +388,7 @@ public class Boss2 extends EnemyFloating {
 	private void slodgeBreath() {
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, breathWindup, Particle.SLODGE);
+		EnemyUtils.windupParticles(state, this, breathWindup, Particle.SLODGE, 60.0f);
 
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -240.0f, 0.0f);
 		for (int i = 0; i < slodgeNumber; i++) {
@@ -414,7 +414,7 @@ public class Boss2 extends EnemyFloating {
 	private void fuguShots() {
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -210.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, breathWindup, Particle.POISON);
+		EnemyUtils.windupParticles(state, this, breathWindup, Particle.POISON, 40.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -260.0f, 0.0f);
 		for (int i = 0; i < fuguNumber; i++) {
 			EnemyUtils.fugu(state, this, fuguDamage, fuguSpeed, fuguKB, fuguSize, fuguLifespan, poisonRadius, poisonDamage, poisonDuration, fuguInterval);

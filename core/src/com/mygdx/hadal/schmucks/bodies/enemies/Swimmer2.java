@@ -74,7 +74,7 @@ public class Swimmer2 extends EnemySwimming {
 		
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		
-		EnemyUtils.windupParticles(state, this, attackWindup, Particle.KAMABOKO_SHOWER);
+		EnemyUtils.windupParticles(state, this, attackWindup, Particle.KAMABOKO_SHOWER, 120.0f);
 		
 		EnemyUtils.changeFloatingTrackSpeed(this, attackTrack, 0.0f);
 		

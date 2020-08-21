@@ -331,11 +331,11 @@ public class EnemyUtils {
 		});
 	}
 
-	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle) {
-		windupParticles(state, boss, duration, particle, ParticleColor.NOTHING);
+	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle, float size) {
+		windupParticles(state, boss, duration, particle, ParticleColor.NOTHING, size);
 	}
 	
-	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle, ParticleColor color) {
+	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle, ParticleColor color, float size) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
@@ -346,7 +346,7 @@ public class EnemyUtils {
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger).setParticleColor(color));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger).setParticleColor(color).setParticleSize(size));
 			}
 		});
 	}

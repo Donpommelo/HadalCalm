@@ -56,9 +56,9 @@ public class TurretVolley extends Turret {
 	public void attackInitiate() {
 		
 		if (attackTarget != null) {
-			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED);
+			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED, 80.0f);
 			EnemyUtils.changeTurretState(this, TurretState.FREE, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED);
+			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 80.0f);
 			
 			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, attackAnimation);
 			animationTime = 0;

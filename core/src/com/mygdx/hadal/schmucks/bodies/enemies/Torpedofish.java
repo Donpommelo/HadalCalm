@@ -36,7 +36,7 @@ public class Torpedofish extends EnemySwimming {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float attackCd = 0.5f;
+	private static final float attackCd = 0.75f;
 	private static final float airSpeed = -0.4f;
 	
 	private static final float minRange = 5.0f;
@@ -78,10 +78,10 @@ public class Torpedofish extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
-		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED);
+		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED, 120.0f);
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED);
+		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED, 120.0f);
 
 		getActions().add(new EnemyAction(this, 0.0f) {
 			

@@ -128,7 +128,7 @@ public class OurGetAlongShirt extends Artifact {
 					
 					links[i].setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
-					links[i].setDensity(0.1f);
+					links[i].setDensity(1.0f);
 					links[i].makeUnreflectable();
 					
 					links[i].addStrategy(new HitboxStrategy(state, links[i], inflicted) {

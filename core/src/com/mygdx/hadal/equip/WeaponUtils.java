@@ -3,6 +3,7 @@ package com.mygdx.hadal.equip;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Scrap;
@@ -170,7 +171,7 @@ public class WeaponUtils {
 		hbox.addStrategy(new ContactUnitDie(state, hbox, creator));
 		hbox.addStrategy(new DamageStandard(state, hbox, creator, spiritDamage, spiritKnockback, DamageTypes.MAGIC, DamageTypes.RANGED));
 		hbox.addStrategy(new HomingUnit(state, hbox, creator, spiritHoming, filter));
-		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 3.0f));
+		hbox.addStrategy(new CreateParticles(state, hbox, creator, particle, 0.0f, 3.0f).setParticleColor(ParticleColor.RANDOM));
 		
 		hbox.addStrategy(new DieSound(state, hbox, creator, SoundEffect.DARKNESS1, 0.25f));
 	}
