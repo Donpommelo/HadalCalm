@@ -17,6 +17,7 @@ import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
+import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -107,6 +108,11 @@ public class Boss2 extends EnemyFloating {
 		if (!state.isServer()) {
 			links[links.length - 1].setTransform(new Vector2(serverPos), 0);
 		}
+	}
+	
+	@Override
+	public void multiplayerScaling(int numPlayers) {
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1000 * numPlayers, getBodyData()));
 	}
 	
 	@Override

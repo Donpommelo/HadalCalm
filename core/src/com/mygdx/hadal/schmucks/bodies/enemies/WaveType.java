@@ -119,9 +119,14 @@ public enum WaveType {
 	/**
 	 * This spawns a single wave
 	 */
+	private static final float extraInterval = 0.4f;
+	private float extraDelay;
 	public void spawnWave(SpawnerWave spawner, int waveNum, int extraField) {
+		
+		extraDelay = 0.0f;
 		for (WaveEnemy enemy : enemies) {
-			enemy.createEnemy(spawner, waveNum, extraField);
+			enemy.createEnemy(spawner, waveNum, extraField, extraDelay);
+			extraDelay += extraInterval;
 		}
 	}
 	
@@ -204,8 +209,9 @@ public enum WaveType {
 		 * similar to waves, this is run for each spawner.
 		 * The first time this is run each wave, choose a random spawner to use.
 		 * Then, for each spawner, generate the enemy if it is the right one.
+		 * extra delay is used for staggered spawns
 		 */
-		public void createEnemy(SpawnerWave spawner, int waveNum, float extraField) {
+		public void createEnemy(SpawnerWave spawner, int waveNum, float extraField, float extraDelay) {
 			
 			//obey the eave limits of this wave enemy
 			if (waveNum < minWave || (waveNum > maxWave && maxWave != waveLimit)) {
@@ -225,7 +231,7 @@ public enum WaveType {
 
 			//create the enemy
 			if (thisId == spawner.getPointId()) {
-				type.generateEnemyDelayed(spawner.getState(), spawner.getPixelPosition(), waveDelay, Constants.ENEMY_HITBOX, extraField, null, false, "");
+				type.generateEnemyDelayed(spawner.getState(), spawner.getPixelPosition(), waveDelay + extraDelay, Constants.ENEMY_HITBOX, extraField, null, false, "");
 			}
 		}
 	}

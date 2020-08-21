@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.equip.WeaponUtils;
@@ -57,6 +58,11 @@ public class Boss1 extends EnemyFloating {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 
+	@Override
+	public void multiplayerScaling(int numPlayers) {
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.MAX_HP, 1000 * numPlayers, getBodyData()));
+	}
+	
 	private int attackNum = 0;
 	@Override
 	public void attackInitiate() {
@@ -535,7 +541,7 @@ public class Boss1 extends EnemyFloating {
 	private Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
 		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.0f);
-		EnemyUtils.windupParticles(state, this, spiritWindup, Particle.BRIGHT, 40.0f);
+		EnemyUtils.windupParticles(state, this, spiritWindup, Particle.BRIGHT, ParticleColor.RANDOM, 40.0f);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {

@@ -138,6 +138,8 @@ public class Enemy extends Schmuck {
 			for (Player player : HadalGame.server.getPlayers().values()) {
 				player.getPlayerData().statusProcTime(new ProcTime.AfterBossSpawn(this));
 			}
+			
+			multiplayerScaling(HadalGame.server.getPlayers().values().size());
 		}
 	}
 
@@ -349,7 +351,9 @@ public class Enemy extends Schmuck {
 	}
 	
 	public void setBoss(boolean isBoss) { this.isBoss = isBoss; }
-
+	
+	public void multiplayerScaling(int numPlayers) {}
+	
 	public Vector2 getHboxSize() { return hboxSize; }
 
 	public void setName(String name) { this.name = name; }

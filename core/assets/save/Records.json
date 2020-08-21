@@ -38,11 +38,11 @@ flags: {
 lastIp: ""
 hiScores: {
 	class: java.util.HashMap
-	ARENA_LAGAN: 0
+	ARENA_LAGAN: 36
 	ARENA_HORIZON: 0
 	ARENA_WARP: 0
 	ARENA_FLOTSAM: 0
-	ARENA_PILE: 0
+	ARENA_PILE: 58
 	ARENA_WETWORKS: 0
 	ARENA_ZIGGURAT: 0
 }
