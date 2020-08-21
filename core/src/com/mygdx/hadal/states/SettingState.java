@@ -138,7 +138,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						displaySelected();
 			        }
 			    });
@@ -149,7 +149,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						controlsSelected();
 			        }
 			    });
@@ -160,7 +160,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						audioSelected();
 			        }
 			    });
@@ -171,7 +171,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						gameSelected();
 			        }
 			    });
@@ -182,7 +182,7 @@ public class SettingState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						miscSelected();
 			        }
 			    });
@@ -193,7 +193,7 @@ public class SettingState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(gsm, false);
+						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
 						if (ps == null) {
 							gsm.getApp().fadeOut();
 							gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -217,7 +217,7 @@ public class SettingState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						saveSettings();
-						SoundEffect.UISWITCH3.play(gsm, false);
+						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 			        }
 			    });
 				saveOption.setScale(optionsScale);
@@ -227,7 +227,7 @@ public class SettingState extends GameState {
 					
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH3.play(gsm, false);
+						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 						resetSettings();
 			        }
 			    });

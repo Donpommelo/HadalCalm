@@ -3,7 +3,9 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -34,7 +36,7 @@ public class KBKSpawner extends EnemySwimming {
 	private static final int hboxWidth = 560;
 	private static final int hboxHeight = 240;
 	
-	private static final float attackCd = 2.5f;
+	private static final float attackCd = 2.0f;
 	private static final float airSpeed = -0.4f;
 	
 	private static final float scale = 0.25f;
@@ -60,7 +62,8 @@ public class KBKSpawner extends EnemySwimming {
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
 	}
 	
-	private static final float attackWindup = 0.5f;
+	private static final float attackWindup1 = 0.9f;
+	private static final float attackWindup2 = 0.3f;
 	
 	private static final float minRange = 5.0f;
 	private static final float maxRange = 10.0f;
@@ -72,9 +75,10 @@ public class KBKSpawner extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
+		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.MAGENTA);
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup, Particle.KAMABOKO_SHOWER);
+		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.MAGENTA);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
@@ -90,6 +94,7 @@ public class KBKSpawner extends EnemySwimming {
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
+					SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 1.0f, 0.60f, false);
 					
 					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 					hbox.setGravity(1.0f);

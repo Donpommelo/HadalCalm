@@ -26,6 +26,9 @@ public class SoundEntity extends HadalEntity {
 	//the volume of the sound and the max volume the sound will fade in to.
 	private float volume, maxVolume;
 	
+	//the pitch of the sound;
+	private float pitch;
+	
 	//should the sound loop after playing? Should the sound start off playing?
 	private boolean looped, on;
 	
@@ -43,23 +46,24 @@ public class SoundEntity extends HadalEntity {
 	private static final float defaultFadeInSpeed = 2.0f;
 	private static final float defaultFadeOutSpeed = -2.0f;
 	
-	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float volume, boolean looped, boolean startOn, soundSyncType sync) {
+	public SoundEntity(PlayState state, HadalEntity entity, SoundEffect sound, float volume, float pitch, boolean looped, boolean startOn, soundSyncType sync) {
 		super(state, new Vector2(), new Vector2());
 		this.attachedEntity = entity;
 		this.sound = sound;
 		this.maxVolume = volume;
 		this.volume = volume;
+		this.pitch = pitch;
 		this.looped = looped;
 		this.on = startOn;
 		this.sync = sync;
 		
 		//if we start off attached to an entity, play the sound and update its volume/pan based on its location
 		if (startOn && attachedEntity != null) {
-			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, false);
+			this.soundId = sound.playSourced(state, new Vector2(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y), volume, pitch, false);
 			sound.updateSoundLocation(state, attachedEntity.getPixelPosition(), volume, soundId);
 		} else {
 			//otherwise, we just get the sound id and pause it.
-			this.soundId = sound.play(state.getGsm(), volume, false);
+			this.soundId = sound.play(state.getGsm(), volume, pitch, false);
 			sound.getSound().pause(soundId);
 		}
 		
@@ -141,7 +145,7 @@ public class SoundEntity extends HadalEntity {
 	public Object onServerCreate() {
 		if (sync.equals(soundSyncType.CREATESYNC) || sync.equals(soundSyncType.TICKSYNC)) {
 			if (attachedEntity != null) {
-				return new Packets.CreateSound(entityID.toString(), attachedEntity.getEntityID().toString(), sound.toString(), volume, looped, on, sync.equals(soundSyncType.TICKSYNC));
+				return new Packets.CreateSound(entityID.toString(), attachedEntity.getEntityID().toString(), sound.toString(), volume, pitch, looped, on, sync.equals(soundSyncType.TICKSYNC));
 			}
 		}
 		return null;

@@ -812,6 +812,7 @@ public class Packets {
 		public SoundEffect sound;
 		public Vector2 worldPos;
 		public float volume;
+		public float pitch;
 		public boolean singleton;
 		
 		public SyncSoundSingle() {}
@@ -821,12 +822,14 @@ public class Packets {
 		 * @param sound: The sound effect to play
 		 * @param worldPos: This is the world location of the source of the sound. used to manage sound pan (null if not sourced to an entity)
 		 * @param volume: volume of the sound. 1.0f = full volume.
+		 * @param pitch: pitch of the sound. 1.0f = default pitch.
 		 * @param singleton: is there only one instance of this sound? (stops other instances of the sound before playing)
 		 */
-		public SyncSoundSingle(SoundEffect sound, Vector2 worldPos, float volume, boolean singleton) {
+		public SyncSoundSingle(SoundEffect sound, Vector2 worldPos, float volume, float pitch, boolean singleton) {
 			this.sound = sound;
 			this.worldPos = worldPos;
 			this.volume = volume;
+			this.pitch = pitch;
 			this.singleton = singleton;
 		}
 	}
@@ -836,6 +839,7 @@ public class Packets {
 		public String attachedID;
 		public String sound;
 		public float volume;
+		public float pitch;
 		public boolean looped;
 		public boolean on;
 		public boolean synced;
@@ -850,15 +854,17 @@ public class Packets {
 		 * @param attachedID: schmuck id of the entity that the SchmuckEntity is to attach to
 		 * @param sound: The sound effect to play
 		 * @param volume: volume of the sound. 1.0f = full volume.
+		 * @prarm pitch: pitch of the sound. 1.0f - default pitch.
 		 * @param looped: does the sound loop?
 		 * @param volume: does the sound start off on?
 		 * @param synced: should this entity receive a sync packet regularly?
 		 */
-		public CreateSound(String entityID, String attachedID, String sound, float volume, boolean looped, boolean on, boolean synced) {
+		public CreateSound(String entityID, String attachedID, String sound, float volume, float pitch, boolean looped, boolean on, boolean synced) {
 			this.entityID = entityID;
 			this.attachedID = attachedID;
 			this.sound = sound;
 			this.volume = volume;
+			this.pitch = pitch;
 			this.looped = looped;
 			this.on = on;
 			this.synced = synced;

@@ -240,7 +240,7 @@
   </object>
   <object id="52" name="Buzzsaw" type="Buzzsaw" x="1168" y="1152" width="128" height="128">
    <properties>
-    <property name="damage" type="float" value="3"/>
+    <property name="damage" type="float" value="1.5"/>
     <property name="triggeredId" value="saw1"/>
    </properties>
   </object>

@@ -77,7 +77,7 @@ public class Minigun extends RangedWeapon {
 		
 		if (chargeCd >= getChargeTime()) {
 			if (fireSound == null) {
-				fireSound = new SoundEntity(state, user, SoundEffect.MINIGUN_LOOP, 0.4f, true, true, soundSyncType.TICKSYNC);
+				fireSound = new SoundEntity(state, user, SoundEffect.MINIGUN_LOOP, 0.4f, 1.0f, true, true, soundSyncType.TICKSYNC);
 			} else {
 				fireSound.turnOn();
 			}

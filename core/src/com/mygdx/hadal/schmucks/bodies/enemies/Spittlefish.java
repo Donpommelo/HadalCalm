@@ -92,6 +92,7 @@ public class Spittlefish extends EnemySwimming {
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
+					SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 0.8f, false);
 					
 					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 					

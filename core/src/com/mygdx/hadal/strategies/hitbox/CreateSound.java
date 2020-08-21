@@ -23,6 +23,9 @@ public class CreateSound extends HitboxStrategy {
 	//this is the volume the sound will be played at
 	private float volume;
 	
+	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
+	private float pitch = 1.0f;
+		
 	//does the sound effect loop or not?
 	private boolean looped;
 	
@@ -35,11 +38,16 @@ public class CreateSound extends HitboxStrategy {
 	
 	@Override
 	public void create() {
-		sound = new SoundEntity(state, creator.getSchmuck(), effect, volume, looped, true, soundSyncType.TICKSYNC);
+		sound = new SoundEntity(state, creator.getSchmuck(), effect, volume, pitch, looped, true, soundSyncType.TICKSYNC);
 	}
 	
 	@Override
 	public void die() {
 		sound.terminate();
+	}
+	
+	public CreateSound setPitch(float pitch) {
+		this.pitch = pitch;
+		return this;
 	}
 }

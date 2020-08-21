@@ -170,7 +170,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
@@ -197,7 +197,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
@@ -224,7 +224,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Save current name into records.
 						gsm.getLoadout().setName(enterName.getText());
@@ -271,7 +271,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH2.play(gsm, false);
+						SoundEffect.UISWITCH2.play(gsm, 1.0f, false);
 						
 						Gdx.app.postRunnable(new Runnable() {
 					        
@@ -303,7 +303,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the Setting State.
 						gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -324,7 +324,7 @@ public class TitleState extends GameState {
 						if (inputDisabled) { return; }
 						inputDisabled = true;
 						
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						
 						//Enter the About State.
 						gsm.getApp().setRunAfterTransition(new Runnable() {
@@ -354,7 +354,7 @@ public class TitleState extends GameState {
 					@Override
 			        public void clicked(InputEvent e, float x, float y) {
 						
-						SoundEffect.UISWITCH3.play(gsm, false);
+						SoundEffect.UISWITCH3.play(gsm, 1.0f, false);
 						enterName.setText(NameGenerator.generateFirstLast(gsm.getSetting().isRandomNameAlliteration()));
 			        	setNotification("RANDOM NAME GENERATED!");
 			        }

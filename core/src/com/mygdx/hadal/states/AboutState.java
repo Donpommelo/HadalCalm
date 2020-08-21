@@ -84,7 +84,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						aboutSelected();
 			        }
 			    });
@@ -95,7 +95,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						tipsSelected();
 			        }
 			    });
@@ -106,7 +106,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						miscSelected();
 			        }
 			    });
@@ -117,7 +117,7 @@ public class AboutState extends GameState {
 			        
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.UISWITCH1.play(gsm, false);
+						SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 						creditsSelected();
 			        }
 			    });
@@ -128,7 +128,7 @@ public class AboutState extends GameState {
 					
 					@Override
 					public void clicked(InputEvent e, float x, float y) {
-						SoundEffect.NEGATIVE.play(gsm, false);
+						SoundEffect.NEGATIVE.play(gsm, 1.0f, false);
 						gsm.getApp().fadeOut();
 						gsm.getApp().setRunAfterTransition(new Runnable() {
 
@@ -212,7 +212,7 @@ public class AboutState extends GameState {
 			
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(gsm, false);
+				SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 				Gdx.net.openURI("https://donpommelo.itch.io/");
 	        }
 	    });
@@ -224,7 +224,7 @@ public class AboutState extends GameState {
 			
 			@Override
 			public void clicked(InputEvent e, float x, float y) {
-				SoundEffect.UISWITCH1.play(gsm, false);
+				SoundEffect.UISWITCH1.play(gsm, 1.0f, false);
 				Gdx.net.openURI("https://www.instagram.com/shoebanfoo/");
 	        }
 	    });

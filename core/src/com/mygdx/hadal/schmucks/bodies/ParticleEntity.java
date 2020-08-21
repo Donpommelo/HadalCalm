@@ -308,14 +308,18 @@ public class ParticleEntity extends HadalEntity {
 		if (color.equals(ParticleColor.NOTHING)) {
 			return;
 		} else if (color.equals(ParticleColor.RANDOM)) {
-			float[] colors = {GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat(), GameStateManager.generator.nextFloat()};
 			for (int i = 0; i < effect.getEmitters().size; i++) {
-				effect.getEmitters().get(i).getTint().setColors(colors);
+				float[] colors = effect.getEmitters().get(i).getTint().getColors();
+				colors[0] = GameStateManager.generator.nextFloat();
+				colors[1] = GameStateManager.generator.nextFloat();
+				colors[2] = GameStateManager.generator.nextFloat();
 			}
 		} else {
-			float[] colors = {color.getR(), color.getG(), color.getB()};
 			for (int i = 0; i < effect.getEmitters().size; i++) {
-				effect.getEmitters().get(i).getTint().setColors(colors);
+				float[] colors = effect.getEmitters().get(i).getTint().getColors();
+				colors[0] = color.getR();
+				colors[1] = color.getG();
+				colors[2] = color.getB();
 			}
 		}
 	}

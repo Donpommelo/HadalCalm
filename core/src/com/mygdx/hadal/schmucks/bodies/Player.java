@@ -384,7 +384,7 @@ public class Player extends PhysicsSchmuck {
 				//turn on running particles and sound
 				dustCloud.turnOn();
 				if (runSound == null) {
-					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.1f, true, true, soundSyncType.TICKSYNC);
+					runSound = new SoundEntity(state, this, SoundEffect.RUN, 0.1f, 1.0f, true, true, soundSyncType.TICKSYNC);
 				} else {
 					runSound.turnOn();
 				}
@@ -422,7 +422,7 @@ public class Player extends PhysicsSchmuck {
 			
 			//turn on reloading particles and sound
 			if (reloadSound == null) {
-				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.2f, true, true, soundSyncType.TICKSYNC);
+				reloadSound = new SoundEntity(state, this, SoundEffect.RELOAD, 0.2f, 1.0f, true, true, soundSyncType.TICKSYNC);
 			} else {
 				reloadSound.turnOn();
 			}
@@ -488,7 +488,7 @@ public class Player extends PhysicsSchmuck {
 			//turn on hovering particles and sound
 			hoverBubbles.turnOn();
 			if (hoverSound == null) {
-				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, true, true, soundSyncType.TICKSYNC);
+				hoverSound = new SoundEntity(state, this, SoundEffect.HOVER, 0.2f, 1.0f, true, true, soundSyncType.TICKSYNC);
 			}
 			hoverSound.turnOn();
 		} else {

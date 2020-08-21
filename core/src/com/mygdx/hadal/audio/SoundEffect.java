@@ -23,6 +23,7 @@ public enum SoundEffect {
 	RELOAD("sound/reload.mp3"),
 
 	AIRBLAST("sound/airblast.mp3"),
+	AR15("sound/ar15.mp3"),
 	ATTACK1("sound/attack1.mp3"),
 	BEAM3("sound/beam3.ogg"),
 	BEE_BUZZ("sound/bees.ogg"),
@@ -73,6 +74,7 @@ public enum SoundEffect {
 	SLAP("sound/slap.mp3"),
 	SLASH("sound/slash.mp3"),
 	SPIKE("sound/spike.mp3"),
+	SPIT("sound/spit.mp3"),
 	THUNDER("sound/thunder.mp3"),
 	WIND2("sound/wind2.mp3"),
 	WIND3("sound/wind3loop.mp3"),
@@ -135,24 +137,21 @@ public enum SoundEffect {
 	}
 	
 	/**
-	 * This plays a select sound for the player
-	 */
-	public long play(GameStateManager gsm, boolean singleton) {
-		return play(gsm, 1.0f, singleton);
-	}
-	
-	/**
 	 * This plays a single sound for the player and returns the sound id
 	 * singleton is for sounds that only have 1 instance playing at a time. (mostly menus)
 	 * Do not use singleton sounds for multiple sound effects
 	 */
 	public long play(GameStateManager gsm, float volume, boolean singleton) {
+		return play(gsm, volume, 1.0f, singleton);
+	}
+	
+	public long play(GameStateManager gsm, float volume, float pitch, boolean singleton) {
 		
 		if (singleton) {
 			getSound().stop();
 		}
 		
-		long thisSound = getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume());
+		long thisSound = getSound().play(volume * gsm.getSetting().getSoundVolume() * gsm.getSetting().getMasterVolume(), pitch, 0.0f);
 		
 		return thisSound;
 	}
@@ -161,10 +160,12 @@ public enum SoundEffect {
 	 * This is used to play sounds that have a source in the world.
 	 * The volume and pan of the sound depends on the location relative to the player listening.
 	 */
-	public long playSourced(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
+	public long playSourced(PlayState state, Vector2 worldPos, float volume, float pitch, boolean singleton) {
 
 		long soundId = getSound().play();
 
+		getSound().setPitch(soundId, pitch);
+		
 		updateSoundLocation(state, worldPos, volume, soundId);
 
 		return soundId;
@@ -175,16 +176,19 @@ public enum SoundEffect {
 	 * This is only run by the host. I think.
 	 */
 	public long playUniversal(PlayState state, Vector2 worldPos, float volume, boolean singleton) {
-		
+		return playUniversal(state, worldPos, volume, 1.0f, singleton);
+	}
+	
+	public long playUniversal(PlayState state, Vector2 worldPos, float volume, float pitch, boolean singleton) {
 		//Send a packet to the client and play the sound
 		if (state.isServer()) {
-			HadalGame.server.sendToAllUDP(new Packets.SyncSoundSingle(this, worldPos, volume, singleton));
+			HadalGame.server.sendToAllUDP(new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 		}
 		
 		if (worldPos == null) {
-			return play(state.getGsm(), volume, singleton);
+			return play(state.getGsm(), volume, pitch, singleton);
 		} else {
-			return playSourced(state, worldPos, volume, singleton);
+			return playSourced(state, worldPos, volume, pitch, singleton);
 		}
 	}
 	
@@ -193,19 +197,22 @@ public enum SoundEffect {
 	 * This is only run by the host
 	 */
 	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, boolean singleton) {
-		
+		return playExclusive(state, worldPos, player, volume, 1.0f, singleton);
+	}
+	
+	public long playExclusive(PlayState state, Vector2 worldPos, Player player, float volume, float pitch, boolean singleton) {
 		if (state.isServer() && player != null) {
 			
 			//for the host, we simply play the sound. Otherwise, we send a sound packet to the client
 			if (player.getConnID() == 0) {
 				
 				if (worldPos == null) {
-					return play(state.getGsm(), volume, singleton);
+					return play(state.getGsm(), volume, pitch, singleton);
 				} else {
-					return playSourced(state, worldPos, volume, singleton);
+					return playSourced(state, worldPos, volume, pitch, singleton);
 				}
 			} else {
-				HadalGame.server.sendPacketToPlayer(player, new Packets.SyncSoundSingle(this, worldPos, volume, singleton));
+				HadalGame.server.sendPacketToPlayer(player, new Packets.SyncSoundSingle(this, worldPos, volume, pitch, singleton));
 			}
 		}
 		

@@ -55,7 +55,7 @@ public class DiamondCutter extends MeleeWeapon {
 	public void mouseClicked(float delta, PlayState state, final BodyData shooter, short faction, Vector2 mouseLocation) {
 		
 		if (sawSound == null) {
-			sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.8f, true, true, soundSyncType.TICKSYNC);
+			sawSound = new SoundEntity(state, user, SoundEffect.DRILL, 0.8f, 1.0f, true, true, soundSyncType.TICKSYNC);
 		} else {
 			sawSound.turnOn();
 		}

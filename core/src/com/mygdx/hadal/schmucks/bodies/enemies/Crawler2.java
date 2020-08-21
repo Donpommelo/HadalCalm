@@ -8,7 +8,7 @@ import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
-import com.mygdx.hadal.statuses.DeathParticles;
+import com.mygdx.hadal.statuses.DeathRagdoll;
 import com.mygdx.hadal.statuses.StatChangeStatus;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
@@ -43,11 +43,13 @@ public class Crawler2 extends EnemyCrawling {
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
-		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
+		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 100.0f;
+
+	private static final float attackWindup = 0.2f;
 
 	private static final int attack1Amount = 4;
 	private static final int attack1Damage = 8;
@@ -65,7 +67,8 @@ public class Crawler2 extends EnemyCrawling {
 		}
 		
 		if (attackTarget != null) {
-			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.2f);
+			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.0f);
+			EnemyUtils.windupParticles(state, this, attackWindup, Particle.CHARGING);
 			for (int i = 0; i < attack1Amount; i++) {
 				
 				getActions().add(new EnemyAction(this, meleeInterval) {

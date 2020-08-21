@@ -17,8 +17,11 @@ public class ContactUnitSound extends HitboxStrategy {
 	//this is the sound effect that will be played.
 	private SoundEffect sound;
 	
-	//this is the volume that the sound wull be played at
+	//this is the volume that the sound will be played at
 	private float volume;
+	
+	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
+		private float pitch = 1.0f;
 	
 	//if the hbox is still, we ignore the velocity requirement before playing a sound
 	private boolean still;
@@ -50,9 +53,14 @@ public class ContactUnitSound extends HitboxStrategy {
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.BODY)) {
 					procCdCount = 0;
-					sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
+					sound.playUniversal(state, hbox.getPixelPosition(), volume, pitch, false);
 				}
 			}
 		}
+	}
+	
+	public ContactUnitSound setDuration(float pitch) {
+		this.pitch = pitch;
+		return this;
 	}
 }

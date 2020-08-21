@@ -3,6 +3,8 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -31,7 +33,7 @@ public class Crawler3 extends EnemyCrawling {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float attackCd = 2.0f;
+	private static final float attackCd = 1.5f;
 	private static final float groundSpeed = -0.75f;
 			
 	private static final Sprite sprite = Sprite.FISH_TORPEDO;
@@ -55,7 +57,8 @@ public class Crawler3 extends EnemyCrawling {
 	private final static int numProj = 5;
 	private final static int spread = 10;
 	
-	private final static float baseDamage = 10.0f;
+	private final static float attackWindup = 0.4f;
+	private final static float baseDamage = 7.0f;
 	private final static float knockback = 12.0f;
 	private final static float projectileSpeed = 20.0f;
 	private final static Vector2 projectileSize = new Vector2(16, 16);
@@ -73,14 +76,22 @@ public class Crawler3 extends EnemyCrawling {
 		}
 		
 		if (attackTarget != null) {
-			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.4f);
+			EnemyUtils.changeCrawlingState(this, CrawlingState.STILL, 0.0f, 0.0f);
+			EnemyUtils.windupParticles(state, this, attackWindup, Particle.CHARGING);
 			
 			for (int i = 0; i < numProj; i++) {
+				
+				final int index = i;
 				
 				getActions().add(new EnemyAction(this, 0.0f) {
 					
 					@Override
 					public void execute() {
+						
+						if (index == 0) {
+							SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 0.8f, false);
+						}
+						
 						startVelo.set(getMoveDirection() * projectileSpeed, projectileSpeed / 2);
 
 						float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));

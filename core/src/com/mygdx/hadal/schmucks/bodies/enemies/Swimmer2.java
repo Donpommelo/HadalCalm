@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
@@ -76,6 +77,8 @@ public class Swimmer2 extends EnemySwimming {
 		EnemyUtils.windupParticles(state, this, attackWindup, Particle.KAMABOKO_SHOWER);
 		
 		EnemyUtils.changeFloatingTrackSpeed(this, attackTrack, 0.0f);
+		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval * 2, 0.6f, 2.0f, SoundEffect.OOZE, true);
 		
 		EnemyUtils.changeFloatingFreeAngle(this, attackSwingAngle, 0.0f);
 		for (int i = 0; i < fireballNumber; i++) {

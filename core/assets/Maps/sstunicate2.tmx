@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="123">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="125">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -9,12 +9,12 @@
  <tileset firstgid="1" source="main_0.tsx"/>
  <layer id="1" name="Tile Layer 1" width="130" height="100">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <objectgroup id="2" name="collision-layer">
   <object id="1" x="480" y="2016">
-   <polyline points="672,0 672,160 1152,160 1248,64 1536,64 1632,160 2112,160 2112,-64 2048,-64 2048,-160 2208,-160 2208,544 1824,544 1824,928 2688,928 2688,544 2496,544 2496,-1152 1920,-1152 1728,-960 1728,-736 2208,-736 2208,-416 2048,-416 2048,-512 2112,-512 2112,-640 1408,-640 1248,-480 1152,-480 672,0"/>
+   <polyline points="672,0 672,160 1152,160 1248,64 1536,64 1632,160 2112,160 2112,-64 2048,-64 2048,-160 2208,-160 2208,544 1824,544 1824,928 2688,928 2688,544 2496,544 2496,-1152 1728,-1152 1536,-960 1536,-736 2208,-736 2208,-416 2048,-416 2048,-512 2112,-512 2112,-640 1408,-640 1248,-480 1152,-480 672,0"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="event-layer">
@@ -23,21 +23,25 @@
   <object id="10" name="Dropthrough" type="Dropthrough" x="2048" y="1664" width="320" height="8"/>
   <object id="11" name="Dormitory" type="Dormitory" x="2304" y="2080" width="96" height="96">
    <properties>
+    <property name="triggeredId" value="dormitory"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
   <object id="12" name="Armory" type="Armory" x="1728" y="1760" width="96" height="96">
    <properties>
+    <property name="triggeredId" value="armory"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
   <object id="13" name="Reliquary" type="Reliquary" x="1920" y="1760" width="96" height="96">
    <properties>
+    <property name="triggeredId" value="reliquary"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
   <object id="15" name="Dispensary" type="Dispensary" x="2112" y="2080" width="96" height="96">
    <properties>
+    <property name="triggeredId" value="dispensary"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
@@ -316,14 +320,14 @@
     <property name="triggeringId" value="bounds11,bounds21,cameraf1"/>
    </properties>
   </object>
-  <object id="76" name="Bounds" type="Bounds" x="2304" y="2560" width="32" height="32">
+  <object id="76" name="Bounds" type="Bounds" x="2656" y="2688" width="32" height="32">
    <properties>
     <property name="left" type="bool" value="true"/>
     <property name="triggeredId" value="bounds21"/>
     <property name="up" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="77" name="Bounds" type="Bounds" x="3136" y="2912" width="32" height="32">
+  <object id="77" name="Bounds" type="Bounds" x="2848" y="2752" width="32" height="32">
    <properties>
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
@@ -331,29 +335,17 @@
     <property name="triggeredId" value="bounds11"/>
    </properties>
   </object>
-  <object id="78" name="Dummy" type="Dummy" x="2592" y="1024" width="32" height="32">
-   <properties>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="cameraf3point"/>
-   </properties>
-  </object>
-  <object id="79" name="Dummy" type="Dummy" x="2752" y="2720" width="32" height="32">
-   <properties>
-    <property name="sync" value="USER"/>
-    <property name="triggeredId" value="cameraf1point"/>
-   </properties>
-  </object>
   <object id="80" name="Camera" type="Camera" x="544" y="352" width="32" height="32">
    <properties>
     <property name="triggeredId" value="cameraf3"/>
-    <property name="triggeringId" value="cameraf3point"/>
+    <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="0.75"/>
    </properties>
   </object>
   <object id="81" name="Camera" type="Camera" x="544" y="416" width="32" height="32">
    <properties>
     <property name="triggeredId" value="cameraf1"/>
-    <property name="triggeringId" value="cameraf1point"/>
+    <property name="triggeringId" value=""/>
     <property name="zoom" type="float" value="0.75"/>
    </properties>
   </object>
@@ -361,6 +353,7 @@
    <properties>
     <property name="tag" value="PVP"/>
     <property name="title" value="Deathmatch"/>
+    <property name="triggeredId" value="navigation1"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
@@ -394,7 +387,7 @@
     <property name="text" value="DORMITORY"/>
    </properties>
   </object>
-  <object id="107" name="Dropthrough" type="Dropthrough" x="2208" y="1184" width="160" height="8"/>
+  <object id="107" name="Dropthrough" type="Dropthrough" x="2016" y="1184" width="352" height="8"/>
   <object id="108" name="Timer" type="Timer" x="480" y="128" width="32" height="32">
    <properties>
     <property name="interval" type="float" value="0"/>
@@ -433,6 +426,7 @@
    <properties>
     <property name="tag" value="ARENA"/>
     <property name="title" value="Arena"/>
+    <property name="triggeredId" value="navigation2"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
@@ -442,30 +436,44 @@
     <property name="text" value="ARENA"/>
    </properties>
   </object>
-  <object id="115" name="Navigation" type="Navigation" x="1344" y="2080" width="96" height="96">
+  <object id="115" name="Navigation" type="Navigation" x="1536" y="2080" width="96" height="96">
    <properties>
     <property name="tag" value="SPECIAL"/>
-    <property name="title" value="Bonus Levels"/>
+    <property name="title" value="navigation3"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="116" name="Text" type="Text" x="1344" y="2080" width="32" height="32">
+  <object id="116" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="BONUS LEVELS"/>
    </properties>
   </object>
-  <object id="117" name="Navigation" type="Navigation" x="1536" y="2080" width="96" height="96">
+  <object id="117" name="Navigation" type="Navigation" x="1344" y="2080" width="96" height="96">
    <properties>
     <property name="tag" value="PVP_PHOTO"/>
     <property name="title" value="Birds"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="118" name="Text" type="Text" x="1536" y="2080" width="32" height="32">
+  <object id="118" name="Text" type="Text" x="1344" y="2080" width="32" height="32">
    <properties>
     <property name="scale" type="float" value="0.3"/>
     <property name="text" value="BIRDS"/>
+   </properties>
+  </object>
+  <object id="123" name="Bounds" type="Bounds" x="2304" y="928" width="32" height="32">
+   <properties>
+    <property name="left" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds23"/>
+    <property name="up" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="124" name="Bounds" type="Bounds" x="2656" y="1056" width="32" height="32">
+   <properties>
+    <property name="down" type="bool" value="true"/>
+    <property name="right" type="bool" value="true"/>
+    <property name="triggeredId" value="bounds13"/>
    </properties>
   </object>
  </objectgroup>

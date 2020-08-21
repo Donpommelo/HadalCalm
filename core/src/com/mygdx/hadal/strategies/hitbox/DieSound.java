@@ -19,6 +19,9 @@ public class DieSound extends HitboxStrategy {
 	//this is the volume that the sound will get played at.
 	private float volume;
 	
+	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
+	private float pitch = 1.0f;
+	
 	public DieSound(PlayState state, Hitbox proj, BodyData user, SoundEffect sound, float volume) {
 		super(state, proj, user);
 		this.sound = sound;
@@ -27,6 +30,11 @@ public class DieSound extends HitboxStrategy {
 	
 	@Override
 	public void die() {
-		sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
+		sound.playUniversal(state, hbox.getPixelPosition(), volume, pitch, false);
+	}
+	
+	public DieSound setPitch(float pitch) {
+		this.pitch = pitch;
+		return this;
 	}
 }

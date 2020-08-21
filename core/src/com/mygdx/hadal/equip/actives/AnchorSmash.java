@@ -74,7 +74,7 @@ public class AnchorSmash extends ActiveItem {
 		hbox.addStrategy(new ControllerDefault(state, hbox, user));
 		hbox.addStrategy(new DamageStandard(state, hbox, user, baseDamage, knockback, DamageTypes.WHACKING, DamageTypes.MAGIC));
 		
-		hbox.addStrategy(new CreateSound(state, hbox, user, SoundEffect.FALLING, 0.5f, false));
+		hbox.addStrategy(new CreateSound(state, hbox, user, SoundEffect.FALLING, 0.5f, false).setPitch(0.75f));
 
 		hbox.addStrategy(new HitboxStrategy(state, hbox, user) {
 			

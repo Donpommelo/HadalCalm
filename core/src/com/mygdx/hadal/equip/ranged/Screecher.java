@@ -69,7 +69,7 @@ public class Screecher extends RangedWeapon {
 		}
 		
 		if (screechSound == null) {
-			screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.8f, true, true, soundSyncType.TICKSYNC);
+			screechSound = new SoundEntity(state, user, SoundEffect.BEAM3, 0.8f, 1.0f, true, true, soundSyncType.TICKSYNC);
 		} else {
 			screechSound.turnOn();
 		}

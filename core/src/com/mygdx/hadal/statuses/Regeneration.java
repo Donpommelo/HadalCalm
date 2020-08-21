@@ -32,7 +32,7 @@ public class Regeneration extends Status {
 	@Override
 	public void onInflict() {
 		regenParticles = new ParticleEntity(state, inflicted.getSchmuck(), Particle.REGEN, duration, 0.0f, true, particleSyncType.CREATESYNC);
-		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, 0.25f, true, true, soundSyncType.TICKSYNC);
+		regenSound =  new SoundEntity(state, inflicted.getSchmuck(), SoundEffect.MAGIC21_HEAL, 0.25f, 1.0f, true, true, soundSyncType.TICKSYNC);
 	}
 	
 	@Override

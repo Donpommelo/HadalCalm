@@ -208,7 +208,7 @@ public class KryoClient {
 							@Override
 							public void execute() {
 								if (p.worldPos != null) {
-									p.sound.playSourced(cs, p.worldPos, p.volume, p.singleton);
+									p.sound.playSourced(cs, p.worldPos, p.volume, p.pitch, p.singleton);
 								} else {
 									p.sound.play(gsm, p.volume, p.singleton);
 								}
@@ -637,7 +637,8 @@ public class KryoClient {
 					
 					@Override
 					public void execute() {
-						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.looped, p.on, soundSyncType.NOSYNC);
+						SoundEntity entity = new SoundEntity(cs, null, SoundEffect.valueOf(p.sound), p.volume, p.pitch, p.looped, p.on, soundSyncType.NOSYNC);
+						
 						entity.setAttachedId(p.attachedID);
 						cs.addEntity(p.entityID, entity, p.synced, ObjectSyncLayers.STANDARD);
     				}

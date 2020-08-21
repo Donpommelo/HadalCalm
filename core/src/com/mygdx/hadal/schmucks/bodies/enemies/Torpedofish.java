@@ -3,6 +3,7 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -35,7 +36,7 @@ public class Torpedofish extends EnemySwimming {
 	private static final int hboxWidth = 63;
 	private static final int hboxHeight = 40;
 	
-	private static final float attackCd = 1.2f;
+	private static final float attackCd = 0.5f;
 	private static final float airSpeed = -0.4f;
 	
 	private static final float minRange = 5.0f;
@@ -60,7 +61,8 @@ public class Torpedofish extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), sprite, size));
 	}
 	
-	private static final float attackWindup = 0.2f;
+	private static final float attackWindup1 = 0.6f;
+	private static final float attackWindup2 = 0.2f;
 
 	private final static float baseDamage = 5.0f;
 	private final static float knockback = 0.5f;
@@ -76,9 +78,10 @@ public class Torpedofish extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
+		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED);
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup, Particle.BRIGHT);
+		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED);
 
 		getActions().add(new EnemyAction(this, 0.0f) {
 			
@@ -94,6 +97,7 @@ public class Torpedofish extends EnemySwimming {
 				
 				if (startVelo.len2() < range * range) {
 					startVelo.nor().scl(projectileSpeed);
+					SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 1.0f, 0.75f, false);
 					
 					Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, projSprite);
 					
@@ -104,7 +108,7 @@ public class Torpedofish extends EnemySwimming {
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
 					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.BUBBLE_TRAIL, 0.0f, 3.0f));
 					hbox.addStrategy(new DieExplode(state, hbox, enemy.getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
-					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.EXPLOSION6, 0.6f));
+					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.EXPLOSION6, 0.6f).setPitch(1.2f));
 				}
 			}
 		});

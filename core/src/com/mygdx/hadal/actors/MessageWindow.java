@@ -128,12 +128,12 @@ public class MessageWindow {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.run(disableMsg), Actions.moveTo(windowX, windowYInactive, .25f, Interpolation.pow5Out)));
 			
-			SoundEffect.UISWITCH2.play(state.getGsm(), false);
+			SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		} else {
 			tableOuter.addAction(Actions.moveTo(windowX, windowYActive, .5f, Interpolation.pow5Out));
 			tableInner.addAction(Actions.sequence(Actions.run(enableMsg), Actions.moveTo(windowX, windowYActive, .25f, Interpolation.pow5Out)));
 			
-			SoundEffect.UISWITCH2.play(state.getGsm(), false);
+			SoundEffect.UISWITCH2.play(state.getGsm(), 1.0f, false);
 		}
 		
 		enterMessage.setText("");

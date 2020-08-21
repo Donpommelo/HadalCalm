@@ -83,7 +83,7 @@ public class Kamabokannon extends RangedWeapon {
 				aimPointer.set(weaponVelo);
 				
 				if (oozeSound == null) {
-					oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.8f, true, true, soundSyncType.TICKSYNC);
+					oozeSound = new SoundEntity(state, user, SoundEffect.OOZE, 0.8f, 1.0f, true, true, soundSyncType.TICKSYNC);
 				} else {
 					oozeSound.turnOn();
 				}

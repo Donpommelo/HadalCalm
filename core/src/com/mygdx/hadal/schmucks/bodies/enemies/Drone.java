@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -28,7 +29,7 @@ import com.mygdx.hadal.utils.Stats;
 
 public class Drone extends EnemySwimming {
 
-	private final static int baseHp = 250;
+	private final static int baseHp = 225;
 	private final static String name = "DRONE";
 	
 	private final static int scrapDrop = 5;
@@ -39,10 +40,10 @@ public class Drone extends EnemySwimming {
 	private static final int hboxWidth = 450;
 	private static final int hboxHeight = 450;
 	
-	private static final float attackCd = 2.0f;
+	private static final float attackCd = 1.0f;
 	private static final float airSpeed = -0.1f;
 	
-	private static final float scale = 0.4f;
+	private static final float scale = 0.3f;
 	private static final float noiseRadius = 3.0f;
 
 	private static final Sprite sprite = Sprite.DRONE_BODY;
@@ -76,7 +77,8 @@ public class Drone extends EnemySwimming {
 		getBodyData().addStatus(new DeathRagdoll(state, getBodyData(), Sprite.DRONE_ARM_FRONT, size));
 	}
 	
-	private static final float attackWindup = 0.5f;
+	private static final float attackWindup1 = 0.9f;
+	private static final float attackWindup2 = 0.3f;
 	
 	private static final float minRange = 4.0f;
 	private static final float maxRange = 10.0f;
@@ -93,9 +95,10 @@ public class Drone extends EnemySwimming {
 	@Override
 	public void attackInitiate() {
 		
+		EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED);
 		EnemyUtils.changeSwimmingState(this, SwimmingState.STILL, 0.0f, 0.0f);
 		EnemyUtils.changeFloatingFreeAngle(this, 0.0f, 0.0f);
-		EnemyUtils.windupParticles(state, this, attackWindup, Particle.LASER_IMPACT);
+		EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED);
 		
 		for (int i = 0; i < laserNumber; i++) {
 			getActions().add(new EnemyAction(this, laserInterval) {

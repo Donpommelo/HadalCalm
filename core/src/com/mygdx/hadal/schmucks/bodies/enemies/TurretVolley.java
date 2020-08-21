@@ -2,7 +2,9 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -38,7 +40,8 @@ public class TurretVolley extends Turret {
 	
 	private final static int numProj = 3;
 	
-	private static final float attackWindup = 0.75f;
+	private static final float attackWindup1 = 0.6f;
+	private static final float attackWindup2 = 0.2f;
 	private static final float attackAnimation = 0.2f;
 	
 	private final static float baseDamage = 8.0f;
@@ -46,25 +49,33 @@ public class TurretVolley extends Turret {
 	private final static float knockback = 15.0f;
 	private final static Vector2 projectileSize = new Vector2(40, 40);
 	private final static float projLifespan = 4.0f;
-	private final static float projInterval = 0.1f;
+	private final static float projInterval = 0.25f;
 	
 	private Vector2 startVelo = new Vector2();
 	@Override
 	public void attackInitiate() {
 		
 		if (attackTarget != null) {
+			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED);
 			EnemyUtils.changeTurretState(this, TurretState.FREE, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup, Particle.BRIGHT);
+			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED);
 			
 			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, attackAnimation);
 			animationTime = 0;
 			
 			for (int i = 0; i < numProj; i++) {
 				
+				final int index = i;
+				
 				getActions().add(new EnemyAction(this, projInterval) {
 					
 					@Override
 					public void execute() {
+						
+						if (index == 0) {
+							SoundEffect.AR15.playUniversal(state, enemy.getPixelPosition(), 0.75f, false);
+						}
+						
 						startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
 
 						Hitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, size.x), projectileSize, projLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.ORB_RED);

@@ -3,7 +3,9 @@ package com.mygdx.hadal.schmucks.bodies.enemies;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
@@ -37,7 +39,8 @@ public class TurretFlak extends Turret {
 		moveState = MoveState.DEFAULT;
 	}
 	
-	private static final float attackWindup = 0.75f;
+	private static final float attackWindup1 = 0.6f;
+	private static final float attackWindup2 = 0.2f;
 	private static final float attackAnimation = 0.2f;
 
 	private final static int numProj = 6;
@@ -55,18 +58,26 @@ public class TurretFlak extends Turret {
 	public void attackInitiate() {
 
 		if (attackTarget != null) {
+			EnemyUtils.windupParticles(state, this, attackWindup1, Particle.CHARGING, ParticleColor.RED);
 			EnemyUtils.changeTurretState(this, TurretState.FREE, 0.0f, 0.0f);
-			EnemyUtils.windupParticles(state, this, attackWindup, Particle.BRIGHT);
+			EnemyUtils.windupParticles(state, this, attackWindup2, Particle.OVERCHARGE, ParticleColor.RED);
 			
 			EnemyUtils.changeMoveState(state, this, MoveState.ANIM1, attackAnimation);
 			animationTime = 0;
 			
 			for (int i = 0; i < numProj; i++) {
 				
+				final int index = i;
+				
 				getActions().add(new EnemyAction(this, 0.0f) {
 					
 					@Override
 					public void execute() {
+						
+						if (index == 0) {
+							SoundEffect.SHOTGUN.playUniversal(state, enemy.getPixelPosition(), 0.75f, 0.75f, false);
+						}
+						
 						startVelo.set(projectileSpeed, projectileSpeed).setAngle(getAttackAngle());
 
 						float newDegrees = (float) (startVelo.angle() + (ThreadLocalRandom.current().nextInt(-spread, spread + 1)));

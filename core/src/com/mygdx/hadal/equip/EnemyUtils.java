@@ -14,6 +14,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.CreateSound;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
@@ -26,6 +27,7 @@ import com.mygdx.hadal.strategies.hitbox.HomingUnit;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.Poison;
@@ -330,6 +332,10 @@ public class EnemyUtils {
 	}
 
 	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle) {
+		windupParticles(state, boss, duration, particle, ParticleColor.NOTHING);
+	}
+	
+	public static void windupParticles(final PlayState state, Enemy boss, final float duration, Particle particle, ParticleColor color) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {
 			
@@ -340,11 +346,38 @@ public class EnemyUtils {
 
 				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
 				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
-				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), particle, 0.0f, fireLinger).setParticleColor(color));
 			}
 		});
 	}
 	
+	public static void createSound(final PlayState state, Enemy boss, final float duration, float volume, SoundEffect sound) {
+		
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				sound.playUniversal(state, boss.getPixelPosition(), volume, false);
+			}
+		});
+	}
+	
+	public static void createSoundEntity(final PlayState state, Enemy boss, final float duration, float soundDuration, float volume, float pitch, SoundEffect sound, boolean looped) {
+		
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				Vector2 startVelo = new Vector2(0, 1).setAngle(enemy.getAttackAngle());
+				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), soundDuration, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new FixedToOrigin(state, hbox, enemy, false));
+				hbox.addStrategy(new CreateSound(state, hbox, enemy.getBodyData(), sound, volume, looped).setPitch(pitch));
+			}
+		});
+	}
+
 	public static void projectile(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, Particle particle) {
 		
 		boss.getActions().add(new EnemyAction(boss, duration) {

@@ -320,6 +320,8 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
+	private static final float fireWindup = 1.5f;
+
 	private static final int fireballDamage = 4;
 	private static final int burnDamage = 3;
 	private static final int fireSpeed = 13;
@@ -333,7 +335,8 @@ public class Boss1 extends EnemyFloating {
 	
 	private void fireBreath() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
-		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
+		EnemyUtils.windupParticles(state, this, fireWindup, Particle.FIRE);
 		switch (wall) {
 		case 0 :
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
@@ -353,7 +356,8 @@ public class Boss1 extends EnemyFloating {
 	
 	private void fireBreath2() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
-		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 1.5f);
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
+		EnemyUtils.windupParticles(state, this, fireWindup, Particle.FIRE);
 		switch (wall) {
 		case 0 :
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
@@ -387,6 +391,8 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
+	private static final float laser1Windup = 0.2f;
+
 	private static final float trackInterval = 0.25f;
 	private static final int trackAmount = 12;
 	private static final int trackSpeed = 60;
@@ -403,12 +409,11 @@ public class Boss1 extends EnemyFloating {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
 		switch (wall) {
 		case 0 :
-			
 			EnemyUtils.changeFloatingState(this, FloatingState.FREE, 0.0f, 0.0f);
 			for (int i = 0; i < trackAmount; i++) {
 				EnemyUtils.trackPlayerXY(state, this, attackTarget, trackSpeed, trackInterval, false);
 			}
-			EnemyUtils.stopStill(this, 0.2f);
+			EnemyUtils.stopStill(this, laser1Windup);
 			for (int i = 0; i < laser1Amount; i++) {
 				EnemyUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
 			}
@@ -418,7 +423,7 @@ public class Boss1 extends EnemyFloating {
 			for (int i = 0; i < trackAmount; i++) {
 				EnemyUtils.trackPlayerXY(state, this, attackTarget, trackSpeed, trackInterval, false);
 			}
-			EnemyUtils.stopStill(this, 0.2f);
+			EnemyUtils.stopStill(this, laser1Windup);
 			for (int i = 0; i < laser1Amount; i++) {
 				EnemyUtils.fireLaser(state, this, laser1Damage, laser1Speed, laserKnockback, laserSize, laserLifespan, laser1Interval, Particle.LASER);
 			}
@@ -427,6 +432,7 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 	}
 	
+	private static final float laser2Windup = 2.0f;
 	private static final float rotateSpeed = 2.5f;
 	private static final float laser2Interval = 0.02f;
 	private static final int laser2Amount = 100;
@@ -435,8 +441,10 @@ public class Boss1 extends EnemyFloating {
 	
 	private void rotatingLaser() {
 		EnemyUtils.moveToDummy(state, this, "4", moveSpeed, moveDurationMax);
-		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 2.0f);
 		
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
+		EnemyUtils.windupParticles(state, this, laser2Windup, Particle.LASER_PULSE);
+
 		boolean random = GameStateManager.generator.nextBoolean();
 		
 		if (random) {
@@ -450,7 +458,8 @@ public class Boss1 extends EnemyFloating {
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 1.0f);
 	}
-	
+
+	private static final float laser3Windup = 0.75f;
 	private static final int laser3Amount = 25;
 	private static final float laser3Damage = 3.5f;
 	private static final float laser3Knockback = 1.0f;
@@ -463,7 +472,9 @@ public class Boss1 extends EnemyFloating {
 	
 	private void sweepingLaser() {
 		int wall = EnemyUtils.moveToRandomWall(state, this, moveSpeed, moveDurationMax);
-		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.75f);
+		
+		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
+		EnemyUtils.windupParticles(state, this, laser3Windup, Particle.LASER_PULSE);
 		
 		switch (wall) {
 		case 0 :
@@ -517,13 +528,14 @@ public class Boss1 extends EnemyFloating {
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 1.0f);
 	}
 	
-	
+	private static final float spiritWindup = 0.75f;
 	private static final float spiritDamage= 15.0f;
 	private static final float spiritKnockback= 25.0f;
 	private static final float spiritLifespan= 5.0f;
 	private Vector2 spiritPos = new Vector2();
 	private void vengefulSpirit() {
-		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.75f);
+		EnemyUtils.changeFloatingState(this, FloatingState.SPINNING, spinSpeed, 0.0f);
+		EnemyUtils.windupParticles(state, this, spiritWindup, Particle.BRIGHT);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		
 		getActions().add(new EnemyAction(this, 0.0f) {

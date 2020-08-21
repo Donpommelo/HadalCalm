@@ -21,6 +21,9 @@ public class ContactWallSound extends HitboxStrategy {
 	//this is the volume the sound gets played at.
 	private float volume;
 	
+	//this is the pitch that the sound will get played at. (default is no change. change using factory method.)
+	private float pitch = 1.0f;
+		
 	//This is the max interval the sound can be repeated.
 	private static final float procCd = 0.2f;
 	
@@ -47,9 +50,14 @@ public class ContactWallSound extends HitboxStrategy {
 			if (fixB != null) {
 				if (fixB.getType().equals(UserDataTypes.WALL)) {
 					procCdCount = 0;
-					sound.playUniversal(state, hbox.getPixelPosition(), volume, false);
+					sound.playUniversal(state, hbox.getPixelPosition(), volume, pitch, false);
 				}
 			}
 		}
+	}
+	
+	public ContactWallSound setDuration(float pitch) {
+		this.pitch = pitch;
+		return this;
 	}
 }
