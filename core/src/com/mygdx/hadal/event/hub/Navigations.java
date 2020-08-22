@@ -24,8 +24,8 @@ public class Navigations extends HubEvent {
 
 	private String level;
 	
-	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, String level, boolean checkUnlock) {
-		super(state, startPos, size, title, tag, checkUnlock, hubTypes.NAVIGATIONS);
+	public Navigations(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, String level, boolean checkUnlock, boolean closeOnLeave) {
+		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.NAVIGATIONS);
 		this.level = level;
 	}
 	

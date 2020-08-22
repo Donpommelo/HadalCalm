@@ -18,8 +18,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Reliquary extends HubEvent {
 
-	public Reliquary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
-		super(state, startPos, size, title, tag, checkUnlock, hubTypes.RELIQUARY);
+	public Reliquary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
+		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.RELIQUARY);
 	}
 	
 	public void enter() {

@@ -72,7 +72,13 @@
 "tourDialog1": [
 		{
 			"name": "Pelican",
-			"text": "<temp intro 1>",
+			"text": "This is the vessel's Armory. Here, you can equip and unequip weapons.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "The hull of the S.S. Tunicate is above-average in durability. Feel free to test out new weapons inside.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -81,7 +87,13 @@
 "tourDialog2": [
     {
         "name": "Pelican",
-        "text": "<temp intro 2>",
+        "text": "At the Reliquary, you can equip and unequip Artifacts that bestow passive benefits.",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+    },
+    {
+        "name": "Pelican",
+        "text": "To equip an Artifact, a Salvager must have adequate Artifact Slots. As default, you have 4 slots. More powerful Artifacts take up more slots.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -90,7 +102,13 @@
 "tourDialog3": [
     {
         "name": "Pelican",
-        "text": "<temp intro 3>",
+        "text": "You can equip an Active Item at the Dispensary. Press fugactivefug to use a variety of different powers once your Active Item is charged.",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+    },
+    {
+        "name": "Pelican",
+        "text": "Active Item charge is indicated by the bar underneath the item name. Some items charge over time. Others charge by dealing damage.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -99,7 +117,25 @@
 "tourDialog4": [
     {
         "name": "Pelican",
-        "text": "<temp intro 4>",
+        "text": "At the Navigation Telepyramid, the player can warp to a number of locations in the map.",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+    },
+    {
+        "name": "Pelican",
+        "text": "If you see any more Telepyramids in the world, activate them so you can revisit them from the Navigations menu whenever you want.",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+    }
+    {
+        "name": "Pelican",
+        "text": "The Arena Telepyramid allows you to train your skills in a survival arena mode.",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+    }
+    {
+        "name": "Pelican",
+        "text": "The Bonus Telepyramid gives access to a Sandbox as well as a sneak peak at some Boss Fights.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -108,7 +144,13 @@
 "tourDialog5": [
     {
         "name": "Pelican",
-        "text": "<temp intro 5>",
+        "text": "On the top floor is the Quartermaster. Spend your hard earned currency on new weapons and other items.",
+        "sprite": "PELICAN_MASKED"
+        "duration": 0
+    },
+    {
+        "name": "Pelican",
+        "text": "(for the purposes of this demo, all items have been unlocked already)",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -117,9 +159,45 @@
 "tourDialog6": [
 		{
 			"name": "Pelican",
-			"text": "<temp intro 6>",
+			"text": "And finally, ship Communications can be used to chat with myself.\nI'll always be here in case you forget anything.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
+		}
+        {
+			"name": "Pelican",
+			"text": "Oh and one more thing, I've been getting into Poetry as of late.\nLet me know if you'd like to hear a poem.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+            "end": true
+		}
+	]
+"poem": [
+
+        {
+			"name": "Pelican",
+			"text": "<poem>",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+            "end": true
+		}
+	]
+"poemGood": [
+
+        {
+			"name": "Pelican",
+			"text": "Really? Thanks.\nThat really means a lot to me.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemBad": [
+
+        {
+			"name": "Pelican",
+			"text": "Oh. Sorry.\nI'll try harder next time.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
             "end": true
 		}
 	]

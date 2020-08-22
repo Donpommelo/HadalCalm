@@ -439,7 +439,8 @@
   <object id="115" name="Navigation" type="Navigation" x="1536" y="2080" width="96" height="96">
    <properties>
     <property name="tag" value="SPECIAL"/>
-    <property name="title" value="navigation3"/>
+    <property name="title" value="Bonus Levels"/>
+    <property name="triggeredId" value="navigation3"/>
     <property name="unlock" type="bool" value="false"/>
    </properties>
   </object>

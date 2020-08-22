@@ -17,8 +17,8 @@ import com.mygdx.hadal.states.PlayState;
  */
 public class Dormitory extends HubEvent {
 
-	public Dormitory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
-		super(state, startPos, size, title, tag, checkUnlock, hubTypes.DORMITORY);
+	public Dormitory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
+		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.DORMITORY);
 	}
 	
 	public void enter() {

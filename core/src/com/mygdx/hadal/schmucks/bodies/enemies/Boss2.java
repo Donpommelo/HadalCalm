@@ -9,15 +9,32 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.mygdx.hadal.audio.SoundEffect;
 import com.mygdx.hadal.effects.Particle;
+import com.mygdx.hadal.effects.ParticleColor;
 import com.mygdx.hadal.effects.Sprite;
 import com.mygdx.hadal.equip.EnemyUtils;
 import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
+import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
 import com.mygdx.hadal.statuses.DamageTypes;
 import com.mygdx.hadal.statuses.StatChangeStatus;
+import com.mygdx.hadal.strategies.HitboxStrategy;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitSound;
+import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
+import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
+import com.mygdx.hadal.strategies.hitbox.CreateParticles;
+import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.DiePoison;
+import com.mygdx.hadal.strategies.hitbox.DieRagdoll;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
+import com.mygdx.hadal.strategies.hitbox.HomingUnit;
 import com.mygdx.hadal.utils.Constants;
 import com.mygdx.hadal.utils.Stats;
 import com.mygdx.hadal.utils.b2d.BodyBuilder;
@@ -186,7 +203,7 @@ public class Boss2 extends EnemyFloating {
 						break;
 					}
 				} else {
-					kamabokoShot1();
+					kamabokoShot(1);
 				}
 				
 				if (attackNum % 4 == 0) {
@@ -222,7 +239,7 @@ public class Boss2 extends EnemyFloating {
 						break;
 					}
 				} else {
-					kamabokoShot2();
+					kamabokoShot(2);
 				}
 				
 				if (attackNum % 3 == 0) {
@@ -252,7 +269,7 @@ public class Boss2 extends EnemyFloating {
 					break;
 				}
 			} else {
-				kamabokoShot3();
+				kamabokoShot(3);
 			}
 			
 			if (attackNum % 2 == 0) {
@@ -266,34 +283,83 @@ public class Boss2 extends EnemyFloating {
 	private static final int bulletSpeed2 = 5;
 	private static final int bulletKB = 25;
 	private static final int bulletSize = 60;
-	private static final float bulletWindup = 0.6f;
+	private static final float bulletWindup1 = 0.6f;
+	private static final float bulletWindup2 = 0.2f;
 	private static final float bulletLifespan = 3.0f;
 	private static final float bulletInterval1 = 0.4f;
 	private static final float bulletInterval2 = 0.6f;
 	private static final float bulletInterval3 = 0.8f;
 	private static final int bulletNumber = 3;
-	private void kamabokoShot1() {
+	
+	private final static float homePower = 60.0f;
+	private final static float fragSpeed = 10.0f;
+	private final static int numProj = 6;
+	
+	private void kamabokoShot(int phase) {
+		
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER, 60.0f);
+		EnemyUtils.windupParticles(state, this, bulletWindup1, Particle.CHARGING, ParticleColor.MAGENTA, 80.0f);
+		EnemyUtils.windupParticles(state, this, bulletWindup2, Particle.OVERCHARGE, ParticleColor.MAGENTA, 80.0f);
 		for (int i = 0; i < bulletNumber; i++) {
-			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed1, bulletKB, bulletSize, bulletLifespan, bulletInterval1, 1);
+			if (phase == 1) {
+				shootKamaboko(state, this, bulletDamage, bulletSpeed1, bulletKB, bulletSize, bulletLifespan, bulletInterval1, 1);
+			}
+			if (phase == 2) {
+				shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval2, 2);
+			}
+			if (phase == 3) {
+				shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval3, 3);
+			}
 		}
+		
 	}
 	
-	private void kamabokoShot2() {
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER, 60.0f);
-		for (int i = 0; i < bulletNumber; i++) {
-			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval2, 2);
-		}
-	}
-	
-	private void kamabokoShot3() {
-		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
-		EnemyUtils.windupParticles(state, this, bulletWindup, Particle.KAMABOKO_SHOWER, 60.0f);
-		for (int i = 0; i < bulletNumber; i++) {
-			EnemyUtils.shootKamaboko(state, this, bulletDamage, bulletSpeed2, bulletKB, bulletSize, bulletLifespan, bulletInterval3, 3);
-		}
+	public void shootKamaboko(final PlayState state, Enemy boss, final float baseDamage, final float projSpeed, final float knockback, final int size, final float lifespan, final float duration, final int type) {
+		boss.getActions().add(new EnemyAction(boss, duration) {
+			
+			@Override
+			public void execute() {
+				SoundEffect.SPIT.playUniversal(state, enemy.getPixelPosition(), 0.8f, 0.6f, false);
+				
+				Vector2 startVelo = new Vector2(0, projSpeed).setAngle(enemy.getAttackAngle());
+				Hitbox hbox = new Hitbox(state, enemy.getProjectileOrigin(startVelo, size), new Vector2(size, size), lifespan, startVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+				
+				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+				hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
+				hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+				hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
+				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+				hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.SQUISH, 0.75f).setPitch(0.8f));
+				
+				if (type >= 2) {
+					hbox.addStrategy(new HomingUnit(state, hbox, enemy.getBodyData(), homePower, enemy.getHitboxfilter()));
+				}
+				if (type == 3) {
+					hbox.addStrategy(new HitboxStrategy(state, hbox, enemy.getBodyData()) {
+						
+						@Override
+						public void die() {
+							Vector2 fragVelo = new Vector2(0, fragSpeed);
+							Vector2 fragPosition = new Vector2(hbox.getPixelPosition());
+							for (int i = 0; i < numProj; i++) {
+								fragVelo.setAngle(60 * i);
+								fragPosition.set(hbox.getPixelPosition()).add(new Vector2(fragVelo).nor().scl(5));
+								Hitbox frag = new Hitbox(state, fragPosition, new Vector2(size, size), lifespan, fragVelo, enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+								frag.addStrategy(new ControllerDefault(state, frag, enemy.getBodyData()));
+								frag.addStrategy(new DamageStandard(state, frag, enemy.getBodyData(), baseDamage, knockback, DamageTypes.RANGED));
+								frag.addStrategy(new ContactWallDie(state, frag, enemy.getBodyData()));
+								frag.addStrategy(new ContactUnitDie(state, frag, enemy.getBodyData()));
+								frag.addStrategy(new CreateParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_SHOWER, 0.0f, 3.0f));
+								frag.addStrategy(new DieParticles(state, frag, enemy.getBodyData(), Particle.KAMABOKO_IMPACT));
+								frag.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+							}
+						}
+					});
+				}
+			}
+		});
 	}
 	
 	private final static int driftSpeed = 6;
@@ -306,6 +372,8 @@ public class Boss2 extends EnemyFloating {
 	private void meleeAttack1() {
 		EnemyUtils.moveToDummy(state, this, "back", driftSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 1.0f);
+		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
 		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, chargeAttackInterval, defaultMeleeKB, 0.8f);
 		EnemyUtils.moveToDummy(state, this, "platformLeft", charge1Speed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, getAngle(), 0.0f);
@@ -324,27 +392,33 @@ public class Boss2 extends EnemyFloating {
 		switch(rand) {
 			case 0:
 				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
+				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
 				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
 				
 				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
+				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
 				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
 				
 				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
+				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
 				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
 				break;
 			case 1:
 				EnemyUtils.moveToDummy(state, this, "highRight", thrashSpeed, driftDurationMax);
+				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
 				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformRight", thrashDownSpeed, driftDurationMax);
 				
 				EnemyUtils.moveToDummy(state, this, "highCenter", thrashSpeed, driftDurationMax);
+				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
 				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformCenter", thrashDownSpeed, driftDurationMax);
 				
 				EnemyUtils.moveToDummy(state, this, "highLeft", thrashSpeed, driftDurationMax);
+				EnemyUtils.createSoundEntity(state, this, 0.0f, chargeAttackInterval, 1.0f, 1.5f, SoundEffect.WOOSH, false);
 				EnemyUtils.meleeAttackContinuous(state, this, thrash1Damage, chargeAttackInterval, defaultMeleeKB, 0.25f);
 				EnemyUtils.moveToDummy(state, this, "platformLeft", thrashDownSpeed, driftDurationMax);
 				break;
@@ -369,9 +443,12 @@ public class Boss2 extends EnemyFloating {
 	private void fireBreath() {
 		EnemyUtils.moveToDummy(state, this, "high", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -90.0f, 0.0f);
+		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, breathWindup, 0.6f, 0.5f, SoundEffect.FLAMETHROWER, true);
 		EnemyUtils.windupParticles(state, this, breathWindup, Particle.FIRE, 40.0f);
 
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
+		EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval, 0.6f, 1.5f, SoundEffect.FLAMETHROWER, true);
 		for (int i = 0; i < fireballNumber; i++) {
 			EnemyUtils.fireball(state, this, fireballDamage, burnDamage, fireSpeed, fireKB, fireSize, fireLifespan, burnDuration, fireballInterval, Particle.FIRE);
 		}
@@ -383,7 +460,7 @@ public class Boss2 extends EnemyFloating {
 	private static final int slodgeDamage = 6;
 	private static final int slodgeSpeed = 10;
 	private static final int slodgeKB = 10;
-	private static final int slodgeSize = 50;
+	private static final Vector2 slodgeSize = new Vector2(50, 50);
 	private static final float slodgeLifespan = 2.5f;
 	private static final float slodgeSlow = 0.8f;
 	private static final float slodgeDuration = 3.0f;
@@ -394,11 +471,31 @@ public class Boss2 extends EnemyFloating {
 	private void slodgeBreath() {
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -180.0f, 0.0f);
+		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, breathWindup, 0.8f, 0.5f, SoundEffect.OOZE, true);
 		EnemyUtils.windupParticles(state, this, breathWindup, Particle.SLODGE, 60.0f);
 
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -240.0f, 0.0f);
+		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, slodgeNumber * slodgeInterval, 0.8f, 1.5f, SoundEffect.OOZE, true);
 		for (int i = 0; i < slodgeNumber; i++) {
-			EnemyUtils.slodge(state, this, slodgeDamage, slodgeSpeed, slodgeKB, slodgeSize, slodgeLifespan, slodgeSlow, slodgeDuration, slodgeInterval);
+			getActions().add(new EnemyAction(this, slodgeInterval) {
+				
+				private Vector2 startVelo = new Vector2();
+				@Override
+				public void execute() {
+					startVelo.set(slodgeSpeed, slodgeSpeed).setAngle(enemy.getAttackAngle());
+					RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, slodgeSize.x), slodgeSize, slodgeLifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.NOTHING);
+					hbox.setRestitution(0.5f);
+					hbox.setGravity(3.0f);
+					hbox.setDurability(3);
+					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), slodgeDamage, slodgeKB, DamageTypes.SLODGE, DamageTypes.RANGED));
+					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE, 0.0f, 3.0f).setParticleSize(90));
+					hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE_STATUS));
+					hbox.addStrategy(new ContactUnitSlow(state, hbox, enemy.getBodyData(), slodgeDuration, slodgeSlow));
+				}
+			});
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
@@ -408,7 +505,7 @@ public class Boss2 extends EnemyFloating {
 	private static final int fuguDamage = 5;
 	private static final int fuguSpeed = 18;
 	private static final int fuguKB = 5;
-	private static final int fuguSize = 70;
+	private static final Vector2 fuguSize = new Vector2(70, 70);
 	private static final float fuguLifespan = 2.5f;
 	private static final int fuguNumber = 3;
 	private static final float fuguInterval = 0.25f;
@@ -420,10 +517,32 @@ public class Boss2 extends EnemyFloating {
 	private void fuguShots() {
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -210.0f, 0.0f);
+		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, breathWindup, 0.8f, 1.8f, SoundEffect.OOZE, true);
 		EnemyUtils.windupParticles(state, this, breathWindup, Particle.POISON, 40.0f);
+		
 		EnemyUtils.changeFloatingState(this, FloatingState.FREE, -260.0f, 0.0f);
 		for (int i = 0; i < fuguNumber; i++) {
-			EnemyUtils.fugu(state, this, fuguDamage, fuguSpeed, fuguKB, fuguSize, fuguLifespan, poisonRadius, poisonDamage, poisonDuration, fuguInterval);
+			
+			getActions().add(new EnemyAction(this, fuguInterval) {
+				
+				private Vector2 startVelo = new Vector2();
+				@Override
+				public void execute() {
+					SoundEffect.LAUNCHER4.playUniversal(state, enemy.getPixelPosition(), 0.4f, 0.8f, false);
+					
+					startVelo.set(fuguSpeed, fuguSpeed).setAngle(enemy.getAttackAngle());
+					RangedHitbox hbox = new RangedHitbox(state, enemy.getProjectileOrigin(startVelo, fuguSize.x), fuguSize, fuguLifespan, startVelo, enemy.getHitboxfilter(), false, true, enemy, Sprite.FUGU);
+					hbox.setGravity(3.0f);
+					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new ContactWallDie(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), fuguDamage, fuguKB, DamageTypes.POISON, DamageTypes.RANGED));
+					hbox.addStrategy(new DiePoison(state, hbox, enemy.getBodyData(), poisonRadius, poisonDamage, poisonDuration, enemy.getHitboxfilter()));
+					hbox.addStrategy(new DieRagdoll(state, hbox, enemy.getBodyData()));
+					hbox.addStrategy(new DieSound(state, hbox, enemy.getBodyData(), SoundEffect.DEFLATE, 0.25f));
+				}
+			});
 		}
 		EnemyUtils.changeFloatingState(this, FloatingState.TRACKING_PLAYER, 0, 0.0f);
 		EnemyUtils.moveToDummy(state, this, "back", returnSpeed, driftDurationMax);

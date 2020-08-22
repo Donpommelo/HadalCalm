@@ -59,5 +59,9 @@ public class TriggerCond extends Event {
 		};
 	}
 	
-	public void addTrigger(String s, Event e) {	triggered.put(s, e); }
+	public void addTrigger(String s, Event e) {	
+		if (e != null) {
+			triggered.put(s, e);
+		}
+	}
 }

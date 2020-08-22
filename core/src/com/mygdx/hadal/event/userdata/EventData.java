@@ -79,7 +79,7 @@ public class EventData extends HadalData {
 			} else {
 				if (p.equals(event.getState().getPlayer())) {
 					onActivate(activator, p);
-				} else {
+				} else if (event.getState().isServer()) {
 					HadalGame.server.sendPacketToPlayer(p, new Packets.ActivateEvent(event.getEntityID().toString()));
 				}
 			}

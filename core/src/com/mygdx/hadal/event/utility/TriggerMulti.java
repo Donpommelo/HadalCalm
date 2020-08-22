@@ -35,6 +35,7 @@ public class TriggerMulti extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
+				
 				for (Event e : triggered) {
 					if (e != null) {
 						if (e.getEventData() != null) {
@@ -46,5 +47,9 @@ public class TriggerMulti extends Event {
 		};
 	}
 	
-	public void addTrigger(Event e) { triggered.add(e); }
+	public void addTrigger(Event e) { 
+		if (e != null) {
+			triggered.add(e); 
+		}
+	}
 }

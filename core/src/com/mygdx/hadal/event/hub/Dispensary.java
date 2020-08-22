@@ -19,8 +19,8 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  */
 public class Dispensary extends HubEvent {
 
-	public Dispensary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
-		super(state, startPos, size, title, tag, checkUnlock, hubTypes.DISPENSARY);
+	public Dispensary(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
+		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.DISPENSARY);
 	}
 	
 	public void enter() {

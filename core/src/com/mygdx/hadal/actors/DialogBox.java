@@ -26,7 +26,7 @@ public class DialogBox extends AHadalActor {
 	private BitmapFont font;
 
 	//This is the scale that the text is drawn at.
-	private float scale = 0.4f;
+	private float scale = 0.35f;
 	private float scaleSmall = 0.25f;
 
 	//This is a queue of dialogues in the order that they will be displayed.
@@ -42,13 +42,13 @@ public class DialogBox extends AHadalActor {
 	private float currX, currY;
 	
 	//These 2 variables keep track of the dialogue box's final location. These exist to make the box grow/move upon initiating
-	private static final int maxX = 800;
+	private static final int maxX = 950;
 	private static final int maxY = 150;
 	
 	private static final int maxXSmall = 700;
 	private static final int maxYSmall = 80;
 	
-	private static final int maxTextWidth = 650;
+	private static final int maxTextWidth = 790;
 	private static final int maxTextWidthSmall = 675;
 
 	//This float is the ratio of the max dimensions of the window before the text appears.

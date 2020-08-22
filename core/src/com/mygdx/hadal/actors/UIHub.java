@@ -75,6 +75,7 @@ public class UIHub {
 		this.info = "";
 		
 		titleInfo = new Text(title, 0, 0, false);
+		titleInfo.setScale(0.8f);
 		
 		tableOuter.add(titleInfo).pad(titlePadding).height(titleHeight).colspan(2);
 		tableOuter.row();

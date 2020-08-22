@@ -24,17 +24,18 @@ public class HubEvent extends Event {
 	protected boolean open;
 	protected String title;
 	protected hubTypes type;
-	protected boolean checkUnlock;
+	protected boolean checkUnlock, closeOnLeave;
 	
 	protected ArrayList<UnlockTag> tags;
 	
 	private static float maxDistance = 5.0f;
 	
-	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, hubTypes type) {
+	public HubEvent(final PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave, hubTypes type) {
 		super(state, startPos, size);
 		this.open = false;
 		this.title = title;
 		this.checkUnlock = checkUnlock;
+		this.closeOnLeave = closeOnLeave;
 		this.type = type;
 		this.tags = new ArrayList<UnlockTag>();
 		for (String s: tag.split(",")) {
@@ -70,7 +71,7 @@ public class HubEvent extends Event {
 	 */
 	@Override
 	public void controller(float delta) {
-		if (open) {
+		if (open && closeOnLeave) {
 			if (getPosition().dst(state.getPlayer().getPosition()) > maxDistance) {
 				leave();
 				open = false;
@@ -80,7 +81,7 @@ public class HubEvent extends Event {
 	
 	@Override
 	public void clientController(float delta) {
-		if (open) {
+		if (open && closeOnLeave) {
 			if (getPosition().dst(state.getPlayer().getPosition()) > maxDistance) {
 				leave();
 				open = false;

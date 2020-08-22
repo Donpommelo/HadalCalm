@@ -728,6 +728,7 @@ public class KryoClient {
 						blueprint.getProperties().put("sync", "USER");
 						
 						Event e = TiledObjectUtil.parseSingleEventWithTriggers(cs, blueprint);
+
 						e.serverPos.set(e.getStartPos()).scl(1 / PPM);
 						cs.addEntity(p.entityID, e, p.synced, ObjectSyncLayers.STANDARD);
     				}

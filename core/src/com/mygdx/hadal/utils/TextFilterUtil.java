@@ -60,10 +60,17 @@ public class TextFilterUtil {
 		filteredText = filterTag(filteredText, "<noun_instrument>");
 		filteredText = filterTag(filteredText, "<noun_material>");
 		filteredText = filterTag(filteredText, "<noun_object>");
+		filteredText = filterTag(filteredText, "<noun_people>");
 		filteredText = filterTag(filteredText, "<noun_vegetable>");
 		filteredText = filterTag(filteredText, "<adjective>");
 		filteredText = filterTag(filteredText, "<verb>");
 		filteredText = filterTag(filteredText, "<adverb>");
+		filteredText = filterTag(filteredText, "<coordinating_conjunction>");
+		filteredText = filterTag(filteredText, "<subordinating_conjunction>");
+		filteredText = filterTag(filteredText, "<conjunctive_adverb>");
+		filteredText = filterTag(filteredText, "<verse_enders>");
+		
+		filteredText = filterTag(filteredText, "<color>");
 		
 		return filteredText;
 	}

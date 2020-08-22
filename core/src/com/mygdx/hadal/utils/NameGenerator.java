@@ -200,9 +200,11 @@ public enum NameGenerator {
 	MISC_END("", "misc", "dge", "el", "ing", "le", "_r"),
 
 	//specific suffixes that can follow a digram ending in certain consonants
-	ANNE("anne", "end", "misc", "universal"),
+	ACH("ach", "end", "misc", "universal"),
 	ALOV("alov", "end", "universal"),
+	ANNE("anne", "end", "misc", "universal"),
 	ANOV("anov", "end", "universal"),
+	APPA("appa", "end", "universal"),
 	ART("art", "end", "misc", "universal"),
 	AWAY("away", "end", "misc", "universal"),
 	
@@ -237,6 +239,7 @@ public enum NameGenerator {
 	CROIX("croix", "end", "a", "e", "i", "o", "misc", "u", "b_", "d_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 
 	DALE("dale", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
+	DATTER("datter", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	DELL("dell", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	DERF("derf", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),
 	DOOF("doof", "end", "a", "e", "i", "o", "u", "misc", "b_", "c_", "f_", "g_", "h_", "j_", "k_", "l_", "m_", "n_", "p_", "r_", "s_", "t_", "v_", "w_", "x_", "z_"),

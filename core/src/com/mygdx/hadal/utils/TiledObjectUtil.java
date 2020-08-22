@@ -138,18 +138,18 @@ public class TiledObjectUtil {
 		} else if (object.getName().equals("Multitrigger")) {
 			
 			e = new TriggerMulti(state);
-			multiTriggeringEvents.put((TriggerMulti)e, object.getProperties().get("triggeringId", "", String.class));
+			multiTriggeringEvents.put((TriggerMulti) e, object.getProperties().get("triggeringId", "", String.class));
 		} else if (object.getName().equals("Condtrigger")) {
 			
 			e = new TriggerCond(state, object.getProperties().get("start", "", String.class));
-			condTriggeringEvents.put((TriggerCond)e, object.getProperties().get("triggeringId", "", String.class));
+			condTriggeringEvents.put((TriggerCond) e, object.getProperties().get("triggeringId", "", String.class));
 		} else if (object.getName().equals("Alttrigger")) {
 			
 			e = new TriggerAlt(state, object.getProperties().get("message", "", String.class));
 		} else if (object.getName().equals("Redirecttrigger")) {
 			
 			e = new TriggerRedirect(state);
-			redirectTriggeringEvents.put((TriggerRedirect)e, object.getProperties().get("blameId", "", String.class));
+			redirectTriggeringEvents.put((TriggerRedirect) e, object.getProperties().get("blameId", "", String.class));
 		} else if (object.getName().equals("Dummy")) {
 			
 			e = new PositionDummy(state, position, size, 
@@ -417,46 +417,53 @@ public class TiledObjectUtil {
 			e = new Armory(state, position, size,
 					object.getProperties().get("title", "Armory", String.class),
 					object.getProperties().get("tag", "ARMORY", String.class),
-					object.getProperties().get("unlock", true, Boolean.class));
+					object.getProperties().get("unlock", true, Boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
 		} else if (object.getName().equals("Reliquary")) {
 			
 			e = new Reliquary(state, position, size,
 					object.getProperties().get("title", "Reliquary", String.class),
 					object.getProperties().get("tag", "RELIQUARY", String.class),
-					object.getProperties().get("unlock", true, Boolean.class));
+					object.getProperties().get("unlock", true, Boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
 		} else if (object.getName().equals("Dispensary")) {
 			
 			e = new Dispensary(state, position, size,
 					object.getProperties().get("title", "Dispensary", String.class),
 					object.getProperties().get("tag", "DISPENSARY", String.class),
-					object.getProperties().get("unlock", true, Boolean.class));
+					object.getProperties().get("unlock", true, Boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
 		} else if (object.getName().equals("Dormitory")) {
 			
 			e = new Dormitory(state, position, size,
 					object.getProperties().get("title", "Dormitory", String.class),
 					object.getProperties().get("tag", "DORMITORY", String.class),
-					object.getProperties().get("unlock", true, Boolean.class));
+					object.getProperties().get("unlock", true, Boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
 		} else if (object.getName().equals("Navigation")) {
 			
 			e = new Navigations(state, position, size, 
 					object.getProperties().get("title", "Navigations", String.class),
 					object.getProperties().get("tag", "NAVIGATIONS", String.class),
 					object.getProperties().get("level", "", String.class),
-					object.getProperties().get("unlock", true, Boolean.class));
+					object.getProperties().get("unlock", true, Boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
 		} else if (object.getName().equals("Quartermaster")) {
 			
 			e = new Quartermaster(state, position, size,
 					object.getProperties().get("title", "Quartermaster", String.class),
 					object.getProperties().get("tag", "QUARTERMASTER", String.class),
 					object.getProperties().get("unlock", true, Boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class),
 					object.getProperties().get("shopId", String.class));
 		} else if (object.getName().equals("ChoiceBranch")) {
 			
 			e = new ChoiceBranch(state, position, size, 
 					object.getProperties().get("title", "Choice", String.class),
 					object.getProperties().get("optionNames", "", String.class),
-					object.getProperties().get("closeAfterSelect", false, boolean.class));
-			choiceBranchOptions.put((ChoiceBranch)e, object.getProperties().get("options", "", String.class));
+					object.getProperties().get("closeAfterSelect", false, boolean.class),
+					object.getProperties().get("closeOnLeave", true, Boolean.class));
+			choiceBranchOptions.put((ChoiceBranch) e, object.getProperties().get("options", "", String.class));
 		} else if (object.getName().equals("Prefab")) {
 			
 			genPrefab(state, object, rect);
@@ -706,21 +713,58 @@ public class TiledObjectUtil {
         		key.setConnectedEvent(e);
     		}
     	}
+    	
+    	if (!triggeringId.equals("")) {
+    		e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
+    	}
+    	
     	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
     		if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
         		key.setBlame(e);
     		}
     	}
+    	
+    	String myId = redirectTriggeringEvents.get(e);
+    	if (myId != null) {
+			if (!myId.equals("")) {
+				((TriggerRedirect) e).setBlame(triggeredEvents.getOrDefault(myId, null));
+			}
+    	}
+    	
     	for (TriggerMulti key : multiTriggeringEvents.keySet()) {
-			if (!multiTriggeringEvents.get(key).equals("") && multiTriggeringEvents.get(key).equals(triggeredId)) {
-				key.addTrigger(e);
-			}
+    		for (String id : multiTriggeringEvents.get(key).split(",")) {
+    			if (!id.equals("") && id.equals(triggeredId)) {
+    				key.addTrigger(e);
+    			}
+    		}
     	}
+    	
+    	myId = multiTriggeringEvents.get(e);
+    	if (myId != null) {
+    		for (String id : myId.split(",")) {
+    			if (!id.equals("")) {
+    				((TriggerMulti) e).addTrigger(triggeredEvents.getOrDefault(id, null));
+    			}
+    		}
+    	}
+    	
     	for (TriggerCond key : condTriggeringEvents.keySet()) {
-    		if (!condTriggeringEvents.get(key).equals("") && condTriggeringEvents.get(key).equals(triggeredId)) {
-				key.addTrigger(triggeredId, e);
-			}
+    		for (String id : condTriggeringEvents.get(key).split(",")) {
+    			if (!id.equals("") && id.equals(triggeredId)) {
+    				key.addTrigger(id, triggeredEvents.getOrDefault(id, null));
+    			}
+    		}
     	}
+    	
+    	myId = condTriggeringEvents.get(e);
+    	if (myId != null) {
+    		for (String id : myId.split(",")) {
+    			if (!id.equals("")) {
+    				((TriggerCond) e).addTrigger(id, triggeredEvents.getOrDefault(id, null));
+    			}
+    		}
+    	}
+    	
     	for (MovingPoint key : movePointConnections.keySet()) {
     		for (String id : movePointConnections.get(key).split(",")) {
     			if (!id.equals("") && id.equals(triggeredId)) {
@@ -735,8 +779,17 @@ public class TiledObjectUtil {
         			branch.addOption(branch.getOptionNames()[i], e);
     			}
     		}
-    	}  
-    	e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
+    	} 
+    	
+    	myId = choiceBranchOptions.get(e);
+    	if (myId != null) {
+    		String[] options = myId.split(",");
+    		for (int i = 0; i < options.length; i++) {
+    			if (!options[i].equals("")) {
+    				((ChoiceBranch) e).addOption(((ChoiceBranch) e).getOptionNames()[i], triggeredEvents.getOrDefault(options[i], null));
+    			}
+    		}
+    	}
     }
     
     /**

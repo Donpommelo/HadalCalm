@@ -21,8 +21,8 @@ import com.mygdx.hadal.utils.UnlocktoItem;
  */
 public class Armory extends HubEvent {
 
-	public Armory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock) {
-		super(state, startPos, size, title, tag, checkUnlock, hubTypes.ARMORY);
+	public Armory(PlayState state, Vector2 startPos, Vector2 size, String title, String tag, boolean checkUnlock, boolean closeOnLeave) {
+		super(state, startPos, size, title, tag, checkUnlock, closeOnLeave, hubTypes.ARMORY);
 	}
 	
 	@Override
