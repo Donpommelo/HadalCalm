@@ -31,6 +31,15 @@ BOSS3: {
     descriptionLong: ""
 	tags: []
 }
+BOSS4: {
+	name: BOSS4
+	description: ""
+    descriptionLong: "Boss fight with the False Sun."
+	tags: [
+        MULTIPLAYER,
+        SPECIAL
+    ]
+}
 SANDBOX_HUB: {
 	name: SANDBOX_HUB
 	description: ""

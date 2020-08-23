@@ -48,6 +48,13 @@ public class KBKLarge extends EnemySwimming {
 		setNoiseRadius(noiseRadius);
 	}
 	
+	private static final float minRange = 0.0f;
+	private static final float maxRange = 2.0f;
+	
+	private static final int charge1Damage = 15;
+	private static final float attackInterval = 1.0f;
+	private static final int defaultMeleeKB = 35;
+	
 	@Override
 	public void create() {
 		super.create();
@@ -64,18 +71,9 @@ public class KBKLarge extends EnemySwimming {
 				EnemyType.SPLITTER_MEDIUM.generateEnemy(state, inflicted.getSchmuck().getPixelPosition(), Constants.ENEMY_HITBOX, 0.0f, null);
 			}
 		});
+		
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
 	}
-	
-	private static final float minRange = 0.0f;
-	private static final float maxRange = 2.0f;
-	
-	private static final int charge1Damage = 15;
-	private static final float attackInterval = 1.0f;
-	private static final int defaultMeleeKB = 35;
-	@Override
-	public void attackInitiate() {
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
-	};
 	
 	@Override
 	public void render(SpriteBatch batch) {

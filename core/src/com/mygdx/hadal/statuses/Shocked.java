@@ -31,7 +31,7 @@ public class Shocked extends Status {
 	
 	//these manage the trail that shows the lightning particles
 	private final static Vector2 trailSize = new Vector2(10, 10);
-	private final static float trailSpeed = 75.0f;
+	private final static float trailSpeed = 120.0f;
 	private final static float trailLifespan = 3.0f;
 	
 	//the distance that the lightning can jump and the number of jumps it has left.

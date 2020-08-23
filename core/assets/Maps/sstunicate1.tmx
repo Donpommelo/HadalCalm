@@ -986,14 +986,14 @@
   </object>
   <object id="176" name="Dialog" type="Dialog" x="1472" y="2912" width="32" height="32">
    <properties>
-    <property name="textId" value="poemGood"/>
+    <property name="textId" value="poemGood1,poemGood2,poemGood3,poemGood4,poemGood5,poemGood6"/>
     <property name="triggeredId" value="poemGood"/>
     <property name="triggeringId" value=""/>
    </properties>
   </object>
   <object id="177" name="Dialog" type="Dialog" x="1472" y="2976" width="32" height="32">
    <properties>
-    <property name="textId" value="poemBad"/>
+    <property name="textId" value="poemBad1,poemBad2,poemBad3,poemBad4,poemBad5,poemBad6"/>
     <property name="triggeredId" value="poemBad"/>
     <property name="triggeringId" value=""/>
    </properties>

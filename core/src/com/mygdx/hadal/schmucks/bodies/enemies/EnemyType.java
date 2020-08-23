@@ -217,6 +217,14 @@ public enum EnemyType {
 			return new TurretBoss(state, startPos, extraField, filter, spawner);
 		}
 	},
+	
+	BOSS4() {
+
+		@Override
+		public Enemy generateEnemy(PlayState state, Vector2 startPos, short filter, float extraField, SpawnerSchmuck spawner) {
+			return new Boss4(state, startPos, filter, spawner);
+		}
+	},
 	;
 	
 	/**

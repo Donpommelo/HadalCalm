@@ -2,6 +2,7 @@ package com.mygdx.hadal.event.ui;
 
 import com.mygdx.hadal.event.Event;
 import com.mygdx.hadal.event.userdata.EventData;
+import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.Player;
 import com.mygdx.hadal.states.PlayState;
 
@@ -12,17 +13,17 @@ import com.mygdx.hadal.states.PlayState;
  * Triggering Behavior: This event will trigger its connected event when its dialog is finished
  * 
  * Fields:
- * id: string id of the conversation to be displayed.
+ * id: string id of the conversation to be displayed. This can be a comma-separated list of dialog ids, in which a random one will be chosen.
  * 
  * @author Zachary Tu
  */
 public class Dialog extends Event {
 
-	private String id;
+	private String[] id;
 	
 	public Dialog(PlayState state, String id) {
 		super(state);
-		this.id = id;
+		this.id = id.split(",");
 	}
 	
 	@Override
@@ -32,10 +33,15 @@ public class Dialog extends Event {
 			
 			@Override
 			public void onActivate(EventData activator, Player p) {
-				if (event.getConnectedEvent() != null) {
-					state.getDialogBox().addDialogue(id, this, event.getConnectedEvent().getEventData());
-				} else {
-					state.getDialogBox().addDialogue(id, this, null);
+				if (id.length != 0) {
+					int randomIndex = GameStateManager.generator.nextInt(id.length);
+					String dialogId = id[randomIndex];
+					
+					if (event.getConnectedEvent() != null) {
+						state.getDialogBox().addDialogue(dialogId, this, event.getConnectedEvent().getEventData());
+					} else {
+						state.getDialogBox().addDialogue(dialogId, this, null);
+					}
 				}
 			}
 		};

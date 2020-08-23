@@ -19,6 +19,7 @@ public enum UnlockLevel {
 	BOSS1("Maps/Boss1.tmx"),
 	BOSS2("Maps/Boss2.tmx"),
 	BOSS3("Maps/Boss3.tmx"),
+	BOSS4("Maps/Boss4.tmx"),
 	
 	SANDBOX_HUB("Maps/sandboxhub.tmx"),
 	SANDBOX_ENEMY("Maps/sandboxenemy.tmx"),

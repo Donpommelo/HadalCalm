@@ -39,6 +39,9 @@ public class ParticleEntity extends HadalEntity {
 	//Is the particle currently on?
 	private boolean on;
 	
+	//does this entity send an extra packet to syn color and scaling dynamically?
+	private boolean syncExtraFields;
+	
 	//how is this entity synced?
 	private particleSyncType sync;
 	
@@ -239,16 +242,18 @@ public class ParticleEntity extends HadalEntity {
 	@Override
 	public void onServerSync() {
 		if (sync.equals(particleSyncType.TICKSYNC)) {
-			if (attachedEntity != null) {
-				if (attachedEntity.getBody() != null) {
-					newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
-					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge, state.getTimer()));
-				} else {
-					newPos.set(startPos);
-					state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge, state.getTimer()));
-				}
-			} else {
+			
+			if (attachedEntity == null) {
 				newPos.set(startPos);
+			} else if (attachedEntity.getBody() == null) {
+				newPos.set(startPos);
+			} else {
+				newPos.set(attachedEntity.getPixelPosition().x, attachedEntity.getPixelPosition().y);
+			}
+			
+			if (syncExtraFields) {
+				state.getSyncPackets().add(new Packets.SyncParticlesExtra(entityID.toString(), newPos, offset, on, entityAge, state.getTimer(), scale, color));
+			} else {
 				state.getSyncPackets().add(new Packets.SyncParticles(entityID.toString(), newPos, offset, on, entityAge, state.getTimer()));
 			}
 		}
@@ -270,6 +275,20 @@ public class ParticleEntity extends HadalEntity {
 			if (!p.on && (on || !effect.isComplete())) {
 				turnOff();
 			}
+		} else if (o instanceof Packets.SyncParticlesExtra) {
+			Packets.SyncParticlesExtra p = (Packets.SyncParticlesExtra) o;
+			this.offset.set(p.offset);
+			effect.setPosition(p.pos.x + offset.x, p.pos.y + offset.y);
+
+			if (p.on && (!on || effect.isComplete())) {
+				turnOn();
+			}
+			if (!p.on && (on || !effect.isComplete())) {
+				turnOff();
+			}
+			
+			setScale(p.scale);
+			setColor(p.color);
 		} else {
 			super.onClientSync(o);
 		}
@@ -277,10 +296,14 @@ public class ParticleEntity extends HadalEntity {
 	
 	/**
 	 * This sets the scale of the particle
+	 * we want to set the scale to the input, not just multiply the current scale by that number
 	 */
-	public void setScale(float scale) { 
-		this.scale = scale;
-		this.effect.scaleEffect(scale);
+	public ParticleEntity setScale(float scale) {
+		if (scale != 0.0f) {
+			this.effect.scaleEffect(scale / this.scale);
+			this.scale = scale;
+		}
+		return this;
 	}
 	
 	public void setRotate(boolean rotate) {	this.rotate = rotate; }
@@ -302,11 +325,11 @@ public class ParticleEntity extends HadalEntity {
 	/**
 	 * Set the color of the particle effect
 	 */
-	public void setColor(ParticleColor color) {
+	public ParticleEntity setColor(ParticleColor color) {
 		this.color = color;
 		
 		if (color.equals(ParticleColor.NOTHING)) {
-			return;
+			return this;
 		} else if (color.equals(ParticleColor.RANDOM)) {
 			for (int i = 0; i < effect.getEmitters().size; i++) {
 				float[] colors = effect.getEmitters().get(i).getTint().getColors();
@@ -322,7 +345,16 @@ public class ParticleEntity extends HadalEntity {
 				colors[2] = color.getB();
 			}
 		}
+		
+		return this;
 	}
+	
+	public ParticleEntity setSyncExtraFields(boolean syncExtraFields) { 
+		this.syncExtraFields = syncExtraFields; 
+		return this;
+	}
+	
+	public PooledEffect getEffect() { return effect; }
 	
 	public void setAttachedEntity(HadalEntity attachedEntity) { this.attachedEntity = attachedEntity; }
 	

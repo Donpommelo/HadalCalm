@@ -251,13 +251,14 @@ public class EnemyCrawling extends Enemy {
 	}
 	
 	private Vector2 originPt = new Vector2();
+	private Vector2 addVelo = new Vector2();
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
 		
 		if (moveDirection > 0) {
-			originPt.set(getPixelPosition()).add(new Vector2(getHboxSize().x / 2, 0));
+			originPt.set(getPixelPosition()).add(addVelo.set(getHboxSize().x / 2, 0));
 		} else {
-			originPt.set(getPixelPosition()).add(new Vector2(getHboxSize().x / 2, 0).scl(-1.0f));
+			originPt.set(getPixelPosition()).add(addVelo.set(getHboxSize().x / 2, 0).scl(-1.0f));
 		}
 		
 		return originPt;

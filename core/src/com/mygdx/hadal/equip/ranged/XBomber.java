@@ -84,7 +84,7 @@ public class XBomber extends RangedWeapon {
 				
 				cross1.addStrategy(new ControllerDefault(state, cross1, user.getBodyData()));
 				cross1.addStrategy(new DamageConstant(state, cross1, user.getBodyData(), baseDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
-				cross1.addStrategy(new ContactUnitParticles(state, cross1, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false));
+				cross1.addStrategy(new ContactUnitParticles(state, cross1, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN).setDrawOnSelf(false));
 				cross1.addStrategy(new Static(state, cross1, user.getBodyData()));
 				
 				Hitbox cross2 = new RangedHitbox(state, hbox.getPixelPosition(), crossSize, crossLifespan, new Vector2(), filter, true, true, user, projSprite) {
@@ -100,7 +100,7 @@ public class XBomber extends RangedWeapon {
 				
 				cross2.addStrategy(new ControllerDefault(state, cross2, user.getBodyData()));
 				cross2.addStrategy(new DamageConstant(state, cross2, user.getBodyData(), crossDamage, new Vector2(startVelocity).nor().scl(knockback), DamageTypes.ENERGY, DamageTypes.RANGED));
-				cross2.addStrategy(new ContactUnitParticles(state, cross2, user.getBodyData(), Particle.LASER_IMPACT).setDrawOnSelf(false));
+				cross2.addStrategy(new ContactUnitParticles(state, cross2, user.getBodyData(), Particle.LASER_IMPACT).setParticleColor(ParticleColor.CYAN).setDrawOnSelf(false));
 				cross2.addStrategy(new Static(state, cross2, user.getBodyData()));
 			}
 		});

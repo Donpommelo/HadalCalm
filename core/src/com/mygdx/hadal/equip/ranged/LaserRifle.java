@@ -43,7 +43,7 @@ public class LaserRifle extends RangedWeapon {
 	private final static Sprite[] projSprites = {Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM, Sprite.LASER_BEAM};
 
 	private final static Vector2 trailSize = new Vector2(30, 30);
-	private final static float trailSpeed = 75.0f;
+	private final static float trailSpeed = 120.0f;
 	private final static float trailLifespan = 3.0f;
 
 	private final static Sprite weaponSprite = Sprite.MT_LASERRIFLE;

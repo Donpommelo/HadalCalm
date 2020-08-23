@@ -718,13 +718,13 @@ public class TiledObjectUtil {
     		e.setConnectedEvent(triggeredEvents.getOrDefault(triggeringId, null));
     	}
     	
+    	String myId = redirectTriggeringEvents.get(e);
     	for (TriggerRedirect key : redirectTriggeringEvents.keySet()) {
     		if (!redirectTriggeringEvents.get(key).equals("") && redirectTriggeringEvents.get(key).equals(triggeredId)) {
         		key.setBlame(e);
     		}
     	}
     	
-    	String myId = redirectTriggeringEvents.get(e);
     	if (myId != null) {
 			if (!myId.equals("")) {
 				((TriggerRedirect) e).setBlame(triggeredEvents.getOrDefault(myId, null));

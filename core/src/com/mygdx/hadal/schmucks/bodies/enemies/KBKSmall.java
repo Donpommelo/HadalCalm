@@ -45,24 +45,22 @@ public class KBKSmall extends EnemySwimming {
 		setNoiseRadius(noiseRadius);
 	}
 	
-	@Override
-	public void create() {
-		super.create();
-		getBodyData().addStatus(new Invulnerability(state, 0.1f, getBodyData(), getBodyData()));
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
-		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
-	}
-	
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 2.0f;
 	
 	private static final int charge1Damage = 3;
 	private static final float attackInterval = 1.0f;
 	private static final int defaultMeleeKB = 15;
+	
 	@Override
-	public void attackInitiate() {
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
-	};
+	public void create() {
+		super.create();
+		getBodyData().addStatus(new Invulnerability(state, 0.1f, getBodyData(), getBodyData()));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
+		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
+		
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
+	}
 	
 	@Override
 	public void render(SpriteBatch batch) {

@@ -812,6 +812,16 @@ public class KryoClient {
 			return true;
 		}
 		
+		else if (o instanceof Packets.SyncParticlesExtra) {
+			Packets.SyncParticlesExtra p = (Packets.SyncParticlesExtra) o;
+			final ClientState cs = getClientState();
+			
+			if (cs != null) {
+				cs.syncEntity(p.entityID, p, p.age, p.timestamp);
+			}
+			return true;
+		}
+		
 		else if (o instanceof Packets.SyncSound) {
 			Packets.SyncSound p = (Packets.SyncSound) o;
 			final ClientState cs = getClientState();

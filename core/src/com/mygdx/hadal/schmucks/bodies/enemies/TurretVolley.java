@@ -96,10 +96,11 @@ public class TurretVolley extends Turret {
 	}
 	
 	private Vector2 originPt = new Vector2();
+	private Vector2 addVelo = new Vector2();
 	private final static float spawnDist = 300.0f;
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
-		originPt.set(getPixelPosition()).add(new Vector2(startVelo).nor().scl(scale * spawnDist)).add(0, 40);
+		originPt.set(getPixelPosition()).add(addVelo.set(startVelo).nor().scl(scale * spawnDist)).add(0, 40);
 		return originPt;
 	}
 }

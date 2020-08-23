@@ -51,6 +51,8 @@ public class Leaper1 extends EnemyCrawling {
 		body.setGravityScale(2.0f);
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
+		
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
 	}
 	
 	private static final int charge1Damage = 10;
@@ -59,9 +61,7 @@ public class Leaper1 extends EnemyCrawling {
 	private static final int spread = 30;
 	@Override
 	public void attackInitiate() {
-		
 		push(new Vector2(0, 50).rotate(ThreadLocalRandom.current().nextInt(-spread, spread + 1)));
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
 	};
 	
 	@Override

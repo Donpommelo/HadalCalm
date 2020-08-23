@@ -769,6 +769,33 @@ public class Packets {
 		}
 	}
 	
+	public static class SyncParticlesExtra {
+		public String entityID;
+		public Vector2 pos;
+		public Vector2 offset;
+        public boolean on;
+        public float age;
+        public float timestamp;
+		public float scale;
+		public ParticleColor color;
+		
+		public SyncParticlesExtra() {}
+		
+		/**
+		 * This sync packet is used for particles that sync the extra fields; color and scale.
+		 */
+		public SyncParticlesExtra(String entityID, Vector2 pos, Vector2 offset, boolean on, float age, float timestamp, float scale, ParticleColor color) {
+			this.entityID = entityID;
+			this.pos = pos;
+			this.offset = offset;
+			this.on = on;
+			this.age = age;
+			this.timestamp = timestamp;
+			this.scale = scale;
+			this.color = color;
+		}
+	}
+	
 	public static class SyncUI {
 		public String uiTags;
 		public float timer;
@@ -1027,6 +1054,7 @@ public class Packets {
     	kryo.register(SyncPlayerSelf.class);
     	kryo.register(SyncPlayerAll.class);
     	kryo.register(SyncParticles.class);
+    	kryo.register(SyncParticlesExtra.class);
     	kryo.register(SyncUI.class);
     	kryo.register(SyncShader.class);
     	kryo.register(SyncSoundSingle.class);

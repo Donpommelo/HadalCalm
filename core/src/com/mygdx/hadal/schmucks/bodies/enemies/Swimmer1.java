@@ -44,13 +44,6 @@ public class Swimmer1 extends EnemySwimming {
 		setNoiseRadius(noiseRadius);
 	}
 	
-	@Override
-	public void create() {
-		super.create();
-		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
-		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
-	}
-	
 	private static final float minRange = 0.0f;
 	private static final float maxRange = 2.0f;
 	
@@ -58,9 +51,13 @@ public class Swimmer1 extends EnemySwimming {
 	private static final float attackInterval = 1.0f;
 	private static final int defaultMeleeKB = 20;
 	@Override
-	public void attackInitiate() {
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
-	};
+	public void create() {
+		super.create();
+		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
+		getBodyData().addStatus(new StatChangeStatus(state, Stats.AIR_SPD, airSpeed, getBodyData()));
+		
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd, true);
+	}
 	
 	@Override
 	public void render(SpriteBatch batch) {

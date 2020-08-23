@@ -266,28 +266,11 @@ public class EnemyUtils {
 		});
 	}
 
-	public static void meleeAttackContact(final PlayState state, Enemy boss, final float damage, final float knockback, final float duration) {
-		meleeAttack(state, boss, new Vector2(), boss.getHboxSize(), damage, knockback, duration, Sprite.NOTHING);
-	}
-
-	public static void meleeAttack(final PlayState state, Enemy boss, final Vector2 position, final Vector2 size, final float damage, final float knockback, final float duration, final Sprite sprite) {
-		
-		boss.getActions().add(new EnemyAction(boss, 0) {
-			
-			@Override
-			public void execute() {
-				
-				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), size, duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, sprite);
-				hbox.makeUnreflectable();
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
-				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
-				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), position, true));
-				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
-			}
-		});
-	}
-
 	public static void meleeAttackContinuous(final PlayState state, Enemy boss, final float damage, final float attackInterval, final float knockback, final float duration) {
+		meleeAttackContinuous(state, boss, damage, attackInterval, knockback, duration, false);
+	}
+	
+	public static void meleeAttackContinuous(final PlayState state, Enemy boss, final float damage, final float attackInterval, final float knockback, final float duration, boolean permanent) {
 		
 		boss.getActions().add(new EnemyAction(boss, 0) {
 			
@@ -296,7 +279,11 @@ public class EnemyUtils {
 				
 				Hitbox hbox = new Hitbox(state, enemy.getPixelPosition(), enemy.getHboxSize(), duration, enemy.getLinearVelocity(), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 				hbox.makeUnreflectable();
-				hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				
+				if (!permanent) {
+					hbox.addStrategy(new ControllerDefault(state, hbox, enemy.getBodyData()));
+				}
+				
 				hbox.addStrategy(new DamageStatic(state, hbox, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));
 				hbox.addStrategy(new FixedToEntity(state, hbox, enemy.getBodyData(), new Vector2(), new Vector2(), true));
 				hbox.addStrategy(new ContactUnitSound(state, hbox, enemy.getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
@@ -313,6 +300,7 @@ public class EnemyUtils {
 							controllerCount -= attackInterval;
 							
 							Hitbox pulse = new Hitbox(state, hbox.getPixelPosition(), enemy.getHboxSize(), attackInterval, new Vector2(0, 0), enemy.getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
+							pulse.setSyncDefault(false);
 							pulse.makeUnreflectable();
 							pulse.addStrategy(new ControllerDefault(state, pulse, enemy.getBodyData()));
 							pulse.addStrategy(new DamageStatic(state, pulse, enemy.getBodyData(), damage, knockback, DamageTypes.MELEE));

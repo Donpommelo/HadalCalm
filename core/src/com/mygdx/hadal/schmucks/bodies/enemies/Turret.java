@@ -179,13 +179,14 @@ public class Turret extends Enemy {
 	}
 	
 	private Vector2 originPt = new Vector2();
+	private Vector2 addVelo = new Vector2();
 	private final static float spawnDist = 300.0f;
 	/**
 	 * This method makes projectiles fired by the player spawn offset to be at the tip of the gun
 	 */
 	@Override
 	public Vector2 getProjectileOrigin(Vector2 startVelo, float projSize) {
-		originPt.set(getPixelPosition()).add(new Vector2(startVelo).nor().scl(scale * spawnDist));
+		originPt.set(getPixelPosition()).add(addVelo.set(startVelo).nor().scl(scale * spawnDist));
 		return originPt;
 	}
 	

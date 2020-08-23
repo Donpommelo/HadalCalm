@@ -43,20 +43,17 @@ public class KBKCrawler2 extends EnemyCrawling {
 		setCurrentState(CrawlingState.AVOID_PITS);
 	}
 	
+	private static final int charge1Damage = 15;
+	private static final float attackInterval = 1.0f;
+	private static final int defaultMeleeKB = 30;
 	@Override
 	public void create() {
 		super.create();
 		getBodyData().addStatus(new StatChangeStatus(state, Stats.GROUND_SPD, groundSpeed, getBodyData()));
 		getBodyData().addStatus(new DeathParticles(state, getBodyData(), Particle.KAMABOKO_IMPACT, 1.0f));
+		
+		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, 0.0f, true);
 	}
-	
-	private static final int charge1Damage = 15;
-	private static final float attackInterval = 1.0f;
-	private static final int defaultMeleeKB = 30;
-	@Override
-	public void attackInitiate() {
-		EnemyUtils.meleeAttackContinuous(state, this, charge1Damage, attackInterval, defaultMeleeKB, attackCd);
-	};
 	
 	@Override
 	public void render(SpriteBatch batch) {

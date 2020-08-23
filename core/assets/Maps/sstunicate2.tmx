@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="125">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="130" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="176">
  <properties>
   <property name="hub" type="bool" value="true"/>
   <property name="lives" type="bool" value="true"/>
@@ -475,6 +475,319 @@
     <property name="down" type="bool" value="true"/>
     <property name="right" type="bool" value="true"/>
     <property name="triggeredId" value="bounds13"/>
+   </properties>
+  </object>
+  <object id="125" name="Condtrigger" type="Condtrigger" x="1152" y="2304" width="32" height="32">
+   <properties>
+    <property name="start" value="tour0"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tourStart"/>
+    <property name="triggeringId" value="tour0"/>
+   </properties>
+  </object>
+  <object id="126" name="Multitrigger" type="Multitrigger" x="1152" y="2368" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tour0"/>
+    <property name="triggeringId" value="disableTour,tourDialog0"/>
+   </properties>
+  </object>
+  <object id="127" name="Alttrigger" type="Alttrigger" x="1216" y="2368" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="disableTour"/>
+    <property name="triggeringId" value="tourStart"/>
+   </properties>
+  </object>
+  <object id="128" name="Multitrigger" type="Multitrigger" x="1152" y="2432" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tour1"/>
+    <property name="triggeringId" value="tourDialog1,tourCamera1,tourParticle1,tourParticle1p"/>
+   </properties>
+  </object>
+  <object id="129" name="Particle" type="Particle" x="1216" y="2432" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="MOMENTUM"/>
+    <property name="triggeredId" value="tourParticle1"/>
+    <property name="triggeringId" value="armory"/>
+   </properties>
+  </object>
+  <object id="130" name="Camera" type="Camera" x="1344" y="2432" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="tourCamera1"/>
+    <property name="triggeringId" value="armory"/>
+    <property name="zoom" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="131" name="Dialog" type="Dialog" x="1408" y="2432" width="32" height="32">
+   <properties>
+    <property name="textId" value="tourDialog1"/>
+    <property name="triggeredId" value="tourDialog1"/>
+    <property name="triggeringId" value="tour2"/>
+   </properties>
+  </object>
+  <object id="132" name="Dialog" type="Dialog" x="1280" y="2368" width="32" height="32">
+   <properties>
+    <property name="textId" value="tourDialog0"/>
+    <property name="triggeredId" value="tourDialog0"/>
+    <property name="triggeringId" value="tour1"/>
+   </properties>
+  </object>
+  <object id="133" name="Particle" type="Particle" x="1216" y="2496" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="MOMENTUM"/>
+    <property name="triggeredId" value="tourParticle2"/>
+    <property name="triggeringId" value="reliquary"/>
+   </properties>
+  </object>
+  <object id="134" name="Camera" type="Camera" x="1344" y="2496" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="tourCamera2"/>
+    <property name="triggeringId" value="reliquary"/>
+    <property name="zoom" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="135" name="Dialog" type="Dialog" x="1408" y="2496" width="32" height="32">
+   <properties>
+    <property name="textId" value="tourDialog2"/>
+    <property name="triggeredId" value="tourDialog2"/>
+    <property name="triggeringId" value="tour3"/>
+   </properties>
+  </object>
+  <object id="136" name="Multitrigger" type="Multitrigger" x="1152" y="2496" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tour2"/>
+    <property name="triggeringId" value="tourDialog2,tourCamera2,tourParticle2,tourParticle2p"/>
+   </properties>
+  </object>
+  <object id="137" name="Particle" type="Particle" x="1216" y="2560" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="MOMENTUM"/>
+    <property name="triggeredId" value="tourParticle3"/>
+    <property name="triggeringId" value="dispensary"/>
+   </properties>
+  </object>
+  <object id="138" name="Camera" type="Camera" x="1344" y="2560" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="tourCamera3"/>
+    <property name="triggeringId" value="dispensary"/>
+    <property name="zoom" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="139" name="Dialog" type="Dialog" x="1408" y="2560" width="32" height="32">
+   <properties>
+    <property name="textId" value="tourDialog3"/>
+    <property name="triggeredId" value="tourDialog3"/>
+    <property name="triggeringId" value="tour4"/>
+   </properties>
+  </object>
+  <object id="140" name="Multitrigger" type="Multitrigger" x="1152" y="2560" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tour3"/>
+    <property name="triggeringId" value="tourDialog3,tourCamera3,tourParticle3,tourParticle3p"/>
+   </properties>
+  </object>
+  <object id="141" name="Particle" type="Particle" x="1216" y="2624" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="MOMENTUM"/>
+    <property name="triggeredId" value="tourParticle4a"/>
+    <property name="triggeringId" value="navigation1"/>
+   </properties>
+  </object>
+  <object id="142" name="Camera" type="Camera" x="1600" y="2624" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="tourCamera4"/>
+    <property name="triggeringId" value="navigation1"/>
+    <property name="zoom" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="143" name="Dialog" type="Dialog" x="1664" y="2624" width="32" height="32">
+   <properties>
+    <property name="textId" value="tourDialog4"/>
+    <property name="triggeredId" value="tourDialog4"/>
+    <property name="triggeringId" value="tour6"/>
+   </properties>
+  </object>
+  <object id="144" name="Multitrigger" type="Multitrigger" x="1152" y="2624" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tour4"/>
+    <property name="triggeringId" value="tourDialog4,tourCamera4,tourParticle4a,tourParticle4b,tourParticle4c,tourParticle4ap,tourParticle4bp,tourParticle4cp"/>
+   </properties>
+  </object>
+  <object id="145" name="Particle" type="Particle" x="1280" y="2624" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="MOMENTUM"/>
+    <property name="triggeredId" value="tourParticle4b"/>
+    <property name="triggeringId" value="navigation2"/>
+   </properties>
+  </object>
+  <object id="146" name="Particle" type="Particle" x="1344" y="2624" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="MOMENTUM"/>
+    <property name="triggeredId" value="tourParticle4c"/>
+    <property name="triggeringId" value="navigation3"/>
+   </properties>
+  </object>
+  <object id="153" name="Particle" type="Particle" x="1216" y="2688" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="MOMENTUM"/>
+    <property name="triggeredId" value="tourParticle6"/>
+    <property name="triggeringId" value="communication"/>
+   </properties>
+  </object>
+  <object id="154" name="Camera" type="Camera" x="1344" y="2688" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="tourCamera6"/>
+    <property name="triggeringId" value="communication"/>
+    <property name="zoom" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="155" name="Dialog" type="Dialog" x="1408" y="2688" width="32" height="32">
+   <properties>
+    <property name="textId" value="tourDialog6"/>
+    <property name="triggeredId" value="tourDialog6"/>
+    <property name="triggeringId" value="tourfinish"/>
+   </properties>
+  </object>
+  <object id="156" name="Multitrigger" type="Multitrigger" x="1152" y="2688" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tour6"/>
+    <property name="triggeringId" value="tourDialog6,tourCamera6,tourParticle6,tourParticle6"/>
+   </properties>
+  </object>
+  <object id="157" name="Multitrigger" type="Multitrigger" x="1152" y="2752" width="32" height="32">
+   <properties>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="tourfinish"/>
+    <property name="triggeringId" value="enableTour,tourCameraFinish"/>
+   </properties>
+  </object>
+  <object id="158" name="Alttrigger" type="Alttrigger" x="1216" y="2752" width="32" height="32">
+   <properties>
+    <property name="message" value="tour0"/>
+    <property name="sync" value="USER"/>
+    <property name="triggeredId" value="enableTour"/>
+    <property name="triggeringId" value="tourStart"/>
+   </properties>
+  </object>
+  <object id="159" name="Camera" type="Camera" x="1280" y="2752" width="32" height="32">
+   <properties>
+    <property name="triggeredId" value="tourCameraFinish"/>
+    <property name="zoom" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="160" name="Particle" type="Particle" x="1280" y="2432" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="EVENT_HOLO"/>
+    <property name="triggeredId" value="tourParticle1p"/>
+    <property name="triggeringId" value="armory"/>
+   </properties>
+  </object>
+  <object id="161" name="Particle" type="Particle" x="1280" y="2496" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="EVENT_HOLO"/>
+    <property name="triggeredId" value="tourParticle2p"/>
+    <property name="triggeringId" value="reliquary"/>
+   </properties>
+  </object>
+  <object id="162" name="Particle" type="Particle" x="1280" y="2560" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="EVENT_HOLO"/>
+    <property name="triggeredId" value="tourParticle3p"/>
+    <property name="triggeringId" value="dispensary"/>
+   </properties>
+  </object>
+  <object id="163" name="Particle" type="Particle" x="1408" y="2624" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="EVENT_HOLO"/>
+    <property name="triggeredId" value="tourParticle4ap"/>
+    <property name="triggeringId" value="navigation1"/>
+   </properties>
+  </object>
+  <object id="164" name="Particle" type="Particle" x="1472" y="2624" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="EVENT_HOLO"/>
+    <property name="triggeredId" value="tourParticle4bp"/>
+    <property name="triggeringId" value="navigation2"/>
+   </properties>
+  </object>
+  <object id="165" name="Particle" type="Particle" x="1536" y="2624" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="EVENT_HOLO"/>
+    <property name="triggeredId" value="tourParticle4cp"/>
+    <property name="triggeringId" value="navigation3"/>
+   </properties>
+  </object>
+  <object id="169" name="Particle" type="Particle" x="1280" y="2688" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="3"/>
+    <property name="particle" value="EVENT_HOLO"/>
+    <property name="triggeredId" value="tourParticle6p"/>
+    <property name="triggeringId" value="communication"/>
+   </properties>
+  </object>
+  <object id="170" name="Dialog" type="Dialog" x="1152" y="2848" width="32" height="32">
+   <properties>
+    <property name="textId" value="poem"/>
+    <property name="triggeredId" value="poemStart"/>
+    <property name="triggeringId" value="poemRate"/>
+   </properties>
+  </object>
+  <object id="171" name="ChoiceBranch" type="ChoiceBranch" x="1216" y="2848" width="32" height="32">
+   <properties>
+    <property name="closeAfterSelect" type="bool" value="true"/>
+    <property name="closeOnLeave" type="bool" value="false"/>
+    <property name="optionNames" value="YES,NO"/>
+    <property name="options" value="poemGood,poemBad"/>
+    <property name="title" value="DID YOU LIKE THE POEM"/>
+    <property name="triggeredId" value="poemRate"/>
+   </properties>
+  </object>
+  <object id="172" name="Dialog" type="Dialog" x="1280" y="2848" width="32" height="32">
+   <properties>
+    <property name="textId" value="poemGood1,poemGood2,poemGood3,poemGood4,poemGood5,poemGood6"/>
+    <property name="triggeredId" value="poemGood"/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="173" name="Dialog" type="Dialog" x="1280" y="2912" width="32" height="32">
+   <properties>
+    <property name="textId" value="poemBad1,poemBad2,poemBad3,poemBad4,poemBad5,poemBad6"/>
+    <property name="triggeredId" value="poemBad"/>
+    <property name="triggeringId" value=""/>
+   </properties>
+  </object>
+  <object id="174" name="ChoiceBranch" type="ChoiceBranch" x="1152" y="2080" width="96" height="96">
+   <properties>
+    <property name="closeAfterSelect" type="bool" value="true"/>
+    <property name="optionNames" value="S.S TUNICATE GUIDED TOUR,TELL ME A POEM"/>
+    <property name="options" value="tourStart,poemStart"/>
+    <property name="title" value="COMMUNUCATIONS"/>
+    <property name="triggeredId" value="communication"/>
+   </properties>
+  </object>
+  <object id="175" name="Text" type="Text" x="1152" y="2080" width="32" height="32">
+   <properties>
+    <property name="scale" type="float" value="0.3"/>
+    <property name="text" value="COMMUNICATIONS"/>
    </properties>
   </object>
  </objectgroup>

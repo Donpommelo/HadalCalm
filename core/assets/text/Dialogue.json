@@ -172,16 +172,21 @@
 		}
 	]
 "poem": [
-
         {
 			"name": "Pelican",
-			"text": "<poem>",
+			"text": "You want to hear a poem?\nOk! Here it goes~\nAhem...",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		},
+        {
+			"name": "Pelican",
+			"text": "\"<poem>\"",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
 		}
 	]
-"poemGood": [
+"poemGood1": [
 
         {
 			"name": "Pelican",
@@ -191,11 +196,111 @@
             "end": true
 		}
 	]
-"poemBad": [
+"poemGood2": [
+
+        {
+			"name": "Pelican",
+			"text": "Aw, thanks.\nYou're flattering me.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemGood3": [
+
+        {
+			"name": "Pelican",
+			"text": "I appreciate it.\nI hope you like the next one too.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemGood4": [
+
+        {
+			"name": "Pelican",
+			"text": "Thank you.\nLet me know if you want another one.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemGood5": [
+
+        {
+			"name": "Pelican",
+			"text": "That's sweet of you.\nI really do try, you know.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemGood6": [
+
+        {
+			"name": "Pelican",
+			"text": "Thank you.\nI felt like that one turned out well too.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemBad1": [
 
         {
 			"name": "Pelican",
 			"text": "Oh. Sorry.\nI'll try harder next time.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemBad2": [
+
+        {
+			"name": "Pelican",
+			"text": "Oh. Well.\nI'll keep at it.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemBad3": [
+
+        {
+			"name": "Pelican",
+			"text": "Hmm.\nI hope you like the next one more.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemBad4": [
+
+        {
+			"name": "Pelican",
+			"text": "Ah.\nI appreciate the honest feedback.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemBad5": [
+
+        {
+			"name": "Pelican",
+			"text": "Oh.\nI wonder what I'm doing wrong.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 3
+            "end": true
+		}
+	]
+"poemBad6": [
+
+        {
+			"name": "Pelican",
+			"text": "Ah well.\nThe last guy didn't like it much either.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 3
             "end": true
