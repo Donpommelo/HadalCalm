@@ -17,16 +17,19 @@ public class ContactUnitSlow extends HitboxStrategy {
 	//the damage and duration of the burn
 	private float duration, slow;
 	
-	public ContactUnitSlow(PlayState state, Hitbox proj, BodyData user, float duration, float slow) {
+	private Particle particle;
+	
+	public ContactUnitSlow(PlayState state, Hitbox proj, BodyData user, float duration, float slow, Particle particle) {
 		super(state, proj, user);
 		this.duration = duration;
 		this.slow = slow;
+		this.particle = particle;
 	}
 	
 	@Override
 	public void onHit(HadalData fixB) {
 		if (fixB instanceof BodyData) {
-			((BodyData) fixB).addStatus(new Slodged(state, duration, slow, creator, (BodyData) fixB, Particle.SLODGE_STATUS));
+			((BodyData) fixB).addStatus(new Slodged(state, duration, slow, creator, (BodyData) fixB, particle));
 		}
 	}
 }

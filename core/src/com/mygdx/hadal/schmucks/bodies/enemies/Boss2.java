@@ -493,7 +493,7 @@ public class Boss2 extends EnemyFloating {
 					hbox.addStrategy(new DamageStandard(state, hbox, enemy.getBodyData(), slodgeDamage, slodgeKB, DamageTypes.SLODGE, DamageTypes.RANGED));
 					hbox.addStrategy(new CreateParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE, 0.0f, 3.0f).setParticleSize(90));
 					hbox.addStrategy(new DieParticles(state, hbox, enemy.getBodyData(), Particle.SLODGE_STATUS));
-					hbox.addStrategy(new ContactUnitSlow(state, hbox, enemy.getBodyData(), slodgeDuration, slodgeSlow));
+					hbox.addStrategy(new ContactUnitSlow(state, hbox, enemy.getBodyData(), slodgeDuration, slodgeSlow, Particle.SLODGE_STATUS));
 				}
 			});
 		}

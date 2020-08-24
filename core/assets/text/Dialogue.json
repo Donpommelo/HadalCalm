@@ -63,7 +63,13 @@
 "tourDialog0": [
 		{
 			"name": "Pelican",
-			"text": "<temp intro 0>",
+			"text": "The S.S. Tunicate is a research vessel stationed in the middle of the Noiseless Sea.",
+			"sprite": "PELICAN_MASKED"
+			"duration": 0
+		}
+        {
+			"name": "Pelican",
+			"text": "Our goal in establishing this facility was to create a hospitable environment for remote Salvagers.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -72,13 +78,13 @@
 "tourDialog1": [
 		{
 			"name": "Pelican",
-			"text": "This is the vessel's Armory. Here, you can equip and unequip weapons.",
+			"text": "This is the vessel's Armory. We hope our diverse selection of company-provided weaponry will assist you along your quest.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
 		},
         {
 			"name": "Pelican",
-			"text": "The hull of the S.S. Tunicate is above-average in durability. Feel free to test out new weapons inside.",
+			"text": "The hull of the S.S. Tunicate is above-average in durability, so feel free to test out weapons inside.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true
@@ -93,7 +99,7 @@
     },
     {
         "name": "Pelican",
-        "text": "To equip an Artifact, a Salvager must have adequate Artifact Slots. As default, you have 4 slots. More powerful Artifacts take up more slots.",
+        "text": "To equip an Artifact, a Salvager must have adequate Artifact Slots. As default, you have 4 slots with more powerful Artifacts taking up more slots.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
         "end": true
@@ -102,7 +108,7 @@
 "tourDialog3": [
     {
         "name": "Pelican",
-        "text": "You can equip an Active Item at the Dispensary. Press fugactivefug to use a variety of different powers once your Active Item is charged.",
+        "text": "You can equip an Active Item at the Dispensary. Press <fugactivefug> to use a variety of different powers once your Active Item is fully charged.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     },
@@ -117,13 +123,13 @@
 "tourDialog4": [
     {
         "name": "Pelican",
-        "text": "At the Navigation Telepyramid, the player can warp to a number of locations in the map.",
+        "text": "The ship's Navigation Telepyramid is used to warp to other Telepyramids that have been activated.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     },
     {
         "name": "Pelican",
-        "text": "If you see any more Telepyramids in the world, activate them so you can revisit them from the Navigations menu whenever you want.",
+        "text": "If you see any more Telepyramids in the world, activate them so you can revisit distant locations whenever you want.",
         "sprite": "PELICAN_MASKED"
         "duration": 0
     }
@@ -165,7 +171,7 @@
 		}
         {
 			"name": "Pelican",
-			"text": "Oh and one more thing, I've been getting into Poetry as of late.\nLet me know if you'd like to hear a poem.",
+			"text": "Oh and one more thing, I've been getting into Poetry lately.\nLet me know if you'd like to hear a poem.",
 			"sprite": "PELICAN_MASKED"
 			"duration": 0
             "end": true

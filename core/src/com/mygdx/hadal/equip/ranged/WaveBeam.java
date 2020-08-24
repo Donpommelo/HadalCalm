@@ -18,6 +18,7 @@ import com.mygdx.hadal.strategies.hitbox.ContactWallDie;
 import com.mygdx.hadal.strategies.hitbox.ContactWallParticles;
 import com.mygdx.hadal.strategies.hitbox.ControllerDefault;
 import com.mygdx.hadal.strategies.hitbox.DamageStandard;
+import com.mygdx.hadal.strategies.hitbox.WaveEntity;
 
 public class WaveBeam extends RangedWeapon {
 
@@ -59,10 +60,13 @@ public class WaveBeam extends RangedWeapon {
 		center.addStrategy(new ContactWallDie(state, center, user.getBodyData()));
 		center.addStrategy(new HitboxStrategy(state, center, user.getBodyData()) {
 			
-			
 			@Override
 			public void create() {
-				
+				createWaveBeam(90);
+				createWaveBeam(-90);
+			}
+			
+			private void createWaveBeam(float startAngle) {
 				Hitbox hbox = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
 				hbox.setSyncDefault(false);
 				hbox.setSyncInstant(true);
@@ -75,61 +79,7 @@ public class WaveBeam extends RangedWeapon {
 				hbox.addStrategy(new ContactWallParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
 				hbox.addStrategy(new ContactUnitParticles(state, hbox, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
 				
-				hbox.addStrategy(new HitboxStrategy(state, hbox, user.getBodyData()) {
-					
-					private float timer;
-					private Vector2 lastPos = new Vector2();
-					private Vector2 centerPos = new Vector2();
-					private Vector2 offset = new Vector2();
-					
-					@Override
-					public void controller(float delta) {
-						if (center.getBody() != null && center.isAlive()) {
-							timer += delta;
-							offset.set(0, (float) (amplitude * Math.sin(timer * frequency))).setAngle(hbox.getLinearVelocity().angle() + 90);
-							
-							centerPos.set(center.getPosition()).add(offset);
-							hbox.setTransform(centerPos, lastPos.sub(centerPos).angleRad());
-							lastPos.set(centerPos);
-						} else {
-							hbox.die();
-						}
-					}
-				});
-				
-				Hitbox hbox2 = new RangedHitbox(state, startPosition, projectileSize, lifespan, startVelocity, filter, true, true, user, projSprite);
-				hbox2.setSyncDefault(false);
-				hbox2.setSyncInstant(true);
-				hbox2.setEffectsMovement(false);
-				
-				hbox2.addStrategy(new ControllerDefault(state, hbox2, user.getBodyData()));
-				hbox2.addStrategy(new ContactWallDie(state, hbox2, user.getBodyData()));
-				hbox2.addStrategy(new ContactUnitLoseDurability(state, hbox2, user.getBodyData()));
-				hbox2.addStrategy(new DamageStandard(state, hbox2, user.getBodyData(), baseDamage, knockback, DamageTypes.ENERGY, DamageTypes.RANGED));
-				hbox2.addStrategy(new ContactWallParticles(state, hbox2, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
-				hbox2.addStrategy(new ContactUnitParticles(state, hbox2, user.getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.BLUE));
-				
-				hbox2.addStrategy(new HitboxStrategy(state, hbox2, user.getBodyData()) {
-					
-					private float timer;
-					private Vector2 lastPos = new Vector2();
-					private Vector2 centerPos = new Vector2();
-					private Vector2 offset = new Vector2();
-					
-					@Override
-					public void controller(float delta) {
-						if (center.getBody() != null && center.isAlive()) {
-							timer += delta;
-							offset.set(0, (float) (amplitude * Math.sin(timer * frequency))).setAngle(hbox.getLinearVelocity().angle() - 90);
-							
-							centerPos.set(center.getPosition()).add(offset);
-							hbox.setTransform(centerPos, lastPos.sub(centerPos).angleRad());
-							lastPos.set(centerPos);
-						} else {
-							hbox.die();
-						}
-					}
-				});
+				hbox.addStrategy(new WaveEntity(state, hbox, user.getBodyData(), center, amplitude, frequency, startAngle));
 			}
 		});
 	}

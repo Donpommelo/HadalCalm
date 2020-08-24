@@ -348,7 +348,7 @@ bee
   index: 1
 boomerang
   rotate: false
-  xy: 623, 305
+  xy: 334, 205
   size: 40, 38
   orig: 40, 38
   offset: 0, 0
@@ -376,32 +376,39 @@ closed_hand
   index: -1
 cola
   rotate: false
-  xy: 212, 109
+  xy: 543, 284
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 0
 cola
   rotate: false
-  xy: 566, 311
+  xy: 212, 107
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 1
 cola
   rotate: false
-  xy: 478, 284
+  xy: 371, 258
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 2
 cola
   rotate: false
-  xy: 325, 258
+  xy: 277, 210
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: 3
+crosshair
+  rotate: false
+  xy: 212, 141
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 debris_d
   rotate: false
   xy: 277, 244
@@ -418,21 +425,21 @@ fugu
   index: -1
 grenade
   rotate: false
-  xy: 169, 8
+  xy: 517, 236
   size: 37, 43
   orig: 37, 43
   offset: 0, 0
   index: -1
 iceberg
   rotate: false
-  xy: 212, 143
+  xy: 478, 281
   size: 63, 62
   orig: 63, 62
   offset: 0, 0
   index: -1
 iron_ball
   rotate: false
-  xy: 277, 197
+  xy: 325, 245
   size: 44, 45
   orig: 44, 45
   offset: 0, 0
@@ -488,28 +495,28 @@ open_hand
   index: -1
 orb_orange
   rotate: false
-  xy: 277, 152
+  xy: 278, 165
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_pink
   rotate: false
-  xy: 382, 247
+  xy: 428, 247
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 orb_red
   rotate: false
-  xy: 427, 248
+  xy: 473, 237
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
 orb_yellow
   rotate: false
-  xy: 471, 240
+  xy: 376, 214
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
@@ -530,7 +537,7 @@ spit
   index: 2
 spit
   rotate: false
-  xy: 478, 318
+  xy: 543, 318
   size: 86, 25
   orig: 86, 25
   offset: 0, 0

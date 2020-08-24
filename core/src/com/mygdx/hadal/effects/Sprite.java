@@ -24,6 +24,7 @@ public enum Sprite {
 	CHARGE_BEAM(SpriteType.PROJECTILE, "charge_beam_a"),
 	CLOSED_HAND(SpriteType.PROJECTILE, "closed_hand"),
 	COLA(SpriteType.PROJECTILE, "cola"),
+	CROSSHAIR(SpriteType.PROJECTILE, "crosshair"),
 	FLOUNDER_A(SpriteType.PROJECTILE, "flounder_a"),
 	FLOUNDER_B(SpriteType.PROJECTILE, "flounder_b"),
 	FUGU(SpriteType.PROJECTILE, "fugu"),

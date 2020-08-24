@@ -1,5 +1,6 @@
 package com.mygdx.hadal.equip.artifacts;
 
+import com.mygdx.hadal.effects.Particle;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.userdata.BodyData;
 import com.mygdx.hadal.states.PlayState;
@@ -40,7 +41,7 @@ public class Ice9 extends Artifact {
 				
 				if (procCdCount >= procCd) {
 					procCdCount -= procCd;
-					hbox.addStrategy(new ContactUnitSlow(state, hbox, inflicted, slowDura, slow));
+					hbox.addStrategy(new ContactUnitSlow(state, hbox, inflicted, slowDura, slow, Particle.ICE_CLOUD));
 				}
 			}
 		};
