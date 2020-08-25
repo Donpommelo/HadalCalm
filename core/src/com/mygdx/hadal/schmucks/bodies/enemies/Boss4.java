@@ -269,8 +269,8 @@ public class Boss4 extends EnemyFloating {
 	private static final float shot1Damage = 15.0f;
 	private static final float shot1Lifespan = 5.0f;
 	private static final float shot1Knockback = 20.0f;
-	private static final float shot1Speed = 15.0f;
-	private static final float returnAmp = 75.0f;
+	private static final float shot1Speed = 12.0f;
+	private static final float returnAmp = 90.0f;
 	private static final float pushInterval = 1.5f;
 
 	private static final Vector2 projSize = new Vector2(120, 60);
@@ -291,7 +291,6 @@ public class Boss4 extends EnemyFloating {
 					Vector2 startVelo = new Vector2(shot1Speed, 0).setAngle(angle.angle());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, projSize.x), projSize, shot1Lifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.LASER_PURPLE);
 					hbox.setAdjustAngle(true);
-					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
@@ -310,7 +309,7 @@ public class Boss4 extends EnemyFloating {
 							
 							while (controllerCount >= pushInterval) {
 								controllerCount -= pushInterval;
-								hbox.setLinearVelocity(push.scl(1.2f));
+								hbox.setLinearVelocity(push.scl(1.5f));
 							}
 						}
 					}));
@@ -366,8 +365,6 @@ public class Boss4 extends EnemyFloating {
 				public void fireball(Vector2 startVelo) {
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, fireSize.x), fireSize, fireLifespan, startVelo, getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
 					
-					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitBurn(state, hbox, getBodyData(), burnDuration, burnDamage));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), fireballDamage, fireKB, DamageTypes.RANGED, DamageTypes.FIRE));
@@ -382,12 +379,12 @@ public class Boss4 extends EnemyFloating {
 	
 	private static final Vector2 bellSize = new Vector2(300, 300);
 	private static final float bellSpeed = 15.0f;
-	private static final float bellDamage = 1.5f;
+	private static final float bellDamage = 4.5f;
 	private static final float bellHomingSpeed = 30.0f;
 	private static final float bellKB = 1.0f;
 	private static final float bellLifespan = 12.0f;
 	
-	private static final float bellInterval = 0.02f;
+	private static final float bellInterval = 0.06f;
 	
 	private void bigBangBell() {
 		changeColor(ParticleColor.GOLD, shot1Windup);
@@ -398,7 +395,6 @@ public class Boss4 extends EnemyFloating {
 			@Override
 			public void execute() {
 				Hitbox bell = new Hitbox(state, getPixelPosition(), bellSize, bellLifespan, new Vector2(0, bellSpeed), getHitboxfilter(), false, false, enemy, Sprite.ORB_YELLOW);
-				bell.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 
 				bell.setRestitution(0.2f);
 				
@@ -461,8 +457,6 @@ public class Boss4 extends EnemyFloating {
 		
 		final float startAngle = startingVelos[GameStateManager.generator.nextInt(startingVelos.length)] + ThreadLocalRandom.current().nextInt(-laserSpread, laserSpread + 1);
 		
-		windupParticle(startAngle, Particle.CHARGING, ParticleColor.BLUE, 30.0f, trailNumber * trailInterval, 0.0f);
-		
 		Vector2 startVeloTrail = new Vector2(0, trailSpeed).setAngle(startAngle);
 		
 		for (int i = 0; i < trailNumber; i++) {
@@ -472,7 +466,6 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					
 					Hitbox trail = new RangedHitbox(state, getPixelPosition(), trailSize, trailLifespan, startVeloTrail, getHitboxfilter(), false, false, enemy, Sprite.NOTHING);
-					trail.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					trail.setDurability(beamDurability);
 					trail.setRestitution(1.0f);
 
@@ -496,7 +489,6 @@ public class Boss4 extends EnemyFloating {
 				public void execute() {
 					
 					Hitbox laser = new RangedHitbox(state, startPosLaser, laserSize, trailLifespan, startVeloLaser, getHitboxfilter(), false, false, enemy, Sprite.LASER_BLUE);
-					laser.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					laser.setDurability(beamDurability);
 					laser.setRestitution(1.0f);
 					
@@ -563,7 +555,6 @@ public class Boss4 extends EnemyFloating {
 									controllerCount -= cloudInterval;
 								
 									Hitbox hbox = new RangedHitbox(state, cloud.getPixelPosition(), cloudSize, cloudLifespan, startVeloCloud, getHitboxfilter(), true, false, enemy, Sprite.NOTHING);
-									hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 									
 									hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 									hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.ICE_CLOUD, 0.0f, particleLinger).setParticleSize(40.0f));
@@ -618,7 +609,6 @@ public class Boss4 extends EnemyFloating {
 					startVeloLaser.rotate(apocalypseLaserSwivelSpeed);
 					startPositionLaser.set(getPixelPosition()).add(laserOffset.set(0, getHboxSize().x / 2 + WindupOffset).setAngle(startVeloLaser.angle()));
 					Hitbox laser = new RangedHitbox(state, startPositionLaser, laserSize, trailLifespan, startVeloLaser, getHitboxfilter(), true, false, enemy, Sprite.LASER_BLUE);
-					laser.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
 					
 					laser.addStrategy(new ControllerDefault(state, laser, getBodyData()));
 					laser.addStrategy(new AdjustAngle(state, laser, getBodyData()));
@@ -708,8 +698,6 @@ public class Boss4 extends EnemyFloating {
 				private void fireBullet(Sprite sprite, ParticleColor color) {
 					RangedHitbox hbox = new RangedHitbox(state, bulletPosition, horizontalBulletSize, horizontalBulletLifespan, bulletSpeed, getHitboxfilter(), true, false, enemy, sprite);
 					
-					hbox.setPassability((short) (Constants.BIT_PROJECTILE | Constants.BIT_WALL | Constants.BIT_PLAYER | Constants.BIT_ENEMY));
-					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), horizontalBulletDamage, horizontalBulletKB, DamageTypes.RANGED));
 					hbox.addStrategy(new AdjustAngle(state, hbox, getBodyData()));
@@ -722,7 +710,7 @@ public class Boss4 extends EnemyFloating {
 		changeColor(ParticleColor.RED, horizontalBulletWindDown);
 	}
 	
-	private static final int numWillOWisp = 50;
+	private static final int numWillOWisp = 40;
 	private final static float willOWispInterval = 0.1f;
 	private final static float willOWispSpeed = 15.0f;
 	private final static float willOWispLifespan = 10.0f;
@@ -755,18 +743,19 @@ public class Boss4 extends EnemyFloating {
 				}
 			});
 		}
+		changeColor(ParticleColor.RED, 0.0f);
 	}
 	
 	private static final int numStar = 32;
 	private final static float starInterval = 0.25f;
 	
 	private final static float starLifespan = 10.0f;
-	private final static float starDamage = 18.0f;
+	private final static float starDamage = 14.0f;
 	private final static float starKB = 12.0f;
 	private final static int starSizeMin = 90;
 	private final static int starSizeMax = 300;
 	private final static int starSpeedMin = 15;
-	private final static int starSpeedMax = 60;
+	private final static int starSpeedMax = 45;
 	private final static int starDistMin = 10;
 	private final static int starDistMax = 50;
 	
@@ -803,6 +792,7 @@ public class Boss4 extends EnemyFloating {
 				}
 			});
 		}
+		changeColor(ParticleColor.RED, 3.0f);
 	}
 	
 	private static final float reticleInterval = 0.5f;
