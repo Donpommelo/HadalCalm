@@ -18,7 +18,9 @@ import com.mygdx.hadal.event.SpawnerSchmuck;
 import com.mygdx.hadal.managers.GameStateManager;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity;
 import com.mygdx.hadal.schmucks.bodies.ParticleEntity.particleSyncType;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity.soundSyncType;
 import com.mygdx.hadal.schmucks.bodies.Player;
+import com.mygdx.hadal.schmucks.bodies.SoundEntity;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.Hitbox;
 import com.mygdx.hadal.schmucks.bodies.hitboxes.RangedHitbox;
 import com.mygdx.hadal.states.PlayState;
@@ -28,6 +30,7 @@ import com.mygdx.hadal.statuses.Status;
 import com.mygdx.hadal.strategies.HitboxStrategy;
 import com.mygdx.hadal.strategies.hitbox.AdjustAngle;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitBurn;
+import com.mygdx.hadal.strategies.hitbox.ContactUnitDie;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitLoseDurability;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitParticles;
 import com.mygdx.hadal.strategies.hitbox.ContactUnitSlow;
@@ -41,6 +44,7 @@ import com.mygdx.hadal.strategies.hitbox.DamageStandard;
 import com.mygdx.hadal.strategies.hitbox.DamageStatic;
 import com.mygdx.hadal.strategies.hitbox.DieExplode;
 import com.mygdx.hadal.strategies.hitbox.DieParticles;
+import com.mygdx.hadal.strategies.hitbox.DieSound;
 import com.mygdx.hadal.strategies.hitbox.FixedToEntity;
 import com.mygdx.hadal.strategies.hitbox.HomingUnit;
 import com.mygdx.hadal.strategies.hitbox.OrbitUser;
@@ -181,9 +185,7 @@ public class Boss4 extends EnemyFloating {
 			} else {
 				phase1Attack();
 			}
-		}
-		
-		if (phase == 2) {
+		} else if (phase == 2) {
 			phase2Attack();
 		}
 	}
@@ -284,6 +286,7 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
+				SoundEffect.MAGIC3_BURST.playUniversal(state, getPixelPosition(), 0.9f, 0.75f, false);
 				
 				for (int i = 0; i < numShots; i++) {
 					angle.setAngle(angle.angle() + 360 / numShots);
@@ -294,10 +297,12 @@ public class Boss4 extends EnemyFloating {
 					
 					hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), shot1Damage, shot1Knockback, DamageTypes.RANGED));
-					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.VIOLET));
+					
 					hbox.addStrategy(new ReturnToUser(state, hbox, getBodyData(), returnAmp));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(ParticleColor.VIOLET));
+					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(ParticleColor.VIOLET));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy((new HitboxStrategy(state, hbox, getBodyData()) {
 						
 						private float controllerCount = pushInterval;
@@ -345,7 +350,7 @@ public class Boss4 extends EnemyFloating {
 		
 		windupParticle(startAngle, Particle.FIRE, ParticleColor.NOTHING, 40.0f, fireWindup, 0.0f);
 		windupParticle(startAngle + 180, Particle.FIRE, ParticleColor.NOTHING, 40.0f, fireWindup, fireWindup);
-		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, fireballNumber * fireballInterval, 0.6f, 2.0f, SoundEffect.FLAMETHROWER, true);
 		for (int i = 0; i < fireballNumber; i++) {
 			
 			final int index = i;
@@ -394,6 +399,8 @@ public class Boss4 extends EnemyFloating {
 			
 			@Override
 			public void execute() {
+				SoundEffect.DOORBELL.playUniversal(state, getPixelPosition(), 1.0f, 0.6f, false);
+				
 				Hitbox bell = new Hitbox(state, getPixelPosition(), bellSize, bellLifespan, new Vector2(0, bellSpeed), getHitboxfilter(), false, false, enemy, Sprite.ORB_YELLOW);
 
 				bell.setRestitution(0.2f);
@@ -482,6 +489,7 @@ public class Boss4 extends EnemyFloating {
 		Vector2 startVeloLaser = new Vector2(0, laserSpeed).setAngle(startAngle);
 		Vector2 startPosLaser = new Vector2(getPixelPosition()).add(new Vector2(0, getHboxSize().x / 2 + WindupOffset).setAngle(startAngle));
 		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, laserNumber * laserInterval, 1.0f, 2.0f, SoundEffect.BEAM3, true);
 		for (int i = 0; i < laserNumber; i++) {
 			getActions().add(new EnemyAction(this, laserInterval) {
 				
@@ -546,11 +554,18 @@ public class Boss4 extends EnemyFloating {
 					cloud.addStrategy(new HitboxStrategy(state, cloud, getBodyData()) {
 						
 						private float controllerCount;
+						private boolean activated;
 						@Override
 						public void controller(float delta) {
 							controllerCount += delta;
 							
 							if (controllerCount > cloudDelay) {
+								
+								if (!activated) {
+									activated = true;
+									SoundEffect.ICE_IMPACT.playUniversal(state, cloud.getPixelPosition(), 0.9f, 0.5f, false);
+								}
+								
 								while (controllerCount >= cloudDelay + cloudInterval) {
 									controllerCount -= cloudInterval;
 								
@@ -600,6 +615,7 @@ public class Boss4 extends EnemyFloating {
 		Vector2 startPositionLaser = new Vector2();
 		windupParticle(startAngle, Particle.CHARGING, ParticleColor.MIDNIGHT_BLUE, 30.0f, apocalypseWindup, apocalypseWindup);
 		
+		EnemyUtils.createSoundEntity(state, this, 0.0f, apocalypseLaserNum * apocalypseLaserInterval, 1.0f, 0.5f, SoundEffect.BEAM3, true);
 		for (int i = 0; i < apocalypseLaserNum; i++) {
 			getActions().add(new EnemyAction(this, apocalypseLaserInterval) {
 				
@@ -639,6 +655,8 @@ public class Boss4 extends EnemyFloating {
 							frag.addStrategy(new ContactUnitSound(state, frag, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 							frag.addStrategy(new Spread(state, frag, getBodyData(), rubbleSpread));
 							frag.addStrategy(new ContactUnitSound(state, frag, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+							frag.addStrategy(new ContactUnitDie(state, frag, getBodyData()));
+							
 						}
 						
 						private void createWaveBeam(float startAngle) {
@@ -704,6 +722,7 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new ContactUnitParticles(state, hbox, getBodyData(), Particle.LASER_IMPACT).setOffset(true).setParticleColor(color));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.LASER_TRAIL, 0.0f, particleLinger).setParticleColor(color));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 				}
 			});
 		}
@@ -730,6 +749,8 @@ public class Boss4 extends EnemyFloating {
 				
 				@Override
 				public void execute() {
+					SoundEffect.BOTTLE_ROCKET.playUniversal(state, getPixelPosition(), 0.25f, 0.5f, false);
+					
 					Vector2 startVelo = new Vector2(0, willOWispSpeed).setAngle(getAttackAngle());
 					RangedHitbox hbox = new RangedHitbox(state, getProjectileOrigin(startVelo, willOWispSize.x), willOWispSize, willOWispLifespan, startVelo, getHitboxfilter(), true, true, enemy, Sprite.NOTHING);
 					
@@ -737,6 +758,7 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), willOWispDamage, willOWispKB, DamageTypes.RANGED));
 					hbox.addStrategy(new ContactWallDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.BRIGHT, 0.0f, particleLinger).setParticleColor(ParticleColor.RANDOM));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
 					hbox.addStrategy(new HomingUnit(state, hbox, getBodyData(), willOWispHoming, getHitboxfilter()));
 					hbox.addStrategy(new Spread(state, hbox, getBodyData(), willOWispSpread));
@@ -772,6 +794,7 @@ public class Boss4 extends EnemyFloating {
 				
 				@Override
 				public void execute() {
+					
 					float starSize = ThreadLocalRandom.current().nextInt(starSizeMin, starSizeMax);
 					float starSpeed = ThreadLocalRandom.current().nextInt(starSpeedMin, starSpeedMax);
 					float starDist = ThreadLocalRandom.current().nextInt(starDistMin, starDistMax);
@@ -782,6 +805,11 @@ public class Boss4 extends EnemyFloating {
 					hbox.addStrategy(new DamageStandard(state, hbox, getBodyData(), starDamage, starKB, DamageTypes.RANGED));
 					hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.STAR, 0.0f, particleLinger).setParticleColor(ParticleColor.RANDOM));
 					hbox.addStrategy(new ContactUnitSound(state, hbox, getBodyData(), SoundEffect.DAMAGE3, 0.6f, true));
+					hbox.addStrategy(new ContactUnitDie(state, hbox, getBodyData()));
+					
+					if (index % 8 == 0) {
+						new SoundEntity(state, hbox, SoundEffect.MAGIC25_SPELL, 0.8f, 0.5f, true, true, soundSyncType.TICKSYNC);
+					}
 					
 					if (index % 2 == 0) {
 						hbox.addStrategy(new OrbitUser(state, hbox, getBodyData(), 90, starDist, starSpeed));
@@ -851,10 +879,8 @@ public class Boss4 extends EnemyFloating {
 	private final static float reticleWaveInterval = 0.2f;
 	
 	private void randomReticleWave() {
-		
 		singleVanish();
 		changeColor(ParticleColor.RED, numReticleWaves * reticleWaveInterval);
-		
 		
 		for (int i = 0; i < numReticleWaves; i++) {
 			getSecondaryActions().add(new EnemyAction(this, reticleWaveInterval) {
@@ -888,6 +914,7 @@ public class Boss4 extends EnemyFloating {
 		hbox.addStrategy(new ControllerDefault(state, hbox, getBodyData()));
 		hbox.addStrategy(new CreateParticles(state, hbox, getBodyData(), Particle.EVENT_HOLO, 0.0f, particleLinger).setParticleSize(40.0f).setParticleColor(ParticleColor.HOT_PINK));
 		hbox.addStrategy(new DieExplode(state, hbox, getBodyData(), explosionRadius, explosionDamage, explosionKnockback, (short) 0));
+		hbox.addStrategy(new DieSound(state, hbox, getBodyData(), SoundEffect.EXPLOSION6, 0.25f));
 	}
 	
 	private final static float teleportDuration = 3.0f;
